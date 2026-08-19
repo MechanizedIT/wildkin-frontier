@@ -1,22 +1,22 @@
 #!/usr/bin/env node
 /**
- * Phase 0 submission builder
- * - Creates dist/submission with index.html at root
- * - Inlines first-party JS/CSS into index.html (readable, unminified)
- * - Copies /vendor and /assets relatively
- * - Keeps third-party (Three.js) in /vendor via relative path
+ * Submission builder — bundles first-party ESM via esbuild module graph and
+ * inlines the readable bundle into dist/submission/index.html.
+ *
+ * Requirements (Phase 0.5):
+ * - bundle src/main.js
+ * - minify false, sourcemap false, format esm, keep "three" external
+ * - inline readable bundle into submission index.html
+ * - vendor/three.module.js remains served relatively via importmap
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import * as esbuild from "esbuild";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const OUT = path.join(ROOT, "dist", "submission");
-
-function readFile(p) {
-  return fs.readFileSync(p, "utf-8");
-}
 
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
@@ -33,79 +33,74 @@ function copyDir(src, dest) {
   }
 }
 
-function inlineCss(cssPath) {
-  const css = readFile(cssPath);
-  return `<style>\n${css}\n</style>`;
-}
-
-// Collect JS modules in dependency order by following imports from src/main.js
-// For Phase 0 we know the graph explicitly; use simple ordered list.
-const JS_MODULES = [
-  "src/game/createCamera.js",
-  "src/game/createRenderer.js",
-  "src/game/createScene.js",
-  "src/main.js",
-];
-
-function stripImportExportForInline(code, modulePath) {
-  let out = code;
-
-  // Remove import lines for "three" — we will keep vendor import via importmap
-  // Keep other first-party imports by stripping them (they are inlined separately)
-  out = out.replace(/^\s*import\s+.*from\s+["'].*["'];?\s*$/gm, (match) => {
-    // Keep a comment so readability remains and we can spot what was inlined
-    return `// inlined: ${match.trim()}`;
-  });
-
-  // Remove `export` keyword but keep declarations readable
-  out = out.replace(/^\s*export\s+(?=(const|let|var|function|class|async))/gm, "");
-  out = out.replace(/^\s*export\s*\{\s*[^}]*\}\s*;?\s*$/gm, "// exports inlined");
-  out = out.replace(/^\s*export\s+default\s+/gm, "// default export inlined\n");
-
-  // Add header comment per file
-  const header = `\n// ── ${modulePath} ──\n`;
-  return header + out;
-}
-
-function build() {
-  // Clean output
+async function build() {
+  // 1. Clean output
   fs.rmSync(OUT, { recursive: true, force: true });
   ensureDir(OUT);
 
-  // 1. Copy vendor and assets
+  // 2. Copy vendor and assets (relative, offline)
   copyDir(path.join(ROOT, "vendor"), path.join(OUT, "vendor"));
   if (fs.existsSync(path.join(ROOT, "assets"))) {
     copyDir(path.join(ROOT, "assets"), path.join(OUT, "assets"));
   }
+  // Copy third-party provenance to submission if present
+  if (fs.existsSync(path.join(ROOT, "THIRD_PARTY_NOTICES.md"))) {
+    fs.copyFileSync(path.join(ROOT, "THIRD_PARTY_NOTICES.md"), path.join(OUT, "THIRD_PARTY_NOTICES.md"));
+  }
 
-  // 2. Read CSS
+  // 3. Read CSS (inlined readable — no minification)
   const cssPath = path.join(ROOT, "styles", "game.css");
   let cssInline = "";
   if (fs.existsSync(cssPath)) {
-    cssInline = inlineCss(cssPath);
+    const css = fs.readFileSync(cssPath, "utf-8");
+    cssInline = `<style>\n${css}\n</style>`;
   }
 
-  // 3. Inline JS — readable, unminified
-  let jsBundle = "";
-  for (const rel of JS_MODULES) {
-    const abs = path.join(ROOT, rel);
-    if (!fs.existsSync(abs)) {
-      console.error(`[build] missing module: ${rel}`);
+  // 4. Bundle first-party ESM via esbuild module graph
+  //    Robust: follows imports from src/main.js automatically; no hard-coded module list.
+  const entry = path.join(ROOT, "src", "main.js");
+  if (!fs.existsSync(entry)) {
+    console.error(`[build] missing entry: src/main.js`);
+    process.exit(1);
+  }
+
+  const result = await esbuild.build({
+    entryPoints: [entry],
+    bundle: true,
+    format: "esm",
+    minify: false,
+    sourcemap: false,
+    external: ["three"],
+    target: "esnext",
+    legalComments: "inline",
+    charset: "utf8",
+    write: false,
+    logLevel: "info",
+  });
+
+  if (!result.outputFiles || result.outputFiles.length === 0) {
+    console.error("[build] esbuild produced no output");
+    process.exit(1);
+  }
+  const jsBundle = result.outputFiles[0].text;
+
+  // Basic readability guard — submission validator requires readable tokens
+  for (const token of ["createScene", "createCamera", "createRenderer"]) {
+    if (!jsBundle.includes(token)) {
+      console.error(`[build] bundled output missing expected token: ${token}`);
       process.exit(1);
     }
-    const raw = readFile(abs);
-    jsBundle += stripImportExportForInline(raw, rel) + "\n";
   }
 
-  // 4. Build submission index.html
-  // Keep Three.js in /vendor via importmap, first-party code is inlined as a single module script.
+  // 5. Build submission index.html — first-party bundle inlined as a single module script
+  //    Three.js stays external via importmap → ./vendor/three.module.js at runtime.
   const submissionHtml = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
     <meta name="theme-color" content="#0e1420" />
-    <title>Frontier Prototype — Phase 0</title>
+    <title>Wildkin Frontier — Phase 0</title>
     ${cssInline}
     <script type="importmap">
       {
@@ -121,7 +116,7 @@ function build() {
       <div id="hud" aria-hidden="false">
         <div class="hud-top">
           <div class="badge">
-            <strong>FRONTIER — Phase 0</strong>
+            <strong>WILDKIN FRONTIER — Phase 0</strong>
             <small>Portrait · Three.js · Offline</small>
           </div>
           <div class="badge" style="text-align: right">
@@ -136,25 +131,16 @@ function build() {
       </div>
     </div>
     <script type="module">
-// Submission build — first-party code inlined readable, unminified (Phase 0)
-// Source modules: ${JS_MODULES.join(", ")}
-import * as THREE from "three";
+// Submission build — first-party bundle (readable, unminified) via esbuild
+// Entry: src/main.js  |  external: three → ./vendor/three.module.js
 ${jsBundle}
-// ── bootstrap (from src/main.js inlined above) ──
-// The inlined main.js already executed its top-level bootstrap because
-// its code is now in this single module scope. No extra wrapper needed.
-// Note: createCamera/createRenderer/createScene are now in scope.
 </script>
   </body>
 </html>
 `;
 
-  // The inlined main.js expects DOMContent? It runs immediately; ensure #app exists — it does because script is after body.
-  // However the jsBundle includes the main.js bootstrap that queries document.getElementById before load — it will work since DOM is already parsed.
-
   fs.writeFileSync(path.join(OUT, "index.html"), submissionHtml, "utf-8");
 
-  // 5. Size report
   const stats = fs.statSync(path.join(OUT, "index.html"));
   const vendorSize = fs.existsSync(path.join(OUT, "vendor", "three.module.js"))
     ? fs.statSync(path.join(OUT, "vendor", "three.module.js")).size
@@ -162,9 +148,11 @@ ${jsBundle}
   console.log(`[build] wrote ${path.relative(ROOT, path.join(OUT, "index.html"))} (${(stats.size / 1024).toFixed(1)} KB)`);
   console.log(`[build] vendor/three.module.js ${(vendorSize / 1024).toFixed(1)} KB`);
   console.log(`[build] submission dir: ${path.relative(ROOT, OUT)}`);
-
-  // 6. Recommend zip
   console.log(`[build] next: npm run validate  |  npm run zip`);
 }
 
-build();
+build().catch((err) => {
+  console.error("[build] failed:");
+  console.error(err);
+  process.exit(1);
+});

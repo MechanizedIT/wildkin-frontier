@@ -38,3 +38,39 @@
   - Design Intent doc deferred to Phase 10 per competition rules.
   - No unresolved automatable blockers; all Phase 0 automatable acceptance criteria satisfied.
 
+## 2026-08-19 — Phase 0.5 Engineering Hardening — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Implement active Phase 0.5 slice end-to-end — engineering-hardening pass only, preserve verified visual scene, no Phase 1 gameplay.
+- **Decisions:**
+  - Appended permanent engineering principles (§11–20) to `AGENTS.md` verbatim from slice: thin main.js, single rAF loop, split-by-responsibility modules, no god objects/duplicates, explicit state ownership, globals only for debug, centralized config, logic testable off render, mobile perf first, no new deps without justification (esbuild approved build-time-only).
+  - Created `docs/ARCHITECTURE.md` as lightweight explicit architecture contract: entry/layout, data/update flow, loop ownership hard constraint, state/dependency rules, config location, build/submission pipeline (esbuild), testing gates. Deferred future boundaries to Phase 1+ note.
+  - Replaced hard-coded `JS_MODULES` + regex strip bundling in `tools/build-submission.mjs` with robust esbuild graph solution: `bundle src/main.js`, `minify:false`, `sourcemap:false`, `format:esm`, `external:["three"]`, `write:false`, then inline readable bundle into `dist/submission/index.html` with relative importmap `three → ./vendor/three.module.js`. Copies `vendor/` + `assets/` + `THIRD_PARTY_NOTICES.md` to submission.
+  - Added `esbuild@0.24.2` as `devDependency` (build-time-only) with justification: automatic module-graph bundling without manual lists or fragile regex.
+  - Consolidated two `requestAnimationFrame` loops in `src/main.js` into one authoritative `tick()` — merges idle bob/rotation, FPS sampling (throttled 2 Hz), and `renderer.render` under single rAF. Verified visible behavior unchanged (same clock, same thresholds, same DOM update cadence).
+  - Renamed `package.json:name` `mobile-rpg-prototype` → `wildkin-frontier`, description → `Wildkin Frontier (working title) — Phase 0 foundation…`; `README.md` title → `Wildkin Frontier — Meta Horizon… (working title)`; `index.html` `<title>` and HUD badge → `Wildkin Frontier`; submission build title/badge likewise.
+  - Corrected `README.md` offline-test instructions: removed flawed "disconnect from LAN then reload dev server" step; added Network-tab check, `npm run validate` gate, and true offline smoke via already-loaded `npm run serve:submission` tab with airplane mode (do not reload through dev server).
+  - Added `npm run verify` (`build && validate`) as single automated gate for local and CI.
+  - Added Three.js provenance: `vendor/README.md` (version, origin, copy method, runtime path), `THIRD_PARTY_NOTICES.md` at repo root (version 0.160.0, source, vendored path, MIT text), header preserved in `vendor/three.module.js`, and build copies notices into `dist/submission/`.
+  - Added minimal GitHub Actions workflow `.github/workflows/verify.yml` (`push|pull_request`, `node 22`, `npm ci`, `npm run verify`).
+- **Files/Features Changed:**
+  - Modified: `AGENTS.md`, `package.json`, `index.html`, `src/main.js`, `tools/build-submission.mjs`, `README.md`
+  - Created: `docs/ARCHITECTURE.md`, `THIRD_PARTY_NOTICES.md`, `vendor/README.md`, `.github/workflows/verify.yml`
+  - Updated devDependency: `esbuild@0.24.2`
+  - Build output now: `dist/submission/index.html` 11.0 KB (esbuild bundle), `vendor/three.module.js` 1243.1 KB, `THIRD_PARTY_NOTICES.md` 1.6 KB, total ~1256.7 KB; `dist/submission.zip` 257.4 KB
+- **Tests/Validation Performed:**
+  - `npm run build` — PASS (11.0 KB index, 1243.1 KB vendor, submission dir `dist/submission`)
+  - `npm run validate` — PASS (size 1256.7 KB <35 MB, vendor present, no https://, readable tokens `createScene/createCamera/CAMERA_CONFIG/Phase 0`, referenced files exist, avg line len OK)
+  - `npm run verify` — PASS (build + validate chain)
+  - `npm run zip` — PASS (257.4 KB, index at ZIP root, vendor preserved, `THIRD_PARTY_NOTICES.md` at root)
+  - Dev serve smoke — PASS (http://localhost:18225/ 200, vendor ref OK, title Wildkin Frontier)
+  - Submission serve smoke — PASS (http://localhost:18226/ 200, readable createScene, no https, sub vendor OK)
+  - ZIP root check — PASS (index.html at archive root, vendor/three.module.js + README + THIRD_PARTY_NOTICES present)
+  - rAF consolidation check — PASS (exactly one `requestAnimationFrame` in `src/main.js:49`)
+  - No console-breaking errors; portrait layout intact; `validate` enforces offline-safe
+- **Human/Manual Changes:** None.
+- **Remaining Issues / Deferred:**
+  - Human must manually confirm dev + submission builds load identically to Phase 0 (camera framing, island scale, player directionality, resize/orientation).
+  - Phone portrait recheck after CSS/JS rebundling (no visual change intended, but mobile viewport always re-validated).
+  - Design Intent doc still deferred to Phase 10.
+  - No Phase 1 systems added per slice scope — movement/harvesting/combat/Wildkin progression intentionally absent.
+

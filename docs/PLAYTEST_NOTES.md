@@ -15,11 +15,11 @@
 
 ## 2026-08-18 — Phase 0 — Foundation (to be filled by human)
 
-- **Date / Build / Device(s):** _e.g., 2026-08-18, dev + submission builds, desktop Chrome + Pixel 7_
-- **What felt good:** _(to be filled)_
-- **What was confusing:** _(to be filled)_
-- **What felt awkward / slow:** _(to be filled)_
-- **Bugs:** _(to be filled)_
-- **Highest-value next changes:** _(to be filled)_
+- **Date / Build / Device(s):** _e.g., 2026-08-18, dev + submission builds, desktop Chrome + S26+
+- **What felt good:** loaded quickly
+- **What was confusing:** nothing
+- **What felt awkward / slow:** nothing
+- **Bugs:** none
+- **Highest-value next changes:** nothing atm
 
 > Phase 0 human checklist: loads quickly? portrait correct? high third-person camera? world scale readable? player directionality visible? phone framing reasonable? scroll/overscroll clean? resize/orientation no glitch? submission build launches separately? offline/airplane-mode shows no missing externals? (Do not judge harvesting/combat/progression yet.)

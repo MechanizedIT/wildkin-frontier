@@ -34,11 +34,20 @@ window.addEventListener("orientationchange", () => {
   setTimeout(resize, 200);
 });
 
-// Subtle idle animation so scene feels alive without adding gameplay
+// Single authoritative game loop — owns all per-frame updates and rendering (Phase 0.5)
+const VERSION = "Phase 0 — 0.1.0";
 const clock = new THREE.Clock();
+let frameCount = 0;
+let lastFpsUpdate = performance.now();
+let fps = 0;
 
-function animate() {
-  requestAnimationFrame(animate);
+if (debugLabel) {
+  debugLabel.textContent = `${VERSION} · starting…`;
+}
+
+function tick() {
+  requestAnimationFrame(tick);
+
   const t = clock.getElapsedTime();
 
   // Gentle bob + facing drift to prove render loop is healthy — removed later when movement exists
@@ -47,18 +56,7 @@ function animate() {
     player.rotation.y = Math.sin(t * 0.35) * 0.12;
   }
 
-  renderer.render(scene, camera);
-}
-
-animate();
-
-// Debug / version label — temporary, removable later
-const VERSION = "Phase 0 — 0.1.0";
-let frameCount = 0;
-let lastFpsUpdate = performance.now();
-let fps = 0;
-
-function updateDebugLabel() {
+  // FPS sampling + debug label — throttled to ~2 Hz to avoid per-frame DOM writes
   frameCount++;
   const now = performance.now();
   if (now - lastFpsUpdate > 500) {
@@ -69,13 +67,11 @@ function updateDebugLabel() {
       debugLabel.textContent = `${VERSION} · ${fps} fps · ${app.clientWidth}×${app.clientHeight} · portrait`;
     }
   }
-  requestAnimationFrame(updateDebugLabel);
+
+  renderer.render(scene, camera);
 }
 
-if (debugLabel) {
-  debugLabel.textContent = `${VERSION} · starting…`;
-}
-updateDebugLabel();
+tick();
 
 // Expose for manual console checks (not required for submission)
 window.__game = { scene, camera, renderer, THREE };
