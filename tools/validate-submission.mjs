@@ -67,9 +67,13 @@ if (html.includes("sourceMappingURL")) {
   fail("submission index.html contains sourceMappingURL — first-party code must be readable unminified without source maps");
 }
 // Check that key readable markers exist
-const mustContain = ["createScene", "createCamera", "createRenderer", "CAMERA_CONFIG", "Phase 0"];
+const mustContain = ["createScene", "createCamera", "createRenderer", "CAMERA_CONFIG"];
+const mustContainAnyPhase = ["Phase 0", "Phase 1"];
 for (const token of mustContain) {
   if (!html.includes(token)) fail(`submission index.html missing expected readable token: ${token} — first-party code may not be inlined correctly`);
+}
+if (!mustContainAnyPhase.some((t) => html.includes(t))) {
+  fail(`submission index.html missing phase marker (expected one of ${mustContainAnyPhase.join(", ")})`);
 }
 // Check minified heuristic: average line length too high suggests minified
 const lines = html.split("\n");

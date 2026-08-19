@@ -74,3 +74,39 @@
   - Design Intent doc still deferred to Phase 10.
   - No Phase 1 systems added per slice scope — movement/harvesting/combat/Wildkin progression intentionally absent.
 
+## 2026-08-19 — Phase 1 Movement & World Feel — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Implement `docs/CURRENT_SLICE.md` Phase 1 end-to-end: Tier A core locomotion (unified intent, joystick bands, accel/turn, collision, camera follow, playground) + Tier B traversal (dodge, auto-jump, climb) while preserving hard constraints and thin main.js.
+- **Decisions:**
+  - Added centralized tuning `src/game/config.js` (MOVEMENT_CONFIG, CAMERA_CONFIG_FOLLOW, INPUT_CONFIG, WORLD_CONFIG) — all band thresholds, speeds (1.6/3.3/6.0), accel 28/decel 36, turnSpeed 14, maxDelta 0.05, dodge 0.22s/11u/s/0.55cd, jump 0.48s/1.45 arc, climb 2.0 u/s, bounds ±12.5/11.5, camera follow lerp 5.0/look-ahead 1.1). Phone tuning without hunting literals.
+  - Pure band logic in `src/movement/movementBands.js` (classifyMovementBand, getBandSpeed, normalize2D, clampToUnitCircle) for Node testability. Bands: 0–0.16 idle, 0.16–0.40 sneak, 0.40–0.70 walk, 0.70–1.0 run (discrete speeds, not linear).
+  - Collision kept simple in `src/world/collision.js` (circle vs AABB, bounds clamp, sliding resolveMovement: try full, then X-only, then Z-only). Player radius 0.42.
+  - Input split: `touchMovement.js` floating joystick (origin at first touch in left/below 58%/38% zone, maxRadius 68, magnitude→band, visual origin+stick+rings) + right-side swipe dodge (≥34px, ≤300ms, ≥0.32 px/ms, screen→world via camera basis). `keyboardInput.js` WASD/arrows (Shift=run 0.9, Ctrl/C=sneak 0.3, else walk 0.55, Space dodge) + `inputController.js` mergeIntentsPure (touch move wins, touch dodge merges with keyboard move). Unified intent `{moveX,moveY,moveMagnitude,movementBand,dodgeRequested,dodgeX,dodgeY}`.
+  - Player: `src/player/createPlayer.js` primitive group (cylinder+head+cone top) + `playerController.js` kinematic controller with explicit state modes IDLE/SNEAK/WALK/RUN/DODGE/JUMP/CLIMB (no framework). Camera-relative ground movement (forward/right from camera getWorldDirection), accel/decel vector steering, turn smoothing (14 rad/s), frame-rate independent (Δ clamped 0.05), diagonal clamped, facing follows movement/dodge/traversal. Dodge: fixed 0.22s burst at 11 u/s (≈2.4 units, ~1.8× run step) with cooldown 0.55s, sliding collision, squash/lean. Jump: data-driven links triggered when within 1.35 units of start and moving into direction dot >0.35 with intent>0.18; arc `sin(πt)*1.45` over 0.48s via smoothstep, then snap to landing. Climb: explicit ladder wall at (2.2,-5.05) with top platform (2.2,-7.2) height 2.4; entry when within 1.05, dot>0.30, intent>0.18 moving into wall; vertical driven by forwardDot*mag*2.0; top snap, back-away exit dot<-0.25.
+  - World: `src/world/createMovementPlayground.js` compact low-poly playground (26×24 ground, boundary walls, straightaway, obstacles at (4.2,0.6)/(−3.5,2.2)/rocks, narrow sneak corridor −7.5/−4.2 at −6.5, low platforms −5.8/0.8 at height 1.25 with gap 2.45 for jump, high platform 2.2,−7.2 height 2.4 with climbable wall + rungs, visual gap/sneak markers). Collision data + jumpLinks (east/west) + climbables authored explicitly; `getGroundHeight` returns platform height.
+  - Camera: `src/camera/cameraFollow.js` fixed high third-person offset (0,14,10), smooth pos lerp 5.0 / lookAt 6.0, optional run look-ahead 1.1 (lerp 2.2, clamped 1.6). Snap on init.
+  - Feedback: procedural bob/lean/scale per state (sneak 0.86 crouch + slower bob, walk normal, run lean 0.18 + fast bob, dodge squash, jump arc, climb lean −0.35, contact shadow).
+  - `src/main.js` remains thin: wires scene/camera/renderer/playground/player/controller/cameraFollow/touch/keyboard, single `requestAnimationFrame` loop (clock.getDelta→update→render, FPS throttled 2 Hz, debug label shows fps/mode/band/speed, window.__game debug only).
+  - Updated `src/game/createScene.js` to compose playground+player, kept `CAMERA_CONFIG`/`createCamera`/`createRenderer` unchanged (DPR cap 2).
+  - Built `styles/game.css` joystick visuals, `index.html` Phase 1 HUD (left move/right swipe, Shift/Ctrl/Space hints, gap/ladder hint).
+  - Tooling: `tools/build-submission.mjs` now inlines Phase 1 HUD/CSS; `tools/validate-submission.mjs` accepts Phase 0 or Phase 1 token; `package.json` adds `test` (node --test) and `verify` now `test && build && validate`. Submission stays readable unminified, vendored three relative, size OK.
+  - No React/engine/ECS/physics/backend/CDN added; esbuild remains build-time-only.
+- **Files/Features Changed:**
+  - Created: `src/game/config.js`, `src/movement/movementBands.js`, `src/world/collision.js`, `src/input/touchMovement.js`, `src/input/keyboardInput.js`, `src/input/inputController.js`, `src/player/createPlayer.js`, `src/player/playerController.js`, `src/world/createMovementPlayground.js`, `src/camera/cameraFollow.js`, `tests/movementBands.test.js`, `tests/collision.test.js`
+  - Modified: `src/game/createScene.js`, `src/main.js`, `styles/game.css`, `index.html`, `package.json`, `tools/build-submission.mjs`, `tools/validate-submission.mjs`, `docs/BUILD_LOG.md`
+  - Build output: `dist/submission/index.html` 47.9 KB, `vendor/three.module.js` 1243.1 KB, total submission ~1293.6 KB; `dist/submission.zip` 266.3 KB
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (25 tests, 10 suites: classifyMovementBand thresholds/boundaries/invalid, getBandSpeed ratios/headroom, normalize2D, clampToUnitCircle, isValidIntent, mergeIntentsPure, clampToBounds/circleVsAABB/isColliding/resolveMovement sliding/bounds)
+  - `npm run build` — PASS (47.9 KB index, 1243.1 KB vendor, submission dir dist/submission)
+  - `npm run validate` — PASS (size 1293.6 KB <35 MB, vendor present, no https://, readable tokens createScene/createCamera/CAMERA_CONFIG/Phase 1, referenced files exist)
+  - `npm run verify` — PASS (test + build + validate chain)
+  - `npm run zip` — PASS (266.3 KB, index at ZIP root, vendor preserved)
+  - Manual smoke via Node import: playerController walk/dodge/jump/climb state transitions — PASS (walk north reduces Z, dodge enters DODGE, jump enters JUMP after idle, climb entry at ladder)
+  - rAF single-loop check — PASS (exactly one requestAnimationFrame in src/main.js:60)
+  - Dev/submission serve smoke pending human check; offline check pending human check
+- **Human/Manual Changes:** None.
+- **Remaining Issues / Deferred:**
+  - Human phone playtest required per `docs/CURRENT_SLICE.md` §19 (run feel, deadzone, sneak/walk/run zones, camera lag, dodge reliability, jump trigger sensitivity, climb readability). Tuning centered for easy iteration.
+  - Tier C optional refinements deferred (additional camera tuning, landing feedback polish, extra procedural lean variations, extra traversal geometry) — kept low-risk, stable A+B only.
+  - No harvesting/combat/Wildkin/progression/base/mounts per non-goals.
+  - Design Intent doc still deferred to Phase 10.

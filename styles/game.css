@@ -1,4 +1,4 @@
-/* Phase 0 — deliberately minimal portrait shell */
+/* Phase 1 — portrait shell + touch controls */
 * { box-sizing: border-box; }
 
 html, body {
@@ -22,14 +22,15 @@ html, body {
   margin: 0 auto;
   background: #0e1420;
   overflow: hidden;
-  /* keep portrait framing centered on desktop */
   box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.5);
+  touch-action: none;
 }
 
 #c {
   display: block;
   width: 100%;
   height: 100%;
+  touch-action: none;
 }
 
 /* HUD — must not block canvas interaction */
@@ -100,6 +101,32 @@ html, body {
   border-radius: 10px;
   padding: 6px 8px;
   max-width: 58%;
+}
+
+/* Joystick layer — visuals drawn by touchMovement.js */
+#joystick-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+#joystick-origin {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+}
+
+#joystick-stick {
+  position: absolute;
+  pointer-events: none;
+}
+
+.joy-ring {
+  box-sizing: border-box;
 }
 
 /* ensure portrait remains primary — landscape on phone just letterboxes */

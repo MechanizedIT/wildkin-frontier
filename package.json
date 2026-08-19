@@ -12,7 +12,8 @@
     "build:submission": "node tools/build-submission.mjs",
     "validate": "node tools/validate-submission.mjs",
     "validate:submission": "node tools/validate-submission.mjs",
-    "verify": "node tools/build-submission.mjs && node tools/validate-submission.mjs",
+    "test": "node --test tests/**/*.test.js",
+    "verify": "node --test tests/**/*.test.js && node tools/build-submission.mjs && node tools/validate-submission.mjs",
     "zip": "node tools/zip-submission.mjs"
   },
   "dependencies": {

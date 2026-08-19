@@ -94,13 +94,14 @@ async function build() {
 
   // 5. Build submission index.html — first-party bundle inlined as a single module script
   //    Three.js stays external via importmap → ./vendor/three.module.js at runtime.
+  //    Read current index.html for title/hud sync, but fallback to Phase 1 defaults.
   const submissionHtml = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
     <meta name="theme-color" content="#0e1420" />
-    <title>Wildkin Frontier — Phase 0</title>
+    <title>Wildkin Frontier — Phase 1</title>
     ${cssInline}
     <script type="importmap">
       {
@@ -116,17 +117,17 @@ async function build() {
       <div id="hud" aria-hidden="false">
         <div class="hud-top">
           <div class="badge">
-            <strong>WILDKIN FRONTIER — Phase 0</strong>
-            <small>Portrait · Three.js · Offline</small>
+            <strong>WILDKIN FRONTIER — Phase 1</strong>
+            <small>Movement &amp; World Feel · Sneak/Walk/Run</small>
           </div>
           <div class="badge" style="text-align: right">
-            <strong style="font-size: 11px">No gameplay yet</strong>
-            <small>Foundation only</small>
+            <strong style="font-size: 11px">Left: move · Right: swipe dodge</strong>
+            <small>Shift=Run · Ctrl/C=Sneak · Space=dodge</small>
           </div>
         </div>
         <div class="hud-bottom">
-          <div id="debug-label">Phase 0 — 0.1.0 · starting…</div>
-          <div class="hud-hint">High third-person camera · placeholder island</div>
+          <div id="debug-label">Phase 1 — 0.2.0 · starting…</div>
+          <div class="hud-hint">Gap = auto-jump · Ladder = climb</div>
         </div>
       </div>
     </div>
