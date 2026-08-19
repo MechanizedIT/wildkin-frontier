@@ -1,0 +1,20 @@
+{
+  "name": "mobile-rpg-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Meta Horizon Game Prototype — Phase 0 foundation (portrait Three.js, vendored, offline)",
+  "scripts": {
+    "dev": "node tools/serve.mjs",
+    "serve": "node tools/serve.mjs",
+    "serve:submission": "node tools/serve.mjs --dir dist/submission --port 8081",
+    "build": "node tools/build-submission.mjs",
+    "build:submission": "node tools/build-submission.mjs",
+    "validate": "node tools/validate-submission.mjs",
+    "validate:submission": "node tools/validate-submission.mjs",
+    "zip": "node tools/zip-submission.mjs"
+  },
+  "dependencies": {
+    "three": "0.160.0"
+  }
+}
