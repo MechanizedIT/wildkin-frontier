@@ -110,3 +110,35 @@
   - Tier C optional refinements deferred (additional camera tuning, landing feedback polish, extra procedural lean variations, extra traversal geometry) — kept low-risk, stable A+B only.
   - No harvesting/combat/Wildkin/progression/base/mounts per non-goals.
   - Design Intent doc still deferred to Phase 10.
+
+## 2026-08-19 — Phase 1.1 Movement & Traversal Refinement — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Implement `docs/CURRENT_SLICE.md` Phase 1.1 end-to-end as refinement of manually playtested Phase 1 build — fix desktop sneak binding, canned jump, platform-side ramp bug, climb descent/mantle, architecture cleanup; preserve accepted Phase 1 feel.
+- **Decisions:**
+  - Jump replaced (not tuned): authored `jumpLinks:{start,end}` → data-driven `jumpTraversals:{triggerCenter,triggerRadius,direction,landingRegion,minTakeoffSpeed,maxLandingCorrection}` (world decides validity, player momentum decides feel). No snap to `jumpStart`; begin from actual current pos, capture grounded horizontal velocity, preserve heading with 0.25 blend toward authored direction. Kinematic integration: `pos+=hVel*dt`, `vertVel-=gravity*dt`, `pos.y+=vertVel*dt` (no physics engine).
+  - Tuning centralized in `src/game/config.js` (Phase 1.1): `jumpInitialVerticalVelocity 5.8 u/s`, `jumpGravity 12 u/s²` (airtime 0.967s, within 0.7–1.0), `jumpAirControlFactor 0.28` (≈28% ground authority, 7.8 u/s² max), `jumpAirMaxSpeed 7.2`, `jumpMinTakeoffSpeed 2.2` (sneak 1.6 fails, walk 3.3 passes conservatively, run 6.0 farthest), `jumpMaxLandingCorrection 1.4`, `mantleDuration 0.28s`, `mantleOffset 0.65`, `climbSpeedUp 1.9` / `climbSpeedDown 1.7` separate, `climbTopEntryDot 0.22`, `climbTopEntryRadius 1.15`. Removed obsolete `jumpDuration/jumpArcHeight` placeholders (kept as legacy alias for compat). Sneak no longer auto-jumps gap; running visibly farther than walking.
+  - Elevation/side collision fixed: `getGroundHeight(x,z,currentY)` now requires `currentY >= height-0.45` to return elevated height; X/Z overlap alone insufficient (prevents invisible ramp). Introduced `platforms[]` explicit data + `platformSideColliders[]` mirrored footprints + `getCollisionObstaclesForHeight(posY)` that includes side colliders only when `posY < height+0.05` (solid when below, non-solid when on top). Also `isBlockedByPlatformSide` helper for tests. Platform tops reachable only via valid traversal (jump landing, climb mantle). Sliding preserved via active obstacles filtered by height.
+  - Reported left-gap invisible obstruction fixed: gap center (`-2.5,-1.2`) now returns ground height 0 at ground Y and `isColliding` false for ground-height active obstacles; side colliders do not overlap gap.
+  - Climb refined: continuous climb up (`climbSpeedUp`) and down (`climbSpeedDown`); releasing pauses (no auto-progress). Downward input descends (previously triggered instant exit). Fixed `traversalController.updateClimb` early away-exit that caused instant detach on down input. Top-entry/down-climb added via `topEntryRegion {1.25..3.15, -6.0..-5.25}` inside high platform south edge, checked by `checkClimbTopEntry` (inside region + on top Y + dotSouth>0.22). Mantle replaces deep teleport: `MANTLE` state 0.28s smoothstep lerp + 0.22 arc from wall anchor (`climb.x - approach*0.35`) to `mantleExit {2.2,-6.4}` (small ledge offset, not platform center `2.2,-7.2`). Bottom exit smooth to grounded locomotion.
+  - Architecture: split `playerController.js` (now coordinator for grounded locomotion + delegates traversal, owns dodge, accel/turn, Y smoothing, re-usable THREE vectors to reduce per-frame allocations) + `movement/traversalController.js` (single owner for jump/climb/mantle, pure helpers `isInsideRegionXZ`, `closestPointInRegion`, `computeAirTime`, `canReachLanding`, `checkJumpTrigger`, `checkClimbBottomEntry`, `checkClimbTopEntry`, `computeMantleEndpoints`) + `player/playerVisuals.js` (bob/lean/crouch/traversal pose isolation). `inputController.js` cleaned: removed unused `createInputController` wrapper, kept single `mergeIntents` (+ alias `mergeIntentsPure` for compat). No duplicate world/state/camera paths; `main.js` remains thin, single `requestAnimationFrame` tick.
+  - Desktop controls: `keyboardInput.js` removed `Control` from sneak check; `C` is sole sneak modifier (`Shift+move=Run`, `C+move=Sneak`, `Space=dodge`). `index.html` HUD updated `C=Sneak · Shift=Run · Space=dodge` and version to `Phase 1.1 — 0.3.0` with hint `Gap = auto-jump (Run farthest) · Ladder = climb (Up/Down) · C to sneak`. No browser shortcut overriding.
+  - Hot-loop allocation reduction: reused `tmpDir/tmpForward/tmpRight/tmpTargetVel/tmpCurVel/tmpDiff` vectors in playerController; traversal uses plain objects for hv.
+  - No new runtime deps; esbuild remains build-time-only.
+- **Files/Features Changed:**
+  - Modified: `src/game/config.js`, `src/world/createMovementPlayground.js`, `src/player/playerController.js`, `src/input/keyboardInput.js`, `src/input/inputController.js`, `src/main.js`, `index.html`, `package.json` (version bump implicit), `docs/BUILD_LOG.md`
+  - Created: `src/movement/traversalController.js`, `src/player/playerVisuals.js`, `tests/traversal.test.js`, `tests/elevation.test.js`
+  - Build output: `dist/submission/index.html` 62.6 KB, `vendor/three.module.js` 1243.1 KB, total ~1308.3 KB; `dist/submission.zip` 269.5 KB
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (48 tests, 16 suites: 25 original + 23 new: airtime 0.967 in 0.7–1.0, run>walk>sneak distances, sneak < threshold fails, walk triggers, run reachable, direction/radius/invalid landing gates, jump starts from current pos not authored start, preserves run>walk momentum, air control capped (reverse blocked, delta ≤0.30), bottom entry recognized, top entry recognized, downward descends instead of detach, mantle endpoint small offset not center, mantle duration 0.20–0.35, platform side blocking ground vs top, side colliders solid below/not solid on top, sliding still works, valid landing on elevated surface, gap obstruction not solid)
+  - `npm run build` — PASS (62.6 KB index, 1243.1 KB vendor)
+  - `npm run validate` — PASS (size <35 MB, vendor present, no https://, readable tokens)
+  - `npm run verify` — PASS (test + build + validate chain)
+  - `npm run zip` — PASS (269.5 KB, index at ZIP root)
+  - rAF single-loop check — PASS (`grep requestAnimationFrame src/main.js` = 1 at line 60)
+  - Manual smoke: not run (requires human desktop + phone per checklist)
+- **Human/Manual Changes:** None.
+- **Remaining Issues / Deferred:**
+  - Human phone/desktop playtest required per `docs/CURRENT_SLICE.md` §15 checklist: ground regression, jump at Sneak/Walk/Run, platform side slide, left-gap retest, climb bottom/top/mantle/bottom exit. Tuning centralized for iteration.
+  - Architecture doc update deferred (boundaries now split per `docs/CURRENT_SLICE.md` §10, documented here; `docs/ARCHITECTURE.md` to be updated next slice if needed).
+  - No Phase 2 systems (harvesting/combat/Wildkin/progression/base/waystones etc.) per non-goals.
+  - Design Intent doc still deferred to Phase 10.

@@ -6,7 +6,7 @@ import { createPlayerController } from "./player/playerController.js";
 import { createCameraFollow } from "./camera/cameraFollow.js";
 import { createTouchMovement } from "./input/touchMovement.js";
 import { createKeyboardInput } from "./input/keyboardInput.js";
-import { mergeIntentsPure } from "./input/inputController.js";
+import { mergeIntents as mergeIntentsPure } from "./input/inputController.js";
 import { MOVEMENT_CONFIG, CAMERA_CONFIG_FOLLOW, INPUT_CONFIG } from "./game/config.js";
 
 const canvas = document.getElementById("c");
@@ -48,7 +48,7 @@ const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CA
 cameraFollow.snap();
 
 // Single authoritative rAF loop
-const VERSION = "Phase 1 — 0.2.0";
+const VERSION = "Phase 1.1 — 0.3.0";
 const clock = new THREE.Clock();
 let frameCount = 0;
 let lastFpsUpdate = performance.now();
@@ -95,7 +95,8 @@ function tick() {
     if (debugLabel) {
       const band = intent.movementBand;
       const stMode = pState.mode;
-      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode} · ${band} · ${pState.speed.toFixed(1)} u/s`;
+      const trav = pState.traversalMode && pState.traversalMode !== "IDLE" ? ` · ${pState.traversalMode}` : "";
+      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode}${trav} · ${band} · ${pState.speed.toFixed(1)} u/s`;
     }
   }
 
