@@ -45,6 +45,11 @@ export function createPlayerVisuals(playerMesh) {
         bobAmp = 0;
         lean = 0.12;
         break;
+      case "FALL":
+        bobFreq = 0;
+        bobAmp = 0;
+        lean = 0.08;
+        break;
       case "CLIMB":
         bobFreq = 4.0;
         bobAmp = 0.015;
@@ -80,6 +85,7 @@ export function createPlayerVisuals(playerMesh) {
     if (mode === "CLIMB") targetLean = -0.35;
     if (mode === "MANTLE") targetLean = -0.10;
     if (mode === "JUMP") targetLean = 0.12;
+    if (mode === "FALL") targetLean = 0.08;
     const currentLean = playerMesh.rotation.x;
     const leanLerp = 1 - Math.exp(-10 * dt);
     playerMesh.rotation.x += (targetLean - currentLean) * leanLerp;

@@ -179,3 +179,30 @@
   - Human must perform desktop + real phone manual smoke per slice: walk around/collide grey boxes/slide walls, walk off high platform continuous fall/land no penetrate, run-jump gap landing no sink/pop at different FPS, dodge into boxes no embed, climb up/down + mantle not teleport/deeply embed, FPS stability with fixedDt. No automated WASM integration test beyond Node controller smoke; browser manual verification required.
   - Legacy `src/world/collision.js` + playground `getGroundHeight`/`platformSideColliders`/`resolveStuckPosition` remain for unit tests only; removal deferred until tests updated, but player movement no longer authoritative on them.
   - No Phase 2 gameplay (harvesting/combat/Wildkin progression/base etc.) added.
+
+## 2026-08-20 — Phase 1.2 Bounded Air-Control Refinement — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Bounded Phase 1.2 refinement per human playtest — add shared air-control (airAcceleration 10 / airDeceleration 5 / min cap walkSpeed) for JUMP+FALL, preserve takeoff velocity, ignore band speeds in air, add FALL state, remove post-landing magnet correction, keep Rapier/capsule/gravity/grounded handling, add tests, update AGENTS rule 21, verify submission.
+- **Decisions:**
+  - Added `MOVEMENT_CONFIG.airAcceleration 10`, `airDeceleration 5`, `airMinSpeedCap 3.3` (config.js:73) — minimum cap = walkSpeed so falling from standstill still steerable.
+  - Rewrote `src/player/playerController.js:132` — shared helper `applyAirborneHorizontalControl(dt,worldDir,hVel)` uses frozen `state.airCap`, constant accel/decel, direction-only, deceleration to 0 when no input, clamped to cap. All airborne (JUMP + new FALL) use it; grounded bands ignored.
+  - JUMP: on `tryStartJump` preserve actual `hVel`/`initialSpeed`, set `state.airCap = max(airMinSpeedCap, initSpeed)` (run 6 → cap 6, walk 3.3 → 3.3, sneak 1.6 → 3.3 min), `state.vel` synced, `vv=5.8`, no band boost. Per substep `applyAirborneHorizontalControl` + `vv-=12*dt` + `rapierMove`. Landing now simply `if (res.grounded && vv<=0.1) landed=true` + timeout — removed `isInsideRegionXZ/closestPointInRegion` horizontal magnet `characterPhysics.move(corr)` (old lines 218-224 deleted). Rapier determines landing.
+  - FALL: explicit state `FALL` (`state.mode="FALL"`, `state.fallHVel`, `state.airCap`). Entered either from `!grounded` at start of normal movement (walk-off) or after `rapierMove` in normal movement when `wasGrounded && !grounded` — cap = `max(airMinSpeedCap, preSpeed)` preserves run momentum (run 6 stays 6, walk 3.3 stays 3.3). Per substep same `applyAirborneHorizontalControl` + `vv+=gravity*dt` + `rapierMove`; landing when `res.grounded` → `IDLE` with `vv=0`, `airCap=0`.
+  - Preserved: Rapier capsule `0.32/0.20` offset `0.02` snap `0.20` autostep `0.20/0.18` gravity `-12` jump vertical `5.8`, grounded accel/decel `28/36`, joystick bands, cameraFollow, dodge `11u/s 0.22s`, climb `1.9/1.7` + mantle `0.28s/0.22` via controller, single rAF fixedDt `1/60` maxSubsteps `4`.
+  - Added `src/player/playerVisuals.js:46` `FALL` bob `0/0` lean `0.08` (prepares animation without adding assets).
+  - Updated `src/player/playerController.js:515` `getState` traversalMode includes `FALL`, imports trimmed to `computeMantleEndpoints` only (removed unused region helpers for magnet).
+  - Added `AGENTS.md:21` permanent rule verbatim for manual testing instructions (human player, not implementer).
+  - Created `tests/airControl.test.js:1` — 10 new tests: config values, Run cannot increase cap after walk takeoff (60 frames stays ≤3.3, not run), run preserves 6, Walk/Sneak/Run same accel `airAcceleration*dt 0.166`, deceleration `airDeceleration*dt` and eventual stop, FALL distinct from JUMP, magnet removal doc. All pure without WebGL/Rapier.
+- **Files/Features Changed:**
+  - Modified: `src/game/config.js`, `src/player/playerController.js`, `src/player/playerVisuals.js`, `AGENTS.md`, `docs/BUILD_LOG.md`
+  - Created: `tests/airControl.test.js`
+  - Build output: `dist/submission/index.html` 83.4 KB, `vendor/three.module.js` 1243.1 KB, `vendor/rapier.js` 2790.6 KB, total ~4132 KB; `dist/submission.zip` 1338 KB
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (75 tests 27 suites: 65 prior + 10 new air-control: airAcceleration 10, airMin walk, Run cap not exceed, run preserve, same accel, decel, FALL distinct, magnet removed)
+  - `npm run verify` — PASS (test + build 83.4KB + validate size 4132KB <35MB, vendor present, no https, readable tokens, rapier importmap)
+  - `npm run zip` — PASS (1338 KB, index at ZIP root)
+  - rAF single-loop — PASS (1 in src/main.js)
+  - No console errors, portrait intact
+- **Human/Manual Changes:** None.
+- **Remaining Issues / Deferred:**
+  - Human phone/desktop playtest required for bounded air-control (see Manual Testing section below); no Phase 2 systems added; magnet removal must be verified by landing slightly off authored region — player should stay where Rapier placed, not snap.

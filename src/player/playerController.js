@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { getBandSpeed, classifyMovementBand } from "../movement/movementBands.js";
-import { createTraversalController, computeMantleEndpoints, isInsideRegionXZ, closestPointInRegion } from "../movement/traversalController.js";
+import { createTraversalController, computeMantleEndpoints } from "../movement/traversalController.js";
 import { createPlayerVisuals } from "./playerVisuals.js";
 
 // Phase 1.2 — Rapier KinematicCharacterController migration.
@@ -18,8 +18,11 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     dodgeCooldown: 0,
     dodgeTime: 0,
     dodgeDir: new THREE.Vector3(0, 0, 0),
-    // internal jump/climb/mantle
+    // airborne caps
+    airCap: 0,
+    // internal jump/climb/mantle/fall
     jumpData: null,
+    fallHVel: null,
     climbable: null,
     climbTime: 0,
     mantleData: null,
@@ -126,6 +129,40 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     return res;
   }
 
+  // Shared airborne horizontal control (Phase 1.2 refinement)
+  // Used by both JUMP and FALL. Ignores band speeds; dir only, constant accel/decel, frozen cap.
+  function applyAirborneHorizontalControl(dt, worldDir, hVel) {
+    const hasInput = worldDir && worldDir.len > 1e-6;
+    if (hasInput) {
+      const targetX = worldDir.x * state.airCap;
+      const targetZ = worldDir.z * state.airCap;
+      let diffX = targetX - hVel.x;
+      let diffZ = targetZ - hVel.z;
+      const diffLen = Math.hypot(diffX, diffZ);
+      const maxStep = (moveCfg.airAcceleration ?? 10) * dt;
+      if (diffLen > maxStep) {
+        diffX = (diffX / diffLen) * maxStep;
+        diffZ = (diffZ / diffLen) * maxStep;
+      }
+      hVel.x += diffX;
+      hVel.z += diffZ;
+      const curSpeed = Math.hypot(hVel.x, hVel.z);
+      if (curSpeed > state.airCap) {
+        hVel.x = (hVel.x / curSpeed) * state.airCap;
+        hVel.z = (hVel.z / curSpeed) * state.airCap;
+      }
+    } else {
+      const curSpeed = Math.hypot(hVel.x, hVel.z);
+      if (curSpeed > 1e-5) {
+        const maxStep = (moveCfg.airDeceleration ?? 5) * dt;
+        const newSpeed = Math.max(0, curSpeed - maxStep);
+        const factor = curSpeed > 1e-6 ? newSpeed / curSpeed : 0;
+        hVel.x *= factor;
+        hVel.z *= factor;
+      }
+    }
+  }
+
   function update(dt, intent) {
     const fixedDt = Math.min(dt, moveCfg.maxDelta ?? 0.05);
     if (fixedDt <= 0) return;
@@ -134,76 +171,59 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     if (state.dodgeCooldown > 0) state.dodgeCooldown = Math.max(0, state.dodgeCooldown - fixedDt);
     const worldDir = intentToWorldDir(intent);
 
-    // --- JUMP active ---
+    // --- JUMP active (authored auto-jump, shares air model with FALL) ---
     if (state.mode === "JUMP" && state.jumpData) {
       const jd = state.jumpData;
       jd.time += fixedDt;
-      // air control
-      const airFactor = moveCfg.jumpAirControlFactor ?? 0.28;
-      const accel = (moveCfg.acceleration ?? 28) * airFactor;
-      if (intent && intent.moveMagnitude > 0.12 && worldDir.len > 1e-6) {
-        const desiredX = worldDir.x * jd.initialSpeed;
-        const desiredZ = worldDir.z * jd.initialSpeed;
-        let diffX = desiredX - jd.hVel.x;
-        let diffZ = desiredZ - jd.hVel.z;
-        const diffLen = Math.hypot(diffX, diffZ);
-        const maxStep = accel * fixedDt;
-        if (diffLen > maxStep) {
-          diffX = (diffX / diffLen) * maxStep;
-          diffZ = (diffZ / diffLen) * maxStep;
-        }
-        jd.hVel.x += diffX;
-        jd.hVel.z += diffZ;
-        const curSpeed = Math.hypot(jd.hVel.x, jd.hVel.z);
-        const maxSpd = moveCfg.jumpAirMaxSpeed ?? 7.2;
-        if (curSpeed > maxSpd) {
-          jd.hVel.x = (jd.hVel.x / curSpeed) * maxSpd;
-          jd.hVel.z = (jd.hVel.z / curSpeed) * maxSpd;
-        }
-      }
+      // shared airborne horizontal control — ignores band speeds, uses airAcceleration/decel + frozen cap
+      applyAirborneHorizontalControl(fixedDt, worldDir, jd.hVel);
       state.verticalVelocity -= (moveCfg.jumpGravity ?? 12) * fixedDt;
       const res = rapierMove(jd.hVel.x, jd.hVel.z, state.verticalVelocity, fixedDt);
-      // facing
       const hvLen = Math.hypot(jd.hVel.x, jd.hVel.z);
       if (hvLen > 0.1) state.facing = Math.atan2(jd.hVel.x, jd.hVel.z);
       state.speed = hvLen;
 
-      // landing: grounded + descending + (inside region or time slack)
+      // landing: grounded + descending; Rapier determines actual landing position — no horizontal magnet
       let landed = false;
       if (res.grounded && state.verticalVelocity <= 0.1) {
-        const landingRegion = jd.landingRegion;
-        if (landingRegion) {
-          const inside = isInsideRegionXZ(state.pos, landingRegion);
-          if (inside) landed = true;
-          else {
-            const closest = closestPointInRegion(state.pos, landingRegion);
-            const dist = Math.hypot(state.pos.x - closest.x, state.pos.z - closest.z);
-            const maxCorr = jd.maxLandingCorrection ?? moveCfg.jumpMaxLandingCorrection ?? 1.4;
-            if (dist <= maxCorr) {
-              // small horizontal correction via rapier move
-              const corr = { x: closest.x - state.pos.x, y: 0, z: closest.z - state.pos.z };
-              characterPhysics.move(corr);
-              syncPosFromPhysics();
-              landed = true;
-            } else if (jd.time > jd.airTime + 0.35) {
-              landed = true;
-            }
-          }
-        } else {
-          landed = true;
-        }
+        landed = true;
       }
-      // timeout
+      // timeout fallback (prevents infinite air if grounded never reported)
       if (jd.time > jd.airTime + 0.75) landed = true;
 
       if (landed) {
         state.mode = "IDLE";
         state.jumpData = null;
+        state.airCap = 0;
         state.verticalVelocity = 0;
         state.grounded = true;
         state.speed = hvLen * 0.92;
         state.vel.set(jd.hVel.x, 0, jd.hVel.z);
         traversal.reset();
+      }
+      syncMesh(fixedDt);
+      return;
+    }
+
+    // --- FALL active (ordinary ledge fall, shares same air model as JUMP) ---
+    if (state.mode === "FALL") {
+      // airborne horizontal control with frozen cap
+      if (!state.fallHVel) state.fallHVel = { x: state.vel.x, z: state.vel.z };
+      applyAirborneHorizontalControl(fixedDt, worldDir, state.fallHVel);
+      state.verticalVelocity += (moveCfg.gravity ?? -12) * fixedDt;
+      const hvLenBefore = Math.hypot(state.fallHVel.x, state.fallHVel.z);
+      const res = rapierMove(state.fallHVel.x, state.fallHVel.z, state.verticalVelocity, fixedDt);
+      const hvLen = Math.hypot(state.fallHVel.x, state.fallHVel.z);
+      if (hvLen > 0.1) state.facing = Math.atan2(state.fallHVel.x, state.fallHVel.z);
+      state.speed = hvLen;
+      // keep vel in sync for landing carry
+      state.vel.set(state.fallHVel.x, 0, state.fallHVel.z);
+      if (res.grounded) {
+        state.mode = "IDLE";
+        state.fallHVel = null;
+        state.airCap = 0;
+        state.verticalVelocity = 0;
+        state.grounded = true;
       }
       syncMesh(fixedDt);
       return;
@@ -421,7 +441,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       return;
     }
 
-    // --- Jump ---
+    // --- Jump (authored) — preserves actual horizontal velocity and uses shared air model ---
     const band = classifyMovementBand(intent.moveMagnitude, moveCfg);
     const targetSpeed = getBandSpeed(band, moveCfg);
     const effSpeed = Math.max(state.speed, targetSpeed);
@@ -429,9 +449,12 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     if (jumpHit) {
       const travState = traversal.getState();
       state.mode = "JUMP";
+      // Preserve actual horizontal velocity; cap is max(walkSpeed, initialSpeed) — Run cannot boost cap after takeoff
+      const initSpeed = travState.jumpInitialSpeed;
+      state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, initSpeed);
       state.jumpData = {
         hVel: { x: travState.jumpHVel.x, z: travState.jumpHVel.z },
-        initialSpeed: travState.jumpInitialSpeed,
+        initialSpeed: initSpeed,
         landingRegion: travState.jumpLandingRegion,
         maxLandingCorrection: jumpHit.traversal.maxLandingCorrection,
         airTime: travState.jumpAirTime,
@@ -439,16 +462,43 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       };
       state.verticalVelocity = moveCfg.jumpInitialVerticalVelocity ?? 5.8;
       state.grounded = false;
+      // keep horizontal vel for shared air model — jumpData.hVel already reflects initialSpeed/direction
+      state.vel.set(state.jumpData.hVel.x, 0, state.jumpData.hVel.z);
       if (travState.jumpDirection) state.facing = Math.atan2(travState.jumpDirection.x, travState.jumpDirection.z);
       traversal.reset(); // we own jump now
-      // Re-assign jumpData after reset (traversal reset clears but we copied)
       syncMesh(fixedDt);
       return;
     }
     // Clear any transient traversal JUMP that didn't convert (should not happen)
     if (traversal.getState().mode === "JUMP") traversal.reset();
 
-    // --- Normal movement ---
+    // --- Normal movement (grounded only) ---
+    // If we are airborne without an active JUMP, treat as FALL (walk-off). This handles the first frame after leaving ground.
+    if (!state.grounded && state.mode !== "JUMP") {
+      // Preserve horizontal velocity at the moment of leaving ground; do not boost via bands
+      const preSpeedAir = state.speed;
+      state.mode = "FALL";
+      state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, preSpeedAir);
+      state.fallHVel = { x: state.vel.x, z: state.vel.z };
+      // Apply shared air control for this frame
+      applyAirborneHorizontalControl(fixedDt, worldDir, state.fallHVel);
+      state.verticalVelocity += (moveCfg.gravity ?? -12) * fixedDt;
+      const hvLenAir = Math.hypot(state.fallHVel.x, state.fallHVel.z);
+      if (hvLenAir > 0.1) state.facing = Math.atan2(state.fallHVel.x, state.fallHVel.z);
+      state.speed = hvLenAir;
+      state.vel.set(state.fallHVel.x, 0, state.fallHVel.z);
+      rapierMove(state.fallHVel.x, state.fallHVel.z, state.verticalVelocity, fixedDt);
+      if (state.grounded) {
+        state.mode = "IDLE";
+        state.fallHVel = null;
+        state.airCap = 0;
+        state.verticalVelocity = 0;
+      }
+      syncMesh(fixedDt);
+      return;
+    }
+    const wasGrounded = state.grounded;
+    const preSpeed = state.speed;
     tmpTargetVel.set(worldDir.x * targetSpeed, 0, worldDir.z * targetSpeed);
     tmpCurVel.set(state.vel.x, 0, state.vel.z);
     tmpDiff.subVectors(tmpTargetVel, tmpCurVel);
@@ -487,6 +537,16 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     }
 
     rapierMove(state.vel.x, state.vel.z, state.verticalVelocity, fixedDt);
+
+    // Transition to FALL if we just left ground without authored JUMP (walk/fall off ledge)
+    if (!state.grounded && wasGrounded && state.mode !== "JUMP") {
+      state.mode = "FALL";
+      // Preserve actual horizontal velocity at takeoff, cap at max(walkSpeed, preSpeed)
+      state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, preSpeed);
+      state.fallHVel = { x: state.vel.x, z: state.vel.z };
+      // speed stays as preSpeed-derived; no band boost
+    }
+
     syncMesh(fixedDt);
   }
 
@@ -499,7 +559,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       facing: state.facing,
       pos: state.pos.clone(),
       dodgeCooldown: state.dodgeCooldown,
-      traversalMode: state.mode === "JUMP" || state.mode === "CLIMB" || state.mode === "MANTLE" ? state.mode : trav.mode,
+      traversalMode: state.mode === "JUMP" || state.mode === "FALL" || state.mode === "CLIMB" || state.mode === "MANTLE" ? state.mode : trav.mode,
       grounded: state.grounded,
       verticalVelocity: state.verticalVelocity,
     };

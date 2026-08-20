@@ -23,3 +23,5 @@
 18. Gameplay logic testable independently of rendering where practical: pure logic (math, state transitions, rules) should not require a WebGL context to verify.
 19. Mobile performance first: cap DPR, avoid per-frame allocations, keep draw calls low, and validate on a real phone viewport.
 20. No new dependencies without justification: justify any new runtime or build-time dependency in `docs/BUILD_LOG.md` and prefer zero-dependency solutions when viable. `esbuild` is the approved build-time-only bundler for submission packaging. `@dimforge/rapier3d-compat@0.20.0` is the approved runtime physics dependency for the KinematicCharacterController (vendored offline, base64 WASM, via `vendor/rapier.js`).
+
+21. Manual testing instructions must be written for the human player, not the implementer. For every manual test, explain where/what to test in recognizable visual terms, the exact action to perform, the expected correct behavior, and the signs of failure. Coordinates or internal IDs may supplement the description but must never replace it. Prioritize changed behavior and important regressions.

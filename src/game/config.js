@@ -66,6 +66,12 @@ export const MOVEMENT_CONFIG = {
   // Gravity for falling/jump (explicit, Rapier world gravity is 0)
   gravity: -12.0,
 
+  // Airborne horizontal control — shared by JUMP and FALL (Phase 1.2 refinement)
+  // Grounded bands ignored in air; direction only with constant accel/decel and frozen cap.
+  airAcceleration: 10,
+  airDeceleration: 5,
+  airMinSpeedCap: 3.3, // == walkSpeed, ensures falling from standstill still steerable
+
   // World bounds
   worldBounds: { minX: -12.5, maxX: 12.5, minZ: -11.5, maxZ: 11.5 },
 };
