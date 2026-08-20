@@ -1,5 +1,28 @@
 # Third-Party Notices
 
+## Rapier
+
+- **Package:** `@dimforge/rapier3d-compat`
+- **Version:** `0.20.0`
+- **Source:** https://github.com/dimforge/rapier (npm `@dimforge/rapier3d-compat@0.20.0`)
+- **Vendored file:** `vendor/rapier.js` — copied from `node_modules/@dimforge/rapier3d-compat/dist/rapier.mjs` (compat build, base64-inlined WASM, no CDN, relative importmap `rapier` → `./vendor/rapier.js`)
+- **License:** Apache-2.0 — see `vendor/rapier.LICENSE` and upstream notices
+
+```
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+   ... (full text in vendor/rapier.LICENSE and node_modules/@dimforge/rapier3d-compat/LICENSE)
+```
+
+See also:
+- `vendor/README.md` for vendoring details and runtime path (Three.js + Rapier)
+- `vendor/rapier.LICENSE` for Apache-2.0 full text
+
+---
+
 ## Three.js
 
 - **Package:** `three`

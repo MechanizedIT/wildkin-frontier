@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import * as RAPIER from "rapier";
 import { createCamera, updateCameraAspect, CAMERA_CONFIG } from "./game/createCamera.js";
 import { createRenderer, resizeRenderer } from "./game/createRenderer.js";
 import { createScene } from "./game/createScene.js";
@@ -7,11 +8,20 @@ import { createCameraFollow } from "./camera/cameraFollow.js";
 import { createTouchMovement } from "./input/touchMovement.js";
 import { createKeyboardInput } from "./input/keyboardInput.js";
 import { mergeIntents as mergeIntentsPure } from "./input/inputController.js";
-import { MOVEMENT_CONFIG, CAMERA_CONFIG_FOLLOW, INPUT_CONFIG } from "./game/config.js";
+import { MOVEMENT_CONFIG, CAMERA_CONFIG_FOLLOW, INPUT_CONFIG, RAPIER_CONFIG } from "./game/config.js";
+import { createPhysicsWorld } from "./physics/createPhysicsWorld.js";
+import { createCharacterPhysics } from "./physics/createCharacterPhysics.js";
+import { createPhysicsDebug } from "./physics/physicsDebug.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
+
+const VERSION = "Phase 1.2 — 0.4.0";
+
+if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
+
+await RAPIER.init();
 
 const { scene, player, playground } = createScene();
 
@@ -36,54 +46,81 @@ window.addEventListener("orientationchange", () => {
   setTimeout(resize, 200);
 });
 
-// Input — touch joystick + keyboard fallback unify to one intent
+// Physics — offline, vendored rapier.js (compat, base64 WASM)
+const physicsWorld = createPhysicsWorld(RAPIER, playground);
+// Player capsule starts slightly above ground to avoid initial penetration
+const startPos = { x: 0, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: 5.5 };
+const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos);
+
+// Input
 const touchMovement = createTouchMovement(app, MOVEMENT_CONFIG, INPUT_CONFIG);
 const keyboardInput = createKeyboardInput(MOVEMENT_CONFIG);
 
-// Player movement controller (owns state, handles dodge/jump/climb)
-const playerController = createPlayerController(player, playground, camera, MOVEMENT_CONFIG);
+// Player controller (Rapier authoritative)
+const playerController = createPlayerController(player, playground, camera, MOVEMENT_CONFIG, characterPhysics);
+// Sync mesh to physics start pos
+player.position.set(startPos.x, startPos.y, startPos.z);
 
 // Camera follow
 const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG);
 cameraFollow.snap();
 
-// Single authoritative rAF loop
-const VERSION = "Phase 1.1 — 0.3.0";
+// Physics debug (disabled by default, enable via window.__game.physicsDebug.setEnabled(true))
+const physicsDebug = createPhysicsDebug(scene, characterPhysics, physicsWorld);
+
+// Single authoritative rAF loop — fixed timestep for Rapier
 const clock = new THREE.Clock();
 let frameCount = 0;
 let lastFpsUpdate = performance.now();
 let fps = 0;
+let accumulator = 0;
+let physicsSubstepsLast = 0;
+const fixedDt = RAPIER_CONFIG.fixedDt;
+const maxSubsteps = RAPIER_CONFIG.maxSubsteps;
+const maxDelta = RAPIER_CONFIG.maxDelta;
 
-if (debugLabel) debugLabel.textContent = `${VERSION} · starting…`;
+if (debugLabel) debugLabel.textContent = `${VERSION} · Rapier ${RAPIER.version ? RAPIER.version() : "0.20.0"} · starting…`;
 
 function tick() {
   requestAnimationFrame(tick);
 
-  const dt = Math.min(clock.getDelta(), MOVEMENT_CONFIG.maxDelta);
+  const rawDt = clock.getDelta();
+  const dt = Math.min(rawDt, maxDelta);
+  accumulator += dt;
 
-  // Unified intent
+  // Unified intent sampled once per frame (same intent for all substeps)
   const touchIntent = touchMovement.getIntent();
   const kbIntent = keyboardInput.getIntent();
   const intent = mergeIntentsPure(touchIntent, kbIntent);
-
-  // Player update (consumes dodge if triggered)
   const wasDodgeRequested = intent.dodgeRequested;
-  playerController.update(dt, intent);
-  if (wasDodgeRequested) {
-    // consume on both sources so dodge fires once
-    touchMovement.consumeDodge();
-    // keyboard dodge is latched until keyup; controller already consumed via cooldown, but clear flag for next frame
-    // keyboard's space remains latched until release, but dodgeCooldown prevents retrigger
-    const st = playerController.getState();
-    if (st.mode === "DODGE") {
-      // already consuming, nothing else
+
+  // Fixed-step physics updates
+  let substeps = 0;
+  while (accumulator >= fixedDt && substeps < maxSubsteps) {
+    playerController.update(fixedDt, intent);
+    accumulator -= fixedDt;
+    substeps++;
+    // consume dodge only on first substep where it triggered
+    if (wasDodgeRequested && playerController.getState().mode === "DODGE") {
+      // dodge consumed, prevent re-trigger within same frame
+      intent.dodgeRequested = false;
     }
   }
+  physicsSubstepsLast = substeps;
+  // If we hit maxSubsteps and still have accumulator, drop remainder to avoid spiral
+  if (accumulator >= fixedDt) accumulator = 0;
 
-  // Camera follow — feed speed + direction for look-ahead
+  if (wasDodgeRequested) {
+    touchMovement.consumeDodge();
+  }
+
+  // Camera follow — per-frame, uses rendered dt for smoothness
   const pState = playerController.getState();
   const moveDir = pState.speed > 0.1 ? { x: Math.sin(pState.facing), z: Math.cos(pState.facing) } : null;
   cameraFollow.update(dt, pState.speed, moveDir);
+
+  // Physics debug
+  physicsDebug.update(pState.grounded, pState.speed, pState.verticalVelocity, physicsSubstepsLast);
 
   // Debug label throttled
   frameCount++;
@@ -95,8 +132,10 @@ function tick() {
     if (debugLabel) {
       const band = intent.movementBand;
       const stMode = pState.mode;
-      const trav = pState.traversalMode && pState.traversalMode !== "IDLE" ? ` · ${pState.traversalMode}` : "";
-      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode}${trav} · ${band} · ${pState.speed.toFixed(1)} u/s`;
+      const trav = pState.traversalMode && pState.traversalMode !== "IDLE" && pState.traversalMode !== stMode ? ` · ${pState.traversalMode}` : "";
+      const grounded = pState.grounded ? "G" : "A";
+      const vv = pState.verticalVelocity.toFixed(1);
+      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode}${trav} · ${band} · ${pState.speed.toFixed(1)} u/s · ${grounded} vv${vv} · ${substeps} step`;
     }
   }
 
@@ -106,4 +145,4 @@ function tick() {
 tick();
 
 // Debug globals only (window.__game) — gameplay does not rely on it
-window.__game = { scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG };
+window.__game = { scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug };

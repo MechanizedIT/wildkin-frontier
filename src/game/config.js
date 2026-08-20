@@ -1,5 +1,6 @@
-// src/game/config.js — centralized tuning for Phase 1.1 movement + traversal
+// src/game/config.js — centralized tuning for Phase 1.2 movement + traversal + Rapier
 // All feel-affecting constants live here for playtest iteration.
+// See src/physics/physicsConfig.js for Rapier controller constants (mirrored here for discovery).
 
 export const MOVEMENT_CONFIG = {
   // Joystick band thresholds (normalized 0..1)
@@ -59,9 +60,11 @@ export const MOVEMENT_CONFIG = {
   mantleDuration: 0.28,
   mantleOffset: 0.65,
 
-  // Character + collision
-  playerRadius: 0.42,
+  // Character — Rapier capsule now authoritative (playerRadius kept for legacy tests/docs)
+  playerRadius: 0.32,
   playerHeight: 0.95,
+  // Gravity for falling/jump (explicit, Rapier world gravity is 0)
+  gravity: -12.0,
 
   // World bounds
   worldBounds: { minX: -12.5, maxX: 12.5, minZ: -11.5, maxZ: 11.5 },
@@ -85,4 +88,22 @@ export const INPUT_CONFIG = {
 export const WORLD_CONFIG = {
   playgroundHalfX: 12,
   playgroundHalfZ: 11,
+};
+
+// Rapier physics tuning — also defined in src/physics/physicsConfig.js (single source of truth is physicsConfig)
+// Mirrored here so all gameplay tuning is discoverable from src/game/config.js
+export const RAPIER_CONFIG = {
+  fixedDt: 1 / 60,
+  maxSubsteps: 4,
+  maxDelta: 0.10,
+  capsuleRadius: 0.32,
+  capsuleHalfHeight: 0.20,
+  capsuleTotalHeight: 1.04,
+  controllerOffset: 0.02,
+  maxSlopeClimbAngle: (45 * Math.PI) / 180,
+  minSlopeSlideAngle: (30 * Math.PI) / 180,
+  autostepMaxHeight: 0.20,
+  autostepMinWidth: 0.18,
+  autostepIncludeDynamic: false,
+  snapToGroundDistance: 0.20,
 };

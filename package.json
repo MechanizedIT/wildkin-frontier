@@ -17,6 +17,7 @@
     "zip": "node tools/zip-submission.mjs"
   },
   "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.20.0",
     "three": "0.160.0"
   },
   "devDependencies": {

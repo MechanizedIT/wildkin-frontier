@@ -70,7 +70,7 @@ async function build() {
     format: "esm",
     minify: false,
     sourcemap: false,
-    external: ["three"],
+    external: ["three", "rapier", "@dimforge/rapier3d-compat"],
     target: "esnext",
     legalComments: "inline",
     charset: "utf8",
@@ -101,12 +101,14 @@ async function build() {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
     <meta name="theme-color" content="#0e1420" />
-    <title>Wildkin Frontier — Phase 1</title>
+    <title>Wildkin Frontier — Phase 1.2</title>
     ${cssInline}
     <script type="importmap">
       {
         "imports": {
-          "three": "./vendor/three.module.js"
+          "three": "./vendor/three.module.js",
+          "rapier": "./vendor/rapier.js",
+          "@dimforge/rapier3d-compat": "./vendor/rapier.js"
         }
       }
     </script>
@@ -117,23 +119,23 @@ async function build() {
       <div id="hud" aria-hidden="false">
         <div class="hud-top">
           <div class="badge">
-            <strong>WILDKIN FRONTIER — Phase 1</strong>
-            <small>Movement &amp; World Feel · Sneak/Walk/Run</small>
+            <strong>WILDKIN FRONTIER — Phase 1.2</strong>
+            <small>Rapier Character Controller · Sneak/Walk/Run</small>
           </div>
           <div class="badge" style="text-align: right">
             <strong style="font-size: 11px">Left: move · Right: swipe dodge</strong>
-            <small>Shift=Run · Ctrl/C=Sneak · Space=dodge</small>
+            <small>C=Sneak · Shift=Run · Space=dodge</small>
           </div>
         </div>
         <div class="hud-bottom">
-          <div id="debug-label">Phase 1 — 0.2.0 · starting…</div>
-          <div class="hud-hint">Gap = auto-jump · Ladder = climb</div>
+          <div id="debug-label">Phase 1.2 — 0.4.0 · starting…</div>
+          <div class="hud-hint">Gap = auto-jump (Run farthest) · Ladder = climb (Up/Down)</div>
         </div>
       </div>
     </div>
     <script type="module">
 // Submission build — first-party bundle (readable, unminified) via esbuild
-// Entry: src/main.js  |  external: three → ./vendor/three.module.js
+// Entry: src/main.js  |  external: three → ./vendor/three.module.js, rapier → ./vendor/rapier.js
 ${jsBundle}
 </script>
   </body>
@@ -146,8 +148,12 @@ ${jsBundle}
   const vendorSize = fs.existsSync(path.join(OUT, "vendor", "three.module.js"))
     ? fs.statSync(path.join(OUT, "vendor", "three.module.js")).size
     : 0;
+  const rapierSize = fs.existsSync(path.join(OUT, "vendor", "rapier.js"))
+    ? fs.statSync(path.join(OUT, "vendor", "rapier.js")).size
+    : 0;
   console.log(`[build] wrote ${path.relative(ROOT, path.join(OUT, "index.html"))} (${(stats.size / 1024).toFixed(1)} KB)`);
   console.log(`[build] vendor/three.module.js ${(vendorSize / 1024).toFixed(1)} KB`);
+  console.log(`[build] vendor/rapier.js ${(rapierSize / 1024).toFixed(1)} KB`);
   console.log(`[build] submission dir: ${path.relative(ROOT, OUT)}`);
   console.log(`[build] next: npm run validate  |  npm run zip`);
 }

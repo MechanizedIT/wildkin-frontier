@@ -401,6 +401,25 @@ export function createTraversalController(playground, cfg = DEFAULT_CFG) {
     return computeMantleEndpoints(climbable, currentPos, cfg);
   }
 
+  function reset() {
+    state.mode = "IDLE";
+    state.jumpTraversal = null;
+    state.jumpTime = 0;
+    state.jumpHVel = { x: 0, z: 0 };
+    state.jumpVertVel = 0;
+    state.climbable = null;
+    state.climbTime = 0;
+    state.mantleTime = 0;
+    state.mantleStart = null;
+    state.mantleEnd = null;
+  }
+
+  // Rapier-aware mantle endpoints (capsule-aware Y) for Phase 1.2 physics debug/tests
+  function computeMantleEndpointsWithCapsule(capsuleTotalHeight) {
+    // Not stateful — helper shim for playerController
+    return (climbable, currentPos) => computeMantleEndpoints(climbable, currentPos, cfg);
+  }
+
   return {
     getState,
     isTraversing,
@@ -411,6 +430,7 @@ export function createTraversalController(playground, cfg = DEFAULT_CFG) {
     updateClimb,
     updateMantle,
     getMantleEndpoints,
+    reset,
     // expose pure helpers for direct test import (re-export)
   };
 }

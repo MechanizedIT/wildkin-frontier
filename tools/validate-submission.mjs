@@ -36,14 +36,20 @@ if (!fs.existsSync(path.join(OUT, "index.html"))) {
 
 const html = readText(path.join(OUT, "index.html"));
 
-// 2. /vendor missing when required — submission uses three, so vendor must exist
+// 2. /vendor missing when required — submission uses three + rapier, so vendor must exist
 if (!fs.existsSync(path.join(OUT, "vendor", "three.module.js"))) {
   fail("/vendor/three.module.js missing in submission — Three.js must be vendored with relative path");
+}
+if (!fs.existsSync(path.join(OUT, "vendor", "rapier.js"))) {
+  fail("/vendor/rapier.js missing in submission — Rapier must be vendored with relative path (compat, base64 WASM)");
 }
 
 // Also check that html references vendor relatively, not absolute/CDN
 if (!html.includes("./vendor/three.module.js") && !html.includes("vendor/three.module.js")) {
   fail('index.html does not reference Three.js via relative ./vendor/three.module.js');
+}
+if (!html.includes("./vendor/rapier.js") && !html.includes("vendor/rapier.js")) {
+  fail('index.html does not reference Rapier via relative ./vendor/rapier.js');
 }
 
 // 3. Forbidden http:// or https:// runtime references in HTML/JS/CSS
@@ -68,7 +74,7 @@ if (html.includes("sourceMappingURL")) {
 }
 // Check that key readable markers exist
 const mustContain = ["createScene", "createCamera", "createRenderer", "CAMERA_CONFIG"];
-const mustContainAnyPhase = ["Phase 0", "Phase 1"];
+const mustContainAnyPhase = ["Phase 0", "Phase 1", "Phase 1.2"];
 for (const token of mustContain) {
   if (!html.includes(token)) fail(`submission index.html missing expected readable token: ${token} — first-party code may not be inlined correctly`);
 }

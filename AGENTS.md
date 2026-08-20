@@ -3,8 +3,8 @@
 1. Read `docs/CURRENT_SLICE.md` first. It is the only authoritative implementation scope for this session.
 2. Read `docs/GAME_DESIGN.md` and `docs/HACKATHON_REQUIREMENTS.md` before changing architecture or gameplay.
 3. Do not expand scope beyond the active slice. No harvesting, combat, Wildkin, inventory, progression, base building, Matter Resonator, waystones, or other future systems until their slice is active.
-4. Preserve hard constraints: single-player, portrait mobile, Three.js/HTML5, no runtime network requests, local vendored `vendor/three.module.js` with relative paths, `index.html` at ZIP root, 35 MB limit, first-party code readable/unminified in submission.
-5. Prefer vanilla HTML/CSS/JS + Three.js. No React, game engine, ECS, physics engine, backend, CDN, or required bundler for dev.
+4. Preserve hard constraints: single-player, portrait mobile, Three.js/HTML5, no runtime network requests, local vendored `vendor/three.module.js` + `vendor/rapier.js` with relative paths, `index.html` at ZIP root, 35 MB limit, first-party code readable/unminified in submission.
+5. Prefer vanilla HTML/CSS/JS + Three.js. No React, game engine, ECS, backend, CDN, or required bundler for dev. Physics: approved runtime is `@dimforge/rapier3d-compat@0.20.0` via vendored `vendor/rapier.js` (KinematicCharacterController for player/world collision only); no other physics engine.
 6. Keep the build playable at the end of every session — no console-breaking errors, portrait layout intact, offline-safe.
 7. Keep architecture deliberately simple and explicit for repeated agent edits (`src/game/createScene.js`, `createCamera.js`, `createRenderer.js`).
 8. Validate before stopping: `npm run build` + `npm run validate` must pass; manually confirm dev and submission builds both load.
@@ -22,4 +22,4 @@
 17. Centralized tuning/configuration: constants that affect feel, balance, or presentation live in a single findable location (e.g., `src/game/config.js` or colocated `*_CONFIG` exports) rather than scattered literals.
 18. Gameplay logic testable independently of rendering where practical: pure logic (math, state transitions, rules) should not require a WebGL context to verify.
 19. Mobile performance first: cap DPR, avoid per-frame allocations, keep draw calls low, and validate on a real phone viewport.
-20. No new dependencies without justification: justify any new runtime or build-time dependency in `docs/BUILD_LOG.md` and prefer zero-dependency solutions when viable. `esbuild` is the approved build-time-only bundler for submission packaging.
+20. No new dependencies without justification: justify any new runtime or build-time dependency in `docs/BUILD_LOG.md` and prefer zero-dependency solutions when viable. `esbuild` is the approved build-time-only bundler for submission packaging. `@dimforge/rapier3d-compat@0.20.0` is the approved runtime physics dependency for the KinematicCharacterController (vendored offline, base64 WASM, via `vendor/rapier.js`).

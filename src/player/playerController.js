@@ -1,22 +1,30 @@
 import * as THREE from "three";
 import { getBandSpeed, classifyMovementBand } from "../movement/movementBands.js";
-import { resolveMovement } from "../world/collision.js";
-import { createTraversalController } from "../movement/traversalController.js";
+import { createTraversalController, computeMantleEndpoints, isInsideRegionXZ, closestPointInRegion } from "../movement/traversalController.js";
 import { createPlayerVisuals } from "./playerVisuals.js";
 
-export function createPlayerController(playerMesh, playground, camera, moveCfg) {
+// Phase 1.2 — Rapier KinematicCharacterController migration.
+// Wildkin owns intent/speeds/accel/facing/dodge/jump/climb. Rapier owns collision/slide/grounding.
+
+export function createPlayerController(playerMesh, playground, camera, moveCfg, characterPhysics) {
   const state = {
     mode: "IDLE",
     pos: new THREE.Vector3().copy(playerMesh.position),
     vel: new THREE.Vector3(0, 0, 0),
+    verticalVelocity: 0,
+    grounded: true,
     facing: 0,
     speed: 0,
     dodgeCooldown: 0,
     dodgeTime: 0,
     dodgeDir: new THREE.Vector3(0, 0, 0),
+    // internal jump/climb/mantle
+    jumpData: null,
+    climbable: null,
+    climbTime: 0,
+    mantleData: null,
   };
 
-  // Reusable temp vectors to avoid per-frame allocation
   const tmpDir = new THREE.Vector3();
   const tmpForward = new THREE.Vector3();
   const tmpRight = new THREE.Vector3();
@@ -28,13 +36,12 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg) 
   const traversal = createTraversalController(playground, moveCfg);
   const visuals = createPlayerVisuals(playerMesh);
 
-  function getGroundY(x, z, currentY) {
-    const h = playground.getGroundHeight(x, z, currentY ?? state.pos.y);
-    return h + 0.36;
+  function syncPosFromPhysics() {
+    if (!characterPhysics) return;
+    const p = characterPhysics.getPosition();
+    state.pos.set(p.x, p.y, p.z);
   }
-
-  // Ensure pos y is ground-based
-  state.pos.y = getGroundY(state.pos.x, state.pos.z, state.pos.y);
+  if (characterPhysics) syncPosFromPhysics();
 
   function getCameraBasis() {
     camera.getWorldDirection(tmpDir);
@@ -76,14 +83,11 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg) 
   function startDodge(intent, worldDir) {
     let dir = null;
     if (intent.dodgeX !== undefined && intent.dodgeY !== undefined && (Math.abs(intent.dodgeX) > 1e-6 || Math.abs(intent.dodgeY) > 1e-6)) {
-      if (intent._fromSwipe) {
-        dir = screenVectorToWorld(intent.dodgeX, intent.dodgeY);
-      } else {
+      if (intent._fromSwipe) dir = screenVectorToWorld(intent.dodgeX, intent.dodgeY);
+      else {
         const sx = intent.dodgeX;
         const sy = intent.dodgeY;
-        if (Math.hypot(sx, sy) > 1e-6) {
-          dir = screenVectorToWorld(sx, sy);
-        }
+        if (Math.hypot(sx, sy) > 1e-6) dir = screenVectorToWorld(sx, sy);
       }
     }
     if (!dir || (dir.x === 0 && dir.z === 0)) {
@@ -96,159 +100,364 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg) 
     state.mode = "DODGE";
     state.dodgeTime = moveCfg.dodgeDuration;
     state.dodgeCooldown = moveCfg.dodgeCooldown;
+    state.verticalVelocity = Math.min(state.verticalVelocity, 0);
     return true;
   }
 
   function syncMesh(dt) {
-    // Copy position
     playerMesh.position.copy(state.pos);
-    // Determine active mode for visuals (traversal overrides grounded)
-    const travState = traversal.getState();
     let visualMode = state.mode;
-    if (travState.mode !== "IDLE") visualMode = travState.mode;
+    // traversal debug mode override if needed
+    const travMode = traversal.getState().mode;
+    if (travMode !== "IDLE" && state.mode === "IDLE") visualMode = travMode;
     playerMesh.rotation.y = state.facing;
     visuals.sync(dt, { mode: visualMode, speed: state.speed });
   }
 
+  function rapierMove(hVelX, hVelZ, vertVel, dt) {
+    const desired = { x: hVelX * dt, y: vertVel * dt, z: hVelZ * dt };
+    const res = characterPhysics.move(desired);
+    if (vertVel > 0 && res.corrected.y < desired.y * 0.3) {
+      state.verticalVelocity = Math.min(0, state.verticalVelocity);
+    }
+    state.grounded = res.grounded;
+    if (state.grounded && state.verticalVelocity < 0) state.verticalVelocity = 0;
+    syncPosFromPhysics();
+    return res;
+  }
+
   function update(dt, intent) {
-    const clampedDt = Math.min(dt, moveCfg.maxDelta);
-    if (clampedDt <= 0) return;
+    const fixedDt = Math.min(dt, moveCfg.maxDelta ?? 0.05);
+    if (fixedDt <= 0) return;
+    if (!characterPhysics) return;
 
-    if (state.dodgeCooldown > 0) state.dodgeCooldown = Math.max(0, state.dodgeCooldown - clampedDt);
-
+    if (state.dodgeCooldown > 0) state.dodgeCooldown = Math.max(0, state.dodgeCooldown - fixedDt);
     const worldDir = intentToWorldDir(intent);
 
-    // Delegate to traversal if active
-    const travMode = traversal.getState().mode;
-    if (travMode === "JUMP") {
-      const res = traversal.updateJump(clampedDt, intent, worldDir, state.pos);
-      // Update facing to jump direction
-      const hv = traversal.getState().jumpHVel;
-      if (hv && (hv.x !== 0 || hv.z !== 0)) {
-        const len = Math.hypot(hv.x, hv.z);
-        if (len > 0.1) state.facing = Math.atan2(hv.x, hv.z);
+    // --- JUMP active ---
+    if (state.mode === "JUMP" && state.jumpData) {
+      const jd = state.jumpData;
+      jd.time += fixedDt;
+      // air control
+      const airFactor = moveCfg.jumpAirControlFactor ?? 0.28;
+      const accel = (moveCfg.acceleration ?? 28) * airFactor;
+      if (intent && intent.moveMagnitude > 0.12 && worldDir.len > 1e-6) {
+        const desiredX = worldDir.x * jd.initialSpeed;
+        const desiredZ = worldDir.z * jd.initialSpeed;
+        let diffX = desiredX - jd.hVel.x;
+        let diffZ = desiredZ - jd.hVel.z;
+        const diffLen = Math.hypot(diffX, diffZ);
+        const maxStep = accel * fixedDt;
+        if (diffLen > maxStep) {
+          diffX = (diffX / diffLen) * maxStep;
+          diffZ = (diffZ / diffLen) * maxStep;
+        }
+        jd.hVel.x += diffX;
+        jd.hVel.z += diffZ;
+        const curSpeed = Math.hypot(jd.hVel.x, jd.hVel.z);
+        const maxSpd = moveCfg.jumpAirMaxSpeed ?? 7.2;
+        if (curSpeed > maxSpd) {
+          jd.hVel.x = (jd.hVel.x / curSpeed) * maxSpd;
+          jd.hVel.z = (jd.hVel.z / curSpeed) * maxSpd;
+        }
       }
-      state.speed = Math.hypot(hv ? hv.x : 0, hv ? hv.z : 0);
-      if (res.landed) {
+      state.verticalVelocity -= (moveCfg.jumpGravity ?? 12) * fixedDt;
+      const res = rapierMove(jd.hVel.x, jd.hVel.z, state.verticalVelocity, fixedDt);
+      // facing
+      const hvLen = Math.hypot(jd.hVel.x, jd.hVel.z);
+      if (hvLen > 0.1) state.facing = Math.atan2(jd.hVel.x, jd.hVel.z);
+      state.speed = hvLen;
+
+      // landing: grounded + descending + (inside region or time slack)
+      let landed = false;
+      if (res.grounded && state.verticalVelocity <= 0.1) {
+        const landingRegion = jd.landingRegion;
+        if (landingRegion) {
+          const inside = isInsideRegionXZ(state.pos, landingRegion);
+          if (inside) landed = true;
+          else {
+            const closest = closestPointInRegion(state.pos, landingRegion);
+            const dist = Math.hypot(state.pos.x - closest.x, state.pos.z - closest.z);
+            const maxCorr = jd.maxLandingCorrection ?? moveCfg.jumpMaxLandingCorrection ?? 1.4;
+            if (dist <= maxCorr) {
+              // small horizontal correction via rapier move
+              const corr = { x: closest.x - state.pos.x, y: 0, z: closest.z - state.pos.z };
+              characterPhysics.move(corr);
+              syncPosFromPhysics();
+              landed = true;
+            } else if (jd.time > jd.airTime + 0.35) {
+              landed = true;
+            }
+          }
+        } else {
+          landed = true;
+        }
+      }
+      // timeout
+      if (jd.time > jd.airTime + 0.75) landed = true;
+
+      if (landed) {
         state.mode = "IDLE";
-        state.speed = res.landingSpeed ?? state.speed * 0.92;
-        // carry a bit of horizontal velocity into next frame
-        tmpCurVel.set(traversal.getState().jumpHVel?.x ?? 0, 0, traversal.getState().jumpHVel?.z ?? 0);
-        state.vel.copy(tmpCurVel);
+        state.jumpData = null;
+        state.verticalVelocity = 0;
+        state.grounded = true;
+        state.speed = hvLen * 0.92;
+        state.vel.set(jd.hVel.x, 0, jd.hVel.z);
+        traversal.reset();
       }
-      syncMesh(clampedDt);
-      return;
-    }
-    if (travMode === "CLIMB") {
-      const res = traversal.updateClimb(clampedDt, intent, worldDir, state.pos);
-      state.speed = Math.abs((intent.moveMagnitude ?? 0) * (moveCfg.climbSpeedUp ?? 1.9));
-      const climbDir = traversal.getState().climbable?.approachDir;
-      if (climbDir) state.facing = Math.atan2(climbDir.x, climbDir.z);
-      if (res.mantleStarted) {
-        // will transition to MANTLE next frame
-        state.mode = "MANTLE";
-      } else if (!res.stillClimbing) {
-        state.mode = "IDLE";
-        state.pos.y = getGroundY(state.pos.x, state.pos.z, state.pos.y);
-      }
-      syncMesh(clampedDt);
-      return;
-    }
-    if (travMode === "MANTLE") {
-      const res = traversal.updateMantle(clampedDt, state.pos);
-      const climbDir = traversal.getState().climbable?.approachDir;
-      if (climbDir) state.facing = Math.atan2(climbDir.x, climbDir.z);
-      state.speed = 1.1;
-      if (res.finished) {
-        state.mode = "IDLE";
-        state.pos.y = getGroundY(state.pos.x, state.pos.z, state.pos.y);
-      }
-      syncMesh(clampedDt);
+      syncMesh(fixedDt);
       return;
     }
 
-    // Grounded: dodge takes precedence and must not convert to jump
+    // --- CLIMB active ---
+    if (state.mode === "CLIMB" && state.climbable) {
+      const climb = state.climbable;
+      const approach = climb.approachDir;
+      const forwardDot = worldDir ? worldDir.x * approach.x + worldDir.z * approach.z : 0;
+      const mag = intent ? intent.moveMagnitude : 0;
+      let climbInput = 0;
+      if (mag > 0.12) {
+        climbInput = forwardDot * mag;
+        if (Math.abs(forwardDot) < 0.28) climbInput *= 0.35;
+      }
+      // No input = pause (not falling)
+      if (Math.abs(climbInput) < 1e-4) {
+        state.speed = 0;
+        state.verticalVelocity = 0;
+        // Keep anchored
+        const anchorX = climb.x - approach.x * 0.35;
+        const anchorZ = climb.z - approach.z * 0.35;
+        const snap = { x: anchorX - state.pos.x, y: 0, z: anchorZ - state.pos.z };
+        // small snap only
+        if (Math.hypot(snap.x, snap.z) > 0.02) {
+          characterPhysics.move({ x: snap.x * 0.5, y: 0, z: snap.z * 0.5 });
+          syncPosFromPhysics();
+        }
+        state.facing = Math.atan2(approach.x, approach.z);
+        syncMesh(fixedDt);
+        return;
+      }
+      const speed = climbInput >= 0 ? (moveCfg.climbSpeedUp ?? 1.9) : (moveCfg.climbSpeedDown ?? 1.7);
+      const dy = climbInput * speed * fixedDt;
+      const anchorX = climb.x - approach.x * 0.35;
+      const anchorZ = climb.z - approach.z * 0.35;
+      const dx = anchorX - state.pos.x;
+      const dz = anchorZ - state.pos.z;
+      const desired = { x: dx, y: dy, z: dz };
+      // limit snap speed
+      const maxSnap = 5 * fixedDt;
+      if (Math.abs(desired.x) > maxSnap) desired.x = Math.sign(desired.x) * maxSnap;
+      if (Math.abs(desired.z) > maxSnap) desired.z = Math.sign(desired.z) * maxSnap;
+      state.verticalVelocity = 0;
+      characterPhysics.move(desired);
+      syncPosFromPhysics();
+      state.speed = Math.abs(climbInput * speed);
+      state.facing = Math.atan2(approach.x, approach.z);
+      state.climbTime += fixedDt;
+
+      const capsuleH = characterPhysics.cfg.capsuleTotalHeight;
+      const half = capsuleH / 2;
+      const bottomY = half + 0.02;
+      const topY = climb.topY + half;
+      if (state.pos.y >= topY - 0.08 && climbInput > 0.05) {
+        // start mantle
+        state.pos.y = topY;
+        characterPhysics.setPosition({ x: state.pos.x, y: state.pos.y, z: state.pos.z });
+        syncPosFromPhysics();
+        const endpoints = computeMantleEndpoints(climb, { x: state.pos.x, y: state.pos.y, z: state.pos.z }, moveCfg);
+        state.mantleData = {
+          start: endpoints.start,
+          end: endpoints.end,
+          time: 0,
+          duration: moveCfg.mantleDuration ?? 0.28,
+          climbable: climb,
+        };
+        traversal.reset();
+        state.mode = "MANTLE";
+        state.climbable = null;
+        syncMesh(fixedDt);
+        return;
+      }
+      if (state.pos.y <= bottomY + 0.05 && climbInput < -0.08) {
+        state.mode = "IDLE";
+        state.climbable = null;
+        state.climbTime = 0;
+        state.verticalVelocity = 0;
+        // push away from wall
+        const push = { x: -approach.x * 0.5, y: 0, z: -approach.z * 0.5 };
+        characterPhysics.move(push);
+        syncPosFromPhysics();
+        traversal.reset();
+        syncMesh(fixedDt);
+        return;
+      }
+      // clamp
+      if (state.pos.y < bottomY) {
+        const c = bottomY - state.pos.y;
+        characterPhysics.move({ x: 0, y: c, z: 0 });
+        syncPosFromPhysics();
+      }
+      if (state.pos.y > topY) {
+        const c = topY - state.pos.y;
+        characterPhysics.move({ x: 0, y: c, z: 0 });
+        syncPosFromPhysics();
+      }
+      syncMesh(fixedDt);
+      return;
+    }
+
+    // --- MANTLE active ---
+    if (state.mode === "MANTLE" && state.mantleData) {
+      const md = state.mantleData;
+      md.time += fixedDt;
+      const t = Math.min(1, md.time / md.duration);
+      const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      const arc = Math.sin(Math.PI * t) * 0.22;
+      const target = {
+        x: md.start.x + (md.end.x - md.start.x) * eased,
+        y: md.start.y + (md.end.y - md.start.y) * eased + arc,
+        z: md.start.z + (md.end.z - md.start.z) * eased,
+      };
+      const desired = { x: target.x - state.pos.x, y: target.y - state.pos.y, z: target.z - state.pos.z };
+      // Mantle should be collision-aware; controller will slide/stop if blocked
+      if (characterPhysics.isCapsuleAtPositionClear && !characterPhysics.isCapsuleAtPositionClear(target)) {
+        // If target blocked, try without arc
+        desired.y -= arc;
+      }
+      characterPhysics.move(desired);
+      syncPosFromPhysics();
+      state.speed = 1.1;
+      if (md.climbable) {
+        const a = md.climbable.approachDir;
+        state.facing = Math.atan2(a.x, a.z);
+      }
+      if (t >= 1) {
+        // ensure final pos
+        const final = { x: md.end.x - state.pos.x, y: md.end.y - state.pos.y, z: md.end.z - state.pos.z };
+        characterPhysics.move(final);
+        syncPosFromPhysics();
+        state.mode = "IDLE";
+        state.mantleData = null;
+        state.verticalVelocity = 0;
+        state.grounded = true;
+        traversal.reset();
+      }
+      syncMesh(fixedDt);
+      return;
+    }
+
+    // --- DODGE active ---
     if (state.mode === "DODGE") {
-      state.dodgeTime -= clampedDt;
-      const moveDist = moveCfg.dodgeSpeed * clampedDt;
-      const nextX = state.pos.x + state.dodgeDir.x * moveDist;
-      const nextZ = state.pos.z + state.dodgeDir.z * moveDist;
-      const from = { x: state.pos.x, z: state.pos.z };
-      const to = { x: nextX, z: nextZ };
-      const activeObs = playground.getCollisionObstaclesForHeight(state.pos.y);
-      const resolved = resolveMovement(from, to, moveCfg.playerRadius, activeObs, playground.bounds);
-      state.pos.x = resolved.x;
-      state.pos.z = resolved.z;
-      state.pos.y = getGroundY(state.pos.x, state.pos.z, state.pos.y) + 0.08;
+      state.dodgeTime -= fixedDt;
+      const moveDist = moveCfg.dodgeSpeed * fixedDt;
+      let vy = state.verticalVelocity;
+      if (!state.grounded) {
+        state.verticalVelocity += (moveCfg.gravity ?? -12) * fixedDt;
+        vy = state.verticalVelocity;
+      } else {
+        vy = -0.5; // keep grounded
+      }
+      const desired = { x: state.dodgeDir.x * moveDist, y: vy * fixedDt, z: state.dodgeDir.z * moveDist };
+      const res = characterPhysics.move(desired);
+      syncPosFromPhysics();
+      state.grounded = res.grounded;
+      if (state.grounded && state.verticalVelocity < 0) state.verticalVelocity = 0;
       state.facing = Math.atan2(state.dodgeDir.x, state.dodgeDir.z);
       state.speed = moveCfg.dodgeSpeed;
       if (state.dodgeTime <= 0) {
         state.mode = "IDLE";
         state.speed = 0;
         state.vel.set(0, 0, 0);
-        state.pos.y = getGroundY(state.pos.x, state.pos.z, state.pos.y);
+        if (state.grounded) state.verticalVelocity = 0;
       }
-      syncMesh(clampedDt);
+      syncMesh(fixedDt);
       return;
     }
 
-    // Ground locomotion: check dodge request first
+    // --- Ground / air: dodge request ---
     if (intent.dodgeRequested && state.dodgeCooldown <= 0) {
       const dodgeIntent = { ...intent, _fromSwipe: !!intent.dodgeX };
       if (startDodge(dodgeIntent, worldDir)) {
-        syncMesh(clampedDt);
+        syncMesh(fixedDt);
         return;
       }
     }
 
-    // Check climb bottom/top entries before jump
+    // --- Climb entries ---
     const climbBottom = traversal.tryStartClimbBottom(worldDir, state.pos, intent.moveMagnitude);
     if (climbBottom) {
       state.mode = "CLIMB";
+      state.climbable = climbBottom;
+      state.climbTime = 0;
+      state.verticalVelocity = 0;
       const approach = climbBottom.approachDir;
-      state.pos.x = climbBottom.x - approach.x * 0.35;
-      state.pos.z = climbBottom.z - approach.z * 0.35;
+      const targetX = climbBottom.x - approach.x * 0.35;
+      const targetZ = climbBottom.z - approach.z * 0.35;
+      const snap = { x: targetX - state.pos.x, y: 0, z: targetZ - state.pos.z };
+      characterPhysics.move(snap);
+      syncPosFromPhysics();
       state.facing = Math.atan2(approach.x, approach.z);
-      syncMesh(clampedDt);
+      traversal.reset(); // we manage climb ourselves, keep traversal idle
+      state.climbable = climbBottom;
+      syncMesh(fixedDt);
       return;
     }
     const climbTop = traversal.tryStartClimbTop(worldDir, state.pos, intent.moveMagnitude, state.pos.y);
     if (climbTop) {
       state.mode = "CLIMB";
+      state.climbable = climbTop;
+      state.climbTime = 0;
+      state.verticalVelocity = 0;
       const approach = climbTop.approachDir;
-      state.pos.x = climbTop.x - approach.x * 0.35;
-      state.pos.z = climbTop.z - approach.z * 0.35;
+      const targetX = climbTop.x - approach.x * 0.35;
+      const targetZ = climbTop.z - approach.z * 0.35;
+      const snap = { x: targetX - state.pos.x, y: 0, z: targetZ - state.pos.z };
+      characterPhysics.move(snap);
+      syncPosFromPhysics();
       state.facing = Math.atan2(approach.x, approach.z);
-      syncMesh(clampedDt);
+      traversal.reset();
+      state.climbable = climbTop;
+      syncMesh(fixedDt);
       return;
     }
 
-    // Check jump (must not snap to authored start; traversal uses actual pos)
+    // --- Jump ---
     const band = classifyMovementBand(intent.moveMagnitude, moveCfg);
     const targetSpeed = getBandSpeed(band, moveCfg);
     const effSpeed = Math.max(state.speed, targetSpeed);
-    // Avoid triggering jump with negligible intent
     const jumpHit = traversal.tryStartJump(worldDir, state.pos, effSpeed, intent.moveMagnitude);
     if (jumpHit) {
+      const travState = traversal.getState();
       state.mode = "JUMP";
-      // facing already set inside traversal, sync to traversal dir
-      const jd = traversal.getState().jumpDirection;
-      if (jd) state.facing = Math.atan2(jd.x, jd.z);
-      syncMesh(clampedDt);
+      state.jumpData = {
+        hVel: { x: travState.jumpHVel.x, z: travState.jumpHVel.z },
+        initialSpeed: travState.jumpInitialSpeed,
+        landingRegion: travState.jumpLandingRegion,
+        maxLandingCorrection: jumpHit.traversal.maxLandingCorrection,
+        airTime: travState.jumpAirTime,
+        time: 0,
+      };
+      state.verticalVelocity = moveCfg.jumpInitialVerticalVelocity ?? 5.8;
+      state.grounded = false;
+      if (travState.jumpDirection) state.facing = Math.atan2(travState.jumpDirection.x, travState.jumpDirection.z);
+      traversal.reset(); // we own jump now
+      // Re-assign jumpData after reset (traversal reset clears but we copied)
+      syncMesh(fixedDt);
       return;
     }
+    // Clear any transient traversal JUMP that didn't convert (should not happen)
+    if (traversal.getState().mode === "JUMP") traversal.reset();
 
-    // Normal movement
+    // --- Normal movement ---
     tmpTargetVel.set(worldDir.x * targetSpeed, 0, worldDir.z * targetSpeed);
     tmpCurVel.set(state.vel.x, 0, state.vel.z);
     tmpDiff.subVectors(tmpTargetVel, tmpCurVel);
     const diffLen = tmpDiff.length();
     if (diffLen > 1e-5) {
       const accel = targetSpeed > state.speed ? moveCfg.acceleration : moveCfg.deceleration;
-      const maxStep = accel * clampedDt;
-      if (diffLen <= maxStep) {
-        tmpCurVel.copy(tmpTargetVel);
-      } else {
+      const maxStep = accel * fixedDt;
+      if (diffLen <= maxStep) tmpCurVel.copy(tmpTargetVel);
+      else {
         tmpDiff.normalize().multiplyScalar(maxStep);
         tmpCurVel.add(tmpDiff);
       }
@@ -257,18 +466,10 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg) 
     state.speed = tmpCurVel.length();
 
     if (state.speed > 1e-4) {
-      const nextX = state.pos.x + state.vel.x * clampedDt;
-      const nextZ = state.pos.z + state.vel.z * clampedDt;
-      const from = { x: state.pos.x, z: state.pos.z };
-      const to = { x: nextX, z: nextZ };
-      const activeObs = playground.getCollisionObstaclesForHeight(state.pos.y);
-      const resolved = resolveMovement(from, to, moveCfg.playerRadius, activeObs, playground.bounds);
-      state.pos.x = resolved.x;
-      state.pos.z = resolved.z;
       const desiredYaw = Math.atan2(worldDir.x, worldDir.z);
       let yawDiff = desiredYaw - state.facing;
       yawDiff = Math.atan2(Math.sin(yawDiff), Math.cos(yawDiff));
-      const turnStep = moveCfg.turnSpeed * clampedDt;
+      const turnStep = moveCfg.turnSpeed * fixedDt;
       const yawStep = Math.max(-turnStep, Math.min(turnStep, yawDiff));
       state.facing += yawStep;
     }
@@ -278,31 +479,31 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg) 
     else if (band === "walk") state.mode = "WALK";
     else if (band === "run") state.mode = "RUN";
 
-    const targetY = getGroundY(state.pos.x, state.pos.z, state.pos.y);
-    const yDiff = targetY - state.pos.y;
-    if (Math.abs(yDiff) > 0.001) {
-      const yStep = Math.sign(yDiff) * Math.min(Math.abs(yDiff), 8 * clampedDt);
-      state.pos.y += yStep;
-      if (state.mode === "IDLE" && Math.abs(yDiff) < 0.02) state.pos.y = targetY;
-    } else {
-      state.pos.y = targetY;
+    const gravity = moveCfg.gravity ?? -12;
+    if (!state.grounded) {
+      state.verticalVelocity += gravity * fixedDt;
+    } else if (state.verticalVelocity < 0) {
+      state.verticalVelocity = 0;
     }
 
-    // Stuck resolver: if falling off high platform leaves player inside side collider at ground, push out
-    if (playground.resolveStuckPosition) {
-      playground.resolveStuckPosition(state.pos, moveCfg.playerRadius, state.pos.y);
-      // re-sync Y after push (may be outside platform now)
-      state.pos.y = getGroundY(state.pos.x, state.pos.z, state.pos.y);
-    }
-
-    syncMesh(clampedDt);
+    rapierMove(state.vel.x, state.vel.z, state.verticalVelocity, fixedDt);
+    syncMesh(fixedDt);
   }
 
   function getState() {
     const trav = traversal.getState();
-    const mode = trav.mode !== "IDLE" ? trav.mode : state.mode;
-    return { mode, speed: state.speed, facing: state.facing, pos: state.pos.clone(), dodgeCooldown: state.dodgeCooldown, traversalMode: trav.mode };
+    const mode = state.mode !== "IDLE" ? state.mode : trav.mode !== "IDLE" ? trav.mode : state.mode;
+    return {
+      mode,
+      speed: state.speed,
+      facing: state.facing,
+      pos: state.pos.clone(),
+      dodgeCooldown: state.dodgeCooldown,
+      traversalMode: state.mode === "JUMP" || state.mode === "CLIMB" || state.mode === "MANTLE" ? state.mode : trav.mode,
+      grounded: state.grounded,
+      verticalVelocity: state.verticalVelocity,
+    };
   }
 
-  return { update, getState, state, traversal, visuals };
+  return { update, getState, state, traversal, visuals, syncPosFromPhysics };
 }
