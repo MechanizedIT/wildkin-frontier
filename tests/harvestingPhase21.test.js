@@ -174,12 +174,12 @@ describe("Phase 2.1 — respawn indicator", () => {
 
 describe("Phase 2.1 — elevated pickup/particle spawn Y", () => {
   it("tree dropOrigin includes node Y", () => {
-    assert.ok(RESOURCE_TYPES.tree.dropOriginHeight > 0.8);
-    assert.ok(RESOURCE_TYPES.tree.impactEffectHeight > 0.5);
+    assert.ok(RESOURCE_TYPES.tree.dropOriginHeight > 0.45 && RESOURCE_TYPES.tree.dropOriginHeight <= 0.75);
+    assert.ok(RESOURCE_TYPES.tree.impactEffectHeight >= 0.35 && RESOURCE_TYPES.tree.impactEffectHeight <= 0.65);
     // Simulate spawn Y computation
     const nodeY = 2.4;
     const expected = nodeY + RESOURCE_TYPES.tree.dropOriginHeight;
-    assert.ok(expected > 3.3, `expected elevated drop Y ${expected}`);
+    assert.ok(expected > 2.9, `expected elevated drop Y ${expected}`);
     const groundY = 0 + RESOURCE_TYPES.tree.dropOriginHeight;
     assert.ok(expected > groundY + 2.0);
   });
@@ -201,11 +201,11 @@ describe("Phase 2.1 — pickup motion config", () => {
 });
 
 describe("Phase 2.1 — resource scale enlarged", () => {
-  it("tree collider enlarged ~1.6x vs original 0.34/0.55 (Phase 2.2 short trunk)", () => {
-    // Phase 2.2: trunk short 0.85-1.0 tall => half 0.42-0.50, thicker
-    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.x >= 0.45);
-    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.y >= 0.40 && RESOURCE_TYPES.tree.colliderHalfExtents.y <= 0.60);
-    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.y < 0.80, "Phase 2.2 trunk shorter than 2.1");
+  it("tree collider enlarged ~1.6x vs original 0.34/0.55 (low trunk)", () => {
+    // Pre-Phase-3 low trunk ~0.52 tall => half 0.23-0.28, thick
+    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.x >= 0.50);
+    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.y >= 0.20 && RESOURCE_TYPES.tree.colliderHalfExtents.y <= 0.32);
+    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.y < 0.40, "low trunk substantially shorter than 2.2");
   });
   it("rock collider enlarged", () => {
     assert.ok(RESOURCE_TYPES.rock.colliderHalfExtents.x >= 0.65);

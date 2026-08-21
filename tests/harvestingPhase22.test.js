@@ -136,26 +136,25 @@ describe("Phase 2.2 — horizontal sweep", () => {
 });
 
 describe("Phase 2.2 — tree proportions", () => {
-  it("trunk shorter than Phase 2.1 1.45 and within 0.85-1.0", () => {
+  it("trunk shorter than Phase 2.1 1.45 and within 0.45-0.55 low canopy", () => {
     const half = RESOURCE_TYPES.tree.colliderHalfExtents.y;
     const total = half * 2;
-    assert.ok(total >= 0.84 && total <= 1.02, `total ${total}`);
-    assert.ok(total < 1.45, "shorter than 2.1");
+    assert.ok(total >= 0.42 && total <= 0.60, `total ${total}`);
+    assert.ok(total < 0.85, "substantially shorter than 2.2 0.92");
   });
-  it("trunk center Y 0.43-0.50", () => {
+  it("trunk center Y 0.23-0.28", () => {
     const cy = RESOURCE_TYPES.tree.colliderCenterY;
-    assert.ok(cy >= 0.40 && cy <= 0.55, `center ${cy}`);
+    assert.ok(cy >= 0.20 && cy <= 0.32, `center ${cy}`);
   });
   it("trunk thicker than before", () => {
-    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.x >= 0.45);
+    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.x >= 0.50);
   });
   it("foliage starts lower: interaction/drop lower than 2.1", () => {
-    assert.ok(RESOURCE_TYPES.tree.interactionHeight <= 0.90, `interaction ${RESOURCE_TYPES.tree.interactionHeight}`);
-    assert.ok(RESOURCE_TYPES.tree.dropOriginHeight <= 1.02, `drop ${RESOURCE_TYPES.tree.dropOriginHeight}`);
-    assert.ok(RESOURCE_TYPES.tree.impactEffectHeight <= 0.75 && RESOURCE_TYPES.tree.impactEffectHeight >= 0.45);
+    assert.ok(RESOURCE_TYPES.tree.interactionHeight >= 0.40 && RESOURCE_TYPES.tree.interactionHeight <= 0.65, `interaction ${RESOURCE_TYPES.tree.interactionHeight}`);
+    assert.ok(RESOURCE_TYPES.tree.dropOriginHeight >= 0.55 && RESOURCE_TYPES.tree.dropOriginHeight <= 0.70, `drop ${RESOURCE_TYPES.tree.dropOriginHeight}`);
+    assert.ok(RESOURCE_TYPES.tree.impactEffectHeight <= 0.55 && RESOURCE_TYPES.tree.impactEffectHeight >= 0.35);
   });
   it("canopy broader and still large", () => {
-    // Check that tree still has 5 chunks and larger visual sizes implied by collider
     assert.equal(RESOURCE_TYPES.tree.maxChunks, 5);
   });
 });

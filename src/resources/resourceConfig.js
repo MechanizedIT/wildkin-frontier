@@ -34,15 +34,15 @@ export const RESOURCE_TYPES = {
     respawnSeconds: 18,
     solid: true,
     colliderShape: "cuboid",
-    // Phase 2.2 short trunk ~0.92 tall, thicker, foliage lower
-    colliderHalfExtents: { x: 0.52, y: 0.46, z: 0.52 },
-    colliderCenterY: 0.46,
+    // Pre-Phase-3 low trunk ~0.52 tall, thick/wide, low broad canopy
+    colliderHalfExtents: { x: 0.58, y: 0.26, z: 0.58 },
+    colliderCenterY: 0.26,
     // remnant collider removed in 2.1 — depleted nodes are non-solid
     remnantColliderHalfExtents: null,
     remnantCenterY: 0,
-    interactionHeight: 0.84,
-    dropOriginHeight: 0.95,
-    impactEffectHeight: 0.62,
+    interactionHeight: 0.58,
+    dropOriginHeight: 0.62,
+    impactEffectHeight: 0.48,
     feedbackProfile: "wood",
     color: 0x2f7d32,
   },

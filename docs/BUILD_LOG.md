@@ -330,3 +330,26 @@
 - **Human/Manual Changes:** None.
 - **Remaining Issues / Deferred:**
   - Manual A–D + halo while moving tests below must be confirmed on phone; no Phase 3 systems added.
+
+## 2026-08-21 — Pre-Phase-3 Bounded Refinement — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Pre-Phase-3 bounded refinement: right-hand grip fix, true right→left sweep via handle radius, substantially lower trunk to ~0.52 low broad canopy, facing freeze on input release (threshold 0.18), and robust radius-aware pickup collision with rescue magnetization; preserve all other systems.
+- **Decisions:**
+  - Grip fix: made handle provide swing radius (`SWING_CONFIG.swingRadius 0.78` handle 0.78, head at 0.88, wedge 1.06) with handle rotated `π/2` to extend along +Z forward from `rightHandAnchor(0.26,0.38,0.08)` grip point; `handAnchor→swingPivot(0)→toolMount(0)→toolGroup` at grip, so hand visually stays at grip throughout swing (`src/tools/fieldTool.js:1`). ToolMount offset removed (was 0.12/0.64 radial), radius now via handle length.
+  - Sweep verified player-local: at yaw +1.25 head ≈ (+0.81,+0.27) front-right, middle 0 ≈ (0,+0.88) front-center, follow -1.25 ≈ (-0.81,+0.27) front-left (Z>0), right→left across front, yaw total 2.50 dominant, trail `player-space` with 4 afterimages now correctly follows actual head path via `getWorldPosition`.
+  - Trunk lowered: `RESOURCE_TYPES.tree` collider `x0.58 y0.26 center 0.26` (height 0.52), `interaction 0.58 drop 0.62 impact 0.48`, visual trunk `Cylinder 0.38/0.46×0.52 at y0.26` and foliage blobs y 0.52–0.78 broad 0.56–0.92 low overlapping (`src/resources/resourceConfig.js:28`, `src/resources/createResourceNode.js:70`), silhouette `/█\` low canopy.
+  - Facing freeze: grounded facing now gated by `inputMag>0.18` (not `speed>1e-4`), preserving last facing on joystick/key release while velocity decelerates (`src/player/playerController.js:518`). Dodge/jump/fall/climb/mantle retain explicit facing. Threshold covers joystick deadzone 0.16 + lift epsilon.
+  - Pickup robust: replaced point ray with sphere `castShape(Ball(radius), vel)` excluding source collider, skin 0.02, fallback expanded AABB radius-aware; `ensureRestPositionClear` validates/restores to `lastClearPos` or 8 radial nudges before entering RESTING; `MAGNETIZING` now ignores ALL world collision and moves directly to player, line-of-sight not required, rescuing overlapping/behind-wall pickups (`src/resources/pickupSystem.js:90`). `isPositionOverlappingSolid` + `castSphereBlocked` helpers added.
+  - Tests updated for low trunk (half 0.20–0.32, center 0.20–0.32, drop 0.55–0.70) and added `facingFreeze` (5) and `pickupRobust` (3) suites.
+- **Files/Features Changed:**
+  - Modified: `src/tools/fieldTool.js`, `src/resources/resourceConfig.js`, `src/resources/createResourceNode.js`, `src/player/playerController.js`, `src/resources/pickupSystem.js`, `tests/harvestingPhase21.test.js`, `tests/harvestingPhase22.test.js`
+  - Created: `tests/facingFreeze.test.js`, `tests/pickupRobust.test.js`
+  - Build output: `dist/submission/index.html` 156.0 KB, `vendor/three.module.js` 1243.1 KB, `vendor/rapier.js` 2790.6 KB, total ~4205.0 KB; `dist/submission.zip` 1354.6 KB
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (152 tests 47 suites: 144 prior + 5 facing + 3 robust)
+  - `npm run verify` — PASS (test + build 156.0KB + validate 4205.0KB <35MB, vendor three+rapier, readable)
+  - `npm run zip` — PASS (1354.6 KB, index at ZIP root)
+  - rAF single-loop — PASS (1 in src/main.js)
+- **Human/Manual Changes:** None.
+- **Remaining Issues / Deferred:**
+  - Do not begin Phase 3; manual tests 1–5 + pickup robust required.

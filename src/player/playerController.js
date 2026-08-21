@@ -515,7 +515,10 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.vel.copy(tmpCurVel);
     state.speed = tmpCurVel.length();
 
-    if (state.speed > 1e-4) {
+    // Facing driven by meaningful CURRENT INPUT, not residual velocity (fix last-moment rotation after release)
+    const facingThreshold = 0.18; // deadzone+epsilon, covers joystick lift & keyboard key-up
+    const inputMag = intent ? (intent.moveMagnitude ?? Math.hypot(intent.moveX ?? 0, intent.moveY ?? 0)) : 0;
+    if (inputMag > facingThreshold && worldDir.len > 1e-6) {
       const desiredYaw = Math.atan2(worldDir.x, worldDir.z);
       let yawDiff = desiredYaw - state.facing;
       yawDiff = Math.atan2(Math.sin(yawDiff), Math.cos(yawDiff));

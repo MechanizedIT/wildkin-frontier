@@ -68,25 +68,25 @@ export function createResourceNode(typeId, position, index = 0) {
   let mainVisual = null;
 
   if (typeId === "tree") {
-    // Phase 2.2: short trunk 0.92, thick, foliage starts ~0.68, broad low canopy
-    const trunkGeo = new THREE.CylinderGeometry(0.32, 0.40, 0.92, 8);
+    // Low trunk ~0.52 tall, thick/wide, low broad canopy overlapping trunk
+    const trunkGeo = new THREE.CylinderGeometry(0.38, 0.46, 0.52, 8);
     const trunkMat = new THREE.MeshStandardMaterial({ color: 0x6b4a2b, flatShading: true });
     const trunk = new THREE.Mesh(trunkGeo, trunkMat);
-    trunk.position.y = 0.46;
+    trunk.position.y = 0.26;
     group.add(trunk);
     const foliageMat = new THREE.MeshStandardMaterial({ color: 0x2f7d32, flatShading: true });
     const foliageMat2 = new THREE.MeshStandardMaterial({ color: 0x3a9a3a, flatShading: true });
-    // canopy broader and lower: centers 0.88-1.32
+    // Low canopy: first foliage at 0.45-0.60, broad overlapping, total still large ~1.15 height
     const blobPos = [
-      { x: 0, y: 1.22, z: 0, s: 0.78, mat: foliageMat },
-      { x: 0.62, y: 1.02, z: 0.34, s: 0.58, mat: foliageMat2 },
-      { x: -0.60, y: 0.98, z: 0.36, s: 0.56, mat: foliageMat },
-      { x: 0.38, y: 1.14, z: -0.50, s: 0.52, mat: foliageMat2 },
-      { x: -0.36, y: 0.88, z: -0.40, s: 0.50, mat: foliageMat },
+      { x: 0, y: 0.78, z: 0, s: 0.92, mat: foliageMat },
+      { x: 0.68, y: 0.62, z: 0.38, s: 0.66, mat: foliageMat2 },
+      { x: -0.66, y: 0.58, z: 0.40, s: 0.64, mat: foliageMat },
+      { x: 0.42, y: 0.70, z: -0.52, s: 0.58, mat: foliageMat2 },
+      { x: -0.40, y: 0.52, z: -0.42, s: 0.56, mat: foliageMat },
     ];
     for (let i = 0; i < type.maxChunks; i++) {
       const cfg = blobPos[i];
-      const g = new THREE.ConeGeometry(cfg.s, 1.05, 7);
+      const g = new THREE.ConeGeometry(cfg.s, 1.10, 7);
       const m = new THREE.Mesh(g, cfg.mat);
       m.position.set(cfg.x, cfg.y, cfg.z);
       m.name = `chunk_${i}`;
@@ -94,18 +94,18 @@ export function createResourceNode(typeId, position, index = 0) {
       group.add(m);
       chunkMeshes.push(m);
     }
-    // Stump remnant — short but visible
-    const stumpGeo = new THREE.CylinderGeometry(0.36, 0.40, 0.38, 8);
+    // Stump remnant — very low, wide
+    const stumpGeo = new THREE.CylinderGeometry(0.40, 0.44, 0.22, 8);
     const stumpMat = new THREE.MeshStandardMaterial({ color: 0x5a3a1a, flatShading: true });
     remnantMesh = new THREE.Mesh(stumpGeo, stumpMat);
-    remnantMesh.position.y = 0.19;
+    remnantMesh.position.y = 0.11;
     remnantMesh.visible = false;
     remnantMesh.name = "stump";
     group.add(remnantMesh);
-    const ringGeo = new THREE.CylinderGeometry(0.32, 0.32, 0.03, 9);
+    const ringGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.03, 9);
     const ringMat = new THREE.MeshStandardMaterial({ color: 0xc9a86a });
     const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.position.y = 0.19;
+    ring.position.y = 0.11;
     ring.name = "stumpRing";
     remnantMesh.add(ring);
     mainVisual = trunk;

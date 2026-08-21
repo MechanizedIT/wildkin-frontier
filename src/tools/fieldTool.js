@@ -1,49 +1,43 @@
-// src/tools/fieldTool.js — visible Field Tool omnitool + broad horizontal sweep + player-space trail + speed-gated harvesting (Phase 2.2 final refinement)
+// src/tools/fieldTool.js — visible Field Tool omnitool + broad horizontal sweep + player-space trail + speed-gated harvesting (pre-Phase-3 grip fix)
 import * as THREE from "three";
 import { HARVEST_CONFIG, isHarvestCompatibleMode } from "../resources/resourceConfig.js";
 
 export const SWING_CONFIG = {
-  yawWindup: 1.25, // front-right (4 o'clock) start
+  yawWindup: 1.25, // front-right (4 o'clock) start — +X right, +Z forward
   yawFollow: -1.25, // front-left (8 o'clock) finish
   totalYawSweep: 2.50,
   pitchWindup: -0.28,
   pitchStrike: 0.18,
   rollWindup: -0.10,
   rollStrike: 0.12,
-  swingRadius: 0.68, // radial offset from hand pivot to tool head
+  swingRadius: 0.78, // handle length provides radius (hand at grip, head at distal end)
 };
 
 export function createFieldTool(playerGroup, gameAudio = null) {
-  // --- Right-hand procedural attachment (minimal, readable, no rig) ---
-  // Player local +X = right, +Z = forward. Hand at right side chest/waist height.
+  // Right-hand anchor at player's right side (+X right, +Z forward)
   const handAnchor = new THREE.Group();
   handAnchor.name = "rightHandAnchor";
   handAnchor.position.set(0.26, 0.38, 0.08);
   playerGroup.add(handAnchor);
 
-  // Simple arm: shoulder → hand cylinder
   const shoulderPos = new THREE.Vector3(0.18, 0.58, 0.02);
-  const handPos = new THREE.Vector3(0, 0, 0); // handAnchor origin
+  const handPos = new THREE.Vector3(0, 0, 0);
   const armVec = new THREE.Vector3().subVectors(handPos, shoulderPos);
   const armLen = armVec.length();
   const armGeo = new THREE.CylinderGeometry(0.042, 0.032, armLen, 6);
   const armMat = new THREE.MeshStandardMaterial({ color: 0x5a6a7a, flatShading: true });
   const armMesh = new THREE.Mesh(armGeo, armMat);
-  // position at midpoint
   armMesh.position.copy(shoulderPos).add(handPos).multiplyScalar(0.5).sub(handAnchor.position);
-  // orient toward hand
   armMesh.lookAt(handPos);
   armMesh.rotateX(Math.PI / 2);
   handAnchor.add(armMesh);
 
-  // Hand sphere
   const handGeo = new THREE.SphereGeometry(0.055, 6, 6);
   const handMat = new THREE.MeshStandardMaterial({ color: 0xd8c4a0, flatShading: true });
   const handMesh = new THREE.Mesh(handGeo, handMat);
   handMesh.position.set(0, 0, 0);
   handAnchor.add(handMesh);
 
-  // Grip ring where tool is held
   const gripGeo = new THREE.TorusGeometry(0.038, 0.009, 6, 10);
   const gripMat = new THREE.MeshStandardMaterial({ color: 0x3a3f4a });
   const grip = new THREE.Mesh(gripGeo, gripMat);
@@ -51,54 +45,58 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   grip.rotation.x = Math.PI / 2;
   handAnchor.add(grip);
 
-  // --- Tool hierarchy: handAnchor -> swingPivot -> toolMount (radial offset) -> toolGroup ---
+  // Swing pivot at hand grip — tool extends outward from here
   const swingPivot = new THREE.Group();
   swingPivot.name = "fieldToolSwingPivot";
   handAnchor.add(swingPivot);
 
   const toolMount = new THREE.Group();
   toolMount.name = "toolMount";
-  // Offset outward from pivot so head travels large arc. Mostly forward (+Z) with small right (+X) so sweep stays in front.
-  // vx ~0.12 right, vz ~0.64 forward gives both start/end Z positive (front) with right→left sweep.
-  toolMount.position.set(0.12, -0.06, 0.64);
+  // No radial offset: hand IS the grip point. Radius comes from handle length.
+  toolMount.position.set(0, 0, 0);
   swingPivot.add(toolMount);
 
   const toolGroup = new THREE.Group();
   toolGroup.name = "fieldTool";
 
-  // Procedural omnitool — hero-sized, slight adjustment for new mount (existing size is good)
+  // Handle extends outward/forward from grip (~0.78 length, radius provides swing)
   const handleGeo = new THREE.CylinderGeometry(0.075, 0.090, 0.78, 7);
   const handleMat = new THREE.MeshStandardMaterial({ color: 0x2a2f3a, flatShading: true });
   const handle = new THREE.Mesh(handleGeo, handleMat);
-  handle.position.y = -0.08;
+  // Cylinder axis is Y by default — rotate to make it extend along +Z (forward) from grip
+  handle.rotation.x = Math.PI / 2;
+  // Center of handle is half length forward from grip
+  handle.position.set(0, 0.02, 0.39);
   toolGroup.add(handle);
 
   const headGeo = new THREE.BoxGeometry(0.40, 0.28, 0.20);
   const headMat = new THREE.MeshStandardMaterial({ color: 0x8ecae6, flatShading: true, emissive: 0x1a3a5a, emissiveIntensity: 0.26 });
   const head = new THREE.Mesh(headGeo, headMat);
-  head.position.set(0, 0.34, 0.03);
+  // Head at distal end of handle, slightly offset up
+  head.position.set(0, 0.08, 0.88);
   head.rotation.z = 0.16;
+  head.rotation.x = 0.12;
   toolGroup.add(head);
 
   const wedgeGeo = new THREE.CylinderGeometry(0.085, 0.165, 0.30, 5);
   const wedgeMat = new THREE.MeshStandardMaterial({ color: 0xc9d6ff, flatShading: true, emissive: 0x334466, emissiveIntensity: 0.20 });
   const wedge = new THREE.Mesh(wedgeGeo, wedgeMat);
-  wedge.position.set(0, 0.58, 0.03);
+  wedge.position.set(0, 0.10, 1.06);
   wedge.rotation.z = Math.PI / 2;
   toolGroup.add(wedge);
 
   const glowGeo = new THREE.SphereGeometry(0.10, 7, 7);
   const glowMat = new THREE.MeshBasicMaterial({ color: 0x7ec8ff, transparent: true, opacity: 0.0 });
   const glow = new THREE.Mesh(glowGeo, glowMat);
-  glow.position.set(0, 0.34, 0.03);
+  glow.position.set(0, 0.08, 0.88);
   toolGroup.add(glow);
 
-  // Tool extends outward from mount; orient so blade points roughly outward/forward, not vertical
-  toolGroup.position.set(0, 0.04, 0.08);
-  toolGroup.rotation.set(0.22, 0, 0.08);
+  // ToolGroup itself stays at mount origin (grip point) — no extra offset, no extra rotation
+  toolGroup.position.set(0, 0, 0);
+  toolGroup.rotation.set(0, 0, 0);
   toolMount.add(toolGroup);
 
-  // Swing trail — player-space (not child of swingPivot) so it preserves history
+  // Trail — player-space, centered at hand, follows actual head path (which now sweeps via handle radius)
   const trailGroup = new THREE.Group();
   trailGroup.visible = false;
   trailGroup.name = "fieldToolTrail";
@@ -111,16 +109,13 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     trailGroup.add(mesh);
     afterimages.push(mesh);
   }
-  // Player-space horizontal slash arc — sector showing yaw sweep, centered at hand
   const arcGeo = new THREE.RingGeometry(0.22, 0.88, 26, 1, -1.35, 2.70);
   arcGeo.rotateX(-Math.PI / 2);
   const arcMat = new THREE.MeshBasicMaterial({ color: 0x8ecaff, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false });
   const arcMesh = new THREE.Mesh(arcGeo, arcMat);
   arcMesh.position.set(0, -0.20, 0.02);
-  arcMesh.rotation.y = 0;
   trailGroup.add(arcMesh);
 
-  // Trail is sibling to handAnchor in player space, not inheriting swing rotation, centered at hand
   playerGroup.add(trailGroup);
   trailGroup.position.copy(handAnchor.position);
 
@@ -255,9 +250,6 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     if (swingProgress < 0) swingProgress = 0;
     if (swingProgress > 1) swingProgress = 1;
 
-    // Exaggerated horizontal sweep: dominant yaw around hand pivot, pitch/roll secondary
-    // Right-front (4 o'clock) at +1.25 rad → sweep across front to left-front (8 o'clock) at -1.25
-    // Use faster ease through middle for visual speed, longer follow-through.
     let pitch, yaw, roll;
     if (swingProgress < 0.18) {
       const t = swingProgress / 0.18;
@@ -266,7 +258,6 @@ export function createFieldTool(playerGroup, gameAudio = null) {
       roll = THREE.MathUtils.lerp(0.04, SWING_CONFIG.rollWindup, t);
     } else if (swingProgress < 0.58) {
       const t = (swingProgress - 0.18) / 0.40;
-      // easeOut cubic but with slight early acceleration for dramatic mid-speed
       const eased = 1 - Math.pow(1 - t, 2.8);
       pitch = THREE.MathUtils.lerp(SWING_CONFIG.pitchWindup, SWING_CONFIG.pitchStrike, eased);
       yaw = THREE.MathUtils.lerp(SWING_CONFIG.yawWindup, SWING_CONFIG.yawFollow, eased);
