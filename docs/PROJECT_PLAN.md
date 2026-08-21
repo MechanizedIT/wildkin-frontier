@@ -1,568 +1,615 @@
-# Meta Horizon Game Prototype — Game Design & Build Plan
+# Wildkin Frontier — Game Design & Build Plan
 
 ## Purpose
 
-This is the living planning document for the hackathon prototype. It defines the current game direction, hard competition constraints, agent workflow, and phased implementation plan. The repository should contain concise Markdown mirrors of the stable sections so coding agents never need the Google Doc open to work safely.
+This is the repository mirror of the living Google GDD for the Meta Horizon Game Prototype hackathon project. It records the current game direction, hard competition constraints, agent workflow, and phased implementation plan.
 
-# 1\. Basic Game Design Document
+`docs/CURRENT_SLICE.md` is always the only implementation scope for an agent session. This document is context and roadmap, not permission to build future phases.
+
+# 1. Game Design
 
 ## Working Concept
 
-Working title: TBD  
-Genre: Survival & Resource Management  
-Format: Single-player, portrait mobile web game  
-Presentation: 3D Three.js world with a fixed high third-person camera, close to top-down.
+- **Title:** Wildkin Frontier
+- **Genre:** Survival & Resource Management
+- **Format:** Single-player, portrait mobile web game
+- **Presentation:** 3D Three.js world with a fixed high third-person / near top-down camera
 
 ## High Concept
 
-A run-based wilderness expedition game built around player agency. Before each run, the player prepares a loadout, chooses a companion, and chooses where to enter the frontier. During the run they explore, harvest resources, gain XP, fight wild creatures, capture new Wildkin, discover waystones, and decide when to secure their haul versus pushing deeper into increasing danger.
+A run-based wilderness expedition game built around player agency. Before each run, the player prepares a loadout, chooses a companion, and chooses where to enter the frontier. During the run they explore, harvest resources, gain XP, fight or avoid wild creatures, capture new Wildkin, discover waystones, and decide when to secure their haul versus pushing deeper into increasing danger.
 
 The player is expected to die sometimes. A run should create real tension without erasing all long-term progress.
 
 ## Player Fantasy
 
-“I prepare for an expedition, enter a dangerous wild frontier, make my own route, find valuable resources and creatures, decide how far I dare to push, then return stronger and better prepared for the next run.”
+> I prepare for an expedition, enter a dangerous wild frontier, make my own route, find valuable resources and creatures, decide how far I dare to push, then return stronger and better prepared for the next run.
 
 ## Design Pillars
 
-\- Player agency over rails. The world presents opportunities and danger; it should rarely tell the player one mandatory next step.  
-\- Satisfying moment-to-moment play. Movement, harvesting, combat, pickups, capture, and companion behavior must feel good before meta-progression is added.  
-\- Meaningful persistent progression. The player sees the skill tree and deliberately spends earned points. Avoid random three-choice level-ups.  
-\- Risk creates stories. Newly collected loot and newly captured Wildkin matter because pushing farther can put them at risk.  
-\- Collection with utility. Wildkin are not just a checklist; different companions should meaningfully change a run or loadout.  
-\- Compact depth. Prefer a small set of interacting systems over a large amount of shallow content.
+- **Player agency over rails.** The world presents opportunities and danger; it should rarely dictate one mandatory next step.
+- **Satisfying moment-to-moment play.** Movement, harvesting, combat, pickups, capture, and companion behavior must feel good before broad meta-progression.
+- **Meaningful persistent progression.** The player sees choices and deliberately spends/chooses rather than receiving random three-choice level-ups.
+- **Risk creates stories.** Newly collected loot and newly captured Wildkin matter because pushing farther can put them at risk.
+- **Collection with utility.** Wildkin are not just checklist entries; companions should meaningfully change a run/loadout.
+- **Compact depth.** Prefer a small set of interacting systems over a large amount of shallow content.
 
 ## Core Loop
 
-PREPARE  
-Choose starting point / waystone, active Wildkin, equipment, consumables, and skill configuration.
+**PREPARE**  
+Choose starting point/waystone, active Wildkin, equipment, consumables, and skill configuration.
 
-EXPEDITION  
-Explore → harvest → fight → gain XP → capture Wildkin → find better resources → discover landmarks and waystones.
+**EXPEDITION**  
+Explore → harvest → fight/avoid → gain XP → capture Wildkin → find better resources → discover landmarks/waystones.
 
-RISK DECISION  
+**RISK DECISION**  
 Secure what has been found or push farther for rarer rewards and greater danger.
 
-OUTCOME  
-Extract / return safely and bank the run’s gains, or die and lose the unsecured expedition cargo.
+**OUTCOME**  
+Extract/return safely and bank gains, or die and lose unsecured expedition cargo.
 
-PROGRESS  
-Spend skill points, invest banked resources in upgrades/base structures or Matter Resonator attempts, organize the Wildkin collection, adjust the loadout, and choose the next expedition.
+**PROGRESS**  
+Spend skill points, bank/spend resources, improve loadout, organize Wildkin, and choose the next expedition.
 
 ## Persistent Progression
 
-Permanent progress should include:  
-\- Earned skill points and unlocked skill-tree nodes.  
-\- Secured Wildkin.  
-\- Discovered regions and activated waystones.  
-\- Unlocked equipment / recipes / loadout options.  
-\- Important permanent world discoveries.
+Permanent progress should eventually include:
+
+- earned skill points / skill-tree nodes,
+- secured Wildkin,
+- discovered regions/activated waystones,
+- unlocked equipment/recipes/loadout options,
+- important permanent world discoveries.
 
 ## At-Risk Run Progress
 
-Until secured, a run can put these at risk:  
-\- Harvested resources.  
-\- Rare materials.  
-\- Newly captured Wildkin.  
-\- Run consumables or special finds.
+Until secured, a run may put these at risk:
 
-Default design rule: dying should hurt enough to create tension, but should not erase the player’s underlying character progression.
+- harvested resources,
+- rare materials,
+- newly captured Wildkin,
+- run consumables/special finds.
+
+Default rule: death should hurt enough to create tension without erasing underlying character progression.
 
 ## Skill Tree
 
-The player should be able to inspect the whole tree and spend points intentionally. Initial branches:  
-\- Combat: damage, attack patterns, survivability, mobility.  
-\- Harvesting: speed, yield, rare finds, tool capability.  
-\- Survival: health, recovery, carrying capacity, extraction safety.  
-\- Bonding: capture/bonding effectiveness, companion strength, companion utility.
+The player should be able to inspect a small visible tree and spend points deliberately.
 
-The prototype only needs a small tree, but it should demonstrate branching and build choice rather than linear upgrades.
+Initial branches:
+
+- Combat
+- Harvesting
+- Survival
+- Bonding
+
+The prototype should demonstrate branching/build choice, not linear upgrades.
+
+## Field Tool, Harvesting & Combat Interaction
+
+The Field Tool is one physical interaction tool, not separate invisible harvest/combat weapons.
+
+- A swing may affect every valid thing actually inside its interaction arc.
+- Harvestables receive harvest hits.
+- Attackable Wildkin receive combat damage.
+- **Auto Harvest** controls whether nearby resources automatically initiate swings when the player is nearly stationary.
+- Auto Harvest remains available even when hostile creatures are nearby/attacking.
+- Auto Harvest does **not** initiate automatic combat.
+- Mobile right-side **tap** = one Field Tool swing.
+- Mobile right-side **hold** = repeated swings at allowed cadence.
+- Mobile right-side **swipe** = dodge; dodge recognition takes precedence and must not also attack.
+- Manual swings can hit resources and valid creatures, giving the player manual harvesting when Auto Harvest is OFF.
+- There is **no auto-attack** planned for the current prototype.
+- Future ranged weapons should be equipment/loadout choices.
 
 ## Wildkin
 
-Wildkin are wild creatures encountered during expeditions. The exact capture mechanic is still open, but it should be more interactive than simply reducing health and throwing a generic capture object.
+Wildkin are wild creatures encountered during expeditions. Capture must be more interactive than reducing HP and throwing a generic capture object.
 
-Prototype Wildkin goals:  
-\- Each Wildkin is readable at a glance.  
-\- Each has a clear field behavior or combat role.  
-\- The player chooses one active companion before a run.  
-\- A newly captured Wildkin is unsecured until the player successfully banks/extracts it.  
-\- Losing an unsecured Wildkin should not permanently delete a unique creature from the world; it can return to its habitat.
+Prototype goals:
+
+- readable at a glance,
+- clear field behavior/combat role,
+- one active companion selected before a run,
+- newly captured Wildkin remains unsecured until extraction/banking,
+- lost unsecured Wildkin returns to an appropriate habitat rather than being permanently deleted.
+
+## Wildkin Ecology, Temperament & Perception
+
+Wildkin should feel like wildlife, not generic enemies sharing the same player aggro radius.
+
+Prototype temperament vocabulary:
+
+- **Aggressive:** may attack the player or appropriate nearby creatures on sight.
+- **Territorial:** notices/warns first, then attacks actors that enter/persist in personal territory.
+- **Defensive:** generally ignores until threatened/attacked, then retaliates.
+- **Skittish:** avoids/flees approaching threats and may flee faster when attacked.
+- **Predator/prey/rival disposition:** may be used selectively to create readable wildlife interactions.
+
+Wildkin may interact with other Wildkin. A creature can perceive nearby actors and choose to ignore, warn, pursue, attack, flee, or return home based on temperament/species disposition and context.
+
+Each creature should have simple authored data such as:
+
+- home/spawn position,
+- roam radius,
+- notice range,
+- personal-space/territory range,
+- leash/return-home distance.
+
+Prefer lightweight obstacle probes/steering and separation before adding A* or a navmesh. Add pathfinding only if the real authored frontier demonstrates repeated failures that simple steering cannot solve.
 
 ## Waystones
 
-Waystones are discoverable progression anchors, not automatic linear checkpoints.
+Waystones are discoverable progression anchors, not linear checkpoints.
 
-Activating a waystone can:  
-\- Permanently unlock it as a future starting location.  
-\- Provide a place to secure resources / newly captured Wildkin.  
-\- Potentially heal or replenish a limited resource.  
-\- Mark tangible penetration into a more dangerous part of the world.
+They may:
 
-Starting farther forward should have a tradeoff: the player reaches rare content sooner, but skips early gathering, XP, and preparation opportunities.
+- permanently unlock future starting locations,
+- provide a banking/secure interaction,
+- offer limited recovery if useful,
+- mark deeper progression into dangerous areas.
+
+Starting farther forward should trade early gathering/XP/preparation for faster access to rare/deep content.
 
 ## Base, Resource Economy & Long-Term Home
 
-The base is the player's persistent home between expeditions. Returning safely should not only preserve numbers; it should let the player visibly change the home, improve future runs, and see the Wildkin they have secured.
+The base is the persistent home between expeditions. Returning safely should preserve more than numbers: the player should see secured Wildkin and other permanent progress.
 
-## Resource Spending
+Banked resources should eventually support competing meaningful sinks:
 
-Banked resources should support multiple meaningful choices rather than existing only to sell for XP:  
-\- Reliable progression: known player, tool, equipment, or Wildkin upgrades.  
-\- Base development: structures, stations, storage, utility, and eventually decoration.  
-\- Matter Resonator attempts: spend/deposit materials for a chance at a new discovery.  
-The same resource being useful in more than one place is desirable because it creates real tradeoffs: build now, buy a known upgrade, or spend it on discovery.
+- known player/tool/equipment/Wildkin upgrades,
+- useful base structures/stations,
+- optional Matter Resonator discovery attempts.
 
-## Base Building & Placeables
+## Base Building
 
-Long-term vision: Forager-like free placement of useful structures and crafting/processing stations, with a base that becomes more personal and capable over time.  
-Prototype scope should stay small:  
-\- Allow a few freely placeable structures on valid base ground.  
-\- Placement should be fast and readable on mobile: preview, valid/invalid state, confirm/cancel.  
-\- Structures should have obvious utility rather than existing only as decoration.  
-\- Building consumes banked resources and permanently changes the base.  
-The prototype does not need a large crafting tree or construction simulation; it only needs enough placeability to prove the fantasy.
+Long-term vision: Forager-like free placement of useful structures/stations.
+
+Competition prototype scope is budget-dependent. Do not build a large construction/crafting simulation before the expedition/capture loop is strong.
 
 ## Base Wildkin
 
-Secured Wildkin should exist physically at the base rather than only in a collection menu.  
-\- Secured Wildkin can wander/idly inhabit the home area.  
-\- The collection should become visually legible as the base gains more Wildkin.  
-\- The active expedition companion is selected from secured Wildkin before a run.  
-\- Future-state systems may allow Wildkin to work at structures, gather, craft, defend, or provide passive utility.  
-For the prototype, simple roaming and selection are enough to make successful captures visibly meaningful.
+Secured Wildkin should physically wander/idly inhabit the home area so collection is visible. The active expedition companion is selected from the secured pool.
 
 ## Matter Resonator
 
-The Matter Resonator is a persistent base machine that turns expedition materials into discovery attempts. The player deposits a required amount or recipe of materials to earn one Resonance attempt.
+The Matter Resonator is an optional persistent discovery machine:
 
-A Resonance attempt should not be a pure button-press loot-box roll. The player performs a short, skill-influenced kickoff mechanic that changes the probability or path of the outcome while preserving surprise. The exact mechanic is deliberately open until prototyping. Good directions include aiming an energy pulse, choosing launch direction/power, timing a release, routing energy through targets, or another brief physics/arcade interaction.
+- deposit materials to earn a Resonance attempt,
+- perform a short skill-influenced activation/kickoff interaction,
+- reward new possibilities rather than mostly tiny percentage increases.
 
-Possible Resonator rewards should unlock possibilities rather than mostly provide tiny percentage increases:  
-\- Equipment or tool blueprints.  
-\- New structure blueprints.  
-\- Relics/charms that noticeably alter play.  
-\- Rare utility items or consumables.  
-\- Base objects/cosmetics.  
-\- Map or frontier discoveries.
+Potential rewards:
 
-Resonator guardrails:  
-\- No real-money or premium-currency framing.  
-\- Reliable progression must also exist outside the Resonator.  
-\- Prefer a shuffled/non-repeating discovery pool or strong duplicate protection so attempts feel exciting rather than wasteful.  
-\- Spending materials on the Resonator should compete with other useful resource sinks.  
-\- The skill component should influence the result without making every outcome deterministic.
+- equipment/tool blueprints,
+- structures,
+- relics/charms,
+- utility items,
+- cosmetics,
+- frontier/map discoveries.
 
-## 
+Guardrails:
+
+- no real-money/premium-currency framing,
+- reliable progression exists outside it,
+- duplicate protection/non-repeating discovery is preferred,
+- resource spending should compete with other useful sinks,
+- skill affects outcome without making it fully deterministic.
+
+The Resonator is **optional/budget-dependent** for the competition prototype.
+
+## World Authoring Direction
+
+The competition world should be compact and handcrafted, but the human developer needs to iterate without repeatedly asking an agent to edit coordinates.
+
+### Runtime/source of truth
+
+Use a simple data-driven world definition such as `world.json` rather than scattered placement arrays in gameplay code.
+
+It should support:
+
+- terrain/ground,
+- harvestables,
+- Wildkin spawn/home/temperament data,
+- platforms,
+- ramps,
+- ladders,
+- parkour/jump elements,
+- waystones,
+- future points of interest.
+
+### Dev-only author mode
+
+Preferred capabilities:
+
+- place/select,
+- move,
+- rotate,
+- elevate,
+- resize where useful,
+- duplicate,
+- delete,
+- quick **Edit ↔ Play** switching,
+- deterministic export/save of world data.
+
+Parkour should be directly authored because platform dimensions, elevation, rotation, and rapid testing matter.
+
+An optional colored object-map PNG / grayscale heightmap importer may later create a broad first draft, but imported data must become the same editable world definition. This is an authoring workflow, not procedural world generation.
 
 ## World & Difficulty
 
-Danger should primarily be spatial rather than timer-driven. The farther the player pushes from safety:  
-\- Enemies become stronger or more complex.  
-\- Resources become more valuable.  
-\- Rare Wildkin become possible.  
-\- Environmental hazards increase.  
-\- Extraction becomes more consequential.
+Danger should primarily be spatial, not timer-driven. Farther from safety should generally mean:
 
-This lets the player choose their own difficulty by choosing how far to push.
+- stronger or more complex threats,
+- more valuable resources,
+- rarer Wildkin opportunities,
+- more environmental/traversal pressure,
+- higher extraction stakes.
+
+Judge this in the real authored frontier, not the cramped systems-test arena.
 
 ## Prototype Session Goal
 
-The prototype should support both success and failure. A successful run is one where the player secures meaningful progress and returns/extracts; death is the failure state. Deeper waystones and rarer discoveries provide escalating objectives. A final prototype milestone may add one clear “deep frontier” objective if playtesting shows the session needs a stronger endpoint.
+The prototype should support success and failure. A successful run secures meaningful progress and returns/extracts; death is failure. Deeper waystones/rare discoveries may provide escalating objectives. A final deep-frontier objective is optional if playtesting shows the session needs stronger direction.
 
 ## Camera & Controls
 
-\- Fixed high third-person / near top-down camera.  
-\- Portrait-first composition.  
-\- One-thumb movement should be possible.  
-\- Avoid camera rotation during normal play.  
-\- Keep interaction buttons large and contextual.  
-\- Combat and harvesting should minimize tiny precision targets.
+- fixed high third-person / near top-down,
+- portrait-first,
+- one-thumb movement possible,
+- avoid normal-play camera rotation,
+- interactions large/contextual,
+- combat/harvesting minimize tiny precision targets.
 
-## Prototype Non-Goals
+## Prototype Non-Goals Until Core Loop Is Strong
 
-Do not build these unless the core loop is already strong:  
-\- Large open world.  
-\- Multiplayer.  
-\- Large or complex base-building simulation before the core expedition loop is proven.  
-\- Dozens of Wildkin.  
-\- Complex crafting trees.  
-\- Procedural world generation.  
-\- Story campaign / quest chains.  
-\- Monetization systems.  
-\- Online accounts or backend services.  
-\- Elaborate character customization.
+- large open world,
+- multiplayer,
+- large/complex base-building simulation,
+- dozens of Wildkin,
+- complex crafting trees,
+- procedural world generation,
+- story campaign/quest chains,
+- monetization,
+- online accounts/backend,
+- elaborate character customization.
 
-## Open Design Questions
+## Resolved & Open Design Questions
 
-\- Exact combat input model: auto-target \+ attack, aim direction, tap-to-attack, or hybrid.  
-\- Exact Wildkin capture/bonding mechanic.  
-\- Whether XP earned during a failed run is fully retained, partially retained, or only converted to permanent skill points after extraction.  
-\- Whether waystone banking is unlimited or has a cost/cooldown.  
-\- Whether the prototype ends at a final objective or emphasizes score/depth plus extraction.  
-\- Exact Matter Resonator kickoff/minigame: aiming, timing, trajectory, routing, physics, or another skill-influenced interaction.  
-\- Exact resource costs and how strongly building, known upgrades, and Resonator attempts should compete.  
-\- How much free-placement base building belongs in the competition prototype versus the future-state game.
+### Resolved
 
-# 2\. Hackathon Requirements & Design Guardrails
+- Manual combat input: tap = one swing, hold = repeated swings, swipe = dodge.
+- No auto-attack in current prototype.
+- Unified Field Tool interaction: one swing may hit harvestables + attackable Wildkin.
+- Auto Harvest stays available during danger and only auto-initiates resource-driven swings.
+- Wildkin use temperament/ecology rather than universal instant player aggro.
+- Wildkin may react to/attack/flee from other Wildkin.
+- Lightweight steering before A*.
+- Ranged combat belongs primarily to equipment/loadout progression.
+- Data-driven world + dev author mode is the preferred authoring path.
 
-## Official Source of Truth
+### Open
 
-[Meta Horizon Creator Competition: Game Prototype on Devpost.](https://mhcp-game-prototype.devpost.com/) If this document conflicts with the official rules, Devpost wins.
+- Exact Wildkin capture/bonding mechanic.
+- XP/skill-point retention after failed runs.
+- Waystone banking cost/cooldown rules.
+- Whether the competition build needs a final deep-frontier objective.
+- Matter Resonator activation mechanic if it makes scope.
+- Exact resource costs and competition between spending sinks.
+- How much base free-placement belongs in the competition build.
+
+# 2. Hackathon Requirements & Guardrails
+
+## Official Source
+
+Meta Horizon Creator Competition: Game Prototype on Devpost. If this repository conflicts with official rules, Devpost wins.
 
 ## Hard Build Requirements
 
-\- Build must be a genuinely playable mobile game prototype created primarily with AI prompting.  
-\- Three.js / HTML5 web build.  
-\- Single-player only.  
-\- Portrait orientation and fixed phone viewport during play.  
-\- Self-contained and playable without external network requests.  
-\- Submission package no larger than 35 MB.  
-\- index.html at the root of the submission ZIP.  
-\- All first-party game code must be readable and unminified in index.html for the submitted build.  
-\- Third-party libraries such as Three.js belong in /vendor and use relative paths.  
-\- Assets, audio, fonts, and data must ship locally and use relative paths.  
-\- The game must have a primary repeatable action, real-time feedback, progression/escalation, and a clear success/failure/reset flow.  
-\- A Design Intent document is required for submission.  
-\- A Markdown Build Log is required and should demonstrate that AI did the heavy lifting.
+- genuinely playable mobile game prototype created primarily with AI prompting,
+- Three.js / HTML5,
+- single-player,
+- portrait orientation/fixed phone viewport during play,
+- self-contained and playable without external runtime network requests,
+- submission package <=35 MB,
+- `index.html` at ZIP root,
+- first-party code readable/unminified in submitted `index.html`,
+- third-party libraries in `/vendor` with relative paths,
+- local assets/audio/fonts/data,
+- primary repeatable action, real-time feedback, progression/escalation, clear success/failure/reset,
+- Design Intent document required,
+- Markdown Build Log required.
 
-## Chosen Competition Genre
+## Chosen Genre
 
 Survival & Resource Management.
 
 ## Judging Priorities
 
-\- Player Engagement — 30%.  
-\- Playability — 25%.  
-\- Core Loop Design — 20%.  
-\- Focus — 15%.  
-\- Originality — 10%.  
-Visual polish is intentionally not a scoring category.
+- Player Engagement — 30%
+- Playability — 25%
+- Core Loop Design — 20%
+- Focus — 15%
+- Originality — 10%
 
-## Implications for This Project
+Visual polish is not a direct scoring category, but feel/readability materially support the scored categories.
 
-\- A small game that is fun and reliable beats a broad feature list.  
-\- The first milestone is not “systems complete”; it is “fun to move, harvest, fight, risk something, and restart.”  
-\- Every phase must preserve a playable build.  
-\- Mobile testing begins immediately, not near submission.  
-\- Build packaging/validation should exist from the first phase so compliance cannot become an end-of-project surprise.  
-\- The Build Log is part of normal agent work, not a document reconstructed at the end.
+## Project Implications
 
-# 3\. Agent-Friendly Repository Structure
+- A small fun/reliable game beats a broad feature list.
+- The milestone is not “systems complete”; it is “fun to move, harvest, fight, risk something, and restart.”
+- Every phase preserves a playable build.
+- Mobile testing happens continuously.
+- Packaging/validation stays green throughout development.
+- Build Log is maintained during normal work.
 
-Recommended initial structure:
+# 3. Agent-Friendly Repository Rules
 
-/  
-  AGENTS.md  
-  README.md  
-  index.html  
-  src/  
-    main.js  
-    game/  
-    systems/  
-    ui/  
-  styles/  
-    game.css  
-  assets/  
-  vendor/  
-    three.module.js  
-  docs/  
-    GAME\_DESIGN.md  
-    HACKATHON\_REQUIREMENTS.md  
-    BUILD\_LOG.md  
-    CURRENT\_SLICE.md  
-    PLAYTEST\_NOTES.md  
-  tools/  
-    build-submission.mjs  
-    validate-submission.mjs  
-  dist/
+Agent read order:
 
-Development may use modular source files. The submission build process should assemble all first-party JavaScript and CSS into a readable, unminified root index.html, keep Three.js in /vendor, copy local assets, and produce/validate the final ZIP layout.
+1. `AGENTS.md`
+2. `docs/CURRENT_SLICE.md`
+3. `docs/PLAYTEST_NOTES.md` for refinement slices
+4. `docs/ARCHITECTURE.md`
+5. `docs/GAME_DESIGN.md`
+6. `docs/HACKATHON_REQUIREMENTS.md`
+7. relevant source files only
 
-## Agent Read Order
+`CURRENT_SLICE.md` is implementation scope. This roadmap is not.
 
-Every implementation agent should read, in order:  
-1\. AGENTS.md — operating rules and guardrails.  
-2\. docs/CURRENT\_SLICE.md — the only implementation scope for the current session.  
-3\. docs/GAME\_DESIGN.md — stable design context relevant to gameplay decisions.  
-4\. docs/HACKATHON\_REQUIREMENTS.md — non-negotiable technical/submission constraints.  
-5\. Relevant source files only.
+# 4. Recommended Build Workflow
 
-AGENTS.md should stay short. It should tell the agent:  
-\- Preserve portrait/mobile/offline submission constraints.  
-\- Do not expand scope beyond CURRENT\_SLICE.md.  
-\- Keep the game playable at the end of the session.  
-\- Prefer simple, explicit systems over framework-heavy architecture.  
-\- Run validation/tests before stopping.  
-\- Append a concise BUILD\_LOG entry describing prompt/tool/model, decisions, changes, testing, and remaining issues.  
-\- Never silently change locked game-design decisions; record a proposed change instead.
+Use a **Human → Agent → Human** loop rather than long autonomous mega-sprints.
 
-README.md should answer only:  
-\- What the project is.  
-\- How to run it locally.  
-\- How to test it on a phone.  
-\- How to build and validate the submission package.  
-\- Where agents should start reading.
+1. Define one bounded player-visible outcome.
+2. Agent implements only the current slice.
+3. Run automated gates.
+4. Human playtests desktop + phone.
+5. Record what actually felt good/bad/confusing.
+6. Give a refinement session only accepted notes.
+7. Lock/commit and move on.
 
-# 4\. Recommended Build Workflow
+Use stronger models for cross-system architecture/difficult bugs/review; cheaper models are suitable for well-specified implementation, cleanup, tests, config, and bounded fixes.
 
-Use a Human → Agent → Human loop, not long autonomous mega-sprints.
+# 5. Re-Baselined Phased Implementation Plan
 
-## A. Plan the Next Slice
+## Phase 0 — Compliant Foundation — DONE
 
-We define one player-visible outcome and its acceptance criteria. CURRENT\_SLICE.md should normally fit on one screen.
+Portrait Three.js scene, local vendor dependencies, repository/docs, local server, submission build/validation, offline constraints.
 
-## B. Agent Implementation
+## Phase 1 — Movement & World Feel — DONE / LOCKED FOR NOW
 
-Give the agent the slice as a bounded goal. It may inspect relevant code, implement, self-test, update documentation, and stop when acceptance criteria are satisfied or it finds a real blocker.
+Player movement, camera, Rapier kinematic capsule/controller, run/sneak/jump/fall/air control, dodge, ladder/mantle, collision/grounding, mobile input, systems-test playground.
 
-## C. Automated Gate
+Movement has been human-playtested and is accepted enough to avoid destabilizing while later systems are built.
 
-Before the agent stops:  
-\- Game launches.  
-\- No console-breaking errors.  
-\- Existing smoke tests / validation pass.  
-\- Portrait viewport still works.  
-\- Offline/no-CDN rule remains intact.  
-\- Submission build can still be generated.
+## Phase 2 — Harvesting Loop — DONE / LOCKED FOR NOW
 
-## D. Human Playtest
+Three resources, Auto Harvest, manual/automatic Field Tool swings, in-range focus, vertical-aware targeting, visible depletion, pooled drops, magnet collection, temporary inventory, respawn, audio/particles, performance hardening.
 
-Play the slice on desktop briefly, then on an actual phone. Focus on feel and comprehension rather than code quality.
+Harvesting has been iteratively human-refined and is accepted as the current foundation.
 
-## E. Review
+## Phase 3 — Basic Combat Foundation — FIRST PASS DONE
 
-Record observations in PLAYTEST\_NOTES.md using:  
-\- What felt good.  
-\- What was confusing.  
-\- What felt slow/repetitive.  
-\- Bugs.  
-\- One or two highest-value changes.
+Player-visible goal: frontier becomes dangerous and player can intentionally fight, dodge, take damage, die, and restart.
 
-## F. Refinement Pass
+Implemented direction:
 
-Give a second agent session only the review items accepted for this slice. Do not mix the next feature into the refinement session.
+- mobile tap attack / swipe dodge,
+- desktop explicit attack/dodge,
+- Field Tool melee,
+- broad frontal attack readability,
+- health/damage/knockback/i-frames,
+- Rusher melee prototype,
+- Spitter ranged prototype,
+- temporary XP,
+- death + fast restart.
 
-## G. Lock & Move On
+Human test: combat is readable/fundamentally viable, but projectile collision, dead colliders, harvest/combat interaction, and wildlife identity require refinement.
 
-When the slice feels good enough:  
-\- Commit/tag the working state.  
-\- Update BUILD\_LOG.md.  
-\- Mark CURRENT\_SLICE.md complete.  
-\- Create the next slice spec.
+## Phase 3.1 — Creature Ecology & Combat Refinement — NEXT
 
-## Recommended Model Usage
+Player-visible goal: wild creatures begin to feel like inhabitants of a frontier rather than generic enemies while combat correctness/interaction rules are resolved.
 
-Use stronger models for architecture, difficult bugs, cross-system changes, or reviewing a slice. Use cheaper/free models for scoped implementation, tests, cleanup, data/config, and obvious fixes. The quality of CURRENT\_SLICE.md is what lets cheaper models remain useful.
+Build:
 
-# 5\. Phased Implementation Plan
+- fix Spitter projectile/player collision,
+- disable dead/respawning creature colliders and restore safely,
+- one physical Field Tool interaction against resources + attackable Wildkin,
+- keep Auto Harvest active during danger,
+- Auto Harvest only auto-initiates swings for resources,
+- tap = one swing, hold = repeated swings, swipe = dodge,
+- manual swings can harvest as well as damage creatures,
+- replace gold XP with larger glowing blue/cyan essence,
+- add data-driven temperaments: aggressive / territorial / defensive / skittish,
+- allow selected Wildkin-vs-Wildkin reactions/attacks/fleeing,
+- add home/roam/notice/personal-space/leash behavior,
+- add lightweight obstacle steering/separation,
+- do not add A* unless later evidence requires it.
 
-## Phase 0 — Compliant Foundation
+Human test:
 
-Player-visible goal: a portrait Three.js scene opens reliably on desktop and phone.
+- do creatures behave differently before being attacked?
+- can wildlife interactions happen without the player?
+- can player keep harvesting while deciding to avoid/fight/intervene?
+- do tap/hold/swipe gestures remain clear?
+- are projectile hits, dead collision, XP rewards reliable?
 
-Agent deliverables:  
-\- Initialize repository.  
-\- Add AGENTS.md, README.md, GAME\_DESIGN.md, HACKATHON\_REQUIREMENTS.md, BUILD\_LOG.md, CURRENT\_SLICE.md, PLAYTEST\_NOTES.md.  
-\- Vendor Three.js locally.  
-\- Create minimal Three.js scene with fixed high-angle camera.  
-\- Add simple responsive portrait HUD shell.  
-\- Add local dev server command.  
-\- Add submission build and validation scripts.  
-\- Confirm no CDN/network dependency at runtime.
+## Phase 3.5 — Architecture & World Authoring Foundation
 
-Acceptance gate:  
-\- Opens from local server.  
-\- Works in a phone browser.  
-\- Submission build is self-contained and validation passes.  
-\- Build Log contains the first session entry.
+Player-visible/developer goal: preserve modular code before adding run persistence and make the frontier fast for a human to author/test.
 
-## Phase 1 — Movement & World Feel
+Architecture goals:
 
-Player-visible goal: controlling the character in a tiny 3D frontier already feels pleasant.
+- return `main.js` to composition/fixed-loop ownership rather than domain rules,
+- introduce clear Expedition/Run Session ownership for temporary run state,
+- keep Field Tool/action/hit ownership explicit,
+- separate creature perception/temperament, locomotion/steering, and combat behavior enough to avoid catch-all scripts,
+- preserve one rAF/fixed-step/Rapier/offline/performance constraints.
 
-Build:  
-\- Player representation.  
-\- One-thumb movement.  
-\- Fixed high-angle follow camera.  
-\- Small handcrafted/procedural test environment.  
-\- Collision/bounds.  
-\- Basic animation/feedback using simple geometry.  
-\- Mobile-safe pause/restart/debug controls.
+World-authoring goals:
 
-Human test:  
-Movement responsiveness, camera framing, thumb comfort, portrait readability, performance.
+- move placements into `world.json` or equivalent,
+- support terrain/resources/creature spawn-home/platform/ramp/ladder/parkour/waystone/POI data,
+- add dev-only place/select/move/rotate/elevate/resize/duplicate/delete,
+- quick Edit ↔ Play loop,
+- deterministic export/save,
+- optional later PNG/heightmap import only as first-draft generation.
 
-## Phase 2 — Harvesting Loop
+Human test: can the developer move/place a platform/tree/spawn, instantly playtest, return to edit, adjust, and repeat without asking an agent to edit coordinates?
 
-Player-visible goal: the player can explore the test space, find resources, harvest them, and enjoy the feedback.
+## Phase 4 — Real Frontier & First Complete Expedition Loop
 
-Build:  
-\- 2–3 resource node types.  
-\- Contextual/automatic harvest interaction.  
-\- Harvest timing.  
-\- Drops/pickups.  
-\- Temporary run inventory.  
-\- Respawn or finite placement appropriate to the test map.  
-\- Sound/particles/screenspace feedback using local assets or procedural effects.
+Player-visible goal: an ugly but complete real run in a compact connected frontier:
 
-Human test:  
-Is gathering satisfying by itself? Is it clear what can be harvested? Does resource collection invite movement/exploration?
+**leave home → explore/harvest/fight → decide to return/push → extract/bank or die/lose unsecured cargo → immediately try again.**
 
-## Phase 3 — Combat, Wild Creatures & Death
+Build:
 
-Player-visible goal: the frontier becomes dangerous and the player can fight, take damage, die, and restart.
+- replace cramped systems-test arena with compact connected authored frontier,
+- small home/safe clearing,
+- at least two meaningful routes, including room for traversal/parkour,
+- one riskier/deeper area,
+- unsecured vs banked resources/run state,
+- clear return/extraction interaction,
+- death loses unsecured cargo,
+- successful extraction banks it,
+- run summary + immediate next-run flow,
+- at least one reliable banked-resource spend that visibly improves next run,
+- no requirement for free-placement base building yet.
 
-Build:  
-\- One simple combat input model.  
-\- 1–2 wild hostile creature behaviors.  
-\- Health/damage/knockback.  
-\- Creature drops / XP.  
-\- Death state.  
-\- Fast restart.  
-\- Spatial difficulty gradient in the small map.
+This is the first major milestone. Do not broadly expand until the run loop is understandable and somewhat enjoyable.
 
-Human test:  
-Can combat be understood without instructions? Does danger feel fair? Is dying quick enough to make “one more run” appealing?
+## Phase 5 — Wildkin Capture, Security & Companion
 
-## Phase 4 — First Complete Expedition Loop
+Player-visible goal: capturing/securing a Wildkin creates a memorable reason to survive the trip home.
 
-Player-visible goal: the game now has an ugly but complete run: prepare → enter → gather/fight → decide to return or push → extract or die → restart.
+Build:
 
-Build:  
-\- Small base/safe area.  
-\- Extraction/banking interaction.  
-\- Secured versus unsecured inventory.  
-\- Run summary.  
-\- Death loses unsecured cargo.  
-\- Successful extraction banks cargo.  
-\- Banked resources have at least one reliable spend at base.  
-\- The player can place at least one simple useful structure using resources.  
-\- Returning home visibly changes something before the next run.  
-\- Immediate next-run flow.
+- one original simple capture/bonding interaction,
+- 2–3 prototype species with readable silhouettes/temperaments/roles,
+- captured = unsecured during run,
+- death returns unsecured Wildkin to habitat,
+- extraction secures it,
+- secured Wildkin visibly inhabit home,
+- choose one active companion before run,
+- each companion has one distinct useful behavior.
 
-This is the first major milestone. Do not proceed until the loop is understandable and at least somewhat enjoyable.
+## Phase 6 — Equipment, Loadout & Deliberate Progression
 
-## Phase 5 — Persistent Progression, Base & Loadout
+Player-visible goal: intentionally plan different builds for future expeditions.
 
-Player-visible goal: each completed/failed expedition contributes to deliberate character building.
+Build:
 
-Build:  
-\- Persistent save data stored locally.  
-\- XP / skill point rules.  
-\- Small visible skill tree with 3–4 branches.  
-\- Intentional point spending.  
-\- Base loadout screen.  
-\- Expand to 2–4 useful placeable base structures if the Phase 4 placement test feels good.  
-\- Known resource purchases/upgrades that compete with saving/building.  
-\- Matter Resonator prototype: deposit materials to earn a Resonance attempt.  
-\- Prototype one short skill-influenced Resonator activation mechanic and a small duplicate-protected discovery pool.  
-\- At least a few upgrades that noticeably change play rather than only changing small percentages.  
-\- Respec/tuning support during development if useful.
+- persistent local save,
+- XP / skill-point retention rules,
+- small branching Combat/Harvesting/Survival/Bonding tree,
+- deliberate point spending,
+- home loadout selection,
+- at least one mechanically different equipment choice,
+- ranged weapon is a strong candidate and should be acquired/equipped gear,
+- Field Tool remains melee/harvest option,
+- a few reliable resource purchases/upgrades that noticeably alter play.
 
-Human test:  
-Can the player form a plan for the next run? Do skill choices create different play rather than just bigger numbers?
-
-## Phase 6 — Wildkin Capture & Companion Loadout
-
-Player-visible goal: encountering and securing a new Wildkin creates a memorable reason to survive the trip home.
-
-Build:  
-\- Finalize one simple original capture/bonding mechanic.  
-\- 2–3 prototype Wildkin species.  
-\- Newly captured Wildkin is unsecured until banked.  
-\- Secured Wildkin collection at base.  
-\- Secured Wildkin physically wander/idly inhabit the base so the collection is visible in-world.  
-\- Choose one active Wildkin for a run.  
-\- Each Wildkin has one clearly distinct useful behavior.  
-\- Lost unsecured Wildkin return to their habitat.
-
-Human test:  
-Does capturing create emotional tension? Does changing active Wildkin meaningfully change a run? Is the capture mechanic readable on mobile?
+Skills shape the build; gear changes actions/tools.
 
 ## Phase 7 — Waystones & Player-Directed Depth
 
-Player-visible goal: the player discovers a waystone, secures it permanently, and can choose to start future runs deeper in the frontier.
+Player-visible goal: discover progression anchors and choose future entry points, trading early preparation for deeper rewards/danger.
 
-Build:  
-\- 2 discoverable waystones.  
-\- Activation as permanent progression.  
-\- Banking/limited recovery behavior.  
-\- Start-location selection before a run.  
-\- Tradeoff for starting deeper: skip early resources/XP but reach rare content faster.  
-\- Distinct danger/resource bands around deeper areas.
+Build:
 
-Human test:  
-Does choosing a start point feel strategic rather than strictly better? Does the player naturally create their own short-term goals?
+- ~2 discoverable waystones if world scale supports them,
+- permanent activation,
+- banking/limited recovery if useful,
+- start-location selection,
+- deeper starts skip some early resource/XP opportunities,
+- distinct danger/resource/rare-Wildkin/traversal pressure deeper in world.
 
-## Phase 8 — Competition Vertical Slice
+## Phase 8 — Optional Base Utility & Matter Resonator
 
-Player-visible goal: one cohesive prototype demonstrates the complete intended fantasy without relying on future promises.
+**Budget-dependent. Add only if expedition/capture/progression are already strong.**
 
-Target content, adjusted by playtesting:  
-\- 1 compact connected world.  
-\- 3 resource types.  
-\- 3–4 wild creature/enemy types.  
-\- 3 Wildkin with distinct utility and visible base presence.  
-\- 2–4 useful placeable base structures.  
-\- Matter Resonator with a small discovery pool and a brief skill-influenced activation mechanic.  
-\- 2 waystones plus base.  
-\- Small branching skill tree.  
-\- Several equipment/loadout choices.  
-\- Clear extraction success, death failure, restart, and depth/progression feedback.  
-\- One deeper aspirational objective or rare discovery if needed to strengthen session direction.
+Possible build:
 
-Do not add content solely to hit counts. Remove anything that does not improve engagement, playability, core loop, focus, or originality.
+- 1–2 or a few useful placeable structures,
+- competing resource sinks,
+- Matter Resonator deposit → attempt,
+- one short skill-influenced activation interaction,
+- small duplicate-protected discovery pool,
+- rewards that unlock meaningful possibilities.
 
-## Phase 9 — Feel, Balance & Mobile Hardening
+Do not sacrifice stronger core systems just to hit base-system counts.
 
-Focus only on:  
-\- Input responsiveness.  
-\- Combat/harvest timing.  
-\- Camera readability.  
-\- Run pacing.  
-\- Reward frequency.  
-\- Risk/reward clarity.  
-\- Skill/Wildkin differentiation.  
-\- Loading/performance.  
-\- Phone aspect ratios.  
-\- Audio/visual feedback.  
-\- Tutorialization through environment/UI rather than long text.
+## Phase 9 — Competition Vertical Slice
 
-Run repeated short playtests. Track only issues that materially affect the judging criteria.
+Player-visible goal: one cohesive prototype demonstrates the actual intended fantasy without future promises.
 
-## Phase 10 — Submission Hardening
+Prioritize:
 
-\- Freeze feature scope.  
-\- Run offline/network validation.  
-\- Build final readable/unminified index.html.  
-\- Verify /vendor and all relative asset references.  
-\- Confirm ZIP structure and size.  
-\- Fresh-device/browser playthrough from start to extraction and start to death.  
-\- Clean Build Log.  
-\- Prepare final Design Intent document from the proven game, not from aspirational features.  
-\- Preserve a final tagged/committed submission state.
+- one compact connected authored frontier + home,
+- strong movement/traversal/harvesting/combat,
+- wildlife temperament/ecology,
+- risk/extraction/death/restart,
+- small Wildkin roster sufficient to prove capture + companion,
+- meaningful loadout/skill choices if worthwhile,
+- waystones only if world scale makes them strategic,
+- optional base/Resonator only if proven,
+- one deeper aspirational objective/rare discovery if session needs stronger direction.
 
-# 6\. Definition of Done for Every Slice
+Do not add content solely to hit counts.
 
-A slice is done only when:  
-\- The player-visible outcome exists.  
-\- It works on phone.  
-\- Existing gameplay still works.  
-\- No known game-breaking console/runtime errors remain.  
-\- Hackathon packaging constraints are still satisfied.  
-\- The agent updated BUILD\_LOG.md.  
-\- The human playtested it.  
-\- Accepted refinement notes were either completed or explicitly deferred.
+## Phase 10 — Feel, Balance & Mobile Hardening
 
-# 7\. Immediate Next Actions
+Focus only on issues that materially affect judging:
 
-1\. Lock or revise the design decisions in Sections 1–2.  
-2\. Create a new local repository.  
-3\. Create the Phase 0 CURRENT\_SLICE.md.  
-4\. Configure the chosen coding agent/model.  
-5\. Run Phase 0 only.  
-6\. Test the resulting scene on the target phone.  
-7\. Review/refine Phase 0 before asking an agent for harvesting or combat.
+- input responsiveness/thumb comfort,
+- traversal readability,
+- Field Tool/combat/harvest timing,
+- creature telegraphs/temperament readability,
+- camera framing,
+- run pacing/reward frequency,
+- risk/reward clarity,
+- capture/companion differentiation,
+- equipment/skill differentiation,
+- performance/long-session stability,
+- phone aspect ratios/safe areas,
+- audio/visual feedback,
+- environmental/UI tutorialization.
 
-The project should earn complexity. Every new system must justify itself by improving the playable loop.  
+## Phase 11 — Submission Hardening
+
+- freeze features,
+- offline/network validation,
+- final readable/unminified `index.html`,
+- verify `/vendor` + relative asset references,
+- ZIP structure/size,
+- fresh-device playthrough to extraction and death,
+- clean Build Log,
+- final Design Intent based on proven game,
+- preserve final tagged/committed state.
+
+# 6. Definition of Done for Every Slice
+
+A slice is done only when:
+
+- the player-visible outcome exists,
+- it works on phone,
+- existing accepted gameplay still works,
+- no known game-breaking runtime errors remain,
+- hackathon packaging remains valid,
+- agent updates Build Log,
+- human playtests it,
+- accepted refinement notes are completed or explicitly deferred.
+
+# 7. Immediate Next Actions
+
+1. Complete and human-playtest **Phase 3.1 — Creature Ecology & Combat Refinement**.
+2. Lock combat/wildlife only when projectile hits, dead colliders, Field Tool interaction, temperaments, and hold-to-attack feel reliable on phone.
+3. Run **Phase 3.5 — Architecture & World Authoring Foundation** before adding extraction, persistence, or companion systems.
+4. Use authoring workflow to replace systems-test arena with the first small connected frontier.
+5. Implement Phase 4 complete expedition loop: unsecured cargo, return/extraction, banked gains, death loss, one reliable spend.
+6. Prioritize Wildkin capture/security/companion immediately after the run loop, before broad base/Resonator scope.
+7. Re-baseline later phases again after both the complete expedition loop and capture/companion loop have been human-playtested.
+
+**The project should earn complexity. Every new system must justify itself by improving the playable loop.**
