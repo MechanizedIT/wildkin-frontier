@@ -9,18 +9,18 @@ export function classifyDodgeGesture(dist, dur, vel, cfg) {
 }
 
 export function mergeIntents(touchIntent, keyboardIntent) {
-  const touchActive = touchIntent && (touchIntent.moveMagnitude > 0.01 || touchIntent.dodgeRequested || touchIntent.attackRequested);
+  const touchActive = touchIntent && (touchIntent.moveMagnitude > 0.01 || touchIntent.dodgeRequested || touchIntent.attackRequested || touchIntent.attackHeld);
   const touchHasMove = touchIntent && touchIntent.moveMagnitude > 0.01;
-  // Merge attack/dodge requests from both sources (OR logic)
+  // Merge attack/dodge/held requests from both sources (OR logic)
   const mergedAttack = !!(touchIntent?.attackRequested || keyboardIntent?.attackRequested);
+  const mergedHeld = !!(touchIntent?.attackHeld || keyboardIntent?.attackHeld);
   const mergedDodge = !!(touchIntent?.dodgeRequested || keyboardIntent?.dodgeRequested);
   const mergedDodgeX = touchIntent?.dodgeRequested ? touchIntent.dodgeX : keyboardIntent.dodgeX;
   const mergedDodgeY = touchIntent?.dodgeRequested ? touchIntent.dodgeY : keyboardIntent.dodgeY;
 
   if (touchActive && touchHasMove) {
     // Preserve identity for backward compat when no attack merging needed
-    if (!mergedAttack && mergedDodge === !!touchIntent.dodgeRequested && !touchIntent.attackRequested && !keyboardIntent.attackRequested) {
-      // Also need attackRequested field absent originally; return as-is for test identity
+    if (!mergedAttack && !mergedHeld && mergedDodge === !!touchIntent.dodgeRequested && !touchIntent.attackRequested && !keyboardIntent.attackRequested && !touchIntent.attackHeld && !keyboardIntent.attackHeld) {
       return touchIntent;
     }
     return {
@@ -32,9 +32,10 @@ export function mergeIntents(touchIntent, keyboardIntent) {
       dodgeX: mergedDodgeX,
       dodgeY: mergedDodgeY,
       attackRequested: mergedAttack,
+      attackHeld: mergedHeld,
     };
   }
-  if (touchActive && (touchIntent.dodgeRequested || touchIntent.attackRequested)) {
+  if (touchActive && (touchIntent.dodgeRequested || touchIntent.attackRequested || touchIntent.attackHeld)) {
     return {
       moveX: keyboardIntent.moveX,
       moveY: keyboardIntent.moveY,
@@ -44,11 +45,11 @@ export function mergeIntents(touchIntent, keyboardIntent) {
       dodgeX: mergedDodgeX,
       dodgeY: mergedDodgeY,
       attackRequested: mergedAttack,
+      attackHeld: mergedHeld,
     };
   }
-  if (!mergedAttack && mergedDodge === !!keyboardIntent.dodgeRequested) {
-    // No attack to merge, return keyboard identity for compat (tests expect kb reference)
-    if (!touchIntent?.attackRequested && !keyboardIntent?.attackRequested) return keyboardIntent;
+  if (!mergedAttack && !mergedHeld && mergedDodge === !!keyboardIntent.dodgeRequested) {
+    if (!touchIntent?.attackRequested && !keyboardIntent?.attackRequested && !touchIntent?.attackHeld && !keyboardIntent?.attackHeld) return keyboardIntent;
   }
   return {
     moveX: keyboardIntent.moveX,
@@ -59,6 +60,7 @@ export function mergeIntents(touchIntent, keyboardIntent) {
     dodgeX: mergedDodgeX,
     dodgeY: mergedDodgeY,
     attackRequested: mergedAttack,
+    attackHeld: mergedHeld,
   };
 }
 

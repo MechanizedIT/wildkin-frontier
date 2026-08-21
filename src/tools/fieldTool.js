@@ -274,7 +274,8 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     const maxSpeed = HARVEST_CONFIG.harvestMaxHorizontalSpeed ?? 0.25;
     const speedOk = speed <= maxSpeed + 1e-6;
     const harvestModeOk = isHarvestCompatibleMode(playerState.mode);
-    const harvestAllowed = harvestModeOk && speedOk && autoHarvestEnabled && !combatEngaged;
+    // Phase 3.1: Auto Harvest no longer suppressed by combatEngaged; it only controls auto-initiation for resources
+    const harvestAllowed = harvestModeOk && speedOk && autoHarvestEnabled;
 
     // If not swinging: decide to start combat or harvest (combat priority)
     if (!isSwinging) {
@@ -430,39 +431,62 @@ export function createFieldTool(playerGroup, gameAudio = null) {
 
     if (!impactFired && swingProgress >= impactT) {
       impactFired = true;
-      if (isCombat) {
-        // Combat impact: use exact targeting, damage creatures
-        if (onCombatImpact) {
-          let combatTargets = [];
-          if (getCombatTargets) {
-            try { combatTargets = getCombatTargets(); } catch {}
-          } else if (opts.creatures && opts.playerPos && opts.playerFacing !== undefined) {
-            // fallback
-          }
-          // Ensure we pass even if empty; combat impact should be one event
-          onCombatImpact(combatTargets);
-        } else if (onHarvestImpact) {
-          // legacy shouldn't happen
-        }
-      } else {
-        // Harvest impact: check still valid (speed, mode, auto)
-        if (!speedOk || !isHarvestCompatibleMode(playerState.mode) || !autoHarvestEnabled || combatEngaged) {
-          resetSwing();
-          return;
-        }
-        let impactTargets = [];
-        if (getHarvestTargets) {
+      // Unified impact: one swing may affect both resources and valid creatures
+      // Gather combat targets
+      let combatTargets = [];
+      if (getCombatTargets) {
+        try { combatTargets = getCombatTargets() ?? []; } catch {}
+      } else if (opts.getCombatTargets) {
+        try { combatTargets = opts.getCombatTargets() ?? []; } catch {}
+      }
+      // Gather resource targets — unified: manual harvest uses range check regardless of Auto Harvest
+      let resourceTargets = [];
+      if (opts.getResourceHits) {
+        try { resourceTargets = opts.getResourceHits() ?? []; } catch {}
+      } else if (opts.getManualHarvestTargets) {
+        try { resourceTargets = opts.getManualHarvestTargets() ?? []; } catch {}
+      } else if (getHarvestTargets) {
+        // For unified swing, try manual range check (ignore autoHarvestEnabled for impact)
+        // If harvest profile, use auto logic; if combat profile (manual), use range-only
+        const useManual = isCombat; // combat/manaual swing should harvest regardless of Auto
+        if (useManual && opts.getManualHarvestTargets) {
+          try { resourceTargets = opts.getManualHarvestTargets() ?? []; } catch {}
+        } else {
           try {
-            const res = getHarvestTargets(playerPos, playerState.mode, speed, autoHarvestEnabled);
-            if (Array.isArray(res)) impactTargets = res;
-            else impactTargets = getHarvestTargets(playerPos, playerState.mode) ?? [];
+            const res = getHarvestTargets(playerPos, playerState.mode, speed, useManual ? true : autoHarvestEnabled);
+            if (Array.isArray(res)) resourceTargets = res;
+            else resourceTargets = getHarvestTargets(playerPos, playerState.mode) ?? [];
           } catch (_) {
-            try { impactTargets = getHarvestTargets(playerPos, playerState.mode) ?? []; } catch {}
+            try { resourceTargets = getHarvestTargets(playerPos, playerState.mode) ?? []; } catch {}
+          }
+          // If manual and got empty due to autoHarvestEnabled false, try halo/range fallback if available via opts
+          if (useManual && resourceTargets.length === 0 && opts.getHaloTargets) {
+            try { resourceTargets = opts.getHaloTargets() ?? []; } catch {}
           }
         }
-        if (impactTargets.length > 0 && onHarvestImpact) {
-          onHarvestImpact(impactTargets);
+      }
+
+      // Unified callback preferred
+      if (opts.onUnifiedImpact) {
+        try { opts.onUnifiedImpact({ resourceHits: resourceTargets, combatHits: combatTargets }); } catch {}
+      } else {
+        // Backward compat: call individual callbacks if provided — may be called together for unified swing
+        if (resourceTargets.length > 0 && onHarvestImpact) {
+          try { onHarvestImpact(resourceTargets); } catch {}
         }
+        if (onCombatImpact) {
+          try { onCombatImpact(combatTargets); } catch {}
+        } else if (combatTargets.length > 0 && onHarvestImpact && isCombat) {
+          // fallback
+        }
+        // If neither callback supplied but resourceTargets have harvest, ensure harvest still handled via onHarvestImpact
+        if (resourceTargets.length === 0 && combatTargets.length === 0) {
+          // no targets, no effect but still consider impact consumed
+        }
+      }
+      // Also emit to optional global resolver for testing
+      if (opts.onFieldToolImpact) {
+        try { opts.onFieldToolImpact({ resourceHits: resourceTargets, combatHits: combatTargets, profile: activeProfile }); } catch {}
       }
     }
 
@@ -499,9 +523,41 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     playerGroup.remove(trailGroup);
   }
 
+  // Dev-only diagnostic for handedness: samples tool head in player-local space
+  function diagnoseHandedness() {
+    // Returns player-local coordinates for grip and head at start/middle/end if swinging, else current
+    const gripLocal = handAnchor.position.clone(); // should be +X
+    const headWorld = new THREE.Vector3();
+    head.getWorldPosition(headWorld);
+    const playerWorld = new THREE.Vector3();
+    playerGroup.getWorldPosition(playerWorld);
+    const playerQuat = new THREE.Quaternion();
+    playerGroup.getWorldQuaternion(playerQuat);
+    const invQuat = playerQuat.clone().invert();
+    const localHead = headWorld.clone().sub(playerWorld).applyQuaternion(invQuat);
+    // Sample start/middle/end by simulating swing progress if not swinging: use current pose as approx
+    const result = {
+      grip: { x: gripLocal.x, y: gripLocal.y, z: gripLocal.z },
+      headCurrent: { x: localHead.x, y: localHead.y, z: localHead.z },
+      expected: {
+        start: "local X >0 and Z>0",
+        middle: "crosses front Z>0",
+        end: "local X <0 and Z>0",
+        grip: "+X = right",
+      },
+      check: {
+        gripIsRight: gripLocal.x > 0,
+        headInFront: localHead.z > 0,
+      },
+    };
+    // If swinging, we could compute idealized positions, but current is sufficient for manual check
+    return result;
+  }
+
   return {
     handAnchor, swingPivot, pivot: swingPivot, toolMount, toolGroup, head, glow, trailGroup, arcMesh, afterimages,
     update, resetSwing, requestHarvestSwing, requestCombatSwing, isBusy, getActiveProfile, getSwingProgress,
+    diagnoseHandedness,
     get isSwinging() { return isSwinging; },
     get activeProfile() { return activeProfile; },
     get swingProgress() { return swingProgress; },

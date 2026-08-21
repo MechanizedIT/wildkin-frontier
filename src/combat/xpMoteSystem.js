@@ -17,15 +17,19 @@ export function createXpMoteSystem(scene, opts = {}) {
 
   function setPlayerPos(pos) { playerPosRef = pos; }
 
-  // Shared geometry
-  let sharedGeo = null;
-  let sharedMatProto = null;
+  // Shared geometry — Phase 3.1 blue/cyan essence: ~0.30 radius, glowing, halo
+  let sharedCoreGeo = null;
+  let sharedHaloGeo = null;
+  let sharedCoreMatProto = null;
+  let sharedHaloMatProto = null;
   function getShared() {
-    if (!sharedGeo) {
-      sharedGeo = new THREE.OctahedronGeometry(0.16, 0);
-      sharedMatProto = new THREE.MeshStandardMaterial({ color: 0xffe066, emissive: 0x664400, emissiveIntensity: 0.45, flatShading: true });
+    if (!sharedCoreGeo) {
+      sharedCoreGeo = new THREE.SphereGeometry(0.30, 12, 10);
+      sharedHaloGeo = new THREE.SphereGeometry(0.46, 12, 10);
+      sharedCoreMatProto = new THREE.MeshStandardMaterial({ color: 0x7ef8ff, emissive: 0x0a4a7a, emissiveIntensity: 0.85, transparent: false, flatShading: false, roughness: 0.45, metalness: 0.0 });
+      sharedHaloMatProto = new THREE.MeshBasicMaterial({ color: 0x3ad0ff, transparent: true, opacity: 0.18, depthWrite: false });
     }
-    return { geo: sharedGeo, matProto: sharedMatProto };
+    return { coreGeo: sharedCoreGeo, haloGeo: sharedHaloGeo, coreMatProto: sharedCoreMatProto, haloMatProto: sharedHaloMatProto };
   }
 
   function acquireMesh() {
@@ -33,20 +37,35 @@ export function createXpMoteSystem(scene, opts = {}) {
       const e = pool.pop();
       e.mesh.visible = true;
       e.mesh.scale.set(1, 1, 1);
+      e.mesh.rotation.set(0, 0, 0);
+      if (e.mesh.userData.halo) e.mesh.userData.halo.visible = true;
       scene.add(e.mesh);
+      if (e.mesh.userData.halo && !e.mesh.userData.halo.parent) e.mesh.add(e.mesh.userData.halo);
       return e.mesh;
     }
-    const { geo, matProto } = getShared();
-    const m = new THREE.Mesh(geo, matProto.clone());
+    const { coreGeo, haloGeo, coreMatProto, haloMatProto } = getShared();
+    const coreMat = coreMatProto.clone();
+    const haloMat = haloMatProto.clone();
+    const m = new THREE.Mesh(coreGeo, coreMat);
+    const halo = new THREE.Mesh(haloGeo, haloMat);
+    halo.name = "xpHalo";
+    m.add(halo);
+    m.userData.halo = halo;
+    m.userData.coreMat = coreMat;
+    m.userData.haloMat = haloMat;
     scene.add(m);
     return m;
   }
 
   function releaseMesh(mote) {
     mote.mesh.visible = false;
+    if (mote.mesh.userData.halo) mote.mesh.userData.halo.visible = false;
     scene.remove(mote.mesh);
     if (pool.length < MAX_POOL) pool.push({ mesh: mote.mesh });
-    else mote.mesh.material.dispose?.();
+    else {
+      mote.mesh.material.dispose?.();
+      mote.mesh.userData.halo?.material.dispose?.();
+    }
   }
 
   function setCallbacks(cb) {
@@ -134,8 +153,14 @@ export function createXpMoteSystem(scene, opts = {}) {
       }
       if (m.state === "REST") {
         m.mesh.position.y = 0.22 + Math.sin(m.age * 3.0) * 0.05;
-        // spin
         m.mesh.rotation.y += dt * 2.5;
+        // gentle pulse of halo
+        const pulse = 0.85 + Math.sin(m.age * 2.2) * 0.15;
+        if (m.mesh.userData.halo) {
+          m.mesh.userData.halo.scale.set(pulse, pulse, pulse);
+          m.mesh.userData.halo.material.opacity = 0.14 + Math.sin(m.age * 2.2) * 0.06;
+        }
+        if (m.mesh.material) m.mesh.material.emissiveIntensity = 0.75 + Math.sin(m.age * 2.8) * 0.20;
         const dx = playerPosRef.x - m.pos.x;
         const dz = playerPosRef.z - m.pos.z;
         const dy = (playerPosRef.y ?? 0.5) - m.pos.y;
@@ -168,9 +193,13 @@ export function createXpMoteSystem(scene, opts = {}) {
   function clear() {
     for (const m of motes) {
       m.mesh.visible = false;
+      if (m.mesh.userData.halo) m.mesh.userData.halo.visible = false;
       scene.remove(m.mesh);
       if (pool.length < MAX_POOL) pool.push({ mesh: m.mesh });
-      else m.mesh.material.dispose?.();
+      else {
+        m.mesh.material.dispose?.();
+        m.mesh.userData.halo?.material.dispose?.();
+      }
     }
     motes.length = 0;
   }

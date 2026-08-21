@@ -362,7 +362,9 @@ describe("Phase 3 — Rusher state flow", () => {
     const scene = new THREE.Scene();
     const { createCreatureSystem } = await import("../src/creatures/creatureSystem.js");
     const cs = createCreatureSystem(scene, null, null);
-    const rusher = cs.getCreatures().find(c => c.state.type === "rusher");
+    // Pick an AGGRESSIVE rusher if present for deterministic aggro, else any rusher
+    let rusher = cs.getCreatures().find(c => c.state.type === "rusher" && c.state.temperament === "AGGRESSIVE");
+    if (!rusher) rusher = cs.getCreatures().find(c => c.state.type === "rusher");
     assert.ok(rusher, "rusher exists");
     // Start ROAM
     assert.equal(rusher.state.aiState, "ROAM");
@@ -386,7 +388,8 @@ describe("Phase 3 — Rusher state flow", () => {
     const scene = new THREE.Scene();
     const { createCreatureSystem } = await import("../src/creatures/creatureSystem.js");
     const cs = createCreatureSystem(scene, null, null);
-    const rusher = cs.getCreatures().find(c => c.state.type === "rusher");
+    let rusher = cs.getCreatures().find(c => c.state.type === "rusher" && c.state.temperament === "AGGRESSIVE");
+    if (!rusher) rusher = cs.getCreatures().find(c => c.state.type === "rusher");
     // Force into WINDUP
     rusher.state.aiState = "WINDUP";
     rusher.state.aiTimer = 0;
@@ -415,7 +418,8 @@ describe("Phase 3 — Rusher state flow", () => {
     const cs = createCreatureSystem(scene, null, null, {
       onPlayerDamage: () => { damageCalls += 1; return true; },
     });
-    const rusher = cs.getCreatures().find(c => c.state.type === "rusher");
+    let rusher = cs.getCreatures().find(c => c.state.type === "rusher" && c.state.temperament === "AGGRESSIVE");
+    if (!rusher) rusher = cs.getCreatures().find(c => c.state.type === "rusher");
     rusher.state.aiState = "LUNGE";
     rusher.state.aiTimer = 0;
     rusher.state.targetLungeDir = { x: 1, z: 0 };

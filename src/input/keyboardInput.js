@@ -1,6 +1,7 @@
 // src/input/keyboardInput.js — desktop fallback, feeds unified intent (Phase 1.1)
 
 import { classifyMovementBand } from "../movement/movementBands.js";
+import { GESTURE_CONFIG } from "./gesture.js";
 
 export function createKeyboardInput(moveCfg, appElement = null) {
   const pressed = new Set();
@@ -9,6 +10,10 @@ export function createKeyboardInput(moveCfg, appElement = null) {
   let attackPending = false;
   let attackConsumed = false;
   let mouseAttackPending = false;
+  let mouseDown = false;
+  let mouseDownTime = 0;
+  let fDownTime = 0;
+  let isFDown = false;
 
   function requestAttack() {
     if (!attackConsumed) {
@@ -19,9 +24,10 @@ export function createKeyboardInput(moveCfg, appElement = null) {
 
   function onKeyDown(e) {
     const k = e.key.toLowerCase();
-    // Phase 3: F is attack fallback + left click elsewhere handles attack
+    // Phase 3.1: F tap = one swing, hold = repeat
     if (k === "f") {
       if (!attackConsumed) { attackPending = true; attackConsumed = true; }
+      if (!isFDown) { isFDown = true; fDownTime = performance.now(); }
       e.preventDefault();
     }
     // Phase 1.1: C is primary sneak. X added as ergonomic alternative next to WASD (Alt would conflict with browser, see note).
@@ -44,33 +50,36 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     if (k === "f") {
       attackPending = false;
       attackConsumed = false;
+      isFDown = false;
     }
   }
 
   function onMouseDown(e) {
-    // Left click = attack (desktop). Ignore if target is UI button.
     if (e.button !== 0) return;
     if (e.target.closest && e.target.closest("button, a")) return;
-    // Only for mouse pointer
     if (e.pointerType && e.pointerType !== "mouse") return;
-    // Treat any left click on app canvas as attack request (one-frame)
     mouseAttackPending = true;
+    mouseDown = true;
+    mouseDownTime = performance.now();
   }
-  // Also handle generic click for fallback if pointerdown not captured
+  function onMouseUp(e) {
+    if (e.button !== 0) return;
+    mouseDown = false;
+  }
   function onPointerUpForMouse(e) {
     if (e.button !== 0) return;
-    // Already handled via mousedown; keep pending until consumed
   }
 
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
-  // Desktop attack via left mouse click on document (filtered to not be on buttons)
+  window.addEventListener("pointerup", onMouseUp);
+  window.addEventListener("mouseup", onMouseUp);
   const clickTarget = appElement ?? (typeof document !== "undefined" ? document : null);
   if (clickTarget && clickTarget.addEventListener) {
-    // Use pointerdown for immediate attack
     clickTarget.addEventListener("pointerdown", onMouseDown);
-    // Also allow mousedown fallback
     clickTarget.addEventListener("mousedown", onMouseDown);
+    clickTarget.addEventListener("pointerup", onMouseUp);
+    clickTarget.addEventListener("mouseup", onMouseUp);
   } else {
     window.addEventListener("pointerdown", onMouseDown);
     window.addEventListener("mousedown", onMouseDown);
@@ -112,10 +121,13 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     const dodgeY = ny;
 
     let attackRequested = false;
-    if (attackPending && !attackConsumed) {
-      // already set
-    }
     if (attackPending || mouseAttackPending) attackRequested = true;
+
+    // Hold detection (desktop parity): if mouse or F held beyond threshold, set attackHeld
+    let attackHeld = false;
+    const now = performance.now();
+    if (mouseDown && now - mouseDownTime >= (GESTURE_CONFIG.holdThresholdMs ?? 220)) attackHeld = true;
+    if (isFDown && now - fDownTime >= (GESTURE_CONFIG.holdThresholdMs ?? 220)) attackHeld = true;
 
     return {
       moveX: nx,
@@ -126,6 +138,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
       dodgeX,
       dodgeY,
       attackRequested,
+      attackHeld,
     };
   }
 
@@ -148,10 +161,14 @@ export function createKeyboardInput(moveCfg, appElement = null) {
   function destroy() {
     window.removeEventListener("keydown", onKeyDown);
     window.removeEventListener("keyup", onKeyUp);
+    window.removeEventListener("pointerup", onMouseUp);
+    window.removeEventListener("mouseup", onMouseUp);
     const t = appElement ?? (typeof document !== "undefined" ? document : null);
     if (t && t.removeEventListener) {
       t.removeEventListener("pointerdown", onMouseDown);
       t.removeEventListener("mousedown", onMouseDown);
+      t.removeEventListener("pointerup", onMouseUp);
+      t.removeEventListener("mouseup", onMouseUp);
     } else {
       window.removeEventListener("pointerdown", onMouseDown);
       window.removeEventListener("mousedown", onMouseDown);

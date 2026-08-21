@@ -3,12 +3,16 @@ import * as THREE from "three";
 import { createWildCreature } from "./createWildCreature.js";
 import { RUSHER_CONFIG, SPITTER_CONFIG, COMBAT_CONFIG } from "../combat/combatConfig.js";
 import { CREATURE_SPAWNS } from "./creatureConfig.js";
+import { TEMPERAMENT, TEMPERAMENT_CONFIG, defensiveShouldRetaliate, skittishShouldFlee, territorialShouldWarn, territorialShouldAttack } from "./temperament.js";
+import { findNearestEligible, distanceXZ as distXZpercep, canTargetActor } from "./perception.js";
+import { chooseSteeringDirection, isMovementStalled, STEERING_CONFIG } from "./steering.js";
 
 export function createCreatureSystem(scene, physicsWorld, playground, opts = {}) {
   const creatures = [];
   let playerPosRef = { x: 0, y: 0.5, z: 5.5 };
   let playerStateRef = null;
   let isPlayerInvuln = () => false;
+  let elapsed = 0;
 
   const callbacks = {
     onCreatureDamaged: opts.onCreatureDamaged ?? (() => {}),
@@ -17,7 +21,6 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     onRequestProjectile: opts.onRequestProjectile ?? (() => {}),
   };
 
-  // Create from spawns
   for (let i = 0; i < CREATURE_SPAWNS.length; i++) {
     const spawn = CREATURE_SPAWNS[i];
     const c = createWildCreature(scene, physicsWorld, spawn, i);
@@ -43,19 +46,157 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     const py = playerPosRef.y ?? 0.5;
     const cy = c.state.pos.y ?? 0.5;
     const dy = Math.abs(py - cy);
-    return dy <= COMBAT_CONFIG.verticalTolerance + 0.4; // for aggro, more permissive
+    return dy <= COMBAT_CONFIG.verticalTolerance + 0.4;
   }
 
-  function moveTowards(creature, targetPos, speed, dt) {
-    const pos = creature.state.pos;
+  function isVerticallyValidPos(a, b) {
+    const dy = Math.abs((a.y ?? 0.5) - (b.y ?? 0.5));
+    return dy <= COMBAT_CONFIG.verticalTolerance + 0.4;
+  }
+
+  // --- movement helpers with steering ---
+
+  function probeBlocked(from, angle, distance, radius) {
+    // Use Rapier cast if available, else simple AABB check
+    if (physicsWorld && physicsWorld.world && physicsWorld.RAPIER && typeof physicsWorld.RAPIER.Ball === "function") {
+      try {
+        const RAPIER = physicsWorld.RAPIER;
+        const shape = new RAPIER.Ball(radius);
+        const rot = { x: 0, y: 0, z: 0, w: 1 };
+        const to = { x: from.x + Math.cos(angle) * distance, y: from.y, z: from.z + Math.sin(angle) * distance };
+        const vel = { x: to.x - from.x, y: to.y - from.y, z: to.z - from.z };
+        // exclude self collider? Not needed for probing world only; we can exclude all creature colliders to avoid self-blocking
+        const exclude = new Set(creatures.filter(cc => cc.collider).map(cc => cc.collider));
+        // also exclude player? player collider not world; but treat as not blocking steering (we can move towards player)
+        const pred = exclude.size > 0 ? (collider) => {
+          for (const ex of exclude) if (ex === collider || ex.handle === collider.handle) return false;
+          return true;
+        } : null;
+        const hit = physicsWorld.world.castShape(from, rot, vel, shape, 0, 1.0, true, undefined, undefined, undefined, undefined, pred);
+        if (hit) {
+          const toi = hit.timeOfImpact ?? hit.toi ?? 0;
+          if (toi < 1.0 - 1e-3) return true;
+        }
+        return false;
+      } catch {}
+    }
+    // fallback AABB
+    if (!playground) return false;
+    const to = { x: from.x + Math.cos(angle) * distance, y: from.y, z: from.z + Math.sin(angle) * distance };
+    const mid = { x: (from.x + to.x) * 0.5, y: from.y, z: (from.z + to.z) * 0.5 };
+    for (const o of playground.obstacles ?? []) {
+      const h = o.height ?? 1.0;
+      if (mid.y > h + radius + 0.2) continue;
+      const aabb = o.aabb; if (!aabb) continue;
+      const minX = aabb.minX - radius, maxX = aabb.maxX + radius, minZ = aabb.minZ - radius, maxZ = aabb.maxZ + radius;
+      if (mid.x >= minX && mid.x <= maxX && mid.z >= minZ && mid.z <= maxZ) return true;
+    }
+    for (const p of playground.platforms ?? []) {
+      const h = p.height;
+      if (mid.y > h + radius + 0.2) continue;
+      const aabb = p.aabb;
+      const minX = aabb.minX - radius, maxX = aabb.maxX + radius, minZ = aabb.minZ - radius, maxZ = aabb.maxZ + radius;
+      if (mid.x >= minX && mid.x <= maxX && mid.z >= minZ && mid.z <= maxZ) return true;
+    }
+    return false;
+  }
+
+  function moveWithSteering(creature, targetPos, speed, dt) {
+    const st = creature.state;
+    const pos = st.pos;
     const dx = targetPos.x - pos.x;
     const dz = targetPos.z - pos.z;
     const len = Math.hypot(dx, dz);
     if (len < 1e-5) return;
-    const nx = dx / len, nz = dz / len;
-    creature.state.facing = Math.atan2(nx, nz);
-    const dist = speed * dt;
-    creature.move({ x: nx * dist, y: 0, z: nz * dist });
+    let desiredAngle = Math.atan2(dx, dz); // note: atan2(dx, dz) as used elsewhere? Consistent with facing = atan2(nx,nz)
+    // steering hold
+    if (st.steerHold > 0 && st.steerAngle !== null) {
+      st.steerHold -= dt;
+      desiredAngle = st.steerAngle;
+      if (st.steerHold <= 0) st.steerAngle = null;
+    }
+    const desiredDir = { x: Math.sin(desiredAngle), z: Math.cos(desiredAngle) };
+    const desiredDist = speed * dt;
+    // try direct first
+    const from = { x: pos.x, y: pos.y, z: pos.z };
+    const radius = st.cfg.capsuleRadius ?? 0.32;
+    const probeDist = STEERING_CONFIG.probeDistance;
+    const directBlocked = probeBlocked(from, desiredAngle, probeDist, radius);
+    if (!directBlocked) {
+      // reset steering hold
+      st.steerHold = 0;
+      st.steerAngle = null;
+      st.facing = desiredAngle;
+      const res = creature.move({ x: desiredDir.x * desiredDist, y: 0, z: desiredDir.z * desiredDist });
+      // check stall
+      const corrMag = Math.hypot(res.corrected.x, res.corrected.z);
+      if (isMovementStalled({ desiredMag: desiredDist, correctedMag: corrMag })) {
+        // consider blocked for next frame -> will probe sides
+        st.steerHold = STEERING_CONFIG.holdDuration;
+        // keep facing
+      }
+      // light separation if many creatures overlapping and collision disabled — push a bit
+      applySeparation(creature, dt);
+      return;
+    }
+    // direct blocked: probe sides
+    const left45 = desiredAngle + Math.PI / 4;
+    const right45 = desiredAngle - Math.PI / 4;
+    const left90 = desiredAngle + Math.PI / 2.2;
+    const right90 = desiredAngle - Math.PI / 2.2;
+    const probes = {
+      directBlocked: true,
+      left45Blocked: probeBlocked(from, left45, probeDist, radius),
+      right45Blocked: probeBlocked(from, right45, probeDist, radius),
+      left90Blocked: probeBlocked(from, left90, probeDist, radius),
+      right90Blocked: probeBlocked(from, right90, probeDist, radius),
+    };
+    const preferLeft = st._lastSteerLeft ?? null;
+    const chosen = chooseSteeringDirection({ desiredAngle, probeResults: probes, preferLeft });
+    if (chosen !== null) {
+      st.steerAngle = chosen;
+      st.steerHold = STEERING_CONFIG.holdDuration;
+      st._lastSteerLeft = chosen > desiredAngle;
+      st.facing = chosen;
+      const dirX = Math.sin(chosen), dirZ = Math.cos(chosen);
+      creature.move({ x: dirX * desiredDist, y: 0, z: dirZ * desiredDist });
+      applySeparation(creature, dt);
+    } else {
+      // all blocked: slight random nudge
+      st.facing += (Math.random() - 0.5) * 0.2;
+    }
+  }
+
+  function applySeparation(creature, dt) {
+    // light separation when creature colliders disabled — avoid center overlap
+    if (creature.collider) return; // only when disabled does separation matter? spec says if disabled, need light separation
+    const st = creature.state;
+    let sepX = 0, sepZ = 0, count = 0;
+    for (const other of creatures) {
+      if (other === creature) continue;
+      if (other.state.isDead || other.state.aiState === "RESPAWNING") continue;
+      const dx = st.pos.x - other.state.pos.x;
+      const dz = st.pos.z - other.state.pos.z;
+      const d2 = dx * dx + dz * dz;
+      const r = STEERING_CONFIG.separationRadius;
+      if (d2 < r * r && d2 > 1e-6) {
+        const d = Math.sqrt(d2);
+        sepX += (dx / d) * (r - d);
+        sepZ += (dz / d) * (r - d);
+        count++;
+      }
+    }
+    if (count > 0) {
+      sepX /= count; sepZ /= count;
+      const len = Math.hypot(sepX, sepZ) || 1;
+      const nx = sepX / len, nz = sepZ / len;
+      creature.move({ x: nx * STEERING_CONFIG.separationStrength * dt, y: 0, z: nz * STEERING_CONFIG.separationStrength * dt });
+    }
+  }
+
+  function moveTowards(creature, targetPos, speed, dt) {
+    // use steering variant
+    moveWithSteering(creature, targetPos, speed, dt);
   }
 
   function moveAway(creature, targetPos, speed, dt) {
@@ -64,20 +205,42 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     const dz = pos.z - targetPos.z;
     const len = Math.hypot(dx, dz) || 1;
     const nx = dx / len, nz = dz / len;
+    const awayTarget = { x: pos.x + nx * 2.0, y: pos.y, z: pos.z + nz * 2.0 };
+    moveWithSteering(creature, awayTarget, speed, dt);
     creature.state.facing = Math.atan2(nx, nz);
-    creature.move({ x: nx * speed * dt, y: 0, z: nz * speed * dt });
   }
 
   function wander(creature, dt) {
-    // simple roam: slight random facing drift
-    creature.state.aiTimer += dt;
-    if (creature.state.aiTimer > 1.2 + Math.random()) {
-      creature.state.facing += (Math.random() - 0.5) * 0.9;
-      creature.state.aiTimer = 0;
+    const st = creature.state;
+    // home/roam bounded wandering
+    st.aiTimer += dt;
+    // leash check: if far from home, return
+    const homeDist = distanceXZ(st.pos, st.homePos);
+    if (homeDist > st.leashRadius) {
+      st.aiState = "RETURN";
+      st.aiTimer = 0;
+      return;
     }
-    const speed = creature.state.cfg.moveSpeed * 0.35;
-    const f = creature.state.facing;
-    creature.move({ x: Math.sin(f) * speed * dt, y: 0, z: Math.cos(f) * speed * dt });
+    if (homeDist > st.roamRadius + 0.5) {
+      // drift toward home
+      moveTowards(creature, st.homePos, st.cfg.moveSpeed * 0.45, dt);
+      return;
+    }
+    if (st.aiTimer > 1.2 + Math.random()) {
+      // pick random facing but bias toward home if near roam edge
+      let newFacing = st.facing + (Math.random() - 0.5) * 0.9;
+      if (homeDist > st.roamRadius * 0.6) {
+        const toHomeAngle = Math.atan2(st.homePos.x - st.pos.x, st.homePos.z - st.pos.z);
+        const diff = Math.atan2(Math.sin(toHomeAngle - newFacing), Math.cos(toHomeAngle - newFacing));
+        newFacing += diff * 0.35;
+      }
+      st.facing = newFacing;
+      st.aiTimer = 0;
+    }
+    const speed = st.cfg.moveSpeed * 0.35;
+    const f = st.facing;
+    const target = { x: st.pos.x + Math.sin(f) * 0.6, y: st.pos.y, z: st.pos.z + Math.cos(f) * 0.6 };
+    moveWithSteering(creature, target, speed, dt);
   }
 
   function dealDamageToPlayer(creature, sourcePos) {
@@ -87,17 +250,56 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     return ok;
   }
 
-  function damageCreature(creature, amount, sourcePos, knockbackDir) {
+  function dealDamageToWildkin(attacker, target, sourcePos) {
+    if (!target || target.state.isDead || target.state.aiState === "RESPAWNING") return false;
+    // owner exclusion already handled
+    const dmg = attacker.state.cfg.damage ?? 1;
+    const isPlayerAttacker = attacker === "player" || attacker.actorType === "player";
+    // use same damageCreature but track source as wildkin
+    const source = sourcePos ?? attacker.state.pos;
+    // knockback direction from attacker to target
+    const dx = target.state.pos.x - source.x;
+    const dz = target.state.pos.z - source.z;
+    const len = Math.hypot(dx, dz) || 1;
+    const dir = { x: dx / len, z: dz / len };
+    const ok = damageCreature(target, dmg, source, dir, attacker);
+    return ok;
+  }
+
+  function damageCreature(creature, amount, sourcePos, knockbackDir, attacker = null) {
     if (creature.state.isDead) return false;
     if (creature.state.aiState === "RESPAWNING") return false;
     creature.state.health -= amount;
-    // flash / hurt
+    // track attacker for retaliation and XP farming
+    const attackerId = attacker?.state?.id ?? attacker?.id ?? (attacker === "player" ? "player" : null);
+    if (attackerId) {
+      creature.state.lastAttackerId = attackerId;
+      creature.state.lastHitTime = elapsed;
+      if (attackerId === "player" || (typeof attackerId === "string" && attackerId.startsWith("player")) || attacker === "player") {
+        creature.state.playerDamaged = true;
+        creature.state.lastDamagedByPlayer = true;
+      } else {
+        // wildkin attacker: set retaliation target if defensive
+        if (creature.state.temperament === TEMPERAMENT.DEFENSIVE) {
+          creature.state.retaliationTargetId = attackerId;
+          creature.state.retaliationRemaining = TEMPERAMENT_CONFIG.DEFENSIVE.retaliationDuration ?? 5.0;
+        }
+        // skittish flee more urgently
+        if (creature.state.temperament === TEMPERAMENT.SKITTISH) {
+          creature.state.fleeTime = TEMPERAMENT_CONFIG.SKITTISH.postHitFleeDuration ?? 4.5;
+          creature.state.fleeTargetId = attackerId;
+        }
+      }
+    } else if (sourcePos) {
+      // legacy player source without attacker object -> assume player
+      creature.state.playerDamaged = true;
+    }
+
     creature.state.hurtTime = creature.state.cfg.hurtLock ?? 0.16;
     creature.state.aiState = "HURT";
     creature.state.aiTimer = 0;
     callbacks.onCreatureDamaged(creature, amount);
 
-    // knockback away from player
     if (knockbackDir) {
       const dist = creature.state.cfg.knockbackDistance ?? 0.7;
       creature.applyKnockback(knockbackDir, dist, 0.18);
@@ -109,9 +311,13 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       creature.applyKnockback(dir, creature.state.cfg.knockbackDistance ?? 0.7, 0.18);
     }
 
-    // visual flash handled in updateVisual later (HURT state)
     if (creature.state.health <= 0) {
       killCreature(creature);
+    } else {
+      // defensive after hit may go to ALERT quickly; skittish will flee
+      if (creature.state.temperament === TEMPERAMENT.SKITTISH) {
+        // will be handled in update loop via flee
+      }
     }
     return true;
   }
@@ -122,114 +328,284 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     creature.state.aiState = "DEAD";
     creature.state.aiTimer = 0;
     creature.state.isAggroed = false;
-    // clear ring
+    creature.state.hasWarned = false;
+    creature.state.warnTime = 0;
+    creature.state.fleeTime = 0;
+    creature.state.retaliationRemaining = 0;
     creature.showFocusRing(false);
-    // disable collider? Keep but will not deal damage
-    // death effect placeholder: scale pop then hide
     creature.group.scale.set(1, 1, 1);
-    // callback will spawn XP and handle kill count; we hide after short death animation then mark RESPAWNING
+    // immediately disable collision
+    if (creature.disableCollision) creature.disableCollision();
+    // decide XP spawning elsewhere based on playerDamaged flag — pass flag via callback
     callbacks.onCreatureDied(creature);
-    // After death animation (~0.5s), hide and start respawn timer
     creature.state.respawnRemaining = creature.state.cfg.respawnSeconds ?? 10;
     creature.state.aiState = "RESPAWNING";
-    // hide mesh after short delay? We'll handle in update: while RESPAWNING, visible false after 0.4s
-    setTimeout(() => {
-      // not using setTimeout for gameplay, but for visual hide we handle in update tick
-    }, 0);
+    // hide after short death visual — keep visible for 0.25s then hide in update
+    creature._deathVisibleTime = 0.25;
   }
 
   function tryRespawn(creature, dt) {
     creature.state.respawnRemaining -= dt;
     if (creature.state.respawnRemaining > 0) return false;
-    // Check not respawning inside player
-    const spawn = creature.state.spawnPos;
-    const dist = distanceXZ(spawn, playerPosRef);
+    const home = creature.state.homePos ?? creature.state.spawnPos;
+    const dist = distanceXZ(home, playerPosRef);
     if (dist < 1.8) {
-      // defer: keep respawnRemaining small
       creature.state.respawnRemaining = 0.5;
       return false;
     }
-    // Reset
+    // also check safe distance from other creatures? small separation
+    for (const other of creatures) {
+      if (other === creature) continue;
+      if (other.state.isDead || other.state.aiState === "RESPAWNING") continue;
+      if (distanceXZ(home, other.state.pos) < 0.9) {
+        creature.state.respawnRemaining = 0.7;
+        return false;
+      }
+    }
     creature.state.isDead = false;
     creature.state.health = creature.state.cfg.health;
     creature.state.aiState = "ROAM";
     creature.state.aiTimer = 0;
     creature.state.hurtTime = 0;
     creature.state.isAggroed = false;
+    creature.state.hasWarned = false;
+    creature.state.warnTime = 0;
+    creature.state.fleeTime = 0;
+    creature.state.retaliationTargetId = null;
+    creature.state.retaliationRemaining = 0;
+    creature.state.playerDamaged = false;
+    creature.state.lastAttackerId = null;
     creature.state.facing = Math.random() * Math.PI * 2;
-    const startY = spawn.y + creature.state.cfg.capsuleHalfHeight + creature.state.cfg.capsuleRadius + 0.05;
-    const pos = { x: spawn.x, y: startY, z: spawn.z };
+    creature.state.steerHold = 0;
+    creature.state.steerAngle = null;
+    const startY = home.y + creature.state.cfg.capsuleHalfHeight + creature.state.cfg.capsuleRadius + 0.05;
+    const pos = { x: home.x, y: startY, z: home.z };
     creature.setPosition(pos);
+    if (creature.enableCollision) creature.enableCollision();
     creature.group.visible = true;
     creature.group.scale.set(0.2, 0.2, 0.2);
-    // pop animation will interpolate in updateVisual
     creature._respawnPop = 0;
+    creature._deathVisibleTime = undefined;
     return true;
   }
 
+  // --- temperament decision helpers ---
+
+  function selectWildkinTarget(attacker) {
+    const st = attacker.state;
+    const pos = st.pos;
+    // aggressive may attack configured hostile species
+    const hostile = st.hostileSpecies ?? [];
+    const candidates = creatures.filter(c => c !== attacker && !c.state.isDead && c.state.aiState !== "RESPAWNING");
+    let best = null;
+    let bestDist = Infinity;
+    for (const cand of candidates) {
+      const cPos = cand.state.pos;
+      const d = distanceXZ(pos, cPos);
+      if (d > st.noticeRadius + 1) continue;
+      if (!isVerticallyValidPos(pos, cPos)) continue;
+      // eligibility based on temperament
+      let eligible = false;
+      if (st.temperament === TEMPERAMENT.AGGRESSIVE) {
+        const species = cand.state.speciesTag;
+        if (hostile.length > 0) eligible = hostile.includes(species);
+        else eligible = true; // fallback allow any
+      } else if (st.temperament === TEMPERAMENT.DEFENSIVE) {
+        // only if retaliating against attacker
+        if (st.retaliationTargetId && cand.state.id === st.retaliationTargetId && st.retaliationRemaining > 0) eligible = true;
+      } else if (st.temperament === TEMPERAMENT.TERRITORIAL) {
+        // territorial vs wildkin similar to player: needs personal intrusion
+        if (d <= st.personalSpaceRadius + 0.5) eligible = true;
+      }
+      if (!eligible) continue;
+      if (d < bestDist) { bestDist = d; best = cand; }
+    }
+    return best ? { target: best, dist: bestDist } : null;
+  }
+
+  function selectPlayerOrWildkinTarget(creature) {
+    const st = creature.state;
+    const pos = st.pos;
+    // choose between player and wildkin targets based on temperament
+    let playerCandidate = null;
+    let playerDist = distanceXZ(pos, playerPosRef);
+    const playerVertOk = isVerticallyValidPos(pos, playerPosRef);
+    const wildkinSel = selectWildkinTarget(creature);
+
+    // decide per temperament
+    if (st.temperament === TEMPERAMENT.DEFENSIVE) {
+      // only attack if retaliating against that specific actor
+      if (st.retaliationTargetId) {
+        if (st.retaliationTargetId === "player" && playerVertOk && playerDist <= st.noticeRadius) {
+          playerCandidate = { pos: playerPosRef, isPlayer: true, dist: playerDist };
+        }
+        // wildkin already filtered
+        // prefer retaliation target
+        if (wildkinSel && wildkinSel.target.state.id === st.retaliationTargetId) return { targetPos: wildkinSel.target.state.pos, targetCreature: wildkinSel.target, isPlayer: false, dist: wildkinSel.dist };
+        if (playerCandidate && st.retaliationTargetId === "player") return { targetPos: playerPosRef, isPlayer: true, dist: playerDist };
+        // if no valid retaliation target, no target
+        return null;
+      }
+      return null; // defensive ignores otherwise
+    }
+
+    if (st.temperament === TEMPERAMENT.SKITTISH) {
+      // skittish never initiates attack; returns null for attack; flee is separate
+      return null;
+    }
+
+    if (st.temperament === TEMPERAMENT.TERRITORIAL) {
+      // check player intrusion
+      const inPersonal = playerDist <= st.personalSpaceRadius && playerVertOk;
+      const inNotice = playerDist <= st.noticeRadius && playerVertOk;
+      // also wildkin intrusion
+      if (wildkinSel && distanceXZ(pos, wildkinSel.target.state.pos) <= st.personalSpaceRadius) {
+        return { targetPos: wildkinSel.target.state.pos, targetCreature: wildkinSel.target, isPlayer: false, dist: wildkinSel.dist };
+      }
+      if (inPersonal) {
+        // need warn first
+        if (st.hasWarned && st.warnTime >= (TEMPERAMENT_CONFIG.TERRITORIAL.warnDuration ?? 1.0)) {
+          return { targetPos: playerPosRef, isPlayer: true, dist: playerDist };
+        }
+        // else no attack yet (warn)
+        return null;
+      }
+      if (inNotice && st.timeInsideNotice >= (TEMPERAMENT_CONFIG.TERRITORIAL.persistTime ?? 1.2)) {
+        if (st.hasWarned && st.warnTime >= (TEMPERAMENT_CONFIG.TERRITORIAL.warnDuration ?? 1.0)) {
+          return { targetPos: playerPosRef, isPlayer: true, dist: playerDist };
+        }
+        return null;
+      }
+      // else no attack
+      if (wildkinSel) return { targetPos: wildkinSel.target.state.pos, targetCreature: wildkinSel.target, isPlayer: false, dist: wildkinSel.dist };
+      return null;
+    }
+
+    if (st.temperament === TEMPERAMENT.AGGRESSIVE) {
+      // may attack player or hostile wildkin
+      // choose nearest eligible
+      let best = null;
+      if (playerVertOk && playerDist <= st.noticeRadius) {
+        best = { targetPos: playerPosRef, isPlayer: true, dist: playerDist, targetCreature: null };
+      }
+      if (wildkinSel) {
+        if (!best || wildkinSel.dist < best.dist) {
+          best = { targetPos: wildkinSel.target.state.pos, targetCreature: wildkinSel.target, isPlayer: false, dist: wildkinSel.dist };
+        }
+      }
+      return best;
+    }
+    return null;
+  }
+
+  function shouldFlee(creature) {
+    const st = creature.state;
+    if (st.temperament !== TEMPERAMENT.SKITTISH) return false;
+    if (st.fleeTime > 0) return true;
+    // also if threat within notice (player or aggressive wildkin)
+    const playerDist = distanceXZ(st.pos, playerPosRef);
+    if (playerDist <= st.noticeRadius + 1.0 && isVerticallyValidPos(st.pos, playerPosRef)) return true;
+    // check nearest aggressive wildkin near
+    for (const other of creatures) {
+      if (other === creature) continue;
+      if (other.state.isDead || other.state.aiState === "RESPAWNING") continue;
+      if (other.state.temperament !== TEMPERAMENT.AGGRESSIVE) continue;
+      const d = distanceXZ(st.pos, other.state.pos);
+      if (d <= 4.5 && isVerticallyValidPos(st.pos, other.state.pos)) return true;
+    }
+    return false;
+  }
+
   function update(dt) {
-    // Update each creature AI
+    elapsed += dt;
     for (const c of creatures) {
       const st = c.state;
-      // Handle respawning
+      // respawning
       if (st.aiState === "RESPAWNING") {
-        c.group.visible = false; // hide while waiting
-        // Still need to update visual scale pop? Hidden.
+        // handle death visible time before hide
+        if (c._deathVisibleTime !== undefined) {
+          c._deathVisibleTime -= dt;
+          if (c._deathVisibleTime <= 0) {
+            c.group.visible = false;
+            c._deathVisibleTime = undefined;
+          }
+        } else {
+          c.group.visible = false;
+        }
         tryRespawn(c, dt);
         if (st.aiState !== "RESPAWNING") {
-          // Just respawned: make visible and animate pop in next frames
           c.group.visible = true;
           st.aiState = "ROAM";
         }
         continue;
       }
-      if (st.isDead) {
-        // Should be RESPAWNING now; if not, keep handling death hide
-        continue;
-      }
+      if (st.isDead) continue;
 
-      // Hurt lock
+      // timers
+      if (st.retaliationRemaining > 0) st.retaliationRemaining = Math.max(0, st.retaliationRemaining - dt);
+      else st.retaliationTargetId = null;
+      if (st.fleeTime > 0) st.fleeTime = Math.max(0, st.fleeTime - dt);
+      if (st.warnTime !== undefined && st.hasWarned) st.warnTime += dt;
+
+      // hurt lock
       if (st.aiState === "HURT") {
         st.hurtTime -= dt;
         st.aiTimer += dt;
         c.updateVisual(dt);
         if (st.hurtTime <= 0) {
-          st.aiState = "ALERT"; // go back to chase logic
-          st.aiTimer = 0;
+          // after hurt, skittish should flee, defensive may retaliate, else alert
+          if (st.temperament === TEMPERAMENT.SKITTISH) { st.aiState = "FLEE"; st.aiTimer = 0; st.fleeTime = TEMPERAMENT_CONFIG.SKITTISH.postHitFleeDuration ?? 4.5; }
+          else if (st.temperament === TEMPERAMENT.DEFENSIVE && st.retaliationTargetId) { st.aiState = "ALERT"; st.aiTimer = 0; }
+          else { st.aiState = "ALERT"; st.aiTimer = 0; }
         }
         continue;
       }
 
-      // General aggro check
-      const distToPlayer = distanceXZ(st.pos, playerPosRef);
-      const aggroRadius = st.cfg.aggroRadius ?? 5.5;
-      const verticallyOk = isVerticallyValid(c);
-      if (!st.isAggroed && distToPlayer <= aggroRadius && verticallyOk) {
-        st.isAggroed = true;
-        st.aiState = "ALERT";
-        st.aiTimer = 0;
-      }
-      if (st.isAggroed && distToPlayer > aggroRadius + 1.5) {
-        // de-aggro after distance
-        // But keep aggro if recently in combat? For now distance based
-        // Also check vertical invalid -> deaggro
-        if (!verticallyOk || distToPlayer > aggroRadius + 3.0) {
-          st.isAggroed = false;
-          st.aiState = "ROAM";
+      // leash check
+      const homeDist = distanceXZ(st.pos, st.homePos);
+      if (homeDist > st.leashRadius) {
+        if (st.aiState !== "RETURN" && st.aiState !== "FLEE") {
+          st.aiState = "RETURN";
           st.aiTimer = 0;
+          st.isAggroed = false;
+          st.hasWarned = false;
         }
       }
 
-      // AI state machine per type
+      // skittish flee has priority
+      if (st.temperament === TEMPERAMENT.SKITTISH && shouldFlee(c)) {
+        if (st.aiState !== "FLEE") { st.aiState = "FLEE"; st.aiTimer = 0; if (st.fleeTime <= 0) st.fleeTime = TEMPERAMENT_CONFIG.SKITTISH.fleeDuration ?? 3.5; }
+      }
+
+      // territorial timeInsideNotice tracking
+      if (st.temperament === TEMPERAMENT.TERRITORIAL) {
+        const d = distanceXZ(st.pos, playerPosRef);
+        if (d <= st.noticeRadius && isVerticallyValidPos(st.pos, playerPosRef)) st.timeInsideNotice = (st.timeInsideNotice ?? 0) + dt;
+        else st.timeInsideNotice = 0;
+        // warn handling
+        if (distanceXZ(st.pos, playerPosRef) <= st.noticeRadius && isVerticallyValidPos(st.pos, playerPosRef)) {
+          if (!st.hasWarned && territorialShouldWarn({ dist: d, noticeRadius: st.noticeRadius, personalSpace: st.personalSpaceRadius, timeInsideNotice: st.timeInsideNotice, temperament: st.temperament })) {
+            st.aiState = "WARN";
+            st.aiTimer = 0;
+            st.hasWarned = true;
+            st.warnTime = 0;
+          }
+        }
+      }
+
+      // General target selection for aggressive/territorial/defensive is handled in updateRusher/Spitter via selectPlayerOrWildkinTarget
+      // For legacy aggro check: keep but temperament overrides
+
+      // AI state machine per type (extended)
       if (st.type === "rusher") {
-        updateRusher(c, dt, distToPlayer);
+        updateRusher(c, dt);
       } else if (st.type === "spitter") {
-        updateSpitter(c, dt, distToPlayer);
+        updateSpitter(c, dt);
       }
 
       c.updateVisual(dt);
+      updateVisualTemperament(c, dt);
 
-      // Pop animation for respawn
       if (c._respawnPop !== undefined) {
         c._respawnPop += dt;
         const dur = 0.36;
@@ -245,94 +621,179 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     }
   }
 
-  function updateRusher(c, dt, dist) {
+  function updateVisualTemperament(c, dt) {
+    const st = c.state;
+    if (st.aiState === "WARN") {
+      // pulse emissive orange for warning
+      const pulse = Math.sin(st.aiTimer * 9) * 0.5 + 0.5;
+      if (c.mainMesh && c.mainMesh.material) {
+        const base = st.type === "rusher" ? 0xe14b2a : 0x7a4de8;
+        // lerp color intensity
+        c.mainMesh.material.emissive?.setHex?.(pulse > 0.5 ? 0x553300 : 0x331100);
+      }
+      c.group.scale.set(1 + pulse * 0.08, 1, 1 + pulse * 0.08);
+    }
+    if (st.aiState === "FLEE") {
+      // maybe slightly transparent or fast? keep scale normal
+    }
+    if (st.aiState === "RETURN") {
+      // could dim
+    }
+  }
+
+  function updateRusher(c, dt) {
     const st = c.state;
     const cfg = st.cfg;
+    // helper to get target (player or wildkin) based on temperament
+    const targetSel = selectPlayerOrWildkinTarget(c);
+    const hasTarget = targetSel !== null;
+    const targetPos = hasTarget ? targetSel.targetPos : null;
+    const isPlayerTarget = hasTarget ? targetSel.isPlayer : false;
+    const targetCreature = hasTarget ? targetSel.targetCreature : null;
+    const distToTarget = hasTarget ? targetSel.dist : distanceXZ(st.pos, playerPosRef);
+
     switch (st.aiState) {
       case "ROAM":
+        // skittish roam already flee handled; else normal wander
         wander(c, dt);
-        if (st.isAggroed) { st.aiState = "ALERT"; st.aiTimer = 0; }
+        // check if temperament wants to initiate
+        if (hasTarget) { st.isAggroed = true; st.aiState = "ALERT"; st.aiTimer = 0; }
+        // also if defensive retaliation target set, switch to alert
+        if (st.temperament === TEMPERAMENT.DEFENSIVE && st.retaliationTargetId) { st.aiState = "ALERT"; st.aiTimer = 0; }
         break;
-      case "ALERT":
+      case "WARN":
         st.aiTimer += dt;
-        // face player
-        {
-          const dx = playerPosRef.x - st.pos.x;
-          const dz = playerPosRef.z - st.pos.z;
-          const len = Math.hypot(dx, dz) || 1;
-          st.facing = Math.atan2(dx / len, dz / len);
+        // face threat
+        if (hasTarget && targetPos) {
+          const dx = targetPos.x - st.pos.x;
+          const dz = targetPos.z - st.pos.z;
+          st.facing = Math.atan2(dx, dz);
         }
-        if (st.aiTimer > 0.28) {
-          st.aiState = "CHASE";
+        // after warnDuration, go to CHASE if still intruding
+        if (st.aiTimer >= (TEMPERAMENT_CONFIG.TERRITORIAL.warnDuration ?? 1.0)) {
+          // if still personal space intrusion, attack
+          if (hasTarget) { st.aiState = "CHASE"; st.aiTimer = 0; }
+          else { st.aiState = "ROAM"; st.hasWarned = false; st.warnTime = 0; st.isAggroed = false; }
+        }
+        break;
+      case "FLEE": {
+        // move away from nearest threat
+        let threatPos = playerPosRef;
+        let bestThreatDist = distanceXZ(st.pos, playerPosRef);
+        // check nearest aggressive
+        for (const other of creatures) {
+          if (other === c) continue;
+          if (other.state.isDead || other.state.aiState === "RESPAWNING") continue;
+          if (other.state.temperament === TEMPERAMENT.AGGRESSIVE) {
+            const d = distanceXZ(st.pos, other.state.pos);
+            if (d < bestThreatDist) { bestThreatDist = d; threatPos = other.state.pos; }
+          }
+        }
+        // also wildkin attacker
+        if (st.fleeTargetId) {
+          const attacker = creatures.find(cc => cc.state.id === st.fleeTargetId);
+          if (attacker) threatPos = attacker.state.pos;
+        }
+        const fleeSpeed = cfg.moveSpeed * getFleeFactor(st);
+        moveAway(c, threatPos, fleeSpeed, dt);
+        st.fleeTime -= dt;
+        // if leash far, also return logic but flee priority
+        if (st.fleeTime <= 0) {
+          const homeD = distanceXZ(st.pos, st.homePos);
+          if (homeD > st.leashRadius * 0.8) st.aiState = "RETURN";
+          else st.aiState = "ROAM";
           st.aiTimer = 0;
         }
         break;
-      case "CHASE":
-        {
-          const dx = playerPosRef.x - st.pos.x;
-          const dz = playerPosRef.z - st.pos.z;
-          const len = Math.hypot(dx, dz) || 1;
-          st.facing = Math.atan2(dx / len, dz / len);
-          if (dist <= cfg.attackRange) {
-            st.aiState = "WINDUP";
-            st.aiTimer = 0;
-            break;
-          }
-          moveTowards(c, playerPosRef, cfg.moveSpeed, dt);
-          // re-evaluate
-          if (dist <= cfg.attackRange) {
-            st.aiState = "WINDUP";
-            st.aiTimer = 0;
-          }
-        }
+      }
+      case "RETURN":
+        moveTowards(c, st.homePos, cfg.moveSpeed * 0.85, dt);
+        if (distanceXZ(st.pos, st.homePos) < 1.2) { st.aiState = "ROAM"; st.aiTimer = 0; st.isAggroed = false; st.hasWarned = false; }
         break;
+      case "ALERT":
+        st.aiTimer += dt;
+        if (hasTarget && targetPos) {
+          const dx = targetPos.x - st.pos.x;
+          const dz = targetPos.z - st.pos.z;
+          st.facing = Math.atan2(dx, dz);
+        } else if (!hasTarget) {
+          // no valid target -> back to roam
+          st.aiState = "ROAM"; st.aiTimer = 0; st.isAggroed = false; break;
+        }
+        if (st.aiTimer > 0.28) { st.aiState = "CHASE"; st.aiTimer = 0; }
+        break;
+      case "CHASE": {
+        if (!hasTarget) { st.aiState = "RETURN"; st.aiTimer = 0; break; }
+        const dx = targetPos.x - st.pos.x;
+        const dz = targetPos.z - st.pos.z;
+        const len = Math.hypot(dx, dz) || 1;
+        st.facing = Math.atan2(dx, dz);
+        if (distToTarget <= cfg.attackRange) { st.aiState = "WINDUP"; st.aiTimer = 0; break; }
+        moveTowards(c, targetPos, cfg.moveSpeed, dt);
+        // check leash
+        if (distanceXZ(st.pos, st.homePos) > st.leashRadius) { st.aiState = "RETURN"; break; }
+        if (distToTarget <= cfg.attackRange) { st.aiState = "WINDUP"; st.aiTimer = 0; }
+        break;
+      }
       case "WINDUP":
         st.aiTimer += dt;
-        // face player during early windup, commit near end
-        if (st.aiTimer < cfg.windup * 0.7) {
-          const dx = playerPosRef.x - st.pos.x;
-          const dz = playerPosRef.z - st.pos.z;
-          const len = Math.hypot(dx, dz) || 1;
-          st.facing = Math.atan2(dx / len, dz / len);
-        } else if (!st.targetLungeDir) {
-          // commit direction near end of windup
-          const dx = playerPosRef.x - st.pos.x;
-          const dz = playerPosRef.z - st.pos.z;
-          const len = Math.hypot(dx, dz) || 1;
-          st.targetLungeDir = { x: dx / len, z: dz / len };
-          // also face committed
-          st.facing = Math.atan2(st.targetLungeDir.x, st.targetLungeDir.z);
+        if (hasTarget && targetPos) {
+          if (st.aiTimer < cfg.windup * 0.7) {
+            const dx = targetPos.x - st.pos.x;
+            const dz = targetPos.z - st.pos.z;
+            st.facing = Math.atan2(dx, dz);
+          } else if (!st.targetLungeDir) {
+            const dx = targetPos.x - st.pos.x;
+            const dz = targetPos.z - st.pos.z;
+            const len = Math.hypot(dx, dz) || 1;
+            st.targetLungeDir = { x: dx / len, z: dz / len, targetCreature, isPlayerTarget };
+            st.facing = Math.atan2(st.targetLungeDir.x, st.targetLungeDir.z);
+          }
         }
         if (st.aiTimer >= cfg.windup) {
           st.aiState = "LUNGE";
           st.aiTimer = 0;
-          if (!st.targetLungeDir) {
-            const dx = playerPosRef.x - st.pos.x;
-            const dz = playerPosRef.z - st.pos.z;
+          if (!st.targetLungeDir && hasTarget) {
+            const dx = targetPos.x - st.pos.x;
+            const dz = targetPos.z - st.pos.z;
             const len = Math.hypot(dx, dz) || 1;
-            st.targetLungeDir = { x: dx / len, z: dz / len };
+            st.targetLungeDir = { x: dx / len, z: dz / len, targetCreature, isPlayerTarget };
           }
-          // lunge velocity? We'll handle in LUNGE state per dt
           st._lungeHit = false;
+          st._lungeTargetCreature = targetCreature;
+          st._lungeIsPlayer = isPlayerTarget;
         }
         break;
       case "LUNGE":
         st.aiTimer += dt;
         {
-          const prog = st.aiTimer / cfg.lungeDuration;
-          // committed movement
           const dir = st.targetLungeDir;
           if (dir) {
             const speed = cfg.lungeSpeed ?? (cfg.lungeDistance / cfg.lungeDuration);
             c.move({ x: dir.x * speed * dt, y: 0, z: dir.z * speed * dt });
           }
-          // Check hit at mid-lunge once
           if (!st._lungeHit) {
-            const curDist = distanceXZ(st.pos, playerPosRef);
-            const vertOk = isVerticallyValid(c);
-            if (curDist <= cfg.attackRange + 0.2 && vertOk && st.aiTimer > cfg.lungeDuration * 0.35) {
-              if (!isPlayerInvuln()) {
-                dealDamageToPlayer(c, st.pos);
+            // check hit against current target (player or wildkin)
+            if (st._lungeIsPlayer) {
+              const curDist = distanceXZ(st.pos, playerPosRef);
+              const vertOk = isVerticallyValid(c);
+              if (curDist <= cfg.attackRange + 0.2 && vertOk && st.aiTimer > cfg.lungeDuration * 0.35) {
+                if (!isPlayerInvuln()) dealDamageToPlayer(c, st.pos);
+                st._lungeHit = true;
+              }
+            } else if (st._lungeTargetCreature) {
+              const tPos = st._lungeTargetCreature.state.pos;
+              const curDist = distanceXZ(st.pos, tPos);
+              const vertOk = isVerticallyValidPos(st.pos, tPos);
+              if (curDist <= cfg.attackRange + 0.35 && vertOk && st.aiTimer > cfg.lungeDuration * 0.35) {
+                dealDamageToWildkin(c, st._lungeTargetCreature, st.pos);
+                st._lungeHit = true;
+              }
+            } else {
+              // fallback to any valid target in range (for tests)
+              const curDist = distanceXZ(st.pos, playerPosRef);
+              if (curDist <= cfg.attackRange + 0.2 && st.aiTimer > cfg.lungeDuration * 0.35) {
+                if (!isPlayerInvuln()) dealDamageToPlayer(c, st.pos);
                 st._lungeHit = true;
               }
             }
@@ -342,24 +803,17 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
             st.aiTimer = 0;
             st.targetLungeDir = null;
             st._lungeHit = false;
+            st._lungeTargetCreature = null;
           }
         }
         break;
       case "RECOVER":
         st.aiTimer += dt;
-        // slight recoil? No movement
         if (st.aiTimer >= cfg.recover) {
-          // Decide next: if still in range and aggro, windup again else chase
-          if (dist <= cfg.attackRange + 0.5) {
-            st.aiState = "WINDUP";
-            st.aiTimer = 0;
-          } else if (st.isAggroed) {
-            st.aiState = "CHASE";
-            st.aiTimer = 0;
-          } else {
-            st.aiState = "ROAM";
-            st.aiTimer = 0;
-          }
+          // decide next
+          if (hasTarget && distToTarget <= cfg.attackRange + 0.5) { st.aiState = "WINDUP"; st.aiTimer = 0; }
+          else if (hasTarget) { st.aiState = "CHASE"; st.aiTimer = 0; }
+          else { st.aiState = "ROAM"; st.aiTimer = 0; st.isAggroed = false; st.hasWarned = false; }
         }
         break;
       default:
@@ -368,89 +822,119 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     }
   }
 
-  function updateSpitter(c, dt, dist) {
+  function getFleeFactor(st) {
+    if (st.temperament === TEMPERAMENT.SKITTISH && st.fleeTime > 2.0) return 1.6;
+    if (st.temperament === TEMPERAMENT.SKITTISH) return 1.35;
+    return 1;
+  }
+
+  function updateSpitter(c, dt) {
     const st = c.state;
     const cfg = st.cfg;
+    const targetSel = selectPlayerOrWildkinTarget(c);
+    const hasTarget = targetSel !== null;
+    const targetPos = hasTarget ? targetSel.targetPos : null;
+    const isPlayerTarget = hasTarget ? targetSel.isPlayer : false;
+    const targetCreature = hasTarget ? targetSel.targetCreature : null;
+    const distToTarget = hasTarget ? targetSel.dist : distanceXZ(st.pos, playerPosRef);
     switch (st.aiState) {
       case "ROAM":
         wander(c, dt);
-        if (st.isAggroed) { st.aiState = "ALERT"; st.aiTimer = 0; }
+        if (hasTarget) { st.isAggroed = true; st.aiState = "ALERT"; st.aiTimer = 0; }
+        if (st.temperament === TEMPERAMENT.DEFENSIVE && st.retaliationTargetId) { st.aiState = "ALERT"; st.aiTimer = 0; }
+        break;
+      case "WARN":
+        st.aiTimer += dt;
+        if (hasTarget && targetPos) {
+          const dx = targetPos.x - st.pos.x;
+          const dz = targetPos.z - st.pos.z;
+          st.facing = Math.atan2(dx, dz);
+        }
+        if (st.aiTimer >= (TEMPERAMENT_CONFIG.TERRITORIAL.warnDuration ?? 1.0)) {
+          if (hasTarget) { st.aiState = "REPOSITION"; st.aiTimer = 0; }
+          else { st.aiState = "ROAM"; st.hasWarned = false; }
+        }
+        break;
+      case "FLEE": {
+        let threatPos = playerPosRef;
+        let bestD = distanceXZ(st.pos, playerPosRef);
+        for (const other of creatures) {
+          if (other === c) continue;
+          if (other.state.temperament === TEMPERAMENT.AGGRESSIVE) {
+            const d = distanceXZ(st.pos, other.state.pos);
+            if (d < bestD) { bestD = d; threatPos = other.state.pos; }
+          }
+        }
+        const fleeSpeed = cfg.moveSpeed * getFleeFactor(st);
+        moveAway(c, threatPos, fleeSpeed, dt);
+        st.fleeTime -= dt;
+        if (st.fleeTime <= 0) {
+          if (distanceXZ(st.pos, st.homePos) > st.leashRadius * 0.8) st.aiState = "RETURN";
+          else st.aiState = "ROAM";
+        }
+        break;
+      }
+      case "RETURN":
+        moveTowards(c, st.homePos, cfg.moveSpeed * 0.85, dt);
+        if (distanceXZ(st.pos, st.homePos) < 1.2) { st.aiState = "ROAM"; st.aiTimer = 0; st.isAggroed = false; }
         break;
       case "ALERT":
         st.aiTimer += dt;
-        {
-          const dx = playerPosRef.x - st.pos.x;
-          const dz = playerPosRef.z - st.pos.z;
-          const len = Math.hypot(dx, dz) || 1;
-          st.facing = Math.atan2(dx / len, dz / len);
-        }
-        if (st.aiTimer > 0.32) {
-          st.aiState = "REPOSITION";
-          st.aiTimer = 0;
-        }
+        if (hasTarget && targetPos) {
+          const dx = targetPos.x - st.pos.x;
+          const dz = targetPos.z - st.pos.z;
+          st.facing = Math.atan2(dx, dz);
+        } else if (!hasTarget) { st.aiState = "ROAM"; break; }
+        if (st.aiTimer > 0.32) { st.aiState = "REPOSITION"; st.aiTimer = 0; }
         break;
-      case "REPOSITION":
-        {
-          const pref = cfg.preferredDistance ?? 4.0;
-          const dx = playerPosRef.x - st.pos.x;
-          const dz = playerPosRef.z - st.pos.z;
-          const len = Math.hypot(dx, dz) || 1;
-          st.facing = Math.atan2(dx / len, dz / len);
-          const diff = len - pref;
-          // If too close move away, if too far move towards, if within 0.6 band start windup
-          if (Math.abs(diff) < 0.6) {
-            // Good distance: windup
-            st.aiState = "WINDUP";
-            st.aiTimer = 0;
-            break;
-          }
-          if (diff < 0) {
-            // Too close, back away
-            moveAway(c, playerPosRef, cfg.moveSpeed, dt);
-          } else {
-            moveTowards(c, playerPosRef, cfg.moveSpeed, dt);
-          }
-          // After moving, if now in good band for some time, will windup next frame
-          // Also need to check if player too close: if dist < 2.0 immediate windup? We'll stay reposition
-        }
+      case "REPOSITION": {
+        if (!hasTarget) { st.aiState = "ROAM"; break; }
+        const pref = cfg.preferredDistance ?? 4.0;
+        const len = distToTarget;
+        st.facing = Math.atan2(targetPos.x - st.pos.x, targetPos.z - st.pos.z);
+        const diff = len - pref;
+        if (Math.abs(diff) < 0.6) { st.aiState = "WINDUP"; st.aiTimer = 0; break; }
+        if (diff < 0) moveAway(c, targetPos, cfg.moveSpeed, dt);
+        else moveTowards(c, targetPos, cfg.moveSpeed, dt);
+        if (distanceXZ(st.pos, st.homePos) > st.leashRadius) st.aiState = "RETURN";
         break;
+      }
       case "WINDUP":
         st.aiTimer += dt;
-        {
-          const dx = playerPosRef.x - st.pos.x;
-          const dz = playerPosRef.z - st.pos.z;
-          const len = Math.hypot(dx, dz) || 1;
-          st.facing = Math.atan2(dx / len, dz / len);
+        if (hasTarget && targetPos) {
+          const dx = targetPos.x - st.pos.x;
+          const dz = targetPos.z - st.pos.z;
+          st.facing = Math.atan2(dx, dz);
+          st._windupTargetPos = { ...targetPos };
+          st._windupTargetCreature = targetCreature;
+          st._windupIsPlayer = isPlayerTarget;
         }
         if (st.aiTimer >= cfg.windup) {
-          // Fire projectile
-          const dir = (() => {
-            const dx = playerPosRef.x - st.pos.x;
-            const dz = playerPosRef.z - st.pos.z;
-            const len = Math.hypot(dx, dz) || 1;
-            return { x: dx / len, y: 0, z: dz / len };
-          })();
-          callbacks.onRequestProjectile(st.pos, dir, c);
+          // fire towards windup target (or current if missing)
+          const aimPos = st._windupTargetPos ?? targetPos ?? playerPosRef;
+          const dx = aimPos.x - st.pos.x;
+          const dz = aimPos.z - st.pos.z;
+          const len = Math.hypot(dx, dz) || 1;
+          const dir = { x: dx / len, y: 0, z: dz / len };
+          // pass stored target info via closure? we just fire; projectile will handle targeting via swept hit, direction is initial
+          // For wildkin target, we still fire same direction
+          const projectileOwner = c;
+          // store target hint on creature for testing? not needed
+          callbacks.onRequestProjectile(st.pos, dir, projectileOwner);
           st.aiState = "RECOVER";
           st.aiTimer = 0;
+          st._windupTargetPos = null;
+          st._windupTargetCreature = null;
         }
         break;
       case "RECOVER":
         st.aiTimer += dt;
         if (st.aiTimer >= (cfg.shotCooldown ?? 1.6)) {
-          // Decide: if aggro, reposition or windup again
-          const curDist = distanceXZ(st.pos, playerPosRef);
-          const pref = cfg.preferredDistance ?? 4.0;
-          if (Math.abs(curDist - pref) < 0.9) {
-            st.aiState = "WINDUP";
-            st.aiTimer = 0;
-          } else {
-            st.aiState = "REPOSITION";
-            st.aiTimer = 0;
-          }
-        } else if (st.aiTimer > (cfg.recover ?? 0.45)) {
-          // small move while cooling?
-          // Drift slightly to maintain distance?
+          if (hasTarget) {
+            const pref = cfg.preferredDistance ?? 4.0;
+            if (Math.abs(distToTarget - pref) < 0.9) { st.aiState = "WINDUP"; st.aiTimer = 0; }
+            else { st.aiState = "REPOSITION"; st.aiTimer = 0; }
+          } else { st.aiState = "ROAM"; }
         }
         break;
       default:
@@ -472,15 +956,27 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       c.state.hurtTime = 0;
       c.state.respawnRemaining = 0;
       c.state.facing = Math.random() * Math.PI * 2;
-      const spawn = c.state.spawnPos;
-      const startY = spawn.y + c.state.cfg.capsuleHalfHeight + c.state.cfg.capsuleRadius + 0.05;
-      const pos = { x: spawn.x, y: startY, z: spawn.z };
+      const home = c.state.homePos ?? c.state.spawnPos;
+      const startY = home.y + c.state.cfg.capsuleHalfHeight + c.state.cfg.capsuleRadius + 0.05;
+      const pos = { x: home.x, y: startY, z: home.z };
       c.setPosition(pos);
+      if (c.enableCollision) c.enableCollision();
       c.group.visible = true;
       c.group.scale.set(1, 1, 1);
       c.showFocusRing(false);
       c._respawnPop = undefined;
+      c._deathVisibleTime = undefined;
       c.state.targetLungeDir = null;
+      c.state.hasWarned = false;
+      c.state.warnTime = 0;
+      c.state.fleeTime = 0;
+      c.state.retaliationTargetId = null;
+      c.state.retaliationRemaining = 0;
+      c.state.playerDamaged = false;
+      c.state.lastAttackerId = null;
+      c.state.steerHold = 0;
+      c.state.steerAngle = null;
+      c.state.timeInsideNotice = 0;
     }
   }
 
@@ -497,5 +993,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     update, getCreatures, getAliveCreatures, damageCreature, setPlayerPos, setPlayerState, setInvulnChecker,
     getAliveCount, isAnyAggroedNearby, reset, dispose,
     _creatures: creatures,
+    _selectTarget: selectPlayerOrWildkinTarget,
+    _dealWildkin: dealDamageToWildkin,
   };
 }

@@ -14,18 +14,34 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   const basePos = { x: spawn.pos.x, y: spawn.pos.y ?? 0, z: spawn.pos.z };
   group.position.set(basePos.x, basePos.y, basePos.z);
 
-  // State
+  // State — extended for Phase 3.1 temperament/home/leash
+  const temperament = spawn.temperament ?? "AGGRESSIVE";
+  const speciesTag = spawn.speciesTag ?? type;
+  const homePos = spawn.homePos ?? { ...basePos };
+  const roamRadius = spawn.roamRadius ?? 3.0;
+  const noticeRadius = spawn.noticeRadius ?? cfg.aggroRadius ?? 5.5;
+  const personalSpace = spawn.personalSpace ?? 2.2;
+  const leashRadius = spawn.leashRadius ?? 7.5;
+  const hostileSpecies = spawn.hostileSpecies ?? [];
   const state = {
     id: spawn.id ?? `${type}_${index}`,
     type, // rusher | spitter
     cfg,
+    temperament,
+    speciesTag,
+    homePos: { ...homePos },
+    roamRadius,
+    noticeRadius,
+    personalSpaceRadius: personalSpace,
+    leashRadius,
+    hostileSpecies: [...hostileSpecies],
     pos: new THREE.Vector3(basePos.x, basePos.y + 0.5, basePos.z), // capsule center approx
     baseY: basePos.y,
     health: cfg.health,
     maxHealth: cfg.health,
     isDead: false,
     isAggroed: false,
-    aiState: "ROAM", // ROAM | ALERT | CHASE | REPOSITION | WINDUP | LUNGE | RECOVER | HURT | DEAD | RESPAWNING
+    aiState: "ROAM", // ROAM | ALERT | CHASE | REPOSITION | WINDUP | LUNGE | RECOVER | HURT | DEAD | RESPAWNING | WARN | FLEE | RETURN
     aiTimer: 0,
     facing: Math.random() * Math.PI * 2,
     vel: new THREE.Vector3(0, 0, 0),
@@ -34,6 +50,21 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     respawnRemaining: 0,
     spawnPos: { ...basePos },
     spawnIndex: index,
+    // Temperament runtime
+    warnTime: 0,
+    hasWarned: false,
+    fleeTime: 0,
+    fleeTargetId: null,
+    retaliationTargetId: null,
+    retaliationRemaining: 0,
+    timeInsideNotice: 0,
+    playerDamaged: false,
+    lastAttackerId: null,
+    lastHitTime: -999,
+    // Steering persistence
+    steerHold: 0,
+    steerAngle: null,
+    lastDamagedByPlayer: false,
   };
 
   // Visual: low-poly placeholder
@@ -222,6 +253,33 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     move(desire);
   }
 
+  function disableCollision() {
+    if (collider && physicsWorld && physicsWorld.world) {
+      try { physicsWorld.world.removeCollider(collider, true); physicsWorld.world.step(); } catch {}
+      collider = null;
+    }
+    // keep body but without collider it won't block
+  }
+
+  function enableCollision() {
+    if (collider) return;
+    if (!physicsWorld || !physicsWorld.RAPIER || !body) return;
+    const RAPIER = physicsWorld.RAPIER;
+    const world = physicsWorld.world;
+    try {
+      const capDesc = RAPIER.ColliderDesc.capsule(cfg.capsuleHalfHeight, cfg.capsuleRadius)
+        .setTranslation(0, 0, 0)
+        .setFriction(0.5)
+        .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
+      collider = world.createCollider(capDesc, body);
+      world.step();
+      // sync state pos
+      const t = collider.translation();
+      state.pos.set(t.x, t.y, t.z);
+      group.position.set(t.x, t.y - (cfg.capsuleHalfHeight + cfg.capsuleRadius), t.z);
+    } catch {}
+  }
+
   function dispose() {
     if (group.parent) group.parent.remove(group);
     if (collider && physicsWorld && physicsWorld.world) {
@@ -233,8 +291,8 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   }
 
   return {
-    group, state, body, collider, controller, cfg, mainMesh, focusRing,
-    setPosition, getPosition, move, setVisible, updateVisual, showFocusRing, applyKnockback, dispose,
+    group, state, get body() { return body; }, get collider() { return collider; }, set collider(v) { collider = v; }, controller, cfg, mainMesh, focusRing,
+    setPosition, getPosition, move, setVisible, updateVisual, showFocusRing, applyKnockback, dispose, disableCollision, enableCollision,
     get pos() { return state.pos; },
     get id() { return state.id; },
     get type() { return type; },

@@ -176,20 +176,20 @@ projectileSystem.setInvulnChecker(() => playerCombat.isInvulnerable());
 const creatureSystem = createCreatureSystem(scene, physicsWorld, playground, {
   onCreatureDamaged: (creature, amount) => {
     gameAudio.playEnemyHit();
-    // particles at creature pos
     const mockNode = { state: { position: { x: creature.state.pos.x, y: creature.state.pos.y, z: creature.state.pos.z } }, type: { impactEffectHeight: 0.45, resourceId: "generic" } };
     try { particleSystem.spawnBurst(mockNode, 4); } catch {}
-    // squash? handled in creature updateVisual via HURT
   },
   onCreatureDied: (creature) => {
     killCount += 1;
     gameAudio.playEnemyDeath();
     const mockNode = { state: { position: { x: creature.state.pos.x, y: creature.state.pos.y, z: creature.state.pos.z } }, type: { impactEffectHeight: 0.5, resourceId: "generic" } };
     try { particleSystem.spawnBurst(mockNode, 8); } catch {}
-    // XP motes: rusher 3, spitter 4
-    const xpCount = creature.state.type === "spitter" ? COMBAT_CONFIG.xpSpitter : COMBAT_CONFIG.xpRusher;
-    xpMoteSystem.spawnMotes(creature.state.pos, xpCount);
-    combatSession.notifyAttack(); // death also counts as combat activity
+    // XP: wildlife-only kill with no player participation gives no player XP
+    if (creature.state.playerDamaged) {
+      const xpCount = creature.state.type === "spitter" ? COMBAT_CONFIG.xpSpitter : COMBAT_CONFIG.xpRusher;
+      xpMoteSystem.spawnMotes(creature.state.pos, xpCount);
+    }
+    combatSession.notifyAttack();
   },
   onPlayerDamage: (dmg, pos) => {
     if (isDead) return false;
@@ -207,6 +207,12 @@ const creatureSystem = createCreatureSystem(scene, physicsWorld, playground, {
   },
 });
 creatureSystem.setInvulnChecker(() => playerCombat.isInvulnerable());
+projectileSystem.setPlayerCollider(characterPhysics.collider);
+projectileSystem.setWildkinProvider(() => creatureSystem.getCreatures());
+projectileSystem.setWildkinDamageCallback((target, dmg, pos, owner) => {
+  creatureSystem.damageCreature(target, dmg, pos, null, owner ?? null);
+  return true;
+});
 
 xpMoteSystem.setPlayerPos(playerController.getState().pos);
 
@@ -351,8 +357,8 @@ function tick() {
       combatSession.update(fixedDt, isAggroNearby);
       const combatEngaged = combatSession.isEngaged();
 
-      // Harvesting allowed: auto preference and not engaged
-      const harvestingAllowed = autoHarvestEnabled && !combatEngaged;
+      // Phase 3.1: Auto Harvest no longer suppressed by combatEngaged; enemy presence does not disable harvesting
+      const harvestingAllowed = autoHarvestEnabled;
 
       // Prepare combat target getter for fieldTool
       const pPosForCombat = pStBefore.pos;
@@ -381,54 +387,63 @@ function tick() {
         return hits.map(h => alive.find(a => a.state.id === h.id)).filter(Boolean);
       };
 
-      // FieldTool update - handles harvest and combat swings, priority combat>harvest, dodge>combat
-      // For harvest, provide getHarvestTargets and onHarvestImpact
-      // For combat, provide attackRequested, canAttack, onCombatImpact, getCombatTargets
+      // Unified Field Tool impact: one swing may harvest + damage
       const canAttack = !isDead;
-      // Use playerCombat canAttack for cooldown? For now use fieldTool cooldown check internal + player not dead
       const fieldCanAttack = !isDead && (fieldTool.activeProfile !== "combat" || !fieldTool.isSwinging) && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE");
-
+      // Tap/hold/swipe: synthesize effective attackRequested from tap + held cadence
+      const holdRequested = !!intent.attackHeld && fieldCanAttack && !fieldTool.isSwinging;
+      const effectiveAttackRequested = wasAttackRequested || holdRequested;
+      // Manual harvest targets (range-only, ignores Auto flag)
+      const getManualHarvestTargets = () => {
+        const pPos = pStBefore.pos;
+        const res = [];
+        for (const n of resourceSystem.nodes) {
+          if (resourceSystem.isHarvestableInRange(n, pPos)) res.push(n);
+        }
+        res.sort((a, b) => {
+          const da = Math.hypot(a.state.position.x - pPos.x, a.state.position.y - pPos.y, a.state.position.z - pPos.z);
+          const db = Math.hypot(b.state.position.x - pPos.x, b.state.position.y - pPos.y, b.state.position.z - pPos.z);
+          return da - db;
+        });
+        return res.slice(0, 4);
+      };
+      const handleUnifiedImpact = ({ resourceHits, combatHits }) => {
+        // Resources: harvest
+        for (const node of resourceHits) {
+          resourceSystem.applyHit(
+            node,
+            (n) => pickupSystem.spawnPickup(n),
+            (n, cnt) => particleSystem.spawnBurst(n, cnt),
+            (profile, isFinal) => {
+              gameAudio.playHarvest(profile, isFinal);
+              if (isFinal) gameAudio.playDeplete();
+            }
+          );
+        }
+        // Creatures: damage
+        for (const creature of combatHits) {
+          const pPos = playerController.getState().pos;
+          const dir = { x: creature.state.pos.x - pPos.x, z: creature.state.pos.z - pPos.z };
+          const len = Math.hypot(dir.x, dir.z) || 1;
+          const nDir = { x: dir.x / len, z: dir.z / len };
+          const damaged = creatureSystem.damageCreature(creature, COMBAT_CONFIG.baseDamage, pPos, nDir, "player");
+          if (damaged) combatSession.notifyAttack();
+        }
+        if (combatHits.length > 0) combatSession.notifyAttack();
+      };
       fieldTool.update(
         fixedDt,
         pPosForCombat,
         pStBefore,
         {
           getHarvestTargets: (pos, mode, speed, autoFlag) => resourceSystem.getEligibleNodes(pos, mode, speed ?? pStBefore.speed, autoFlag ?? harvestingAllowed),
-          onHarvestImpact: (targets) => {
-            for (const node of targets) {
-              resourceSystem.applyHit(
-                node,
-                (n) => pickupSystem.spawnPickup(n),
-                (n, cnt) => particleSystem.spawnBurst(n, cnt),
-                (profile, isFinal) => {
-                  gameAudio.playHarvest(profile, isFinal);
-                  if (isFinal) gameAudio.playDeplete();
-                }
-              );
-            }
-          },
-          attackRequested: wasAttackRequested,
+          getManualHarvestTargets,
+          getResourceHits: getManualHarvestTargets,
+          onHarvestImpact: (targets) => handleUnifiedImpact({ resourceHits: targets, combatHits: [] }),
+          onCombatImpact: (targets) => handleUnifiedImpact({ resourceHits: [], combatHits: targets }),
+          onUnifiedImpact: handleUnifiedImpact,
+          attackRequested: effectiveAttackRequested,
           canAttack: fieldCanAttack,
-          onCombatImpact: (targets) => {
-            // FieldTool combat impact - apply damage once per swing
-            const combatTargets = getCombatTargetsWrapped();
-            for (const creature of combatTargets) {
-              const pPos = playerController.getState().pos;
-              const dir = {
-                x: creature.state.pos.x - pPos.x,
-                z: creature.state.pos.z - pPos.z,
-              };
-              const len = Math.hypot(dir.x, dir.z) || 1;
-              const nDir = { x: dir.x / len, z: dir.z / len };
-              const damaged = creatureSystem.damageCreature(creature, COMBAT_CONFIG.baseDamage, pPos, nDir);
-              if (damaged) {
-                combatSession.notifyAttack();
-              }
-            }
-            if (combatTargets.length > 0) {
-              combatSession.notifyAttack();
-            }
-          },
           getCombatTargets: getCombatTargetsWrapped,
           autoHarvestEnabled: harvestingAllowed,
           combatEngaged: combatEngaged,
