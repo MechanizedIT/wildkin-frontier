@@ -465,5 +465,19 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   function getPooledCount() { return pool.length; }
   function getDebug() { return { active: pickups.length, pooled: pool.length }; }
 
-  return { spawnPickup, collectPickup, update, getInventory, resetInventory, getPickups, getCount, getPooledCount, getDebug, inventory, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
+  function clear() {
+    for (const p of pickups) {
+      p.mesh.visible = false;
+      try { scene.remove(p.mesh); } catch {}
+      if (pool.length < 24) pool.push({ mesh: p.mesh, resourceId: p.resourceId });
+      else {
+        try { p.mesh.material.dispose?.(); } catch {}
+        try { p.mesh.userData.glow?.material.dispose?.(); } catch {}
+      }
+    }
+    pickups.length = 0;
+  }
+  function _clearActive() { clear(); }
+
+  return { spawnPickup, collectPickup, update, getInventory, resetInventory, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, inventory, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
 }

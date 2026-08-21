@@ -1,5 +1,6 @@
 // src/input/touchMovement.js — floating joystick + right-swipe dodge
 import { classifyMovementBand } from "../movement/movementBands.js";
+import { classifyDodgeGesture } from "./inputController.js";
 
 export function createTouchMovement(appElement, moveCfg, inputCfg) {
   const maxRadius = inputCfg.joystickMaxRadius ?? 68;
@@ -14,10 +15,11 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   let nx = 0;
   let ny = 0;
 
-  // Dodge gesture state (right side)
+  // Dodge + Attack gesture state (right side)
   let dodgePending = false;
   let dodgeX = 0;
   let dodgeY = 0;
+  let attackPending = false;
   const swipe = { active: false, id: null, sx: 0, sy: 0, st: 0 };
 
   // Visual elements (created lazily)
@@ -204,18 +206,20 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       const dist = Math.hypot(dx, dy);
       const dur = performance.now() - swipe.st;
       const vel = dur > 0 ? dist / dur : 0;
-      const minDist = inputCfg.dodgeMinDistance ?? 34;
-      const minVel = inputCfg.dodgeMinVelocity ?? 0.32;
-      const maxDur = inputCfg.dodgeMaxDuration ?? 300;
 
-      if (dist >= minDist && dur <= maxDur && vel >= minVel) {
+      if (classifyDodgeGesture(dist, dur, vel, inputCfg)) {
         // Trigger dodge; convert screen delta to normalized world direction
         // Screen dy positive = down = +Z world south
         const len = Math.hypot(dx, dy);
         dodgeX = len > 0 ? dx / len : 0;
-        // invert? dy positive down -> world +Z. Keep as is.
         dodgeY = len > 0 ? dy / len : 0;
         dodgePending = true;
+        // dodge must NOT also attack
+      } else {
+        // Right-side tap that did NOT qualify as dodge → one attack request
+        // Only attack if pointer is still in action area + not over UI button
+        const isButton = e.target.closest && e.target.closest("button, a");
+        if (!isButton) attackPending = true;
       }
       swipe.active = false;
       swipe.id = null;
@@ -257,6 +261,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
         dodgeRequested: dodgePending,
         dodgeX,
         dodgeY,
+        attackRequested: attackPending,
       };
     }
     return {
@@ -267,11 +272,27 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       dodgeRequested: dodgePending,
       dodgeX,
       dodgeY,
+      attackRequested: attackPending,
     };
   }
 
   function consumeDodge() {
     dodgePending = false;
+  }
+
+  function consumeAttack() {
+    attackPending = false;
+  }
+
+  // For testing: simulate gesture directly without DOM
+  function simulateGesture(dist, dur, vel) {
+    if (classifyDodgeGesture(dist, dur, vel, inputCfg)) {
+      dodgePending = true;
+      return "dodge";
+    } else {
+      attackPending = true;
+      return "attack";
+    }
   }
 
   function destroy() {
@@ -281,5 +302,5 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     appElement.removeEventListener("pointercancel", handleUp);
   }
 
-  return { getIntent, consumeDodge, destroy, _debug: () => ({ hasActive, nx, ny, magnitude, band, dodgePending }) };
+  return { getIntent, consumeDodge, consumeAttack, simulateGesture, destroy, _debug: () => ({ hasActive, nx, ny, magnitude, band, dodgePending, attackPending }) };
 }

@@ -163,10 +163,25 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     }
   }
 
-  function update(dt, intent) {
+  function update(dt, intent, combatOpts = null) {
     const fixedDt = Math.min(dt, moveCfg.maxDelta ?? 0.05);
     if (fixedDt <= 0) return;
     if (!characterPhysics) return;
+
+    // Phase 3: handle knockback if provided via combatOpts
+    if (combatOpts && combatOpts.knockback && combatOpts.knockback.remaining > 0) {
+      const kb = combatOpts.knockback;
+      const desired = { x: kb.dir.x * kb.speed * fixedDt, y: (state.verticalVelocity * fixedDt), z: kb.dir.z * kb.speed * fixedDt };
+      const res = characterPhysics.move(desired);
+      syncPosFromPhysics();
+      state.grounded = res.grounded;
+      if (state.grounded && state.verticalVelocity < 0) state.verticalVelocity = 0;
+      // During knockback, facing may stay as is, speed reflects knockback
+      state.speed = kb.speed;
+      state.vel.set(kb.dir.x * kb.speed, 0, kb.dir.z * kb.speed);
+      syncMesh(fixedDt);
+      return;
+    }
 
     if (state.dodgeCooldown > 0) state.dodgeCooldown = Math.max(0, state.dodgeCooldown - fixedDt);
     const worldDir = intentToWorldDir(intent);
@@ -480,11 +495,28 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       state.mode = "FALL";
       state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, preSpeedAir);
       state.fallHVel = { x: state.vel.x, z: state.vel.z };
-      // Apply shared air control for this frame
+      // Apply shared air control for this frame (cap also affected by combat factor if attacking)
+      let airModFactor = 1;
+      if (combatOpts && combatOpts.attackActive) airModFactor = combatOpts.attackMovementFactor ?? 0.65;
+      // Temporarily adjust cap for attack: we scale airCap? Simpler: apply factor to movement after control
       applyAirborneHorizontalControl(fixedDt, worldDir, state.fallHVel);
+      if (airModFactor < 1) {
+        const curSpeedAir = Math.hypot(state.fallHVel.x, state.fallHVel.z);
+        const capped = Math.min(curSpeedAir, state.airCap * airModFactor);
+        if (curSpeedAir > 1e-5 && capped < curSpeedAir) {
+          const f = capped / curSpeedAir;
+          state.fallHVel.x *= f;
+          state.fallHVel.z *= f;
+        }
+      }
       state.verticalVelocity += (moveCfg.gravity ?? -12) * fixedDt;
       const hvLenAir = Math.hypot(state.fallHVel.x, state.fallHVel.z);
-      if (hvLenAir > 0.1) state.facing = Math.atan2(state.fallHVel.x, state.fallHVel.z);
+      if (hvLenAir > 0.1) {
+        // Facing commit during attack?
+        const facingLocked = combatOpts && combatOpts.facingLocked;
+        if (!facingLocked) state.facing = Math.atan2(state.fallHVel.x, state.fallHVel.z);
+        else if (combatOpts.lockFacing !== undefined) state.facing = combatOpts.lockFacing;
+      }
       state.speed = hvLenAir;
       state.vel.set(state.fallHVel.x, 0, state.fallHVel.z);
       rapierMove(state.fallHVel.x, state.fallHVel.z, state.verticalVelocity, fixedDt);
@@ -499,7 +531,16 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     }
     const wasGrounded = state.grounded;
     const preSpeed = state.speed;
-    tmpTargetVel.set(worldDir.x * targetSpeed, 0, worldDir.z * targetSpeed);
+    // Phase 3: cap locomotion during attack to 60-70% of normal current band speed, no sprint skating
+    let effectiveTargetSpeed = targetSpeed;
+    if (combatOpts && combatOpts.attackActive) {
+      const factor = combatOpts.attackMovementFactor ?? 0.65;
+      // Cap to factor of normal, and also never allow sprint speed while attacking
+      const capped = targetSpeed * factor;
+      // Also ensure sprint (6.0) is not reachable: cap further to walkSpeed maybe 3.3? Spec says no sprint-speed attack skating. So limit to factor*runSpeed but also <= walkSpeed? Use runSpeed*factor (~3.9) still high, but factor 0.65*6=3.9 close to run. Might need additional cap to walkSpeed? We'll cap to Math.min(capped, moveCfg.walkSpeed * 1.1)
+      effectiveTargetSpeed = Math.min(capped, moveCfg.walkSpeed * 1.25);
+    }
+    tmpTargetVel.set(worldDir.x * effectiveTargetSpeed, 0, worldDir.z * effectiveTargetSpeed);
     tmpCurVel.set(state.vel.x, 0, state.vel.z);
     tmpDiff.subVectors(tmpTargetVel, tmpCurVel);
     const diffLen = tmpDiff.length();
@@ -516,15 +557,21 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.speed = tmpCurVel.length();
 
     // Facing driven by meaningful CURRENT INPUT, not residual velocity (fix last-moment rotation after release)
-    const facingThreshold = 0.18; // deadzone+epsilon, covers joystick lift & keyboard key-up
-    const inputMag = intent ? (intent.moveMagnitude ?? Math.hypot(intent.moveX ?? 0, intent.moveY ?? 0)) : 0;
-    if (inputMag > facingThreshold && worldDir.len > 1e-6) {
-      const desiredYaw = Math.atan2(worldDir.x, worldDir.z);
-      let yawDiff = desiredYaw - state.facing;
-      yawDiff = Math.atan2(Math.sin(yawDiff), Math.cos(yawDiff));
-      const turnStep = moveCfg.turnSpeed * fixedDt;
-      const yawStep = Math.max(-turnStep, Math.min(turnStep, yawDiff));
-      state.facing += yawStep;
+    // Phase 3: facing may briefly commit during attack impact — if facingLocked, skip input-driven rotation
+    const facingLocked = combatOpts && combatOpts.facingLocked;
+    if (facingLocked && combatOpts.lockFacing !== undefined) {
+      state.facing = combatOpts.lockFacing;
+    } else {
+      const facingThreshold = 0.18; // deadzone+epsilon, covers joystick lift & keyboard key-up
+      const inputMag = intent ? (intent.moveMagnitude ?? Math.hypot(intent.moveX ?? 0, intent.moveY ?? 0)) : 0;
+      if (inputMag > facingThreshold && worldDir.len > 1e-6) {
+        const desiredYaw = Math.atan2(worldDir.x, worldDir.z);
+        let yawDiff = desiredYaw - state.facing;
+        yawDiff = Math.atan2(Math.sin(yawDiff), Math.cos(yawDiff));
+        const turnStep = moveCfg.turnSpeed * fixedDt;
+        const yawStep = Math.max(-turnStep, Math.min(turnStep, yawDiff));
+        state.facing += yawStep;
+      }
     }
 
     if (state.speed < 0.05) state.mode = "IDLE";

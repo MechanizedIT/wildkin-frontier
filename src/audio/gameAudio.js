@@ -164,5 +164,36 @@ export function createGameAudio() {
     tone({ freq: 140, freq2: 52, duration: 0.26, type: "triangle", gain: 0.15, filterFreq: 1100, noise: 0.03 });
   }
 
-  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, get context() { return ctx; } };
+  // Phase 3 combat sounds (procedural, offline)
+  function playHit() {
+    // Player taking damage: dull thud + low whoomp
+    tone({ freq: 180, freq2: 85, duration: 0.16, type: "triangle", gain: 0.22, filterFreq: 1200, noise: 0.05 });
+    tone({ freq: 90, freq2: 48, duration: 0.22, type: "sine", gain: 0.18, filterFreq: 600 });
+    setTimeout(() => tone({ freq: 420, freq2: 280, duration: 0.08, type: "square", gain: 0.07, filterFreq: 2200 }), 12);
+  }
+  function playHurt() { playHit(); }
+  function playEnemyHit() {
+    tone({ freq: 480, freq2: 260, duration: 0.11, type: "triangle", gain: 0.18, filterFreq: 2200, noise: 0.04 });
+    tone({ freq: 720, freq2: 420, duration: 0.06, type: "square", gain: 0.08, filterFreq: 3000 });
+  }
+  function playEnemyDeath() {
+    tone({ freq: 260, freq2: 55, duration: 0.32, type: "triangle", gain: 0.20, filterFreq: 1100, noise: 0.06 });
+    tone({ freq: 520, freq2: 180, duration: 0.18, type: "sine", gain: 0.12, filterFreq: 1800 });
+    setTimeout(() => tone({ freq: 880, freq2: 420, duration: 0.12, type: "triangle", gain: 0.07, filterFreq: 2600 }), 40);
+  }
+  function playProjectileFire() {
+    whooshNoise({ duration: 0.14, gain: 0.18, bandFreq: 920 });
+    tone({ freq: 620, freq2: 420, duration: 0.10, type: "sine", gain: 0.09, filterFreq: 2400 });
+  }
+  function playProjectileHit() {
+    tone({ freq: 320, freq2: 140, duration: 0.12, type: "triangle", gain: 0.14, filterFreq: 1600, noise: 0.04 });
+  }
+  function playXpCollect() {
+    const f = 720;
+    tone({ freq: f, freq2: f * 1.32, duration: 0.10, type: "sine", gain: 0.13, filterFreq: 2800 });
+    setTimeout(() => tone({ freq: f * 1.45, duration: 0.07, type: "sine", gain: 0.08, filterFreq: 3200 }), 55);
+  }
+  function playCombatWhoosh() { playWhoosh(); }
+
+  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, playHit, playHurt, playEnemyHit, playEnemyDeath, playProjectileFire, playProjectileHit, playXpCollect, playCombatWhoosh, get context() { return ctx; } };
 }

@@ -74,7 +74,7 @@ if (html.includes("sourceMappingURL")) {
 }
 // Check that key readable markers exist
 const mustContain = ["createScene", "createCamera", "createRenderer", "CAMERA_CONFIG"];
-const mustContainAnyPhase = ["Phase 0", "Phase 1", "Phase 1.2", "Phase 2"];
+const mustContainAnyPhase = ["Phase 0", "Phase 1", "Phase 1.2", "Phase 2", "Phase 3"];
 for (const token of mustContain) {
   if (!html.includes(token)) fail(`submission index.html missing expected readable token: ${token} — first-party code may not be inlined correctly`);
 }
