@@ -12,12 +12,18 @@ import { MOVEMENT_CONFIG, CAMERA_CONFIG_FOLLOW, INPUT_CONFIG, RAPIER_CONFIG } fr
 import { createPhysicsWorld } from "./physics/createPhysicsWorld.js";
 import { createCharacterPhysics } from "./physics/createCharacterPhysics.js";
 import { createPhysicsDebug } from "./physics/physicsDebug.js";
+import { createResourceSystem } from "./resources/resourceSystem.js";
+import { createPickupSystem } from "./resources/pickupSystem.js";
+import { createFieldTool } from "./tools/fieldTool.js";
+import { createGameAudio } from "./audio/gameAudio.js";
+import { createRunInventoryHud } from "./ui/runInventoryHud.js";
+import { createParticleSystem } from "./resources/particleSystem.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 1.2 — 0.4.0";
+const VERSION = "Phase 2 — 0.5.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -68,7 +74,45 @@ cameraFollow.snap();
 // Physics debug (disabled by default, enable via window.__game.physicsDebug.setEnabled(true))
 const physicsDebug = createPhysicsDebug(scene, characterPhysics, physicsWorld);
 
-// Single authoritative rAF loop — fixed timestep for Rapier
+// Phase 2 — harvesting systems (do not put logic in playerController or main gameplay branching)
+// Resource placements — tiny harvesting playground while retaining diagnostics
+const resourcePlacements = [
+  // Trees (6) ~5 hits each
+  { type: "tree", pos: { x: 1.2, y: 0, z: 4.2 } },
+  { type: "tree", pos: { x: -8.6, y: 0, z: 1.8 } },
+  { type: "tree", pos: { x: 6.2, y: 0, z: -1.8 } },
+  { type: "tree", pos: { x: 2.2, y: 2.4, z: -7.2 } }, // on high platform top
+  { type: "tree", pos: { x: -9.0, y: 0, z: 6.5 } },
+  { type: "tree", pos: { x: 8.8, y: 0, z: 3.2 } },
+  // Rocks (5) ~4 hits each
+  { type: "rock", pos: { x: 3.2, y: 0, z: 2.6 } },
+  { type: "rock", pos: { x: 4.6, y: 0, z: 3.4 } },
+  { type: "rock", pos: { x: 7.2, y: 0, z: 0.8 } },
+  { type: "rock", pos: { x: -3.0, y: 0, z: -4.5 } },
+  { type: "rock", pos: { x: -1.8, y: 0, z: -4.8 } },
+  // Fiber (7) ~3 hits each
+  { type: "fiber", pos: { x: 0.2, y: 0, z: 4.6 } },
+  { type: "fiber", pos: { x: -2.2, y: 0, z: 6.0 } },
+  { type: "fiber", pos: { x: -7.2, y: 0, z: -1.2 } },
+  { type: "fiber", pos: { x: 1.0, y: 0, z: -3.8 } },
+  { type: "fiber", pos: { x: 8.4, y: 0, z: -2.4 } },
+  { type: "fiber", pos: { x: -4.2, y: 0, z: -8.2 } },
+  { type: "fiber", pos: { x: 4.0, y: 0, z: -5.8 } },
+];
+
+const gameAudio = createGameAudio();
+const particleSystem = createParticleSystem(scene);
+const inventoryHud = createRunInventoryHud();
+const pickupSystem = createPickupSystem(scene, (inv, resId) => {
+  inventoryHud.update(inv);
+  if (resId) inventoryHud.pulse(resId);
+});
+inventoryHud.update(pickupSystem.getInventory());
+
+const resourceSystem = createResourceSystem(scene, physicsWorld, resourcePlacements);
+const fieldTool = createFieldTool(player);
+
+// Single authoritative rAF loop — fixed timestep for Rapier + harvesting
 const clock = new THREE.Clock();
 let frameCount = 0;
 let lastFpsUpdate = performance.now();
@@ -94,20 +138,46 @@ function tick() {
   const intent = mergeIntentsPure(touchIntent, kbIntent);
   const wasDodgeRequested = intent.dodgeRequested;
 
-  // Fixed-step physics updates
+  // Fixed-step physics + harvesting updates
   let substeps = 0;
   while (accumulator >= fixedDt && substeps < maxSubsteps) {
     playerController.update(fixedDt, intent);
+    // Harvesting fixed-step updates — player position/state at this substep
+    const pStateFixed = playerController.getState();
+    const pPosFixed = pStateFixed.pos;
+    resourceSystem.update(fixedDt, pPosFixed, pStateFixed.mode);
+    // FieldTool handles swing cadence and decides when to impact
+    fieldTool.update(
+      fixedDt,
+      pPosFixed,
+      pStateFixed,
+      (pos, mode) => resourceSystem.getEligibleNodes(pos, mode),
+      (targets) => {
+        for (const node of targets) {
+          resourceSystem.applyHit(
+            node,
+            (n) => pickupSystem.spawnPickup(n),
+            (n, cnt) => particleSystem.spawnBurst(n, cnt),
+            (profile, isFinal) => {
+              gameAudio.playHarvest(profile, isFinal);
+              if (isFinal) gameAudio.playDeplete();
+            }
+          );
+        }
+      }
+    );
+    // Pickups physics / magnet (fixed step for determinism, also per-frame below for smoothness)
+    const psFixed = playerController.getState();
+    pickupSystem.update(fixedDt, psFixed.pos, (resId) => gameAudio.playPickup(resId));
+
     accumulator -= fixedDt;
     substeps++;
     // consume dodge only on first substep where it triggered
     if (wasDodgeRequested && playerController.getState().mode === "DODGE") {
-      // dodge consumed, prevent re-trigger within same frame
       intent.dodgeRequested = false;
     }
   }
   physicsSubstepsLast = substeps;
-  // If we hit maxSubsteps and still have accumulator, drop remainder to avoid spiral
   if (accumulator >= fixedDt) accumulator = 0;
 
   if (wasDodgeRequested) {
@@ -118,6 +188,14 @@ function tick() {
   const pState = playerController.getState();
   const moveDir = pState.speed > 0.1 ? { x: Math.sin(pState.facing), z: Math.cos(pState.facing) } : null;
   cameraFollow.update(dt, pState.speed, moveDir);
+
+  // Per-frame particle interpolation (dt) for smoothness beyond fixed step
+  particleSystem.update(dt);
+  // Also update pickups per-frame for magnet smoothness if no fixed steps happened
+  if (substeps === 0) {
+    // Still tick magnet visually at render rate
+    pickupSystem.update(Math.min(dt, 1 / 30), pState.pos, (resId) => gameAudio.playPickup(resId));
+  }
 
   // Physics debug
   physicsDebug.update(pState.grounded, pState.speed, pState.verticalVelocity, physicsSubstepsLast);
@@ -135,7 +213,8 @@ function tick() {
       const trav = pState.traversalMode && pState.traversalMode !== "IDLE" && pState.traversalMode !== stMode ? ` · ${pState.traversalMode}` : "";
       const grounded = pState.grounded ? "G" : "A";
       const vv = pState.verticalVelocity.toFixed(1);
-      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode}${trav} · ${band} · ${pState.speed.toFixed(1)} u/s · ${grounded} vv${vv} · ${substeps} step`;
+      const inv = pickupSystem.getInventory();
+      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode}${trav} · ${band} · ${pState.speed.toFixed(1)} u/s · W${inv.wood} S${inv.stone} F${inv.fiber} · ${grounded} vv${vv} · ${substeps} step`;
     }
   }
 
@@ -145,4 +224,4 @@ function tick() {
 tick();
 
 // Debug globals only (window.__game) — gameplay does not rely on it
-window.__game = { scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug };
+window.__game = { scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem };
