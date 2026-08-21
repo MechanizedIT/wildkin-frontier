@@ -1,27 +1,28 @@
 # AGENTS.md — Operating Rules
 
 1. Read `docs/CURRENT_SLICE.md` first. It is the only authoritative implementation scope for this session.
-2. Read `docs/GAME_DESIGN.md` and `docs/HACKATHON_REQUIREMENTS.md` before changing architecture or gameplay.
-3. Do not expand scope beyond the active slice. No harvesting, combat, Wildkin, inventory, progression, base building, Matter Resonator, waystones, or other future systems until their slice is active.
+2. Read `docs/GAME_DESIGN.md`, `docs/HACKATHON_REQUIREMENTS.md`, and relevant parts of `docs/ARCHITECTURE.md` before changing architecture or gameplay.
+3. Preserve existing working systems, but do not introduce **new features or future-phase behavior** outside the active slice. If a current slice requires touching an older system, make the smallest compatible change and preserve accepted behavior.
 4. Preserve hard constraints: single-player, portrait mobile, Three.js/HTML5, no runtime network requests, local vendored `vendor/three.module.js` + `vendor/rapier.js` with relative paths, `index.html` at ZIP root, 35 MB limit, first-party code readable/unminified in submission.
-5. Prefer vanilla HTML/CSS/JS + Three.js. No React, game engine, ECS, backend, CDN, or required bundler for dev. Physics: approved runtime is `@dimforge/rapier3d-compat@0.20.0` via vendored `vendor/rapier.js` (KinematicCharacterController for player/world collision only); no other physics engine.
+5. Prefer vanilla HTML/CSS/JS + Three.js. No React, game engine, ECS, backend, CDN, or required bundler for dev. Physics/collision runtime is `@dimforge/rapier3d-compat@0.20.0` via vendored `vendor/rapier.js`; use it deliberately for approved collision, kinematic movement, and spatial queries. Do not add another physics engine.
 6. Keep the build playable at the end of every session — no console-breaking errors, portrait layout intact, offline-safe.
-7. Keep architecture deliberately simple and explicit for repeated agent edits (`src/game/createScene.js`, `createCamera.js`, `createRenderer.js`).
-8. Validate before stopping: `npm run build` + `npm run validate` must pass; manually confirm dev and submission builds both load.
-9. Append a `docs/BUILD_LOG.md` entry for every AI session (date/time, tool/model, goal, decisions, files changed, tests, remaining issues).
-10. Never silently change a locked design decision. Record proposals in `docs/BUILD_LOG.md` or the relevant doc and ask for owner confirmation.
+7. Keep architecture deliberately simple and explicit for repeated agent edits. Prefer focused modules with clear ownership over frameworks or generic abstractions.
+8. Validate before stopping: `npm test`, `npm run verify`, and `npm run zip` should pass unless the active slice explicitly states otherwise. Manually confirm relevant dev/submission behavior when browser testing is required.
+9. Append a `docs/BUILD_LOG.md` entry for every AI implementation session (date/time, tool/model, goal, decisions, files changed, tests, remaining issues).
+10. Never silently change a locked design decision. Record a proposal in `docs/BUILD_LOG.md` or the relevant design doc and ask for owner confirmation.
 
-## Engineering Principles (Phase 0.5 — permanent)
+## Engineering Principles — Permanent
 
-11. `src/main.js` remains a thin composition/bootstrap layer: it wires modules together, owns the single authoritative game loop, and contains no domain gameplay logic.
-12. One authoritative game/update/render loop: exactly one `requestAnimationFrame` loop drives all per-frame updates and rendering. No parallel or duplicate loops.
-13. Modules split by responsibility as complexity grows: prefer small, focused modules over monolithic files; see `docs/ARCHITECTURE.md` for the intended boundaries.
-14. Avoid god objects and parallel duplicate systems: do not introduce a second world/state/camera/update path that shadows the primary one.
-15. Explicit state/dependency ownership: the owner of mutable state is explicit; dependencies are injected via imports or constructor arguments, not ambient globals.
-16. Globals only for debug: `window.__game` may exist for manual console inspection; gameplay code must not rely on global state.
-17. Centralized tuning/configuration: constants that affect feel, balance, or presentation live in a single findable location (e.g., `src/game/config.js` or colocated `*_CONFIG` exports) rather than scattered literals.
-18. Gameplay logic testable independently of rendering where practical: pure logic (math, state transitions, rules) should not require a WebGL context to verify.
-19. Mobile performance first: cap DPR, avoid per-frame allocations, keep draw calls low, and validate on a real phone viewport.
-20. No new dependencies without justification: justify any new runtime or build-time dependency in `docs/BUILD_LOG.md` and prefer zero-dependency solutions when viable. `esbuild` is the approved build-time-only bundler for submission packaging. `@dimforge/rapier3d-compat@0.20.0` is the approved runtime physics dependency for the KinematicCharacterController (vendored offline, base64 WASM, via `vendor/rapier.js`).
-
-21. Manual testing instructions must be written for the human player, not the implementer. For every manual test, explain where/what to test in recognizable visual terms, the exact action to perform, the expected correct behavior, and the signs of failure. Coordinates or internal IDs may supplement the description but must never replace it. Prioritize changed behavior and important regressions.
+11. `src/main.js` remains a thin composition/bootstrap layer: initialize modules, wire dependencies, own the single authoritative loop, and render. Do not keep adding domain gameplay rules to it.
+12. Exactly one `requestAnimationFrame` loop drives all per-frame updates and rendering. No parallel or duplicate loops.
+13. Modules split by responsibility as complexity grows. Avoid god objects and duplicate parallel systems; see `docs/ARCHITECTURE.md` for current and planned boundaries.
+14. Mutable state has one explicit owner. Avoid hidden cross-module mutation and shadow copies of authoritative state.
+15. Dependencies are injected via imports or constructor arguments, not ambient globals.
+16. Globals are debug-only: `window.__game` may expose inspection helpers, but gameplay code must not rely on it.
+17. Centralize feel/balance/presentation tuning in a findable config location (`src/game/config.js` or focused colocated `*_CONFIG` exports). Avoid scattered magic numbers.
+18. Gameplay rules should be testable independently of rendering where practical. Prefer pure helpers for targeting, state transitions, timing, input classification, etc.
+19. Mobile performance first: cap DPR, bound pools/arrays, avoid per-frame DOM creation and unnecessary allocations, and validate on a real phone viewport.
+20. No new dependencies without justification. Record any approved new dependency in `docs/BUILD_LOG.md`. `esbuild` is approved build-time-only; Rapier is the approved runtime collision/physics dependency.
+21. Manual testing instructions must be written for the human player, not the implementer. For every manual test, explain the recognizable setup/location, exact action, expected correct behavior, and visible/audible failure signs. Coordinates/internal IDs may supplement but never replace player-facing descriptions.
+22. Human playtest observations override implementation claims for perceptual requirements. “A yaw value changed,” “a sound function exists,” or “a test passes” is not proof that a swing, trail, audio cue, telegraph, or UI element is actually readable in play.
+23. Preserve accepted movement, harvesting, collision, performance, and submission behavior unless the active slice explicitly changes it.
