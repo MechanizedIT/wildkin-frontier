@@ -101,7 +101,7 @@ async function build() {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
     <meta name="theme-color" content="#0e1420" />
-    <title>Wildkin Frontier — Phase 2</title>
+    <title>Wildkin Frontier — Phase 2.1</title>
     ${cssInline}
     <script type="importmap">
       {
@@ -119,7 +119,7 @@ async function build() {
       <div id="hud" aria-hidden="false">
         <div class="hud-top">
           <div class="badge">
-            <strong>WILDKIN FRONTIER — Phase 2</strong>
+            <strong>WILDKIN FRONTIER — Phase 2.1</strong>
             <small>Field Tool · Wood / Stone / Fiber</small>
           </div>
           <div class="badge" style="text-align: right">
@@ -128,8 +128,8 @@ async function build() {
           </div>
         </div>
         <div class="hud-bottom">
-          <div id="debug-label">Phase 2 — 0.5.0 · starting…</div>
-          <div class="hud-hint">White ring = in harvest range · Approach to auto-harvest</div>
+          <div id="debug-label">Phase 2.1 — 0.6.0 · starting…</div>
+          <div class="hud-hint">White ring = in harvest range · Stop to auto-harvest</div>
         </div>
       </div>
     </div>

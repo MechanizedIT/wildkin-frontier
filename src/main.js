@@ -18,12 +18,13 @@ import { createFieldTool } from "./tools/fieldTool.js";
 import { createGameAudio } from "./audio/gameAudio.js";
 import { createRunInventoryHud } from "./ui/runInventoryHud.js";
 import { createParticleSystem } from "./resources/particleSystem.js";
+import { createAutoHarvestToggle } from "./ui/autoHarvestToggle.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 2 — 0.5.0";
+const VERSION = "Phase 2.1 — 0.6.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -74,8 +75,7 @@ cameraFollow.snap();
 // Physics debug (disabled by default, enable via window.__game.physicsDebug.setEnabled(true))
 const physicsDebug = createPhysicsDebug(scene, characterPhysics, physicsWorld);
 
-// Phase 2 — harvesting systems (do not put logic in playerController or main gameplay branching)
-// Resource placements — tiny harvesting playground while retaining diagnostics
+// Phase 2.1 — harvesting systems
 const resourcePlacements = [
   // Trees (6) ~5 hits each
   { type: "tree", pos: { x: 1.2, y: 0, z: 4.2 } },
@@ -103,14 +103,18 @@ const resourcePlacements = [
 const gameAudio = createGameAudio();
 const particleSystem = createParticleSystem(scene);
 const inventoryHud = createRunInventoryHud();
-const pickupSystem = createPickupSystem(scene, (inv, resId) => {
+const autoHarvestToggle = createAutoHarvestToggle(true);
+let autoHarvestEnabled = true;
+autoHarvestToggle.onToggle((v) => { autoHarvestEnabled = v; });
+
+const pickupSystem = createPickupSystem(scene, physicsWorld, playground, (inv, resId) => {
   inventoryHud.update(inv);
   if (resId) inventoryHud.pulse(resId);
 });
 inventoryHud.update(pickupSystem.getInventory());
 
 const resourceSystem = createResourceSystem(scene, physicsWorld, resourcePlacements);
-const fieldTool = createFieldTool(player);
+const fieldTool = createFieldTool(player, gameAudio);
 
 // Single authoritative rAF loop — fixed timestep for Rapier + harvesting
 const clock = new THREE.Clock();
@@ -142,16 +146,16 @@ function tick() {
   let substeps = 0;
   while (accumulator >= fixedDt && substeps < maxSubsteps) {
     playerController.update(fixedDt, intent);
-    // Harvesting fixed-step updates — player position/state at this substep
+    // Harvesting fixed-step updates — player position/state at this substep (includes speed gating)
     const pStateFixed = playerController.getState();
     const pPosFixed = pStateFixed.pos;
-    resourceSystem.update(fixedDt, pPosFixed, pStateFixed.mode);
-    // FieldTool handles swing cadence and decides when to impact
+    resourceSystem.update(fixedDt, pPosFixed, pStateFixed.mode, pStateFixed.speed, autoHarvestEnabled);
+    // FieldTool handles swing cadence and decides when to impact (checks speed + auto flag)
     fieldTool.update(
       fixedDt,
       pPosFixed,
       pStateFixed,
-      (pos, mode) => resourceSystem.getEligibleNodes(pos, mode),
+      (pos, mode, speed, autoFlag) => resourceSystem.getEligibleNodes(pos, mode, speed ?? pStateFixed.speed, autoFlag ?? autoHarvestEnabled),
       (targets) => {
         for (const node of targets) {
           resourceSystem.applyHit(
@@ -164,7 +168,8 @@ function tick() {
             }
           );
         }
-      }
+      },
+      autoHarvestEnabled
     );
     // Pickups physics / magnet (fixed step for determinism, also per-frame below for smoothness)
     const psFixed = playerController.getState();
@@ -193,7 +198,6 @@ function tick() {
   particleSystem.update(dt);
   // Also update pickups per-frame for magnet smoothness if no fixed steps happened
   if (substeps === 0) {
-    // Still tick magnet visually at render rate
     pickupSystem.update(Math.min(dt, 1 / 30), pState.pos, (resId) => gameAudio.playPickup(resId));
   }
 
@@ -224,4 +228,19 @@ function tick() {
 tick();
 
 // Debug globals only (window.__game) — gameplay does not rely on it
-window.__game = { scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem };
+window.__game = {
+  scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle,
+  get autoHarvestEnabled() { return autoHarvestEnabled; },
+  set autoHarvestEnabled(v) { autoHarvestEnabled = !!v; autoHarvestToggle.setEnabled(autoHarvestEnabled); },
+  get debugCounts() {
+    return {
+      activePickups: pickupSystem.getCount(),
+      pooledPickups: pickupSystem.getPooledCount(),
+      activeParticles: particleSystem.getCount(),
+      pooledParticles: particleSystem.getPooledCount(),
+      geometries: renderer.info.memory.geometries,
+      textures: renderer.info.memory.textures,
+      fps,
+    };
+  },
+};

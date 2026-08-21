@@ -43,10 +43,7 @@ export function createMovementPlayground() {
   addBoxObstacle(4.2, 0.6, 1.8, 1.8, 1.0);
   // 2. Small wall barrier mid-south
   addBoxObstacle(-3.5, 2.2, 2.4, 0.6, 1.1);
-  // 3. Rock props
-  addRock(-6.2, -1.2, 0.6);
-  addRock(7.0, 4.2, 0.55);
-  addRock(-2.0, -4.2, 0.5);
+  // Phase 2.1: natural rock props removed — only grey diagnostic boxes remain; resource rocks come from resource system
 
   // Narrow precision corridor (sneak diagnostic)
   addBoxObstacle(-7.5, -6.5, 0.6, 4.0, 1.2);
@@ -107,23 +104,7 @@ export function createMovementPlayground() {
   climbMarker.position.set(2.2, highPlatH + 0.25, -5.05);
   group.add(climbMarker);
 
-  // Trees for scale
-  const treeMatF = new THREE.MeshStandardMaterial({ color: 0x2f6d3a, flatShading: true });
-  const trunkMat = new THREE.MeshStandardMaterial({ color: 0x6b4a2b, flatShading: true });
-  const treePositions = [
-    { x: -9.2, z: 5.0 },
-    { x: 8.2, z: 6.0 },
-    { x: 9.0, z: -8.0 },
-    { x: -8.8, z: 8.2 },
-  ];
-  for (const p of treePositions) {
-    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.16, 0.7, 6), trunkMat);
-    trunk.position.set(p.x, 0.35, p.z);
-    group.add(trunk);
-    const foliage = new THREE.Mesh(new THREE.ConeGeometry(0.65, 1.1, 6), treeMatF);
-    foliage.position.set(p.x, 1.15, p.z);
-    group.add(foliage);
-  }
+  // Phase 2.1: decorative trees removed — world should not show non-harvestable tree lookalikes; harvestable trees come from resource system
 
   // Boundary visual low walls
   const boundMat = new THREE.MeshStandardMaterial({ color: 0x5a6a7a, flatShading: true, transparent: true, opacity: 0.28 });

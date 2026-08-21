@@ -241,3 +241,39 @@
   - Human must execute Phase 2 manual playtest checklist (readability/halo, auto-harvest, multi-target, depletion, pickups, respawn, collision, traversal regression, fun). No Phase 3 combat/Wildkin/progression/base/waystones/rare resources added.
   - High platform tree at (2.2,2.4,-7.2) halo/particles/collider height verified at platform top; edge-case respawn pop on elevated node should be manually confirmed. Fiber placement at (0.2,4.6) intentionally near spawn cluster but not dense farm; spacing/tuning iteration via `src/resources/resourceConfig.js` and `src/main.js:resourcePlacements`.
   - No procedural SFX tuning final mix; AudioContext unlock requires user gesture (pointerdown). Pure procedural may need volume polish on device speakers.
+
+## 2026-08-21 — Phase 2.1 Harvesting Feel, Correctness & Performance — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Implement `docs/CURRENT_SLICE.md` Phase 2.1 end-to-end as bounded refinement — fix correctness/performance leaks, enlarge readability, add bounded feel pass; do not redesign harvesting or begin Phase 3.
+- **Decisions:**
+  - 3D eligibility: replaced XZ-only `distanceXZ` with `distance3D` using `node.position + interactionHeight` (tree 0.95/rock 0.55/fiber 0.35) vs player capsule center; `resourceSystem.getEligibleNodes(pos,mode,speed,autoFlag)` and `harvestLogic.isEligible/selectTargets` now require `speed <= harvestMaxHorizontalSpeed 0.25` and `autoHarvestEnabled`, share single calculation for targets+halos. High-platform tree at (2.2,2.4,-7.2) now requires true proximity — below-platform distance 2.73 >1.65 blocks, on-platform 0.33 harvestable.
+  - Speed gating: `HARVEST_CONFIG.harvestMaxHorizontalSpeed 0.25` — `fieldTool` and `resourceSystem` abort/start only when `playerState.speed <=0.25`, do not forcibly stop player, moving away cancels swing mid-cycle.
+  - Auto Harvest toggle: new `src/ui/autoHarvestToggle.js` compact top-left HUD (AUTO HARVEST ON/OFF, default ON, 56px button, touch 36px tall), separate `autoHarvestEnabled` preference from `harvestingAllowed`; when OFF halos hidden and `fieldTool.update` does not start swings.
+  - Depleted collider removal: `RESOURCE_TYPES.tree/rock.remnantColliderHalfExtents = null`; `resourceSystem.applyHit` removes full collider only, no remnant; `respawnNode` uses `isPlayerInsideColliderVolume` check before restoring — if occupied, keeps visual READY but `pendingColliderRestore` defers until player clear, no teleport/push.
+  - Elevated origins: added `dropOriginHeight` (tree 1.05/rock 0.70/fiber 0.40) and `impactEffectHeight` (0.75/0.45/0.30); `pickupSystem.spawnPickup` spawns at `base.y + drop + rand`, `particleSystem.spawnBurst` at `base.y + impactEffectHeight`; removes hard-coded ground Y 0.55/0.42.
+  - Pickup trajectory retuned: `pickupLaunchSpeed 1.8` (1.5-2.2 range) `pickupLaunchUp 3.3` (3.0-3.8) — short horizontal pop, high arc, stays near node.
+  - Collision-aware pickup motion: retained scripted pickups (not dynamic bodies); per-segment Rapier `RAPIER.Ray` + `castRay` check plus fallback AABB vs `playground.obstacles/platforms`; `getSurfaceY(x,z)` returns platform height else 0 so pickups rest on brown platform; spawn clearance = `max(he.x,he.z)+0.18` + rand to avoid instant source-collider hit; magnet path also blocked -> returns to RESTING.
+  - Performance: shared geometries/materials — `pickupSystem` shares `Box/Dodecahedron/Sphere` + glow geo, clones mats per pooled object; `particleSystem` single `BoxGeometry 0.11` + 3 cloned mats; object pools (pickup pool cap 24, particle pool cap 48, active cap 32/64), stale pickup expiry 30s, no per-frame `new Vector3/Set` in hot paths (reused tmpDir), disposed cloned mats when pool overflows; `renderer.info.memory` via `window.__game.debugCounts`.
+  - World clarity: removed decorative trees (4) and natural rock props (3) from `createMovementPlayground.js` (kept grey diagnostic boxes, brown platforms, ladder, corridor, boundaries); matching colliders removed via `playground.obstacles`.
+  - Scale: enlarged visuals — tree trunk 1.45 height / foliage 0.69/0.53 etc (~1.7x), rock lobes 0.58/0.44 (~1.7x), fiber tufts 0.45/0.38 (~1.6x); pickups 0.24/0.18/0.16 (~1.5x), particles 0.11; halos kept small (0.72/0.90) so not scaled with group; colliders enlarged to match (tree 0.55/0.88, rock 0.72/0.64).
+  - Field Tool wide sweep: replaced up/down with yaw/roll/pitch arc (windup -0.68 pitch/-0.42 yaw, fast strike to 0.78/0.52 with roll 0.34, recovery), trail via 3 fading afterimages + translucent `CircleGeometry` fan (opacity 0.22, scales), whoosh via `gameAudio.playWhoosh` (320→180Hz sine + filtered noise) fired at `impact-0.14`.
+  - Sound polish: softened mixes — wood dull thunk 145→78Hz triangle filtered 1400 + sine body, stone crisp crack 520→280 triangle + low sine 118Hz, fiber light 620→740 sine, pickup less piercing 540/480/680 filtered, depletion stronger but not louder; stays procedural offline.
+  - Respawn indicator: added `respawnIndicatorRadius 4.0`, `resourceSystem.isRespawnVisible` 3D distance, timer continues while hidden, fades only when near.
+  - HUD: replaced center badges with `src/ui/runInventoryHud.js` top-right vertical icon+count list (wood brown square, stone grey diamond, fiber green circle, count 14px bold, 5px/9px padding, pulse 1.12 + floating +1 near row).
+  - No new deps; `esbuild` still build-time-only; single rAF preserved; Rapier capsule 0.32/0.20 unchanged.
+- **Files/Features Changed:**
+  - Created: `src/ui/autoHarvestToggle.js`, `tests/harvestingPhase21.test.js`, `tools/soak-test.mjs`
+  - Modified: `src/resources/resourceConfig.js`, `src/resources/harvestLogic.js`, `src/resources/resourceSystem.js`, `src/resources/createResourceNode.js`, `src/resources/pickupSystem.js`, `src/resources/particleSystem.js`, `src/tools/fieldTool.js`, `src/audio/gameAudio.js`, `src/world/createMovementPlayground.js`, `src/ui/runInventoryHud.js`, `src/main.js`, `index.html`, `tools/build-submission.mjs`, `docs/BUILD_LOG.md`
+  - Build output: `dist/submission/index.html` 141.3 KB, `vendor/three.module.js` 1243.1 KB, `vendor/rapier.js` 2790.6 KB, total ~4190 KB; `dist/submission.zip` 1351.8 KB (1.32 MB)
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (126 tests 41 suites: 104 prior + 22 new Phase 2.1: 3D distance, vertical separation, speed gating, Auto OFF blocks/hides, depleted no collider, safe restore defer, respawn visibility radius 4.0, progress while hidden, elevated origin offsets, launch 1.8/3.3, harvestMax 0.25, enlarged colliders, pooling bounded)
+  - `npm run verify` — PASS (test + build 141.3KB + validate size 4190KB <35MB, vendor three+rapier, no https, readable Phase 2.1, no localhost)
+  - `npm run zip` — PASS (1351.8 KB, index at ZIP root)
+  - Soak test `node tools/soak-test.mjs` — PASS (200 cycles, after warm-up activePickups 2 pooled 7 activeParticles 1 pooled 10; after 30s idle far active 0 pooled 9; geometries 4 stable, bounded <=32/64, no progressive leak)
+  - `window.__game.debugCounts` exposes active pickups/pooled pickups/active particles/pooled particles/geometries/textures/fps
+  - rAF single-loop — PASS (1 in src/main.js)
+- **Human/Manual Changes:** None.
+- **Remaining Issues / Deferred:**
+  - Human must perform detailed Phase 2.1 manual tests below (11 checks); no Phase 3 combat/Wildkin/XP/waystones added.
+  - Soak test in Node verifies pooling; browser rendering soak (5-min harvesting) should still be performed on device to confirm FPS not degrading; report via `window.__game.debugCounts` and `renderer.info.memory`.
+  - Decorative removal reduces visual variety slightly — intentional to avoid fake-resource confusion; future art differentiation can reintroduce distinct non-harvestable foliage if needed.
