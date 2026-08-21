@@ -201,9 +201,11 @@ describe("Phase 2.1 — pickup motion config", () => {
 });
 
 describe("Phase 2.1 — resource scale enlarged", () => {
-  it("tree collider enlarged ~1.6x vs original 0.34/0.55", () => {
-    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.x >= 0.50);
-    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.y >= 0.80);
+  it("tree collider enlarged ~1.6x vs original 0.34/0.55 (Phase 2.2 short trunk)", () => {
+    // Phase 2.2: trunk short 0.85-1.0 tall => half 0.42-0.50, thicker
+    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.x >= 0.45);
+    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.y >= 0.40 && RESOURCE_TYPES.tree.colliderHalfExtents.y <= 0.60);
+    assert.ok(RESOURCE_TYPES.tree.colliderHalfExtents.y < 0.80, "Phase 2.2 trunk shorter than 2.1");
   });
   it("rock collider enlarged", () => {
     assert.ok(RESOURCE_TYPES.rock.colliderHalfExtents.x >= 0.65);

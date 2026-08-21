@@ -24,7 +24,7 @@ const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 2.1 — 0.6.0";
+const VERSION = "Phase 2.2 — 0.7.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -111,6 +111,7 @@ const pickupSystem = createPickupSystem(scene, physicsWorld, playground, (inv, r
   inventoryHud.update(inv);
   if (resId) inventoryHud.pulse(resId);
 });
+pickupSystem.setPlayerCollider(characterPhysics.collider);
 inventoryHud.update(pickupSystem.getInventory());
 
 const resourceSystem = createResourceSystem(scene, physicsWorld, resourcePlacements);
@@ -173,7 +174,7 @@ function tick() {
     );
     // Pickups physics / magnet (fixed step for determinism, also per-frame below for smoothness)
     const psFixed = playerController.getState();
-    pickupSystem.update(fixedDt, psFixed.pos, (resId) => gameAudio.playPickup(resId));
+    pickupSystem.update(fixedDt, psFixed.pos, (resId) => gameAudio.playPickup(resId), characterPhysics.collider);
 
     accumulator -= fixedDt;
     substeps++;
@@ -198,7 +199,7 @@ function tick() {
   particleSystem.update(dt);
   // Also update pickups per-frame for magnet smoothness if no fixed steps happened
   if (substeps === 0) {
-    pickupSystem.update(Math.min(dt, 1 / 30), pState.pos, (resId) => gameAudio.playPickup(resId));
+    pickupSystem.update(Math.min(dt, 1 / 30), pState.pos, (resId) => gameAudio.playPickup(resId), characterPhysics.collider);
   }
 
   // Physics debug

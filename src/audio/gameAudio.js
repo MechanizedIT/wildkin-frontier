@@ -1,4 +1,4 @@
-// src/audio/gameAudio.js — procedural Web Audio for harvesting (offline, no assets) — Phase 2.1 softer mix
+// src/audio/gameAudio.js — procedural Web Audio for harvesting (offline, no assets) — Phase 2.2 louder mids
 export function createGameAudio() {
   let ctx = null;
   let unlocked = false;
@@ -27,7 +27,7 @@ export function createGameAudio() {
     window.addEventListener("touchstart", handler, { once: true });
   }
 
-  function tone({ freq = 440, freq2, duration = 0.12, type = "sine", gain = 0.18, slide = 0, noise = 0, filterFreq }) {
+  function tone({ freq = 440, freq2, duration = 0.12, type = "sine", gain = 0.18, slide = 0, noise = 0, filterFreq, filterType = "lowpass", highpass }) {
     const c = ensure();
     if (!c || c.state === "suspended" && !unlocked) return;
     if (c.state === "suspended") c.resume().catch(() => {});
@@ -44,8 +44,15 @@ export function createGameAudio() {
     let filter = null;
     if (filterFreq) {
       filter = c.createBiquadFilter();
-      filter.type = "lowpass";
+      filter.type = filterType;
       filter.frequency.setValueAtTime(filterFreq, now);
+      if (filterType === "bandpass") filter.Q.setValueAtTime(1.1, now);
+      osc.connect(filter);
+      filter.connect(g);
+    } else if (highpass) {
+      filter = c.createBiquadFilter();
+      filter.type = "highpass";
+      filter.frequency.setValueAtTime(highpass, now);
       osc.connect(filter);
       filter.connect(g);
     } else {
@@ -55,65 +62,106 @@ export function createGameAudio() {
     osc.start(now);
     osc.stop(now + duration + 0.02);
     if (noise > 0) {
-      const len = Math.floor(c.sampleRate * Math.min(0.07, duration * 0.5));
+      const len = Math.floor(c.sampleRate * Math.min(0.12, duration * 0.85));
       if (len > 0) {
         const buf = c.createBuffer(1, len, c.sampleRate);
         const ch = buf.getChannelData(0);
-        for (let i = 0; i < len; i++) ch[i] = (Math.random() * 2 - 1) * noise * (1 - i / len) * 0.55;
+        for (let i = 0; i < len; i++) ch[i] = (Math.random() * 2 - 1) * noise * (1 - i / len) * 0.60;
         const src = c.createBufferSource();
         src.buffer = buf;
         const fg = c.createGain();
-        fg.gain.setValueAtTime(noise * 0.28, now);
-        fg.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.45);
-        // lowpass for softer
+        fg.gain.setValueAtTime(noise * 0.35, now);
+        fg.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.7);
         const f2 = c.createBiquadFilter();
-        f2.type = "lowpass";
-        f2.frequency.setValueAtTime(2200, now);
-        src.connect(f2).connect(fg).connect(c.destination);
+        f2.type = "bandpass";
+        f2.frequency.setValueAtTime(1150, now);
+        f2.Q.setValueAtTime(0.9, now);
+        // highpass to remove rumble
+        const hp = c.createBiquadFilter();
+        hp.type = "highpass";
+        hp.frequency.setValueAtTime(500, now);
+        src.connect(hp).connect(f2).connect(fg).connect(c.destination);
         src.start(now);
       }
     }
   }
 
-  function playWhoosh() {
-    // Subtle whoosh: filtered noise + soft sine sweep, low gain
+  function whooshNoise({ duration = 0.18, gain = 0.22, bandFreq = 1100 }) {
     const c = ensure();
     if (!c) return;
-    // Use tone helper with noise primarily
-    tone({ freq: 320, freq2: 180, duration: 0.16, type: "sine", gain: 0.055, filterFreq: 1200, noise: 0.045 });
-    // second layer higher air
-    setTimeout(() => tone({ freq: 480, freq2: 300, duration: 0.10, type: "triangle", gain: 0.035, filterFreq: 1800 }), 12);
+    if (c.state === "suspended" && !unlocked) return;
+    if (c.state === "suspended") c.resume().catch(() => {});
+    const now = c.currentTime;
+    const len = Math.floor(c.sampleRate * duration);
+    if (len <= 0) return;
+    const buf = c.createBuffer(1, len, c.sampleRate);
+    const ch = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) {
+      const env = Math.sin((i / len) * Math.PI); // swell
+      ch[i] = (Math.random() * 2 - 1) * env * 0.95;
+    }
+    const src = c.createBufferSource();
+    src.buffer = buf;
+    const bp = c.createBiquadFilter();
+    bp.type = "bandpass";
+    bp.frequency.setValueAtTime(bandFreq, now);
+    bp.Q.setValueAtTime(0.85, now);
+    const hp = c.createBiquadFilter();
+    hp.type = "highpass";
+    hp.frequency.setValueAtTime(520, now);
+    const g = c.createGain();
+    g.gain.setValueAtTime(gain, now);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    src.connect(hp).connect(bp).connect(g).connect(c.destination);
+    src.start(now);
+    src.stop(now + duration + 0.02);
+  }
+
+  function playWhoosh() {
+    const c = ensure();
+    if (!c) return;
+    // Phase 2.2: much louder, filtered noise emphasizing 600-1800 Hz phone-reproducible mids, but still quieter than impact (~0.31)
+    whooshNoise({ duration: 0.20, gain: 0.26, bandFreq: 1250 });
+    // Second layer lower mids for body
+    whooshNoise({ duration: 0.14, gain: 0.13, bandFreq: 820 });
+    // Pitched air layer underneath for definition
+    tone({ freq: 620, freq2: 380, duration: 0.18, type: "triangle", gain: 0.11, filterFreq: 1900, noise: 0.02 });
+    setTimeout(() => tone({ freq: 980, freq2: 620, duration: 0.11, type: "sine", gain: 0.07, filterFreq: 2200 }), 10);
   }
 
   function playHarvest(type, isFinal) {
     if (type === "wood") {
-      // dull woody thunk — lower, softer, filtered, less electronic
-      tone({ freq: 145, freq2: 78, duration: isFinal ? 0.20 : 0.13, type: "triangle", gain: isFinal ? 0.19 : 0.13, filterFreq: 1400, noise: 0.04 });
-      tone({ freq: 92, duration: 0.09, type: "sine", gain: 0.07, filterFreq: 600 });
+      // Phase 2.2: audible on phone — boosted mids, clear attack, body, click
+      // Attack transient 250-500 Hz
+      tone({ freq: 380, freq2: 220, duration: isFinal ? 0.18 : 0.11, type: "triangle", gain: isFinal ? 0.31 : 0.24, filterFreq: 1800 });
+      // Body 100-180 Hz warm
+      tone({ freq: 145, freq2: 95, duration: isFinal ? 0.22 : 0.14, type: "sine", gain: isFinal ? 0.20 : 0.14, filterFreq: 650 });
+      // Woody click 600-900 Hz
+      tone({ freq: 780, freq2: 520, duration: 0.045, type: "triangle", gain: 0.11, filterFreq: 2600 });
+      if (isFinal) {
+        setTimeout(() => tone({ freq: 110, freq2: 62, duration: 0.24, type: "sine", gain: 0.16, filterFreq: 700 }), 55);
+      }
     } else if (type === "stone") {
-      // crisp crack + short low body
-      tone({ freq: 520, freq2: 280, duration: isFinal ? 0.16 : 0.10, type: "triangle", gain: isFinal ? 0.15 : 0.11, filterFreq: 2600, noise: 0.10 });
-      tone({ freq: 118, freq2: 72, duration: isFinal ? 0.18 : 0.11, type: "sine", gain: isFinal ? 0.13 : 0.08, filterFreq: 700 });
+      tone({ freq: 520, freq2: 280, duration: isFinal ? 0.16 : 0.10, type: "triangle", gain: isFinal ? 0.16 : 0.12, filterFreq: 2600, noise: 0.08 });
+      tone({ freq: 118, freq2: 72, duration: isFinal ? 0.18 : 0.11, type: "sine", gain: isFinal ? 0.14 : 0.09, filterFreq: 700 });
     } else {
-      // fiber light cut/swipe
-      tone({ freq: 620, freq2: 740, duration: isFinal ? 0.14 : 0.10, type: "sine", gain: isFinal ? 0.12 : 0.085, filterFreq: 3200, noise: 0.025 });
-      tone({ freq: 880, duration: 0.05, type: "triangle", gain: 0.045, filterFreq: 4800 });
+      tone({ freq: 620, freq2: 740, duration: isFinal ? 0.14 : 0.10, type: "sine", gain: isFinal ? 0.13 : 0.09, filterFreq: 3200, noise: 0.02 });
+      tone({ freq: 880, duration: 0.05, type: "triangle", gain: 0.05, filterFreq: 4800 });
     }
     if (isFinal) {
-      setTimeout(() => tone({ freq: 88, freq2: 48, duration: 0.20, type: "sine", gain: 0.09, filterFreq: 900 }), 60);
+      setTimeout(() => tone({ freq: 88, freq2: 48, duration: 0.22, type: "sine", gain: 0.10, filterFreq: 900 }), 60);
     }
   }
 
   function playPickup(resourceId) {
     const map = { wood: 540, stone: 480, fiber: 680 };
     const f = map[resourceId] ?? 560;
-    // softer, less piercing
-    tone({ freq: f, freq2: f * 1.28, duration: 0.12, type: "sine", gain: 0.11, filterFreq: 2600 });
-    setTimeout(() => tone({ freq: f * 1.45, duration: 0.07, type: "sine", gain: 0.06, filterFreq: 3000 }), 68);
+    tone({ freq: f, freq2: f * 1.28, duration: 0.12, type: "sine", gain: 0.12, filterFreq: 2600 });
+    setTimeout(() => tone({ freq: f * 1.45, duration: 0.07, type: "sine", gain: 0.07, filterFreq: 3000 }), 68);
   }
 
   function playDeplete() {
-    tone({ freq: 140, freq2: 52, duration: 0.26, type: "triangle", gain: 0.14, filterFreq: 1100, noise: 0.03 });
+    tone({ freq: 140, freq2: 52, duration: 0.26, type: "triangle", gain: 0.15, filterFreq: 1100, noise: 0.03 });
   }
 
   return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, get context() { return ctx; } };

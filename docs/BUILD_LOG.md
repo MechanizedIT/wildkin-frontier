@@ -277,3 +277,35 @@
   - Human must perform detailed Phase 2.1 manual tests below (11 checks); no Phase 3 combat/Wildkin/XP/waystones added.
   - Soak test in Node verifies pooling; browser rendering soak (5-min harvesting) should still be performed on device to confirm FPS not degrading; report via `window.__game.debugCounts` and `renderer.info.memory`.
   - Decorative removal reduces visual variety slightly — intentional to avoid fake-resource confusion; future art differentiation can reintroduce distinct non-harvestable foliage if needed.
+
+## 2026-08-21 — Phase 2.2 Harvesting Juice & Final Bug Fixes — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Implement `docs/CURRENT_SLICE.md` Phase 2.2 end-to-end — final harvesting refinement: fix pickup source/player collider filtering, enlarge pickups 1.8–2x and tool 1.7–2x, replace swing with true horizontal yaw sweep >=2 rad, make trail preserve history (player-space arc + afterimages), make whoosh/wood audible on phone, fix tree proportions to short trunk broad canopy, preserve all Phase 2.1 behavior, verify build.
+- **Decisions:**
+  - Pickup spawn clearance: `extent + pickupRadius + margin (0.14)` without 0.55 reduction; fiber non-solid uses fixed 0.38-0.56 small offset. Store `sourceCollider` and `sourceColliderHandle` on pickup at spawn. Rest height raised to 0.26, collection radius to 0.52, glow scaled 1.8. Geometries rebuilt: wood 0.42 box, stone 0.32 dodecahedron, fiber 0.28 sphere.
+  - Rapier filtering: `world.castRay(ray,maxToi,true, flags,groups, excludeCollider, excludeBody, predicate)` used via `filterExcludeCollider` and `filterPredicate` fallback to `intersectionsWithRay` with predicate that excludes `sourceCollider` (LAUNCHED) and `[sourceCollider, playerCollider]` (MAGNETIZING). Unrelated walls/platforms remain blocking via same ray. Fallback AABB still used if Rapier unavailable (excludes not needed there as playground obstacles never include resource collider). Added `setPlayerCollider(collider)` and `setPhysicsWorld` wiring from `main.js` (`characterPhysics.collider`).
+  - Magnet/collection lifecycle: `RESTING → MAGNETIZING → COLLECTED → pooled`, `collectPickup` sets `state=COLLECTED` and immediately `mesh.visible=false` + `releaseMesh` + splice, ensuring no frame where collected pickup trails behind player. `update` early exits if `collected||COLLECTED`, never transitions back to RESTING/MAGNETIZING.
+  - Pickup sizes verified via `PICKUP_CONFIG` constants used for geometries and for tests; pickupSystem now exports `_shared` sizes and collection/rest values account for enlarged dimensions.
+  - Field Tool hero-sized: handle 0.075→0.090×0.78, head 0.40×0.28×0.20, wedge 0.085-0.165×0.30, glow 0.10. Pivot moved to 0.32,0.40,0.16 and toolMount offset so blade extends sideways during yaw. Tool remains readable from high camera without severe clipping.
+  - Swing replaced: `SWING_CONFIG` yawWindup -1.28 yawFollow +1.28 total 2.56 rad dominant, pitch windup -0.38→0.22 secondary, roll -0.14→0.18 secondary. Phases: windup 0–0.20, strike 0.20–0.60 easeOut cubic across yaw, recovery 0.60–1.0. Verified visually horizontal: from standard camera head travels left→right across player front; pitch value changes 0.6 rad vs yaw 2.56 rad.
+  - Trail fix: `trailGroup` now sibling of `pivot` (child of `playerGroup` at pivot position) not child of `toolGroup`/`pivot` so it does not inherit swing rotation. Contains 4 `MeshBasicMaterial` afterimage boxes (0.38×0.26×0.12) and `RingGeometry` arc (inner 0.18 outer 0.72, sweep 2.70 rad) positioned at hand height. History buffer of 5 head world positions (converted to player-local) sampled each swinging frame; `showTrail` places afterimages at historical positions with fading opacity 0.48→0.14, scale fade, arc peak 0.42 opacity, duration ~0.48 strike window, inexpensive. Peak opacity 0.35–0.55 satisfied.
+  - Audio: whoosh now bandpassed noise emphasizing 600–1800 Hz. Primary 1250 Hz bandpass noise 0.26 gain 0.20s + secondary 820 Hz 0.13 gain + pitched triangle 620→380 Hz 0.11 gain + optional 980→620 sine. Gains ~2–3× Phase 2.1 but still quieter than wood impact (0.24–0.31). Trigger remains `impact-0.19` (~98ms before impact at 0.52 interval, 80–140ms). Wood hit layered: attack 380→220 Hz triangle 0.24 gain (250–500), body 145→95 Hz sine 0.14 (100–180), click 780→520 Hz triangle 0.11 (600–900), final depletion body 110→62Hz. Wood now clearly audible on phone speakers warm/dull not arcade.
+  - Tree proportions: `RESOURCE_TYPES.tree` collider half 0.52×0.46 center 0.46 total 0.92 (spec 0.85–1.0), thicker base radius 0.32/0.40 vs 2.1 0.24/0.31. Interaction 0.84 drop 0.95 impact 0.62 lowered. `createResourceNode` trunk 0.32/0.40×0.92 at y0.46, foliage blobs 5 cones at y 0.88–1.22 radius 0.50–0.78 broader/lower, stump 0.36/0.40×0.38 at y0.19. Silhouette chunky/low canopy from camera.
+  - Preservation: kept stationary gate 0.25, Auto Harvest toggle, true 3D eligibility, elevated drops on platform, depleted non-solid + safe restore, respawn ring 4.0, pooling, top-right HUD, traversal, single rAF fixed 1/60, offline vendoring.
+- **Files/Features Changed:**
+  - Modified: `src/resources/resourceConfig.js`, `src/resources/createResourceNode.js`, `src/resources/pickupSystem.js`, `src/tools/fieldTool.js`, `src/audio/gameAudio.js`, `src/main.js`, `tests/harvestingPhase21.test.js`
+  - Created: `tests/harvestingPhase22.test.js`
+  - Build output: `dist/submission/index.html` 152.1 KB, `vendor/three.module.js` 1243.1 KB, `vendor/rapier.js` 2790.6 KB, total ~4201 KB; `dist/submission.zip` 1353.8 KB (1.32 MB)
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (144 tests 45 suites: 126 prior + 18 new Phase 2.2: wood 0.42 stone 0.32 fiber 0.28 rest 0.26 collection 0.52, spawn clearance formula, stores source handle, collected never returns, yaw sweep 2.56 dominant, trail parent player-space with 4 afterimages, whoosh fires before impact, trunk 0.92 <1.45 center 0.46 thicker)
+  - `npm run build` — PASS (152.1 KB index + vendored, no https, readable tokens Phase 2.2, rapier importmap)
+  - `npm run validate` — PASS (size 4201.1 KB <35 MB, vendor three+rapier present, relative importmap, readable)
+  - `npm run verify` — PASS (test+build+validate chain)
+  - `npm run zip` — PASS (1353.8 KB, index at ZIP root, vendor preserved)
+  - rAF single-loop — PASS (1 in src/main.js)
+  - Soak/manual smoke: not automated browser; rely on pooling logic unchanged + manual checklist below.
+- **Human/Manual Changes:** None.
+- **Remaining Issues / Deferred:**
+  - This is intended final Phase 2 harvesting refinement unless serious correctness bug remains; do not add combat/Wildkin/progression per slice.
+  - Manual phone playtests required (10 detailed below); human visual/audio findings override automated checks.
+  - Deposit in next slice Phase 3.

@@ -34,15 +34,15 @@ export const RESOURCE_TYPES = {
     respawnSeconds: 18,
     solid: true,
     colliderShape: "cuboid",
-    // Phase 2.1 enlarged ~1.7x to read from high camera
-    colliderHalfExtents: { x: 0.55, y: 0.88, z: 0.55 },
-    colliderCenterY: 0.88,
+    // Phase 2.2 short trunk ~0.92 tall, thicker, foliage lower
+    colliderHalfExtents: { x: 0.52, y: 0.46, z: 0.52 },
+    colliderCenterY: 0.46,
     // remnant collider removed in 2.1 — depleted nodes are non-solid
     remnantColliderHalfExtents: null,
     remnantCenterY: 0,
-    interactionHeight: 0.95,
-    dropOriginHeight: 1.05,
-    impactEffectHeight: 0.75,
+    interactionHeight: 0.84,
+    dropOriginHeight: 0.95,
+    impactEffectHeight: 0.62,
     feedbackProfile: "wood",
     color: 0x2f7d32,
   },
