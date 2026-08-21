@@ -1,103 +1,386 @@
-# Architecture — Wildkin Frontier (Phase 1.2)
+# Architecture — Wildkin Frontier (Post-Phase 3 Baseline)
 
-> Lightweight, explicit, and human-editable. No framework magic.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current architecture** plus clearly labeled planned boundaries. Do not assume planned Phase 3.5 modules already exist.
 
-## Goals
+## Permanent Goals
 
-- One authoritative game loop owns all per-frame work and rendering.
-- `src/main.js` is thin bootstrap/composition — wires modules, owns the single rAF loop, awaits Rapier, contains no domain gameplay logic.
-- Modules split by responsibility so future slices extend cleanly — avoid god objects and duplicate parallel systems.
-- Mobile-first: capped DPR, minimal per-frame allocations, low draw calls, portrait 520px shell.
-- Offline-safe: Three.js + Rapier vendored at `vendor/three.module.js` + `vendor/rapier.js` via relative importmap; no runtime CDN/network requests. Rapier compat build inlines WASM as base64, `await RAPIER.init()` is offline.
+- One authoritative game loop owns all per-frame gameplay/update/render work.
+- `src/main.js` should remain composition/bootstrap plus fixed-loop ownership, not a home for domain gameplay rules.
+- Modules split by responsibility as complexity grows; avoid god objects and duplicate parallel systems.
+- Mutable-state ownership is explicit.
+- Dependencies are injected via imports/constructor arguments, not hidden globals.
+- Gameplay logic should be testable independently of Three.js rendering where practical.
+- Mobile-first: capped DPR, bounded pools, minimal per-frame allocation, portrait-safe UI.
+- Offline-safe: Three.js + Rapier vendored locally; no runtime CDN/network dependency.
 
-## Entry & Layout
+## Runtime / Submission Stack
 
-```
-index.html                  # portrait shell, importmap (three → ./vendor/three.module.js, rapier → ./vendor/rapier.js), module entry
-styles/game.css             # portrait HUD + safe-area framing
-src/main.js                 # bootstrap: await RAPIER.init(), create scene/camera/renderer, createPhysicsWorld, createCharacterPhysics, single rAF loop with fixed timestep
+- Three.js 0.160.0, vendored at `vendor/three.module.js`.
+- `@dimforge/rapier3d-compat@0.20.0`, vendored at `vendor/rapier.js` with embedded WASM.
+- Native ESM for development.
+- `esbuild` is build-time-only and produces a readable, unminified submission `index.html`.
+- One `requestAnimationFrame` loop in `src/main.js`.
+- Fixed gameplay/physics timestep: 1/60 with bounded catch-up substeps.
+
+## Current High-Level Module Areas
+
+```text
+src/main.js
+  composition/bootstrap
+  single rAF + fixed-step ordering
+  currently contains more run/combat/restart coordination than desired
+
 src/game/
-  createScene.js            # scene graph, lighting, playground+player, pure geometry only
-  createCamera.js           # CAMERA_CONFIG + createCamera / positionCamera / updateCameraAspect
-  createRenderer.js         # WebGLRenderer with DPR cap (≤2) + resize helper
-  config.js                 # centralized tuning — MOVEMENT_CONFIG, CAMERA_CONFIG_FOLLOW, INPUT_CONFIG, RAPIER_CONFIG
+  scene/camera/renderer
+  centralized config/tuning
+
+src/input/
+  keyboard input
+  touch movement/action gestures
+  merged input intent
+
 src/physics/
-  physicsConfig.js          # RAPIER_PHYSICS_CONFIG (capsule, controller, timestep mirrors RAPIER_CONFIG)
-  createPhysicsWorld.js     # creates RAPIER.World (gravity 0) + fixed cuboids for ground, obstacles, platforms, boundaries
-  createCharacterPhysics.js # kinematic body + capsule collider + KinematicCharacterController (offset/slide/snap/autostep)
-  physicsDebug.js           # optional wireframe capsule + collider debug (disabled by default)
+  Rapier world
+  player kinematic capsule/controller
+  collision/query helpers
+  debug helpers
+
 src/player/
-  createPlayer.js           # Three.js player group (visual only, not authoritative)
-  playerController.js       # authoritative movement: intent→accel→facing, verticalVelocity+gravity, Rapier controller move(), grounding via computedGrounded(), dodge/jump/climb/mantle via controller
-  playerVisuals.js          # bob/lean/crouch feedback isolated
+  player visual
+  movement/controller state
+  visual feedback
+
 src/movement/
-  movementBands.js          # band classification (pure)
-  traversalController.js    # authored jump/climb/mantle triggers (pure helpers + state for gap/ladder)
+  movement bands
+  authored traversal helpers
+  jump/climb/mantle logic
+
 src/world/
-  createMovementPlayground.js # visual playground + authored traversal data (platforms/obstacles/jumpTraversals/climbables) — collision geometry now also built as Rapier cuboids
-  collision.js              # legacy simple circle-vs-AABB (kept for unit tests, NOT used for player movement)
+  current systems-test/playground geometry
+  authored traversal/world data still partly code-defined
+
+src/resources/
+  harvestable node creation/config
+  harvesting/resource system
+  pooled physical-looking resource pickups
+
+src/tools/
+  Field Tool visual + swing ownership
+  harvest/combat swing profiles
+
+src/combat/
+  player combat/health
+  combat targeting
+  projectile system
+  XP mote system
+  combat/session helpers
+
+src/creatures/
+  creature creation/config
+  creature system / current AI state logic
+
+src/ui/
+  inventory / combat HUD
+  death overlay
+  controls / debug UI
+
+src/audio/
+  procedural/local game audio helpers
 ```
 
-### Data / Update Flow (Phase 1.2)
+Exact filenames may evolve; ownership boundaries matter more than directory names.
 
+## Current Data / Update Flow
+
+Conceptually:
+
+```text
+main.js
+  ├─ initialize Three.js + Rapier
+  ├─ create world/playground
+  ├─ create player + character physics + controller
+  ├─ create input
+  ├─ create Field Tool
+  ├─ create resource/pickup systems
+  ├─ create combat/player-health systems
+  ├─ create creature/projectile/XP systems
+  ├─ create UI/audio
+  └─ single rAF
+       ├─ merge input intent
+       ├─ fixed substeps
+       │    ├─ Field Tool/action state
+       │    ├─ player combat timers
+       │    ├─ player movement/Rapier move
+       │    ├─ creature AI/movement/combat
+       │    ├─ projectiles
+       │    ├─ XP motes
+       │    ├─ resources/harvesting
+       │    └─ pickups
+       ├─ target/focus visuals
+       ├─ camera
+       ├─ particles/visual-only updates
+       └─ render
 ```
-main.js bootstrap (await RAPIER.init())
-  ├─ createScene()        → { scene, player, playground }    // visuals + authored traversal regions
-  ├─ createPhysicsWorld(RAPIER, playground) → { world, staticColliders }
-  ├─ createCharacterPhysics(RAPIER, world, startPos) → { body, collider, controller }
-  ├─ createPlayerController(player, playground, camera, MOVEMENT_CONFIG, characterPhysics)  // owns vel/verticalVelocity/facing/state, uses traversal helpers
-  ├─ createCamera(camera) / createRenderer(canvas)
-  ├─ resize()             → #app.clientWidth/Height → updateCameraAspect + resizeRenderer
-  └─ single rAF loop (tick) — fixed timestep:
-       ├─ dt = min(clock.getDelta(), RAPIER_CONFIG.maxDelta) with accumulator (fixedDt 1/60, maxSubsteps 4)
-       ├─ mergeIntents(touch, keyboard) → intent (once per frame)
-       ├─ for each physics substep:
-       │    └─ playerController.update(fixedDt, intent)  → desired velocity→translation→controller.computeColliderMovement→corrected→body.setTranslation→grounded/ceiling handling→mesh sync
-       ├─ cameraFollow.update(renderDt, speed, moveDir)
-       ├─ physicsDebug.update() (if enabled)
-       ├─ fps sampling + debug label (≤2 Hz)
-       └─ renderer.render(scene, camera)
+
+The exact order must preserve deterministic gameplay relationships and should be documented when changed.
+
+## Rapier Ownership
+
+Rapier is the approved runtime for collision and spatial physics queries.
+
+Current uses include:
+
+- player kinematic capsule movement/collision/grounding,
+- static world colliders,
+- creature kinematic colliders/movement,
+- projectile/world collision queries,
+- pickup/world clearance queries where appropriate,
+- collision-aware knockback/locomotion.
+
+Guidelines:
+
+- The player remains kinematic; do not convert the core character to a dynamic rigid body.
+- Creatures should remain simple kinematic actors unless a later slice explicitly proves a need otherwise.
+- Visual meshes are not automatically physics colliders. Tool/head/direction visuals should not silently become combat blockers.
+- Combat damage is explicit gameplay logic, not continuous body-contact damage.
+- Query filters/exclusions must be deliberate; avoid treating the intended target collider as an environment blocker.
+- No second physics engine.
+
+## Player Movement Ownership
+
+`playerController` owns locomotion state and accepted movement feel:
+
+- speed bands,
+- acceleration/deceleration,
+- facing from meaningful input,
+- jump/fall/gravity/air control,
+- dodge movement,
+- climb/mantle traversal,
+- collision-resolved movement via the player Rapier controller.
+
+Combat may impose temporary movement caps/explicit knockback through injected options, but combat modules must not become a second movement controller.
+
+## Field Tool Ownership
+
+The Field Tool is one visual/interaction object.
+
+Current rule:
+
+```text
+one Field Tool swing
+  ├─ valid harvestables in arc → harvest hit
+  └─ valid attackable creatures in arc → combat hit
 ```
 
-Resize is explicit: `#app` dimensions, not `window.innerWidth`, so desktop letterboxing and phone portrait stay correct. `orientationchange` debounces 200 ms for Safari.
+Architecture requirements:
 
-## Loop Ownership (hard constraint)
+- One authoritative module owns Field Tool transforms/trail/swing timing.
+- Harvesting and combat must not independently write the same tool hierarchy.
+- Auto Harvest controls **swing initiation for resources**, not a separate weapon mode.
+- Manual attack can initiate the same physical interaction and may affect resources + valid creatures.
+- Swipe/dodge takes precedence over attack gesture recognition.
 
-- Exactly one `requestAnimationFrame` loop lives in `src/main.js`. Modules may export `update(dt)` helpers, but they are called by that loop — they do not start their own loops.
-- Fixed physics timestep (1/60, max 3–4 catch-up substeps) is driven by accumulator inside that single loop; no second rAF.
-- No second world/state/camera/update path.
+## Resource / Pickup Ownership
 
-## Rapier Architecture (Phase 1.2 decision)
+- Resource nodes own harvest/depletion/respawn state.
+- Resource pickup system owns temporary physical-looking drops and collection.
+- Pickup flight/rest may respect world collision.
+- Once magnetizing to the player, collection reliability takes priority over cosmetic collision realism.
+- Pools/caps must remain bounded.
 
-- **Runtime dependency:** `@dimforge/rapier3d-compat@0.20.0` (Apache-2.0), vendored as `vendor/rapier.js` (compat base64 WASM, offline `await RAPIER.init()`). Kept external to first-party bundle via importmap (`rapier` + `@dimforge/rapier3d-compat` → `./vendor/rapier.js`) and esbuild `external`.
-- **World:** `RAPIER.World({x:0,y:0,z:0})`, `timestep 1/60`. Gravity not applied via World; Wildkin code integrates `verticalVelocity += gravity*dt` (gravity -12) and passes desired translation to controller.
-- **Character:** `RigidBodyDesc.kinematicPositionBased()` at capsule center, `ColliderDesc.capsule(0.20, 0.32)` (radius 0.32, halfHeight 0.20, total 1.04), `World.createCharacterController(0.02)`.
-- **Controller tuning (src/physics/physicsConfig.js / RAPIER_CONFIG):** `offset 0.02`, `slide true`, `maxSlope 45°`, `minSlide 30°`, `autostep 0.20/0.18/includeDynamic false`, `snapToGround 0.20`, `up (0,1,0)`, `applyImpulsesToDynamic false`.
-- **Movement:** `desired = velocity * fixedDt` → `controller.computeColliderMovement(collider, desired)` → `corrected = controller.computedMovement()` → `body.setTranslation(collider.translation()+corrected)` → `grounded = controller.computedGrounded()` → mesh synced to `collider.translation()`. Ceiling: `corrected.y < desired.y*0.3` while rising cancels `verticalVelocity`.
-- **Ownership split:** Rapier owns capsule/world collision, sliding, grounding, slopes, steps, penetration. Wildkin owns speeds, accel, facing, dodge, jump vert/gravity/airControl, climb authoring, camera.
-- **Old hacks removed:** `getGroundHeight` authoritative grounding, `getCollisionObstaclesForHeight/platformSideColliders/resolveStuckPosition/resolveMovement` for player, timeout forced landings, X/Z overlap ground ownership are no longer used for player movement (kept only for legacy unit tests).
+## Combat Ownership
+
+Combat is split conceptually into:
+
+- player attack request/timing,
+- target eligibility/hit resolution,
+- player health/i-frames/knockback/death,
+- enemy attack behavior,
+- projectiles,
+- XP reward collection,
+- run/combat session coordination.
+
+Avoid making `main.js` decide detailed combat/harvest rules.
+
+## Creature Ownership — Current + Phase 3.1 Direction
+
+Current Phase 3 creatures have simple explicit combat state logic (Rusher / Spitter).
+
+Phase 3.1 evolves this toward wildlife behavior without a heavyweight behavior tree.
+
+Keep these concerns conceptually separate:
+
+```text
+PERCEPTION
+  what actors/resources/threats are nearby?
+
+TEMPERAMENT / DECISION
+  ignore / warn / flee / pursue / attack / return home
+
+LOCOMOTION / STEERING
+  move toward/away, obstacle avoidance, leash/home return
+
+COMBAT BEHAVIOR
+  windup / lunge / projectile / recover / hurt / dead
+```
+
+Wildkin should be able to perceive the player and other Wildkin. Do not hard-code `target = player` as the only meaningful actor relationship.
+
+Use lightweight steering/obstacle probes/separation first. Do not add A* or a navmesh until the authored frontier demonstrates repeated failures that simple steering cannot solve.
+
+## Run / Temporary State — Current Technical Debt
+
+Phase 3 introduced more temporary-run state:
+
+- health,
+- XP,
+- kills,
+- temporary resource cargo,
+- death/restart,
+- projectile/mote cleanup,
+- creature reset,
+- resource reset.
+
+Some coordination currently lives in `main.js`. This is acceptable as a temporary Phase 3 state but should **not continue growing**.
+
+## Planned Phase 3.5 Architecture Boundary
+
+Phase 3.5 is a deliberate cleanup/authoring checkpoint before extraction, persistence, captures, equipment, and waystones.
+
+### 1. Expedition / Run Session Owner
+
+Introduce a focused owner (name may vary) for temporary run lifecycle such as:
+
+```text
+ExpeditionSession / RunSession
+  health/run-death integration as appropriate
+  run XP
+  kills
+  unsecured resource cargo
+  future unsecured captures
+  restart/reset lifecycle
+  future extraction completion
+```
+
+Do not move rendering or player locomotion into this module.
+
+### 2. Thin `main.js`
+
+Target responsibility:
+
+```text
+initialize
+create modules
+wire dependencies
+own single fixed loop
+call updates in documented order
+render
+```
+
+Domain-specific state machines and reset policies should live in their owning systems/session modules.
+
+### 3. Creature Separation
+
+Keep perception/temperament decisions, locomotion/steering, and attack-state behavior separated enough that one creature file does not grow into a catch-all.
+
+Do not introduce a generic ECS/behavior-tree framework just to achieve separation.
+
+### 4. Interaction / Field Tool Boundary
+
+Manual swing initiation, Auto Harvest initiation, and hit resolution should have a clear flow without competing transform owners or duplicated arc logic.
+
+### 5. Data-Driven World Definition
+
+Move authored placements out of scattered hard-coded arrays into a simple world definition, preferably:
+
+```text
+src/world/data/world.json
+```
+
+or equivalent.
+
+It should support:
+
+- ground/terrain regions,
+- resources,
+- creature spawn/home/temperament data,
+- platforms,
+- ramps,
+- ladders,
+- jump/parkour geometry,
+- waystones,
+- future points of interest.
+
+Runtime systems should consume normalized world data rather than each maintaining unrelated placement lists.
+
+### 6. Dev-Only Author Mode
+
+Add a small human-facing editor for quick world iteration:
+
+- select/place,
+- move,
+- rotate,
+- elevate,
+- resize supported objects,
+- duplicate/delete,
+- Edit ↔ Play quickly,
+- export/copy deterministic world data.
+
+This is intentionally not a production game editor framework.
+
+Optional PNG object-map/heightmap import may later generate a first draft, but editable world data remains source of truth.
 
 ## State & Dependencies
 
-- Owner of mutable state is explicit (the module that creates it). Character physics owned by `createCharacterPhysics`; player state owned by `playerController`; playground visual data by `createMovementPlayground`.
-- Dependencies are injected via imports or constructor arguments, not ambient globals.
-- `window.__game` is debug-only (console inspection); gameplay code must not read/write it.
+- Mutable state has one explicit owner.
+- Dependencies are passed explicitly.
+- `window.__game` is debug-only and gameplay must not depend on it.
+- Avoid hidden cross-module mutation.
+- If two systems need the same rule (for example attack arc eligibility), centralize that rule rather than reimplementing it.
 
 ## Configuration
 
-- All tuning in `src/game/config.js` (`MOVEMENT_CONFIG`, `CAMERA_CONFIG_FOLLOW`, `INPUT_CONFIG`, `RAPIER_CONFIG`) mirrored in `src/physics/physicsConfig.js`. No scattered literals.
+Feel/balance/presentation constants should live in centralized config exports (`src/game/config.js` or focused colocated `*_CONFIG` modules).
+
+Do not scatter unexplained tuning literals across update functions.
+
+## Performance Guardrails
+
+- One rAF.
+- Fixed-step gameplay.
+- Capped DPR.
+- Bounded pools for repeat effects/projectiles/pickups/motes.
+- No unbounded arrays or per-enemy loops outside the main update.
+- No per-frame DOM creation.
+- Keep active creature counts small for the competition prototype.
+- Prefer shared geometry/materials where practical.
 
 ## Build & Submission
 
-- Dev: no bundler. Native ESM + importmap (`three → ./vendor/three.module.js`, `rapier → ./vendor/rapier.js`), served by `tools/serve.mjs`.
-- Submission: build-time-only `esbuild` bundles `src/main.js` (`minify:false`, `sourcemap:false`, `format:esm`, `external:["three","rapier","@dimforge/rapier3d-compat"]`). Bundle inlined as readable `<script type="module">` into `dist/submission/index.html` with inlined CSS; importmap remains at runtime. Vendored assets in `dist/submission/vendor/` (three + rapier) with relative paths. `tools/validate-submission.mjs` enforces: index at root, vendor/three+rapier present, no `https://`, readable tokens, referenced files exist, size <35 MB.
-- `esbuild@0.24.2` approved build-time-only bundler.
+- Dev: native ESM + local importmap.
+- Submission: `esbuild` bundles first-party code readable/unminified into root `index.html`; Three.js/Rapier remain vendored local dependencies.
+- Runtime must make no external network requests.
+- ZIP must remain <35 MB.
 
-## Testing & Verification
+Authoritative gates:
 
-- `npm test` (node --test), `npm run build`, `npm run validate`, `npm run verify` (test+build+validate), `npm run zip` are authoritative gates (CI + local).
-- Pure logic (band classification, jump reachability, climb entry, air control caps, gravity integration, fixed-step accumulator) is testable without WebGL/Rapier. Browser/manual smoke required for WASM + collision integration.
+```sh
+npm test
+npm run verify
+npm run zip
+```
 
-## Growth Path (non-binding)
+Browser/phone manual testing remains mandatory for collision, touch gestures, audio, and gameplay feel.
 
-Phase 1+ will introduce: player controller, input, follow camera, small world — done. Next slices will extend with harvesting/combat/Wildkin progression; Rapier remains character controller only (no dynamic ragdoll/terrain trimesh yet).
+## Architectural Decision Rule
+
+Do not refactor merely for aesthetic purity. Refactor when one of these becomes true:
+
+- a module has multiple unrelated reasons to change,
+- the same rule is duplicated across systems,
+- a new phase would require adding more domain logic to `main.js`,
+- state ownership is unclear,
+- testing a rule requires booting unrelated systems,
+- world authoring requires editing gameplay source code.
+
+Phase 3.5 exists because several of those thresholds will otherwise be crossed by extraction, persistence, capture, companions, equipment, and waystones.
