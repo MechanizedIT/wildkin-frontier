@@ -88,7 +88,7 @@ describe("Phase 2.2 — pickup spawn clearance outside source collider", () => {
 describe("Phase 2.2 — horizontal sweep", () => {
   it("total yaw sweep >=2.0 rad", () => {
     assert.ok(SWING_CONFIG.totalYawSweep >= 2.0, `sweep ${SWING_CONFIG.totalYawSweep}`);
-    const computed = SWING_CONFIG.yawFollow - SWING_CONFIG.yawWindup;
+    const computed = Math.abs(SWING_CONFIG.yawFollow - SWING_CONFIG.yawWindup);
     assert.ok(computed >= 2.0, `computed ${computed}`);
   });
   it("dominant configured sweep is yaw", () => {
@@ -97,27 +97,32 @@ describe("Phase 2.2 — horizontal sweep", () => {
     const rollRange = Math.abs(SWING_CONFIG.rollStrike - SWING_CONFIG.rollWindup);
     assert.ok(yawRange > pitchRange + 0.5, `yaw ${yawRange} should dominate pitch ${pitchRange}`);
     assert.ok(yawRange > rollRange + 0.5);
-    assert.ok(SWING_CONFIG.yawWindup <= -1.0 && SWING_CONFIG.yawWindup >= -1.5);
-    assert.ok(SWING_CONFIG.yawFollow >= 1.0 && SWING_CONFIG.yawFollow <= 1.5);
+    // windup and follow are opposite sides, magnitude 1.0-1.5, total sweep >=2.0
+    assert.ok(Math.abs(SWING_CONFIG.yawWindup) >= 1.0 && Math.abs(SWING_CONFIG.yawWindup) <= 1.5);
+    assert.ok(Math.abs(SWING_CONFIG.yawFollow) >= 1.0 && Math.abs(SWING_CONFIG.yawFollow) <= 1.5);
+    assert.ok(SWING_CONFIG.yawWindup * SWING_CONFIG.yawFollow < 0, "windup and follow opposite signs for right→left sweep");
   });
   it("field tool trail uses player-space arc / afterimages not collapsed into current tool transform", async () => {
     const THREE = await import("three");
     const player = new THREE.Group();
-    // Mock gameAudio
     const ft = await import("../src/tools/fieldTool.js");
     const tool = ft.createFieldTool(player, null);
-    // trailGroup should be sibling to pivot (child of player), not child of pivot
+    // trailGroup should be child of player (player-space) not child of swing pivot/tool
     assert.equal(tool.trailGroup.parent, player, "trailGroup parent should be player (player-space) not tool pivot");
-    assert.equal(tool.pivot.parent, player);
+    // new hierarchy: handAnchor -> swingPivot -> toolMount -> toolGroup
+    const pivot = tool.swingPivot ?? tool.pivot;
+    assert.ok(pivot, "swingPivot exists");
+    assert.ok(tool.handAnchor, "handAnchor exists");
+    assert.equal(tool.handAnchor.parent, player);
     // afterimages should be children of trailGroup
     assert.ok(tool.afterimages.length >= 3 && tool.afterimages.length <= 5);
-    // Trail not collapsed: trailGroup world position should not equal toolGroup world position when swinging?
-    // Check that trailGroup is not under toolGroup
     assert.equal(tool.trailGroup.parent !== tool.toolGroup, true);
-    assert.equal(tool.trailGroup.parent !== tool.pivot, true);
-    // Arc opacity config peaks 0.35-0.55 (we use 0.42)
-    // Verify arc material exists
+    assert.equal(tool.trailGroup.parent !== pivot, true);
     assert.ok(tool.arcMesh.material.opacity !== undefined);
+    // Verify tool originates from right hand (+X) and mount offset is present for large arc
+    assert.ok(tool.toolMount, "toolMount exists for radial offset");
+    assert.ok(SWING_CONFIG.swingRadius >= 0.5, `swingRadius ${SWING_CONFIG.swingRadius} should be >=0.5 for large arc`);
+    assert.ok(tool.handAnchor.position.x > 0.15, "hand anchor should be on right side (+X)");
   });
   it("whoosh fires once before impact and is configured", () => {
     // Swing config whoosh trigger is impact -0.19 normalized (~98ms)

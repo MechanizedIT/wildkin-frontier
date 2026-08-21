@@ -305,7 +305,28 @@
   - rAF single-loop — PASS (1 in src/main.js)
   - Soak/manual smoke: not automated browser; rely on pooling logic unchanged + manual checklist below.
 - **Human/Manual Changes:** None.
-- **Remaining Issues / Deferred:**
+ - **Remaining Issues / Deferred:**
   - This is intended final Phase 2 harvesting refinement unless serious correctness bug remains; do not add combat/Wildkin/progression per slice.
   - Manual phone playtests required (10 detailed below); human visual/audio findings override automated checks.
   - Deposit in next slice Phase 3.
+
+## 2026-08-21 — Phase 2.2 Final Tiny Refinement — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Tiny final harvesting animation/audio refinement: right-hand tool mount with radial offset for true horizontal arc, exaggerated sweep, deeper whoosh, and halo visibility while moving but harvesting only when stationary.
+- **Decisions:**
+  - Right hand: added minimal procedural `rightHandAnchor` at (0.26,0.38,0.08) (+X right) with shoulder-to-hand cylinder (0.32 len) and 0.055 hand sphere + grip torus, so tool visibly originates from player's right side at hand/waist height (`src/tools/fieldTool.js:15`). No rig/animation system.
+  - Swing geometry: introduced `handAnchor -> swingPivot -> toolMount (0.12,-0.06,0.64) -> toolGroup` hierarchy. Mount offset vx 0.12 vz 0.64 gives hand as swing center, head radius ~0.68 + tool length ≈0.9-1.0 large arc. Yaw now `+1.25` front-right (4 o'clock) → `-1.25` front-left (8 o'clock) =2.50 rad dominant yaw, pitch -0.28→0.18 secondary, physical head path across front Z>0 both ends (right→left sweep, counterclockwise from above). `SWING_CONFIG.swingRadius 0.68` exposed. Arc enlarged to Ring outer 0.88 inner 0.22 sweep 2.70 rad centered at hand, afterimages still player-space history.
+  - Exaggerated: faster easeOut 2.8 through mid-strike (visual speed), longer follow-through 0.58→1.0, larger arc scale 0.95→1.17, toolMount offset increases visible travel vs prior vertical tool rotation.
+  - Whoosh deeper: bandpassed noise now 520 Hz (0.30 gain 0.22s) + 680 Hz (0.18 0.18s) with highpass 180, pitched sweep 420→190 Hz triangle 0.14 lowpass 900, quiet air 950→820 0.045. Energy shifted 400–700, retains audibility but heavier `WHOOOOSH` not `FSSSH` (`src/audio/gameAudio.js:120`).
+  - Halo separation: added `isHarvestableInRange` (READY+3D range `src/resources/harvestLogic.js:32`) and `canAutoHarvestNow` (+ mode/speed/Auto) and `selectHarvestableInRange`. `resourceSystem.getHaloTargets` now shows white ring when `isHarvestableInRange && Auto ON` ignoring speed/mode, while `getEligibleNodes` remains speed-gated (`src/resources/resourceSystem.js:36`). Auto OFF keeps halos hidden. Preserved 3D, high-platform vertical, multi-target.
+- **Files/Features Changed:**
+  - Modified: `src/tools/fieldTool.js`, `src/audio/gameAudio.js`, `src/resources/harvestLogic.js`, `src/resources/resourceSystem.js`, `tests/harvestingPhase22.test.js`
+  - Build output: `dist/submission/index.html` 154.9 KB, `vendor/three.module.js` 1243.1 KB, `vendor/rapier.js` 2790.6 KB, total ~4203.9 KB; `dist/submission.zip` 1354.4 KB
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (144 tests 45 suites: prior 126 + Phase 2.2 18, now with new sweep right→left 2.50, handAnchor +X, swingRadius 0.68, trail player-space, deeper whoosh, halo decoupled)
+  - `npm run verify` — PASS (test + build 154.9KB + validate 4203.9KB <35MB, vendor present, readable Phase 2.2 final)
+  - `npm run zip` — PASS (1354.4 KB, index at ZIP root)
+  - rAF single-loop — PASS (1 in src/main.js)
+- **Human/Manual Changes:** None.
+- **Remaining Issues / Deferred:**
+  - Manual A–D + halo while moving tests below must be confirmed on phone; no Phase 3 systems added.

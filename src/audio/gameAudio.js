@@ -105,10 +105,10 @@ export function createGameAudio() {
     const bp = c.createBiquadFilter();
     bp.type = "bandpass";
     bp.frequency.setValueAtTime(bandFreq, now);
-    bp.Q.setValueAtTime(0.85, now);
+    bp.Q.setValueAtTime(0.78, now);
     const hp = c.createBiquadFilter();
     hp.type = "highpass";
-    hp.frequency.setValueAtTime(520, now);
+    hp.frequency.setValueAtTime(bandFreq < 750 ? 180 : 320, now);
     const g = c.createGain();
     g.gain.setValueAtTime(gain, now);
     g.gain.exponentialRampToValueAtTime(0.0001, now + duration);
@@ -120,13 +120,13 @@ export function createGameAudio() {
   function playWhoosh() {
     const c = ensure();
     if (!c) return;
-    // Phase 2.2: much louder, filtered noise emphasizing 600-1800 Hz phone-reproducible mids, but still quieter than impact (~0.31)
-    whooshNoise({ duration: 0.20, gain: 0.26, bandFreq: 1250 });
-    // Second layer lower mids for body
-    whooshNoise({ duration: 0.14, gain: 0.13, bandFreq: 820 });
-    // Pitched air layer underneath for definition
-    tone({ freq: 620, freq2: 380, duration: 0.18, type: "triangle", gain: 0.11, filterFreq: 1900, noise: 0.02 });
-    setTimeout(() => tone({ freq: 980, freq2: 620, duration: 0.11, type: "sine", gain: 0.07, filterFreq: 2200 }), 10);
+    // Final refinement: deeper WHOOOOSH — main energy 400-700 Hz, heavy sweep 420→190
+    whooshNoise({ duration: 0.22, gain: 0.30, bandFreq: 520 });
+    whooshNoise({ duration: 0.18, gain: 0.18, bandFreq: 680 });
+    // Heavy pitched sweep 420 → ~190 Hz
+    tone({ freq: 420, freq2: 190, duration: 0.20, type: "triangle", gain: 0.14, filterFreq: 900, filterType: "lowpass" });
+    // One quiet air layer for phone definition, not dominant
+    setTimeout(() => tone({ freq: 950, freq2: 820, duration: 0.10, type: "sine", gain: 0.045, filterFreq: 1400 }), 8);
   }
 
   function playHarvest(type, isFinal) {

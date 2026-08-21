@@ -29,16 +29,25 @@ export function isNodeReady(node) {
   return node.state.nodeState === "READY" && node.state.remainingChunks > 0;
 }
 
-export function isEligible(node, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
-  if (!autoHarvestEnabled) return false;
-  if (!isHarvestCompatibleMode(playerMode)) return false;
-  if (playerSpeed > (HARVEST_CONFIG.harvestMaxHorizontalSpeed ?? 0.25) + 1e-6) return false;
+export function isHarvestableInRange(node, playerPos) {
   if (node.state.nodeState !== "READY") return false;
   if (node.state.remainingChunks <= 0) return false;
   const interact = getInteractionPoint(node);
   const pEff = getPlayerEffectivePos(playerPos);
   const d = distance3D(interact, pEff);
   return d <= HARVEST_CONFIG.harvestRadius;
+}
+
+export function canAutoHarvestNow(node, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
+  if (!isHarvestableInRange(node, playerPos)) return false;
+  if (!isHarvestCompatibleMode(playerMode)) return false;
+  if (playerSpeed > (HARVEST_CONFIG.harvestMaxHorizontalSpeed ?? 0.25) + 1e-6) return false;
+  if (!autoHarvestEnabled) return false;
+  return true;
+}
+
+export function isEligible(node, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
+  return canAutoHarvestNow(node, playerPos, playerMode, playerSpeed, autoHarvestEnabled);
 }
 
 export function selectTargets(nodes, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
@@ -58,9 +67,16 @@ export function selectTargets(nodes, playerPos, playerMode, playerSpeed = 0, aut
   return eligible.slice(0, HARVEST_CONFIG.maxTargetsPerSwing).map(r => r.node);
 }
 
-// Same eligibility for halos — must match harvest
+export function selectHarvestableInRange(nodes, playerPos) {
+  const res = [];
+  for (const n of nodes) if (isHarvestableInRange(n, playerPos)) res.push(n);
+  return res;
+}
+
+// Same eligibility for halos — now separated: halo = in-range + Auto ON, not speed/mode gated
 export function shouldShowHalo(node, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
-  return isEligible(node, playerPos, playerMode, playerSpeed, autoHarvestEnabled);
+  if (!autoHarvestEnabled) return false;
+  return isHarvestableInRange(node, playerPos);
 }
 
 export function isRespawnIndicatorVisible(node, playerPos) {

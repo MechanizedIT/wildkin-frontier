@@ -46,6 +46,23 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     return (playerSpeed ?? 0) <= (HARVEST_CONFIG.harvestMaxHorizontalSpeed ?? 0.25) + 1e-6;
   }
 
+  function isHarvestableInRange(node, playerPos) {
+    if (node.state.nodeState !== "READY") return false;
+    if (node.state.remainingChunks <= 0) return false;
+    const interact = getInteractionPoint(node);
+    const pEff = getEffectivePlayerPos(playerPos);
+    const d = distance3D(interact, pEff);
+    return d <= HARVEST_CONFIG.harvestRadius;
+  }
+
+  function canAutoHarvestNow(node, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
+    if (!isHarvestableInRange(node, playerPos)) return false;
+    if (!isHarvestCompatibleMode(playerMode)) return false;
+    if (!isSpeedAllowed(playerSpeed)) return false;
+    if (!autoHarvestEnabled) return false;
+    return true;
+  }
+
   function getEligibleNodes(playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
     if (!autoHarvestEnabled) return [];
     if (!isHarvestCompatibleMode(playerMode)) return [];
@@ -63,9 +80,20 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     return res.slice(0, HARVEST_CONFIG.maxTargetsPerSwing).map(r => r.node);
   }
 
-  // Returns nodes whose halo should be visible — must match eligibility exactly
+  // Halo visibility: harvestable in range (READY + 3D range) while Auto ON, independent of speed/mode
   function getHaloTargets(playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
-    return getEligibleNodes(playerPos, playerMode, playerSpeed, autoHarvestEnabled);
+    if (!autoHarvestEnabled) return [];
+    const res = [];
+    for (const n of nodes) {
+      if (isHarvestableInRange(n, playerPos)) res.push(n);
+    }
+    // sort nearest first but cap same as eligibility for visual consistency
+    res.sort((a, b) => {
+      const da = distance3D(getInteractionPoint(a), getEffectivePlayerPos(playerPos));
+      const db = distance3D(getInteractionPoint(b), getEffectivePlayerPos(playerPos));
+      return da - db;
+    });
+    return res.slice(0, HARVEST_CONFIG.maxTargetsPerSwing);
   }
 
   function isRespawnVisible(node, playerPos) {
@@ -267,5 +295,5 @@ export function createResourceSystem(scene, physicsWorld, placements) {
 
   function getNodes() { return nodes; }
 
-  return { nodes, getEligibleNodes, getHaloTargets, applyHit, update, getNodes, isRespawnVisible };
+  return { nodes, getEligibleNodes, getHaloTargets, isHarvestableInRange, canAutoHarvestNow, applyHit, update, getNodes, isRespawnVisible };
 }

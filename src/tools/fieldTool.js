@@ -1,22 +1,72 @@
-// src/tools/fieldTool.js — visible Field Tool omnitool + broad horizontal sweep + player-space trail + speed-gated harvesting (Phase 2.2)
+// src/tools/fieldTool.js — visible Field Tool omnitool + broad horizontal sweep + player-space trail + speed-gated harvesting (Phase 2.2 final refinement)
 import * as THREE from "three";
 import { HARVEST_CONFIG, isHarvestCompatibleMode } from "../resources/resourceConfig.js";
 
 export const SWING_CONFIG = {
-  yawWindup: -1.28,
-  yawFollow: 1.28,
-  totalYawSweep: 2.56,
-  pitchWindup: -0.38,
-  pitchStrike: 0.22,
-  rollWindup: -0.14,
-  rollStrike: 0.18,
+  yawWindup: 1.25, // front-right (4 o'clock) start
+  yawFollow: -1.25, // front-left (8 o'clock) finish
+  totalYawSweep: 2.50,
+  pitchWindup: -0.28,
+  pitchStrike: 0.18,
+  rollWindup: -0.10,
+  rollStrike: 0.12,
+  swingRadius: 0.68, // radial offset from hand pivot to tool head
 };
 
 export function createFieldTool(playerGroup, gameAudio = null) {
+  // --- Right-hand procedural attachment (minimal, readable, no rig) ---
+  // Player local +X = right, +Z = forward. Hand at right side chest/waist height.
+  const handAnchor = new THREE.Group();
+  handAnchor.name = "rightHandAnchor";
+  handAnchor.position.set(0.26, 0.38, 0.08);
+  playerGroup.add(handAnchor);
+
+  // Simple arm: shoulder → hand cylinder
+  const shoulderPos = new THREE.Vector3(0.18, 0.58, 0.02);
+  const handPos = new THREE.Vector3(0, 0, 0); // handAnchor origin
+  const armVec = new THREE.Vector3().subVectors(handPos, shoulderPos);
+  const armLen = armVec.length();
+  const armGeo = new THREE.CylinderGeometry(0.042, 0.032, armLen, 6);
+  const armMat = new THREE.MeshStandardMaterial({ color: 0x5a6a7a, flatShading: true });
+  const armMesh = new THREE.Mesh(armGeo, armMat);
+  // position at midpoint
+  armMesh.position.copy(shoulderPos).add(handPos).multiplyScalar(0.5).sub(handAnchor.position);
+  // orient toward hand
+  armMesh.lookAt(handPos);
+  armMesh.rotateX(Math.PI / 2);
+  handAnchor.add(armMesh);
+
+  // Hand sphere
+  const handGeo = new THREE.SphereGeometry(0.055, 6, 6);
+  const handMat = new THREE.MeshStandardMaterial({ color: 0xd8c4a0, flatShading: true });
+  const handMesh = new THREE.Mesh(handGeo, handMat);
+  handMesh.position.set(0, 0, 0);
+  handAnchor.add(handMesh);
+
+  // Grip ring where tool is held
+  const gripGeo = new THREE.TorusGeometry(0.038, 0.009, 6, 10);
+  const gripMat = new THREE.MeshStandardMaterial({ color: 0x3a3f4a });
+  const grip = new THREE.Mesh(gripGeo, gripMat);
+  grip.position.set(0, -0.02, 0.02);
+  grip.rotation.x = Math.PI / 2;
+  handAnchor.add(grip);
+
+  // --- Tool hierarchy: handAnchor -> swingPivot -> toolMount (radial offset) -> toolGroup ---
+  const swingPivot = new THREE.Group();
+  swingPivot.name = "fieldToolSwingPivot";
+  handAnchor.add(swingPivot);
+
+  const toolMount = new THREE.Group();
+  toolMount.name = "toolMount";
+  // Offset outward from pivot so head travels large arc. Mostly forward (+Z) with small right (+X) so sweep stays in front.
+  // vx ~0.12 right, vz ~0.64 forward gives both start/end Z positive (front) with right→left sweep.
+  toolMount.position.set(0.12, -0.06, 0.64);
+  swingPivot.add(toolMount);
+
   const toolGroup = new THREE.Group();
   toolGroup.name = "fieldTool";
 
-  // Procedural omnitool — hero-sized ~1.85x Phase 2.1 for readability from high camera
+  // Procedural omnitool — hero-sized, slight adjustment for new mount (existing size is good)
   const handleGeo = new THREE.CylinderGeometry(0.075, 0.090, 0.78, 7);
   const handleMat = new THREE.MeshStandardMaterial({ color: 0x2a2f3a, flatShading: true });
   const handle = new THREE.Mesh(handleGeo, handleMat);
@@ -43,11 +93,15 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   glow.position.set(0, 0.34, 0.03);
   toolGroup.add(glow);
 
-  // Swing trail — player-space (not child of toolGroup) so it preserves history
+  // Tool extends outward from mount; orient so blade points roughly outward/forward, not vertical
+  toolGroup.position.set(0, 0.04, 0.08);
+  toolGroup.rotation.set(0.22, 0, 0.08);
+  toolMount.add(toolGroup);
+
+  // Swing trail — player-space (not child of swingPivot) so it preserves history
   const trailGroup = new THREE.Group();
   trailGroup.visible = false;
   trailGroup.name = "fieldToolTrail";
-  // Create 4 afterimage meshes (head ghosts) — positioned in player space
   const afterimages = [];
   for (let i = 0; i < 4; i++) {
     const g = new THREE.BoxGeometry(0.38, 0.26, 0.12);
@@ -57,35 +111,21 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     trailGroup.add(mesh);
     afterimages.push(mesh);
   }
-  // Player-space horizontal slash arc — sector showing yaw sweep
-  const arcGeo = new THREE.RingGeometry(0.18, 0.72, 20, 1, -1.35, 2.70);
+  // Player-space horizontal slash arc — sector showing yaw sweep, centered at hand
+  const arcGeo = new THREE.RingGeometry(0.22, 0.88, 26, 1, -1.35, 2.70);
   arcGeo.rotateX(-Math.PI / 2);
-  // ring geometry is horizontal around player; offset to pivot height
   const arcMat = new THREE.MeshBasicMaterial({ color: 0x8ecaff, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false });
   const arcMesh = new THREE.Mesh(arcGeo, arcMat);
-  arcMesh.position.set(0, -0.18, 0);
-  // Align arc center to pivot yaw origin
+  arcMesh.position.set(0, -0.20, 0.02);
   arcMesh.rotation.y = 0;
   trailGroup.add(arcMesh);
 
-  // Pivot near hand — holds toolGroup only
-  const pivot = new THREE.Group();
-  pivot.name = "fieldToolPivot";
-  pivot.add(toolGroup);
-  pivot.position.set(0.32, 0.40, 0.16);
-  // Slight tilt so blade extends outward and sideways sweep is visible
-  toolGroup.rotation.set(0.18, 0, 0);
-  toolGroup.position.set(0, 0.05, 0.06);
-  playerGroup.add(pivot);
-  // Trail is sibling to pivot in player space, not inheriting pivot rotation
+  // Trail is sibling to handAnchor in player space, not inheriting swing rotation, centered at hand
   playerGroup.add(trailGroup);
-  // Sync trailGroup origin to pivot position (so arc centered at hand)
-  trailGroup.position.copy(pivot.position);
+  trailGroup.position.copy(handAnchor.position);
 
-  // History buffer for true afterimages (player-local head positions)
   const history = [];
   const maxHistory = 5;
-  // Swing state
   let swingProgress = 0;
   let isSwinging = false;
   let impactFired = false;
@@ -116,13 +156,11 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   }
 
   function recordHistory() {
-    // Compute head world position, then convert to player-local for afterimages
     const headWorld = new THREE.Vector3();
     head.getWorldPosition(headWorld);
     const playerWorld = new THREE.Vector3();
     playerGroup.getWorldPosition(playerWorld);
     const local = headWorld.clone().sub(playerWorld);
-    // Also store rotation for ghost orientation
     const headQuat = new THREE.Quaternion();
     head.getWorldQuaternion(headQuat);
     const euler = new THREE.Euler().setFromQuaternion(headQuat);
@@ -131,44 +169,33 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   }
 
   function showTrail(progress) {
-    // Arc visible during strike phase
-    if (progress > 0.20 && progress < 0.68) {
-      const t = (progress - 0.20) / 0.48;
-      // peak opacity 0.42
-      arcMat.opacity = Math.sin(t * Math.PI) * 0.42;
-      // Slight scale pulse
-      const s = 0.92 + t * 0.18;
+    if (progress > 0.18 && progress < 0.70) {
+      const t = (progress - 0.18) / 0.52;
+      arcMat.opacity = Math.sin(t * Math.PI) * 0.48;
+      const s = 0.95 + t * 0.22;
       arcMesh.scale.set(s, s, 1);
       arcMesh.visible = true;
     } else {
-      arcMat.opacity *= 0.86;
+      arcMat.opacity *= 0.84;
       if (arcMat.opacity < 0.02) arcMesh.visible = false;
-      if (progress >= 0.70) {
-        // keep fading but keep group visible briefly for ghosts
-      }
     }
-    // Afterimages: show last N true historical head positions, fading with age
-    // We update afterimages every frame from history buffer
     for (let i = 0; i < afterimages.length; i++) {
       const hIdx = history.length - 1 - i;
-      if (hIdx >= 0 && progress > 0.18 && progress < 0.72) {
+      if (hIdx >= 0 && progress > 0.16 && progress < 0.74) {
         const h = history[hIdx];
-        const ageFactor = i / afterimages.length; // 0 newest, 1 oldest
+        const ageFactor = i / afterimages.length;
         afterimages[i].visible = true;
-        afterimages[i].position.copy(h.pos).sub(trailGroup.position); // because trailGroup at pivot pos, but trailGroup itself is at pivot; history pos is from player origin, need offset
-        // Alternative: if trailGroup at pivot, subtract pivot position
-        // Actually history pos is player-local, trailGroup is at pivot; so convert: local - pivot.position
+        afterimages[i].position.copy(h.pos).sub(trailGroup.position);
         afterimages[i].rotation.set(h.rot.x, h.rot.y, h.rot.z);
-        afterimages[i].material.opacity = (0.48 - ageFactor * 0.34) * (1 - (progress - 0.20)/0.52 * 0.3);
-        afterimages[i].material.opacity = Math.max(0, Math.min(0.52, afterimages[i].material.opacity));
-        afterimages[i].scale.set(1 - ageFactor*0.08, 1 - ageFactor*0.08, 1 - ageFactor*0.08);
+        afterimages[i].material.opacity = (0.52 - ageFactor * 0.32) * (1 - (progress - 0.18)/0.56 * 0.28);
+        afterimages[i].material.opacity = Math.max(0, Math.min(0.55, afterimages[i].material.opacity));
+        afterimages[i].scale.set(1 - ageFactor*0.07, 1 - ageFactor*0.07, 1 - ageFactor*0.07);
       } else {
-        afterimages[i].material.opacity *= 0.82;
+        afterimages[i].material.opacity *= 0.80;
         if (afterimages[i].material.opacity < 0.02) afterimages[i].visible = false;
       }
     }
-    if (progress >= 0.72) {
-      // fade remaining ghosts
+    if (progress >= 0.74) {
       let anyVisible = false;
       for (const m of afterimages) if (m.visible && m.material.opacity > 0.02) anyVisible = true;
       if (!anyVisible && arcMat.opacity < 0.02) trailGroup.visible = false;
@@ -183,9 +210,9 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     if (!isHarvestCompatibleMode(playerState.mode) || !speedOk || !autoHarvestEnabled) {
       if (isSwinging) resetSwing();
       cooldown = 0;
-      pivot.rotation.x = THREE.MathUtils.lerp(pivot.rotation.x, -0.18, dt * 6);
-      pivot.rotation.y = THREE.MathUtils.lerp(pivot.rotation.y, 0, dt * 6);
-      pivot.rotation.z = THREE.MathUtils.lerp(pivot.rotation.z, 0.05, dt * 6);
+      swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, -0.14, dt * 6);
+      swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, 0, dt * 6);
+      swingPivot.rotation.z = THREE.MathUtils.lerp(swingPivot.rotation.z, 0.04, dt * 6);
       glow.material.opacity = Math.max(0, glow.material.opacity - dt * 2);
       arcMat.opacity = Math.max(0, arcMat.opacity - dt * 3);
       return;
@@ -209,14 +236,14 @@ export function createFieldTool(playerGroup, gameAudio = null) {
         } else {
           cooldown -= dt;
           idlePulse += dt * 4;
-          pivot.rotation.z = Math.sin(idlePulse) * 0.04;
+          swingPivot.rotation.z = Math.sin(idlePulse) * 0.03;
         }
       } else {
         cooldown = 0;
         idlePulse += dt * 1.2;
-        pivot.rotation.x = -0.18 + Math.sin(idlePulse) * 0.04;
-        pivot.rotation.y = 0 + Math.cos(idlePulse * 0.7) * 0.03;
-        pivot.rotation.z = 0.05 + Math.cos(idlePulse * 0.7) * 0.02;
+        swingPivot.rotation.x = -0.14 + Math.sin(idlePulse) * 0.03;
+        swingPivot.rotation.y = 0 + Math.cos(idlePulse * 0.7) * 0.02;
+        swingPivot.rotation.z = 0.04 + Math.cos(idlePulse * 0.7) * 0.015;
         glow.material.opacity = Math.max(0, glow.material.opacity - dt * 1.5);
         arcMat.opacity = Math.max(0, arcMat.opacity - dt * 2);
       }
@@ -228,35 +255,36 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     if (swingProgress < 0) swingProgress = 0;
     if (swingProgress > 1) swingProgress = 1;
 
-    // Phase 2.2: Dominant yaw sweep, pitch/roll secondary
+    // Exaggerated horizontal sweep: dominant yaw around hand pivot, pitch/roll secondary
+    // Right-front (4 o'clock) at +1.25 rad → sweep across front to left-front (8 o'clock) at -1.25
+    // Use faster ease through middle for visual speed, longer follow-through.
     let pitch, yaw, roll;
-    if (swingProgress < 0.20) {
-      const t = swingProgress / 0.20;
-      // windup back and left
-      pitch = THREE.MathUtils.lerp(-0.18, SWING_CONFIG.pitchWindup, t);
+    if (swingProgress < 0.18) {
+      const t = swingProgress / 0.18;
+      pitch = THREE.MathUtils.lerp(-0.14, SWING_CONFIG.pitchWindup, t);
       yaw = THREE.MathUtils.lerp(0, SWING_CONFIG.yawWindup, t);
-      roll = THREE.MathUtils.lerp(0.05, SWING_CONFIG.rollWindup, t);
-    } else if (swingProgress < 0.60) {
-      const t = (swingProgress - 0.20) / 0.40;
-      const eased = 1 - Math.pow(1 - t, 3);
+      roll = THREE.MathUtils.lerp(0.04, SWING_CONFIG.rollWindup, t);
+    } else if (swingProgress < 0.58) {
+      const t = (swingProgress - 0.18) / 0.40;
+      // easeOut cubic but with slight early acceleration for dramatic mid-speed
+      const eased = 1 - Math.pow(1 - t, 2.8);
       pitch = THREE.MathUtils.lerp(SWING_CONFIG.pitchWindup, SWING_CONFIG.pitchStrike, eased);
       yaw = THREE.MathUtils.lerp(SWING_CONFIG.yawWindup, SWING_CONFIG.yawFollow, eased);
       roll = THREE.MathUtils.lerp(SWING_CONFIG.rollWindup, SWING_CONFIG.rollStrike, Math.sin(t * Math.PI * 0.85));
     } else {
-      const t = (swingProgress - 0.60) / 0.40;
+      const t = (swingProgress - 0.58) / 0.42;
       const eased = t * (2 - t);
-      pitch = THREE.MathUtils.lerp(SWING_CONFIG.pitchStrike, -0.18, eased);
+      pitch = THREE.MathUtils.lerp(SWING_CONFIG.pitchStrike, -0.14, eased);
       yaw = THREE.MathUtils.lerp(SWING_CONFIG.yawFollow, 0, eased);
-      roll = THREE.MathUtils.lerp(SWING_CONFIG.rollStrike, 0.05, eased);
+      roll = THREE.MathUtils.lerp(SWING_CONFIG.rollStrike, 0.04, eased);
     }
-    pivot.rotation.x = pitch;
-    pivot.rotation.y = yaw;
-    pivot.rotation.z = roll;
+    swingPivot.rotation.x = pitch;
+    swingPivot.rotation.y = yaw;
+    swingPivot.rotation.z = roll;
 
     const glowPeak = Math.exp(-Math.pow((swingProgress - HARVEST_CONFIG.impactNormalizedTime) * 10, 2));
     glow.material.opacity = glowPeak * 0.92;
 
-    // Record history before showing trail so ghosts lag behind
     recordHistory();
     showTrail(swingProgress);
 
@@ -284,9 +312,10 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   }
 
   function dispose() {
-    playerGroup.remove(pivot);
+    handAnchor.remove(swingPivot);
+    playerGroup.remove(handAnchor);
     playerGroup.remove(trailGroup);
   }
 
-  return { pivot, toolGroup, glow, trailGroup, arcMesh, afterimages, update, resetSwing, get isSwinging() { return isSwinging; }, SWING_CONFIG };
+  return { handAnchor, swingPivot, pivot: swingPivot, toolMount, toolGroup, head, glow, trailGroup, arcMesh, afterimages, update, resetSwing, get isSwinging() { return isSwinging; }, SWING_CONFIG };
 }
