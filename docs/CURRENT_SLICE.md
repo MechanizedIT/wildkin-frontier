@@ -1,406 +1,535 @@
-# Wildkin Frontier — Phase 3.5A: Core-Loop Architecture, World Data & Region Activation
+# Wildkin Frontier — Phase 3.5B: Minimal Author Mode & Area 1 Skeleton
 
 **Status:** READY TO IMPLEMENT  
-**Active slice:** Phase 3.5A  
-**Purpose:** Build the minimum technical foundation required for the first real directed expedition without starting Camp/map/extraction gameplay yet.
+**Active slice:** Phase 3.5B  
+**Purpose:** Give the human developer a fast way to shape and replay the first directed expedition without editing gameplay coordinates.
 
-This is an **architecture/data/performance slice**, not a feature-expansion sprint.
+This is a **developer-tooling + rough-layout slice**, not Phase 4 gameplay or art polish.
 
-Phase 3.1 / 3.1.1 is accepted. Preserve its validated gameplay unless this migration exposes a real regression.
+Phase 3.5A is accepted. Preserve its ExpeditionSession, world registry/validation, region activation, bounded pools, validated gameplay, single rAF/fixed step, Rapier, portrait, and offline build.
 
 ---
 
-# 1. Outcome
+## 1. Player/developer-visible outcome
 
 At the end of this slice:
 
-- current gameplay still works,
-- world placement loads through a normalized data-driven path,
-- temporary run/session state has a focused owner instead of continuing to accumulate in `main.js`,
-- authored world content can be grouped into regions/pockets,
-- only the current/nearby region neighborhood performs meaningful gameplay simulation,
-- the architecture is ready for Phase 3.5B authoring and Phase 4 Camp/map/extraction without another framework rewrite.
+- exactly **one authoritative authored world source** exists,
+- static/traversal geometry, resources, creatures, anchors, and POIs derive from it,
+- desktop dev-only Author Mode can place/select/move/rotate/elevate/resize/duplicate/delete the Area 1 object types,
+- region/pocket and anchor/POI properties can be edited,
+- Edit ↔ Play is one quick workflow and preserves the working draft,
+- authored data exports deterministically back to the repo,
+- a rough Camp + 3–4-pocket Area 1 skeleton exists and can be walked end-to-end,
+- normal gameplay/regressions still work.
 
-The core question is:
+Core question:
 
-> **Can we safely build a larger directed frontier without world coordinates, temporary run state, and distant simulation becoming new sources of complexity?**
+> **Can a human reshape the first expedition, immediately play it, and export the result without asking an agent to change coordinates?**
 
 ---
 
-# 2. Hard scope
+## 2. Hard scope
 
 Implement only:
 
-1. focused Expedition/Run Session ownership,
-2. data-driven world definition + normalization/validation,
-3. migration of the existing systems-test world through that data path,
-4. region/pocket identity + adjacency,
-5. lightweight active-region manager,
-6. system hooks needed to activate/deactivate authored resources, creatures, and world collision safely,
-7. regression/integration tests,
-8. architecture/docs/build-log updates.
+1. eliminate world-data mirror drift,
+2. instantiate static/traversal world from normalized authored data,
+3. minimal desktop dev-only Author Mode,
+4. mutable validated author draft,
+5. quick Edit ↔ Play,
+6. deterministic export workflow,
+7. rough Camp + Area 1 skeleton,
+8. placeholder anchor/POI/Camp visuals needed to judge placement,
+9. tests/docs/Build Log.
 
 Do **not** implement:
 
-- real Camp gameplay,
-- map UI,
-- frontier gate/start-selection flow,
-- extraction/banking UI,
-- major Waypoint interaction,
-- Extraction Beacon interaction,
-- POI edge indicators,
-- bonding/capture,
-- companions/mounts,
-- skill tree/equipment progression,
+- map UI or gate start-selection UI,
+- extraction/banking or EXTRACT / KEEP GOING,
+- waypoint discovery persistence,
+- result/loss cards,
 - Matter Resonator gameplay,
-- base expansion,
-- final Area 1 content,
-- full in-game editor (Phase 3.5B),
-- A*/navmesh,
-- procedural generation,
-- complex asynchronous asset streaming.
+- bonding/capture/companions/mounts,
+- skill tree/equipment/base-building gameplay,
+- final Area 1 content/balance/art,
+- production editor framework, full undo/redo, scripting, asset browser,
+- procedural world generation, A*/navmesh, async/network streaming,
+- mobile authoring.
+
+**Phase 4 owns the first complete Camp → expedition → extract/die → Camp gameplay loop.**
 
 ---
 
-# 3. Preserve validated Phase 3.1.1 behavior
+## 3. Fix the Phase 3.5A authoring duplication first
 
-Do not redesign accepted systems while migrating ownership/data.
+Current state has:
 
-Preserve:
+- `src/world/data/world.js`,
+- `src/world/data/world.json`,
+- static/traversal placement still repeated in `createMovementPlayground.js`.
 
-- one rAF + fixed 1/60 gameplay loop,
-- Rapier as sole physics runtime,
-- player movement/jump/fall/dodge/climb/mantle,
-- unified Field Tool owner and shared cadence,
-- Auto Harvest behavior,
-- manual tap/hold/swipe rules,
-- resource node/pickup behavior,
-- player health/death/restart,
-- creature temperaments and Wildkin-vs-Wildkin reactions,
-- leash/home/return,
-- lightweight steering,
-- projectile collision behavior,
-- XP collision-aware pop/rest + guaranteed magnet,
-- portrait/mobile layout,
-- offline/no-CDN submission packaging.
+Do not build an editor on top of three coordinate copies.
 
-Temperament debug markers may remain available through debug controls, but normal game architecture must not depend on them.
-
----
-
-# 4. Expedition / Run Session owner
-
-Introduce a small focused owner such as `ExpeditionSession` or `RunSession`.
-
-It should own temporary expedition lifecycle state that otherwise keeps growing in `main.js`.
-
-Minimum useful shape:
+Required pipeline:
 
 ```text
-status
-runXp
-kills
-unsecuredResourceCargo reference/summary as appropriate
-startAnchorId or start location identity
-currentRegionId / currentPocketId
-maxDepth or deepest region/pocket reached if useful
-run reset/death lifecycle hooks
-future slots for unsecured Wildkin/extraction outcome
+ONE authored source
+  → normalize / validate
+  → runtime registry / world builder
+  → traversal + props + resources + creatures + anchors + POIs
 ```
 
-Do not force player-health internals, rendering, creature AI, or resource-system state into this module merely to centralize everything.
+Prefer `world.json` as the human/editor export format.
 
-Prefer orchestration and session-owned summary state over duplication.
-
-`main.js` should wire/update the session rather than contain new domain policies.
-
----
-
-# 5. Data-driven world definition
-
-Create a simple source of truth, preferably:
+If native JSON module loading is awkward in dev, use a tiny deterministic generator/pre-step:
 
 ```text
-src/world/data/world.json
+world.json
+  → world.generated.js
+  → runtime import
 ```
 
-or an equivalent explicit data module if JSON creates a concrete build/test problem.
+A generated file is allowed. A second manually maintained mirror is not.
 
-The schema only needs to support current content plus near-future directed-world concepts.
+Add a test/build guard that detects stale generated data if generation is used.
 
-Required authored concepts:
+---
+
+## 4. Data-driven static world builder
+
+Resources/creatures already use world data. Convert the remaining authored world placement so the same normalized data drives at minimum:
+
+- ground / walkable region surfaces,
+- generic props,
+- platforms,
+- box obstacles/barriers,
+- climbables/ladders,
+- jump traversal metadata,
+- Camp fence/gate/drop-pod/Resonator placeholders,
+- Major Waypoint placeholders,
+- Extraction Beacon placeholders,
+- POI placeholders.
+
+Existing movement/traversal APIs may remain if safer, but their coordinates/geometry must derive from normalized world data.
+
+Moving a platform in Author Mode must move **both its visible mesh and collision/traversal source**. Do not redesign accepted movement.
+
+---
+
+## 5. Author Mode
+
+Enable explicitly in development, preferably:
 
 ```text
-world
-  camp (placeholder metadata allowed; do not build gameplay)
-  areas / regions
-    id
-    bounds or activation volume
-    neighbor region ids
-    pockets (optional nested identity if useful)
-    ground / terrain / props
-    resources
-    creatures
-    traversal geometry
-    majorWaypoints (data only for now)
-    extractionBeacons (data only for now)
-    pois (data only for now)
+?author=1
 ```
 
-Current systems-test/playground content should be represented by this same data path.
+Requirements:
 
-Do not create two separate loaders for "test arena" and "real frontier."
+- desktop-focused,
+- hidden/inert during normal play,
+- normal gameplay never depends on editor state/DOM,
+- one rAF remains authoritative,
+- Edit mode may pause/suppress player combat/harvest/AI input,
+- Play mode restores normal gameplay,
+- A/T/D/S temperament markers default **OFF** in normal play and may be available in author/debug mode.
 
----
+### Minimal UI
 
-# 6. World normalization + validation
-
-Create one normalization/validation step before runtime systems consume authored world data.
-
-Validate at least:
-
-- unique IDs where required,
-- valid region/pocket references,
-- valid neighbor references,
-- required transforms/types,
-- creature spawn/home data,
-- supported world object types,
-- anchor/POI type identifiers,
-- no obvious invalid cross-region ownership.
-
-Preserve or integrate the Phase 3.1.1 creature-spawn clearance regression where practical.
-
-Runtime systems should consume normalized data, not each parse raw JSON independently.
-
----
-
-# 7. Region / pocket activation manager
-
-Three.js frustum culling is render-side only. We need bounded **gameplay simulation** as the frontier grows.
-
-Add a lightweight active-region owner.
-
-## Baseline rule
+A plain compact panel is enough:
 
 ```text
-active = current region/pocket + immediate neighbors needed to prevent visible/collision pop-in
-inactive = distant regions
+[EDIT / PLAY]
+Palette
+Selected object
+Region / pocket
+Transform / size
+Type-specific properties
+Duplicate | Delete
+Validate | Export
+Reset Draft From Repo
 ```
 
-Exact current-region detection can use the simplest deterministic method supported by authored data:
+### Scene editing
 
-- bounds/activation volumes,
-- pocket volumes,
-- explicit region transitions,
-- or another simple authored method.
+Support:
 
-Do not add a navigation/pathfinding framework to determine regions.
+- click/raycast selection,
+- visible selection highlight/marker,
+- place from palette,
+- move X/Z,
+- elevate Y,
+- rotate Y,
+- resize supported objects,
+- duplicate/delete.
 
-## Active-region manager responsibilities
+No full transform-gizmo dependency is required. Prefer robust simple controls:
+- drag on ground plane and/or keyboard nudge,
+- numeric inputs for precision.
 
-- determine current region from player position,
-- compute active region set,
-- emit/apply activation changes only when the set changes,
-- expose active IDs for debug/tests,
-- preserve a neighbor buffer so the camera never looks into missing ground/collision,
-- avoid per-frame allocation/churn where practical.
-
----
-
-# 8. What activation means
-
-Different systems may use different cheap strategies.
-
-### Static world / traversal
-
-- Current + neighbor geometry/collision must exist before the player sees/reaches it.
-- Distant heavy collision may be removed/disabled if safe.
-- Cheap distant decorative visuals may remain if that is simpler; do not optimize blindly.
-
-### Resources
-
-Inactive regions should not run harvest/respawn/pickup logic.
-
-On reactivation:
-
-- current accepted test behavior remains coherent,
-- no duplicate node/pickup instances,
-- state is restored/reset according to existing authored/test semantics.
-
-### Creatures
-
-Inactive region creatures should not:
-
-- perceive,
-- steer,
-- attack,
-- fire projectiles,
-- consume meaningful fixed-step AI cost.
-
-Their Rapier collision/body should be disabled/removed if needed to avoid distant physics overhead.
-
-On reactivation:
-
-- no duplicate creature,
-- home data remains valid,
-- dead/respawn state remains coherent within current prototype rules,
-- no instant attack from stale state unless logically valid.
-
-### Temporary entities
-
-Projectiles, XP, resource pickups, and other temporary effects must not leak or duplicate across deactivation.
-
-Use the simplest consistent cleanup policy for this prototype and document it.
+Provide simple near-top-down editor pan + zoom; no orbit/free-fly system required.
 
 ---
 
-# 9. Do not overbuild "streaming"
+## 6. Required palette/object types
 
-This slice is **not** an MMO/open-world asset streamer.
+Only what Camp + Area 1 needs:
 
-All assets/data remain packaged locally.
+### World/traversal
+- generic box/prop,
+- forest-boundary placeholder,
+- fence segment,
+- gate,
+- platform,
+- obstacle/barrier,
+- climbable/ladder.
 
-Do not add:
+### Gameplay placement
+- tree,
+- rock,
+- fiber,
+- Rusher spawn,
+- Spitter spawn.
 
-- network loading,
-- dynamic import of gameplay areas,
-- background asset jobs,
-- complicated LOD framework,
-- occlusion system,
-- generic scene graph paging library.
+### Expedition placeholders
+- Major Waypoint,
+- Extraction Beacon,
+- POI,
+- drop pod,
+- Matter Resonator.
 
-The goal is simply:
-
-> **Total world size may grow, but active AI/physics/gameplay cost should remain tied mainly to the player's local neighborhood.**
+A generic `prop` with subtypes is fine. Do not build an asset ecosystem.
 
 ---
 
-# 10. Thin `main.js`
+## 7. Editable properties
 
-After the migration, `main.js` should primarily:
+Common:
 
 ```text
-initialize
-create systems
-wire dependencies
-own fixed loop
-update session/world activation/systems in documented order
-render
+id
+type/subtype
+regionId
+pocketId if used
+position x/y/z
+rotationY
+dimensions/scale where supported
 ```
 
-Do not perform a cosmetic rewrite.
+Creature spawn:
+- creature type,
+- temperament,
+- home position,
+- roam/notice/personal-space/leash,
+- existing species/hostility fields when applicable.
 
-Move only code whose ownership is already unclear or would otherwise block Phase 4.
+Anchor:
+- `majorWaypoint` or `extractionBeacon`,
+- id,
+- region/pocket,
+- position.
+
+POI:
+- id/type/position,
+- `requires` metadata.
+
+Region/pocket:
+- id/display name,
+- bounds/activation volume,
+- neighbors,
+- existing depth/order metadata.
+
+Do not expose every gameplay tuning constant.
 
 ---
 
-# 11. Required tests
+## 8. Draft, validation, Edit ↔ Play
 
-Add focused tests/integration coverage for:
+Author Mode edits a **mutable clone** of authored data, never module constants directly.
 
-## World data
+Allowed dev persistence: `localStorage` / `sessionStorage`.
 
-- world definition loads/normalizes,
-- invalid duplicate IDs fail,
-- bad neighbor/reference IDs fail,
-- existing test-world objects are represented through the new data path,
-- creature spawn validation still passes.
+Normal play ignores drafts unless Author Mode is explicitly enabled.
 
-## Region activation
+Every Apply/Play/Export must run through the same world validator.
 
-- player position resolves current region/pocket,
-- active set includes expected neighbor buffer,
-- moving across a boundary changes active set once,
-- moving back restores expected set,
-- distant regions remain inactive,
-- no duplicate entity creation after deactivate/reactivate.
+Invalid data must show a useful author error.
 
-## Creature/resource integration
+Provide:
 
-- inactive creature does not progress AI/attack timers,
-- active creature still behaves normally,
-- inactive resource region does not produce unwanted run updates,
-- reactivation restores a valid state.
+- **Reset Draft From Repo**
+- deterministic unique IDs for duplicated objects.
 
-## Temporary entities
+### Edit → Play
 
-- deactivation cleanup does not leak projectiles/pickups/XP,
-- pools remain bounded.
+```text
+edit layout
+→ Apply / Play
+→ immediately test that draft in real gameplay
+```
 
-## Existing regressions
+### Play → Edit
+
+```text
+return to Edit
+→ same draft remains
+→ continue adjusting
+```
+
+Hot rebuild is welcome but not required. A fast one-action local reload is acceptable if it preserves the draft.
+
+Applying a changed draft must not leave:
+- duplicate Rapier colliders,
+- duplicate resources/creatures,
+- stale projectiles/pickups/XP,
+- stale region state.
+
+Reset ExpeditionSession and place the player at a valid authored test/start point as needed.
+
+---
+
+## 9. Deterministic export
+
+Provide **Export world JSON** via download and/or clipboard.
+
+Export must:
+
+- use stable formatting/order,
+- contain schema version,
+- remove transient editor/runtime fields,
+- pass normalize/validate,
+- reproduce the same world when loaded again.
+
+The browser does not need permission to write directly to Git.
+
+If generation is used, document one obvious workflow, e.g.:
+
+```text
+Export world.json
+→ replace src/world/data/world.json
+→ npm run world:generate
+→ npm test / verify
+```
+
+---
+
+## 10. Rough Camp + Area 1 skeleton
+
+Use the new authoring/data path itself to build this. It is a **spatial proof**, not final level design.
+
+Target:
+
+```text
+CAMP
+ ↓ gate
+POCKET 1 — comfort / Forest Edge
+ ↓
+POCKET 2 — complication
+ ↓
+POCKET 3 — temptation
+ ↓
+POCKET 4 — deeper/riskier threshold
+ ↓
+NEXT MAJOR WAYPOINT
+```
+
+The frontier should be a chain of **wide exploration pockets connected by shorter readable routes**. It must not read as an endless runner, narrow corridor, or giant open field. Player can turn around everywhere.
+
+### Camp placeholder
+
+Include:
+- clearing,
+- drop pod,
+- small Matter Resonator,
+- basic perimeter fence,
+- one obvious frontier gate,
+- dense/tall forest boundary that is visually distinct from harvestable trees.
+
+No Camp interaction yet.
+
+### Area 1 placeholders
+
+Include:
+- first Major Waypoint near Area 1 start,
+- 1–2 Extraction Beacon placeholders for future pacing,
+- next Major Waypoint at the far/deeper threshold,
+- current resources distributed through pockets,
+- current creatures/temperaments redistributed enough to exercise the route,
+- at least one memorable locked early POI.
+
+Preferred locked POI:
+
+```text
+small pond / impassable-water placeholder
+ → island
+ → visible chest
+ → requires: { type: "companionAbility", id: "swim" }
+```
+
+Do **not** implement swimming, companion abilities, chest rewards, or unlock behavior.
+
+Pacing intent only:
+1. comfort,
+2. complication,
+3. temptation,
+4. rising danger/value,
+5. aspirational deeper Waypoint.
+
+Phase 4 owns final 5–10 minute pacing and risk/extraction behavior.
+
+---
+
+## 11. Placeholder readability + region overlays
+
+Simple geometry/colors/icons are enough.
+
+In Play/author testing, Major Waypoint, Extraction Beacon, POI, Camp gate should be visually distinguishable.
+
+In Edit mode show:
+- region/pocket ID,
+- bounds/activation overlays,
+- selected object's owning region/pocket.
+
+Camp must participate coherently in the world/activation model.
+
+Keep AABB region activation unless the real skeleton proves it insufficient.
+
+---
+
+## 12. Required automated tests
 
 Preserve all prior tests.
 
----
+Add focused coverage for:
 
-# 12. Human playtest / debug acceptance
+### Single source
+- authored source deterministically produces runtime world,
+- stale generated data fails if generation is used,
+- static/traversal objects no longer require a second manual coordinate list.
 
-The agent final response must include a simple test procedure.
+### Author model
+- transform edit updates draft,
+- duplicate gets unique ID,
+- delete removes only target,
+- invalid duplicate/reference/region data fails,
+- deterministic export is byte-stable,
+- transient fields are excluded.
 
-At minimum provide a debug way to see:
+### Runtime application
+- moving platform/obstacle changes visual + collision source,
+- ladder/jump metadata still works from authored data,
+- resources/creatures instantiate once after Apply/Play,
+- repeated Edit ↔ Play creates no duplicate colliders/entities.
 
-- current region/pocket ID,
-- active region IDs,
-- optionally active creature/resource counts.
+### Isolation
+- normal mode ignores author UI/draft,
+- Edit mode suppresses conflicting gameplay input,
+- Play restores gameplay input,
+- one rAF remains.
 
-Human test:
-
-1. Start in one test region.
-2. Confirm only current + intended neighbor regions report active.
-3. Cross a region boundary.
-4. Confirm the new region activates before gameplay/geometry becomes visibly missing.
-5. Confirm the distant old region deactivates after it leaves the neighbor buffer.
-6. Walk back and confirm it reactivates without duplicate creatures/resources.
-7. Re-run normal movement/harvest/combat/death/restart checks.
-8. Watch for collision holes, visible pop-in, duplicate enemies, stale attacks, or pickup leaks.
-
-This is primarily an architecture slice; visual world quality is not being judged here.
-
----
-
-# 13. Performance acceptance
-
-Do not require a synthetic huge benchmark framework.
-
-Provide enough instrumentation/tests to establish that:
-
-- inactive regions do not keep updating creature AI,
-- active object counts remain bounded by local neighborhood rather than total authored world size,
-- no new per-frame DOM creation,
-- no second rAF,
-- no unbounded pools/arrays introduced.
+### Area 1
+- Camp + 3–4 frontier pockets exist,
+- neighbor graph validates,
+- first + next Major Waypoints exist,
+- Extraction Beacon placeholder(s) exist,
+- swim-gated POI metadata exists,
+- all entities validate inside assigned bounds.
 
 ---
 
-# 14. Documentation updates
+## 13. Human acceptance test
 
-Implementation agent should update:
+Agent final response must give exact controls/URL.
 
-- `docs/ARCHITECTURE.md` with final actual module/file names and activation policy,
-- `docs/PROJECT_PLAN.md` only if implementation materially changes the planned 3.5B/Phase 4 handoff,
-- `README.md` project state if useful,
-- `docs/BUILD_LOG.md` with model/tool/prompt, decisions, files, tests, human-test instructions, and deferred issues.
+### A. Author Mode
+Open Author Mode. Confirm editor panel + region overlays appear and normal attack/harvest input does not interfere.
 
-Do not rewrite stable design decisions unless a real conflict is discovered; propose changes instead.
+### B. Static geometry
+Move/resize/rotate a platform or obstacle → Apply/Play.
+Expected: mesh and collision move together. No old invisible collider.
+
+### C. Resource
+Move/duplicate a resource → Play.
+Expected: exactly one authored instance per ID, harvest still works, region activation still freezes distant node.
+
+### D. Creature
+Move a Wildkin spawn/home and change temperament → Play.
+Expected: exactly one creature at edited location and existing behavior still works.
+
+### E. Frontier structure
+Move one Major Waypoint, one Extraction Beacon, and the pond/island POI.
+Expected: types remain visually distinct and export with correct ownership.
+
+### F. Full route
+Walk Camp → gate → all rough Area 1 pockets → next-Waypoint threshold, then backtrack.
+Expected:
+- readable directed route with local freedom,
+- no missing ground/collision,
+- clean region transitions,
+- no gameplay extraction/map prompts yet.
+
+### G. Export round trip
+Make one edit → export → reset draft → load/check in exported world using documented workflow.
+Expected: same edit reproduces.
 
 ---
 
-# 15. Completion gate
+## 14. Architecture/performance guardrails
 
-Phase 3.5A is complete only when:
+- one authored source,
+- one rAF,
+- fixed 1/60 gameplay,
+- Rapier only,
+- `main.js` stays composition/wiring,
+- editor logic in focused dev/editor modules,
+- world instantiation in world modules,
+- gameplay systems do not depend on editor DOM,
+- region manager remains activation owner,
+- no parallel physics/editor world,
+- no unnecessary dependencies,
+- no runtime external network requests,
+- inactive AI remains frozen,
+- pools remain bounded,
+- no normal-play per-frame DOM creation,
+- submission stays <35 MB/offline/portrait-safe.
 
-- existing game remains playable,
-- data-driven world path owns the current test world,
-- run/session owner exists and `main.js` does not grow more domain state,
-- region/pocket activation works across at least multiple authored test regions,
-- inactive regions stop meaningful gameplay simulation,
-- activation/deactivation is deterministic and duplicate-safe,
+---
+
+## 15. Documentation
+
+Update:
+
+- `docs/ARCHITECTURE.md` with actual single-source pipeline and Author Mode modules/workflow,
+- `README.md` with Phase 3.5B state and Author Mode launch/export instructions,
+- `docs/BUILD_LOG.md`,
+- `docs/PROJECT_PLAN.md` only if the Phase 4 handoff materially changes.
+
+Do not record implementation claims in `PLAYTEST_NOTES.md` as human observations.
+
+---
+
+## 16. Completion gate
+
+Phase 3.5B is done only when:
+
+- Phase 3.5A and gameplay regressions remain good,
+- one authoritative authored world source exists,
+- static/traversal placement uses it,
+- required Author Mode operations work,
+- region/pocket + anchor/POI properties are editable,
+- Edit ↔ Play preserves draft without duplicate runtime objects,
+- deterministic export round-trips,
+- rough Camp + 3–4-pocket Area 1 skeleton exists,
+- first/next Major Waypoint, Extraction Beacon(s), and locked swim POI placeholders exist,
+- route is fully walkable/backtrackable without collision holes,
+- region activation still works,
 - automated tests pass,
 - `npm run verify` passes,
 - `npm run zip` passes,
-- offline/portrait/single-rAF/fixed-step/Rapier constraints remain intact,
-- human boundary/re-entry regression test passes.
+- offline / portrait / single-rAF / fixed-step / Rapier constraints remain intact,
+- human authoring test passes.
 
 Then stop.
 
-**Do not start Phase 3.5B or Phase 4 in the same session.**
+**Do not start Phase 4 gameplay in the same session.**
