@@ -208,6 +208,9 @@ export function createProjectileSystem(scene, physicsWorld, playground) {
     return res.blocked;
   }
 
+  let worldRegistryRef = null;
+  function setWorldRegistry(wr) { worldRegistryRef = wr; }
+
   function spawnProjectile(origin, direction, owner) {
     if (projectiles.length >= MAX_ACTIVE) {
       // recycle oldest
@@ -223,6 +226,11 @@ export function createProjectileSystem(scene, physicsWorld, playground) {
     mesh.visible = true;
     const speed = SPITTER_CONFIG.projectileSpeed ?? PROJECTILE_CONFIG.speed;
     const vel = new THREE.Vector3(direction.x * speed, 0.08 + Math.random() * 0.04, direction.z * speed); // slight upward
+    // Determine origin region for culling — owner region or position-based
+    let originRegion = null;
+    if (owner && owner.state && owner.state.regionId) originRegion = owner.state.regionId;
+    else if (owner && owner.regionId) originRegion = owner.regionId;
+    else if (worldRegistryRef) originRegion = worldRegistryRef.getRegionForPosition(start);
     const proj = {
       id: Math.random().toString(36).slice(2),
       mesh,
@@ -234,6 +242,7 @@ export function createProjectileSystem(scene, physicsWorld, playground) {
       owner,
       hasHit: false,
       radius: PROJECTILE_CONFIG.radius,
+      regionId: originRegion,
     };
     projectiles.push(proj);
     return proj;
@@ -405,6 +414,32 @@ export function createProjectileSystem(scene, physicsWorld, playground) {
   function getCount() { return projectiles.length; }
   function getPooledCount() { return pool.length; }
 
+  function cullInactiveRegions(activeSet, worldRegistry = worldRegistryRef) {
+    if (!activeSet) return 0;
+    const active = activeSet instanceof Set ? activeSet : new Set(activeSet);
+    let culled = 0;
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+      const p = projectiles[i];
+      let isActive = true;
+      if (p.regionId) isActive = active.has(p.regionId);
+      else if (worldRegistry) {
+        const reg = worldRegistry.getRegionForPosition(p.pos);
+        isActive = active.has(reg);
+      } else {
+        // fallback position-based: if not in active set's region bounds, consider inactive
+        isActive = true;
+      }
+      if (!isActive) {
+        releaseMesh(p);
+        projectiles.splice(i, 1);
+        culled++;
+      }
+    }
+    return culled;
+  }
+
+  function setActiveRegions(activeSet) { return cullInactiveRegions(activeSet); }
+
   return {
     spawnProjectile,
     update,
@@ -419,6 +454,9 @@ export function createProjectileSystem(scene, physicsWorld, playground) {
     setPlayerCollider,
     setWildkinProvider,
     setWildkinDamageCallback,
+    setWorldRegistry,
+    cullInactiveRegions,
+    setActiveRegions,
     // legacy aliases
     setWildkinProviderAlias: setWildkinProvider,
     _projectiles: projectiles,

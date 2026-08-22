@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Post-Phase 3.1.1 Baseline)
+# Architecture — Wildkin Frontier (Post-Phase 3.5A Baseline)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current architecture** plus clearly labeled planned boundaries. Do not assume Phase 3.5 modules already exist until their slice is implemented.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture** (Phase 3.5A). Planned boundaries for later phases remain labeled.
 
 ## Permanent Goals
 
@@ -25,7 +25,7 @@
 
 ## Current Accepted Foundation
 
-Phase 3.1.1 validated the current foundation well enough to stop isolated systems-test polishing:
+Phase 3.1.1 validated the core gameplay; Phase 3.5A adds the directed-world foundation without changing that gameplay:
 
 - player movement/traversal + Rapier kinematic controller,
 - Field Tool single-owner swing/cadence,
@@ -39,17 +39,31 @@ Phase 3.1.1 validated the current foundation well enough to stop isolated system
 - lightweight obstacle steering,
 - collision-aware XP pop/rest + guaranteed magnet collection,
 - bounded pools,
+- data-driven world definition with region/pocket adjacency,
+- active-region manager (current + neighbor buffer),
+- focused ExpeditionSession owner (no duplicate run state in main.js),
 - offline/portrait/submission validation.
 
 Future work should preserve this foundation unless real-frontier play exposes a regression.
 
-## Current High-Level Module Areas
+## Current High-Level Module Areas ( Implemented Phase 3.5A )
 
 ```text
 src/main.js
   composition/bootstrap
   single rAF + fixed-step ordering
-  still owns some run/restart coordination that should not keep growing
+  thin — wires session/world/region activation in documented order
+
+src/session/
+  expeditionSession.js — temporary run lifecycle (status, runXp, kills, unsecured cargo, currentRegion/pocket, maxDepth, death/reset hooks)
+
+src/world/
+  data/world.js + data/world.json — authored source of truth (camp, 3 regions, bounds, neighbors, pockets, ground, resources, creatures, traversal, waypoints/beacons/pois)
+  worldValidator.js — normalize/validate (unique IDs, neighbor refs, required transforms, supported types, cross-region ownership, spawn clearance)
+  worldRegistry.js — runtime registry (which region owns object, neighbor lookup, active-region helpers, discovery)
+  regionManager.js — lightweight active-region owner (current region from pos, active = current + immediate neighbors, emits only on change, neighbor buffer, no per-frame churn)
+  createMovementPlayground.js — visual playground (still hard-coded ground/boundary; region data mirrors its platforms/obstacles)
+  collision.js — legacy circle helpers (now superseded by Rapier for player, kept for tests)
 
 src/game/
   scene/camera/renderer/config
@@ -69,31 +83,27 @@ src/movement/
   movement bands
   jump/fall/dodge/climb/mantle
 
-src/world/
-  current systems-test/playground
-  world placement still partly code-defined
-
 src/resources/
-  harvestable configuration/system
-  resource pickups
+  harvestable configuration/system (now region-aware: setActiveRegions, frozen timers when inactive, no duplicate nodes)
+  resource pickups (origin region tracked, cullInactiveRegions on deactivation, pools bounded)
 
 src/tools/
   Field Tool visual/swing owner
 
 src/combat/
-  health/combat targeting/projectiles/XP/session helpers
+  health/combat targeting/projectiles (origin region, cullInactiveRegions) /XP (origin region, cullInactiveRegions)/session helpers
 
 src/creatures/
-  creation/config/current AI/temperament/steering
+  creation/config/current AI/temperament/steering (region-aware: setActiveRegions, frozen AI/attack timers, collider disabled, no duplicate)
 
 src/ui/
-  HUD/death/controls/debug
+  HUD/death/controls/debug (debugLabel now shows currentRegion [activeIds] and active/total counts)
 
 src/audio/
   procedural/local audio
 ```
 
-Exact filenames may evolve; ownership boundaries matter more than directory names.
+Exact filenames are now `src/session/expeditionSession.js`, `src/world/data/world.js`, `src/world/worldValidator.js`, `src/world/worldRegistry.js`, `src/world/regionManager.js` plus the above.
 
 ## Fixed Update Ownership
 
@@ -199,141 +209,104 @@ Wildkin may target/react to the player and other Wildkin.
 
 Use simple probes/steering first. Add pathfinding only when authored-world evidence requires it.
 
-# Planned Phase 3.5A Boundaries
+# Implemented Phase 3.5A Architecture
 
-Phase 3.5A is the next active architecture slice. It exists only to make the directed expedition cheap to build and scale.
+Phase 3.5A has been implemented — the directed expedition now has a cheap technical foundation.
 
-## 1. Expedition / Run Session Owner
+## 1. Expedition / Run Session Owner — `src/session/expeditionSession.js`
 
-Introduce a focused owner such as `ExpeditionSession` / `RunSession` for temporary run lifecycle.
-
-Likely responsibilities:
+Focused owner for temporary run lifecycle. Implemented shape:
 
 ```text
-run status
-run XP
+status: active | dead | extracted
+runXp
 kills
-unsecured resource cargo
-future unsecured Wildkin slots
-start anchor identity
-current/deepest region/pocket
-future extraction completion
-run death/reset lifecycle
+unsecuredResourceCargo {wood, stone, fiber} (summary, not duplicate of pickup inventory)
+startAnchorId: camp_gate
+currentRegionId / currentPocketId
+maxDepth (deepest region index via regionDepthMap)
+unsecuredWildkin[] (future slot)
+extractionOutcome (future slot)
+getState, setRegion, addXp/setXp, addKill, setCargo/incrementCargo, reset, onDeath/onExtract
 ```
 
-Player locomotion, rendering, creature AI, and map rendering do not belong here.
+Does not own player health, rendering, creature AI, or resource rules. `main.js` wires/updates the session; domain systems notify it via callbacks (pickup inventory, XP, kills, region changes). Reset/death hooks are centralized here, preserving Auto Harvest preference outside the session.
 
 ## 2. Thin `main.js`
 
-Target:
+Implemented thin composition:
 
 ```text
-initialize
-create modules
-wire dependencies
-own fixed loop
-call updates in documented order
+initialize (RAPIER.init, scene, worldRegistry, regionManager, session)
+create systems (resource/creature systems from worldRegistry data, not hard-coded arrays)
+wire dependencies (physicsWorld, characterPhysics, input, audio, HUD, fieldTool, combat)
+own fixed rAF loop (single requestAnimationFrame, fixed 1/60 substeps, max 4, maxDelta 0.10)
+update in documented order:
+  input intent → combatSession → Field Tool → playerCombat → player movement → region activation → creatures → projectiles → XP → resources → pickups → focus rings → camera → render
 render
 ```
 
-Do not migrate code merely for style. Move state/rules only where ownership is already becoming unclear or where Phase 4 would otherwise add more domain logic to `main.js`.
+All world placement loads through the normalized data path; no second loader for test arena.
 
-## 3. Data-Driven World Definition
+## 3. Data-Driven World Definition — `src/world/data/world.js` (+ `world.json` mirror)
 
-Move authored placement into `world.json` or equivalent.
-
-The schema should support enough stable structure for the real game:
+Source of truth, 3 test regions partitioning the original playground:
 
 ```text
 world
-  camp
-  areas / regions
-    pockets
-      bounds / adjacency
-      terrain / props
-      resources
-      Wildkin homes/spawns
-      traversal geometry
-      POIs
-      extractionBeacons
-    majorWaypoints
+  camp: {id, pos, radius} (placeholder, no gameplay)
+  regions[3]: south_basin (2.5..11.5, neighbor central), central_basin (-4..2.5, neighbors south+north), north_highlands (-11.5..-4, neighbor central)
+    id, displayName, bounds {minX,maxX,minZ,maxZ}, neighbors [regionIds], pockets []
+    ground {type, color}, props []
+    resources[] {id, type tree|rock|fiber, pos} — 18 total migrated, each pos inside its region bounds
+    creatures[] {id, type rusher|spitter, temperament, speciesTag, pos, homePos, roam/notice/personal/leash, hostileSpecies} — 6 total migrated, clearance validated
+    traversal {platforms[], obstacles[], jumpTraversals[], climbables[]} — mirrors playground (lowA/lowB/high, ladder)
+    majorWaypoints[] {id, type majorWaypoint, pos} — data only
+    extractionBeacons[] {id, type extractionBeacon, pos} — data only
+    pois[] {id, type chest|barrier, pos, requires} — data only
+  startAnchorId: camp_gate
 ```
 
-Important authored concepts:
+JSON mirror at `src/world/data/world.json` is the readable source; JS module is the runtime import to avoid JSON import build issues.
 
-- Camp + frontier gate
-- area/region identity
-- pocket identity + adjacency
-- terrain/ground
-- resource nodes
-- Wildkin species/temperament/home data
-- platforms/ramps/ladders/parkour
-- major Waypoints
-- Extraction Beacons
-- POIs
-- optional POI unlock requirement metadata
+## 4. World Loader / Registry — `src/world/worldValidator.js` + `src/world/worldRegistry.js`
 
-Normalize/validate world data once rather than letting every gameplay system interpret raw JSON independently.
+- `worldValidator.js: normalizeWorldData(raw)` clones, validates unique IDs, valid region/pocket refs, valid neighbor refs, required transforms/types, creature spawn/home data, supported world object types, anchor/POI type identifiers, no invalid cross-region ownership (pos inside bounds), and expanded-platform spawn clearance (creature radius 0.32+0.05). Runtime systems consume normalized data.
 
-## 4. World Loader / Registry
+- `worldRegistry.js: createWorldRegistry(normalized)` builds regionMap, global lookups with regionId attached, and answers: region for position (bounds containment or nearest), pocket for position, neighbors, active set for region (current + neighbors), resources/creatures for region/active, all waypoints/beacons/pois, camp, startAnchor, regionDepthMap.
 
-Create one runtime world owner/registry that can answer:
+No giant god-object: registry is queryable, does not own AI/resource rules.
 
-- which region/pocket owns this object?
-- which pockets neighbor the current pocket?
-- what authored entities belong to an active region?
-- what major Waypoints / Beacons / POIs exist?
-- how do systems instantiate/deactivate their owned objects from normalized data?
+# Spatial Activation / Streaming — Implemented `src/world/regionManager.js`
 
-Avoid a giant world god-object that also owns creature AI/resource rules.
+Three.js frustum culling is render-only; Phase 3.5A adds lightweight gameplay activation.
 
-# Spatial Activation / Streaming
-
-Three.js has render frustum culling for ordinary objects, but **render culling is not gameplay streaming**. Distant objects can still consume CPU/physics/AI if our systems update them.
-
-The game needs a lightweight **region/pocket activation manager**.
-
-## Prototype strategy
-
-Keep world data/assets local and available, but only simulate the useful local neighborhood.
-
-Recommended baseline:
+## Implemented strategy
 
 ```text
-ACTIVE
-  current pocket/region
-  immediately adjacent pockets needed to prevent visible pop-in
-  Camp when player is at Camp
-
-INACTIVE
-  distant creatures
-  distant pickup/projectile systems
-  distant resource simulation
-  unnecessary Rapier colliders/bodies
-  expensive per-frame POI/environment logic
+ACTIVE = current region + immediate neighbors (neighbor buffer prevents visible/collision pop-in)
+INACTIVE = distant regions (e.g., south vs north when in opposite)
+Determination: player XZ inside region bounds (AABB). Outside all bounds → nearest center (deterministic).
+Update: regionManager.update(playerPos) computes currentRegion/pocket, activeSet = current + neighbors, emits only when set changes, caches active array, avoids per-frame allocation.
 ```
 
-Exact deactivation can vary by system:
+## Per-system activation (documented, deterministic, duplicate-safe)
 
-- hide + stop update,
-- disable/remove collider and recreate on activation,
-- keep lightweight static visuals if cheap,
-- instantiate lazily from normalized world data.
+- **Static world / traversal:** Ground + boundary walls remain always active (cheap). Per-region platforms/obstacles are data-driven via `worldRegistry` but collider lifecycle is currently kept always active for simplicity; distant heavy collider removal is deferred as cost is negligible vs AI. Visuals remain; no pop-in at neighbor buffer.
 
-Do not create a complex asynchronous/network-style asset streamer. The competition build is offline and small; this system is about **bounded simulation**, not remote loading.
+- **Resources:** `resourceSystem.setActiveRegions(activeIds)` hides group, removes collider, sets `_regionInactive`, freezes timers (`wobble/flash/respawn` not ticked while inactive). `isHarvestableInRange`/`getEligibleNodes`/`getHaloTargets` return empty when inactive. On reactivation: group visible restored, collider restore deferred via `_pendingColliderRestore` until player not inside (safe, no push), no duplicate nodes, respawn timer resumes from frozen value.
 
-## Activation requirements
+- **Creatures:** `creatureSystem.setActiveRegions(activeIds)` hides group, disables collider (`disableCollision`), sets `_regionInactive`, skips entire `update` (no AI, no attack timers, no projectile emission, frozen retaliation/flee timers, frozen respawn). `getAliveCreatures` filters to active only (focus rings, targeting). On reactivation: group visible, collider re-enabled, no instant attack (frozen WINDUP/LUNGE preserved, resumes next tick only if still logically valid), no duplicate, home/return state coherent, dead/RESPAWNING stays coherent (respawn frozen).
 
-- deterministic activation/deactivation,
-- no duplicate entity creation,
-- persistent state survives deactivate/reactivate when required,
-- pickups/projectiles do not leak across region teardown,
-- creature home/reset state remains coherent,
-- player can cross boundaries without visible missing ground/collision,
-- active-neighbor buffer prevents camera-edge pop-in,
-- tests prove distant systems are not still ticking.
+- **Temporary entities:** Pooled, bounded (pickup max 32, projectile 16, XP 32). On region deactivation, `cullInactiveRegions(activeSet, worldRegistry)` removes origins whose `regionId` not in active set (pickups: origin resource region; projectiles: owner region or start pos region; XP: spawn pos region). No leakage/duplication; pools bounded. Policy documented as simplest consistent for prototype: origin-based culling on `regionManager.onChange` (plus position fallback).
 
-Near-top-down portrait camera makes this especially effective because only a small local area needs full detail/simulation.
+## Activation guarantees
+
+- Deterministic, single-owner (`regionManager`), emitted only on change.
+- No duplicate creation (nodes/creatures created once at load, toggled visible/collider, not re-instantiated).
+- Inactive AI/physics cost tied to local neighborhood, not total world size (tests verify timers frozen, active counts bounded).
+- Neighbor buffer ensures camera never looks into missing ground/collision.
+- Tests prove distant systems not ticking.
 
 # Planned Phase 3.5B — Minimal Author Mode
 

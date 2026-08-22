@@ -101,7 +101,7 @@ async function build() {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
     <meta name="theme-color" content="#0e1420" />
-    <title>Wildkin Frontier — Phase 3</title>
+    <title>Wildkin Frontier — Phase 3.5A</title>
     ${cssInline}
     <script type="importmap">
       {
@@ -119,8 +119,8 @@ async function build() {
       <div id="hud" aria-hidden="false">
         <div class="hud-top">
           <div class="badge">
-            <strong>WILDKIN FRONTIER — Phase 3</strong>
-            <small>Combat · Field Tool · Tap: attack Swipe: dodge</small>
+            <strong>WILDKIN FRONTIER — Phase 3.5A</strong>
+            <small>World Data · Regions · Expedition Session</small>
           </div>
           <div class="badge" style="text-align: right">
             <strong style="font-size: 11px">Left: move · Right: Tap attack / Swipe dodge</strong>
@@ -128,8 +128,8 @@ async function build() {
           </div>
         </div>
         <div class="hud-bottom">
-          <div id="debug-label">Phase 3 — 0.8.0 · starting…</div>
-          <div class="hud-hint">White ring = harvest · Orange ring = will hit · Tap: attack Swipe: dodge</div>
+          <div id="debug-label">Phase 3.5A — 0.9.0 · starting…</div>
+          <div class="hud-hint">White ring = harvest · Orange ring = will hit · Tap: attack Swipe: dodge · Regions: see debug</div>
         </div>
       </div>
     </div>

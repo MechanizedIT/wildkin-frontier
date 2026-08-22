@@ -301,6 +301,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
       state: "LAUNCHED",
       collected: false,
       nodeIndex: node.index,
+      regionId: node.regionId ?? node.state?.regionId ?? null,
       sourceCollider: node.collider ?? null,
       sourceColliderHandle: node.collider?.handle ?? null,
       _popTime: 0,
@@ -479,5 +480,31 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   }
   function _clearActive() { clear(); }
 
-  return { spawnPickup, collectPickup, update, getInventory, resetInventory, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, inventory, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
+  // Region culling: remove pickups whose origin region is now inactive (origin-based, deterministic)
+  // Also fallback position-based if regionId missing
+  function cullInactiveRegions(activeSet, worldRegistry = null) {
+    if (!activeSet) return 0;
+    const active = activeSet instanceof Set ? activeSet : new Set(activeSet);
+    let culled = 0;
+    for (let i = pickups.length - 1; i >= 0; i--) {
+      const p = pickups[i];
+      const rid = p.regionId;
+      let isActive = true;
+      if (rid) isActive = active.has(rid);
+      else if (worldRegistry) {
+        const region = worldRegistry.getRegionForPosition(p.pos);
+        isActive = active.has(region);
+      }
+      if (!isActive) {
+        releaseMesh(p);
+        pickups.splice(i, 1);
+        culled++;
+      }
+    }
+    return culled;
+  }
+
+  function setActiveRegions(activeSet) { return cullInactiveRegions(activeSet); }
+
+  return { spawnPickup, collectPickup, update, getInventory, resetInventory, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, cullInactiveRegions, setActiveRegions, inventory, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
 }

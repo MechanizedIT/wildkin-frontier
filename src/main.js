@@ -28,12 +28,16 @@ import { createXpMoteSystem } from "./combat/xpMoteSystem.js";
 import { createCombatSession } from "./combat/combatSession.js";
 import { createCombatHud } from "./ui/combatHud.js";
 import { createDeathOverlay } from "./ui/deathOverlay.js";
+import WORLD_DATA from "./world/data/world.js";
+import { createWorldRegistry } from "./world/worldRegistry.js";
+import { createRegionManager } from "./world/regionManager.js";
+import { createExpeditionSession } from "./session/expeditionSession.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 3.1.1 — 0.8.1";
+const VERSION = "Phase 3.5A — 0.9.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -62,10 +66,44 @@ window.addEventListener("orientationchange", () => {
   setTimeout(resize, 200);
 });
 
+// World / Session / Region — Phase 3.5A thin main.js ownership
+const worldRegistry = createWorldRegistry(WORLD_DATA);
+const regionDepthMap = worldRegistry.getRegionDepthMap();
+
 // Physics
 const physicsWorld = createPhysicsWorld(RAPIER, playground);
 const startPos = { x: 0, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: 5.5 };
 const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos);
+
+// Expedition session — owns temporary run lifecycle instead of accumulating in main.js
+const initialRegion = worldRegistry.getRegionForPosition(startPos);
+const expeditionSession = createExpeditionSession({
+  startAnchorId: worldRegistry.getStartAnchorId() ?? "camp_gate",
+  regionDepthMap,
+  initialRegionId: initialRegion,
+});
+expeditionSession.setRegion(initialRegion, null);
+
+// Region activation manager — determines current region, computes active set (current + neighbors)
+let lastActiveIds = [];
+const regionManager = createRegionManager(worldRegistry, {
+  onChange: ({ currentRegionId, activeIds, prevActiveIds }) => {
+    // Session owns current region + maxDepth
+    expeditionSession.setRegion(currentRegionId, null);
+    // System hooks: activate/deactivate resources & creatures, cull temp entities
+    resourceSystem.setActiveRegions(activeIds);
+    creatureSystem.setActiveRegions(activeIds);
+    // Temporary entities: remove those whose origin region is now inactive (no leakage/duplication, pooled)
+    const deactivated = prevActiveIds.filter(id => !activeIds.includes(id));
+    if (deactivated.length > 0) {
+      pickupSystem.cullInactiveRegions(activeIds, worldRegistry);
+      projectileSystem.cullInactiveRegions(activeIds, worldRegistry);
+      xpMoteSystem.cullInactiveRegions(activeIds, worldRegistry);
+    }
+  },
+});
+// Initialize current + active before systems created? Need systems first, so delay.
+// We'll create systems then prime regionManager with startPos
 
 // Input
 const touchMovement = createTouchMovement(app, MOVEMENT_CONFIG, INPUT_CONFIG);
@@ -82,27 +120,15 @@ cameraFollow.snap();
 // Physics debug
 const physicsDebug = createPhysicsDebug(scene, characterPhysics, physicsWorld);
 
-// Harvesting placements
-const resourcePlacements = [
-  { type: "tree", pos: { x: 1.2, y: 0, z: 4.2 } },
-  { type: "tree", pos: { x: -8.6, y: 0, z: 1.8 } },
-  { type: "tree", pos: { x: 6.2, y: 0, z: -1.8 } },
-  { type: "tree", pos: { x: 2.2, y: 2.4, z: -7.2 } },
-  { type: "tree", pos: { x: -9.0, y: 0, z: 6.5 } },
-  { type: "tree", pos: { x: 8.8, y: 0, z: 3.2 } },
-  { type: "rock", pos: { x: 3.2, y: 0, z: 2.6 } },
-  { type: "rock", pos: { x: 4.6, y: 0, z: 3.4 } },
-  { type: "rock", pos: { x: 7.2, y: 0, z: 0.8 } },
-  { type: "rock", pos: { x: -3.0, y: 0, z: -4.5 } },
-  { type: "rock", pos: { x: -1.8, y: 0, z: -4.8 } },
-  { type: "fiber", pos: { x: 0.2, y: 0, z: 4.6 } },
-  { type: "fiber", pos: { x: -2.2, y: 0, z: 6.0 } },
-  { type: "fiber", pos: { x: -7.2, y: 0, z: -1.2 } },
-  { type: "fiber", pos: { x: 1.0, y: 0, z: -3.8 } },
-  { type: "fiber", pos: { x: 8.4, y: 0, z: -2.4 } },
-  { type: "fiber", pos: { x: -4.2, y: 0, z: -8.2 } },
-  { type: "fiber", pos: { x: 4.0, y: 0, z: -5.8 } },
-];
+// Harvesting placements — now data-driven via worldRegistry (no second loader)
+const placementsFromWorld = worldRegistry.getAllResources().map(r => ({
+  type: r.type,
+  pos: { ...r.pos },
+  regionId: r.regionId,
+  id: r.id,
+}));
+
+// Fallback: ensure 18 nodes (migration check) — world data already contains 18
 
 const gameAudio = createGameAudio();
 const particleSystem = createParticleSystem(scene);
@@ -114,26 +140,31 @@ autoHarvestToggle.onToggle((v) => { autoHarvestEnabled = v; });
 const pickupSystem = createPickupSystem(scene, physicsWorld, playground, (inv, resId) => {
   inventoryHud.update(inv);
   if (resId) inventoryHud.pulse(resId);
+  // Session owns unsecured cargo summary
+  expeditionSession.setCargo(inv);
 });
 pickupSystem.setPlayerCollider(characterPhysics.collider);
 inventoryHud.update(pickupSystem.getInventory());
+expeditionSession.setCargo(pickupSystem.getInventory());
 
-const resourceSystem = createResourceSystem(scene, physicsWorld, resourcePlacements);
+const resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld);
 const fieldTool = createFieldTool(player, gameAudio);
 
 // Phase 3 systems
 const combatHud = createCombatHud();
 const xpMoteSystem = createXpMoteSystem(scene, {
-  onXpChanged: (xp) => combatHud.updateXp(xp),
+  onXpChanged: (xp) => {
+    combatHud.updateXp(xp);
+    expeditionSession.setXp(xp);
+  },
   onCollectSound: () => gameAudio.playXpCollect(),
+  worldRegistry,
 }, physicsWorld, playground);
+xpMoteSystem.setWorldRegistry(worldRegistry);
 const combatSession = createCombatSession();
 
 // Player combat (health, knockback, i-frames)
-let killCount = 0;
 let isDead = false;
-
-// Need to define death overlay later but need callback
 let deathOverlay = null;
 
 const playerCombat = createPlayerCombat({
@@ -148,13 +179,13 @@ const playerCombat = createPlayerCombat({
   onDeath: () => {
     if (isDead) return;
     isDead = true;
-    // show death overlay after short delay (~0.3)
+    expeditionSession.onDeath();
     const inv = pickupSystem.getInventory();
     const xp = xpMoteSystem.getXp();
+    const kills = expeditionSession.getKills();
     setTimeout(() => {
-      deathOverlay.show({ kills: killCount, xp, inventory: inv });
+      deathOverlay.show({ kills, xp, inventory: inv });
     }, 280);
-    // freeze enemy offense? creatureSystem will check isDead
   },
   scene,
 });
@@ -162,6 +193,7 @@ combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
 combatHud.updateXp(0);
 
 const projectileSystem = createProjectileSystem(scene, physicsWorld, playground);
+projectileSystem.setWorldRegistry(worldRegistry);
 projectileSystem.setDamageCallback((dmg, pos) => {
   if (isDead) return false;
   const ok = playerCombat.takeDamage(dmg, pos);
@@ -173,21 +205,24 @@ projectileSystem.setDamageCallback((dmg, pos) => {
 });
 projectileSystem.setInvulnChecker(() => playerCombat.isInvulnerable());
 
+const spawnsFromWorld = worldRegistry.getAllCreatures();
 const creatureSystem = createCreatureSystem(scene, physicsWorld, playground, {
+  spawns: spawnsFromWorld,
+  worldRegistry,
   onCreatureDamaged: (creature, amount) => {
     gameAudio.playEnemyHit();
     const mockNode = { state: { position: { x: creature.state.pos.x, y: creature.state.pos.y, z: creature.state.pos.z } }, type: { impactEffectHeight: 0.45, resourceId: "generic" } };
     try { particleSystem.spawnBurst(mockNode, 4); } catch {}
   },
   onCreatureDied: (creature) => {
-    killCount += 1;
+    expeditionSession.addKill();
     gameAudio.playEnemyDeath();
     const mockNode = { state: { position: { x: creature.state.pos.x, y: creature.state.pos.y, z: creature.state.pos.z } }, type: { impactEffectHeight: 0.5, resourceId: "generic" } };
     try { particleSystem.spawnBurst(mockNode, 8); } catch {}
-    // XP: wildlife-only kill with no player participation gives no player XP
     if (creature.state.playerDamaged) {
       const xpCount = creature.state.type === "spitter" ? COMBAT_CONFIG.xpSpitter : COMBAT_CONFIG.xpRusher;
-      xpMoteSystem.spawnMotes(creature.state.pos, xpCount);
+      // Spawn with region for culling
+      xpMoteSystem.spawnMotes(creature.state.pos, xpCount, { regionId: creature.state.regionId });
     }
     combatSession.notifyAttack();
   },
@@ -217,16 +252,26 @@ projectileSystem.setWildkinDamageCallback((target, dmg, pos, owner) => {
 
 xpMoteSystem.setPlayerPos(playerController.getState().pos);
 
+// Prime region activation after all gameplay systems exist (deterministic, no duplicate creation)
+{
+  const init = regionManager.update(startPos);
+  lastActiveIds = init.activeIds;
+  expeditionSession.setRegion(init.currentRegionId, init.currentPocketId);
+  resourceSystem.setActiveRegions(init.activeIds);
+  creatureSystem.setActiveRegions(init.activeIds);
+}
+
 // Death overlay
 deathOverlay = createDeathOverlay(() => {
   doRestart();
 });
 deathOverlay.hide();
 
-// Restart logic
+// Restart logic — session owns run reset lifecycle
 function doRestart() {
   isDead = false;
-  killCount = 0;
+  expeditionSession.reset(worldRegistry.getStartAnchorId() ?? "camp_gate");
+  expeditionSession.setRegion(regionManager.getCurrentRegionId(), regionManager.getCurrentPocketId());
   // Reset playerCombat
   playerCombat.reset();
   combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
@@ -254,55 +299,50 @@ function doRestart() {
   playerController.syncPosFromPhysics();
   // Reset camera
   cameraFollow.snap();
-  // Reset creatureSystem
+  // Reset region to start (south_basin) and reapply activation before creature reset to avoid stale colliders
+  {
+    const cur = regionManager.update(sPos);
+    expeditionSession.setRegion(cur.currentRegionId, cur.currentPocketId);
+    resourceSystem.setActiveRegions(cur.activeIds);
+    creatureSystem.setActiveRegions(cur.activeIds);
+    // Clear temp entities that belong to now-inactive regions (none at start, but ensures pools bounded)
+    pickupSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
+    projectileSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
+    xpMoteSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
+    lastActiveIds = cur.activeIds;
+  }
+  // Reset creatureSystem (respects active regions)
   creatureSystem.reset();
   // Clear projectiles
   projectileSystem.reset();
-  // Clear XP motes and XP total
+  // Clear XP motes and XP total (session already reset via setXp 0 in xpMoteSystem.reset -> onXpChanged)
   xpMoteSystem.reset();
   combatHud.updateXp(0);
-  // Reset pickup inventory (temporary run cargo)
+  expeditionSession.setXp(0);
+  // Reset pickup inventory (temporary run cargo) — session already owns summary
   pickupSystem.resetInventory();
   inventoryHud.update(pickupSystem.getInventory());
-  // Clear active pickups
-  const activePickups = pickupSystem.getPickups?.() ?? [];
+  expeditionSession.setCargo(pickupSystem.getInventory());
+  // Clear active pickups (cull already, but explicit clear for restart)
   if (pickupSystem.clear) {
     try { pickupSystem.clear(); } catch {}
   }
-  if (activePickups.length > 0) {
-    for (const p of [...activePickups]) {
-      try {
-        // release via internal pool: remove mesh and splice
-        if (p.mesh && p.mesh.parent) p.mesh.parent.remove(p.mesh);
-        p.collected = true;
-      } catch {}
-    }
-    // Ensure internal array cleared by calling clear if available or manually splice
-    if (pickupSystem._clearActive) pickupSystem._clearActive();
-    else {
-      // fallback force clear via resetting internal list if accessible
-      try { activePickups.length = 0; } catch {}
-    }
-  }
-  // Reset resource nodes to fresh if needed (depleted -> ready)
-  // For testing, reset all respawning nodes to ready, restore colliders if pending
+  // Reset resource nodes to fresh if needed (depleted -> ready) — respects region activation (only active nodes need collider restore now)
   for (const n of resourceSystem.nodes) {
     if (n.state.nodeState === "RESPAWNING") {
-      // Force respawn immediately but check collider defer?
       n.state.nodeState = "READY";
       n.state.remainingChunks = n.type.maxChunks;
       n.state.respawnRemaining = 0;
-      // Show chunks
       for (const m of n.chunkMeshes) m.visible = true;
       if (n.remnantMesh) n.remnantMesh.visible = false;
       n.respawnGroup.visible = false;
-      // Try restore collider if solid
-      if (n.type.solid && !n.collider) {
-        try {
-          // use resourceSystem internal tryRestore? We'll just call resourceSystem internal via respawn logic? Simpler: rely on next update to restore via pending flag
-          n._pendingColliderRestore = true;
-        } catch {}
+      if (n.type.solid && !n.collider && !n._regionInactive) {
+        n._pendingColliderRestore = true;
       }
+    }
+    // If region inactive, keep hidden; will be restored on reactivation
+    if (n._regionInactive) {
+      n.group.visible = false;
     }
   }
   // Reset combat session
@@ -311,18 +351,15 @@ function doRestart() {
   if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
   // Hide overlay
   deathOverlay.hide();
-  // Auto harvest preference preserved (do not reset)
+  // Auto harvest preference preserved
   autoHarvestToggle.setEnabled(autoHarvestEnabled, false);
-  // Reset particleSystem? keep pooled
-  // Ensure playerCombat health etc. already reset
-  // Reset accumulator?
   accumulator = 0;
 }
 
 // Also handle window reset for debug
 window.__restart = doRestart;
 
-// Loop
+// Loop — single rAF drives all per-frame updates and rendering (thin main.js)
 const clock = new THREE.Clock();
 let frameCount = 0;
 let lastFpsUpdate = performance.now();
@@ -350,50 +387,26 @@ function tick() {
 
   let substeps = 0;
   while (accumulator >= fixedDt && substeps < maxSubsteps) {
-    // If dead, skip gameplay updates but still need to tick some timers? Freeze.
     if (!isDead) {
-      // Update combat session with aggro check (before movement? use current player pos)
       const pStBefore = playerController.getState();
       const isAggroNearby = creatureSystem.isAnyAggroedNearby();
       combatSession.update(fixedDt, isAggroNearby);
       const combatEngaged = combatSession.isEngaged();
-
-      // Phase 3.1: Auto Harvest no longer suppressed by combatEngaged; enemy presence does not disable harvesting
       const harvestingAllowed = autoHarvestEnabled;
 
-      // Prepare combat target getter for fieldTool
       const pPosForCombat = pStBefore.pos;
       const pFacingForCombat = pStBefore.facing;
-      const getCombatTargets = () => {
-        const alive = creatureSystem.getAliveCreatures();
-        return getAttackTargets(pPosForCombat, pFacingForCombat, alive.map(c => ({
-          id: c.state.id,
-          pos: { x: c.state.pos.x, y: c.state.pos.y, z: c.state.pos.z },
-          isDead: c.state.isDead,
-          health: c.state.health,
-          _creature: c,
-        })).map(o => {
-          // Preserve creature reference for damage
-          const orig = alive.find(a => a.state.id === o.id);
-          return orig ? { ...o, _orig: orig, pos: { x: orig.state.pos.x, y: orig.state.pos.y, z: orig.state.pos.z } } : o;
-        }));
-      };
-      // But getAttackTargets expects candidates with pos; we can just map to creature wrappers
       const getCombatTargetsWrapped = () => {
         const alive = creatureSystem.getAliveCreatures();
         const cands = alive.map(c => ({ id: c.state.id, pos: { x: c.state.pos.x, y: c.state.pos.y, z: c.state.pos.z }, isDead: c.state.isDead }));
-        // Need to return creature objects themselves for damage, so return alive filtered by targeting
         const hits = getAttackTargets(pPosForCombat, pFacingForCombat, cands);
-        // Map back to actual creature objects
         return hits.map(h => alive.find(a => a.state.id === h.id)).filter(Boolean);
       };
 
-      // Unified Field Tool impact: one swing may harvest + damage — shared physical cadence
       const canAttack = !isDead;
       const fieldCanAttack = !isDead && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE");
       const effectiveAttackRequested = wasAttackRequested;
       const effectiveAttackHeld = !!intent.attackHeld && fieldCanAttack;
-      // Manual harvest targets (range-only, ignores Auto flag)
       const getManualHarvestTargets = () => {
         const pPos = pStBefore.pos;
         const res = [];
@@ -408,7 +421,6 @@ function tick() {
         return res.slice(0, 4);
       };
       const handleUnifiedImpact = ({ resourceHits, combatHits }) => {
-        // Resources: harvest
         for (const node of resourceHits) {
           resourceSystem.applyHit(
             node,
@@ -420,7 +432,6 @@ function tick() {
             }
           );
         }
-        // Creatures: damage
         for (const creature of combatHits) {
           const pPos = playerController.getState().pos;
           const dir = { x: creature.state.pos.x - pPos.x, z: creature.state.pos.z - pPos.z };
@@ -455,17 +466,13 @@ function tick() {
         }
       );
 
-      // If attack started, notify combatSession
       if (fieldTool.activeProfile === "combat" && fieldTool.isSwinging) {
         combatSession.notifyAttack();
       }
 
-      // PlayerCombat health tick (invuln, knockback timers) - pass filtered intent without attack to avoid double attack handling
       const healthIntent = { ...intent, attackRequested: false };
-      // Create a dummy intent for health update that excludes attack
       playerCombat.update(fixedDt, healthIntent, pStBefore.pos, pStBefore.facing, creatureSystem.getCreatures?.());
 
-      // Derive movement modifier from fieldTool combat swing
       const combatActive = fieldTool.isSwinging && fieldTool.activeProfile === "combat";
       const combatProgress = fieldTool.swingProgress ?? 0;
       const combatImpact = COMBAT_CONFIG.attackImpactNormalized;
@@ -480,18 +487,29 @@ function tick() {
         knockback: knockback && knockback.remaining > 0 ? knockback : null,
       };
 
-      // Movement update with combat modifier
+      // === Fixed-loop ordering: initialize → Field Tool → playerCombat → movement → region activation → creatures/projectiles/XP → resources/pickups ===
       playerController.update(fixedDt, intent, combatOpts);
 
       const pStateFixed = playerController.getState();
       const pPosFixed = pStateFixed.pos;
 
-      // Update creatures
+      // Region activation — determine current region from player position, compute active set (current + neighbors)
+      // Emit/apply only when set changes; neighbor buffer prevents pop-in; avoid per-frame churn
+      {
+        const regionRes = regionManager.update(pPosFixed);
+        if (regionRes.changed) {
+          lastActiveIds = regionRes.activeIds;
+          // Hooks already applied via onChange (session + resource/creature activation + culling)
+          // But ensure we also update local tracking for debug
+        }
+      }
+
+      // Update creatures (only active regions simulate)
       creatureSystem.setPlayerPos(pPosFixed);
       creatureSystem.setPlayerState(pStateFixed);
       creatureSystem.update(fixedDt);
 
-      // Projectiles
+      // Projectiles (only active? global but culling handles)
       projectileSystem.setPlayerPos(pPosFixed);
       projectileSystem.setPlayerState(pStateFixed);
       projectileSystem.update(fixedDt);
@@ -500,34 +518,29 @@ function tick() {
       xpMoteSystem.setPlayerPos(pPosFixed);
       xpMoteSystem.update(fixedDt);
 
-      // Resources (fixed step)
+      // Resources (only active regions tick)
       resourceSystem.update(fixedDt, pPosFixed, pStateFixed.mode, pStateFixed.speed, harvestingAllowed);
-      // Pickups
+      // Pickups (global, but inactive region pickups already culled on region change)
       pickupSystem.update(fixedDt, pPosFixed, (resId) => gameAudio.playPickup(resId), characterPhysics.collider);
-      // Focus rings: compute would-be hit targets each substep (or per frame)
+      // Focus rings
       const aliveForRing = creatureSystem.getAliveCreatures();
       const ringTargets = getAttackTargets(pPosFixed, pStateFixed.facing, aliveForRing.map(c => ({ id: c.state.id, pos: { x: c.state.pos.x, y: c.state.pos.y, z: c.state.pos.z }, isDead: c.state.isDead })));
       const ringSet = new Set(ringTargets.map(r => r.id));
       for (const c of aliveForRing) {
         c.showFocusRing(ringSet.has(c.state.id));
       }
-      // Also hide rings for dead/respawning
       for (const c of creatureSystem.getCreatures()) {
-        if (c.state.isDead || c.state.aiState === "RESPAWNING") c.showFocusRing(false);
+        if (c.state.isDead || c.state.aiState === "RESPAWNING" || c.state._regionInactive) c.showFocusRing(false);
       }
 
-      // Consume dodge/attack only on first substep where it triggered and mode entered
       if (wasDodgeRequested && pStateFixed.mode === "DODGE") {
         intent.dodgeRequested = false;
       }
       if (wasAttackRequested && fieldTool.activeProfile === "combat" && fieldTool.isSwinging) {
-        // consume attack for this swing start
         intent.attackRequested = false;
       }
     } else {
-      // Dead: still need to hide focus rings
       for (const c of creatureSystem.getCreatures()) c.showFocusRing(false);
-      // No movement/combat while dead
     }
 
     accumulator -= fixedDt;
@@ -553,7 +566,6 @@ function tick() {
   if (substeps === 0 && !isDead) {
     const harvestingAllowedPerFrame = autoHarvestEnabled;
     pickupSystem.update(Math.min(dt, 1 / 30), pState.pos, (resId) => gameAudio.playPickup(resId), characterPhysics.collider);
-    // Focus rings per frame if no fixed steps
     if (!isDead) {
       const aliveForRing = creatureSystem.getAliveCreatures();
       const ringTargets = getAttackTargets(pState.pos, pState.facing, aliveForRing.map(c => ({ id: c.state.id, pos: { x: c.state.pos.x, y: c.state.pos.y, z: c.state.pos.z }, isDead: c.state.isDead })));
@@ -579,9 +591,14 @@ function tick() {
       const inv = pickupSystem.getInventory();
       const hp = playerCombat.getHealth();
       const xp = xpMoteSystem.getXp();
-      const alive = creatureSystem.getAliveCount();
+      const kills = expeditionSession.getKills();
+      const alive = creatureSystem.getActiveAliveCreatures ? creatureSystem.getActiveAliveCreatures().length : creatureSystem.getAliveCount();
+      const totalAlive = creatureSystem.getCreatures().filter(c=>!c.state.isDead && c.state.aiState!=="RESPAWNING").length;
       const engaged = combatSession.isEngaged() ? "C" : "-";
-      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode}${trav} · ${band} · ${pState.speed.toFixed(1)} u/s · HP${hp} XP${xp} K${killCount} A${alive}${engaged} · W${inv.wood} S${inv.stone} F${inv.fiber} · ${grounded} vv${vv} · ${substeps} step`;
+      const curReg = regionManager.getCurrentRegionId() ?? "none";
+      const activeIds = regionManager.getActiveIds().join(",");
+      const sess = expeditionSession.getState();
+      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode}${trav} · ${band} · ${pState.speed.toFixed(1)} u/s · HP${hp} XP${xp} K${kills} A${alive}/${totalAlive}${engaged} · ${curReg} [${activeIds}] · W${inv.wood} S${inv.stone} F${inv.fiber} · ${grounded} vv${vv} · ${substeps} step`;
     }
   }
 
@@ -590,9 +607,10 @@ function tick() {
 
 tick();
 
-// Debug globals
+// Debug globals — gameplay code must not rely on window.__game
 window.__game = {
   scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, deathOverlay, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
+  worldRegistry, regionManager, expeditionSession,
   get autoHarvestEnabled() { return autoHarvestEnabled; },
   set autoHarvestEnabled(v) { autoHarvestEnabled = !!v; autoHarvestToggle.setEnabled(autoHarvestEnabled); },
   get debugCounts() {
@@ -606,14 +624,28 @@ window.__game = {
       activeMotes: xpMoteSystem.getCount(),
       pooledMotes: xpMoteSystem.getPooledCount(),
       aliveCreatures: creatureSystem.getAliveCount(),
+      activeAliveCreatures: creatureSystem.getActiveAliveCreatures ? creatureSystem.getActiveAliveCreatures().length : creatureSystem.getAliveCount(),
+      totalCreatures: creatureSystem.getCreatures().length,
+      currentRegion: regionManager.getCurrentRegionId(),
+      activeRegions: regionManager.getActiveIds(),
+      expedition: expeditionSession.getState(),
       geometries: renderer.info.memory.geometries,
       textures: renderer.info.memory.textures,
       fps,
       health: playerCombat.getHealth(),
       xp: xpMoteSystem.getXp(),
-      kills: killCount,
+      kills: expeditionSession.getKills(),
       isDead,
       combatEngaged: combatSession.isEngaged(),
+    };
+  },
+  get regionDebug() {
+    return {
+      currentRegion: regionManager.getCurrentRegionId(),
+      currentPocket: regionManager.getCurrentPocketId(),
+      activeIds: regionManager.getActiveIds(),
+      activeCreatures: creatureSystem.getActiveAliveCreatures ? creatureSystem.getActiveAliveCreatures().length : -1,
+      activeResources: resourceSystem.getActiveNodeCount ? resourceSystem.getActiveNodeCount() : -1,
     };
   },
 };

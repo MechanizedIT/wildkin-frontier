@@ -6,14 +6,17 @@ export function createXpMoteSystem(scene, opts = {}, physicsWorldIn = null, play
   // Support (scene, physicsWorld, playground, opts) legacy detection
   let physicsWorld = physicsWorldIn;
   let playground = playgroundIn;
+  let worldRegistryRef = opts?.worldRegistry ?? null;
   if (opts && typeof opts === "object" && !opts.onXpChanged && opts.world && !physicsWorld) {
     // called as (scene, physicsWorld, playground)
     physicsWorld = opts;
     playground = physicsWorldIn;
     opts = playgroundIn ?? {};
+    worldRegistryRef = opts?.worldRegistry ?? worldRegistryRef;
   }
   if (opts && opts.physicsWorld) physicsWorld = opts.physicsWorld;
   if (opts && opts.playground) playground = opts.playground;
+  if (opts && opts.worldRegistry) worldRegistryRef = opts.worldRegistry;
   const motes = [];
   const pool = [];
   const MAX_ACTIVE = 32;
@@ -188,8 +191,13 @@ export function createXpMoteSystem(scene, opts = {}, physicsWorldIn = null, play
     if (cb.onCollectSound) onCollectSound = cb.onCollectSound;
   }
 
+  function setWorldRegistry(wr) { worldRegistryRef = wr; }
+
   function spawnMotes(pos, count, opts2 = {}) {
     const baseY = (pos.y ?? 0.5) + 0.35;
+    // Determine origin region for culling (position-based or explicit opts regionId)
+    let originRegion = opts2.regionId ?? null;
+    if (!originRegion && worldRegistryRef) originRegion = worldRegistryRef.getRegionForPosition(pos);
     for (let i = 0; i < count; i++) {
       if (motes.length >= MAX_ACTIVE) break;
       const mesh = acquireMesh();
@@ -215,6 +223,7 @@ export function createXpMoteSystem(scene, opts = {}, physicsWorldIn = null, play
         state: "POP", // POP -> REST -> MAGNETIZING -> COLLECTED
         collected: false,
         popTime: 0,
+        regionId: originRegion ?? (worldRegistryRef ? worldRegistryRef.getRegionForPosition(start) : null),
       };
       motes.push(mote);
     }
@@ -361,6 +370,29 @@ export function createXpMoteSystem(scene, opts = {}, physicsWorldIn = null, play
   function getPooledCount() { return pool.length; }
   function setXp(v) { totalXp = v; onXpChanged(totalXp); }
 
+  function cullInactiveRegions(activeSet, worldRegistry = worldRegistryRef) {
+    if (!activeSet) return 0;
+    const active = activeSet instanceof Set ? activeSet : new Set(activeSet);
+    let culled = 0;
+    for (let i = motes.length - 1; i >= 0; i--) {
+      const m = motes[i];
+      let isActive = true;
+      if (m.regionId) isActive = active.has(m.regionId);
+      else if (worldRegistry) {
+        const reg = worldRegistry.getRegionForPosition(m.pos);
+        isActive = active.has(reg);
+      }
+      if (!isActive) {
+        releaseMesh(m);
+        motes.splice(i, 1);
+        culled++;
+      }
+    }
+    return culled;
+  }
+
+  function setActiveRegions(activeSet) { return cullInactiveRegions(activeSet); }
+
   return {
     spawnMotes,
     update,
@@ -374,6 +406,9 @@ export function createXpMoteSystem(scene, opts = {}, physicsWorldIn = null, play
     setPhysicsWorld,
     setPlayground,
     setCallbacks,
+    setWorldRegistry,
+    cullInactiveRegions,
+    setActiveRegions,
     getXpValue: getXp,
     _motes: motes,
     _pool: pool,

@@ -7,11 +7,18 @@ import { isPlayerInsideColliderVolume, distance3D } from "./harvestLogic.js";
 export function createResourceSystem(scene, physicsWorld, placements) {
   const nodes = [];
   let timeAcc = 0;
+  let activeRegionSet = null; // null = all active (backwards compat for tests without region manager)
+  let regionInactiveMap = new Map(); // node index -> bool whether collider removed due to region
 
-  // Create nodes from placements [{type, pos}]
+  // Create nodes from placements [{type, pos, regionId?, id?}]
   for (let i = 0; i < placements.length; i++) {
     const p = placements[i];
+    const regionId = p.regionId ?? p.region ?? null;
+    const nodeId = p.id ?? `${p.type}_${i}`;
     const { group, state, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks } = createResourceNode(p.type, p.pos, i);
+    // Preserve authoritative id from data if provided
+    state.id = nodeId;
+    state.regionId = regionId;
     scene.add(group);
     const type = RESOURCE_TYPES[p.type];
     let collider = null;
@@ -29,7 +36,63 @@ export function createResourceSystem(scene, physicsWorld, placements) {
       collider = world.createCollider(desc);
       world.step();
     }
-    nodes.push({ group, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false });
+    nodes.push({ group, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, _regionInactive: false });
+  }
+
+  function isRegionActive(regionId) {
+    if (activeRegionSet === null) return true;
+    if (!regionId) return true; // global
+    return activeRegionSet.has(regionId);
+  }
+
+  function setActiveRegions(activeSet) {
+    // activeSet is Set of region ids or array
+    const nextSet = activeSet ? new Set(activeSet) : null;
+    const prevSet = activeRegionSet;
+    activeRegionSet = nextSet;
+    // Apply activation changes only when set changes — deterministic, no duplicate creation
+    for (const n of nodes) {
+      const wasActive = prevSet === null ? true : (n.regionId ? prevSet.has(n.regionId) : true);
+      const isActive = isRegionActive(n.regionId);
+      if (wasActive && !isActive) {
+        // Deactivating
+        n._regionInactive = true;
+        n.group.visible = false;
+        n.haloMesh.visible = false;
+        n.respawnGroup.visible = false;
+        if (n.collider) {
+          try { physicsWorld.world.removeCollider(n.collider, true); } catch (_) {}
+          physicsWorld.world.step();
+          regionInactiveMap.set(n.index, true);
+          n.collider = null;
+        }
+        if (n.remnantCollider) {
+          try { physicsWorld.world.removeCollider(n.remnantCollider, true); } catch (_) {}
+          physicsWorld.world.step();
+          n.remnantCollider = null;
+        }
+      } else if (!wasActive && isActive) {
+        // Reactivating — restore visuals without duplication
+        n._regionInactive = false;
+        n.group.visible = true;
+        // Halo/respawn visibility will be handled in next update based on state
+        // Restore collider if READY and solid and not pending due to player overlap
+        if (n.state.nodeState === "READY" && n.type.solid && n.type.colliderHalfExtents && !n.collider) {
+          // Only restore if not depleted
+          const wasRemovedForRegion = regionInactiveMap.get(n.index);
+          if (wasRemovedForRegion) {
+            regionInactiveMap.delete(n.index);
+            // Defer restore to next update's pending logic via tryRestoreCollider with player pos check
+            // Mark pending so update will try to restore safely
+            n._pendingColliderRestore = true;
+            // We will attempt immediate restore if player not inside — but we don't have playerPos here
+            // Leave pending true and let update handle
+          }
+        }
+        // Ensure remnant not visible if READY
+        if (n.state.nodeState === "READY" && n.remnantMesh) n.remnantMesh.visible = false;
+      }
+    }
   }
 
   function getInteractionPoint(node) {
@@ -47,6 +110,8 @@ export function createResourceSystem(scene, physicsWorld, placements) {
   }
 
   function isHarvestableInRange(node, playerPos) {
+    if (node._regionInactive) return false;
+    if (!isRegionActive(node.regionId)) return false;
     if (node.state.nodeState !== "READY") return false;
     if (node.state.remainingChunks <= 0) return false;
     const interact = getInteractionPoint(node);
@@ -70,6 +135,8 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     const pEff = getEffectivePlayerPos(playerPos);
     const res = [];
     for (const n of nodes) {
+      if (n._regionInactive) continue;
+      if (!isRegionActive(n.regionId)) continue;
       if (n.state.nodeState !== "READY") continue;
       if (n.state.remainingChunks <= 0) continue;
       const interact = getInteractionPoint(n);
@@ -85,6 +152,8 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     if (!autoHarvestEnabled) return [];
     const res = [];
     for (const n of nodes) {
+      if (n._regionInactive) continue;
+      if (!isRegionActive(n.regionId)) continue;
       if (isHarvestableInRange(n, playerPos)) res.push(n);
     }
     // sort nearest first but cap same as eligibility for visual consistency
@@ -190,7 +259,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
 
   function update(dt, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
     timeAcc += dt;
-    // Halo pulse handling
+    // Halo pulse handling — only for active regions
     const haloTargets = getHaloTargets(playerPos, playerMode, playerSpeed, autoHarvestEnabled);
     const haloSet = new Set(haloTargets);
     const pulseT = (Math.sin(timeAcc * (2 * Math.PI / HARVEST_CONFIG.haloPulseDuration)) * 0.5 + 0.5);
@@ -198,6 +267,21 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     const opacityPulse = HARVEST_CONFIG.haloOpacityMin + pulseT * (HARVEST_CONFIG.haloOpacityMax - HARVEST_CONFIG.haloOpacityMin);
 
     for (const n of nodes) {
+      // Inactive regions: freeze all simulation (no harvest/respawn/pickup logic), keep hidden, skip timers
+      if (n._regionInactive || !isRegionActive(n.regionId)) {
+        // Keep group hidden (already set in setActiveRegions) and skip simulation
+        // Ensure halos remain hidden
+        if (n.haloMesh.visible) n.haloMesh.visible = false;
+        if (n.respawnGroup.visible) n.respawnGroup.visible = false;
+        // Skip wobble/flash/respawn timers while inactive — freeze
+        continue;
+      }
+      // Ensure group visible when active (reactivated nodes may have been hidden)
+      if (!n.group.visible && n.state.nodeState === "READY") n.group.visible = true;
+      else if (!n.group.visible && n.state.nodeState === "RESPAWNING") {
+        // For respawning nodes, group stays visible if active — but hide handled above for inactive only
+        n.group.visible = true;
+      }
       // wobble animation
       if (n._wobbleTime !== undefined) {
         n._wobbleTime += dt;
@@ -237,13 +321,16 @@ export function createResourceSystem(scene, physicsWorld, placements) {
         }
       }
 
-      // Pending collider restore attempt (after respawn visuals already shown)
+      // Pending collider restore attempt (after respawn visuals already shown) — only if region active
       if (n._pendingColliderRestore && n.state.nodeState === "READY") {
         const ok = tryRestoreCollider(n, playerPos);
-        if (ok) n._pendingColliderRestore = false;
+        if (ok) {
+          n._pendingColliderRestore = false;
+          regionInactiveMap.delete(n.index);
+        }
       }
 
-      // respawn timer — progress continues regardless of visibility
+      // respawn timer — progress only while active (freeze when inactive)
       if (n.state.nodeState === "RESPAWNING") {
         n.state.respawnRemaining -= dt;
         const total = n.type.respawnSeconds;
@@ -294,6 +381,16 @@ export function createResourceSystem(scene, physicsWorld, placements) {
   }
 
   function getNodes() { return nodes; }
+  function getActiveNodeCount() {
+    if (activeRegionSet === null) return nodes.length;
+    let c = 0;
+    for (const n of nodes) if (isRegionActive(n.regionId)) c++;
+    return c;
+  }
+  function getActiveNodes() {
+    if (activeRegionSet === null) return [...nodes];
+    return nodes.filter(n => isRegionActive(n.regionId));
+  }
 
-  return { nodes, getEligibleNodes, getHaloTargets, isHarvestableInRange, canAutoHarvestNow, applyHit, update, getNodes, isRespawnVisible };
+  return { nodes, getEligibleNodes, getHaloTargets, isHarvestableInRange, canAutoHarvestNow, applyHit, update, getNodes, isRespawnVisible, setActiveRegions, isRegionActive, getActiveNodeCount, getActiveNodes, getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null };
 }

@@ -13,6 +13,8 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   let playerStateRef = null;
   let isPlayerInvuln = () => false;
   let elapsed = 0;
+  let activeRegionSet = null; // null = all active (backwards compat)
+  let worldRegistryRef = opts.worldRegistry ?? null;
 
   const callbacks = {
     onCreatureDamaged: opts.onCreatureDamaged ?? (() => {}),
@@ -21,11 +23,63 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     onRequestProjectile: opts.onRequestProjectile ?? (() => {}),
   };
 
-  for (let i = 0; i < CREATURE_SPAWNS.length; i++) {
-    const spawn = CREATURE_SPAWNS[i];
+  // Use world-driven spawns if provided via opts.spawns or worldRegistry, else fallback to legacy CREATURE_SPAWNS
+  const spawnsSource = opts.spawns ?? (worldRegistryRef ? worldRegistryRef.getAllCreatures() : null) ?? CREATURE_SPAWNS;
+  for (let i = 0; i < spawnsSource.length; i++) {
+    const spawn = spawnsSource[i];
     const c = createWildCreature(scene, physicsWorld, spawn, i);
+    // Attach regionId for activation
+    c.state.regionId = spawn.regionId ?? spawn.region ?? null;
+    c.regionId = c.state.regionId;
+    // Ensure homePos already inside region (validation enforces)
     creatures.push(c);
   }
+
+  function isRegionActive(regionId) {
+    if (activeRegionSet === null) return true;
+    if (!regionId) return true;
+    return activeRegionSet.has(regionId);
+  }
+
+  function setActiveRegions(activeSet) {
+    const nextSet = activeSet ? new Set(activeSet) : null;
+    const prevSet = activeRegionSet;
+    activeRegionSet = nextSet;
+    for (const c of creatures) {
+      const wasActive = prevSet === null ? true : (c.state.regionId ? prevSet.has(c.state.regionId) : true);
+      const isActive = isRegionActive(c.state.regionId);
+      if (wasActive && !isActive) {
+        // Deactivating — hide, disable collision, freeze AI timers (no reset, timer stays for reactivation)
+        c.state._regionInactive = true;
+        c.group.visible = false;
+        c.showFocusRing(false);
+        if (c.disableCollision) c.disableCollision();
+        // Do NOT reset WINDUP/LUNGE — freeze in place to prevent instant attack but preserve state
+        // Timers will be frozen in update loop
+      } else if (!wasActive && isActive) {
+        // Reactivating — restore without duplication, keep frozen state
+        c.state._regionInactive = false;
+        if (c.state.aiState !== "RESPAWNING" && !c.state.isDead) {
+          c.group.visible = true;
+          if (c.enableCollision) c.enableCollision();
+          // Keep WINDUP/LUNGE as is — will resume next update; no instant reset needed
+        } else if (c.state.aiState === "RESPAWNING") {
+          // Keep hidden until respawn succeeds
+        }
+      }
+    }
+  }
+
+  function getActiveCreatures() {
+    if (activeRegionSet === null) return [...creatures];
+    return creatures.filter(c => isRegionActive(c.state.regionId));
+  }
+
+  function getActiveAliveCreatures() {
+    return getActiveCreatures().filter(c => !c.state.isDead && c.state.aiState !== "RESPAWNING");
+  }
+
+  function getActiveCreatureCount() { return getActiveCreatures().length; }
 
   function setPlayerPos(pos) { playerPosRef = pos; }
   function setPlayerState(st) { playerStateRef = st; }
@@ -532,7 +586,14 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     elapsed += dt;
     for (const c of creatures) {
       const st = c.state;
-      // respawning
+      // Inactive region — freeze all simulation (no AI, no timers, no respawn, no projectile emission)
+      if (st._regionInactive || !isRegionActive(st.regionId)) {
+        // Keep hidden; ensure focus ring off
+        c.showFocusRing(false);
+        // Freeze: do not progress respawn timer, retaliation, flee, etc.
+        continue;
+      }
+      // respawning — only for active regions (inactive already returned)
       if (st.aiState === "RESPAWNING") {
         // handle death visible time before hide
         if (c._deathVisibleTime !== undefined) {
@@ -956,7 +1017,14 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
 
   function getCreatures() { return creatures; }
-  function getAliveCreatures() { return creatures.filter(c => !c.state.isDead && c.state.aiState !== "RESPAWNING"); }
+  function getAliveCreatures() {
+    // When region activation is active, only active-region creatures are considered alive for gameplay (targeting, focus rings)
+    // Keep inactive out of targeting to prevent invisible attacks
+    const alive = creatures.filter(c => !c.state.isDead && c.state.aiState !== "RESPAWNING");
+    if (activeRegionSet === null) return alive;
+    return alive.filter(c => isRegionActive(c.state.regionId));
+  }
+  function getAllAliveCreatures() { return creatures.filter(c => !c.state.isDead && c.state.aiState !== "RESPAWNING"); }
 
   function reset() {
     for (const c of creatures) {
@@ -973,7 +1041,11 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       const pos = { x: home.x, y: startY, z: home.z };
       c.setPosition(pos);
       if (c.enableCollision) c.enableCollision();
-      c.group.visible = true;
+      c._regionInactive = false;
+      // Respect activeRegionSet if set — if creature's region inactive, keep hidden/disabled
+      const shouldBeVisible = isRegionActive(c.state.regionId);
+      c.group.visible = shouldBeVisible;
+      if (!shouldBeVisible && c.disableCollision) c.disableCollision();
       c.group.scale.set(1, 1, 1);
       c.showFocusRing(false);
       c._respawnPop = undefined;
@@ -989,7 +1061,10 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       c.state.steerHold = 0;
       c.state.steerAngle = null;
       c.state.timeInsideNotice = 0;
+      c.state._regionInactive = false;
     }
+    // Re-apply activeRegions to ensure correct visibility after reset
+    if (activeRegionSet) setActiveRegions(activeRegionSet);
   }
 
   function dispose() {
@@ -998,16 +1073,20 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
 
   function isAnyAggroedNearby() {
-    return creatures.some(c => !c.state.isDead && c.state.isAggroed && distanceXZ(c.state.pos, playerPosRef) < 7);
+    return creatures.some(c => !c.state.isDead && c.state.isAggroed && isRegionActive(c.state.regionId) && distanceXZ(c.state.pos, playerPosRef) < 7);
   }
+  function isAnyAggroedNearbyActive() { return isAnyAggroedNearby(); }
 
   function setTemperamentDebugVisible(v) {
     for (const c of creatures) c.setTemperamentDebugVisible?.(v);
   }
 
   return {
-    update, getCreatures, getAliveCreatures, damageCreature, setPlayerPos, setPlayerState, setInvulnChecker, setPlayerCollider,
-    getAliveCount, isAnyAggroedNearby, reset, dispose, setTemperamentDebugVisible,
+    update, getCreatures, getAliveCreatures, getAllAliveCreatures, damageCreature, setPlayerPos, setPlayerState, setInvulnChecker, setPlayerCollider,
+    getAliveCount, isAnyAggroedNearby, isAnyAggroedNearbyActive, reset, dispose, setTemperamentDebugVisible,
+    setActiveRegions, getActiveCreatures, getActiveAliveCreatures, getActiveCreatureCount, isRegionActive,
+    getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null,
+    setWorldRegistry: (wr) => { worldRegistryRef = wr; },
     _creatures: creatures,
     _selectTarget: selectPlayerOrWildkinTarget,
     _dealWildkin: dealDamageToWildkin,
