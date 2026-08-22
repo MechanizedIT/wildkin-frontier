@@ -119,10 +119,10 @@ describe("Phase 2.2 — horizontal sweep", () => {
     assert.equal(tool.trailGroup.parent !== tool.toolGroup, true);
     assert.equal(tool.trailGroup.parent !== pivot, true);
     assert.ok(tool.arcMesh.material.opacity !== undefined);
-    // Verify tool originates from right hand (+X) and mount offset is present for large arc
+    // Verify tool originates from anatomical right hand (-X when forward=+Z) and mount offset is present for large arc
     assert.ok(tool.toolMount, "toolMount exists for radial offset");
     assert.ok(SWING_CONFIG.swingRadius >= 0.5, `swingRadius ${SWING_CONFIG.swingRadius} should be >=0.5 for large arc`);
-    assert.ok(tool.handAnchor.position.x > 0.15, "hand anchor should be on right side (+X)");
+    assert.ok(tool.handAnchor.position.x < -0.15, "hand anchor should be on anatomical right side (-X when forward=+Z)");
   });
   it("whoosh fires once before impact and is configured", () => {
     // Swing config whoosh trigger is impact -0.19 normalized (~98ms)

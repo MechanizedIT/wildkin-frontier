@@ -30,6 +30,8 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   function setPlayerPos(pos) { playerPosRef = pos; }
   function setPlayerState(st) { playerStateRef = st; }
   function setInvulnChecker(fn) { isPlayerInvuln = fn; }
+  let playerColliderRef = null;
+  function setPlayerCollider(collider) { playerColliderRef = collider ?? null; }
 
   function getAliveCount() { return creatures.filter(c => !c.state.isDead && c.state.aiState !== "RESPAWNING").length; }
   function getAggroedNearby() {
@@ -65,9 +67,10 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         const rot = { x: 0, y: 0, z: 0, w: 1 };
         const to = { x: from.x + Math.cos(angle) * distance, y: from.y, z: from.z + Math.sin(angle) * distance };
         const vel = { x: to.x - from.x, y: to.y - from.y, z: to.z - from.z };
-        // exclude self collider? Not needed for probing world only; we can exclude all creature colliders to avoid self-blocking
+        // Steering probe must NOT treat self or current actor target as wall; exclude self + target collider from world probe.
+        // Preserve collision-resolved locomotion — this only affects steering direction choice.
         const exclude = new Set(creatures.filter(cc => cc.collider).map(cc => cc.collider));
-        // also exclude player? player collider not world; but treat as not blocking steering (we can move towards player)
+        if (playerColliderRef) exclude.add(playerColliderRef);
         const pred = exclude.size > 0 ? (collider) => {
           for (const ex of exclude) if (ex === collider || ex.handle === collider.handle) return false;
           return true;
@@ -275,24 +278,33 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     if (attackerId) {
       creature.state.lastAttackerId = attackerId;
       creature.state.lastHitTime = elapsed;
-      if (attackerId === "player" || (typeof attackerId === "string" && attackerId.startsWith("player")) || attacker === "player") {
+      const isPlayerAttacker = attackerId === "player" || (typeof attackerId === "string" && attackerId.startsWith("player")) || attacker === "player";
+      if (isPlayerAttacker) {
         creature.state.playerDamaged = true;
         creature.state.lastDamagedByPlayer = true;
-      } else {
-        // wildkin attacker: set retaliation target if defensive
-        if (creature.state.temperament === TEMPERAMENT.DEFENSIVE) {
-          creature.state.retaliationTargetId = attackerId;
-          creature.state.retaliationRemaining = TEMPERAMENT_CONFIG.DEFENSIVE.retaliationDuration ?? 5.0;
-        }
-        // skittish flee more urgently
-        if (creature.state.temperament === TEMPERAMENT.SKITTISH) {
-          creature.state.fleeTime = TEMPERAMENT_CONFIG.SKITTISH.postHitFleeDuration ?? 4.5;
-          creature.state.fleeTargetId = attackerId;
-        }
+      }
+      // Temperament reactions: separate from XP participation — apply for ANY attacker (player or wildkin)
+      if (creature.state.temperament === TEMPERAMENT.DEFENSIVE) {
+        creature.state.retaliationTargetId = attackerId;
+        creature.state.retaliationRemaining = TEMPERAMENT_CONFIG.DEFENSIVE.retaliationDuration ?? 5.0;
+      }
+      if (creature.state.temperament === TEMPERAMENT.SKITTISH) {
+        creature.state.fleeTime = TEMPERAMENT_CONFIG.SKITTISH.postHitFleeDuration ?? 4.5;
+        creature.state.fleeTargetId = attackerId;
       }
     } else if (sourcePos) {
       // legacy player source without attacker object -> assume player
       creature.state.playerDamaged = true;
+      creature.state.lastDamagedByPlayer = true;
+      creature.state.lastAttackerId = "player";
+      if (creature.state.temperament === TEMPERAMENT.DEFENSIVE) {
+        creature.state.retaliationTargetId = "player";
+        creature.state.retaliationRemaining = TEMPERAMENT_CONFIG.DEFENSIVE.retaliationDuration ?? 5.0;
+      }
+      if (creature.state.temperament === TEMPERAMENT.SKITTISH) {
+        creature.state.fleeTime = TEMPERAMENT_CONFIG.SKITTISH.postHitFleeDuration ?? 4.5;
+        creature.state.fleeTargetId = "player";
+      }
     }
 
     creature.state.hurtTime = creature.state.cfg.hurtLock ?? 0.16;
@@ -989,9 +1001,13 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     return creatures.some(c => !c.state.isDead && c.state.isAggroed && distanceXZ(c.state.pos, playerPosRef) < 7);
   }
 
+  function setTemperamentDebugVisible(v) {
+    for (const c of creatures) c.setTemperamentDebugVisible?.(v);
+  }
+
   return {
-    update, getCreatures, getAliveCreatures, damageCreature, setPlayerPos, setPlayerState, setInvulnChecker,
-    getAliveCount, isAnyAggroedNearby, reset, dispose,
+    update, getCreatures, getAliveCreatures, damageCreature, setPlayerPos, setPlayerState, setInvulnChecker, setPlayerCollider,
+    getAliveCount, isAnyAggroedNearby, reset, dispose, setTemperamentDebugVisible,
     _creatures: creatures,
     _selectTarget: selectPlayerOrWildkinTarget,
     _dealWildkin: dealDamageToWildkin,

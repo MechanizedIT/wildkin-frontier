@@ -33,7 +33,7 @@ const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 3 — 0.8.0";
+const VERSION = "Phase 3.1.1 — 0.8.1";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -126,7 +126,7 @@ const combatHud = createCombatHud();
 const xpMoteSystem = createXpMoteSystem(scene, {
   onXpChanged: (xp) => combatHud.updateXp(xp),
   onCollectSound: () => gameAudio.playXpCollect(),
-});
+}, physicsWorld, playground);
 const combatSession = createCombatSession();
 
 // Player combat (health, knockback, i-frames)
@@ -207,6 +207,7 @@ const creatureSystem = createCreatureSystem(scene, physicsWorld, playground, {
   },
 });
 creatureSystem.setInvulnChecker(() => playerCombat.isInvulnerable());
+creatureSystem.setPlayerCollider(characterPhysics.collider);
 projectileSystem.setPlayerCollider(characterPhysics.collider);
 projectileSystem.setWildkinProvider(() => creatureSystem.getCreatures());
 projectileSystem.setWildkinDamageCallback((target, dmg, pos, owner) => {
@@ -306,8 +307,8 @@ function doRestart() {
   }
   // Reset combat session
   combatSession.reset();
-  // Reset fieldTool
-  fieldTool.resetSwing();
+  // Reset fieldTool — shared cadence must be ready after restart
+  if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
   // Hide overlay
   deathOverlay.hide();
   // Auto harvest preference preserved (do not reset)
@@ -387,12 +388,11 @@ function tick() {
         return hits.map(h => alive.find(a => a.state.id === h.id)).filter(Boolean);
       };
 
-      // Unified Field Tool impact: one swing may harvest + damage
+      // Unified Field Tool impact: one swing may harvest + damage — shared physical cadence
       const canAttack = !isDead;
-      const fieldCanAttack = !isDead && (fieldTool.activeProfile !== "combat" || !fieldTool.isSwinging) && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE");
-      // Tap/hold/swipe: synthesize effective attackRequested from tap + held cadence
-      const holdRequested = !!intent.attackHeld && fieldCanAttack && !fieldTool.isSwinging;
-      const effectiveAttackRequested = wasAttackRequested || holdRequested;
+      const fieldCanAttack = !isDead && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE");
+      const effectiveAttackRequested = wasAttackRequested;
+      const effectiveAttackHeld = !!intent.attackHeld && fieldCanAttack;
       // Manual harvest targets (range-only, ignores Auto flag)
       const getManualHarvestTargets = () => {
         const pPos = pStBefore.pos;
@@ -443,6 +443,7 @@ function tick() {
           onCombatImpact: (targets) => handleUnifiedImpact({ resourceHits: [], combatHits: targets }),
           onUnifiedImpact: handleUnifiedImpact,
           attackRequested: effectiveAttackRequested,
+          attackHeld: effectiveAttackHeld,
           canAttack: fieldCanAttack,
           getCombatTargets: getCombatTargetsWrapped,
           autoHarvestEnabled: harvestingAllowed,
@@ -550,7 +551,7 @@ function tick() {
 
   particleSystem.update(dt);
   if (substeps === 0 && !isDead) {
-    const harvestingAllowedPerFrame = autoHarvestEnabled && !combatSession.isEngaged();
+    const harvestingAllowedPerFrame = autoHarvestEnabled;
     pickupSystem.update(Math.min(dt, 1 / 30), pState.pos, (resId) => gameAudio.playPickup(resId), characterPhysics.collider);
     // Focus rings per frame if no fixed steps
     if (!isDead) {

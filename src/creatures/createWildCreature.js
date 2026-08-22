@@ -130,6 +130,57 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   focusRing.name = "focusRing";
   group.add(focusRing);
 
+  // DEBUG-ONLY temperament marker: floating letter A/T/D/S visible on phone for testing, no collision
+  const tempLetterMap = { AGGRESSIVE: "A", TERRITORIAL: "T", DEFENSIVE: "D", SKITTISH: "S" };
+  const letter = tempLetterMap[temperament] ?? "?";
+  // Color per temperament for readability
+  const tempColorMap = { AGGRESSIVE: "#ff3b30", TERRITORIAL: "#ff9f0a", DEFENSIVE: "#30d158", SKITTISH: "#0a84ff" };
+  const bgColor = tempColorMap[temperament] ?? "#ffffff";
+  let temperamentMarker = null;
+  try {
+    const canvas = document.createElement("canvas");
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      ctx.clearRect(0, 0, 128, 128);
+      // background rounded rect
+      ctx.fillStyle = bgColor;
+      ctx.beginPath();
+      ctx.arc(64, 64, 48, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 72px sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(letter, 64, 70);
+      // border
+      ctx.strokeStyle = "rgba(0,0,0,0.35)";
+      ctx.lineWidth = 4;
+      ctx.stroke();
+    }
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.needsUpdate = true;
+    const spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, depthTest: true });
+    const sprite = new THREE.Sprite(spriteMat);
+    sprite.position.set(0, 1.45, 0);
+    sprite.scale.set(0.85, 0.85, 1);
+    sprite.name = "temperamentDebugMarker";
+    // Ensure it doesn't affect raycasts
+    sprite.raycast = () => {};
+    group.add(sprite);
+    temperamentMarker = sprite;
+  } catch (_) {
+    // fallback: simple plane if canvas not available (tests)
+    const geo = new THREE.PlaneGeometry(0.5, 0.5);
+    const mat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, side: THREE.DoubleSide, depthWrite: false });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(0, 1.45, 0);
+    mesh.name = "temperamentDebugMarker";
+    group.add(mesh);
+    temperamentMarker = mesh;
+  }
+
   // Health pips small? Use scaling visual? Keep hidden; handled by flash.
 
   // Physics: kinematic body + capsule
@@ -247,6 +298,10 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     else ringMat.opacity = 0;
   }
 
+  function setTemperamentDebugVisible(v) {
+    if (temperamentMarker) temperamentMarker.visible = !!v;
+  }
+
   function applyKnockback(dir, dist, duration) {
     // Collision-aware knockback via move over several frames? For now immediate displacement with collision check
     const desire = { x: dir.x * dist, y: 0, z: dir.z * dist };
@@ -292,10 +347,11 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
 
   return {
     group, state, get body() { return body; }, get collider() { return collider; }, set collider(v) { collider = v; }, controller, cfg, mainMesh, focusRing,
-    setPosition, getPosition, move, setVisible, updateVisual, showFocusRing, applyKnockback, dispose, disableCollision, enableCollision,
+    setPosition, getPosition, move, setVisible, updateVisual, showFocusRing, setTemperamentDebugVisible, applyKnockback, dispose, disableCollision, enableCollision,
     get pos() { return state.pos; },
     get id() { return state.id; },
     get type() { return type; },
     get isDead() { return state.isDead; },
+    get temperamentMarker() { return temperamentMarker; },
   };
 }

@@ -4,8 +4,8 @@ import { HARVEST_CONFIG, isHarvestCompatibleMode } from "../resources/resourceCo
 import { COMBAT_CONFIG } from "../combat/combatConfig.js";
 
 export const SWING_CONFIG = {
-  yawWindup: 1.25, // front-right (4 o'clock)
-  yawFollow: -1.25, // front-left (8 o'clock)
+  yawWindup: -1.25, // front-right (character right = -X when +Z forward) -> negative yaw gives -X
+  yawFollow: 1.25, // front-left (+X) -> positive yaw
   totalYawSweep: 2.50,
   pitchWindup: -0.28,
   pitchStrike: 0.18,
@@ -17,8 +17,8 @@ export const SWING_CONFIG = {
 export const COMBAT_SWING_CONFIG = {
   duration: COMBAT_CONFIG.attackDuration, // ~0.46
   impact: COMBAT_CONFIG.attackImpactNormalized, // ~0.46
-  yawWindup: 1.28,
-  yawFollow: -1.28,
+  yawWindup: -1.28, // mirrored: right (-X) -> left (+X)
+  yawFollow: 1.28,
   totalYawSweep: 2.56,
   pitchWindup: -0.32,
   pitchStrike: 0.22,
@@ -29,10 +29,11 @@ export const COMBAT_SWING_CONFIG = {
 export function createFieldTool(playerGroup, gameAudio = null) {
   const handAnchor = new THREE.Group();
   handAnchor.name = "rightHandAnchor";
-  handAnchor.position.set(0.26, 0.38, 0.08);
+  // Anatomical right = -X when forward is +Z (player faces +Z). Mirrored from prior +X assumption.
+  handAnchor.position.set(-0.26, 0.38, 0.08);
   playerGroup.add(handAnchor);
 
-  const shoulderWorld = new THREE.Vector3(0.18, 0.58, 0.02);
+  const shoulderWorld = new THREE.Vector3(-0.18, 0.58, 0.02);
   const shoulderLocal = shoulderWorld.clone().sub(handAnchor.position);
   const handLocal = new THREE.Vector3(0, 0, 0);
   const armVec = new THREE.Vector3().subVectors(handLocal, shoulderLocal);
@@ -132,6 +133,8 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   let whooshFired = false;
   let cooldown = 0; // harvest cooldown (0) and combat cooldown shared? We'll use separate but unified
   let combatCooldown = 0;
+  let sharedCooldown = 0; // single physical tool cadence authority — after ANY impact, shared recovery gates next swing
+  let pendingTap = false; // at most one buffered tap
   let idlePulse = 0;
 
   function resetSwing() {
@@ -144,6 +147,13 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     afterimages.forEach(m => { m.visible = false; m.material.opacity = 0; });
     arcMat.opacity = 0;
     history.length = 0;
+  }
+  function hardReset() {
+    resetSwing();
+    cooldown = 0;
+    combatCooldown = 0;
+    sharedCooldown = 0;
+    pendingTap = false;
   }
 
   function startSwing(profile) {
@@ -249,16 +259,25 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     const autoHarvestEnabled = opts.autoHarvestEnabled !== undefined ? opts.autoHarvestEnabled : (autoHarvestEnabledArg !== undefined ? autoHarvestEnabledArg : true);
     const combatEngaged = opts.combatEngaged ?? false;
     const attackRequested = opts.attackRequested ?? false;
+    const attackHeld = opts.attackHeld ?? opts.holdRequested ?? false;
     const canAttack = opts.canAttack !== undefined ? opts.canAttack : true;
     const onCombatImpact = opts.onCombatImpact ?? null;
     const getCombatTargets = opts.getCombatTargets ?? null;
     const isDodging = opts.isDodging ?? (playerState.mode === "DODGE");
 
-    // Cooldowns tick
+    // Cooldowns tick — single shared physical cadence authority
     if (cooldown > 0) cooldown -= dt;
     if (combatCooldown > 0) combatCooldown -= dt;
+    if (sharedCooldown > 0) sharedCooldown -= dt;
     if (combatCooldown < 0) combatCooldown = 0;
     if (cooldown < 0) cooldown = 0;
+    if (sharedCooldown < 0) sharedCooldown = 0;
+    // Release clears held repetition: if hold released, do not keep queued hold.
+    // Tap buffering is limited to one; held does not queue.
+    const blockedModes = new Set(["CLIMB", "MANTLE"]);
+    const combatModeOk = !blockedModes.has(playerState.mode) && !blockedModes.has(playerState.traversalMode);
+    // Shared readiness: tool must not be swinging and shared cadence must be satisfied
+    const isReadyForSwing = !isSwinging && sharedCooldown <= 0 && combatCooldown <= 0 && combatModeOk;
 
     // Dodge / death priority: if dodging and swinging combat before impact, cancel
     if (isSwinging && activeProfile === "combat" && isDodging) {
@@ -277,15 +296,54 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     // Phase 3.1: Auto Harvest no longer suppressed by combatEngaged; it only controls auto-initiation for resources
     const harvestAllowed = harvestModeOk && speedOk && autoHarvestEnabled;
 
-    // If not swinging: decide to start combat or harvest (combat priority)
-    if (!isSwinging) {
-      // Combat priority: if attack requested and canAttack and not in blocked mode
-      const blockedModes = new Set(["CLIMB", "MANTLE"]);
-      const combatModeOk = !blockedModes.has(playerState.mode) && !blockedModes.has(playerState.traversalMode);
-      if (attackRequested && canAttack && combatCooldown <= 0 && combatModeOk) {
+    // ---- Shared cadence input handling ----
+    // Tap buffering: one pending tap max. Held does not queue.
+    const harvestImpactT = HARVEST_CONFIG.impactNormalizedTime;
+    const canTakeoverPreImpact = isSwinging && activeProfile === "harvest" && swingProgress < harvestImpactT && canAttack && combatModeOk && sharedCooldown <= 0 && combatCooldown <= 0;
+    if (attackRequested && !pendingTap) {
+      if (canTakeoverPreImpact) {
+        // will be handled as takeover below, not buffered
+      } else if (!isReadyForSwing) {
+        // Buffer one tap while tool is busy or in shared recovery
+        pendingTap = true;
+      }
+    }
+    // Hold release must not queue: if attackHeld is false, we do not create pending from hold. PendingTap only from taps.
+    // Takeover: BEFORE IMPACT manual may cancel pre-impact harvest swing
+    if (isSwinging && activeProfile === "harvest" && (attackRequested || attackHeld) && canAttack && combatModeOk && sharedCooldown <= 0 && combatCooldown <= 0) {
+      if (swingProgress < harvestImpactT) {
+        resetSwing();
         startSwing("combat");
-        // progress will tick next
+        pendingTap = false;
+      }
+    }
+
+    // If not swinging: decide to start combat (pending/hold/tap) or harvest (shared cadence gates all)
+    if (!isSwinging) {
+      const combatReady = canAttack && combatModeOk && sharedCooldown <= 0 && combatCooldown <= 0;
+      let started = false;
+      // Combat priority: pending tap, then immediate tap/hold
+      if (pendingTap && combatReady) {
+        startSwing("combat");
+        pendingTap = false;
+        started = true;
+      } else if ((attackRequested || attackHeld) && combatReady) {
+        startSwing("combat");
+        pendingTap = false;
+        started = true;
       } else if (harvestAllowed && getHarvestTargets) {
+        // Harvest must also respect shared cadence — one physical tool
+        if (sharedCooldown > 0 || combatCooldown > 0) {
+          // Not ready for any swing — idle, keep pendingTap for later combat
+          idlePulse += dt * 1.2;
+          swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, -0.14 + Math.sin(idlePulse) * 0.03, dt * 6);
+          swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, -0.62 + Math.cos(idlePulse * 0.7) * 0.02, dt * 6);
+          swingPivot.rotation.z = THREE.MathUtils.lerp(swingPivot.rotation.z, 0.04 + Math.cos(idlePulse * 0.7) * 0.015, dt * 6);
+          glow.material.opacity = Math.max(0, glow.material.opacity - dt * 1.5);
+          arcMat.opacity = Math.max(0, arcMat.opacity - dt * 2);
+          // Do not clear pendingTap — will fire when shared cooldown expires if still appropriate
+          return;
+        }
         // Harvest eligibility: need targets
         let targets = [];
         try {
@@ -297,37 +355,30 @@ export function createFieldTool(playerGroup, gameAudio = null) {
         }
         const hasTargets = targets.length > 0;
         if (hasTargets) {
-          if (cooldown <= 0) {
+          if (cooldown <= 0 && sharedCooldown <= 0) {
             startSwing("harvest");
+            started = true;
           } else {
             idlePulse += dt * 4;
             swingPivot.rotation.z = Math.sin(idlePulse) * 0.03;
-            // Not swinging yet, keep idle pose
           }
-          // Don't return yet; if we just started swing, fall through to progress
-          if (!isSwinging) {
-            // Still not swinging due to cooldown: update idle pose and return
-            // Idle on right side
-            // will handle below
+          if (!isSwinging && !started) {
+            // Still not swinging due to cooldown
           }
         }
         if (!hasTargets) {
           cooldown = 0;
           idlePulse += dt * 1.2;
           swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, -0.14 + Math.sin(idlePulse) * 0.03, dt * 6);
-          swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, 0.62 + Math.cos(idlePulse * 0.7) * 0.02, dt * 6);
+          swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, -0.62 + Math.cos(idlePulse * 0.7) * 0.02, dt * 6);
           swingPivot.rotation.z = THREE.MathUtils.lerp(swingPivot.rotation.z, 0.04 + Math.cos(idlePulse * 0.7) * 0.015, dt * 6);
           glow.material.opacity = Math.max(0, glow.material.opacity - dt * 1.5);
           arcMat.opacity = Math.max(0, arcMat.opacity - dt * 2);
-          if (activeProfile !== "combat" && attackRequested) {
-            // If we didn't start combat due to cooldown but attack requested, keep idle combat-ready pose? No
-          }
           if (isSwinging) {
             // harvested started
           } else return;
         }
         if (!isSwinging && harvestAllowed && getHarvestTargets) {
-          // If we started harvest swing, need to progress
           if (activeProfile === "harvest") {
             // fall through
           } else {
@@ -335,29 +386,23 @@ export function createFieldTool(playerGroup, gameAudio = null) {
           }
         }
       }
-      if (!isSwinging) {
-        // Idle pose if no swing started
-        if (attackRequested && combatCooldown > 0) {
-          // combat on cooldown: slight pause
+      if (!isSwinging && !started) {
+        // Idle pose if no swing started — keep pendingTap buffered, but held not buffered
+        // If attackHeld still true, it will attempt again next frame when ready (no extra queue)
+        if ((attackRequested || pendingTap) && !combatReady) {
+          // combat on shared cooldown: slight pause, do not clear pendingTap
           idlePulse += dt * 3;
-          swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, 0.62, dt * 4);
+          swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, -0.62, dt * 4);
         } else {
           idlePulse += dt * 1.2;
           swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, -0.14 + Math.sin(idlePulse) * 0.03, dt * 6);
-          swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, 0.62 + Math.cos(idlePulse * 0.7) * 0.02, dt * 6);
+          swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, -0.62 + Math.cos(idlePulse * 0.7) * 0.02, dt * 6);
           swingPivot.rotation.z = THREE.MathUtils.lerp(swingPivot.rotation.z, 0.04 + Math.cos(idlePulse * 0.7) * 0.015, dt * 6);
         }
         glow.material.opacity = Math.max(0, glow.material.opacity - dt * 1.5);
         arcMat.opacity = Math.max(0, arcMat.opacity - dt * 2);
         return;
       }
-    }
-
-    // If swinging, but active profile is harvest and combat now requested with priority -> cancel harvest and start combat (if before impact)
-    if (isSwinging && activeProfile === "harvest" && attackRequested && canAttack && combatCooldown <= 0) {
-      // Combat takes priority over active harvest action (spec)
-      resetSwing();
-      startSwing("combat");
     }
 
     // Progress current swing
@@ -370,7 +415,7 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     if (swingProgress < 0) swingProgress = 0;
     if (swingProgress > 1) swingProgress = 1;
 
-    const idleYaw = 0.62;
+    const idleYaw = -0.62; // anatomical right = -X, idle on right side
     let pitch, yaw, roll;
     if (isCombat) {
       // Combat: slightly more aggressive, faster windup portion 0.18, strike 0.40, recover 0.42 similar but tuned
@@ -493,24 +538,35 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     if (swingProgress >= 1) {
       const finishedProfile = activeProfile;
       resetSwing();
+      // ONE physical tool — any finished swing imposes shared recovery before next impact can occur
+      sharedCooldown = COMBAT_CONFIG.attackCooldown;
       if (finishedProfile === "combat") combatCooldown = COMBAT_CONFIG.attackCooldown;
       else cooldown = 0;
+      combatCooldown = Math.max(combatCooldown, sharedCooldown);
     }
   }
 
   function requestHarvestSwing() {
     if (isSwinging) return false;
-    if (combatCooldown > 0) return false;
+    if (combatCooldown > 0 || sharedCooldown > 0) return false;
     startSwing("harvest");
     return true;
   }
   function requestCombatSwing() {
     if (isSwinging && activeProfile === "combat") return false;
-    if (combatCooldown > 0) return false;
-    // Cancel harvest if needed
-    if (isSwinging && activeProfile === "harvest") resetSwing();
+    if (combatCooldown > 0 || sharedCooldown > 0) return false;
+    // Cancel harvest if needed — only pre-impact takeover allowed, check progress elsewhere; direct request follows same rule
+    if (isSwinging && activeProfile === "harvest") {
+      if (swingProgress < HARVEST_CONFIG.impactNormalizedTime) resetSwing();
+      else return false;
+    }
     startSwing("combat");
     return true;
+  }
+  function isReadyForSwing() {
+    const blockedModes = new Set(["CLIMB", "MANTLE"]);
+    // caller may pass playerState, but for pure readiness check: not swinging and shared cooldown clear
+    return !isSwinging && sharedCooldown <= 0 && combatCooldown <= 0;
   }
 
   function isBusy() { return isSwinging; }
@@ -524,9 +580,9 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   }
 
   // Dev-only diagnostic for handedness: samples tool head in player-local space
+  // Correct basis: player forward = +Z, anatomical right = -X (not +X)
   function diagnoseHandedness() {
-    // Returns player-local coordinates for grip and head at start/middle/end if swinging, else current
-    const gripLocal = handAnchor.position.clone(); // should be +X
+    const gripLocal = handAnchor.position.clone(); // anatomical right should be -X
     const headWorld = new THREE.Vector3();
     head.getWorldPosition(headWorld);
     const playerWorld = new THREE.Vector3();
@@ -535,28 +591,33 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     playerGroup.getWorldQuaternion(playerQuat);
     const invQuat = playerQuat.clone().invert();
     const localHead = headWorld.clone().sub(playerWorld).applyQuaternion(invQuat);
-    // Sample start/middle/end by simulating swing progress if not swinging: use current pose as approx
     const result = {
       grip: { x: gripLocal.x, y: gripLocal.y, z: gripLocal.z },
       headCurrent: { x: localHead.x, y: localHead.y, z: localHead.z },
+      // When facing away (+Z forward), viewer and character share left/right: right appears viewer's right? Actually facing away viewer matches character: -X appears viewer's right? Need check but logical basis is -X = anatomical right
+      basis: "forward=+Z, anatomicalRight=-X, anatomicalLeft=+X",
       expected: {
-        start: "local X >0 and Z>0",
-        middle: "crosses front Z>0",
-        end: "local X <0 and Z>0",
-        grip: "+X = right",
+        start: "character RIGHT-FRONT: local X<0, Z>0",
+        middle: "crosses front Z>0 near X~0",
+        end: "character LEFT-FRONT: local X>0, Z>0",
+        grip: "grip X < 0 (anatomical right)",
+        idle: "idle X<0, Z>0 front-right",
       },
       check: {
-        gripIsRight: gripLocal.x > 0,
+        gripIsAnatomicalRight: gripLocal.x < 0,
         headInFront: localHead.z > 0,
+        idleOnRight: localHead.x < 0 && localHead.z > 0,
       },
+      // Human visual acceptance overrides numeric: face player AWAY from camera to verify.
+      visualTest: "Face player AWAY from camera (forward +Z away). Tool must be visibly in character's RIGHT hand (-X side) and swing right-front (-X,Z>0) -> across front -> left-front (+X,Z>0). Facing camera should mirror.",
     };
-    // If swinging, we could compute idealized positions, but current is sufficient for manual check
     return result;
   }
 
   return {
     handAnchor, swingPivot, pivot: swingPivot, toolMount, toolGroup, head, glow, trailGroup, arcMesh, afterimages,
-    update, resetSwing, requestHarvestSwing, requestCombatSwing, isBusy, getActiveProfile, getSwingProgress,
+    update, resetSwing, hardReset, requestHarvestSwing, requestCombatSwing, isBusy, getActiveProfile, getSwingProgress, isReadyForSwing,
+    get pendingTap() { return pendingTap; }, get sharedCooldown() { return sharedCooldown; }, get combatCooldownState() { return combatCooldown; },
     diagnoseHandedness,
     get isSwinging() { return isSwinging; },
     get activeProfile() { return activeProfile; },
