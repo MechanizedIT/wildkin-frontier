@@ -13,8 +13,10 @@
     "validate": "node tools/validate-submission.mjs",
     "validate:submission": "node tools/validate-submission.mjs",
     "test": "node --test tests/**/*.test.js",
-    "verify": "node --test tests/**/*.test.js && node tools/build-submission.mjs && node tools/validate-submission.mjs",
-    "zip": "node tools/zip-submission.mjs"
+    "verify": "node --test tests/**/*.test.js && node tools/check-world.mjs && node tools/build-submission.mjs && node tools/validate-submission.mjs",
+    "zip": "node tools/zip-submission.mjs",
+    "world:generate": "node tools/generate-world.mjs",
+    "world:check": "node tools/check-world.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.20.0",

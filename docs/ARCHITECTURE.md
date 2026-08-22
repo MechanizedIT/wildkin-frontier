@@ -308,35 +308,72 @@ Update: regionManager.update(playerPos) computes currentRegion/pocket, activeSet
 - Neighbor buffer ensures camera never looks into missing ground/collision.
 - Tests prove distant systems not ticking.
 
-# Planned Phase 3.5B — Minimal Author Mode
+# Implemented Phase 3.5B — Minimal Author Mode & Area 1 Skeleton
 
-After 3.5A is accepted, add only enough authoring tooling to shape Area 1 quickly.
+Phase 3.5B is implemented — single source + data-driven static world + minimal desktop Author Mode + rough Camp + 4-pocket Area 1.
 
-Required operations:
+## 1. Single Authoritative Source Pipeline
 
-- place/select,
-- move,
-- rotate,
-- elevate,
-- resize supported objects,
-- duplicate/delete,
-- edit key object properties,
-- assign region/pocket,
-- edit anchor/POI type + relevant properties,
-- switch Edit ↔ Play quickly,
-- export deterministic world data.
+```text
+src/world/data/world.json (human/editor export, version 3.5B)
+  → tools/generate-world.mjs (deterministic, sorted, validate via normalizeWorldData)
+  → src/world/data/world.generated.js (GENERATED FILE, do not edit)
+  → src/world/data/world.js (thin re-export wrapper for backwards compat)
+  → createWorldRegistry(normalize) → staticWorldBuilder → runtime
+```
 
-Do not build:
+- Exactly one manually maintained source: `world.json`.
+- Generated file is allowed; second manual mirror is not.
+- Guard: `tools/check-world.mjs` compares sorted JSON vs generated; `npm test` includes single-source byte-stable guard; `npm run verify` runs `world:check` before build.
+- `worldValidator.js` now validates props (id unique, subtype, pos inside bounds) in addition to resources/creatures/anchors/POIs.
 
-- generic asset browser ecosystem,
-- scripting system,
-- undo history framework unless trivial,
-- production editor architecture,
-- procedural world generator.
+## 2. Data-Driven Static World Builder
 
-The only question 3.5B must answer is:
+- `src/world/staticWorldBuilder.js: createStaticWorld(normalizedData)` builds `group`, `obstacles`, `platforms`, `platformSideColliders`, `jumpTraversals`, `climbables`, `bounds` from normalized data.
+- `src/world/createMovementPlayground.js` is a thin wrapper: if `worldData` provided → `createStaticWorld`; legacy hard-coded fallback remains only for `elevation.test.js`/`traversal.test.js` (test-only, never used in production).
+- Covers: ground per-region overlay, props (fence/gate/dropPod/resonator/forestBoundary/box/water/island), platforms/obstacles/climbables/jumps from `traversal`, placeholders for `majorWaypoint` (blue cylinder), `extractionBeacon` (orange box), `pois` (chest/barrier with lock indicator), camp fence/gate/forest boundary.
+- Moving a platform in Author Mode moves both visual mesh and Rapier collision source because physics colliders are rebuilt from the same `playground.obstacles/platforms` that `createPhysicsWorld` consumes.
+- `src/game/createScene.js` now accepts `worldData` and passes it to the builder; `src/main.js` creates registry first, then scene from `registry.data`.
 
-> Can a human rapidly shape and replay the first directed expedition without asking an agent to change coordinates?
+## 3. Minimal Author Mode Modules
+
+```text
+src/author/authorDraft.js — mutable clone, validation, localStorage, transform/duplicate/delete, deterministic export (sorted, transient stripped)
+src/author/authorUI.js — plain compact panel (EDIT/PLAY, palette, selected, region/pocket, transform/size, creature/anchor/POI fields, duplicate/delete, validate/export/reset)
+src/author/authorMode.js — desktop-only ?author=1 enable, raycast selection, highlight, region overlays, top-down pan/zoom, Edit pauses gameplay, Play validates+persist+reload
+```
+
+- Enable: `?author=1` desktop only, hidden/inert otherwise; normal gameplay never depends on editor DOM.
+- One rAF remains authoritative; Edit mode suppresses Field Tool/combat/harvest/AI/movement via `authorSuppress` flag in `main.js` fixed loop; Play restores.
+- Edit may pause: camera switches to near-top-down (y=28 looking down), region bounds/overlays shown, selection highlight ring, nudge via buttons/arrow keys/PageUp/Down, numeric inputs, rotate/resize.
+- Palette: box, fence, gate, forestBoundary, platform, obstacle, climbable, tree/rock/fiber, rusher/spitter, majorWaypoint, extractionBeacon, POI chest, dropPod, resonator.
+- Draft: mutable clone, `localStorage` (`wildkin.authorDraft`), normal play ignores draft unless `?author=1`, validation via `normalizeWorldData`, `Reset Draft From Repo` clears and reloads, duplicate generates unique id, delete removes only target.
+- Edit → Play: `Apply / Play` validates, persists, `window.location.reload()` preserves draft (fast local reload acceptable per spec) — no duplicate Rapier colliders/resources/creatures remain.
+- Export: stable sorted JSON (`sortedClone`), schema version, transient `_` fields removed, byte-stable, download `world.json` + clipboard copy workflow documented: replace `src/world/data/world.json` → `npm run world:generate` → `npm test / verify`.
+
+## 4. Rough Camp + Area 1 Skeleton (spatial proof, not final design)
+
+```text
+camp (7.0–11.5) → p1_forest_edge (3.5–7.0) → p2_complication (0–3.5) → p3_temptation (-4.5–0) → p4_threshold (-11.5– -4.5) → next Waypoint
+```
+
+- Camp: clearing, dropPod (0,9.8), resonator (2.2,9.2), perimeter fence segments leaving gate at (0,7.2), forestBoundary tall walls distinct from harvestable trees.
+- Area 1: first waypoint `wp_p1_entry` near p1 start, beacons `beacon_p2_01` / `beacon_p3_01`, next waypoint `wp_p4_threshold` at high platform top (2.2,2.4,-7.2), pond/water+island+chest POI `poi_p2_pond_chest` with `requires: {companionAbility: swim}` (locked, no gameplay yet), distributed resources/creatures per pocket, platforms `lowA/lowB` in p3 and `high`+ladder in p4 with jumps.
+- Wide pockets with short readable routes, fully backtrackable, no missing ground/collision, region activation still AABB current+neighbors with neighbor buffer.
+
+## 5. Phase 3.5B Guarantees Preserved
+
+- One rAF, fixed 1/60, Rapier only, `main.js` thin, editor modules separate from world modules, gameplay never depends on editor DOM, regionManager remains activation owner, no parallel physics world, no new runtime deps, no network, inactive AI frozen, pools bounded, no normal-play per-frame DOM, offline/portrait/<35MB intact.
+
+## 6. Tests Added
+
+- `tests/phase35b.test.js` covers single source determinism + stale guard + static builder derivation, author model (transform/duplicate/delete/validation/byte-stable/transient), runtime application (platform move, ladder/jump metadata, single instantiation, no duplicate on repeated Edit↔Play), isolation (normal ignores draft, one rAF), Area 1 skeleton (camp+4 pockets, neighbor graph, waypoints, beacons, swim POI, bounds).
+- `tests/phase35a.test.js` made world-agnostic (version prefix, dynamic region discovery) to preserve regressions across new 5-region layout; legacy hard-coded fallback kept test-only for `elevation.test.js`.
+- `npm run verify` now runs `world:check` before build.
+
+The only question 3.5B answers remains:
+
+> Can a human rapidly shape and replay the first directed expedition without asking an agent to change coordinates? (Yes — Edit → Play → Edit with deterministic export.)
 
 # Camp / Map / Anchor Architecture Direction (Phase 4, Not 3.5A)
 

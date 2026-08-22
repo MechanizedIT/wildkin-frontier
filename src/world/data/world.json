@@ -1,99 +1,205 @@
 {
-  "version": "3.5A",
+  "version": "3.5B",
   "camp": {
     "id": "camp",
     "pos": { "x": 0, "y": 0, "z": 9.5 },
-    "radius": 2.5,
-    "description": "Placeholder Camp — drop pod, Matter Resonator, frontier gate (no gameplay yet)"
+    "radius": 2.8,
+    "description": "Camp clearing — drop pod, Matter Resonator, frontier gate (no gameplay yet)"
   },
   "regions": [
     {
-      "id": "south_basin",
-      "displayName": "South Basin",
-      "bounds": { "minX": -12.5, "maxX": 12.5, "minZ": 2.5, "maxZ": 11.5 },
-      "neighbors": ["central_basin"],
+      "id": "camp",
+      "displayName": "Camp",
+      "bounds": { "minX": -12.5, "maxX": 12.5, "minZ": 7.0, "maxZ": 11.5 },
+      "neighbors": ["p1_forest_edge"],
       "pockets": [],
       "ground": { "type": "plain", "color": 8363882 },
-      "props": [],
+      "props": [
+        { "id": "prop_camp_dropPod", "subtype": "dropPod", "pos": { "x": 0, "y": 0, "z": 9.8 }, "size": { "w": 1.4, "h": 1.6, "d": 1.4 }, "rotY": 0 },
+        { "id": "prop_camp_resonator", "subtype": "resonator", "pos": { "x": 2.2, "y": 0, "z": 9.2 }, "size": { "w": 0.9, "h": 1.0, "d": 0.9 }, "rotY": 0.6 },
+        { "id": "fence_camp_south", "subtype": "fence", "pos": { "x": 0, "y": 0, "z": 11.3 }, "size": { "w": 18, "h": 1.2, "d": 0.4 }, "rotY": 0 },
+        { "id": "fence_camp_west", "subtype": "fence", "pos": { "x": -9.2, "y": 0, "z": 9.2 }, "size": { "w": 0.4, "h": 1.2, "d": 4.8 }, "rotY": 0 },
+        { "id": "fence_camp_east", "subtype": "fence", "pos": { "x": 9.2, "y": 0, "z": 9.2 }, "size": { "w": 0.4, "h": 1.2, "d": 4.8 }, "rotY": 0 },
+        { "id": "fence_camp_north_west", "subtype": "fence", "pos": { "x": -4.0, "y": 0, "z": 7.2 }, "size": { "w": 6, "h": 1.2, "d": 0.4 }, "rotY": 0 },
+        { "id": "fence_camp_north_east", "subtype": "fence", "pos": { "x": 4.0, "y": 0, "z": 7.2 }, "size": { "w": 6, "h": 1.2, "d": 0.4 }, "rotY": 0 },
+        { "id": "gate_camp_frontier", "subtype": "gate", "pos": { "x": 0, "y": 0, "z": 7.2 }, "size": { "w": 2.0, "h": 1.4, "d": 0.5 }, "rotY": 0 },
+        { "id": "forest_camp_west", "subtype": "forestBoundary", "pos": { "x": -11.2, "y": 0, "z": 9.5 }, "size": { "w": 1.8, "h": 3.5, "d": 8 }, "rotY": 0 },
+        { "id": "forest_camp_east", "subtype": "forestBoundary", "pos": { "x": 11.2, "y": 0, "z": 9.5 }, "size": { "w": 1.8, "h": 3.5, "d": 8 }, "rotY": 0 },
+        { "id": "forest_camp_north", "subtype": "forestBoundary", "pos": { "x": 0, "y": 0, "z": 11.3 }, "size": { "w": 20, "h": 3.2, "d": 0.8 }, "rotY": 0 }
+      ],
       "resources": [
-        { "id": "tree_south_01", "type": "tree", "pos": { "x": 1.2, "y": 0, "z": 4.2 } },
-        { "id": "tree_south_02", "type": "tree", "pos": { "x": -9.0, "y": 0, "z": 6.5 } },
-        { "id": "tree_south_03", "type": "tree", "pos": { "x": 8.8, "y": 0, "z": 3.2 } },
-        { "id": "rock_south_01", "type": "rock", "pos": { "x": 3.2, "y": 0, "z": 2.6 } },
-        { "id": "rock_south_02", "type": "rock", "pos": { "x": 4.6, "y": 0, "z": 3.4 } },
-        { "id": "fiber_south_01", "type": "fiber", "pos": { "x": 0.2, "y": 0, "z": 4.6 } },
-        { "id": "fiber_south_02", "type": "fiber", "pos": { "x": -2.2, "y": 0, "z": 6.0 } }
+        { "id": "tree_camp_01", "type": "tree", "pos": { "x": -2.5, "y": 0, "z": 8.8 } },
+        { "id": "fiber_camp_01", "type": "fiber", "pos": { "x": 1.5, "y": 0, "z": 8.6 } }
       ],
-      "creatures": [
-        { "id": "rusher_near", "type": "rusher", "temperament": "SKITTISH", "speciesTag": "fang", "pos": { "x": -1.2, "y": 0, "z": 6.8 }, "homePos": { "x": -1.2, "y": 0, "z": 6.8 }, "roamRadius": 3.0, "noticeRadius": 5.0, "personalSpace": 1.8, "leashRadius": 6.5 },
-        { "id": "rusher_mid_1", "type": "rusher", "temperament": "TERRITORIAL", "speciesTag": "fang", "pos": { "x": -6.0, "y": 0, "z": 3.8 }, "homePos": { "x": -6.0, "y": 0, "z": 3.8 }, "roamRadius": 2.5, "noticeRadius": 6.0, "personalSpace": 2.6, "leashRadius": 7.0 },
-        { "id": "rusher_mid_2", "type": "rusher", "temperament": "DEFENSIVE", "speciesTag": "fang", "pos": { "x": 7.0, "y": 0, "z": 4.5 }, "homePos": { "x": 7.0, "y": 0, "z": 4.5 }, "roamRadius": 2.8, "noticeRadius": 5.5, "personalSpace": 2.0, "leashRadius": 7.5 }
-      ],
+      "creatures": [],
       "traversal": { "platforms": [], "obstacles": [], "jumpTraversals": [], "climbables": [] },
-      "majorWaypoints": [{ "id": "wp_south_gate", "type": "majorWaypoint", "pos": { "x": 0, "y": 0, "z": 8.2 } }],
-      "extractionBeacons": [{ "id": "beacon_south_01", "type": "extractionBeacon", "pos": { "x": -2.0, "y": 0, "z": 5.0 } }],
-      "pois": [{ "id": "poi_south_chest", "type": "chest", "pos": { "x": 4.0, "y": 0, "z": 7.0 }, "requires": null }]
+      "majorWaypoints": [
+        { "id": "wp_camp_gate", "type": "majorWaypoint", "pos": { "x": 0, "y": 0, "z": 7.4 } }
+      ],
+      "extractionBeacons": [],
+      "pois": [
+        { "id": "poi_camp_resonator", "type": "resonator", "pos": { "x": 2.2, "y": 0, "z": 9.2 }, "requires": null }
+      ]
     },
     {
-      "id": "central_basin",
-      "displayName": "Central Basin",
-      "bounds": { "minX": -12.5, "maxX": 12.5, "minZ": -4.0, "maxZ": 2.5 },
-      "neighbors": ["south_basin", "north_highlands"],
+      "id": "p1_forest_edge",
+      "displayName": "Forest Edge",
+      "bounds": { "minX": -12.5, "maxX": 12.5, "minZ": 3.5, "maxZ": 7.0 },
+      "neighbors": ["camp", "p2_complication"],
       "pockets": [],
       "ground": { "type": "plain", "color": 8363882 },
-      "props": [],
+      "props": [
+        { "id": "prop_p1_forest_west", "subtype": "forestBoundary", "pos": { "x": -11.0, "y": 0, "z": 5.2 }, "size": { "w": 2.0, "h": 2.8, "d": 3.2 }, "rotY": 0 },
+        { "id": "prop_p1_forest_east", "subtype": "forestBoundary", "pos": { "x": 11.0, "y": 0, "z": 5.2 }, "size": { "w": 2.0, "h": 2.8, "d": 3.2 }, "rotY": 0 },
+        { "id": "prop_p1_box_01", "subtype": "box", "pos": { "x": -5.0, "y": 0, "z": 4.6 }, "size": { "w": 1.2, "h": 0.9, "d": 1.2 }, "rotY": 0.5 }
+      ],
       "resources": [
-        { "id": "tree_central_01", "type": "tree", "pos": { "x": -8.6, "y": 0, "z": 1.8 } },
-        { "id": "tree_central_02", "type": "tree", "pos": { "x": 6.2, "y": 0, "z": -1.8 } },
-        { "id": "rock_central_01", "type": "rock", "pos": { "x": 7.2, "y": 0, "z": 0.8 } },
-        { "id": "fiber_central_01", "type": "fiber", "pos": { "x": -7.2, "y": 0, "z": -1.2 } },
-        { "id": "fiber_central_02", "type": "fiber", "pos": { "x": 1.0, "y": 0, "z": -3.8 } },
-        { "id": "fiber_central_03", "type": "fiber", "pos": { "x": 8.4, "y": 0, "z": -2.4 } }
+        { "id": "tree_p1_01", "type": "tree", "pos": { "x": 1.2, "y": 0, "z": 5.8 } },
+        { "id": "tree_p1_02", "type": "tree", "pos": { "x": -8.8, "y": 0, "z": 6.2 } },
+        { "id": "rock_p1_01", "type": "rock", "pos": { "x": 3.2, "y": 0, "z": 4.2 } },
+        { "id": "fiber_p1_01", "type": "fiber", "pos": { "x": -2.2, "y": 0, "z": 5.0 } }
       ],
       "creatures": [
-        { "id": "spitter_outer_1", "type": "spitter", "temperament": "AGGRESSIVE", "speciesTag": "spit", "pos": { "x": 1.0, "y": 0, "z": 2.0 }, "homePos": { "x": 1.0, "y": 0, "z": 2.0 }, "roamRadius": 2.2, "noticeRadius": 6.5, "personalSpace": 2.2, "leashRadius": 8.0, "hostileSpecies": ["flutter"] },
-        { "id": "rusher_hunter", "type": "rusher", "temperament": "AGGRESSIVE", "speciesTag": "fang", "pos": { "x": -9.2, "y": 0, "z": -3.8 }, "homePos": { "x": -9.2, "y": 0, "z": -3.8 }, "roamRadius": 3.2, "noticeRadius": 7.0, "personalSpace": 2.0, "leashRadius": 9.0, "hostileSpecies": ["flutter"] }
+        { "id": "rusher_p1_skittish", "type": "rusher", "temperament": "SKITTISH", "speciesTag": "fang", "pos": { "x": -1.2, "y": 0, "z": 5.8 }, "homePos": { "x": -1.2, "y": 0, "z": 5.8 }, "roamRadius": 2.8, "noticeRadius": 4.8, "personalSpace": 1.8, "leashRadius": 6.0 }
       ],
       "traversal": {
-        "platforms": [{ "id": "lowA", "x": -5.8, "z": -1.2, "w": 4.2, "h": 3.6, "height": 1.25 }, { "id": "lowB", "x": 0.8, "z": -1.2, "w": 4.0, "h": 3.4, "height": 1.25 }],
-        "obstacles": [{ "id": "obs_center_east", "x": 4.2, "z": 0.6, "w": 1.8, "h": 1.8, "height": 1.0 }, { "id": "obs_center_wall", "x": -3.5, "z": 2.2, "w": 2.4, "h": 0.6, "height": 1.1 }],
+        "platforms": [],
+        "obstacles": [
+          { "id": "obs_p1_rock", "x": -5.0, "z": 4.6, "w": 1.2, "h": 1.2, "height": 0.9 }
+        ],
+        "jumpTraversals": [],
+        "climbables": []
+      },
+      "majorWaypoints": [
+        { "id": "wp_p1_entry", "type": "majorWaypoint", "pos": { "x": 0, "y": 0, "z": 6.6 } }
+      ],
+      "extractionBeacons": [],
+      "pois": [
+        { "id": "poi_p1_chest", "type": "chest", "pos": { "x": 6.0, "y": 0, "z": 4.8 }, "requires": null }
+      ]
+    },
+    {
+      "id": "p2_complication",
+      "displayName": "Tangled Hollow",
+      "bounds": { "minX": -12.5, "maxX": 12.5, "minZ": 0.0, "maxZ": 3.5 },
+      "neighbors": ["p1_forest_edge", "p3_temptation"],
+      "pockets": [],
+      "ground": { "type": "plain", "color": 8363882 },
+      "props": [
+        { "id": "prop_p2_pond_water", "subtype": "water", "pos": { "x": 5.5, "y": -0.08, "z": 1.8 }, "size": { "w": 4.2, "h": 0.2, "d": 3.6 }, "rotY": 0 },
+        { "id": "prop_p2_pond_island", "subtype": "island", "pos": { "x": 5.5, "y": 0, "z": 1.8 }, "size": { "w": 1.4, "h": 0.4, "d": 1.4 }, "rotY": 0 },
+        { "id": "prop_p2_box_01", "subtype": "box", "pos": { "x": -3.5, "y": 0, "z": 2.2 }, "size": { "w": 2.4, "h": 1.1, "d": 0.6 }, "rotY": 0 }
+      ],
+      "resources": [
+        { "id": "tree_p2_01", "type": "tree", "pos": { "x": -8.2, "y": 0, "z": 1.5 } },
+        { "id": "rock_p2_01", "type": "rock", "pos": { "x": 7.4, "y": 0, "z": 1.2 } },
+        { "id": "fiber_p2_01", "type": "fiber", "pos": { "x": -6.8, "y": 0, "z": 2.8 } },
+        { "id": "fiber_p2_02", "type": "fiber", "pos": { "x": 1.0, "y": 0, "z": 0.6 } },
+        { "id": "rock_p2_02", "type": "rock", "pos": { "x": -2.0, "y": 0, "z": 2.6 } }
+      ],
+      "creatures": [
+        { "id": "rusher_p2_territorial", "type": "rusher", "temperament": "TERRITORIAL", "speciesTag": "fang", "pos": { "x": -6.0, "y": 0, "z": 2.0 }, "homePos": { "x": -6.0, "y": 0, "z": 2.0 }, "roamRadius": 2.4, "noticeRadius": 5.8, "personalSpace": 2.4, "leashRadius": 6.5 },
+        { "id": "spitter_p2_aggro", "type": "spitter", "temperament": "AGGRESSIVE", "speciesTag": "spit", "pos": { "x": 1.0, "y": 0, "z": 2.4 }, "homePos": { "x": 1.0, "y": 0, "z": 2.4 }, "roamRadius": 2.2, "noticeRadius": 6.2, "personalSpace": 2.0, "leashRadius": 7.5, "hostileSpecies": ["flutter"] }
+      ],
+      "traversal": {
+        "platforms": [],
+        "obstacles": [
+          { "id": "obs_p2_wall", "x": -3.5, "z": 2.2, "w": 2.4, "h": 0.6, "height": 1.1 },
+          { "id": "obs_p2_pond_edge", "x": 3.0, "z": 1.8, "w": 0.6, "h": 2.0, "height": 0.6 }
+        ],
+        "jumpTraversals": [],
+        "climbables": []
+      },
+      "majorWaypoints": [],
+      "extractionBeacons": [
+        { "id": "beacon_p2_01", "type": "extractionBeacon", "pos": { "x": -2.0, "y": 0, "z": 1.0 } }
+      ],
+      "pois": [
+        { "id": "poi_p2_pond_chest", "type": "chest", "pos": { "x": 5.5, "y": 0, "z": 1.8 }, "requires": { "type": "companionAbility", "id": "swim" } },
+        { "id": "poi_p2_barrier", "type": "barrier", "pos": { "x": -5.2, "y": 0, "z": 0.8 }, "requires": { "type": "companionAbility", "id": "breakBarrier" } }
+      ]
+    },
+    {
+      "id": "p3_temptation",
+      "displayName": "Sunken Rise",
+      "bounds": { "minX": -12.5, "maxX": 12.5, "minZ": -4.5, "maxZ": 0.0 },
+      "neighbors": ["p2_complication", "p4_threshold"],
+      "pockets": [],
+      "ground": { "type": "plain", "color": 8363882 },
+      "props": [
+        { "id": "prop_p3_box_01", "subtype": "box", "pos": { "x": 4.2, "y": 0, "z": -0.8 }, "size": { "w": 1.8, "h": 1.0, "d": 1.8 }, "rotY": 0 },
+        { "id": "prop_p3_fence_01", "subtype": "fence", "pos": { "x": -7.5, "y": 0, "z": -2.0 }, "size": { "w": 0.4, "h": 1.2, "d": 3.0 }, "rotY": 0 }
+      ],
+      "resources": [
+        { "id": "tree_p3_01", "type": "tree", "pos": { "x": -8.6, "y": 0, "z": -1.2 } },
+        { "id": "tree_p3_02", "type": "tree", "pos": { "x": 6.2, "y": 0, "z": -2.0 } },
+        { "id": "rock_p3_01", "type": "rock", "pos": { "x": 7.2, "y": 0, "z": -0.6 } },
+        { "id": "fiber_p3_01", "type": "fiber", "pos": { "x": -7.2, "y": 0, "z": -3.2 } },
+        { "id": "fiber_p3_02", "type": "fiber", "pos": { "x": 8.4, "y": 0, "z": -3.8 } }
+      ],
+      "creatures": [
+        { "id": "rusher_p3_defensive", "type": "rusher", "temperament": "DEFENSIVE", "speciesTag": "fang", "pos": { "x": 4.0, "y": 0, "z": -3.0 }, "homePos": { "x": 4.0, "y": 0, "z": -3.0 }, "roamRadius": 2.6, "noticeRadius": 5.2, "personalSpace": 1.9, "leashRadius": 7.0 },
+        { "id": "rusher_p3_hunter", "type": "rusher", "temperament": "AGGRESSIVE", "speciesTag": "fang", "pos": { "x": -9.0, "y": 0, "z": -3.8 }, "homePos": { "x": -9.0, "y": 0, "z": -3.8 }, "roamRadius": 2.8, "noticeRadius": 6.8, "personalSpace": 1.8, "leashRadius": 8.5, "hostileSpecies": ["flutter"] }
+      ],
+      "traversal": {
+        "platforms": [
+          { "id": "lowA", "x": -5.8, "z": -1.2, "w": 4.2, "h": 3.6, "height": 1.25 },
+          { "id": "lowB", "x": 0.8, "z": -1.2, "w": 4.0, "h": 3.4, "height": 1.25 }
+        ],
+        "obstacles": [
+          { "id": "obs_p3_center_east", "x": 4.2, "z": -0.8, "w": 1.8, "h": 1.8, "height": 1.0 }
+        ],
         "jumpTraversals": [
-          { "id": "gap_east_01", "triggerCenter": { "x": -3.7, "z": -1.2 }, "triggerRadius": 1.45, "direction": { "x": 1, "z": 0 }, "landingRegion": { "minX": -1.2, "maxX": 2.2, "minZ": -2.4, "maxZ": 0.1, "height": 1.25 }, "minTakeoffSpeed": 2.2, "maxLandingCorrection": 1.4, "landingPlatformId": "lowB" },
+          { "id": "gap_east_01", "triggerCenter": { "x": -3.70, "z": -1.2 }, "triggerRadius": 1.45, "direction": { "x": 1, "z": 0 }, "landingRegion": { "minX": -1.2, "maxX": 2.2, "minZ": -2.4, "maxZ": 0.1, "height": 1.25 }, "minTakeoffSpeed": 2.2, "maxLandingCorrection": 1.4, "landingPlatformId": "lowB" },
           { "id": "gap_west_01", "triggerCenter": { "x": -1.25, "z": -0.4 }, "triggerRadius": 1.45, "direction": { "x": -1, "z": 0 }, "landingRegion": { "minX": -7.6, "maxX": -3.9, "minZ": -2.4, "maxZ": 0.3, "height": 1.25 }, "minTakeoffSpeed": 2.2, "maxLandingCorrection": 1.4, "landingPlatformId": "lowA" }
         ],
         "climbables": []
       },
       "majorWaypoints": [],
-      "extractionBeacons": [{ "id": "beacon_central_01", "type": "extractionBeacon", "pos": { "x": 0.5, "y": 0, "z": -1.0 } }],
-      "pois": [{ "id": "poi_central_barrier", "type": "barrier", "pos": { "x": -5.0, "y": 0, "z": 0.5 }, "requires": { "type": "companionAbility", "id": "breakBarrier" } }]
+      "extractionBeacons": [
+        { "id": "beacon_p3_01", "type": "extractionBeacon", "pos": { "x": 0.5, "y": 0, "z": -1.5 } }
+      ],
+      "pois": [
+        { "id": "poi_p3_cache", "type": "chest", "pos": { "x": -1.0, "y": 0, "z": -3.5 }, "requires": null }
+      ]
     },
     {
-      "id": "north_highlands",
-      "displayName": "North Highlands",
-      "bounds": { "minX": -12.5, "maxX": 12.5, "minZ": -11.5, "maxZ": -4.0 },
-      "neighbors": ["central_basin"],
+      "id": "p4_threshold",
+      "displayName": "Threshold Rise",
+      "bounds": { "minX": -12.5, "maxX": 12.5, "minZ": -11.5, "maxZ": -4.5 },
+      "neighbors": ["p3_temptation"],
       "pockets": [],
       "ground": { "type": "plain", "color": 8363882 },
-      "props": [],
+      "props": [
+        { "id": "prop_p4_high_island", "subtype": "box", "pos": { "x": 8.0, "y": 0, "z": -8.5 }, "size": { "w": 2.0, "h": 0.6, "d": 2.0 }, "rotY": 0 }
+      ],
       "resources": [
-        { "id": "tree_north_01", "type": "tree", "pos": { "x": 2.2, "y": 2.4, "z": -7.2 } },
-        { "id": "rock_north_01", "type": "rock", "pos": { "x": -1.8, "y": 0, "z": -4.8 } },
-        { "id": "rock_north_02", "type": "rock", "pos": { "x": -3.0, "y": 0, "z": -4.5 } },
-        { "id": "fiber_north_01", "type": "fiber", "pos": { "x": -4.2, "y": 0, "z": -8.2 } },
-        { "id": "fiber_north_02", "type": "fiber", "pos": { "x": 4.0, "y": 0, "z": -5.8 } }
+        { "id": "tree_p4_01", "type": "tree", "pos": { "x": 2.2, "y": 2.4, "z": -7.2 } },
+        { "id": "rock_p4_01", "type": "rock", "pos": { "x": -1.8, "y": 0, "z": -6.8 } },
+        { "id": "rock_p4_02", "type": "rock", "pos": { "x": -3.0, "y": 0, "z": -5.5 } },
+        { "id": "fiber_p4_01", "type": "fiber", "pos": { "x": -4.2, "y": 0, "z": -9.2 } },
+        { "id": "fiber_p4_02", "type": "fiber", "pos": { "x": 4.0, "y": 0, "z": -5.8 } }
       ],
       "creatures": [
-        { "id": "spitter_outer_2", "type": "spitter", "temperament": "SKITTISH", "speciesTag": "flutter", "pos": { "x": -6.8, "y": 0, "z": -4.2 }, "homePos": { "x": -6.8, "y": 0, "z": -4.2 }, "roamRadius": 2.5, "noticeRadius": 5.0, "personalSpace": 1.6, "leashRadius": 7.0 }
+        { "id": "spitter_p4_skittish", "type": "spitter", "temperament": "SKITTISH", "speciesTag": "flutter", "pos": { "x": -6.8, "y": 0, "z": -6.2 }, "homePos": { "x": -6.8, "y": 0, "z": -6.2 }, "roamRadius": 2.4, "noticeRadius": 4.8, "personalSpace": 1.6, "leashRadius": 6.8 }
       ],
       "traversal": {
-        "platforms": [{ "id": "high", "x": 2.2, "z": -7.2, "w": 4.4, "h": 3.8, "height": 2.4 }],
+        "platforms": [
+          { "id": "high", "x": 2.2, "z": -7.2, "w": 4.4, "h": 3.8, "height": 2.4 }
+        ],
         "obstacles": [],
         "jumpTraversals": [],
-        "climbables": [{ "id": "ladder_south_high", "x": 2.2, "z": -5.05, "w": 1.9, "h": 0.5, "bottomY": 0, "topY": 2.4, "topPlatform": { "x": 2.2, "z": -7.2, "w": 4.4, "h": 3.8, "topY": 2.4, "aabb": { "minX": 0.0, "maxX": 4.4, "minZ": -9.1, "maxZ": -5.3 } }, "wallNormal": { "x": 0, "z": 1 }, "approachDir": { "x": 0, "z": -1 }, "topEntryRegion": { "minX": 1.25, "maxX": 3.15, "minZ": -6.0, "maxZ": -5.25 }, "mantleExit": { "x": 2.2, "z": -6.4 } }]
+        "climbables": [
+          { "id": "ladder_south_high", "x": 2.2, "z": -5.05, "w": 1.9, "h": 0.5, "bottomY": 0, "topY": 2.4, "topPlatform": { "x": 2.2, "z": -7.2, "w": 4.4, "h": 3.8, "topY": 2.4, "aabb": { "minX": 0.0, "maxX": 4.4, "minZ": -9.1, "maxZ": -5.3 } }, "wallNormal": { "x": 0, "z": 1 }, "approachDir": { "x": 0, "z": -1 }, "topEntryRegion": { "minX": 1.25, "maxX": 3.15, "minZ": -6.0, "maxZ": -5.25 }, "mantleExit": { "x": 2.2, "z": -6.4 } }
+        ]
       },
-      "majorWaypoints": [{ "id": "wp_north_peak", "type": "majorWaypoint", "pos": { "x": 2.2, "y": 2.4, "z": -7.2 } }],
+      "majorWaypoints": [
+        { "id": "wp_p4_threshold", "type": "majorWaypoint", "pos": { "x": 2.2, "y": 2.4, "z": -7.2 } }
+      ],
       "extractionBeacons": [],
-      "pois": [{ "id": "poi_north_island", "type": "chest", "pos": { "x": 8.0, "y": 0, "z": -8.5 }, "requires": { "type": "companionAbility", "id": "swim" } }]
+      "pois": [
+        { "id": "poi_p4_island", "type": "chest", "pos": { "x": 8.0, "y": 0, "z": -8.5 }, "requires": { "type": "companionAbility", "id": "swim" } }
+      ]
     }
   ],
   "startAnchorId": "camp_gate"

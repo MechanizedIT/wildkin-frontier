@@ -18,9 +18,9 @@ Single-player, portrait-mobile, Three.js/HTML5 survival & resource-management pr
 - cyan faceted XP essence with collision-aware pop/rest + guaranteed magnet collection,
 - offline-compliant submission build/validation.
 
-**Phase 3.1 / 3.1.1 is accepted for now.**
+**Phase 3.5B — Minimal Author Mode & Area 1 Skeleton is implemented.**
 
-The active development direction is **Phase 3.5A — Core-Loop Architecture, World Data & Region Activation**. This is a bounded foundation slice before a minimal author-mode pass and then the first complete Camp → expedition → extract/die → Camp loop.
+The active development direction is **Phase 4 — First Complete Camp → Expedition → Extract/Die → Camp Loop** (not started). Phase 3.5A/3.5B provide the single-source world pipeline, region activation, ExpeditionSession, and fast Edit → Play → Edit workflow for the first directed expedition.
 
 ## Core Game Direction
 
@@ -47,9 +47,23 @@ npm install
 npm run dev
 # or
 npm run serve
+
+# Author Mode (desktop only, fast Edit ↔ Play)
+# Open with: http://localhost:8080/?author=1
+# Edit panel → place/select/move/rotate/elevate/resize/duplicate/delete
+# Validate / Export world.json → replace src/world/data/world.json → npm run world:generate
 ```
 
 The dev server binds to `0.0.0.0:8080`.
+
+### Author Mode Launch / Export
+
+1. `npm run dev` then open `http://localhost:8080/?author=1` on desktop.
+2. Click **EDIT** — top-down view, region overlays, click mesh to select, palette to place, numeric inputs + nudge/arrows + PageUp/Down to transform, Duplicate/Delete, region form to edit bounds/neighbors.
+3. Click **PLAY** — validates draft, persists to `localStorage`, reloads and tests draft in real gameplay.
+4. **Export** downloads deterministic `world.json` (stable sorted, transient stripped); copy to `src/world/data/world.json`, run `npm run world:generate`, then `npm test && npm run verify`.
+5. **Reset Draft From Repo** clears local draft and reloads repo world.
+6. Normal play (`/` without `?author=1`) ignores drafts.
 
 - Desktop: `http://localhost:8080/`
 - Phone on same network: use the LAN URL printed by the dev server, e.g. `http://192.168.x.x:8080/`
@@ -65,9 +79,11 @@ The dev server binds to `0.0.0.0:8080`.
 
 ```sh
 npm test
+npm run world:generate   # after editing src/world/data/world.json
+npm run world:check      # guard against stale generated data
 npm run build
 npm run validate
-npm run verify
+npm run verify           # test + world:check + build + validate
 npm run zip
 
 npm run serve:submission

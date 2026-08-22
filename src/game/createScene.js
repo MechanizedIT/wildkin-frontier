@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { createMovementPlayground } from "../world/createMovementPlayground.js";
 import { createPlayer } from "../player/createPlayer.js";
 
-export function createScene() {
+export function createScene(worldData = null) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x8ecae6);
   scene.fog = new THREE.Fog(0x8ecae6, 18, 36);
@@ -18,7 +18,7 @@ export function createScene() {
   hemi.position.set(0, 10, 0);
   scene.add(hemi);
 
-  const playground = createMovementPlayground();
+  const playground = createMovementPlayground(worldData);
   scene.add(playground.group);
 
   const player = createPlayer();

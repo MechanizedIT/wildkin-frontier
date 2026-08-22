@@ -88,6 +88,14 @@ export function normalizeWorldData(raw) {
     // ground / props defaults
     if (!region.ground) region.ground = { type: "plain" };
     if (!Array.isArray(region.props)) region.props = [];
+    for (const prop of region.props) {
+      if (!prop.id || typeof prop.id !== "string") throw new Error(`region ${region.id} prop id required`);
+      if (allIds.has(prop.id)) throw new Error(`duplicate global id prop ${prop.id}`);
+      allIds.add(prop.id);
+      if (!prop.subtype || typeof prop.subtype !== "string") throw new Error(`prop ${prop.id} subtype required`);
+      validatePos(prop.pos, `prop ${prop.id}`);
+      if (!isInsideBounds(prop.pos, region.bounds)) throw new Error(`prop ${prop.id} pos not inside region ${region.id} bounds`);
+    }
     // resources
     if (!Array.isArray(region.resources)) region.resources = [];
     for (const res of region.resources) {
