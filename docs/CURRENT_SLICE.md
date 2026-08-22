@@ -1,731 +1,406 @@
-# Wildkin Frontier — Phase 3.1.1: Combat & Ecology Validation Fixes
+# Wildkin Frontier — Phase 3.5A: Core-Loop Architecture, World Data & Region Activation
 
 **Status:** READY TO IMPLEMENT  
-**Active slice:** Phase 3.1.1  
-**Purpose:** Fix the concrete failures discovered during the Phase 3.1 human playtest so the existing combat/ecology systems can actually be evaluated.
+**Active slice:** Phase 3.5A  
+**Purpose:** Build the minimum technical foundation required for the first real directed expedition without starting Camp/map/extraction gameplay yet.
 
-This is a **validation/fix slice**, not a feature expansion.
+This is an **architecture/data/performance slice**, not a feature-expansion sprint.
 
-Do not start Phase 3.5.
+Phase 3.1 / 3.1.1 is accepted. Preserve its validated gameplay unless this migration exposes a real regression.
 
 ---
 
-## 1. Player-visible goal
+# 1. Outcome
 
-After this pass, the player should be able to:
+At the end of this slice:
 
-- reliably find and test each temperament,
-- get attacked by the intended aggressive/territorial/defensive creatures,
-- see skittish creatures flee correctly,
-- observe at least one Wildkin-vs-Wildkin interaction,
-- trust Field Tool cadence,
-- collect XP that behaves like physical drops before magnetizing,
-- see the Field Tool in the character's actual anatomical right hand, swinging right-to-left from the character's perspective.
+- current gameplay still works,
+- world placement loads through a normalized data-driven path,
+- temporary run/session state has a focused owner instead of continuing to accumulate in `main.js`,
+- authored world content can be grouped into regions/pockets,
+- only the current/nearby region neighborhood performs meaningful gameplay simulation,
+- the architecture is ready for Phase 3.5B authoring and Phase 4 Camp/map/extraction without another framework rewrite.
 
 The core question is:
 
-> **Can the Phase 3.1 ecology/combat system now be tested fairly, without map-placement bugs or cross-system timing defects obscuring the design?**
+> **Can we safely build a larger directed frontier without world coordinates, temporary run state, and distant simulation becoming new sources of complexity?**
 
 ---
 
 # 2. Hard scope
 
-Fix only:
+Implement only:
 
-1. invalid creature spawn placement,
-2. human-readable temperament test identification,
-3. defensive/skittish reaction to player damage,
-4. steering probe target exclusion,
-5. Field Tool shared cadence exploit,
-6. XP collision + XP core shape,
-7. anatomical Field Tool handedness/swing,
-8. exact regression/integration coverage for the above.
+1. focused Expedition/Run Session ownership,
+2. data-driven world definition + normalization/validation,
+3. migration of the existing systems-test world through that data path,
+4. region/pocket identity + adjacency,
+5. lightweight active-region manager,
+6. system hooks needed to activate/deactivate authored resources, creatures, and world collision safely,
+7. regression/integration tests,
+8. architecture/docs/build-log updates.
 
-Do **not** add:
-- A*,
-- navmesh,
-- new creature archetypes,
-- new weapons,
-- capture,
-- companions,
-- real frontier/world expansion,
-- world editor,
-- world.json migration,
-- extraction,
-- persistence,
-- skill tree,
-- Phase 3.5 refactor.
+Do **not** implement:
 
----
-
-# 3. Fix authored creature spawn clearance
-
-Human playtest could not evaluate combat because multiple authored creatures spawn inside the brown traversal platforms.
-
-Before changing AI, fix the test environment.
-
-## Required
-
-For every entry in `CREATURE_SPAWNS`:
-
-- verify the creature capsule can exist at its authored home position without overlapping:
-  - platform volumes,
-  - diagnostic boxes,
-  - world boundary collision,
-  - solid resource colliders,
-  - another creature's spawn capsule.
-
-Move the current test spawns onto obvious clear walkable ground.
-
-Do not change their intended temperament coverage.
-
-The test map should contain at least:
-
-- one clearly accessible AGGRESSIVE creature,
-- one clearly accessible TERRITORIAL creature,
-- one clearly accessible DEFENSIVE creature,
-- one clearly accessible SKITTISH creature,
-- one accessible aggressive-vs-skittish Wildkin interaction.
-
-The player must have breathing room at spawn.
-
-## Regression test
-
-Add a pure or integration test that validates every authored creature spawn against the current playground geometry with creature radius expansion.
-
-The test should fail if a future spawn is placed inside a platform/obstacle.
-
-Do not rely only on coordinates in comments.
+- real Camp gameplay,
+- map UI,
+- frontier gate/start-selection flow,
+- extraction/banking UI,
+- major Waypoint interaction,
+- Extraction Beacon interaction,
+- POI edge indicators,
+- bonding/capture,
+- companions/mounts,
+- skill tree/equipment progression,
+- Matter Resonator gameplay,
+- base expansion,
+- final Area 1 content,
+- full in-game editor (Phase 3.5B),
+- A*/navmesh,
+- procedural generation,
+- complex asynchronous asset streaming.
 
 ---
 
-# 4. Add debug-only temperament readability
+# 3. Preserve validated Phase 3.1.1 behavior
 
-The prototype currently reuses identical Rusher/Spitter visuals across different temperaments, making human playtesting ambiguous.
+Do not redesign accepted systems while migrating ownership/data.
 
-Add a **debug-only** temperament marker.
+Preserve:
 
-Acceptable:
+- one rAF + fixed 1/60 gameplay loop,
+- Rapier as sole physics runtime,
+- player movement/jump/fall/dodge/climb/mantle,
+- unified Field Tool owner and shared cadence,
+- Auto Harvest behavior,
+- manual tap/hold/swipe rules,
+- resource node/pickup behavior,
+- player health/death/restart,
+- creature temperaments and Wildkin-vs-Wildkin reactions,
+- leash/home/return,
+- lightweight steering,
+- projectile collision behavior,
+- XP collision-aware pop/rest + guaranteed magnet,
+- portrait/mobile layout,
+- offline/no-CDN submission packaging.
+
+Temperament debug markers may remain available through debug controls, but normal game architecture must not depend on them.
+
+---
+
+# 4. Expedition / Run Session owner
+
+Introduce a small focused owner such as `ExpeditionSession` or `RunSession`.
+
+It should own temporary expedition lifecycle state that otherwise keeps growing in `main.js`.
+
+Minimum useful shape:
 
 ```text
-A = Aggressive
-T = Territorial
-D = Defensive
-S = Skittish
+status
+runXp
+kills
+unsecuredResourceCargo reference/summary as appropriate
+startAnchorId or start location identity
+currentRegionId / currentPocketId
+maxDepth or deepest region/pocket reached if useful
+run reset/death lifecycle hooks
+future slots for unsecured Wildkin/extraction outcome
 ```
 
-Preferred presentation:
-- small floating letter above creature, OR
-- small ground/debug marker near creature.
+Do not force player-health internals, rendering, creature AI, or resource-system state into this module merely to centralize everything.
 
-Requirements:
+Prefer orchestration and session-owned summary state over duplication.
 
-- visible enough on phone for testing,
-- hidden when normal debug UI is disabled,
-- not treated as final-game UI,
-- does not affect collision/targeting.
-
-Do not redesign final creature art.
+`main.js` should wire/update the session rather than contain new domain policies.
 
 ---
 
-# 5. Fix player → Defensive retaliation
+# 5. Data-driven world definition
 
-Current runtime records player participation for XP but does not consistently set Defensive retaliation state when the player is the attacker.
-
-This must be fixed.
-
-When **any living actor** damages a Defensive creature:
+Create a simple source of truth, preferably:
 
 ```text
-attacker = player OR Wildkin
-        ↓
-record attacker identity
-        ↓
-set bounded retaliation target
-        ↓
-after HURT lock
-        ↓
-ALERT / CHASE / attack attacker
+src/world/data/world.json
 ```
 
-For the player:
+or an equivalent explicit data module if JSON creates a concrete build/test problem.
 
-- `retaliationTargetId = "player"` or equivalent,
-- retaliation timer starts,
-- after HURT recovery the creature should visibly engage the player,
-- if player escapes beyond leash / retaliation expires, creature returns home.
+The schema only needs to support current content plus near-future directed-world concepts.
 
-Do not tie player participation tracking and temperament reaction into mutually exclusive branches.
-
-They are separate concerns.
-
-## Required tests
-
-- player hit → Defensive retaliates,
-- Wildkin hit → Defensive retaliates,
-- no hit → Defensive ignores,
-- retaliation expires,
-- dead attacker invalidates retaliation.
-
----
-
-# 6. Fix player → Skittish reaction
-
-Player damage should also trigger the intended skittish response.
-
-When the player hits a Skittish creature:
-
-- mark player participation for XP,
-- set player as flee threat,
-- enter/continue urgent flee state,
-- use post-hit flee duration/speed,
-- do not retaliate.
-
-This should work exactly as Wildkin-caused damage does.
-
-## Required tests
-
-- approaching player causes normal flee,
-- player hit causes urgent flee,
-- Wildkin hit causes urgent flee,
-- no transition to CHASE/WINDUP.
-
----
-
-# 7. Steering probes must not treat current actor target as world obstacle
-
-Creature steering uses Rapier world probes.
-
-The probe should avoid static world geometry, but a creature pursuing the player or another Wildkin should not decide:
-
-> "my target's collider is a wall I need to route around"
-
-## Required behavior
-
-When steering toward an actor:
-
-- exclude the moving creature's own collider,
-- exclude the current intended actor target collider from obstacle probes,
-- continue excluding other actor colliders if that remains consistent with the current lightweight steering design.
-
-Static world collision must still block.
-
-For fleeing:
-- the threat actor should also not be treated as static world geometry.
-
-Do not remove actual movement collision resolution.
-
-This is only for **steering probes / route choice**.
-
-## Test
-
-Set a clear straight-line actor target within attack approach distance.
-
-Expected:
-- direct steering remains direct,
-- creature can close into attack range,
-- target capsule does not trigger false left/right routing.
-
----
-
-# 8. Shared Field Tool cadence — no auto-harvest + manual speed exploit
-
-Human playtest found that Auto Harvest plus manual tapping can produce impacts faster than the physical Field Tool's intended cadence.
-
-This must be fixed.
-
-## Locked rule
-
-There is one physical tool and therefore one shared action cadence.
-
-Auto-harvest initiation and manual attack initiation do not own independent effective attack speeds.
-
-### Before impact
-
-If an auto-harvest swing is still in windup and the player manually attacks:
-
-- manual intent may take priority,
-- the pre-impact auto-harvest swing may be converted/cancelled into the manual combat swing if that preserves responsiveness.
-
-### After impact
-
-Once **any** Field Tool swing has fired its impact:
-
-- that swing must complete its valid recovery,
-- manual input cannot cancel it into another immediate damaging/harvesting impact,
-- no second impact may occur sooner than the intended shared tool cadence.
-
-### Input buffering
-
-At most **one** pending manual attack may be remembered while the tool is unavailable.
-
-For held input:
-- do not accumulate a queue,
-- next attack starts only when the tool is genuinely ready,
-- release clears pending held repetition.
-
-For taps:
-- one late tap may buffer one next swing,
-- repeated tapping during recovery must not stack multiple queued attacks.
-
-## Central authority
-
-Prefer a single readiness concept such as:
+Required authored concepts:
 
 ```text
-fieldTool.isReadyForSwing()
+world
+  camp (placeholder metadata allowed; do not build gameplay)
+  areas / regions
+    id
+    bounds or activation volume
+    neighbor region ids
+    pockets (optional nested identity if useful)
+    ground / terrain / props
+    resources
+    creatures
+    traversal geometry
+    majorWaypoints (data only for now)
+    extractionBeacons (data only for now)
+    pois (data only for now)
 ```
 
-or equivalent.
+Current systems-test/playground content should be represented by this same data path.
 
-Avoid separate timers that allow harvest and combat to bypass one another.
+Do not create two separate loaders for "test arena" and "real frontier."
 
-## Required timing test
+---
 
-Simulate:
+# 6. World normalization + validation
+
+Create one normalization/validation step before runtime systems consume authored world data.
+
+Validate at least:
+
+- unique IDs where required,
+- valid region/pocket references,
+- valid neighbor references,
+- required transforms/types,
+- creature spawn/home data,
+- supported world object types,
+- anchor/POI type identifiers,
+- no obvious invalid cross-region ownership.
+
+Preserve or integrate the Phase 3.1.1 creature-spawn clearance regression where practical.
+
+Runtime systems should consume normalized data, not each parse raw JSON independently.
+
+---
+
+# 7. Region / pocket activation manager
+
+Three.js frustum culling is render-side only. We need bounded **gameplay simulation** as the frontier grows.
+
+Add a lightweight active-region owner.
+
+## Baseline rule
 
 ```text
-auto harvest starts
-→ impact
-→ tap immediately
+active = current region/pocket + immediate neighbors needed to prevent visible/collision pop-in
+inactive = distant regions
 ```
 
-Assert next impact cannot happen before the shared allowed cadence.
+Exact current-region detection can use the simplest deterministic method supported by authored data:
 
-Also test:
-- hold respects cadence,
-- tap spam respects cadence,
-- pre-impact manual takeover remains responsive,
-- release stops held repeat.
+- bounds/activation volumes,
+- pocket volumes,
+- explicit region transitions,
+- or another simple authored method.
+
+Do not add a navigation/pathfinding framework to determine regions.
+
+## Active-region manager responsibilities
+
+- determine current region from player position,
+- compute active region set,
+- emit/apply activation changes only when the set changes,
+- expose active IDs for debug/tests,
+- preserve a neighbor buffer so the camera never looks into missing ground/collision,
+- avoid per-frame allocation/churn where practical.
 
 ---
 
-# 9. XP motes — collision-aware pop/rest, guaranteed magnet
+# 8. What activation means
 
-Phase 3.1 XP essence improved readability but currently passes through solid terrain.
+Different systems may use different cheap strategies.
 
-Match the robust reward philosophy already used for harvest pickups.
+### Static world / traversal
 
-## XP state rules
+- Current + neighbor geometry/collision must exist before the player sees/reaches it.
+- Distant heavy collision may be removed/disabled if safe.
+- Cheap distant decorative visuals may remain if that is simpler; do not optimize blindly.
+
+### Resources
+
+Inactive regions should not run harvest/respawn/pickup logic.
+
+On reactivation:
+
+- current accepted test behavior remains coherent,
+- no duplicate node/pickup instances,
+- state is restored/reset according to existing authored/test semantics.
+
+### Creatures
+
+Inactive region creatures should not:
+
+- perceive,
+- steer,
+- attack,
+- fire projectiles,
+- consume meaningful fixed-step AI cost.
+
+Their Rapier collision/body should be disabled/removed if needed to avoid distant physics overhead.
+
+On reactivation:
+
+- no duplicate creature,
+- home data remains valid,
+- dead/respawn state remains coherent within current prototype rules,
+- no instant attack from stale state unless logically valid.
+
+### Temporary entities
+
+Projectiles, XP, resource pickups, and other temporary effects must not leak or duplicate across deactivation.
+
+Use the simplest consistent cleanup policy for this prototype and document it.
+
+---
+
+# 9. Do not overbuild "streaming"
+
+This slice is **not** an MMO/open-world asset streamer.
+
+All assets/data remain packaged locally.
+
+Do not add:
+
+- network loading,
+- dynamic import of gameplay areas,
+- background asset jobs,
+- complicated LOD framework,
+- occlusion system,
+- generic scene graph paging library.
+
+The goal is simply:
+
+> **Total world size may grow, but active AI/physics/gameplay cost should remain tied mainly to the player's local neighborhood.**
+
+---
+
+# 10. Thin `main.js`
+
+After the migration, `main.js` should primarily:
 
 ```text
-POP / THROW
-    = collision-aware
-
-REST
-    = valid resting position
-
-MAGNETIZING
-    = may ignore world collision and guarantee collection
+initialize
+create systems
+wire dependencies
+own fixed loop
+update session/world activation/systems in documented order
+render
 ```
 
-## POP
+Do not perform a cosmetic rewrite.
 
-During ballistic pop:
-
-- use radius-aware collision against static world,
-- do not pass through brown platforms, boxes, terrain, or solid obstacles,
-- resolve/stop/bounce minimally using the simplest stable behavior.
-
-No elaborate physics simulation is required.
-
-A simple:
-- sweep,
-- place at valid contact,
-- damp/stop,
-is enough.
-
-## REST
-
-Resting XP should not end up:
-- inside a box,
-- below a platform,
-- inside solid collision.
-
-If a bad resting point is detected, move to the last clear position or a small nearby clear offset.
-
-## MAGNETIZING
-
-Once magnet begins:
-
-- ignore world obstruction if necessary,
-- guarantee reward reaches player,
-- do not get stuck behind geometry.
-
-This is intentionally the same design principle used for robust harvest rewards.
+Move only code whose ownership is already unclear or would otherwise block Phase 4.
 
 ---
 
-# 10. XP visual shape refinement
+# 11. Required tests
 
-Keep:
-- cyan/blue identity,
-- emissive/glowy appearance,
-- large readable size,
-- soft halo,
-- pooling.
+Add focused tests/integration coverage for:
 
-Change the core from a generic smooth sphere into a more recognizable **faceted essence/crystal**.
+## World data
 
-Preferred:
-- low-poly icosahedron or octahedral/faceted crystal,
-- slightly vertically stretched,
-- slow rotation,
-- cyan emissive core,
-- soft spherical halo remains.
+- world definition loads/normalizes,
+- invalid duplicate IDs fail,
+- bad neighbor/reference IDs fail,
+- existing test-world objects are represented through the new data path,
+- creature spawn validation still passes.
 
-Do not make it read like gold/currency.
+## Region activation
 
-Do not add dynamic point lights.
+- player position resolves current region/pocket,
+- active set includes expected neighbor buffer,
+- moving across a boundary changes active set once,
+- moving back restores expected set,
+- distant regions remain inactive,
+- no duplicate entity creation after deactivate/reactivate.
 
----
+## Creature/resource integration
 
-# 11. Correct anatomical Field Tool handedness
+- inactive creature does not progress AI/attack timers,
+- active creature still behaves normally,
+- inactive resource region does not produce unwanted run updates,
+- reactivation restores a valid state.
 
-The previous diagnostic encoded the wrong assumption.
+## Temporary entities
 
-The player visual explicitly uses:
+- deactivation cleanup does not leak projectiles/pickups/XP,
+- pools remain bounded.
 
-```text
-+Z = forward
-```
+## Existing regressions
 
-Human visual testing shows that the existing `+X` hand anchor is the character's **left** side.
-
-For this player basis, treat anatomical right as the visually verified side.
-
-## Acceptance orientation
-
-Use **player facing away from the camera** as the primary human test.
-
-When facing away:
-
-```text
-viewer and character share left/right orientation
-
-CHARACTER RIGHT side:
-tool must be visibly attached here
-```
-
-The swing must travel:
-
-```text
-CHARACTER RIGHT-FRONT
-        ↓
-across CHARACTER FRONT
-        ↓
-CHARACTER LEFT-FRONT
-```
-
-When the player turns to face the camera, the screen-space result should naturally mirror:
-
-- anatomical right appears viewer-left,
-- character right→left appears viewer-left→viewer-right.
-
-That is correct.
-
-## Implementation
-
-Mirror the current primitive rig deliberately rather than guessing.
-
-Likely changes include:
-- hand anchor X sign,
-- shoulder/arm attachment X sign,
-- swing start/follow yaw signs,
-- any trail math that assumes the old side.
-
-Do not modify gameplay attack arc because of visual mirroring.
-
-## Diagnostic
-
-Replace the previous circular:
-
-```text
-+x means right because we named it right
-```
-
-diagnostic.
-
-The new diagnostic should describe the **actual chosen anatomical basis** and sample the tool head relative to it.
-
-Human visual acceptance overrides numeric comments.
+Preserve all prior tests.
 
 ---
 
-# 12. Do not redesign the AI yet
+# 12. Human playtest / debug acceptance
 
-Once spawn placement and reaction bugs are fixed, test the existing temperament design before tuning it further.
+The agent final response must include a simple test procedure.
 
-Do not:
-- increase AI complexity,
-- add new states unless necessary for a bug,
-- add A*,
-- add navmesh,
-- expand the map.
+At minimum provide a debug way to see:
 
-This pass exists to make the existing system observable.
+- current region/pocket ID,
+- active region IDs,
+- optionally active creature/resource counts.
 
----
+Human test:
 
-# 13. Architecture guardrails
+1. Start in one test region.
+2. Confirm only current + intended neighbor regions report active.
+3. Cross a region boundary.
+4. Confirm the new region activates before gameplay/geometry becomes visibly missing.
+5. Confirm the distant old region deactivates after it leaves the neighbor buffer.
+6. Walk back and confirm it reactivates without duplicate creatures/resources.
+7. Re-run normal movement/harvest/combat/death/restart checks.
+8. Watch for collision holes, visible pop-in, duplicate enemies, stale attacks, or pickup leaks.
 
-Phase 3.5 is coming next.
-
-Do not make current architecture debt worse.
-
-In particular:
-
-- do not add more large logic blocks to `main.js`,
-- keep spawn validation in a focused helper/test,
-- keep temperament reaction logic centralized,
-- keep Field Tool cadence owned by the Field Tool / interaction layer,
-- keep XP movement rules inside XP system or shared pickup collision helper,
-- do not create another global timer system,
-- preserve one rAF and fixed-step loop.
-
-Small refactors required to fix ownership are allowed.
-
-Large architecture migration is not.
+This is primarily an architecture slice; visual world quality is not being judged here.
 
 ---
 
-# 14. Required automated integration/regression tests
+# 13. Performance acceptance
 
-Add tests that exercise actual runtime paths where practical, not only pure helpers.
+Do not require a synthetic huge benchmark framework.
 
-Required coverage:
+Provide enough instrumentation/tests to establish that:
 
-### Spawn validity
-- every authored creature spawn is clear of expanded platform/obstacle geometry,
-- intended ecology interaction spawns are mutually reachable in open ground.
-
-### Defensive
-- player attack sets retaliation target,
-- enters retaliation behavior after HURT,
-- Wildkin attack also works,
-- expires/leashes.
-
-### Skittish
-- player attack sets flee target/urgent flee,
-- Wildkin attack does same,
-- never attacks due to being hit.
-
-### Steering
-- current actor target collider does not make direct route appear blocked,
-- static box still does.
-
-### Field Tool cadence
-- post-impact manual tap cannot create early second impact,
-- auto + tap cannot exceed shared cadence,
-- hold cannot exceed cadence,
-- no unbounded buffering,
-- one buffered tap maximum if implemented,
-- pre-impact takeover still valid.
-
-### XP
-- pop cannot cross solid box/platform,
-- resting state not inside solid collision,
-- magnet may cross obstruction to guarantee collection,
-- pool remains bounded,
-- once-only XP count.
-
-### Handedness
-Prefer a small structural test plus required human visual test:
-- mirrored anchor/hierarchy uses intended anatomical side,
-- do not pretend this alone proves visual correctness.
-
-Preserve all previous tests.
+- inactive regions do not keep updating creature AI,
+- active object counts remain bounded by local neighborhood rather than total authored world size,
+- no new per-frame DOM creation,
+- no second rAF,
+- no unbounded pools/arrays introduced.
 
 ---
 
-# 15. Required human playtest
+# 14. Documentation updates
 
-The agent final response must give recognizable human-facing instructions.
+Implementation agent should update:
 
-At minimum:
+- `docs/ARCHITECTURE.md` with final actual module/file names and activation policy,
+- `docs/PROJECT_PLAN.md` only if implementation materially changes the planned 3.5B/Phase 4 handoff,
+- `README.md` project state if useful,
+- `docs/BUILD_LOG.md` with model/tool/prompt, decisions, files, tests, human-test instructions, and deferred issues.
 
-## A. Temperament map readability
-With debug markers ON:
-- identify A / T / D / S without coordinates,
-- confirm all four are standing on clear walkable ground.
-
-Failure:
-- any creature starts inside brown/grey geometry.
-
-## B. Aggressive combat
-Approach the clearly marked A creature without hitting it.
-
-Expected:
-- it can physically reach and attack the player.
-
-Failure:
-- stuck in geometry,
-- endlessly routes around player,
-- never enters attack.
-
-## C. Territorial
-Approach marked T.
-
-Expected:
-- notice/warn first,
-- entering/remaining in personal territory causes attack,
-- it can physically reach player.
-
-## D. Defensive
-Approach marked D.
-
-Expected:
-- ignores player initially.
-
-Hit once.
-
-Expected:
-- HURT feedback,
-- then retaliates against player.
-
-Failure:
-- continues wandering as though nothing happened.
-
-## E. Skittish
-Approach marked S.
-
-Expected:
-- moves away.
-
-Hit it.
-
-Expected:
-- flees more urgently.
-
-Failure:
-- ignores hit or attacks player.
-
-## F. Wildkin-vs-Wildkin
-Observe marked aggressive and intended prey/skittish pair.
-
-Expected:
-- one creature can chase/attack/flee without player intervention,
-- both are on reachable clear ground.
-
-## G. Leash
-Use the aggressive or territorial creature.
-
-Lead it away from its marked/home area while staying targetable.
-
-Expected:
-- after traveling beyond its allowed home radius, it abandons pursuit,
-- visibly returns toward its home area,
-- resumes normal behavior near home.
-
-Explain in the final response which creature is easiest to use for this test.
-
-## H. Steering
-Stand opposite a large box from an engaged creature.
-
-Expected:
-- it attempts to route around the box,
-- when no box is present it approaches directly instead of treating the player as an obstacle.
-
-## I. Auto-harvest + tap cadence
-Auto Harvest ON beside a resource.
-
-Let auto swing reach impact, then immediately tap repeatedly.
-
-Expected:
-- impacts remain at the intended shared Field Tool cadence,
-- no rapid double-hit after harvest impact.
-
-Repeat while holding.
-
-Failure:
-- visibly faster damage/harvest than ordinary tool speed.
-
-## J. XP terrain collision
-Kill a player-participating creature beside a brown platform/grey box.
-
-Expected:
-- blue faceted essence pops out but does not fly through the solid object,
-- it finds/rests at valid visible space.
-
-Approach until magnet starts.
-
-Expected:
-- magnet may pass through obstruction and is guaranteed to collect.
-
-## K. XP visual
-Expected:
-- recognizable faceted cyan essence/crystal,
-- larger than ordinary pickups,
-- glow shell remains,
-- does not look like gold or a plain bubble.
-
-## L. Field Tool handedness
-Primary test:
-
-1. Face the player **away from the camera**.
-2. Do not judge based on labels/debug text first.
-3. Look at the character itself.
-
-Expected:
-- tool is visibly in the character's RIGHT hand,
-- swing begins on character's right-front,
-- travels across front,
-- ends character-left.
-
-Then face the camera.
-
-Expected:
-- screen-space appearance mirrors naturally.
-
-Failure:
-- when facing away, tool is still on character-left or swings character-left→right.
+Do not rewrite stable design decisions unless a real conflict is discovered; propose changes instead.
 
 ---
 
-# 16. Completion gate
+# 15. Completion gate
 
-Phase 3.1.1 is complete only when:
+Phase 3.5A is complete only when:
 
-- all authored test creatures spawn clear,
-- aggressive/territorial creatures can physically attack,
-- Defensive retaliates against player,
-- Skittish urgently flees after player hit,
-- Wildkin-vs-Wildkin interaction can be observed,
-- leash can be meaningfully tested,
-- player collider does not confuse steering probe,
-- auto/manual tool interaction obeys one shared cadence,
-- XP pop/rest respects world collision,
-- XP magnet guarantees reward,
-- XP uses faceted cyan essence core,
-- dead collider fix remains good,
-- Field Tool is visually correct when player faces away,
-- previous movement/harvest/combat/death/restart behaviors remain intact,
-- one rAF remains,
-- `npm test` PASS,
-- `npm run verify` PASS,
-- `npm run zip` PASS,
-- package remains offline and <35 MB,
-- BUILD_LOG updated.
+- existing game remains playable,
+- data-driven world path owns the current test world,
+- run/session owner exists and `main.js` does not grow more domain state,
+- region/pocket activation works across at least multiple authored test regions,
+- inactive regions stop meaningful gameplay simulation,
+- activation/deactivation is deterministic and duplicate-safe,
+- automated tests pass,
+- `npm run verify` passes,
+- `npm run zip` passes,
+- offline/portrait/single-rAF/fixed-step/Rapier constraints remain intact,
+- human boundary/re-entry regression test passes.
 
----
+Then stop.
 
-# 17. Stop condition
-
-Implement in this order:
-
-1. Move/validate creature spawns.
-2. Add debug temperament markers.
-3. Fix player → Defensive retaliation.
-4. Fix player → Skittish flee reaction.
-5. Exclude intended actor target from steering probes.
-6. Fix shared Field Tool cadence/buffering.
-7. Add XP POP/REST collision.
-8. Change XP core to faceted cyan essence.
-9. Mirror Field Tool anatomical hand/swing.
-10. Add exact integration/regression tests.
-11. Run test/verify/zip.
-12. Update BUILD_LOG.
-13. Stop.
-
-Do not begin Phase 3.5.
+**Do not start Phase 3.5B or Phase 4 in the same session.**

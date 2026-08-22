@@ -2,329 +2,358 @@
 
 ## Purpose
 
-This is the repository mirror of the living Google GDD for the Meta Horizon Game Prototype hackathon project. It records the current game direction, hard competition constraints, agent workflow, and phased implementation plan.
+This is the repository mirror of the living Google GDD for the Meta Horizon Creator Competition: Game Prototype project.
 
-`docs/CURRENT_SLICE.md` is always the only implementation scope for an agent session. This document is context and roadmap, not permission to build future phases.
+It records stable game direction, competition guardrails, development workflow, and the phased roadmap.
 
-# 1. Game Design
+`docs/CURRENT_SLICE.md` is always the only implementation scope for an agent session. This roadmap is context, not permission to build future phases.
+
+# 1. Current Game Direction
 
 ## Working Concept
 
 - **Title:** Wildkin Frontier
 - **Genre:** Survival & Resource Management
-- **Format:** Single-player, portrait mobile web game
-- **Presentation:** 3D Three.js world with a fixed high third-person / near top-down camera
+- **Format:** Single-player portrait mobile web game
+- **Technology:** Three.js + Rapier + vanilla HTML/CSS/JS
+- **Camera:** fixed high third-person / near top-down
+- **Target expedition:** roughly 5–10 minutes
 
 ## High Concept
 
-A run-based wilderness expedition game built around player agency. Before each run, the player prepares a loadout, chooses a companion, and chooses where to enter the frontier. During the run they explore, harvest resources, gain XP, fight or avoid wild creatures, capture new Wildkin, discover waystones, and decide when to secure their haul versus pushing deeper into increasing danger.
+Wildkin Frontier is a short-session survival expedition game built around one question:
 
-The player is expected to die sometimes. A run should create real tension without erasing all long-term progress.
+> **How far do I dare push before I turn back and secure what I found?**
 
-## Player Fantasy
+The player moves through a handcrafted **directed frontier** made of wide exploration pockets. The game is not a forced endless runner and not a large open-world survival sandbox for the prototype.
 
-> I prepare for an expedition, enter a dangerous wild frontier, make my own route, find valuable resources and creatures, decide how far I dare to push, then return stronger and better prepared for the next run.
+Forward/deeper should visibly mean:
 
-## Design Pillars
+- better resources,
+- more interesting Wildkin,
+- harder threats,
+- more environmental pressure,
+- more to lose before the next secure opportunity.
 
-- **Player agency over rails.** The world presents opportunities and danger; it should rarely dictate one mandatory next step.
-- **Satisfying moment-to-moment play.** Movement, harvesting, combat, pickups, capture, and companion behavior must feel good before broad meta-progression.
-- **Meaningful persistent progression.** The player sees choices and deliberately spends/chooses rather than receiving random three-choice level-ups.
-- **Risk creates stories.** Newly collected loot and newly captured Wildkin matter because pushing farther can put them at risk.
-- **Collection with utility.** Wildkin are not just checklist entries; companions should meaningfully change a run/loadout.
-- **Compact depth.** Prefer a small set of interacting systems over a large amount of shallow content.
+The player may always retreat.
 
 ## Core Loop
 
 **PREPARE**  
-Choose starting point/waystone, active Wildkin, equipment, consumables, and skill configuration.
+Begin at Camp, check map/frontier progress, choose an available major Waypoint start and any available companion/loadout choices.
 
 **EXPEDITION**  
-Explore → harvest → fight/avoid → gain XP → capture Wildkin → find better resources → discover landmarks/waystones.
+Explore wide directed pockets → harvest / avoid / fight / bond → collect unsecured value → notice POIs, Extraction Beacons, and tempting deeper rewards.
 
 **RISK DECISION**  
-Secure what has been found or push farther for rarer rewards and greater danger.
+At an Extraction Beacon or major Waypoint choose **EXTRACT** or **KEEP GOING**.
 
 **OUTCOME**  
-Extract/return safely and bank gains, or die and lose unsecured expedition cargo.
+Extract to Camp and bank the run, or die and lose unsecured value.
 
 **PROGRESS**  
-Spend skill points, bank/spend resources, improve loadout, organize Wildkin, and choose the next expedition.
+See Camp/map progress, synchronize recovered matter, secure Wildkin, make a small meaningful progression choice, and run again.
 
-## Persistent Progression
+## Focus Rule
 
-Permanent progress should eventually include:
+Every system must strengthen:
 
-- earned skill points / skill-tree nodes,
-- secured Wildkin,
-- discovered regions/activated waystones,
-- unlocked equipment/recipes/loadout options,
-- important permanent world discoveries.
+**acquire value → see temptation ahead → assess danger → secure or push → consequence → meaningfully different next run**.
 
-## At-Risk Run Progress
+If a feature does not improve engagement, playability, core-loop clarity, focus, or originality, defer it.
 
-Until secured, a run may put these at risk:
+# 2. First-Time / Camp Experience
 
-- harvested resources,
-- rare materials,
-- newly captured Wildkin,
-- run consumables/special finds.
+## Camp
 
-Default rule: death should hurt enough to create tension without erasing underlying character progression.
+Camp is a small clearing on an alien planet surrounded by tall dense forest and a basic perimeter fence.
 
-## Skill Tree
+Initial Camp contains:
 
-The player should be able to inspect a small visible tree and spend points deliberately.
+- drop pod,
+- frontier gate,
+- small Matter Resonator,
+- small home space where secured Wildkin can later be visible.
 
-Initial branches:
+Long-term Camp may expand outward by spending resources in a Forager/Dreamdale-like way. Camp expansion/free placement is not required for the core competition experience.
 
-- Combat
-- Harvesting
-- Survival
-- Bonding
+## First Launch
 
-The prototype should demonstrate branching/build choice, not linear upgrades.
+1. Player gains control immediately near the drop pod.
+2. Map button is visible top-right.
+3. First map shows Camp and the frontier gate/start; undiscovered frontier is obscured.
+4. Walking through the gate automatically opens expedition-start selection.
+5. On a new save only the first area/start is available.
+6. Activated major Waypoints later appear as selectable start locations.
 
-## Field Tool, Harvesting & Combat Interaction
+Avoid a long intro. Teach by level layout, readable interactions, short prompts, and visible consequences.
 
-The Field Tool is one physical interaction tool, not separate invisible harvest/combat weapons.
+# 3. Frontier Structure
 
-- A swing may affect every valid thing actually inside its interaction arc.
-- Harvestables receive harvest hits.
-- Attackable Wildkin receive combat damage.
-- **Auto Harvest** controls whether nearby resources automatically initiate swings when the player is nearly stationary.
-- Auto Harvest remains available even when hostile creatures are nearby/attacking.
-- Auto Harvest does **not** initiate automatic combat.
-- Mobile right-side **tap** = one Field Tool swing.
-- Mobile right-side **hold** = repeated swings at allowed cadence.
-- Mobile right-side **swipe** = dodge; dodge recognition takes precedence and must not also attack.
-- Manual swings can hit resources and valid creatures, giving the player manual harvesting when Auto Harvest is OFF.
-- There is **no auto-attack** planned for the current prototype.
-- Future ranged weapons should be equipment/loadout choices.
+## Directed Areas / Exploration Pockets
 
-## Wildkin
+Each area should feel like a chain of broad explorable spaces rather than a corridor:
 
-Wildkin are wild creatures encountered during expeditions. Capture must be more interactive than reducing HP and throwing a generic capture object.
+```text
+Major Waypoint
+   ↓
+Pocket / local exploration
+   ↓
+Extraction Beacon
+   ↓
+Pocket / higher temptation + danger
+   ↓
+Extraction Beacon (optional)
+   ↓
+Harder pocket
+   ↓
+Next Major Waypoint / next area
+```
 
-Prototype goals:
+The player should be free to move locally, find side spaces, avoid encounters, harvest, investigate POIs, and retreat.
 
-- readable at a glance,
-- clear field behavior/combat role,
-- one active companion selected before a run,
-- newly captured Wildkin remains unsecured until extraction/banking,
-- lost unsecured Wildkin returns to an appropriate habitat rather than being permanently deleted.
+## Major Waypoints
 
-## Wildkin Ecology, Temperament & Perception
+- Normally represent an area start or major frontier step.
+- First activation permanently updates the map.
+- Become selectable starting locations for future expeditions.
+- Can also extract the current run.
+- Reaching the next one should feel like an accomplishment.
 
-Wildkin should feel like wildlife, not generic enemies sharing the same player aggro radius.
+## Extraction Beacons
 
-Prototype temperament vocabulary:
+- Smaller mid-area anchors.
+- Allow extraction/banking and return to Camp.
+- Never become future start locations.
+- Use only as many as real pacing needs, likely 1–2 between major Waypoints.
 
-- **Aggressive:** may attack the player or appropriate nearby creatures on sight.
-- **Territorial:** notices/warns first, then attacks actors that enter/persist in personal territory.
-- **Defensive:** generally ignores until threatened/attacked, then retaliates.
-- **Skittish:** avoids/flees approaching threats and may flee faster when attacked.
-- **Predator/prey/rival disposition:** may be used selectively to create readable wildlife interactions.
+Interacting with either anchor opens:
 
-Wildkin may interact with other Wildkin. A creature can perceive nearby actors and choose to ignore, warn, pursue, attack, flee, or return home based on temperament/species disposition and context.
+**EXTRACT / KEEP GOING**
 
-Each creature should have simple authored data such as:
+This prevents the exploit where the player banks at every checkpoint and immediately restarts at the exact same point.
 
-- home/spawn position,
-- roam radius,
-- notice range,
-- personal-space/territory range,
-- leash/return-home distance.
+## Map / POI Guidance
 
-Prefer lightweight obstacle probes/steering and separation before adding A* or a navmesh. Add pathfinding only if the real authored frontier demonstrates repeated failures that simple steering cannot solve.
+- Map always accessible from top-right.
+- Map records Camp, activated major Waypoints, discovered Extraction Beacons, important POIs, and useful locked discoveries.
+- Only major Waypoints are selectable starts.
+- Edge-of-screen POI indicators may show nearby extraction opportunities behind/ahead and important forward objectives.
 
-## Waystones
+# 4. First-Session Experience Target
 
-Waystones are discoverable progression anchors, not linear checkpoints.
+The first ~10 minutes should be authored intentionally rather than generated from generic systems.
 
-They may:
+Target rhythm:
 
-- permanently unlock future starting locations,
-- provide a banking/secure interaction,
-- offer limited recovery if useful,
-- mark deeper progression into dangerous areas.
+1. **Arrival / Camp:** immediate control; drop pod, fence, Resonator, gate.
+2. **Gate / Map:** crossing gate opens the first-area start.
+3. **Pocket 1 — Comfort:** movement + satisfying basic harvesting; passive/skittish wildlife.
+4. **First complication:** territorial/aggressive wildlife or another readable danger.
+5. **Extraction Beacon 1:** teaches **EXTRACT / KEEP GOING**.
+6. **Pocket 2 — Temptation:** better resources, visible locked POI, more danger.
+7. **High-value unsecured reward:** later this should be a newly bonded Wildkin.
+8. **Another extraction choice:** enough accumulated value for the decision to matter.
+9. **Next major Waypoint visible/indicated:** clear aspirational progress target.
+10. **First-run limit:** danger/progression makes reaching the next major Waypoint unlikely; smart retreat or death teaches the loop.
+11. **Camp result:** recovery/loss card, map change, visible progress, immediate retry motivation.
 
-Starting farther forward should trade early gathering/XP/preparation for faster access to rare/deep content.
+The competition prototype will have a final deep-frontier endpoint, but it must not be realistically reachable on the first run.
 
-## Base, Resource Economy & Long-Term Home
+# 5. Run State, Inventory & Results
 
-The base is the persistent home between expeditions. Returning safely should preserve more than numbers: the player should see secured Wildkin and other permanent progress.
+## Resource Inventory
 
-Banked resources should eventually support competing meaningful sinks:
+Prototype resource inventory can remain **unlimited**.
 
-- known player/tool/equipment/Wildkin upgrades,
-- useful base structures/stations,
-- optional Matter Resonator discovery attempts.
+Do not add a second carry-pressure system before it proves useful.
 
-## Base Building
+HUD direction:
 
-Long-term vision: Forager-like free placement of useful structures/stations.
+- resource icons/counts upper-left,
+- hide zero-count entries,
+- allow the inventory container to scroll if it eventually grows.
 
-Competition prototype scope is budget-dependent. Do not build a large construction/crafting simulation before the expedition/capture loop is strong.
+## Wildkin Capacity
 
-## Base Wildkin
+Wildkin supply the early meaningful carry constraint.
 
-Secured Wildkin should physically wander/idly inhabit the home area so collection is visible. The active expedition companion is selected from the secured pool.
+Starting prototype rule once bonding exists:
 
-## Matter Resonator
+- one active secured companion may be brought on a run,
+- one unsecured newly bonded Wildkin may be carried,
+- later upgrades may increase capture capacity.
 
-The Matter Resonator is an optional persistent discovery machine:
+Finding another desirable Wildkin while already full should create a choice.
 
-- deposit materials to earn a Resonance attempt,
-- perform a short skill-influenced activation/kickoff interaction,
-- reward new possibilities rather than mostly tiny percentage increases.
+## Successful Extraction
 
-Potential rewards:
+Return to Camp and show a compact recovery card:
 
-- equipment/tool blueprints,
-- structures,
-- relics/charms,
-- utility items,
-- cosmetics,
-- frontier/map discoveries.
+- materials recovered,
+- XP earned,
+- Wildkin secured,
+- important finds/progress.
 
-Guardrails:
+Return to direct player control quickly.
 
-- no real-money/premium-currency framing,
-- reliable progression exists outside it,
-- duplicate protection/non-repeating discovery is preferred,
-- resource spending should compete with other useful sinks,
-- skill affects outcome without making it fully deterministic.
+## Death
 
-The Resonator is **optional/budget-dependent** for the competition prototype.
+Respawn at Camp and show a compact loss card:
 
-## World Authoring Direction
+- unsecured materials lost,
+- unsecured Wildkin lost/returned to habitat,
+- relevant retained permanent progress.
 
-The competition world should be compact and handcrafted, but the human developer needs to iterate without repeatedly asking an agent to edit coordinates.
+Future survival progression may retain a percentage of resources on death, but never 100%.
 
-### Runtime/source of truth
+# 6. Wildkin Direction
 
-Use a simple data-driven world definition such as `world.json` rather than scattered placement arrays in gameplay code.
+## Ecology / Temperament
 
-It should support:
+Current validated temperament model:
 
+- Aggressive,
+- Territorial,
+- Defensive,
+- Skittish,
+- selective predator/prey/rival relationships.
+
+Wildkin may react to the player and other Wildkin.
+
+Keep simple home/roam/notice/personal-space/leash data and lightweight steering. Add A*/navmesh only if the real authored frontier demonstrates repeated failures.
+
+## Bonding / Companion
+
+Exact bonding mechanic remains open, but it must be more interactive than reducing HP and throwing a generic capture object.
+
+Competition target:
+
+- 2–3 readable Wildkin species are enough,
+- bonded Wildkin remains unsecured until extraction,
+- secured Wildkin can visibly inhabit Camp,
+- choose one active companion,
+- each companion has one clearly useful behavior that changes expedition decisions.
+
+## Gated Revisits
+
+Earlier areas should contain memorable visible rewards the player cannot initially reach.
+
+Examples:
+
+- pond with island/chest when player cannot swim,
+- broken bridge requiring wood + iron,
+- iron/resource deposit requiring tool capability,
+- climb/glide gap requiring Wildkin traversal,
+- barrier requiring a powerful creature or upgraded tool.
+
+Later Wildkin/tool/material/skill progression can unlock these POIs. This gives small authored areas long-term depth.
+
+Some future Wildkin may be mountable. A right-side Wildkin button should eventually expose only the contextual actions that companion supports, such as **Ability**, **Command**, or **Mount / Dismount**.
+
+# 7. Field Tool / Combat Foundation
+
+Phase 3.1.1 is accepted as the current foundation.
+
+Locked rules:
+
+- one physical Field Tool owner,
+- same swing may hit harvestables and valid Wildkin,
+- Auto Harvest only auto-initiates resource swings,
+- Auto Harvest remains active during danger,
+- no auto-attack,
+- mobile tap = one swing,
+- hold = repeated swings at shared cadence,
+- swipe = dodge and takes precedence,
+- manual swings can harvest with Auto Harvest OFF,
+- ranged combat belongs to future equipment/loadout choices.
+
+Do not keep polishing the systems-test arena unless later real-frontier play exposes a regression.
+
+# 8. Camp / Matter Resonator
+
+A small Matter Resonator is visible at Camp from first launch.
+
+Core prototype role:
+
+- recovered expedition matter synchronizes/banks through a readable Camp interaction,
+- exactly one small reliable unlock/spend may be tied to it in the first complete loop.
+
+Future optional role:
+
+- deposit materials for Resonance attempts,
+- short skill-influenced kickoff/minigame,
+- duplicate-protected discoveries that unlock new possibilities.
+
+The full Resonator system and large base expansion remain optional until the expedition loop is strong.
+
+# 9. World Authoring & Performance Architecture
+
+## Data-Driven World
+
+Use `world.json` or equivalent rather than scattered coordinate arrays.
+
+Data should support:
+
+- Camp and gate,
+- areas/regions,
+- exploration pockets,
 - terrain/ground,
-- harvestables,
-- Wildkin spawn/home/temperament data,
-- platforms,
-- ramps,
-- ladders,
-- parkour/jump elements,
-- waystones,
-- future points of interest.
+- resources,
+- Wildkin spawn/home/temperament,
+- platforms/ramps/ladders/parkour,
+- major Waypoints,
+- Extraction Beacons,
+- POIs,
+- optional lock/unlock requirements.
 
-### Dev-only author mode
+## Dev-Only Authoring
 
-Preferred capabilities:
+Keep the author tool deliberately small:
 
 - place/select,
-- move,
-- rotate,
-- elevate,
-- resize where useful,
-- duplicate,
-- delete,
-- quick **Edit ↔ Play** switching,
-- deterministic export/save of world data.
+- move/rotate/elevate/resize where relevant,
+- duplicate/delete,
+- edit important object/anchor/region properties,
+- quick Edit ↔ Play,
+- deterministic JSON export/save.
 
-Parkour should be directly authored because platform dimensions, elevation, rotation, and rapid testing matter.
+Do not build a general-purpose level editor framework.
 
-An optional colored object-map PNG / grayscale heightmap importer may later create a broad first draft, but imported data must become the same editable world definition. This is an authoring workflow, not procedural world generation.
+## Region / Pocket Activation
 
-## World & Difficulty
+Three.js frustum culling handles render visibility, but it does not automatically stop AI/physics/gameplay simulation.
 
-Danger should primarily be spatial, not timer-driven. Farther from safety should generally mean:
+Add a lightweight runtime activation manager:
 
-- stronger or more complex threats,
-- more valuable resources,
-- rarer Wildkin opportunities,
-- more environmental/traversal pressure,
-- higher extraction stakes.
+- current region/pocket + nearby neighbors active,
+- distant creatures/pickups/colliders/expensive simulation deactivated or not instantiated,
+- no per-frame whole-world updates,
+- all data/assets remain local and offline,
+- no complex async asset streaming unless later profiling proves it necessary.
 
-Judge this in the real authored frontier, not the cramped systems-test arena.
+Near-top-down camera and directed areas make this practical.
 
-## Prototype Session Goal
+# 10. Hackathon Guardrails
 
-The prototype should support success and failure. A successful run secures meaningful progress and returns/extracts; death is failure. Deeper waystones/rare discoveries may provide escalating objectives. A final deep-frontier objective is optional if playtesting shows the session needs stronger direction.
+Official Devpost rules win on conflicts.
 
-## Camera & Controls
+Hard requirements include:
 
-- fixed high third-person / near top-down,
-- portrait-first,
-- one-thumb movement possible,
-- avoid normal-play camera rotation,
-- interactions large/contextual,
-- combat/harvesting minimize tiny precision targets.
-
-## Prototype Non-Goals Until Core Loop Is Strong
-
-- large open world,
-- multiplayer,
-- large/complex base-building simulation,
-- dozens of Wildkin,
-- complex crafting trees,
-- procedural world generation,
-- story campaign/quest chains,
-- monetization,
-- online accounts/backend,
-- elaborate character customization.
-
-## Resolved & Open Design Questions
-
-### Resolved
-
-- Manual combat input: tap = one swing, hold = repeated swings, swipe = dodge.
-- No auto-attack in current prototype.
-- Unified Field Tool interaction: one swing may hit harvestables + attackable Wildkin.
-- Auto Harvest stays available during danger and only auto-initiates resource-driven swings.
-- Wildkin use temperament/ecology rather than universal instant player aggro.
-- Wildkin may react to/attack/flee from other Wildkin.
-- Lightweight steering before A*.
-- Ranged combat belongs primarily to equipment/loadout progression.
-- Data-driven world + dev author mode is the preferred authoring path.
-
-### Open
-
-- Exact Wildkin capture/bonding mechanic.
-- XP/skill-point retention after failed runs.
-- Waystone banking cost/cooldown rules.
-- Whether the competition build needs a final deep-frontier objective.
-- Matter Resonator activation mechanic if it makes scope.
-- Exact resource costs and competition between spending sinks.
-- How much base free-placement belongs in the competition build.
-
-# 2. Hackathon Requirements & Guardrails
-
-## Official Source
-
-Meta Horizon Creator Competition: Game Prototype on Devpost. If this repository conflicts with official rules, Devpost wins.
-
-## Hard Build Requirements
-
-- genuinely playable mobile game prototype created primarily with AI prompting,
+- playable mobile prototype primarily built through AI prompting,
 - Three.js / HTML5,
-- single-player,
-- portrait orientation/fixed phone viewport during play,
-- self-contained and playable without external runtime network requests,
-- submission package <=35 MB,
-- `index.html` at ZIP root,
-- first-party code readable/unminified in submitted `index.html`,
-- third-party libraries in `/vendor` with relative paths,
-- local assets/audio/fonts/data,
-- primary repeatable action, real-time feedback, progression/escalation, clear success/failure/reset,
-- Design Intent document required,
-- Markdown Build Log required.
+- single player,
+- portrait fixed phone viewport,
+- self-contained/offline runtime,
+- submission ≤35 MB,
+- root `index.html`,
+- readable/unminified first-party code,
+- local vendor/assets/data,
+- clear repeatable action, feedback, progression/escalation, success/failure/reset,
+- Design Intent,
+- Markdown Build Log.
 
-## Chosen Genre
-
-Survival & Resource Management.
-
-## Judging Priorities
+Judging:
 
 - Player Engagement — 30%
 - Playability — 25%
@@ -332,284 +361,254 @@ Survival & Resource Management.
 - Focus — 15%
 - Originality — 10%
 
-Visual polish is not a direct scoring category, but feel/readability materially support the scored categories.
+Visual polish is not directly scored, but visual clarity is essential. A judge must immediately distinguish player, resources, Wildkin, danger, pickups, map/POIs, and extraction/progression state.
 
-## Project Implications
+One strong complete mechanic/loop beats several partial systems.
 
-- A small fun/reliable game beats a broad feature list.
-- The milestone is not “systems complete”; it is “fun to move, harvest, fight, risk something, and restart.”
-- Every phase preserves a playable build.
-- Mobile testing happens continuously.
-- Packaging/validation stays green throughout development.
-- Build Log is maintained during normal work.
+# 11. Agent Workflow
 
-# 3. Agent-Friendly Repository Rules
-
-Agent read order:
+Read order:
 
 1. `AGENTS.md`
 2. `docs/CURRENT_SLICE.md`
-3. `docs/PLAYTEST_NOTES.md` for refinement slices
+3. `docs/PLAYTEST_NOTES.md` for refinement work
 4. `docs/ARCHITECTURE.md`
 5. `docs/GAME_DESIGN.md`
 6. `docs/HACKATHON_REQUIREMENTS.md`
-7. relevant source files only
+7. relevant source only
 
-`CURRENT_SLICE.md` is implementation scope. This roadmap is not.
+Workflow:
 
-# 4. Recommended Build Workflow
+1. define one bounded outcome,
+2. implement only current slice,
+3. run automated gates,
+4. human playtest desktop + phone,
+5. record highest-value issues,
+6. run a bounded refinement pass if needed,
+7. commit/lock and move on.
 
-Use a **Human → Agent → Human** loop rather than long autonomous mega-sprints.
-
-1. Define one bounded player-visible outcome.
-2. Agent implements only the current slice.
-3. Run automated gates.
-4. Human playtests desktop + phone.
-5. Record what actually felt good/bad/confusing.
-6. Give a refinement session only accepted notes.
-7. Lock/commit and move on.
-
-Use stronger models for cross-system architecture/difficult bugs/review; cheaper models are suitable for well-specified implementation, cleanup, tests, config, and bounded fixes.
-
-# 5. Re-Baselined Phased Implementation Plan
+# 12. Re-Baselined Phased Implementation Plan
 
 ## Phase 0 — Compliant Foundation — DONE
 
-Portrait Three.js scene, local vendor dependencies, repository/docs, local server, submission build/validation, offline constraints.
+Portrait Three.js app, local vendors, docs, server, build/validation, offline compliance.
 
 ## Phase 1 — Movement & World Feel — DONE / LOCKED FOR NOW
 
-Player movement, camera, Rapier kinematic capsule/controller, run/sneak/jump/fall/air control, dodge, ladder/mantle, collision/grounding, mobile input, systems-test playground.
-
-Movement has been human-playtested and is accepted enough to avoid destabilizing while later systems are built.
+Accepted movement/camera/traversal/mobile foundation.
 
 ## Phase 2 — Harvesting Loop — DONE / LOCKED FOR NOW
 
-Three resources, Auto Harvest, manual/automatic Field Tool swings, in-range focus, vertical-aware targeting, visible depletion, pooled drops, magnet collection, temporary inventory, respawn, audio/particles, performance hardening.
+Accepted Field Tool harvesting, resources, pickups, inventory, audio/feedback foundation.
 
-Harvesting has been iteratively human-refined and is accepted as the current foundation.
+## Phase 3 — Basic Combat — DONE FIRST PASS
 
-## Phase 3 — Basic Combat Foundation — FIRST PASS DONE
+Health, dodge, death/restart, melee/ranged creature prototypes, XP.
 
-Player-visible goal: frontier becomes dangerous and player can intentionally fight, dodge, take damage, die, and restart.
+## Phase 3.1 / 3.1.1 — Ecology & Combat Validation — COMPLETE / ACCEPTED
 
-Implemented direction:
+Validated:
 
-- mobile tap attack / swipe dodge,
-- desktop explicit attack/dodge,
-- Field Tool melee,
-- broad frontal attack readability,
-- health/damage/knockback/i-frames,
-- Rusher melee prototype,
-- Spitter ranged prototype,
-- temporary XP,
-- death + fast restart.
+- projectile/player collision,
+- dead creature collision,
+- unified Field Tool interaction/cadence,
+- cyan faceted XP with collision-aware pop/rest and guaranteed magnet,
+- aggressive/territorial/defensive/skittish behavior,
+- player + Wildkin reactions,
+- home/leash/return,
+- lightweight steering,
+- anatomical Field Tool handedness,
+- regression coverage.
 
-Human test: combat is readable/fundamentally viable, but projectile collision, dead colliders, harvest/combat interaction, and wildlife identity require refinement.
+Do not continue isolated arena polish unless a later real-world regression appears.
 
-## Phase 3.1 — Creature Ecology & Combat Refinement — NEXT
+## Phase 3.5 — Directed-World Foundation
 
-Player-visible goal: wild creatures begin to feel like inhabitants of a frontier rather than generic enemies while combat correctness/interaction rules are resolved.
+Execute as **two bounded slices**, not one mega-sprint.
+
+### Phase 3.5A — Core-Loop Architecture, World Data & Region Activation — NEXT
+
+Goal: create the minimum clean foundation needed for a real directed expedition.
 
 Build:
 
-- fix Spitter projectile/player collision,
-- disable dead/respawning creature colliders and restore safely,
-- one physical Field Tool interaction against resources + attackable Wildkin,
-- keep Auto Harvest active during danger,
-- Auto Harvest only auto-initiates swings for resources,
-- tap = one swing, hold = repeated swings, swipe = dodge,
-- manual swings can harvest as well as damage creatures,
-- replace gold XP with larger glowing blue/cyan essence,
-- add data-driven temperaments: aggressive / territorial / defensive / skittish,
-- allow selected Wildkin-vs-Wildkin reactions/attacks/fleeing,
-- add home/roam/notice/personal-space/leash behavior,
-- add lightweight obstacle steering/separation,
-- do not add A* unless later evidence requires it.
+- keep `main.js` as composition/fixed-loop wiring,
+- introduce focused Expedition/Run Session ownership for temporary run state/lifecycle,
+- migrate authored placement into normalized `world.json` or equivalent,
+- define Camp/region/pocket/resource/Wildkin/traversal/major-Waypoint/Extraction-Beacon/POI schema,
+- make existing systems-test content load through the new data path first,
+- add region/pocket activation manager with current + neighbor activation,
+- preserve one rAF, fixed step, Rapier ownership, offline build, bounded pools,
+- add tests for deterministic world loading and activation/deactivation.
+
+Do **not** build Camp gameplay, map, extraction, bonding, progression, or a full editor yet.
+
+### Phase 3.5B — Minimal Author Mode & Area 1 Skeleton
+
+Goal: human can rapidly shape the first expedition without editing coordinates in gameplay code.
+
+Build only the authoring capability required for Area 1:
+
+- select/place/move/rotate/elevate/resize supported objects,
+- duplicate/delete,
+- edit region/pocket + anchor/POI properties,
+- quick Edit ↔ Play,
+- deterministic export/save,
+- rough Camp + Area 1 pocket skeleton only for authoring validation.
+
+No final gameplay content polish in this slice.
+
+## Phase 4 — Camp, Map & First Complete Directed Expedition
+
+This is the first major gameplay milestone.
+
+Build:
+
+- alien Camp: drop pod, perimeter fence, dense forest boundary, small Resonator, gate,
+- always-accessible top-right map,
+- gate-triggered expedition-start selection,
+- new save exposes only first start,
+- first area with 3–4 wide exploration pockets,
+- major Waypoint at area start and next major Waypoint as aspirational frontier progress,
+- 1–2 Extraction Beacons only if pacing needs them,
+- **EXTRACT / KEEP GOING** prompt on anchor interaction,
+- edge POI/extraction indicators,
+- unlimited prototype resource inventory + clearer upper-left inventory UI,
+- unsecured vs banked run state,
+- successful extraction recovery card,
+- death/loss card,
+- map updates/discovery persistence required for the loop,
+- Matter Resonator shell/sync + exactly one simple meaningful spend/unlock,
+- at least one visible gated POI that cannot yet be solved,
+- immediate next-run flow.
 
 Human test:
 
-- do creatures behave differently before being attacked?
-- can wildlife interactions happen without the player?
-- can player keep harvesting while deciding to avoid/fight/intervene?
-- do tap/hold/swipe gestures remain clear?
-- are projectile hits, dead collision, XP rewards reliable?
+- is deeper direction obvious?
+- does the player know what is at risk?
+- do Beacons create real choices without trivial banking?
+- is the next major Waypoint tempting but difficult?
+- does success/death make the player want another run?
 
-## Phase 3.5 — Architecture & World Authoring Foundation
-
-Player-visible/developer goal: preserve modular code before adding run persistence and make the frontier fast for a human to author/test.
-
-Architecture goals:
-
-- return `main.js` to composition/fixed-loop ownership rather than domain rules,
-- introduce clear Expedition/Run Session ownership for temporary run state,
-- keep Field Tool/action/hit ownership explicit,
-- separate creature perception/temperament, locomotion/steering, and combat behavior enough to avoid catch-all scripts,
-- preserve one rAF/fixed-step/Rapier/offline/performance constraints.
-
-World-authoring goals:
-
-- move placements into `world.json` or equivalent,
-- support terrain/resources/creature spawn-home/platform/ramp/ladder/parkour/waystone/POI data,
-- add dev-only place/select/move/rotate/elevate/resize/duplicate/delete,
-- quick Edit ↔ Play loop,
-- deterministic export/save,
-- optional later PNG/heightmap import only as first-draft generation.
-
-Human test: can the developer move/place a platform/tree/spawn, instantly playtest, return to edit, adjust, and repeat without asking an agent to edit coordinates?
-
-## Phase 4 — Real Frontier & First Complete Expedition Loop
-
-Player-visible goal: an ugly but complete real run in a compact connected frontier:
-
-**leave home → explore/harvest/fight → decide to return/push → extract/bank or die/lose unsecured cargo → immediately try again.**
+## Phase 5 — Wildkin Bonding as High-Value Risk
 
 Build:
 
-- replace cramped systems-test arena with compact connected authored frontier,
-- small home/safe clearing,
-- at least two meaningful routes, including room for traversal/parkour,
-- one riskier/deeper area,
-- unsecured vs banked resources/run state,
-- clear return/extraction interaction,
-- death loses unsecured cargo,
-- successful extraction banks it,
-- run summary + immediate next-run flow,
-- at least one reliable banked-resource spend that visibly improves next run,
-- no requirement for free-placement base building yet.
-
-This is the first major milestone. Do not broadly expand until the run loop is understandable and somewhat enjoyable.
-
-## Phase 5 — Wildkin Capture, Security & Companion
-
-Player-visible goal: capturing/securing a Wildkin creates a memorable reason to survive the trip home.
-
-Build:
-
-- one original simple capture/bonding interaction,
-- 2–3 prototype species with readable silhouettes/temperaments/roles,
-- captured = unsecured during run,
+- one original simple bonding interaction,
+- 2–3 readable species max for prototype,
+- exactly 1 unsecured capture slot initially,
+- bonded Wildkin unsecured until extraction,
 - death returns unsecured Wildkin to habitat,
-- extraction secures it,
-- secured Wildkin visibly inhabit home,
-- choose one active companion before run,
-- each companion has one distinct useful behavior.
+- secured Wildkin visible at Camp,
+- choose one active companion,
+- right-side Wildkin button/contextual ability flyout,
+- one companion ability that materially changes expedition decisions and ideally unlocks one known Area 1 POI.
 
-## Phase 6 — Equipment, Loadout & Deliberate Progression
+## Phase 6 — Replayability, Capacity & Gated Revisit
 
-Player-visible goal: intentionally plan different builds for future expeditions.
+Goal: a later run plays differently for a concrete reason.
 
-Build:
+Build only what playtests justify:
 
-- persistent local save,
-- XP / skill-point retention rules,
-- small branching Combat/Harvesting/Survival/Bonding tree,
-- deliberate point spending,
-- home loadout selection,
-- at least one mechanically different equipment choice,
-- ranged weapon is a strong candidate and should be acquired/equipped gear,
-- Field Tool remains melee/harvest option,
-- a few reliable resource purchases/upgrades that noticeably alter play.
+- persistent local save as needed,
+- one or two deliberate progression choices,
+- possible capture-capacity upgrade 1 → 2,
+- Field Tool/tool/material/companion unlock that opens a remembered POI,
+- optional small death-loss mitigation upgrade that never reaches 100%,
+- at most one mechanically distinct equipment choice if it truly improves replayability,
+- branching skill tree remains optional rather than assumed.
 
-Skills shape the build; gear changes actions/tools.
+## Phase 7 — Multi-Area Pacing, Waypoint Starts & Final Endpoint
 
-## Phase 7 — Waystones & Player-Directed Depth
+Goal: repeated runs create strategic start/depth choices and a clear long-term prototype objective.
 
-Player-visible goal: discover progression anchors and choose future entry points, trading early preparation for deeper rewards/danger.
+Build/tune:
 
-Build:
+- next major Waypoint / second area if needed,
+- map start selection from activated major Waypoints,
+- deeper start tradeoff: skips early gathering/XP/preparation,
+- Extraction Beacon spacing based on tension,
+- additional gated revisit opportunities only if worthwhile,
+- clear final deep-frontier endpoint,
+- progression/difficulty tuned so final endpoint is not first-run reachable.
 
-- ~2 discoverable waystones if world scale supports them,
-- permanent activation,
-- banking/limited recovery if useful,
-- start-location selection,
-- deeper starts skip some early resource/XP opportunities,
-- distinct danger/resource/rare-Wildkin/traversal pressure deeper in world.
+## Phase 8 — Optional Base Expansion & Full Matter Resonator
 
-## Phase 8 — Optional Base Utility & Matter Resonator
+Only after the expedition/bonding/replay loop is strong.
 
-**Budget-dependent. Add only if expedition/capture/progression are already strong.**
+Optional:
 
-Possible build:
+- small resource-driven Camp expansion/free placement,
+- useful structures,
+- full Resonance deposit → skill-influenced attempt → duplicate-protected discovery loop.
 
-- 1–2 or a few useful placeable structures,
-- competing resource sinks,
-- Matter Resonator deposit → attempt,
-- one short skill-influenced activation interaction,
-- small duplicate-protected discovery pool,
-- rewards that unlock meaningful possibilities.
+Do not sacrifice expedition quality for this phase.
 
-Do not sacrifice stronger core systems just to hit base-system counts.
+## Phase 9 — Judge-Ready Competition Loop
 
-## Phase 9 — Competition Vertical Slice
-
-Player-visible goal: one cohesive prototype demonstrates the actual intended fantasy without future promises.
+A judge should understand the game quickly, complete the core loop in one short session, encounter at least one meaningful secure-or-push decision, and want to replay.
 
 Prioritize:
 
-- one compact connected authored frontier + home,
-- strong movement/traversal/harvesting/combat,
-- wildlife temperament/ecology,
-- risk/extraction/death/restart,
-- small Wildkin roster sufficient to prove capture + companion,
-- meaningful loadout/skill choices if worthwhile,
-- waystones only if world scale makes them strategic,
-- optional base/Resonator only if proven,
-- one deeper aspirational objective/rare discovery if session needs stronger direction.
-
-Do not add content solely to hit counts.
+- readable Camp/map/gate flow,
+- 5–10 minute directed expedition,
+- strong movement/harvesting/combat/wildlife,
+- major Waypoint vs Extraction Beacon clarity,
+- risk/extraction/death/result clarity,
+- small Wildkin bonding/companion payoff,
+- at least one gated revisit tease/payoff,
+- enough progression to make repeat play materially different,
+- final endpoint visible as a longer-term goal,
+- no unnecessary feature counts.
 
 ## Phase 10 — Feel, Balance & Mobile Hardening
 
-Focus only on issues that materially affect judging:
+Only judging-impact issues:
 
-- input responsiveness/thumb comfort,
-- traversal readability,
-- Field Tool/combat/harvest timing,
-- creature telegraphs/temperament readability,
-- camera framing,
+- input/thumb comfort,
+- camera/readability,
 - run pacing/reward frequency,
-- risk/reward clarity,
-- capture/companion differentiation,
-- equipment/skill differentiation,
-- performance/long-session stability,
+- extraction/risk clarity,
+- wildlife/companion telegraphs,
+- UI hierarchy/map/POI indicators,
+- performance/streaming boundaries,
 - phone aspect ratios/safe areas,
 - audio/visual feedback,
-- environmental/UI tutorialization.
+- environmental tutorialization.
 
 ## Phase 11 — Submission Hardening
 
 - freeze features,
 - offline/network validation,
 - final readable/unminified `index.html`,
-- verify `/vendor` + relative asset references,
+- vendor/asset/relative-reference checks,
 - ZIP structure/size,
-- fresh-device playthrough to extraction and death,
+- fresh-device start → extraction and start → death playthroughs,
 - clean Build Log,
 - final Design Intent based on proven game,
-- preserve final tagged/committed state.
+- final tagged/committed submission state.
 
-# 6. Definition of Done for Every Slice
+# 13. Definition of Done for Every Slice
 
 A slice is done only when:
 
-- the player-visible outcome exists,
-- it works on phone,
-- existing accepted gameplay still works,
-- no known game-breaking runtime errors remain,
-- hackathon packaging remains valid,
-- agent updates Build Log,
-- human playtests it,
-- accepted refinement notes are completed or explicitly deferred.
+- stated player/developer outcome exists,
+- accepted gameplay remains functional,
+- relevant phone/manual test completed,
+- no known game-breaking runtime errors,
+- tests/verify/zip remain green,
+- portrait/offline constraints remain valid,
+- Build Log updated by implementation agent,
+- accepted refinement notes are complete or explicitly deferred.
 
-# 7. Immediate Next Actions
+# 14. Immediate Next Actions
 
-1. Complete and human-playtest **Phase 3.1 — Creature Ecology & Combat Refinement**.
-2. Lock combat/wildlife only when projectile hits, dead colliders, Field Tool interaction, temperaments, and hold-to-attack feel reliable on phone.
-3. Run **Phase 3.5 — Architecture & World Authoring Foundation** before adding extraction, persistence, or companion systems.
-4. Use authoring workflow to replace systems-test arena with the first small connected frontier.
-5. Implement Phase 4 complete expedition loop: unsecured cargo, return/extraction, banked gains, death loss, one reliable spend.
-6. Prioritize Wildkin capture/security/companion immediately after the run loop, before broad base/Resonator scope.
-7. Re-baseline later phases again after both the complete expedition loop and capture/companion loop have been human-playtested.
+1. Treat Phase 3.1.1 as accepted; stop systems-test arena polish.
+2. Run **Phase 3.5A** next: architecture/world-data/region-activation foundation only.
+3. Run **Phase 3.5B** only after 3.5A validates: minimal author mode + rough Camp/Area 1 pocket skeleton.
+4. Before Phase 4 implementation, define Area 1 on paper: pockets, resources, encounters, Extraction Beacon positions, locked POIs, and next major Waypoint pressure.
+5. Build Phase 4 end-to-end before broad progression systems.
+6. Add bonding/capture as the highest-value unsecured reward immediately after the basic expedition loop works.
+7. Re-baseline later phases after repeated phone playtests of expedition + Wildkin risk.
 
-**The project should earn complexity. Every new system must justify itself by improving the playable loop.**
+**Wildkin Frontier should make the player want to risk “one more pocket” and then play “one more run.”**
