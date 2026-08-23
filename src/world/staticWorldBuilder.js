@@ -112,7 +112,12 @@ export function createStaticWorld(worldData) {
     }
     if (isBlocking) {
       if (subtype === "gate") return;
-      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height, baseY, aabb: { minX: pos.x - w / 2, maxX: pos.x + w / 2, minZ: pos.z - d / 2, maxZ: pos.z + d / 2 } });
+      const rot = rotY ?? 0;
+      const cos = Math.abs(Math.cos(rot)), sin = Math.abs(Math.sin(rot));
+      const halfW = w/2, halfD = d/2;
+      const hx = cos*halfW + sin*halfD;
+      const hz = sin*halfW + cos*halfD;
+      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height, baseY, rotY: rot, aabb: { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz } });
     }
   }
 

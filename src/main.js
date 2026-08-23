@@ -38,25 +38,25 @@ const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 3.5B.1 — 0.10.1";
+const VERSION = "Phase 3.5B.2 — 0.10.2";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
 await RAPIER.init();
 
 // Determine effective world source (single authoritative source: world.json via generated)
-// Author Mode draft (localStorage) only used when ?author=1 explicitly enabled
+// Canonical repo data vs effective author draft must remain distinct (Reset restores canonical)
 function getAuthorEnabled() {
   try { return new URLSearchParams(window.location.search).get("author") === "1"; } catch { return false; }
 }
 const authorEnabled = getAuthorEnabled();
-let effectiveWorldData = WORLD_DATA;
+const canonicalWorldData = WORLD_DATA;
+let effectiveWorldData = canonicalWorldData;
 if (authorEnabled) {
   try {
     const raw = localStorage.getItem("wildkin.authorDraft");
     if (raw) {
       const parsed = JSON.parse(raw);
-      // Quick validate that it has regions
       if (parsed && Array.isArray(parsed.regions) && parsed.version) {
         effectiveWorldData = parsed;
       }
@@ -288,7 +288,7 @@ if (authorEnabled) {
     camera,
     renderer,
     worldRegistry,
-    draftSeed: worldRegistry.data,
+    draftSeed: canonicalWorldData,
     resourceSystem,
     creatureSystem,
     regionManager,
@@ -297,7 +297,6 @@ if (authorEnabled) {
     },
   });
   authorCtx = authorMode.init();
-  // Allow later system injection if needed
   if (authorMode.setSystems) authorMode.setSystems({ resourceSystem, creatureSystem, regionManager, worldRegistry });
   window.__author = { draftApi: authorCtx?.draftApi, ui: authorCtx?.ui, mode: authorMode };
 }
@@ -392,6 +391,7 @@ let physicsSubstepsLast = 0;
 const fixedDt = RAPIER_CONFIG.fixedDt;
 const maxSubsteps = RAPIER_CONFIG.maxSubsteps;
 const maxDelta = RAPIER_CONFIG.maxDelta;
+let prevAuthorSuppress = false;
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · Rapier ${RAPIER.version ? RAPIER.version() : "0.20.0"} · starting…`;
 
@@ -402,14 +402,18 @@ function tick() {
   const dt = Math.min(rawDt, maxDelta);
   accumulator += dt;
 
+  const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
+  if (authorSuppress !== prevAuthorSuppress) {
+    touchMovement.setEnabled(!authorSuppress);
+    prevAuthorSuppress = authorSuppress;
+  }
+  if (authorSuppress && authorMode && authorMode.updateEditorVisibility) authorMode.updateEditorVisibility();
+
   const touchIntent = touchMovement.getIntent();
   const kbIntent = keyboardInput.getIntent();
   const intent = mergeIntentsPure(touchIntent, kbIntent);
   const wasDodgeRequested = intent.dodgeRequested;
   const wasAttackRequested = intent.attackRequested;
-
-  const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
-  if (authorSuppress && authorMode && authorMode.updateEditorVisibility) authorMode.updateEditorVisibility();
   // In Edit mode, suppress gameplay input to avoid combat/harvest interference
   const effectiveIntent = authorSuppress ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "IDLE", dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
 

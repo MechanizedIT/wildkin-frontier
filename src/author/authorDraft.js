@@ -139,12 +139,11 @@ export function createAuthorDraft(repoData) {
     const found = findObjectById(id);
     if (!found) return { ok: false, error: "object not found" };
     const { obj } = found;
-    // For creatures, moving pos should move homePos together by default unless homePos explicitly patched
+    // For creatures, default Move Home With Spawn = ON: moving pos moves home by same delta unless homePos explicitly provided or patch explicitly opts out
     let creatureDelta = null;
-    if (found.type === "creature" && patch.pos && !patch.homePos && obj.pos && obj.homePos) {
+    if (found.type === "creature" && patch.pos && obj.pos && obj.homePos && !patch.homePos && patch.moveHomeWithSpawn !== false) {
       creatureDelta = { x: patch.pos.x - obj.pos.x, z: patch.pos.z - obj.pos.z, y: (patch.pos.y ?? obj.pos.y ?? 0) - (obj.pos.y ?? 0) };
     }
-    // Apply patch: pos, rotY, size
     if (patch.pos) {
       obj.pos = { x: patch.pos.x, y: patch.pos.y ?? obj.pos.y ?? 0, z: patch.pos.z };
       if (creatureDelta && obj.homePos) {

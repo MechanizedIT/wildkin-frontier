@@ -23,6 +23,7 @@ export function createAuthorMode(opts) {
   let isEdit = false;
   let selectedId = null;
   let highlightMesh = null;
+  let homeMarker = null;
   let regionOverlays = [];
   let raycaster = new THREE.Raycaster();
   let mouse = new THREE.Vector2();
@@ -41,10 +42,13 @@ export function createAuthorMode(opts) {
     worldRegistry,
     onCreate: (item) => {
       if (!isEdit) {
-        // If not in edit, enter edit first
         isEdit = true; suppressGameplay = true;
-        ui.element.querySelector("#author-toggle").click(); // will toggle? Instead set manually
-        // For palette placement, we enter place mode rather than immediate create
+        // Enter edit mode visually if not already
+        enterEdit();
+        ui.element.querySelector("#author-toggle").textContent = "PLAY";
+        ui.element.querySelector("#author-toggle").style.background = "#1a8a4a";
+        const badge = ui.element.querySelector("#author-mode-badge");
+        if (badge) { badge.textContent = "EDITING"; badge.style.background = "#1a3a2a"; badge.style.color = "#6aff8a"; }
       }
       enterPlaceMode(item);
     },
@@ -63,25 +67,40 @@ export function createAuthorMode(opts) {
     onDraftChanged: (id, deletedId) => {
       if (id) {
         selectedId = id; ui.setSelected(id);
-        // If mesh for new id doesn't exist (duplicate), create preview
         if (!findMeshByAuthorId(id)) createPreviewMeshForNewObject(id);
         syncPreviewForId(id);
+        updateHomeMarker();
+        if (ui.refreshHierarchy) ui.refreshHierarchy();
       }
-      if (deletedId) removePreviewMesh(deletedId);
+      if (deletedId) { removePreviewMesh(deletedId); if (ui.refreshHierarchy) ui.refreshHierarchy(); }
       updateHighlight();
       updateOverlays();
       if (isEdit) updateEditorVisibility();
+      updateHomeMarker();
     },
     onSelectNew: (id) => {
       selectedId = id;
       ui.setSelected(id);
       syncPreviewForId(id);
       updateHighlight();
+      updateHomeMarker();
+      if (ui.refreshHierarchy) ui.refreshHierarchy();
     },
     onValidate: (ok, err) => {
       if (ok) ui.setStatus("✓ Valid", false); else ui.setStatus("⚠ " + err, true);
     },
-    onSelectRegion: () => updateOverlays()
+    onSelectRegion: () => { updateOverlays(); if (ui.refreshHierarchy) ui.refreshHierarchy(); },
+    onFocusObject: (id) => {
+      const found = draftApi.findObjectById(id);
+      if (!found) return;
+      const pos = found.obj.pos || { x: found.obj.x, z: found.obj.z };
+      if (!pos) return;
+      camera.position.x = pos.x;
+      camera.position.z = pos.z + 5;
+      camera.lookAt(pos.x, 0, pos.z);
+      camera.updateMatrixWorld();
+      selectedId = id; ui.setSelected(id); updateHighlight(); updateHomeMarker(); updateEditorVisibility();
+    }
   });
 
   function isEnabled() {
@@ -118,31 +137,16 @@ export function createAuthorMode(opts) {
     if (!found) return;
     const obj = found.obj;
     const meshes = findAllMeshesByAuthorId(id);
-    // For resources/creatures, the group contains children; we should move the group
     let target = findMeshByAuthorId(id);
-    // For resources: group is THREE.Group at pos, find group that is parent of meshes
     if (!target) return;
-    // Determine if target is group or mesh; for resources/creatures, target may be group
-    let meshToMove = target;
-    // If target is part of a creature/resource group, move the top group
-    let cur = target;
-    while (cur.parent && cur.parent !== scene && cur.parent.userData && cur.parent.userData.authorId === id) { cur = cur.parent; }
-    // Actually traverse up to find group with authorId that is direct child of scene or has position at ground
-    // Simpler: if target.parent is Group with authorId, move that parent
     let top = target;
     while (top.parent && top.parent.userData && top.parent.userData.authorId === id) top = top.parent;
-    // For creature: top group is the creature group at basePos, but its position is ground base, while draft pos is capsule center? For simplicity move group to draft pos (ground)
     const draftPos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: obj.y ?? obj.baseY ?? 0, z: obj.z } : null);
     if (!draftPos) return;
     const baseY = draftPos.y ?? obj.y ?? obj.baseY ?? 0;
-    // Handle different types
     if (found.type === "creature") {
-      // Creature group base at ground: group.position.y = pos.y - capsule offset, but for preview we move group to pos ground
-      // For live preview simplicity, move group to draft pos (x, baseY, z) – approximate
       top.position.set(draftPos.x, baseY, draftPos.z);
-      // Keep highlight in sync
     } else if (found.type === "resource") {
-      // Resource group at pos
       top.position.set(draftPos.x, baseY, draftPos.z);
     } else if (found.collection === "props") {
       const height = (obj.size?.h ?? 1);
@@ -151,16 +155,23 @@ export function createAuthorMode(opts) {
         top.position.set(draftPos.x, baseY, draftPos.z);
         top.rotation.y = obj.rotY ?? 0;
       } else {
-        // For generic prop mesh
         for (const m of meshes) {
-          if (m.isMesh) {
+          if (m.isMesh && m.geometry?.type === "BoxGeometry") {
+            // Live resize: recreate geometry if size changed
+            const desiredW = obj.size?.w ?? m.geometry.parameters?.width ?? 1;
+            const desiredH = obj.size?.h ?? 1;
+            const desiredD = obj.size?.d ?? 1;
+            const gp = m.geometry.parameters;
+            if (gp && (Math.abs(gp.width - desiredW) > 0.01 || Math.abs(gp.height - desiredH) > 0.01 || Math.abs(gp.depth - desiredD) > 0.01)) {
+              const newGeo = new THREE.BoxGeometry(desiredW, desiredH, desiredD);
+              m.geometry.dispose();
+              m.geometry = newGeo;
+            }
+            m.position.set(draftPos.x, isWater ? baseY -0.04 : baseY + desiredH/2 -0.02, draftPos.z);
+            m.rotation.y = obj.rotY ?? 0;
+          } else if (m.isMesh) {
             m.position.set(draftPos.x, isWater ? baseY -0.04 : baseY + height/2 -0.02, draftPos.z);
             m.rotation.y = obj.rotY ?? 0;
-            // Size change requires geometry recreation — for preview just scale if size changed?
-            if (obj.size) {
-              // Naive scale: assume original size was 1; for authoring we could recreate geometry but for now scale
-              // We'll rebuild via recreate path for size: mark needs rebuild but for now approximate
-            }
           }
         }
         if (top.isGroup) { top.position.set(draftPos.x, baseY, draftPos.z); top.rotation.y = obj.rotY ?? 0; }
@@ -168,13 +179,18 @@ export function createAuthorMode(opts) {
     } else if (found.type === "platform" || found.type === "obstacle") {
       const h = obj.height ?? 1;
       const by = obj.y ?? obj.baseY ?? 0;
-      for (const m of meshes) if (m.isMesh) { m.position.set(obj.x, by + h/2 -0.02, obj.z); m.rotation.y = obj.rotY ?? 0; }
-      // Also top group if any
-      if (top.isGroup) { /* platform is mesh not group */ }
-    } else if (found.type === "climbable") {
-      // Y shift already handled via draft bottomY/topY; for preview move wall
+      const desiredW = obj.w ?? 1, desiredH = h, desiredD = obj.h ?? 1;
       for (const m of meshes) if (m.isMesh && m.geometry?.type === "BoxGeometry") {
-        // Ladder wall: position at (x, (bottomY+topY)/2, z)
+        const gp = m.geometry.parameters;
+        if (gp && (Math.abs(gp.width - desiredW) > 0.01 || Math.abs(gp.height - desiredH) > 0.01 || Math.abs(gp.depth - desiredD) > 0.01)) {
+          const newGeo = new THREE.BoxGeometry(desiredW, desiredH, desiredD);
+          m.geometry.dispose(); m.geometry = newGeo;
+        }
+        m.position.set(obj.x, by + h/2 -0.02, obj.z);
+        m.rotation.y = obj.rotY ?? 0;
+      }
+    } else if (found.type === "climbable") {
+      for (const m of meshes) if (m.isMesh && m.geometry?.type === "BoxGeometry") {
         const by = (obj.bottomY + obj.topY)/2 -0.02;
         m.position.set(obj.x, by, obj.z);
       }
@@ -182,7 +198,6 @@ export function createAuthorMode(opts) {
       const base = baseY;
       const h = found.type === "majorWaypoint" ? 1.6 : found.type === "extractionBeacon" ? 1.2 : 0.6;
       for (const m of meshes) if (m.isMesh) {
-        // Differentiate ring vs top vs main: just move main cylinder/box
         if (m.geometry?.type === "CylinderGeometry" || m.geometry?.type === "BoxGeometry") {
           m.position.set(draftPos.x, base + h/2, draftPos.z);
         } else if (m.geometry?.type === "RingGeometry") {
@@ -192,18 +207,42 @@ export function createAuthorMode(opts) {
         }
       }
     }
-    // After moving, update highlight
     updateHighlight();
+    updateHomeMarker();
   }
 
   function removePreviewMesh(id) {
     const meshes = findAllMeshesByAuthorId(id);
     for (const m of meshes) {
       if (m.parent) m.parent.remove(m);
-      // Also need to dispose? For now just remove; PLAY reload will rebuild fully
     }
-    // Remove highlight if it was that id
     if (highlightMesh) { scene.remove(highlightMesh); highlightMesh = null; }
+    if (homeMarker) { scene.remove(homeMarker); homeMarker = null; }
+  }
+  function updateHomeMarker() {
+    if (homeMarker) { scene.remove(homeMarker); homeMarker = null; }
+    if (!selectedId) return;
+    const found = draftApi.findObjectById(selectedId);
+    if (!found || found.type !== "creature") return;
+    const spawn = found.obj.pos;
+    const home = found.obj.homePos;
+    if (!spawn || !home) return;
+    const group = new THREE.Group(); group.name = "home-marker";
+    const geo = new THREE.CylinderGeometry(0.12, 0.12, 1.0, 8);
+    const mat = new THREE.MeshStandardMaterial({ color: 0x30d158, emissive: 0x0a3a1a, emissiveIntensity: 0.2 });
+    const pillar = new THREE.Mesh(geo, mat); pillar.position.set(home.x, 0.5, home.z); group.add(pillar);
+    const ring = new THREE.Mesh(new THREE.RingGeometry(0.35, 0.45, 16), new THREE.MeshBasicMaterial({ color: 0x30d158, transparent: true, opacity: 0.6, side: THREE.DoubleSide })); ring.rotation.x = -Math.PI/2; ring.position.set(home.x, 0.07, home.z); group.add(ring);
+    if (Math.hypot(spawn.x - home.x, spawn.z - home.z) > 0.1) {
+      const pts = [new THREE.Vector3(spawn.x, 0.1, spawn.z), new THREE.Vector3(home.x, 0.1, home.z)];
+      const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: 0x30d158, transparent: true, opacity: 0.7 }));
+      group.add(line);
+    }
+    if (found.obj.roamRadius) {
+      const roamGeo = new THREE.RingGeometry(Math.max(0.1, found.obj.roamRadius -0.05), found.obj.roamRadius +0.05, 24);
+      const roamMat = new THREE.MeshBasicMaterial({ color: 0x30d158, transparent: true, opacity: 0.15, side: THREE.DoubleSide });
+      const roamRing = new THREE.Mesh(roamGeo, roamMat); roamRing.rotation.x = -Math.PI/2; roamRing.position.set(home.x, 0.06, home.z); group.add(roamRing);
+    }
+    scene.add(group); homeMarker = group;
   }
 
   function createPreviewMeshForNewObject(id) {
@@ -613,19 +652,22 @@ export function createAuthorMode(opts) {
     if (!found) return;
     const newX = pt.x + dragOffset.x;
     const newZ = pt.z + dragOffset.z;
-    // Clamp to world bounds
     const nx = Math.max(-12.3, Math.min(12.3, newX));
     const nz = Math.max(-11.3, Math.min(11.3, newZ));
+    const oldX = found.obj.pos ? found.obj.pos.x : found.obj.x;
+    const oldZ = found.obj.pos ? found.obj.pos.z : found.obj.z;
+    const dx = nx - oldX, dz = nz - oldZ;
     if (found.obj.pos) {
       found.obj.pos.x = nx; found.obj.pos.z = nz;
-      if (found.type === "creature" && found.obj.homePos) { found.obj.homePos.x = nx; found.obj.homePos.z = nz; }
+      if (found.type === "creature" && found.obj.homePos) {
+        const moveHome = document.getElementById("author-move-home")?.checked ?? true;
+        if (moveHome) { found.obj.homePos.x += dx; found.obj.homePos.z += dz; }
+      }
     } else if (found.obj.x !== undefined) {
       found.obj.x = nx; found.obj.z = nz;
     }
-    // Update draft persistence lightly (not full persist every move, but we do)
-    // Direct mesh sync
     syncPreviewForId(selectedId);
-    // Update UI fields without triggering validation spam
+    updateHomeMarker();
     ui.setSelected(selectedId);
     e.preventDefault();
   }
@@ -722,10 +764,12 @@ export function createAuthorMode(opts) {
     if (dx !== 0 || dz !== 0) {
       const found = draftApi.findObjectById(selectedId);
       if (found) {
-        if (found.obj.pos) { found.obj.pos.x += dx; found.obj.pos.z += dz; if (found.type==="creature"&&found.obj.homePos){ found.obj.homePos.x+=dx; found.obj.homePos.z+=dz; } }
+        const moveHome = document.getElementById("author-move-home")?.checked ?? true;
+        if (found.obj.pos) { found.obj.pos.x += dx; found.obj.pos.z += dz; if (found.type==="creature"&&found.obj.homePos && moveHome){ found.obj.homePos.x+=dx; found.obj.homePos.z+=dz; } }
         else if (found.obj.x !== undefined) { found.obj.x += dx; found.obj.z += dz; }
         draftApi.updateTransform(selectedId, {});
         syncPreviewForId(selectedId);
+        updateHomeMarker();
         ui.setSelected(selectedId);
         updateHighlight();
         updateEditorVisibility();
@@ -736,9 +780,9 @@ export function createAuthorMode(opts) {
 
   function updateHighlight() {
     if (highlightMesh) { scene.remove(highlightMesh); highlightMesh = null; }
-    if (!selectedId) return;
+    if (!selectedId) { if (homeMarker) { scene.remove(homeMarker); homeMarker = null; } return; }
     const found = draftApi.findObjectById(selectedId);
-    if (!found) return;
+    if (!found) { if (homeMarker) { scene.remove(homeMarker); homeMarker = null; } return; }
     const obj = found.obj;
     const pos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: obj.y ?? obj.baseY ?? 0, z: obj.z } : null);
     if (!pos) return;
@@ -748,6 +792,7 @@ export function createAuthorMode(opts) {
     const ring = new THREE.Mesh(geo, mat); ring.rotation.x = -Math.PI / 2; ring.position.set(pos.x, y, pos.z);
     const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 1.2, 6), new THREE.MeshBasicMaterial({ color: 0xffd54f })); cyl.position.set(pos.x, y + 0.6, pos.z);
     const group = new THREE.Group(); group.add(ring); group.add(cyl); group.name = "selection-highlight"; scene.add(group); highlightMesh = group;
+    updateHomeMarker();
   }
 
   return { init, setSystems, draftApi, ui, isEditMode: () => isEdit, suppressGameplay: () => suppressGameplay, getSelectedId: () => selectedId, updateHighlight, updateOverlays, updateEditorVisibility, findMeshByAuthorId, syncPreviewForId };

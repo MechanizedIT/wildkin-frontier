@@ -5,6 +5,17 @@ import { GESTURE_CONFIG } from "./gesture.js";
 
 export function createTouchMovement(appElement, moveCfg, inputCfg) {
   const maxRadius = inputCfg.joystickMaxRadius ?? 68;
+  let enabled = true;
+  function setEnabled(v) {
+    enabled = !!v;
+    if (!enabled) {
+      if (hasActive) { hasActive = false; activeId = null; band = "idle"; magnitude = 0; nx = 0; ny = 0; hideVisuals(); try { appElement.releasePointerCapture(activeId); } catch {} }
+      if (swipe.active) { swipe.active = false; swipe.id = null; swipe.holdEstablished = false; attackHeld = false; }
+      dodgePending = false; attackPending = false;
+      hasActive = false;
+    }
+  }
+  function isEnabled() { return enabled; }
 
   // State
   let activeId = null;
@@ -130,7 +141,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   }
 
   function handleDown(e) {
-    if (window.__author && window.__author.authorCtx && window.__author.authorCtx.isEditMode && window.__author.authorCtx.isEditMode()) return;
+    if (!enabled) return;
     if (e.pointerType === "mouse" && e.button !== 0) return;
     const targetIsButton = e.target.closest && e.target.closest("button, a");
     if (targetIsButton) return;
@@ -173,6 +184,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   }
 
   function handleMove(e) {
+    if (!enabled) return;
     if (e.pointerId === activeId && hasActive) {
       current.x = e.clientX;
       current.y = e.clientY;
@@ -218,6 +230,10 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   }
 
   function handleUp(e) {
+    if (!enabled) { // clear any lingering state
+      hasActive = false; activeId = null; hideVisuals();
+      swipe.active = false; swipe.id = null; attackHeld = false; return;
+    }
     if (e.pointerId === activeId && hasActive) {
       hasActive = false;
       activeId = null;
@@ -293,6 +309,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   appElement.addEventListener("pointercancel", handleUp, { passive: false });
 
   function getIntent() {
+    if (!enabled) return { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, dodgeX: 0, dodgeY: 0, attackRequested: false, attackHeld: false };
     // Update hold while pointer still down (polling)
     if (swipe.active && !swipe.holdEstablished) {
       const dur = performance.now() - swipe.st;
@@ -370,5 +387,5 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     appElement.removeEventListener("pointercancel", handleUp);
   }
 
-  return { getIntent, consumeDodge, consumeAttack, simulateGesture, simulateHold, destroy, _debug: () => ({ hasActive, nx, ny, magnitude, band, dodgePending, attackPending, attackHeld, swipe }) };
+  return { getIntent, consumeDodge, consumeAttack, simulateGesture, simulateHold, destroy, setEnabled, isEnabled, _debug: () => ({ hasActive, nx, ny, magnitude, band, dodgePending, attackPending, attackHeld, swipe, enabled }) };
 }

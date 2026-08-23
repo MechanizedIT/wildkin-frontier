@@ -47,11 +47,16 @@ export function createAuthorUI(opts) {
             <label>Type <select id="author-creature-type"><option value="rusher">rusher</option><option value="spitter">spitter</option></select></label>
             <label>Temperament <select id="author-temper"><option>AGGRESSIVE</option><option>TERRITORIAL</option><option>DEFENSIVE</option><option>SKITTISH</option></select></label>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px">
+              <label>Spawn X <input id="author-spawn-x" type="number" step="0.1" style="width:100%"></label>
+              <label>Spawn Z <input id="author-spawn-z" type="number" step="0.1" style="width:100%"></label>
+              <label>Home X <input id="author-home-x" type="number" step="0.1" style="width:100%"></label>
+              <label>Home Z <input id="author-home-z" type="number" step="0.1" style="width:100%"></label>
               <label>Roam <input id="author-roam" type="number" step="0.1" style="width:100%"></label>
               <label>Notice <input id="author-notice" type="number" step="0.1" style="width:100%"></label>
               <label>Personal <input id="author-personal" type="number" step="0.1" style="width:100%"></label>
               <label>Leash <input id="author-leash" type="number" step="0.1" style="width:100%"></label>
             </div>
+            <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:11px"><input type="checkbox" id="author-move-home" checked> Move Home With Spawn</label>
           </div>
           <div id="author-anchor-fields" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:4px">
             <div style="font-weight:600;margin-bottom:2px">Anchor / POI</div>
@@ -73,6 +78,11 @@ export function createAuthorUI(opts) {
           <div style="font-size:10px;color:#6a7a8a;margin-top:4px">Drag object in Edit to move X/Z · Y via buttons/field</div>
         </div>
       </div>
+    </details>
+    <details id="sec-hierarchy" open style="margin-bottom:8px">
+      <summary style="font-weight:700;cursor:pointer">Hierarchy</summary>
+      <input id="author-filter" placeholder="filter id/type" style="width:100%;margin-top:4px;font-size:11px;padding:4px;border-radius:4px;border:1px solid #2a3a5a;background:#0a0f1e;color:#d0d8e8">
+      <div id="author-hierarchy" style="max-height:240px;overflow:auto;margin-top:4px;border:1px solid #1e2a4a;border-radius:4px;padding:4px;background:#0a0f1e;font-size:11px"></div>
     </details>
     <details id="sec-region" style="margin-bottom:8px">
       <summary style="font-weight:700;cursor:pointer">Region</summary>
@@ -161,6 +171,49 @@ export function createAuthorUI(opts) {
     container.querySelector("#author-b-minZ").value = r.bounds.minZ;
     container.querySelector("#author-b-maxZ").value = r.bounds.maxZ;
   }
+  const hierarchyEl = container.querySelector("#author-hierarchy");
+  const filterEl = container.querySelector("#author-filter");
+  if (filterEl) filterEl.addEventListener("input", refreshHierarchy);
+  function refreshHierarchy() {
+    if (!hierarchyEl) return;
+    const draft = draftApi.getDraft();
+    const filter = (filterEl?.value || "").toLowerCase().trim();
+    hierarchyEl.innerHTML = "";
+    for (const region of draft.regions) {
+      const cats = [
+        { label: "Props", items: region.props ?? [] },
+        { label: "Traversal", items: [...(region.traversal?.platforms??[]), ...(region.traversal?.obstacles??[]), ...(region.traversal?.climbables??[])] },
+        { label: "Resources", items: region.resources ?? [] },
+        { label: "Wildkin", items: region.creatures ?? [] },
+        { label: "Anchors", items: [...(region.majorWaypoints??[]), ...(region.extractionBeacons??[])] },
+        { label: "POIs", items: region.pois ?? [] },
+      ];
+      let hasVisible = !filter || region.id.toLowerCase().includes(filter) || (region.displayName&&region.displayName.toLowerCase().includes(filter));
+      for (const c of cats) for (const o of c.items) if (!filter || o.id.toLowerCase().includes(filter) || (o.type&&o.type.toLowerCase().includes(filter)) || (o.subtype&&o.subtype.toLowerCase().includes(filter))) hasVisible=true;
+      if (!hasVisible) continue;
+      const det = document.createElement("details"); det.open = !!filter || region.id===regionSelectEl.value; det.style.marginBottom="4px";
+      const sum = document.createElement("summary"); sum.textContent = region.id; sum.style.cursor="pointer"; sum.style.fontWeight="700"; det.appendChild(sum);
+      for (const cat of cats) {
+        if (cat.items.length===0) continue;
+        const filtered = cat.items.filter(o=> !filter || o.id.toLowerCase().includes(filter) || (o.type&&o.type.toLowerCase().includes(filter)) || (o.subtype&&o.subtype.toLowerCase().includes(filter)));
+        if (filtered.length===0) continue;
+        const catDet = document.createElement("details"); catDet.style.marginLeft="8px"; catDet.open = !!filter;
+        const catSum = document.createElement("summary"); catSum.textContent = `${cat.label} (${filtered.length})`; catSum.style.cursor="pointer"; catSum.style.color="#8aa0c0"; catDet.appendChild(catSum);
+        for (const obj of filtered) {
+          const row = document.createElement("div"); row.textContent = obj.id + (obj.type?` [${obj.type}]`: obj.subtype?` [${obj.subtype}]`:""); row.dataset.id = obj.id; row.style.padding="2px 4px"; row.style.borderRadius="3px"; row.style.cursor="pointer"; row.style.display="flex"; row.style.justifyContent="space-between"; row.style.alignItems="center";
+          if (obj.id===selectedId) { row.style.background="#2a3a5a"; row.style.color="#ffd54f"; }
+          row.addEventListener("click", ()=>{ setSelected(obj.id); opts.onDraftChanged?.(obj.id); });
+          const focusBtn = document.createElement("button"); focusBtn.textContent="◉"; focusBtn.title="Focus camera"; focusBtn.style.cssText="font-size:10px;padding:1px 4px;margin-left:4px;background:#1a243a;color:#8aa0c0;border:1px solid #2a3a5a;border-radius:3px;cursor:pointer";
+          focusBtn.addEventListener("click", (e)=>{ e.stopPropagation(); opts.onFocusObject?.(obj.id); });
+          row.appendChild(focusBtn);
+          row.addEventListener("dblclick", ()=> opts.onFocusObject?.(obj.id));
+          catDet.appendChild(row);
+        }
+        det.appendChild(catDet);
+      }
+      hierarchyEl.appendChild(det);
+    }
+  }
   regionSelectEl.addEventListener("change", refreshRegionForm);
   container.querySelector("#author-region-apply").addEventListener("click", () => {
     const rid = regionSelectEl.value;
@@ -178,7 +231,7 @@ export function createAuthorUI(opts) {
     const st = container.querySelector("#author-region-status");
     if (res.ok) {
       const v = draftApi.validate();
-      if (v.ok) { st.textContent = "Region applied — validated"; st.style.color="#aaffaa"; if (onSelectRegion) onSelectRegion(rid); }
+      if (v.ok) { st.textContent = "Region applied — validated"; st.style.color="#aaffaa"; if (onSelectRegion) onSelectRegion(rid); refreshHierarchy(); }
       else { st.textContent = v.error; st.style.color="#ffaaaa"; }
     } else { st.textContent = res.error; st.style.color="#ffaaaa"; }
   });
@@ -246,10 +299,15 @@ export function createAuthorUI(opts) {
       creatureFields.style.display="";
       container.querySelector("#author-creature-type").value = obj.type;
       container.querySelector("#author-temper").value = obj.temperament;
+      container.querySelector("#author-spawn-x").value = obj.pos?.x ?? "";
+      container.querySelector("#author-spawn-z").value = obj.pos?.z ?? "";
+      container.querySelector("#author-home-x").value = obj.homePos?.x ?? "";
+      container.querySelector("#author-home-z").value = obj.homePos?.z ?? "";
       container.querySelector("#author-roam").value = obj.roamRadius ?? "";
       container.querySelector("#author-notice").value = obj.noticeRadius ?? "";
       container.querySelector("#author-personal").value = obj.personalSpace ?? "";
       container.querySelector("#author-leash").value = obj.leashRadius ?? "";
+      // keep checkbox as is (default checked)
     } else creatureFields.style.display="none";
     const anchorFields = container.querySelector("#author-anchor-fields");
     if (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi") {
@@ -269,21 +327,38 @@ export function createAuthorUI(opts) {
     const x = parseFloat(container.querySelector("#author-x").value);
     const z = parseFloat(container.querySelector("#author-z").value);
     const y = parseFloat(container.querySelector("#author-y").value);
-    if (!isNaN(x) && !isNaN(z)) patch.pos = { x, y: isNaN(y)?0:y, z };
     const rotDeg = parseFloat(container.querySelector("#author-rot").value);
-    if (!isNaN(rotDeg)) patch.rotY = rotDeg * Math.PI / 180;
     const w = parseFloat(container.querySelector("#author-w").value);
     const d = parseFloat(container.querySelector("#author-h").value);
     const height = parseFloat(container.querySelector("#author-height").value);
-    const size = {};
-    if (!isNaN(w)) size.w = w;
-    if (!isNaN(d)) size.d = d;
-    if (Object.keys(size).length) patch.size = size;
-    if (!isNaN(w) && isNaN(d)) { patch.w = w; patch.h = d; }
-    if (!isNaN(height)) patch.height = height;
+    const found = selectedId ? draftApi.findObjectById(selectedId) : null;
+    if (!isNaN(x) && !isNaN(z)) {
+      if (found && (found.type === "platform" || found.type === "obstacle")) {
+        patch.x = x; patch.z = z; if (!isNaN(y)) patch.y = y;
+      } else {
+        patch.pos = { x, y: isNaN(y)?0:y, z };
+      }
+    } else if (!isNaN(x) && found && (found.type === "platform" || found.type === "obstacle")) {
+      patch.x = x;
+    }
+    if (!isNaN(rotDeg)) patch.rotY = rotDeg * Math.PI / 180;
+    // Dimensions: Width/Depth/Height -> size.w/size.d/size.h for props, w/h/height for platforms/obstacles
+    if (found && found.type === "prop") {
+      const size = {};
+      if (!isNaN(w)) size.w = w;
+      if (!isNaN(d)) size.d = d;
+      if (!isNaN(height)) size.h = height;
+      if (Object.keys(size).length) patch.size = size;
+    } else if (found && (found.type === "platform" || found.type === "obstacle")) {
+      if (!isNaN(w)) patch.w = w;
+      if (!isNaN(d)) patch.h = d;
+      if (!isNaN(height)) patch.height = height;
+    } else {
+      // For other types, height not used but keep for completeness
+      if (!isNaN(height)) patch.height = height;
+    }
     const selRegion = selRegionEl.value;
     if (selRegion) patch.regionId = selRegion;
-    const found = selectedId ? draftApi.findObjectById(selectedId) : null;
     if (found && found.type === "creature") {
       patch.creatureType = container.querySelector("#author-creature-type").value;
       patch.temperament = container.querySelector("#author-temper").value;
@@ -291,11 +366,6 @@ export function createAuthorUI(opts) {
     if (found && (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi")) {
       const t = container.querySelector("#author-anchor-type").value.trim();
       if (t) patch.type = t;
-    }
-    // For platform/obstacle Y, map pos.y to y
-    if (found && (found.type === "platform" || found.type === "obstacle")) {
-      if (!isNaN(y)) patch.y = y;
-      if (patch.pos) { patch.x = patch.pos.x; patch.z = patch.pos.z; delete patch.pos; }
     }
     return patch;
   }
@@ -320,6 +390,26 @@ export function createAuthorUI(opts) {
         const notice = parseFloat(container.querySelector("#author-notice").value); if (!isNaN(notice)) found.obj.noticeRadius = notice;
         const personal = parseFloat(container.querySelector("#author-personal").value); if (!isNaN(personal)) found.obj.personalSpace = personal;
         const leash = parseFloat(container.querySelector("#author-leash").value); if (!isNaN(leash)) found.obj.leashRadius = leash;
+        // Spawn/Home explicit edits
+        const sx = parseFloat(container.querySelector("#author-spawn-x").value);
+        const sz = parseFloat(container.querySelector("#author-spawn-z").value);
+        const hx = parseFloat(container.querySelector("#author-home-x").value);
+        const hz = parseFloat(container.querySelector("#author-home-z").value);
+        const moveHome = container.querySelector("#author-move-home")?.checked;
+        if (!isNaN(sx) && !isNaN(sz)) {
+          // If moveHome checked and spawn moved, also move home by same delta unless home was explicitly edited separately
+          const oldX = found.obj.pos.x, oldZ = found.obj.pos.z;
+          const dx = sx - oldX, dz = sz - oldZ;
+          if (dx !== 0 || dz !== 0) {
+            found.obj.pos.x = sx; found.obj.pos.z = sz;
+            if (moveHome && found.obj.homePos) { found.obj.homePos.x += dx; found.obj.homePos.z += dz; container.querySelector("#author-home-x").value = found.obj.homePos.x.toFixed(1); container.querySelector("#author-home-z").value = found.obj.homePos.z.toFixed(1); }
+          }
+        } else {
+          if (!isNaN(sx)) found.obj.pos.x = sx;
+          if (!isNaN(sz)) found.obj.pos.z = sz;
+        }
+        if (!isNaN(hx)) found.obj.homePos.x = hx;
+        if (!isNaN(hz)) found.obj.homePos.z = hz;
       }
       if (found && (found.type === "platform" || found.type === "obstacle" || found.type === "climbable")) {
         // Y already handled via patch.y
@@ -351,7 +441,7 @@ export function createAuthorUI(opts) {
     if (res.ok) {
       statusEl.textContent = "Duplicated → " + res.newId;
       statusEl.style.color="#aaffaa";
-      refreshRegionSelects();
+      refreshRegionSelects(); refreshHierarchy();
       setSelected(res.newId);
       opts.onDraftChanged?.(res.newId);
       opts.onSelectNew?.(res.newId);
@@ -364,7 +454,7 @@ export function createAuthorUI(opts) {
       statusEl.textContent = "Deleted " + selectedId;
       const deleted = selectedId;
       setSelected(null);
-      refreshRegionSelects();
+      refreshRegionSelects(); refreshHierarchy();
       opts.onDraftChanged?.(null, deleted);
     } else statusEl.textContent = res.error;
   });
@@ -376,7 +466,8 @@ export function createAuthorUI(opts) {
       const found = draftApi.findObjectById(selectedId);
       if (!found) return;
       const obj = found.obj;
-      if (obj.pos) { obj.pos.x += dx; obj.pos.z += dz; if (found.type==="creature" && obj.homePos){ obj.homePos.x+=dx; obj.homePos.z+=dz; } }
+      const moveHome = document.getElementById("author-move-home")?.checked ?? true;
+      if (obj.pos) { obj.pos.x += dx; obj.pos.z += dz; if (found.type==="creature" && obj.homePos && moveHome){ obj.homePos.x+=dx; obj.homePos.z+=dz; } }
       else if (obj.x !== undefined) { obj.x += dx; obj.z += dz; }
       draftApi.updateTransform(selectedId, {});
       setSelected(selectedId);
@@ -444,7 +535,7 @@ export function createAuthorUI(opts) {
     }
   });
 
-  function show() { container.style.display = ""; refreshRegionSelects(); }
+  function show() { container.style.display = ""; refreshRegionSelects(); refreshHierarchy(); }
   function hide() { container.style.display = "none"; }
   function isEditMode() { return editMode; }
   function getSelectedId() { return selectedId; }
@@ -452,5 +543,5 @@ export function createAuthorUI(opts) {
   function showPlaceHint(text) { placeHint.textContent = text; placeHint.style.display = text ? "" : "none"; }
   function hidePlaceHint() { placeHint.style.display = "none"; }
 
-  return { element: container, show, hide, isEditMode, getSelectedId, setSelected, setStatus, refreshRegionSelects, showPlaceHint, hidePlaceHint };
+  return { element: container, show, hide, isEditMode, getSelectedId, setSelected, setStatus, refreshRegionSelects, refreshHierarchy, showPlaceHint, hidePlaceHint };
 }

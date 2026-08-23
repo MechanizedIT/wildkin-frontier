@@ -191,9 +191,9 @@ describe("Phase 3.5B.1 — mode isolation", () => {
     assert.ok(authorSrc.includes("setHudVisible(false)") && authorSrc.includes("setHudVisible(true)"), "should hide/show HUD");
     assert.ok(authorSrc.includes("suppressGameplay"), "authorMode should manage suppressGameplay");
     const mainSrc = fs.readFileSync(path.join(ROOT, "src/main.js"), "utf-8");
-    assert.ok(mainSrc.includes("authorSuppress"), "main.js should respect authorSuppress");
+    assert.ok(mainSrc.includes("authorSuppress") && mainSrc.includes("touchMovement.setEnabled"), "main.js should suppress input via setEnabled");
     const touchSrc = fs.readFileSync(path.join(ROOT, "src/input/touchMovement.js"), "utf-8");
-    assert.ok(touchSrc.includes("__author"), "touch input should be suppressed during edit");
+    assert.ok(touchSrc.includes("let enabled") && touchSrc.includes("setEnabled"), "touch input should have explicit enabled");
   });
   it("Play restores it", () => {
     const src = fs.readFileSync(path.join(ROOT, "src/author/authorMode.js"), "utf-8");

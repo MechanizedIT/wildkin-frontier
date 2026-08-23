@@ -10,37 +10,43 @@ export function createPhysicsWorld(RAPIER, playground) {
 
   const staticColliders = [];
 
-  function addCuboid(hx, hy, hz, tx, ty, tz) {
+  function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0) {
     const desc = RAPIER.ColliderDesc.cuboid(hx, hy, hz)
       .setTranslation(tx, ty, tz)
       .setFriction(0.6)
       .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
+    if (rotY && Math.abs(rotY) > 1e-6) {
+      const half = rotY * 0.5;
+      desc.setRotation({ x: 0, y: Math.sin(half), z: 0, w: Math.cos(half) });
+    }
     const c = world.createCollider(desc);
     staticColliders.push(c);
     return c;
   }
 
   // Ground — 26 x 0.5 x 24 centered at (0, -0.25, 0) → half extents 13,0.25,12
-  addCuboid(13, 0.25, 12, 0, -0.25, 0);
+  addCuboid(13, 0.25, 12, 0, -0.25, 0, 0);
 
-  // Obstacles (grey diagnostic boxes/walls + rocks approximated as cuboids)
-  // playground.obstacles includes: center-east boulder, mid-south wall, 3 rocks, corridor walls
+  // Obstacles — respect authored baseY and rotY for parity
   for (const o of playground.obstacles) {
     const hx = o.w / 2;
     const hz = o.h / 2;
     const hy = (o.height ?? 0.9) / 2;
-    const ty = hy - 0.02; // match visual offset (height/2 -0.02)
-    addCuboid(hx, hy, hz, o.x, ty, o.z);
+    const baseY = o.baseY ?? 0;
+    const ty = baseY + hy - 0.02;
+    const rotY = o.rotY ?? 0;
+    addCuboid(hx, hy, hz, o.x, ty, o.z, rotY);
   }
 
-  // Platforms — fixed boxes. Use half extents and center y = height/2 (bottom at 0)
-  // The visual mesh center is at height/2 -0.02, but collider bottom at 0 is intentional for stable floor at 0.
+  // Platforms — respect baseY/rotY
   for (const p of playground.platforms) {
     const hx = p.w / 2;
     const hz = p.h / 2;
     const hy = p.height / 2;
-    const ty = hy; // bottom at 0, top at height
-    addCuboid(hx, hy, hz, p.x, ty, p.z);
+    const baseY = p.baseY ?? p.y ?? 0;
+    const ty = baseY + hy;
+    const rotY = p.rotY ?? 0;
+    addCuboid(hx, hy, hz, p.x, ty, p.z, rotY);
   }
 
   // Climb wall (south face of high platform) — treat as solid but climbable sensor? Keep as solid cuboid.
