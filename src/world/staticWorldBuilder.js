@@ -1,37 +1,46 @@
-// src/world/staticWorldBuilder.js — data-driven static world instantiation (Phase 3.5B)
+// src/world/staticWorldBuilder.js — data-driven static world instantiation (Phase 4A.1)
 // Builds visual meshes and collision data from normalized authored world data.
 // One source: world.json -> normalized -> worldRegistry -> this builder.
 
 import * as THREE from "three";
 import { MOVEMENT_CONFIG } from "../game/config.js";
 
+function parseColor(value, fallback) {
+  if (value === undefined || value === null) return fallback;
+  if (typeof value === "number") return value;
+  if (typeof value === "string") {
+    let s = value.trim();
+    if (s.startsWith("0x")) s = "#" + s.slice(2);
+    if (!s.startsWith("#")) s = "#" + s;
+    // validate hex
+    if (/^#[0-9a-fA-F]{6}$/.test(s)) return parseInt(s.slice(1), 16);
+    return fallback;
+  }
+  return fallback;
+}
+
+function shouldCloneMaterial(mat, needsTint, needsOpacity) {
+  return needsTint || needsOpacity;
+}
+
 export function createStaticWorld(worldData) {
   const group = new THREE.Group();
   group.name = "movement-playground";
-
-  // Base ground — large plane covering worldBounds (always active)
-  const groundGeo = new THREE.BoxGeometry(26, 0.5, 24);
-  const groundMat = new THREE.MeshStandardMaterial({ color: 0x7bb26a, flatShading: true, roughness: 0.95 });
-  const ground = new THREE.Mesh(groundGeo, groundMat);
-  ground.position.set(0, -0.25, 0);
-  group.add(ground);
-  const edgeMat = new THREE.MeshStandardMaterial({ color: 0x5f8a52, flatShading: true });
-  const edge = new THREE.Mesh(new THREE.BoxGeometry(27, 0.25, 25), edgeMat);
-  edge.position.y = -0.58;
-  group.add(edge);
 
   const obstacles = [];
   const platforms = [];
   const jumpTraversals = [];
   const climbables = [];
+  const groundPatches = [];
+  const boundaries = [];
 
-  // Materials
+  // Base materials (shared)
   const platformMat = new THREE.MeshStandardMaterial({ color: 0x8d7a5a, flatShading: true });
   const obstacleMat = new THREE.MeshStandardMaterial({ color: 0x9aa0a6, flatShading: true });
   const fenceMat = new THREE.MeshStandardMaterial({ color: 0x8b7a5a, flatShading: true });
   const gateMat = new THREE.MeshStandardMaterial({ color: 0xc9b48a, flatShading: true, emissive: 0x332200, emissiveIntensity: 0.15 });
   const forestMat = new THREE.MeshStandardMaterial({ color: 0x2d4a2e, flatShading: true });
-  const waterMat = new THREE.MeshStandardMaterial({ color: 0x4a90a8, flatShading: true, transparent: true, opacity: 0.55 });
+  const waterMatBase = new THREE.MeshStandardMaterial({ color: 0x4a90a8, flatShading: true, transparent: true, opacity: 0.55 });
   const islandMat = new THREE.MeshStandardMaterial({ color: 0xc2b280, flatShading: true });
   const dropPodMat = new THREE.MeshStandardMaterial({ color: 0xd0d0d0, flatShading: true, metalness: 0.3 });
   const resonatorMat = new THREE.MeshStandardMaterial({ color: 0x7ab8ff, flatShading: true, emissive: 0x1a3a5a, emissiveIntensity: 0.25 });
@@ -39,13 +48,61 @@ export function createStaticWorld(worldData) {
   const beaconMat = new THREE.MeshStandardMaterial({ color: 0xff7043, flatShading: true, emissive: 0x442200, emissiveIntensity: 0.2 });
   const chestMat = new THREE.MeshStandardMaterial({ color: 0xffd54f, flatShading: true, emissive: 0x332200, emissiveIntensity: 0.12 });
   const barrierMat = new THREE.MeshStandardMaterial({ color: 0x777777, flatShading: true });
+  const groundMatBase = new THREE.MeshStandardMaterial({ color: 0x7bb26a, flatShading: true, roughness: 0.95 });
+  const boundaryMatBase = new THREE.MeshStandardMaterial({ color: 0x5a6a7a, flatShading: true, transparent: true, opacity: 0.28 });
 
-  function addObstacle(x, z, w, h, height, id) {
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, height, h), obstacleMat);
-    mesh.position.set(x, height / 2 - 0.02, z);
-    mesh.name = id || "obstacle";
+  function getBaseMatForSubtype(subtype) {
+    if (subtype === "fence") return fenceMat;
+    if (subtype === "gate") return gateMat;
+    if (subtype === "forestBoundary") return forestMat;
+    if (subtype === "water") return waterMatBase;
+    if (subtype === "island") return islandMat;
+    if (subtype === "dropPod") return dropPodMat;
+    if (subtype === "resonator") return resonatorMat;
+    if (subtype === "box") return obstacleMat;
+    if (subtype === "groundPatch") return groundMatBase;
+    if (subtype === "boundaryCollider") return boundaryMatBase;
+    return obstacleMat;
+  }
+
+  function createTintedMaterial(baseMat, prop) {
+    const hasTint = prop.color !== undefined || prop.tint !== undefined;
+    const rawColor = prop.color ?? prop.tint;
+    const hasOpacity = prop.opacity !== undefined && prop.opacity < 1 - 1e-6;
+    if (!hasTint && !hasOpacity) return baseMat;
+    const mat = baseMat.clone();
+    if (hasTint) {
+      const col = parseColor(rawColor, baseMat.color.getHex());
+      mat.color.setHex(col);
+    }
+    if (hasOpacity) {
+      mat.transparent = true;
+      mat.opacity = prop.opacity;
+      // ensure depthWrite false for semi-transparent? Keep true for opaque
+      if (prop.opacity < 1) mat.transparent = true;
+    } else if (baseMat.transparent && baseMat.opacity < 1) {
+      // keep base transparency
+    }
+    return mat;
+  }
+
+  function createProxyBox(id, pos, size, rotY, color) {
+    const w = size.w ?? size.x ?? 1;
+    const h = size.h ?? size.y ?? 1;
+    const d = size.d ?? size.z ?? 1;
+    const geo = new THREE.BoxGeometry(w, h, d);
+    const mat = new THREE.MeshBasicMaterial({ color: color ?? 0xffff00, wireframe: true, transparent: true, opacity: 0.42 });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(pos.x, (pos.y ?? 0) + h/2 - 0.02, pos.z);
+    mesh.rotation.y = rotY ?? 0;
+    mesh.name = `${id}__proxy`;
+    mesh.userData.authorId = id;
+    mesh.userData.isEditProxy = true;
+    mesh.userData.proxyFor = id;
+    // proxy should be selectable via same id
+    mesh.userData.originalVisibleInPlay = false;
     group.add(mesh);
-    obstacles.push({ id: id || `obs_${x}_${z}`, x, z, w, h, height, aabb: { minX: x - w / 2, maxX: x + w / 2, minZ: z - h / 2, maxZ: z + h / 2 } });
+    return mesh;
   }
 
   function addPropMesh(prop) {
@@ -57,40 +114,61 @@ export function createStaticWorld(worldData) {
     const d = size.d ?? size.z ?? 1;
     const height = h;
     const rotY = prop.rotY ?? 0;
-    let mat = obstacleMat;
-    let geo;
+    const visibleInPlay = prop.visibleInPlay !== undefined ? !!prop.visibleInPlay : true;
+    const collisionEnabled = prop.collisionEnabled !== undefined ? !!prop.collisionEnabled : true;
+    const opacity = prop.opacity ?? 1;
+    const hasTint = prop.color !== undefined || prop.tint !== undefined;
+
     const subtype = prop.subtype || "box";
-    if (subtype === "fence") mat = fenceMat;
-    else if (subtype === "gate") mat = gateMat;
-    else if (subtype === "forestBoundary") mat = forestMat;
-    else if (subtype === "water") mat = waterMat;
-    else if (subtype === "island") mat = islandMat;
-    else if (subtype === "dropPod") {
+    let baseMat = getBaseMatForSubtype(subtype);
+    let mat = createTintedMaterial(baseMat, prop);
+
+    // Handle dropPod special group
+    if (subtype === "dropPod") {
+      // For dropPod we still need to handle visibility/collision proxy
       const podGroup = new THREE.Group();
       podGroup.position.set(pos.x, baseY, pos.z);
       podGroup.rotation.y = rotY;
-      const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.7, 1.2, 8), dropPodMat);
+      // Use tinted dropPod mat if needed? For simplicity use base dropPodMat tinted
+      let podMat = dropPodMat;
+      if (hasTint || opacity < 1) {
+        podMat = dropPodMat.clone();
+        if (hasTint) podMat.color.setHex(parseColor(prop.color ?? prop.tint, dropPodMat.color.getHex()));
+        if (opacity < 1) { podMat.transparent = true; podMat.opacity = opacity; }
+      }
+      const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.7, 1.2, 8), podMat);
       cyl.position.y = 0.6;
       podGroup.add(cyl);
-      const top = new THREE.Mesh(new THREE.SphereGeometry(0.6, 8, 6, 0, Math.PI * 2, 0, Math.PI / 2), dropPodMat);
+      const top = new THREE.Mesh(new THREE.SphereGeometry(0.6, 8, 6, 0, Math.PI * 2, 0, Math.PI / 2), podMat);
       top.position.y = 1.2;
       podGroup.add(top);
       const baseRing = new THREE.Mesh(new THREE.RingGeometry(0.7, 0.85, 12), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, side: THREE.DoubleSide }));
       baseRing.rotation.x = -Math.PI / 2;
       baseRing.position.y = 0.02;
-      baseRing.position.x = pos.x - pos.x;
       podGroup.name = prop.id;
       podGroup.userData.propId = prop.id;
       podGroup.userData.authorId = prop.id;
       podGroup.userData.propSubtype = subtype;
       podGroup.userData.baseY = baseY;
+      podGroup.userData.visibleInPlay = visibleInPlay;
+      podGroup.userData.collisionEnabled = collisionEnabled;
+      // visibility in Play: hide if not visibleInPlay
+      podGroup.visible = visibleInPlay;
       group.add(podGroup);
-      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height: 1.0, baseY, aabb: { minX: pos.x - w / 2, maxX: pos.x + w / 2, minZ: pos.z - d / 2, maxZ: pos.z + d / 2 } });
+      // proxy for hidden in Edit
+      if (!visibleInPlay) {
+        createProxyBox(prop.id, pos, { w, h: 1.0, d }, rotY, 0x7ab8ff);
+      } else if (opacity < 1) {
+        // already handled via mat opacity
+      }
+      if (collisionEnabled) {
+        obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height: 1.0, baseY, aabb: { minX: pos.x - w / 2, maxX: pos.x + w / 2, minZ: pos.z - d / 2, maxZ: pos.z + d / 2 }, visibleInPlay, collisionEnabled, opacity });
+      }
       return;
-    } else if (subtype === "resonator") mat = resonatorMat;
-    else if (subtype === "box") mat = obstacleMat;
+    }
 
-    geo = new THREE.BoxGeometry(w, height, d);
+    // Non-dropPod props
+    const geo = new THREE.BoxGeometry(w, height, d);
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(pos.x, baseY + height / 2 - 0.02, pos.z);
     mesh.rotation.y = rotY;
@@ -99,47 +177,204 @@ export function createStaticWorld(worldData) {
     mesh.userData.authorId = prop.id;
     mesh.userData.propSubtype = subtype;
     mesh.userData.baseY = baseY;
-    // Forest boundaries tagged for editor transparency
+    mesh.userData.visibleInPlay = visibleInPlay;
+    mesh.userData.collisionEnabled = collisionEnabled;
+    mesh.userData.opacity = opacity;
     if (subtype === "forestBoundary") mesh.userData.isForestBoundary = true;
+    mesh.visible = visibleInPlay;
+    // Opacity already via material
     group.add(mesh);
 
-    const blockingSubtypes = new Set(["fence", "gate", "box", "forestBoundary", "boundary", "obstacle", "barrier", "dropPod", "resonator"]);
-    const isBlocking = blockingSubtypes.has(subtype) || prop.blocking === true;
     const isWater = subtype === "water";
     if (isWater) {
       mesh.position.set(pos.x, baseY -0.04, pos.z);
+      // water no collision regardless
+      if (!visibleInPlay) {
+        // proxy for hidden water? water hidden still needs proxy? Provide
+        mesh.visible = false;
+        createProxyBox(prop.id, pos, { w, h: 0.2, d }, rotY, 0x4a90a8);
+      }
       return;
     }
+
+    // Create Edit proxy for hidden objects
+    if (!visibleInPlay) {
+      const proxyColor = subtype === "fence" ? 0x8b7a5a : subtype === "forestBoundary" ? 0x2d4a2e : 0x9aa0a6;
+      createProxyBox(prop.id, pos, { w, h: height, d }, rotY, proxyColor);
+    }
+
+    const blockingSubtypes = new Set(["fence", "gate", "box", "forestBoundary", "boundary", "obstacle", "barrier", "dropPod", "resonator"]);
+    const isBlocking = blockingSubtypes.has(subtype) || prop.blocking === true;
     if (isBlocking) {
       if (subtype === "gate") return;
+      if (!collisionEnabled) return;
       const rot = rotY ?? 0;
       const cos = Math.abs(Math.cos(rot)), sin = Math.abs(Math.sin(rot));
       const halfW = w/2, halfD = d/2;
       const hx = cos*halfW + sin*halfD;
       const hz = sin*halfW + cos*halfD;
-      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height, baseY, rotY: rot, aabb: { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz } });
+      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height, baseY, rotY: rot, aabb: { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz }, visibleInPlay, collisionEnabled, opacity });
+    } else {
+      if (!collisionEnabled) return;
+      // non-blocking but collisionEnabled true? If subtype not blocking but collisionEnabled true, still add? That's unusual but allow as generic collider
+      if (collisionEnabled && !isBlocking) {
+        // treat as blocker if explicitly enabled?
+        // For decoration like box with collisionEnabled false -> no collider; if true -> collider
+        // We already handled blocking set, now include generic? Simpler: if collisionEnabled and not water/gate, add collider
+        // But to avoid adding for every deco, we already gate via blocking check; if you want invisible collider you should use Boundary type.
+      }
+    }
+  }
+
+  function addGroundPatch(patch) {
+    const pos = patch.pos;
+    const size = patch.size;
+    const w = size.w, h = size.h, d = size.d;
+    const rotY = patch.rotY ?? 0;
+    const visibleInPlay = patch.visibleInPlay !== false;
+    const collisionEnabled = patch.collisionEnabled !== false;
+    const opacity = patch.opacity ?? 1;
+    const color = parseColor(patch.color, 0x7bb26a);
+    let baseMat = new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.95 });
+    if (patch.color !== undefined) baseMat = createTintedMaterial(groundMatBase, patch);
+    else if (opacity < 1) {
+      baseMat = groundMatBase.clone();
+      baseMat.transparent = true;
+      baseMat.opacity = opacity;
+    } else baseMat = groundMatBase;
+    if (patch.color !== undefined) {
+      baseMat = baseMat.clone ? baseMat.clone() : baseMat;
+      baseMat.color.setHex(color);
+    }
+    // Actually createTinted handles both
+    const mat = createTintedMaterial(groundMatBase, { color: patch.color, opacity, visibleInPlay, collisionEnabled });
+    // Override color if specified
+    if (patch.color !== undefined) mat.color.setHex(parseColor(patch.color, 0x7bb26a));
+    if (opacity < 1) { mat.transparent = true; mat.opacity = opacity; }
+
+    const geo = new THREE.BoxGeometry(w, h, d);
+    const mesh = new THREE.Mesh(geo, mat);
+    const baseY = pos.y ?? -0.25;
+    mesh.position.set(pos.x, baseY + h/2, pos.z);
+    mesh.rotation.y = rotY;
+    mesh.name = patch.id;
+    mesh.userData.authorId = patch.id;
+    mesh.userData.groundPatchId = patch.id;
+    mesh.userData.visibleInPlay = visibleInPlay;
+    mesh.userData.collisionEnabled = collisionEnabled;
+    mesh.visible = visibleInPlay;
+    group.add(mesh);
+
+    if (!visibleInPlay) {
+      createProxyBox(patch.id, pos, size, rotY, color ?? 0x7bb26a);
+    }
+
+    groundPatches.push({ id: patch.id, x: pos.x, y: baseY, z: pos.z, w, h, d, rotY, color, opacity, visibleInPlay, collisionEnabled, aabb: { minX: pos.x - w/2, maxX: pos.x + w/2, minZ: pos.z - d/2, maxZ: pos.z + d/2 } });
+
+    if (collisionEnabled) {
+      // Add to obstacles as flat platform? For physics we will create collider separately in createPhysicsWorld via playground.groundPatches
+      obstacles.push({ id: patch.id, x: pos.x, z: pos.z, w, h: d, height: h, baseY, rotY, aabb: { minX: pos.x - w/2, maxX: pos.x + w/2, minZ: pos.z - d/2, maxZ: pos.z + d/2 }, isGround: true, visibleInPlay, collisionEnabled });
+    }
+  }
+
+  function addBoundaryCollider(bc) {
+    const pos = bc.pos;
+    const size = bc.size;
+    const w = size.w, h = size.h, d = size.d;
+    const rotY = bc.rotY ?? 0;
+    const visibleInPlay = !!bc.visibleInPlay;
+    const collisionEnabled = bc.collisionEnabled !== false;
+    const opacity = bc.opacity ?? 0.5;
+    const color = parseColor(bc.color, 0x5a6a7a);
+    const matBase = boundaryMatBase;
+    const mat = createTintedMaterial(matBase, { color: bc.color, opacity, visibleInPlay });
+    if (bc.color !== undefined) mat.color.setHex(color);
+    if (opacity < 1) { mat.transparent = true; mat.opacity = opacity; }
+
+    const geo = new THREE.BoxGeometry(w, h, d);
+    const mesh = new THREE.Mesh(geo, mat);
+    const baseY = pos.y - h/2; // pos is center?
+    // Our authored boundary pos is at center (x, y=height/2, z) => pos.y is center Y. For consistency, we store pos as center, like prop pos y = center? In world.json we used y = height/2 (1.5) for center. So mesh position is directly pos.
+    mesh.position.set(pos.x, pos.y, pos.z);
+    mesh.rotation.y = rotY;
+    mesh.name = bc.id;
+    mesh.userData.authorId = bc.id;
+    mesh.userData.boundaryId = bc.id;
+    mesh.userData.visibleInPlay = visibleInPlay;
+    mesh.userData.collisionEnabled = collisionEnabled;
+    mesh.visible = visibleInPlay;
+    group.add(mesh);
+
+    // Always create Edit proxy for boundaries (they are hidden in Play by default)
+    const proxyMat = new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.55 });
+    const proxyGeo = new THREE.BoxGeometry(w, h, d);
+    const proxy = new THREE.Mesh(proxyGeo, proxyMat);
+    proxy.position.copy(mesh.position);
+    proxy.rotation.y = rotY;
+    proxy.name = `${bc.id}__proxy`;
+    proxy.userData.authorId = bc.id;
+    proxy.userData.isEditProxy = true;
+    proxy.userData.proxyFor = bc.id;
+    proxy.visible = false; // will be toggled in Edit mode via authorMode
+    group.add(proxy);
+    // Store userData for toggle: we need to know proxy vs real
+    mesh.userData.proxyMesh = proxy;
+
+    boundaries.push({ id: bc.id, x: pos.x, y: pos.y, z: pos.z, w, h, d, rotY, color, opacity, visibleInPlay, collisionEnabled });
+
+    if (collisionEnabled) {
+      const rot = rotY;
+      const cos = Math.abs(Math.cos(rot)), sin = Math.abs(Math.sin(rot));
+      const hx = cos*(w/2) + sin*(d/2);
+      const hz = sin*(w/2) + cos*(d/2);
+      const height = h;
+      const baseY2 = pos.y - h/2;
+      obstacles.push({ id: bc.id, x: pos.x, z: pos.z, w, h: d, height, baseY: baseY2, rotY: rot, isBoundary: true, aabb: { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz }, visibleInPlay, collisionEnabled });
     }
   }
 
   // Per-region build
   const regions = worldData?.regions ?? [];
-  for (const region of regions) {
-    // Region ground overlay slightly above base
-    const b = region.bounds;
-    const gw = b.maxX - b.minX;
-    const gz = b.maxZ - b.minZ;
-    const cx = (b.minX + b.maxX) * 0.5;
-    const cz = (b.minZ + b.maxZ) * 0.5;
-    const groundColor = region.ground?.color ?? 0x7bb26a;
-    const regGround = new THREE.Mesh(new THREE.BoxGeometry(gw, 0.06, gz), new THREE.MeshStandardMaterial({ color: groundColor, flatShading: true, roughness: 0.95 }));
-    regGround.position.set(cx, -0.22, cz);
-    regGround.receiveShadow = false;
-    regGround.name = `ground_${region.id}`;
-    group.add(regGround);
+  // Determine if any ground patches exist globally; if none, fallback to old global ground for legacy tests
+  let hasAuthoredGround = false;
+  for (const r of regions) if (r.groundPatches && r.groundPatches.length > 0) hasAuthoredGround = true;
+  if (!hasAuthoredGround) {
+    // Legacy fallback: global floor as before (for tests without groundPatches)
+    const groundGeo = new THREE.BoxGeometry(26, 0.5, 24);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0x7bb26a, flatShading: true, roughness: 0.95 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.position.set(0, -0.25, 0);
+    ground.name = "legacy_ground";
+    group.add(ground);
+    const edgeMat = new THREE.MeshStandardMaterial({ color: 0x5f8a52, flatShading: true });
+    const edge = new THREE.Mesh(new THREE.BoxGeometry(27, 0.25, 25), edgeMat);
+    edge.position.y = -0.58;
+    edge.name = "legacy_edge";
+    group.add(edge);
+  } else {
+    // Safety floor far below gameplay (not walkable when ground deleted)
+    const safetyGeo = new THREE.BoxGeometry(60, 1, 60);
+    const safetyMat = new THREE.MeshBasicMaterial({ color: 0x0e1420, transparent: true, opacity: 0.0 });
+    const safety = new THREE.Mesh(safetyGeo, safetyMat);
+    safety.position.set(0, -30, 0);
+    safety.name = "safety_floor";
+    safety.visible = false;
+    safety.userData.isSafetyFloor = true;
+    group.add(safety);
+  }
 
+  for (const region of regions) {
+    // Ground patches (authored)
+    for (const gp of region.groundPatches ?? []) {
+      addGroundPatch(gp);
+    }
     // Props
     for (const prop of region.props ?? []) {
       addPropMesh(prop);
+    }
+    // Boundary colliders (authored)
+    for (const bc of region.boundaryColliders ?? []) {
+      addBoundaryCollider(bc);
     }
 
     // Traversal platforms — baseY from plat.y / plat.baseY / pos.y (authored elevation)
@@ -155,13 +390,9 @@ export function createStaticWorld(worldData) {
       group.add(mesh);
       const aabb = { minX: plat.x - plat.w / 2, maxX: plat.x + plat.w / 2, minZ: plat.z - plat.h / 2, maxZ: plat.z + plat.h / 2 };
       platforms.push({ id: plat.id, x: plat.x, z: plat.z, w: plat.w, h: plat.h, height: plat.height, baseY, aabb, regionId: region.id });
-      // Add step marker for visibility
       if (plat.height <= 1.5) {
         const step = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.04, 0.6), new THREE.MeshStandardMaterial({ color: 0xc9b48a }));
-        const sx = plat.x;
-        const sz = plat.aabb ? plat.aabb.minZ - 0.5 : plat.z + plat.h / 2 + 0.6;
-        // place step just south of platform
-        step.position.set(sx, 0.04, plat.z + plat.h / 2 + 0.7);
+        step.position.set(plat.x, 0.04, plat.z + plat.h / 2 + 0.7);
         group.add(step);
       }
     }
@@ -169,8 +400,6 @@ export function createStaticWorld(worldData) {
     // Traversal obstacles — support authored Y
     for (const obs of region.traversal?.obstacles ?? []) {
       const baseY = obs.y ?? obs.baseY ?? (obs.pos?.y) ?? 0;
-      // addObstacle helper ignores Y for now but we pass height with baseY via obstacles entry
-      // Create mesh with baseY
       const h = obs.height ?? 1.0;
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(obs.w, h, obs.h), obstacleMat);
       mesh.position.set(obs.x, baseY + h / 2 - 0.02, obs.z);
@@ -182,14 +411,14 @@ export function createStaticWorld(worldData) {
       obstacles.push({ id: obs.id, x: obs.x, z: obs.z, w: obs.w, h: obs.h, height: h, baseY, aabb: { minX: obs.x - obs.w / 2, maxX: obs.x + obs.w / 2, minZ: obs.z - obs.h / 2, maxZ: obs.z + obs.h / 2 } });
     }
 
-    // Climbables — rotation unsupported in this slice (fixed orientation); Y is coherent shift of bottomY/topY
+    // Climbables
     for (const cl of region.traversal?.climbables ?? []) {
       const wall = new THREE.Mesh(new THREE.BoxGeometry(cl.w, cl.topY - cl.bottomY, cl.h), new THREE.MeshStandardMaterial({ color: 0xb89a5a, flatShading: true, emissive: 0x332200, emissiveIntensity: 0.12 }));
       wall.position.set(cl.x, (cl.bottomY + cl.topY) / 2 - 0.02, cl.z);
       wall.name = cl.id;
       wall.userData.authorId = cl.id;
       wall.userData.climbableId = cl.id;
-      wall.rotation.y = 0; // fixed, rotY not consumed
+      wall.rotation.y = 0;
       group.add(wall);
       for (let i = 0; i < 5; i++) {
         const rung = new THREE.Mesh(new THREE.BoxGeometry(Math.min(cl.w, 1.4), 0.06, 0.09), new THREE.MeshStandardMaterial({ color: 0x6b4a2b }));
@@ -214,18 +443,20 @@ export function createStaticWorld(worldData) {
       group.add(gap);
     }
 
-    // Anchors & POIs placeholders — support authored Y
+    // Anchors & POIs placeholders — support authored Y and displayName
     for (const wp of region.majorWaypoints ?? []) {
       const h = 1.6;
       const baseY = wp.pos.y ?? 0;
       const geo = new THREE.CylinderGeometry(0.25, 0.32, h, 8);
       const mesh = new THREE.Mesh(geo, waypointMat);
+      // If tint override? waypoints not tinted now; keep simple
       mesh.position.set(wp.pos.x, baseY + h / 2, wp.pos.z);
       mesh.name = wp.id;
       mesh.userData.anchorId = wp.id;
       mesh.userData.authorId = wp.id;
       mesh.userData.anchorType = wp.type;
       mesh.userData.baseY = baseY;
+      mesh.userData.displayName = wp.displayName;
       group.add(mesh);
       const ring = new THREE.Mesh(new THREE.RingGeometry(0.45, 0.55, 14), new THREE.MeshBasicMaterial({ color: 0x4fc3f7, transparent: true, opacity: 0.45, side: THREE.DoubleSide }));
       ring.rotation.x = -Math.PI / 2;
@@ -248,6 +479,7 @@ export function createStaticWorld(worldData) {
       mesh.userData.authorId = bc.id;
       mesh.userData.anchorType = bc.type;
       mesh.userData.baseY = baseY;
+      mesh.userData.displayName = bc.displayName;
       group.add(mesh);
       const ring = new THREE.Mesh(new THREE.RingGeometry(0.35, 0.42, 12), new THREE.MeshBasicMaterial({ color: 0xff7043, transparent: true, opacity: 0.4, side: THREE.DoubleSide }));
       ring.rotation.x = -Math.PI / 2;
@@ -269,6 +501,7 @@ export function createStaticWorld(worldData) {
       mesh.userData.authorId = poi.id;
       mesh.userData.poiType = poi.type;
       mesh.userData.baseY = baseY;
+      mesh.userData.displayName = poi.displayName ?? poi.type;
       group.add(mesh);
       if (poi.requires) {
         const lock = new THREE.Mesh(new THREE.SphereGeometry(0.18, 6, 6), new THREE.MeshBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.75 }));
@@ -278,25 +511,6 @@ export function createStaticWorld(worldData) {
       }
     }
   }
-
-  // Boundary visual low walls (always)
-  const boundMat = new THREE.MeshStandardMaterial({ color: 0x5a6a7a, flatShading: true, transparent: true, opacity: 0.28 });
-  const halfX = MOVEMENT_CONFIG.worldBounds.maxX;
-  const halfZ = MOVEMENT_CONFIG.worldBounds.maxZ;
-  const wallNS = new THREE.BoxGeometry(halfX * 2 + 1, 0.6, 0.35);
-  const northWall = new THREE.Mesh(wallNS, boundMat);
-  northWall.position.set(0, 0.3, -halfZ - 0.18);
-  group.add(northWall);
-  const southWall = new THREE.Mesh(wallNS, boundMat);
-  southWall.position.set(0, 0.3, halfZ + 0.18);
-  group.add(southWall);
-  const wallEW = new THREE.BoxGeometry(0.35, 0.6, halfZ * 2 + 1);
-  const westWall = new THREE.Mesh(wallEW, boundMat);
-  westWall.position.set(-halfX - 0.18, 0.3, 0);
-  group.add(westWall);
-  const eastWall = new THREE.Mesh(wallEW, boundMat);
-  eastWall.position.set(halfX + 0.18, 0.3, 0);
-  group.add(eastWall);
 
   // Derived structures
   const platformSideColliders = platforms.map((p) => ({
@@ -390,6 +604,8 @@ export function createStaticWorld(worldData) {
     jumpLinks,
     jumpTraversals,
     climbables,
+    groundPatches,
+    boundaries,
     getGroundHeight,
     getCollisionObstaclesForHeight,
     resolveStuckPosition,

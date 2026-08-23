@@ -43,7 +43,7 @@ const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 4A — 0.11.0";
+const VERSION = "Phase 4A.1 — 0.11.1";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -52,7 +52,11 @@ await RAPIER.init();
 function getAuthorEnabled() {
   try { return new URLSearchParams(window.location.search).get("author") === "1"; } catch { return false; }
 }
+function getDevEnabled() {
+  try { return new URLSearchParams(window.location.search).get("dev") === "1"; } catch { return false; }
+}
 const authorEnabled = getAuthorEnabled();
+const devEnabled = getDevEnabled();
 const canonicalWorldData = WORLD_DATA;
 let effectiveWorldData = canonicalWorldData;
 if (authorEnabled) {
@@ -101,6 +105,22 @@ const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, star
 // Persistent frontier progress (isolated from author draft)
 const frontierProgress = createFrontierProgress({ worldRegistry, isAuthorMode: authorEnabled });
 frontierProgress.load();
+
+// Dev-only one-action reset (visible only with ?dev=1, not in normal submission)
+if (devEnabled) {
+  const devBtn = document.createElement("button");
+  devBtn.id = "dev-reset-save";
+  devBtn.textContent = "RESET PLAYER SAVE";
+  devBtn.title = "Clear frontierProgress bank/unlocks and reload fresh Camp (dev only, ?dev=1)";
+  devBtn.style.cssText = "position:absolute;left:50%;top:max(10px, env(safe-area-inset-top));transform:translateX(-50%);z-index:9;background:#5a1a1a;color:#ffcccc;border:1px solid #8a3a3a;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:800;cursor:pointer;pointer-events:auto;";
+  app.appendChild(devBtn);
+  devBtn.addEventListener("click", () => {
+    if (confirm("Reset player frontier progress? This clears banked resources/XP and discovered Waypoints/Beacons (author draft untouched).")) {
+      frontierProgress.clear();
+      location.reload();
+    }
+  });
+}
 
 // Expedition session — begins at Camp (not active)
 const initialRegion = worldRegistry.getRegionForPosition(startPos);
@@ -341,7 +361,9 @@ frontierAnchorSystem = createFrontierAnchorSystem(worldRegistry, {
     if (isAnyBlockingModal()) return;
     const cargo = pickupSystem.getInventory();
     const xp = xpMoteSystem.getXp();
-    anchorPrompt.show({ id, type: "majorWaypoint", cargo, xp });
+    const anchor = worldRegistry.getWaypointById(id);
+    const displayName = anchor ? worldRegistry.getAnchorDisplayName(anchor) : id;
+    anchorPrompt.show({ id, type: "majorWaypoint", displayName, cargo, xp, isNew: meta?.isNew });
     refreshMapAvailability();
     syncInputBlock();
   },
@@ -349,7 +371,9 @@ frontierAnchorSystem = createFrontierAnchorSystem(worldRegistry, {
     if (isAnyBlockingModal()) return;
     const cargo = pickupSystem.getInventory();
     const xp = xpMoteSystem.getXp();
-    anchorPrompt.show({ id, type: "extractionBeacon", cargo, xp });
+    const anchor = worldRegistry.getBeaconById(id);
+    const displayName = anchor ? worldRegistry.getAnchorDisplayName(anchor) : id;
+    anchorPrompt.show({ id, type: "extractionBeacon", displayName, cargo, xp, isNew: meta?.isNew });
     refreshMapAvailability();
     syncInputBlock();
   },
@@ -368,6 +392,7 @@ frontierAnchorSystem = createFrontierAnchorSystem(worldRegistry, {
     syncInputBlock();
   },
 });
+frontierAnchorSystem.prime(startPos);
 
 // Helper: sync input block from any blocking modal + author edit
 let prevAuthorSuppress = false;
@@ -384,17 +409,14 @@ function syncInputBlock() {
 
 // Shared transient world reset to Camp (extraction & death share this path where practical)
 function resetTransientWorldToCamp() {
-  // Clear temp pickups/projectiles/motes
   if (pickupSystem.clear) { try { pickupSystem.clear(); } catch {} }
   pickupSystem.resetInventory();
   inventoryHud.update(pickupSystem.getInventory());
   expeditionSession.setCargo(pickupSystem.getInventory());
-  // motes / projectiles
   xpMoteSystem.reset();
   combatHud.updateXp(0);
   expeditionSession.setXp(0);
   projectileSystem.reset();
-  // creatures & resources to baseline
   creatureSystem.reset();
   for (const n of resourceSystem.nodes) {
     if (n.state.nodeState === "RESPAWNING") {
@@ -412,12 +434,10 @@ function resetTransientWorldToCamp() {
       n.group.visible = false;
     }
   }
-  // player health/action
   playerCombat.reset();
   combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
   combatSession.reset();
   if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
-  // reposition player to camp
   campSpawn = worldRegistry.getCampSpawnPosition();
   const cPos = { x: campSpawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: campSpawn.z };
   characterPhysics.setPosition(cPos);
@@ -440,7 +460,6 @@ function resetTransientWorldToCamp() {
   playerController.traversal.reset();
   playerController.syncPosFromPhysics();
   cameraFollow.snap();
-  // region reprimes around Camp
   {
     const cur = regionManager.update(cPos);
     expeditionSession.setRegion(cur.currentRegionId, cur.currentPocketId);
@@ -452,6 +471,7 @@ function resetTransientWorldToCamp() {
     lastActiveIds = cur.activeIds;
   }
   frontierAnchorSystem.reset();
+  frontierAnchorSystem.prime(cPos);
   isDead = false;
   accumulator = 0;
   autoHarvestToggle.setEnabled(autoHarvestEnabled, false);
@@ -517,11 +537,10 @@ function beginExpedition(waypointId) {
     creatureSystem.setActiveRegions(cur.activeIds);
     lastActiveIds = cur.activeIds;
   }
-  // Suppress immediate anchor popup for start Waypoint until leaves radius once
+  // Generic suppression until leave/re-enter for any selectable waypoint
   frontierAnchorSystem.reset();
-  frontierAnchorSystem.disarmStartWaypoint(waypointId);
-  // Also ensure anchor system knows player is inside start radius (so it will arm on exit)
-  // Close map and restore input exactly once
+  frontierAnchorSystem.prime(sPos);
+  frontierAnchorSystem.suppressUntilExit(waypointId);
   frontierMap.close();
   anchorPrompt.hide();
   runResultCard.hide();
@@ -550,13 +569,15 @@ function handleExtractionFlow(data) {
   syncInputBlock();
   frontierMap.close();
   anchorPrompt.hide();
-  // Show recovery card over Camp
+  const displayNames = {};
+  for (const wp of worldRegistry.getAllWaypoints()) displayNames[wp.id] = worldRegistry.getAnchorDisplayName(wp);
+  for (const bc of worldRegistry.getAllBeacons()) displayNames[bc.id] = worldRegistry.getAnchorDisplayName(bc);
   runResultCard.show({
     type: "extracted",
     snapshot: pendingResultSnapshot,
     bankedResources: banked.bankedResources,
     bankedXp: banked.bankedXp,
-    regionNames: Object.fromEntries(worldRegistry.getAllRegions().map(r => [r.majorWaypoints?.[0]?.id ?? r.id, r.displayName])),
+    displayNames,
   });
   refreshMapAvailability();
   syncInputBlock();
@@ -585,12 +606,15 @@ function handleDeathFlow() {
   frontierMap.close();
   anchorPrompt.hide();
   isDead = true;
-  // Show loss card over Camp
+  const displayNames2 = {};
+  for (const wp of worldRegistry.getAllWaypoints()) displayNames2[wp.id] = worldRegistry.getAnchorDisplayName(wp);
+  for (const bc of worldRegistry.getAllBeacons()) displayNames2[bc.id] = worldRegistry.getAnchorDisplayName(bc);
   runResultCard.show({
     type: "lost",
     snapshot: pendingResultSnapshot,
     bankedResources: banked.bankedResources,
     bankedXp: banked.bankedXp,
+    displayNames: displayNames2,
   });
   refreshMapAvailability();
   syncInputBlock();

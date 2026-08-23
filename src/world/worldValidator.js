@@ -43,6 +43,12 @@ export function normalizeWorldData(raw) {
     if (!data.camp.id || typeof data.camp.id !== "string") throw new Error("camp.id required");
     if (data.camp.pos) validatePos(data.camp.pos, "camp");
     if (data.camp.frontierGateId !== undefined && typeof data.camp.frontierGateId !== "string") throw new Error("camp.frontierGateId must be string");
+    if (data.camp.playerSpawn !== undefined) {
+      validatePos(data.camp.playerSpawn, "camp.playerSpawn");
+      if (!isNumber(data.camp.playerSpawn.x) || !isNumber(data.camp.playerSpawn.z)) throw new Error("camp.playerSpawn x/z must be numbers");
+      // y optional but if present finite
+      if (data.camp.playerSpawn.y !== undefined && !isNumber(data.camp.playerSpawn.y)) throw new Error("camp.playerSpawn y must be number");
+    }
   }
   if (data.initialMajorWaypointId !== undefined && typeof data.initialMajorWaypointId !== "string") throw new Error("initialMajorWaypointId must be string");
   // Optional camp gate at root for backwards compat: frontierGateId
@@ -99,6 +105,89 @@ export function normalizeWorldData(raw) {
       if (!prop.subtype || typeof prop.subtype !== "string") throw new Error(`prop ${prop.id} subtype required`);
       validatePos(prop.pos, `prop ${prop.id}`);
       if (!isInsideBounds(prop.pos, region.bounds)) throw new Error(`prop ${prop.id} pos not inside region ${region.id} bounds`);
+      // Phase 4A.1 presentation/collision extras
+      if (prop.visibleInPlay !== undefined && typeof prop.visibleInPlay !== "boolean") throw new Error(`prop ${prop.id} visibleInPlay must be boolean`);
+      if (prop.collisionEnabled !== undefined && typeof prop.collisionEnabled !== "boolean") throw new Error(`prop ${prop.id} collisionEnabled must be boolean`);
+      if (prop.opacity !== undefined) {
+        if (!isNumber(prop.opacity)) throw new Error(`prop ${prop.id} opacity must be number`);
+        if (prop.opacity < 0 || prop.opacity > 1) throw new Error(`prop ${prop.id} opacity must be 0..1`);
+      }
+      if (prop.tint !== undefined && prop.color !== undefined) {
+        // tint alias for color override
+      }
+      if (prop.color !== undefined || prop.tint !== undefined) {
+        const c = prop.color ?? prop.tint;
+        if (typeof c !== "number" && typeof c !== "string") throw new Error(`prop ${prop.id} color/tint must be number or hex string`);
+        if (typeof c === "string" && !/^#?[0-9a-fA-F]{6}$/.test(c.replace(/^0x/, "#"))) {
+          // allow #RRGGBB or RRGGBB
+          if (!/^#([0-9a-fA-F]{6})$/.test(c) && !/^([0-9a-fA-F]{6})$/.test(c)) throw new Error(`prop ${prop.id} color must be #RRGGBB`);
+        }
+      }
+      if (prop.size) {
+        if (prop.size.w !== undefined && !isNumber(prop.size.w)) throw new Error(`prop ${prop.id} size.w must be number`);
+        if (prop.size.h !== undefined && !isNumber(prop.size.h)) throw new Error(`prop ${prop.id} size.h must be number`);
+        if (prop.size.d !== undefined && !isNumber(prop.size.d)) throw new Error(`prop ${prop.id} size.d must be number`);
+      }
+      if (prop.rotY !== undefined && !isNumber(prop.rotY)) throw new Error(`prop ${prop.id} rotY must be number`);
+    }
+    // groundPatches
+    if (region.groundPatches === undefined) region.groundPatches = [];
+    if (!Array.isArray(region.groundPatches)) throw new Error(`region ${region.id} groundPatches must be array`);
+    for (const gp of region.groundPatches) {
+      if (!gp.id || typeof gp.id !== "string") throw new Error(`region ${region.id} groundPatch id required`);
+      if (allIds.has(gp.id)) throw new Error(`duplicate global id groundPatch ${gp.id}`);
+      allIds.add(gp.id);
+      validatePos(gp.pos, `groundPatch ${gp.id}`);
+      if (!gp.size || typeof gp.size !== "object") throw new Error(`groundPatch ${gp.id} size required`);
+      for (const k of ["w","h","d"]) if (gp.size[k] !== undefined && !isNumber(gp.size[k])) throw new Error(`groundPatch ${gp.id} size.${k} must be number`);
+      if (gp.size.w <= 0 || gp.size.h <= 0 || gp.size.d <= 0) throw new Error(`groundPatch ${gp.id} size must be positive`);
+      if (gp.visibleInPlay !== undefined && typeof gp.visibleInPlay !== "boolean") throw new Error(`groundPatch ${gp.id} visibleInPlay must be boolean`);
+      if (gp.collisionEnabled !== undefined && typeof gp.collisionEnabled !== "boolean") throw new Error(`groundPatch ${gp.id} collisionEnabled must be boolean`);
+      if (gp.opacity !== undefined) {
+        if (!isNumber(gp.opacity)) throw new Error(`groundPatch ${gp.id} opacity must be number`);
+        if (gp.opacity < 0 || gp.opacity > 1) throw new Error(`groundPatch ${gp.id} opacity must be 0..1`);
+      }
+      if (gp.color !== undefined && typeof gp.color !== "number" && typeof gp.color !== "string") throw new Error(`groundPatch ${gp.id} color must be number or hex string`);
+      if (gp.rotY !== undefined && !isNumber(gp.rotY)) throw new Error(`groundPatch ${gp.id} rotY must be number`);
+      // normalize defaults
+      if (gp.visibleInPlay === undefined) gp.visibleInPlay = true;
+      if (gp.collisionEnabled === undefined) gp.collisionEnabled = true;
+      if (gp.opacity === undefined) gp.opacity = 1;
+      if (gp.tint !== undefined && gp.color === undefined) gp.color = gp.tint;
+    }
+    // boundaryColliders
+    if (region.boundaryColliders === undefined) region.boundaryColliders = [];
+    if (!Array.isArray(region.boundaryColliders)) throw new Error(`region ${region.id} boundaryColliders must be array`);
+    for (const bc of region.boundaryColliders) {
+      if (!bc.id || typeof bc.id !== "string") throw new Error(`region ${region.id} boundaryCollider id required`);
+      if (allIds.has(bc.id)) throw new Error(`duplicate global id boundaryCollider ${bc.id}`);
+      allIds.add(bc.id);
+      validatePos(bc.pos, `boundaryCollider ${bc.id}`);
+      if (!bc.size || typeof bc.size !== "object") throw new Error(`boundaryCollider ${bc.id} size required`);
+      for (const k of ["w","h","d"]) if (bc.size[k] !== undefined && !isNumber(bc.size[k])) throw new Error(`boundaryCollider ${bc.id} size.${k} must be number`);
+      if (bc.size.w <= 0 || bc.size.h <= 0 || bc.size.d <= 0) throw new Error(`boundaryCollider ${bc.id} size must be positive`);
+      if (bc.visibleInPlay !== undefined && typeof bc.visibleInPlay !== "boolean") throw new Error(`boundaryCollider ${bc.id} visibleInPlay must be boolean`);
+      if (bc.collisionEnabled !== undefined && typeof bc.collisionEnabled !== "boolean") throw new Error(`boundaryCollider ${bc.id} collisionEnabled must be boolean`);
+      if (bc.opacity !== undefined) {
+        if (!isNumber(bc.opacity)) throw new Error(`boundaryCollider ${bc.id} opacity must be number`);
+        if (bc.opacity < 0 || bc.opacity > 1) throw new Error(`boundaryCollider ${bc.id} opacity must be 0..1`);
+      }
+      if (bc.color !== undefined && typeof bc.color !== "number" && typeof bc.color !== "string") throw new Error(`boundaryCollider ${bc.id} color must be number or string`);
+      if (bc.rotY !== undefined && !isNumber(bc.rotY)) throw new Error(`boundaryCollider ${bc.id} rotY must be number`);
+      if (bc.visibleInPlay === undefined) bc.visibleInPlay = false;
+      if (bc.collisionEnabled === undefined) bc.collisionEnabled = true;
+      if (bc.opacity === undefined) bc.opacity = 0.5;
+      if (bc.tint !== undefined && bc.color === undefined) bc.color = bc.tint;
+    }
+    // normalize prop defaults
+    for (const prop of region.props) {
+      if (prop.visibleInPlay === undefined) prop.visibleInPlay = true;
+      if (prop.collisionEnabled === undefined) {
+        if (prop.subtype === "gate" || prop.subtype === "water") prop.collisionEnabled = false;
+        else prop.collisionEnabled = true;
+      }
+      if (prop.opacity === undefined) prop.opacity = 1;
+      if (prop.tint !== undefined && prop.color === undefined) prop.color = prop.tint;
     }
     // resources
     if (!Array.isArray(region.resources)) region.resources = [];
@@ -229,6 +318,7 @@ export function normalizeWorldData(raw) {
   }
   for (const region of data.regions) {
     for (const wp of region.majorWaypoints) {
+      if (wp.displayName !== undefined && (typeof wp.displayName !== "string" || wp.displayName.length === 0 || wp.displayName.length > 40)) throw new Error(`waypoint ${wp.id} displayName must be 1-40 chars`);
       if (wp.spawnOffset !== undefined) {
         if (!wp.spawnOffset || typeof wp.spawnOffset !== "object") throw new Error(`waypoint ${wp.id} spawnOffset must be object`);
         if (wp.spawnOffset.x !== undefined && !isNumber(wp.spawnOffset.x)) throw new Error(`waypoint ${wp.id} spawnOffset x must be number`);
@@ -239,6 +329,22 @@ export function normalizeWorldData(raw) {
         if (!wp.startOffset || typeof wp.startOffset !== "object") throw new Error(`waypoint ${wp.id} startOffset must be object`);
         if (wp.startOffset.x !== undefined && !isNumber(wp.startOffset.x)) throw new Error(`waypoint ${wp.id} startOffset x must be number`);
         if (wp.startOffset.z !== undefined && !isNumber(wp.startOffset.z)) throw new Error(`waypoint ${wp.id} startOffset z must be number`);
+      }
+    }
+    for (const bc of region.extractionBeacons) {
+      if (bc.displayName !== undefined && (typeof bc.displayName !== "string" || bc.displayName.length === 0 || bc.displayName.length > 40)) throw new Error(`beacon ${bc.id} displayName must be 1-40 chars`);
+    }
+  }
+  // Validate camp.playerSpawn near Camp region if present
+  if (data.camp?.playerSpawn) {
+    const sp = data.camp.playerSpawn;
+    // find Camp region bounds
+    const campReg = data.regions.find(r=> r.id==="camp");
+    if (campReg) {
+      const b = campReg.bounds;
+      // allow small tolerance 2 units outside but finite
+      if (!isInsideBounds(sp, { minX: b.minX-2, maxX: b.maxX+2, minZ: b.minZ-2, maxZ: b.maxZ+2 })) {
+        throw new Error(`camp.playerSpawn not near Camp region bounds`);
       }
     }
   }

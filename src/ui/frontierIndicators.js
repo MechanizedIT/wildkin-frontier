@@ -107,7 +107,17 @@ export function createFrontierIndicators(opts = {}) {
     if (!isExtraction) icon.style.transform = "rotate(45deg)";
     el.appendChild(icon);
     const label = document.createElement("span");
-    label.textContent = isExtraction ? `Extract ${distance.toFixed(0)}m` : `Waypoint ${distance.toFixed(0)}m`;
+    let name = null;
+    try {
+      if (target.id) {
+        const wp = worldRegistry.getWaypointById(target.id);
+        const bc = worldRegistry.getBeaconById(target.id);
+        const anchor = wp ?? bc;
+        if (anchor) name = worldRegistry.getAnchorDisplayName(anchor);
+      }
+    } catch {}
+    if (name) label.textContent = isExtraction ? `${name} ${distance.toFixed(0)}m` : `${name} ${distance.toFixed(0)}m`;
+    else label.textContent = isExtraction ? `Extract ${distance.toFixed(0)}m` : `Waypoint ${distance.toFixed(0)}m`;
     el.appendChild(label);
     return el;
   }

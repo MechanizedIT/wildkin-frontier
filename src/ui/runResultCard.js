@@ -69,15 +69,17 @@ export function createRunResultCard(opts = {}) {
     if (newWps.length || newBcs.length) {
       html += `<div style="margin-top:10px;font-weight:800;">Frontier Progress</div>`;
       for (const wp of newWps) {
-        const regName = data.regionNames?.[wp] ?? wp;
-        html += `<div>New Waypoint: ${regName}</div>`;
+        const name = data.displayNames?.[wp] ?? data.regionNames?.[wp] ?? wp;
+        html += `<div>New Waypoint: ${name}</div>`;
       }
-      for (const bc of newBcs) html += `<div>Beacon discovered: ${bc}</div>`;
+      for (const bc of newBcs) {
+        const name = data.displayNames?.[bc] ?? bc;
+        html += `<div>Beacon discovered: ${name}</div>`;
+      }
       if (isExtract) {} else {
         html += `<div style="margin-top:6px;color:#8fe08e;">Frontier Progress Kept</div>`;
       }
     } else if (!isExtract) {
-      // still show kept progress header if none new? Show nothing
     }
 
     bodyEl.innerHTML = html;

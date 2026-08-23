@@ -20,6 +20,10 @@ export function createWorldRegistry(rawData) {
   const beaconsByRegion = new Map();
   const allPois = [];
   const poisByRegion = new Map();
+  const allGroundPatches = [];
+  const groundPatchesByRegion = new Map();
+  const allBoundaries = [];
+  const boundariesByRegion = new Map();
 
   for (const region of data.regions) {
     const rId = region.id;
@@ -28,6 +32,8 @@ export function createWorldRegistry(rawData) {
     waypointsByRegion.set(rId, []);
     beaconsByRegion.set(rId, []);
     poisByRegion.set(rId, []);
+    groundPatchesByRegion.set(rId, []);
+    boundariesByRegion.set(rId, []);
     for (const res of region.resources) {
       const entry = { ...res, regionId: rId, pos: { ...res.pos } };
       allResources.push(entry);
@@ -52,6 +58,16 @@ export function createWorldRegistry(rawData) {
       const entry = { ...poi, regionId: rId, pos: { ...poi.pos } };
       allPois.push(entry);
       poisByRegion.get(rId).push(entry);
+    }
+    for (const gp of region.groundPatches ?? []) {
+      const entry = { ...gp, regionId: rId, pos: { ...gp.pos }, size: { ...gp.size } };
+      allGroundPatches.push(entry);
+      groundPatchesByRegion.get(rId).push(entry);
+    }
+    for (const bc of region.boundaryColliders ?? []) {
+      const entry = { ...bc, regionId: rId, pos: { ...bc.pos }, size: { ...bc.size } };
+      allBoundaries.push(entry);
+      boundariesByRegion.get(rId).push(entry);
     }
   }
 
@@ -81,6 +97,10 @@ export function createWorldRegistry(rawData) {
   function getAllWaypoints() { return allWaypoints; }
   function getAllBeacons() { return allBeacons; }
   function getAllPois() { return allPois; }
+  function getAllGroundPatches() { return allGroundPatches; }
+  function getGroundPatchesForRegion(regionId) { return groundPatchesByRegion.get(regionId) ?? []; }
+  function getAllBoundaries() { return allBoundaries; }
+  function getBoundariesForRegion(regionId) { return boundariesByRegion.get(regionId) ?? []; }
 
   function getCamp() { return data.camp ?? null; }
   function getStartAnchorId() { return data.startAnchorId ?? data.camp?.id ?? null; }
@@ -112,8 +132,26 @@ export function createWorldRegistry(rawData) {
   }
   function getCampSpawnPosition() {
     const camp = data.camp;
+    if (camp?.playerSpawn) {
+      const sp = camp.playerSpawn;
+      return { x: sp.x, y: sp.y ?? 0, z: sp.z, regionId: "camp" };
+    }
     if (camp?.pos) return { x: camp.pos.x, y: camp.pos.y ?? 0, z: camp.pos.z - 0.8, regionId: "camp" };
     return { x: 0, y: 0, z: 9.5, regionId: "camp" };
+  }
+  function getAnchorDisplayName(anchor) {
+    if (anchor.displayName && typeof anchor.displayName === "string" && anchor.displayName.trim()) return anchor.displayName.trim();
+    const region = anchor.regionId ? regionMap.get(anchor.regionId) : null;
+    const regionName = region?.displayName ?? anchor.regionId ?? "";
+    if (anchor.type === "majorWaypoint") {
+      if (regionName) return regionName;
+      return "Waypoint";
+    }
+    if (anchor.type === "extractionBeacon") {
+      if (regionName) return `${regionName} Beacon`;
+      return "Extraction Beacon";
+    }
+    return anchor.displayName ?? anchor.id ?? "Waypoint";
   }
 
   // Region resolution: simplest deterministic — check bounds containment, else nearest center
@@ -188,6 +226,10 @@ export function createWorldRegistry(rawData) {
     getAllWaypoints,
     getAllBeacons,
     getAllPois,
+    getAllGroundPatches,
+    getGroundPatchesForRegion,
+    getAllBoundaries,
+    getBoundariesForRegion,
     getCamp,
     getStartAnchorId,
     getFrontierGateId,
@@ -197,6 +239,7 @@ export function createWorldRegistry(rawData) {
     getBeaconById,
     getWaypointSpawnPosition,
     getCampSpawnPosition,
+    getAnchorDisplayName,
     getRegionForPosition,
     getPocketForPosition,
     getNeighbors,

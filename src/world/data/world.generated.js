@@ -7,6 +7,11 @@ export const WORLD_DATA = {
     "description": "Camp clearing — drop pod, Matter Resonator, frontier gate",
     "frontierGateId": "gate_camp_frontier",
     "id": "camp",
+    "playerSpawn": {
+      "x": 0,
+      "y": 0,
+      "z": 10
+    },
     "pos": {
       "x": 0,
       "y": 0,
@@ -18,6 +23,80 @@ export const WORLD_DATA = {
   "initialMajorWaypointId": "wp_p1_entry",
   "regions": [
     {
+      "boundaryColliders": [
+        {
+          "collisionEnabled": true,
+          "color": 5925498,
+          "id": "boundary_north",
+          "opacity": 0.5,
+          "pos": {
+            "x": 0,
+            "y": 1.5,
+            "z": -11.68
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.5,
+            "h": 3,
+            "w": 26
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": 5925498,
+          "id": "boundary_south",
+          "opacity": 0.5,
+          "pos": {
+            "x": 0,
+            "y": 1.5,
+            "z": 11.68
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.5,
+            "h": 3,
+            "w": 26
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": 5925498,
+          "id": "boundary_west",
+          "opacity": 0.5,
+          "pos": {
+            "x": -12.68,
+            "y": 1.5,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 23,
+            "h": 3,
+            "w": 0.5
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": 5925498,
+          "id": "boundary_east",
+          "opacity": 0.5,
+          "pos": {
+            "x": 12.68,
+            "y": 1.5,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 23,
+            "h": 3,
+            "w": 0.5
+          },
+          "visibleInPlay": false
+        }
+      ],
       "bounds": {
         "maxX": 12.5,
         "maxZ": 11.5,
@@ -31,9 +110,30 @@ export const WORLD_DATA = {
         "color": 8363882,
         "type": "plain"
       },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": 8363882,
+          "id": "ground_camp",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.25,
+            "z": 9.25
+          },
+          "rotY": 0,
+          "size": {
+            "d": 4.5,
+            "h": 0.5,
+            "w": 25
+          },
+          "visibleInPlay": true
+        }
+      ],
       "id": "camp",
       "majorWaypoints": [
         {
+          "displayName": "Camp Gate",
           "id": "wp_camp_gate",
           "pos": {
             "x": 0,
@@ -61,7 +161,9 @@ export const WORLD_DATA = {
       ],
       "props": [
         {
+          "collisionEnabled": true,
           "id": "prop_camp_dropPod",
+          "opacity": 1,
           "pos": {
             "x": 0,
             "y": 0,
@@ -73,10 +175,13 @@ export const WORLD_DATA = {
             "h": 1.6,
             "w": 1.4
           },
-          "subtype": "dropPod"
+          "subtype": "dropPod",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "prop_camp_resonator",
+          "opacity": 1,
           "pos": {
             "x": 2.2,
             "y": 0,
@@ -88,10 +193,13 @@ export const WORLD_DATA = {
             "h": 1,
             "w": 0.9
           },
-          "subtype": "resonator"
+          "subtype": "resonator",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "fence_camp_south",
+          "opacity": 1,
           "pos": {
             "x": 0,
             "y": 0,
@@ -103,10 +211,13 @@ export const WORLD_DATA = {
             "h": 1.2,
             "w": 18
           },
-          "subtype": "fence"
+          "subtype": "fence",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "fence_camp_west",
+          "opacity": 1,
           "pos": {
             "x": -9.2,
             "y": 0,
@@ -118,10 +229,13 @@ export const WORLD_DATA = {
             "h": 1.2,
             "w": 0.4
           },
-          "subtype": "fence"
+          "subtype": "fence",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "fence_camp_east",
+          "opacity": 1,
           "pos": {
             "x": 9.2,
             "y": 0,
@@ -133,10 +247,13 @@ export const WORLD_DATA = {
             "h": 1.2,
             "w": 0.4
           },
-          "subtype": "fence"
+          "subtype": "fence",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "fence_camp_north_west",
+          "opacity": 1,
           "pos": {
             "x": -4,
             "y": 0,
@@ -148,10 +265,13 @@ export const WORLD_DATA = {
             "h": 1.2,
             "w": 6
           },
-          "subtype": "fence"
+          "subtype": "fence",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "fence_camp_north_east",
+          "opacity": 1,
           "pos": {
             "x": 4,
             "y": 0,
@@ -163,10 +283,13 @@ export const WORLD_DATA = {
             "h": 1.2,
             "w": 6
           },
-          "subtype": "fence"
+          "subtype": "fence",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": false,
           "id": "gate_camp_frontier",
+          "opacity": 1,
           "pos": {
             "x": 0,
             "y": 0,
@@ -178,10 +301,13 @@ export const WORLD_DATA = {
             "h": 1.4,
             "w": 2
           },
-          "subtype": "gate"
+          "subtype": "gate",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "forest_camp_west",
+          "opacity": 1,
           "pos": {
             "x": -11.2,
             "y": 0,
@@ -193,10 +319,13 @@ export const WORLD_DATA = {
             "h": 3.5,
             "w": 1.8
           },
-          "subtype": "forestBoundary"
+          "subtype": "forestBoundary",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "forest_camp_east",
+          "opacity": 1,
           "pos": {
             "x": 11.2,
             "y": 0,
@@ -208,10 +337,13 @@ export const WORLD_DATA = {
             "h": 3.5,
             "w": 1.8
           },
-          "subtype": "forestBoundary"
+          "subtype": "forestBoundary",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "forest_camp_north",
+          "opacity": 1,
           "pos": {
             "x": 0,
             "y": 0,
@@ -223,7 +355,8 @@ export const WORLD_DATA = {
             "h": 3.2,
             "w": 20
           },
-          "subtype": "forestBoundary"
+          "subtype": "forestBoundary",
+          "visibleInPlay": true
         }
       ],
       "resources": [],
@@ -235,6 +368,7 @@ export const WORLD_DATA = {
       }
     },
     {
+      "boundaryColliders": [],
       "bounds": {
         "maxX": 12.5,
         "maxZ": 7,
@@ -269,9 +403,30 @@ export const WORLD_DATA = {
         "color": 8363882,
         "type": "plain"
       },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": 8363882,
+          "id": "ground_p1_forest_edge",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.25,
+            "z": 5.25
+          },
+          "rotY": 0,
+          "size": {
+            "d": 3.5,
+            "h": 0.5,
+            "w": 25
+          },
+          "visibleInPlay": true
+        }
+      ],
       "id": "p1_forest_edge",
       "majorWaypoints": [
         {
+          "displayName": "Forest Edge",
           "id": "wp_p1_entry",
           "pos": {
             "x": 0,
@@ -304,7 +459,9 @@ export const WORLD_DATA = {
       ],
       "props": [
         {
+          "collisionEnabled": true,
           "id": "prop_p1_forest_west",
+          "opacity": 1,
           "pos": {
             "x": -11,
             "y": 0,
@@ -316,10 +473,13 @@ export const WORLD_DATA = {
             "h": 2.8,
             "w": 2
           },
-          "subtype": "forestBoundary"
+          "subtype": "forestBoundary",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "prop_p1_forest_east",
+          "opacity": 1,
           "pos": {
             "x": 11,
             "y": 0,
@@ -331,10 +491,13 @@ export const WORLD_DATA = {
             "h": 2.8,
             "w": 2
           },
-          "subtype": "forestBoundary"
+          "subtype": "forestBoundary",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "prop_p1_box_01",
+          "opacity": 1,
           "pos": {
             "x": -5,
             "y": 0,
@@ -346,7 +509,8 @@ export const WORLD_DATA = {
             "h": 0.9,
             "w": 1.2
           },
-          "subtype": "box"
+          "subtype": "box",
+          "visibleInPlay": true
         }
       ],
       "resources": [
@@ -422,6 +586,7 @@ export const WORLD_DATA = {
       }
     },
     {
+      "boundaryColliders": [],
       "bounds": {
         "maxX": 12.5,
         "maxZ": 3.5,
@@ -476,6 +641,7 @@ export const WORLD_DATA = {
       "displayName": "Tangled Hollow",
       "extractionBeacons": [
         {
+          "displayName": "Tangled Hollow Beacon",
           "id": "beacon_p2_01",
           "pos": {
             "x": -2,
@@ -489,6 +655,26 @@ export const WORLD_DATA = {
         "color": 8363882,
         "type": "plain"
       },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": 8363882,
+          "id": "ground_p2_complication",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.25,
+            "z": 1.75
+          },
+          "rotY": 0,
+          "size": {
+            "d": 3.5,
+            "h": 0.5,
+            "w": 25
+          },
+          "visibleInPlay": true
+        }
+      ],
       "id": "p2_complication",
       "majorWaypoints": [],
       "neighbors": [
@@ -526,7 +712,9 @@ export const WORLD_DATA = {
       ],
       "props": [
         {
+          "collisionEnabled": false,
           "id": "prop_p2_pond_water",
+          "opacity": 1,
           "pos": {
             "x": 5.5,
             "y": -0.08,
@@ -538,10 +726,13 @@ export const WORLD_DATA = {
             "h": 0.2,
             "w": 4.2
           },
-          "subtype": "water"
+          "subtype": "water",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "prop_p2_pond_island",
+          "opacity": 1,
           "pos": {
             "x": 5.5,
             "y": 0,
@@ -553,10 +744,13 @@ export const WORLD_DATA = {
             "h": 0.4,
             "w": 1.4
           },
-          "subtype": "island"
+          "subtype": "island",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "prop_p2_box_01",
+          "opacity": 1,
           "pos": {
             "x": -3.5,
             "y": 0,
@@ -568,7 +762,8 @@ export const WORLD_DATA = {
             "h": 1.1,
             "w": 2.4
           },
-          "subtype": "box"
+          "subtype": "box",
+          "visibleInPlay": true
         }
       ],
       "resources": [
@@ -643,6 +838,7 @@ export const WORLD_DATA = {
       }
     },
     {
+      "boundaryColliders": [],
       "bounds": {
         "maxX": 12.5,
         "maxZ": 0,
@@ -697,6 +893,7 @@ export const WORLD_DATA = {
       "displayName": "Sunken Rise",
       "extractionBeacons": [
         {
+          "displayName": "Sunken Rise Beacon",
           "id": "beacon_p3_01",
           "pos": {
             "x": 0.5,
@@ -710,6 +907,26 @@ export const WORLD_DATA = {
         "color": 8363882,
         "type": "plain"
       },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": 8363882,
+          "id": "ground_p3_temptation",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.25,
+            "z": -2.25
+          },
+          "rotY": 0,
+          "size": {
+            "d": 4.5,
+            "h": 0.5,
+            "w": 25
+          },
+          "visibleInPlay": true
+        }
+      ],
       "id": "p3_temptation",
       "majorWaypoints": [],
       "neighbors": [
@@ -731,7 +948,9 @@ export const WORLD_DATA = {
       ],
       "props": [
         {
+          "collisionEnabled": true,
           "id": "prop_p3_box_01",
+          "opacity": 1,
           "pos": {
             "x": 4.2,
             "y": 0,
@@ -743,10 +962,13 @@ export const WORLD_DATA = {
             "h": 1,
             "w": 1.8
           },
-          "subtype": "box"
+          "subtype": "box",
+          "visibleInPlay": true
         },
         {
+          "collisionEnabled": true,
           "id": "prop_p3_fence_01",
+          "opacity": 1,
           "pos": {
             "x": -7.5,
             "y": 0,
@@ -758,7 +980,8 @@ export const WORLD_DATA = {
             "h": 1.2,
             "w": 0.4
           },
-          "subtype": "fence"
+          "subtype": "fence",
+          "visibleInPlay": true
         }
       ],
       "resources": [
@@ -887,6 +1110,7 @@ export const WORLD_DATA = {
       }
     },
     {
+      "boundaryColliders": [],
       "bounds": {
         "maxX": 12.5,
         "maxZ": -4.5,
@@ -921,9 +1145,30 @@ export const WORLD_DATA = {
         "color": 8363882,
         "type": "plain"
       },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": 8363882,
+          "id": "ground_p4_threshold",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.25,
+            "z": -8
+          },
+          "rotY": 0,
+          "size": {
+            "d": 7,
+            "h": 0.5,
+            "w": 25
+          },
+          "visibleInPlay": true
+        }
+      ],
       "id": "p4_threshold",
       "majorWaypoints": [
         {
+          "displayName": "Threshold Rise",
           "id": "wp_p4_threshold",
           "pos": {
             "x": 2.2,
@@ -958,7 +1203,9 @@ export const WORLD_DATA = {
       ],
       "props": [
         {
+          "collisionEnabled": true,
           "id": "prop_p4_high_island",
+          "opacity": 1,
           "pos": {
             "x": 8,
             "y": 0,
@@ -970,7 +1217,8 @@ export const WORLD_DATA = {
             "h": 0.6,
             "w": 2
           },
-          "subtype": "box"
+          "subtype": "box",
+          "visibleInPlay": true
         }
       ],
       "resources": [

@@ -51,21 +51,29 @@ export function createAnchorPrompt(opts = {}) {
   }
 
   function show(data) {
-    // data: { id, type: "majorWaypoint"|"extractionBeacon"|"gate", title?, cargo, xp }
     current = data;
     let title = data.title;
+    const dn = data.displayName ? String(data.displayName).toUpperCase() : null;
     if (!title) {
-      if (data.type === "majorWaypoint") title = "WAYPOINT ACTIVATED";
-      else if (data.type === "extractionBeacon") title = "EXTRACTION BEACON";
-      else if (data.type === "gate") title = "RETURN TO CAMP";
-      else title = "FRONTIER ANCHOR";
+      if (data.type === "majorWaypoint") {
+        if (dn) title = data.isNew ? `${dn} ACTIVATED` : `${dn} WAYPOINT`;
+        else title = data.isNew ? "WAYPOINT ACTIVATED" : "WAYPOINT";
+      } else if (data.type === "extractionBeacon") {
+        title = dn ? dn : "EXTRACTION BEACON";
+      } else if (data.type === "gate") title = "RETURN TO CAMP";
+      else title = dn ?? "FRONTIER ANCHOR";
     }
     titleEl.textContent = title;
     if (data.type === "gate") {
       summaryEl.textContent = `Secure everything you are carrying? — ${formatCargo(data.cargo ?? {wood:0,stone:0,fiber:0}, data.xp ?? 0)}`;
       extractBtn.textContent = "RETURN & SECURE";
+    } else if (data.type === "majorWaypoint") {
+      const sub = data.isNew ? "New expedition start unlocked. Extract now or keep going?" : "Extract to Camp and secure this run, or keep going?";
+      summaryEl.textContent = `${formatCargo(data.cargo ?? {wood:0,stone:0,fiber:0}, data.xp ?? 0)} — ${sub}`;
+      extractBtn.textContent = "EXTRACT";
     } else {
-      summaryEl.textContent = formatCargo(data.cargo ?? {wood:0,stone:0,fiber:0}, data.xp ?? 0);
+      const sub = "Extraction available. Secure this run and return to Camp?";
+      summaryEl.textContent = `${formatCargo(data.cargo ?? {wood:0,stone:0,fiber:0}, data.xp ?? 0)} — ${sub}`;
       extractBtn.textContent = "EXTRACT";
     }
     overlay.style.display = "flex";

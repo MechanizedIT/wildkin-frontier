@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Post-Phase 4A — First Complete Expedition Loop)
+# Architecture — Wildkin Frontier (Post-Phase 4A.1 — First-Run UX, Anchor Suppression & Authoring Prerequisites)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A**. Phase 3.5A/B.x foundations remain accepted.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A.1**. Phase 4A loop remains accepted; this slice refines it and adds authoring prerequisites.
 
 ## Permanent Goals
 
@@ -27,29 +27,29 @@
 
 # Current Accepted Foundation
 
-Phase 3.1.1 validated the core gameplay. Phase 3.5A added the directed-world/runtime foundation. Phase 3.5B/B.1/B.2 added and human-accepted the world-authoring pipeline. Phase 4A adds the first complete Camp ↔ expedition loop.
+Phase 3.1.1 validated core gameplay. Phase 3.5A added directed-world/runtime foundation. Phase 3.5B/B.1/B.2 human-accepted world-authoring pipeline. Phase 4A added first complete Camp ↔ expedition loop. Phase 4A.1 refines first-run/gate/start suppression and makes ground/boundaries authored.
 
 Accepted current systems:
 
 - player movement/traversal + Rapier kinematic controller,
 - Field Tool single-owner swing/cadence,
 - Auto Harvest + manual interaction rules,
-- resource nodes/physical pickups/magnet inventory (now run-carry, upper-left, hide-zero) + banked totals,
+- resource nodes/physical pickups/magnet inventory (run-carry, hide-zero) + persistent bank,
 - player health/dodge/death with Camp-return flow,
-- melee/ranged prototype Wildkin attacks,
-- aggressive/territorial/defensive/skittish reactions,
-- selected Wildkin-vs-Wildkin interaction support,
-- home/roam/leash/return behavior + steering,
-- collision-aware XP pop/rest + guaranteed magnet collection,
-- bounded pickup/projectile/XP pools,
-- data-driven `world.json` source with Camp + Area 1 regions/anchors/POIs + frontierGateId/initialMajorWaypointId/spawnOffset,
+- melee/ranged Wildkin attacks, A/T/D/S temperaments, selected Wildkin-vs-Wildkin, home/leash/steering,
+- collision-aware XP pop/rest + guaranteed magnet,
+- bounded pools, data-driven `world.json` source with `camp.playerSpawn`, Camp + Area 1 regions/anchors/POIs + `frontierGateId/initialMajorWaypointId/spawnOffset/displayName`,
+- explicit authored `groundPatches` (one per region, visible/collision toggles) + `boundaryColliders` (outer limits, hidden in Play, proxy in Edit) replacing hard-coded global floor/bounds walls,
+- generic static presentation/collision contract (`visibleInPlay, collisionEnabled, opacity, color/tint` with per-object material cloning),
 - current+neighbor region activation,
-- `ExpeditionSession` temporary-run owner (camp/active/extracted/dead, idempotent resolve),
-- `frontierProgress` persistent bank + unlocked/discovered frontier,
-- frontier anchor interaction + Map (inspect vs gate-start) + anchor prompts + result cards + minimal edge indicators,
-- desktop-only Author Mode with direct placement/dragging, live transforms, hierarchy, Wildkin home editing, deterministic export/reset (isolated from player progress),
-- visual ↔ Rapier transform parity for supported authored solids,
-- single rAF/fixed 1/60, offline/portrait/<35 MB submission validation.
+- `ExpeditionSession` (camp/active/extracted/dead, idempotent, `suppressUntilExit` generic),
+- `frontierProgress` (bank + unlocks, isolated author key),
+- frontier anchor interaction with `prime` edge-trigger + generic suppression,
+- Map (inspect vs gate-start, displayName-only), anchor prompts + result cards using displayName, minimal edge indicators,
+- `?dev=1` dev-only `RESET PLAYER SAVE` (clears `wildkin.frontierProgress` only),
+- desktop Author Mode with categorized palette, Ground/Boundaries hierarchy, Display Name + presentation controls, Edit proxy for hidden colliders, live tint/opacity preview, deterministic export/reset,
+- visual ↔ Rapier parity for supported solids including ground/boundary with rotation/opacity/tint,
+- single rAF/fixed 1/60, offline/portrait/<35 MB.
 
 # Current High-Level Module Areas
 
@@ -426,6 +426,37 @@ Old `deathOverlay` replaced; no competing arena restart.
 ## 5. Blocking UI input ownership
 
 One suppression path: `isAnyBlockingModal()` (Map|AnchorPrompt|ResultCard) + authorEdit → `setGameplayInputBlocked`. Both `touchMovement.setEnabled` and `keyboardInput.setEnabled` clear held joystick/swipe/keys and disable `getIntent`. Restored exactly once on close. Field Tool also gated via `fieldCanAttack && session.isActive()`.
+
+# Phase 4A.1 Refinements — IMPLEMENTED
+
+## Fresh launch / gate
+- `camp.playerSpawn` authored at `0,10.0` (outside gate radius 1.85 at `0,7.2`), validated finite/near Camp bounds, used by `worldRegistry.getCampSpawnPosition`.
+- `frontierAnchorSystem.prime(playerPos)` sets `inside` from actual position before first tick; gate requires genuine outside→inside transition even if future spawn inside radius.
+- Camp spawn now far enough that intended playtest starts outside trigger naturally.
+
+## Start-Waypoint suppression (generic)
+- `suppressUntilExit(waypointId)` generic set (not only `wp_p1_entry`), `prime` then `suppressUntilExit` in `beginExpedition`; stays suppressed while inside, requires leave then re-enter for any selectable Major Waypoint; works whether spawn offset inside or outside radius; `handleKeepGoing` still requires leave/re-enter.
+
+## Interaction restore
+- After `CHOOSE START` close, session active, `isAnyBlockingModal` false, `harvestingAllowed && session.isActive()` and `fieldCanAttack && session.isActive()` true, focus rings/combat available. Covered by integration tests.
+
+## Dev reset
+- `?dev=1` shows `RESET PLAYER SAVE` centered top, confirm dialog, `frontierProgress.clear()` + reload, does not clear `wildkin.authorDraft`.
+
+## DisplayName
+- `worldRegistry.getAnchorDisplayName` helper (displayName → region displayName + fallback). Added `displayName` to `wp_p1_entry=Forest Edge`, `wp_p4_threshold=Threshold Rise`, `beacon_p2_01=Tangled Hollow Beacon`, `beacon_p3_01=Sunken Rise Beacon`.
+- `frontierMap`, `anchorPrompt`, `runResultCard`, `frontierIndicators` all use helper; normal Map no longer exposes `wp_*`/coordinates.
+
+## Authored Ground / Boundary
+- `world.json` now has `region.groundPatches` (one per region, `pos/size/color/opacity/visibleInPlay/collisionEnabled/rotY`) and `region.boundaryColliders` (four outer walls in camp, hidden in Play). `worldValidator` validates IDs, pos/size, `visibleInPlay/collisionEnabled` bool, `opacity 0..1`, `color` number or `#RRGGBB`, duplicate IDs, displayName length.
+- `staticWorldBuilder` builds ground patches/boundaries from authored data (no hidden global floor; safety floor at -30 only). Per-object material cloned when tint/opacity override, so fence tint does not affect all fences.
+- `createPhysicsWorld` builds colliders from `groundPatches`/`boundaries` where `collisionEnabled`, no hard-coded bounds walls; safety floor at -30 far below.
+- Hidden objects (`visibleInPlay=false`) get wireframe Edit proxy (`isEditProxy`) visible only in Edit via `setProxyVisibility`; boundaries especially readable.
+
+## Palette / Hierarchy / Inspector
+- Palette categorized: World (Ground Patch, Boundary Collider), Environment/Props (Box, Fence, Gate, Forest Boundary, Water, Island, Drop Pod, Resonator), Traversal (Platform, Obstacle, Ladder), Resources (Tree, Rock, Fiber), Wildkin (Rusher, Spitter), Frontier/POI (Major Waypoint, Extraction Beacon, POI Chest).
+- Hierarchy adds `Ground` and `Boundaries / Colliders` under each Region.
+- Inspector shows `Display Name` for Waypoints/Beacons and `Visible in Play` / `Collision` / `Opacity` / `Tint` for props/ground/boundary (only where supported); tint text + color picker sync, live preview via `syncPreviewForId` cloning material per object.
 
 # Persistence Separation — Phase 4A Guardrail
 

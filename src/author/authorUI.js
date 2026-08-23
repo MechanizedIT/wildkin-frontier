@@ -1,4 +1,4 @@
-// src/author/authorUI.js — minimal desktop Author Mode panel (Phase 3.5B.1 cleanup)
+// src/author/authorUI.js — desktop Author Mode panel (Phase 4A.1 categorized + presentation controls)
 
 export function createAuthorUI(opts) {
   const draftApi = opts.draftApi;
@@ -20,7 +20,7 @@ export function createAuthorUI(opts) {
     <div id="author-place-hint" style="display:none;font-size:11px;color:#ffd54f;background:#2a2410;border:1px solid #6a5a20;border-radius:6px;padding:6px;margin-bottom:8px"></div>
     <details id="sec-palette" open style="margin-bottom:8px">
       <summary style="font-weight:700;cursor:pointer;list-style:none">Palette — Click to place ▼</summary>
-      <div id="author-palette" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px"></div>
+      <div id="author-palette" style="display:flex;flex-direction:column;gap:6px;margin-top:6px"></div>
     </details>
     <details id="sec-selected" open style="margin-bottom:8px">
       <summary style="font-weight:700;cursor:pointer">Selected</summary>
@@ -41,6 +41,16 @@ export function createAuthorUI(opts) {
             <label>W <input id="author-w" type="number" step="0.1" style="width:100%"></label>
             <label>D <input id="author-h" type="number" step="0.1" style="width:100%"></label>
             <label>Height <input id="author-height" type="number" step="0.1" style="width:100%"></label>
+          </div>
+          <div id="author-presentation" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:6px">
+            <div style="font-weight:600;margin-bottom:4px">Presentation / Physics</div>
+            <label style="display:flex;align-items:center;gap:6px;margin:2px 0"><input type="checkbox" id="author-visible"> Visible in Play</label>
+            <label style="display:flex;align-items:center;gap:6px;margin:2px 0"><input type="checkbox" id="author-collision"> Collision</label>
+            <label style="display:block;margin:2px 0">Opacity <input id="author-opacity" type="number" min="0" max="1" step="0.05" style="width:100%"></label>
+            <label style="display:block;margin:2px 0">Tint <input id="author-tint" type="color" style="width:100%;height:24px;padding:2px"><input id="author-tint-text" placeholder="#RRGGBB or empty" style="width:100%;margin-top:2px;font-size:11px"></label>
+          </div>
+          <div id="author-displayname-row" style="display:none;margin-top:6px">
+            <label>Display Name <input id="author-displayname" placeholder="Readable name" style="width:100%"></label>
           </div>
           <div id="author-creature-fields" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:4px">
             <div style="font-weight:600;margin-bottom:2px">Creature</div>
@@ -120,31 +130,67 @@ export function createAuthorUI(opts) {
   const selectedForm = container.querySelector("#author-selected-form");
   const selIdEl = container.querySelector("#author-sel-id");
 
-  const paletteItems = [
-    { label: "Box", kind: "prop", subtype: "box" },
-    { label: "Fence", kind: "fence" },
-    { label: "Gate", kind: "gate" },
-    { label: "Boundary", kind: "forestBoundary" },
-    { label: "Platform", kind: "platform" },
-    { label: "Obstacle", kind: "obstacle" },
-    { label: "Ladder", kind: "climbable" },
-    { label: "Tree", kind: "tree" },
-    { label: "Rock", kind: "rock" },
-    { label: "Fiber", kind: "fiber" },
-    { label: "Rusher", kind: "rusher" },
-    { label: "Spitter", kind: "spitter" },
-    { label: "Waypoint", kind: "majorWaypoint" },
-    { label: "Beacon", kind: "extractionBeacon" },
-    { label: "POI Chest", kind: "poi", subtype: "chest" },
-    { label: "Drop Pod", kind: "dropPod" },
-    { label: "Resonator", kind: "resonator" },
+  const paletteCategories = [
+    { title: "World", items: [
+      { label: "Ground Patch", kind: "groundPatch" },
+      { label: "Boundary Collider", kind: "boundaryCollider" },
+    ]},
+    { title: "Environment / Props", items: [
+      { label: "Box", kind: "prop", subtype: "box" },
+      { label: "Fence", kind: "fence" },
+      { label: "Gate", kind: "gate" },
+      { label: "Forest Boundary", kind: "forestBoundary" },
+      { label: "Water", kind: "water" },
+      { label: "Island", kind: "island" },
+      { label: "Drop Pod", kind: "dropPod" },
+      { label: "Resonator", kind: "resonator" },
+    ]},
+    { title: "Traversal", items: [
+      { label: "Platform", kind: "platform" },
+      { label: "Obstacle", kind: "obstacle" },
+      { label: "Ladder", kind: "climbable" },
+    ]},
+    { title: "Resources", items: [
+      { label: "Tree", kind: "tree" },
+      { label: "Rock", kind: "rock" },
+      { label: "Fiber", kind: "fiber" },
+    ]},
+    { title: "Wildkin", items: [
+      { label: "Rusher", kind: "rusher" },
+      { label: "Spitter", kind: "spitter" },
+    ]},
+    { title: "Frontier / POI", items: [
+      { label: "Major Waypoint", kind: "majorWaypoint" },
+      { label: "Extraction Beacon", kind: "extractionBeacon" },
+      { label: "POI Chest", kind: "poi", subtype: "chest" },
+    ]},
   ];
-  for (const item of paletteItems) {
-    const b = document.createElement("button");
-    b.textContent = item.label;
-    b.style.cssText = "padding:6px 4px;background:#1a243a;color:#c0d0e8;border:1px solid #2a3a5a;border-radius:4px;font-size:11px;cursor:pointer";
-    b.addEventListener("click", () => opts.onCreate?.(item));
-    paletteEl.appendChild(b);
+  for (const cat of paletteCategories) {
+    const det = document.createElement("details");
+    det.open = cat.title === "World" || cat.title === "Environment / Props";
+    det.style.border = "1px solid #1e2a4a";
+    det.style.borderRadius = "4px";
+    det.style.padding = "4px";
+    const sum = document.createElement("summary");
+    sum.textContent = cat.title;
+    sum.style.cursor = "pointer";
+    sum.style.fontWeight = "700";
+    sum.style.fontSize = "11px";
+    det.appendChild(sum);
+    const grid = document.createElement("div");
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "1fr 1fr";
+    grid.style.gap = "4px";
+    grid.style.marginTop = "4px";
+    for (const item of cat.items) {
+      const b = document.createElement("button");
+      b.textContent = item.label;
+      b.style.cssText = "padding:6px 4px;background:#1a243a;color:#c0d0e8;border:1px solid #2a3a5a;border-radius:4px;font-size:11px;cursor:pointer";
+      b.addEventListener("click", () => opts.onCreate?.(item));
+      grid.appendChild(b);
+    }
+    det.appendChild(grid);
+    paletteEl.appendChild(det);
   }
 
   function refreshRegionSelects() {
@@ -181,6 +227,8 @@ export function createAuthorUI(opts) {
     hierarchyEl.innerHTML = "";
     for (const region of draft.regions) {
       const cats = [
+        { label: "Ground", items: region.groundPatches ?? [] },
+        { label: "Boundaries / Colliders", items: region.boundaryColliders ?? [] },
         { label: "Props", items: region.props ?? [] },
         { label: "Traversal", items: [...(region.traversal?.platforms??[]), ...(region.traversal?.obstacles??[]), ...(region.traversal?.climbables??[])] },
         { label: "Resources", items: region.resources ?? [] },
@@ -189,18 +237,19 @@ export function createAuthorUI(opts) {
         { label: "POIs", items: region.pois ?? [] },
       ];
       let hasVisible = !filter || region.id.toLowerCase().includes(filter) || (region.displayName&&region.displayName.toLowerCase().includes(filter));
-      for (const c of cats) for (const o of c.items) if (!filter || o.id.toLowerCase().includes(filter) || (o.type&&o.type.toLowerCase().includes(filter)) || (o.subtype&&o.subtype.toLowerCase().includes(filter))) hasVisible=true;
+      for (const c of cats) for (const o of c.items) if (!filter || o.id.toLowerCase().includes(filter) || (o.type&&o.type.toLowerCase().includes(filter)) || (o.subtype&&o.subtype.toLowerCase().includes(filter)) || (o.displayName&&o.displayName.toLowerCase().includes(filter))) hasVisible=true;
       if (!hasVisible) continue;
       const det = document.createElement("details"); det.open = !!filter || region.id===regionSelectEl.value; det.style.marginBottom="4px";
       const sum = document.createElement("summary"); sum.textContent = region.id; sum.style.cursor="pointer"; sum.style.fontWeight="700"; det.appendChild(sum);
       for (const cat of cats) {
         if (cat.items.length===0) continue;
-        const filtered = cat.items.filter(o=> !filter || o.id.toLowerCase().includes(filter) || (o.type&&o.type.toLowerCase().includes(filter)) || (o.subtype&&o.subtype.toLowerCase().includes(filter)));
+        const filtered = cat.items.filter(o=> !filter || o.id.toLowerCase().includes(filter) || (o.type&&o.type.toLowerCase().includes(filter)) || (o.subtype&&o.subtype.toLowerCase().includes(filter)) || (o.displayName&&o.displayName.toLowerCase().includes(filter)));
         if (filtered.length===0) continue;
         const catDet = document.createElement("details"); catDet.style.marginLeft="8px"; catDet.open = !!filter;
         const catSum = document.createElement("summary"); catSum.textContent = `${cat.label} (${filtered.length})`; catSum.style.cursor="pointer"; catSum.style.color="#8aa0c0"; catDet.appendChild(catSum);
         for (const obj of filtered) {
-          const row = document.createElement("div"); row.textContent = obj.id + (obj.type?` [${obj.type}]`: obj.subtype?` [${obj.subtype}]`:""); row.dataset.id = obj.id; row.style.padding="2px 4px"; row.style.borderRadius="3px"; row.style.cursor="pointer"; row.style.display="flex"; row.style.justifyContent="space-between"; row.style.alignItems="center";
+          const label = obj.displayName ? `${obj.id} [${obj.type ?? obj.subtype} · ${obj.displayName}]` : obj.id + (obj.type?` [${obj.type}]`: obj.subtype?` [${obj.subtype}]`:"");
+          const row = document.createElement("div"); row.textContent = label; row.dataset.id = obj.id; row.style.padding="2px 4px"; row.style.borderRadius="3px"; row.style.cursor="pointer"; row.style.display="flex"; row.style.justifyContent="space-between"; row.style.alignItems="center";
           if (obj.id===selectedId) { row.style.background="#2a3a5a"; row.style.color="#ffd54f"; }
           row.addEventListener("click", ()=>{ setSelected(obj.id); opts.onDraftChanged?.(obj.id); });
           const focusBtn = document.createElement("button"); focusBtn.textContent="◉"; focusBtn.title="Focus camera"; focusBtn.style.cssText="font-size:10px;padding:1px 4px;margin-left:4px;background:#1a243a;color:#8aa0c0;border:1px solid #2a3a5a;border-radius:3px;cursor:pointer";
@@ -243,11 +292,17 @@ export function createAuthorUI(opts) {
   function supportsRot(type) {
     if (type === "climbable" || type === "platform" || type === "obstacle") return false;
     if (type === "resource" || type === "creature" || type === "majorWaypoint" || type === "extractionBeacon" || type === "poi") return false;
-    return true; // props
+    return true;
   }
   function supportsSize(type) {
     if (type === "resource" || type === "creature" || type === "majorWaypoint" || type === "extractionBeacon" || type === "poi") return false;
     return true;
+  }
+  function supportsPresentation(type) {
+    // static families that share presentation/collision path: props, groundPatch, boundaryCollider, fence/boundary etc
+    if (type === "prop" || type === "groundPatch" || type === "boundaryCollider") return true;
+    // For fence/forestBoundary etc they are props with subtype fence -> already prop
+    return false;
   }
 
   function setSelected(id) {
@@ -261,8 +316,8 @@ export function createAuthorUI(opts) {
     if (!found) { selectedId = null; selectedNone.style.display=""; selectedForm.style.display="none"; return; }
     selectedNone.style.display="none";
     selectedForm.style.display="";
-    selIdEl.textContent = `${found.type} — ${found.obj.id} — region: ${found.region.id}`;
-    selRegionEl.value = found.region.id;
+    selIdEl.textContent = `${found.type} — ${found.obj.id} — region: ${found.region ? found.region.id : "camp"}`;
+    if (found.region) selRegionEl.value = found.region.id;
     const obj = found.obj;
     const pos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: obj.y ?? obj.baseY ?? 0, z: obj.z } : { x: 0, y: 0, z: 0 });
     container.querySelector("#author-x").value = pos.x ?? 0;
@@ -274,7 +329,6 @@ export function createAuthorUI(opts) {
     container.querySelector("#author-w").value = size.w ?? obj.w ?? "";
     container.querySelector("#author-h").value = size.d ?? obj.h ?? "";
     container.querySelector("#author-height").value = obj.height ?? size.h ?? "";
-    // Per-type visibility
     const yRow = container.querySelector("#row-y");
     const rotWrap = container.querySelector("#wrap-rot");
     const sizeRow = container.querySelector("#row-size");
@@ -287,13 +341,40 @@ export function createAuthorUI(opts) {
     rotWrap.style.display = supportsRot(found.type) ? "" : "none";
     sizeRow.style.display = supportsSize(found.type) ? "" : "none";
     if (found.type === "climbable") {
-      // Show disabled note
       rotWrap.style.display = "none";
       yRow.style.display = "none";
       upBtn.style.display = "none";
       downBtn.style.display = "none";
       sizeRow.style.display = "none";
     }
+    const presentation = container.querySelector("#author-presentation");
+    const supportsPres = supportsPresentation(found.type);
+    if (supportsPres) {
+      presentation.style.display = "";
+      container.querySelector("#author-visible").checked = obj.visibleInPlay !== false;
+      container.querySelector("#author-collision").checked = obj.collisionEnabled !== false;
+      container.querySelector("#author-opacity").value = obj.opacity ?? 1;
+      const tintVal = obj.color ?? obj.tint ?? "";
+      let hex = "";
+      if (typeof tintVal === "number") hex = "#" + tintVal.toString(16).padStart(6,"0");
+      else if (typeof tintVal === "string") hex = tintVal.startsWith("#") ? tintVal : "#"+tintVal;
+      else hex = "#ffffff";
+      // color input expects valid hex, default to white if none
+      const colorInput = container.querySelector("#author-tint");
+      const textInput = container.querySelector("#author-tint-text");
+      if (obj.color !== undefined || obj.tint !== undefined) {
+        try { colorInput.value = hex; textInput.value = hex; } catch { colorInput.value = "#ffffff"; textInput.value = ""; }
+      } else {
+        colorInput.value = "#ffffff"; textInput.value = "";
+      }
+    } else presentation.style.display = "none";
+
+    const displayRow = container.querySelector("#author-displayname-row");
+    if (found.type === "majorWaypoint" || found.type === "extractionBeacon") {
+      displayRow.style.display = "";
+      container.querySelector("#author-displayname").value = obj.displayName ?? "";
+    } else displayRow.style.display = "none";
+
     const creatureFields = container.querySelector("#author-creature-fields");
     if (found.type === "creature") {
       creatureFields.style.display="";
@@ -307,7 +388,6 @@ export function createAuthorUI(opts) {
       container.querySelector("#author-notice").value = obj.noticeRadius ?? "";
       container.querySelector("#author-personal").value = obj.personalSpace ?? "";
       container.querySelector("#author-leash").value = obj.leashRadius ?? "";
-      // keep checkbox as is (default checked)
     } else creatureFields.style.display="none";
     const anchorFields = container.querySelector("#author-anchor-fields");
     if (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi") {
@@ -316,7 +396,6 @@ export function createAuthorUI(opts) {
       const rEl = container.querySelector("#author-requires");
       rEl.value = obj.requires ? JSON.stringify(obj.requires) : "";
       rEl.style.display = found.type === "poi" ? "" : "none";
-      // hide label for requires when not poi
       rEl.parentElement.style.display = found.type === "poi" ? "" : "none";
       if (found.type !== "poi") container.querySelector("#author-requires").style.display="none";
     } else anchorFields.style.display="none";
@@ -342,8 +421,13 @@ export function createAuthorUI(opts) {
       patch.x = x;
     }
     if (!isNaN(rotDeg)) patch.rotY = rotDeg * Math.PI / 180;
-    // Dimensions: Width/Depth/Height -> size.w/size.d/size.h for props, w/h/height for platforms/obstacles
     if (found && found.type === "prop") {
+      const size = {};
+      if (!isNaN(w)) size.w = w;
+      if (!isNaN(d)) size.d = d;
+      if (!isNaN(height)) size.h = height;
+      if (Object.keys(size).length) patch.size = size;
+    } else if (found && (found.type === "groundPatch" || found.type === "boundaryCollider")) {
       const size = {};
       if (!isNaN(w)) size.w = w;
       if (!isNaN(d)) size.d = d;
@@ -354,7 +438,6 @@ export function createAuthorUI(opts) {
       if (!isNaN(d)) patch.h = d;
       if (!isNaN(height)) patch.height = height;
     } else {
-      // For other types, height not used but keep for completeness
       if (!isNaN(height)) patch.height = height;
     }
     const selRegion = selRegionEl.value;
@@ -366,6 +449,32 @@ export function createAuthorUI(opts) {
     if (found && (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi")) {
       const t = container.querySelector("#author-anchor-type").value.trim();
       if (t) patch.type = t;
+    }
+    if (found && (found.type === "majorWaypoint" || found.type === "extractionBeacon")) {
+      const dn = container.querySelector("#author-displayname").value.trim();
+      if (dn) patch.displayName = dn;
+      else patch.displayName = "";
+    }
+    if (found && (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider")) {
+      const vis = container.querySelector("#author-visible");
+      const coll = container.querySelector("#author-collision");
+      const op = parseFloat(container.querySelector("#author-opacity").value);
+      const tintText = container.querySelector("#author-tint-text").value.trim();
+      const tintColor = container.querySelector("#author-tint").value;
+      if (vis) patch.visibleInPlay = vis.checked;
+      if (coll) patch.collisionEnabled = coll.checked;
+      if (!isNaN(op)) patch.opacity = Math.max(0, Math.min(1, op));
+      if (tintText) patch.color = tintText;
+      else if (tintColor && tintColor !== "#ffffff") patch.color = tintColor;
+      else if (!tintText && (found.obj.color !== undefined || found.obj.tint !== undefined)) {
+        // if user cleared, keep empty? We'll treat empty as no override - handled via display logic? For now if cleared, set to undefined by deleting?
+        // We'll set color to undefined to remove tint? But patch.color empty would keep previous; need to allow clearing.
+        // If text empty and color is #ffffff (default), we interpret as no tint if originally no tint
+        if (found.obj.color !== undefined || found.obj.tint !== undefined) {
+          // user cleared text and color is white -> remove
+          if (!tintText) patch.color = undefined;
+        }
+      }
     }
     return patch;
   }
@@ -384,20 +493,23 @@ export function createAuthorUI(opts) {
           if (reqStr) { try { found.obj.requires = JSON.parse(reqStr); } catch { found.obj.requires = reqStr; } }
           else found.obj.requires = null;
         }
+        if (found.type === "majorWaypoint" || found.type === "extractionBeacon") {
+          const dn = container.querySelector("#author-displayname").value.trim();
+          if (dn) found.obj.displayName = dn;
+          else delete found.obj.displayName;
+        }
       }
       if (found && found.type === "creature") {
         const roam = parseFloat(container.querySelector("#author-roam").value); if (!isNaN(roam)) found.obj.roamRadius = roam;
         const notice = parseFloat(container.querySelector("#author-notice").value); if (!isNaN(notice)) found.obj.noticeRadius = notice;
         const personal = parseFloat(container.querySelector("#author-personal").value); if (!isNaN(personal)) found.obj.personalSpace = personal;
         const leash = parseFloat(container.querySelector("#author-leash").value); if (!isNaN(leash)) found.obj.leashRadius = leash;
-        // Spawn/Home explicit edits
         const sx = parseFloat(container.querySelector("#author-spawn-x").value);
         const sz = parseFloat(container.querySelector("#author-spawn-z").value);
         const hx = parseFloat(container.querySelector("#author-home-x").value);
         const hz = parseFloat(container.querySelector("#author-home-z").value);
         const moveHome = container.querySelector("#author-move-home")?.checked;
         if (!isNaN(sx) && !isNaN(sz)) {
-          // If moveHome checked and spawn moved, also move home by same delta unless home was explicitly edited separately
           const oldX = found.obj.pos.x, oldZ = found.obj.pos.z;
           const dx = sx - oldX, dz = sz - oldZ;
           if (dx !== 0 || dz !== 0) {
@@ -411,8 +523,25 @@ export function createAuthorUI(opts) {
         if (!isNaN(hx)) found.obj.homePos.x = hx;
         if (!isNaN(hz)) found.obj.homePos.z = hz;
       }
-      if (found && (found.type === "platform" || found.type === "obstacle" || found.type === "climbable")) {
-        // Y already handled via patch.y
+      if (found && (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider")) {
+        const vis = container.querySelector("#author-visible");
+        const coll = container.querySelector("#author-collision");
+        if (vis) found.obj.visibleInPlay = vis.checked;
+        if (coll) found.obj.collisionEnabled = coll.checked;
+        const op = parseFloat(container.querySelector("#author-opacity").value);
+        if (!isNaN(op)) found.obj.opacity = Math.max(0, Math.min(1, op));
+        const tintText = container.querySelector("#author-tint-text").value.trim();
+        const tintColor = container.querySelector("#author-tint").value;
+        if (tintText) found.obj.color = tintText;
+        else if (tintColor && tintColor !== "#ffffff") found.obj.color = tintColor;
+        else if (!tintText && tintColor === "#ffffff" && (found.obj.color !== undefined || found.obj.tint !== undefined)) {
+          // user cleared -> remove color override if was present
+          delete found.obj.color; delete found.obj.tint;
+        }
+        const dn2 = container.querySelector("#author-displayname");
+        if (dn2 && (found.type === "majorWaypoint" || found.type === "extractionBeacon") && dn2.parentElement.style.display !== "none") {
+          // already handled
+        }
       }
       const res = draftApi.updateTransform(selectedId, patch);
       if (res.ok) {
@@ -421,6 +550,16 @@ export function createAuthorUI(opts) {
         else statusEl.textContent = "Edited — " + selectedId, statusEl.style.color="#aaffaa";
         opts.onDraftChanged?.(selectedId);
       } else { statusEl.textContent = res.error; statusEl.style.color="#ffaaaa"; }
+    });
+  }
+  // Tint color picker live sync to text
+  const tintColorInput = container.querySelector("#author-tint");
+  const tintTextInput = container.querySelector("#author-tint-text");
+  if (tintColorInput && tintTextInput) {
+    tintColorInput.addEventListener("input", () => { tintTextInput.value = tintColorInput.value; });
+    tintTextInput.addEventListener("input", () => {
+      const v = tintTextInput.value.trim();
+      if (/^#[0-9a-fA-F]{6}$/.test(v)) tintColorInput.value = v;
     });
   }
   selRegionEl.addEventListener("change", () => {

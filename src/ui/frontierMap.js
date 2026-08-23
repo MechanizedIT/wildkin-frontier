@@ -94,7 +94,7 @@ export function createFrontierMap(opts = {}) {
     // Gate row always
     const gateRow = document.createElement("div");
     gateRow.style.cssText = "display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:8px 10px;";
-    gateRow.innerHTML = `<span style="width:10px;height:10px;background:#c9b48a;border-radius:2px;flex-shrink:0"></span><span style="flex:1;font-size:13px;font-weight:700;">Frontier Gate</span><span style="font-size:11px;color:rgba(230,235,245,0.65)">${gatePos ? gatePos.x.toFixed(1)+","+gatePos.z.toFixed(1): ""}</span>`;
+    gateRow.innerHTML = `<span style="width:10px;height:10px;background:#c9b48a;border-radius:2px;flex-shrink:0"></span><span style="flex:1;font-size:13px;font-weight:700;">Frontier Gate</span>`;
     listEl.appendChild(gateRow);
 
     // Camp row
@@ -102,7 +102,7 @@ export function createFrontierMap(opts = {}) {
     if (camp) {
       const campRow = document.createElement("div");
       campRow.style.cssText = gateRow.style.cssText;
-      campRow.innerHTML = `<span style="width:10px;height:10px;background:#7bb26a;border-radius:50%;flex-shrink:0"></span><span style="flex:1;font-size:13px;font-weight:700;">Camp</span><span style="font-size:11px;color:rgba(230,235,245,0.65)">${camp.pos.x.toFixed(1)+","+camp.pos.z.toFixed(1)}</span>`;
+      campRow.innerHTML = `<span style="width:10px;height:10px;background:#7bb26a;border-radius:50%;flex-shrink:0"></span><span style="flex:1;font-size:13px;font-weight:700;">Camp</span>`;
       listEl.insertBefore(campRow, gateRow);
     }
 
@@ -118,7 +118,7 @@ export function createFrontierMap(opts = {}) {
     const wpToShow = frontierWaypoints;
     for (const wp of wpToShow) {
       const unlocked = prog.unlockedMajorWaypointIds.includes(wp.id);
-      const region = worldRegistry.getRegionById(wp.regionId);
+      const label = worldRegistry.getAnchorDisplayName(wp);
       const row = document.createElement("div");
       const isStartMode = mode === "startSelection";
       const selectable = isStartMode && unlocked;
@@ -128,9 +128,8 @@ export function createFrontierMap(opts = {}) {
           ? "display:flex;align-items:center;gap:8px;background:rgba(79,195,247,0.10);border:1px solid rgba(79,195,247,0.20);border-radius:10px;padding:8px 10px;"
           : "display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:8px 10px;opacity:0.55;";
       const iconColor = unlocked ? "#4fc3f7" : "#888";
-      const label = region ? region.displayName : wp.regionId;
       const lockText = unlocked ? (selectable ? "TAP TO START" : "Unlocked") : "Locked";
-      row.innerHTML = `<span style="width:10px;height:10px;background:${iconColor};border-radius:2px;flex-shrink:0;transform:rotate(45deg)"></span><span style="flex:1;font-size:13px;font-weight:700;">${label}</span><span style="font-size:11px;color:${unlocked ? '#4fc3f7':'rgba(230,235,245,0.65)'}">${wp.id}</span><span style="font-size:11px;font-weight:800;color:${selectable ? '#4fc3f7':'rgba(230,235,245,0.5)'}">${lockText}</span>`;
+      row.innerHTML = `<span style="width:10px;height:10px;background:${iconColor};border-radius:2px;flex-shrink:0;transform:rotate(45deg)"></span><span style="flex:1;font-size:13px;font-weight:700;">${label}</span><span style="font-size:11px;font-weight:800;color:${selectable ? '#4fc3f7':'rgba(230,235,245,0.5)'}">${lockText}</span>`;
       if (selectable) {
         row.setAttribute("role", "button");
         row.tabIndex = 0;
@@ -152,11 +151,11 @@ export function createFrontierMap(opts = {}) {
     const discovered = prog.discoveredBeaconIds;
     for (const bc of beacons) {
       const isDiscovered = discovered.includes(bc.id);
-      if (!isDiscovered) continue; // only show discovered
-      const region = worldRegistry.getRegionById(bc.regionId);
+      if (!isDiscovered) continue;
+      const label = worldRegistry.getAnchorDisplayName(bc);
       const row = document.createElement("div");
       row.style.cssText = "display:flex;align-items:center;gap:8px;background:rgba(255,112,67,0.10);border:1px solid rgba(255,112,67,0.18);border-radius:10px;padding:8px 10px;";
-      row.innerHTML = `<span style="width:10px;height:10px;background:#ff7043;border-radius:50%;flex-shrink:0"></span><span style="flex:1;font-size:13px;font-weight:700;">Extraction Beacon</span><span style="font-size:11px;color:rgba(230,235,245,0.65)">${bc.id}</span><span style="font-size:11px;color:rgba(230,235,245,0.45)">Extraction only</span>`;
+      row.innerHTML = `<span style="width:10px;height:10px;background:#ff7043;border-radius:50%;flex-shrink:0"></span><span style="flex:1;font-size:13px;font-weight:700;">${label}</span><span style="font-size:11px;color:rgba(230,235,245,0.45)">Extraction only</span>`;
       listEl.appendChild(row);
     }
     if (discovered.length === 0 && mode === "inspect" && prog.hasDepartedOnce) {

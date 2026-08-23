@@ -588,3 +588,39 @@
   - Legacy playground fallback retained for elevation/traversal tests; production never uses it.
   - `Reset Draft From Repo` remains about world data only; `window.__game.clearProgress()` clears normal frontierProgress for fresh-save testing.
 
+## 2026-08-22 — Phase 4A.1 First-Run UX, Anchor Suppression & Authoring Prerequisites — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Implement `docs/CURRENT_SLICE.md` Phase 4A.1 end-to-end — fix fresh-launch gate popup, generic start-Waypoint suppression, dev reset, readable anchor names, authored Ground Patches/Boundary Colliders, static presentation controls, categorized palette/hierarchy, validator/registry/builder/physics/tests closure before Phase 4B.
+
+- **Decisions:**
+  - Spawn/gate: added `camp.playerSpawn {x:0,y:0,z:10.0}` authored outside gate radius 1.85 at `0,7.2` (distance 2.8), `worldValidator` validates finite/near Camp bounds, `worldRegistry.getCampSpawnPosition` prefers `playerSpawn` else fallback, `world.json` updated, version `Phase 4A.1 — 0.11.1`.
+  - Anchor prime: `frontierAnchorSystem.prime(playerPos)` sets `inside` from actual position before first tick; gate requires genuine outside→inside transition even if future spawn inside radius. Shared `prime` called after creation and after every `resetTransientWorldToCamp`/`beginExpedition`.
+  - Generic suppression: replaced single `disarmStartWaypoint`/`startDisarmedId` with `suppressedUntilExit Set` + `suppressUntilExit(id)` + `prime`; `beginExpedition` now `reset → prime(sPos) → suppressUntilExit(waypointId)` for any selectable Major Waypoint (Forest Edge, Threshold Rise, future). Suppressed entry stays inside but does not prompt; exit clears, next entry prompts. KEEP GOING still requires leave/re-enter via `handleKeepGoing` cooldown.
+  - Dev reset: `?dev=1` shows centered `RESET PLAYER SAVE` button, confirm dialog, `frontierProgress.clear()` only (author draft untouched), reload. Documented in README and test checklist. `window.__game.clearProgress()` retained.
+  - DisplayName: `worldRegistry.getAnchorDisplayName` helper (displayName → region displayName → fallback). Added `displayName` to `wp_p1_entry=Forest Edge`, `wp_p4_threshold=Threshold Rise`, `beacon_p2_01=Tangled Hollow Beacon`, `beacon_p3_01=Sunken Rise Beacon`, `wp_camp_gate=Camp Gate`. `worldValidator` validates `displayName 1-40 chars`. `frontierMap` (waypoint/beacon rows), `anchorPrompt` (titles/subtitles with isNew), `runResultCard` (`displayNames` map), `frontierIndicators` (edge labels) all use helper; normal Map no longer exposes `wp_*`/coordinates.
+  - Ground Patches: added `region.groundPatches[]` (one per region covering bounds, `pos/size/color/opacity/visibleInPlay/collisionEnabled/rotY`) via migration script; validator validates IDs, pos/size, bool flags, opacity 0..1, color number or #RRGGBB, duplicate IDs, defaults `visibleInPlay true, collisionEnabled true`. `worldRegistry` exposes `getAllGroundPatches/getGroundPatchesForRegion`. `staticWorldBuilder` builds authored ground from patches (no hidden global floor; safety floor at -30 only, invisible). `createPhysicsWorld` builds colliders from `groundPatches` where `collisionEnabled`, legacy fallback to `13,0.25,12` global if no patches (preserves old tests).
+  - Boundary Colliders: added `region.boundaryColliders[]` (four outer walls in camp, `pos/size/rotY/color/opacity/visibleInPlay false/collisionEnabled true`) replacing hard-coded `playground.bounds` walls. Validator same as ground. Registry `getAllBoundaries`. Builder creates meshes (wireframe proxy `isEditProxy` for hidden) and `obstacles` with `isBoundary`; physics builds from `boundaries` only, no automatic bounds walls. Safety floor at -30.
+  - Static presentation/collision: extended `region.props` (and ground/boundary) to support `visibleInPlay, collisionEnabled, opacity, color/tint`. Validator validates bool, 0..1, hex. `staticWorldBuilder` `createTintedMaterial` clones per-object material when tint/opacity override (so one fence tint does not affect all), sets `mesh.visible = visibleInPlay`, creates `isEditProxy` wireframe box for hidden objects. `createPhysicsWorld` respects `collisionEnabled false` (skip). Edit proxy visibility toggled via `setProxyVisibility(edit)` in `authorMode` (`isEditProxy` visible only in Edit, `proxyMesh` for boundary real mesh).
+  - AuthorMode: `authorDraft` extended `findObjectById`/`getCollectionArray` for `groundPatches`/`boundaryColliders`/`camp`, handles `visibleInPlay/collisionEnabled/opacity/color/displayName` in `updateTransform`, `createObject` for `groundPatch`/`boundaryCollider` (default sizes, colors), `updateCamp` via `camp` pseudo-object. `authorUI` categorized palette (World, Environment/Props, Traversal, Resources, Wildkin, Frontier/POI) with details per category, hierarchy adds Ground and Boundaries/Colliders under each Region, inspector adds Display Name row for waypoints/beacons and Presentation section (Visible/Collision/Opacity/Tint color+text sync, live). `authorMode` adds `parseTintColor`, `syncPreviewForId` live updates visible/material (cloned per object), `setProxyVisibility` and `enterEdit`/`exitEdit` toggle proxies, `createPreviewMeshForNewObject` fallback for ground/boundary.
+  - Main integration: `frontierAnchorSystem` `prime` after creation and after resets; `beginExpedition` uses generic `suppressUntilExit`; dev button; `anchorPrompt`/`runResultCard` receive `displayNames`; `resetTransientWorldToCamp` re-primes.
+
+- **Files/Features Changed:**
+  - Modified: `src/world/worldValidator.js`, `src/world/worldRegistry.js`, `src/world/data/world.json`, `src/world/staticWorldBuilder.js`, `src/physics/createPhysicsWorld.js`, `src/world/frontierAnchorSystem.js`, `src/ui/frontierMap.js`, `src/ui/anchorPrompt.js`, `src/ui/runResultCard.js`, `src/ui/frontierIndicators.js`, `src/author/authorDraft.js`, `src/author/authorUI.js`, `src/author/authorMode.js`, `src/main.js`, `docs/ARCHITECTURE.md`, `README.md`
+  - Created: `tests/phase4a1.test.js` (26 tests: fresh launch/gate 4, suppression 4, interaction restore 1, labels 3, ground 3, boundary 4, presentation 5, guarantees 2)
+  - Build output: `dist/submission/index.html` 544.8 KB, `vendor/three.module.js` 1243.1 KB, `vendor/rapier.js` 2790.6 KB, total 4593.8 KB; `dist/submission.zip` 1428.8 KB (1.40 MB)
+
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (400 tests 110 suites: 374 prior +26 new Phase 4A.1)
+  - `npm run world:generate` — PASS, `npm run world:check` — PASS
+  - `npm run verify` — PASS (test 400 + world:check + build 544.8KB + validate 4593.8KB <35MB, vendor three+rapier, relative importmap, no https, readable Phase 4A.1)
+  - `npm run zip` — PASS (1428.8 KB, index at ZIP root, vendor preserved, portrait layout intact)
+  - One rAF — PASS (1 in src/main.js), fixed 1/60, Rapier only
+
+- **Human/Manual Changes:** None.
+
+- **Remaining Issues / Deferred:**
+  - Do NOT begin Phase 4B (pacing, encounter/resource/danger tuning, progression, bonding, Resonator gameplay, final art). Phase 4A.1 makes loop trustworthy and Author Mode ready.
+  - Human playtest must confirm 7 concise tests (§18) plus whether fresh Camp→start→active flow now feels correct and Author Mode can shape ground/boundaries without hidden surprises; report issues for 4B.
+  - Camp `playerSpawn` is authored at `0,10.0`; future moves must keep outside gate radius or rely on `prime` edge-trigger guarantee.
+  - Ground safety floor at -30 is invisible and not walkable when authored ground deleted; gaps are real gaps.
+

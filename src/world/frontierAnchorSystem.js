@@ -33,20 +33,41 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
   }
 
   let anchors = buildAnchors();
-  let startDisarmedId = null;
+  let suppressedUntilExit = new Set();
 
   function reset() {
     anchors = buildAnchors();
-    startDisarmedId = null;
+    suppressedUntilExit.clear();
+  }
+
+  // Prime inside state from actual player position — no prompt from initial overlap
+  function prime(playerPos) {
+    if (!playerPos) return;
+    for (const a of anchors) {
+      const d = Math.hypot(playerPos.x - a.pos.x, playerPos.z - a.pos.z);
+      a.inside = d <= a.radius;
+      // If initially inside gate, keep armed true but inside true prevents immediate entry trigger; exit will re-enable
+      // For suppressed waypoints, keep armed false until exit
+      if (a.inside && suppressedUntilExit.has(a.id)) {
+        a.armed = false;
+        a.cooldown = false;
+      } else if (a.inside) {
+        // For gate, we keep armed true but inside true so entry not counted until exit; no cooldown needed
+        // Keep armed as is
+      }
+    }
+  }
+
+  function suppressUntilExit(waypointId) {
+    suppressedUntilExit.add(waypointId);
+    for (const a of anchors) if (a.id === waypointId) { a.armed = false; a.cooldown = false; }
   }
 
   function disarmStartWaypoint(waypointId) {
-    startDisarmedId = waypointId;
-    for (const a of anchors) if (a.id === waypointId) { a.armed = false; a.inside = true; a.cooldown = false; }
+    suppressUntilExit(waypointId);
   }
 
   function handleKeepGoing(anchorId) {
-    // Require leaving radius before reprompt
     const a = anchors.find(x => x.id === anchorId);
     if (a) { a.cooldown = true; a.armed = false; }
   }
@@ -70,17 +91,25 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
       const nowInside = dist <= anchor.radius;
       const wasInside = !!anchor.inside;
 
-      // Handle exit: clear cooldown and arm if needed
+      // Handle exit: clear cooldown and arm if needed, also handle suppressedUntilExit
       if (wasInside && !nowInside) {
         anchor.inside = false;
         if (anchor.cooldown) {
           anchor.cooldown = false;
           anchor.armed = true;
         }
-        // For startDisarmed waypoint: arming after first exit
-        if (anchor.id === startDisarmedId && !anchor.armed) {
+        if (suppressedUntilExit.has(anchor.id)) {
+          suppressedUntilExit.delete(anchor.id);
           anchor.armed = true;
-          startDisarmedId = null;
+          anchor.cooldown = false;
+        }
+        continue;
+      }
+      // If suppressed, entry is ignored until exit
+      if (suppressedUntilExit.has(anchor.id)) {
+        if (!wasInside && nowInside) {
+          anchor.inside = true;
+          // remain suppressed, do not prompt
         }
         continue;
       }
@@ -139,6 +168,8 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
   return {
     update,
     reset,
+    prime,
+    suppressUntilExit,
     disarmStartWaypoint,
     handleKeepGoing,
     handleExtracted,

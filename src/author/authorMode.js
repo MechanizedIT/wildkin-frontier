@@ -131,6 +131,17 @@ export function createAuthorMode(opts) {
     return arr;
   }
 
+  function parseTintColor(v, fallback) {
+    if (v === undefined || v === null) return fallback;
+    if (typeof v === "number") return v;
+    if (typeof v === "string") {
+      let s = v.trim();
+      if (s.startsWith("0x")) s = "#" + s.slice(2);
+      if (!s.startsWith("#")) s = "#" + s;
+      if (/^#[0-9a-fA-F]{6}$/.test(s)) return parseInt(s.slice(1), 16);
+    }
+    return fallback;
+  }
   // Live preview: sync a single object's mesh to draft position/rotation/size
   function syncPreviewForId(id) {
     const found = draftApi.findObjectById(id);
@@ -206,6 +217,39 @@ export function createAuthorMode(opts) {
           m.position.set(draftPos.x, base + h + 0.35, draftPos.z);
         }
       }
+    }
+    // Presentation live preview for static families (visible/collision not affecting position, but visible/material)
+    if (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider") {
+      const vis = obj.visibleInPlay !== false;
+      const op = obj.opacity ?? 1;
+      const col = obj.color ?? obj.tint;
+      for (const m of meshes) {
+        if (m.userData && m.userData.isEditProxy) continue;
+        if (m.isMesh) {
+          m.visible = vis;
+          if (col !== undefined || op < 1) {
+            if (!m.userData.hasClonedMaterial) {
+              m.material = m.material.clone();
+              m.userData.hasClonedMaterial = true;
+              if (m.userData.baseColor === undefined) m.userData.baseColor = m.material.color.getHex();
+            }
+            if (col !== undefined) {
+              const hex = parseTintColor(col, m.userData.baseColor ?? m.material.color.getHex());
+              m.material.color.setHex(hex);
+            }
+            if (op < 1) { m.material.transparent = true; m.material.opacity = op; } else { m.material.transparent = false; m.material.opacity = 1; }
+          }
+        }
+      }
+      // proxy visibility
+      scene.traverse((o) => {
+        if (o.userData && o.userData.isEditProxy && o.userData.proxyFor === id) {
+          o.visible = isEdit && !vis;
+        }
+        if (o.userData && o.userData.proxyMesh && o.userData.proxyMesh.userData && o.userData.proxyMesh.userData.proxyFor === id) {
+          o.userData.proxyMesh.visible = isEdit && !vis;
+        }
+      });
     }
     updateHighlight();
     updateHomeMarker();
@@ -356,6 +400,18 @@ export function createAuthorMode(opts) {
       }
       forestMats = [];
     }
+  }
+  function setProxyVisibility(edit) {
+    scene.traverse((obj) => {
+      if (obj.userData && obj.userData.isEditProxy) {
+        obj.visible = !!edit;
+      }
+      if (obj.userData && obj.userData.proxyMesh) {
+        const proxy = obj.userData.proxyMesh;
+        // proxy visible only in Edit when real is hidden
+        if (proxy) proxy.visible = !!edit && !obj.visible;
+      }
+    });
   }
 
   function updateEditorVisibility() {
@@ -512,8 +568,8 @@ export function createAuthorMode(opts) {
     setFogForEdit(true);
     setHudVisible(false);
     setForestTransparency(true);
+    setProxyVisibility(true);
     updateEditorVisibility();
-    // Ensure all editor-visible resources are shown
     renderer.domElement.style.cursor = pendingPlace ? "crosshair" : "";
   }
   function exitEdit() {
@@ -529,12 +585,9 @@ export function createAuthorMode(opts) {
     setFogForEdit(false);
     setHudVisible(true);
     setForestTransparency(false);
+    setProxyVisibility(false);
     exitPlaceMode();
     renderer.domElement.style.cursor = "";
-    // Restore player-centered visibility
-    if (regionManager && resourceSystem && creatureSystem) {
-      // Will be updated next tick via player position; force update with player? For now do nothing, main loop will.
-    }
   }
   function panEditorCamera(dx, dz) {
     camera.position.x += dx;

@@ -24,17 +24,41 @@ export function createPhysicsWorld(RAPIER, playground) {
     return c;
   }
 
-  // Ground — 26 x 0.5 x 24 centered at (0, -0.25, 0) → half extents 13,0.25,12
-  addCuboid(13, 0.25, 12, 0, -0.25, 0, 0);
+  // Ground patches — authored playable surfaces (collision from same authored transform)
+  // If no authored ground patches, fallback to legacy global ground for test compatibility
+  if (playground.groundPatches && playground.groundPatches.length > 0) {
+    for (const gp of playground.groundPatches) {
+      if (gp.collisionEnabled === false) continue;
+      const w = gp.w ?? gp.size?.w ?? 25;
+      const h = gp.h ?? gp.size?.h ?? 0.5;
+      const d = gp.d ?? gp.size?.d ?? 25;
+      const hx = w/2, hy = h/2, hz = d/2;
+      const baseY = gp.y ?? gp.pos?.y ?? -0.25;
+      const ty = baseY + hy;
+      const rotY = gp.rotY ?? 0;
+      const x = gp.x ?? gp.pos?.x ?? 0;
+      const z = gp.z ?? gp.pos?.z ?? 0;
+      addCuboid(hx, hy, hz, x, ty, z, rotY);
+    }
+  } else {
+    // Legacy fallback for worlds without groundPatches (tests)
+    addCuboid(13, 0.25, 12, 0, -0.25, 0, 0);
+  }
 
-  // Obstacles — respect authored baseY and rotY for parity
+  // Obstacles — respect authored baseY and rotY for parity (includes ground patch colliders if they were marked as obstacles already)
   for (const o of playground.obstacles) {
+    // Skip if this obstacle is actually a ground patch already handled? Ground patches are also in obstacles array with isGround flag; they are already collided via groundPatches loop, so avoid duplicate
+    if (o.isGround) continue;
+    // Skip if boundary marker already handled via boundaries array
+    if (o.isBoundary) continue;
     const hx = o.w / 2;
     const hz = o.h / 2;
     const hy = (o.height ?? 0.9) / 2;
     const baseY = o.baseY ?? 0;
     const ty = baseY + hy - 0.02;
     const rotY = o.rotY ?? 0;
+    // Respect collisionEnabled flag if present
+    if (o.collisionEnabled === false) continue;
     addCuboid(hx, hy, hz, o.x, ty, o.z, rotY);
   }
 
@@ -49,28 +73,24 @@ export function createPhysicsWorld(RAPIER, playground) {
     addCuboid(hx, hy, hz, p.x, ty, p.z, rotY);
   }
 
-  // Climb wall (south face of high platform) — treat as solid but climbable sensor? Keep as solid cuboid.
-  // Already part of platforms? No, climbWall is separate visual at (2.2, -5.05) size 1.9 x highPlatH x 0.5
-  // Add as static wall so it blocks but also allows climbing approach.
-  // The wall itself is part of high platform south face; duplicating would double-collide. Instead rely on platform box.
-  // But the climbWall mesh is 0.5 thick at z -5.05, platform extends -7.2±1.9 → -9.1 to -5.3. So its south face is at -5.3.
-  // Our platform collider already extends to -5.3. No extra collider needed.
-
-  // Boundary walls — thin fixed walls at worldBounds to prevent escape (if physics world replaces clamp)
-  const bounds = playground.bounds; // { minX -12.5 maxX 12.5 minZ -11.5 maxZ 11.5 }
-  const wallThickness = 0.5;
-  const wallHeight = 3;
-  const wallY = wallHeight / 2;
-  // North/South (z)
-  addCuboid((bounds.maxX - bounds.minX) / 2 + wallThickness, wallHeight / 2, wallThickness / 2,
-    0, wallY, bounds.minZ - wallThickness / 2 - 0.18);
-  addCuboid((bounds.maxX - bounds.minX) / 2 + wallThickness, wallHeight / 2, wallThickness / 2,
-    0, wallY, bounds.maxZ + wallThickness / 2 + 0.18);
-  // East/West
-  addCuboid(wallThickness / 2, wallHeight / 2, (bounds.maxZ - bounds.minZ) / 2 + wallThickness,
-    bounds.minX - wallThickness / 2 - 0.18, wallY, 0);
-  addCuboid(wallThickness / 2, wallHeight / 2, (bounds.maxZ - bounds.minZ) / 2 + wallThickness,
-    bounds.maxX + wallThickness / 2 + 0.18, wallY, 0);
+  // Boundary colliders — authored outer limits (explicit, not hard-coded from bounds)
+  if (playground.boundaries && playground.boundaries.length > 0) {
+    for (const b of playground.boundaries) {
+      if (b.collisionEnabled === false) continue;
+      const w = b.w ?? b.size?.w ?? 1;
+      const h = b.h ?? b.size?.h ?? 3;
+      const d = b.d ?? b.size?.d ?? 1;
+      const hx = w/2, hy = h/2, hz = d/2;
+      const x = b.x ?? b.pos?.x ?? 0;
+      const y = b.y ?? b.pos?.y ?? h/2;
+      const z = b.z ?? b.pos?.z ?? 0;
+      const rotY = b.rotY ?? 0;
+      // b.pos.y is center Y already for boundaries; ty is y directly (since pos is center)
+      addCuboid(hx, hy, hz, x, y, z, rotY);
+    }
+  }
+  // Safety floor far below gameplay (not walkable when authored ground deleted)
+  addCuboid(30, 0.5, 30, 0, -30, 0, 0);
 
   // Initial pipeline update so character controller queries see static colliders immediately
   world.step();

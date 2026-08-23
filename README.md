@@ -2,30 +2,32 @@
 
 Single-player, portrait-mobile, Three.js/HTML5 survival & resource-management prototype for the Meta Horizon Creator Competition.
 
-## Current Playable Foundation (Phase 4A — First Complete Expedition Loop)
+## Current Playable Foundation (Phase 4A.1 — First-Run UX + Authoring Prerequisites)
 
 - fixed high third-person / near top-down camera,
 - one-thumb movement plus run/sneak/jump/dodge,
-- Rapier kinematic collision, slopes/steps, falling, ladders, and mantle traversal,
+- Rapier kinematic collision via authored Ground Patches/Boundary Colliders (no hard-coded floor/bounds walls; safety floor at -30 far below),
 - automatic + manual Field Tool harvesting + 3 resource types with chunky depletion,
-- collision-aware drops + magnet collection — now **upper-left hide-zero run carry** (unsecured) vs **persistent bank**,
+- collision-aware drops + magnet collection — **upper-left hide-zero run carry** vs **persistent bank**,
 - first-pass melee combat with Field Tool,
 - melee/ranged Wildkin prototypes (A/T/D/S) + home/leash/steering,
 - player health/dodge invuln + Camp-return death/loss flow,
-- cyan XP essence (magnet collection) as unsecured run XP,
-- single-source `world.json` (Camp/frontierGateId/initialMajorWaypointId/spawnOffset) → generated pipeline,
+- cyan XP essence as unsecured run XP,
+- single-source `world.json` (`camp.playerSpawn`, `frontierGateId/initialMajorWaypointId/spawnOffset/displayName`, `groundPatches`, `boundaryColliders`, `visibleInPlay/collisionEnabled/opacity/color` per static object) → generated pipeline,
 - current+neighbor region activation, bounded pools,
 - **Camp → gate → choose unlocked Major Waypoint → carry unsecured value → Waypoint/Beacon EXTRACT or KEEP GOING → bank or lose → return to Camp → see outcome → immediately start another run**,
-- **Major Waypoints** permanently unlock future starts (survive death), **Extraction Beacons** allow extraction but never become starts, **Camp gate** allows physical retreat & secure,
-- **Top-right Map** with inspect vs gate-triggered start-selection (fresh save shows Camp/gate/unknown; beacons never selectable; inspect never teleports),
-- **Anchor prompts** at Waypoint/Beacon/Gate + **recovery/loss cards** over Camp (Continue → Camp control; next run via gate→Map, not TRY AGAIN arena restart),
-- minimal **edge guidance** (extraction + next Waypoint) during active run only,
-- one-rAF / fixed 1/60 gameplay, Rapier-only physics, offline/portrait/<35 MB,
-- desktop Author Mode (isolated persistent progress — `?author=1` never corrupts normal `wildkin.frontierProgress`).
+- fresh launch now starts at authored Camp spawn outside gate radius with **no CHOOSE START popup**; gate requires deliberate outside→inside crossing; **any** start Waypoint suppressed until leave/re-enter,
+- **Major Waypoints** unlock future starts (survive death, displayName e.g., Forest Edge/Threshold Rise), **Extraction Beacons** allow extraction only (e.g., Tangled Hollow Beacon), **Camp gate** physical retreat & secure,
+- **Top-right Map** inspect vs gate-triggered start-selection shows readable `displayName` only, no `wp_*`/coordinates; beacons never selectable,
+- **Anchor prompts** with readable titles + **recovery/loss cards** over Camp using displayName,
+- minimal **edge guidance** with readable names during active run only,
+- one-rAF / fixed 1/60, Rapier-only, offline/portrait/<35 MB,
+- desktop Author Mode categorized palette (World/Env/Traversal/Resources/Wildkin/Frontier), hierarchy Ground/Boundaries, Display Name + Visible/Collision/Opacity/Tint (per-object cloned materials, Edit proxy for hidden colliders, live preview),
+- `?dev=1` dev-only **RESET PLAYER SAVE** (clears `wildkin.frontierProgress` only) + `?author=1` isolated draft.
 
-**Phase 3.5A/B.x accepted. Phase 4A implementation-complete (mechanical loop).**
+**Phase 3.5A/B.x + 4A loop accepted. Phase 4A.1 implementation-complete (first-run trustworthy, Author Mode ready for 4B).**
 
-Phase 4B will tune the first 5–10 minute expedition, Camp/Area 1 layout, temptation/danger pacing, and the first meaningful spend.
+Phase 4B will tune first 5–10 minute expedition, Camp/Area 1 layout, temptation/danger pacing, and first meaningful spend.
 
 ## Core Game Direction
 
@@ -59,18 +61,19 @@ npm run serve
 
 The dev server binds to `0.0.0.0:8080`.
 
-### Author Mode — accepted Phase 3.5B.2 workflow
+### Author Mode + Dev Reset — Phase 4A.1 workflow
 
 1. `npm run dev` then open `http://localhost:8080/?author=1` on desktop.
-2. Click **EDIT** — gameplay touch/action input is disabled, fog clears, and the top-down author workspace owns the canvas.
-3. Place from Palette by choosing an item then clicking the world; select/drag objects directly or use the inspector for precise X/Z/Y/rotation/size values where supported.
-4. Use the **Region → Category → Object** hierarchy to select/focus authored objects; selected Wildkin expose editable spawn/home territory controls.
-5. Click **PLAY** — validates the draft, persists it to Author Mode local storage, reloads, and tests the draft with authoritative Rapier/gameplay state.
-6. **Export** downloads deterministic `world.json`; copy it to `src/world/data/world.json`, run `npm run world:generate`, then `npm test && npm run verify`.
-7. **Reset Draft From Repo** restores canonical repo world data. Normal play (`/` without `?author=1`) ignores the author draft.
+2. Click **EDIT** — gameplay hidden, fog cleared, top-down workspace, categorized palette: **World** (Ground Patch, Boundary Collider), **Environment/Props**, **Traversal**, **Resources**, **Wildkin**, **Frontier/POI**.
+3. Place via palette → click world; select/drag objects; inspector shows Region/X/Z/Y/RotY/Width/Depth/Height plus **Display Name** for Waypoints/Beacons and **Visible in Play / Collision / Opacity / Tint** for props/ground/boundaries (live preview, per-object material cloning, Edit proxy for hidden).
+4. Hierarchy now has **Ground** and **Boundaries / Colliders** under each Region; select/focus hidden boundary through hierarchy.
+5. Click **PLAY** — validates draft, persists to Author local storage, reloads with authoritative Rapier state.
+6. **Export** downloads deterministic `world.json`; copy to `src/world/data/world.json`, `npm run world:generate`, then `npm test && npm run verify`.
+7. **Reset Draft From Repo** restores canonical repo world data. Normal play (`/` without `?author=1`) ignores author draft.
 
+- Fresh-save testing: `http://localhost:8080/?dev=1` shows **RESET PLAYER SAVE** (center top, confirms, clears `wildkin.frontierProgress` only, reloads fresh Camp). Normal `/` has no button.
 - Desktop normal play: `http://localhost:8080/`
-- Phone on same network: use the LAN URL printed by the dev server, e.g. `http://192.168.x.x:8080/`
+- Phone: use LAN URL printed by dev server, e.g. `http://192.168.x.x:8080/` (Author Mode desktop only).
 
 ## Phone Testing
 
