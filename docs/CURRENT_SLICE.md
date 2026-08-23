@@ -1,602 +1,862 @@
-# Wildkin Frontier — Phase 3.5B.2: Author Mode Integration, Transform Parity & Hierarchy
+# Wildkin Frontier — Phase 4A: First Complete Expedition Loop
 
 **Status:** READY TO IMPLEMENT  
-**Active slice:** Phase 3.5B.2  
-**Purpose:** Finish human acceptance of the lightweight world-authoring workflow by making author input exclusive, Edit/Play transforms trustworthy, reset reliable, Wildkin home territory visible/editable, and object selection manageable through a minimal hierarchy.
+**Active slice:** Phase 4A  
+**Purpose:** Turn the accepted movement/harvest/combat/world foundation into the first complete player-facing run loop: **Camp → choose start → gather unsecured value → extract or keep going → bank or lose → return to Camp → immediately run again**.
 
-This is the **final focused Author Mode integration/fix slice before Phase 4**. Do not expand the editor into a general-purpose engine tool. Do not begin Phase 4 gameplay.
+Phase 3.5A/3.5B/3.5B.1/3.5B.2 are accepted. Author Mode is infrastructure now, not the task. Preserve it and use the existing authored Camp + Area 1 skeleton as the level substrate.
 
-Phase 3.5B/3.5B.1 established the correct overall direction: one authored world source, data-driven runtime world, region activation, direct scene placement, click/drag editing, Wildkin selection, camera-centered edit visibility, fog-free author view, deterministic export, and a rough Camp + Area 1 skeleton. Preserve those gains.
-
----
-
-## 1. Why this refinement exists
-
-Human testing of Phase 3.5B.1 confirmed major progress but found several remaining correctness and usability gaps:
-
-- EDIT still does not truly own the entire game viewport; the virtual joystick / right-side tap-attack zones continue intercepting scene clicks even when their visuals are hidden.
-- Drag-moving an object works and rebuilds collision correctly after PLAY.
-- Rotating a Camp fence updates its visible mesh, but its collider remains axis-aligned.
-- Raising a solid fence changes the authored/visible Y, but its collider stays at ground height.
-- Palette → click-world placement works.
-- Box W/D/height edits do not fully preview live; size may only appear correctly after PLAY.
-- The inspector `Height` field does not consistently change vertical size because author UI/schema/runtime use inconsistent dimension fields.
-- Wildkin can now be selected and dragged, and home follows internally, but the human cannot see/edit the Wildkin home/spawn relationship.
-- `Reset Draft From Repo` does not reliably restore the canonical repository world.
-- A small object hierarchy would materially improve selection/navigation now that the authored world contains many objects.
-
-The editor is close, but it is not yet trustworthy enough to author the real first expedition because **visible Edit state and physical Play state can disagree**.
-
-Core acceptance question remains:
-
-> **Can the human visually shape Area 1 with confidence that what is seen in EDIT is what will exist and collide in PLAY?**
+This slice proves that Wildkin Frontier is a **game loop**, not just a collection of working systems. Phase 4B will tune the first 5–10 minute experience, Camp layout, encounter pacing, temptation, difficulty, and first meaningful spend after this mechanical loop is human-accepted.
 
 ---
 
-## 2. Critical implementation rule — Change Closure / Consistency Sweep
+## 1. Player-facing outcome
 
-Muse/agents must not fix only the named reproduction case when the underlying contract is shared.
-
-For every change in this slice, trace the complete affected path:
+At the end of Phase 4A, from a fresh normal save the player can:
 
 ```text
-Author UI/input
-→ mutable draft
-→ normalize/validate
-→ live Edit preview
-→ static/gameplay runtime builder
-→ Rapier/query representation where applicable
-→ Play reload
-→ deterministic export/reset
-→ automated tests
+Open game at Camp
+→ inspect the Map
+→ walk through the frontier gate
+→ choose the only available starting Major Waypoint
+→ begin an expedition
+→ harvest / fight / gain XP while carrying unsecured value
+→ encounter a Major Waypoint or Extraction Beacon
+→ choose EXTRACT or KEEP GOING
+→ extract and bank the run OR die and lose unsecured run value
+→ return to Camp and see a clear recovery/loss card
+→ see persistent frontier/map progress
+→ walk to the gate and start another expedition immediately
 ```
 
-### Required proactive behavior
+After activating a deeper Major Waypoint, that Waypoint is available as a future expedition start. Extraction Beacons may be discovered and used to extract, but **never become starting locations**.
 
-Before implementing, identify the authorable object families affected by each shared contract.
+Core acceptance question:
 
-At minimum use this matrix:
-
-| Family | Examples | Position X/Z | Elevation Y | Rotation Y | Size | Collision/gameplay parity |
-|---|---|---:|---:|---:|---:|---:|
-| solid props | box, fence, forestBoundary, resonator/dropPod where solid | yes | yes where exposed | yes where exposed | W/D/Height | required |
-| non-solid props | water/island/visual props | yes | yes where meaningful | yes where exposed | W/D/Height | visual only unless explicitly solid |
-| platforms | low/high platforms | yes | yes | only if explicitly supported | W/D/Height | required |
-| obstacles | box barriers/obstacles | yes | yes | only if explicitly supported | W/D/Height | required |
-| climbables | ladder | yes | only if coherently supported | only if coherently supported | type-specific | traversal parity required |
-| resources | tree/rock/fiber | yes | only if runtime supports it | no unless intentionally supported | no in this slice | interaction parity required |
-| Wildkin | rusher/spitter spawn | yes | existing supported semantics only | no | no | spawn/home/AI parity required |
-| anchors/POIs | waypoint, beacon, chest | yes | yes where meaningful | no unless intentionally supported | no | interaction placeholder parity |
-
-If a control is exposed, it must work end-to-end for that family. If a transform is not coherently supported, hide/disable it rather than leaving a fake field.
-
-### Do not leave partial implementation comments in accepted paths
-
-Do not leave TODO-style behavior such as:
-
-- “size change requires recreation — maybe later”,
-- “rotation preview only”,
-- “baseY present but physics ignores it”,
-- UI fields writing data the runtime never reads.
-
-The completion gate requires a **consistency sweep across all related object families**, not only fence/box examples.
+> **Does a first-time player understand what is at risk, how to secure it, what was lost/kept, and how to start the next run?**
 
 ---
 
-## 3. Hard scope
+## 2. Hard scope
 
-Implement only:
+Implement only what is required for the complete mechanical loop:
 
-1. explicit Author Mode input ownership,
-2. visual ↔ physical transform parity for supported authorable solids,
-3. one coherent dimensions contract in the inspector/runtime,
-4. live resize preview,
-5. Wildkin home/spawn visualization and editing,
-6. reliable canonical Reset Draft From Repo,
-7. minimal Region → Category → Object hierarchy,
-8. focused cross-type automated tests,
-9. concise human acceptance instructions,
-10. documentation / Build Log updates.
+1. explicit Camp ↔ active expedition lifecycle,
+2. versioned local persistent frontier/bank state,
+3. always-accessible top-right Map,
+4. Camp gate → expedition-start map flow,
+5. Major Waypoint activation + future-start unlock,
+6. Extraction Beacon discovery + extraction-only behavior,
+7. Camp gate return/extraction behavior,
+8. **EXTRACT / KEEP GOING** anchor prompt,
+9. unsecured run resources + run XP vs persistent banked resources + banked XP,
+10. successful-extraction recovery card,
+11. death/loss card and return-to-Camp flow,
+12. immediate next-run reset/start flow,
+13. minimal edge guidance for extraction/deeper Major Waypoint,
+14. run-cargo HUD cleanup needed to make risk readable,
+15. focused persistence/lifecycle/map/anchor tests,
+16. docs + Build Log updates.
 
-Do **not** implement:
+Do **not** implement in Phase 4A:
 
-- Phase 4 map/gate-start/extraction/banking/result cards,
-- bonding/capture/companions/mount gameplay,
-- skill tree/equipment/base expansion,
-- final Camp/Area 1 art/balance/layout,
-- generic transform gizmos,
-- full undo/redo/history,
-- multi-select,
-- prefab system,
-- asset browser,
-- scripting,
-- procedural generation,
-- mobile Author Mode,
-- a second physics world,
-- new runtime dependencies.
+- Wildkin bonding/capture/companions/mounts,
+- Wildkin carry capacity,
+- skill tree or equipment progression,
+- full Matter Resonator gameplay or Resonance minigame,
+- Camp expansion/base building,
+- final Area 1 layout/art/pacing/balance,
+- a second area or final endpoint,
+- swimming or gated-POI unlock behavior,
+- elaborate illustrated map art,
+- quest/story systems,
+- general POI framework beyond the anchors/guidance needed here,
+- new dependencies,
+- Author Mode expansion.
 
----
-
-## 4. Explicit Author Mode input ownership
-
-The current approach hides HUD/joystick visuals but gameplay pointer handlers still intercept portions of the canvas. This must be fixed at the input-system boundary.
-
-### Required direction
-
-Give gameplay touch/pointer input an explicit enabled state owned through normal module wiring, e.g.:
-
-```text
-touchMovement.setEnabled(false)
-keyboard/game action input suppression as needed
-```
-
-or an equally clear injected `isEnabled()` callback.
-
-Do **not** rely on a fragile global object shape such as `window.__author.authorCtx...` for correctness.
-
-### When entering EDIT
-
-- disable touch movement pointer handling,
-- disable right-side tap/hold/swipe attack/dodge handling,
-- clear/release any currently active joystick pointer,
-- clear/release any active right-side gesture pointer,
-- hide gameplay HUD as already intended,
-- make the full renderer/canvas area selectable by Author Mode except where the author panel itself overlays it,
-- no invisible gameplay input zone may capture pointerdown/pointermove/pointerup.
-
-### When entering PLAY
-
-- restore input exactly once,
-- no stale pointer/held-attack/joystick state,
-- normal mobile controls behave exactly as before.
-
-Normal `/` mode without `?author=1` must be unchanged.
+**Phase 4B owns “make the first expedition fun/paced”; Phase 4A owns “make the loop complete and understandable.”**
 
 ---
 
-## 5. One transform source for visual + collision parity
+## 3. Preserve accepted foundations
 
-Do not independently reinterpret transforms in `authorUI`, `staticWorldBuilder`, and `createPhysicsWorld`.
+Preserve unless this slice explicitly changes the lifecycle around them:
 
-Introduce or clearly centralize a small normalized authored transform contract/helper for static solids so both rendering and physics consume the same semantic values.
+- movement / run / sneak / jump / dodge / climb / mantle,
+- Rapier collision and Phase 3.5B.2 transform parity,
+- one physical Field Tool and shared cadence,
+- Auto Harvest + manual attack/harvest rules,
+- resources, physical-looking drops, magnet collection,
+- combat, health, dodge i-frames, projectiles, XP motes,
+- Wildkin temperaments/ecology/home/leash/steering,
+- `world.json` single-source pipeline,
+- region activation / bounded pools,
+- `ExpeditionSession` as the temporary run owner,
+- Author Mode + hierarchy + deterministic world export,
+- one `requestAnimationFrame`, fixed 1/60 gameplay, thin `main.js`,
+- offline/portrait/<35 MB submission constraints.
 
-Conceptually:
+Do not reopen accepted Author Mode work unless Phase 4A integration exposes a concrete regression.
+
+---
+
+## 4. Change Closure focus for this slice
+
+Permanent `AGENTS.md` Change Closure rules apply.
+
+The highest-risk shared paths in Phase 4A are:
 
 ```text
-position/base = x, y, z
-rotationY = radians
-size = width, height, depth
+modal/input lock
+Map + anchor prompts + result cards
+→ touch/keyboard/gameplay suppression
+→ clean restore
+
+run lifecycle
+Camp → begin run → active run → extract/death → Camp → next run
+→ ExpeditionSession
+→ player/resources/creatures/projectiles/pickups/XP
+→ UI
+
+persistent progress
+Major Waypoint / Beacon discovery + extraction
+→ save owner
+→ map
+→ start selection
+→ result card
+→ reload
+
+cargo banking
+pickup inventory + XP
+→ run snapshot
+→ extract once
+→ persistent bank
+→ clear run state
+→ no duplicate credit
 ```
 
-Persisted schemas may retain existing field names when changing them would create unnecessary migration risk, but adapters must yield one consistent runtime transform.
+When changing one of these, verify every sibling outcome path. Example: input suppression must work for **Map, anchor prompt, recovery card, and loss card**, not only one modal.
 
-### Solid props
+---
 
-For supported solid props such as:
+## 5. State ownership: temporary run vs persistent frontier progress
 
-- box,
-- fence,
-- forestBoundary,
-- resonator/dropPod if collision is enabled,
-- other blocking prop subtypes,
+Do not turn `ExpeditionSession` into the persistent save file and do not make the pickup inventory own the bank.
 
-require:
+Use two explicit ownership layers.
+
+### A. `ExpeditionSession` — temporary run state
+
+Extend/refine the existing session as needed to represent the lifecycle cleanly:
 
 ```text
-Edit visible position == Play visible position == Rapier collider position
-Edit visible rotation == Play visible rotation == Rapier collider rotation
-Edit visible dimensions == Play visible dimensions == Rapier collider dimensions
+camp / idle
+active
+extracted outcome
+lost / dead outcome
 ```
 
-### Rapier rotation
+The exact enum names may differ, but there must be one obvious answer to:
 
-When a solid authored object supports `rotY`, create the fixed collider using the corresponding Y-axis quaternion/rotation.
+- are we currently at Camp or in a live expedition?
+- which Major Waypoint did this run start from?
+- what region/depth did we reach?
+- what temporary discoveries occurred this run?
+- has this run already been resolved/extracted so rewards cannot be banked twice?
 
-A rotated fence must block the player at the rotated fence, not at its old axis-aligned footprint.
+`ExpeditionSession` may keep its current summary mirror of run cargo/XP/kills for UI/results, but the pickup/XP systems remain authoritative for their live values.
 
-Any broadphase/AABB metadata used elsewhere must be recomputed conservatively for rotated geometry if needed. Do not leave stale axis-aligned authored AABBs that cause incorrect obstacle/steering behavior.
+### B. Persistent frontier/bank owner
 
-### Elevation/base Y
+Create a focused module such as `src/save/frontierProgress.js`, `src/progression/frontierProgress.js`, or equivalent.
 
-Rapier colliders must consume authored base/elevation Y.
+Versioned persisted state should contain only what Phase 4A needs, approximately:
+
+```js
+{
+  version: 1,
+  bankedResources: { wood: 0, stone: 0, fiber: 0 },
+  bankedXp: 0,
+  unlockedMajorWaypointIds: [initialMajorWaypointId],
+  discoveredBeaconIds: [],
+  hasDepartedOnce: false
+}
+```
+
+Optional small lifetime counters are allowed if genuinely useful for results/debug, but do not build an analytics system.
+
+Requirements:
+
+- localStorage only,
+- defensive load + schema/default normalization,
+- ignore/filter saved anchor IDs that no longer exist in current `world.json`,
+- atomic/idempotent banking API,
+- no gameplay globals as authority,
+- debug-only `window.__game.clearProgress()` or equivalent is welcome for fresh-save testing.
+
+### Author Mode isolation
+
+`?author=1` must not accidentally corrupt normal player progression while the developer edits/tests the world.
+
+Use either:
+
+- an isolated author/dev save key, or
+- in-memory/non-persisted Phase 4A frontier progress while Author Mode is enabled.
+
+Normal `/` play uses the real prototype save.
+
+`Reset Draft From Repo` must remain about authored world data; it must not silently erase normal player progression.
+
+---
+
+## 6. World data additions for start flow
+
+Keep this data-driven rather than hard-coding UI to one waypoint ID.
+
+Add the minimum world metadata required to answer:
+
+- which Camp prop/trigger is the frontier gate,
+- which Major Waypoint is available to a brand-new player,
+- where the player should safely spawn when choosing a Major Waypoint.
+
+Preferred minimal shape is equivalent to:
+
+```text
+camp.frontierGateId
+initialMajorWaypointId
+majorWaypoint.startOffset / spawnOffset (optional)
+```
+
+Exact names may differ.
+
+Validator requirements:
+
+- initial Major Waypoint ID exists and references a `majorWaypoint`,
+- Camp gate ID exists and references the intended gate/anchor object,
+- optional start offset is finite/valid,
+- selected start spawn resolves to a valid region and safe authored height.
+
+Do not encode Phase 4A behavior around `wp_p1_entry` string comparisons in UI code.
+
+---
+
+## 7. Camp state and first launch
+
+Normal game launch begins at Camp, not in an active expedition.
+
+### Fresh save
+
+Player should see:
+
+- Camp/drop pod/fence/Resonator/gate,
+- direct player control immediately,
+- **Map button at top-right**,
+- no long intro/cutscene,
+- no active run cargo yet.
+
+The small Matter Resonator remains a visual Camp landmark only in 4A. Do not add its spend/unlock system yet.
+
+### Camp loot rule
+
+Camp should not accidentally generate unsecured expedition cargo before a run starts.
+
+The existing placeholder Camp tree/fiber may be relocated into the first frontier pocket if needed. Prefer that simple data edit over inventing a separate Camp-harvest banking rule.
+
+### Top-right Map before first departure
+
+On a fresh save, passive Map inspection should primarily communicate:
+
+- **Camp**,
+- **Frontier Gate**,
+- unknown/obscured frontier beyond it.
+
+The first start can be available internally without cluttering this very first passive map view.
+
+---
+
+## 8. Map modes
+
+Use one Map UI with clear modes instead of parallel map screens.
+
+### Inspect mode — top-right Map button
+
+Available from Camp and during a run except while another blocking modal/result is open.
+
+Inspect mode:
+
+- pauses/suppresses gameplay input while open,
+- shows known frontier progress,
+- does **not** teleport or begin a run,
+- major Waypoints are informational only in this mode,
+- discovered Extraction Beacons are visible but never selectable starts,
+- close returns control cleanly.
+
+### Start-selection mode — triggered by Camp gate
+
+When the player at Camp crosses/enters the frontier gate to depart:
+
+- Map opens automatically in **Choose Start** mode,
+- gameplay input is paused,
+- only unlocked Major Waypoints are tappable start choices,
+- Extraction Beacons may be shown but are never selectable,
+- on a fresh save only the initial Major Waypoint is available,
+- choosing a Major Waypoint begins a new expedition,
+- cancel/close leaves the player safely at Camp and must not trap them in a retrigger loop.
+
+Once `hasDepartedOnce` is true, normal map inspection may show the initial Major Waypoint as part of frontier progress.
+
+### Map representation
+
+Keep it functional and readable, not artistic.
+
+Allowed:
+
+- simple panel,
+- projected node positions based on authored world X/Z,
+- Camp/gate/Waypoint/Beacon icons,
+- region names,
+- simple connecting lines if useful.
+
+Do not build map terrain rendering, minimap camera, fog-of-war shaders, or a cartography framework.
+
+---
+
+## 9. Beginning an expedition
+
+Selecting an unlocked Major Waypoint from gate-start mode must execute one explicit begin-run path.
+
+Before player control resumes:
+
+1. validate selected waypoint is unlocked + exists,
+2. clear old run inventory/XP and temporary pickups/projectiles/XP motes,
+3. reset resources/creatures to the intended new-run baseline,
+4. restore player health/action state,
+5. set `ExpeditionSession` active with `startAnchorId`,
+6. position player at a safe authored start location for the selected Major Waypoint,
+7. reprime region activation around that location,
+8. suppress immediate anchor popup for the start Waypoint until the player leaves its interaction radius once,
+9. close Map and restore gameplay input exactly once.
+
+Each expedition is a new run. Temporary harvest/combat state from the previous run must not leak into it.
+
+Starting from a deeper unlocked Major Waypoint naturally skips earlier gathering; Phase 4B/7 will tune whether that tradeoff is strong enough.
+
+---
+
+## 10. Frontier anchor interaction
+
+Create one focused anchor interaction owner/system rather than scattering distance checks into UI/main.
+
+It must handle:
+
+- Major Waypoints,
+- Extraction Beacons,
+- Camp gate as a return-to-safety anchor while a run is active.
+
+Use simple proximity/entry detection; no generic interaction framework is required.
+
+### Major Waypoint
+
+On first meaningful activation during an expedition:
+
+1. permanently add it to `unlockedMajorWaypointIds`,
+2. record it as a new discovery for this run/result card,
+3. update Map state immediately,
+4. show anchor prompt:
+
+```text
+WAYPOINT ACTIVATED
+[current unsecured run summary]
+
+EXTRACT
+KEEP GOING
+```
+
+On later visits, show the same extraction choice without re-awarding discovery.
+
+**Important:** permanent Waypoint discovery survives later death because frontier penetration is persistent progress; unsecured cargo does not.
+
+### Extraction Beacon
+
+On first discovery:
+
+- add to `discoveredBeaconIds`,
+- show on future Maps,
+- never add to start choices.
+
+Interaction shows:
+
+```text
+EXTRACTION BEACON
+[current unsecured run summary]
+
+EXTRACT
+KEEP GOING
+```
+
+Extracting at a Beacon returns to Camp. The next run still starts from an unlocked **Major Waypoint**, never the Beacon.
+
+### Prompt re-entry guard
+
+If the player chooses **KEEP GOING**, do not reopen the same prompt every frame.
+
+Require the player to leave the anchor interaction radius before it can trigger again.
+
+### Starting Waypoint guard
+
+Spawning at a Major Waypoint must not instantly block the new run with an extraction prompt. Arm that anchor only after the player leaves its radius once.
+
+---
+
+## 11. Returning physically to Camp
+
+The Camp gate is the safe retreat behind the first frontier stretch.
+
+During an active run, crossing/entering the Camp gate from the frontier side should offer a clear return choice equivalent to:
+
+```text
+RETURN TO CAMP
+Secure everything you are carrying?
+
+RETURN & SECURE
+KEEP GOING
+```
+
+This allows a player who retreats before reaching a Beacon to save the run by physically making it back to safety.
+
+Do not make walking into Camp silently delete or silently bank a run.
+
+---
+
+## 12. Unsecured cargo and banked progress
+
+### During an active expedition
+
+The following are unsecured in Phase 4A:
+
+- resource inventory (`wood`, `stone`, `fiber`),
+- run XP.
+
+Wildkin are not capturable yet.
+
+The player should be able to read current run value at a glance.
+
+### Resource HUD cleanup
+
+Move/keep run resource counts in the **upper-left** so the top-right remains Map.
+
+Requirements:
+
+- hide zero-count resources,
+- clearly read as current carried/run cargo,
+- do not show an always-visible second bank inventory beside it,
+- keep portrait safe areas and existing combat readability.
+
+Bank totals may be shown on Map/Camp/results rather than cluttering gameplay HUD.
+
+### Extraction
+
+Extraction transfers the current run snapshot **once** into persistent bank:
+
+```text
+bankedResources += current run resource inventory
+bankedXp += current run XP
+```
+
+Then clear current run cargo/XP.
+
+Do not double-credit if an extraction callback/modal is somehow triggered twice.
+
+### Death
+
+Death banks **none** of current run resources or run XP in 4A.
+
+On death:
+
+- resource cargo lost,
+- run XP lost,
+- Major Waypoints already activated remain unlocked,
+- discovered Extraction Beacons remain discovered.
+
+Future loss-mitigation skills are later scope.
+
+---
+
+## 13. Successful extraction flow
+
+`EXTRACT` or `RETURN & SECURE` should resolve through one outcome pipeline.
+
+Required order conceptually:
+
+1. freeze/suppress player gameplay input,
+2. snapshot run resources/XP + discoveries,
+3. mark the run resolved/extracted so it cannot resolve twice,
+4. bank resources/XP persistently,
+5. return/reset player + transient world state to Camp,
+6. show the result card **over Camp**,
+7. on Continue, restore direct Camp control.
+
+### Recovery card
+
+Keep compact and readable:
+
+```text
+EXPEDITION COMPLETE
+
+Recovered
+Wood   +18
+Stone   +9
+Fiber   +5
+XP    +120
+
+Frontier Progress
+New Waypoint: Threshold Rise   (when applicable)
+Beacon discovered              (when applicable)
+
+Banked Total: ...
+
+CONTINUE
+```
+
+Only show rows that matter.
+
+Do not implement spend/upgrade choices on this card in 4A.
+
+---
+
+## 14. Death / failed expedition flow
+
+Replace/repurpose the current prototype death/restart flow so death returns to the actual game loop rather than directly restarting the systems arena.
+
+Required order:
+
+1. player reaches 0 HP,
+2. snapshot current unsecured cargo/XP + retained discoveries,
+3. mark run resolved/lost,
+4. bank nothing from unsecured cargo/XP,
+5. return/reset player + transient world state to Camp,
+6. show loss card **over Camp**,
+7. Continue closes card and gives Camp control.
+
+### Loss card
 
 Example:
 
 ```text
-baseY = 1.0
-height = 1.2
-visual center Y ≈ 1.6
-collider center Y = 1.6
+EXPEDITION LOST
+
+Lost
+Wood   18
+Stone   9
+Fiber   5
+XP    120
+
+Frontier Progress Kept
+Threshold Rise Waypoint   (if discovered this run)
+
+CONTINUE
 ```
 
-Do not hard-code collider center to `height / 2` when authored baseY exists.
+Do not show a `TRY AGAIN` button that teleports straight back into the frontier. The player starts the next expedition through Camp/gate/Map.
 
-Platforms/obstacles exposed as elevatable must obey the same parity.
+Use one result-card owner for extraction/death if practical; do not leave competing death overlays active.
 
 ---
 
-## 6. Dimensions contract and live resize
+## 15. Return-to-Camp / new-run reset guarantees
 
-The inspector must use human-readable **Width / Depth / Height** semantics.
+Centralize the run reset/return path enough that extraction, death, and later future outcomes do not each manually reset different subsets of the game.
 
-For ordinary props:
+On return/new run as appropriate verify:
 
-```text
-Width  -> size.w
-Depth  -> size.d
-Height -> size.h
-```
+- player position + health/action state coherent,
+- resource run inventory 0,
+- run XP 0,
+- pickups cleared,
+- projectiles cleared,
+- XP motes cleared,
+- resource nodes reset for a new expedition,
+- Wildkin reset to authored run baseline/home/alive state,
+- region manager reprimes around Camp/start,
+- no duplicate creatures/resources/colliders,
+- Auto Harvest preference remains a user preference and is not accidentally erased,
+- persistent bank/map discovery untouched except for intended outcome changes.
 
-Do not write prop Height to a separate `height` field if the builder reads `size.h`.
-
-For platforms/obstacles, map the inspector semantic dimensions to their existing schema safely:
-
-```text
-Width  -> w
-Depth  -> footprint depth (`h` in legacy traversal schema if retained)
-Height -> vertical `height`
-```
-
-The UI may use adapters; the human should not have to understand the legacy naming difference.
-
-### Live Edit preview
-
-Changing Width/Depth/Height must immediately update the visible object in EDIT.
-
-Use a robust approach:
-
-- recreate geometry for the selected preview object, or
-- maintain original dimensions and apply exact scale ratios,
-- update pick proxy/highlight to match.
-
-Do not leave a placeholder comment without implementing resize.
-
-### PLAY parity
-
-After PLAY/reload, dimensions must match the Edit preview exactly, including collision for solid objects.
+Do not copy/paste three different reset sequences into Map, death, and extraction UI callbacks.
 
 ---
 
-## 7. Wildkin spawn/home territory authoring
+## 16. Minimal frontier guidance
 
-Current behavior moving `pos` and `homePos` together by default is good; make it visible and controllable.
+The current world is directed but the player needs enough orientation to understand safety vs deeper progress.
 
-### Inspector
+During an **active run only**, show at most a small number of edge indicators:
 
-For a selected Wildkin show at minimum:
+1. a useful **extraction/safety** direction when off-screen (nearest appropriate Camp gate / Major Waypoint / Extraction Beacon),
+2. the next deeper **Major Waypoint** direction when relevant.
 
-```text
-Spawn X / Z
-Home X / Z
-[✓] Move Home With Spawn
-Roam radius
-Notice radius
-Personal-space radius
-Leash radius
-Temperament
-```
+Requirements:
 
-Default `Move Home With Spawn = ON`.
+- screen-edge clamped,
+- distinct icon/shape for extraction vs Major Waypoint,
+- optional distance text if readable,
+- hide when target is comfortably on-screen or use a simple in-world marker,
+- never become a large quest-arrow HUD,
+- do not implement arbitrary POI tracking in this slice.
 
-Dragging the Wildkin with this enabled moves spawn + home by the same delta.
+The exact “best extraction target” helper should be deterministic and testable.
 
-If disabled, dragging changes spawn only.
-
-Editing Home X/Z explicitly changes home without moving spawn.
-
-### Scene visualization
-
-While a Wildkin is selected in EDIT:
-
-- show a readable author-only Home marker,
-- show a line from spawn → home when they differ,
-- preferably show roam/home radius as a subtle author-only ring if trivial,
-- Home marker is not shown in normal Play.
-
-Preferred: allow the Home marker itself to be clicked/dragged to reposition home. If implementing a separate draggable marker would substantially complicate the slice, numeric Home X/Z + visible marker is sufficient; document that limitation.
-
-No new creature gameplay behavior is required.
+Phase 4B may tune which anchors are revealed and when based on play feel.
 
 ---
 
-## 8. Fix Reset Draft From Repo semantics
+## 17. Modal/input ownership
 
-Canonical repository data and effective Author draft must remain distinct.
+Map, anchor prompt, recovery card, and loss card are blocking gameplay surfaces.
 
-Current startup can use persisted localStorage draft as the effective runtime world, but Author Mode's **repo seed must still be the canonical generated `WORLD_DATA`**, not the already-overridden effective draft.
+Use one explicit gameplay-input suppression mechanism; do not independently hide visuals while pointer handlers remain active.
 
-Required conceptual separation:
+When a blocking UI is open:
 
-```text
-canonicalWorldData = WORLD_DATA from repo/generated source
-persistedAuthorDraft = localStorage only when ?author=1
-runtimeEffectiveWorldData = persistedAuthorDraft ?? canonicalWorldData
-```
+- touch joystick disabled/cleared,
+- right-side attack/hold/swipe disabled/cleared,
+- keyboard movement/action suppressed as appropriate,
+- Field Tool cannot swing underneath UI,
+- player/AI gameplay may be paused or player input-only suppressed according to the simplest consistent design, but no player should take unavoidable damage while a blocking decision/result UI is open.
 
-Pass both roles deliberately where needed.
+When closed:
 
-### Reset behavior
+- restore input exactly once,
+- no stale held attack, joystick pointer, or dodge request.
 
-`Reset Draft From Repo` must:
-
-1. clear persisted author draft/counter/transient author state,
-2. restore a deep clone of canonical repository world,
-3. reload Author Mode using canonical world,
-4. show no prior local edits,
-5. not immediately re-save the old effective draft,
-6. remain deterministic across another reload.
-
-A confirmation dialog is fine.
-
-Add an automated test for the exact regression: persisted draft differs from repo → reset → subsequent reload uses repo values.
+Apply Change Closure across every blocking modal in the slice.
 
 ---
 
-## 9. Minimal hierarchy
+## 18. Area 1 content policy for 4A
 
-Add a compact hierarchy to make selection/navigation practical.
-
-This is not a Unity hierarchy clone.
-
-### Structure
-
-Use:
-
-```text
-Region
-  Props
-  Traversal
-  Resources
-  Wildkin
-  Anchors
-  POIs
-```
-
-Examples:
+Use the current rough authored route:
 
 ```text
 Camp
-  Props
-    prop_camp_dropPod
-    fence_camp_west
-  Resources
-    tree_camp_01
-  Anchors
-    wp_camp_gate
-
-Forest Edge
-  Wildkin
-    rusher_p1_skittish
-  POIs
-    poi_p1_chest
+→ p1 Forest Edge / first Major Waypoint
+→ p2 + Beacon
+→ p3 + Beacon
+→ p4 / next Major Waypoint
 ```
 
-### Required behavior
+Do not spend this phase making that layout final.
 
-- generated from the current mutable draft,
-- updates after place/duplicate/delete/region move,
-- click object row → select the same scene object/inspector,
-- selected row highlighted,
-- collapsing region/categories supported via native `<details>` or similarly simple UI,
-- provide a small text filter/search if trivial; otherwise omit,
-- double-click row or a small Focus button should center/pan the editor camera to the object's X/Z if straightforward.
+Allowed small data edits:
 
-At minimum, single-click hierarchy selection is required. Camera focus is strongly preferred but may be omitted only if it risks destabilizing editor camera behavior.
+- move/remove Camp harvest nodes so Camp does not create pre-run cargo,
+- safe spawn offsets around Major Waypoints,
+- tiny anchor placement/interaction-radius adjustments required to make the loop testable.
 
-Do not add multi-select/reparent drag/drop/prefabs.
+Do not do the full Camp/forest/encounter redesign yet.
+
+It is acceptable if the next Major Waypoint is easier to reach than the final design during 4A. Phase 4B will deliberately tune the first-run limit, danger gradient, Beacon spacing, temptation, and 5–10 minute pacing.
 
 ---
 
-## 10. Live preview architecture cleanup
+## 19. Suggested module ownership
 
-Phase 3.5B.1 added ad-hoc object-type preview syncing. This slice should make the preview reliable enough that supported inspector changes are visible immediately.
+Exact filenames are flexible; responsibilities are not.
 
-Do not rewrite the editor unnecessarily, but remove obvious partial paths.
-
-Required across supported authorable families:
-
-- X/Z movement previews,
-- Y elevation previews where exposed,
-- RotY previews where exposed,
-- W/D/Height previews where exposed,
-- duplicate/place/delete previews,
-- selection highlight/pick proxy updates after resizing,
-- hierarchy updates after mutations.
-
-PLAY may still reload to rebuild authoritative gameplay/Rapier state; hot physics editing is not required.
-
----
-
-## 11. Cross-type validation matrix
-
-Before declaring completion, test the shared contracts across representative types, not only the reported fence.
-
-### Solid transform representatives
-
-Test at minimum:
-
-- `fence` — move, rotate, elevate, Width/Depth/Height,
-- generic `box` — move, rotate, elevate, Width/Depth/Height,
-- `forestBoundary` — move/rotate/size if those controls are exposed,
-- one `platform` or `obstacle` — move/elevate/size according to supported contract.
-
-For each supported transform:
+Prefer focused modules equivalent to:
 
 ```text
-EDIT preview
-→ PLAY visual
-→ Rapier/player collision
+src/save/ or src/progression/
+  frontierProgress.js
+    persistent bank + discovered/unlocked anchors
+
+src/world/ or src/expedition/
+  frontierAnchorSystem.js
+    proximity/entry/armed state for gate/waypoint/beacon
+
+src/ui/
+  frontierMap.js
+  anchorPrompt.js
+  runResultCard.js
+  frontierIndicators.js
+
+src/session/
+  expeditionSession.js
+    temporary run lifecycle/outcome summary
 ```
 
-must agree.
+`src/main.js` should only construct, inject dependencies, and wire callbacks/update order.
 
-### Non-solid/gameplay representatives
-
-- tree placement/move/duplicate → harvestability preserved,
-- Wildkin selection/move → home behavior matches checkbox/fields,
-- Waypoint/Beacon move → persists,
-- POI selection → persists,
-- hierarchy selection works for all categories.
-
-The agent should proactively inspect sibling object families using the same code path and add focused tests where a regression would otherwise remain invisible.
+Do not make Map DOM own save state, and do not make save state inspect DOM.
 
 ---
 
-## 12. Automated tests
+## 20. Automated tests
 
 Preserve all existing tests.
 
 Add focused tests for:
 
-### Input ownership
+### Persistent progress
 
-- explicit disable prevents joystick start,
-- explicit disable prevents right-side attack/swipe gesture start,
-- disabling clears active joystick/swipe/held attack state,
-- re-enable restores normal input,
-- no dependence on `window.__author` global shape for correctness.
+- fresh defaults initialize correctly,
+- initial Major Waypoint is the only start unlocked on new save,
+- unknown/removed saved IDs are filtered safely,
+- Major Waypoint activation persists across reload,
+- Beacon discovery persists across reload,
+- Beacon never enters selectable-start set,
+- author-mode progress is isolated from normal progress,
+- bank operation adds exact resource/XP snapshot once,
+- second resolve/bank attempt cannot double-credit.
 
-### Transform parity
+### Expedition lifecycle
 
-- rotated blocking prop runtime collider receives same Y rotation as visual transform,
-- elevated blocking prop collider center includes baseY,
-- elevated platform/obstacle collision includes baseY if exposed,
-- W/D/Height mappings produce matching render/collider dimensions,
-- rotated footprint metadata/steering representation is not stale where used.
+- starts in Camp/idle state,
+- begin run sets active + chosen start anchor,
+- extraction resolves once,
+- death resolves once,
+- return/new-run reset clears transient session values but not persistent frontier progress.
 
-If Rapier integration tests are practical, inspect collider translation/rotation/half-extents directly. Otherwise test the normalized collider descriptors/helpers before world construction plus existing gameplay regression coverage.
+### Map/start selection
 
-### Dimensions / preview
+- inspect mode never starts/teleports a run,
+- gate/start mode exposes only unlocked Major Waypoints,
+- Extraction Beacons are not selectable starts,
+- first departure behavior is deterministic,
+- choosing a valid waypoint resolves safe spawn/region.
 
-- prop Height edits `size.h`, not an unused parallel field,
-- live preview resize path updates geometry/scale metadata,
-- preview dimensions match builder dimensions after reload,
-- pick/highlight proxy remains selectable after resize.
+### Anchor interaction
 
-### Wildkin home
+- new Major Waypoint unlocks before result/outcome and survives later death,
+- Beacon discovery persists but never unlocks start,
+- KEEP GOING requires leaving radius before reprompt,
+- starting waypoint is initially disarmed until player exits radius,
+- Camp gate return uses the same extraction outcome pipeline.
 
-- move with checkbox ON applies equal spawn/home delta,
-- checkbox OFF leaves home unchanged,
-- explicit Home X/Z edit persists,
-- home marker reflects authored home.
+### Cargo outcome
 
-### Reset
+- extraction banks run resources + XP and clears them,
+- death banks none and clears them,
+- result snapshot remains correct after world reset,
+- waypoint/beacon discoveries remain after death.
 
-- canonical world and effective draft are distinct,
-- reset with a differing persisted draft restores canonical values after reload/re-init,
-- reset does not immediately resurrect the old draft.
+### Modal/input closure
 
-### Hierarchy
+- every Phase 4A blocking UI path disables touch/action input,
+- closing restores input,
+- no stale joystick/swipe/attack-held state,
+- no duplicate input enable/disable imbalance.
 
-- hierarchy reflects current draft categories/regions,
-- placed/duplicated/deleted object appears/disappears,
-- hierarchy selection selects correct ID,
-- moving object to another region updates hierarchy ownership.
+### Reset/world integration
 
-### Existing guarantees
+- new run resets creatures/resources/player/temp entities once,
+- no duplicate creatures/resources/colliders after repeated Camp → run → Camp cycles,
+- region activation reprimes to chosen start,
+- one rAF remains.
 
-- one authoritative repo world source,
-- deterministic export/world stale guard,
-- one rAF,
-- fixed-step gameplay,
-- Rapier only,
-- offline/<35MB/portrait normal play,
-- region activation and accepted gameplay regressions.
+### Submission/regression
 
----
-
-## 13. Human acceptance test — final response must be short
-
-Do not give the human a giant coordinate checklist.
-
-Give these concrete tests with exact controls:
-
-### Test 1 — Whole canvas belongs to Edit
-1. Open `?author=1`, enter EDIT.
-2. Click/select objects in lower-left, center, and right side of game viewport.
-3. Expected: no joystick appears and no attack/swipe zone steals the click.
-4. Switch PLAY and verify joystick/right-side controls work normally again.
-
-### Test 2 — Transform parity
-1. Select a Camp fence.
-2. Rotate it ~45°, raise it visibly, and resize Width/Depth/Height.
-3. Expected in EDIT: mesh changes immediately.
-4. PLAY: walk into/under/around it.
-5. Expected: collision matches its exact visible rotation, elevation, and dimensions.
-
-Repeat quickly with a generic Box. Do one supported Y/size edit on a platform/obstacle.
-
-### Test 3 — Live resize
-1. Place a Box from Palette.
-2. Change Width, Depth, Height substantially.
-3. Expected: box resizes immediately in EDIT.
-4. PLAY: visual + collision dimensions remain identical.
-
-### Test 4 — Wildkin home
-1. Select a Wildkin.
-2. Confirm Home marker/fields are visible.
-3. Drag Wildkin with `Move Home With Spawn` ON; home should follow.
-4. Turn it OFF and move Wildkin again; home should stay.
-5. PLAY: creature roams/leashes around the authored home as expected.
-
-### Test 5 — Reset
-1. Make one obvious draft edit.
-2. Click Reset Draft From Repo and confirm.
-3. Expected after reload: that local edit is gone and canonical repo layout is restored.
-
-### Test 6 — Hierarchy
-1. Use hierarchy to select a fence, resource, Wildkin, Waypoint, and POI.
-2. Place or duplicate an object; hierarchy updates.
-3. Delete it; hierarchy updates again.
-4. Expected: hierarchy gives reliable access even when scene raycast selection is awkward.
-
-### Test 7 — Regression
-1. Direct-place and move a harvest node; PLAY and harvest it.
-2. Move Beacon/Waypoint and confirm persistence.
-3. Walk the rough Camp → p1 → p2 → p3 → p4 route once.
-4. Validate + Export once.
-
-Then ask only:
-
-> **Does Author Mode now feel trustworthy and fast enough to shape the real Area 1 visually?**
-
-A human **yes** is required to close 3.5B.2 / Author Mode work.
-
----
-
-## 14. Completion gate
-
-Phase 3.5B.2 is complete only when:
-
-- Edit owns the full viewport and no gameplay pointer zone intercepts authoring,
-- supported solid transforms have Edit visual == Play visual == Rapier collision parity,
-- dimensions use coherent human-facing Width/Depth/Height semantics,
-- resize previews live,
-- no exposed transform field writes data ignored by runtime,
-- Wildkin home/spawn relationship is visible/editable and default-follow behavior is clear,
-- Reset Draft From Repo truly restores canonical repo data,
-- minimal hierarchy works and stays synchronized with draft mutations,
-- consistency sweep covers sibling object types sharing each fixed path,
-- automated tests pass,
+- accepted movement/harvest/combat/ecology tests pass,
+- `npm run world:check` passes,
 - `npm run verify` passes,
 - `npm run zip` passes,
-- one rAF/fixed-step/Rapier/offline/portrait constraints remain intact,
-- human acceptance is yes.
-
-Then stop Author Mode work and prepare for **Phase 4 in a fresh session**.
-
-**Do not begin Phase 4 in this session.**
+- offline / portrait / <35 MB remain valid.
 
 ---
 
-## 15. Final agent response requirements
+## 21. Human acceptance test
 
-Final response must include:
+Final agent response must keep this human-readable and short. Do not return an internal coordinate checklist.
 
-1. concise implementation summary,
-2. a short **Consistency Sweep** section stating which sibling object families were checked when shared contracts changed,
-3. test/verify/zip result counts,
-4. only the short 7-test human checklist above (adapt exact button labels if needed),
-5. explicit stop before Phase 4.
+### Test 1 — Fresh save / first departure
+1. Clear prototype progress using the documented dev helper, then load normal game `/`.
+2. Confirm you start at Camp and top-right Map initially communicates Camp/gate rather than dropping you into a run.
+3. Walk through the gate.
+4. Expected: **Choose Start** map opens and only the first Major Waypoint is selectable.
+5. Select it; expected: you arrive safely at the first frontier start with empty run inventory/XP and full health.
 
-Do not claim “human accepted” before the human answers the final question.
+### Test 2 — Carry value and extract at a Beacon
+1. Harvest several resources and gain some XP.
+2. Reach the first orange Extraction Beacon.
+3. Expected: prompt clearly shows **EXTRACT / KEEP GOING** and your carried run value is readable.
+4. Choose **EXTRACT**.
+5. Expected: return to Camp, recovery card lists what was banked, carried HUD resets to zero/hidden, bank totals persist.
+
+### Test 3 — Beacon is not a start
+1. Leave Camp through the gate again.
+2. Expected: start-selection Map offers Major Waypoints only; the Beacon may be shown as discovered but cannot be tapped as a start.
+
+### Test 4 — Deeper Major Waypoint persists through risk
+1. Run far enough to activate the next blue Major Waypoint.
+2. Choose **KEEP GOING**.
+3. Then deliberately die.
+4. Expected: loss card shows run resources/XP lost, but the new Waypoint is listed/visible as retained frontier progress.
+5. Return to the gate: that Major Waypoint is now a selectable start.
+
+### Test 5 — Physical retreat to Camp
+1. Start at the first Waypoint, collect something, then turn around before extracting at a Beacon.
+2. Return through the Camp gate.
+3. Expected: clear **RETURN & SECURE / KEEP GOING** choice; securing uses the same recovery/banking flow as a Beacon.
+
+### Test 6 — Map does not teleport during a run
+1. During an active expedition, tap the top-right Map.
+2. Inspect unlocked Waypoints/known Beacons.
+3. Expected: tapping around does not start/teleport you; close Map and resume exactly where you were without attack/joystick input leaking through.
+
+### Test 7 — Repeatability / phone
+1. Complete several extract/death cycles and start from both available Major Waypoints once unlocked.
+2. Confirm no duplicate creatures/resources, stale projectiles, carried inventory, or broken input.
+3. Repeat the core flow on a phone in portrait.
+
+Then answer:
+
+> **Does the game now clearly communicate “carry unsecured value → extract or keep going → bank or lose → start another run,” and does that basic loop make sense without explanation?**
+
+A human yes closes Phase 4A. Fun/pacing problems should become Phase 4B notes unless they prevent understanding or completing the loop.
+
+---
+
+## 22. Documentation
+
+Update after implementation:
+
+- `README.md` current playable state,
+- `docs/ARCHITECTURE.md` actual persistent-progress / map / anchor / result ownership,
+- `docs/PROJECT_PLAN.md` only if implementation materially changes the 4A → 4B handoff,
+- `docs/BUILD_LOG.md` with actual implementation/tests/remaining human issues.
+
+Do not rewrite stable design decisions unless implementation reveals a genuine design conflict requiring owner confirmation.
+
+---
+
+## 23. Completion gate
+
+Phase 4A is implementation-complete only when:
+
+- normal launch begins at Camp, not an active run,
+- top-right Map exists and has inspect vs gate-start behavior,
+- gate starts runs only from unlocked Major Waypoints,
+- fresh save exposes only the initial Major Waypoint start,
+- Major Waypoint activation persists and unlocks future starts,
+- Extraction Beacons persist as discovered but never become starts,
+- Camp gate supports physical retreat/extraction,
+- anchor prompts provide **EXTRACT / KEEP GOING** without prompt spam,
+- current run resources + XP are clearly unsecured,
+- extraction banks them exactly once,
+- death loses them,
+- persistent frontier discovery survives death,
+- recovery/loss cards appear at Camp and lead back to direct Camp control,
+- next run starts through Camp/gate/Map rather than a direct arena restart,
+- transient world state resets without duplicates/leaks,
+- Phase 4A blocking UI owns input correctly,
+- minimal extraction/deeper guidance exists,
+- existing accepted gameplay/Author Mode remains functional,
+- full automated tests pass,
+- `npm run verify` passes,
+- `npm run zip` passes,
+- offline / portrait / one-rAF / fixed-step / Rapier constraints remain intact,
+- human playtest confirms the mechanical loop is understandable.
+
+Then stop.
+
+**Do not begin Phase 4B, Wildkin bonding, progression, or Matter Resonator spend in the same session.**
