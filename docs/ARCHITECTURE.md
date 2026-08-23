@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Post-Phase 3.5A Baseline)
+# Architecture — Wildkin Frontier (Post-Phase 3.5B.2 Baseline)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture** (Phase 3.5A). Planned boundaries for later phases remain labeled.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through accepted Phase 3.5B.2** and the ownership boundaries Phase 4A should add. Planned Phase 4A modules are labeled as planned until implementation lands.
 
 ## Permanent Goals
 
@@ -12,6 +12,7 @@
 - Mobile-first: capped DPR, bounded pools, limited active simulation, minimal per-frame allocation.
 - Offline-safe: all runtime libraries/assets/data local.
 - Prefer small explicit systems over framework-heavy ECS/behavior-tree/editor architecture.
+- Shared-contract changes follow the permanent `AGENTS.md` Change Closure / Consistency Sweep rule.
 
 ## Runtime / Submission Stack
 
@@ -22,59 +23,85 @@
 - esbuild only for readable/unminified submission packaging
 - One `requestAnimationFrame` loop in `src/main.js`
 - Fixed gameplay/physics timestep 1/60 with bounded catch-up
+- Root `index.html`, local runtime references, offline-safe ZIP <35 MB
 
-## Current Accepted Foundation
+# Current Accepted Foundation
 
-Phase 3.1.1 validated the core gameplay; Phase 3.5A adds the directed-world foundation without changing that gameplay:
+Phase 3.1.1 validated the core gameplay. Phase 3.5A added the directed-world/runtime foundation. Phase 3.5B/B.1/B.2 added and human-accepted the world-authoring pipeline required to shape the real expedition.
+
+Accepted current systems:
 
 - player movement/traversal + Rapier kinematic controller,
 - Field Tool single-owner swing/cadence,
 - Auto Harvest + manual interaction rules,
 - resource nodes/pickups/inventory,
-- player health/dodge/death/restart,
-- melee/ranged prototype creature attacks,
+- player health/dodge/death prototype,
+- melee/ranged prototype Wildkin attacks,
 - aggressive/territorial/defensive/skittish reactions,
-- Wildkin-vs-Wildkin interaction support,
+- selected Wildkin-vs-Wildkin interaction support,
 - home/roam/leash/return behavior,
 - lightweight obstacle steering,
 - collision-aware XP pop/rest + guaranteed magnet collection,
-- bounded pools,
-- data-driven world definition with region/pocket adjacency,
-- active-region manager (current + neighbor buffer),
-- focused ExpeditionSession owner (no duplicate run state in main.js),
+- bounded pickup/projectile/XP pools,
+- data-driven `world.json` source with Camp + Area 1 regions/anchors/POIs,
+- current+neighbor region activation,
+- focused `ExpeditionSession` temporary-run owner,
+- desktop-only Author Mode with direct placement/dragging, live transforms, hierarchy, Wildkin home editing, deterministic export/reset,
+- visual ↔ Rapier transform parity for supported authored solids,
 - offline/portrait/submission validation.
 
-Future work should preserve this foundation unless real-frontier play exposes a regression.
+Do not keep polishing accepted systems in isolation unless real expedition play exposes a concrete regression.
 
-## Current High-Level Module Areas ( Implemented Phase 3.5A )
+# Current High-Level Module Areas
 
 ```text
 src/main.js
   composition/bootstrap
+  dependency wiring
   single rAF + fixed-step ordering
-  thin — wires session/world/region activation in documented order
+  debug exposure only
 
 src/session/
-  expeditionSession.js — temporary run lifecycle (status, runXp, kills, unsecured cargo, currentRegion/pocket, maxDepth, death/reset hooks)
+  expeditionSession.js
+    temporary expedition/run lifecycle summary
 
 src/world/
-  data/world.js + data/world.json — authored source of truth (camp, 3 regions, bounds, neighbors, pockets, ground, resources, creatures, traversal, waypoints/beacons/pois)
-  worldValidator.js — normalize/validate (unique IDs, neighbor refs, required transforms, supported types, cross-region ownership, spawn clearance)
-  worldRegistry.js — runtime registry (which region owns object, neighbor lookup, active-region helpers, discovery)
-  regionManager.js — lightweight active-region owner (current region from pos, active = current + immediate neighbors, emits only on change, neighbor buffer, no per-frame churn)
-  createMovementPlayground.js — visual playground (still hard-coded ground/boundary; region data mirrors its platforms/obstacles)
-  collision.js — legacy circle helpers (now superseded by Rapier for player, kept for tests)
+  data/world.json
+    one manually maintained authored world source
+  data/world.generated.js
+    generated runtime module; do not edit
+  data/world.js
+    thin import/re-export wrapper
+  worldValidator.js
+    normalize/validate authored world
+  worldRegistry.js
+    region/object/anchor query registry
+  regionManager.js
+    current+neighbor active-region owner
+  staticWorldBuilder.js
+    visuals + static/traversal descriptors from world data
+  createMovementPlayground.js
+    production wrapper into data-driven builder; legacy fallback only for old tests
+
+src/author/
+  authorDraft.js
+    mutable author-only draft + persistence/export/reset
+  authorUI.js
+    palette/inspector/hierarchy
+  authorMode.js
+    Edit/Play orchestration, selection/drag/preview/camera visibility/home marker
 
 src/game/
   scene/camera/renderer/config
 
 src/input/
   keyboard + touch intent
+  touch input has explicit enabled/disabled ownership for Author Mode/modal-safe integration
 
 src/physics/
   Rapier world
-  player controller/capsule
-  collision/query helpers
+  player capsule/controller/query helpers
+  static colliders consume authored elevation/rotation/dimensions
 
 src/player/
   movement/state/visuals
@@ -84,56 +111,58 @@ src/movement/
   jump/fall/dodge/climb/mantle
 
 src/resources/
-  harvestable configuration/system (now region-aware: setActiveRegions, frozen timers when inactive, no duplicate nodes)
-  resource pickups (origin region tracked, cullInactiveRegions on deactivation, pools bounded)
+  harvestable configuration/system
+  region-aware resource activation
+  physical pickups + magnet + run inventory
 
 src/tools/
   Field Tool visual/swing owner
 
 src/combat/
-  health/combat targeting/projectiles (origin region, cullInactiveRegions) /XP (origin region, cullInactiveRegions)/session helpers
+  player health/combat targeting/projectiles/XP/session helpers
 
 src/creatures/
-  creation/config/current AI/temperament/steering (region-aware: setActiveRegions, frozen AI/attack timers, collider disabled, no duplicate)
+  Wildkin creation/config/AI/temperament/steering
+  region-aware activation
 
 src/ui/
-  HUD/death/controls/debug (debugLabel now shows currentRegion [activeIds] and active/total counts)
+  current HUD/death/debug/controls
+  Phase 4A planned: map, anchor prompt, run result card, frontier indicators
 
 src/audio/
   procedural/local audio
 ```
 
-Exact filenames are now `src/session/expeditionSession.js`, `src/world/data/world.js`, `src/world/worldValidator.js`, `src/world/worldRegistry.js`, `src/world/regionManager.js` plus the above.
-
-## Fixed Update Ownership
+# Fixed Update Ownership
 
 Conceptually:
 
 ```text
 main.js
   ├─ initialize scene + Rapier
-  ├─ create world
+  ├─ create canonical world registry + region manager + session
   ├─ create player/input/Field Tool
   ├─ create resource/combat/creature/UI/audio systems
+  ├─ inject dependencies/callbacks
   └─ single rAF
-       ├─ merge input intent
+       ├─ gather/merge input intent
        ├─ fixed substeps
-       │    ├─ run/session lifecycle
+       │    ├─ session/lifecycle state
        │    ├─ Field Tool/action state
        │    ├─ player combat timers
        │    ├─ player movement/Rapier move
-       │    ├─ region activation/world systems
+       │    ├─ region activation
        │    ├─ active creature AI/movement/combat
        │    ├─ projectiles/XP
        │    ├─ active resources/harvesting/pickups
-       │    └─ other active gameplay
-       ├─ focus/POI/camera/UI visuals
+       │    └─ Phase 4A anchor/session callbacks when implemented
+       ├─ focus/indicator/camera/UI visuals
        └─ render
 ```
 
-The exact order should remain documented and deterministic.
+The exact order should remain deterministic and documented when Phase 4A changes lifecycle wiring.
 
-## Rapier Ownership
+# Rapier Ownership
 
 Rapier remains the single physics/collision runtime.
 
@@ -141,10 +170,34 @@ Rapier remains the single physics/collision runtime.
 - Creatures remain simple kinematic actors unless a later slice proves otherwise.
 - Visual meshes are not automatically colliders.
 - Combat damage remains explicit gameplay logic.
-- Query exclusions must distinguish actor targets from static obstacles.
+- Query exclusions distinguish actor targets from static obstacles.
 - No second physics engine.
 
-## Player Movement Ownership
+## Authored static transform contract — accepted Phase 3.5B.2
+
+Supported authored solids flow through the same semantic transform path:
+
+```text
+world.json authored values
+→ normalize/validate
+→ staticWorldBuilder visual + collision descriptor
+→ createPhysicsWorld Rapier collider
+→ Author Mode preview/export
+```
+
+For supported solid props:
+
+```text
+position/base = x, y, z
+rotationY = radians
+size = width, height, depth
+```
+
+Legacy traversal schema names may remain internally, but Author Mode adapters expose human-facing Width/Depth/Height semantics.
+
+Rotated colliders use a Y-axis Rapier quaternion. Elevated colliders include authored baseY. Conservative rotated AABBs are recomputed where broad-phase/steering metadata needs them.
+
+# Player Movement Ownership
 
 `playerController` owns locomotion:
 
@@ -158,7 +211,9 @@ Rapier remains the single physics/collision runtime.
 
 Combat may inject temporary movement constraints/knockback but must not become a second movement controller.
 
-## Field Tool Ownership
+Phase 4A blocking UI may suppress **input**, but should not create a second movement-state owner.
+
+# Field Tool Ownership
 
 One Field Tool visual/interaction owner controls:
 
@@ -178,14 +233,17 @@ one Field Tool swing
 
 Harvesting/combat systems must not independently animate or schedule competing tool impacts.
 
-## Resource / Pickup Ownership
+# Resource / Pickup / XP Ownership
 
 - Resource nodes own harvest/depletion/respawn state.
-- Resource pickup system owns temporary physical drops + magnet collection.
-- XP mote system follows the same reward principle: collision-aware while popping/resting, guaranteed once magnetizing.
+- Resource pickup system owns temporary physical drops + magnet collection + current run resource inventory.
+- XP mote system owns live run XP pickup/collection state.
 - Pools remain bounded.
+- Region deactivation freezes/culls according to the accepted Phase 3.5A policy.
 
-## Creature Ownership
+**Phase 4A must not turn the live pickup inventory into the persistent bank.** It may snapshot current run resources/XP for outcome resolution, but persistent bank values need a separate owner.
+
+# Creature Ownership
 
 Keep these concerns conceptually separate without introducing a heavyweight framework:
 
@@ -209,293 +267,237 @@ Wildkin may target/react to the player and other Wildkin.
 
 Use simple probes/steering first. Add pathfinding only when authored-world evidence requires it.
 
-# Implemented Phase 3.5A Architecture
+# ExpeditionSession — Implemented Temporary Run Owner
 
-Phase 3.5A has been implemented — the directed expedition now has a cheap technical foundation.
+`src/session/expeditionSession.js` exists to keep run lifecycle/state out of `main.js`.
 
-## 1. Expedition / Run Session Owner — `src/session/expeditionSession.js`
-
-Focused owner for temporary run lifecycle. Implemented shape:
+Current responsibility includes temporary values such as:
 
 ```text
-status: active | dead | extracted
+status
 runXp
 kills
-unsecuredResourceCargo {wood, stone, fiber} (summary, not duplicate of pickup inventory)
-startAnchorId: camp_gate
+unsecured cargo summary
+startAnchorId
 currentRegionId / currentPocketId
-maxDepth (deepest region index via regionDepthMap)
-unsecuredWildkin[] (future slot)
-extractionOutcome (future slot)
-getState, setRegion, addXp/setXp, addKill, setCargo/incrementCargo, reset, onDeath/onExtract
+maxDepth
+future unsecuredWildkin slot
+outcome hooks
 ```
 
-Does not own player health, rendering, creature AI, or resource rules. `main.js` wires/updates the session; domain systems notify it via callbacks (pickup inventory, XP, kills, region changes). Reset/death hooks are centralized here, preserving Auto Harvest preference outside the session.
+It does not own:
 
-## 2. Thin `main.js`
+- player health,
+- resource node rules,
+- live pickup inventory implementation,
+- persistent frontier progression,
+- map DOM,
+- creature AI.
 
-Implemented thin composition:
+Phase 4A may extend the session lifecycle to explicitly distinguish Camp/idle vs active/resolved run states, but should keep persistent progress in a separate module.
+
+# Single-Source World Pipeline — Accepted
 
 ```text
-initialize (RAPIER.init, scene, worldRegistry, regionManager, session)
-create systems (resource/creature systems from worldRegistry data, not hard-coded arrays)
-wire dependencies (physicsWorld, characterPhysics, input, audio, HUD, fieldTool, combat)
-own fixed rAF loop (single requestAnimationFrame, fixed 1/60 substeps, max 4, maxDelta 0.10)
-update in documented order:
-  input intent → combatSession → Field Tool → playerCombat → player movement → region activation → creatures → projectiles → XP → resources → pickups → focus rings → camera → render
-render
+src/world/data/world.json
+  → tools/generate-world.mjs
+  → src/world/data/world.generated.js
+  → src/world/data/world.js
+  → normalize / validate
+  → worldRegistry
+  → staticWorldBuilder + gameplay placement systems
 ```
 
-All world placement loads through the normalized data path; no second loader for test arena.
+Rules:
 
-## 3. Data-Driven World Definition — `src/world/data/world.js` (+ `world.json` mirror)
+- `world.json` is the one manually maintained authored source.
+- Generated runtime data is never hand-edited.
+- `npm run world:check` catches stale generated data.
+- `npm run verify` includes world consistency before build validation.
+- Runtime world/UI systems should query normalized/registry data rather than duplicate anchor/region coordinates.
 
-Source of truth, 3 test regions partitioning the original playground:
+Current authored skeleton:
 
 ```text
-world
-  camp: {id, pos, radius} (placeholder, no gameplay)
-  regions[3]: south_basin (2.5..11.5, neighbor central), central_basin (-4..2.5, neighbors south+north), north_highlands (-11.5..-4, neighbor central)
-    id, displayName, bounds {minX,maxX,minZ,maxZ}, neighbors [regionIds], pockets []
-    ground {type, color}, props []
-    resources[] {id, type tree|rock|fiber, pos} — 18 total migrated, each pos inside its region bounds
-    creatures[] {id, type rusher|spitter, temperament, speciesTag, pos, homePos, roam/notice/personal/leash, hostileSpecies} — 6 total migrated, clearance validated
-    traversal {platforms[], obstacles[], jumpTraversals[], climbables[]} — mirrors playground (lowA/lowB/high, ladder)
-    majorWaypoints[] {id, type majorWaypoint, pos} — data only
-    extractionBeacons[] {id, type extractionBeacon, pos} — data only
-    pois[] {id, type chest|barrier, pos, requires} — data only
-  startAnchorId: camp_gate
+Camp
+  ↓ gate
+p1 Forest Edge
+  ↓
+p2 Tangled Hollow / Beacon
+  ↓
+p3 Sunken Rise / Beacon
+  ↓
+p4 Threshold Rise / next Major Waypoint
 ```
 
-JSON mirror at `src/world/data/world.json` is the readable source; JS module is the runtime import to avoid JSON import build issues.
+This is a spatial proof, not final pacing/art.
 
-## 4. World Loader / Registry — `src/world/worldValidator.js` + `src/world/worldRegistry.js`
+# Spatial Activation / Streaming — Accepted
 
-- `worldValidator.js: normalizeWorldData(raw)` clones, validates unique IDs, valid region/pocket refs, valid neighbor refs, required transforms/types, creature spawn/home data, supported world object types, anchor/POI type identifiers, no invalid cross-region ownership (pos inside bounds), and expanded-platform spawn clearance (creature radius 0.32+0.05). Runtime systems consume normalized data.
-
-- `worldRegistry.js: createWorldRegistry(normalized)` builds regionMap, global lookups with regionId attached, and answers: region for position (bounds containment or nearest), pocket for position, neighbors, active set for region (current + neighbors), resources/creatures for region/active, all waypoints/beacons/pois, camp, startAnchor, regionDepthMap.
-
-No giant god-object: registry is queryable, does not own AI/resource rules.
-
-# Spatial Activation / Streaming — Implemented `src/world/regionManager.js`
-
-Three.js frustum culling is render-only; Phase 3.5A adds lightweight gameplay activation.
-
-## Implemented strategy
+Three.js frustum culling is render-only. `src/world/regionManager.js` owns lightweight gameplay activation.
 
 ```text
-ACTIVE = current region + immediate neighbors (neighbor buffer prevents visible/collision pop-in)
-INACTIVE = distant regions (e.g., south vs north when in opposite)
-Determination: player XZ inside region bounds (AABB). Outside all bounds → nearest center (deterministic).
-Update: regionManager.update(playerPos) computes currentRegion/pocket, activeSet = current + neighbors, emits only when set changes, caches active array, avoids per-frame allocation.
+ACTIVE = current region + immediate neighbors
+INACTIVE = distant regions
 ```
 
-## Per-system activation (documented, deterministic, duplicate-safe)
+Accepted behavior:
 
-- **Static world / traversal:** Ground + boundary walls remain always active (cheap). Per-region platforms/obstacles are data-driven via `worldRegistry` but collider lifecycle is currently kept always active for simplicity; distant heavy collider removal is deferred as cost is negligible vs AI. Visuals remain; no pop-in at neighbor buffer.
+- resources hide/remove collider/freeze timers while inactive,
+- creatures hide/disable collider/freeze AI/attack/respawn while inactive,
+- pooled pickups/projectiles/XP are culled by region policy,
+- entities are created once and toggled rather than duplicated,
+- neighbor buffer prevents visible simulation holes,
+- author Edit visibility can follow editor camera while gameplay remains paused,
+- Play restores player-centered region activation.
 
-- **Resources:** `resourceSystem.setActiveRegions(activeIds)` hides group, removes collider, sets `_regionInactive`, freezes timers (`wobble/flash/respawn` not ticked while inactive). `isHarvestableInRange`/`getEligibleNodes`/`getHaloTargets` return empty when inactive. On reactivation: group visible restored, collider restore deferred via `_pendingColliderRestore` until player not inside (safe, no push), no duplicate nodes, respawn timer resumes from frozen value.
+Do not add async/network asset streaming until profiling proves it necessary.
 
-- **Creatures:** `creatureSystem.setActiveRegions(activeIds)` hides group, disables collider (`disableCollision`), sets `_regionInactive`, skips entire `update` (no AI, no attack timers, no projectile emission, frozen retaliation/flee timers, frozen respawn). `getAliveCreatures` filters to active only (focus rings, targeting). On reactivation: group visible, collider re-enabled, no instant attack (frozen WINDUP/LUNGE preserved, resumes next tick only if still logically valid), no duplicate, home/return state coherent, dead/RESPAWNING stays coherent (respawn frozen).
+# Author Mode — Accepted Phase 3.5B.2
 
-- **Temporary entities:** Pooled, bounded (pickup max 32, projectile 16, XP 32). On region deactivation, `cullInactiveRegions(activeSet, worldRegistry)` removes origins whose `regionId` not in active set (pickups: origin resource region; projectiles: owner region or start pos region; XP: spawn pos region). No leakage/duplication; pools bounded. Policy documented as simplest consistent for prototype: origin-based culling on `regionManager.onChange` (plus position fallback).
+Desktop-only `?author=1` is now accepted infrastructure.
 
-## Activation guarantees
-
-- Deterministic, single-owner (`regionManager`), emitted only on change.
-- No duplicate creation (nodes/creatures created once at load, toggled visible/collider, not re-instantiated).
-- Inactive AI/physics cost tied to local neighborhood, not total world size (tests verify timers frozen, active counts bounded).
-- Neighbor buffer ensures camera never looks into missing ground/collision.
-- Tests prove distant systems not ticking.
-
-# Implemented Phase 3.5B — Minimal Author Mode & Area 1 Skeleton
-
-Phase 3.5B is implemented — single source + data-driven static world + minimal desktop Author Mode + rough Camp + 4-pocket Area 1.
-
-## 1. Single Authoritative Source Pipeline
+## Authoring ownership
 
 ```text
-src/world/data/world.json (human/editor export, version 3.5B)
-  → tools/generate-world.mjs (deterministic, sorted, validate via normalizeWorldData)
-  → src/world/data/world.generated.js (GENERATED FILE, do not edit)
-  → src/world/data/world.js (thin re-export wrapper for backwards compat)
-  → createWorldRegistry(normalize) → staticWorldBuilder → runtime
+canonical repo world
+  └─ Author Mode mutable draft (isolated localStorage)
+       ├─ palette → click-world placement
+       ├─ scene raycast/hierarchy selection
+       ├─ direct X/Z drag
+       ├─ supported Y/Rot/Width/Depth/Height edits
+       ├─ Wildkin Spawn/Home editing
+       ├─ Region → Category → Object hierarchy
+       ├─ Validate
+       ├─ deterministic Export
+       └─ Reset Draft From Repo
 ```
 
-- Exactly one manually maintained source: `world.json`.
-- Generated file is allowed; second manual mirror is not.
-- Guard: `tools/check-world.mjs` compares sorted JSON vs generated; `npm test` includes single-source byte-stable guard; `npm run verify` runs `world:check` before build.
-- `worldValidator.js` now validates props (id unique, subtype, pos inside bounds) in addition to resources/creatures/anchors/POIs.
+Edit mode owns gameplay input explicitly. Normal player progression in Phase 4A should use a different persistence owner/key and must not be accidentally mutated by Author Mode world-draft reset.
 
-## 2. Data-Driven Static World Builder
+## Scope guardrail
 
-- `src/world/staticWorldBuilder.js: createStaticWorld(normalizedData)` builds `group`, `obstacles`, `platforms`, `platformSideColliders`, `jumpTraversals`, `climbables`, `bounds` from normalized data.
-- `src/world/createMovementPlayground.js` is a thin wrapper: if `worldData` provided → `createStaticWorld`; legacy hard-coded fallback remains only for `elevation.test.js`/`traversal.test.js` (test-only, never used in production).
-- Covers: ground per-region overlay, props (fence/gate/dropPod/resonator/forestBoundary/box/water/island), platforms/obstacles/climbables/jumps from `traversal`, placeholders for `majorWaypoint` (blue cylinder), `extractionBeacon` (orange box), `pois` (chest/barrier with lock indicator), camp fence/gate/forest boundary.
-- Moving a platform in Author Mode moves both visual mesh and Rapier collision source because physics colliders are rebuilt from the same `playground.obstacles/platforms` that `createPhysicsWorld` consumes.
-- `src/game/createScene.js` now accepts `worldData` and passes it to the builder; `src/main.js` creates registry first, then scene from `registry.data`.
+Do not turn Author Mode into a general engine editor. No prefab system, scripting, multi-select, full undo stack, asset browser, or mobile authoring unless a future accepted slice explicitly requires it.
 
-## 3. Minimal Author Mode Modules
+# Phase 4A Architecture Direction — PLANNED, NOT YET IMPLEMENTED
+
+The active slice adds the first complete expedition lifecycle. Keep these ownership boundaries unless implementation evidence proves a simpler equivalent.
+
+## 1. Persistent frontier progress owner
+
+Planned focused module, e.g. `src/save/frontierProgress.js` or `src/progression/frontierProgress.js`.
+
+Owns only persistent prototype progress needed by Phase 4A:
 
 ```text
-src/author/authorDraft.js — mutable clone, validation, localStorage, transform/duplicate/delete, deterministic export (sorted, transient stripped)
-src/author/authorUI.js — plain compact panel (EDIT/PLAY, palette, selected, region/pocket, transform/size, creature/anchor/POI fields, duplicate/delete, validate/export/reset)
-src/author/authorMode.js — desktop-only ?author=1 enable, raycast selection, highlight, region overlays, top-down pan/zoom, Edit pauses gameplay, Play validates+persist+reload
+version
+bankedResources
+bankedXp
+unlockedMajorWaypointIds
+discoveredBeaconIds
+hasDepartedOnce
 ```
 
-- Enable: `?author=1` desktop only, hidden/inert otherwise; normal gameplay never depends on editor DOM.
-- One rAF remains authoritative; Edit mode suppresses Field Tool/combat/harvest/AI/movement via `authorSuppress` flag in `main.js` fixed loop; Play restores.
-- Edit may pause: camera switches to near-top-down (y=28 looking down), region bounds/overlays shown, selection highlight ring, nudge via buttons/arrow keys/PageUp/Down, numeric inputs, rotate/resize.
-- Palette: box, fence, gate, forestBoundary, platform, obstacle, climbable, tree/rock/fiber, rusher/spitter, majorWaypoint, extractionBeacon, POI chest, dropPod, resonator.
-- Draft: mutable clone, `localStorage` (`wildkin.authorDraft`), normal play ignores draft unless `?author=1`, validation via `normalizeWorldData`, `Reset Draft From Repo` clears and reloads, duplicate generates unique id, delete removes only target.
-- Edit → Play: `Apply / Play` validates, persists, `window.location.reload()` preserves draft (fast local reload acceptable per spec) — no duplicate Rapier colliders/resources/creatures remain.
-- Export: stable sorted JSON (`sortedClone`), schema version, transient `_` fields removed, byte-stable, download `world.json` + clipboard copy workflow documented: replace `src/world/data/world.json` → `npm run world:generate` → `npm test / verify`.
+Rules:
 
-## 4. Rough Camp + Area 1 Skeleton (spatial proof, not final design)
+- localStorage normal-play save,
+- version/default normalization,
+- filter stale world IDs,
+- idempotent bank/anchor-discovery methods,
+- no DOM dependency,
+- Author Mode uses isolated dev progress or in-memory progress.
+
+## 2. Frontier anchor interaction owner
+
+Planned focused system for:
+
+- Camp frontier gate,
+- Major Waypoints,
+- Extraction Beacons,
+- proximity entry/exit/armed state,
+- start-anchor suppression until player leaves radius,
+- KEEP GOING reprompt only after leaving/re-entering.
+
+It should emit domain events/callbacks; UI should not own proximity rules.
+
+## 3. Map owner
+
+Planned UI/controller responsibilities:
+
+- inspect mode from top-right button,
+- gate-start selection mode,
+- known Camp/Waypoint/Beacon presentation,
+- only unlocked Major Waypoints selectable in start mode,
+- no teleport/start from ordinary inspect mode.
+
+Map reads normalized world + persistent progress. It does not own either.
+
+## 4. Outcome/result owner
+
+Planned shared result-card path for extraction/death:
 
 ```text
-camp (7.0–11.5) → p1_forest_edge (3.5–7.0) → p2_complication (0–3.5) → p3_temptation (-4.5–0) → p4_threshold (-11.5– -4.5) → next Waypoint
+snapshot run
+→ resolve once
+→ bank or lose unsecured values
+→ return/reset transient world to Camp
+→ show recovery/loss card
+→ Continue → Camp control
 ```
 
-- Camp: clearing, dropPod (0,9.8), resonator (2.2,9.2), perimeter fence segments leaving gate at (0,7.2), forestBoundary tall walls distinct from harvestable trees.
-- Area 1: first waypoint `wp_p1_entry` near p1 start, beacons `beacon_p2_01` / `beacon_p3_01`, next waypoint `wp_p4_threshold` at high platform top (2.2,2.4,-7.2), pond/water+island+chest POI `poi_p2_pond_chest` with `requires: {companionAbility: swim}` (locked, no gameplay yet), distributed resources/creatures per pocket, platforms `lowA/lowB` in p3 and `high`+ladder in p4 with jumps.
-- Wide pockets with short readable routes, fully backtrackable, no missing ground/collision, region activation still AABB current+neighbors with neighbor buffer.
+Do not leave the old prototype death overlay independently restarting the arena once 4A lands.
 
-## 5. Phase 3.5B Guarantees Preserved
+## 5. Blocking UI input ownership
 
-- One rAF, fixed 1/60, Rapier only, `main.js` thin, editor modules separate from world modules, gameplay never depends on editor DOM, regionManager remains activation owner, no parallel physics world, no new runtime deps, no network, inactive AI frozen, pools bounded, no normal-play per-frame DOM, offline/portrait/<35MB intact.
+Map, anchor prompt, recovery card, and loss card should all use one explicit gameplay-input suppression path.
 
-## 6. Tests Added
+Do not solve this by only hiding joystick visuals. Touch movement/right-side gesture state must be disabled/cleared and restored exactly once.
 
-- `tests/phase35b.test.js` covers single source determinism + stale guard + static builder derivation, author model (transform/duplicate/delete/validation/byte-stable/transient), runtime application (platform move, ladder/jump metadata, single instantiation, no duplicate on repeated Edit↔Play), isolation (normal ignores draft, one rAF), Area 1 skeleton (camp+4 pockets, neighbor graph, waypoints, beacons, swim POI, bounds).
-- `tests/phase35a.test.js` made world-agnostic (version prefix, dynamic region discovery) to preserve regressions across new 5-region layout; legacy hard-coded fallback kept test-only for `elevation.test.js`.
-- `npm run verify` now runs `world:check` before build.
+# Persistence Separation — Phase 4A Guardrail
 
-The only question 3.5B answers remains:
-
-> Can a human rapidly shape and replay the first directed expedition without asking an agent to change coordinates? (Yes — Edit → Play → Edit with deterministic export.)
-
-# Camp / Map / Anchor Architecture Direction (Phase 4, Not 3.5A)
-
-Phase 3.5A data should make these possible but must not implement the full gameplay yet.
-
-## Camp
-
-Persistent home location with:
-
-- drop pod,
-- small Matter Resonator,
-- frontier gate,
-- later secured Wildkin residents.
-
-## Map
-
-Needs persistent discovery state for:
-
-- Camp/gate,
-- major Waypoints,
-- discovered Extraction Beacons,
-- discovered POIs / locked POIs.
-
-Only major Waypoints become expedition starts.
-
-## Frontier Anchors
-
-Two authored types:
-
-- `majorWaypoint`: extract + permanent future start
-- `extractionBeacon`: extract only
-
-Both later expose **EXTRACT / KEEP GOING**.
-
-# Wildkin / Ability Architecture Direction
-
-Do not prebuild a generic ability framework.
-
-Future companion data may declare a small contextual capability, for example:
+Three different persistence/state concepts must remain distinct:
 
 ```text
-abilityId: swim
-mountable: true
-commands: [mount]
+world.json
+  authored world layout/data
+
+Author Mode draft
+  developer-only mutable world layout copy
+
+frontierProgress save
+  player bank + discovered/unlocked frontier state
 ```
 
-or
+`ExpeditionSession` is a fourth category: **temporary current-run state**, not persistence.
 
-```text
-abilityId: breakBarrier
-commands: [ability]
-```
+Do not merge these because they all happen to use localStorage/data objects.
 
-UI should render only actions the active companion actually supports.
+# Reset / New-Run Integration Direction
 
-POI unlock requirements should remain data-driven enough to express a simple dependency such as:
+Phase 4A needs a shared return/begin-run path that can coherently reset transient gameplay without duplicating logic across death, extraction, and gate-start callbacks.
 
-```text
-requires:
-  type: companionAbility
-  id: swim
-```
+Reset guarantees should cover:
 
-or
+- player position/health/action state,
+- run inventory/XP,
+- pickups/projectiles/XP motes,
+- resources,
+- creatures,
+- region activation,
+- session status/start anchor,
+- no duplicate entities/colliders,
+- Auto Harvest preference preserved,
+- persistent bank/map progress preserved except intended outcome changes.
 
-```text
-requires:
-  type: materialRepair
-  costs: { wood: 10, iron: 4 }
-```
-
-Do not implement all requirement types until a real POI needs them.
-
-# State & Dependencies
-
-- Mutable state has one owner.
-- Dependencies passed explicitly.
-- `window.__game` remains debug-only.
-- Avoid hidden cross-module mutation.
-- Shared rules are centralized rather than duplicated.
-- World authored data is not itself mutable run/persistent state; keep authored definition separate from save/session deltas.
-
-# Persistent State Direction
-
-Later save state should record deltas, not clone the full world definition.
-
-Examples:
-
-```text
-activatedMajorWaypoints
-seenPOIs
-solvedPOIs
-securedWildkin
-unlocks/upgrades
-camp expansion state
-```
-
-Run state remains separate:
-
-```text
-unsecured cargo
-unsecured Wildkin
-run XP
-health / current run metrics
-```
-
-# UI Direction
-
-Stable layout direction:
-
-- top-right: map button,
-- upper-left: nonzero resource inventory list,
-- right side: contextual action stack,
-- future active Wildkin icon/button opens small contextual flyout,
-- edge indicators for nearby extraction/important POIs.
-
-Keep DOM creation bounded and avoid per-frame rebuilds where simple property/text updates work.
+Prefer one small lifecycle coordinator/helper over three copied reset blocks.
 
 # Performance Guardrails
 
+Continue to preserve:
+
 - one rAF,
-- fixed-step gameplay,
+- fixed 1/60 gameplay,
+- bounded fixed-step catch-up,
 - capped DPR,
 - region/pocket-limited active simulation,
 - bounded pools,
@@ -503,39 +505,47 @@ Keep DOM creation bounded and avoid per-frame rebuilds where simple property/tex
 - no per-frame DOM creation,
 - small active creature counts,
 - shared geometry/materials where practical,
-- no whole-world AI/physics loop after region activation exists,
+- no whole-world AI loop,
+- no unnecessary network/async streaming,
 - profile before adding complex optimizations.
 
 # Build & Submission
 
-Authoritative gates:
+Required gates remain:
 
-```sh
+```text
 npm test
+npm run world:check
 npm run verify
 npm run zip
 ```
 
-Requirements remain:
+Submission requirements remain:
 
-- no runtime external network requests,
-- local vendored dependencies,
-- readable/unminified first-party submission code,
-- ZIP <35 MB,
-- portrait/mobile test remains mandatory.
+- offline runtime,
+- local vendor/assets/data,
+- readable/unminified first-party source in packaged build,
+- root `index.html`,
+- portrait-safe layout,
+- <35 MB.
 
-# Architectural Decision Rule
+# Architecture Red Flags
 
-Refactor/add infrastructure only when it solves an upcoming concrete need.
+Stop/reconsider if a slice introduces:
 
-Valid triggers:
+- second `requestAnimationFrame` loop,
+- second physics engine,
+- persistent player progress inside Map DOM or `main.js`,
+- persistent bank inside live pickup inventory,
+- duplicate run lifecycle owners,
+- separate death/extraction reset implementations that drift,
+- hard-coded Waypoint IDs scattered through UI,
+- Author Mode draft and player progression sharing one key/owner,
+- duplicate world coordinates outside the `world.json` pipeline,
+- per-frame whole-world iteration after region activation,
+- major feature framework not required by current slice,
+- human world iteration blocked again on agent coordinate edits.
 
-- Phase 4 would otherwise add more domain logic to `main.js`,
-- temporary run state has multiple competing owners,
-- world placement requires gameplay-source edits,
-- distant world simulation would scale with total world size,
-- the same rule is duplicated,
-- testing a rule requires unrelated systems,
-- human world iteration is blocked on agent coordinate edits.
+Phase 4A should cross one threshold only:
 
-Phase 3.5A/3.5B exists to cross exactly those thresholds—nothing more.
+> **The current systems become a complete, repeatable Camp → expedition → secure-or-risk → outcome → Camp loop.**
