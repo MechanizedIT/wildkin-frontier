@@ -4,6 +4,7 @@
 
 import * as THREE from "three";
 import { MOVEMENT_CONFIG } from "../game/config.js";
+import { normalizeStaticDescriptor, getVisualCenter } from "./staticDescriptor.js";
 
 function parseColor(value, fallback) {
   if (value === undefined || value === null) return fallback;
@@ -206,7 +207,7 @@ export function createStaticWorld(worldData) {
     const blockingSubtypes = new Set(["fence", "gate", "box", "forestBoundary", "boundary", "obstacle", "barrier", "dropPod", "resonator"]);
     const isBlocking = blockingSubtypes.has(subtype) || prop.blocking === true;
     if (isBlocking) {
-      if (subtype === "gate") return;
+      // Gate truthful collision: if gate collisionEnabled true (closed), create collider
       if (!collisionEnabled) return;
       const rot = rotY ?? 0;
       const cos = Math.abs(Math.cos(rot)), sin = Math.abs(Math.sin(rot));
@@ -278,12 +279,14 @@ export function createStaticWorld(worldData) {
   }
 
   function addBoundaryCollider(bc) {
+    // Use canonical descriptor: pos.y is base
+    const desc = normalizeStaticDescriptor({ id: bc.id, pos: bc.pos, size: bc.size, rotY: bc.rotY, visibleInPlay: bc.visibleInPlay, collisionEnabled: bc.collisionEnabled, opacity: bc.opacity, color: bc.color }, "boundaryColliders");
     const pos = bc.pos;
     const size = bc.size;
     const w = size.w, h = size.h, d = size.d;
-    const rotY = bc.rotY ?? 0;
-    const visibleInPlay = !!bc.visibleInPlay;
-    const collisionEnabled = bc.collisionEnabled !== false;
+    const rotY = desc.rotationY;
+    const visibleInPlay = desc.visibleInPlay;
+    const collisionEnabled = desc.collisionEnabled;
     const opacity = bc.opacity ?? 0.5;
     const color = parseColor(bc.color, 0x5a6a7a);
     const matBase = boundaryMatBase;
@@ -293,9 +296,8 @@ export function createStaticWorld(worldData) {
 
     const geo = new THREE.BoxGeometry(w, h, d);
     const mesh = new THREE.Mesh(geo, mat);
-    const baseY = pos.y - h/2; // pos is center?
-    // Our authored boundary pos is at center (x, y=height/2, z) => pos.y is center Y. For consistency, we store pos as center, like prop pos y = center? In world.json we used y = height/2 (1.5) for center. So mesh position is directly pos.
-    mesh.position.set(pos.x, pos.y, pos.z);
+    const center = getVisualCenter(desc);
+    mesh.position.set(center.x, center.y, center.z);
     mesh.rotation.y = rotY;
     mesh.name = bc.id;
     mesh.userData.authorId = bc.id;
@@ -305,7 +307,6 @@ export function createStaticWorld(worldData) {
     mesh.visible = visibleInPlay;
     group.add(mesh);
 
-    // Always create Edit proxy for boundaries (they are hidden in Play by default)
     const proxyMat = new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.55 });
     const proxyGeo = new THREE.BoxGeometry(w, h, d);
     const proxy = new THREE.Mesh(proxyGeo, proxyMat);
@@ -315,12 +316,11 @@ export function createStaticWorld(worldData) {
     proxy.userData.authorId = bc.id;
     proxy.userData.isEditProxy = true;
     proxy.userData.proxyFor = bc.id;
-    proxy.visible = false; // will be toggled in Edit mode via authorMode
+    proxy.visible = false;
     group.add(proxy);
-    // Store userData for toggle: we need to know proxy vs real
     mesh.userData.proxyMesh = proxy;
 
-    boundaries.push({ id: bc.id, x: pos.x, y: pos.y, z: pos.z, w, h, d, rotY, color, opacity, visibleInPlay, collisionEnabled });
+    boundaries.push({ id: bc.id, x: pos.x, y: desc.baseY, z: pos.z, w, h, d, rotY, color, opacity, visibleInPlay, collisionEnabled });
 
     if (collisionEnabled) {
       const rot = rotY;
@@ -328,7 +328,7 @@ export function createStaticWorld(worldData) {
       const hx = cos*(w/2) + sin*(d/2);
       const hz = sin*(w/2) + cos*(d/2);
       const height = h;
-      const baseY2 = pos.y - h/2;
+      const baseY2 = desc.baseY;
       obstacles.push({ id: bc.id, x: pos.x, z: pos.z, w, h: d, height, baseY: baseY2, rotY: rot, isBoundary: true, aabb: { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz }, visibleInPlay, collisionEnabled });
     }
   }

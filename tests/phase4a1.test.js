@@ -40,35 +40,37 @@ describe("Phase 4A.1 — fresh launch / gate", ()=>{
     const reg = createWorldRegistry(WORLD_DATA);
     const camp = reg.getCamp();
     assert.ok(camp.playerSpawn, "camp.playerSpawn should exist");
-    assert.ok(Number.isFinite(camp.playerSpawn.x) && Number.isFinite(camp.playerSpawn.z));
+    const rawPos = camp.playerSpawn.position ?? camp.playerSpawn;
+    assert.ok(Number.isFinite(rawPos.x) && Number.isFinite(rawPos.z));
     const spawn = reg.getCampSpawnPosition();
-    assert.equal(spawn.x, camp.playerSpawn.x);
-    assert.equal(spawn.z, camp.playerSpawn.z);
+    assert.equal(spawn.x, rawPos.x);
+    assert.equal(spawn.z, rawPos.z);
+    assert.ok(Number.isFinite(spawn.facingYaw) || spawn.facingYaw === 0);
   });
   it("anchor system prime does not treat initial overlap as fresh entry", ()=>{
     const reg = createWorldRegistry(WORLD_DATA);
     const sess = createExpeditionSession({ initialStatus:"camp", regionDepthMap: reg.getRegionDepthMap() });
-    // Place player deliberately inside gate radius to test prime handling
     const gatePos = reg.getFrontierGatePos();
     const insideGate = { x: gatePos.x, y:0, z: gatePos.z };
-    let prompts = 0;
     const sys = createFrontierAnchorSystem(reg, {
       getPlayerPos: ()=> insideGate,
       getSession: ()=> sess,
       frontierProgress: { isUnlockedWaypoint:()=>false, isDiscoveredBeacon:()=>false, unlockWaypoint:()=>false, discoverBeacon:()=>false, getDiscoveredBeacons:()=>[]},
-      onGateStartPrompt: ()=> prompts++,
-      onGateReturnPrompt: ()=> {},
-      onWaypointPrompt: ()=> {},
-      onBeaconPrompt: ()=> {},
     });
     sys.prime(insideGate);
     sys.update(insideGate);
-    assert.equal(prompts, 0, "primed inside should not fire immediate gate prompt");
-    // Now leave and re-enter should fire once
+    // primed inside should not immediately expose gate interaction as new entry (still inside but not a fresh entry edge)
+    // However gate contextual is available while inside regardless of prime? Our new system exposes contextual while inside, regardless of entry.
+    // The prime test ensures we don't get duplicate discovery events; gate has no discovery, so we check that update doesn't fire a spurious gate prompt side-effect.
+    // For gate, contextual should be available while inside even after prime, but we prime inside so it should be considered already inside.
+    const nearby = sys.getNearbyInteraction(insideGate, sess);
+    assert.ok(nearby && nearby.type === "gate", "primed inside should have gate contextual available");
     const outside = { x: gatePos.x, y:0, z: gatePos.z + 5 };
     sys.update(outside);
+    assert.equal(sys.getNearbyInteraction(outside, sess), null, "outside should have no gate interaction");
     sys.update(insideGate);
-    assert.equal(prompts, 1, "leaving then re-entering should fire");
+    const nearby2 = sys.getNearbyInteraction(insideGate, sess);
+    assert.ok(nearby2 && nearby2.type === "gate", "re-entering should expose gate again");
   });
   it("leaving then entering Camp gate fires start prompt once", ()=>{
     const reg = createWorldRegistry(WORLD_DATA);
@@ -76,26 +78,23 @@ describe("Phase 4A.1 — fresh launch / gate", ()=>{
     const gatePos = reg.getFrontierGatePos();
     const outside = { x: gatePos.x, y:0, z: gatePos.z + 5 };
     const inside = { x: gatePos.x, y:0, z: gatePos.z };
-    let prompts = 0;
     const sys = createFrontierAnchorSystem(reg, {
       getPlayerPos: ()=> outside,
       getSession: ()=> sess,
       frontierProgress: { isUnlockedWaypoint:()=>false, isDiscoveredBeacon:()=>false, unlockWaypoint:()=>false, discoverBeacon:()=>false, getDiscoveredBeacons:()=>[]},
-      onGateStartPrompt: ()=> prompts++,
-      onGateReturnPrompt: ()=> {},
-      onWaypointPrompt: ()=> {},
-      onBeaconPrompt: ()=> {},
     });
     sys.prime(outside);
     sys.update(outside);
-    assert.equal(prompts,0);
+    assert.equal(sys.getNearbyInteraction(outside, sess), null);
     sys.update(inside);
-    assert.equal(prompts,1);
+    const nearby = sys.getNearbyInteraction(inside, sess);
+    assert.ok(nearby && nearby.type === "gate" && nearby.label === "START EXPEDITION");
     sys.update(inside);
-    assert.equal(prompts,1, "staying inside should not reprompt");
+    assert.ok(sys.getNearbyInteraction(inside, sess), "staying inside should keep gate interaction");
     sys.update(outside);
+    assert.equal(sys.getNearbyInteraction(outside, sess), null);
     sys.update(inside);
-    assert.equal(prompts,2);
+    assert.ok(sys.getNearbyInteraction(inside, sess), "re-entering should re-expose gate");
   });
 });
 
@@ -128,25 +127,23 @@ describe("Phase 4A.1 — selected-start suppression", ()=>{
     const sess = createExpeditionSession({ initialStatus:"camp", regionDepthMap: reg.getRegionDepthMap() });
     const wpId = reg.getInitialMajorWaypointId();
     const spawn = reg.getWaypointSpawnPosition(wpId);
-    let prompts = 0;
     const sys = createFrontierAnchorSystem(reg, {
       getPlayerPos: ()=> ({x: spawn.x, y:0, z: spawn.z}),
       getSession: ()=> sess,
       frontierProgress: { isUnlockedWaypoint:()=>true, isDiscoveredBeacon:()=>false, unlockWaypoint:()=>false, discoverBeacon:()=>false, getDiscoveredBeacons:()=>[]},
-      onWaypointPrompt: (id)=> { if(id===wpId) prompts++; },
-      onBeaconPrompt: ()=> {},
-      onGateStartPrompt: ()=> {},
-      onGateReturnPrompt: ()=> {},
     });
     sess.beginRun(wpId);
     sys.reset();
     sys.prime({x: spawn.x, y:0, z: spawn.z});
     sys.suppressUntilExit(wpId);
+    sys.update({x: spawn.x, y:0, z: spawn.z});
+    assert.equal(sys.getNearbyInteraction({x: spawn.x, y:0, z: spawn.z}, sess), null, "suppressed start should not expose extract while inside");
     const outside = { x: spawn.x + 5, y:0, z: spawn.z +5 };
     sys.update(outside);
-    // after leaving, suppressed cleared, next entry should prompt
+    assert.equal(sys.getNearbyInteraction(outside, sess), null);
     sys.update({x: spawn.x, y:0, z: spawn.z});
-    assert.equal(prompts,1);
+    const nearby = sys.getNearbyInteraction({x: spawn.x, y:0, z: spawn.z}, sess);
+    assert.ok(nearby && nearby.id === wpId, "after leaving, next entry should expose extract");
   });
   it("deeper waypoint also suppressed generically", ()=>{
     const reg = createWorldRegistry(WORLD_DATA);
@@ -154,15 +151,10 @@ describe("Phase 4A.1 — selected-start suppression", ()=>{
     const deep = reg.getWaypointById("wp_p4_threshold");
     assert.ok(deep);
     const spawn = reg.getWaypointSpawnPosition(deep.id);
-    let prompts = 0;
     const sys = createFrontierAnchorSystem(reg, {
       getPlayerPos: ()=> ({x: spawn.x, y:0, z: spawn.z}),
       getSession: ()=> sess,
       frontierProgress: { isUnlockedWaypoint:()=>true, isDiscoveredBeacon:()=>false, unlockWaypoint:()=>false, discoverBeacon:()=>false, getDiscoveredBeacons:()=>[]},
-      onWaypointPrompt: (id)=> { if(id===deep.id) prompts++; },
-      onBeaconPrompt: ()=> {},
-      onGateStartPrompt: ()=> {},
-      onGateReturnPrompt: ()=> {},
     });
     withMockStorage(()=>{
       const prog = createFrontierProgress({ worldRegistry: reg });
@@ -173,11 +165,12 @@ describe("Phase 4A.1 — selected-start suppression", ()=>{
       sys.prime({x: spawn.x, y:0, z: spawn.z});
       sys.suppressUntilExit(deep.id);
       sys.update({x: spawn.x, y:0, z: spawn.z});
-      assert.equal(prompts,0);
+      assert.equal(sys.getNearbyInteraction({x: spawn.x, y:0, z: spawn.z}, sess), null);
       const outside = { x: spawn.x + 5, y:0, z: spawn.z +5 };
       sys.update(outside);
       sys.update({x: spawn.x, y:0, z: spawn.z});
-      assert.equal(prompts,1);
+      const nearby = sys.getNearbyInteraction({x: spawn.x, y:0, z: spawn.z}, sess);
+      assert.ok(nearby && nearby.id === deep.id);
     });
   });
   it("KEEP GOING still requires leave/re-entry after suppression cleared", ()=>{
@@ -185,29 +178,25 @@ describe("Phase 4A.1 — selected-start suppression", ()=>{
     const sess = createExpeditionSession({ initialStatus:"camp", regionDepthMap: reg.getRegionDepthMap() });
     const wpId = reg.getInitialMajorWaypointId();
     const spawn = reg.getWaypointSpawnPosition(wpId);
-    let prompts = 0;
     const sys = createFrontierAnchorSystem(reg, {
       getPlayerPos: ()=> ({x: spawn.x, y:0, z: spawn.z}),
       getSession: ()=> sess,
       frontierProgress: { isUnlockedWaypoint:()=>true, isDiscoveredBeacon:()=>false, unlockWaypoint:()=>false, discoverBeacon:()=>false, getDiscoveredBeacons:()=>[]},
-      onWaypointPrompt: (id)=> { if(id===wpId) prompts++; },
-      onBeaconPrompt: ()=> {},
-      onGateStartPrompt: ()=> {},
-      onGateReturnPrompt: ()=> {},
     });
     sess.beginRun(wpId);
     sys.reset(); sys.prime({x: spawn.x, y:0, z: spawn.z}); sys.suppressUntilExit(wpId);
     const outside = { x: spawn.x+5, y:0, z: spawn.z+5 };
     sys.update(outside);
     sys.update({x: spawn.x, y:0, z: spawn.z});
-    assert.equal(prompts,1);
-    // simulate KEEP GOING
+    const nearby1 = sys.getNearbyInteraction({x: spawn.x, y:0, z: spawn.z}, sess);
+    assert.ok(nearby1, "after suppression cleared, should have interaction");
     sys.handleKeepGoing(wpId);
     sys.update({x: spawn.x, y:0, z: spawn.z});
-    assert.equal(prompts,1, "still inside after KEEP GOING should not reprompt");
+    assert.equal(sys.getNearbyInteraction({x: spawn.x, y:0, z: spawn.z}, sess), null, "still inside after KEEP GOING should not reprompt");
     sys.update(outside);
+    assert.equal(sys.getNearbyInteraction(outside, sess), null);
     sys.update({x: spawn.x, y:0, z: spawn.z});
-    assert.equal(prompts,2);
+    assert.ok(sys.getNearbyInteraction({x: spawn.x, y:0, z: spawn.z}, sess), "after leaving, should re-expose");
   });
 });
 

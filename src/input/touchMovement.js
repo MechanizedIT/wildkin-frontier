@@ -142,7 +142,10 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
 
   function handleDown(e) {
     if (!enabled) return;
-    if (e.pointerType === "mouse" && e.button !== 0) return;
+    // Input ownership: mouse → desktop/keyboard only, touch → touchMovement, pen → touch-like
+    if (e.pointerType === "mouse") return;
+    if (e.pointerType === "pen") { /* allow pen as touch */ }
+    if (e.button !== undefined && e.button !== 0) return;
     const targetIsButton = e.target.closest && e.target.closest("button, a");
     if (targetIsButton) return;
 
@@ -185,12 +188,12 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
 
   function handleMove(e) {
     if (!enabled) return;
+    if (e.pointerType === "mouse") return;
     if (e.pointerId === activeId && hasActive) {
       current.x = e.clientX;
       current.y = e.clientY;
       updateFromCurrent();
       const rect = appElement.getBoundingClientRect();
-      // Clamp visual stick to maxRadius
       const dx = current.x - origin.x;
       const dy = current.y - origin.y;
       const len = Math.hypot(dx, dy);
@@ -230,6 +233,11 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   }
 
   function handleUp(e) {
+    if (e.pointerType === "mouse") {
+      // mouse not owned by touch adapter; ignore but clear if by chance
+      if (!enabled) { hasActive = false; activeId = null; hideVisuals(); swipe.active = false; swipe.id = null; attackHeld = false; return; }
+      // still process but only if id matches (which it won't since we never captured mouse)
+    }
     if (!enabled) { // clear any lingering state
       hasActive = false; activeId = null; hideVisuals();
       swipe.active = false; swipe.id = null; attackHeld = false; return;

@@ -205,7 +205,9 @@ describe("Phase 3.5B.1 — mode isolation", () => {
   });
   it("editor visibility follows editor focus rather than stale player region", () => {
     const src = fs.readFileSync(path.join(ROOT, "src/author/authorMode.js"), "utf-8");
-    assert.ok(src.includes("getRegionForPosition") && src.includes("camera.position.x"));
+    const usesDraftSpatial = src.includes("findContainingRegion") || src.includes("findNearestRegion") || src.includes("getWorldExtents");
+    const usesCameraFocus = src.includes("camera.position.x");
+    assert.ok((src.includes("getRegionForPosition") || usesDraftSpatial) && usesCameraFocus);
     assert.ok(src.includes("resourceSystem.setActiveRegions") && src.includes("creatureSystem.setActiveRegions"));
   });
   it("no second rAF", () => {

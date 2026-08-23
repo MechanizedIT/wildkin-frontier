@@ -38,6 +38,8 @@ import { createAnchorPrompt } from "./ui/anchorPrompt.js";
 import { createRunResultCard } from "./ui/runResultCard.js";
 import { createFrontierIndicators } from "./ui/frontierIndicators.js";
 import { createAuthorMode } from "./author/authorMode.js";
+import { createContextualInteraction } from "./ui/contextualInteraction.js";
+import { createActivationToast } from "./ui/activationToast.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
@@ -100,6 +102,7 @@ window.addEventListener("orientationchange", () => {
 const physicsWorld = createPhysicsWorld(RAPIER, playground);
 let campSpawn = worldRegistry.getCampSpawnPosition();
 let startPos = { x: campSpawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: campSpawn.z };
+const campStartFacing = campSpawn.facingYaw ?? 0;
 const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos);
 
 // Persistent frontier progress (isolated from author draft)
@@ -153,6 +156,7 @@ const keyboardInput = createKeyboardInput(MOVEMENT_CONFIG, app);
 
 const playerController = createPlayerController(player, playground, camera, MOVEMENT_CONFIG, characterPhysics);
 player.position.set(startPos.x, startPos.y, startPos.z);
+playerController.state.facing = campStartFacing;
 
 const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG);
 cameraFollow.snap();
@@ -352,47 +356,58 @@ frontierIndicators = createFrontierIndicators({
   getCamera: () => camera,
 });
 
-// Frontier anchor system
+const activationToast = createActivationToast(scene, camera, gameAudio);
+
+// Contextual interaction (single owner)
+let contextualInteraction = null;
+contextualInteraction = createContextualInteraction({
+  onActivate: (info) => {
+    if (isAnyBlockingModal()) return;
+    if (info.type === "gate") {
+      if (expeditionSession.isCamp()) {
+        frontierMap.openStartSelection();
+        refreshMapAvailability();
+        syncInputBlock();
+      } else if (expeditionSession.isActive()) {
+        handleExtractionFlow({ id: info.id, type: "gate" });
+      }
+    } else if (info.type === "majorWaypoint" || info.type === "extractionBeacon") {
+      handleExtractionFlow({ id: info.id, type: info.type });
+    }
+  },
+});
+
+// Frontier anchor system — nonblocking discovery
 frontierAnchorSystem = createFrontierAnchorSystem(worldRegistry, {
   getPlayerPos: () => playerController.getState().pos,
   getSession: () => expeditionSession,
   frontierProgress,
-  onWaypointPrompt: (id, meta) => {
-    if (isAnyBlockingModal()) return;
-    const cargo = pickupSystem.getInventory();
-    const xp = xpMoteSystem.getXp();
-    const anchor = worldRegistry.getWaypointById(id);
-    const displayName = anchor ? worldRegistry.getAnchorDisplayName(anchor) : id;
-    anchorPrompt.show({ id, type: "majorWaypoint", displayName, cargo, xp, isNew: meta?.isNew });
-    refreshMapAvailability();
-    syncInputBlock();
+  onWaypointDiscovered: (id) => {
+    const wp = worldRegistry.getWaypointById(id);
+    const name = wp ? worldRegistry.getAnchorDisplayName(wp) : id;
+    activationToast.show({ displayName: name, type: "majorWaypoint" });
+    activationToast.pulseWorld(wp ? wp.pos : { x: 0, y: 0, z: 0 }, 0x4fc3f7);
   },
-  onBeaconPrompt: (id, meta) => {
-    if (isAnyBlockingModal()) return;
-    const cargo = pickupSystem.getInventory();
-    const xp = xpMoteSystem.getXp();
-    const anchor = worldRegistry.getBeaconById(id);
-    const displayName = anchor ? worldRegistry.getAnchorDisplayName(anchor) : id;
-    anchorPrompt.show({ id, type: "extractionBeacon", displayName, cargo, xp, isNew: meta?.isNew });
-    refreshMapAvailability();
-    syncInputBlock();
-  },
-  onGateStartPrompt: () => {
-    if (isAnyBlockingModal()) return;
-    frontierMap.openStartSelection();
-    refreshMapAvailability();
-    syncInputBlock();
-  },
-  onGateReturnPrompt: () => {
-    if (isAnyBlockingModal()) return;
-    const cargo = pickupSystem.getInventory();
-    const xp = xpMoteSystem.getXp();
-    anchorPrompt.show({ id: worldRegistry.getFrontierGateId(), type: "gate", cargo, xp });
-    refreshMapAvailability();
-    syncInputBlock();
+  onBeaconDiscovered: (id) => {
+    const bc = worldRegistry.getBeaconById(id);
+    const name = bc ? worldRegistry.getAnchorDisplayName(bc) : id;
+    activationToast.show({ displayName: name, type: "extractionBeacon" });
+    activationToast.pulseWorld(bc ? bc.pos : { x: 0, y: 0, z: 0 }, 0xff7043);
   },
 });
 frontierAnchorSystem.prime(startPos);
+
+// Keyboard E for contextual interaction (separate from Field Tool attack)
+window.addEventListener("keydown", (e) => {
+  if (e.key.toLowerCase() === "e") {
+    if (authorCtx && authorCtx.isEditMode && authorCtx.isEditMode()) return;
+    if (isAnyBlockingModal()) return;
+    const handled = contextualInteraction.handleKey(e);
+    if (handled) {
+      // already activated
+    }
+  }
+});
 
 // Helper: sync input block from any blocking modal + author edit
 let prevAuthorSuppress = false;
@@ -440,6 +455,7 @@ function resetTransientWorldToCamp() {
   if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
   campSpawn = worldRegistry.getCampSpawnPosition();
   const cPos = { x: campSpawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: campSpawn.z };
+  const campFacing = campSpawn.facingYaw ?? 0;
   characterPhysics.setPosition(cPos);
   player.position.set(cPos.x, cPos.y, cPos.z);
   const st = playerController.state;
@@ -448,7 +464,7 @@ function resetTransientWorldToCamp() {
   st.vel.set(0, 0, 0);
   st.verticalVelocity = 0;
   st.grounded = true;
-  st.facing = 0;
+  st.facing = campFacing;
   st.speed = 0;
   st.dodgeCooldown = 0;
   st.dodgeTime = 0;
@@ -514,9 +530,10 @@ function beginExpedition(waypointId) {
   expeditionSession.beginRun(waypointId);
   frontierProgress.markDeparted();
 
-  // Position player at safe authored start for waypoint
+  // Position player at safe authored start for waypoint (explicit spawn transform)
   const spawn = worldRegistry.getWaypointSpawnPosition(waypointId);
   const sPos = spawn ? { x: spawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: spawn.z } : { x: wp.pos.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: wp.pos.z + 1.0 };
+  const facing = spawn ? (spawn.facingYaw ?? 0) : 0;
   characterPhysics.setPosition(sPos);
   player.position.set(sPos.x, sPos.y, sPos.z);
   const st = playerController.state;
@@ -525,7 +542,7 @@ function beginExpedition(waypointId) {
   st.vel.set(0,0,0);
   st.verticalVelocity = 0;
   st.grounded = true;
-  st.facing = 0;
+  st.facing = facing;
   st.speed = 0;
   playerController.traversal.reset();
   playerController.syncPosFromPhysics();
@@ -552,13 +569,11 @@ function beginExpedition(waypointId) {
 function handleExtractionFlow(data) {
   if (expeditionSession.isResolved?.()) return;
   if (!expeditionSession.isActive()) return;
-  // Snapshot run resources/XP + discoveries
   const cargo = pickupSystem.getInventory();
   const xp = xpMoteSystem.getXp();
   const snap = expeditionSession.tryResolveExtract();
-  if (!snap) return; // already resolved — idempotent guard
-  // Bank persistently (idempotent)
-  frontierProgress.bankRun(cargo, xp);
+  if (!snap) return;
+  frontierProgress.bankRun(cargo, xp, snap.runId);
   // Determine new discoveries for card (snapshot already has runDiscoveries)
   const discoveries = expeditionSession.getRunDiscoveries();
   const banked = frontierProgress.getState();
@@ -687,9 +702,10 @@ function tick() {
   let substeps = 0;
   while (accumulator >= fixedDt && substeps < maxSubsteps) {
     if (!expeditionSession.isResolved?.() && !authorSuppress && !isAnyBlockingModal()) {
-      // Anchor system only while not blocked (prevents damage while decision UI open)
       const pPosForAnchor = playerController.getState().pos;
       frontierAnchorSystem.update(pPosForAnchor);
+      const nearby = frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession);
+      if (contextualInteraction) contextualInteraction.setInteraction(nearby);
       // Pause AI while blocking already handled via isAnyBlockingModal guard
       const pStBefore = playerController.getState();
       const isAggroNearby = creatureSystem.isAnyAggroedNearby();
@@ -834,6 +850,7 @@ function tick() {
       if (!authorSuppress) {
         for (const c of creatureSystem.getCreatures()) c.showFocusRing(false);
       }
+      if (contextualInteraction) contextualInteraction.setInteraction(null);
     }
 
     accumulator -= fixedDt;

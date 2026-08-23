@@ -73,7 +73,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     addCuboid(hx, hy, hz, p.x, ty, p.z, rotY);
   }
 
-  // Boundary colliders — authored outer limits (explicit, not hard-coded from bounds)
+  // Boundary colliders — authored outer limits (explicit, canonical baseY + h/2 center)
   if (playground.boundaries && playground.boundaries.length > 0) {
     for (const b of playground.boundaries) {
       if (b.collisionEnabled === false) continue;
@@ -82,10 +82,10 @@ export function createPhysicsWorld(RAPIER, playground) {
       const d = b.d ?? b.size?.d ?? 1;
       const hx = w/2, hy = h/2, hz = d/2;
       const x = b.x ?? b.pos?.x ?? 0;
-      const y = b.y ?? b.pos?.y ?? h/2;
+      const baseY = b.y ?? b.pos?.y ?? 0;
+      const y = baseY + hy;
       const z = b.z ?? b.pos?.z ?? 0;
       const rotY = b.rotY ?? 0;
-      // b.pos.y is center Y already for boundaries; ty is y directly (since pos is center)
       addCuboid(hx, hy, hz, x, y, z, rotY);
     }
   }

@@ -30,7 +30,11 @@ export function createFrontierProgress(opts = {}) {
   const useMemoryOnly = isAuthorMode && !!opts.inMemoryAuthor;
 
   let state = defaultState(initialWaypointId);
-  let lastBankToken = null; // for idempotence: remember last bank hash to prevent double credit if called twice with same snapshot
+  let lastBankToken = null; // legacy fallback
+  let bankedRunIds = new Set();
+  // persist bankedRunIds via state? Keep in memory bounded; versioned save includes lastBankedRunIds
+  // Load from storage if present
+  const BANKED_IDS_KEY = storageKey + ":bankedRunIds";
 
   function filterStale() {
     if (!worldRegistry) return;
@@ -68,9 +72,11 @@ export function createFrontierProgress(opts = {}) {
     if (out.bankedResources.stone < 0) out.bankedResources.stone = 0;
     if (out.bankedResources.fiber < 0) out.bankedResources.fiber = 0;
     if (out.bankedXp < 0) out.bankedXp = 0;
-    // ensure initial waypoint present for fresh logic? Only if no departed? But spec says fresh save exposes only initial waypoint as start. So keep initial if not already present and valid? But don't mutate valid older saves that had correct set.
-    // Ensure at least initial waypoint if list empty and initial valid
     if (out.unlockedMajorWaypointIds.length === 0 && initialWaypointId) out.unlockedMajorWaypointIds = [initialWaypointId];
+    if (Array.isArray(raw.bankedRunIds)) {
+      // restore bounded set
+      bankedRunIds = new Set(raw.bankedRunIds.filter(x=> typeof x==="string").slice(-20));
+    }
     return out;
   }
 
@@ -99,13 +105,15 @@ export function createFrontierProgress(opts = {}) {
   function save() {
     if (useMemoryOnly) return;
     try {
-      localStorage.setItem(storageKey, JSON.stringify(state));
+      const toSave = { ...state, bankedRunIds: [...bankedRunIds].slice(-20) };
+      localStorage.setItem(storageKey, JSON.stringify(toSave));
     } catch {}
   }
 
   function clear() {
     state = defaultState(initialWaypointId);
     lastBankToken = null;
+    bankedRunIds.clear();
     save();
   }
 
@@ -157,15 +165,33 @@ export function createFrontierProgress(opts = {}) {
     return false;
   }
 
-  function bankRun(cargo, xp) {
+  function bankRun(cargo, xp, runId = null) {
     const wood = cargo?.wood | 0;
     const stone = cargo?.stone | 0;
     const fiber = cargo?.fiber | 0;
     const xpVal = xp | 0;
-    // idempotence token: if same cargo+xp called twice in a row without state change, ignore second
+    if (runId) {
+      if (bankedRunIds.has(runId)) return { added: false, state: getState() };
+      if (wood === 0 && stone === 0 && fiber === 0 && xpVal === 0) {
+        bankedRunIds.add(runId);
+        if (bankedRunIds.size > 20) { const arr = [...bankedRunIds]; bankedRunIds = new Set(arr.slice(-20)); }
+        save();
+        return { added: false, state: getState() };
+      }
+      state.bankedResources.wood += wood;
+      state.bankedResources.stone += stone;
+      state.bankedResources.fiber += fiber;
+      state.bankedXp += xpVal;
+      bankedRunIds.add(runId);
+      if (bankedRunIds.size > 20) { const arr = [...bankedRunIds]; bankedRunIds = new Set(arr.slice(-20)); }
+      // also update legacy token to avoid double
+      lastBankToken = `${runId}:${wood}:${stone}:${fiber}:${xpVal}`;
+      save();
+      return { added: true, state: getState() };
+    }
+    // legacy path without runId (for old tests)
     const token = `${wood}:${stone}:${fiber}:${xpVal}:${state.bankedResources.wood}:${state.bankedResources.stone}:${state.bankedResources.fiber}:${state.bankedXp}`;
     if (lastBankToken === token) return { added: false, state: getState() };
-    // do not bank if all zero
     if (wood === 0 && stone === 0 && fiber === 0 && xpVal === 0) {
       lastBankToken = token;
       return { added: false, state: getState() };

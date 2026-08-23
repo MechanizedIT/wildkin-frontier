@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Post-Phase 4A.1 — First-Run UX, Anchor Suppression & Authoring Prerequisites)
+# Architecture — Wildkin Frontier (Post-Phase 4A.2 — Pre-4B Authoring Reliability & Expedition Interaction Closure)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A.1**. Phase 4A loop remains accepted; this slice refines it and adds authoring prerequisites.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A.2**. Phase 4A loop remains accepted; this slice closes authoring reliability and frontier interaction before Phase 4B.
 
 ## Permanent Goals
 

@@ -194,6 +194,17 @@ export function createGameAudio() {
     setTimeout(() => tone({ freq: f * 1.45, duration: 0.07, type: "sine", gain: 0.08, filterFreq: 3200 }), 55);
   }
   function playCombatWhoosh() { playWhoosh(); }
+  function playActivation(kind) {
+    if (kind === "beacon") {
+      tone({ freq: 520, freq2: 780, duration: 0.22, type: "sine", gain: 0.18, filterFreq: 2200 });
+      setTimeout(()=> tone({ freq: 780, freq2: 1040, duration: 0.16, type: "sine", gain: 0.14, filterFreq: 2600 }), 90);
+      whooshNoise({ duration: 0.18, gain: 0.16, bandFreq: 900 });
+    } else {
+      tone({ freq: 440, freq2: 660, duration: 0.24, type: "sine", gain: 0.19, filterFreq: 2000 });
+      setTimeout(()=> tone({ freq: 660, freq2: 880, duration: 0.18, type: "sine", gain: 0.15, filterFreq: 2400 }), 90);
+      whooshNoise({ duration: 0.16, gain: 0.15, bandFreq: 820 });
+    }
+  }
 
-  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, playHit, playHurt, playEnemyHit, playEnemyDeath, playProjectileFire, playProjectileHit, playXpCollect, playCombatWhoosh, get context() { return ctx; } };
+  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, playHit, playHurt, playEnemyHit, playEnemyDeath, playProjectileFire, playProjectileHit, playXpCollect, playCombatWhoosh, playActivation, get context() { return ctx; } };
 }

@@ -8,9 +8,12 @@ export const WORLD_DATA = {
     "frontierGateId": "gate_camp_frontier",
     "id": "camp",
     "playerSpawn": {
-      "x": 0,
-      "y": 0,
-      "z": 10
+      "facingYaw": 3.1415926535,
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 10
+      }
     },
     "pos": {
       "x": 0,
@@ -31,7 +34,7 @@ export const WORLD_DATA = {
           "opacity": 0.5,
           "pos": {
             "x": 0,
-            "y": 1.5,
+            "y": 0,
             "z": -11.68
           },
           "rotY": 0,
@@ -49,7 +52,7 @@ export const WORLD_DATA = {
           "opacity": 0.5,
           "pos": {
             "x": 0,
-            "y": 1.5,
+            "y": 0,
             "z": 11.68
           },
           "rotY": 0,
@@ -67,7 +70,7 @@ export const WORLD_DATA = {
           "opacity": 0.5,
           "pos": {
             "x": -12.68,
-            "y": 1.5,
+            "y": 0,
             "z": 0
           },
           "rotY": 0,
@@ -85,7 +88,7 @@ export const WORLD_DATA = {
           "opacity": 0.5,
           "pos": {
             "x": 12.68,
-            "y": 1.5,
+            "y": 0,
             "z": 0
           },
           "rotY": 0,
@@ -287,7 +290,7 @@ export const WORLD_DATA = {
           "visibleInPlay": true
         },
         {
-          "collisionEnabled": false,
+          "collisionEnabled": true,
           "id": "gate_camp_frontier",
           "opacity": 1,
           "pos": {
@@ -433,9 +436,13 @@ export const WORLD_DATA = {
             "y": 0,
             "z": 6.6
           },
-          "spawnOffset": {
-            "x": 0,
-            "z": 1
+          "runSpawn": {
+            "facingYaw": 3.1415926535,
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 5.2
+            }
           },
           "type": "majorWaypoint"
         }
@@ -1175,9 +1182,13 @@ export const WORLD_DATA = {
             "y": 2.4,
             "z": -7.2
           },
-          "spawnOffset": {
-            "x": 0,
-            "z": 1.2
+          "runSpawn": {
+            "facingYaw": 3.1415926535,
+            "position": {
+              "x": 2.2,
+              "y": 2.4,
+              "z": -6.4
+            }
           },
           "type": "majorWaypoint"
         }

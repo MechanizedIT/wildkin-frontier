@@ -1,4 +1,5 @@
-// src/world/frontierAnchorSystem.js — proximity/entry/armed state for gate/waypoint/beacon (Phase 4A)
+// src/world/frontierAnchorSystem.js — proximity/entry/armed state for gate/waypoint/beacon (Phase 4A.2)
+// Separates first discovery (once, nonblocking) from contextual extraction action.
 
 export const ANCHOR_CONFIG = {
   waypointRadius: 1.65,
@@ -7,15 +8,17 @@ export const ANCHOR_CONFIG = {
 };
 
 export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
-  const onWaypointPrompt = opts.onWaypointPrompt ?? (() => {});
-  const onBeaconPrompt = opts.onBeaconPrompt ?? (() => {});
-  const onGateStartPrompt = opts.onGateStartPrompt ?? (() => {});
-  const onGateReturnPrompt = opts.onGateReturnPrompt ?? (() => {});
+  const onWaypointDiscovered = opts.onWaypointDiscovered ?? (() => {});
+  const onBeaconDiscovered = opts.onBeaconDiscovered ?? (() => {});
+  // legacy callbacks for backward tests: if provided, still call for compatibility but now they are contextual not modal
+  const onWaypointPrompt = opts.onWaypointPrompt ?? null;
+  const onBeaconPrompt = opts.onBeaconPrompt ?? null;
+  const onGateStartPrompt = opts.onGateStartPrompt ?? null;
+  const onGateReturnPrompt = opts.onGateReturnPrompt ?? null;
   const getPlayerPos = opts.getPlayerPos ?? (() => ({ x: 0, y: 0, z: 0 }));
   const getSession = opts.getSession ?? (() => null);
   const frontierProgress = opts.frontierProgress ?? null;
 
-  // Build anchor list
   function buildAnchors() {
     const anchors = [];
     const gatePos = worldRegistry.getFrontierGatePos();
@@ -23,7 +26,7 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
       anchors.push({ id: worldRegistry.getFrontierGateId(), type: "gate", pos: { x: gatePos.x, y: gatePos.y ?? 0, z: gatePos.z }, radius: ANCHOR_CONFIG.gateRadius, armed: true, inside: false, cooldown: false });
     }
     for (const wp of worldRegistry.getAllWaypoints()) {
-      if (wp.id === "wp_camp_gate") continue; // camp gate marker not a frontier extraction anchor
+      if (wp.id === "wp_camp_gate") continue;
       anchors.push({ id: wp.id, type: "majorWaypoint", pos: { x: wp.pos.x, y: wp.pos.y ?? 0, z: wp.pos.z }, radius: ANCHOR_CONFIG.waypointRadius, armed: true, inside: false, cooldown: false });
     }
     for (const bc of worldRegistry.getAllBeacons()) {
@@ -40,20 +43,14 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
     suppressedUntilExit.clear();
   }
 
-  // Prime inside state from actual player position — no prompt from initial overlap
   function prime(playerPos) {
     if (!playerPos) return;
     for (const a of anchors) {
       const d = Math.hypot(playerPos.x - a.pos.x, playerPos.z - a.pos.z);
       a.inside = d <= a.radius;
-      // If initially inside gate, keep armed true but inside true prevents immediate entry trigger; exit will re-enable
-      // For suppressed waypoints, keep armed false until exit
       if (a.inside && suppressedUntilExit.has(a.id)) {
         a.armed = false;
         a.cooldown = false;
-      } else if (a.inside) {
-        // For gate, we keep armed true but inside true so entry not counted until exit; no cooldown needed
-        // Keep armed as is
       }
     }
   }
@@ -79,6 +76,40 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
 
   function distanceXZ(a, b) { return Math.hypot(a.x - b.x, a.z - b.z); }
 
+  function getNearbyInteraction(playerPos, session) {
+    if (!playerPos) return null;
+    const isCamp = session ? session.isCamp?.() ?? session.getStatus?.() === "camp" : false;
+    const isActive = session ? session.isActive?.() ?? session.getStatus?.() === "active" : false;
+    let best = null;
+    let bestDist = Infinity;
+    for (const anchor of anchors) {
+      const dist = distanceXZ(playerPos, anchor.pos);
+      const inside = dist <= anchor.radius;
+      if (!inside) continue;
+      if (suppressedUntilExit.has(anchor.id)) continue;
+      if (anchor.type !== "gate" && (!anchor.armed || anchor.cooldown)) continue;
+      let candidate = null;
+      if (anchor.type === "gate") {
+        if (isCamp) candidate = { id: anchor.id, type: "gate", label: "START EXPEDITION", dist };
+        else if (isActive) candidate = { id: anchor.id, type: "gate", label: "RETURN & SECURE", dist };
+      } else if (anchor.type === "majorWaypoint") {
+        if (!isActive) continue;
+        const name = worldRegistry.getAnchorDisplayName(worldRegistry.getWaypointById(anchor.id) ?? { id: anchor.id, type: "majorWaypoint" });
+        candidate = { id: anchor.id, type: "majorWaypoint", label: `EXTRACT — ${name}`, dist };
+      } else if (anchor.type === "extractionBeacon") {
+        if (!isActive) continue;
+        const name = worldRegistry.getAnchorDisplayName(worldRegistry.getBeaconById(anchor.id) ?? { id: anchor.id, type: "extractionBeacon" });
+        candidate = { id: anchor.id, type: "extractionBeacon", label: `EXTRACT — ${name}`, dist };
+      }
+      if (candidate && dist < bestDist) { best = candidate; bestDist = dist; }
+    }
+    if (best) {
+      const { dist, ...rest } = best;
+      return rest;
+    }
+    return null;
+  }
+
   function update(playerPosOverride) {
     const pos = playerPosOverride ?? getPlayerPos();
     if (!pos) return;
@@ -91,7 +122,6 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
       const nowInside = dist <= anchor.radius;
       const wasInside = !!anchor.inside;
 
-      // Handle exit: clear cooldown and arm if needed, also handle suppressedUntilExit
       if (wasInside && !nowInside) {
         anchor.inside = false;
         if (anchor.cooldown) {
@@ -105,61 +135,41 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
         }
         continue;
       }
-      // If suppressed, entry is ignored until exit
       if (suppressedUntilExit.has(anchor.id)) {
         if (!wasInside && nowInside) {
           anchor.inside = true;
-          // remain suppressed, do not prompt
         }
         continue;
       }
 
-      // Entry detection
       if (!wasInside && nowInside) {
         anchor.inside = true;
         if (!anchor.armed || anchor.cooldown) continue;
-        // Gate dispatch depends on session
         if (anchor.type === "gate") {
-          if (isCamp) {
-            // At camp gate, open start selection (only if not already in blocking UI — caller will check)
-            onGateStartPrompt(anchor.id);
-          } else if (isActive) {
-            onGateReturnPrompt(anchor.id);
-          }
-          // keep inside true, but set cooldown after prompt? Gate should also require exit before retrigger.
-          // We leave armed true until KEEP GOING handling will disarm. For start prompt, we will set cooldown after open? Let map handle re-arm via exit.
-          // To prevent spam while staying inside, we set a temporary cooldown that clears only on exit? But map opening already blocks input. Keep simple: after triggering gate, set cooldown false but require exit: set armed false and cooldown true after first trigger? Instead we disarm gate after trigger until exit.
-          // Immediately disarm until exit to avoid per-frame retrigger while still inside and map open.
-          anchor.armed = false;
-          anchor.cooldown = true;
+          // Gate has no discovery; contextual handled via getNearbyInteraction only
         } else if (anchor.type === "majorWaypoint") {
-          // During active run only? If at camp and not active, waypoint activation should still be discoverable? But spec says waypoint activation occurs during expedition. Gate start is camp; waypoints outside camp. So ignore if isCamp (player at camp shouldn't trigger distant waypoints anyway). But gate waypoint at camp would be inside camp radius at start — but its armed may be true. We should ignore waypoint prompts while in camp to avoid spam at spawn.
-          if (isCamp) { continue; }
+          if (isCamp) continue;
           if (!isActive) continue;
-          // Discovery
           const isNew = frontierProgress ? frontierProgress.unlockWaypoint(anchor.id) : false;
           if (session?.addDiscoveryWaypoint && isNew) session.addDiscoveryWaypoint(anchor.id);
-          else if (session?.addDiscoveryWaypoint && frontierProgress?.isUnlockedWaypoint?.(anchor.id) && !session.getRunDiscoveries?.().newWaypoints.includes(anchor.id)) {
-            // Already unlocked earlier this run but visiting again: not new discovery, just prompt without unlock
+          if (isNew) {
+            onWaypointDiscovered(anchor.id, { isNew: true });
+            if (onWaypointPrompt) onWaypointPrompt(anchor.id, { isNew: true });
           }
-          onWaypointPrompt(anchor.id, { isNew });
-          // After prompt, disarm until exit (KEEP GOING handling will keep disarmed; EXTRACT handling also disarms — but we disarm now to prevent duplicate per frame even before user chooses.)
-          anchor.armed = false;
-          anchor.cooldown = true;
         } else if (anchor.type === "extractionBeacon") {
           if (isCamp) continue;
           if (!isActive) continue;
           const isNew = frontierProgress ? frontierProgress.discoverBeacon(anchor.id) : false;
           if (session?.addDiscoveryBeacon && isNew) session.addDiscoveryBeacon(anchor.id);
-          onBeaconPrompt(anchor.id, { isNew });
-          anchor.armed = false;
-          anchor.cooldown = true;
+          if (isNew) {
+            onBeaconDiscovered(anchor.id, { isNew: true });
+            if (onBeaconPrompt) onBeaconPrompt(anchor.id, { isNew: true });
+          }
         }
       }
     }
   }
 
-  // Expose for tests/manual
   function getAnchors() { return anchors.map(a => ({ ...a })); }
   function getAnchorById(id) { return anchors.find(a => a.id === id) ?? null; }
   function setArmed(id, armed) { const a = anchors.find(x=>x.id===id); if(a) a.armed = !!armed; }
@@ -173,6 +183,7 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
     disarmStartWaypoint,
     handleKeepGoing,
     handleExtracted,
+    getNearbyInteraction,
     getAnchors,
     getAnchorById,
     setArmed,

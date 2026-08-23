@@ -44,10 +44,18 @@ export function normalizeWorldData(raw) {
     if (data.camp.pos) validatePos(data.camp.pos, "camp");
     if (data.camp.frontierGateId !== undefined && typeof data.camp.frontierGateId !== "string") throw new Error("camp.frontierGateId must be string");
     if (data.camp.playerSpawn !== undefined) {
-      validatePos(data.camp.playerSpawn, "camp.playerSpawn");
-      if (!isNumber(data.camp.playerSpawn.x) || !isNumber(data.camp.playerSpawn.z)) throw new Error("camp.playerSpawn x/z must be numbers");
-      // y optional but if present finite
-      if (data.camp.playerSpawn.y !== undefined && !isNumber(data.camp.playerSpawn.y)) throw new Error("camp.playerSpawn y must be number");
+      const sp = data.camp.playerSpawn;
+      // support new explicit transform {position:{x,y,z}, facingYaw} or legacy {x,y,z}
+      if (sp.position) {
+        validatePos(sp.position, "camp.playerSpawn.position");
+        if (sp.facingYaw !== undefined && !isNumber(sp.facingYaw)) throw new Error("camp.playerSpawn facingYaw must be number");
+        if (sp.facing !== undefined && !isNumber(sp.facing)) throw new Error("camp.playerSpawn facing must be number");
+      } else {
+        validatePos(sp, "camp.playerSpawn");
+        if (!isNumber(sp.x) || !isNumber(sp.z)) throw new Error("camp.playerSpawn x/z must be numbers");
+        if (sp.y !== undefined && !isNumber(sp.y)) throw new Error("camp.playerSpawn y must be number");
+        if (sp.facingYaw !== undefined && !isNumber(sp.facingYaw)) throw new Error("camp.playerSpawn facingYaw must be number");
+      }
     }
   }
   if (data.initialMajorWaypointId !== undefined && typeof data.initialMajorWaypointId !== "string") throw new Error("initialMajorWaypointId must be string");
@@ -330,21 +338,45 @@ export function normalizeWorldData(raw) {
         if (wp.startOffset.x !== undefined && !isNumber(wp.startOffset.x)) throw new Error(`waypoint ${wp.id} startOffset x must be number`);
         if (wp.startOffset.z !== undefined && !isNumber(wp.startOffset.z)) throw new Error(`waypoint ${wp.id} startOffset z must be number`);
       }
+      if (wp.runSpawn !== undefined) {
+        if (!wp.runSpawn || typeof wp.runSpawn !== "object") throw new Error(`waypoint ${wp.id} runSpawn must be object`);
+        const rp = wp.runSpawn;
+        if (rp.position) {
+          validatePos(rp.position, `waypoint ${wp.id} runSpawn.position`);
+          if (rp.facingYaw !== undefined && !isNumber(rp.facingYaw)) throw new Error(`waypoint ${wp.id} runSpawn facingYaw must be number`);
+        } else {
+          validatePos(rp, `waypoint ${wp.id} runSpawn`);
+          if (rp.facingYaw !== undefined && !isNumber(rp.facingYaw)) throw new Error(`waypoint ${wp.id} runSpawn facingYaw must be number`);
+        }
+      }
     }
     for (const bc of region.extractionBeacons) {
       if (bc.displayName !== undefined && (typeof bc.displayName !== "string" || bc.displayName.length === 0 || bc.displayName.length > 40)) throw new Error(`beacon ${bc.id} displayName must be 1-40 chars`);
     }
   }
-  // Validate camp.playerSpawn near Camp region if present
+  // Validate camp.playerSpawn near Camp region if present (support new schema)
   if (data.camp?.playerSpawn) {
-    const sp = data.camp.playerSpawn;
-    // find Camp region bounds
+    const spRaw = data.camp.playerSpawn;
+    const sp = spRaw.position ? spRaw.position : spRaw;
     const campReg = data.regions.find(r=> r.id==="camp");
     if (campReg) {
       const b = campReg.bounds;
-      // allow small tolerance 2 units outside but finite
       if (!isInsideBounds(sp, { minX: b.minX-2, maxX: b.maxX+2, minZ: b.minZ-2, maxZ: b.maxZ+2 })) {
         throw new Error(`camp.playerSpawn not near Camp region bounds`);
+      }
+      // strict containment in intended region for explicit spawns
+      if (spRaw.position) {
+        if (!isInsideBounds(sp, campReg.bounds)) throw new Error(`camp.playerSpawn must be strictly inside Camp region`);
+      }
+    }
+  }
+  // Validate waypoint runSpawn strict containment
+  for (const region of data.regions) {
+    for (const wp of region.majorWaypoints) {
+      if (wp.runSpawn) {
+        const rsPos = wp.runSpawn.position ? wp.runSpawn.position : wp.runSpawn;
+        validatePos(rsPos, `waypoint ${wp.id} runSpawn`);
+        if (!isInsideBounds(rsPos, region.bounds)) throw new Error(`waypoint ${wp.id} runSpawn not inside declared region ${region.id}`);
       }
     }
   }
@@ -410,9 +442,118 @@ export function normalizeWorldData(raw) {
     }
   }
 
+  // Region overlap validation: no ambiguous overlapping interiors
+  for (let i = 0; i < data.regions.length; i++) {
+    for (let j = i + 1; j < data.regions.length; j++) {
+      const a = data.regions[i].bounds;
+      const b = data.regions[j].bounds;
+      const overlapX = Math.min(a.maxX, b.maxX) - Math.max(a.minX, b.minX);
+      const overlapZ = Math.min(a.maxZ, b.maxZ) - Math.max(a.minZ, b.minZ);
+      if (overlapX > 1e-6 && overlapZ > 1e-6) {
+        throw new Error(`region overlap: ${data.regions[i].id} overlaps ${data.regions[j].id}`);
+      }
+    }
+  }
+  // Neighbor reciprocity
+  for (const region of data.regions) {
+    for (const nid of region.neighbors) {
+      const neighbor = data.regions.find(r=> r.id === nid);
+      if (neighbor && !neighbor.neighbors.includes(region.id)) {
+        throw new Error(`neighbor reciprocity: ${region.id} -> ${nid} but not vice versa`);
+      }
+    }
+  }
+  // Ground/Boundary ownership intersection
+  for (const region of data.regions) {
+    for (const gp of region.groundPatches ?? []) {
+      const footprint = { x: gp.pos.x, z: gp.pos.z, w: gp.size.w, d: gp.size.d };
+      const intersecting = [];
+      for (const r of data.regions) {
+        const b = r.bounds;
+        const fx1 = footprint.x - footprint.w/2, fx2 = footprint.x + footprint.w/2;
+        const fz1 = footprint.z - footprint.d/2, fz2 = footprint.z + footprint.d/2;
+        const overlap = !(fx2 < b.minX || fx1 > b.maxX || fz2 < b.minZ || fz1 > b.maxZ);
+        if (overlap) intersecting.push(r.id);
+      }
+      if (!intersecting.includes(region.id)) throw new Error(`groundPatch ${gp.id} does not intersect declared owner ${region.id}`);
+      // if footprint only intersects far non-neighbor, warn as error for obviously unrelated ownership
+      for (const iid of intersecting) {
+        if (iid !== region.id && !region.neighbors.includes(iid)) {
+          // allow crossing into neighbor only; unrelated is error
+          // But ground patches are large (25 wide) covering all width — they will intersect camp but that's neighbor? For p1, ground 25 wide intersects camp and p2 which are neighbors => ok. For camp ground 25 wide intersects p1 => neighbor ok.
+          // So we check if intersecting contains unrelated id that is not neighbor and not self -> if more than neighbors, it would be unrelated
+          if (!region.neighbors.includes(iid) && iid !== region.id) {
+            // if intersecting includes unrelated far region, that's invalid
+            // Only error if intersecting length > neighbors+1 and contains far
+            // For current map this should pass; if future ground spans 3 regions it's error
+            // We'll enforce that intersecting must be subset of {self + neighbors}
+            throw new Error(`groundPatch ${gp.id} intersects unrelated region ${iid} not neighbor of ${region.id}`);
+          }
+        }
+      }
+    }
+    for (const bc of region.boundaryColliders ?? []) {
+      // boundaryColliders are outer limits; ownership is informational, no strict intersection required for now
+      void bc;
+    }
+  }
+  // Traversal validation: finite transforms and positive sizes
+  for (const region of data.regions) {
+    for (const plat of region.traversal.platforms) {
+      if (!isNumber(plat.x) || !isNumber(plat.z)) throw new Error(`platform ${plat.id} x/z finite required`);
+      if (!isNumber(plat.w) || !isNumber(plat.h) || !isNumber(plat.height)) throw new Error(`platform ${plat.id} w/h/height finite required`);
+      if (plat.w <= 0 || plat.h <= 0 || plat.height <= 0) throw new Error(`platform ${plat.id} size must be positive`);
+      const y = plat.y ?? plat.baseY ?? 0;
+      if (!isNumber(y)) throw new Error(`platform ${plat.id} y finite required`);
+    }
+    for (const obs of region.traversal.obstacles) {
+      if (!isNumber(obs.x) || !isNumber(obs.z)) throw new Error(`obstacle ${obs.id} x/z finite required`);
+      if (!isNumber(obs.w) || !isNumber(obs.h) || !isNumber(obs.height)) throw new Error(`obstacle ${obs.id} w/h/height finite required`);
+      if (obs.w <= 0 || obs.h <= 0 || obs.height <= 0) throw new Error(`obstacle ${obs.id} size must be positive`);
+    }
+    for (const cl of region.traversal.climbables) {
+      if (!isNumber(cl.x) || !isNumber(cl.z)) throw new Error(`climbable ${cl.id} x/z finite required`);
+      if (!isNumber(cl.bottomY) || !isNumber(cl.topY)) throw new Error(`climbable ${cl.id} bottomY/topY finite required`);
+      if (cl.topY <= cl.bottomY) throw new Error(`climbable ${cl.id} topY must be > bottomY`);
+    }
+  }
+  // Static transform validation already done via prop/ground/boundary loops; ensure dimensions positive for props with size
+  for (const region of data.regions) {
+    for (const prop of region.props) {
+      if (prop.size) {
+        if (prop.size.w !== undefined && prop.size.w <= 0) throw new Error(`prop ${prop.id} size.w must be positive`);
+        if (prop.size.h !== undefined && prop.size.h <= 0) throw new Error(`prop ${prop.id} size.h must be positive`);
+        if (prop.size.d !== undefined && prop.size.d <= 0) throw new Error(`prop ${prop.id} size.d must be positive`);
+      }
+      if (prop.pos && prop.pos.y !== undefined && !isNumber(prop.pos.y)) throw new Error(`prop ${prop.id} pos y finite required`);
+    }
+  }
+
   // Cross-region duplicate check already done.
 
   // Normalize: ensure defaults and freeze shallow
+  // Migrate legacy spawnOffset to runSpawn if missing and ensure camp.playerSpawn new schema normalized
+  if (data.camp?.playerSpawn && !data.camp.playerSpawn.position) {
+    const sp = data.camp.playerSpawn;
+    if (isNumber(sp.x) && isNumber(sp.z)) {
+      const migrated = { position: { x: sp.x, y: sp.y ?? 0, z: sp.z }, facingYaw: sp.facingYaw ?? 0 };
+      data.camp.playerSpawn = migrated;
+    }
+  }
+  for (const region of data.regions) {
+    for (const wp of region.majorWaypoints) {
+      if (!wp.runSpawn && wp.spawnOffset) {
+        const base = wp.pos;
+        wp.runSpawn = { position: { x: base.x + (wp.spawnOffset.x ?? 0), y: base.y ?? 0, z: base.z + (wp.spawnOffset.z ?? 0) }, facingYaw: 0 };
+      }
+      // ensure runSpawn normalized to position object
+      if (wp.runSpawn && !wp.runSpawn.position) {
+        const rs = wp.runSpawn;
+        wp.runSpawn = { position: { x: rs.x, y: rs.y ?? 0, z: rs.z }, facingYaw: rs.facingYaw ?? 0 };
+      }
+    }
+  }
+
   return data;
 }
 

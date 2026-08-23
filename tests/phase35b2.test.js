@@ -328,16 +328,22 @@ describe("Phase 3.5B.2 — Hierarchy", () => {
   it("moving object to another region updates hierarchy ownership", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
     const regions = draftApi.getDraft().regions;
-    const srcRegion = regions[0];
-    const dstRegion = regions[1];
+    const srcRegionId = regions[0].id;
+    const dstRegionId = regions[1].id;
+    const srcRegion = draftApi.findRegion(srcRegionId);
+    const dstRegion = draftApi.findRegion(dstRegionId);
     const prop = srcRegion.props[0];
     if (!prop) return;
     const pid = prop.id;
-    draftApi.updateTransform(pid, { regionId: dstRegion.id });
+    const dstCenter = { x: (dstRegion.bounds.minX + dstRegion.bounds.maxX)/2, y: prop.pos.y ?? 0, z: (dstRegion.bounds.minZ + dstRegion.bounds.maxZ)/2 };
+    const res = draftApi.updateTransform(pid, { regionId: dstRegionId, pos: dstCenter });
+    assert.ok(res.ok, res.error);
     const found = draftApi.findObjectById(pid);
-    assert.equal(found.region.id, dstRegion.id);
-    assert.ok(!srcRegion.props.find(p=>p.id===pid));
-    assert.ok(dstRegion.props.find(p=>p.id===pid));
+    assert.equal(found.region.id, dstRegionId);
+    const freshSrc = draftApi.findRegion(srcRegionId);
+    const freshDst = draftApi.findRegion(dstRegionId);
+    assert.ok(!freshSrc.props.find(p=>p.id===pid));
+    assert.ok(freshDst.props.find(p=>p.id===pid));
   });
 });
 

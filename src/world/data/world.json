@@ -8,9 +8,12 @@
       "z": 9.5
     },
     "playerSpawn": {
-      "x": 0,
-      "y": 0,
-      "z": 10.0
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 10.0
+      },
+      "facingYaw": 3.1415926535
     },
     "radius": 2.8,
     "frontierGateId": "gate_camp_frontier",
@@ -178,7 +181,7 @@
           },
           "rotY": 0,
           "visibleInPlay": true,
-          "collisionEnabled": false,
+          "collisionEnabled": true,
           "opacity": 1
         },
         {
@@ -294,7 +297,7 @@
           "id": "boundary_north",
           "pos": {
             "x": 0,
-            "y": 1.5,
+            "y": 0,
             "z": -11.68
           },
           "size": {
@@ -312,7 +315,7 @@
           "id": "boundary_south",
           "pos": {
             "x": 0,
-            "y": 1.5,
+            "y": 0,
             "z": 11.68
           },
           "size": {
@@ -330,7 +333,7 @@
           "id": "boundary_west",
           "pos": {
             "x": -12.68,
-            "y": 1.5,
+            "y": 0,
             "z": 0
           },
           "size": {
@@ -348,7 +351,7 @@
           "id": "boundary_east",
           "pos": {
             "x": 12.68,
-            "y": 1.5,
+            "y": 0,
             "z": 0
           },
           "size": {
@@ -541,9 +544,13 @@
             "z": 6.6
           },
           "displayName": "Forest Edge",
-          "spawnOffset": {
-            "x": 0,
-            "z": 1.0
+          "runSpawn": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 5.2
+            },
+            "facingYaw": 3.1415926535
           }
         }
       ],
@@ -1278,9 +1285,13 @@
             "z": -7.2
           },
           "displayName": "Threshold Rise",
-          "spawnOffset": {
-            "x": 0,
-            "z": 1.2
+          "runSpawn": {
+            "position": {
+              "x": 2.2,
+              "y": 2.4,
+              "z": -6.4
+            },
+            "facingYaw": 3.1415926535
           }
         }
       ],

@@ -2,32 +2,24 @@
 
 Single-player, portrait-mobile, Three.js/HTML5 survival & resource-management prototype for the Meta Horizon Creator Competition.
 
-## Current Playable Foundation (Phase 4A.1 — First-Run UX + Authoring Prerequisites)
+## Current Playable Foundation (Phase 4A.2 — Pre-4B Authoring Reliability & Expedition Interaction Closure)
 
-- fixed high third-person / near top-down camera,
-- one-thumb movement plus run/sneak/jump/dodge,
-- Rapier kinematic collision via authored Ground Patches/Boundary Colliders (no hard-coded floor/bounds walls; safety floor at -30 far below),
-- automatic + manual Field Tool harvesting + 3 resource types with chunky depletion,
-- collision-aware drops + magnet collection — **upper-left hide-zero run carry** vs **persistent bank**,
-- first-pass melee combat with Field Tool,
-- melee/ranged Wildkin prototypes (A/T/D/S) + home/leash/steering,
-- player health/dodge invuln + Camp-return death/loss flow,
-- cyan XP essence as unsecured run XP,
-- single-source `world.json` (`camp.playerSpawn`, `frontierGateId/initialMajorWaypointId/spawnOffset/displayName`, `groundPatches`, `boundaryColliders`, `visibleInPlay/collisionEnabled/opacity/color` per static object) → generated pipeline,
-- current+neighbor region activation, bounded pools,
-- **Camp → gate → choose unlocked Major Waypoint → carry unsecured value → Waypoint/Beacon EXTRACT or KEEP GOING → bank or lose → return to Camp → see outcome → immediately start another run**,
-- fresh launch now starts at authored Camp spawn outside gate radius with **no CHOOSE START popup**; gate requires deliberate outside→inside crossing; **any** start Waypoint suppressed until leave/re-enter,
-- **Major Waypoints** unlock future starts (survive death, displayName e.g., Forest Edge/Threshold Rise), **Extraction Beacons** allow extraction only (e.g., Tangled Hollow Beacon), **Camp gate** physical retreat & secure,
-- **Top-right Map** inspect vs gate-triggered start-selection shows readable `displayName` only, no `wp_*`/coordinates; beacons never selectable,
-- **Anchor prompts** with readable titles + **recovery/loss cards** over Camp using displayName,
-- minimal **edge guidance** with readable names during active run only,
-- one-rAF / fixed 1/60, Rapier-only, offline/portrait/<35 MB,
-- desktop Author Mode categorized palette (World/Env/Traversal/Resources/Wildkin/Frontier), hierarchy Ground/Boundaries, Display Name + Visible/Collision/Opacity/Tint (per-object cloned materials, Edit proxy for hidden colliders, live preview),
-- `?dev=1` dev-only **RESET PLAYER SAVE** (clears `wildkin.frontierProgress` only) + `?author=1` isolated draft.
+- fixed high third-person / near top-down camera, one-thumb movement + run/sneak/jump/dodge, Rapier kinematic via authored Ground Patches/Boundary Colliders (base-Y, no global floor, safety at -30),
+- Field Tool harvesting (auto + manual, 3 resources), magnet pickups (hide-zero run carry vs persistent bank), Wildkin A/T/D/S + home/leash, combat + health/dodge, XP motes,
+- single-source `world.json` (`camp.playerSpawn {position,facingYaw}`, `MajorWaypoint.runSpawn {position,facingYaw}`, `groundPatches`/`boundaryColliders` base-Y, `visibleInPlay/collisionEnabled/opacity/color`) → generated pipeline,
+- current+neighbor region activation, bounded pools, deterministic export,
+- **Camp → START EXPEDITION (near closed gate) → Map start-selection → teleport to authored Run Spawn (facing applied) → carry unsecured value → discover Waypoint/Beacon (one-shot pulse/sound/toast) → contextual EXTRACT while nearby (E / mobile button) → walking away = Keep Going → RETURN & SECURE at Camp gate → bank or lose → outcome card → Camp**
+- Camp gate is closed/solid; Map close keeps gate closed; gate/frontend extraction share idempotent `runId` banking,
+- **Major Waypoints** unlock future starts (Forest Edge, Threshold Rise), **Extraction Beacons** extraction only (Tangled Hollow etc), displayName everywhere,
+- **Top-right Map** inspect vs gate start, beacons never selectable; **minimal camera-projected edge indicators** (extraction + next deeper waypoint, not self-pointing),
+- **Upper-left HUD stack** (Auto Harvest + inventory, never overlap, safe-area, scrollable),
+- one desktop click = one swing (mouse vs touch ownership), one-rAF / fixed 1/60, Rapier-only, offline/portrait/<35 MB,
+- desktop `?author=1` Author Mode: transactional draft + 40-step undo/redo, canonical descriptor for Edit/Play/Rapier parity, live Ground/Boundary proxy, unbounded drag, draft-derived extents, region/ownership validation, Camp Spawn + Waypoint Run Spawn markers + facing arrow/line, hierarchy expansion preserved, bounded shortcuts (Delete/F/WASD/QE/Space/C/Undo/Redo/Esc, ignored while typing), capability-aware Visible/Collision/Opacity/Tint,
+- `?dev=1` **RESET PLAYER SAVE** (frontierProgress only).
 
-**Phase 3.5A/B.x + 4A loop accepted. Phase 4A.1 implementation-complete (first-run trustworthy, Author Mode ready for 4B).**
+**Phase 3.5A/B.x + 4A/4A.1 accepted. Phase 4A.2 implementation-complete — Author Mode trustworthy, frontier interaction nonblocking and intentional. Human acceptance of 7 tests required before Phase 4B.**
 
-Phase 4B will tune first 5–10 minute expedition, Camp/Area 1 layout, temptation/danger pacing, and first meaningful spend.
+Phase 4B will author the first real 5–10 min expedition (Camp/Area 1 layout, temptation/danger pacing, first meaningful spend).
 
 ## Core Game Direction
 

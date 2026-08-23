@@ -1,5 +1,5 @@
-// src/ui/frontierIndicators.js — minimal edge guidance during active run (Phase 4A)
-// Shows at most 2 clamped edge indicators: nearest extraction (gate/beacon/waypoint) and next deeper Major Waypoint.
+// src/ui/frontierIndicators.js — camera-projected edge guidance (Phase 4A.2)
+import * as THREE from "three";
 
 export function createFrontierIndicators(opts = {}) {
   const app = document.getElementById("app");
@@ -8,7 +8,6 @@ export function createFrontierIndicators(opts = {}) {
   const frontierProgress = opts.frontierProgress;
   const getPlayerPos = opts.getPlayerPos ?? (() => ({ x: 0, y: 0, z: 0 }));
   const getSession = opts.getSession ?? (() => null);
-  const getCamera = opts.getCamera ?? (() => null);
 
   const container = document.createElement("div");
   container.id = "frontier-indicators";
@@ -17,27 +16,20 @@ export function createFrontierIndicators(opts = {}) {
 
   function clear() { container.innerHTML = ""; }
 
-  // Helper: best extraction target — nearest appropriate Camp gate / MajorWaypoint / Extraction Beacon
   function getBestExtractionTarget(playerPos) {
     const gatePos = worldRegistry.getFrontierGatePos();
-    if (!gatePos) return null;
     const beacons = worldRegistry.getAllBeacons();
     const waypoints = worldRegistry.getAllWaypoints().filter(w => w.id !== "wp_camp_gate");
-    // candidates: gate always, discovered beacons, unlocked waypoints (or all waypoints for extraction? Spec: nearest appropriate gate/waypoint/beacon)
     const candidates = [];
-    candidates.push({ id: gatePos ? worldRegistry.getFrontierGateId() : "gate", pos: { x: gatePos.x, z: gatePos.z }, kind: "gate", dist: Math.hypot(playerPos.x - gatePos.x, playerPos.z - gatePos.z) });
+    if (gatePos) candidates.push({ id: worldRegistry.getFrontierGateId(), pos: { x: gatePos.x, z: gatePos.z, y: 0.5 }, kind: "gate", dist: Math.hypot(playerPos.x - gatePos.x, playerPos.z - gatePos.z) });
     for (const bc of beacons) {
-      if (frontierProgress && !frontierProgress.isDiscoveredBeacon?.(bc.id) && !frontierProgress.getDiscoveredBeacons?.().includes(bc.id)) {
-        // Only show discovered beacons as extraction guidance? Spec: useful extraction/safety direction when off-screen (nearest appropriate). For Phase 4A, nearest discovered extraction is more useful than unknown. But unknown beacons shouldn't guide. So only discovered.
-        continue;
-      }
-      // If no progress filter, show all
-      if (!frontierProgress) {} // show
-      candidates.push({ id: bc.id, pos: { x: bc.pos.x, z: bc.pos.z }, kind: "beacon", dist: Math.hypot(playerPos.x - bc.pos.x, playerPos.z - bc.pos.z) });
+      if (frontierProgress && !frontierProgress.isDiscoveredBeacon?.(bc.id)) continue;
+      candidates.push({ id: bc.id, pos: { x: bc.pos.x, z: bc.pos.z, y: 0.5 }, kind: "beacon", dist: Math.hypot(playerPos.x - bc.pos.x, playerPos.z - bc.pos.z) });
     }
+    // Waypoints as extraction: only unlocked ones are usable
     for (const wp of waypoints) {
-      // Waypoints can be extraction points too
-      candidates.push({ id: wp.id, pos: { x: wp.pos.x, z: wp.pos.z }, kind: "waypoint", dist: Math.hypot(playerPos.x - wp.pos.x, playerPos.z - wp.pos.z) });
+      if (frontierProgress && !frontierProgress.isUnlockedWaypoint?.(wp.id)) continue;
+      candidates.push({ id: wp.id, pos: { x: wp.pos.x, z: wp.pos.z, y: 0.8 }, kind: "waypoint", dist: Math.hypot(playerPos.x - wp.pos.x, playerPos.z - wp.pos.z) });
     }
     if (candidates.length === 0) return null;
     candidates.sort((a,b)=>a.dist-b.dist);
@@ -45,55 +37,68 @@ export function createFrontierIndicators(opts = {}) {
   }
 
   function getNextDeeperWaypoint(playerPos) {
-    // Next deeper major waypoint beyond current depth
     const allWp = worldRegistry.getAllWaypoints().filter(w => w.id !== "wp_camp_gate");
-    // depth map via region order? Use getRegionDepthMap order index
     const depthMap = worldRegistry.getRegionDepthMap?.() ?? {};
-    // Find player depth
     const curRegion = worldRegistry.getRegionForPosition(playerPos);
     const curDepth = depthMap[curRegion] ?? 0;
     let best = null;
     let bestDepth = Infinity;
     for (const wp of allWp) {
       const d = depthMap[wp.regionId] ?? 0;
-      if (d <= curDepth) continue; // only deeper
+      if (d <= curDepth) continue;
       if (d < bestDepth) { bestDepth = d; best = wp; }
     }
-    // fallback if none deeper, pick deepest overall
+    // endpoint must not point to itself: if best is in same region as player and no deeper, don't self-point -> fallback to deepest not in curRegion
     if (!best) {
-      // choose furthest waypoint
       let maxD = -1;
-      for (const wp of allWp) { const d = depthMap[wp.regionId] ?? 0; if (d > maxD) { maxD = d; best = wp; } }
+      for (const wp of allWp) {
+        const d = depthMap[wp.regionId] ?? 0;
+        if (wp.regionId === curRegion) continue;
+        if (d > maxD) { maxD = d; best = wp; }
+      }
+      if (!best) {
+        // if only curRegion has waypoint, don't point to self; return null
+        return null;
+      }
     }
-    if (!best) return null;
-    return { id: best.id, pos: { x: best.pos.x, z: best.pos.z }, kind: "nextWaypoint", dist: Math.hypot(playerPos.x - best.pos.x, playerPos.z - best.pos.z) };
+    // Don't rely on JSON order; use depth
+    return { id: best.id, pos: { x: best.pos.x, z: best.pos.z, y: 0.8 }, kind: "nextWaypoint", dist: Math.hypot(playerPos.x - best.pos.x, playerPos.z - best.pos.z) };
   }
 
-  function worldToScreen(pos, camera) {
-    if (!camera) return null;
-    const v = pos.clone ? pos.clone() : { x: pos.x, y: pos.y, z: pos.z };
-    // Project via THREE
-    const THREE = window.THREE ?? null; // fallback
-    // Instead use camera projection manually if THREE not available globally — we have camera object with projection
-    // Do simple: use vector projection
-    try {
-      const vec = new (camera.isCamera ? camera.constructor : Object)(); // not reliable
-    } catch {}
-    // Use imported THREE via world: we can compute screen via projection matrices directly
-    // For minimal guidance, we just compare distance for on-screen heuristic via camera frustum.
-    return null;
+  function projectToNDC(worldPos, camera) {
+    const vec = new THREE.Vector3(worldPos.x, worldPos.y ?? 0.5, worldPos.z);
+    vec.project(camera);
+    return vec;
   }
 
-  function isOnScreen(worldPos, camera, margin = 1.0) {
-    // Use camera frustum check if THREE available; else naive distance
-    try {
-      const THREE = window.THREE;
-      if (!THREE) return false;
-      const proj = new THREE.Vector3(worldPos.x, (worldPos.y ?? 0.5), worldPos.z);
-      proj.project(camera);
-      const on = Math.abs(proj.x) < 0.85 && Math.abs(proj.y) < 0.85 && proj.z > -1 && proj.z < 1;
-      return on;
-    } catch { return false; }
+  function isOnScreenNDC(ndc) {
+    return Math.abs(ndc.x) < 0.88 && Math.abs(ndc.y) < 0.88 && ndc.z > -1 && ndc.z < 1;
+  }
+
+  function clampToEdgeFromNDC(ndc, rect) {
+    const w = rect.width, h = rect.height;
+    const cx = w/2, cy = h/2;
+    // ndc.x -1..1 left..right, ndc.y -1..1 bottom..top
+    // For behind camera, ndc is inverted but still gives direction; we flip if z >1 (behind)
+    let nx = ndc.x;
+    let ny = ndc.y;
+    if (ndc.z > 1 || ndc.z < -1) {
+      // behind camera: invert
+      nx = -nx;
+      ny = -ny;
+    }
+    const len = Math.hypot(nx, ny) || 1;
+    nx /= len; ny /= len;
+    // y invert for screen: ndc.y up => screen y down, so invert ny
+    ny = -ny;
+    const pad = 22;
+    const hw = w/2 - pad, hh = h/2 - pad;
+    let t = Infinity;
+    if (Math.abs(nx) > 1e-6) t = Math.min(t, hw / Math.abs(nx));
+    if (Math.abs(ny) > 1e-6) t = Math.min(t, hh / Math.abs(ny));
+    const ex = cx + nx * t;
+    const ey = cy + ny * t;
+    return { x: ex, y: ey };
   }
 
   function createIndicator(type, target, distance) {
@@ -112,39 +117,16 @@ export function createFrontierIndicators(opts = {}) {
       if (target.id) {
         const wp = worldRegistry.getWaypointById(target.id);
         const bc = worldRegistry.getBeaconById(target.id);
-        const anchor = wp ?? bc;
-        if (anchor) name = worldRegistry.getAnchorDisplayName(anchor);
+        if (target.kind === "gate") name = "Camp Gate";
+        else {
+          const anchor = wp ?? bc;
+          if (anchor) name = worldRegistry.getAnchorDisplayName(anchor);
+        }
       }
     } catch {}
-    if (name) label.textContent = isExtraction ? `${name} ${distance.toFixed(0)}m` : `${name} ${distance.toFixed(0)}m`;
-    else label.textContent = isExtraction ? `Extract ${distance.toFixed(0)}m` : `Waypoint ${distance.toFixed(0)}m`;
+    label.textContent = name ? `${name} ${distance.toFixed(0)}m` : isExtraction ? `Extract ${distance.toFixed(0)}m` : `Waypoint ${distance.toFixed(0)}m`;
     el.appendChild(label);
     return el;
-  }
-
-  function clampToEdge(angleRad) {
-    // Convert direction angle to screen edge position.
-    // Use container size: approximate portrait app rect
-    const rect = container.getBoundingClientRect();
-    const w = rect.width, h = rect.height;
-    const cx = w/2, cy = h/2;
-    // Direction vector
-    const dx = Math.sin(angleRad);
-    const dz = Math.cos(angleRad); // not used; we need screen direction — approximate world XZ to screen XY via camera?
-    // For near top-down fixed camera facing -Z, world X maps to screen X, world Z maps to screen Y inverted. Use simple.
-    const sx = dx;
-    const sy = -dz; // invert Z for screen Y
-    const len = Math.hypot(sx, sy) || 1;
-    const nx = sx/len, ny = sy/len;
-    // intersect with rect border (with padding 12)
-    const pad = 22;
-    const hw = w/2 - pad, hh = h/2 - pad;
-    let t = Infinity;
-    if (Math.abs(nx) > 1e-6) t = Math.min(t, hw / Math.abs(nx));
-    if (Math.abs(ny) > 1e-6) t = Math.min(t, hh / Math.abs(ny));
-    const ex = cx + nx * t;
-    const ey = cy + ny * t;
-    return { x: ex, y: ey };
   }
 
   function update(camera) {
@@ -152,6 +134,7 @@ export function createFrontierIndicators(opts = {}) {
     const session = getSession();
     const isActive = session ? session.isActive?.() ?? session.getStatus?.() === "active" : false;
     if (!isActive) return;
+    if (!camera || !camera.isCamera) return;
     const playerPos = getPlayerPos();
     if (!playerPos) return;
     const extraction = getBestExtractionTarget(playerPos);
@@ -160,20 +143,13 @@ export function createFrontierIndicators(opts = {}) {
     if (extraction) targets.push({ type: "extraction", target: extraction });
     if (nextWp && nextWp.id !== extraction?.id) targets.push({ type: "waypoint", target: nextWp });
 
+    const rect = container.getBoundingClientRect();
     for (const entry of targets) {
       const tgt = entry.target;
-      const dist = tgt.dist;
-      // Hide when target is comfortably on-screen
-      // Compute world direction angle for edge
-      const dx = tgt.pos.x - playerPos.x;
-      const dz = tgt.pos.z - playerPos.z;
-      const worldAngle = Math.atan2(dx, dz);
-      // On-screen heuristic: if dist < 6 and camera frustum says on-screen, hide indicator and show in-world marker instead? For minimal guidance, hide when dist < 4 and on-screen
-      let onScreen = false;
-      if (dist < 3.5) onScreen = true;
-      if (onScreen) continue;
-      const edge = clampToEdge(worldAngle);
-      const el = createIndicator(entry.type, tgt, dist);
+      const ndc = projectToNDC(tgt.pos, camera);
+      if (isOnScreenNDC(ndc)) continue;
+      const edge = clampToEdgeFromNDC(ndc, rect);
+      const el = createIndicator(entry.type, tgt, tgt.dist);
       el.style.left = edge.x + "px";
       el.style.top = edge.y + "px";
       el.style.transform = "translate(-50%, -50%)";
@@ -204,4 +180,10 @@ export function getBestExtractionTargetForTest(playerPos, waypoints, beacons, di
   for (const wp of waypoints) candidates.push({ id: wp.id, pos: wp.pos, dist: Math.hypot(playerPos.x - wp.pos.x, playerPos.z - wp.pos.z) });
   candidates.sort((a,b)=>a.dist-b.dist);
   return candidates[0] ?? null;
+}
+
+export function projectTest(worldPos, camera) {
+  const vec = new THREE.Vector3(worldPos.x, worldPos.y ?? 0.5, worldPos.z);
+  vec.project(camera);
+  return vec;
 }

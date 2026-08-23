@@ -123,21 +123,29 @@ export function createWorldRegistry(rawData) {
   function getWaypointSpawnPosition(waypointId) {
     const wp = getWaypointById(waypointId);
     if (!wp) return null;
+    if (wp.runSpawn) {
+      const rs = wp.runSpawn;
+      const pos = rs.position ?? rs;
+      return { x: pos.x, y: pos.y ?? wp.pos.y ?? 0, z: pos.z, facingYaw: rs.facingYaw ?? rs.facing ?? 0, regionId: wp.regionId };
+    }
     const base = wp.pos;
     const offset = wp.spawnOffset ?? wp.startOffset ?? { x: 0, z: 1.2 };
     const x = base.x + (offset.x ?? 0);
     const z = base.z + (offset.z ?? 1.2);
     const y = base.y ?? 0;
-    return { x, y, z, regionId: wp.regionId };
+    return { x, y, z, facingYaw: 0, regionId: wp.regionId };
   }
   function getCampSpawnPosition() {
     const camp = data.camp;
     if (camp?.playerSpawn) {
       const sp = camp.playerSpawn;
-      return { x: sp.x, y: sp.y ?? 0, z: sp.z, regionId: "camp" };
+      if (sp.position) {
+        return { x: sp.position.x, y: sp.position.y ?? 0, z: sp.position.z, facingYaw: sp.facingYaw ?? sp.facing ?? 0, regionId: "camp" };
+      }
+      return { x: sp.x, y: sp.y ?? 0, z: sp.z, facingYaw: sp.facingYaw ?? 0, regionId: "camp" };
     }
-    if (camp?.pos) return { x: camp.pos.x, y: camp.pos.y ?? 0, z: camp.pos.z - 0.8, regionId: "camp" };
-    return { x: 0, y: 0, z: 9.5, regionId: "camp" };
+    if (camp?.pos) return { x: camp.pos.x, y: camp.pos.y ?? 0, z: camp.pos.z - 0.8, facingYaw: 0, regionId: "camp" };
+    return { x: 0, y: 0, z: 9.5, facingYaw: 0, regionId: "camp" };
   }
   function getAnchorDisplayName(anchor) {
     if (anchor.displayName && typeof anchor.displayName === "string" && anchor.displayName.trim()) return anchor.displayName.trim();

@@ -1,12 +1,16 @@
 // src/ui/runInventoryHud.js — compact upper-left icon+count list (Phase 4A: hide zeros, upper-left, readable carry)
+import { getOrCreateHudStack } from "./hudStack.js";
 export function createRunInventoryHud() {
   const hud = document.getElementById("hud");
   if (!hud) return { update() {}, pulse() {}, element: null };
 
+  const stack = getOrCreateHudStack() || hud;
   const container = document.createElement("div");
   container.id = "run-inventory-hud";
-  container.style.cssText = "position:absolute;left:max(10px, env(safe-area-inset-left));top:max(10px, env(safe-area-inset-top));display:flex;flex-direction:column;gap:6px;pointer-events:none;z-index:4;align-items:flex-start;";
-  hud.appendChild(container);
+  container.style.cssText = "display:flex;flex-direction:column;gap:6px;pointer-events:none;align-items:flex-start;max-height:32vh;overflow:auto;";
+  // ensure stack children pointerEvents handling
+  container.style.pointerEvents = "none";
+  stack.appendChild(container);
 
   const iconSvg = {
     wood: '<div style="width:16px;height:16px;background:#8d5a2b;border-radius:2px;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.2)"></div>',

@@ -70,13 +70,15 @@ export function createAuthorMode(opts) {
         if (!findMeshByAuthorId(id)) createPreviewMeshForNewObject(id);
         syncPreviewForId(id);
         updateHomeMarker();
+        if (isEdit) { ensureSpawnMarkers(); updateSpawnMarkers(); }
         if (ui.refreshHierarchy) ui.refreshHierarchy();
       }
-      if (deletedId) { removePreviewMesh(deletedId); if (ui.refreshHierarchy) ui.refreshHierarchy(); }
+      if (deletedId) { removePreviewMesh(deletedId); if (isEdit) { ensureSpawnMarkers(); updateSpawnMarkers(); } if (ui.refreshHierarchy) ui.refreshHierarchy(); }
       updateHighlight();
       updateOverlays();
       if (isEdit) updateEditorVisibility();
       updateHomeMarker();
+      if (isEdit) updateSpawnMarkers();
     },
     onSelectNew: (id) => {
       selectedId = id;
@@ -218,6 +220,28 @@ export function createAuthorMode(opts) {
         }
       }
     }
+    if (found.type === "campSpawn" || found.type === "runSpawn") {
+      // spawn marker: capsule + arrow
+      for (const m of meshes) {
+        if (m.userData && m.userData.isSpawnMarker) {
+          m.position.set(draftPos.x, baseY + 0.52, draftPos.z);
+          m.rotation.y = obj.facingYaw ?? 0;
+        }
+        if (m.userData && m.userData.isSpawnArrow) {
+          m.position.set(draftPos.x, baseY + 0.12, draftPos.z);
+          m.rotation.y = obj.facingYaw ?? 0;
+        }
+        // also handle ring
+        if (m.userData && m.userData.isSpawnRing) {
+          m.position.set(draftPos.x, baseY + 0.06, draftPos.z);
+        }
+      }
+      // if marker group top
+      if (top.userData && top.userData.isSpawnMarkerGroup) {
+        top.position.set(draftPos.x, baseY, draftPos.z);
+        top.rotation.y = obj.facingYaw ?? 0;
+      }
+    }
     // Presentation live preview for static families (visible/collision not affecting position, but visible/material)
     if (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider") {
       const vis = obj.visibleInPlay !== false;
@@ -287,6 +311,86 @@ export function createAuthorMode(opts) {
       const roamRing = new THREE.Mesh(roamGeo, roamMat); roamRing.rotation.x = -Math.PI/2; roamRing.position.set(home.x, 0.06, home.z); group.add(roamRing);
     }
     scene.add(group); homeMarker = group;
+  }
+
+  let spawnMarkers = [];
+  function clearSpawnMarkers() {
+    for (const m of spawnMarkers) scene.remove(m);
+    spawnMarkers = [];
+  }
+  function ensureSpawnMarkers() {
+    clearSpawnMarkers();
+    // Camp spawn
+    const campFound = draftApi.findObjectById("camp_spawn");
+    if (campFound) createSpawnMarker("camp_spawn", campFound.obj.pos, campFound.obj.facingYaw ?? 0, 0x7ab8ff);
+    for (const region of draftApi.getDraft().regions) {
+      for (const wp of region.majorWaypoints ?? []) {
+        const id = wp.id + "__runSpawn";
+        const found = draftApi.findObjectById(id);
+        if (!found) continue;
+        createSpawnMarker(id, found.obj.pos, found.obj.facingYaw ?? 0, 0xffd54f);
+        // line from waypoint to run spawn
+        const lineGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(wp.pos.x, (wp.pos.y??0)+0.1, wp.pos.z), new THREE.Vector3(found.obj.pos.x, (found.obj.pos.y??0)+0.1, found.obj.pos.z)]);
+        const line = new THREE.Line(lineGeo, new THREE.LineBasicMaterial({ color: 0x8aa0c0, transparent:true, opacity:0.5, linewidth:1 }));
+        line.userData.authorId = id;
+        line.userData.isSpawnLine = true;
+        scene.add(line); spawnMarkers.push(line);
+      }
+    }
+  }
+  function createSpawnMarker(id, pos, facing, color) {
+    const baseY = pos.y ?? 0;
+    const group = new THREE.Group();
+    group.position.set(pos.x, baseY, pos.z);
+    group.rotation.y = facing;
+    group.userData.authorId = id;
+    group.userData.isSpawnMarkerGroup = true;
+    group.name = id;
+    const capsuleGeo = new THREE.CapsuleGeometry(0.32, 0.4, 8, 12);
+    const mat = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.18, transparent:true, opacity:0.92 });
+    const capsule = new THREE.Mesh(capsuleGeo, mat);
+    capsule.position.y = 0.52;
+    capsule.userData.authorId = id; capsule.userData.isSpawnMarker = true;
+    group.add(capsule);
+    const ring = new THREE.Mesh(new THREE.RingGeometry(0.42, 0.52, 16), new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.45, side: THREE.DoubleSide }));
+    ring.rotation.x = -Math.PI/2; ring.position.y = 0.06; ring.userData.authorId = id; ring.userData.isSpawnRing = true;
+    group.add(ring);
+    const arrowGeo = new THREE.ConeGeometry(0.18, 0.35, 8);
+    const arrowMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity:0.2 });
+    const arrow = new THREE.Mesh(arrowGeo, arrowMat);
+    arrow.position.set(0, 0.12, 0.55);
+    arrow.rotation.x = Math.PI/2;
+    arrow.userData.authorId = id; arrow.userData.isSpawnArrow = true;
+    group.add(arrow);
+    // foot print
+    const footGeo = new THREE.CylinderGeometry(0.28, 0.28, 0.04, 12);
+    const foot = new THREE.Mesh(footGeo, new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.28 }));
+    foot.position.y = 0.02; foot.userData.authorId = id; foot.userData.isSpawnMarker = true;
+    group.add(foot);
+    scene.add(group); spawnMarkers.push(group);
+    // also add individual meshes for findAllMeshesByAuthorId
+  }
+  function updateSpawnMarkers() {
+    for (const id of ["camp_spawn"]) {
+      const found = draftApi.findObjectById(id);
+      if (!found) continue;
+      syncPreviewForId(id);
+    }
+    for (const region of draftApi.getDraft().regions) for (const wp of region.majorWaypoints ?? []) {
+      const id = wp.id + "__runSpawn";
+      syncPreviewForId(id);
+    }
+    // update line geometry for run spawns
+    for (const line of spawnMarkers) if (line.isLine && line.userData.isSpawnLine) {
+      const id = line.userData.authorId;
+      const baseId = id.replace("__runSpawn","");
+      const wp = draftApi.getDraft().regions.flatMap(r=>r.majorWaypoints??[]).find(w=>w.id===baseId);
+      const rs = draftApi.findObjectById(id);
+      if (wp && rs) {
+        const pts = [new THREE.Vector3(wp.pos.x, (wp.pos.y??0)+0.1, wp.pos.z), new THREE.Vector3(rs.obj.pos.x, (rs.obj.pos.y??0)+0.1, rs.obj.pos.z)];
+        line.geometry.setFromPoints(pts);
+      }
+    }
   }
 
   function createPreviewMeshForNewObject(id) {
@@ -416,22 +520,17 @@ export function createAuthorMode(opts) {
 
   function updateEditorVisibility() {
     if (!isEdit) return;
-    // Camera-centered visibility
     const focus = { x: camera.position.x, z: camera.position.z };
-    // Resolve focus region
     let focusRegion = null;
-    try { focusRegion = worldRegistry.getRegionForPosition({ x: focus.x, y: 0, z: focus.z }); } catch {}
+    try { focusRegion = draftApi.findContainingRegion({ x: focus.x, z: focus.z }); if (!focusRegion) focusRegion = draftApi.findNearestRegion({ x: focus.x, z: focus.z }); } catch {}
     if (!focusRegion) return;
-    let activeSet = null;
-    try { activeSet = worldRegistry.getActiveSetForRegion(focusRegion); } catch {}
-    if (!activeSet) activeSet = new Set([focusRegion]);
-    // For tiny world, include neighbors already; activeSet already includes neighbors
+    // Use draft-derived neighbor expansion: draft neighbors for that region
+    const draftRegion = draftApi.findRegion(focusRegion);
+    let activeSet = new Set([focusRegion]);
+    if (draftRegion && Array.isArray(draftRegion.neighbors)) for (const nid of draftRegion.neighbors) activeSet.add(nid);
     const activeIds = [...activeSet];
     if (resourceSystem) resourceSystem.setActiveRegions(activeIds);
     if (creatureSystem) creatureSystem.setActiveRegions(activeIds);
-    // Also ensure static world meshes for those regions are visible (they are always visible via ground, but resources need visible)
-    // For static props/platforms, they are always visible; but we could hide distant forest etc? Not needed.
-    // Update region overlays highlight
     highlightOverlayForSelected();
   }
 
@@ -451,7 +550,8 @@ export function createAuthorMode(opts) {
 
   function handlePlaceClick(worldPos) {
     if (!pendingPlace) return false;
-    const regionId = worldRegistry.getRegionForPosition({ x: worldPos.x, y: 0, z: worldPos.z });
+    let regionId = draftApi.findContainingRegion({ x: worldPos.x, z: worldPos.z });
+    if (!regionId) regionId = draftApi.findNearestRegion({ x: worldPos.x, z: worldPos.z });
     const targetRegion = regionId || draftApi.getDraft().regions[0]?.id;
     // Create object at worldPos
     const kind = pendingPlace.kind;
@@ -558,10 +658,12 @@ export function createAuthorMode(opts) {
 
   function enterEdit() {
     editorCameraState = { pos: camera.position.clone(), rot: camera.rotation.clone(), fov: camera.fov, fog: scene.fog };
-    const bounds = { minX: -12.5, maxX: 12.5, minZ: -11.5, maxZ: 11.5 };
-    const cx = (bounds.minX + bounds.maxX) * 0.5;
-    const cz = (bounds.minZ + bounds.maxZ) * 0.5;
-    camera.position.set(cx, 28, cz + 0.1);
+    const ext = draftApi.getWorldExtents ? draftApi.getWorldExtents() : { minX: -12.5, maxX: 12.5, minZ: -11.5, maxZ: 11.5 };
+    const cx = (ext.minX + ext.maxX) * 0.5;
+    const cz = (ext.minZ + ext.maxZ) * 0.5;
+    const span = Math.max(ext.maxX - ext.minX, ext.maxZ - ext.minZ);
+    const height = Math.max(22, Math.min(42, span * 1.1));
+    camera.position.set(cx, height, cz + 0.1);
     camera.lookAt(cx, 0, cz);
     camera.updateMatrixWorld();
     setOverlaysVisible(true);
@@ -569,6 +671,7 @@ export function createAuthorMode(opts) {
     setHudVisible(false);
     setForestTransparency(true);
     setProxyVisibility(true);
+    ensureSpawnMarkers();
     updateEditorVisibility();
     renderer.domElement.style.cursor = pendingPlace ? "crosshair" : "";
   }
@@ -586,6 +689,7 @@ export function createAuthorMode(opts) {
     setHudVisible(true);
     setForestTransparency(false);
     setProxyVisibility(false);
+    clearSpawnMarkers();
     exitPlaceMode();
     renderer.domElement.style.cursor = "";
   }
@@ -693,11 +797,17 @@ export function createAuthorMode(opts) {
         const curPos = found.obj.pos || { x: found.obj.x ?? 0, z: found.obj.z ?? 0 };
         dragOffset.x = curPos.x - pt.x;
         dragOffset.z = curPos.z - pt.z;
+        if (found.obj.pos) dragStartPos = { x: found.obj.pos.x, y: found.obj.pos.y ?? 0, z: found.obj.pos.z };
+        else if (found.obj.x !== undefined) dragStartPos = { x: found.obj.x, y: found.obj.y ?? 0, z: found.obj.z };
+        if (found.type === "creature" && found.obj.homePos) dragStartHome = { x: found.obj.homePos.x, y: found.obj.homePos.y ?? 0, z: found.obj.homePos.z };
+        else dragStartHome = null;
       }
       e.preventDefault(); e.stopPropagation();
       renderer.domElement.setPointerCapture(e.pointerId);
     }
   }
+  let dragStartPos = null;
+  let dragStartHome = null;
   function onPointerMove(e) {
     if (!isEdit || !isDragging || !selectedId) return;
     const pt = getGroundIntersection(e);
@@ -705,8 +815,8 @@ export function createAuthorMode(opts) {
     if (!found) return;
     const newX = pt.x + dragOffset.x;
     const newZ = pt.z + dragOffset.z;
-    const nx = Math.max(-12.3, Math.min(12.3, newX));
-    const nz = Math.max(-11.3, Math.min(11.3, newZ));
+    const nx = newX;
+    const nz = newZ;
     const oldX = found.obj.pos ? found.obj.pos.x : found.obj.x;
     const oldZ = found.obj.pos ? found.obj.pos.z : found.obj.z;
     const dx = nx - oldX, dz = nz - oldZ;
@@ -727,10 +837,37 @@ export function createAuthorMode(opts) {
   function onPointerUp(e) {
     if (isDragging) {
       isDragging = false;
-      // Persist draft
-      draftApi.updateTransform(selectedId, {});
-      const v = draftApi.validate();
-      ui.setStatus(v.ok ? `Moved ${selectedId}` : "⚠ "+v.error, !v.ok);
+      const found = draftApi.findObjectById(selectedId);
+      if (found) {
+        let newPos = null;
+        if (found.obj.pos) newPos = { x: found.obj.pos.x, y: found.obj.pos.y ?? 0, z: found.obj.pos.z };
+        else if (found.obj.x !== undefined) newPos = { x: found.obj.x, z: found.obj.z };
+        // revert direct mutation before transactional commit to preserve validation/history
+        if (dragStartPos) {
+          if (found.obj.pos) { found.obj.pos.x = dragStartPos.x; found.obj.pos.y = dragStartPos.y; found.obj.pos.z = dragStartPos.z; }
+          else if (found.obj.x !== undefined) { found.obj.x = dragStartPos.x; found.obj.z = dragStartPos.z; }
+          if (found.type === "creature" && found.obj.homePos && dragStartHome) {
+            found.obj.homePos.x = dragStartHome.x; found.obj.homePos.y = dragStartHome.y; found.obj.homePos.z = dragStartHome.z;
+          }
+        }
+        const patch = {};
+        if (newPos) patch.pos = newPos;
+        if (found.type === "creature" && found.obj.homePos && newPos && found.obj.homePos) {
+          // home already moved directly; include via pos patch will handle via creatureDelta logic inside transact
+          // but we restored, so need to pass moveHomeVia patch? Instead we will include homePos explicitly if needed
+          // The transact logic for creature will auto-move home if not specified; we already have home delta, so pass pos only
+        }
+        const res = draftApi.updateTransform(selectedId, patch);
+        if (!res.ok) {
+          ui.setStatus("⚠ "+res.error, true);
+          // revert preview to restored draft
+          syncPreviewForId(selectedId);
+        } else {
+          const v = draftApi.validate();
+          ui.setStatus(v.ok ? `Moved ${selectedId}` : "⚠ "+v.error, !v.ok);
+        }
+      }
+      dragStartPos = null; dragStartHome = null;
       updateEditorVisibility();
       try { renderer.domElement.releasePointerCapture(e.pointerId); } catch {}
       e.preventDefault(); e.stopPropagation();
@@ -786,48 +923,168 @@ export function createAuthorMode(opts) {
     }
   }
 
+  function isTextEditingTarget(el) {
+    if (!el) return false;
+    const tag = el.tagName ? el.tagName.toLowerCase() : "";
+    if (tag === "input" || tag === "textarea" || tag === "select") return true;
+    if (el.isContentEditable) return true;
+    return false;
+  }
   function onKeyDown(e) {
+    // bounded workflow: only in Edit and not when editing fields
+    if (isTextEditingTarget(document.activeElement)) return;
     if (e.key === "Escape") {
       if (pendingPlace) { exitPlaceMode(); e.preventDefault(); return; }
+      if (isDragging) { isDragging = false; dragStartPos=null; dragStartHome=null; e.preventDefault(); return; }
     }
-    if (!isEdit || !selectedId) return;
+    if (!isEdit) return;
+    const isCtrl = e.ctrlKey || e.metaKey;
+    if (isCtrl && e.key.toLowerCase() === "z" && !e.shiftKey) {
+      e.preventDefault();
+      const res = draftApi.undo();
+      if (res.ok) {
+        ui.setStatus("Undo", false);
+        // restore preview/hierarchy
+        if (selectedId && !draftApi.findObjectById(selectedId)) { selectedId = null; ui.setSelected(null); }
+        if (selectedId) syncPreviewForId(selectedId);
+        updateHighlight(); updateOverlays(); updateHomeMarker(); updateEditorVisibility();
+        ui.refreshHierarchy?.();
+      } else ui.setStatus(res.error, true);
+      return;
+    }
+    if (isCtrl && ((e.key.toLowerCase() === "z" && e.shiftKey) || e.key.toLowerCase() === "y")) {
+      e.preventDefault();
+      const res = draftApi.redo();
+      if (res.ok) {
+        ui.setStatus("Redo", false);
+        if (selectedId) syncPreviewForId(selectedId);
+        updateHighlight(); updateOverlays(); updateHomeMarker(); updateEditorVisibility();
+        ui.refreshHierarchy?.();
+      } else ui.setStatus(res.error, true);
+      return;
+    }
+    if (!selectedId) return;
+    // Delete
+    if (e.key === "Delete" || e.key === "Backspace") {
+      if (isTextEditingTarget(e.target)) return;
+      e.preventDefault();
+      const res = draftApi.deleteObject(selectedId);
+      if (res.ok) {
+        const deleted = selectedId;
+        selectedId = null; ui.setSelected(null);
+        removePreviewMesh(deleted);
+        if (ui.refreshHierarchy) ui.refreshHierarchy();
+        updateHighlight(); updateHomeMarker();
+        ui.setStatus(`Deleted ${deleted}`, false);
+      } else ui.setStatus(res.error, true);
+      return;
+    }
+    // Focus
+    if (e.key.toLowerCase() === "f" && !isCtrl) {
+      e.preventDefault();
+      const found = draftApi.findObjectById(selectedId);
+      if (!found) return;
+      const pos = found.obj.pos || { x: found.obj.x, z: found.obj.z };
+      if (!pos) return;
+      camera.position.x = pos.x;
+      camera.position.z = pos.z + 5;
+      camera.lookAt(pos.x, 0, pos.z);
+      camera.updateMatrixWorld();
+      updateHighlight(); updateHomeMarker(); updateEditorVisibility();
+      return;
+    }
     const step = e.shiftKey ? 1.0 : 0.2;
     let dx = 0, dz = 0;
-    if (e.key === "ArrowUp") dz = -step;
-    else if (e.key === "ArrowDown") dz = step;
-    else if (e.key === "ArrowLeft") dx = -step;
-    else if (e.key === "ArrowRight") dx = step;
-    else if (e.key === "PageUp") {
+    // WASD + arrows
+    const k = e.key.toLowerCase();
+    if (k === "arrowup" || k === "w") dz = -step;
+    else if (k === "arrowdown" || k === "s") dz = step;
+    else if (k === "arrowleft" || k === "a") dx = -step;
+    else if (k === "arrowright" || k === "d") dx = step;
+    else if (k === "q") {
+      e.preventDefault();
+      const f = draftApi.findObjectById(selectedId);
+      if (!f) return;
+      // rotate -15deg if supports rotation
+      const cur = f.obj.rotY ?? 0;
+      const patch = { rotY: cur - (15 * Math.PI/180) };
+      const res = draftApi.updateTransform(selectedId, patch);
+      if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+      return;
+    } else if (k === "e") {
+      // avoid conflict with contextual interaction E when not editing? In author edit we own E
+      if (!isEdit) return;
+      e.preventDefault();
+      const f = draftApi.findObjectById(selectedId);
+      if (!f) return;
+      const cur = f.obj.rotY ?? 0;
+      const patch = { rotY: cur + (15 * Math.PI/180) };
+      const res = draftApi.updateTransform(selectedId, patch);
+      if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+      return;
+    } else if (k === " " || k === "c") {
+      // raise/lower: Space / C (C conflicts with sneak but in author mode we use Space for up and C for down)
+      e.preventDefault();
+      const f = draftApi.findObjectById(selectedId);
+      if (!f) return;
+      const isUp = k === " ";
+      const delta = isUp ? 0.2 : -0.2;
+      if (f.type === "platform" || f.type === "obstacle") {
+        const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = Math.max(-1, curY + delta);
+        const res = draftApi.updateTransform(selectedId, { y: ny });
+        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Elevation ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+        return;
+      }
+      if (f.obj.pos) {
+        const ny = Math.max(-1, (f.obj.pos.y ?? 0) + delta);
+        const res = draftApi.updateTransform(selectedId, { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } });
+        if (!res.ok) ui.setStatus(res.error, true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+        return;
+      }
+      return;
+    } else if (k === "pageup") {
+      e.preventDefault();
       const f = draftApi.findObjectById(selectedId);
       if (!f) return;
       if (f.type === "platform" || f.type === "obstacle") {
-        const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = curY + 0.2; f.obj.y = ny; f.obj.baseY = ny; draftApi.updateTransform(selectedId, { y: ny }); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); e.preventDefault(); return;
+        const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = curY + 0.2;
+        const res = draftApi.updateTransform(selectedId, { y: ny }); if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+        return;
       }
-      if (f.obj.pos) { f.obj.pos.y = (f.obj.pos.y ?? 0) + 0.2; if (f.type==="creature"&&f.obj.homePos) f.obj.homePos.y+=0.2; draftApi.updateTransform(selectedId, {}); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); e.preventDefault(); }
+      if (f.obj.pos) {
+        const ny = (f.obj.pos.y ?? 0) + 0.2;
+        const res = draftApi.updateTransform(selectedId, { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } }); if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+        return;
+      }
       return;
-    } else if (e.key === "PageDown") {
+    } else if (k === "pagedown") {
+      e.preventDefault();
       const f = draftApi.findObjectById(selectedId);
       if (!f) return;
       if (f.type === "platform" || f.type === "obstacle") {
-        const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = Math.max(0, curY -0.2); f.obj.y=ny; f.obj.baseY=ny; draftApi.updateTransform(selectedId,{y:ny}); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); e.preventDefault(); return;
+        const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = Math.max(-1, curY -0.2);
+        const res = draftApi.updateTransform(selectedId,{y:ny}); if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+        return;
       }
-      if (f.obj.pos) { f.obj.pos.y = Math.max(-1, (f.obj.pos.y ?? 0) - 0.2); if (f.type==="creature"&&f.obj.homePos) f.obj.homePos.y=Math.max(-1,(f.obj.homePos.y??0)-0.2); draftApi.updateTransform(selectedId, {}); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); e.preventDefault(); }
+      if (f.obj.pos) {
+        const ny = Math.max(-1, (f.obj.pos.y ?? 0) - 0.2);
+        const res = draftApi.updateTransform(selectedId, { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } }); if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+        return;
+      }
       return;
-    } else return;
+    } else if (dx === 0 && dz === 0) return;
     if (dx !== 0 || dz !== 0) {
+      e.preventDefault();
       const found = draftApi.findObjectById(selectedId);
-      if (found) {
-        const moveHome = document.getElementById("author-move-home")?.checked ?? true;
-        if (found.obj.pos) { found.obj.pos.x += dx; found.obj.pos.z += dz; if (found.type==="creature"&&found.obj.homePos && moveHome){ found.obj.homePos.x+=dx; found.obj.homePos.z+=dz; } }
-        else if (found.obj.x !== undefined) { found.obj.x += dx; found.obj.z += dz; }
-        draftApi.updateTransform(selectedId, {});
-        syncPreviewForId(selectedId);
-        updateHomeMarker();
-        ui.setSelected(selectedId);
-        updateHighlight();
-        updateEditorVisibility();
-        e.preventDefault();
-      }
+      if (!found) return;
+      const newX = (found.obj.pos ? found.obj.pos.x : found.obj.x) + dx;
+      const newZ = (found.obj.pos ? found.obj.pos.z : found.obj.z) + dz;
+      let patch = {};
+      if (found.obj.pos) patch.pos = { x: newX, y: found.obj.pos.y ?? 0, z: newZ };
+      else if (found.obj.x !== undefined) patch = { x: newX, z: newZ };
+      const res = draftApi.updateTransform(selectedId, patch);
+      if (!res.ok) ui.setStatus(res.error, true);
+      else { syncPreviewForId(selectedId); updateHomeMarker(); ui.setSelected(selectedId); updateHighlight(); updateEditorVisibility(); }
     }
   }
 

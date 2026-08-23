@@ -342,26 +342,26 @@ describe("Phase 4A — anchor interaction guards", () => {
     const reg = createWorldRegistry(WORLD_DATA);
     const sess = createExpeditionSession({ initialStatus:"camp", regionDepthMap: reg.getRegionDepthMap() });
     sess.beginRun(reg.getInitialMajorWaypointId());
-    let prompts = 0;
     const sys = createFrontierAnchorSystem(reg, {
       getPlayerPos: ()=> ({ x:0,y:0,z:0 }),
       getSession: ()=> sess,
       frontierProgress: { isUnlockedWaypoint:()=>true, isDiscoveredBeacon:()=>false, unlockWaypoint:()=>false, discoverBeacon:()=>false, getDiscoveredBeacons:()=>[] },
-      onWaypointPrompt: (id)=> { if(id===reg.getInitialMajorWaypointId()) prompts++; },
-      onBeaconPrompt: ()=> {},
-      onGateStartPrompt: ()=>{},
-      onGateReturnPrompt: ()=>{},
+      onWaypointDiscovered: ()=> {},
     });
     const startId = reg.getInitialMajorWaypointId();
     const wp = reg.getWaypointById(startId);
+    const spawn = reg.getWaypointSpawnPosition(startId);
     sys.disarmStartWaypoint(startId);
-    const inside = { x: wp.pos.x, y:0, z: wp.pos.z };
+    const inside = { x: spawn.x, y:0, z: spawn.z };
     sys.update(inside);
-    assert.equal(prompts, 0, "disarmed start should not prompt while still inside");
-    const outside = { x: wp.pos.x + 5, y:0, z: wp.pos.z + 5 };
+    // while still inside after disarm, waypoint extraction should not be available (gate may be nearby but waypoint should be suppressed)
+    const nearbyInside = sys.getNearbyInteraction(inside, sess);
+    assert.ok(!nearbyInside || nearbyInside.id !== startId, "disarmed start should not expose waypoint extract while still inside");
+    const outside = { x: spawn.x + 5, y:0, z: spawn.z + 5 };
     sys.update(outside);
     sys.update(inside);
-    assert.equal(prompts, 1, "after leaving, start waypoint should arm and prompt");
+    const nearby = sys.getNearbyInteraction(inside, sess);
+    assert.ok(nearby && nearby.id === startId, "after leaving, start waypoint should arm and expose contextual extract");
   });
   it("Camp gate return uses same extraction outcome pipeline (session resolve)", () => {
     withMockStorage(()=>{

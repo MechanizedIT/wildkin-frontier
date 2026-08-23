@@ -220,32 +220,62 @@ export function createAuthorUI(opts) {
   const hierarchyEl = container.querySelector("#author-hierarchy");
   const filterEl = container.querySelector("#author-filter");
   if (filterEl) filterEl.addEventListener("input", refreshHierarchy);
+  let expandedState = new Map();
+  function saveExpandedState() {
+    expandedState.clear();
+    for (const det of hierarchyEl.querySelectorAll("details")) {
+      const key = det.dataset.key;
+      if (key) expandedState.set(key, det.open);
+    }
+  }
+  function isExpanded(key, fallback) {
+    if (filterEl?.value) return true;
+    if (expandedState.has(key)) return expandedState.get(key);
+    return fallback;
+  }
   function refreshHierarchy() {
+    saveExpandedState();
     if (!hierarchyEl) return;
     const draft = draftApi.getDraft();
     const filter = (filterEl?.value || "").toLowerCase().trim();
+    // preserve scroll
+    const scrollTop = hierarchyEl.scrollTop;
     hierarchyEl.innerHTML = "";
     for (const region of draft.regions) {
+      // Build categories, including virtual spawns
+      const spawnItems = [];
+      if (region.id === "camp") {
+        const campSpawn = draftApi.findObjectById("camp_spawn");
+        if (campSpawn) spawnItems.push({ id: "camp_spawn", type: "campSpawn", displayName: "Camp Spawn", pos: campSpawn.obj.pos });
+      }
+      for (const wp of region.majorWaypoints ?? []) {
+        const rsId = wp.id + "__runSpawn";
+        const rs = draftApi.findObjectById(rsId);
+        if (rs) spawnItems.push({ id: rsId, type: "runSpawn", displayName: `${wp.displayName ?? wp.id} Run Spawn`, parentWp: wp.id, pos: rs.obj.pos });
+      }
       const cats = [
-        { label: "Ground", items: region.groundPatches ?? [] },
-        { label: "Boundaries / Colliders", items: region.boundaryColliders ?? [] },
-        { label: "Props", items: region.props ?? [] },
-        { label: "Traversal", items: [...(region.traversal?.platforms??[]), ...(region.traversal?.obstacles??[]), ...(region.traversal?.climbables??[])] },
-        { label: "Resources", items: region.resources ?? [] },
-        { label: "Wildkin", items: region.creatures ?? [] },
-        { label: "Anchors", items: [...(region.majorWaypoints??[]), ...(region.extractionBeacons??[])] },
-        { label: "POIs", items: region.pois ?? [] },
+        { label: "Ground", items: region.groundPatches ?? [], key: "ground" },
+        { label: "Boundaries / Colliders", items: region.boundaryColliders ?? [], key: "boundaries" },
+        { label: "Props", items: region.props ?? [], key: "props" },
+        { label: "Traversal", items: [...(region.traversal?.platforms??[]), ...(region.traversal?.obstacles??[]), ...(region.traversal?.climbables??[])] , key: "traversal" },
+        { label: "Resources", items: region.resources ?? [], key: "resources" },
+        { label: "Wildkin", items: region.creatures ?? [], key: "wildkin" },
+        { label: "Anchors", items: [...(region.majorWaypoints??[]), ...(region.extractionBeacons??[])] , key: "anchors" },
+        { label: "Spawns", items: spawnItems, key: "spawns" },
+        { label: "POIs", items: region.pois ?? [], key: "pois" },
       ];
       let hasVisible = !filter || region.id.toLowerCase().includes(filter) || (region.displayName&&region.displayName.toLowerCase().includes(filter));
       for (const c of cats) for (const o of c.items) if (!filter || o.id.toLowerCase().includes(filter) || (o.type&&o.type.toLowerCase().includes(filter)) || (o.subtype&&o.subtype.toLowerCase().includes(filter)) || (o.displayName&&o.displayName.toLowerCase().includes(filter))) hasVisible=true;
       if (!hasVisible) continue;
-      const det = document.createElement("details"); det.open = !!filter || region.id===regionSelectEl.value; det.style.marginBottom="4px";
+      const regionKey = `region:${region.id}`;
+      const det = document.createElement("details"); det.dataset.key = regionKey; det.open = isExpanded(regionKey, region.id===regionSelectEl.value); det.style.marginBottom="4px";
       const sum = document.createElement("summary"); sum.textContent = region.id; sum.style.cursor="pointer"; sum.style.fontWeight="700"; det.appendChild(sum);
       for (const cat of cats) {
         if (cat.items.length===0) continue;
         const filtered = cat.items.filter(o=> !filter || o.id.toLowerCase().includes(filter) || (o.type&&o.type.toLowerCase().includes(filter)) || (o.subtype&&o.subtype.toLowerCase().includes(filter)) || (o.displayName&&o.displayName.toLowerCase().includes(filter)));
         if (filtered.length===0) continue;
-        const catDet = document.createElement("details"); catDet.style.marginLeft="8px"; catDet.open = !!filter;
+        const catKey = `cat:${region.id}:${cat.key}`;
+        const catDet = document.createElement("details"); catDet.dataset.key = catKey; catDet.style.marginLeft="8px"; catDet.open = isExpanded(catKey, !!filter);
         const catSum = document.createElement("summary"); catSum.textContent = `${cat.label} (${filtered.length})`; catSum.style.cursor="pointer"; catSum.style.color="#8aa0c0"; catDet.appendChild(catSum);
         for (const obj of filtered) {
           const label = obj.displayName ? `${obj.id} [${obj.type ?? obj.subtype} · ${obj.displayName}]` : obj.id + (obj.type?` [${obj.type}]`: obj.subtype?` [${obj.subtype}]`:"");
@@ -257,11 +287,13 @@ export function createAuthorUI(opts) {
           row.appendChild(focusBtn);
           row.addEventListener("dblclick", ()=> opts.onFocusObject?.(obj.id));
           catDet.appendChild(row);
+          if (obj.id===selectedId) setTimeout(()=> row.scrollIntoView({ block:"nearest" }), 0);
         }
         det.appendChild(catDet);
       }
       hierarchyEl.appendChild(det);
     }
+    hierarchyEl.scrollTop = scrollTop;
   }
   regionSelectEl.addEventListener("change", refreshRegionForm);
   container.querySelector("#author-region-apply").addEventListener("click", () => {
@@ -286,6 +318,7 @@ export function createAuthorUI(opts) {
   });
 
   function supportsY(type) {
+    if (type === "climbable" || type === "campSpawn" || type === "runSpawn") return true; // spawns support Y
     if (type === "climbable") return false;
     return true;
   }
@@ -295,14 +328,26 @@ export function createAuthorUI(opts) {
     return true;
   }
   function supportsSize(type) {
-    if (type === "resource" || type === "creature" || type === "majorWaypoint" || type === "extractionBeacon" || type === "poi") return false;
+    if (type === "resource" || type === "creature" || type === "majorWaypoint" || type === "extractionBeacon" || type === "poi" || type === "campSpawn" || type === "runSpawn") return false;
     return true;
   }
-  function supportsPresentation(type) {
-    // static families that share presentation/collision path: props, groundPatch, boundaryCollider, fence/boundary etc
+  function supportsPresentation(type, caps) {
+    if (caps) {
+      return caps.opacity || caps.tint || caps.visibleInPlay || caps.collision;
+    }
     if (type === "prop" || type === "groundPatch" || type === "boundaryCollider") return true;
-    // For fence/forestBoundary etc they are props with subtype fence -> already prop
     return false;
+  }
+  function getCapsForFound(found) {
+    // simple local capability map for presentation
+    if (found.type === "prop") {
+      const subtype = found.obj.subtype;
+      if (subtype === "water") return { collision: false, visibleInPlay: true, opacity: true, tint: true };
+      if (subtype === "gate") return { collision: true, visibleInPlay: true, opacity: true, tint: true };
+    }
+    if (found.type === "groundPatch" || found.type === "boundaryCollider") return { collision: true, visibleInPlay: true, opacity: true, tint: true };
+    if (found.type === "prop") return { collision: true, visibleInPlay: true, opacity: true, tint: true };
+    return null;
   }
 
   function setSelected(id) {
@@ -323,8 +368,14 @@ export function createAuthorUI(opts) {
     container.querySelector("#author-x").value = pos.x ?? 0;
     container.querySelector("#author-z").value = pos.z ?? 0;
     container.querySelector("#author-y").value = pos.y ?? obj.y ?? obj.baseY ?? 0;
-    const rotYdeg = ((obj.rotY ?? 0) * 180 / Math.PI).toFixed(1);
+    const rotYdeg = ((obj.facingYaw ?? obj.rotY ?? 0) * 180 / Math.PI).toFixed(1);
     container.querySelector("#author-rot").value = rotYdeg;
+    // For spawns, label rotation as Facing
+    const rotLabel = container.querySelector("#wrap-rot");
+    if (found.type === "campSpawn" || found.type === "runSpawn") {
+      const label = rotLabel.querySelector("input") ? rotLabel : null;
+      // change label text to Facing if needed - we keep input but user sees value
+    }
     const size = obj.size || {};
     container.querySelector("#author-w").value = size.w ?? obj.w ?? "";
     container.querySelector("#author-h").value = size.d ?? obj.h ?? "";
@@ -348,11 +399,19 @@ export function createAuthorUI(opts) {
       sizeRow.style.display = "none";
     }
     const presentation = container.querySelector("#author-presentation");
-    const supportsPres = supportsPresentation(found.type);
+    const caps = getCapsForFound(found);
+    const supportsPres = supportsPresentation(found.type, caps);
     if (supportsPres) {
       presentation.style.display = "";
       container.querySelector("#author-visible").checked = obj.visibleInPlay !== false;
-      container.querySelector("#author-collision").checked = obj.collisionEnabled !== false;
+      const collEl = container.querySelector("#author-collision");
+      const collRow = collEl.closest("label");
+      if (caps && caps.collision === false) {
+        collRow.style.display = "none";
+      } else {
+        collRow.style.display = "";
+        collEl.checked = obj.collisionEnabled !== false;
+      }
       container.querySelector("#author-opacity").value = obj.opacity ?? 1;
       const tintVal = obj.color ?? obj.tint ?? "";
       let hex = "";
@@ -420,7 +479,10 @@ export function createAuthorUI(opts) {
     } else if (!isNaN(x) && found && (found.type === "platform" || found.type === "obstacle")) {
       patch.x = x;
     }
-    if (!isNaN(rotDeg)) patch.rotY = rotDeg * Math.PI / 180;
+    if (!isNaN(rotDeg)) {
+      if (found && (found.type === "campSpawn" || found.type === "runSpawn")) patch.facingYaw = rotDeg * Math.PI / 180;
+      else patch.rotY = rotDeg * Math.PI / 180;
+    }
     if (found && found.type === "prop") {
       const size = {};
       if (!isNaN(w)) size.w = w;

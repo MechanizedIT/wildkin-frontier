@@ -2,6 +2,12 @@
 // Statuses: camp | active | extracted | lost
 // Owns only transient run state, not persistent bank.
 
+function generateRunId() {
+  try {
+    if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
+  } catch {}
+  return `run_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
+}
 export function createExpeditionSession(opts = {}) {
   let startAnchorId = opts.startAnchorId ?? "camp_gate";
   let status = opts.initialStatus ?? "active"; // camp | active | extracted | lost | dead (dead alias for lost)
@@ -16,6 +22,7 @@ export function createExpeditionSession(opts = {}) {
   let extractionOutcome = null;
   let resolved = false; // has this run been resolved (banked/lost) — idempotent guard
   let runDiscoveries = { newWaypoints: [], newBeacons: [] }; // temp discoveries this run before banking
+  let runId = opts.initialRunId ?? generateRunId();
 
   function getDepthForRegion(regionId) {
     if (!regionId) return 0;
@@ -49,7 +56,6 @@ export function createExpeditionSession(opts = {}) {
   function isResolved() { return resolved; }
 
   function beginRun(nextStartAnchorId) {
-    // Validate: can begin from camp only; if already active, ignore (idempotent)
     if (status === "active") return false;
     startAnchorId = nextStartAnchorId ?? startAnchorId;
     status = "active";
@@ -60,12 +66,12 @@ export function createExpeditionSession(opts = {}) {
     extractionOutcome = null;
     unsecuredWildkin = [];
     runDiscoveries = { newWaypoints: [], newBeacons: [] };
-    // maxDepth reset to depth of current region? Keep but caller will setRegion
+    runId = generateRunId();
+    maxDepth = 0;
     return true;
   }
 
   function resetToCamp() {
-    // Centralized transient reset to camp (used by both extraction and death return)
     status = "camp";
     resolved = false;
     runXp = 0;
@@ -74,11 +80,11 @@ export function createExpeditionSession(opts = {}) {
     extractionOutcome = null;
     unsecuredWildkin = [];
     runDiscoveries = { newWaypoints: [], newBeacons: [] };
-    maxDepth = getDepthForRegion(currentRegionId);
+    maxDepth = 0;
+    runId = generateRunId();
   }
 
   function reset(nextStartAnchorId = startAnchorId) {
-    // Legacy behavior expected by Phase 3.5A tests: reset => active
     startAnchorId = nextStartAnchorId ?? startAnchorId;
     status = "active";
     resolved = false;
@@ -89,6 +95,7 @@ export function createExpeditionSession(opts = {}) {
     unsecuredWildkin = [];
     runDiscoveries = { newWaypoints: [], newBeacons: [] };
     maxDepth = getDepthForRegion(currentRegionId);
+    runId = generateRunId();
   }
 
   function snapshotRun() {
@@ -101,6 +108,7 @@ export function createExpeditionSession(opts = {}) {
       maxDepth,
       newWaypoints: [...runDiscoveries.newWaypoints],
       newBeacons: [...runDiscoveries.newBeacons],
+      runId,
     };
   }
 
@@ -157,6 +165,7 @@ export function createExpeditionSession(opts = {}) {
       extractionOutcome,
       resolved,
       runDiscoveries: { newWaypoints: [...runDiscoveries.newWaypoints], newBeacons: [...runDiscoveries.newBeacons] },
+      runId,
     };
   }
 
@@ -169,6 +178,7 @@ export function createExpeditionSession(opts = {}) {
     getCurrentRegionId: () => currentRegionId,
     getCurrentPocketId: () => currentPocketId,
     getMaxDepth: () => maxDepth,
+    getRunId: () => runId,
     setRegion,
     addXp,
     setXp,

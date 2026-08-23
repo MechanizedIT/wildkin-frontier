@@ -624,3 +624,44 @@
   - Camp `playerSpawn` is authored at `0,10.0`; future moves must keep outside gate radius or rely on `prime` edge-trigger guarantee.
   - Ground safety floor at -30 is invisible and not walkable when authored ground deleted; gaps are real gaps.
 
+## 2026-08-23 — Phase 4A.2 Pre-4B Authoring Reliability & Expedition Interaction Closure — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Implement active `docs/CURRENT_SLICE.md` Phase 4A.2 end-to-end — close systemic authoring, input, spawn, persistence, guidance, and frontier-interaction defects before Phase 4B.
+
+- **Decisions:**
+  - Transactional author draft: new `src/author/authorDraft.js` `transact()` helper clones candidate → mutate → `normalizeWorldData` validate → atomic commit → history → persist; invalid inspector/drag/placement leaves canonical draft unchanged; `cloneRepo` clears bounded 40-snapshot undo/redo; Play transition validates before reload; export uses already-valid draft.
+  - Canonical descriptor: new `src/world/staticDescriptor.js` with `STATIC_CAPABILITIES` matrix, `normalizeStaticDescriptor`, `getVisualCenter` (base+height/2), `getRapierDescriptor`; both `staticWorldBuilder` and `createPhysicsWorld` consume same base-Y interpretation (migrated Boundary `pos.y` 1.5→0 base). Gate now truthfully collidable when `collisionEnabled true`.
+  - Draft-derived spatial model: added `findContainingRegion` (strict nullable), `findNearestRegion`, `getWorldExtents`, `getIntersectingRegions` to `authorDraft`; removed legacy `±12.3/±11.3` drag clamp in `authorMode` (now unbounded, coalesced drag into one history entry on release); editor camera framing derives from `getWorldExtents` with padding; placement uses `findContainingRegion || findNearestRegion`.
+  - Validation closure: extended `worldValidator` with region overlap reject, neighbor reciprocity, ground/boundary ownership, traversal finite/positive, static size positive, runSpawn strict containment, duplicate IDs, displayName; migrated `spawnOffset` → `runSpawn {position,facingYaw}` and `camp.playerSpawn {position,facingYaw}`.
+  - Spawn: `worldRegistry` now resolves `runSpawn` with `facingYaw`; `world.json` migrated Camp spawn `0,10` facing PI and Forest Edge `0,5.2` facing PI, Threshold Rise `2.2,2.4,-6.4` facing PI; gate `collisionEnabled true`.
+  - Visual spawn authoring: `authorMode` now creates selectable `camp_spawn` and `wp_*__runSpawn` markers (capsule+ring+arrow+line), `authorUI` hierarchy adds Spawns category with expansion-state preservation (`expandedState Map` keyed by `region:*/cat:*`), selection remains highlighted/scrolled.
+  - Keyboard: added bounded command router in `authorMode` active only in Edit and not when `input/textarea/select/contenteditable` focused: Delete/Backspace delete, F focus, WASD/arrows nudge (Shift larger), Q/E rotate 15°, Space/C raise/lower, Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z/Y redo, Esc cancel place/drag.
+  - Input ownership: `touchMovement` now ignores `pointerType mouse` at adapter boundary (mouse→keyboardInput only), preventing double swing; one click = one Field Tool swing.
+  - HUD: new `src/ui/hudStack.js` single upper-left stack (`hud-stack` flex column, gap 6, safe-area, max-height scroll); `runInventoryHud` and `autoHarvestToggle` now append to stack (toggle inserted on top), never overlap.
+  - Indicators: rewrote `frontierIndicators` to project via `THREE.Vector3.project(camera)` for every frame, handle behind-camera inversion, clamp to safe portrait rect with padding, hide when on-screen; guidance policy: extraction only discovered+unlocked, next waypoint deeper than current depth, endpoint self-point suppressed.
+  - Run identity: `expeditionSession` now generates `runId` per `beginRun/resetToCamp/reset`, includes in `snapshotRun`; `frontierProgress.bankRun` now takes `runId` and tracks bounded `bankedRunIds` set for idempotence (two identical cargo runs both bank, same runId cannot double).
+  - Per-run reset: `beginRun`/`resetToCamp` now reset `maxDepth` to 0 and clear `runDiscoveries/resolved` correctly; Camp reset primes after player actually at Camp.
+  - Interaction: rewrote `frontierAnchorSystem` to separate discovery (once, nonblocking, persist) from contextual extraction; `getNearbyInteraction` returns nearest inside extraction (`START EXPEDITION` at Camp gate, `RETURN & SECURE` frontier side, `EXTRACT — Name` for waypoint/beacon) while respecting `suppressedUntilExit` and post-keep-going cooldown; gate no longer auto-opens Map. New `src/ui/contextualInteraction.js` single owner for label/target, desktop `E` + mobile button, and `src/ui/activationToast.js` pulse/ring + procedural activation sound (waypoint/beacon) + readable toast (one-shot). `main.js` wires `onWaypointDiscovered/onBeaconDiscovered` → toast/pulse, contextual `E`/button → `handleExtractionFlow` or `Map.openStartSelection`, bank uses `snap.runId`, beginExpedition applies `facingYaw`.
+  - Tests: updated legacy prompt-based tests to new interaction contract (check `getNearbyInteraction` and `getWorldExtents` etc), fixed hierarchy move test to include valid pos, and added `tests/phase4a2.test.js` (37 checks covering descriptor parity, proxy, visible×collision, opacity/tint, invalid mutations, Play refusal, beyond old rectangle, draft spatial, overlap, outside region, traversal, hierarchy state, shortcuts, undo/redo, spawn containment, facing, suppression, mouse ownership, HUD stack, projection, undiscovered exclusion, runId idempotence, depth reset, discovery once, no modal, contextual EXTRACT, gate start, Map close, return & secure).
+
+- **Files/Features Changed:**
+  - Created: `src/world/staticDescriptor.js`, `src/ui/hudStack.js`, `src/ui/contextualInteraction.js`, `src/ui/activationToast.js`, `tests/phase4a2.test.js`
+  - Modified: `src/author/authorDraft.js`, `src/author/authorMode.js`, `src/author/authorUI.js`, `src/world/worldValidator.js`, `src/world/worldRegistry.js`, `src/world/staticWorldBuilder.js`, `src/physics/createPhysicsWorld.js`, `src/world/frontierAnchorSystem.js`, `src/ui/runInventoryHud.js`, `src/ui/autoHarvestToggle.js`, `src/ui/frontierIndicators.js`, `src/audio/gameAudio.js`, `src/session/expeditionSession.js`, `src/save/frontierProgress.js`, `src/input/touchMovement.js`, `src/world/data/world.json`, `src/world/data/world.generated.js`, `src/main.js`, `tests/phase4a.test.js`, `tests/phase4a1.test.js`, `tests/phase35b1.test.js`, `tests/phase35b2.test.js`, `docs/ARCHITECTURE.md`, `README.md`, `docs/BUILD_LOG.md`
+  - Build output: `dist/submission/index.html` ~595 KB, `vendor/three.module.js` 1243.1 KB, `vendor/rapier.js` 2790.6 KB, total ~4644.5 KB; `dist/submission.zip` 1437.9 KB (1.40 MB, <35 MB)
+
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (437 tests 115 suites: 400 prior +37 new Phase 4A.2; all shared-contract checks green)
+  - `npm run world:generate` — PASS, `npm run world:check` — PASS
+  - `npm run verify` — PASS (test 437 + world:check + build 595KB + validate 4644KB <35MB, vendor three+rapier, relative importmap, no https, readable Phase 4A.2)
+  - `npm run zip` — PASS (1437.9 KB, index at ZIP root, vendor preserved)
+  - One rAF — PASS (1 in src/main.js), fixed 1/60, Rapier only, offline/portrait constraints preserved
+
+- **Human/Manual Changes:** None.
+
+- **Remaining Issues / Deferred:**
+  - Stop before Phase 4B content/pacing (Area 1 layout Polish, temptation/danger, Resonator spend, bonding). Phase 4A.2 makes Author Mode trustworthy and frontier interaction nonblocking; human must now confirm the seven acceptance tests and the core question.
+  - Gate remains closed/solid; Map open from gate only when nearby and camp; no generic door system.
+  - No resize handles, multi-select, terrain sculpting, region CRUD, streaming added.
+  - Human yes required before Phase 4B.
+
+

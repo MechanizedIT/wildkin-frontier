@@ -1,13 +1,15 @@
 // src/ui/autoHarvestToggle.js — compact player preference toggle, default ON
+import { getOrCreateHudStack } from "./hudStack.js";
 export function createAutoHarvestToggle(initial = true) {
   const hud = document.getElementById("hud");
   let enabled = initial;
   let onChange = null;
   if (!hud) return { getEnabled: () => enabled, setEnabled: (v) => (enabled = v), element: null, onToggle: () => {} };
 
+  const stack = getOrCreateHudStack() || hud;
   const container = document.createElement("div");
   container.id = "auto-harvest-toggle";
-  container.style.cssText = "position:absolute;left:max(10px, env(safe-area-inset-left));top:max(52px, env(safe-area-inset-top));pointer-events:auto;z-index:5;display:flex;align-items:center;gap:6px;background:rgba(14,20,32,0.86);border:1px solid rgba(255,255,255,0.13);border-radius:10px;padding:6px 10px;backdrop-filter:blur(6px);user-select:none;touch-action:manipulation;min-height:36px;";
+  container.style.cssText = "pointer-events:auto;display:flex;align-items:center;gap:6px;background:rgba(14,20,32,0.86);border:1px solid rgba(255,255,255,0.13);border-radius:10px;padding:6px 10px;backdrop-filter:blur(6px);user-select:none;touch-action:manipulation;min-height:36px;";
 
   const label = document.createElement("span");
   label.textContent = "AUTO HARVEST";
@@ -47,7 +49,9 @@ export function createAutoHarvestToggle(initial = true) {
 
   container.appendChild(label);
   container.appendChild(btn);
-  hud.appendChild(container);
+  // ensure inventory appears below toggle inside stack; insert toggle at top
+  if (stack.firstChild) stack.insertBefore(container, stack.firstChild);
+  else stack.appendChild(container);
 
   return {
     getEnabled: () => enabled,
