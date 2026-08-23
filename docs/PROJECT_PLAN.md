@@ -277,7 +277,9 @@ A small Matter Resonator is visible at Camp from first launch.
 Core prototype role:
 
 - recovered expedition matter synchronizes/banks through a readable Camp interaction,
-- exactly one small reliable unlock/spend may be tied to it in the first complete loop.
+- exactly one small reliable unlock/spend should eventually make a successful extraction change the next run.
+
+Phase 4A proves banking/results without requiring a spend. Phase 4B should add/tune the first small meaningful Resonator-linked spend/unlock only after the mechanical expedition loop works.
 
 Future optional role:
 
@@ -291,9 +293,9 @@ The full Resonator system and large base expansion remain optional until the exp
 
 ## Data-Driven World
 
-Use `world.json` or equivalent rather than scattered coordinate arrays.
+`src/world/data/world.json` is the one manually maintained authored source, with deterministic generated runtime data.
 
-Data should support:
+Data supports:
 
 - Camp and gate,
 - areas/regions,
@@ -307,30 +309,27 @@ Data should support:
 - POIs,
 - optional lock/unlock requirements.
 
-## Dev-Only Authoring
+## Dev-Only Authoring — ACCEPTED
 
-Keep the author tool deliberately small:
+The desktop Author Mode is accepted after Phase 3.5B.2 and provides the Area 1 workflow needed for future tuning:
 
-- place/select,
-- move/rotate/elevate/resize where relevant,
+- palette → click-world placement,
+- scene/hierarchy selection,
+- direct X/Z drag,
+- move/rotate/elevate/resize where coherently supported,
+- visual ↔ Rapier transform parity for supported solids,
 - duplicate/delete,
-- edit important object/anchor/region properties,
+- Wildkin spawn/home editing,
+- Region → Category → Object hierarchy,
+- camera focus/visibility for editing,
 - quick Edit ↔ Play,
-- deterministic JSON export/save.
+- deterministic JSON export/reset.
 
-Do not build a general-purpose level editor framework.
+Do not continue expanding the editor unless real level-authoring work exposes a blocker.
 
-## Region / Pocket Activation
+## Region / Pocket Activation — ACCEPTED
 
-Three.js frustum culling handles render visibility, but it does not automatically stop AI/physics/gameplay simulation.
-
-Add a lightweight runtime activation manager:
-
-- current region/pocket + nearby neighbors active,
-- distant creatures/pickups/colliders/expensive simulation deactivated or not instantiated,
-- no per-frame whole-world updates,
-- all data/assets remain local and offline,
-- no complex async asset streaming unless later profiling proves it necessary.
+The lightweight region manager keeps current region + neighbors active and stops distant creature/resource simulation while preserving a neighbor buffer. Three.js frustum culling remains render-only; full async asset streaming is unnecessary until profiling proves otherwise.
 
 Near-top-down camera and directed areas make this practical.
 
@@ -387,6 +386,8 @@ Workflow:
 6. run a bounded refinement pass if needed,
 7. commit/lock and move on.
 
+Permanent **Change Closure / Consistency Sweep** rule is in `AGENTS.md`: when a shared contract changes, verify sibling systems using that path end-to-end. Be proactive across consistency, not into future feature scope.
+
 # 12. Re-Baselined Phased Implementation Plan
 
 ## Phase 0 — Compliant Foundation — DONE
@@ -422,73 +423,104 @@ Validated:
 
 Do not continue isolated arena polish unless a later real-world regression appears.
 
-## Phase 3.5 — Directed-World Foundation
+## Phase 3.5 — Directed-World Foundation — COMPLETE / ACCEPTED
 
-Execute as **two bounded slices**, not one mega-sprint.
+### Phase 3.5A — Core-Loop Architecture, World Data & Region Activation — COMPLETE / ACCEPTED
 
-### Phase 3.5A — Core-Loop Architecture, World Data & Region Activation — NEXT
+Implemented/validated:
 
-Goal: create the minimum clean foundation needed for a real directed expedition.
+- focused `ExpeditionSession` temporary-run owner,
+- normalized data-driven world path,
+- region/pocket adjacency,
+- current+neighbor region activation,
+- inactive resource/creature simulation freezing,
+- bounded temporary pools/culling,
+- single-rAF/fixed-step/Rapier/offline guarantees.
+
+### Phase 3.5B / 3.5B.1 / 3.5B.2 — Author Mode & Area 1 Skeleton — COMPLETE / ACCEPTED
+
+Implemented/validated:
+
+- one authoritative `world.json` source + generated runtime module/stale guard,
+- data-driven static/traversal world builder,
+- rough Camp + p1/p2/p3/p4 directed Area 1 skeleton,
+- direct placement/dragging,
+- transform/collider parity for supported solids,
+- live resize,
+- author input ownership,
+- camera-centered edit visibility,
+- Wildkin home editing/visualization,
+- deterministic export/reset,
+- Region → Category → Object hierarchy.
+
+Stop editor infrastructure work unless real Area 1 authoring exposes a concrete blocker.
+
+## Phase 4 — First Complete Directed Expedition
+
+Split this milestone into two bounded slices so implementation completeness and play feel are judged separately.
+
+### Phase 4A — First Complete Expedition Loop — ACTIVE / NEXT
+
+Goal:
+
+> **Prove Camp → choose start → carry unsecured value → extract or keep going → bank or lose → Camp → next run.**
 
 Build:
 
-- keep `main.js` as composition/fixed-loop wiring,
-- introduce focused Expedition/Run Session ownership for temporary run state/lifecycle,
-- migrate authored placement into normalized `world.json` or equivalent,
-- define Camp/region/pocket/resource/Wildkin/traversal/major-Waypoint/Extraction-Beacon/POI schema,
-- make existing systems-test content load through the new data path first,
-- add region/pocket activation manager with current + neighbor activation,
-- preserve one rAF, fixed step, Rapier ownership, offline build, bounded pools,
-- add tests for deterministic world loading and activation/deactivation.
+- explicit Camp vs active-run lifecycle,
+- versioned local persistent frontier/bank owner separate from `ExpeditionSession`,
+- always-accessible top-right Map,
+- Camp gate opens Major-Waypoint start selection,
+- fresh save exposes only first Major Waypoint start,
+- activated Major Waypoints persist and become future starts,
+- Extraction Beacons persist as discoveries/extraction-only anchors,
+- Camp gate can secure a physical retreat,
+- anchor **EXTRACT / KEEP GOING** prompt,
+- run resources + run XP unsecured,
+- extraction banks current run exactly once,
+- death loses current run resources/XP while retaining frontier discovery,
+- recovery/loss cards shown at Camp,
+- repeatable run reset/start flow,
+- minimal edge guidance toward safety/extraction and next Major Waypoint,
+- upper-left run cargo readability/hide-zero cleanup,
+- persistent progress isolated from Author Mode.
 
-Do **not** build Camp gameplay, map, extraction, bonding, progression, or a full editor yet.
-
-### Phase 3.5B — Minimal Author Mode & Area 1 Skeleton
-
-Goal: human can rapidly shape the first expedition without editing coordinates in gameplay code.
-
-Build only the authoring capability required for Area 1:
-
-- select/place/move/rotate/elevate/resize supported objects,
-- duplicate/delete,
-- edit region/pocket + anchor/POI properties,
-- quick Edit ↔ Play,
-- deterministic export/save,
-- rough Camp + Area 1 pocket skeleton only for authoring validation.
-
-No final gameplay content polish in this slice.
-
-## Phase 4 — Camp, Map & First Complete Directed Expedition
-
-This is the first major gameplay milestone.
-
-Build:
-
-- alien Camp: drop pod, perimeter fence, dense forest boundary, small Resonator, gate,
-- always-accessible top-right map,
-- gate-triggered expedition-start selection,
-- new save exposes only first start,
-- first area with 3–4 wide exploration pockets,
-- major Waypoint at area start and next major Waypoint as aspirational frontier progress,
-- 1–2 Extraction Beacons only if pacing needs them,
-- **EXTRACT / KEEP GOING** prompt on anchor interaction,
-- edge POI/extraction indicators,
-- unlimited prototype resource inventory + clearer upper-left inventory UI,
-- unsecured vs banked run state,
-- successful extraction recovery card,
-- death/loss card,
-- map updates/discovery persistence required for the loop,
-- Matter Resonator shell/sync + exactly one simple meaningful spend/unlock,
-- at least one visible gated POI that cannot yet be solved,
-- immediate next-run flow.
+Do **not** add Wildkin bonding, progression spend, final pacing, second area, or full Resonator gameplay.
 
 Human test:
 
-- is deeper direction obvious?
-- does the player know what is at risk?
-- do Beacons create real choices without trivial banking?
-- is the next major Waypoint tempting but difficult?
-- does success/death make the player want another run?
+- does the loop make sense without explanation?
+- does the player know what is unsecured?
+- is extracting clearly different from continuing?
+- does death clearly explain what was lost vs retained?
+- do Waypoints unlock future starts while Beacons do not?
+- can the player immediately start another run from Camp?
+
+### Phase 4B — First Expedition Experience & Pacing
+
+Only after 4A is human-accepted.
+
+Goal:
+
+> **Make the first 5–10 minute expedition intentionally tense, readable, tempting, and replayable.**
+
+Use accepted Author Mode to reshape/tune:
+
+- Camp spacing/readability and forest boundary presentation,
+- p1 comfort / harvesting introduction,
+- first complication timing,
+- Extraction Beacon placement and carried-value timing,
+- p2 temptation and visible locked pond/island chest,
+- resource/encounter distribution,
+- p3/p4 danger/value gradient,
+- next Major Waypoint visibility/pressure,
+- practical first-run limit,
+- edge guidance/map readability,
+- retreat/backtracking feel,
+- one small Matter Resonator synchronization/spend/unlock so a successful extraction can materially affect the next run,
+- only the minimum environmental/UI polish needed to understand the above.
+
+4B should be driven by repeated human phone playtests and author-tool adjustments, not generic content expansion.
 
 ## Phase 5 — Wildkin Bonding as High-Value Risk
 
@@ -510,27 +542,29 @@ Goal: a later run plays differently for a concrete reason.
 
 Build only what playtests justify:
 
-- persistent local save as needed,
-- one or two deliberate progression choices,
+- one or two deliberate progression choices beyond the first 4B spend,
 - possible capture-capacity upgrade 1 → 2,
 - Field Tool/tool/material/companion unlock that opens a remembered POI,
 - optional small death-loss mitigation upgrade that never reaches 100%,
 - at most one mechanically distinct equipment choice if it truly improves replayability,
 - branching skill tree remains optional rather than assumed.
 
-## Phase 7 — Multi-Area Pacing, Waypoint Starts & Final Endpoint
+Persistent local save already exists from Phase 4A; extend the same owner rather than creating another save path.
+
+## Phase 7 — Multi-Area Pacing, Deeper Starts & Final Endpoint
 
 Goal: repeated runs create strategic start/depth choices and a clear long-term prototype objective.
 
 Build/tune:
 
 - next major Waypoint / second area if needed,
-- map start selection from activated major Waypoints,
-- deeper start tradeoff: skips early gathering/XP/preparation,
-- Extraction Beacon spacing based on tension,
+- deeper-start tradeoff: skips early gathering/XP/preparation,
+- Extraction Beacon spacing based on real tension,
 - additional gated revisit opportunities only if worthwhile,
 - clear final deep-frontier endpoint,
 - progression/difficulty tuned so final endpoint is not first-run reachable.
+
+Map start selection already exists from Phase 4A; this phase tunes/extends it rather than rebuilding it.
 
 ## Phase 8 — Optional Base Expansion & Full Matter Resonator
 
@@ -599,16 +633,16 @@ A slice is done only when:
 - tests/verify/zip remain green,
 - portrait/offline constraints remain valid,
 - Build Log updated by implementation agent,
-- accepted refinement notes are complete or explicitly deferred.
+- accepted refinement notes are complete or explicitly deferred,
+- shared changes have passed the `AGENTS.md` Change Closure / Consistency Sweep.
 
 # 14. Immediate Next Actions
 
-1. Treat Phase 3.1.1 as accepted; stop systems-test arena polish.
-2. Run **Phase 3.5A** next: architecture/world-data/region-activation foundation only.
-3. Run **Phase 3.5B** only after 3.5A validates: minimal author mode + rough Camp/Area 1 pocket skeleton.
-4. Before Phase 4 implementation, define Area 1 on paper: pockets, resources, encounters, Extraction Beacon positions, locked POIs, and next major Waypoint pressure.
-5. Build Phase 4 end-to-end before broad progression systems.
-6. Add bonding/capture as the highest-value unsecured reward immediately after the basic expedition loop works.
-7. Re-baseline later phases after repeated phone playtests of expedition + Wildkin risk.
+1. Treat Phase 3.5A + 3.5B/3.5B.1/3.5B.2 as accepted; stop editor infrastructure work.
+2. Run **Phase 4A** in a fresh high-reasoning Muse session: complete mechanical Camp → run → extract/death → Camp → replay loop only.
+3. Human-playtest fresh save, Beacon extraction, deeper-Waypoint unlock, death retention/loss, physical retreat, map inspection, and repeated phone cycles.
+4. If the loop is understandable, move to **Phase 4B** and use Author Mode to make Area 1's first 5–10 minutes intentionally paced and tempting.
+5. Add Wildkin bonding/capture only after the basic expedition risk loop works and feels worth strengthening.
+6. Re-baseline later phases after repeated phone playtests of expedition + Wildkin risk.
 
 **Wildkin Frontier should make the player want to risk “one more pocket” and then play “one more run.”**
