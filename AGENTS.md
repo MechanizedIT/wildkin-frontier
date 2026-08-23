@@ -26,3 +26,8 @@
 21. Manual testing instructions must be written for the human player, not the implementer. For every manual test, explain the recognizable setup/location, exact action, expected correct behavior, and visible/audible failure signs. Coordinates/internal IDs may supplement but never replace player-facing descriptions.
 22. Human playtest observations override implementation claims for perceptual requirements. “A yaw value changed,” “a sound function exists,” or “a test passes” is not proof that a swing, trail, audio cue, telegraph, or UI element is actually readable in play.
 23. Preserve accepted movement, harvesting, collision, performance, and submission behavior unless the active slice explicitly changes it.
+
+## Change Closure / Consistency Sweep — Permanent
+
+24. When changing a **shared behavior, schema, transform, lifecycle, input path, persistence rule, or other cross-system contract**, do not patch only the reported example. Identify the sibling systems/object families that use the same path and verify the change end-to-end across the relevant chain: **input/UI → authoritative state/data → validation → runtime representation → physics/gameplay → persistence/export → tests**. A fix is incomplete if the same underlying inconsistency remains in another sibling path covered by the active slice.
+25. Be proactive **horizontally across consistency, not vertically into future scope**. If fixing a fence transform reveals the same transform bug in boxes and boundaries, fix/verify those sibling cases. Do not use that as permission to invent a construction system, new gameplay feature, or future-phase behavior. In the final response, briefly name the sibling paths checked whenever a shared contract changed materially.
