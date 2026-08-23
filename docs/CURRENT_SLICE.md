@@ -1,826 +1,1007 @@
-# Wildkin Frontier — Phase 4A.1: First-Run UX, Anchor Suppression & Authoring Prerequisites
+# Wildkin Frontier — Phase 4A.2: Pre-4B Authoring Reliability & Expedition Interaction Closure
 
 **Status:** READY TO IMPLEMENT  
-**Active slice:** Phase 4A.1  
-**Purpose:** Human-accept the Phase 4A expedition loop by fixing first-run/start-anchor behavior and player-facing frontier UI, while adding only the minimum Author Mode world controls required to shape Phase 4B safely.
+**Active slice:** Phase 4A.2  
+**Purpose:** Close the remaining systemic authoring, input, spawn, persistence, guidance, and frontier-interaction defects discovered by human playtesting and a read-only GPT-5.6 Sol audit so Phase 4B can focus on designing the actual first expedition instead of fighting tools or lifecycle bugs.
 
-Phase 4A is **implementation-complete but not yet human-accepted**. Its persistence, extraction, death, banking, Map, result-card, region-activation, and run lifecycle architecture are the accepted basis for this refinement unless this slice identifies a concrete regression.
+Phase 4A/4A.1 are **implementation-complete but not yet fully human-accepted**. Their useful architecture remains the base: `ExpeditionSession`, `frontierProgress`, single-source `world.json`, region activation, Author Mode, Map, banking/results, movement/harvest/combat/ecology, one-rAF/fixed-step/Rapier/offline guarantees.
 
-Phase 4B does **not** start in this slice. Do not tune encounter pacing, redesign Area 1, add progression, bonding, Resonator gameplay, or broaden content.
-
----
-
-## 1. Human findings driving this refinement
-
-Human testing of Phase 4A found:
-
-- Fresh normal launch immediately opens **CHOOSE START** instead of leaving the player standing in Camp with control.
-- The cause must be treated as a lifecycle/trigger problem, not only patched with one coordinate: the current Camp spawn can begin within the Camp gate interaction radius.
-- Selecting **Forest Edge** or another unlocked Major Waypoint correctly begins an active run and restores harvesting/attack behavior.
-- However, immediately after teleporting to a selected Major Waypoint, the game opens that Waypoint's extraction prompt. Starting at a Waypoint must not instantly ask the player to extract from the Waypoint they just selected.
-- Extraction itself appears to work.
-- Current player-facing Map/prompt UI exposes internal IDs/coordinates and generic labels. Frontier anchors should communicate readable names, not implementation identifiers.
-- Human fresh-save testing is awkward because reset progress is only exposed through a console helper.
-- Author Mode still cannot adequately shape the real frontier for Phase 4B:
-  - existing playable ground is not a normal selectable/editable authored object,
-  - new ground cannot be placed,
-  - the hard-coded outer physical world boundaries cannot be selected/moved/deleted,
-  - static objects need explicit **collision enabled/disabled**, **visible/hidden in Play**, **opacity**, and **color/tint** controls,
-  - invisible collider-only objects must remain visible/selectable in Edit,
-  - the palette has enough entries that category grouping is now needed.
-
-The loop is close. This slice must make first-run behavior trustworthy and make Author Mode capable of shaping the actual 4B space without another infrastructure detour.
+This slice is the **last planned pre-4B infrastructure/hardening pass**. When it is human-accepted, stop editor/system work and begin Phase 4B content/pacing authoring unless a true blocker appears.
 
 ---
 
-## 2. Core acceptance questions
+# 1. Required end state
 
-### Player loop
+At the end of Phase 4A.2:
 
-> **From a fresh save, do I begin in Camp with control, deliberately walk through the gate, choose a start, arrive in the frontier with no immediate extraction popup, and immediately harvest/fight normally?**
+## Authoring
 
-### Authoring prerequisite
+A human can reshape Camp and Area 1 without hidden legacy arena assumptions or Edit/Play disagreement:
 
-> **Can I visually build/reshape playable ground and collision boundaries, and independently decide whether a static object renders and/or collides, without hidden hard-coded world geometry contradicting the authored scene?**
+```text
+select/place object
+→ edit/drag/shortcut
+→ candidate validates
+→ canonical draft commits
+→ Edit preview updates truthfully
+→ Play rebuild uses same authored descriptor
+→ Rapier matches
+→ export/reload reproduces same result
+```
 
-Both must be yes before Phase 4B.
+The editor can move beyond the original arena rectangle, preserve hierarchy state, undo/redo accidental changes, visually author Camp/Waypoint player spawns, and reliably edit Ground/Boundary/static presentation.
+
+## Expedition interaction
+
+The frontier no longer interrupts movement with automatic extraction modals:
+
+```text
+new Waypoint/Beacon entered
+→ discovery persists once
+→ brief pulse + sound + readable activation toast
+→ contextual EXTRACT action available while nearby
+→ walking away naturally means Keep Going
+```
+
+Camp gate becomes a readable physical threshold:
+
+```text
+Camp side: approach closed gate → START EXPEDITION → Map/start selection
+active run frontier side: approach gate → RETURN & SECURE
+```
+
+## Core reliability
+
+- one physical desktop click = one Field Tool swing,
+- player starts resolve to authored, validated spawn transforms,
+- edge indicators use actual camera projection,
+- run banking uses a unique run identity rather than cargo values,
+- run depth resets between runs,
+- upper-left HUD does not overlap.
+
+Core acceptance question:
+
+> **Can the human now author the first real expedition quickly and trust that what Edit shows is what Play will do, while the Camp/Waypoint/Beacon flow feels nonblocking and intentional?**
 
 ---
 
-## 3. Hard scope
+# 2. Source findings this slice must close
 
-Implement only:
+Human playtesting and audit identified these systemic issues:
 
-1. first-launch Camp/gate trigger correctness,
-2. selected-start Major Waypoint suppression until a meaningful leave/re-entry,
-3. active-run interaction regression coverage after start,
-4. player-facing Map/anchor/result naming cleanup,
-5. a simple human-friendly **dev-only player-progress reset**,
-6. authored/selectable/placeable ground patches,
-7. authored/selectable/removable outer boundary colliders instead of hidden hard-coded boundary walls,
-8. static-prop presentation/collision controls:
-   - collision enabled,
-   - visible in Play,
-   - opacity,
-   - color/tint,
-9. Edit-only proxy visualization for hidden/collider-only objects,
-10. categorized Author Mode palette + hierarchy categories for ground/boundaries,
-11. validator/export/runtime/physics/tests/docs closure for the above.
+- Ground Patch move/resize is not reliably live in Edit.
+- Dragging remains hard-clamped to the original `~25×23` playground rectangle.
+- Author Mode spatial ownership can consult the immutable startup registry instead of the current draft.
+- Ground/Boundary/static preview logic is parallel to runtime construction rather than sharing one canonical descriptor path.
+- presentation reset/proxy creation is inconsistent across object creation and property transitions.
+- current draft mutation can persist invalid edits before validation.
+- region overlap/gap/ownership/traversal validation is incomplete.
+- `spawnOffset` is an unsafe authoring abstraction; Forest Edge can resolve back inside Camp.
+- authored run spawn Y/facing are not represented/applied coherently.
+- desktop mouse can be interpreted by desktop and touch adapters, causing two swings.
+- Auto Harvest and inventory independently occupy upper-left UI space.
+- frontier indicator vertical direction is wrong because it assumes world X/Z → screen X/Y instead of projecting through the camera.
+- run banking idempotence can reject a legitimate later run with identical cargo/XP.
+- max-depth/session reset can leak previous-run state.
+- hierarchy refresh loses expanded/collapsed state.
+- keyboard author commands are incomplete and can conflict with focused inspector inputs.
+- there is no small undo/redo safety net.
+- proximity discovery and extraction action are conflated into blocking dialogs.
+- first activation of Waypoints/Beacons lacks meaningful presentation.
+- gate collider capability and some generic presentation/collision controls do not accurately describe runtime support.
+
+Do not patch these as isolated examples. Close the shared contracts that produce them.
+
+---
+
+# 3. Hard scope
+
+Implement only the following:
+
+1. transactional/validated Author draft commits,
+2. canonical shared static-object descriptor path for Edit/runtime/Rapier,
+3. Ground Patch + Boundary Collider live transform/presentation/proxy parity,
+4. one coherent Y/base transform convention for rectangular static objects,
+5. draft-derived spatial queries/world extents and removal of legacy drag/editor bounds,
+6. region/ownership/neighbor/transform validation closure needed for current Area 1 authoring,
+7. explicit Camp spawn and per-Major-Waypoint run spawn transforms with position + facing,
+8. visual spawn markers and editor controls,
+9. hierarchy expansion-state preservation,
+10. focused Author keyboard shortcuts,
+11. bounded Author undo/redo snapshot history,
+12. desktop-vs-touch input ownership fix,
+13. shared upper-left HUD layout,
+14. camera-projected frontier edge indicators,
+15. unique run identity/idempotent banking,
+16. correct per-run depth/session reset,
+17. nonblocking Waypoint/Beacon discovery + contextual extraction interaction,
+18. physical/contextual Camp gate start/return interaction,
+19. one-shot first-activation visual/audio/name feedback,
+20. focused migration/tests/docs/Build Log updates.
+
+---
+
+# 4. Explicit non-goals
 
 Do **not** implement:
 
-- Phase 4B encounter/resource/danger pacing,
-- final Camp layout or art pass,
-- Wildkin bonding/capture/companions,
-- progression/spend/skill tree/equipment,
-- Matter Resonator gameplay,
+- Phase 4B Camp/Area 1 final layout or encounter pacing,
+- resource/danger/reward rebalance,
+- Matter Resonator progression/spend,
+- Wildkin bonding/capture/companions/mounts,
 - second area/final endpoint,
-- terrain sculpting, heightmaps, terrain painting, mesh editing,
-- general material editor, texture browser, asset pipeline,
-- generic physics layers/masks UI,
-- undo/redo/multi-select/prefabs,
+- resize handles/generic transform gizmos,
+- multi-select,
+- prefab system,
+- arbitrary polygon regions,
+- region CRUD unless absolutely required to preserve current data,
+- terrain sculpting/heightmaps/painting,
+- static-world streaming/async assets,
+- generic material/physics-layer editor,
 - mobile Author Mode,
-- new runtime dependencies.
+- new runtime dependencies,
+- broad visual/art polish.
 
-Keep this a **refinement + authoring prerequisite** slice.
+Do not turn Author Mode into Unity/Godot. The target is a trustworthy lightweight tool for the current five-region directed frontier.
 
 ---
 
-## 4. Change Closure / Consistency Sweep focus
+# 5. Change Closure / Consistency Sweep
 
 Permanent `AGENTS.md` Change Closure rules apply.
 
-Do not patch only the currently observed Forest Edge or fence example. For each shared contract changed, trace the whole path.
+For every shared contract touched, trace sibling families and the complete path instead of patching the reported example.
 
-### Anchor lifecycle
-
-```text
-Camp spawn / gate entry
-→ frontierAnchorSystem inside/armed state
-→ Map start selection
-→ beginExpedition
-→ selected-start suppression
-→ player leaves anchor radius
-→ later re-entry
-→ extraction prompt
-```
-
-Verify this for **every selectable Major Waypoint**, not only `wp_p1_entry`.
-
-### Static authored object contract
+## Authoring contract
 
 ```text
-Author inspector / palette
-→ draft/world.json
-→ normalize/validate
-→ Edit preview/proxy
-→ staticWorldBuilder
-→ Rapier collider generation
-→ Play reload
-→ deterministic export/reset
+Author input/UI
+→ candidate mutation
+→ normalize/validate candidate
+→ atomic commit
+→ persistence/history
+→ Edit preview descriptor
+→ runtime/static descriptor
+→ Rapier descriptor
+→ Play rebuild
+→ export/reset
 → tests
 ```
 
-Verify sibling static object families using the shared presentation/collision path.
-
-### Player-facing anchor names
+## Spawn contract
 
 ```text
-world data displayName
-→ registry
-→ Map
-→ start-selection
-→ anchor prompt
-→ result/discovery card
+world.json spawn transform
+→ validator
+→ Author marker/inspector
+→ registry resolver
+→ beginExpedition/resetToCamp
+→ player X/Y/Z/facing
+→ region ownership + ground/collider clearance
 ```
 
-No one UI should fall back to raw internal IDs when another uses the display name.
+## Frontier interaction contract
+
+```text
+proximity
+→ first discovery event
+→ persistent save
+→ activation feedback
+→ nearby contextual action
+→ extraction/start/return lifecycle
+→ Map/indicators/results
+```
+
+## Input contract
+
+```text
+mouse / touch / pen / keyboard
+→ exactly one owning adapter
+→ unified intent
+→ Field Tool / dodge / contextual interaction
+```
+
+## Persistence contract
+
+```text
+begin run with unique runId
+→ temporary run state
+→ resolution
+→ bank once by run identity
+→ repeated identical-value runs still bank
+→ replayed same run resolution does not bank twice
+```
 
 ---
 
-# PLAYER LOOP REFINEMENT
+# AUTHOR MODE RELIABILITY CLOSURE
 
-## 5. Fresh launch must begin in Camp with control
+# 6. Transactional author mutations
 
-Normal `/` launch on a fresh or existing save must **not** automatically open CHOOSE START.
+Current raw-draft mutation must not leave invalid persisted state behind.
 
-Expected first frame/player experience:
+Create a focused mutation/commit API in `authorDraft` or equivalent.
 
-- player is visibly inside Camp,
-- no blocking modal open,
-- movement works,
-- Map button is available,
-- expedition session status is `camp`,
-- gate waits for a deliberate player entry/crossing.
-
-### Make the Camp spawn authored and robust
-
-Add/normalize an explicit authored Camp player spawn, e.g.:
+Preferred semantics:
 
 ```text
-camp.playerSpawn: { x, y, z }
+begin with canonical current draft
+→ clone/minimal candidate
+→ apply requested mutation
+→ normalize + validate affected candidate/world
+→ if valid: commit atomically + persist + history entry
+→ if invalid: authoritative draft remains unchanged; show readable error
 ```
 
-or an equivalent clear field.
+Requirements:
 
-Do not keep deriving spawn from `camp.pos - arbitraryOffset` if that can accidentally place the player inside an interaction trigger.
+- invalid inspector edit does not persist,
+- invalid drag/place/region change does not corrupt canonical draft,
+- Play transition validates before leaving Edit/reloading,
+- invalid persisted old draft must have a recoverable path (fall back/reject with clear Author error rather than crashing before UI can recover),
+- export operates on already-valid canonical draft,
+- Reset Draft From Repo remains authoritative and clears incompatible undo history.
 
-Validator should ensure the spawn is finite and inside/near the Camp region.
-
-### Gate trigger must be edge/entry based, not startup-position based
-
-Even if a future author accidentally places Camp spawn inside the gate radius, startup must not immediately fire the gate modal.
-
-Prime/synchronize the anchor system's initial `inside` state from the actual player position, or otherwise require a genuine outside → inside transition before the Camp gate start prompt can fire.
-
-Preferred guarantee:
-
-```text
-load at Camp
-→ anchor system knows current overlap state
-→ no prompt from initial overlap
-→ player exits gate radius
-→ later enters gate radius
-→ CHOOSE START may open
-```
-
-Also author the current Camp spawn far enough from the gate that the intended playtest naturally starts outside the trigger.
+Do not build a generalized command framework. A small explicit mutation API is enough.
 
 ---
 
-## 6. Starting at a Major Waypoint must not instantly prompt extraction
+# 7. Canonical static descriptor path
 
-When the player selects any unlocked Major Waypoint from CHOOSE START:
+Stop maintaining a parallel incomplete representation for Edit preview.
 
-1. Map closes.
-2. Session becomes active.
-3. Player appears at the authored safe spawn position.
-4. Gameplay input is restored.
-5. No Waypoint/Beacon/Gate prompt is visible.
-6. Harvesting, attack, Auto Harvest, movement, dodge, combat, and focus rings work normally.
-7. The selected start Waypoint cannot prompt until the player has meaningfully left its interaction radius/starting suppression state and later re-enters.
+Introduce one small shared normalized static descriptor/helper layer used by both Author preview and runtime/static construction.
 
-This rule must work regardless of whether the authored waypoint spawn offset happens to be inside or outside the normal waypoint interaction radius.
-
-Create an explicit API/semantic such as:
+For every supported rectangular static object, descriptor should resolve equivalent concepts such as:
 
 ```text
-suppressUntilExit(waypointId, playerPos)
+id
+family/subtype
+position / center/base convention
+rotationY
+size { width, height, depth }
+visibleInPlay
+collisionEnabled
+opacity
+tint/default color
+editor proxy needs
+region ownership
 ```
 
-or an equivalent robust state transition.
+Exact API/file names are implementation choice, but both paths must consume the same interpretation:
 
-Do not rely on a fragile sequence of `reset()` + guessed `inside=true` that can be invalidated by spawn offset or the next update.
+- Author Edit preview,
+- `staticWorldBuilder`,
+- `createPhysicsWorld` / Rapier collider descriptors.
 
-### Existing Waypoint behavior after suppression
+Do not duplicate transform math in three modules when one descriptor can define it.
 
-After the player has left and later re-entered:
+### Required sibling sweep
 
-- newly discovered deeper Waypoint: activate/unlock + show prompt,
-- already unlocked Waypoint: show extraction/continue prompt normally,
-- KEEP GOING still requires leaving/re-entering before reprompt,
-- selecting a Waypoint as the run start never counts as a newly discovered Waypoint.
+At minimum verify:
 
----
-
-## 7. Explicit post-start interaction regression
-
-Phase 4A changed Field Tool/harvest availability based on expedition state. Add integration coverage proving the player-facing path, not merely individual modules.
-
-Required sequence:
-
-```text
-Camp
-→ gate start-selection
-→ choose initial Waypoint
-→ session active
-→ no blocking modal
-→ Auto Harvest allowed
-→ resource target/focus ring available when in range
-→ manual Field Tool swing allowed
-→ combat target/focus ring allowed
-```
-
-At minimum automated tests should assert the state/input gates. Browser/manual acceptance proves the actual circles/swings are visible.
-
-Do not enable expedition harvesting/combat while in Camp unless separately required by design. Camp being non-combat/non-harvest is acceptable; the important rule is that the transition to active expedition reliably restores the accepted systems.
-
----
-
-## 8. Dev-only fresh-save reset
-
-Keep `window.__game.clearProgress()` for debug compatibility, but give the human a one-action visual reset for repeated fresh-save testing.
-
-Preferred minimal implementation:
-
-- normal gameplay URL remains clean,
-- `?dev=1` enables a tiny dev-only control such as **RESET PLAYER SAVE**,
-- confirmation required,
-- reset clears only normal Phase 4A player progress/bank and reloads at fresh Camp,
-- does not erase Author Mode world draft,
-- does not appear in normal `/` or submission-facing play without the dev flag.
-
-An equivalently simple dev-only mechanism is acceptable, but it must not require typing JS into the console.
-
-Document the exact URL/action in README and final human test instructions.
-
----
-
-## 9. Player-facing Map and anchor wording
-
-Normal player UI must not expose implementation identifiers/coordinates such as:
-
-- `wp_p1_entry`,
-- `beacon_p2_01`,
-- `0.0,7.2`,
-- raw region/internal IDs.
-
-Those may remain available in `?dev=1`, debug text, or Author Mode only.
-
-### Authored display names
-
-Support an optional readable `displayName` on Major Waypoints and Extraction Beacons.
-
-Use one consistent helper/fallback, approximately:
-
-```text
-anchor.displayName
-→ associated region displayName + type fallback
-→ generic "Waypoint" / "Extraction Beacon"
-```
-
-Update current prototype anchors with readable placeholder names. Avoid treating these as final lore; they are player-readable labels that can later be renamed in Author Mode.
-
-Examples of acceptable presentation:
-
-```text
-Forest Edge
-Threshold Rise
-Tangled Hollow Beacon
-Sunken Rise Beacon
-```
-
-### UI usage
-
-Use readable names in:
-
-- CHOOSE START list,
-- passive Map,
-- Waypoint activation/extraction prompt,
-- Beacon prompt,
-- recovery/loss card discovery rows,
-- frontier indicator label if text is shown.
-
-Example prompt direction:
-
-```text
-FOREST EDGE WAYPOINT
-Extract to Camp and secure this run, or keep going?
-
-[EXTRACT] [KEEP GOING]
-```
-
-New Waypoint:
-
-```text
-THRESHOLD RISE ACTIVATED
-New expedition start unlocked.
-Extract now or keep going?
-```
-
-Beacon:
-
-```text
-TANGLED HOLLOW BEACON
-Extraction available. Secure this run and return to Camp?
-```
-
-Keep copy short and mobile-readable.
-
-### Author Mode anchor naming
-
-For selected Waypoint/Beacon/POI anchor data, expose **Display Name** when relevant so the human can rename it without editing JSON.
-
----
-
-# AUTHOR MODE PREREQUISITES FOR PHASE 4B
-
-## 10. Replace hidden playable ground with authored Ground Patches
-
-Current runtime has hard-coded/global ground geometry/collision plus region visual overlays. That is no longer sufficient for real frontier authoring.
-
-Create a simple authored **Ground Patch** representation.
-
-### Ground Patch requirements
-
-A Ground Patch supports:
-
-- ID,
-- region ownership,
-- X / Y / Z,
-- Width / Depth,
-- optional small thickness or a fixed implementation thickness,
-- tint/color,
-- opacity where sensible,
-- Play visibility,
-- collision enabled,
-- move/resize/duplicate/delete,
-- palette placement,
-- hierarchy selection,
-- Edit proxy/selection behavior,
-- deterministic export.
-
-No sculpting. A Ground Patch is just a rectangular authored surface/box suitable for assembling the prototype terrain.
-
-### Migration / backwards compatibility
-
-Migrate the current playable surface into explicit authored Ground Patch data so normal play remains continuous after the hard-coded floor is removed as playable collision.
-
-It is acceptable to represent current rectangular region surfaces as one Ground Patch per region or another small explicit set, as long as:
-
-- authored data is the source,
-- the current world still plays the same,
-- gaps in authored ground are real gaps rather than secretly supported by a hidden floor.
-
-If a safety/fall-catch surface is retained for debugging, place it far below gameplay and do **not** let it masquerade as normal playable ground.
-
-### Physics
-
-Ground Patch collision must come from the same authored patch transform/size used for rendering.
-
-`Edit visible == Play visible == Rapier collider` when collision is enabled.
-
----
-
-## 11. Replace hard-coded outer boundary walls with authored Boundary Colliders
-
-`createPhysicsWorld` must no longer automatically create four hidden physical walls solely from `playground.bounds` as the normal gameplay boundary.
-
-Represent the current outer limits as explicit authored boundary objects in `world.json` (or equivalent normalized authored data).
-
-### Boundary Collider behavior
-
-Boundary objects must be:
-
-- selectable in Edit,
-- listed in hierarchy,
-- movable,
-- rotatable where the static-solid contract supports rotation,
-- resizable,
-- duplicatable/deletable,
-- collision-enabled by default,
-- hidden in Play by default unless author chooses otherwise,
-- visible in Edit through an author-only translucent/wireframe proxy even when hidden in Play.
-
-This lets the human build irregular invisible collision limits and remove/reposition old boundaries.
-
-World/region bounds may still exist for region activation/data ownership. **Region bounds must not silently create physical boundary colliders.**
-
----
-
-## 12. Static object presentation + collision contract
-
-For static props/ground/boundary families that use the general authorable static path, support these authored properties or clear equivalents:
-
-```text
-collisionEnabled: boolean
-visibleInPlay: boolean
-opacity: 0..1
-tint/color: readable hex/color value
-```
-
-Defaults must preserve current appearance/behavior when properties are absent.
-
-### Collision enabled
-
-- `true` → Rapier/static collision generated where that object family is collider-capable.
-- `false` → no Rapier/static collision for that object.
-- switching the field in Edit updates the draft immediately; PLAY/reload reflects it exactly.
-
-This is primarily for static props/ground/boundaries. Do not expose generic collision-off switches for resources/Wildkin if that would break their gameplay semantics.
-
-### Visible in Play
-
-- `true` → normal runtime visual.
-- `false` → hidden in normal Play.
-- hidden object remains author-visible/selectable in Edit through a clear proxy.
-
-Support useful combinations:
-
-```text
-visible=true  collision=true   normal solid prop
-visible=true  collision=false  decoration
-visible=false collision=true   invisible authored collider
-visible=false collision=false  allowed but warn/clearly show in Edit
-```
-
-### Opacity
-
-- clamp 0..1,
-- update live in Edit,
-- runtime material transparency configured correctly when `< 1`,
-- opacity must not accidentally change collision.
-
-### Tint/color
-
-- simple material color override only,
-- live Edit preview,
-- persist through export/reload,
-- default subtype color remains when no override is authored,
-- do not create a material/texture framework.
-
-### Material instance safety
-
-If current object types share Three.js materials, changing tint/opacity on one authored object must not unintentionally recolor every sibling object. Clone/create per-object material only when an override requires it, or use another safe lightweight method.
-
-Apply Change Closure across representative static families:
-
-- box,
-- fence,
-- forestBoundary,
-- resonator/dropPod where applicable,
+- Box,
+- Fence,
+- Forest Boundary,
+- Gate where capability allows,
+- Resonator / Drop Pod where applicable,
 - Ground Patch,
 - Boundary Collider,
-- water/island visual props where the shared visual path makes sense.
+- Water / Island visual-only behavior where applicable,
+- Platform / traversal path if it shares the same dimensions/Y semantics.
 
-Hide controls for families where a property is intentionally unsupported rather than storing ignored values.
-
----
-
-## 13. Edit-only proxies for hidden objects
-
-Invisible authored collision must remain easy to author.
-
-In EDIT only:
-
-- `visibleInPlay=false` static objects show a translucent/wireframe author proxy,
-- proxy uses obvious but non-obstructive styling,
-- selection highlight still works,
-- hierarchy focus still works,
-- proxy does not affect normal Play or exported presentation values.
-
-Boundary Colliders should be especially readable in Edit.
-
-Do not use the gameplay object's authored opacity itself as the only editor indicator; a fully hidden object still needs an author proxy.
+If a family intentionally does not support a property, hide/disable that control rather than storing ignored data.
 
 ---
 
-## 14. Categorize the Author Mode palette
+# 8. One transform convention
 
-The flat palette is becoming hard to scan. Group it using simple collapsible/native sections. No asset browser framework.
+Rectangular static authored objects must have one human-readable Y convention.
 
-Recommended grouping:
+Preferred rule:
 
-### World
-- Ground Patch
-- Boundary Collider
+> `pos.y` / authored Y is the **base/bottom elevation** for ordinary rectangular solids/surfaces; runtime visual center and Rapier center are derived from base + height/2.
 
-### Environment / Props
-- Box
-- Fence
-- Gate
-- Forest Boundary
-- Water / Island if already authorable
-- Drop Pod
-- Resonator
+If Boundary Colliders currently use center Y, migrate them to the same convention rather than keeping a special invisible rule.
 
-### Traversal
-- Platform
-- Obstacle
-- Ladder
+Requirements:
 
-### Resources
-- Tree
-- Rock
-- Fiber
+- Edit inspector meaning matches runtime,
+- placement respects authored/default Y instead of forcing every new object to the editor plane,
+- Ground Patch/Boundary/Box/Fence elevation and size reproduce identically after Play reload,
+- validator checks finite values and positive dimensions.
 
-### Wildkin
-- Rusher
-- Spitter
+---
 
-### Frontier / POI
-- Major Waypoint
-- Extraction Beacon
-- POI Chest
+# 9. Ground / Boundary / presentation live parity
 
-Exact labels may vary, but related objects must no longer be one undifferentiated 17+ button grid.
+Ground Patch and Boundary Collider must be first-class Author objects, not special data that only becomes truthful after Play.
 
-### Hierarchy
+While in Edit:
 
-Add/retain categories that make Ground and collider-only boundaries easy to find, e.g.:
+- drag updates visible Ground/Boundary immediately,
+- numeric X/Y/Z changes update immediately,
+- width/depth/height changes update immediately,
+- rotation updates immediately when supported,
+- opacity `1 → 0.4 → 1` restores correctly,
+- tint add/change/remove restores subtype/default color correctly,
+- `visibleInPlay=false + collisionEnabled=true` immediately shows an obvious Edit-only proxy,
+- newly placed hidden Boundary shows proxy immediately without requiring Play/reload,
+- toggling visibility/collision immediately updates the Author representation/proxy state,
+- selection/focus remains possible even when normal Play visual is hidden.
+
+Edit does **not** need to rebuild Rapier continuously. The requirement is truthful visual/collider proxy preview and exact Rapier rebuild when entering Play.
+
+---
+
+# 10. Static capability matrix
+
+Do not expose generic toggles that lie.
+
+Create a small explicit capability definition/helper for object families/subtypes, e.g. whether each supports:
+
+- collision,
+- visibleInPlay,
+- opacity,
+- tint,
+- rotation,
+- elevation,
+- dimensions.
+
+Examples:
+
+- a collider-capable Gate must actually create/remove collision when enabled/disabled,
+- if Water is intentionally non-colliding, do not show a misleading Collision checkbox unless water collision is truly implemented,
+- resources/Wildkin do not receive generic static collision controls.
+
+The Author inspector derives controls from capabilities rather than broad type assumptions.
+
+---
+
+# 11. Draft-derived spatial model and unbounded editor movement
+
+Remove the hard-coded old playground drag clamp (`~±12.x/±11.x`) and any equivalent old editor framing assumptions that prevent growth.
+
+Author placement/dragging may extend beyond current regions. Invalid positions should be represented clearly and rejected on commit/Play—not silently clamped to legacy bounds.
+
+Create current-draft spatial helpers, separate strict validation from convenience lookup:
 
 ```text
-Region
-  Ground
-  Boundaries / Colliders
-  Props
-  Traversal
-  Resources
-  Wildkin
-  Anchors
-  POIs
+findContainingRegion(position) → strict nullable; ambiguous overlap is error
+findNearestRegion(position) → hint/camera only
+getWorldExtents() → derived from current regions + authored geometry
+getIntersectingRegions(footprint) → Ground/Boundary ownership validation
 ```
 
-Click/focus behavior remains unchanged.
+Do not use the immutable startup `worldRegistry` as authority for draft positions after region/object edits.
+
+### Region ownership
+
+For current prototype:
+
+- point-owned families (resources, creatures/spawns, anchors, most props) must resolve to exactly one declared region,
+- moving a point-owned object across a region boundary should deterministically rehome it on commit or clearly require/select owner; choose one consistent behavior and document it,
+- Ground/Boundary footprints may cross neighboring edges but must intersect their declared owner; warn/reject obviously unrelated ownership,
+- region overlap ambiguity is invalid,
+- neighbor references must exist and be reciprocal where the current activation design requires reciprocity,
+- validation must not use `nearest region` as proof of valid ownership.
+
+### Region/world extents
+
+Editor camera framing/panning should derive from authored extents with generous padding rather than original arena constants.
+
+Do not add a new movement clamp to replace the old one.
 
 ---
 
-## 15. Author inspector requirements
+# 12. Validation closure for current object families
 
-For supported static objects expose only relevant controls.
+Strengthen only validation required to trust current Area 1 authoring.
 
-### Common transform
+Required checks include:
+
+- region IDs unique,
+- region bounds finite and min < max,
+- no ambiguous overlapping region interiors,
+- neighbor references valid; reciprocal where required,
+- point-owned object center belongs to declared region,
+- static transforms finite,
+- dimensions positive,
+- traversal transforms finite and sizes valid,
+- Ground/Boundary ownership/intersection coherent,
+- spawn transforms supported/clear/owned (Section 13),
+- duplicate IDs across all authorable collections rejected,
+- displayName/presentation values remain valid.
+
+Do not add polygon geometry algorithms or generalized world topology beyond what this rectangular directed prototype needs.
+
+---
+
+# 13. Explicit Camp and Waypoint spawn transforms
+
+Replace ambiguous `spawnOffset` as the canonical authoring model.
+
+Use explicit spawn transforms approximately:
+
+```js
+camp.playerSpawn = {
+  position: { x, y, z },
+  facingYaw: 0
+}
+
+majorWaypoint.runSpawn = {
+  position: { x, y, z },
+  facingYaw: 0
+}
+```
+
+Exact schema names may differ, but canonical data must represent absolute position + facing.
+
+Migration may temporarily read old `spawnOffset`, but exported/current canonical `world.json` should use the explicit transform after this slice.
+
+### Runtime requirements
+
+When starting/resetting:
+
+- use authored X/Y/Z,
+- use authored facingYaw,
+- do not silently replace Y with a fixed value except for the correct capsule center calculation derived from authored ground/support,
+- Forest Edge start must resolve visibly inside Forest Edge,
+- Threshold Rise and future Major Waypoints use the same generic path.
+
+### Validation requirements
+
+For every Camp/Waypoint spawn:
+
+- finite position/facing,
+- strict containment in intended declared region,
+- supported by authored Ground/Platform/traversable surface,
+- player capsule has clearance from blocking static objects/boundaries/gate,
+- not accidentally inside another blocking interaction/collider state,
+- no ambiguous region overlap.
+
+Use lightweight existing static descriptors/Rapier-shape math; do not build navmesh/pathfinding.
+
+---
+
+# 14. Visual spawn authoring
+
+Author Mode must make spawn relationships visible instead of requiring coordinate arithmetic.
+
+### Camp
+
+Hierarchy contains an editor-only/selectable **Camp Spawn** item.
+
+Scene shows:
+
+- capsule/footprint marker,
+- facing arrow.
+
+Inspector supports:
+
+- X / Y / Z,
+- facing angle,
+- optional convenience **Focus**.
+
+### Major Waypoint
+
+Each Waypoint hierarchy entry exposes/selects a **Run Spawn** child/related item.
+
+Scene shows:
+
+- Waypoint marker,
+- separate run-spawn capsule/footprint,
+- facing arrow,
+- optional line from Waypoint to its Run Spawn.
+
+The human must be able to drag the Run Spawn independently of the Waypoint and rotate facing without editing JSON.
+
+Useful small convenience actions are allowed only if trivial, e.g. **Move Spawn Here** or **Face Deeper**, but not required.
+
+---
+
+# 15. Hierarchy state preservation
+
+Refreshing hierarchy due to selection/edit/place/delete must not collapse the user's workspace.
+
+Preserve expanded/collapsed state by stable keys:
 
 ```text
-Region
-X / Y / Z
-RotY (if supported)
-Width / Depth / Height/thickness as relevant
+region id
+category id
+spawn child groups where applicable
 ```
 
-### Presentation / Physics
+Requirements:
 
-Use clear human labels:
+- selecting a row does not collapse other open groups,
+- editing selected object does not collapse groups,
+- place/duplicate/delete preserves unrelated expansion state,
+- filtering does not permanently destroy previous expansion state,
+- selected row remains visibly highlighted and scrolled into view when practical.
+
+Selection is not itself a draft mutation.
+
+---
+
+# 16. Author keyboard workflow
+
+Add a small explicit command router active only in Edit and only when focus is **not** inside `input`, `textarea`, `select`, contenteditable, or another text/number editor.
+
+Required shortcuts:
+
+- `Delete` / `Backspace` (with sensible browser prevention) → delete selected object with the same safeguards as UI button,
+- `F` → focus selected object,
+- `WASD` and/or Arrow keys → nudge X/Z,
+- `Shift` modifier → larger nudge,
+- `Q / E` → rotate selected object in fixed increments when supported,
+- `Space / C` or another documented pair → raise/lower selected object when elevation supported,
+- `Ctrl/Cmd+Z` → Undo,
+- `Ctrl/Cmd+Shift+Z` and/or `Ctrl/Cmd+Y` → Redo,
+- `Esc` → cancel placement/active transient edit.
+
+Do not bind shortcuts that conflict with inspector editing.
+
+---
+
+# 17. Bounded undo/redo
+
+Implement lightweight in-memory Author history, approximately 30–50 snapshots.
+
+Requirements:
+
+- one history entry per completed meaningful change, not every pointermove frame,
+- drag coalesces into one entry on release,
+- inspector commit creates one entry,
+- place/duplicate/delete creates one entry,
+- undo/redo restores canonical valid draft and live preview/hierarchy,
+- Play/Export uses current history head,
+- Reset Draft From Repo clears history,
+- history does not need to persist across browser reloads.
+
+Do not build a generalized command/event-sourcing framework.
+
+---
+
+# GAMEPLAY / CORE-LOOP CLOSURE
+
+# 18. Desktop vs touch input ownership
+
+Fix the double desktop swing at the input-adapter boundary.
+
+Required ownership:
+
+- **mouse** → desktop/keyboard mouse adapter only,
+- **touch** → touch/mobile gesture adapter,
+- **pen** → choose one explicit owner and test it; preferably touch-like unless there is a reason otherwise.
+
+`touchMovement` must not interpret normal mouse pointer events as mobile tap/hold/swipe while `keyboardInput` also owns them.
+
+Acceptance:
+
+- one quick desktop left click = exactly one attack request / one recognizable swing,
+- mouse hold repeats only at accepted shared cadence,
+- F tap/hold still works,
+- touch tap = one swing,
+- touch hold repeats,
+- swipe still dodges and never also attacks.
+
+Do not paper over this with a Field Tool cooldown that merely hides duplicate requests.
+
+---
+
+# 19. Shared upper-left HUD layout
+
+Auto Harvest and resource carry HUD currently position themselves independently and overlap.
+
+Create one lightweight upper-left HUD stack/container/layout owner.
+
+Requirements:
+
+- safe-area aware,
+- Auto Harvest and run inventory never overlap,
+- inventory still hides zero rows,
+- when all current resource rows are visible, layout remains readable in portrait,
+- if future rows exceed available height, inventory section may scroll without covering the toggle,
+- do not redesign the whole HUD in this slice.
+
+Keep Map top-right and other accepted controls unchanged unless required for overlap/safe-area correctness.
+
+---
+
+# 20. Camera-projected frontier indicators
+
+Replace fixed world-axis screen-direction assumptions with actual Three.js projection through the current camera.
+
+Required behavior:
+
+- project target world position into clip/NDC using the real camera,
+- determine on-screen/off-screen accurately,
+- handle targets behind the camera,
+- clamp off-screen ray/direction to a safe portrait rectangle with UI padding,
+- left/right/up/down remains correct if camera pitch/yaw/offset changes,
+- no vertically flipped waypoint/beacon indicator.
+
+### Guidance policy cleanup
+
+Centralize minimal policy:
+
+- extraction guidance may point only to discovered/usable extraction-capable anchors plus Camp return as appropriate,
+- progress guidance points to the next appropriate deeper Major Waypoint/objective,
+- endpoint must not point to itself,
+- do not rely on JSON array order as long-term semantic depth if a small explicit `depth/order` field or validated graph-derived order is clearer,
+- no more than the current minimal number of indicators; do not build a quest tracker.
+
+---
+
+# 21. Unique run identity and banking idempotence
+
+Current banking must not identify a run only by its cargo/XP values.
+
+Add a unique `runId` generated when `ExpeditionSession.beginRun()` begins a new expedition.
+
+Requirements:
+
+- runId included in resolved run snapshot,
+- persistent bank tracks enough recent resolution identity to ensure a single run cannot bank twice,
+- two separate runs with identical cargo/XP both bank successfully,
+- retrying extraction resolution for the same runId is idempotent,
+- no unbounded history growth; one last-resolved ID or small bounded set is enough given single-player sequential runs,
+- death does not accidentally mark an extract bank token unless lifecycle design requires shared resolution identity.
+
+Keep save schema versioned/defensive.
+
+---
+
+# 22. Per-run depth/session reset correctness
+
+Audit `ExpeditionSession.beginRun/resetToCamp/death/extract` so per-run fields cannot leak.
+
+At new run start, reset at minimum:
+
+- current/max run depth,
+- run kills,
+- run XP/cargo mirrors,
+- temporary discovery-summary state as appropriate,
+- resolved/outcome flags,
+- old start anchor state,
+- runId replaced with a new one.
+
+Persistent unlocked Waypoints/Beacons remain in `frontierProgress` and must not be erased.
+
+Camp reset should prime region/session state after player position is actually returned to Camp, not sample a stale frontier region first.
+
+---
+
+# FRONTIER INTERACTION REDESIGN — OWNER APPROVED
+
+# 23. Separate discovery from extraction action
+
+Replace automatic blocking Waypoint/Beacon extraction dialogs on proximity.
+
+### First discovery
+
+When entering a previously undiscovered/unlocked anchor's activation radius during an active expedition:
+
+1. persist discovery/unlock exactly once,
+2. emit one activation event,
+3. show nonblocking activation feedback (Section 24),
+4. expose contextual nearby action if extraction is available,
+5. **do not open a blocking modal automatically**.
+
+Re-entering an already discovered anchor does not replay first-discovery presentation.
+
+### Nearby extraction action
+
+While the player is within an extraction interaction radius:
+
+- show one contextual player action such as **EXTRACT**, including readable anchor name when helpful,
+- desktop interaction key: `E` (preferred unless conflict),
+- mobile: dedicated contextual button in a predictable right-side/contextual area,
+- action disappears when leaving range,
+- walking away is naturally **Keep Going**; remove the need for a KEEP GOING button/modal,
+- pressing EXTRACT may use a small confirmation only if genuinely needed to avoid accidental loss of run continuity; default preference is direct extraction with clear button wording.
+
+Do not make Field Tool attack input double as interaction.
+
+### Existing anchor suppression
+
+Starting at a Major Waypoint should not immediately show EXTRACT until the player has left/re-entered or until an explicit short spawn suppression state ends according to the existing intended logic. Preserve the no-immediate-extract start guarantee generically.
+
+---
+
+# 24. First activation presentation
+
+A newly discovered Waypoint/Beacon should feel like a persistent milestone.
+
+Implement lightweight offline feedback:
+
+- short in-world emissive/pulse/ring animation,
+- brief readable nonblocking toast/name banner,
+- short procedural/local activation sound,
+- optional small camera-independent UI flourish if cheap.
+
+Examples:
 
 ```text
-[✓] Visible in Play
-[✓] Collision
-Opacity  [0.00–1.00]
-Tint     [#RRGGBB]   (or native color input + readable value)
+FOREST EDGE WAYPOINT ACTIVATED
+New expedition start unlocked
 ```
-
-### Anchor
 
 ```text
-Display Name
-Type
-Requires
+TANGLED HOLLOW BEACON ONLINE
+Extraction available
 ```
 
-### Ground
+Requirements:
 
-Height/thickness can be fixed or hidden if it is not useful; Width/Depth + elevation are required.
+- only fires on genuine first persistence change,
+- never blocks movement/combat,
+- uses authored `displayName`,
+- one consistent path for Waypoint and Beacon with type-specific subtitle/color allowed,
+- no external assets/network dependencies required; procedural WebAudio/local tiny asset is fine,
+- re-entry does not replay discovery cue.
 
-### Boundary Collider
+Do not spend this slice on final VFX/art polish.
 
-Default new boundary:
+---
+
+# 25. Camp gate as physical expedition threshold
+
+The Camp gate is no longer a walk-through trigger that automatically opens Map.
+
+Target behavior:
+
+## At Camp
+
+- gate is physically closed/solid,
+- approaching from Camp side exposes contextual **START EXPEDITION**,
+- press/tap action → open CHOOSE START Map,
+- selecting a Major Waypoint begins run and teleports to its authored Run Spawn,
+- closing Map/canceling keeps player in Camp and gate closed,
+- player cannot simply walk through the closed gate while no run is active.
+
+## Returning during active expedition
+
+- approaching gate from frontier side exposes **RETURN & SECURE**,
+- activating it uses the same run extraction/banking pipeline as Waypoint/Beacon extraction,
+- no automatic blocking modal merely from entering proximity,
+- if player walks away, run simply continues.
+
+### Gate collision capability
+
+Make the static capability truthful:
+
+- the authored gate can have collision when closed,
+- if the implementation uses a stateful collider/door representation, keep it simple and deterministic,
+- no visual door-opening animation is required because run start teleports to selected Waypoint,
+- Author Mode Collision control for Gate must not claim support the runtime ignores.
+
+Do not create a generalized door system.
+
+---
+
+# 26. Contextual interaction ownership
+
+Create one small contextual interaction owner/helper instead of scattering proximity buttons across anchor/gate systems.
+
+It should answer approximately:
 
 ```text
-Visible in Play: OFF
-Collision: ON
-Opacity/tint values only matter if Play visibility is enabled
+current interaction label
+current target id/type
+is interaction available
+activate interaction
 ```
 
-In Edit it always gets the author proxy.
+Inputs:
+
+- desktop E,
+- mobile contextual button.
+
+It must coexist with:
+
+- Field Tool tap/hold/swipe,
+- Map button,
+- joystick,
+- Author Mode suppression,
+- result cards.
+
+Only one highest-priority contextual frontier action should be shown at a time.
+
+Do not build a generic NPC/dialog interaction framework.
 
 ---
 
-## 16. Validator / world schema closure
+# 27. World-data migration
 
-Extend normalization/validation only as much as needed.
+Update canonical `src/world/data/world.json` through the normal generation path.
 
-Validate:
+Required migration:
 
-- `camp.playerSpawn` / equivalent finite values,
-- optional anchor `displayName` is a string with sane length,
-- Ground Patch IDs/transforms/sizes/region ownership,
-- Boundary Collider IDs/transforms/sizes/region ownership,
-- `collisionEnabled` boolean when present,
-- `visibleInPlay` boolean when present,
-- opacity finite and clamped/rejected outside 0..1 according to existing validator style,
-- color/tint accepted format is deterministic,
-- no duplicate IDs across new object families,
-- no stale generated world after export/generate.
+- explicit `camp.playerSpawn` transform with position/facing,
+- each Major Waypoint gets explicit `runSpawn`,
+- current Forest Edge run spawn corrected inside Forest Edge on supported ground and facing deeper,
+- Threshold Rise run spawn similarly valid,
+- old `spawnOffset` removed from canonical data after migration unless retained only as backward-compatible loader support,
+- Ground/Boundary transforms normalized to the chosen Y convention,
+- anchor depth/order metadata added only if required by the cleaned indicator policy,
+- gate collision data matches new physical Camp-gate behavior.
 
-Do not make author cosmetics block old world files unnecessarily; defaults should normalize legacy entries safely.
+Do not redesign the Area 1 layout in this slice beyond corrections needed for valid spawn/interaction behavior.
 
 ---
 
-## 17. Automated regression coverage
+# 28. Automated regression coverage
 
-Preserve all existing tests.
+Add focused tests for shared contracts, not only example coordinates.
 
-Add focused tests for:
+## Authoring
 
-### Fresh launch / gate
+Required automated coverage should include:
 
-- Camp start is `camp` status with no modal implied by initial overlap.
-- authored Camp spawn resolves separately from gate.
-- anchor system initialization does not treat initial overlap as a fresh entry.
-- leaving then entering Camp gate fires start prompt once.
+1. Ground Patch move/rotate/elevate/resize → canonical descriptor → Edit descriptor → runtime descriptor parity.
+2. Boundary Collider equivalent parity and base-Y convention.
+3. newly placed hidden collidable Boundary immediately has an Edit proxy.
+4. all four `visibleInPlay × collisionEnabled` combinations on representative static families.
+5. opacity `1 → 0.4 → 1` and tint apply/remove restore defaults without sibling leaks.
+6. invalid inspector mutation does not alter/persist canonical draft.
+7. invalid placement/region move does not corrupt canonical draft.
+8. Play transition refuses invalid draft before mode/reload corruption.
+9. object can move beyond old ±12/±11 rectangle.
+10. current-draft region query reflects edited bounds rather than startup registry.
+11. ambiguous region overlap rejected.
+12. point-owned object outside declared region rejected or deterministically rehomed according to chosen rule.
+13. traversal/static transform finite/positive checks.
+14. hierarchy expanded-state preserved across select/edit/place/delete/filter.
+15. shortcuts ignored while inspector input/select is focused.
+16. undo/redo restores canonical draft and selection/live preview.
 
-### Selected-start suppression
+## Spawn
 
-For at least initial and deeper Major Waypoint:
+17. every Camp/Waypoint spawn strictly belongs to intended region.
+18. spawn is supported by authored walkable surface and clear of blocking colliders.
+19. Forest Edge begins inside Forest Edge.
+20. authored facing is applied.
+21. selected run-start Waypoint does not immediately expose extract until suppression/leave-reentry rule permits.
 
-- begin run from selected waypoint,
-- selected waypoint does not immediately prompt,
-- suppression remains while inside starting radius,
-- leaving arms it,
-- later re-entry prompts normally,
-- KEEP GOING still requires leave/re-entry.
+## Input/UI
 
-### Interaction restore
+22. realistic desktop mouse sequence produces exactly one attack request.
+23. F/touch tap/touch hold/swipe behavior remains accepted.
+24. upper-left HUD does not overlap at representative narrow portrait width with all resource rows visible.
+25. camera projection sends north/south/east/west targets to correct screen edge and handles behind-camera cases.
+26. undiscovered extraction anchors excluded; endpoint does not self-point.
 
-- after Map start selection closes: gameplay input enabled,
-- session active,
-- Auto Harvest gate true when enabled,
-- manual attack gate true,
-- modal block false.
+## Persistence/session
 
-### Player-facing labels
+27. two distinct runIds with identical cargo/XP both bank.
+28. same runId cannot bank twice.
+29. beginRun resets maxDepth/temporary summary/resolution state.
 
-- Map/player prompt helpers prefer `displayName`,
-- normal rendered/list model does not require raw IDs/coordinates,
-- Beacon remains non-start-selectable.
+## Interaction
 
-### Ground
+30. first Waypoint discovery persists once + emits one activation event.
+31. first Beacon discovery same.
+32. re-entry does not replay activation event.
+33. proximity alone does not open extraction modal.
+34. contextual EXTRACT invokes normal extraction pipeline.
+35. Camp START EXPEDITION opens Map without walking through closed collider.
+36. closing Map keeps Camp state/gate closed.
+37. RETURN & SECURE uses same idempotent banking/result path.
 
-- authored Ground Patch produces matching visual/collider transform and dimensions,
-- collision-disabled ground produces no collider,
-- exported/reloaded patch deterministic.
-
-### Boundary
-
-- no automatic physical world-edge walls generated from region/world bounds,
-- authored boundary produces collider,
-- delete/disable collision removes it on next authoritative Play build,
-- hidden-in-play boundary remains represented by Edit proxy path.
-
-### Presentation/static collision
-
-Representative box/fence/forestBoundary/Ground/Boundary:
-
-- collision flag respected,
-- visibility flag respected,
-- opacity/tint normalize and persist,
-- one object's tint/opacity override does not mutate sibling materials globally,
-- hidden collider still author-selectable via proxy metadata/path.
-
-### Existing guarantees
-
-- one rAF,
-- fixed 1/60,
-- Rapier only,
-- region activation/bounded pools,
-- extraction/death/banking idempotence,
-- normal player save isolated from Author draft,
-- deterministic world generation/check,
-- offline/portrait/<35 MB.
+Retain all existing tests unless a test asserts deliberately replaced auto-modal behavior; update those tests to the new approved interaction contract rather than deleting coverage.
 
 ---
 
-## 18. Human acceptance checklist — concise and player-readable
+# 29. Human acceptance checklist
 
-Final agent response should adapt exact labels but keep this short.
+Muse's final response must give this in short human-readable language adapted to the actual controls.
 
-### Test 1 — Fresh game really starts at Camp
+### Test 1 — Author world is no longer boxed in
 
-1. Open normal game with `?dev=1` and press **RESET PLAYER SAVE**.
-2. After reload, do nothing for several seconds.
-3. Expected: you are standing in Camp with control and **no CHOOSE START popup**.
-4. Walk through the frontier gate.
-5. Expected: **CHOOSE START** opens only when you deliberately enter/cross the gate.
+- Open `?author=1`, Edit.
+- Move/place a Ground Patch and another object well beyond the old yellow/original arena rectangle.
+- Resize/move it and confirm the actual object updates live.
+- Play and confirm ground + collision match what Edit showed.
 
-Failure: modal opens on load or before you move into the gate.
+**Pass:** no hidden old clamp; no Edit/Play mismatch.
 
-### Test 2 — Start Forest Edge and immediately play
+### Test 2 — Hidden collider / presentation truth
 
-1. Choose **Forest Edge**.
-2. Expected: teleport to Forest Edge, Map closes, **no extraction prompt opens**.
-3. Walk away from the blue Waypoint and harvest a nearby node using Auto Harvest.
-4. Manually swing/attack a nearby Wildkin/resource.
-5. Expected: accepted harvest/attack rings and interactions work normally.
-6. Later walk back into the blue Forest Edge Waypoint.
-7. Expected: only now may its named extraction prompt appear.
+- Place a Boundary Collider.
+- Make it hidden in Play + collision ON.
+- Confirm proxy appears immediately in Edit.
+- Change opacity/tint on a visible Box/Fence and return opacity to 1/remove tint.
+- Play.
 
-### Test 3 — Named anchor UI + extraction
+**Pass:** proxies/presentation update immediately and Play matches; sibling objects unchanged.
 
-1. Reach an Extraction Beacon.
-2. Expected: prompt uses a readable Beacon name, not an internal ID.
-3. Extract.
-4. Expected: Camp result card uses readable names and banking still works.
-5. Open Map; normal player view has no coordinates/internal IDs.
+### Test 3 — Hierarchy, shortcuts, undo
 
-### Test 4 — Ground authoring
+- Expand several regions/categories.
+- Select/edit objects; groups stay open.
+- Use F focus, WASD/arrows nudge, Q/E rotate, raise/lower, Delete.
+- Undo/redo a move and a delete.
+- Click a numeric inspector field and use arrow/WASD-like typing/navigation as appropriate.
 
-1. Open `?author=1` → EDIT.
-2. In **World**, place a Ground Patch in an obvious open location.
-3. Move and resize it live.
-4. PLAY and walk on it.
-5. Expected: visible ground and collision match exactly.
-6. Delete/move an existing Ground Patch and verify the old hidden global floor is not silently supporting the removed area.
+**Pass:** shortcuts do not fire while editing fields; hierarchy state survives; undo/redo is predictable.
 
-### Test 5 — Boundary / invisible collider authoring
+### Test 4 — Spawn authoring
 
-1. EDIT → place **Boundary Collider**.
-2. Expected: obvious author-only proxy is visible/selectable.
-3. PLAY: proxy disappears but collision blocks the player.
-4. EDIT → turn Collision OFF → PLAY.
-5. Expected: player can pass through.
-6. Move/resize/delete an outer boundary and confirm there is no separate hard-coded wall left behind.
+- Select Camp Spawn and Forest Edge Run Spawn visually.
+- Drag Forest Edge Run Spawn to an obvious valid place inside Forest Edge and set facing deeper.
+- Play fresh run and choose Forest Edge.
 
-### Test 6 — Visibility / collision / tint / opacity
+**Pass:** player appears on solid ground inside Forest Edge, facing intended direction; no immediate extract action from the start Waypoint.
 
-Using a Box or Fence:
+### Test 5 — One desktop attack + HUD
 
-1. turn Collision OFF but leave Visible ON → PLAY → visible decoration, player passes through;
-2. turn Visible OFF + Collision ON → PLAY → invisible but blocking;
-3. change Opacity and Tint → EDIT preview changes live, PLAY matches;
-4. confirm neighboring objects did not all inherit the same tint/opacity.
+- In active run, click once with mouse.
+- Hold once.
+- Fill/collect enough resources to show all current inventory rows.
 
-### Test 7 — Palette/hierarchy usability
+**Pass:** quick click gives one swing; hold uses normal cadence; inventory and Auto Harvest never overlap.
 
-1. Confirm palette is grouped into clear categories.
-2. Confirm hierarchy has Ground and Boundary/Collider entries.
-3. Select/focus a hidden boundary through hierarchy and edit it.
+### Test 6 — Waypoint/Beacon interaction
 
-Then answer:
+- Discover a new Waypoint or Beacon.
 
-> **Does the fresh Camp → start → active expedition flow now feel correct, and is Author Mode ready to shape the real Phase 4B frontier without hidden ground/boundary surprises?**
+**Pass:** one brief activation pulse/sound/name appears without stopping movement; nearby EXTRACT contextual action appears; walking away continues naturally; returning later does not replay discovery animation.
 
-A human **yes** is required to close Phase 4A/4A.1.
+### Test 7 — Camp gate + guidance + repeat runs
 
----
+- At fresh Camp, approach closed gate.
+- Use START EXPEDITION; close Map once and confirm gate remains closed.
+- Reopen/start Forest Edge.
+- Follow an off-screen indicator above/below/left/right as you move.
+- Extract or return to Camp; repeat another run with identical small cargo if practical.
 
-## 19. Final agent response requirements
+**Pass:** gate is a deliberate threshold; indicators point correctly; repeated runs bank correctly; no stale depth/input state.
 
-Final response must include only:
+Final human question:
 
-1. concise implementation summary,
-2. short **Consistency Sweep** naming sibling anchor/static-object paths checked,
-3. test / verify / zip results,
-4. the 7 human tests above rewritten with actual player-facing names/buttons and no unnecessary coordinates/internal IDs,
-5. explicit stop before Phase 4B.
+> **Does Author Mode now feel trustworthy enough to shape the real 5–10 minute expedition, and does Camp → start → discover → optionally extract → continue/return feel natural without automatic interruption?**
 
-Do not give a long developer-coordinate checklist.
-Do not claim human acceptance yourself.
+Human yes is required before Phase 4B.
 
 ---
 
-## 20. Completion gate
+# 30. Completion gate
 
-Phase 4A.1 implementation is complete only when:
+Phase 4A.2 is implementation-complete only when:
 
-- fresh launch gives Camp control with no automatic start menu,
-- deliberate Camp gate entry opens CHOOSE START,
-- selecting any Major Waypoint starts a run without immediate extraction prompt,
-- selected start Waypoint prompts only after leave/re-entry,
-- accepted harvesting/combat/input works immediately in active expedition,
-- dev-only one-action player-save reset exists,
-- player-facing Map/prompts/results use readable anchor names and hide IDs/coords,
-- Ground Patches are authored/placeable/selectable and own playable collision,
-- physical outer boundaries are authored/selectable rather than hard-coded from world bounds,
-- static visibility/collision/opacity/tint controls work end-to-end for supported families,
-- hidden collider-only objects remain author-visible/selectable in Edit,
-- palette is categorized,
-- hierarchy includes Ground/Boundary access,
-- all shared-contract sibling paths receive a consistency sweep,
-- automated tests pass,
-- `npm run world:check` passes,
+- canonical Author mutation/descriptor path exists and is used by Edit/runtime/Rapier for supported static families,
+- Ground/Boundary live parity/proxy lifecycle works,
+- old editor clamp is removed,
+- current-draft spatial/ownership validation works,
+- explicit visual Camp/Waypoint spawn transforms work end-to-end,
+- hierarchy state/shortcuts/undo are reliable,
+- desktop mouse no longer double-attacks,
+- upper-left HUD is stacked,
+- edge indicators use camera projection,
+- run identity/banking/depth reset defects are closed,
+- auto extraction modals are replaced by nonblocking discovery + contextual actions,
+- Camp gate uses contextual start/return and real collision,
+- first activation feedback works once,
+- `npm test` passes,
+- `npm run world:generate` / `npm run world:check` pass as applicable,
 - `npm run verify` passes,
 - `npm run zip` passes,
-- one-rAF/fixed-step/Rapier/offline/portrait constraints remain intact,
-- human acceptance is still pending.
+- one rAF / fixed 1/60 / Rapier / offline / portrait / <35MB guarantees remain intact,
+- docs/Build Log reflect actual implementation,
+- implementation stops before Phase 4B content/pacing work.
 
-**Stop. Do not begin Phase 4B.**
+Do **not** claim human acceptance. Human playtest closes this phase.
+
+---
+
+# 31. Final agent response format
+
+Keep closeout concise and useful:
+
+1. **Implementation summary** — grouped by Author reliability, Spawn, Input/UI, Interaction, Persistence.
+2. **Consistency Sweep** — name sibling families/paths verified.
+3. **Automated gates** — exact test/verify/zip results.
+4. **Human acceptance** — only the seven simple tests above, adapted to actual labels/shortcuts.
+5. Stop. **Do not begin Phase 4B.**
