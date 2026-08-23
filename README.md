@@ -2,30 +2,30 @@
 
 Single-player, portrait-mobile, Three.js/HTML5 survival & resource-management prototype for the Meta Horizon Creator Competition.
 
-## Current Playable Foundation
+## Current Playable Foundation (Phase 4A — First Complete Expedition Loop)
 
 - fixed high third-person / near top-down camera,
 - one-thumb movement plus run/sneak/jump/dodge,
 - Rapier kinematic collision, slopes/steps, falling, ladders, and mantle traversal,
-- automatic + manual Field Tool harvesting,
-- three resource types with chunky depletion, collision-aware physical-looking drops, magnet collection, inventory, and respawn,
-- first-pass melee combat with the same oversized Field Tool,
-- melee/ranged Wildkin prototypes,
-- aggressive / territorial / defensive / skittish temperament behavior,
-- selected Wildkin-vs-Wildkin reactions,
-- home/roam/leash/return + lightweight obstacle steering,
-- player health/dodge invulnerability/death/restart,
-- cyan faceted XP essence with collision-aware pop/rest + guaranteed magnet collection,
-- single-source `world.json` → generated runtime world pipeline,
-- current+neighbor region activation with bounded inactive simulation,
-- accepted desktop Author Mode with direct placement/dragging, transform/collider parity, Wildkin home editing, hierarchy, deterministic export/reset,
-- offline-compliant submission build/validation.
+- automatic + manual Field Tool harvesting + 3 resource types with chunky depletion,
+- collision-aware drops + magnet collection — now **upper-left hide-zero run carry** (unsecured) vs **persistent bank**,
+- first-pass melee combat with Field Tool,
+- melee/ranged Wildkin prototypes (A/T/D/S) + home/leash/steering,
+- player health/dodge invuln + Camp-return death/loss flow,
+- cyan XP essence (magnet collection) as unsecured run XP,
+- single-source `world.json` (Camp/frontierGateId/initialMajorWaypointId/spawnOffset) → generated pipeline,
+- current+neighbor region activation, bounded pools,
+- **Camp → gate → choose unlocked Major Waypoint → carry unsecured value → Waypoint/Beacon EXTRACT or KEEP GOING → bank or lose → return to Camp → see outcome → immediately start another run**,
+- **Major Waypoints** permanently unlock future starts (survive death), **Extraction Beacons** allow extraction but never become starts, **Camp gate** allows physical retreat & secure,
+- **Top-right Map** with inspect vs gate-triggered start-selection (fresh save shows Camp/gate/unknown; beacons never selectable; inspect never teleports),
+- **Anchor prompts** at Waypoint/Beacon/Gate + **recovery/loss cards** over Camp (Continue → Camp control; next run via gate→Map, not TRY AGAIN arena restart),
+- minimal **edge guidance** (extraction + next Waypoint) during active run only,
+- one-rAF / fixed 1/60 gameplay, Rapier-only physics, offline/portrait/<35 MB,
+- desktop Author Mode (isolated persistent progress — `?author=1` never corrupts normal `wildkin.frontierProgress`).
 
-**Phase 3.5A + 3.5B/3.5B.1/3.5B.2 are complete and accepted.**
+**Phase 3.5A/B.x accepted. Phase 4A implementation-complete (mechanical loop).**
 
-The active implementation slice is **Phase 4A — First Complete Expedition Loop**. It is the first player-facing loop milestone: Camp → choose an unlocked Major Waypoint → carry unsecured resources/XP → EXTRACT or KEEP GOING → bank or lose → return to Camp → start another run.
-
-Phase 4B will tune the first 5–10 minute expedition, Camp/Area 1 layout, temptation/danger pacing, and the first small meaningful progression spend after the mechanical loop works.
+Phase 4B will tune the first 5–10 minute expedition, Camp/Area 1 layout, temptation/danger pacing, and the first meaningful spend.
 
 ## Core Game Direction
 
@@ -130,20 +130,21 @@ See `THIRD_PARTY_NOTICES.md` and `vendor/README.md` for third-party provenance/l
   README.md
   index.html
   src/
-    main.js                 # composition + one authoritative fixed/rAF loop
+    main.js                 # thin composition + one authoritative fixed/rAF loop
     game/                   # scene, camera, renderer, config
-    input/                  # keyboard + touch intent
+    input/                  # keyboard (with setEnabled) + touch intent
     physics/                # Rapier world/character/query helpers
     player/                 # player movement/state/visuals
     movement/               # traversal helpers
-    session/                # temporary expedition/run lifecycle
-    world/                  # world data, builder, registry, region activation, authoring support
-    author/                 # desktop-only world Author Mode
-    resources/              # harvestables + resource pickups
+    session/                # expeditionSession (camp/active/extracted/dead, idempotent)
+    save/                   # frontierProgress (persistent bank + unlocked/beacons, isolated author key)
+    world/                  # world data/validator/registry/regionManager, staticWorldBuilder, frontierAnchorSystem
+    author/                 # desktop-only Author Mode (isolated draft)
+    resources/              # harvestables + resource pickups (region-aware)
     tools/                  # Field Tool visual/swing owner
-    combat/                 # combat/health/targeting/projectiles/XP
+    combat/                 # combat/health/targeting/projectiles/XP/session
     creatures/              # Wildkin creation/config/AI
-    ui/                     # HUD/death/controls/debug; Phase 4A adds map/anchor/results
+    ui/                     # runInventoryHud (upper-left hide-zero), frontierMap, anchorPrompt, runResultCard, frontierIndicators, combatHud, autoHarvestToggle
     audio/                  # procedural/local audio
   styles/
     game.css

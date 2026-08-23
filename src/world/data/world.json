@@ -4,8 +4,11 @@
     "id": "camp",
     "pos": { "x": 0, "y": 0, "z": 9.5 },
     "radius": 2.8,
-    "description": "Camp clearing — drop pod, Matter Resonator, frontier gate (no gameplay yet)"
+    "frontierGateId": "gate_camp_frontier",
+    "description": "Camp clearing — drop pod, Matter Resonator, frontier gate"
   },
+  "initialMajorWaypointId": "wp_p1_entry",
+  "frontierGateId": "gate_camp_frontier",
   "regions": [
     {
       "id": "camp",
@@ -27,10 +30,7 @@
         { "id": "forest_camp_east", "subtype": "forestBoundary", "pos": { "x": 11.2, "y": 0, "z": 9.5 }, "size": { "w": 1.8, "h": 3.5, "d": 8 }, "rotY": 0 },
         { "id": "forest_camp_north", "subtype": "forestBoundary", "pos": { "x": 0, "y": 0, "z": 11.3 }, "size": { "w": 20, "h": 3.2, "d": 0.8 }, "rotY": 0 }
       ],
-      "resources": [
-        { "id": "tree_camp_01", "type": "tree", "pos": { "x": -2.5, "y": 0, "z": 8.8 } },
-        { "id": "fiber_camp_01", "type": "fiber", "pos": { "x": 1.5, "y": 0, "z": 8.6 } }
-      ],
+      "resources": [],
       "creatures": [],
       "traversal": { "platforms": [], "obstacles": [], "jumpTraversals": [], "climbables": [] },
       "majorWaypoints": [
@@ -57,7 +57,9 @@
         { "id": "tree_p1_01", "type": "tree", "pos": { "x": 1.2, "y": 0, "z": 5.8 } },
         { "id": "tree_p1_02", "type": "tree", "pos": { "x": -8.8, "y": 0, "z": 6.2 } },
         { "id": "rock_p1_01", "type": "rock", "pos": { "x": 3.2, "y": 0, "z": 4.2 } },
-        { "id": "fiber_p1_01", "type": "fiber", "pos": { "x": -2.2, "y": 0, "z": 5.0 } }
+        { "id": "fiber_p1_01", "type": "fiber", "pos": { "x": -2.2, "y": 0, "z": 5.0 } },
+        { "id": "tree_p1_camp01", "type": "tree", "pos": { "x": -3.2, "y": 0, "z": 6.0 } },
+        { "id": "fiber_p1_camp02", "type": "fiber", "pos": { "x": 2.6, "y": 0, "z": 5.2 } }
       ],
       "creatures": [
         { "id": "rusher_p1_skittish", "type": "rusher", "temperament": "SKITTISH", "speciesTag": "fang", "pos": { "x": -1.2, "y": 0, "z": 5.8 }, "homePos": { "x": -1.2, "y": 0, "z": 5.8 }, "roamRadius": 2.8, "noticeRadius": 4.8, "personalSpace": 1.8, "leashRadius": 6.0 }
@@ -71,7 +73,7 @@
         "climbables": []
       },
       "majorWaypoints": [
-        { "id": "wp_p1_entry", "type": "majorWaypoint", "pos": { "x": 0, "y": 0, "z": 6.6 } }
+        { "id": "wp_p1_entry", "type": "majorWaypoint", "pos": { "x": 0, "y": 0, "z": 6.6 }, "spawnOffset": { "x": 0, "z": 1.0 } }
       ],
       "extractionBeacons": [],
       "pois": [
@@ -194,7 +196,7 @@
         ]
       },
       "majorWaypoints": [
-        { "id": "wp_p4_threshold", "type": "majorWaypoint", "pos": { "x": 2.2, "y": 2.4, "z": -7.2 } }
+        { "id": "wp_p4_threshold", "type": "majorWaypoint", "pos": { "x": 2.2, "y": 2.4, "z": -7.2 }, "spawnOffset": { "x": 0, "z": 1.2 } }
       ],
       "extractionBeacons": [],
       "pois": [

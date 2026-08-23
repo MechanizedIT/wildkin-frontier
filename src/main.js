@@ -27,25 +27,28 @@ import { createProjectileSystem } from "./combat/projectileSystem.js";
 import { createXpMoteSystem } from "./combat/xpMoteSystem.js";
 import { createCombatSession } from "./combat/combatSession.js";
 import { createCombatHud } from "./ui/combatHud.js";
-import { createDeathOverlay } from "./ui/deathOverlay.js";
 import WORLD_DATA from "./world/data/world.js";
 import { createWorldRegistry } from "./world/worldRegistry.js";
 import { createRegionManager } from "./world/regionManager.js";
 import { createExpeditionSession } from "./session/expeditionSession.js";
+import { createFrontierProgress } from "./save/frontierProgress.js";
+import { createFrontierAnchorSystem } from "./world/frontierAnchorSystem.js";
+import { createFrontierMap } from "./ui/frontierMap.js";
+import { createAnchorPrompt } from "./ui/anchorPrompt.js";
+import { createRunResultCard } from "./ui/runResultCard.js";
+import { createFrontierIndicators } from "./ui/frontierIndicators.js";
 import { createAuthorMode } from "./author/authorMode.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 3.5B.2 — 0.10.2";
+const VERSION = "Phase 4A — 0.11.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
 await RAPIER.init();
 
-// Determine effective world source (single authoritative source: world.json via generated)
-// Canonical repo data vs effective author draft must remain distinct (Reset restores canonical)
 function getAuthorEnabled() {
   try { return new URLSearchParams(window.location.search).get("author") === "1"; } catch { return false; }
 }
@@ -64,7 +67,6 @@ if (authorEnabled) {
   } catch {}
 }
 
-// World / Session / Region — thin main.js ownership (single source pipeline: JSON -> registry -> builder)
 const worldRegistry = createWorldRegistry(effectiveWorldData);
 const regionDepthMap = worldRegistry.getRegionDepthMap();
 
@@ -91,28 +93,27 @@ window.addEventListener("orientationchange", () => {
   setTimeout(resize, 200);
 });
 
-// Physics
 const physicsWorld = createPhysicsWorld(RAPIER, playground);
-// Determine start pos from camp if available otherwise default
-let startPos = { x: 0, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: 5.5 };
-const camp = worldRegistry.getCamp();
-if (camp && camp.pos) {
-  startPos = { x: camp.pos.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: camp.pos.z - 0.8 };
-}
+let campSpawn = worldRegistry.getCampSpawnPosition();
+let startPos = { x: campSpawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: campSpawn.z };
 const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos);
 
-// Expedition session — owns temporary run lifecycle instead of accumulating in main.js
+// Persistent frontier progress (isolated from author draft)
+const frontierProgress = createFrontierProgress({ worldRegistry, isAuthorMode: authorEnabled });
+frontierProgress.load();
+
+// Expedition session — begins at Camp (not active)
 const initialRegion = worldRegistry.getRegionForPosition(startPos);
 const expeditionSession = createExpeditionSession({
-  startAnchorId: worldRegistry.getStartAnchorId() ?? "camp_gate",
+  startAnchorId: worldRegistry.getInitialMajorWaypointId() ?? "wp_p1_entry",
   regionDepthMap,
   initialRegionId: initialRegion,
+  initialStatus: "camp",
 });
 expeditionSession.setRegion(initialRegion, null);
 
-// Region activation manager — determines current region, computes active set (current + neighbors)
 let lastActiveIds = [];
-let resourceSystem, creatureSystem, pickupSystem, projectileSystem, xpMoteSystem; // declared for closure use before assignment
+let resourceSystem, creatureSystem, pickupSystem, projectileSystem, xpMoteSystem;
 const regionManager = createRegionManager(worldRegistry, {
   onChange: ({ currentRegionId, activeIds, prevActiveIds }) => {
     expeditionSession.setRegion(currentRegionId, null);
@@ -127,22 +128,17 @@ const regionManager = createRegionManager(worldRegistry, {
   },
 });
 
-// Input
 const touchMovement = createTouchMovement(app, MOVEMENT_CONFIG, INPUT_CONFIG);
 const keyboardInput = createKeyboardInput(MOVEMENT_CONFIG, app);
 
-// Player controller
 const playerController = createPlayerController(player, playground, camera, MOVEMENT_CONFIG, characterPhysics);
 player.position.set(startPos.x, startPos.y, startPos.z);
 
-// Camera
 const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG);
 cameraFollow.snap();
 
-// Physics debug
 const physicsDebug = createPhysicsDebug(scene, characterPhysics, physicsWorld);
 
-// Harvesting placements — data-driven via worldRegistry (no second loader)
 const placementsFromWorld = worldRegistry.getAllResources().map(r => ({
   type: r.type,
   pos: { ...r.pos },
@@ -169,7 +165,6 @@ expeditionSession.setCargo(pickupSystem.getInventory());
 resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld);
 const fieldTool = createFieldTool(player, gameAudio);
 
-// Phase 3 systems
 const combatHud = createCombatHud();
 xpMoteSystem = createXpMoteSystem(scene, {
   onXpChanged: (xp) => {
@@ -182,9 +177,8 @@ xpMoteSystem = createXpMoteSystem(scene, {
 xpMoteSystem.setWorldRegistry(worldRegistry);
 const combatSession = createCombatSession();
 
-// Player combat (health, knockback, i-frames)
-let isDead = false;
-let deathOverlay = null;
+let isDead = false; // transient death overlay flag — now replaced by result card flow but kept for tick guard
+let pendingResultSnapshot = null;
 
 const playerCombat = createPlayerCombat({
   playerMesh: player,
@@ -196,15 +190,8 @@ const playerCombat = createPlayerCombat({
   onHealthChanged: (h, mh) => combatHud.updateHealth(h, mh),
   onDamageFeedback: () => combatHud.pulseDamage(),
   onDeath: () => {
-    if (isDead) return;
-    isDead = true;
-    expeditionSession.onDeath();
-    const inv = pickupSystem.getInventory();
-    const xp = xpMoteSystem.getXp();
-    const kills = expeditionSession.getKills();
-    setTimeout(() => {
-      deathOverlay.show({ kills, xp, inventory: inv });
-    }, 280);
+    if (expeditionSession.isResolved?.()) return;
+    handleDeathFlow();
   },
   scene,
 });
@@ -214,7 +201,7 @@ combatHud.updateXp(0);
 projectileSystem = createProjectileSystem(scene, physicsWorld, playground);
 projectileSystem.setWorldRegistry(worldRegistry);
 projectileSystem.setDamageCallback((dmg, pos) => {
-  if (isDead) return false;
+  if (expeditionSession.getStatus() === "lost" || expeditionSession.isResolved?.()) return false;
   const ok = playerCombat.takeDamage(dmg, pos);
   if (ok) {
     combatSession.notifyDamage();
@@ -245,7 +232,7 @@ creatureSystem = createCreatureSystem(scene, physicsWorld, playground, {
     combatSession.notifyAttack();
   },
   onPlayerDamage: (dmg, pos) => {
-    if (isDead) return false;
+    if (expeditionSession.isResolved?.()) return false;
     if (playerCombat.isInvulnerable()) return false;
     const ok = playerCombat.takeDamage(dmg, pos);
     if (ok) {
@@ -270,13 +257,344 @@ projectileSystem.setWildkinDamageCallback((target, dmg, pos, owner) => {
 
 xpMoteSystem.setPlayerPos(playerController.getState().pos);
 
-// Prime region activation after all gameplay systems exist
+// Prime region activation after all gameplay systems exist (start at Camp)
 {
   const init = regionManager.update(startPos);
   lastActiveIds = init.activeIds;
   expeditionSession.setRegion(init.currentRegionId, init.currentPocketId);
   resourceSystem.setActiveRegions(init.activeIds);
   creatureSystem.setActiveRegions(init.activeIds);
+}
+
+// UI — Map, AnchorPrompt, ResultCard, Indicators (Phase 4A focused owners)
+let frontierMap, anchorPrompt, runResultCard, frontierIndicators, frontierAnchorSystem;
+
+function isAnyBlockingModal() {
+  return (frontierMap && frontierMap.isOpen()) || (anchorPrompt && anchorPrompt.isVisible()) || (runResultCard && runResultCard.isVisible());
+}
+
+function setGameplayInputBlocked(blocked) {
+  touchMovement.setEnabled(!blocked);
+  if (keyboardInput.setEnabled) keyboardInput.setEnabled(!blocked);
+}
+
+function refreshMapAvailability() {
+  if (!frontierMap) return;
+  const blocked = isAnyBlockingModal() || (authorCtx && authorCtx.isEditMode && authorCtx.isEditMode());
+  // Map button should be disabled when a blocking modal already open (except map itself) or edit mode
+  const mapOpen = frontierMap.isOpen();
+  const anchorOpen = anchorPrompt.isVisible();
+  const resultOpen = runResultCard.isVisible();
+  const shouldDisableMapButton = anchorOpen || resultOpen || (authorCtx && authorCtx.isEditMode && authorCtx.isEditMode());
+  frontierMap.setEnabled(!shouldDisableMapButton);
+}
+
+frontierMap = createFrontierMap({
+  worldRegistry,
+  frontierProgress,
+  onStartSelected: (waypointId) => {
+    beginExpedition(waypointId);
+  },
+  onClose: () => {
+    refreshMapAvailability();
+    syncInputBlock();
+  },
+  onOpen: () => {
+    refreshMapAvailability();
+    syncInputBlock();
+  },
+});
+
+anchorPrompt = createAnchorPrompt({
+  onExtract: (data) => {
+    handleExtractionFlow(data);
+  },
+  onKeepGoing: (data) => {
+    if (frontierAnchorSystem) frontierAnchorSystem.handleKeepGoing(data.id);
+    refreshMapAvailability();
+    syncInputBlock();
+  },
+});
+
+runResultCard = createRunResultCard({
+  onContinue: () => {
+    // Continue returns direct Camp control (already reset to camp)
+    refreshMapAvailability();
+    syncInputBlock();
+  },
+});
+
+frontierIndicators = createFrontierIndicators({
+  worldRegistry,
+  frontierProgress,
+  getPlayerPos: () => playerController.getState().pos,
+  getSession: () => expeditionSession,
+  getCamera: () => camera,
+});
+
+// Frontier anchor system
+frontierAnchorSystem = createFrontierAnchorSystem(worldRegistry, {
+  getPlayerPos: () => playerController.getState().pos,
+  getSession: () => expeditionSession,
+  frontierProgress,
+  onWaypointPrompt: (id, meta) => {
+    if (isAnyBlockingModal()) return;
+    const cargo = pickupSystem.getInventory();
+    const xp = xpMoteSystem.getXp();
+    anchorPrompt.show({ id, type: "majorWaypoint", cargo, xp });
+    refreshMapAvailability();
+    syncInputBlock();
+  },
+  onBeaconPrompt: (id, meta) => {
+    if (isAnyBlockingModal()) return;
+    const cargo = pickupSystem.getInventory();
+    const xp = xpMoteSystem.getXp();
+    anchorPrompt.show({ id, type: "extractionBeacon", cargo, xp });
+    refreshMapAvailability();
+    syncInputBlock();
+  },
+  onGateStartPrompt: () => {
+    if (isAnyBlockingModal()) return;
+    frontierMap.openStartSelection();
+    refreshMapAvailability();
+    syncInputBlock();
+  },
+  onGateReturnPrompt: () => {
+    if (isAnyBlockingModal()) return;
+    const cargo = pickupSystem.getInventory();
+    const xp = xpMoteSystem.getXp();
+    anchorPrompt.show({ id: worldRegistry.getFrontierGateId(), type: "gate", cargo, xp });
+    refreshMapAvailability();
+    syncInputBlock();
+  },
+});
+
+// Helper: sync input block from any blocking modal + author edit
+let prevAuthorSuppress = false;
+function syncInputBlock() {
+  const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
+  const modalBlocked = isAnyBlockingModal();
+  const blocked = !!(authorSuppress || modalBlocked);
+  setGameplayInputBlocked(blocked);
+  if (authorSuppress !== prevAuthorSuppress) {
+    prevAuthorSuppress = authorSuppress;
+    refreshMapAvailability();
+  }
+}
+
+// Shared transient world reset to Camp (extraction & death share this path where practical)
+function resetTransientWorldToCamp() {
+  // Clear temp pickups/projectiles/motes
+  if (pickupSystem.clear) { try { pickupSystem.clear(); } catch {} }
+  pickupSystem.resetInventory();
+  inventoryHud.update(pickupSystem.getInventory());
+  expeditionSession.setCargo(pickupSystem.getInventory());
+  // motes / projectiles
+  xpMoteSystem.reset();
+  combatHud.updateXp(0);
+  expeditionSession.setXp(0);
+  projectileSystem.reset();
+  // creatures & resources to baseline
+  creatureSystem.reset();
+  for (const n of resourceSystem.nodes) {
+    if (n.state.nodeState === "RESPAWNING") {
+      n.state.nodeState = "READY";
+      n.state.remainingChunks = n.type.maxChunks;
+      n.state.respawnRemaining = 0;
+      for (const m of n.chunkMeshes) m.visible = true;
+      if (n.remnantMesh) n.remnantMesh.visible = false;
+      n.respawnGroup.visible = false;
+      if (n.type.solid && !n.collider && !n._regionInactive) {
+        n._pendingColliderRestore = true;
+      }
+    }
+    if (n._regionInactive) {
+      n.group.visible = false;
+    }
+  }
+  // player health/action
+  playerCombat.reset();
+  combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
+  combatSession.reset();
+  if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
+  // reposition player to camp
+  campSpawn = worldRegistry.getCampSpawnPosition();
+  const cPos = { x: campSpawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: campSpawn.z };
+  characterPhysics.setPosition(cPos);
+  player.position.set(cPos.x, cPos.y, cPos.z);
+  const st = playerController.state;
+  st.mode = "IDLE";
+  st.pos.set(cPos.x, cPos.y, cPos.z);
+  st.vel.set(0, 0, 0);
+  st.verticalVelocity = 0;
+  st.grounded = true;
+  st.facing = 0;
+  st.speed = 0;
+  st.dodgeCooldown = 0;
+  st.dodgeTime = 0;
+  st.airCap = 0;
+  st.jumpData = null;
+  st.fallHVel = null;
+  st.climbable = null;
+  st.mantleData = null;
+  playerController.traversal.reset();
+  playerController.syncPosFromPhysics();
+  cameraFollow.snap();
+  // region reprimes around Camp
+  {
+    const cur = regionManager.update(cPos);
+    expeditionSession.setRegion(cur.currentRegionId, cur.currentPocketId);
+    resourceSystem.setActiveRegions(cur.activeIds);
+    creatureSystem.setActiveRegions(cur.activeIds);
+    pickupSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
+    projectileSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
+    xpMoteSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
+    lastActiveIds = cur.activeIds;
+  }
+  frontierAnchorSystem.reset();
+  isDead = false;
+  accumulator = 0;
+  autoHarvestToggle.setEnabled(autoHarvestEnabled, false);
+}
+
+function beginExpedition(waypointId) {
+  // Validate: must be at camp, waypoint unlocked + exists
+  if (!expeditionSession.isCamp()) return false;
+  if (!waypointId) return false;
+  const wp = worldRegistry.getWaypointById(waypointId);
+  if (!wp) return false;
+  if (!frontierProgress.isUnlockedWaypoint(waypointId)) return false;
+
+  // Clear old run state (transient)
+  pickupSystem.resetInventory();
+  inventoryHud.update(pickupSystem.getInventory());
+  xpMoteSystem.reset();
+  combatHud.updateXp(0);
+  projectileSystem.reset();
+  if (pickupSystem.clear) { try { pickupSystem.clear(); } catch {} }
+  // resources/creatures to baseline for new run
+  creatureSystem.reset();
+  for (const n of resourceSystem.nodes) {
+    if (n.state.nodeState === "RESPAWNING") {
+      n.state.nodeState = "READY";
+      n.state.remainingChunks = n.type.maxChunks;
+      n.state.respawnRemaining = 0;
+      for (const m of n.chunkMeshes) m.visible = true;
+      if (n.remnantMesh) n.remnantMesh.visible = false;
+      n.respawnGroup.visible = false;
+      if (n.type.solid && !n.collider && !n._regionInactive) n._pendingColliderRestore = true;
+    }
+  }
+  playerCombat.reset();
+  combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
+  combatSession.reset();
+  if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
+
+  // Set session active
+  expeditionSession.beginRun(waypointId);
+  frontierProgress.markDeparted();
+
+  // Position player at safe authored start for waypoint
+  const spawn = worldRegistry.getWaypointSpawnPosition(waypointId);
+  const sPos = spawn ? { x: spawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: spawn.z } : { x: wp.pos.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: wp.pos.z + 1.0 };
+  characterPhysics.setPosition(sPos);
+  player.position.set(sPos.x, sPos.y, sPos.z);
+  const st = playerController.state;
+  st.mode = "IDLE";
+  st.pos.set(sPos.x, sPos.y, sPos.z);
+  st.vel.set(0,0,0);
+  st.verticalVelocity = 0;
+  st.grounded = true;
+  st.facing = 0;
+  st.speed = 0;
+  playerController.traversal.reset();
+  playerController.syncPosFromPhysics();
+  cameraFollow.snap();
+  {
+    const cur = regionManager.update(sPos);
+    expeditionSession.setRegion(cur.currentRegionId, cur.currentPocketId);
+    resourceSystem.setActiveRegions(cur.activeIds);
+    creatureSystem.setActiveRegions(cur.activeIds);
+    lastActiveIds = cur.activeIds;
+  }
+  // Suppress immediate anchor popup for start Waypoint until leaves radius once
+  frontierAnchorSystem.reset();
+  frontierAnchorSystem.disarmStartWaypoint(waypointId);
+  // Also ensure anchor system knows player is inside start radius (so it will arm on exit)
+  // Close map and restore input exactly once
+  frontierMap.close();
+  anchorPrompt.hide();
+  runResultCard.hide();
+  syncInputBlock();
+  refreshMapAvailability();
+  return true;
+}
+
+function handleExtractionFlow(data) {
+  if (expeditionSession.isResolved?.()) return;
+  if (!expeditionSession.isActive()) return;
+  // Snapshot run resources/XP + discoveries
+  const cargo = pickupSystem.getInventory();
+  const xp = xpMoteSystem.getXp();
+  const snap = expeditionSession.tryResolveExtract();
+  if (!snap) return; // already resolved — idempotent guard
+  // Bank persistently (idempotent)
+  frontierProgress.bankRun(cargo, xp);
+  // Determine new discoveries for card (snapshot already has runDiscoveries)
+  const discoveries = expeditionSession.getRunDiscoveries();
+  const banked = frontierProgress.getState();
+  pendingResultSnapshot = { cargo: { ...cargo }, xp, newWaypoints: [...discoveries.newWaypoints], newBeacons: [...discoveries.newBeacons] };
+  // Return/reset transient world to Camp (shared path)
+  expeditionSession.resetToCamp();
+  resetTransientWorldToCamp();
+  syncInputBlock();
+  frontierMap.close();
+  anchorPrompt.hide();
+  // Show recovery card over Camp
+  runResultCard.show({
+    type: "extracted",
+    snapshot: pendingResultSnapshot,
+    bankedResources: banked.bankedResources,
+    bankedXp: banked.bankedXp,
+    regionNames: Object.fromEntries(worldRegistry.getAllRegions().map(r => [r.majorWaypoints?.[0]?.id ?? r.id, r.displayName])),
+  });
+  refreshMapAvailability();
+  syncInputBlock();
+  frontierAnchorSystem.handleExtracted(data.id);
+}
+
+function handleDeathFlow() {
+  if (expeditionSession.isResolved?.()) return;
+  if (!expeditionSession.isActive()) {
+    // If died at camp (should not happen), just reset
+    playerCombat.reset();
+    return;
+  }
+  const cargo = pickupSystem.getInventory();
+  const xp = xpMoteSystem.getXp();
+  const snap = expeditionSession.tryResolveDeath();
+  if (!snap) return;
+  const discoveries = expeditionSession.getRunDiscoveries();
+  // Death banks nothing, but discoveries (waypoints/beacons) already persisted via anchor system unlocks — they survive
+  pendingResultSnapshot = { cargo: { ...cargo }, xp, newWaypoints: [...discoveries.newWaypoints], newBeacons: [...discoveries.newBeacons] };
+  const banked = frontierProgress.getState();
+  // Return/reset to Camp via shared path
+  expeditionSession.resetToCamp();
+  resetTransientWorldToCamp();
+  syncInputBlock();
+  frontierMap.close();
+  anchorPrompt.hide();
+  isDead = true;
+  // Show loss card over Camp
+  runResultCard.show({
+    type: "lost",
+    snapshot: pendingResultSnapshot,
+    bankedResources: banked.bankedResources,
+    bankedXp: banked.bankedXp,
+  });
+  refreshMapAvailability();
+  syncInputBlock();
+  setTimeout(() => { isDead = false; }, 100);
 }
 
 // Author Mode — desktop dev-only, ?author=1 enables Edit ↔ Play with draft persistence
@@ -301,86 +619,6 @@ if (authorEnabled) {
   window.__author = { draftApi: authorCtx?.draftApi, ui: authorCtx?.ui, mode: authorMode };
 }
 
-// Death overlay
-deathOverlay = createDeathOverlay(() => {
-  doRestart();
-});
-deathOverlay.hide();
-
-// Restart logic — session owns run reset lifecycle
-function doRestart() {
-  isDead = false;
-  expeditionSession.reset(worldRegistry.getStartAnchorId() ?? "camp_gate");
-  expeditionSession.setRegion(regionManager.getCurrentRegionId(), regionManager.getCurrentPocketId());
-  playerCombat.reset();
-  combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
-  const sPos = startPos;
-  characterPhysics.setPosition(sPos);
-  player.position.set(sPos.x, sPos.y, sPos.z);
-  const st = playerController.state;
-  st.mode = "IDLE";
-  st.pos.set(sPos.x, sPos.y, sPos.z);
-  st.vel.set(0, 0, 0);
-  st.verticalVelocity = 0;
-  st.grounded = true;
-  st.facing = 0;
-  st.speed = 0;
-  st.dodgeCooldown = 0;
-  st.dodgeTime = 0;
-  st.airCap = 0;
-  st.jumpData = null;
-  st.fallHVel = null;
-  st.climbable = null;
-  st.mantleData = null;
-  playerController.traversal.reset();
-  playerController.syncPosFromPhysics();
-  cameraFollow.snap();
-  {
-    const cur = regionManager.update(sPos);
-    expeditionSession.setRegion(cur.currentRegionId, cur.currentPocketId);
-    resourceSystem.setActiveRegions(cur.activeIds);
-    creatureSystem.setActiveRegions(cur.activeIds);
-    pickupSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
-    projectileSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
-    xpMoteSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
-    lastActiveIds = cur.activeIds;
-  }
-  creatureSystem.reset();
-  projectileSystem.reset();
-  xpMoteSystem.reset();
-  combatHud.updateXp(0);
-  expeditionSession.setXp(0);
-  pickupSystem.resetInventory();
-  inventoryHud.update(pickupSystem.getInventory());
-  expeditionSession.setCargo(pickupSystem.getInventory());
-  if (pickupSystem.clear) {
-    try { pickupSystem.clear(); } catch {}
-  }
-  for (const n of resourceSystem.nodes) {
-    if (n.state.nodeState === "RESPAWNING") {
-      n.state.nodeState = "READY";
-      n.state.remainingChunks = n.type.maxChunks;
-      n.state.respawnRemaining = 0;
-      for (const m of n.chunkMeshes) m.visible = true;
-      if (n.remnantMesh) n.remnantMesh.visible = false;
-      n.respawnGroup.visible = false;
-      if (n.type.solid && !n.collider && !n._regionInactive) {
-        n._pendingColliderRestore = true;
-      }
-    }
-    if (n._regionInactive) {
-      n.group.visible = false;
-    }
-  }
-  combatSession.reset();
-  if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
-  deathOverlay.hide();
-  autoHarvestToggle.setEnabled(autoHarvestEnabled, false);
-  accumulator = 0;
-}
-
-window.__restart = doRestart;
-
 // Loop — single rAF drives all per-frame updates and rendering (thin main.js)
 const clock = new THREE.Clock();
 let frameCount = 0;
@@ -391,7 +629,6 @@ let physicsSubstepsLast = 0;
 const fixedDt = RAPIER_CONFIG.fixedDt;
 const maxSubsteps = RAPIER_CONFIG.maxSubsteps;
 const maxDelta = RAPIER_CONFIG.maxDelta;
-let prevAuthorSuppress = false;
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · Rapier ${RAPIER.version ? RAPIER.version() : "0.20.0"} · starting…`;
 
@@ -402,29 +639,39 @@ function tick() {
   const dt = Math.min(rawDt, maxDelta);
   accumulator += dt;
 
+  // Author edit visibility + anchor/map updates sync
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
   if (authorSuppress !== prevAuthorSuppress) {
-    touchMovement.setEnabled(!authorSuppress);
+    syncInputBlock();
+    refreshMapAvailability();
     prevAuthorSuppress = authorSuppress;
   }
   if (authorSuppress && authorMode && authorMode.updateEditorVisibility) authorMode.updateEditorVisibility();
+
+  // Also keep indicators updated outside fixed step (visual)
+  if (frontierIndicators && !authorSuppress) frontierIndicators.update(camera);
+  refreshMapAvailability();
 
   const touchIntent = touchMovement.getIntent();
   const kbIntent = keyboardInput.getIntent();
   const intent = mergeIntentsPure(touchIntent, kbIntent);
   const wasDodgeRequested = intent.dodgeRequested;
   const wasAttackRequested = intent.attackRequested;
-  // In Edit mode, suppress gameplay input to avoid combat/harvest interference
-  const effectiveIntent = authorSuppress ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "IDLE", dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
+  const blocked = isAnyBlockingModal() || !!authorSuppress;
+  const effectiveIntent = blocked ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
 
   let substeps = 0;
   while (accumulator >= fixedDt && substeps < maxSubsteps) {
-    if (!isDead && !authorSuppress) {
+    if (!expeditionSession.isResolved?.() && !authorSuppress && !isAnyBlockingModal()) {
+      // Anchor system only while not blocked (prevents damage while decision UI open)
+      const pPosForAnchor = playerController.getState().pos;
+      frontierAnchorSystem.update(pPosForAnchor);
+      // Pause AI while blocking already handled via isAnyBlockingModal guard
       const pStBefore = playerController.getState();
       const isAggroNearby = creatureSystem.isAnyAggroedNearby();
       combatSession.update(fixedDt, isAggroNearby);
       const combatEngaged = combatSession.isEngaged();
-      const harvestingAllowed = autoHarvestEnabled;
+      const harvestingAllowed = autoHarvestEnabled && !blocked && expeditionSession.isActive();
 
       const pPosForCombat = pStBefore.pos;
       const pFacingForCombat = pStBefore.facing;
@@ -435,8 +682,8 @@ function tick() {
         return hits.map(h => alive.find(a => a.state.id === h.id)).filter(Boolean);
       };
 
-      const fieldCanAttack = !isDead && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE");
-      const effectiveAttackRequested = wasAttackRequested;
+      const fieldCanAttack = !blocked && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE") && expeditionSession.isActive();
+      const effectiveAttackRequested = wasAttackRequested && !blocked;
       const effectiveAttackHeld = !!intent.attackHeld && fieldCanAttack;
       const getManualHarvestTargets = () => {
         const pPos = pStBefore.pos;
@@ -582,22 +829,18 @@ function tick() {
 
   const pState = playerController.getState();
   const moveDir = pState.speed > 0.1 ? { x: Math.sin(pState.facing), z: Math.cos(pState.facing) } : null;
-  // In Edit mode, camera is top-down and not following player
   if (authorSuppress) {
-    // Keep camera top-down; no follow
   } else {
     cameraFollow.update(dt, pState.speed, moveDir);
   }
 
   particleSystem.update(dt);
-  if (substeps === 0 && !isDead && !authorSuppress) {
+  if (substeps === 0 && !authorSuppress && !isAnyBlockingModal() && !expeditionSession.isResolved?.()) {
     pickupSystem.update(Math.min(dt, 1 / 30), pState.pos, (resId) => gameAudio.playPickup(resId), characterPhysics.collider);
-    if (!isDead) {
-      const aliveForRing = creatureSystem.getAliveCreatures();
-      const ringTargets = getAttackTargets(pState.pos, pState.facing, aliveForRing.map(c => ({ id: c.state.id, pos: { x: c.state.pos.x, y: c.state.pos.y, z: c.state.pos.z }, isDead: c.state.isDead })));
-      const ringSet = new Set(ringTargets.map(r => r.id));
-      for (const c of aliveForRing) c.showFocusRing(ringSet.has(c.state.id));
-    }
+    const aliveForRing = creatureSystem.getAliveCreatures();
+    const ringTargets = getAttackTargets(pState.pos, pState.facing, aliveForRing.map(c => ({ id: c.state.id, pos: { x: c.state.pos.x, y: c.state.pos.y, z: c.state.pos.z }, isDead: c.state.isDead })));
+    const ringSet = new Set(ringTargets.map(r => r.id));
+    for (const c of aliveForRing) c.showFocusRing(ringSet.has(c.state.id));
   }
 
   physicsDebug.update(pState.grounded, pState.speed, pState.verticalVelocity, physicsSubstepsLast);
@@ -623,7 +866,9 @@ function tick() {
       const engaged = combatSession.isEngaged() ? "C" : "-";
       const curReg = regionManager.getCurrentRegionId() ?? "none";
       const activeIds = regionManager.getActiveIds().join(",");
-      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode}${trav} · ${band} · ${pState.speed.toFixed(1)} u/s · HP${hp} XP${xp} K${kills} A${alive}/${totalAlive}${engaged} · ${curReg} [${activeIds}] · W${inv.wood} S${inv.stone} F${inv.fiber} · ${grounded} vv${vv} · ${substeps} step${authorSuppress ? " · EDIT" : ""}`;
+      const sess = expeditionSession.getStatus();
+      const bank = frontierProgress.getState();
+      debugLabel.textContent = `${VERSION} · ${fps} fps · ${stMode}${trav} · ${band} · ${pState.speed.toFixed(1)} u/s · ${sess} HP${hp} XP${xp} K${kills} A${alive}/${totalAlive}${engaged} · ${curReg} [${activeIds}] · Run W${inv.wood} S${inv.stone} F${inv.fiber} | Bank W${bank.bankedResources.wood} S${bank.bankedResources.stone} F${bank.bankedResources.fiber} XP${bank.bankedXp} · ${grounded} vv${vv} · ${substeps} step${authorSuppress ? " · EDIT" : ""}${isAnyBlockingModal() ? " · BLOCK" : ""}`;
     }
   }
 
@@ -634,8 +879,10 @@ tick();
 
 // Debug globals — gameplay code must not rely on window.__game
 window.__game = {
-  scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, deathOverlay, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
-  worldRegistry, regionManager, expeditionSession, authorMode, authorCtx,
+  scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
+  worldRegistry, regionManager, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
+  beginExpedition, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
+  clearProgress: () => { frontierProgress.clear(); console.log("[frontierProgress] cleared"); },
   get autoHarvestEnabled() { return autoHarvestEnabled; },
   set autoHarvestEnabled(v) { autoHarvestEnabled = !!v; autoHarvestToggle.setEnabled(autoHarvestEnabled); },
   get debugCounts() {
@@ -654,6 +901,7 @@ window.__game = {
       currentRegion: regionManager.getCurrentRegionId(),
       activeRegions: regionManager.getActiveIds(),
       expedition: expeditionSession.getState(),
+      frontierProgress: frontierProgress.getState(),
       geometries: renderer.info.memory.geometries,
       textures: renderer.info.memory.textures,
       fps,
@@ -662,6 +910,7 @@ window.__game = {
       kills: expeditionSession.getKills(),
       isDead,
       combatEngaged: combatSession.isEngaged(),
+      blocking: isAnyBlockingModal(),
     };
   },
   get regionDebug() {

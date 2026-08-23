@@ -55,8 +55,11 @@ describe("Phase 3.5A — world data", () => {
 
   it("duplicate resource ids fail", () => {
     const dup = JSON.parse(JSON.stringify(WORLD_DATA));
-    const firstRes = dup.regions[0].resources[0];
-    dup.regions[1].resources.push({ ...firstRes });
+    const srcRegion = dup.regions.find(r => r.resources && r.resources.length > 0);
+    assert.ok(srcRegion, "need region with resource");
+    const firstRes = srcRegion.resources[0];
+    // Duplicate within same region to ensure bounds validation passes before duplicate check
+    srcRegion.resources.push({ ...firstRes });
     assert.throws(() => normalizeWorldData(dup), /duplicate resource id/);
   });
 
@@ -430,12 +433,14 @@ describe("Phase 3.5A — temporary entities", () => {
     const rs = createResourceSystem(scene, phys, placements);
     const ps = createPickupSystem(scene, phys, { obstacles: [], platforms: [] }, null);
     const allIds = reg.getRegionIds();
-    const firstRegion = allIds[0];
-    const firstNode = rs.nodes.find(n => n.regionId === firstRegion);
+    // Find a region that actually has a resource node (camp may be empty)
+    const firstRegionWithNode = allIds.find(id => rs.nodes.some(n => n.regionId === id));
+    assert.ok(firstRegionWithNode);
+    const firstNode = rs.nodes.find(n => n.regionId === firstRegionWithNode);
     assert.ok(firstNode);
     ps.spawnPickup(firstNode);
     assert.equal(ps.getCount(), 1);
-    const activeOther = allIds.filter(id => id !== firstRegion);
+    const activeOther = allIds.filter(id => id !== firstRegionWithNode);
     ps.cullInactiveRegions(activeOther, reg);
     assert.equal(ps.getCount(), 0);
     assert.equal(ps.getPooledCount(), 1);

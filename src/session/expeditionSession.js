@@ -1,27 +1,25 @@
-// src/session/expeditionSession.js — focused owner for temporary expedition/run lifecycle (Phase 3.5A)
-// Does not own player health, rendering, creature AI, or resource rules. Orchestrates session-owned summary state.
+// src/session/expeditionSession.js — temporary expedition/run lifecycle (Phase 4A)
+// Statuses: camp | active | extracted | lost
+// Owns only transient run state, not persistent bank.
 
 export function createExpeditionSession(opts = {}) {
-  const startAnchorId = opts.startAnchorId ?? "camp_gate";
-  let status = opts.initialStatus ?? "active"; // active | dead | extracted
+  let startAnchorId = opts.startAnchorId ?? "camp_gate";
+  let status = opts.initialStatus ?? "active"; // camp | active | extracted | lost | dead (dead alias for lost)
   let runXp = 0;
   let kills = 0;
-  // unsecured cargo summary — updated via setCargo or increment
   let unsecuredCargo = { wood: 0, stone: 0, fiber: 0 };
   let currentRegionId = opts.initialRegionId ?? null;
   let currentPocketId = opts.initialPocketId ?? null;
   let maxDepth = 0;
-  // optional depth map for maxDepth tracking; if not provided, depth is order index
   const regionDepthMap = opts.regionDepthMap ?? null;
-
-  // future slots (unsecured Wildkin, extraction outcome) — placeholder
   let unsecuredWildkin = [];
   let extractionOutcome = null;
+  let resolved = false; // has this run been resolved (banked/lost) — idempotent guard
+  let runDiscoveries = { newWaypoints: [], newBeacons: [] }; // temp discoveries this run before banking
 
   function getDepthForRegion(regionId) {
     if (!regionId) return 0;
     if (regionDepthMap && regionDepthMap[regionId] !== undefined) return regionDepthMap[regionId];
-    // fallback: alphabetical numeric if not mapped — treat as 0
     return 0;
   }
 
@@ -31,62 +29,119 @@ export function createExpeditionSession(opts = {}) {
     currentPocketId = pocketId ?? null;
     const depth = getDepthForRegion(regionId);
     if (depth > maxDepth) maxDepth = depth;
-    // also track maxDepth as visited count
     return changed;
   }
 
-  function addXp(amount) {
-    if (typeof amount === "number" && amount > 0) runXp += amount;
-  }
-
-  function setXp(value) {
-    runXp = Math.max(0, value | 0);
-  }
-
-  function addKill() {
-    kills += 1;
-  }
-
+  function addXp(amount) { if (typeof amount === "number" && amount > 0) runXp += amount; }
+  function setXp(value) { runXp = Math.max(0, value | 0); }
+  function addKill() { kills += 1; }
   function setCargo(cargo) {
     if (!cargo) return;
-    unsecuredCargo = {
-      wood: cargo.wood | 0,
-      stone: cargo.stone | 0,
-      fiber: cargo.fiber | 0,
-    };
+    unsecuredCargo = { wood: cargo.wood | 0, stone: cargo.stone | 0, fiber: cargo.fiber | 0 };
   }
-
   function incrementCargo(resourceId, amount = 1) {
     if (unsecuredCargo[resourceId] !== undefined) unsecuredCargo[resourceId] += amount;
     else unsecuredCargo[resourceId] = (unsecuredCargo[resourceId] ?? 0) + amount;
   }
 
-  function reset(nextStartAnchorId = startAnchorId) {
+  function isCamp() { return status === "camp"; }
+  function isActive() { return status === "active"; }
+  function isResolved() { return resolved; }
+
+  function beginRun(nextStartAnchorId) {
+    // Validate: can begin from camp only; if already active, ignore (idempotent)
+    if (status === "active") return false;
+    startAnchorId = nextStartAnchorId ?? startAnchorId;
     status = "active";
+    resolved = false;
     runXp = 0;
     kills = 0;
     unsecuredCargo = { wood: 0, stone: 0, fiber: 0 };
     extractionOutcome = null;
     unsecuredWildkin = [];
-    // keep currentRegion? spec says run reset/death lifecycle hooks — reset to start anchor region
-    // caller should setRegion after reset if needed
+    runDiscoveries = { newWaypoints: [], newBeacons: [] };
+    // maxDepth reset to depth of current region? Keep but caller will setRegion
+    return true;
+  }
+
+  function resetToCamp() {
+    // Centralized transient reset to camp (used by both extraction and death return)
+    status = "camp";
+    resolved = false;
+    runXp = 0;
+    kills = 0;
+    unsecuredCargo = { wood: 0, stone: 0, fiber: 0 };
+    extractionOutcome = null;
+    unsecuredWildkin = [];
+    runDiscoveries = { newWaypoints: [], newBeacons: [] };
     maxDepth = getDepthForRegion(currentRegionId);
-    // Note: startAnchorId is constant for this slice; future: update from opts
+  }
+
+  function reset(nextStartAnchorId = startAnchorId) {
+    // Legacy behavior expected by Phase 3.5A tests: reset => active
+    startAnchorId = nextStartAnchorId ?? startAnchorId;
+    status = "active";
+    resolved = false;
+    runXp = 0;
+    kills = 0;
+    unsecuredCargo = { wood: 0, stone: 0, fiber: 0 };
+    extractionOutcome = null;
+    unsecuredWildkin = [];
+    runDiscoveries = { newWaypoints: [], newBeacons: [] };
+    maxDepth = getDepthForRegion(currentRegionId);
+  }
+
+  function snapshotRun() {
+    return {
+      cargo: { ...unsecuredCargo },
+      xp: runXp,
+      kills,
+      startAnchorId,
+      currentRegionId,
+      maxDepth,
+      newWaypoints: [...runDiscoveries.newWaypoints],
+      newBeacons: [...runDiscoveries.newBeacons],
+    };
+  }
+
+  function addDiscoveryWaypoint(id) {
+    if (!runDiscoveries.newWaypoints.includes(id)) runDiscoveries.newWaypoints.push(id);
+  }
+  function addDiscoveryBeacon(id) {
+    if (!runDiscoveries.newBeacons.includes(id)) runDiscoveries.newBeacons.push(id);
   }
 
   function onDeath() {
-    if (status === "dead") return;
+    if (resolved) return null;
+    // snapshot before clearing
+    const snap = snapshotRun();
     status = "dead";
+    resolved = true;
+    extractionOutcome = { type: "lost", snapshot: snap };
+    return snap;
   }
 
   function onExtract(outcome = null) {
+    if (resolved) return null;
+    const snap = snapshotRun();
     status = "extracted";
-    extractionOutcome = outcome;
+    resolved = true;
+    extractionOutcome = outcome ?? { type: "extracted", snapshot: snap };
+    if (!extractionOutcome.snapshot) extractionOutcome.snapshot = snap;
+    return snap;
   }
 
-  function setStatus(s) {
-    status = s;
+  // Idempotent resolve helpers for anchoring
+  function tryResolveExtract() {
+    if (resolved) return null;
+    return onExtract();
   }
+  function tryResolveDeath() {
+    if (resolved) return null;
+    return onDeath();
+  }
+
+  function setStatus(s) { status = s; }
 
   function getState() {
     return {
@@ -100,6 +155,8 @@ export function createExpeditionSession(opts = {}) {
       maxDepth,
       unsecuredWildkin: [...unsecuredWildkin],
       extractionOutcome,
+      resolved,
+      runDiscoveries: { newWaypoints: [...runDiscoveries.newWaypoints], newBeacons: [...runDiscoveries.newBeacons] },
     };
   }
 
@@ -119,10 +176,20 @@ export function createExpeditionSession(opts = {}) {
     setCargo,
     incrementCargo,
     reset,
+    resetToCamp,
+    beginRun,
     onDeath,
     onExtract,
+    tryResolveExtract,
+    tryResolveDeath,
     setStatus,
-    // expose for tests
+    isCamp,
+    isActive,
+    isResolved: () => resolved,
+    snapshotRun,
+    addDiscoveryWaypoint,
+    addDiscoveryBeacon,
+    getRunDiscoveries: () => ({ ...runDiscoveries, newWaypoints: [...runDiscoveries.newWaypoints], newBeacons: [...runDiscoveries.newBeacons] }),
     _getDepthMap: () => regionDepthMap,
   };
 }

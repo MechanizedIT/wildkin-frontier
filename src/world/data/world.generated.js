@@ -4,7 +4,8 @@
 
 export const WORLD_DATA = {
   "camp": {
-    "description": "Camp clearing — drop pod, Matter Resonator, frontier gate (no gameplay yet)",
+    "description": "Camp clearing — drop pod, Matter Resonator, frontier gate",
+    "frontierGateId": "gate_camp_frontier",
     "id": "camp",
     "pos": {
       "x": 0,
@@ -13,6 +14,8 @@ export const WORLD_DATA = {
     },
     "radius": 2.8
   },
+  "frontierGateId": "gate_camp_frontier",
+  "initialMajorWaypointId": "wp_p1_entry",
   "regions": [
     {
       "bounds": {
@@ -223,26 +226,7 @@ export const WORLD_DATA = {
           "subtype": "forestBoundary"
         }
       ],
-      "resources": [
-        {
-          "id": "tree_camp_01",
-          "pos": {
-            "x": -2.5,
-            "y": 0,
-            "z": 8.8
-          },
-          "type": "tree"
-        },
-        {
-          "id": "fiber_camp_01",
-          "pos": {
-            "x": 1.5,
-            "y": 0,
-            "z": 8.6
-          },
-          "type": "fiber"
-        }
-      ],
+      "resources": [],
       "traversal": {
         "climbables": [],
         "jumpTraversals": [],
@@ -293,6 +277,10 @@ export const WORLD_DATA = {
             "x": 0,
             "y": 0,
             "z": 6.6
+          },
+          "spawnOffset": {
+            "x": 0,
+            "z": 1
           },
           "type": "majorWaypoint"
         }
@@ -395,6 +383,24 @@ export const WORLD_DATA = {
             "x": -2.2,
             "y": 0,
             "z": 5
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "tree_p1_camp01",
+          "pos": {
+            "x": -3.2,
+            "y": 0,
+            "z": 6
+          },
+          "type": "tree"
+        },
+        {
+          "id": "fiber_p1_camp02",
+          "pos": {
+            "x": 2.6,
+            "y": 0,
+            "z": 5.2
           },
           "type": "fiber"
         }
@@ -923,6 +929,10 @@ export const WORLD_DATA = {
             "x": 2.2,
             "y": 2.4,
             "z": -7.2
+          },
+          "spawnOffset": {
+            "x": 0,
+            "z": 1.2
           },
           "type": "majorWaypoint"
         }

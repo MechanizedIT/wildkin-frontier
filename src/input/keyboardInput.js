@@ -4,6 +4,21 @@ import { classifyMovementBand } from "../movement/movementBands.js";
 import { GESTURE_CONFIG } from "./gesture.js";
 
 export function createKeyboardInput(moveCfg, appElement = null) {
+  let enabled = true;
+  function setEnabled(v) {
+    enabled = !!v;
+    if (!enabled) {
+      pressed.clear();
+      spacePressed = false;
+      spaceConsumed = false;
+      attackPending = false;
+      attackConsumed = false;
+      mouseAttackPending = false;
+      mouseDown = false;
+      isFDown = false;
+    }
+  }
+  function isEnabled() { return enabled; }
   const pressed = new Set();
   let spacePressed = false;
   let spaceConsumed = false;
@@ -86,6 +101,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
   }
 
   function getIntent() {
+    if (!enabled) return { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, dodgeX: 0, dodgeY: 0, attackRequested: false, attackHeld: false };
     let x = 0;
     let y = 0;
     if (pressed.has("w") || pressed.has("arrowup")) y -= 1;
@@ -175,5 +191,5 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     }
   }
 
-  return { getIntent, consumeDodge, consumeAttack, resetDodge, triggerAttack: requestAttack, destroy, _pressed: pressed, get _attackPending() { return attackPending || mouseAttackPending; } };
+  return { getIntent, consumeDodge, consumeAttack, resetDodge, triggerAttack: requestAttack, destroy, _pressed: pressed, setEnabled, isEnabled, get _attackPending() { return attackPending || mouseAttackPending; } };
 }

@@ -42,7 +42,11 @@ export function normalizeWorldData(raw) {
   if (data.camp) {
     if (!data.camp.id || typeof data.camp.id !== "string") throw new Error("camp.id required");
     if (data.camp.pos) validatePos(data.camp.pos, "camp");
+    if (data.camp.frontierGateId !== undefined && typeof data.camp.frontierGateId !== "string") throw new Error("camp.frontierGateId must be string");
   }
+  if (data.initialMajorWaypointId !== undefined && typeof data.initialMajorWaypointId !== "string") throw new Error("initialMajorWaypointId must be string");
+  // Optional camp gate at root for backwards compat: frontierGateId
+  if (data.frontierGateId !== undefined && typeof data.frontierGateId !== "string") throw new Error("frontierGateId must be string");
   if (!Array.isArray(data.regions) || data.regions.length === 0) throw new Error("world.regions must be non-empty array");
 
   const allIds = new Set();
@@ -194,6 +198,48 @@ export function normalizeWorldData(raw) {
       }
       validatePos(poi.pos, `poi ${poi.id}`);
       if (!isInsideBounds(poi.pos, region.bounds)) throw new Error(`poi ${poi.id} not inside region ${region.id} bounds`);
+    }
+  }
+
+  // Phase 4A frontier metadata validation
+  if (data.camp?.frontierGateId) {
+    const gateId = data.camp.frontierGateId;
+    if (!allIds.has(gateId)) throw new Error(`camp.frontierGateId ${gateId} not found as global id`);
+    // ensure gate is actually a prop with subtype gate or id matches gate_camp_frontier heuristic
+    let foundGate = false;
+    for (const region of data.regions) {
+      for (const prop of region.props) if (prop.id === gateId && (prop.subtype === "gate" || prop.subtype === "boundary")) foundGate = true;
+    }
+    if (!foundGate) {
+      // also allow gate being not strictly gate subtype but still present globally
+      // If not found as gate, fail
+      throw new Error(`camp.frontierGateId ${gateId} must reference a gate object`);
+    }
+  }
+  if (data.initialMajorWaypointId) {
+    const wpId = data.initialMajorWaypointId;
+    if (!globalAnchorIds.has(wpId)) throw new Error(`initialMajorWaypointId ${wpId} must reference a majorWaypoint`);
+    // verify it's indeed majorWaypoint
+    let isMajor = false;
+    for (const region of data.regions) for (const wp of region.majorWaypoints) if (wp.id === wpId) isMajor = true;
+    if (!isMajor) throw new Error(`initialMajorWaypointId ${wpId} must be a majorWaypoint`);
+  }
+  if (data.frontierGateId) {
+    if (!allIds.has(data.frontierGateId)) throw new Error(`frontierGateId ${data.frontierGateId} not found`);
+  }
+  for (const region of data.regions) {
+    for (const wp of region.majorWaypoints) {
+      if (wp.spawnOffset !== undefined) {
+        if (!wp.spawnOffset || typeof wp.spawnOffset !== "object") throw new Error(`waypoint ${wp.id} spawnOffset must be object`);
+        if (wp.spawnOffset.x !== undefined && !isNumber(wp.spawnOffset.x)) throw new Error(`waypoint ${wp.id} spawnOffset x must be number`);
+        if (wp.spawnOffset.z !== undefined && !isNumber(wp.spawnOffset.z)) throw new Error(`waypoint ${wp.id} spawnOffset z must be number`);
+        if (!Number.isFinite(wp.spawnOffset.x ?? 0) || !Number.isFinite(wp.spawnOffset.z ?? 0)) throw new Error(`waypoint ${wp.id} spawnOffset must be finite`);
+      }
+      if (wp.startOffset !== undefined) {
+        if (!wp.startOffset || typeof wp.startOffset !== "object") throw new Error(`waypoint ${wp.id} startOffset must be object`);
+        if (wp.startOffset.x !== undefined && !isNumber(wp.startOffset.x)) throw new Error(`waypoint ${wp.id} startOffset x must be number`);
+        if (wp.startOffset.z !== undefined && !isNumber(wp.startOffset.z)) throw new Error(`waypoint ${wp.id} startOffset z must be number`);
+      }
     }
   }
 

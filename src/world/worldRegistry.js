@@ -84,6 +84,37 @@ export function createWorldRegistry(rawData) {
 
   function getCamp() { return data.camp ?? null; }
   function getStartAnchorId() { return data.startAnchorId ?? data.camp?.id ?? null; }
+  function getFrontierGateId() { return data.camp?.frontierGateId ?? data.frontierGateId ?? "gate_camp_frontier"; }
+  function getFrontierGatePos() {
+    const gateId = getFrontierGateId();
+    for (const region of data.regions) {
+      for (const prop of region.props) if (prop.id === gateId) return { ...prop.pos, regionId: region.id };
+    }
+    return null;
+  }
+  function getInitialMajorWaypointId() {
+    if (data.initialMajorWaypointId) return data.initialMajorWaypointId;
+    // fallback first major waypoint outside camp
+    const nonCamp = allWaypoints.find(w => w.regionId !== "camp");
+    return nonCamp?.id ?? allWaypoints[0]?.id ?? null;
+  }
+  function getWaypointById(id) { return allWaypoints.find(w => w.id === id) ?? null; }
+  function getBeaconById(id) { return allBeacons.find(b => b.id === id) ?? null; }
+  function getWaypointSpawnPosition(waypointId) {
+    const wp = getWaypointById(waypointId);
+    if (!wp) return null;
+    const base = wp.pos;
+    const offset = wp.spawnOffset ?? wp.startOffset ?? { x: 0, z: 1.2 };
+    const x = base.x + (offset.x ?? 0);
+    const z = base.z + (offset.z ?? 1.2);
+    const y = base.y ?? 0;
+    return { x, y, z, regionId: wp.regionId };
+  }
+  function getCampSpawnPosition() {
+    const camp = data.camp;
+    if (camp?.pos) return { x: camp.pos.x, y: camp.pos.y ?? 0, z: camp.pos.z - 0.8, regionId: "camp" };
+    return { x: 0, y: 0, z: 9.5, regionId: "camp" };
+  }
 
   // Region resolution: simplest deterministic — check bounds containment, else nearest center
   function getRegionForPosition(pos) {
@@ -159,6 +190,13 @@ export function createWorldRegistry(rawData) {
     getAllPois,
     getCamp,
     getStartAnchorId,
+    getFrontierGateId,
+    getFrontierGatePos,
+    getInitialMajorWaypointId,
+    getWaypointById,
+    getBeaconById,
+    getWaypointSpawnPosition,
+    getCampSpawnPosition,
     getRegionForPosition,
     getPocketForPosition,
     getNeighbors,

@@ -537,18 +537,54 @@
   - Editor is intentionally minimal (no full gizmo/undo/history); pan is Ctrl+drag + wheel zoom only; precise placement via numeric inputs.
   - Fallback legacy playground remains only for elevation/traversal unit tests; production never uses it â€” next slice may remove legacy if tests are updated to use world data directly.
 
-## 2026-08-22 � Phase 3.5B.1 Author Mode Usability & Transform Correctness � muse-spark-1.2-contributor (OpenCode)
+## 2026-08-22 � Phase 3.5B.1 Author Mode Usability & Transform Correctness � muse-spark-1.2-contributor (OpenCode)
 
-- **Goal / Prompt:** Implement docs/CURRENT_SLICE.md Phase 3.5B.1 � human-accepted polish per playtest: live preview, direct placement/drag, reliable Wildkin selection, canvas ownership, inverted pan, fog, camera-centered visibility, non-occluding boundaries, transform contract, UI cleanup. Preserve 3.5B pipeline/region/Area1/gameplay.
+- **Goal / Prompt:** Implement docs/CURRENT_SLICE.md Phase 3.5B.1 � human-accepted polish per playtest: live preview, direct placement/drag, reliable Wildkin selection, canvas ownership, inverted pan, fog, camera-centered visibility, non-occluding boundaries, transform contract, UI cleanup. Preserve 3.5B pipeline/region/Area1/gameplay.
 - **Decisions:** Live preview via findMeshByAuthorId/syncPreviewForId on every nudge/drag/field/duplicate/place; direct palette->click-world placement with regionForPosition and Esc cancel; left-drag selected with ground plane and dragOffset, homePos follows; resource/creature pick proxies via authorId on groups/meshes; touchMovement suppressed when edit (window.__author check) and HUD hidden via setHudVisible (hud, auto-harvest, joystick, inventory, combat); vertical pan inverted dy*-0.04; fog null in edit/restore; forestBoundary opacity 0.22; editor visibility camera-centered (camera x/z -> getRegionForPosition -> getActiveSetForRegion -> setActiveRegions) per-frame; Y contract baseY+height/2 for props/platforms/obstacles and hide fake Rot for climbable/platform via supportsY/Rot; creature home delta; UI collapsible details and per-type field hiding.
 - **Files/Features Changed:** Modified staticWorldBuilder, resourceSystem, createWildCreature, authorDraft, authorUI, authorMode, touchMovement, main.js (pass systems, per-frame visibility, VERSION 0.10.1), index.html/build-submission (3.5B.1), tests/phase35b1.test.js (19 new, fixes). Build 441KB/4490KB zip 1410KB.
 - **Tests/Validation:** npm test PASS 315/88, npm verify PASS (315+world:check+build+validate), npm zip PASS.
 - **Remaining:** Do NOT begin Phase 4; human must confirm 6-test editing feel and whether shaping Area 1 is now fast enough.
 
-## 2026-08-22 � Phase 3.5B.2 Author Mode Integration, Transform Parity & Hierarchy � muse-spark-1.2-contributor (OpenCode)
+## 2026-08-22 � Phase 3.5B.2 Author Mode Integration, Transform Parity & Hierarchy � muse-spark-1.2-contributor (OpenCode)
 
-- **Goal / Prompt:** Implement docs/CURRENT_SLICE.md Phase 3.5B.2 � close human regressions: input ownership, visual==collider parity for rotated/elevated/resized solids, Width/Depth/Height contract, live resize, Wildkin home marker/edit, reliable Reset (canonical vs effective), minimal Region->Category->Object hierarchy, consistency sweep.
+- **Goal / Prompt:** Implement docs/CURRENT_SLICE.md Phase 3.5B.2 � close human regressions: input ownership, visual==collider parity for rotated/elevated/resized solids, Width/Depth/Height contract, live resize, Wildkin home marker/edit, reliable Reset (canonical vs effective), minimal Region->Category->Object hierarchy, consistency sweep.
 - **Decisions:** TouchMovement explicit enabled (setEnabled/clear, main.js toggles via authorSuppress), physics createPhysicsWorld now consumes baseY+rotY with quaternion and conservative rotated AABB via staticWorldBuilder (cos/sin half extents); dimensions unified Width->size.w/ w, Depth->size.d/ h, Height->size.h/height with per-type adapters and hide fake Rot for climbable/platform; live resize via geometry recreation in syncPreviewForId; Wildkin home visible (pillar+ring+line+roam ring) and Move Home With Spawn checkbox (default ON, drag/nudge/field respect, home marker updates); Reset keeps canonicalWorldData vs effectiveWorldData distinct (draftSeed canonical, cloneRepo restores canonical); hierarchy Region->Category->Object with filter, collapsible details, selection/focus, sync on place/duplicate/delete/region move; UI per-type Y/Rot/Size hiding for climbable etc.
 - **Files/Features Changed:** Modified touchMovement, createPhysicsWorld, staticWorldBuilder (rotated AABB), resourceSystem/creature (authorId), authorDraft (home delta, size/rot guards), authorUI (hierarchy, home fields, moveHome, dimensions contract), authorMode (place/drag/home marker, fog/forest/hud, inverted pan, camera visibility, live resize, hierarchy focus), main.js (canonical/effective, setEnabled toggle, per-frame editor visibility), tests/phase35b1 + phase35b2 (28+19) + phase35a world-agnostic. Version 0.10.2 Phase 3.5B.2.
 - **Tests/Validation:** npm test PASS 343/95 (315 prior +28 new 3.5B.2), npm verify PASS (343+world:check+build 454KB+validate 4503KB), npm zip PASS 1413KB. Consistency sweep: solid props box/fence/forestBoundary/resonator, platforms, obstacles, non-solid water/island, resources, Wildkin, anchors/POIs all checked for X/Z/Y/Rot/Size parity.
 - **Remaining:** Do NOT begin Phase 4; human must confirm 7-test checklist and whether Author Mode now feels trustworthy/fast enough.
+
+## 2026-08-22 — Phase 4A First Complete Expedition Loop — muse-spark-1.2-contributor (OpenCode)
+
+- **Goal / Prompt:** Implement docs/CURRENT_SLICE.md Phase 4A end-to-end — turn accepted movement/harvest/combat/world pipeline into first complete Camp → choose start → carry unsecured value → extract or keep going → bank or lose → return to Camp → immediately run again loop. Preserve 3.5B.x infrastructure, keep main thin, enforce Change Closure consistency.
+
+- **Decisions:**
+  - Persistent progress: `src/save/frontierProgress.js` versioned localStorage `wildkin.frontierProgress` (normal) vs `wildkin.authorFrontierProgress` (author isolated), default `unlockedMajorWaypointIds=[initialMajorWaypointId]`, stale-filter via registry, idempotent `bankRun` token guard, `unlockWaypoint`/`discoverBeacon` dedup, `hasDepartedOnce` flag.
+  - World data: added `camp.frontierGateId="gate_camp_frontier"`, `initialMajorWaypointId="wp_p1_entry"`, `frontierGateId` mirror, `spawnOffset` for wp_p1_entry/wp_p4_threshold, relocated camp tree/fiber to p1 to keep Camp cargo-free; validator enforces gate references gate subtype, initial references majorWaypoint, offsets finite, filtered stale IDs; registry adds `getFrontierGateId/Pos/getInitialMajorWaypointId/getWaypointSpawnPosition/getCampSpawnPosition`.
+  - Session: extended `src/session/expeditionSession.js` to `camp/active/extracted/dead` (dead alias for lost), `beginRun/nextStart`, `tryResolveExtract/Death` idempotent, `resetToCamp` shared (keep legacy `reset=>active` for old tests), `runDiscoveries` + `snapshotRun`.
+  - Anchor system: `src/world/frontierAnchorSystem.js` owns gate/waypoint/beacon proximity, `armed/inside/cooldown`, `disarmStartWaypoint` until first exit, gate start vs return dispatch, waypoint unlock/beacon discover via frontierProgress, KEEP GOING leave-before-reprompt; excludes wp_camp_gate marker.
+  - UI: `src/ui/frontierMap.js` top-right MAP button, inspect (Camp+gate+unknown pre-departure, then frontier) vs gate-start (only unlocked MajorWaypoints tappable, beacons never selectable, no teleport), `src/ui/anchorPrompt.js` WAYPOINT/BEACON/GATE return prompts, `src/ui/runResultCard.js` EXPEDITION COMPLETE/LOST over Camp with Continue→Camp, `src/ui/frontierIndicators.js` extraction+next Waypoint edge-clamped (active-run only, distinct shapes, optional distance), `src/ui/runInventoryHud.js` moved upper-left hide-zero, `src/input/keyboardInput.js` added `setEnabled` matching touchMovement.
+  - Lifecycle: `src/main.js` thin composition, session starts camp, region primed at Camp, single rAF fixed 1/60; helpers `resetTransientWorldToCamp` (shared extraction/death: clear pickups/projectiles/motes, reset creatures/resources, reprimes region, no duplicates, preserves bank), `beginExpedition` (validate unlocked, clear old run, restore health, place at waypoint spawn, disarm start), `handleExtractionFlow`/`handleDeathFlow` (snapshot→resolve once→bank/lose→reset→card). `isAnyBlockingModal`=Map|Prompt|ResultCard + authorEdit → `setGameplayInputBlocked` (touch+keyboard). FieldTool `fieldCanAttack && session.isActive()` and `harvestingAllowed && session.isActive() && !blocked`. Version `Phase 4A — 0.11.0`.
+  - Consistency sweep: Map/anchorPrompt/recovery/loss all use same input suppress/restore; extraction from Beacon/Waypoint/retreat through Camp gate resolves via same bank/outcome/reset; death/extraction share transient return/reset; waypoint discovery propagates save→Map→start→card→reload and beacon discovery save→Map never start; banking idempotent (session resolved + progress token).
+  - Compat: kept old-test expectations (session default active, dead status, reset=>active) via alias, patched phase35a/b tests for camp-empty resources (find region with resources, duplicate within same region, props/resources transient injection via find).
+
+- **Files/Features Changed:**
+  - Created: `src/save/frontierProgress.js`, `src/world/frontierAnchorSystem.js`, `src/ui/frontierMap.js`, `src/ui/anchorPrompt.js`, `src/ui/runResultCard.js`, `src/ui/frontierIndicators.js`, `tests/phase4a.test.js` (32 tests)
+  - Modified: `src/session/expeditionSession.js`, `src/world/worldValidator.js`, `src/world/worldRegistry.js`, `src/world/data/world.json`, `src/world/data/world.generated.js`, `src/input/keyboardInput.js`, `src/ui/runInventoryHud.js`, `src/main.js` (thin wire, lifecycle helpers, input block, anchor/indicators), `index.html` (Phase 4A), `tests/phase35a.test.js`, `tests/phase35b.test.js`, `docs/ARCHITECTURE.md`, `README.md`, `docs/BUILD_LOG.md`
+  - Build output: `dist/submission/index.html` 506.3 KB, `vendor/three.module.js` 1243.1 KB, `vendor/rapier.js` 2790.6 KB, total 4555.3 KB; `dist/submission.zip` 1422.4 KB (1.39 MB, <35 MB)
+
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (374 tests 102 suites: 343 prior +31 new Phase 4A: persistent 9, lifecycle 5, map 4, anchor guards 5, cargo 3, guidance 1, world validation 4)
+  - `npm run world:generate` — PASS, `npm run world:check` — PASS (json↔generated sync)
+  - `npm run verify` — PASS (test 374 + world:check + build 506KB + validate 4555KB <35MB, vendor three+rapier, relative importmap, no https, readable Phase 4A)
+  - `npm run zip` — PASS (1422.4 KB, index at ZIP root, vendor preserved)
+  - One rAF — PASS (1 in src/main.js), fixed 1/60 max 4, portrait layout intact
+  - Offline/portrait constraints preserved, readable first-party, single physics engine
+
+- **Human/Manual Changes:** None.
+
+- **Remaining Issues / Deferred:**
+  - Do NOT begin Phase 4B (tuning 5–10 min pacing, Camp/Area 1 layout Polish, Matter Resonator spend, bonding/companions/capture capacity/skill tree/second area/endpoint). Phase 4A mechanical loop is complete; fun/pacing is Phase 4B scope.
+  - Human playtest must confirm 7 acceptance checks (§21 in slice) plus whether "carry unsecured → extract or keep going → bank or lose → start another run" reads without explanation; report issues for 4B.
+  - Legacy playground fallback retained for elevation/traversal tests; production never uses it.
+  - `Reset Draft From Repo` remains about world data only; `window.__game.clearProgress()` clears normal frontierProgress for fresh-save testing.
+

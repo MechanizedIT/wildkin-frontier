@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Post-Phase 3.5B.2 Baseline)
+# Architecture — Wildkin Frontier (Post-Phase 4A — First Complete Expedition Loop)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through accepted Phase 3.5B.2** and the ownership boundaries Phase 4A should add. Planned Phase 4A modules are labeled as planned until implementation lands.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A**. Phase 3.5A/B.x foundations remain accepted.
 
 ## Permanent Goals
 
@@ -27,30 +27,29 @@
 
 # Current Accepted Foundation
 
-Phase 3.1.1 validated the core gameplay. Phase 3.5A added the directed-world/runtime foundation. Phase 3.5B/B.1/B.2 added and human-accepted the world-authoring pipeline required to shape the real expedition.
+Phase 3.1.1 validated the core gameplay. Phase 3.5A added the directed-world/runtime foundation. Phase 3.5B/B.1/B.2 added and human-accepted the world-authoring pipeline. Phase 4A adds the first complete Camp ↔ expedition loop.
 
 Accepted current systems:
 
 - player movement/traversal + Rapier kinematic controller,
 - Field Tool single-owner swing/cadence,
 - Auto Harvest + manual interaction rules,
-- resource nodes/pickups/inventory,
-- player health/dodge/death prototype,
+- resource nodes/physical pickups/magnet inventory (now run-carry, upper-left, hide-zero) + banked totals,
+- player health/dodge/death with Camp-return flow,
 - melee/ranged prototype Wildkin attacks,
 - aggressive/territorial/defensive/skittish reactions,
 - selected Wildkin-vs-Wildkin interaction support,
-- home/roam/leash/return behavior,
-- lightweight obstacle steering,
+- home/roam/leash/return behavior + steering,
 - collision-aware XP pop/rest + guaranteed magnet collection,
 - bounded pickup/projectile/XP pools,
-- data-driven `world.json` source with Camp + Area 1 regions/anchors/POIs,
+- data-driven `world.json` source with Camp + Area 1 regions/anchors/POIs + frontierGateId/initialMajorWaypointId/spawnOffset,
 - current+neighbor region activation,
-- focused `ExpeditionSession` temporary-run owner,
-- desktop-only Author Mode with direct placement/dragging, live transforms, hierarchy, Wildkin home editing, deterministic export/reset,
+- `ExpeditionSession` temporary-run owner (camp/active/extracted/dead, idempotent resolve),
+- `frontierProgress` persistent bank + unlocked/discovered frontier,
+- frontier anchor interaction + Map (inspect vs gate-start) + anchor prompts + result cards + minimal edge indicators,
+- desktop-only Author Mode with direct placement/dragging, live transforms, hierarchy, Wildkin home editing, deterministic export/reset (isolated from player progress),
 - visual ↔ Rapier transform parity for supported authored solids,
-- offline/portrait/submission validation.
-
-Do not keep polishing accepted systems in isolation unless real expedition play exposes a concrete regression.
+- single rAF/fixed 1/60, offline/portrait/<35 MB submission validation.
 
 # Current High-Level Module Areas
 
@@ -125,9 +124,20 @@ src/creatures/
   Wildkin creation/config/AI/temperament/steering
   region-aware activation
 
+src/save/
+  frontierProgress.js
+    persistent bank + discovered/unlocked anchors (versioned localStorage, stale-filter, idempotent bank)
+
+src/world/
+  frontierAnchorSystem.js
+    proximity/entry/armed state for gate/waypoint/beacon + start-suppress + keep-going guard
+
 src/ui/
-  current HUD/death/debug/controls
-  Phase 4A planned: map, anchor prompt, run result card, frontier indicators
+  frontierMap.js (inspect vs gate-start, unlocked-only selectable)
+  anchorPrompt.js (EXTRACT/KEEP GOING, gate RETURN & SECURE)
+  runResultCard.js (recovery/loss over Camp)
+  frontierIndicators.js (extraction + next-waypoint edge guidance, active-run only)
+  runInventoryHud.js (upper-left, hide-zero carry)
 
 src/audio/
   procedural/local audio
@@ -135,32 +145,27 @@ src/audio/
 
 # Fixed Update Ownership
 
-Conceptually:
+Conceptually (Phase 4A):
 
 ```text
-main.js
-  ├─ initialize scene + Rapier
-  ├─ create canonical world registry + region manager + session
-  ├─ create player/input/Field Tool
-  ├─ create resource/combat/creature/UI/audio systems
-  ├─ inject dependencies/callbacks
-  └─ single rAF
-       ├─ gather/merge input intent
-       ├─ fixed substeps
-       │    ├─ session/lifecycle state
-       │    ├─ Field Tool/action state
-       │    ├─ player combat timers
-       │    ├─ player movement/Rapier move
-       │    ├─ region activation
-       │    ├─ active creature AI/movement/combat
-       │    ├─ projectiles/XP
-       │    ├─ active resources/harvesting/pickups
-       │    └─ Phase 4A anchor/session callbacks when implemented
-       ├─ focus/indicator/camera/UI visuals
+main.js (thin: creates, injects, owns single rAF)
+  ├─ init scene/Rapier/worldRegistry(regionDepthMap)/campSpawn/frontierProgress(load)/session(camp)/regionManager
+  ├─ create player/input/FieldTool/resource/pickup/creature/projectile/XP/combat/audio/HUD/Map/AnchorPrompt/ResultCard/Indicators
+  ├─ wire anchorSystem callbacks → Map/prompt/frontierProgress/session
+  ├─ wire playerCombat.onDeath → deathFlow, anchor prompts → extractionFlow, map start → beginExpedition
+  └─ single rAF tick
+       ├─ syncInputBlock (authorEdit | Map|Prompt|ResultCard) → touch/keyboard setEnabled
+       ├─ gather/merge intents → effectiveIntent (zeroed when blocked)
+       ├─ fixed substeps (when !blocked && !resolved)
+       │    ├─ frontierAnchorSystem.update(playerPos) → may open Map/Prompt
+       │    ├─ combatSession, FieldTool, playerCombat, playerController/Rapier, regionManager
+       │    ├─ creatures/projectiles/XP/resources/pickups + focus rings
+       │    └─ harvesting allowed only when session.isActive() && !blocked
+       ├─ indicators.update(camera) (visual, active-run only)
        └─ render
 ```
 
-The exact order should remain deterministic and documented when Phase 4A changes lifecycle wiring.
+Order remains deterministic; extraction/death share `resetTransientWorldToCamp` helper.
 
 # Rapier Ownership
 
@@ -269,32 +274,16 @@ Use simple probes/steering first. Add pathfinding only when authored-world evide
 
 # ExpeditionSession — Implemented Temporary Run Owner
 
-`src/session/expeditionSession.js` exists to keep run lifecycle/state out of `main.js`.
-
-Current responsibility includes temporary values such as:
-
-```text
-status
-runXp
-kills
-unsecured cargo summary
-startAnchorId
-currentRegionId / currentPocketId
-maxDepth
-future unsecuredWildkin slot
-outcome hooks
-```
+`src/session/expeditionSession.js` — camp/active/extracted/dead (dead alias for lost), idempotent `tryResolveExtract`/`tryResolveDeath`, `beginRun`/`resetToCamp`, transient cargo/xp/kills + `runDiscoveries` (newWaypoints/newBeacons), `regionDepthMap`/`maxDepth`. `reset()` retained as legacy active-reset for old tests; `resetToCamp()` is the Phase 4A camp-return path used by main.js.
 
 It does not own:
 
 - player health,
 - resource node rules,
 - live pickup inventory implementation,
-- persistent frontier progression,
+- persistent frontier progression (frontierProgress owns bank),
 - map DOM,
 - creature AI.
-
-Phase 4A may extend the session lifecycle to explicitly distinguish Camp/idle vs active/resolved run states, but should keep persistent progress in a separate module.
 
 # Single-Source World Pipeline — Accepted
 
@@ -379,79 +368,64 @@ Edit mode owns gameplay input explicitly. Normal player progression in Phase 4A 
 
 Do not turn Author Mode into a general engine editor. No prefab system, scripting, multi-select, full undo stack, asset browser, or mobile authoring unless a future accepted slice explicitly requires it.
 
-# Phase 4A Architecture Direction — PLANNED, NOT YET IMPLEMENTED
-
-The active slice adds the first complete expedition lifecycle. Keep these ownership boundaries unless implementation evidence proves a simpler equivalent.
+# Phase 4A Architecture — IMPLEMENTED
 
 ## 1. Persistent frontier progress owner
 
-Planned focused module, e.g. `src/save/frontierProgress.js` or `src/progression/frontierProgress.js`.
-
-Owns only persistent prototype progress needed by Phase 4A:
+`src/save/frontierProgress.js` — implemented as specified:
 
 ```text
-version
-bankedResources
+version: 1
+bankedResources: { wood, stone, fiber }
 bankedXp
-unlockedMajorWaypointIds
-discoveredBeaconIds
+unlockedMajorWaypointIds: [initialMajorWaypointId]
+discoveredBeaconIds: []
 hasDepartedOnce
 ```
 
-Rules:
-
-- localStorage normal-play save,
-- version/default normalization,
-- filter stale world IDs,
-- idempotent bank/anchor-discovery methods,
-- no DOM dependency,
-- Author Mode uses isolated dev progress or in-memory progress.
+- localStorage `wildkin.frontierProgress` (normal) vs `wildkin.authorFrontierProgress` (author isolated key),
+- version/default normalization, stale-filter via worldRegistry, dedup,
+- idempotent `bankRun` token guard, `unlockWaypoint`/`discoverBeacon` return true only on new discovery, `markDeparted` once,
+- no DOM dependency.
 
 ## 2. Frontier anchor interaction owner
 
-Planned focused system for:
+`src/world/frontierAnchorSystem.js` — implemented:
 
-- Camp frontier gate,
-- Major Waypoints,
-- Extraction Beacons,
-- proximity entry/exit/armed state,
-- start-anchor suppression until player leaves radius,
-- KEEP GOING reprompt only after leaving/re-entering.
-
-It should emit domain events/callbacks; UI should not own proximity rules.
+- Camp gate, Major Waypoints (excluding wp_camp_gate marker), Extraction Beacons,
+- per-anchor `armed`, `inside`, `cooldown` state,
+- `disarmStartWaypoint` until first exit, `handleKeepGoing`/`handleExtracted` leave-and-re-enter guard,
+- gate dispatches `onGateStartPrompt` (camp) vs `onGateReturnPrompt` (active),
+- waypoint/beacon dispatch with unlock/discover via frontierProgress,
+- callbacks only; UI owns no proximity.
 
 ## 3. Map owner
 
-Planned UI/controller responsibilities:
+`src/ui/frontierMap.js` — implemented:
 
-- inspect mode from top-right button,
-- gate-start selection mode,
-- known Camp/Waypoint/Beacon presentation,
-- only unlocked Major Waypoints selectable in start mode,
-- no teleport/start from ordinary inspect mode.
-
-Map reads normalized world + persistent progress. It does not own either.
+- top-right `MAP` button, `openInspect` (camp+gate+unknown before first departure, then known frontier) vs `openStartSelection` (gate-triggered, only unlocked Major Waypoints tappable),
+- beacons shown only when discovered, never selectable,
+- `inspect` never teleports, `startSelection` validates unlocked + exists before `beginExpedition`,
+- reads registry + frontierProgress, owns no persistence.
 
 ## 4. Outcome/result owner
 
-Planned shared result-card path for extraction/death:
+`src/ui/anchorPrompt.js` + `src/ui/runResultCard.js` + shared lifecycle in `src/main.js`:
 
 ```text
-snapshot run
-→ resolve once
-→ bank or lose unsecured values
-→ return/reset transient world to Camp
-→ show recovery/loss card
-→ Continue → Camp control
+snapshot run (cargo/xp + newWaypoints/newBeacons)
+→ tryResolveExtract / tryResolveDeath (once)
+→ bank (extraction) or lose (death) via frontierProgress
+→ resetTransientWorldToCamp (shared: player/moves/health/clear pickups/projectiles/motes, reset creatures/resources, reprimes region, no duplicates)
+→ show recovery/loss card over Camp
+→ CONTINUE → Camp control, next run via gate→Map
 ```
 
-Do not leave the old prototype death overlay independently restarting the arena once 4A lands.
+Old `deathOverlay` replaced; no competing arena restart.
 
 ## 5. Blocking UI input ownership
 
-Map, anchor prompt, recovery card, and loss card should all use one explicit gameplay-input suppression path.
-
-Do not solve this by only hiding joystick visuals. Touch movement/right-side gesture state must be disabled/cleared and restored exactly once.
+One suppression path: `isAnyBlockingModal()` (Map|AnchorPrompt|ResultCard) + authorEdit → `setGameplayInputBlocked`. Both `touchMovement.setEnabled` and `keyboardInput.setEnabled` clear held joystick/swipe/keys and disable `getIntent`. Restored exactly once on close. Field Tool also gated via `fieldCanAttack && session.isActive()`.
 
 # Persistence Separation — Phase 4A Guardrail
 

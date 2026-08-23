@@ -123,10 +123,11 @@ describe("Phase 3.5B — author model", () => {
 
   it("invalid duplicate/reference/region data fails", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
-    // Duplicate id via manual insert
     const bad = JSON.parse(JSON.stringify(draftApi.getDraft()));
-    const firstRes = bad.regions[0].resources[0];
-    bad.regions[1].resources.push({ ...firstRes });
+    const srcReg = bad.regions.find(r => r.resources && r.resources.length > 0);
+    assert.ok(srcReg, "need src region with resource");
+    const firstRes = srcReg.resources[0];
+    srcReg.resources.push({ ...firstRes });
     assert.throws(() => normalizeWorldData(bad), /duplicate resource id/);
     // Invalid region neighbor
     const bad2 = JSON.parse(JSON.stringify(draftApi.getDraft()));
@@ -155,9 +156,13 @@ describe("Phase 3.5B — author model", () => {
   it("transient fields are excluded", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
     const draft = draftApi.getDraft();
-    // Inject transient field _editorTemp
-    draft.regions[0].resources[0]._transient = "should be removed";
-    draft.regions[0].props[0]._tmp = 123;
+    // Inject transient field _editorTemp — find regions that actually have the target collections
+    const resReg = draft.regions.find(r => r.resources && r.resources.length > 0);
+    assert.ok(resReg, "need region with resource for transient test");
+    resReg.resources[0]._transient = "should be removed";
+    const propReg = draft.regions.find(r => r.props && r.props.length > 0);
+    assert.ok(propReg);
+    propReg.props[0]._tmp = 123;
     const exported = draftApi.exportStableJson();
     assert.ok(!exported.includes("_transient"));
     assert.ok(!exported.includes("_tmp"));

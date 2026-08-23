@@ -1,11 +1,11 @@
-// src/ui/runInventoryHud.js — compact top-right vertical icon+count list (Phase 2.1)
+// src/ui/runInventoryHud.js — compact upper-left icon+count list (Phase 4A: hide zeros, upper-left, readable carry)
 export function createRunInventoryHud() {
   const hud = document.getElementById("hud");
   if (!hud) return { update() {}, pulse() {}, element: null };
 
   const container = document.createElement("div");
   container.id = "run-inventory-hud";
-  container.style.cssText = "position:absolute;right:max(10px, env(safe-area-inset-right));top:max(52px, env(safe-area-inset-top));display:flex;flex-direction:column;gap:6px;pointer-events:none;z-index:4;align-items:flex-end;";
+  container.style.cssText = "position:absolute;left:max(10px, env(safe-area-inset-left));top:max(10px, env(safe-area-inset-top));display:flex;flex-direction:column;gap:6px;pointer-events:none;z-index:4;align-items:flex-start;";
   hud.appendChild(container);
 
   const iconSvg = {
@@ -65,7 +65,9 @@ export function createRunInventoryHud() {
     for (const key of ["wood", "stone", "fiber"]) {
       const row = rows[key];
       const span = row?.querySelector("[data-count]");
-      if (span) span.textContent = String(inventory[key] ?? 0);
+      const val = inventory[key] ?? 0;
+      if (span) span.textContent = String(val);
+      if (row) row.style.display = val > 0 ? "flex" : "none";
     }
   }
 
