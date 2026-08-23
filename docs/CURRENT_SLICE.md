@@ -1,31 +1,38 @@
-# Wildkin Frontier — Phase 3.5B: Minimal Author Mode & Area 1 Skeleton
+# Wildkin Frontier — Phase 3.5B.1: Author Mode Usability & Transform Correctness
 
 **Status:** READY TO IMPLEMENT  
-**Active slice:** Phase 3.5B  
-**Purpose:** Give the human developer a fast way to shape and replay the first directed expedition without editing gameplay coordinates.
+**Active slice:** Phase 3.5B.1  
+**Purpose:** Human-accept Phase 3.5B by making Author Mode visually direct, predictable, and trustworthy enough to shape Area 1 without coordinate-driven trial-and-error.
 
-This is a **developer-tooling + rough-layout slice**, not Phase 4 gameplay or art polish.
-
-Phase 3.5A is accepted. Preserve its ExpeditionSession, world registry/validation, region activation, bounded pools, validated gameplay, single rAF/fixed step, Rapier, portrait, and offline build.
+This is a **focused polish/fix slice**. Phase 3.5B architecture, single-source world pipeline, rough Camp/Area 1 skeleton, and normal gameplay are accepted as the baseline. Do not begin Phase 4 gameplay.
 
 ---
 
-## 1. Player/developer-visible outcome
+## 1. Why this refinement exists
 
-At the end of this slice:
+Automated 3.5B gates passed, but human authoring exposed usability/correctness gaps that violate the main 3.5B acceptance question:
 
-- exactly **one authoritative authored world source** exists,
-- static/traversal geometry, resources, creatures, anchors, and POIs derive from it,
-- desktop dev-only Author Mode can place/select/move/rotate/elevate/resize/duplicate/delete the Area 1 object types,
-- region/pocket and anchor/POI properties can be edited,
-- Edit ↔ Play is one quick workflow and preserves the working draft,
-- authored data exports deterministically back to the repo,
-- a rough Camp + 3–4-pocket Area 1 skeleton exists and can be walked end-to-end,
-- normal gameplay/regressions still work.
+> **Can a human rapidly shape and replay the first directed expedition without asking an agent to change coordinates?**
 
-Core question:
+Current human answer: **not yet**.
 
-> **Can a human reshape the first expedition, immediately play it, and export the result without asking an agent to change coordinates?**
+Observed in human testing:
+
+- Right-mouse editor panning works, but vertical mouse direction feels backwards and must be inverted.
+- Selecting an object and nudging/editing it moves only the yellow selection marker/line in Edit; the actual object does not visibly move until PLAY/reload.
+- Palette placement is not direct scene placement; objects appear at region center and then require numeric/nudge relocation.
+- Normal gameplay joystick/HUD still occupies/captures part of the canvas in Edit, making scene selection unreliable in the lower-left and creating heavy UI overlap.
+- Resources/creatures outside the player-centered active region are hidden even when the editor camera is looking at those areas.
+- Fog is undesirable in Edit mode and makes the top-down author view harder to read.
+- Generic Y controls are misleading/incomplete. Some object classes do not actually render/collide at their authored Y.
+- Wildkin could not be reliably selected in the scene.
+- Ladder movement works, but ladder rotation is stored without visibly/physically changing orientation.
+- Waypoint and Beacon movement worked.
+- Resource duplication + movement worked and the duplicate remained harvestable.
+- Full rough route was walkable with no unusual gameplay regression.
+- Export produced valid world data.
+
+Do not treat passing automated tests as proof that this editor is human-accepted. This slice exists specifically to close those human gaps.
 
 ---
 
@@ -33,503 +40,457 @@ Core question:
 
 Implement only:
 
-1. eliminate world-data mirror drift,
-2. instantiate static/traversal world from normalized authored data,
-3. minimal desktop dev-only Author Mode,
-4. mutable validated author draft,
-5. quick Edit ↔ Play,
-6. deterministic export workflow,
-7. rough Camp + Area 1 skeleton,
-8. placeholder anchor/POI/Camp visuals needed to judge placement,
-9. tests/docs/Build Log.
+1. live visual preview of author transforms,
+2. direct click-to-place + drag-to-move workflow,
+3. reliable scene selection for every currently authorable object type,
+4. author/game input and HUD separation,
+5. camera-centered editor visibility activation,
+6. editor camera/fog usability fixes,
+7. transform-schema/runtime correctness for Y and supported rotation,
+8. concise author UI cleanup,
+9. focused automated tests + human-readable final test instructions,
+10. docs/Build Log updates.
 
 Do **not** implement:
 
-- map UI or gate start-selection UI,
-- extraction/banking or EXTRACT / KEEP GOING,
-- waypoint discovery persistence,
-- result/loss cards,
-- Matter Resonator gameplay,
+- Phase 4 map/gate-start/extraction/banking/result-card gameplay,
 - bonding/capture/companions/mounts,
-- skill tree/equipment/base-building gameplay,
-- final Area 1 content/balance/art,
-- production editor framework, full undo/redo, scripting, asset browser,
-- procedural world generation, A*/navmesh, async/network streaming,
-- mobile authoring.
+- skill tree/equipment/base expansion,
+- final Camp/Area 1 art or balance,
+- a general transform-gizmo library,
+- full undo/redo/history,
+- asset browser,
+- procedural generation,
+- A*/navmesh,
+- mobile Author Mode,
+- a second physics/editor simulation,
+- new external runtime dependencies.
 
-**Phase 4 owns the first complete Camp → expedition → extract/die → Camp gameplay loop.**
-
----
-
-## 3. Fix the Phase 3.5A authoring duplication first
-
-Current state has:
-
-- `src/world/data/world.js`,
-- `src/world/data/world.json`,
-- static/traversal placement still repeated in `createMovementPlayground.js`.
-
-Do not build an editor on top of three coordinate copies.
-
-Required pipeline:
-
-```text
-ONE authored source
-  → normalize / validate
-  → runtime registry / world builder
-  → traversal + props + resources + creatures + anchors + POIs
-```
-
-Prefer `world.json` as the human/editor export format.
-
-If native JSON module loading is awkward in dev, use a tiny deterministic generator/pre-step:
-
-```text
-world.json
-  → world.generated.js
-  → runtime import
-```
-
-A generated file is allowed. A second manually maintained mirror is not.
-
-Add a test/build guard that detects stale generated data if generation is used.
+Do not redesign the Area 1 skeleton merely because the current rough Camp is visually crowded. This pass should make it **easy for the human to redesign it afterward**.
 
 ---
 
-## 4. Data-driven static world builder
+## 3. Preserve the accepted 3.5B foundation
 
-Resources/creatures already use world data. Convert the remaining authored world placement so the same normalized data drives at minimum:
+Preserve:
 
-- ground / walkable region surfaces,
-- generic props,
-- platforms,
-- box obstacles/barriers,
-- climbables/ladders,
-- jump traversal metadata,
-- Camp fence/gate/drop-pod/Resonator placeholders,
-- Major Waypoint placeholders,
-- Extraction Beacon placeholders,
-- POI placeholders.
+- `src/world/data/world.json` as the one manually maintained authored source,
+- deterministic generated runtime world + stale guard,
+- normalized validation path,
+- data-driven static world/traversal builder,
+- `ExpeditionSession`,
+- player-centered region activation during Play,
+- one `requestAnimationFrame`,
+- fixed 1/60 gameplay update,
+- Rapier as sole gameplay physics runtime,
+- existing movement/traversal/harvesting/combat/ecology behavior,
+- bounded pools,
+- portrait normal gameplay,
+- offline/no-CDN submission build,
+- current rough Camp + Area 1 data unless a change is strictly required to fix editor/runtime transform semantics.
 
-Existing movement/traversal APIs may remain if safer, but their coordinates/geometry must derive from normalized world data.
-
-Moving a platform in Author Mode must move **both its visible mesh and collision/traversal source**. Do not redesign accepted movement.
+The user-exported test world is **evidence of editor behavior, not the new canonical level layout**. Do not replace repo `world.json` wholesale with the human test export.
 
 ---
 
-## 5. Author Mode
+## 4. Live visual preview is mandatory
 
-Enable explicitly in development, preferably:
+The current editor mutates the draft and selection marker, but many scene objects remain at their old runtime transform until PLAY/reload.
+
+That is not acceptable for authoring.
+
+### Required behavior
+
+While in EDIT:
+
+- changing X/Z/Y/rotation/size fields immediately changes the visible selected object,
+- clicking any nudge button immediately changes the visible object,
+- keyboard nudge immediately changes the visible object,
+- dragging immediately moves the visible object under the cursor,
+- duplicate/place/delete immediately appears/disappears in the editor view,
+- selection highlight follows the real visible preview object,
+- the inspector values and visible preview remain synchronized.
+
+PLAY/reload may still be used to rebuild authoritative gameplay physics/systems before actual playtesting.
+
+### Architecture guardrail
+
+Use the simplest robust preview strategy.
+
+Allowed examples:
+
+- update existing authored scene nodes by stable author IDs,
+- rebuild a lightweight editor visual layer from the draft,
+- rebuild affected visual world sections while gameplay is paused.
+
+Do **not** create a second live gameplay/physics simulation merely for editing.
+
+The editor preview is visual authoring state; PLAY remains the authoritative gameplay validation.
+
+---
+
+## 5. Direct placement and movement
+
+Numeric fields remain useful for precision, but they must not be the primary workflow.
+
+### Palette placement
+
+Change palette behavior to:
 
 ```text
-?author=1
+click Palette item
+→ cursor enters PLACE mode / obvious ghost or placement state
+→ click world ground where object should go
+→ object is created there, assigned to the containing region
+→ object becomes selected
 ```
 
 Requirements:
 
-- desktop-focused,
-- hidden/inert during normal play,
-- normal gameplay never depends on editor state/DOM,
-- one rAF remains authoritative,
-- Edit mode may pause/suppress player combat/harvest/AI input,
-- Play mode restores normal gameplay,
-- A/T/D/S temperament markers default **OFF** in normal play and may be available in author/debug mode.
+- placement position comes from the world click, not region center,
+- containing region should be resolved from the click X/Z when possible,
+- Escape/right-click cancels placement without creating an object,
+- status text clearly says what is being placed,
+- no gameplay attack/joystick action fires from placement clicks.
 
-### Minimal UI
+A full translucent ghost mesh is welcome but not required if a clear cursor/marker + click placement is simpler.
 
-A plain compact panel is enough:
+### Drag movement
 
-```text
-[EDIT / PLAY]
-Palette
-Selected object
-Region / pocket
-Transform / size
-Type-specific properties
-Duplicate | Delete
-Validate | Export
-Reset Draft From Repo
-```
-
-### Scene editing
-
-Support:
-
-- click/raycast selection,
-- visible selection highlight/marker,
-- place from palette,
-- move X/Z,
-- elevate Y,
-- rotate Y,
-- resize supported objects,
-- duplicate/delete.
-
-No full transform-gizmo dependency is required. Prefer robust simple controls:
-- drag on ground plane and/or keyboard nudge,
-- numeric inputs for precision.
-
-Provide simple near-top-down editor pan + zoom; no orbit/free-fly system required.
-
----
-
-## 6. Required palette/object types
-
-Only what Camp + Area 1 needs:
-
-### World/traversal
-- generic box/prop,
-- forest-boundary placeholder,
-- fence segment,
-- gate,
-- platform,
-- obstacle/barrier,
-- climbable/ladder.
-
-### Gameplay placement
-- tree,
-- rock,
-- fiber,
-- Rusher spawn,
-- Spitter spawn.
-
-### Expedition placeholders
-- Major Waypoint,
-- Extraction Beacon,
-- POI,
-- drop pod,
-- Matter Resonator.
-
-A generic `prop` with subtypes is fine. Do not build an asset ecosystem.
-
----
-
-## 7. Editable properties
-
-Common:
+For a selected object in EDIT:
 
 ```text
-id
-type/subtype
-regionId
-pocketId if used
-position x/y/z
-rotationY
-dimensions/scale where supported
+left-drag selected object
+→ project pointer to editor ground/work plane
+→ update X/Z continuously
+→ visible object follows pointer in real time
+→ draft persists on release / during drag as appropriate
 ```
 
-Creature spawn:
-- creature type,
-- temperament,
-- home position,
-- roam/notice/personal-space/leash,
-- existing species/hostility fields when applicable.
+Keep Y as explicit nudge/numeric control for this slice. No 3-axis gizmo dependency is required.
 
-Anchor:
-- `majorWaypoint` or `extractionBeacon`,
-- id,
-- region/pocket,
-- position.
-
-POI:
-- id/type/position,
-- `requires` metadata.
-
-Region/pocket:
-- id/display name,
-- bounds/activation volume,
-- neighbors,
-- existing depth/order metadata.
-
-Do not expose every gameplay tuning constant.
+Dragging must not accidentally pan the camera or trigger gameplay controls.
 
 ---
 
-## 8. Draft, validation, Edit ↔ Play
+## 6. Reliable selection for all authorable types
 
-Author Mode edits a **mutable clone** of authored data, never module constants directly.
+Direct scene selection must work consistently for:
 
-Allowed dev persistence: `localStorage` / `sessionStorage`.
+- props/fences/gates/boundaries/drop pod/Resonator,
+- platforms/obstacles/ladders,
+- trees/rocks/fiber,
+- Rusher/Spitter Wildkin,
+- Major Waypoints,
+- Extraction Beacons,
+- POIs.
 
-Normal play ignores drafts unless Author Mode is explicitly enabled.
+Do not rely mainly on “nearest authored object to arbitrary hit point” fallback.
 
-Every Apply/Play/Export must run through the same world validator.
+Preferred direction:
 
-Invalid data must show a useful author error.
+- assign stable author object IDs through `userData` / parent groups when objects are created,
+- raycast to the actual visual or a small **author-only pick proxy**,
+- pick proxies must be invisible/disabled in normal Play.
 
-Provide:
+Wildkin and resources should be at least as easy to select as static props.
 
-- **Reset Draft From Repo**
-- deterministic unique IDs for duplicated objects.
+Selection must work throughout the visible editor viewport, including the lower-left once gameplay controls are suppressed.
 
-### Edit → Play
+---
+
+## 7. Author Mode owns the canvas while editing
+
+When EDIT is active, hide or disable normal gameplay UI/input that competes with editing.
+
+At minimum hide/suppress:
+
+- virtual joystick/touch movement surface,
+- gameplay tap/swipe action capture,
+- Auto Harvest control,
+- normal health/XP/inventory HUD if it overlaps/obscures authoring,
+- normal debug/help overlays that are not needed for authoring.
+
+Keep only concise author-relevant information such as:
+
+- editor mode,
+- selected ID/type,
+- region/pocket overlays,
+- validation/status.
+
+When PLAY is activated, restore the normal game HUD/input exactly as before.
+
+Normal `/` mode without `?author=1` must remain unchanged.
+
+Do not solve this by globally deleting or redesigning gameplay HUD components; use author-mode visibility/input ownership.
+
+---
+
+## 8. Editor camera usability
+
+### Vertical pan
+
+Invert the current vertical component of right-mouse/author camera panning to match human expectation.
+
+Human acceptance is simple: the new vertical drag direction should feel opposite to current 3.5B behavior.
+
+### Fog
+
+While EDIT is active:
+
+- disable scene fog (or set an effectively infinite author range),
+- restore the exact previous fog when returning to PLAY.
+
+Do not remove fog from normal gameplay in this slice.
+
+### Occluding boundaries
+
+Tall `forestBoundary` placeholders can obscure the top-down editor view.
+
+In EDIT only, make large boundary/occluder props easier to work around using a simple editor presentation such as:
+
+- reduced opacity,
+- wireframe/outline,
+- or another clearly readable non-occluding author visualization.
+
+Restore normal Play appearance afterward.
+
+Do not redesign the actual forest art here.
+
+---
+
+## 9. Camera-centered editor visibility / region activation
+
+Current resource/creature visibility is player-centered. In Edit mode this means the editor camera can look at a region whose nodes/Wildkin remain hidden because the player is elsewhere.
+
+Fix this.
+
+### Required author behavior
+
+While EDIT:
+
+- determine an editor focus X/Z from the top-down camera/look target,
+- resolve the focus region using the existing world registry,
+- make current editor-focus region + appropriate immediate neighbors visible for authoring,
+- as the editor camera pans across the world, author-visible regions update,
+- AI/gameplay remains paused; this is a visibility/authoring concern, not simulation.
+
+Do not mutate persistent expedition progress merely because the editor camera moved.
+
+When switching back to PLAY:
+
+- restore player-centered region activation immediately,
+- no duplicate creatures/resources/colliders,
+- no stale author activation remains.
+
+If the simplest safe implementation uses all regions visible in Edit for the current tiny world, that may be used temporarily **only if** it is architected so future author visibility can remain bounded. Preferred behavior is editor-focus + neighbors as above.
+
+---
+
+## 10. Fix the transform contract instead of exposing fake controls
+
+The inspector currently presents generic Y/rotation controls for object types whose runtime builder does not consistently consume those values.
+
+That is misleading.
+
+Create/document a clear per-type transform contract and make the inspector show only controls that actually work.
+
+### Common authored position objects
+
+For props, resources, creatures, Waypoints, Beacons, and POIs:
+
+- authored `pos.y` must visibly affect vertical placement where vertical placement is meaningful,
+- PLAY rebuild must reproduce the same visible Y,
+- collision/query behavior must match the intended rendered placement where the object is solid/interactable.
+
+Static prop builder currently places many meshes at ground-derived Y regardless of `pos.y`; correct that.
+
+### Platforms / obstacles
+
+Add or normalize a base/elevation Y field if these are exposed as vertically movable.
+
+Required if Y controls remain enabled:
 
 ```text
-edit layout
-→ Apply / Play
-→ immediately test that draft in real gameplay
+visual base/top
+== authored elevation + dimensions
+== Rapier collider base/top
 ```
 
-### Play → Edit
+No “mesh moved but old collider stayed” or “field changes but runtime ignores it.”
 
-```text
-return to Edit
-→ same draft remains
-→ continue adjusting
-```
+If a class cannot safely support Y in this slice, disable/hide that control for that class rather than pretending it works.
 
-Hot rebuild is welcome but not required. A fast one-action local reload is acceptable if it preserves the draft.
+### Climbable / ladder
 
-Applying a changed draft must not leave:
-- duplicate Rapier colliders,
-- duplicate resources/creatures,
-- stale projectiles/pickups/XP,
-- stale region state.
+Human export demonstrated ladder rotation data can be written while current renderer/traversal ignores it.
 
-Reset ExpeditionSession and place the player at a valid authored test/start point as needed.
+Choose one of two acceptable solutions:
 
----
+**A. Fully support ladder rotation**
+- visible ladder/rungs rotate,
+- approach/wall orientation and climb behavior remain coherent,
+- PLAY reproduces the authored orientation,
+- related derived traversal data cannot silently remain at old orientation.
 
-## 9. Deterministic export
+**or B. Explicitly mark ladder rotation unsupported for now**
+- hide/disable RotY for climbables,
+- do not write meaningless rotation values,
+- UI explains that ladder orientation is fixed in this prototype.
 
-Provide **Export world JSON** via download and/or clipboard.
+Do not leave a working-looking RotY field that has no effect.
 
-Export must:
+For ladder vertical movement, define Y as a coherent shift of `bottomY/topY` and visual/climb placement, or hide/disable generic Y for ladders. Again: no fake control.
 
-- use stable formatting/order,
-- contain schema version,
-- remove transient editor/runtime fields,
-- pass normalize/validate,
-- reproduce the same world when loaded again.
+### Home position when moving a creature
 
-The browser does not need permission to write directly to Git.
+Dragging/moving a creature spawn should have an explicit rule:
 
-If generation is used, document one obvious workflow, e.g.:
+- default editor move should move both `pos` and `homePos` together unless the human explicitly edits home separately,
+- existing roam/leash semantics remain intact.
 
-```text
-Export world.json
-→ replace src/world/data/world.json
-→ npm run world:generate
-→ npm test / verify
-```
+Do not leave a moved creature tethered to an accidental old home without making that intentional and visible.
 
 ---
 
-## 10. Rough Camp + Area 1 skeleton
+## 11. Compact author UI cleanup
 
-Use the new authoring/data path itself to build this. It is a **spatial proof**, not final level design.
+Do not redesign the whole editor, but reduce noise.
 
-Target:
+Recommended minimum:
 
-```text
-CAMP
- ↓ gate
-POCKET 1 — comfort / Forest Edge
- ↓
-POCKET 2 — complication
- ↓
-POCKET 3 — temptation
- ↓
-POCKET 4 — deeper/riskier threshold
- ↓
-NEXT MAJOR WAYPOINT
-```
+- make current mode unambiguous (`EDITING` vs `PLAY TEST`, or equivalent),
+- collapse Palette / Selected / Region sections or otherwise avoid showing every form at once,
+- show type-specific transform/property fields only when supported,
+- keep Validate + Export accessible,
+- remove obsolete hint text such as “Palette places at region center” after direct placement exists,
+- keep status/error text human-readable.
 
-The frontier should be a chain of **wide exploration pockets connected by shorter readable routes**. It must not read as an endless runner, narrow corridor, or giant open field. Player can turn around everywhere.
-
-### Camp placeholder
-
-Include:
-- clearing,
-- drop pod,
-- small Matter Resonator,
-- basic perimeter fence,
-- one obvious frontier gate,
-- dense/tall forest boundary that is visually distinct from harvestable trees.
-
-No Camp interaction yet.
-
-### Area 1 placeholders
-
-Include:
-- first Major Waypoint near Area 1 start,
-- 1–2 Extraction Beacon placeholders for future pacing,
-- next Major Waypoint at the far/deeper threshold,
-- current resources distributed through pockets,
-- current creatures/temperaments redistributed enough to exercise the route,
-- at least one memorable locked early POI.
-
-Preferred locked POI:
-
-```text
-small pond / impassable-water placeholder
- → island
- → visible chest
- → requires: { type: "companionAbility", id: "swim" }
-```
-
-Do **not** implement swimming, companion abilities, chest rewards, or unlock behavior.
-
-Pacing intent only:
-1. comfort,
-2. complication,
-3. temptation,
-4. rising danger/value,
-5. aspirational deeper Waypoint.
-
-Phase 4 owns final 5–10 minute pacing and risk/extraction behavior.
+The editor panel may remain desktop-only and scrollable.
 
 ---
 
-## 11. Placeholder readability + region overlays
+## 12. Automated tests
 
-Simple geometry/colors/icons are enough.
+Preserve all existing tests.
 
-In Play/author testing, Major Waypoint, Extraction Beacon, POI, Camp gate should be visually distinguishable.
+Add focused coverage for the new author contract.
 
-In Edit mode show:
-- region/pocket ID,
-- bounds/activation overlays,
-- selected object's owning region/pocket.
+### Draft / transforms
 
-Camp must participate coherently in the world/activation model.
+- X/Z nudge changes draft,
+- Y changes a supported object's authored data and runtime-builder output,
+- unsupported transform controls are not falsely exposed/written,
+- creature movement keeps home position coherent by default,
+- duplicate/delete remain unique/correct.
 
-Keep AABB region activation unless the real skeleton proves it insufficient.
+### Static builder / collision
 
----
+- elevated solid prop visual and collision share the same intended vertical placement,
+- elevated platform/obstacle visual and collision agree if those support Y,
+- supported RotY is consumed by the corresponding visual/runtime path,
+- climbable rotation either works coherently or is explicitly unsupported and not exported as a fake edit.
 
-## 12. Required automated tests
+### Selection / placement model
 
-Preserve all prior tests.
+- all required authorable types expose stable author IDs/pick metadata,
+- placement at a supplied world position creates object at that position and correct containing region,
+- cancel placement creates nothing.
 
-Add focused coverage for:
+### Mode isolation
 
-### Single source
-- authored source deterministically produces runtime world,
-- stale generated data fails if generation is used,
-- static/traversal objects no longer require a second manual coordinate list.
+- Edit hides/suppresses gameplay input/HUD ownership,
+- Play restores it,
+- Edit disables fog and Play restores it,
+- editor visibility follows editor focus rather than stale player region,
+- switching back to Play restores player-centered activation,
+- no second rAF.
 
-### Author model
-- transform edit updates draft,
-- duplicate gets unique ID,
-- delete removes only target,
-- invalid duplicate/reference/region data fails,
-- deterministic export is byte-stable,
-- transient fields are excluded.
+### Existing guarantees
 
-### Runtime application
-- moving platform/obstacle changes visual + collision source,
-- ladder/jump metadata still works from authored data,
-- resources/creatures instantiate once after Apply/Play,
-- repeated Edit ↔ Play creates no duplicate colliders/entities.
-
-### Isolation
-- normal mode ignores author UI/draft,
-- Edit mode suppresses conflicting gameplay input,
-- Play restores gameplay input,
-- one rAF remains.
-
-### Area 1
-- Camp + 3–4 frontier pockets exist,
-- neighbor graph validates,
-- first + next Major Waypoints exist,
-- Extraction Beacon placeholder(s) exist,
-- swim-gated POI metadata exists,
-- all entities validate inside assigned bounds.
+- one authoritative world source,
+- deterministic export,
+- world stale guard,
+- normal mode ignores author draft/UI,
+- single rAF/fixed-step/Rapier/offline/portrait constraints,
+- all prior movement/harvest/combat/ecology/region tests.
 
 ---
 
-## 13. Human acceptance test
+## 13. Human acceptance test — write the final response like this
 
-Agent final response must give exact controls/URL.
+The final response must be concise and written for a human tester. Do **not** return a long internal coordinate/debug checklist like the 3.5B response.
 
-### A. Author Mode
-Open Author Mode. Confirm editor panel + region overlays appear and normal attack/harvest input does not interfere.
+Give the user approximately these tests, with exact controls:
 
-### B. Static geometry
-Move/resize/rotate a platform or obstacle → Apply/Play.
-Expected: mesh and collision move together. No old invisible collider.
+### Test 1 — Basic editing feel
+1. Open `?author=1` and enter EDIT.
+2. Confirm joystick/game HUD disappears and fog is gone.
+3. Right-drag camera vertically and confirm direction is opposite the old build.
+4. Pan from Camp toward a distant pocket and confirm its resources/Wildkin become visible even though the player stayed at Camp.
 
-### C. Resource
-Move/duplicate a resource → Play.
-Expected: exactly one authored instance per ID, harvest still works, region activation still freezes distant node.
+### Test 2 — Select and drag
+1. Click a fence/tree/platform/Waypoint.
+2. Drag it several units.
+3. Expected: the **actual visible object moves while dragging**, not only the yellow marker.
+4. Press PLAY and confirm it remains there; solid objects collide at the new position.
 
-### D. Creature
-Move a Wildkin spawn/home and change temperament → Play.
-Expected: exactly one creature at edited location and existing behavior still works.
+### Test 3 — Place
+1. Click Tree (or Box) in Palette.
+2. Click an obvious empty spot in the world.
+3. Expected: it appears exactly there immediately and becomes selected.
+4. PLAY: tree is harvestable / box collision matches.
 
-### E. Frontier structure
-Move one Major Waypoint, one Extraction Beacon, and the pond/island POI.
-Expected: types remain visually distinct and export with correct ownership.
+### Test 4 — Wildkin
+1. Click a Wildkin directly.
+2. Drag it somewhere obvious.
+3. Expected: it is selectable and moves visibly; its home follows by default.
+4. PLAY: exactly one Wildkin appears there and behaves normally.
 
-### F. Full route
-Walk Camp → gate → all rough Area 1 pockets → next-Waypoint threshold, then backtrack.
-Expected:
-- readable directed route with local freedom,
-- no missing ground/collision,
-- clean region transitions,
-- no gameplay extraction/map prompts yet.
+### Test 5 — Y and rotation
+1. Raise a supported box/platform using Y control and rotate a fence/box.
+2. Expected: visible preview changes immediately.
+3. PLAY: visible and physical placement still matches.
+4. For ladder, test the implemented contract: either rotation now works end-to-end or the rotation control is clearly unavailable; same for vertical shift.
 
-### G. Export round trip
-Make one edit → export → reset draft → load/check in exported world using documented workflow.
-Expected: same edit reproduces.
+### Test 6 — Existing workflow
+1. Duplicate a harvest node and PLAY; both should harvest correctly.
+2. Move a Beacon and Waypoint; PLAY confirms locations.
+3. Walk the rough route once; no new collision/streaming regression.
+4. Export/Validate once; export remains valid/deterministic.
 
----
-
-## 14. Architecture/performance guardrails
-
-- one authored source,
-- one rAF,
-- fixed 1/60 gameplay,
-- Rapier only,
-- `main.js` stays composition/wiring,
-- editor logic in focused dev/editor modules,
-- world instantiation in world modules,
-- gameplay systems do not depend on editor DOM,
-- region manager remains activation owner,
-- no parallel physics/editor world,
-- no unnecessary dependencies,
-- no runtime external network requests,
-- inactive AI remains frozen,
-- pools remain bounded,
-- no normal-play per-frame DOM creation,
-- submission stays <35 MB/offline/portrait-safe.
+The response should explicitly ask the human whether **editing now feels fast enough to shape Area 1 visually**. That subjective answer is part of the completion gate.
 
 ---
 
-## 15. Documentation
+## 14. Completion gate
 
-Update:
+Phase 3.5B.1 is complete only when:
 
-- `docs/ARCHITECTURE.md` with actual single-source pipeline and Author Mode modules/workflow,
-- `README.md` with Phase 3.5B state and Author Mode launch/export instructions,
-- `docs/BUILD_LOG.md`,
-- `docs/PROJECT_PLAN.md` only if the Phase 4 handoff materially changes.
-
-Do not record implementation claims in `PLAYTEST_NOTES.md` as human observations.
-
----
-
-## 16. Completion gate
-
-Phase 3.5B is done only when:
-
-- Phase 3.5A and gameplay regressions remain good,
-- one authoritative authored world source exists,
-- static/traversal placement uses it,
-- required Author Mode operations work,
-- region/pocket + anchor/POI properties are editable,
-- Edit ↔ Play preserves draft without duplicate runtime objects,
-- deterministic export round-trips,
-- rough Camp + 3–4-pocket Area 1 skeleton exists,
-- first/next Major Waypoint, Extraction Beacon(s), and locked swim POI placeholders exist,
-- route is fully walkable/backtrackable without collision holes,
-- region activation still works,
-- automated tests pass,
+- actual selected objects update visually in real time during author edits,
+- direct scene placement works,
+- selected objects can be dragged in X/Z,
+- Wildkin/resources/static props/anchors are reliably selectable,
+- gameplay joystick/action HUD no longer competes with Edit,
+- editor camera vertical pan is inverted from the old behavior,
+- fog is disabled only during Edit,
+- editor visibility follows editor camera/focus rather than player position,
+- tall authoring boundaries no longer heavily occlude the Edit view,
+- Y controls work end-to-end for every class where they are exposed,
+- ladder rotation/Y either works coherently or the unsupported controls are explicitly removed/disabled,
+- Play rebuild reproduces the authored visual transform and matching collision for solid objects,
+- creature move/home behavior is coherent,
+- duplicate resource remains harvestable,
+- Waypoint/Beacon editing still works,
+- full rough route still walks cleanly,
+- export/validate remains correct,
+- prior automated tests pass,
+- new focused tests pass,
 - `npm run verify` passes,
 - `npm run zip` passes,
-- offline / portrait / single-rAF / fixed-step / Rapier constraints remain intact,
-- human authoring test passes.
+- one rAF / fixed step / Rapier / offline / portrait constraints remain intact,
+- **human tester says Author Mode is now practically usable for visually shaping Area 1.**
 
 Then stop.
 
-**Do not start Phase 4 gameplay in the same session.**
+**Do not start Phase 4 in this session.**
