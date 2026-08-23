@@ -19,6 +19,10 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     // Preserve authoritative id from data if provided
     state.id = nodeId;
     state.regionId = regionId;
+    group.userData.authorId = nodeId;
+    group.userData.resourceId = nodeId;
+    // Make whole group pickable via raycast (propagate authorId to children for reliable selection)
+    group.traverse((child) => { if (child.isMesh) { child.userData.authorId = nodeId; child.userData.resourceId = nodeId; } });
     scene.add(group);
     const type = RESOURCE_TYPES[p.type];
     let collider = null;

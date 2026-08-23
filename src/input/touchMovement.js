@@ -130,6 +130,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   }
 
   function handleDown(e) {
+    if (window.__author && window.__author.authorCtx && window.__author.authorCtx.isEditMode && window.__author.authorCtx.isEditMode()) return;
     if (e.pointerType === "mouse" && e.button !== 0) return;
     const targetIsButton = e.target.closest && e.target.closest("button, a");
     if (targetIsButton) return;

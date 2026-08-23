@@ -50,6 +50,7 @@ export function createStaticWorld(worldData) {
 
   function addPropMesh(prop) {
     const pos = prop.pos;
+    const baseY = pos.y ?? 0;
     const size = prop.size || { w: 1, h: 1, d: 1 };
     const w = size.w ?? size.x ?? 1;
     const h = size.h ?? size.y ?? 1;
@@ -65,9 +66,8 @@ export function createStaticWorld(worldData) {
     else if (subtype === "water") mat = waterMat;
     else if (subtype === "island") mat = islandMat;
     else if (subtype === "dropPod") {
-      // drop pod as capsule-like: cylinder + hemisphere
       const podGroup = new THREE.Group();
-      podGroup.position.set(pos.x, 0, pos.z);
+      podGroup.position.set(pos.x, baseY, pos.z);
       podGroup.rotation.y = rotY;
       const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.7, 1.2, 8), dropPodMat);
       cyl.position.y = 0.6;
@@ -78,41 +78,41 @@ export function createStaticWorld(worldData) {
       const baseRing = new THREE.Mesh(new THREE.RingGeometry(0.7, 0.85, 12), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, side: THREE.DoubleSide }));
       baseRing.rotation.x = -Math.PI / 2;
       baseRing.position.y = 0.02;
-      baseRing.position.x = pos.x - pos.x; // relative
-      // For raycast selection, add invisible box collider proxy?
+      baseRing.position.x = pos.x - pos.x;
       podGroup.name = prop.id;
       podGroup.userData.propId = prop.id;
+      podGroup.userData.authorId = prop.id;
       podGroup.userData.propSubtype = subtype;
+      podGroup.userData.baseY = baseY;
       group.add(podGroup);
-      // Collider: treat as obstacle for physics if needed? Drop pod is solid short
-      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height: 1.0, aabb: { minX: pos.x - w / 2, maxX: pos.x + w / 2, minZ: pos.z - d / 2, maxZ: pos.z + d / 2 } });
+      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height: 1.0, baseY, aabb: { minX: pos.x - w / 2, maxX: pos.x + w / 2, minZ: pos.z - d / 2, maxZ: pos.z + d / 2 } });
       return;
     } else if (subtype === "resonator") mat = resonatorMat;
     else if (subtype === "box") mat = obstacleMat;
 
     geo = new THREE.BoxGeometry(w, height, d);
     const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(pos.x, height / 2 - 0.02, pos.z);
+    mesh.position.set(pos.x, baseY + height / 2 - 0.02, pos.z);
     mesh.rotation.y = rotY;
     mesh.name = prop.id;
     mesh.userData.propId = prop.id;
+    mesh.userData.authorId = prop.id;
     mesh.userData.propSubtype = subtype;
+    mesh.userData.baseY = baseY;
+    // Forest boundaries tagged for editor transparency
+    if (subtype === "forestBoundary") mesh.userData.isForestBoundary = true;
     group.add(mesh);
 
-    // Determine if prop should block physics (most props except water/island maybe)
     const blockingSubtypes = new Set(["fence", "gate", "box", "forestBoundary", "boundary", "obstacle", "barrier", "dropPod", "resonator"]);
     const isBlocking = blockingSubtypes.has(subtype) || prop.blocking === true;
     const isWater = subtype === "water";
     if (isWater) {
-      mesh.position.y = -0.04; // slightly below ground for water
-      // water is not solid - no collider
+      mesh.position.set(pos.x, baseY -0.04, pos.z);
       return;
     }
     if (isBlocking) {
-      // Gate is traversable? For Camp gate we want opening — but gate prop itself is solid? Actually gate gap is empty between fences, gate mesh is traversable visual only?
-      // Keep gate as non-blocking so player can pass
       if (subtype === "gate") return;
-      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height, aabb: { minX: pos.x - w / 2, maxX: pos.x + w / 2, minZ: pos.z - d / 2, maxZ: pos.z + d / 2 } });
+      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height, baseY, aabb: { minX: pos.x - w / 2, maxX: pos.x + w / 2, minZ: pos.z - d / 2, maxZ: pos.z + d / 2 } });
     }
   }
 
@@ -137,16 +137,19 @@ export function createStaticWorld(worldData) {
       addPropMesh(prop);
     }
 
-    // Traversal platforms
+    // Traversal platforms — baseY from plat.y / plat.baseY / pos.y (authored elevation)
     for (const plat of region.traversal?.platforms ?? []) {
+      const baseY = plat.y ?? plat.baseY ?? (plat.pos?.y) ?? 0;
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(plat.w, plat.height, plat.h), platformMat);
-      mesh.position.set(plat.x, plat.height / 2 - 0.02, plat.z);
+      mesh.position.set(plat.x, baseY + plat.height / 2 - 0.02, plat.z);
       mesh.name = plat.id;
       mesh.userData.platformId = plat.id;
+      mesh.userData.authorId = plat.id;
       mesh.userData.regionId = region.id;
+      mesh.userData.baseY = baseY;
       group.add(mesh);
       const aabb = { minX: plat.x - plat.w / 2, maxX: plat.x + plat.w / 2, minZ: plat.z - plat.h / 2, maxZ: plat.z + plat.h / 2 };
-      platforms.push({ id: plat.id, x: plat.x, z: plat.z, w: plat.w, h: plat.h, height: plat.height, aabb, regionId: region.id });
+      platforms.push({ id: plat.id, x: plat.x, z: plat.z, w: plat.w, h: plat.h, height: plat.height, baseY, aabb, regionId: region.id });
       // Add step marker for visibility
       if (plat.height <= 1.5) {
         const step = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.04, 0.6), new THREE.MeshStandardMaterial({ color: 0xc9b48a }));
@@ -158,16 +161,30 @@ export function createStaticWorld(worldData) {
       }
     }
 
-    // Traversal obstacles
+    // Traversal obstacles — support authored Y
     for (const obs of region.traversal?.obstacles ?? []) {
-      addObstacle(obs.x, obs.z, obs.w, obs.h, obs.height ?? 1.0, obs.id);
+      const baseY = obs.y ?? obs.baseY ?? (obs.pos?.y) ?? 0;
+      // addObstacle helper ignores Y for now but we pass height with baseY via obstacles entry
+      // Create mesh with baseY
+      const h = obs.height ?? 1.0;
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(obs.w, h, obs.h), obstacleMat);
+      mesh.position.set(obs.x, baseY + h / 2 - 0.02, obs.z);
+      mesh.rotation.y = obs.rotY ?? 0;
+      mesh.name = obs.id;
+      mesh.userData.authorId = obs.id;
+      mesh.userData.baseY = baseY;
+      group.add(mesh);
+      obstacles.push({ id: obs.id, x: obs.x, z: obs.z, w: obs.w, h: obs.h, height: h, baseY, aabb: { minX: obs.x - obs.w / 2, maxX: obs.x + obs.w / 2, minZ: obs.z - obs.h / 2, maxZ: obs.z + obs.h / 2 } });
     }
 
-    // Climbables
+    // Climbables — rotation unsupported in this slice (fixed orientation); Y is coherent shift of bottomY/topY
     for (const cl of region.traversal?.climbables ?? []) {
       const wall = new THREE.Mesh(new THREE.BoxGeometry(cl.w, cl.topY - cl.bottomY, cl.h), new THREE.MeshStandardMaterial({ color: 0xb89a5a, flatShading: true, emissive: 0x332200, emissiveIntensity: 0.12 }));
       wall.position.set(cl.x, (cl.bottomY + cl.topY) / 2 - 0.02, cl.z);
       wall.name = cl.id;
+      wall.userData.authorId = cl.id;
+      wall.userData.climbableId = cl.id;
+      wall.rotation.y = 0; // fixed, rotY not consumed
       group.add(wall);
       for (let i = 0; i < 5; i++) {
         const rung = new THREE.Mesh(new THREE.BoxGeometry(Math.min(cl.w, 1.4), 0.06, 0.09), new THREE.MeshStandardMaterial({ color: 0x6b4a2b }));
@@ -192,54 +209,66 @@ export function createStaticWorld(worldData) {
       group.add(gap);
     }
 
-    // Anchors & POIs placeholders — visually distinct
+    // Anchors & POIs placeholders — support authored Y
     for (const wp of region.majorWaypoints ?? []) {
       const h = 1.6;
+      const baseY = wp.pos.y ?? 0;
       const geo = new THREE.CylinderGeometry(0.25, 0.32, h, 8);
       const mesh = new THREE.Mesh(geo, waypointMat);
-      mesh.position.set(wp.pos.x, h / 2, wp.pos.z);
+      mesh.position.set(wp.pos.x, baseY + h / 2, wp.pos.z);
       mesh.name = wp.id;
       mesh.userData.anchorId = wp.id;
+      mesh.userData.authorId = wp.id;
       mesh.userData.anchorType = wp.type;
+      mesh.userData.baseY = baseY;
       group.add(mesh);
       const ring = new THREE.Mesh(new THREE.RingGeometry(0.45, 0.55, 14), new THREE.MeshBasicMaterial({ color: 0x4fc3f7, transparent: true, opacity: 0.45, side: THREE.DoubleSide }));
       ring.rotation.x = -Math.PI / 2;
-      ring.position.set(wp.pos.x, 0.06, wp.pos.z);
+      ring.position.set(wp.pos.x, baseY + 0.06, wp.pos.z);
+      ring.userData.authorId = wp.id;
       group.add(ring);
       const top = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), new THREE.MeshBasicMaterial({ color: 0xaeeaff }));
-      top.position.set(wp.pos.x, h + 0.18, wp.pos.z);
+      top.position.set(wp.pos.x, baseY + h + 0.18, wp.pos.z);
+      top.userData.authorId = wp.id;
       group.add(top);
     }
     for (const bc of region.extractionBeacons ?? []) {
       const h = 1.2;
+      const baseY = bc.pos.y ?? 0;
       const geo = new THREE.BoxGeometry(0.5, h, 0.5);
       const mesh = new THREE.Mesh(geo, beaconMat);
-      mesh.position.set(bc.pos.x, h / 2, bc.pos.z);
+      mesh.position.set(bc.pos.x, baseY + h / 2, bc.pos.z);
       mesh.name = bc.id;
       mesh.userData.anchorId = bc.id;
+      mesh.userData.authorId = bc.id;
       mesh.userData.anchorType = bc.type;
+      mesh.userData.baseY = baseY;
       group.add(mesh);
       const ring = new THREE.Mesh(new THREE.RingGeometry(0.35, 0.42, 12), new THREE.MeshBasicMaterial({ color: 0xff7043, transparent: true, opacity: 0.4, side: THREE.DoubleSide }));
       ring.rotation.x = -Math.PI / 2;
-      ring.position.set(bc.pos.x, 0.05, bc.pos.z);
+      ring.position.set(bc.pos.x, baseY + 0.05, bc.pos.z);
+      ring.userData.authorId = bc.id;
       group.add(ring);
     }
     for (const poi of region.pois ?? []) {
       let mat = chestMat;
       let h = 0.6;
       if (poi.type === "barrier") { mat = barrierMat; h = 1.0; }
-      else if (poi.type === "pond" || poi.type === "water") { continue; } // water already handled via prop
+      else if (poi.type === "pond" || poi.type === "water") { continue; }
+      const baseY = poi.pos.y ?? 0;
       const geo = new THREE.BoxGeometry(0.7, h, 0.7);
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(poi.pos.x, h / 2, poi.pos.z);
+      mesh.position.set(poi.pos.x, baseY + h / 2, poi.pos.z);
       mesh.name = poi.id;
       mesh.userData.poiId = poi.id;
+      mesh.userData.authorId = poi.id;
       mesh.userData.poiType = poi.type;
+      mesh.userData.baseY = baseY;
       group.add(mesh);
-      // Locked indicator if requires
       if (poi.requires) {
         const lock = new THREE.Mesh(new THREE.SphereGeometry(0.18, 6, 6), new THREE.MeshBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.75 }));
-        lock.position.set(poi.pos.x, h + 0.35, poi.pos.z);
+        lock.position.set(poi.pos.x, baseY + h + 0.35, poi.pos.z);
+        lock.userData.authorId = poi.id;
         group.add(lock);
       }
     }

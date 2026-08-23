@@ -10,9 +10,13 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   const type = spawn.type;
   const cfg = getConfig(type);
   const group = new THREE.Group();
-  group.name = `creature_${type}_${spawn.id ?? index}`;
+  group.name = spawn.id ?? `creature_${type}_${index}`;
+  group.userData.authorId = spawn.id ?? group.name;
+  group.userData.creatureId = spawn.id ?? group.name;
   const basePos = { x: spawn.pos.x, y: spawn.pos.y ?? 0, z: spawn.pos.z };
   group.position.set(basePos.x, basePos.y, basePos.z);
+  // propagate authorId to children for raycast
+  // (will be set after meshes added, but set now for group)
 
   // State — extended for Phase 3.1 temperament/home/leash
   const temperament = spawn.temperament ?? "AGGRESSIVE";
@@ -217,6 +221,8 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     state.pos.set(t.x, t.y, t.z);
   }
 
+  // Propagate authorId to all child meshes for raycast picking (ensures Wildkin selectable)
+  group.traverse((child) => { if (child.isMesh || child.isSprite) { child.userData.authorId = group.userData.authorId; child.userData.creatureId = group.userData.creatureId; } });
   scene.add(group);
 
   function setPosition(pos) {

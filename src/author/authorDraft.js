@@ -139,17 +139,42 @@ export function createAuthorDraft(repoData) {
     const found = findObjectById(id);
     if (!found) return { ok: false, error: "object not found" };
     const { obj } = found;
+    // For creatures, moving pos should move homePos together by default unless homePos explicitly patched
+    let creatureDelta = null;
+    if (found.type === "creature" && patch.pos && !patch.homePos && obj.pos && obj.homePos) {
+      creatureDelta = { x: patch.pos.x - obj.pos.x, z: patch.pos.z - obj.pos.z, y: (patch.pos.y ?? obj.pos.y ?? 0) - (obj.pos.y ?? 0) };
+    }
     // Apply patch: pos, rotY, size
     if (patch.pos) {
       obj.pos = { x: patch.pos.x, y: patch.pos.y ?? obj.pos.y ?? 0, z: patch.pos.z };
+      if (creatureDelta && obj.homePos) {
+        obj.homePos.x += creatureDelta.x;
+        obj.homePos.z += creatureDelta.z;
+        obj.homePos.y = (obj.homePos.y ?? 0) + creatureDelta.y;
+      }
     }
     if (patch.homePos) obj.homePos = { x: patch.homePos.x, y: patch.homePos.y ?? 0, z: patch.homePos.z };
     if (patch.x !== undefined) {
-      // platform/obstacle/climbable use x/z
       obj.x = patch.x;
       if (patch.z !== undefined) obj.z = patch.z;
     }
-    if (patch.rotY !== undefined) obj.rotY = patch.rotY;
+    if (patch.y !== undefined) {
+      if (found.type === "platform" || found.type === "obstacle") {
+        obj.y = patch.y; obj.baseY = patch.y;
+      } else if (found.type === "climbable") {
+        const delta = patch.y - (obj.bottomY ?? 0);
+        if (obj.bottomY !== undefined) obj.bottomY += delta;
+        if (obj.topY !== undefined) obj.topY += delta;
+        if (obj.topPlatform && obj.topPlatform.topY !== undefined) obj.topPlatform.topY += delta;
+        if (obj.topEntryRegion) { /* keep relative */ }
+        if (obj.mantleExit) obj.mantleExit.y = (obj.mantleExit.y ?? 0) + delta;
+      }
+    }
+    if (patch.rotY !== undefined) {
+      // Only apply for supported types; for climbable/platform we ignore (kept as hidden)
+      if (found.type !== "climbable" && found.type !== "platform" && found.type !== "obstacle") obj.rotY = patch.rotY;
+      else if (found.type === "prop") obj.rotY = patch.rotY;
+    }
     if (patch.rotationY !== undefined) obj.rotY = patch.rotationY;
     if (patch.size) obj.size = { ...obj.size, ...patch.size };
     if (patch.w !== undefined) { obj.w = patch.w; if (patch.h !== undefined) obj.h = patch.h; }

@@ -38,7 +38,7 @@ const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 3.5B — 0.10.0";
+const VERSION = "Phase 3.5B.1 — 0.10.1";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -289,13 +289,16 @@ if (authorEnabled) {
     renderer,
     worldRegistry,
     draftSeed: worldRegistry.data,
+    resourceSystem,
+    creatureSystem,
+    regionManager,
     onRebuild: () => {
-      // Deterministic rebuild via reload preserves draft (fast local reload acceptable per spec)
       window.location.reload();
     },
   });
   authorCtx = authorMode.init();
-  // Expose for debug
+  // Allow later system injection if needed
+  if (authorMode.setSystems) authorMode.setSystems({ resourceSystem, creatureSystem, regionManager, worldRegistry });
   window.__author = { draftApi: authorCtx?.draftApi, ui: authorCtx?.ui, mode: authorMode };
 }
 
@@ -406,6 +409,7 @@ function tick() {
   const wasAttackRequested = intent.attackRequested;
 
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
+  if (authorSuppress && authorMode && authorMode.updateEditorVisibility) authorMode.updateEditorVisibility();
   // In Edit mode, suppress gameplay input to avoid combat/harvest interference
   const effectiveIntent = authorSuppress ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "IDLE", dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
 

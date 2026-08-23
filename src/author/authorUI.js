@@ -1,98 +1,108 @@
-// src/author/authorUI.js — minimal desktop Author Mode panel (Phase 3.5B)
+// src/author/authorUI.js — minimal desktop Author Mode panel (Phase 3.5B.1 cleanup)
 
 export function createAuthorUI(opts) {
   const draftApi = opts.draftApi;
   const onPlay = opts.onPlay;
   const onValidate = opts.onValidate;
   const onSelectRegion = opts.onSelectRegion;
-  const worldRegistry = opts.worldRegistry; // for region list
   let selectedId = null;
-  let editMode = false; // false = Play, true = Edit
+  let editMode = false;
 
   const container = document.createElement("div");
   container.id = "author-panel";
-  container.style.cssText = "position:fixed;top:8px;left:8px;width:300px;max-height:92vh;overflow:auto;background:#0f1420ee;color:#d0d8e8;font:12px system-ui;border:1px solid #2a3a5a;border-radius:8px;z-index:9999;padding:8px;display:none;backdrop-filter:blur(6px)";
+  container.style.cssText = "position:fixed;top:8px;left:8px;width:300px;max-height:92vh;overflow:auto;background:#0f1420f2;color:#d0d8e8;font:12px system-ui;border:1px solid #2a3a5a;border-radius:8px;z-index:9999;padding:8px;display:none;backdrop-filter:blur(6px)";
   container.innerHTML = `
     <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">
-      <button id="author-toggle" style="flex:1;padding:6px 8px;background:#2a7fff;color:#fff;border:none;border-radius:6px;font-weight:700">EDIT</button>
-      <button id="author-export" style="padding:6px 8px;background:#1a3a2a;color:#aaffaa;border:1px solid #2a6a4a;border-radius:6px">Export</button>
-      <button id="author-validate" style="padding:6px 8px;background:#2a2a1a;color:#ffea66;border:1px solid #6a5a2a;border-radius:6px">Validate</button>
+      <button id="author-toggle" style="flex:1;padding:7px 8px;background:#2a7fff;color:#fff;border:none;border-radius:6px;font-weight:800">EDIT</button>
+      <span id="author-mode-badge" style="font-size:10px;font-weight:700;padding:4px 6px;border-radius:4px;background:#1a243a;color:#8aa0c0">PLAY TEST</span>
     </div>
-    <div id="author-status" style="font-size:11px;color:#8aa0c0;margin-bottom:6px">Author Mode — READY</div>
-    <div style="border-top:1px solid #2a3a5a;margin:6px 0"></div>
-    <div style="font-weight:700;margin-bottom:4px">Palette — Place</div>
-    <div id="author-palette" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px"></div>
-    <div style="font-weight:700;margin:4px 0">Selected</div>
-    <div id="author-selected" style="background:#0a0f1e;border:1px solid #1e2a4a;border-radius:6px;padding:6px;margin-bottom:6px">
-      <div id="author-selected-none" style="color:#6a7a96">Click object in scene to select</div>
-      <div id="author-selected-form" style="display:none">
-        <div style="font-size:11px;color:#8aa0c0;margin-bottom:4px" id="author-sel-id"></div>
-        <label style="display:block;margin:2px 0">Region <select id="author-sel-region" style="width:100%"></select></label>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
-          <label>X <input id="author-x" type="number" step="0.1" style="width:100%"></label>
-          <label>Z <input id="author-z" type="number" step="0.1" style="width:100%"></label>
-          <label>Y <input id="author-y" type="number" step="0.1" style="width:100%"></label>
-          <label>RotY° <input id="author-rot" type="number" step="5" style="width:100%"></label>
-          <label>W <input id="author-w" type="number" step="0.1" style="width:100%"></label>
-          <label>H <input id="author-h" type="number" step="0.1" style="width:100%"></label>
-          <label>D <input id="author-d" type="number" step="0.1" style="width:100%"></label>
-          <label>Height <input id="author-height" type="number" step="0.1" style="width:100%"></label>
-        </div>
-        <div id="author-creature-fields" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:4px">
-          <div style="font-weight:600;margin-bottom:2px">Creature</div>
-          <label>Type <select id="author-creature-type"><option value="rusher">rusher</option><option value="spitter">spitter</option></select></label>
-          <label>Temperament <select id="author-temper"><option>AGGRESSIVE</option><option>TERRITORIAL</option><option>DEFENSIVE</option><option>SKITTISH</option></select></label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px">
-            <label>Roam <input id="author-roam" type="number" step="0.1" style="width:100%"></label>
-            <label>Notice <input id="author-notice" type="number" step="0.1" style="width:100%"></label>
-            <label>Personal <input id="author-personal" type="number" step="0.1" style="width:100%"></label>
-            <label>Leash <input id="author-leash" type="number" step="0.1" style="width:100%"></label>
+    <div id="author-status" style="font-size:11px;color:#8aa0c0;margin-bottom:8px;min-height:14px">Author Mode — READY</div>
+    <div id="author-place-hint" style="display:none;font-size:11px;color:#ffd54f;background:#2a2410;border:1px solid #6a5a20;border-radius:6px;padding:6px;margin-bottom:8px"></div>
+    <details id="sec-palette" open style="margin-bottom:8px">
+      <summary style="font-weight:700;cursor:pointer;list-style:none">Palette — Click to place ▼</summary>
+      <div id="author-palette" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px"></div>
+    </details>
+    <details id="sec-selected" open style="margin-bottom:8px">
+      <summary style="font-weight:700;cursor:pointer">Selected</summary>
+      <div id="author-selected" style="background:#0a0f1e;border:1px solid #1e2a4a;border-radius:6px;padding:6px;margin-top:6px">
+        <div id="author-selected-none" style="color:#6a7a96">Click any object (prop, tree, Wildkin, waypoint) to select</div>
+        <div id="author-selected-form" style="display:none">
+          <div style="font-size:11px;color:#8aa0c0;margin-bottom:4px" id="author-sel-id"></div>
+          <label style="display:block;margin:2px 0;font-size:11px">Region <select id="author-sel-region" style="width:100%;font-size:12px"></select></label>
+          <div id="row-pos" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px">
+            <label>X <input id="author-x" type="number" step="0.1" style="width:100%"></label>
+            <label>Z <input id="author-z" type="number" step="0.1" style="width:100%"></label>
           </div>
-        </div>
-        <div id="author-anchor-fields" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:4px">
-          <div style="font-weight:600;margin-bottom:2px">Anchor / POI</div>
-          <label>Type <input id="author-anchor-type" style="width:100%"></label>
-          <label>Requires (JSON) <input id="author-requires" placeholder='null or {"type":"companionAbility","id":"swim"}' style="width:100%"></label>
-        </div>
-        <div style="display:flex;gap:6px;margin-top:6px">
-          <button id="author-duplicate" style="flex:1;padding:6px;background:#2a3a5a;color:#fff;border:none;border-radius:4px">Duplicate</button>
-          <button id="author-delete" style="flex:1;padding:6px;background:#5a1a1a;color:#ffaaaa;border:none;border-radius:4px">Delete</button>
-        </div>
-        <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
-          <button class="nudge" data-dx="0" data-dz="-0.2" style="flex:1;padding:4px">↑</button>
-          <button class="nudge" data-dx="-0.2" data-dz="0" style="flex:1;padding:4px">←</button>
-          <button class="nudge" data-dx="0.2" data-dz="0" style="flex:1;padding:4px">→</button>
-          <button class="nudge" data-dx="0" data-dz="0.2" style="flex:1;padding:4px">↓</button>
-          <button id="author-up" style="flex:1;padding:4px">Y+0.2</button>
-          <button id="author-down" style="flex:1;padding:4px">Y-0.2</button>
+          <div id="row-y" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px">
+            <label>Y <input id="author-y" type="number" step="0.1" style="width:100%"></label>
+            <label id="wrap-rot">RotY° <input id="author-rot" type="number" step="5" style="width:100%"></label>
+          </div>
+          <div id="row-size" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:4px">
+            <label>W <input id="author-w" type="number" step="0.1" style="width:100%"></label>
+            <label>D <input id="author-h" type="number" step="0.1" style="width:100%"></label>
+            <label>Height <input id="author-height" type="number" step="0.1" style="width:100%"></label>
+          </div>
+          <div id="author-creature-fields" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:4px">
+            <div style="font-weight:600;margin-bottom:2px">Creature</div>
+            <label>Type <select id="author-creature-type"><option value="rusher">rusher</option><option value="spitter">spitter</option></select></label>
+            <label>Temperament <select id="author-temper"><option>AGGRESSIVE</option><option>TERRITORIAL</option><option>DEFENSIVE</option><option>SKITTISH</option></select></label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px">
+              <label>Roam <input id="author-roam" type="number" step="0.1" style="width:100%"></label>
+              <label>Notice <input id="author-notice" type="number" step="0.1" style="width:100%"></label>
+              <label>Personal <input id="author-personal" type="number" step="0.1" style="width:100%"></label>
+              <label>Leash <input id="author-leash" type="number" step="0.1" style="width:100%"></label>
+            </div>
+          </div>
+          <div id="author-anchor-fields" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:4px">
+            <div style="font-weight:600;margin-bottom:2px">Anchor / POI</div>
+            <label>Type <input id="author-anchor-type" style="width:100%"></label>
+            <label>Requires (JSON) <input id="author-requires" placeholder='null or {"type":"companionAbility","id":"swim"}' style="width:100%"></label>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:6px">
+            <button id="author-duplicate" style="flex:1;padding:6px;background:#2a3a5a;color:#fff;border:none;border-radius:4px">Duplicate</button>
+            <button id="author-delete" style="flex:1;padding:6px;background:#5a1a1a;color:#ffaaaa;border:none;border-radius:4px">Delete</button>
+          </div>
+          <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
+            <button class="nudge" data-dx="0" data-dz="-0.2" style="flex:1;padding:4px">↑</button>
+            <button class="nudge" data-dx="-0.2" data-dz="0" style="flex:1;padding:4px">←</button>
+            <button class="nudge" data-dx="0.2" data-dz="0" style="flex:1;padding:4px">→</button>
+            <button class="nudge" data-dx="0" data-dz="0.2" style="flex:1;padding:4px">↓</button>
+            <button id="author-up" style="flex:1;padding:4px;display:none">Y+0.2</button>
+            <button id="author-down" style="flex:1;padding:4px;display:none">Y-0.2</button>
+          </div>
+          <div style="font-size:10px;color:#6a7a8a;margin-top:4px">Drag object in Edit to move X/Z · Y via buttons/field</div>
         </div>
       </div>
-    </div>
-    <div style="font-weight:700;margin:4px 0">Region / Pocket</div>
-    <div style="background:#0a0f1e;border:1px solid #1e2a4a;border-radius:6px;padding:6px;margin-bottom:6px">
-      <label>Region <select id="author-region-select" style="width:100%"></select></label>
-      <div id="author-region-form" style="margin-top:6px;display:grid;grid-template-columns:1fr 1fr;gap:4px">
-        <label>Display <input id="author-region-name" style="width:100%"></label>
-        <label>Neighbors <input id="author-region-neighbors" placeholder="comma list" style="width:100%"></label>
-        <label>minX <input id="author-b-minX" type="number" step="0.5" style="width:100%"></label>
-        <label>maxX <input id="author-b-maxX" type="number" step="0.5" style="width:100%"></label>
-        <label>minZ <input id="author-b-minZ" type="number" step="0.5" style="width:100%"></label>
-        <label>maxZ <input id="author-b-maxZ" type="number" step="0.5" style="width:100%"></label>
+    </details>
+    <details id="sec-region" style="margin-bottom:8px">
+      <summary style="font-weight:700;cursor:pointer">Region</summary>
+      <div style="background:#0a0f1e;border:1px solid #1e2a4a;border-radius:6px;padding:6px;margin-top:6px">
+        <label>Region <select id="author-region-select" style="width:100%"></select></label>
+        <div id="author-region-form" style="margin-top:6px;display:grid;grid-template-columns:1fr 1fr;gap:4px">
+          <label>Display <input id="author-region-name" style="width:100%"></label>
+          <label>Neighbors <input id="author-region-neighbors" placeholder="comma list" style="width:100%"></label>
+          <label>minX <input id="author-b-minX" type="number" step="0.5" style="width:100%"></label>
+          <label>maxX <input id="author-b-maxX" type="number" step="0.5" style="width:100%"></label>
+          <label>minZ <input id="author-b-minZ" type="number" step="0.5" style="width:100%"></label>
+          <label>maxZ <input id="author-b-maxZ" type="number" step="0.5" style="width:100%"></label>
+        </div>
+        <button id="author-region-apply" style="margin-top:6px;width:100%;padding:6px;background:#1e2a4a;color:#aaccff;border:none;border-radius:4px">Apply Region</button>
+        <div id="author-region-status" style="font-size:11px;color:#8aa0c0;margin-top:4px"></div>
       </div>
-      <button id="author-region-apply" style="margin-top:6px;width:100%;padding:6px;background:#1e2a4a;color:#aaccff;border:none;border-radius:4px">Apply Region</button>
-      <div id="author-region-status" style="font-size:11px;color:#8aa0c0;margin-top:4px"></div>
+    </details>
+    <div style="display:flex;gap:6px;margin-bottom:6px">
+      <button id="author-validate" style="flex:1;padding:6px;background:#2a2a1a;color:#ffea66;border:1px solid #6a5a2a;border-radius:6px">Validate</button>
+      <button id="author-export" style="flex:1;padding:6px;background:#1a3a2a;color:#aaffaa;border:1px solid #2a6a4a;border-radius:6px">Export</button>
     </div>
-    <div style="display:flex;gap:6px">
-      <button id="author-reset" style="flex:1;padding:6px;background:#3a1a1a;color:#ffaaaa;border:1px solid #6a2a2a;border-radius:6px">Reset Draft From Repo</button>
-    </div>
-    <div style="font-size:10px;color:#5a6a8a;margin-top:6px">Desktop only — Edit pauses gameplay. Palette places at region center. Use precise inputs for placement.</div>
+    <button id="author-reset" style="width:100%;padding:6px;background:#3a1a1a;color:#ffaaaa;border:1px solid #6a2a2a;border-radius:6px">Reset Draft From Repo</button>
+    <div style="font-size:10px;color:#5a6a8a;margin-top:6px">Edit hides joystick · Right-drag pan (inverted) · Wheel zoom · Esc cancels place</div>
   `;
   document.body.appendChild(container);
 
   const toggleBtn = container.querySelector("#author-toggle");
+  const badge = container.querySelector("#author-mode-badge");
   const statusEl = container.querySelector("#author-status");
-  const exportBtn = container.querySelector("#author-export");
-  const validateBtn = container.querySelector("#author-validate");
+  const placeHint = container.querySelector("#author-place-hint");
   const paletteEl = container.querySelector("#author-palette");
   const regionSelectEl = container.querySelector("#author-region-select");
   const selRegionEl = container.querySelector("#author-sel-region");
@@ -100,7 +110,6 @@ export function createAuthorUI(opts) {
   const selectedForm = container.querySelector("#author-selected-form");
   const selIdEl = container.querySelector("#author-sel-id");
 
-  // Build palette buttons
   const paletteItems = [
     { label: "Box", kind: "prop", subtype: "box" },
     { label: "Fence", kind: "fence" },
@@ -123,10 +132,8 @@ export function createAuthorUI(opts) {
   for (const item of paletteItems) {
     const b = document.createElement("button");
     b.textContent = item.label;
-    b.style.cssText = "padding:6px 4px;background:#1a243a;color:#c0d0e8;border:1px solid #2a3a5a;border-radius:4px;font-size:11px";
-    b.addEventListener("click", () => {
-      opts.onCreate?.(item);
-    });
+    b.style.cssText = "padding:6px 4px;background:#1a243a;color:#c0d0e8;border:1px solid #2a3a5a;border-radius:4px;font-size:11px;cursor:pointer";
+    b.addEventListener("click", () => opts.onCreate?.(item));
     paletteEl.appendChild(b);
   }
 
@@ -136,18 +143,13 @@ export function createAuthorUI(opts) {
     regionSelectEl.innerHTML = "";
     selRegionEl.innerHTML = "";
     for (const r of regions) {
-      const o1 = document.createElement("option");
-      o1.value = r.id; o1.textContent = r.id;
-      regionSelectEl.appendChild(o1);
-      const o2 = document.createElement("option");
-      o2.value = r.id; o2.textContent = r.id;
-      selRegionEl.appendChild(o2);
+      const o1 = document.createElement("option"); o1.value = r.id; o1.textContent = r.id; regionSelectEl.appendChild(o1);
+      const o2 = document.createElement("option"); o2.value = r.id; o2.textContent = r.id; selRegionEl.appendChild(o2);
     }
     if (regions.find(r => r.id === curSel)) regionSelectEl.value = curSel;
     else if (regions[0]) regionSelectEl.value = regions[0].id;
     refreshRegionForm();
   }
-
   function refreshRegionForm() {
     const rid = regionSelectEl.value;
     const r = draftApi.findRegion(rid);
@@ -159,7 +161,6 @@ export function createAuthorUI(opts) {
     container.querySelector("#author-b-minZ").value = r.bounds.minZ;
     container.querySelector("#author-b-maxZ").value = r.bounds.maxZ;
   }
-
   regionSelectEl.addEventListener("change", refreshRegionForm);
   container.querySelector("#author-region-apply").addEventListener("click", () => {
     const rid = regionSelectEl.value;
@@ -182,7 +183,20 @@ export function createAuthorUI(opts) {
     } else { st.textContent = res.error; st.style.color="#ffaaaa"; }
   });
 
-  // Selected form bindings
+  function supportsY(type) {
+    if (type === "climbable") return false;
+    return true;
+  }
+  function supportsRot(type) {
+    if (type === "climbable" || type === "platform" || type === "obstacle") return false;
+    if (type === "resource" || type === "creature" || type === "majorWaypoint" || type === "extractionBeacon" || type === "poi") return false;
+    return true; // props
+  }
+  function supportsSize(type) {
+    if (type === "resource" || type === "creature" || type === "majorWaypoint" || type === "extractionBeacon" || type === "poi") return false;
+    return true;
+  }
+
   function setSelected(id) {
     selectedId = id;
     if (!id) {
@@ -197,18 +211,36 @@ export function createAuthorUI(opts) {
     selIdEl.textContent = `${found.type} — ${found.obj.id} — region: ${found.region.id}`;
     selRegionEl.value = found.region.id;
     const obj = found.obj;
-    const pos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: 0, z: obj.z } : { x: 0, y: 0, z: 0 });
+    const pos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: obj.y ?? obj.baseY ?? 0, z: obj.z } : { x: 0, y: 0, z: 0 });
     container.querySelector("#author-x").value = pos.x ?? 0;
     container.querySelector("#author-z").value = pos.z ?? 0;
-    container.querySelector("#author-y").value = pos.y ?? 0;
+    container.querySelector("#author-y").value = pos.y ?? obj.y ?? obj.baseY ?? 0;
     const rotYdeg = ((obj.rotY ?? 0) * 180 / Math.PI).toFixed(1);
     container.querySelector("#author-rot").value = rotYdeg;
     const size = obj.size || {};
     container.querySelector("#author-w").value = size.w ?? obj.w ?? "";
     container.querySelector("#author-h").value = size.d ?? obj.h ?? "";
-    container.querySelector("#author-d").value = size.d ?? "";
     container.querySelector("#author-height").value = obj.height ?? size.h ?? "";
-    // creature fields
+    // Per-type visibility
+    const yRow = container.querySelector("#row-y");
+    const rotWrap = container.querySelector("#wrap-rot");
+    const sizeRow = container.querySelector("#row-size");
+    const upBtn = container.querySelector("#author-up");
+    const downBtn = container.querySelector("#author-down");
+    const ySupported = supportsY(found.type);
+    yRow.style.display = ySupported ? "" : "none";
+    upBtn.style.display = ySupported ? "" : "none";
+    downBtn.style.display = ySupported ? "" : "none";
+    rotWrap.style.display = supportsRot(found.type) ? "" : "none";
+    sizeRow.style.display = supportsSize(found.type) ? "" : "none";
+    if (found.type === "climbable") {
+      // Show disabled note
+      rotWrap.style.display = "none";
+      yRow.style.display = "none";
+      upBtn.style.display = "none";
+      downBtn.style.display = "none";
+      sizeRow.style.display = "none";
+    }
     const creatureFields = container.querySelector("#author-creature-fields");
     if (found.type === "creature") {
       creatureFields.style.display="";
@@ -219,22 +251,16 @@ export function createAuthorUI(opts) {
       container.querySelector("#author-personal").value = obj.personalSpace ?? "";
       container.querySelector("#author-leash").value = obj.leashRadius ?? "";
     } else creatureFields.style.display="none";
-    // anchor/poi fields
     const anchorFields = container.querySelector("#author-anchor-fields");
     if (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi") {
       anchorFields.style.display="";
-      const tEl = container.querySelector("#author-anchor-type");
-      tEl.value = obj.type;
+      container.querySelector("#author-anchor-type").value = obj.type;
       const rEl = container.querySelector("#author-requires");
       rEl.value = obj.requires ? JSON.stringify(obj.requires) : "";
       rEl.style.display = found.type === "poi" ? "" : "none";
-      rEl.previousElementSibling?.tagName; // noop
-      // For POI, show requires; for anchor, hide requires
-      if (found.type !== "poi") {
-        container.querySelector("#author-requires").style.display="none";
-      } else {
-        container.querySelector("#author-requires").style.display="";
-      }
+      // hide label for requires when not poi
+      rEl.parentElement.style.display = found.type === "poi" ? "" : "none";
+      if (found.type !== "poi") container.querySelector("#author-requires").style.display="none";
     } else anchorFields.style.display="none";
   }
 
@@ -244,62 +270,59 @@ export function createAuthorUI(opts) {
     const z = parseFloat(container.querySelector("#author-z").value);
     const y = parseFloat(container.querySelector("#author-y").value);
     if (!isNaN(x) && !isNaN(z)) patch.pos = { x, y: isNaN(y)?0:y, z };
-    else if (!isNaN(x)) patch.pos = { x, y: 0, z: 0 };
     const rotDeg = parseFloat(container.querySelector("#author-rot").value);
     if (!isNaN(rotDeg)) patch.rotY = rotDeg * Math.PI / 180;
     const w = parseFloat(container.querySelector("#author-w").value);
-    const h = parseFloat(container.querySelector("#author-h").value);
-    const d = parseFloat(container.querySelector("#author-d").value);
+    const d = parseFloat(container.querySelector("#author-h").value);
     const height = parseFloat(container.querySelector("#author-height").value);
     const size = {};
     if (!isNaN(w)) size.w = w;
-    if (!isNaN(h)) size.d = h; // h input maps to d (depth) for props? Keep both
     if (!isNaN(d)) size.d = d;
     if (Object.keys(size).length) patch.size = size;
-    if (!isNaN(w) && isNaN(d)) { patch.w = w; patch.h = h; }
+    if (!isNaN(w) && isNaN(d)) { patch.w = w; patch.h = d; }
     if (!isNaN(height)) patch.height = height;
     const selRegion = selRegionEl.value;
     if (selRegion) patch.regionId = selRegion;
-    // creature patches
     const found = selectedId ? draftApi.findObjectById(selectedId) : null;
     if (found && found.type === "creature") {
       patch.creatureType = container.querySelector("#author-creature-type").value;
       patch.temperament = container.querySelector("#author-temper").value;
-      const roam = parseFloat(container.querySelector("#author-roam").value); if (!isNaN(roam)) found.obj.roamRadius = roam;
-      const notice = parseFloat(container.querySelector("#author-notice").value); if (!isNaN(notice)) found.obj.noticeRadius = notice;
-      const personal = parseFloat(container.querySelector("#author-personal").value); if (!isNaN(personal)) found.obj.personalSpace = personal;
-      const leash = parseFloat(container.querySelector("#author-leash").value); if (!isNaN(leash)) found.obj.leashRadius = leash;
-      // Also apply directly to object for creature extra fields
-      if (!isNaN(roam)) patch.roamRadius = roam;
     }
     if (found && (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi")) {
       const t = container.querySelector("#author-anchor-type").value.trim();
-      if (t) patch.type = t; // misuse: but updateTransform handles type for resource etc. For anchor we need direct set
-      const reqStr = container.querySelector("#author-requires").value.trim();
-      if (found.type === "poi") {
-        if (reqStr) { try { found.obj.requires = JSON.parse(reqStr); } catch { found.obj.requires = reqStr; } }
-        else found.obj.requires = null;
-      }
+      if (t) patch.type = t;
+    }
+    // For platform/obstacle Y, map pos.y to y
+    if (found && (found.type === "platform" || found.type === "obstacle")) {
+      if (!isNaN(y)) patch.y = y;
+      if (patch.pos) { patch.x = patch.pos.x; patch.z = patch.pos.z; delete patch.pos; }
     }
     return patch;
   }
 
-  // Wire input changes — apply on blur/change
   const formInputs = container.querySelectorAll("#author-selected-form input, #author-selected-form select");
   for (const inp of formInputs) {
     inp.addEventListener("change", () => {
       if (!selectedId) return;
       const patch = getSelectedPatch();
-      // Need to handle creature extra fields already set directly; but we also need to apply patch for pos/region/size
-      // For anchor type, set directly
       const found = draftApi.findObjectById(selectedId);
       if (found && (found.type === "poi" || found.type === "majorWaypoint" || found.type === "extractionBeacon")) {
         const t = container.querySelector("#author-anchor-type").value.trim();
         if (t && found.obj.type !== t) found.obj.type = t;
+        if (found.type === "poi") {
+          const reqStr = container.querySelector("#author-requires").value.trim();
+          if (reqStr) { try { found.obj.requires = JSON.parse(reqStr); } catch { found.obj.requires = reqStr; } }
+          else found.obj.requires = null;
+        }
       }
-      // For platform/obstacle x/z handling, patch.pos will be used but objects use x/z
+      if (found && found.type === "creature") {
+        const roam = parseFloat(container.querySelector("#author-roam").value); if (!isNaN(roam)) found.obj.roamRadius = roam;
+        const notice = parseFloat(container.querySelector("#author-notice").value); if (!isNaN(notice)) found.obj.noticeRadius = notice;
+        const personal = parseFloat(container.querySelector("#author-personal").value); if (!isNaN(personal)) found.obj.personalSpace = personal;
+        const leash = parseFloat(container.querySelector("#author-leash").value); if (!isNaN(leash)) found.obj.leashRadius = leash;
+      }
       if (found && (found.type === "platform" || found.type === "obstacle" || found.type === "climbable")) {
-        if (patch.pos) { found.obj.x = patch.pos.x; found.obj.z = patch.pos.z; if (patch.pos.y !== undefined) found.obj.y = patch.pos.y; delete patch.pos; patch.x = found.obj.x; patch.z = found.obj.z; }
+        // Y already handled via patch.y
       }
       const res = draftApi.updateTransform(selectedId, patch);
       if (res.ok) {
@@ -331,6 +354,7 @@ export function createAuthorUI(opts) {
       refreshRegionSelects();
       setSelected(res.newId);
       opts.onDraftChanged?.(res.newId);
+      opts.onSelectNew?.(res.newId);
     } else statusEl.textContent = res.error;
   });
   container.querySelector("#author-delete").addEventListener("click", () => {
@@ -338,9 +362,10 @@ export function createAuthorUI(opts) {
     const res = draftApi.deleteObject(selectedId);
     if (res.ok) {
       statusEl.textContent = "Deleted " + selectedId;
+      const deleted = selectedId;
       setSelected(null);
       refreshRegionSelects();
-      opts.onDraftChanged?.(null);
+      opts.onDraftChanged?.(null, deleted);
     } else statusEl.textContent = res.error;
   });
   for (const btn of container.querySelectorAll(".nudge")) {
@@ -351,9 +376,8 @@ export function createAuthorUI(opts) {
       const found = draftApi.findObjectById(selectedId);
       if (!found) return;
       const obj = found.obj;
-      if (obj.pos) { obj.pos.x += dx; obj.pos.z += dz; }
+      if (obj.pos) { obj.pos.x += dx; obj.pos.z += dz; if (found.type==="creature" && obj.homePos){ obj.homePos.x+=dx; obj.homePos.z+=dz; } }
       else if (obj.x !== undefined) { obj.x += dx; obj.z += dz; }
-      // Trigger update via draftApi
       draftApi.updateTransform(selectedId, {});
       setSelected(selectedId);
       const v = draftApi.validate();
@@ -365,69 +389,58 @@ export function createAuthorUI(opts) {
     if (!selectedId) return;
     const f = draftApi.findObjectById(selectedId);
     if (!f) return;
-    if (f.obj.pos) f.obj.pos.y = (f.obj.pos.y ?? 0) + 0.2;
-    else if (f.obj.y !== undefined) f.obj.y += 0.2;
-    else f.obj.pos = { x: f.obj.x ?? 0, y: 0.2, z: f.obj.z ?? 0 };
-    draftApi.updateTransform(selectedId, {});
-    setSelected(selectedId);
-    opts.onDraftChanged?.(selectedId);
+    if (f.type==="platform"||f.type==="obstacle") {
+      const curY = f.obj.y ?? f.obj.baseY ?? 0;
+      const ny = curY + 0.2; f.obj.y = ny; f.obj.baseY = ny; draftApi.updateTransform(selectedId, { y: ny }); setSelected(selectedId); opts.onDraftChanged?.(selectedId); return;
+    }
+    if (f.obj.pos) { f.obj.pos.y = (f.obj.pos.y ?? 0) + 0.2; if (f.type==="creature"&&f.obj.homePos) f.obj.homePos.y+=0.2; draftApi.updateTransform(selectedId, {}); setSelected(selectedId); opts.onDraftChanged?.(selectedId); }
   });
   container.querySelector("#author-down").addEventListener("click", () => {
     if (!selectedId) return;
     const f = draftApi.findObjectById(selectedId);
     if (!f) return;
-    if (f.obj.pos) f.obj.pos.y = Math.max(-1, (f.obj.pos.y ?? 0) - 0.2);
-    draftApi.updateTransform(selectedId, {});
-    setSelected(selectedId);
-    opts.onDraftChanged?.(selectedId);
+    if (f.type==="platform"||f.type==="obstacle") {
+      const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = Math.max(0, curY -0.2); f.obj.y=ny; f.obj.baseY=ny; draftApi.updateTransform(selectedId,{y:ny}); setSelected(selectedId); opts.onDraftChanged?.(selectedId); return;
+    }
+    if (f.obj.pos) { f.obj.pos.y = Math.max(-1, (f.obj.pos.y ?? 0) - 0.2); if (f.type==="creature"&&f.obj.homePos) f.obj.homePos.y=Math.max(-1,(f.obj.homePos.y??0)-0.2); draftApi.updateTransform(selectedId, {}); setSelected(selectedId); opts.onDraftChanged?.(selectedId); }
   });
 
   toggleBtn.addEventListener("click", () => {
     editMode = !editMode;
     toggleBtn.textContent = editMode ? "PLAY" : "EDIT";
     toggleBtn.style.background = editMode ? "#1a8a4a" : "#2a7fff";
-    statusEl.textContent = editMode ? "EDIT mode — gameplay paused" : "PLAY mode — testing draft";
+    badge.textContent = editMode ? "EDITING" : "PLAY TEST";
+    badge.style.background = editMode ? "#1a3a2a" : "#1a243a";
+    badge.style.color = editMode ? "#6aff8a" : "#8aa0c0";
+    statusEl.textContent = editMode ? "EDIT — drag objects, click palette then world" : "PLAY — testing draft";
     opts.onToggleEdit?.(editMode);
     if (!editMode) {
-      // Transition to Play — validate and trigger onPlay
       const v = draftApi.validate();
-      if (!v.ok) { statusEl.textContent = "⚠ " + v.error; statusEl.style.color="#ffaaaa"; editMode = true; toggleBtn.textContent="EDIT"; return; }
+      if (!v.ok) { statusEl.textContent = "⚠ " + v.error; statusEl.style.color="#ffaaaa"; editMode = true; toggleBtn.textContent="EDIT"; badge.textContent="EDITING"; return; }
       onPlay?.();
     }
   });
 
-  validateBtn.addEventListener("click", () => {
+  container.querySelector("#author-validate").addEventListener("click", () => {
     const v = draftApi.validate();
     if (v.ok) { statusEl.textContent = "✓ Valid — " + draftApi.getDraft().regions.length + " regions"; statusEl.style.color="#aaffaa"; if (onValidate) onValidate(true); }
     else { statusEl.textContent = "⚠ " + v.error; statusEl.style.color="#ffaaaa"; if (onValidate) onValidate(false, v.error); }
   });
-
-  exportBtn.addEventListener("click", () => {
+  container.querySelector("#author-export").addEventListener("click", () => {
     const v = draftApi.validate();
     if (!v.ok) { statusEl.textContent = "⚠ " + v.error; statusEl.style.color="#ffaaaa"; return; }
     const json = draftApi.exportStableJson();
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "world.json";
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    // Also copy to clipboard if available
+    const a = document.createElement("a"); a.href = url; a.download = "world.json"; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
     if (navigator.clipboard) navigator.clipboard.writeText(json).catch(()=>{});
     statusEl.textContent = "Exported world.json — replace src/world/data/world.json then npm run world:generate";
     statusEl.style.color="#aaffaa";
   });
-
   container.querySelector("#author-reset").addEventListener("click", () => {
     if (confirm("Reset draft to repo world.json? This clears local edits.")) {
-      draftApi.clearPersisted();
-      draftApi.cloneRepo();
-      refreshRegionSelects();
-      setSelected(null);
-      statusEl.textContent = "Reset to repo — reloading...";
-      // Trigger reload to re-instantiate from repo
-      setTimeout(() => window.location.reload(), 300);
+      draftApi.clearPersisted(); draftApi.cloneRepo(); refreshRegionSelects(); setSelected(null);
+      statusEl.textContent = "Reset to repo — reloading..."; setTimeout(()=>window.location.reload(),300);
     }
   });
 
@@ -436,7 +449,8 @@ export function createAuthorUI(opts) {
   function isEditMode() { return editMode; }
   function getSelectedId() { return selectedId; }
   function setStatus(text, isError) { statusEl.textContent = text; statusEl.style.color = isError ? "#ffaaaa" : "#8aa0c0"; }
+  function showPlaceHint(text) { placeHint.textContent = text; placeHint.style.display = text ? "" : "none"; }
+  function hidePlaceHint() { placeHint.style.display = "none"; }
 
-  // Expose
-  return { element: container, show, hide, isEditMode, getSelectedId, setSelected, setStatus, refreshRegionSelects };
+  return { element: container, show, hide, isEditMode, getSelectedId, setSelected, setStatus, refreshRegionSelects, showPlaceHint, hidePlaceHint };
 }
