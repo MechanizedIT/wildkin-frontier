@@ -44,17 +44,18 @@ describe("Phase 3.5B.1 — draft / transforms", () => {
     if (obs) assert.equal(obs.baseY, newY);
   });
   it("unsupported transform controls are not falsely exposed/written for climbable", () => {
+    // Phase 4A.2.2: climbable now supports rotation via registry (universal authoring policy)
     const draftApi = createAuthorDraft(WORLD_DATA);
     const climb = draftApi.getDraft().regions.flatMap(r=>r.traversal.climbables)[0];
     assert.ok(climb, "need climbable");
-    const beforeRot = climb.rotY;
-    draftApi.updateTransform(climb.id, { rotY: Math.PI });
+    const rot = Math.PI / 2;
+    const res = draftApi.updateTransform(climb.id, { rotY: rot });
+    assert.ok(res.ok, res.error);
     const after = draftApi.findObjectById(climb.id).obj;
-    // Our draftApi ignores rotY for climbable, so should not have changed (or remain undefined)
-    assert.ok(after.rotY === beforeRot || after.rotY === undefined, "climbable rotY should not be written");
-    // UI should hide rot for climbable — check file contains hide logic
+    assert.equal(after.rotY, rot, "climbable rotY should now be written via registry");
+    // UI should be registry-driven, not hard-coded supportsRot
     const uiSrc = fs.readFileSync(path.join(ROOT, "src/author/authorUI.js"), "utf-8");
-    assert.ok(uiSrc.includes("climbable") && uiSrc.includes("supportsRot"), "UI should handle climbable rot hidden");
+    assert.ok(uiSrc.includes("resolveAuthorType") && !uiSrc.includes("function supportsRot"), "UI should be registry-driven, not hard-coded supportsRot");
   });
   it("creature movement keeps home coherent by default", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
@@ -130,18 +131,19 @@ describe("Phase 3.5B.1 — static builder / collision", () => {
     assert.ok(mesh);
     assert.ok(Math.abs(mesh.rotation.y - rot) < 0.001);
   });
-  it("climbable rotation is explicitly unsupported and not exported as fake edit", () => {
-    const staticSrc = fs.readFileSync(path.join(ROOT, "src/world/staticWorldBuilder.js"), "utf-8");
-    assert.ok(staticSrc.includes("wall.rotation.y = 0"), "climbable rotation should be fixed in builder");
-    const uiSrc = fs.readFileSync(path.join(ROOT, "src/author/authorUI.js"), "utf-8");
-    assert.ok(uiSrc.includes("climbable") && uiSrc.includes("supportsRot"), "UI should hide rot for climbable");
+  it("climbable rotation is explicitly supported via registry and reaches visual/collider", () => {
+    // Phase 4A.2.2: Ladder now supports rotation; builder should consume rotY, UI registry-driven
     const draftApi = createAuthorDraft(WORLD_DATA);
     const climb = draftApi.getDraft().regions.flatMap(r=>r.traversal.climbables)[0];
     assert.ok(climb);
-    const before = climb.rotY;
-    draftApi.updateTransform(climb.id, { rotY: 1.2 });
+    const rot = 0.9;
+    const res = draftApi.updateTransform(climb.id, { rotY: rot });
+    assert.ok(res.ok, res.error);
     const after = draftApi.findObjectById(climb.id).obj;
-    assert.ok(after.rotY === before || after.rotY === undefined, "climbable rotY should not be stored");
+    assert.equal(after.rotY, rot, "climbable rotY should be stored");
+    assert.ok(after.wallNormal && Math.abs(after.wallNormal.x - Math.sin(rot)) < 0.001, "wallNormal should rotate with rotY");
+    const uiSrc = fs.readFileSync(path.join(ROOT, "src/author/authorUI.js"), "utf-8");
+    assert.ok(uiSrc.includes("resolveAuthorType") && !uiSrc.includes("function supportsRot"), "UI should be registry-driven");
   });
 });
 

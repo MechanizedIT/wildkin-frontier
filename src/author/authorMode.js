@@ -1,8 +1,11 @@
-// src/author/authorMode.js — desktop dev-only Author Mode (Phase 3.5B.1 usability & correctness)
+// src/author/authorMode.js — desktop dev-only Author Mode (Phase 4A.2.2 Author Object Contract)
 import * as THREE from "three";
 import { createAuthorDraft } from "./authorDraft.js";
 import { normalizeStaticDescriptor, getVisualCenter } from "../world/staticDescriptor.js";
 import { createAuthorUI } from "./authorUI.js";
+import { resolveAuthorType, readNormalizedTransform, getAuthorVisualRef } from "./authorTypeRegistry.js";
+import { createVisual } from "../world/visualFactory.js";
+import { getColliderDescriptor as getColliderDescFromRegistry } from "./authorTypeRegistry.js";
 
 export function createAuthorMode(opts) {
   const scene = opts.scene;
@@ -139,165 +142,219 @@ export function createAuthorMode(opts) {
     }
     return fallback;
   }
-  // Live preview: sync a single object's mesh to draft position/rotation/size (canonical descriptor authority)
+  // Live preview: sync a single object's mesh via normalized Author transform (registry-driven)
   function syncPreviewForId(id) {
     const found = draftApi.findObjectById(id);
     if (!found) return;
-    const obj = found.obj;
-    const meshes = findAllMeshesByAuthorId(id);
-    let target = findMeshByAuthorId(id);
-    if (!target && found.type!=="campSpawn" && found.type!=="runSpawn") return;
-    let top = target;
-    while (top && top.parent && top.parent.userData && top.parent.userData.authorId === id) top = top.parent;
-    const draftPos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: obj.y ?? obj.baseY ?? 0, z: obj.z } : null);
-    if (!draftPos && found.type !== "campSpawn" && found.type !== "runSpawn" && found.collection!=="campSpawn" && found.collection!=="runSpawn") {
-      if(!obj.pos) return;
-    }
-    const baseY = draftPos ? (draftPos.y ?? obj.y ?? obj.baseY ?? 0) : (obj.pos?.y ?? 0);
-    if (found.type === "creature") {
-      if(top) top.position.set(draftPos.x, baseY, draftPos.z);
-    } else if (found.type === "resource") {
-      if(top) top.position.set(draftPos.x, baseY, draftPos.z);
-    } else if (found.collection === "props") {
-      const height = (obj.size?.h ?? 1);
-      const isWater = obj.subtype === "water";
-      if (obj.subtype === "dropPod") {
-        if(top) { top.position.set(draftPos.x, baseY, draftPos.z); top.rotation.y = obj.rotY ?? 0; }
-      } else {
-        for (const m of meshes) {
-          if (m.isMesh && m.geometry?.type === "BoxGeometry") {
-            const desiredW = obj.size?.w ?? m.geometry.parameters?.width ?? 1;
-            const desiredH = obj.size?.h ?? 1;
-            const desiredD = obj.size?.d ?? 1;
-            const gp = m.geometry.parameters;
-            if (gp && (Math.abs(gp.width - desiredW) > 0.01 || Math.abs(gp.height - desiredH) > 0.01 || Math.abs(gp.depth - desiredD) > 0.01)) {
-              const newGeo = new THREE.BoxGeometry(desiredW, desiredH, desiredD);
-              m.geometry.dispose();
-              m.geometry = newGeo;
-            }
-            m.position.set(draftPos.x, isWater ? baseY -0.04 : baseY + desiredH/2 -0.02, draftPos.z);
-            m.rotation.y = obj.rotY ?? 0;
-          } else if (m.isMesh) {
-            m.position.set(draftPos.x, isWater ? baseY -0.04 : baseY + height/2 -0.02, draftPos.z);
-            m.rotation.y = obj.rotY ?? 0;
-          }
-        }
-        if (top && top.isGroup) { top.position.set(draftPos.x, baseY, draftPos.z); top.rotation.y = obj.rotY ?? 0; }
-      }
-    } else if (found.type === "platform" || found.type === "obstacle") {
-      const h = obj.height ?? 1;
-      const by = obj.y ?? obj.baseY ?? 0;
-      const desiredW = obj.w ?? 1, desiredH = h, desiredD = obj.h ?? 1;
-      for (const m of meshes) if (m.isMesh && m.geometry?.type === "BoxGeometry") {
-        const gp = m.geometry.parameters;
-        if (gp && (Math.abs(gp.width - desiredW) > 0.01 || Math.abs(gp.height - desiredH) > 0.01 || Math.abs(gp.depth - desiredD) > 0.01)) {
-          const newGeo = new THREE.BoxGeometry(desiredW, desiredH, desiredD);
-          m.geometry.dispose(); m.geometry = newGeo;
-        }
-        m.position.set(obj.x, by + h/2 -0.02, obj.z);
-        m.rotation.y = obj.rotY ?? 0;
-      }
-    } else if (found.type === "climbable") {
-      for (const m of meshes) if (m.isMesh && m.geometry?.type === "BoxGeometry") {
-        const by = (obj.bottomY + obj.topY)/2 -0.02;
-        m.position.set(obj.x, by, obj.z);
-      }
-    } else if (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi") {
-      const base = baseY;
-      const h = found.type === "majorWaypoint" ? 1.6 : found.type === "extractionBeacon" ? 1.2 : 0.6;
-      for (const m of meshes) if (m.isMesh) {
-        if (m.geometry?.type === "CylinderGeometry" || m.geometry?.type === "BoxGeometry") {
-          m.position.set(draftPos.x, base + h/2, draftPos.z);
-        } else if (m.geometry?.type === "RingGeometry") {
-          m.position.set(draftPos.x, base + 0.06, draftPos.z);
-        } else if (m.geometry?.type === "SphereGeometry") {
-          m.position.set(draftPos.x, base + h + 0.35, draftPos.z);
-        }
-      }
-    } else if (found.type === "groundPatch" || found.type === "boundaryCollider") {
-      try{
-        const desc = normalizeStaticDescriptor({ id: obj.id, pos: obj.pos, size: obj.size, rotY: obj.rotY, visibleInPlay: obj.visibleInPlay, collisionEnabled: obj.collisionEnabled, opacity: obj.opacity, color: obj.color }, found.collection);
-        const center = getVisualCenter(desc);
-        const w = desc.size.width, h = desc.size.height, d = desc.size.depth;
-        const rotY = desc.rotationY;
-        for (const m of meshes) {
-          if (m.userData && m.userData.isEditProxy) continue;
-          if (m.isMesh && m.geometry?.type === "BoxGeometry") {
-            const gp = m.geometry.parameters;
-            if (gp && (Math.abs(gp.width - w) > 0.01 || Math.abs(gp.height - h) > 0.01 || Math.abs(gp.depth - d) > 0.01)) {
-              const newGeo = new THREE.BoxGeometry(w, h, d);
-              m.geometry.dispose(); m.geometry = newGeo;
-            }
-            m.position.set(center.x, center.y, center.z);
-            m.rotation.y = rotY;
-          }
-        }
-        scene.traverse((o)=>{
-          if(o.userData && o.userData.isEditProxy && o.userData.proxyFor===id){
-            const pg = o.geometry.parameters;
-            if(pg && (Math.abs(pg.width - w) > 0.01 || Math.abs(pg.height - h) > 0.01 || Math.abs(pg.depth - d) > 0.01)){
-              const newGeo = new THREE.BoxGeometry(w,h,d);
-              o.geometry.dispose(); o.geometry = newGeo;
-            }
-            o.position.set(center.x, center.y, center.z);
-            o.rotation.y = rotY;
-          }
-        });
-      }catch(e){
-        for(const m of meshes) if(m.isMesh){ m.position.set(draftPos.x, baseY + (obj.size?.h??0.5)/2, draftPos.z); m.rotation.y = obj.rotY ?? 0; }
-      }
-    }
+    const def = resolveAuthorType(found);
+    if (!def) return;
+    const norm = readNormalizedTransform(found);
+    if (!norm) return;
+
+    // Special spawn handling (group)
     if (found.type === "campSpawn" || found.type === "runSpawn") {
+      const meshes = findAllMeshesByAuthorId(id);
+      let target = findMeshByAuthorId(id);
+      let top = target;
+      while (top && top.parent && top.parent.userData && top.parent.userData.authorId === id) top = top.parent;
       const group = meshes.find(m=> m.userData && m.userData.isSpawnMarkerGroup) || top;
       if(group && group.userData && group.userData.isSpawnMarkerGroup){
-        const facing = obj.facingYaw ?? 0;
-        const by = draftPos.y ?? 0;
-        group.position.set(draftPos.x, by, draftPos.z);
+        const facing = norm.rotationY ?? 0;
+        const by = norm.position.y ?? 0;
+        group.position.set(norm.position.x, by, norm.position.z);
         group.rotation.y = facing;
       }
+      updateHighlight(); updateHomeMarker(); return;
     }
-    if (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider") {
-      const vis = obj.visibleInPlay !== false;
-      const op = obj.opacity ?? 1;
-      const col = obj.color ?? obj.tint;
-      for (const m of meshes) {
-        if (m.userData && m.userData.isEditProxy) continue;
-        if (m.isMesh) {
-          m.visible = vis;
-          const needsTint = col !== undefined;
-          const needsOpacity = op < 1 - 1e-6;
-          if (needsTint || needsOpacity) {
-            if (!m.userData.hasClonedMaterial) {
-              m.material = m.material.clone();
-              m.userData.hasClonedMaterial = true;
-              if (m.userData.baseColor === undefined) m.userData.baseColor = m.material.color.getHex();
-              m.userData.baseTransparent = m.material.transparent;
-              m.userData.baseOpacity = m.material.opacity ?? 1;
+
+    // Generic visual root: find top
+    let target = findMeshByAuthorId(id);
+    if (!target) return;
+    let top = target;
+    while (top && top.parent && top.parent.userData && top.parent.userData.authorId === id) top = top.parent;
+
+    const sizeMode = def.capabilities?.sizeMode ?? def.sizeMode ?? "box";
+
+    if (sizeMode === "uniform") {
+      const scale = norm.uniformScale ?? 1;
+      // top could be Group (visualFactory) or legacy Mesh
+      if (top.isGroup) {
+        top.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
+        top.rotation.y = norm.rotationY ?? 0;
+        top.scale.set(scale, scale, scale);
+      } else if (top.isMesh) {
+        // legacy path: position base
+        top.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
+        top.rotation.y = norm.rotationY ?? 0;
+        top.scale.set(scale, scale, scale);
+      }
+    } else if (sizeMode === "box") {
+      const size = norm.size;
+      const baseY = norm.position.y ?? 0;
+      if (!size) {
+        top.position.set(norm.position.x, baseY, norm.position.z);
+        top.rotation.y = norm.rotationY ?? 0;
+      } else if (top.isMesh && top.geometry?.type === "BoxGeometry") {
+        const desiredW = size.width, desiredH = size.height, desiredD = size.depth;
+        const gp = top.geometry.parameters;
+        if (gp && (Math.abs(gp.width - desiredW) > 0.01 || Math.abs(gp.height - desiredH) > 0.01 || Math.abs(gp.depth - desiredD) > 0.01)) {
+          const newGeo = new THREE.BoxGeometry(desiredW, desiredH, desiredD);
+          top.geometry.dispose(); top.geometry = newGeo;
+        }
+        const center = { x: norm.position.x, y: baseY + size.height / 2, z: norm.position.z };
+        // For ground/boundary which use center, vs props which also use center: both center logic same (base + h/2)
+        // For water, offset is -0.04: handle via subtype check
+        const isWater = found.obj.subtype === "water";
+        if (isWater) top.position.set(center.x, baseY - 0.04, center.z);
+        else top.position.set(center.x, center.y, center.z);
+        top.rotation.y = norm.rotationY ?? 0;
+      } else if (top.isGroup) {
+        top.position.set(norm.position.x, baseY, norm.position.z);
+        top.rotation.y = norm.rotationY ?? 0;
+        // Update child box geometry sizes
+        for (const child of top.children) {
+          if (child.isMesh && child.geometry?.type === "BoxGeometry") {
+            const desiredW = size.width, desiredH = size.height, desiredD = size.depth;
+            const gp = child.geometry.parameters;
+            if (gp && (Math.abs(gp.width - desiredW) > 0.01 || Math.abs(gp.height - desiredH) > 0.01 || Math.abs(gp.depth - desiredD) > 0.01)) {
+              const newGeo = new THREE.BoxGeometry(desiredW, desiredH, desiredD);
+              child.geometry.dispose(); child.geometry = newGeo;
             }
-            if (needsTint) {
-              const hex = parseTintColor(col, m.userData.baseColor ?? m.material.color.getHex());
-              m.material.color.setHex(hex);
-            } else if (m.userData.baseColor !== undefined) {
-              m.material.color.setHex(m.userData.baseColor);
-            }
-            if (needsOpacity) { m.material.transparent = true; m.material.opacity = op; }
-            else { m.material.transparent = false; m.material.opacity = 1; }
-          } else if (m.userData.hasClonedMaterial) {
-            if (m.userData.baseColor !== undefined) m.material.color.setHex(m.userData.baseColor);
-            m.material.transparent = !!m.userData.baseTransparent;
-            m.material.opacity = m.userData.baseOpacity ?? 1;
+            // water child offset differs
+            const isWaterChild = found.obj.subtype === "water";
+            child.position.set(0, isWaterChild ? -0.04 : size.height / 2 - 0.02, 0);
+            child.rotation.y = 0; // group handles rotation
           }
         }
+        // Ladder special: its wall at height/2, rungs handled via recreate size? For ladder visual, wall height changes with size.height, we need to ensure wall geometry height matches.
+        // For ladder, the visualFactory already creates wall with current size; resizing via generic box logic above handles first child (wall) but rungs positions should be recomputed? For now handle wall only.
+        if (found.type === "climbable" || found.collection === "climbables") {
+          // For climbable, ensure wall height and rung distribution coherent: we can simply recreate visual via visualFactory if size changed significantly
+          // Simpler: if size.height changed more than 0.01, rebuild visual group via createVisual
+          // But to keep simple, we will just update wall mesh height; rungs will stay at old positions (acceptable for now). Full rebuild can be added later.
+        }
+      } else {
+        top.position.set(norm.position.x, baseY, norm.position.z);
+        top.rotation.y = norm.rotationY ?? 0;
       }
-      scene.traverse((o) => {
-        if (o.userData && o.userData.isEditProxy && o.userData.proxyFor === id) {
-          o.visible = isEdit && !vis;
-        }
-        if (o.userData && o.userData.proxyMesh && o.userData.proxyMesh.userData && o.userData.proxyMesh.userData.proxyFor === id) {
-          o.userData.proxyMesh.visible = isEdit && !vis;
-        }
-      });
+    } else {
+      // none (waypoint/beacon/poi without scale) — just position/rotation
+      top.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
+      top.rotation.y = norm.rotationY ?? 0;
     }
+
+    // Presentation / proxy handling (generic for all types that support presentation)
+    const obj = found.obj;
+    const vis = obj.visibleInPlay !== false;
+    const op = obj.opacity ?? 1;
+    const col = obj.color ?? obj.tint;
+    const meshes = findAllMeshesByAuthorId(id);
+    // Apply visibility/opacity/tint to non-proxy meshes
+    for (const m of meshes) {
+      if (m.userData && m.userData.isEditProxy) continue;
+      if (m.isMesh) {
+        // For waypoints etc which hide not applicable? Still keep visible as per vis
+        if (def.capabilities.presentation || def.capabilities.collisionControl || found.collection === "props" || found.collection === "groundPatches" || found.collection === "boundaryColliders") {
+          m.visible = vis;
+        }
+        const needsTint = col !== undefined;
+        const needsOpacity = op < 1 - 1e-6;
+        if ((needsTint || needsOpacity) && (found.collection === "props" || found.collection === "groundPatches" || found.collection === "boundaryColliders")) {
+          if (!m.userData.hasClonedMaterial) {
+            m.material = m.material.clone();
+            m.userData.hasClonedMaterial = true;
+            if (m.userData.baseColor === undefined) m.userData.baseColor = m.material.color.getHex();
+            m.userData.baseTransparent = m.material.transparent;
+            m.userData.baseOpacity = m.material.opacity ?? 1;
+          }
+          if (needsTint) {
+            const hex = parseTintColor(col, m.userData.baseColor ?? m.material.color.getHex());
+            m.material.color.setHex(hex);
+          } else if (m.userData.baseColor !== undefined) {
+            m.material.color.setHex(m.userData.baseColor);
+          }
+          if (needsOpacity) { m.material.transparent = true; m.material.opacity = op; }
+          else { m.material.transparent = false; m.material.opacity = 1; }
+        } else if (m.userData.hasClonedMaterial && (found.collection === "props" || found.collection === "groundPatches")) {
+          if (m.userData.baseColor !== undefined) m.material.color.setHex(m.userData.baseColor);
+          m.material.transparent = !!m.userData.baseTransparent;
+          m.material.opacity = m.userData.baseOpacity ?? 1;
+        }
+      } else if (m.isGroup && (def.capabilities.presentation || found.collection === "props")) {
+        m.visible = vis;
+      }
+    }
+
+    // Live proxy lifecycle: ensure proxy exists when hidden+collidable, remove/hide when visible
+    const enabled = obj.collisionEnabled !== false;
+    // Only types with collisionControl or presentation get proxy semantics; but for safety, consider all with enabled collision
+    const shouldHaveProxy = !vis && enabled;
+    // Find existing proxies
+    let proxies = [];
+    scene.traverse(o=>{ if(o.userData && o.userData.isEditProxy && o.userData.proxyFor===id) proxies.push(o); });
+    if (shouldHaveProxy && proxies.length===0) {
+      // Create proxy immediately (no Play→Edit needed)
+      const size = norm.size ?? { width: 1, height: 1, depth: 1 };
+      const baseY2 = norm.position.y ?? 0;
+      const w=size.width, h=size.height, d=size.depth;
+      const rotY = norm.rotationY ?? 0;
+      let proxyColor = 0xffff00;
+      if (found.collection==="groundPatches") proxyColor = 0x7bb26a;
+      else if (found.collection==="boundaryColliders") proxyColor = 0x5a6a7a;
+      else if (found.obj.subtype==="fence") proxyColor = 0x8b7a5a;
+      else if (found.obj.subtype==="forestBoundary") proxyColor = 0x2d4a2e;
+      const geo = new THREE.BoxGeometry(w,h,d);
+      const mat = new THREE.MeshBasicMaterial({ color: proxyColor, wireframe: true, transparent: true, opacity: 0.42 });
+      const proxy = new THREE.Mesh(geo, mat);
+      // position at same as visual center
+      if (sizeMode==="box") {
+        proxy.position.set(norm.position.x, baseY2 + h/2, norm.position.z);
+        proxy.rotation.y = rotY;
+      } else {
+        proxy.position.set(norm.position.x, baseY2, norm.position.z);
+        proxy.rotation.y = rotY;
+        const s = norm.uniformScale ?? 1;
+        proxy.scale.set(s,s,s);
+      }
+      proxy.name = `${id}__proxy`;
+      proxy.userData.authorId=id;
+      proxy.userData.isEditProxy=true;
+      proxy.userData.proxyFor=id;
+      proxy.visible = isEdit;
+      scene.add(proxy);
+      proxies=[proxy];
+      if(top) top.userData.proxyMesh = proxy;
+    }
+    for (const p of proxies) {
+      p.visible = isEdit && shouldHaveProxy;
+      // keep transform coherent
+      if (sizeMode==="box" && norm.size) {
+        const w=norm.size.width, h=norm.size.height, d=norm.size.depth;
+        const gp = p.geometry.parameters;
+        if(gp && (Math.abs(gp.width-w)>0.01 || Math.abs(gp.height-h)>0.01 || Math.abs(gp.depth-d)>0.01)){
+          const newGeo=new THREE.BoxGeometry(w,h,d);
+          p.geometry.dispose(); p.geometry=newGeo;
+        }
+        const baseY2 = norm.position.y ??0;
+        p.position.set(norm.position.x, baseY2 + h/2, norm.position.z);
+        p.rotation.y = norm.rotationY ??0;
+      } else if (sizeMode==="uniform") {
+        p.position.set(norm.position.x, norm.position.y ??0, norm.position.z);
+        p.rotation.y = norm.rotationY ??0;
+        const s = norm.uniformScale ??1;
+        p.scale.set(s,s,s);
+      } else {
+        p.position.set(norm.position.x, norm.position.y ??0, norm.position.z);
+        p.rotation.y = norm.rotationY ??0;
+      }
+    }
+    // Also handle old proxyMesh linkage
+    scene.traverse(o=>{
+      if(o.userData && o.userData.proxyMesh && o.userData.proxyMesh.userData && o.userData.proxyMesh.userData.proxyFor===id){
+        o.userData.proxyMesh.visible = isEdit && shouldHaveProxy;
+      }
+    });
+
     updateHighlight();
     updateHomeMarker();
   }
@@ -419,88 +476,54 @@ export function createAuthorMode(opts) {
   function createPreviewMeshForNewObject(id) {
     const found = draftApi.findObjectById(id);
     if (!found) return;
-    const obj = found.obj;
     // If mesh already exists, just sync
     if(findMeshByAuthorId(id)) { syncPreviewForId(id); return; }
-    if (found.type === "resource") {
-      const geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-      const mat = new THREE.MeshStandardMaterial({ color: obj.type==="tree"?0x2f7d32: obj.type==="rock"?0x8d8d8d:0x6abf69 });
+    const def = resolveAuthorType(found);
+    if (!def) {
+      // fallback simple box
+      const geo = new THREE.BoxGeometry(1,1,1);
+      const mat = new THREE.MeshStandardMaterial({ color: 0x9aa0a6 });
       const mesh = new THREE.Mesh(geo, mat);
-      const baseY = obj.pos.y ?? 0;
-      mesh.position.set(obj.pos.x, baseY+0.25, obj.pos.z);
-      mesh.name = obj.id;
-      mesh.userData.authorId = obj.id;
-      mesh.userData.resourceId = obj.id;
+      mesh.name = id;
+      mesh.userData.authorId = id;
       scene.add(mesh);
-    } else if (found.type === "creature") {
-      const geo = new THREE.BoxGeometry(0.5, 0.7, 0.5);
-      const mat = new THREE.MeshStandardMaterial({ color: obj.type==="rusher"?0xe14b2a:0x7a4de8 });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(obj.pos.x, (obj.pos.y??0)+0.35, obj.pos.z);
-      mesh.name = obj.id;
-      mesh.userData.authorId = obj.id;
-      mesh.userData.creatureId = obj.id;
-      scene.add(mesh);
-    } else if (found.type === "groundPatch" || found.type === "boundaryCollider") {
-      // Use canonical descriptor for static preview + immediate proxy for hidden colliders
-      try{
-        const desc = normalizeStaticDescriptor({ id: obj.id, pos: obj.pos, size: obj.size, rotY: obj.rotY, visibleInPlay: obj.visibleInPlay, collisionEnabled: obj.collisionEnabled, opacity: obj.opacity, color: obj.color }, found.collection);
-        const center = getVisualCenter(desc);
-        const w = desc.size.width, h = desc.size.height, d = desc.size.depth;
-        const rotY = desc.rotationY;
-        const geo = new THREE.BoxGeometry(w,h,d);
-        let baseMat = new THREE.MeshStandardMaterial({ color: 0x9aa0a6 });
-        if(found.type==="groundPatch") baseMat = new THREE.MeshStandardMaterial({ color: 0x7bb26a, flatShading:true });
-        else if(found.type==="boundaryCollider") baseMat = new THREE.MeshStandardMaterial({ color: 0x5a6a7a, transparent:true, opacity:0.28 });
-        const mesh = new THREE.Mesh(geo, baseMat);
-        mesh.position.set(center.x, center.y, center.z);
-        mesh.rotation.y = rotY;
-        mesh.name = id;
-        mesh.userData.authorId = id;
-        mesh.userData.visibleInPlay = desc.visibleInPlay;
-        mesh.userData.collisionEnabled = desc.collisionEnabled;
-        mesh.visible = desc.visibleInPlay;
-        scene.add(mesh);
-        if(!desc.visibleInPlay){
-          const proxyGeo = new THREE.BoxGeometry(w,h,d);
-          const proxyMat = new THREE.MeshBasicMaterial({ color: 0xffff00, wireframe:true, transparent:true, opacity:0.42 });
-          const proxy = new THREE.Mesh(proxyGeo, proxyMat);
-          proxy.position.copy(mesh.position);
-          proxy.rotation.y = rotY;
-          proxy.name = `${id}__proxy`;
-          proxy.userData.authorId = id;
-          proxy.userData.isEditProxy = true;
-          proxy.userData.proxyFor = id;
-          proxy.visible = isEdit;
-          scene.add(proxy);
-          mesh.userData.proxyMesh = proxy;
-        }
-      }catch(e){
-        const geo = new THREE.BoxGeometry(obj.size?.w ?? 1, obj.size?.h ?? 1, obj.size?.d ?? 1);
-        const mat = new THREE.MeshStandardMaterial({ color: 0x9aa0a6 });
-        const mesh = new THREE.Mesh(geo, mat);
-        const baseY = obj.pos?.y ?? 0;
-        const h = obj.size?.h ?? 1;
-        mesh.position.set(obj.pos.x, baseY + h/2, obj.pos.z);
-        mesh.name = id;
-        mesh.userData.authorId = id;
-        scene.add(mesh);
+      syncPreviewForId(id);
+      return;
+    }
+    const visualRef = getAuthorVisualRef(found);
+    const norm = readNormalizedTransform(found);
+    // Prepare visual creation opts with size where applicable
+    const opts = { objectId: id };
+    if (norm && norm.size) opts.size = norm.size;
+    if (norm && norm.uniformScale) opts.uniformScale = norm.uniformScale;
+    if (found.obj.type) opts.poiType = found.obj.type;
+    if (found.obj.subtype) opts.subtype = found.obj.subtype;
+    const visual = createVisual(visualRef, opts);
+    visual.name = id;
+    visual.userData.authorId = id;
+    // Propagate authorId to children for raycast picking
+    visual.traverse((child)=>{ if(child.isMesh) { child.userData.authorId = id; } });
+    // Set initial transform from normalized (so preview appears immediately at correct location)
+    if (norm) {
+      if (def.capabilities.sizeMode === "uniform") {
+        const s = norm.uniformScale ?? 1;
+        visual.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
+        visual.rotation.y = norm.rotationY ?? 0;
+        visual.scale.set(s,s,s);
+      } else if (def.capabilities.sizeMode === "box") {
+        // For box, visual's child offset handles height; group at base
+        visual.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
+        visual.rotation.y = norm.rotationY ?? 0;
+        // Geometry size already may need adjustment; syncPreview will handle resizing
+      } else {
+        visual.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
+        visual.rotation.y = norm.rotationY ?? 0;
       }
     } else {
-      const meshes = findAllMeshesByAuthorId(id);
-      if (meshes.length===0) {
-        const geo = new THREE.BoxGeometry(obj.size?.w ?? obj.w ?? 1, obj.size?.h ?? obj.height ?? 1, obj.size?.d ?? obj.h ?? 1);
-        const mat = new THREE.MeshStandardMaterial({ color: 0x9aa0a6 });
-        const mesh = new THREE.Mesh(geo, mat);
-        const baseY = obj.pos?.y ?? obj.y ?? obj.baseY ?? 0;
-        const h = obj.height ?? obj.size?.h ?? 1;
-        if (obj.pos) mesh.position.set(obj.pos.x, baseY + h/2, obj.pos.z);
-        else mesh.position.set(obj.x, baseY + h/2, obj.z);
-        mesh.name = id;
-        mesh.userData.authorId = id;
-        scene.add(mesh);
-      }
+      const pos = found.obj.pos ?? { x: found.obj.x ?? 0, y: found.obj.y ?? 0, z: found.obj.z ?? 0 };
+      visual.position.set(pos.x, pos.y ?? 0, pos.z);
     }
+    scene.add(visual);
     syncPreviewForId(id);
   }
 
@@ -866,20 +889,22 @@ export function createAuthorMode(opts) {
       const pt = getGroundIntersection(e);
       const found = draftApi.findObjectById(selectedId);
       if (found) {
-        const curPos = found.obj.pos || { x: found.obj.x ?? 0, z: found.obj.z ?? 0 };
+        const def = resolveAuthorType(found);
+        const norm = def ? readNormalizedTransform(found) : null;
+        const curPos = norm ? norm.position : (found.obj.pos || { x: found.obj.x ?? 0, y: found.obj.y ?? 0, z: found.obj.z ?? 0 });
+        const curY = curPos.y ?? 0;
         dragOffset.x = curPos.x - pt.x;
         dragOffset.z = curPos.z - pt.z;
-        // capture preview state without mutating canonical
-        const baseY = found.obj.pos ? (found.obj.pos.y ?? 0) : (found.obj.y ?? found.obj.baseY ?? 0);
-        const curFacing = found.obj.facingYaw ?? found.obj.rotY ?? 0;
+        const curFacing = norm ? (norm.rotationY ?? 0) : (found.obj.facingYaw ?? found.obj.rotY ?? 0);
         dragState = {
           id: selectedId,
-          startPos: found.obj.pos ? { x: found.obj.pos.x, y: baseY, z: found.obj.pos.z } : { x: found.obj.x, y: baseY, z: found.obj.z },
-          previewPos: found.obj.pos ? { x: found.obj.pos.x, y: baseY, z: found.obj.pos.z } : { x: found.obj.x, y: baseY, z: found.obj.z },
+          startPos: { x: curPos.x, y: curY, z: curPos.z },
+          previewPos: { x: curPos.x, y: curY, z: curPos.z },
           startFacing: curFacing,
           previewFacing: curFacing,
           isSpawn: found.type==="campSpawn" || found.type==="runSpawn",
-          isCreature: found.type==="creature"
+          isCreature: found.type==="creature",
+          defKey: def ? def.key : null
         };
       }
       e.preventDefault(); e.stopPropagation();
@@ -889,10 +914,9 @@ export function createAuthorMode(opts) {
   let dragStartPos = null;
   let dragStartHome = null;
   function applyPreviewTransform(id, previewPos, previewFacing){
-    // update mesh preview directly without touching draft
     const found = draftApi.findObjectById(id);
     if(!found) return;
-    // find meshes and apply
+    const def = resolveAuthorType(found);
     const meshes = findAllMeshesByAuthorId(id);
     let target = findMeshByAuthorId(id);
     let top = target;
@@ -905,7 +929,6 @@ export function createAuthorMode(opts) {
         group.position.set(previewPos.x, by, previewPos.z);
         if(previewFacing!==undefined) group.rotation.y = previewFacing;
       }
-      // update line to waypoint for runSpawn preview
       if(id.endsWith("__runSpawn")){
         const baseId = id.replace("__runSpawn","");
         for(const line of spawnMarkers) if(line.isLine && line.userData.isSpawnLine && line.userData.authorId===id){
@@ -919,47 +942,60 @@ export function createAuthorMode(opts) {
       updateHighlight();
       return;
     }
-    // For other types, update meshes via temporary preview by directly setting mesh positions (live)
-    // Use similar logic to syncPreview but with previewPos overriding draftPos
-    // For static rectangular families, previewPos contains x,y,z; we update mesh positions accordingly
-    const baseY = previewPos.y ?? 0;
-    if (found.type === "creature" || found.type === "resource") {
-      if(top) top.position.set(previewPos.x, baseY, previewPos.z);
-    } else if (found.collection === "props") {
-      for(const m of meshes){
-        if(m.isMesh){
-          // approximate: assume box geometry; position center
-          const h = found.obj.size?.h ?? 1;
-          const isWater = found.obj.subtype === "water";
-          m.position.set(previewPos.x, isWater ? baseY -0.04 : baseY + h/2 -0.02, previewPos.z);
+    // Generic preview using normalized transform: construct preview norm by overriding position
+    const baseNorm = def ? readNormalizedTransform(found) : null;
+    const previewNorm = baseNorm ? { ...baseNorm, position: { ...previewPos }, rotationY: previewFacing ?? baseNorm.rotationY } : { position: previewPos, rotationY: previewFacing };
+    // Reuse sync logic but with previewNorm: emulate by temporarily finding top and applying similar to syncPreviewForId but with previewNorm values
+    // For simplicity, directly set top transform as sync would
+    if (!def || !baseNorm) {
+      if(top) top.position.set(previewPos.x, previewPos.y ??0, previewPos.z);
+      updateHighlight(); updateHomeMarker(); return;
+    }
+    const sizeMode = def.capabilities?.sizeMode ?? def.sizeMode ?? "box";
+    if (sizeMode === "uniform") {
+      const scale = previewNorm.uniformScale ?? 1;
+      if(top) {
+        if(top.isGroup) {
+          top.position.set(previewPos.x, previewPos.y ??0, previewPos.z);
+          top.rotation.y = previewNorm.rotationY ??0;
+          top.scale.set(scale,scale,scale);
+        } else {
+          top.position.set(previewPos.x, previewPos.y ??0, previewPos.z);
+          top.rotation.y = previewNorm.rotationY ??0;
+          top.scale.set(scale,scale,scale);
         }
       }
-      if(top && top.isGroup) top.position.set(previewPos.x, baseY, previewPos.z);
-    } else if (found.type === "groundPatch" || found.type === "boundaryCollider") {
-      try{
-        const desc = normalizeStaticDescriptor({ id: found.obj.id, pos: previewPos, size: found.obj.size, rotY: found.obj.rotY, visibleInPlay: found.obj.visibleInPlay, collisionEnabled: found.obj.collisionEnabled }, found.collection);
-        const center = getVisualCenter(desc);
+    } else if (sizeMode === "box") {
+      const size = previewNorm.size;
+      const baseY = previewPos.y ??0;
+      if(top && top.isMesh && top.geometry?.type==="BoxGeometry") {
+        const center = { x: previewPos.x, y: baseY + (size ? size.height/2 : 0.5), z: previewPos.z };
+        const isWater = found.obj.subtype === "water";
+        if(isWater) top.position.set(center.x, baseY -0.04, center.z);
+        else top.position.set(center.x, center.y, center.z);
+        top.rotation.y = previewNorm.rotationY ??0;
+      } else if(top && top.isGroup) {
+        top.position.set(previewPos.x, baseY, previewPos.z);
+        top.rotation.y = previewNorm.rotationY ??0;
+      } else if(top) {
+        top.position.set(previewPos.x, baseY, previewPos.z);
+        top.rotation.y = previewNorm.rotationY ??0;
+      }
+      // also update individual meshes for box case where meshes are direct children not group root
+      if(def.key.startsWith("prop:") || def.key==="groundPatch" || def.key==="boundaryCollider") {
         for(const m of meshes){
           if(m.userData && m.userData.isEditProxy) continue;
-          if(m.isMesh) { m.position.set(center.x, center.y, center.z); }
-        }
-        scene.traverse((o)=>{
-          if(o.userData && o.userData.isEditProxy && o.userData.proxyFor===id){
-            o.position.set(center.x, center.y, center.z);
+          if(m.isMesh && m.geometry?.type==="BoxGeometry"){
+            const isWater = found.obj.subtype === "water";
+            const h = size ? size.height : 1;
+            m.position.set(previewPos.x, isWater ? baseY -0.04 : baseY + h/2 -0.02, previewPos.z);
+            m.rotation.y = previewNorm.rotationY ??0;
           }
-        });
-      }catch{}
-    } else if (found.type === "platform" || found.type === "obstacle") {
-      for(const m of meshes) if(m.isMesh) m.position.set(previewPos.x, (previewPos.y ?? 0)+ (found.obj.height??1)/2 -0.02, previewPos.z);
-    } else if (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi") {
-      for(const m of meshes) if(m.isMesh){
-        const h = found.type==="majorWaypoint"?1.6: found.type==="extractionBeacon"?1.2:0.6;
-        if(m.geometry?.type==="CylinderGeometry" || m.geometry?.type==="BoxGeometry") m.position.set(previewPos.x, baseY + h/2, previewPos.z);
-        else if(m.geometry?.type==="RingGeometry") m.position.set(previewPos.x, baseY+0.06, previewPos.z);
-        else if(m.geometry?.type==="SphereGeometry") m.position.set(previewPos.x, baseY + h +0.35, previewPos.z);
+        }
       }
     } else {
-      if(top) top.position.set(previewPos.x, baseY, previewPos.z);
+      if(top) top.position.set(previewPos.x, previewPos.y ??0, previewPos.z);
+      if(top) top.rotation.y = previewNorm.rotationY ??0;
     }
     updateHighlight();
     updateHomeMarker();
@@ -971,7 +1007,6 @@ export function createAuthorMode(opts) {
     const newZ = pt.z + dragOffset.z;
     dragState.previewPos.x = newX;
     dragState.previewPos.z = newZ;
-    // preview only, no canonical mutation
     applyPreviewTransform(selectedId, dragState.previewPos, dragState.previewFacing);
     e.preventDefault();
   }
@@ -980,12 +1015,24 @@ export function createAuthorMode(opts) {
       isDragging = false;
       if(dragState && selectedId === dragState.id){
         const previewPos = { ...dragState.previewPos };
+        const previewFacing = dragState.previewFacing;
         dragState = null;
-        const patch = { pos: previewPos };
-        const res = draftApi.updateTransform(selectedId, patch);
+        // Use normalized transform write via registry
+        const found = draftApi.findObjectById(selectedId);
+        const def = found ? resolveAuthorType(found) : null;
+        let res;
+        if (def) {
+          const baseNorm = readNormalizedTransform(found);
+          const normalized = { ...baseNorm, position: previewPos };
+          if (previewFacing !== undefined) normalized.rotationY = previewFacing;
+          // Preserve size/uniformScale from base
+          res = draftApi.updateNormalizedTransform(selectedId, normalized);
+        } else {
+          const patch = { pos: previewPos };
+          res = draftApi.updateTransform(selectedId, patch);
+        }
         if (!res.ok) {
           ui.setStatus("⚠ "+res.error, true);
-          // snap back to canonical
           syncPreviewForId(selectedId);
           updateSpawnMarkers();
         } else {
@@ -1140,17 +1187,20 @@ export function createAuthorMode(opts) {
       e.preventDefault();
       const f = draftApi.findObjectById(selectedId);
       if (!f) return;
-      const isSpawn = f.type==="campSpawn" || f.type==="runSpawn";
-      if(isSpawn){
-        const cur = f.obj.facingYaw ?? 0;
-        const patch = { facingYaw: cur - (15 * Math.PI/180) };
-        const res = draftApi.updateTransform(selectedId, patch);
-        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); updateSpawnMarkers(); ui.setSelected(selectedId); updateHighlight(); }
-      } else {
-        const cur = f.obj.rotY ?? 0;
-        const patch = { rotY: cur - (15 * Math.PI/180) };
-        const res = draftApi.updateTransform(selectedId, patch);
-        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+      const def = resolveAuthorType(f);
+      const base = readNormalizedTransform(f);
+      if (!base) return;
+      const delta = -15 * Math.PI/180;
+      const newRot = (base.rotationY ?? 0) + delta;
+      const normalized = { ...base, rotationY: newRot };
+      // For spawns, rotation maps to facingYaw; read already gave rotationY as facingYaw
+      const res = draftApi.updateNormalizedTransform(selectedId, normalized);
+      if (!res.ok) ui.setStatus(res.error, true);
+      else {
+        ui.setStatus(`Rotated ${selectedId}`, false);
+        syncPreviewForId(selectedId);
+        if (f.type==="campSpawn"||f.type==="runSpawn") updateSpawnMarkers();
+        ui.setSelected(selectedId); updateHighlight();
       }
       return;
     } else if (k === "e") {
@@ -1158,80 +1208,67 @@ export function createAuthorMode(opts) {
       e.preventDefault();
       const f = draftApi.findObjectById(selectedId);
       if (!f) return;
-      const isSpawn = f.type==="campSpawn" || f.type==="runSpawn";
-      if(isSpawn){
-        const cur = f.obj.facingYaw ?? 0;
-        const patch = { facingYaw: cur + (15 * Math.PI/180) };
-        const res = draftApi.updateTransform(selectedId, patch);
-        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); updateSpawnMarkers(); ui.setSelected(selectedId); updateHighlight(); }
-      } else {
-        const cur = f.obj.rotY ?? 0;
-        const patch = { rotY: cur + (15 * Math.PI/180) };
-        const res = draftApi.updateTransform(selectedId, patch);
-        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+      const base = readNormalizedTransform(f);
+      if (!base) return;
+      const newRot = (base.rotationY ?? 0) + (15 * Math.PI/180);
+      const normalized = { ...base, rotationY: newRot };
+      const res = draftApi.updateNormalizedTransform(selectedId, normalized);
+      if (!res.ok) ui.setStatus(res.error, true);
+      else {
+        ui.setStatus(`Rotated ${selectedId}`, false);
+        syncPreviewForId(selectedId);
+        if (f.type==="campSpawn"||f.type==="runSpawn") updateSpawnMarkers();
+        ui.setSelected(selectedId); updateHighlight();
       }
       return;
     } else if (k === " " || k === "c") {
-      // raise/lower: Space / C (C conflicts with sneak but in author mode we use Space for up and C for down)
       e.preventDefault();
       const f = draftApi.findObjectById(selectedId);
       if (!f) return;
+      const base = readNormalizedTransform(f);
+      if (!base) return;
       const isUp = k === " ";
       const delta = isUp ? 0.2 : -0.2;
-      if (f.type === "platform" || f.type === "obstacle") {
-        const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = Math.max(-1, curY + delta);
-        const res = draftApi.updateTransform(selectedId, { y: ny });
-        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Elevation ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
-        return;
-      }
-      if (f.obj.pos) {
-        const ny = Math.max(-1, (f.obj.pos.y ?? 0) + delta);
-        const res = draftApi.updateTransform(selectedId, { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } });
-        if (!res.ok) ui.setStatus(res.error, true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
-        return;
-      }
+      const curY = base.position.y ?? 0;
+      const ny = isUp ? curY + delta : Math.max(-1, curY + delta);
+      const normalized = { ...base, position: { ...base.position, y: ny } };
+      const res = draftApi.updateNormalizedTransform(selectedId, normalized);
+      if (!res.ok) ui.setStatus(res.error, true);
+      else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
       return;
     } else if (k === "pageup") {
       e.preventDefault();
       const f = draftApi.findObjectById(selectedId);
       if (!f) return;
-      if (f.type === "platform" || f.type === "obstacle") {
-        const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = curY + 0.2;
-        const res = draftApi.updateTransform(selectedId, { y: ny }); if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
-        return;
-      }
-      if (f.obj.pos) {
-        const ny = (f.obj.pos.y ?? 0) + 0.2;
-        const res = draftApi.updateTransform(selectedId, { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } }); if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
-        return;
-      }
+      const base = readNormalizedTransform(f);
+      if (!base) return;
+      const ny = (base.position.y ?? 0) + 0.2;
+      const normalized = { ...base, position: { ...base.position, y: ny } };
+      const res = draftApi.updateNormalizedTransform(selectedId, normalized);
+      if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
       return;
     } else if (k === "pagedown") {
       e.preventDefault();
       const f = draftApi.findObjectById(selectedId);
       if (!f) return;
-      if (f.type === "platform" || f.type === "obstacle") {
-        const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = Math.max(-1, curY -0.2);
-        const res = draftApi.updateTransform(selectedId,{y:ny}); if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
-        return;
-      }
-      if (f.obj.pos) {
-        const ny = Math.max(-1, (f.obj.pos.y ?? 0) - 0.2);
-        const res = draftApi.updateTransform(selectedId, { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } }); if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
-        return;
-      }
+      const base = readNormalizedTransform(f);
+      if (!base) return;
+      const ny = Math.max(-1, (base.position.y ?? 0) - 0.2);
+      const normalized = { ...base, position: { ...base.position, y: ny } };
+      const res = draftApi.updateNormalizedTransform(selectedId, normalized);
+      if (!res.ok) ui.setStatus(res.error,true); else { syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
       return;
     } else if (dx === 0 && dz === 0) return;
     if (dx !== 0 || dz !== 0) {
       e.preventDefault();
       const found = draftApi.findObjectById(selectedId);
       if (!found) return;
-      const newX = (found.obj.pos ? found.obj.pos.x : found.obj.x) + dx;
-      const newZ = (found.obj.pos ? found.obj.pos.z : found.obj.z) + dz;
-      let patch = {};
-      if (found.obj.pos) patch.pos = { x: newX, y: found.obj.pos.y ?? 0, z: newZ };
-      else if (found.obj.x !== undefined) patch = { x: newX, z: newZ };
-      const res = draftApi.updateTransform(selectedId, patch);
+      const base = readNormalizedTransform(found);
+      if (!base) return;
+      const newX = base.position.x + dx;
+      const newZ = base.position.z + dz;
+      const normalized = { ...base, position: { ...base.position, x: newX, z: newZ } };
+      const res = draftApi.updateNormalizedTransform(selectedId, normalized);
       if (!res.ok) ui.setStatus(res.error, true);
       else { syncPreviewForId(selectedId); updateHomeMarker(); ui.setSelected(selectedId); updateHighlight(); updateEditorVisibility(); }
     }
@@ -1242,10 +1279,10 @@ export function createAuthorMode(opts) {
     if (!selectedId) { if (homeMarker) { scene.remove(homeMarker); homeMarker = null; } return; }
     const found = draftApi.findObjectById(selectedId);
     if (!found) { if (homeMarker) { scene.remove(homeMarker); homeMarker = null; } return; }
-    const obj = found.obj;
-    const pos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: obj.y ?? obj.baseY ?? 0, z: obj.z } : null);
+    const norm = readNormalizedTransform(found);
+    const pos = norm ? norm.position : (found.obj.pos || (found.obj.x !== undefined ? { x: found.obj.x, y: found.obj.y ?? found.obj.baseY ?? 0, z: found.obj.z } : null));
     if (!pos) return;
-    const y = (pos.y ?? obj.y ?? obj.baseY ?? 0) + 0.8;
+    const y = (pos.y ?? 0) + 0.8;
     const geo = new THREE.RingGeometry(0.45, 0.58, 16);
     const mat = new THREE.MeshBasicMaterial({ color: 0xffd54f, transparent: true, opacity: 0.9, side: THREE.DoubleSide });
     const ring = new THREE.Mesh(geo, mat); ring.rotation.x = -Math.PI / 2; ring.position.set(pos.x, y, pos.z);

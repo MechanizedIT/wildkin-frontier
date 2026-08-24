@@ -1,8 +1,27 @@
 // src/resources/createResourceNode.js — procedural node visuals + state (no Rapier yet, collider added by system)
+// Deterministic variation: no Math.random() for visual variation; uses objectId/data-derived seed
 import * as THREE from "three";
 import { RESOURCE_TYPES } from "./resourceConfig.js";
 
-export function createResourceNode(typeId, position, index = 0) {
+function hashString(str){
+  let h=2166136261>>>0;
+  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; }
+  return h>>>0;
+}
+function mulberry32(a){
+  return function(){
+    let t=a+=0x6D2B79F5;
+    t=Math.imul(t ^ t>>>15, t|1);
+    t^=t+Math.imul(t ^ t>>>7, t|61);
+    return ((t ^ t>>>14)>>>0)/4294967296;
+  };
+}
+function makeDeterministicRng(objectId, salt=""){
+  const seed = hashString(`${objectId}::${salt}`);
+  return mulberry32(seed);
+}
+
+export function createResourceNode(typeId, position, index = 0, objectId = null) {
   const type = RESOURCE_TYPES[typeId];
   if (!type) throw new Error(`Unknown resource type ${typeId}`);
 
@@ -12,7 +31,7 @@ export function createResourceNode(typeId, position, index = 0) {
 
   // State
   const state = {
-    id: `${typeId}_${index}`,
+    id: objectId ?? `${typeId}_${index}`,
     typeId,
     resourceId: type.resourceId,
     maxChunks: type.maxChunks,
@@ -66,6 +85,7 @@ export function createResourceNode(typeId, position, index = 0) {
   const chunkMeshes = [];
   // Keep reference to main visuals for wobble
   let mainVisual = null;
+  const variationRng = makeDeterministicRng(state.id, "variation");
 
   if (typeId === "tree") {
     // Low trunk ~0.52 tall, thick/wide, low broad canopy overlapping trunk
@@ -90,7 +110,7 @@ export function createResourceNode(typeId, position, index = 0) {
       const m = new THREE.Mesh(g, cfg.mat);
       m.position.set(cfg.x, cfg.y, cfg.z);
       m.name = `chunk_${i}`;
-      m.rotation.y = (Math.random() * 0.4 - 0.2);
+      m.rotation.y = (variationRng() * 0.4 - 0.2);
       group.add(m);
       chunkMeshes.push(m);
     }
@@ -125,7 +145,7 @@ export function createResourceNode(typeId, position, index = 0) {
       const g = new THREE.DodecahedronGeometry(cfg.s, 0);
       const m = new THREE.Mesh(g, cfg.mat);
       m.position.set(cfg.x, cfg.y, cfg.z);
-      m.rotation.set(Math.random() * 0.6, Math.random() * 0.6, Math.random() * 0.6);
+      m.rotation.set(variationRng() * 0.6, variationRng() * 0.6, variationRng() * 0.6);
       m.name = `chunk_${i}`;
       group.add(m);
       chunkMeshes.push(m);
@@ -139,7 +159,7 @@ export function createResourceNode(typeId, position, index = 0) {
     remnantMesh.name = "rubble";
     for (let i = 0; i < 3; i++) {
       const peb = new THREE.Mesh(new THREE.DodecahedronGeometry(0.14, 0), new THREE.MeshStandardMaterial({ color: 0x9a9a9a }));
-      peb.position.set((Math.random() - 0.5) * 0.45, 0.12, (Math.random() - 0.5) * 0.45);
+      peb.position.set((variationRng() - 0.5) * 0.45, 0.12, (variationRng() - 0.5) * 0.45);
       remnantMesh.add(peb);
     }
     group.add(remnantMesh);

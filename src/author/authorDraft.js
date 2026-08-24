@@ -3,6 +3,7 @@
 // Canonical ownership: external callers receive cloned snapshots, not direct mutable refs.
 
 import { normalizeWorldData } from "../world/worldValidator.js";
+import { resolveAuthorType, writeNormalizedTransform } from "./authorTypeRegistry.js";
 
 const STORAGE_KEY = "wildkin.authorDraft";
 const DRAFT_VERSION = "3.5B";
@@ -42,6 +43,23 @@ function findContainingRegionStrictInCandidate(candidate, pos){
   }
   if(count===1) return found;
   return null;
+}
+
+function setByPath(obj, path, value){
+  const parts = path.split(".");
+  let cur = obj;
+  for(let i=0;i<parts.length-1;i++){
+    const p = parts[i];
+    if(!(p in cur) || typeof cur[p] !== "object" || cur[p]===null) cur[p] = {};
+    cur = cur[p];
+  }
+  cur[parts[parts.length-1]] = value;
+}
+function getByPath(obj, path){
+  const parts = path.split(".");
+  let cur = obj;
+  for(const p of parts){ if(cur==null) return undefined; cur = cur[p]; }
+  return cur;
 }
 
 function getCollectionArrayForCandidate(region, collection, candidate) {
@@ -337,12 +355,56 @@ export function createAuthorDraft(repoData) {
     if (found.type === "creature" && patch.pos && obj.pos && obj.homePos && !patch.homePos && patch.moveHomeWithSpawn !== false) {
       creatureDelta = { x: patch.pos.x - obj.pos.x, z: patch.pos.z - obj.pos.z, y: (patch.pos.y ?? obj.pos.y ?? 0) - (obj.pos.y ?? 0) };
     }
+    // FIX: platform/obstacle/climbable must not create shadow pos; translate pos -> x/z/bottomY
+    const isPlatformLike = found.type === "platform" || found.type === "obstacle";
+    const isClimbable = found.type === "climbable";
     if (patch.pos) {
-      obj.pos = { x: patch.pos.x, y: patch.pos.y ?? obj.pos.y ?? 0, z: patch.pos.z };
-      if (creatureDelta && obj.homePos) {
-        obj.homePos.x += creatureDelta.x;
-        obj.homePos.z += creatureDelta.z;
-        obj.homePos.y = (obj.homePos.y ?? 0) + creatureDelta.y;
+      if (isPlatformLike) {
+        obj.x = patch.pos.x;
+        obj.z = patch.pos.z;
+        const ny = patch.pos.y ?? obj.y ?? obj.baseY ?? 0;
+        obj.y = ny; obj.baseY = ny;
+      } else if (isClimbable) {
+        const oldBottom = obj.bottomY ?? 0;
+        const oldTop = obj.topY ?? 2.4;
+        const oldHeight = oldTop - oldBottom;
+        const newBottom = patch.pos.y ?? oldBottom;
+        const deltaY = newBottom - oldBottom;
+        const deltaX = patch.pos.x - obj.x;
+        const deltaZ = patch.pos.z - obj.z;
+        obj.x = patch.pos.x;
+        obj.z = patch.pos.z;
+        obj.bottomY = newBottom;
+        obj.topY = newBottom + oldHeight;
+        if (obj.topPlatform) {
+          obj.topPlatform.x += deltaX;
+          obj.topPlatform.z += deltaZ;
+          obj.topPlatform.topY += deltaY;
+          if (obj.topPlatform.aabb) {
+            obj.topPlatform.aabb.minX += deltaX; obj.topPlatform.aabb.maxX += deltaX;
+            obj.topPlatform.aabb.minZ += deltaZ; obj.topPlatform.aabb.maxZ += deltaZ;
+          }
+        }
+        if (obj.topEntryRegion) {
+          obj.topEntryRegion.minX += deltaX; obj.topEntryRegion.maxX += deltaX;
+          obj.topEntryRegion.minZ += deltaZ; obj.topEntryRegion.maxZ += deltaZ;
+        }
+        if (obj.mantleExit) {
+          obj.mantleExit.x += deltaX; obj.mantleExit.z += deltaZ;
+          if (obj.mantleExit.y !== undefined) obj.mantleExit.y += deltaY;
+        }
+        if (creatureDelta && obj.homePos) {
+          obj.homePos.x += creatureDelta.x;
+          obj.homePos.z += creatureDelta.z;
+          obj.homePos.y = (obj.homePos.y ?? 0) + creatureDelta.y;
+        }
+      } else {
+        obj.pos = { x: patch.pos.x, y: patch.pos.y ?? obj.pos.y ?? 0, z: patch.pos.z };
+        if (creatureDelta && obj.homePos) {
+          obj.homePos.x += creatureDelta.x;
+          obj.homePos.z += creatureDelta.z;
+          obj.homePos.y = (obj.homePos.y ?? 0) + creatureDelta.y;
+        }
       }
     }
     if (patch.homePos) obj.homePos = { x: patch.homePos.x, y: patch.homePos.y ?? 0, z: patch.homePos.z };
@@ -365,13 +427,55 @@ export function createAuthorDraft(repoData) {
       }
     }
     if (patch.rotY !== undefined) {
-      if (found.type !== "climbable" && found.type !== "platform" && found.type !== "obstacle") obj.rotY = patch.rotY;
-      else if (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider") obj.rotY = patch.rotY;
+      // Phase 4A.2.2: enable rotation for platform/obstacle/climbable as meaningful
+      if (found.type === "platform" || found.type === "obstacle" || found.type === "climbable") {
+        obj.rotY = patch.rotY;
+        if (found.type === "climbable") {
+          const rot = patch.rotY;
+          obj.wallNormal = { x: Math.sin(rot), z: Math.cos(rot) };
+          obj.approachDir = { x: -Math.sin(rot), z: -Math.cos(rot) };
+        }
+      } else if (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider" || found.type === "resource" || found.type === "creature" || found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi") {
+        obj.rotY = patch.rotY;
+      } else {
+        obj.rotY = patch.rotY;
+      }
     }
     if (patch.rotationY !== undefined) obj.rotY = patch.rotationY;
-    if (patch.size) obj.size = { ...obj.size, ...patch.size };
-    if (patch.w !== undefined) { obj.w = patch.w; if (patch.h !== undefined) obj.h = patch.h; }
-    if (patch.height !== undefined) obj.height = patch.height;
+    if (patch.size) {
+      if (isPlatformLike) {
+        if (patch.size.w !== undefined) obj.w = patch.size.w;
+        if (patch.size.d !== undefined) obj.h = patch.size.d;
+        if (patch.size.h !== undefined) obj.height = patch.size.h;
+      } else if (isClimbable) {
+        if (patch.size.w !== undefined) obj.w = patch.size.w;
+        if (patch.size.h !== undefined) obj.h = patch.size.h;
+        if (patch.size.height !== undefined) {
+          const newHeight = patch.size.height;
+          const base = obj.bottomY ?? 0;
+          obj.topY = base + newHeight;
+          if (obj.topPlatform) obj.topPlatform.topY = obj.topY;
+        }
+      } else {
+        obj.size = { ...obj.size, ...patch.size };
+      }
+    }
+    if (patch.w !== undefined) {
+      if (isPlatformLike || isClimbable) {
+        obj.w = patch.w;
+        if (patch.h !== undefined) obj.h = patch.h;
+      } else {
+        obj.w = patch.w; if (patch.h !== undefined) obj.h = patch.h;
+      }
+    }
+    if (patch.height !== undefined) {
+      if (isPlatformLike) obj.height = patch.height;
+      else if (isClimbable) {
+        const base = obj.bottomY ?? 0;
+        obj.topY = base + patch.height;
+        if (obj.topPlatform) obj.topPlatform.topY = obj.topY;
+      } else obj.height = patch.height;
+    }
     // region move handled after patch applied? we need to handle atomically: if patch.regionId provided via auto-rehome, move collections
     if (patch.regionId && found.region && patch.regionId !== found.region.id) {
       // For waypoint, ensure its runSpawn stays valid in new region
@@ -413,6 +517,52 @@ export function createAuthorDraft(repoData) {
     if (patch.facingYaw !== undefined) {
       if (found.type === "campSpawn" || found.type === "runSpawn" || obj.facingYaw !== undefined) obj.facingYaw = patch.facingYaw;
       else if (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider") obj.rotY = patch.facingYaw;
+    }
+    // Generic inspector field handling via registry + direct fallback
+    try {
+      const def = resolveAuthorType(found);
+      if (def && Array.isArray(def.inspector)) {
+        for (const field of def.inspector) {
+          const key = field.key;
+          if (patch[key] !== undefined) {
+            const path = field.path ?? key;
+            if (path.includes(".")) setByPath(obj, path, patch[key]);
+            else obj[path] = patch[key];
+          }
+        }
+      }
+    } catch {}
+    if (patch.roamRadius !== undefined) obj.roamRadius = patch.roamRadius;
+    if (patch.noticeRadius !== undefined) obj.noticeRadius = patch.noticeRadius;
+    if (patch.personalSpace !== undefined) obj.personalSpace = patch.personalSpace;
+    if (patch.leashRadius !== undefined) obj.leashRadius = patch.leashRadius;
+    if (patch.speciesTag !== undefined) obj.speciesTag = patch.speciesTag;
+    if (patch.hostileSpecies !== undefined) obj.hostileSpecies = patch.hostileSpecies;
+    if (patch.requires !== undefined) obj.requires = patch.requires;
+    if (patch.uniformScale !== undefined) { obj.uniformScale = patch.uniformScale; obj.scale = patch.uniformScale; }
+    if (patch.scale !== undefined) { obj.uniformScale = patch.scale; obj.scale = patch.scale; }
+    if (patch.rotY !== undefined && found.type === "resource" && obj.rotY === undefined) obj.rotY = patch.rotY;
+    if (patch["homePos.x"] !== undefined) { if (!obj.homePos) obj.homePos = { x:0,y:0,z:0 }; obj.homePos.x = patch["homePos.x"]; }
+    if (patch["homePos.z"] !== undefined) { if (!obj.homePos) obj.homePos = { x:0,y:0,z:0 }; obj.homePos.z = patch["homePos.z"]; }
+    const handledKeys = new Set(["pos","x","z","y","rotY","rotationY","size","w","h","height","regionId","pocketId","type","creatureType","temperament","displayName","visibleInPlay","collisionEnabled","opacity","color","tint","facingYaw","homePos","roamRadius","noticeRadius","personalSpace","leashRadius","speciesTag","hostileSpecies","requires","uniformScale","scale","moveHomeWithSpawn","position","homePos.x","homePos.z"]);
+    for (const k of Object.keys(patch)) {
+      if (handledKeys.has(k)) continue;
+      if (k.includes(".")) { setByPath(obj, k, patch[k]); continue; }
+      if (k === "pos" && (found.type==="platform"||found.type==="obstacle"||found.type==="climbable")) continue;
+      if ((found.type==="platform"||found.type==="obstacle"||found.type==="climbable") && (k==="pos"||k==="size")) continue;
+      if (found.type==="resource" && (k==="x"||k==="z"||k==="y"||k==="w"||k==="h")) continue;
+      obj[k] = patch[k];
+    }
+    if (found.type==="platform" || found.type==="obstacle" || found.type==="climbable") {
+      if ("pos" in obj && obj.pos && typeof obj.pos === "object" && "x" in obj.pos) {
+        if ("x" in obj) delete obj.pos;
+      }
+    }
+    if (found.type==="resource" || found.type==="creature" || found.type==="majorWaypoint" || found.type==="extractionBeacon" || found.type==="poi") {
+      if ("x" in obj && obj.pos) delete obj.x;
+      if ("z" in obj && obj.pos) delete obj.z;
+      if ("w" in obj && obj.size) delete obj.w;
+      if ("h" in obj && obj.size) delete obj.h;
     }
   }
 
@@ -487,6 +637,87 @@ export function createAuthorDraft(repoData) {
         }
       }
       applyPatchToFound(found, patchClone, candidate);
+    });
+    return res;
+  }
+
+  function updateNormalizedTransform(id, normalized) {
+    const res = transact((candidate) => {
+      const found = _findRawInCandidate(candidate, id);
+      if (!found) throw new Error("object not found");
+      const normalizedClone = { ...normalized };
+      if (normalizedClone.position && isPointOwned(found.collection, found.type) && normalizedClone.regionId === undefined && normalizedClone._regionId === undefined) {
+        const target = findContainingRegionStrictInCandidate(candidate, normalizedClone.position);
+        if (target && found.region && target !== found.region.id) {
+          if (found.type === "majorWaypoint") {
+            const wp = found.obj;
+            if (wp.runSpawn) {
+              const rs = wp.runSpawn.position ? wp.runSpawn.position : wp.runSpawn;
+              const targetReg = candidate.regions.find(r => r.id === target);
+              if (targetReg && (rs.x < targetReg.bounds.minX || rs.x > targetReg.bounds.maxX || rs.z < targetReg.bounds.minZ || rs.z > targetReg.bounds.maxZ)) {
+                throw new Error(`Cannot move Waypoint ${wp.id} to ${target}: its Run Spawn would be outside target region`);
+              }
+            }
+          }
+          normalizedClone._regionId = target;
+        } else if (!target) {
+          throw new Error(`Position has no unique containing region — move rejected`);
+        }
+      }
+      if (normalizedClone.position && normalizedClone.regionId) {
+        const targetReg = candidate.regions.find(r => r.id === normalizedClone.regionId);
+        if (targetReg) {
+          const p = normalizedClone.position;
+          if (p.x < targetReg.bounds.minX || p.x > targetReg.bounds.maxX || p.z < targetReg.bounds.minZ || p.z > targetReg.bounds.maxZ) {
+            throw new Error(`Position not inside declared target region ${normalizedClone.regionId}`);
+          }
+        }
+      }
+      const ok = writeNormalizedTransform(candidate, found, normalizedClone);
+      if (!ok) throw new Error("transform write failed");
+      const targetRegionId = normalizedClone._regionId ?? normalizedClone.regionId;
+      if (targetRegionId && found.region && targetRegionId !== found.region.id) {
+        const targetRegion = candidate.regions.find(r => r.id === targetRegionId);
+        if (!targetRegion) throw new Error("target region not found");
+        const arr = getCollectionArrayForCandidate(found.region, found.collection, candidate);
+        const idx = arr.indexOf(found.obj);
+        if (idx >= 0) arr.splice(idx, 1);
+        const targetArr = getCollectionArrayForCandidate(targetRegion, found.collection, candidate);
+        targetArr.push(found.obj);
+      }
+    });
+    return res;
+  }
+
+  function updateInspectorField(id, fieldKey, value) {
+    const res = transact((candidate) => {
+      const found = _findRawInCandidate(candidate, id);
+      if (!found) throw new Error("object not found");
+      const def = resolveAuthorType(found);
+      let path = fieldKey;
+      if (def && Array.isArray(def.inspector)) {
+        const fieldDef = def.inspector.find(f => f.key === fieldKey || f.path === fieldKey);
+        if (fieldDef) path = fieldDef.path ?? fieldDef.key;
+      }
+      let val = value;
+      if (fieldKey === "requires" && typeof value === "string") {
+        const trimmed = value.trim();
+        if (trimmed === "" || trimmed === "null") val = null;
+        else {
+          try { val = JSON.parse(trimmed); } catch { val = trimmed; }
+        }
+      }
+      if (path.includes(".")) setByPath(found.obj, path, val);
+      else found.obj[path] = val;
+      if (path === "uniformScale" || path === "scale") {
+        found.obj.uniformScale = val;
+        found.obj.scale = val;
+      }
+      if (fieldKey === "homePos.x" || fieldKey === "homePos.z") {
+        const axis = fieldKey.split(".")[1];
+        if (!found.obj.homePos) found.obj.homePos = { x:0,y:0,z:0 };
+        found.obj.homePos[axis] = val;
+      }
     });
     return res;
   }
@@ -883,6 +1114,8 @@ export function createAuthorDraft(repoData) {
     findRegion,
     findObjectById,
     updateTransform,
+    updateNormalizedTransform,
+    updateInspectorField,
     duplicateObject,
     deleteObject,
     createObject,

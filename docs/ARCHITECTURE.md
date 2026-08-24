@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Post-Phase 4A.2.1 — Pre-4B Author Trust & Spawn/Input Repair)
+# Architecture — Wildkin Frontier (Post-Phase 4A.2.2 — Author Object Contract & Parity Foundation)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A.2.1**. Phase 4A loop remains accepted; this repair slice closes trust, spawn/input and indicator defects before Phase 4B.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A.2.2**. Phase 4A loop remains accepted; this contract slice eliminates family-specific Author seams and establishes the shared AuthorTypeRegistry / normalized transform / VisualRef seam for future kitbash.
 
 ## Permanent Goals
 
@@ -27,7 +27,7 @@
 
 # Current Accepted Foundation
 
-Phase 3.1.1 validated core gameplay. Phase 3.5A added directed-world/runtime foundation. Phase 3.5B/B.1/B.2 human-accepted world-authoring pipeline. Phase 4A added first complete Camp ↔ expedition loop. Phase 4A.1 refines first-run/gate/start suppression and makes ground/boundaries authored. Phase 4A.2 closed authoring/input/spawn trusts; Phase 4A.2.1 repairs the remaining human-accepted defects (canonical ownership, preview atomics, spawn Y, region rehome, input latch, pulse, indicators).
+Phase 3.1.1 validated core gameplay. Phase 3.5A added directed-world/runtime foundation. Phase 3.5B/B.1/B.2 human-accepted world-authoring pipeline. Phase 4A added first complete Camp ↔ expedition loop. Phase 4A.1 refines first-run/gate/start suppression and makes ground/boundaries authored. Phase 4A.2 closed authoring/input/spawn trusts; Phase 4A.2.1 repairs canonical ownership, preview atomics, spawn Y, region rehome, input latch, pulse, indicators. Phase 4A.2.2 establishes the shared AuthorTypeRegistry / normalized transform / VisualRef / ColliderDescriptor contract, proves Box/Tree/Ladder parity, and sweeps siblings; Phase 4A loop remains accepted and 4A.2.1 fixes are preserved.
 
 Accepted current systems:
 
@@ -490,6 +490,79 @@ One suppression path: `isAnyBlockingModal()` (Map|AnchorPrompt|ResultCard) + aut
 
 ## Change Closure sweep covered
 - Sibling families checked: Box/Fence/Gate/ForestBoundary/GroundPatch/BoundaryCollider/Resonator/DropPod/Water/Island/Platform/Obstacle for descriptor/capability/material; resources/creatures/Waypoints/Beacons/POIs/props for point-owned rehome; Camp/RunSpawn for Y/facing; ground/boundary footprint vs point ownership.
+
+# Phase 4A.2.2 Author Object Contract — IMPLEMENTED
+
+## AuthorTypeRegistry + normalized Author transform
+- Central `src/author/authorTypeRegistry.js` is the single source of truth for every current authorable object. Every world object (props, groundPatches, boundaryColliders, platforms, obstacles, climbables, resources, creatures, waypoints, beacons, POIs, camp/run spawns) resolves to exactly one Author type via `resolveAuthorType(found)`. `checkAllObjectsResolve` contract test proves this.
+- Normalized Author transform seam:
+  ```js
+  { position:{x,y,z}, rotationY, size:{width,height,depth}, uniformScale, sizeMode:"box"|"uniform"|"none" }
+  ```
+  Author Mode never constructs raw family patches (`{pos}`, `{x,z}`, `{bottomY}`) itself. It submits normalized candidate transforms to the resolved adapter; the adapter writes correct canonical fields atomically inside the existing `transact → normalizeWorldData` boundary.
+- Keep canonical schemas: `world.json` objects retain `pos`, `x/z/y`, `baseY`, `w/h/height`, `bottomY/topY`, `facingYaw`, etc. Adapters translate. No universal schema migration.
+- Transform adapters live in registry definitions: `transform.read(found)` returns normalized view, `transform.write(candidateObj, found, normalized)` mutates canonical fields (including ladder dependent fields: `topPlatform`, `topEntryRegion`, `mantleExit`, `wallNormal`). No shadow `pos` for platforms, no `x` for resources.
+- `authorDraft.updateNormalizedTransform(id, normalized)` is the transactional entry point for Author Mode drag/rotate/resize. `updateTransform` remains for legacy callers but now also delegates through registry for custom fields and prevents shadow fields.
+- `worldValidator` now allows optional `rotY`, `uniformScale`/`scale` for resources, creatures, waypoints, beacons, POIs, platforms, obstacles.
+
+## Registry-owned capabilities (removed hard-coded UI branching)
+- Deleted production hard-coded `supportsY`, `supportsRot`, `supportsSize`, `getCapsForFound` from `authorUI`. Transform controls now come from `def.capabilities`:
+  - `elevation`, `rotation`, `resize`, `sizeMode`, `presentation`, `collisionControl`, `draggable`, `selectable`, `duplicatable`, `deletable`.
+- Universal authoring policy enforced: every appropriate object supports position/elevation/rotation/meaningful resize unless concrete gameplay reason. Exceptions are explicit in registry:
+  - Box/Fence/Gate/ForestBoundary/Ground/Boundary/Platform/Obstacle/Ladder: all true, box dimensions.
+  - DropPod/Resonator: dimensions true.
+  - Tree/Rock/Fiber: uniform scale + rotation, collider scales coherently, foliage not collider.
+  - Wildkin: position+initial facing, no scale (avoid altering combat/capsule).
+  - Waypoint/Beacon: position+rotation, no scale.
+  - POI/chest/barrier: uniform/box where safe.
+  - Camp/Run Spawn: position+facing only, no duplicate/delete, fixed ownership.
+- `authorUI` now shows/hides Y/rotation/size/scale rows and presentation controls based on `caps.elevation`, `caps.rotation`, `caps.resize`, `caps.sizeMode`, `caps.presentation`.
+
+## Inspector declarative field system
+- Small declarative `inspector: []` arrays on each type definition. Supported control types: `number`, `text`, `enum/select`, `boolean`, `color`, `json` (requires).
+- Proved real writes for: Wildkin `temperament`, `roamRadius`, `noticeRadius`, `personalSpace`, `leashRadius`, `speciesTag`; Waypoint/Beacon `displayName`; POI `requires`; `uniformScale`/`scale` for resources/POIs. All go through `authorDraft.updateInspectorField(id, key, value)` or via `updateTransform`’s registry-backed generic path, inside transactional `transact`, not direct snapshot mutation.
+- `authorUI` builds creature/anchor/POI fields from registry; `setSelected` populates via normalized reads.
+
+## VisualRef + VisualFactory seam (future kitbash seam)
+- Bounded `VisualRef` `{kind:"builtin", id:"prop/box"}` etc. `src/world/visualFactory.js` exports pure deterministic visual constructors:
+  - `createVisual(visualRef, {objectId, size, poiType}) -> THREE.Object3D` local-space, no scene add, no Rapier, no AI/timers/DOM/private rAF, deterministic for same objectId.
+  - Built-ins: `prop/box`, `traversal/platform`, `traversal/ladder`, `resource/tree` (Cylinder trunk + Cone foliage, deterministic RNG from objectId), `resource/rock`, `resource/fiber`, `creature/rusher`, `anchor/waypoint`, `poi/chest`, etc. `BUILTIN_MAP` is the registry.
+  - `getVisualSignature` helper for tests: real Tree gives Cylinder+Cone, Ladder gives Box+Cylinder, not single placeholder BoxGeometry.
+- `authorMode.createPreviewMeshForNewObject` now uses `createVisual` via `getAuthorVisualRef(found)`; new Tree/Ladder immediately show real visuals in Edit, no green/gray placeholder Box (`createPreviewMeshForNewObject` previously created BoxGeometry 0.5 for Tree/Wildkin/Ladder).
+- Runtime `createResourceNode` now uses `objectId`-derived deterministic RNG (same `hashString`+`mulberry32` as VisualFactory) and is called with authoritative `nodeId` from `worldRegistry` (`createResourceNode(p.type, p.pos, i, nodeId)`), so Edit and Play produce identical tree/rock variation for same id. `resourceSystem` propagation of `authorId` to children preserves pickability.
+
+## ColliderDescriptor + Edit proxy lifecycle
+- `src/world/colliderDescriptor.js` exports simple descriptor seam: `describeBoxCollider`, `describeResourceCollider` (scaled from `resourceConfig` halfExtents * uniformScale, offset `colliderCenterY * scale`), `describeCreatureCollider`, etc. Shape is always `box`/`capsule`/`none`, never detailed foliage mesh.
+- Same transform interpretation for visual root, Edit proxy, and runtime Rapier. `getColliderCenter` = `position + offset`; visual root at `position` (base) + `size.height/2` matches collider center.
+- Live proxy lifecycle: `authorMode.syncPreviewForId` now ensures `!visibleInPlay && collisionEnabled` immediately creates a wireframe `isEditProxy` Box (`0xffff00`, wireframe, opacity 0.42) at same transform, without requiring Play→Edit rebuild. Proxy geometry resizes/rotates/moves coherently with normalized size/rotation; visibility is `isEdit && shouldHaveProxy`. Existing newly placed Boundary behavior preserved, now via same descriptor path. `setProxyVisibility` and `scene.traverse` for `proxyMesh` link keep proxy/material sync live.
+
+## Author Mode simplification (generic preview handle)
+- `authorMode` now around `resolveAuthorType`:
+  ```
+  select → resolve type → readNormalizedSnapshot → previewHandle (root visual + optional proxy) → drag/inspector produces normalized candidate → adapter transactional write → reconcile from canonical → syncPreviewForId
+  ```
+  Concrete gameplay checks remain only for truly unique visuals (spawn marker line).
+- `dragState` stores normalized `position`/`rotationY`; `applyPreviewTransform` applies previewNorm to meshes without touching draft; `onPointerUp` calls `updateNormalizedTransform`. `Q/E` rotation, `Space/C` elevation, `PageUp/Down`, `WASD` nudges all now via `readNormalizedTransform` → mutate → `updateNormalizedTransform`, ensuring platform `x/z` canonical update, ladder dependent recompute, resource uniform scale coherence.
+- `syncPreviewForId` is now registry-driven: `sizeMode==="uniform"` scales group, `sizeMode==="box"` resizes BoxGeometry and positions at `baseY+height/2`; presentation/proxy handling via `caps.presentation`.
+
+## Sibling consistency sweep (after Box/Tree/Ladder proofs)
+- Platform/Obstacle: via same box descriptor, `x/z/w/h/height` + `rotY` now editable, `y/baseY` live, collider parity verified.
+- Rock/Fiber: uniform scale path same as Tree, rotation coherent, collider scales.
+- Fence/Gate/ForestBoundary: same prop/box path, `rotY`/`size`/`visible`/`collision` live.
+- Ground/Boundary: same box descriptor, footprint ownership preserved, proxy via same path, sibling materials unaffected.
+- DropPod/Resonator: via prop/box, `rotY`/`size` coherent, special DropPod group handled.
+- Water/Island: water `collisionEnabled false` correctly hidden from collision row, island collider true.
+- Waypoint/Beacon/POI: position/rotation via normalized, `displayName`/`requires` via inspector, POI uniform scale where safe.
+- Rusher/Spitter: `pos`+`facingYaw` via normalized, `homePos` follows spawn delta, all temperament/radius fields via inspector, no scale.
+- Camp/Run Spawn: `position`+`facingYaw` only, no duplicate/delete, fixed ownership, `resolveSpawnCapsuleCenter` still uses `RAPIER_CONFIG` for runtime placement.
+
+## Tests (new contract/integration, not source-string-only)
+- `tests/phase4a2_2.test.js` (27 tests) covers: every object resolves once, Platform drag no shadow, Platform rotation/resize descriptor, Ladder dependent fields, Tree/Ladder placement real geometry, Box hidden proxy live, existing Boundary via same contract, registry-driven capabilities, Wildkin/POI/displayName persistence via export/reload, no shadow fields, VisualRef same Edit/Play, collider parity, full sibling sweep. All 489 tests pass (462 prior + 27 new).
+- Existing resource visuals now deterministic (`variationRng = makeDeterministicRng(state.id)`); two `tree_abc` produce identical rotations, `tree_abc` vs `tree_xyz` differ.
+- Vertical pan inverted, fog, region overlays, input latch, rAF single owner, world generation deterministic, zip size all still pass.
+
+## Change Closure sweep note for shared-contract change
+- Checked sibling families that share the normalized transform path: static props (Box/Fence/Gate/ForestBoundary/Water/Island/DropPod/Resonator), traversal (Platform/Obstacle/Ladder), resources (Tree/Rock/Fiber), anchors/POIs (Waypoint/Beacon/POI chest/barrier), Wildkin (Rusher/Spitter), spawns. All now exercise actual adapter/preview/runtime paths, not just compile.
 
 # Persistence Separation — Phase 4A Guardrail
 

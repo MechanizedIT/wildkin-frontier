@@ -210,6 +210,12 @@ export function normalizeWorldData(raw) {
       if (!isInsideBounds(res.pos, region.bounds)) {
         throw new Error(`resource ${res.id} pos not inside region ${region.id} bounds`);
       }
+      if (res.rotY !== undefined && !isNumber(res.rotY)) throw new Error(`resource ${res.id} rotY must be number`);
+      if (res.rotationY !== undefined && !isNumber(res.rotationY)) throw new Error(`resource ${res.id} rotationY must be number`);
+      if (res.uniformScale !== undefined && !isNumber(res.uniformScale)) throw new Error(`resource ${res.id} uniformScale must be number`);
+      if (res.scale !== undefined && !isNumber(res.scale)) throw new Error(`resource ${res.id} scale must be number`);
+      if (res.uniformScale !== undefined && (res.uniformScale <= 0 || res.uniformScale > 5)) throw new Error(`resource ${res.id} uniformScale must be >0 <=5`);
+      if (res.scale !== undefined && (res.scale <= 0 || res.scale > 5)) throw new Error(`resource ${res.id} scale must be >0 <=5`);
     }
     // creatures
     if (!Array.isArray(region.creatures)) region.creatures = [];
@@ -234,6 +240,9 @@ export function normalizeWorldData(raw) {
         if (cr[k] !== undefined && !isNumber(cr[k])) throw new Error(`creature ${cr.id} ${k} must be number`);
       }
       if (cr.hostileSpecies !== undefined && !Array.isArray(cr.hostileSpecies)) throw new Error(`creature ${cr.id} hostileSpecies must be array`);
+      if (cr.facingYaw !== undefined && !isNumber(cr.facingYaw)) throw new Error(`creature ${cr.id} facingYaw must be number`);
+      if (cr.rotY !== undefined && !isNumber(cr.rotY)) throw new Error(`creature ${cr.id} rotY must be number`);
+      if (cr.rotationY !== undefined && !isNumber(cr.rotationY)) throw new Error(`creature ${cr.id} rotationY must be number`);
     }
     // traversal
     if (!region.traversal) region.traversal = {};
@@ -245,11 +254,16 @@ export function normalizeWorldData(raw) {
       if (!plat.id) throw new Error(`region ${region.id} platform id required`);
       if (allIds.has(plat.id)) throw new Error(`duplicate global id platform ${plat.id}`);
       allIds.add(plat.id);
+      if (plat.rotY !== undefined && !isNumber(plat.rotY)) throw new Error(`platform ${plat.id} rotY must be number`);
+      if (plat.y !== undefined && !isNumber(plat.y)) throw new Error(`platform ${plat.id} y must be number`);
+      if (plat.baseY !== undefined && !isNumber(plat.baseY)) throw new Error(`platform ${plat.id} baseY must be number`);
     }
     for (const obs of region.traversal.obstacles) {
       if (!obs.id) throw new Error(`region ${region.id} obstacle id required`);
       if (allIds.has(obs.id)) throw new Error(`duplicate global id obstacle ${obs.id}`);
       allIds.add(obs.id);
+      if (obs.rotY !== undefined && !isNumber(obs.rotY)) throw new Error(`obstacle ${obs.id} rotY must be number`);
+      if (obs.y !== undefined && !isNumber(obs.y)) throw new Error(`obstacle ${obs.id} y must be number`);
     }
     // majorWaypoints
     if (!Array.isArray(region.majorWaypoints)) region.majorWaypoints = [];
@@ -262,6 +276,9 @@ export function normalizeWorldData(raw) {
       if (wp.type !== "majorWaypoint") throw new Error(`majorWaypoint ${wp.id} type must be majorWaypoint`);
       validatePos(wp.pos, `waypoint ${wp.id}`);
       if (!isInsideBounds(wp.pos, region.bounds)) throw new Error(`waypoint ${wp.id} not inside region ${region.id} bounds`);
+      if (wp.rotY !== undefined && !isNumber(wp.rotY)) throw new Error(`waypoint ${wp.id} rotY must be number`);
+      if (wp.uniformScale !== undefined && !isNumber(wp.uniformScale)) throw new Error(`waypoint ${wp.id} uniformScale must be number`);
+      if (wp.scale !== undefined && !isNumber(wp.scale)) throw new Error(`waypoint ${wp.id} scale must be number`);
     }
     // extractionBeacons
     if (!Array.isArray(region.extractionBeacons)) region.extractionBeacons = [];
@@ -274,6 +291,8 @@ export function normalizeWorldData(raw) {
       if (eb.type !== "extractionBeacon") throw new Error(`extractionBeacon ${eb.id} type must be extractionBeacon`);
       validatePos(eb.pos, `beacon ${eb.id}`);
       if (!isInsideBounds(eb.pos, region.bounds)) throw new Error(`beacon ${eb.id} not inside region ${region.id} bounds`);
+      if (eb.rotY !== undefined && !isNumber(eb.rotY)) throw new Error(`beacon ${eb.id} rotY must be number`);
+      if (eb.uniformScale !== undefined && !isNumber(eb.uniformScale)) throw new Error(`beacon ${eb.id} uniformScale must be number`);
     }
     // pois
     if (!Array.isArray(region.pois)) region.pois = [];
@@ -284,6 +303,9 @@ export function normalizeWorldData(raw) {
       globalPoiIds.add(poi.id);
       allIds.add(poi.id);
       if (!poi.type || typeof poi.type !== "string") throw new Error(`poi ${poi.id} type required`);
+      if (poi.rotY !== undefined && !isNumber(poi.rotY)) throw new Error(`poi ${poi.id} rotY must be number`);
+      if (poi.uniformScale !== undefined && !isNumber(poi.uniformScale)) throw new Error(`poi ${poi.id} uniformScale must be number`);
+      if (poi.scale !== undefined && !isNumber(poi.scale)) throw new Error(`poi ${poi.id} scale must be number`);
       // allow known but also generic; if requires present, validate shape
       if (poi.requires) {
         if (typeof poi.requires !== "object") throw new Error(`poi ${poi.id} requires must be object or null`);

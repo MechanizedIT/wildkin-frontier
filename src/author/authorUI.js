@@ -1,4 +1,5 @@
-// src/author/authorUI.js — desktop Author Mode panel (Phase 4A.1 categorized + presentation controls)
+// src/author/authorUI.js — desktop Author Mode panel (Phase 4A.2.2 registry-driven)
+import { resolveAuthorType, readNormalizedTransform } from "./authorTypeRegistry.js";
 
 export function createAuthorUI(opts) {
   const draftApi = opts.draftApi;
@@ -41,6 +42,9 @@ export function createAuthorUI(opts) {
             <label>W <input id="author-w" type="number" step="0.1" style="width:100%"></label>
             <label>D <input id="author-h" type="number" step="0.1" style="width:100%"></label>
             <label>Height <input id="author-height" type="number" step="0.1" style="width:100%"></label>
+          </div>
+          <div id="row-scale" style="display:none;margin-top:4px">
+            <label>Uniform Scale <input id="author-scale" type="number" min="0.2" max="3" step="0.1" style="width:100%"></label>
           </div>
           <div id="author-presentation" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:6px">
             <div style="font-weight:600;margin-bottom:4px">Presentation / Physics</div>
@@ -317,37 +321,10 @@ export function createAuthorUI(opts) {
     } else { st.textContent = res.error; st.style.color="#ffaaaa"; }
   });
 
-  function supportsY(type) {
-    if (type === "climbable" || type === "campSpawn" || type === "runSpawn") return true; // spawns support Y
-    if (type === "climbable") return false;
-    return true;
-  }
-  function supportsRot(type) {
-    if (type === "climbable" || type === "platform" || type === "obstacle") return false;
-    if (type === "resource" || type === "creature" || type === "majorWaypoint" || type === "extractionBeacon" || type === "poi") return false;
-    return true;
-  }
-  function supportsSize(type) {
-    if (type === "resource" || type === "creature" || type === "majorWaypoint" || type === "extractionBeacon" || type === "poi" || type === "campSpawn" || type === "runSpawn") return false;
-    return true;
-  }
-  function supportsPresentation(type, caps) {
-    if (caps) {
-      return caps.opacity || caps.tint || caps.visibleInPlay || caps.collision;
-    }
-    if (type === "prop" || type === "groundPatch" || type === "boundaryCollider") return true;
-    return false;
-  }
-  function getCapsForFound(found) {
-    // simple local capability map for presentation
-    if (found.type === "prop") {
-      const subtype = found.obj.subtype;
-      if (subtype === "water") return { collision: false, visibleInPlay: true, opacity: true, tint: true };
-      if (subtype === "gate") return { collision: true, visibleInPlay: true, opacity: true, tint: true };
-    }
-    if (found.type === "groundPatch" || found.type === "boundaryCollider") return { collision: true, visibleInPlay: true, opacity: true, tint: true };
-    if (found.type === "prop") return { collision: true, visibleInPlay: true, opacity: true, tint: true };
-    return null;
+  // Registry-driven capability helpers — production truth comes from AuthorTypeRegistry, no hard-coded families
+  function getRegistryCaps(found){
+    const def = resolveAuthorType(found);
+    return def ? def.capabilities : null;
   }
 
   function setSelected(id) {
@@ -365,48 +342,71 @@ export function createAuthorUI(opts) {
     if (found.region) selRegionEl.value = found.region.id;
     const obj = found.obj;
     const pos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: obj.y ?? obj.baseY ?? 0, z: obj.z } : { x: 0, y: 0, z: 0 });
-    container.querySelector("#author-x").value = pos.x ?? 0;
-    container.querySelector("#author-z").value = pos.z ?? 0;
-    container.querySelector("#author-y").value = pos.y ?? obj.y ?? obj.baseY ?? 0;
-    const rotYdeg = ((obj.facingYaw ?? obj.rotY ?? 0) * 180 / Math.PI).toFixed(1);
+    // Registry-driven transform display: use normalized author transform
+    const def = resolveAuthorType(found);
+    const caps = def ? def.capabilities : null;
+    const norm = readNormalizedTransform(found);
+    const nPos = norm ? norm.position : (obj.pos || { x: obj.x ?? 0, y: obj.y ?? obj.baseY ?? 0, z: obj.z ?? 0 });
+    const nRot = norm ? (norm.rotationY ?? 0) : (obj.facingYaw ?? obj.rotY ?? 0);
+    container.querySelector("#author-x").value = nPos.x ?? 0;
+    container.querySelector("#author-z").value = nPos.z ?? 0;
+    container.querySelector("#author-y").value = nPos.y ?? 0;
+    const rotYdeg = (nRot * 180 / Math.PI).toFixed(1);
     container.querySelector("#author-rot").value = rotYdeg;
     // For spawns, label rotation as Facing
     const rotLabel = container.querySelector("#wrap-rot");
     if (found.type === "campSpawn" || found.type === "runSpawn") {
       const label = rotLabel.querySelector("input") ? rotLabel : null;
-      // change label text to Facing if needed - we keep input but user sees value
     }
-    const size = obj.size || {};
-    container.querySelector("#author-w").value = size.w ?? obj.w ?? "";
-    container.querySelector("#author-h").value = size.d ?? obj.h ?? "";
-    container.querySelector("#author-height").value = obj.height ?? size.h ?? "";
+    // Size handling: box vs uniform
+    const size = norm && norm.size ? norm.size : (obj.size || {});
+    const uniformScale = norm ? (norm.uniformScale ?? 1) : 1;
+    container.querySelector("#author-w").value = size.width ?? size.w ?? obj.w ?? "";
+    container.querySelector("#author-h").value = size.depth ?? size.d ?? obj.h ?? "";
+    container.querySelector("#author-height").value = size.height ?? obj.height ?? size.h ?? "";
+    container.querySelector("#author-scale").value = uniformScale;
     const yRow = container.querySelector("#row-y");
     const rotWrap = container.querySelector("#wrap-rot");
     const sizeRow = container.querySelector("#row-size");
+    const scaleRow = container.querySelector("#row-scale");
     const upBtn = container.querySelector("#author-up");
     const downBtn = container.querySelector("#author-down");
-    const ySupported = supportsY(found.type);
+    const ySupported = caps ? !!caps.elevation : true;
+    const rotSupported = caps ? !!caps.rotation : false;
+    const resizeSupported = caps ? !!caps.resize : false;
+    const sizeMode = caps ? (caps.sizeMode ?? def.sizeMode) : "box";
     yRow.style.display = ySupported ? "" : "none";
     upBtn.style.display = ySupported ? "" : "none";
     downBtn.style.display = ySupported ? "" : "none";
-    rotWrap.style.display = supportsRot(found.type) ? "" : "none";
-    sizeRow.style.display = supportsSize(found.type) ? "" : "none";
-    if (found.type === "climbable") {
-      rotWrap.style.display = "none";
-      yRow.style.display = "none";
-      upBtn.style.display = "none";
-      downBtn.style.display = "none";
+    rotWrap.style.display = rotSupported ? "" : "none";
+    if (resizeSupported) {
+      if (sizeMode === "uniform") {
+        sizeRow.style.display = "none";
+        scaleRow.style.display = "";
+      } else if (sizeMode === "box") {
+        sizeRow.style.display = "";
+        scaleRow.style.display = "none";
+      } else {
+        sizeRow.style.display = "none";
+        scaleRow.style.display = "none";
+      }
+    } else {
       sizeRow.style.display = "none";
+      scaleRow.style.display = "none";
     }
     const presentation = container.querySelector("#author-presentation");
-    const caps = getCapsForFound(found);
-    const supportsPres = supportsPresentation(found.type, caps);
-    if (supportsPres) {
+    const supportsPres = caps ? (caps.presentation || caps.collisionControl || caps.opacity || caps.tint || caps.visibleInPlay || caps.collision) : false;
+    // For props/ground/boundary, presentation still true even if caps not explicit; fallback check
+    const fallbackPres = (found.collection==="props" || found.collection==="groundPatches" || found.collection==="boundaryColliders");
+    const showPres = supportsPres || fallbackPres;
+    if (showPres) {
       presentation.style.display = "";
       container.querySelector("#author-visible").checked = obj.visibleInPlay !== false;
       const collEl = container.querySelector("#author-collision");
       const collRow = collEl.closest("label");
-      if (caps && caps.collision === false) {
+      // Water has no meaningful collision control
+      const hideCollision = found.obj.subtype === "water";
+      if (hideCollision) {
         collRow.style.display = "none";
       } else {
         collRow.style.display = "";
@@ -483,24 +483,43 @@ export function createAuthorUI(opts) {
       if (found && (found.type === "campSpawn" || found.type === "runSpawn")) patch.facingYaw = rotDeg * Math.PI / 180;
       else patch.rotY = rotDeg * Math.PI / 180;
     }
-    if (found && found.type === "prop") {
-      const size = {};
-      if (!isNaN(w)) size.w = w;
-      if (!isNaN(d)) size.d = d;
-      if (!isNaN(height)) size.h = height;
-      if (Object.keys(size).length) patch.size = size;
-    } else if (found && (found.type === "groundPatch" || found.type === "boundaryCollider")) {
-      const size = {};
-      if (!isNaN(w)) size.w = w;
-      if (!isNaN(d)) size.d = d;
-      if (!isNaN(height)) size.h = height;
-      if (Object.keys(size).length) patch.size = size;
-    } else if (found && (found.type === "platform" || found.type === "obstacle")) {
-      if (!isNaN(w)) patch.w = w;
-      if (!isNaN(d)) patch.h = d;
-      if (!isNaN(height)) patch.height = height;
+    // Registry-driven size handling
+    const defForSize = found ? resolveAuthorType(found) : null;
+    const sizeModeForPatch = defForSize ? (defForSize.capabilities.sizeMode ?? defForSize.sizeMode) : null;
+    if (defForSize && defForSize.capabilities.resize) {
+      if (sizeModeForPatch === "uniform") {
+        const scaleVal = parseFloat(container.querySelector("#author-scale").value);
+        if (!isNaN(scaleVal)) { patch.uniformScale = scaleVal; patch.scale = scaleVal; }
+      } else if (sizeModeForPatch === "box") {
+        if (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider" || found.collection === "props" || found.collection === "groundPatches") {
+          const size = {};
+          if (!isNaN(w)) size.w = w;
+          if (!isNaN(d)) size.d = d;
+          if (!isNaN(height)) size.h = height;
+          if (Object.keys(size).length) patch.size = size;
+        } else if (found.type === "platform" || found.type === "obstacle" || found.collection === "platforms" || found.collection === "obstacles") {
+          if (!isNaN(w)) patch.w = w;
+          if (!isNaN(d)) patch.h = d;
+          if (!isNaN(height)) patch.height = height;
+        } else if (found.type === "climbable" || found.collection === "climbables") {
+          // ladder: w=width, h=depth, height=vertical
+          if (!isNaN(w)) patch.w = w;
+          if (!isNaN(d)) patch.h = d;
+          if (!isNaN(height)) patch.height = height;
+          // also allow size object for uniform? For ladder box mode, size.height maps to height
+          const size = {};
+          if (!isNaN(w)) size.w = w;
+          if (!isNaN(d)) size.d = d;
+          if (!isNaN(height)) size.h = height;
+          if (Object.keys(size).length) patch.size = size;
+        } else if (found.type === "poi" || found.collection === "pois") {
+          // POI uniform handled above, but fallback box for chest? Allow size as uniform scale already
+          const scaleVal = parseFloat(container.querySelector("#author-scale").value);
+          if (!isNaN(scaleVal)) { patch.uniformScale = scaleVal; }
+        }
+      }
     } else {
-      if (!isNaN(height)) patch.height = height;
+      // No resize supported: ignore size inputs
     }
     const selRegion = selRegionEl.value;
     if (selRegion) patch.regionId = selRegion;

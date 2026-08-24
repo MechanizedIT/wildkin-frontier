@@ -15,9 +15,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     const p = placements[i];
     const regionId = p.regionId ?? p.region ?? null;
     const nodeId = p.id ?? `${p.type}_${i}`;
-    const { group, state, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks } = createResourceNode(p.type, p.pos, i);
-    // Preserve authoritative id from data if provided
-    state.id = nodeId;
+    const { group, state, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks } = createResourceNode(p.type, p.pos, i, nodeId);
     state.regionId = regionId;
     group.userData.authorId = nodeId;
     group.userData.resourceId = nodeId;
