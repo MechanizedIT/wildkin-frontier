@@ -1,6 +1,7 @@
 // src/author/authorMode.js — desktop dev-only Author Mode (Phase 3.5B.1 usability & correctness)
 import * as THREE from "three";
 import { createAuthorDraft } from "./authorDraft.js";
+import { normalizeStaticDescriptor, getVisualCenter } from "../world/staticDescriptor.js";
 import { createAuthorUI } from "./authorUI.js";
 
 export function createAuthorMode(opts) {
@@ -33,6 +34,7 @@ export function createAuthorMode(opts) {
   let isDragging = false;
   let dragOffset = { x: 0, z: 0 };
   let dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  let dragState = null; // {id, startPos, previewPos, startFacing, previewFacing} preview-only, no canonical mutation
   let originalFog = null;
   let forestMats = [];
   let hudHidden = [];
@@ -59,26 +61,19 @@ export function createAuthorMode(opts) {
       else exitEdit();
     },
     onPlay: () => {
-      draftApi.validate();
+      const v = draftApi.validate();
+      if(!v.ok){ ui.setStatus("⚠ "+v.error, true); return; }
       ui.setStatus("Applying draft — reloading...", false);
       if (onRebuild) onRebuild(draftApi.getDraft());
       else window.location.reload();
     },
     onDraftChanged: (id, deletedId) => {
+      reconcilePreview();
       if (id) {
         selectedId = id; ui.setSelected(id);
-        if (!findMeshByAuthorId(id)) createPreviewMeshForNewObject(id);
-        syncPreviewForId(id);
-        updateHomeMarker();
-        if (isEdit) { ensureSpawnMarkers(); updateSpawnMarkers(); }
-        if (ui.refreshHierarchy) ui.refreshHierarchy();
       }
-      if (deletedId) { removePreviewMesh(deletedId); if (isEdit) { ensureSpawnMarkers(); updateSpawnMarkers(); } if (ui.refreshHierarchy) ui.refreshHierarchy(); }
+      if (deletedId && selectedId===deletedId) { selectedId=null; ui.setSelected(null); }
       updateHighlight();
-      updateOverlays();
-      if (isEdit) updateEditorVisibility();
-      updateHomeMarker();
-      if (isEdit) updateSpawnMarkers();
     },
     onSelectNew: (id) => {
       selectedId = id;
@@ -144,33 +139,33 @@ export function createAuthorMode(opts) {
     }
     return fallback;
   }
-  // Live preview: sync a single object's mesh to draft position/rotation/size
+  // Live preview: sync a single object's mesh to draft position/rotation/size (canonical descriptor authority)
   function syncPreviewForId(id) {
     const found = draftApi.findObjectById(id);
     if (!found) return;
     const obj = found.obj;
     const meshes = findAllMeshesByAuthorId(id);
     let target = findMeshByAuthorId(id);
-    if (!target) return;
+    if (!target && found.type!=="campSpawn" && found.type!=="runSpawn") return;
     let top = target;
-    while (top.parent && top.parent.userData && top.parent.userData.authorId === id) top = top.parent;
+    while (top && top.parent && top.parent.userData && top.parent.userData.authorId === id) top = top.parent;
     const draftPos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: obj.y ?? obj.baseY ?? 0, z: obj.z } : null);
-    if (!draftPos) return;
-    const baseY = draftPos.y ?? obj.y ?? obj.baseY ?? 0;
+    if (!draftPos && found.type !== "campSpawn" && found.type !== "runSpawn" && found.collection!=="campSpawn" && found.collection!=="runSpawn") {
+      if(!obj.pos) return;
+    }
+    const baseY = draftPos ? (draftPos.y ?? obj.y ?? obj.baseY ?? 0) : (obj.pos?.y ?? 0);
     if (found.type === "creature") {
-      top.position.set(draftPos.x, baseY, draftPos.z);
+      if(top) top.position.set(draftPos.x, baseY, draftPos.z);
     } else if (found.type === "resource") {
-      top.position.set(draftPos.x, baseY, draftPos.z);
+      if(top) top.position.set(draftPos.x, baseY, draftPos.z);
     } else if (found.collection === "props") {
       const height = (obj.size?.h ?? 1);
       const isWater = obj.subtype === "water";
       if (obj.subtype === "dropPod") {
-        top.position.set(draftPos.x, baseY, draftPos.z);
-        top.rotation.y = obj.rotY ?? 0;
+        if(top) { top.position.set(draftPos.x, baseY, draftPos.z); top.rotation.y = obj.rotY ?? 0; }
       } else {
         for (const m of meshes) {
           if (m.isMesh && m.geometry?.type === "BoxGeometry") {
-            // Live resize: recreate geometry if size changed
             const desiredW = obj.size?.w ?? m.geometry.parameters?.width ?? 1;
             const desiredH = obj.size?.h ?? 1;
             const desiredD = obj.size?.d ?? 1;
@@ -187,7 +182,7 @@ export function createAuthorMode(opts) {
             m.rotation.y = obj.rotY ?? 0;
           }
         }
-        if (top.isGroup) { top.position.set(draftPos.x, baseY, draftPos.z); top.rotation.y = obj.rotY ?? 0; }
+        if (top && top.isGroup) { top.position.set(draftPos.x, baseY, draftPos.z); top.rotation.y = obj.rotY ?? 0; }
       }
     } else if (found.type === "platform" || found.type === "obstacle") {
       const h = obj.height ?? 1;
@@ -219,30 +214,48 @@ export function createAuthorMode(opts) {
           m.position.set(draftPos.x, base + h + 0.35, draftPos.z);
         }
       }
+    } else if (found.type === "groundPatch" || found.type === "boundaryCollider") {
+      try{
+        const desc = normalizeStaticDescriptor({ id: obj.id, pos: obj.pos, size: obj.size, rotY: obj.rotY, visibleInPlay: obj.visibleInPlay, collisionEnabled: obj.collisionEnabled, opacity: obj.opacity, color: obj.color }, found.collection);
+        const center = getVisualCenter(desc);
+        const w = desc.size.width, h = desc.size.height, d = desc.size.depth;
+        const rotY = desc.rotationY;
+        for (const m of meshes) {
+          if (m.userData && m.userData.isEditProxy) continue;
+          if (m.isMesh && m.geometry?.type === "BoxGeometry") {
+            const gp = m.geometry.parameters;
+            if (gp && (Math.abs(gp.width - w) > 0.01 || Math.abs(gp.height - h) > 0.01 || Math.abs(gp.depth - d) > 0.01)) {
+              const newGeo = new THREE.BoxGeometry(w, h, d);
+              m.geometry.dispose(); m.geometry = newGeo;
+            }
+            m.position.set(center.x, center.y, center.z);
+            m.rotation.y = rotY;
+          }
+        }
+        scene.traverse((o)=>{
+          if(o.userData && o.userData.isEditProxy && o.userData.proxyFor===id){
+            const pg = o.geometry.parameters;
+            if(pg && (Math.abs(pg.width - w) > 0.01 || Math.abs(pg.height - h) > 0.01 || Math.abs(pg.depth - d) > 0.01)){
+              const newGeo = new THREE.BoxGeometry(w,h,d);
+              o.geometry.dispose(); o.geometry = newGeo;
+            }
+            o.position.set(center.x, center.y, center.z);
+            o.rotation.y = rotY;
+          }
+        });
+      }catch(e){
+        for(const m of meshes) if(m.isMesh){ m.position.set(draftPos.x, baseY + (obj.size?.h??0.5)/2, draftPos.z); m.rotation.y = obj.rotY ?? 0; }
+      }
     }
     if (found.type === "campSpawn" || found.type === "runSpawn") {
-      // spawn marker: capsule + arrow
-      for (const m of meshes) {
-        if (m.userData && m.userData.isSpawnMarker) {
-          m.position.set(draftPos.x, baseY + 0.52, draftPos.z);
-          m.rotation.y = obj.facingYaw ?? 0;
-        }
-        if (m.userData && m.userData.isSpawnArrow) {
-          m.position.set(draftPos.x, baseY + 0.12, draftPos.z);
-          m.rotation.y = obj.facingYaw ?? 0;
-        }
-        // also handle ring
-        if (m.userData && m.userData.isSpawnRing) {
-          m.position.set(draftPos.x, baseY + 0.06, draftPos.z);
-        }
-      }
-      // if marker group top
-      if (top.userData && top.userData.isSpawnMarkerGroup) {
-        top.position.set(draftPos.x, baseY, draftPos.z);
-        top.rotation.y = obj.facingYaw ?? 0;
+      const group = meshes.find(m=> m.userData && m.userData.isSpawnMarkerGroup) || top;
+      if(group && group.userData && group.userData.isSpawnMarkerGroup){
+        const facing = obj.facingYaw ?? 0;
+        const by = draftPos.y ?? 0;
+        group.position.set(draftPos.x, by, draftPos.z);
+        group.rotation.y = facing;
       }
     }
-    // Presentation live preview for static families (visible/collision not affecting position, but visible/material)
     if (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider") {
       const vis = obj.visibleInPlay !== false;
       const op = obj.opacity ?? 1;
@@ -251,21 +264,31 @@ export function createAuthorMode(opts) {
         if (m.userData && m.userData.isEditProxy) continue;
         if (m.isMesh) {
           m.visible = vis;
-          if (col !== undefined || op < 1) {
+          const needsTint = col !== undefined;
+          const needsOpacity = op < 1 - 1e-6;
+          if (needsTint || needsOpacity) {
             if (!m.userData.hasClonedMaterial) {
               m.material = m.material.clone();
               m.userData.hasClonedMaterial = true;
               if (m.userData.baseColor === undefined) m.userData.baseColor = m.material.color.getHex();
+              m.userData.baseTransparent = m.material.transparent;
+              m.userData.baseOpacity = m.material.opacity ?? 1;
             }
-            if (col !== undefined) {
+            if (needsTint) {
               const hex = parseTintColor(col, m.userData.baseColor ?? m.material.color.getHex());
               m.material.color.setHex(hex);
+            } else if (m.userData.baseColor !== undefined) {
+              m.material.color.setHex(m.userData.baseColor);
             }
-            if (op < 1) { m.material.transparent = true; m.material.opacity = op; } else { m.material.transparent = false; m.material.opacity = 1; }
+            if (needsOpacity) { m.material.transparent = true; m.material.opacity = op; }
+            else { m.material.transparent = false; m.material.opacity = 1; }
+          } else if (m.userData.hasClonedMaterial) {
+            if (m.userData.baseColor !== undefined) m.material.color.setHex(m.userData.baseColor);
+            m.material.transparent = !!m.userData.baseTransparent;
+            m.material.opacity = m.userData.baseOpacity ?? 1;
           }
         }
       }
-      // proxy visibility
       scene.traverse((o) => {
         if (o.userData && o.userData.isEditProxy && o.userData.proxyFor === id) {
           o.visible = isEdit && !vis;
@@ -394,21 +417,12 @@ export function createAuthorMode(opts) {
   }
 
   function createPreviewMeshForNewObject(id) {
-    // For live preview of newly placed object without reload, we could create a simple mesh via staticWorld logic
-    // Simpler: instead of creating preview, just force a partial rebuild of static world for that region?
-    // For now, call a lightweight rebuild: remove old playground static meshes and rebuild from draft for that region only?
-    // Simplest: rebuild entire static world preview layer without touching physics/resources/creatures
-    // We will recreate static meshes for the new object by directly building it
-    // As fallback, just trigger full visual rebuild for props/platforms: we can call sync? Actually newly created object has no mesh yet, so we need to create it.
-    // We'll create a minimal mesh via addProp-like logic: find draft object and create mesh as staticWorldBuilder does.
     const found = draftApi.findObjectById(id);
     if (!found) return;
     const obj = found.obj;
-    // For props/resources/creatures, we need to add to respective systems: resources/creatures need resourceSystem/creatureSystem to spawn.
-    // For simplicity after place/duplicate/delete we trigger a lightweight rebuild via reload? But spec requires immediate visible in editor.
-    // For resources/creatures, we can directly create a preview group and add to scene.
+    // If mesh already exists, just sync
+    if(findMeshByAuthorId(id)) { syncPreviewForId(id); return; }
     if (found.type === "resource") {
-      // Create a simple placeholder box for preview (will be correctly rendered after PLAY reload, but enough for Edit)
       const geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
       const mat = new THREE.MeshStandardMaterial({ color: obj.type==="tree"?0x2f7d32: obj.type==="rock"?0x8d8d8d:0x6abf69 });
       const mesh = new THREE.Mesh(geo, mat);
@@ -427,10 +441,52 @@ export function createAuthorMode(opts) {
       mesh.userData.authorId = obj.id;
       mesh.userData.creatureId = obj.id;
       scene.add(mesh);
+    } else if (found.type === "groundPatch" || found.type === "boundaryCollider") {
+      // Use canonical descriptor for static preview + immediate proxy for hidden colliders
+      try{
+        const desc = normalizeStaticDescriptor({ id: obj.id, pos: obj.pos, size: obj.size, rotY: obj.rotY, visibleInPlay: obj.visibleInPlay, collisionEnabled: obj.collisionEnabled, opacity: obj.opacity, color: obj.color }, found.collection);
+        const center = getVisualCenter(desc);
+        const w = desc.size.width, h = desc.size.height, d = desc.size.depth;
+        const rotY = desc.rotationY;
+        const geo = new THREE.BoxGeometry(w,h,d);
+        let baseMat = new THREE.MeshStandardMaterial({ color: 0x9aa0a6 });
+        if(found.type==="groundPatch") baseMat = new THREE.MeshStandardMaterial({ color: 0x7bb26a, flatShading:true });
+        else if(found.type==="boundaryCollider") baseMat = new THREE.MeshStandardMaterial({ color: 0x5a6a7a, transparent:true, opacity:0.28 });
+        const mesh = new THREE.Mesh(geo, baseMat);
+        mesh.position.set(center.x, center.y, center.z);
+        mesh.rotation.y = rotY;
+        mesh.name = id;
+        mesh.userData.authorId = id;
+        mesh.userData.visibleInPlay = desc.visibleInPlay;
+        mesh.userData.collisionEnabled = desc.collisionEnabled;
+        mesh.visible = desc.visibleInPlay;
+        scene.add(mesh);
+        if(!desc.visibleInPlay){
+          const proxyGeo = new THREE.BoxGeometry(w,h,d);
+          const proxyMat = new THREE.MeshBasicMaterial({ color: 0xffff00, wireframe:true, transparent:true, opacity:0.42 });
+          const proxy = new THREE.Mesh(proxyGeo, proxyMat);
+          proxy.position.copy(mesh.position);
+          proxy.rotation.y = rotY;
+          proxy.name = `${id}__proxy`;
+          proxy.userData.authorId = id;
+          proxy.userData.isEditProxy = true;
+          proxy.userData.proxyFor = id;
+          proxy.visible = isEdit;
+          scene.add(proxy);
+          mesh.userData.proxyMesh = proxy;
+        }
+      }catch(e){
+        const geo = new THREE.BoxGeometry(obj.size?.w ?? 1, obj.size?.h ?? 1, obj.size?.d ?? 1);
+        const mat = new THREE.MeshStandardMaterial({ color: 0x9aa0a6 });
+        const mesh = new THREE.Mesh(geo, mat);
+        const baseY = obj.pos?.y ?? 0;
+        const h = obj.size?.h ?? 1;
+        mesh.position.set(obj.pos.x, baseY + h/2, obj.pos.z);
+        mesh.name = id;
+        mesh.userData.authorId = id;
+        scene.add(mesh);
+      }
     } else {
-      // For static props/platforms: rebuild static world preview for that object by creating mesh directly (reuse builder logic minimal)
-      // As simplest, trigger a full static preview rebuild without physics: we can rebuild static world group from draft and replace?
-      // We'll do minimal: create a box as placeholder if not found
       const meshes = findAllMeshesByAuthorId(id);
       if (meshes.length===0) {
         const geo = new THREE.BoxGeometry(obj.size?.w ?? obj.w ?? 1, obj.size?.h ?? obj.height ?? 1, obj.size?.d ?? obj.h ?? 1);
@@ -518,6 +574,51 @@ export function createAuthorMode(opts) {
     });
   }
 
+  function reconcilePreview(){
+    // Reconcile canonical draft vs scene preview (commit/undo/redo/place/delete)
+    const allIds = draftApi.getAllObjectIds ? draftApi.getAllObjectIds() : [];
+    const idSet = new Set(allIds);
+    // Remove stale meshes
+    const toRemove=[];
+    scene.traverse((o)=>{
+      if(o.userData && o.userData.authorId){
+        const aid = o.userData.authorId;
+        // keep spawn marker group children? They share authorId but parent group is the owner
+        // Check if aid not in canonical and not a proxy for existing? Proxies share same aid but should remain if owner hidden
+        if(!idSet.has(aid) && !o.userData.isEditProxy && !o.userData.proxyFor){
+          // also check if it's spawn line proxy? Those have isSpawnLine but same aid as spawn, but if spawn still exists, keep
+          // For now, if aid is like "something__runSpawn" and not in set but base waypoint exists? Actually runSpawn ids are in set
+          toRemove.push(o);
+        } else if(o.userData.isSpawnLine || o.userData.isSpawnMarkerGroup){
+          // spawn lines/markers: check if corresponding spawn still exists
+          if(!idSet.has(aid)) toRemove.push(o);
+        }
+      }
+      if(o.userData && o.userData.isEditProxy && o.userData.proxyFor){
+        if(!idSet.has(o.userData.proxyFor)) toRemove.push(o);
+      }
+    });
+    for(const o of toRemove){
+      if(o.parent) o.parent.remove(o);
+      if(o.geometry) try{ o.geometry.dispose(); }catch{}
+      if(o.material) try{ if(Array.isArray(o.material)) o.material.forEach(m=>m.dispose()); else o.material.dispose(); }catch{}
+    }
+    // Ensure meshes for existing ids
+    for(const id of allIds){
+      if(id==="camp_spawn" || id.endsWith("__runSpawn")) continue;
+      if(!findMeshByAuthorId(id)){
+        createPreviewMeshForNewObject(id);
+      }
+      syncPreviewForId(id);
+    }
+    // Spawn markers
+    if(isEdit){ ensureSpawnMarkers(); updateSpawnMarkers(); }
+    updateHighlight();
+    updateHomeMarker();
+    updateOverlays();
+    if(isEdit) updateEditorVisibility();
+    if(ui.refreshHierarchy) ui.refreshHierarchy();
+  }
   function updateEditorVisibility() {
     if (!isEdit) return;
     const focus = { x: camera.position.x, z: camera.position.z };
@@ -553,49 +654,22 @@ export function createAuthorMode(opts) {
     let regionId = draftApi.findContainingRegion({ x: worldPos.x, z: worldPos.z });
     if (!regionId) regionId = draftApi.findNearestRegion({ x: worldPos.x, z: worldPos.z });
     const targetRegion = regionId || draftApi.getDraft().regions[0]?.id;
-    // Create object at worldPos
     const kind = pendingPlace.kind;
     const subtype = pendingPlace.subtype;
-    // We need to create via draftApi but at specific position, not region center
-    // Use draftApi.createObject then override pos, or directly construct object for precise pos
-    // createObject places at center, then we update
-    const res = draftApi.createObject(targetRegion, kind, subtype);
-    if (!res.ok) { ui.setStatus(res.error, true); return true; }
+    // Atomic creation at final intended position (no intermediate mutate)
+    const res = draftApi.createObjectAtPosition(kind, subtype, worldPos, targetRegion);
+    if (!res.ok) { ui.setStatus("⚠ "+res.error, true); return true; }
     const newId = res.id;
-    // Now set precise pos
-    const found = draftApi.findObjectById(newId);
-    if (found) {
-      if (found.obj.pos) {
-        found.obj.pos.x = worldPos.x;
-        found.obj.pos.z = worldPos.z;
-        found.obj.pos.y = worldPos.y ?? 0;
-        if (found.type === "creature" && found.obj.homePos) {
-          found.obj.homePos.x = worldPos.x;
-          found.obj.homePos.z = worldPos.z;
-          found.obj.homePos.y = worldPos.y ?? 0;
-        }
-      } else if (found.obj.x !== undefined) {
-        found.obj.x = worldPos.x;
-        found.obj.z = worldPos.z;
-        if (found.obj.y !== undefined || found.obj.baseY !== undefined) {
-          found.obj.y = worldPos.y ?? 0;
-          found.obj.baseY = worldPos.y ?? 0;
-        }
-      }
-      draftApi.updateTransform(newId, {}); // persist
-    }
-    // Validate
     const v = draftApi.validate();
-    if (!v.ok) { ui.setStatus("⚠ " + v.error, true); // rollback?
-    } else ui.setStatus(`Placed ${newId} at ${worldPos.x.toFixed(1)}, ${worldPos.z.toFixed(1)}`, false);
+    if (!v.ok) { ui.setStatus("⚠ " + v.error, true); }
+    else ui.setStatus(`Placed ${newId} at ${worldPos.x.toFixed(1)}, ${worldPos.z.toFixed(1)}`, false);
     ui.refreshRegionSelects();
     ui.setSelected(newId);
     selectedId = newId;
-    createPreviewMeshForNewObject(newId);
+    reconcilePreview();
     syncPreviewForId(newId);
     updateHighlight();
     updateEditorVisibility();
-    // Stay in place mode for successive placements? Spec says click palette → click world → becomes selected. Keep place mode active until Esc? For now exit after one.
     exitPlaceMode();
     return true;
   }
@@ -770,10 +844,8 @@ export function createAuthorMode(opts) {
 
   function onPointerDown(e) {
     if (!isEdit) return;
-    // If pending place, handled in click; ignore drag start for placement
     if (pendingPlace) return;
     if (e.button !== 0) return;
-    // Check if we hit selected object — start drag
     const rect = renderer.domElement.getBoundingClientRect();
     mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -797,10 +869,18 @@ export function createAuthorMode(opts) {
         const curPos = found.obj.pos || { x: found.obj.x ?? 0, z: found.obj.z ?? 0 };
         dragOffset.x = curPos.x - pt.x;
         dragOffset.z = curPos.z - pt.z;
-        if (found.obj.pos) dragStartPos = { x: found.obj.pos.x, y: found.obj.pos.y ?? 0, z: found.obj.pos.z };
-        else if (found.obj.x !== undefined) dragStartPos = { x: found.obj.x, y: found.obj.y ?? 0, z: found.obj.z };
-        if (found.type === "creature" && found.obj.homePos) dragStartHome = { x: found.obj.homePos.x, y: found.obj.homePos.y ?? 0, z: found.obj.homePos.z };
-        else dragStartHome = null;
+        // capture preview state without mutating canonical
+        const baseY = found.obj.pos ? (found.obj.pos.y ?? 0) : (found.obj.y ?? found.obj.baseY ?? 0);
+        const curFacing = found.obj.facingYaw ?? found.obj.rotY ?? 0;
+        dragState = {
+          id: selectedId,
+          startPos: found.obj.pos ? { x: found.obj.pos.x, y: baseY, z: found.obj.pos.z } : { x: found.obj.x, y: baseY, z: found.obj.z },
+          previewPos: found.obj.pos ? { x: found.obj.pos.x, y: baseY, z: found.obj.pos.z } : { x: found.obj.x, y: baseY, z: found.obj.z },
+          startFacing: curFacing,
+          previewFacing: curFacing,
+          isSpawn: found.type==="campSpawn" || found.type==="runSpawn",
+          isCreature: found.type==="creature"
+        };
       }
       e.preventDefault(); e.stopPropagation();
       renderer.domElement.setPointerCapture(e.pointerId);
@@ -808,64 +888,117 @@ export function createAuthorMode(opts) {
   }
   let dragStartPos = null;
   let dragStartHome = null;
+  function applyPreviewTransform(id, previewPos, previewFacing){
+    // update mesh preview directly without touching draft
+    const found = draftApi.findObjectById(id);
+    if(!found) return;
+    // find meshes and apply
+    const meshes = findAllMeshesByAuthorId(id);
+    let target = findMeshByAuthorId(id);
+    let top = target;
+    while (top && top.parent && top.parent.userData && top.parent.userData.authorId === id) top = top.parent;
+    const isSpawn = found.type==="campSpawn" || found.type==="runSpawn";
+    if(isSpawn){
+      const group = meshes.find(m=> m.userData && m.userData.isSpawnMarkerGroup) || top;
+      if(group){
+        const by = previewPos.y ?? 0;
+        group.position.set(previewPos.x, by, previewPos.z);
+        if(previewFacing!==undefined) group.rotation.y = previewFacing;
+      }
+      // update line to waypoint for runSpawn preview
+      if(id.endsWith("__runSpawn")){
+        const baseId = id.replace("__runSpawn","");
+        for(const line of spawnMarkers) if(line.isLine && line.userData.isSpawnLine && line.userData.authorId===id){
+          const wp = draftApi.getDraft().regions.flatMap(r=>r.majorWaypoints??[]).find(w=>w.id===baseId);
+          if(wp){
+            const pts = [new THREE.Vector3(wp.pos.x, (wp.pos.y??0)+0.1, wp.pos.z), new THREE.Vector3(previewPos.x, (previewPos.y??0)+0.1, previewPos.z)];
+            line.geometry.setFromPoints(pts);
+          }
+        }
+      }
+      updateHighlight();
+      return;
+    }
+    // For other types, update meshes via temporary preview by directly setting mesh positions (live)
+    // Use similar logic to syncPreview but with previewPos overriding draftPos
+    // For static rectangular families, previewPos contains x,y,z; we update mesh positions accordingly
+    const baseY = previewPos.y ?? 0;
+    if (found.type === "creature" || found.type === "resource") {
+      if(top) top.position.set(previewPos.x, baseY, previewPos.z);
+    } else if (found.collection === "props") {
+      for(const m of meshes){
+        if(m.isMesh){
+          // approximate: assume box geometry; position center
+          const h = found.obj.size?.h ?? 1;
+          const isWater = found.obj.subtype === "water";
+          m.position.set(previewPos.x, isWater ? baseY -0.04 : baseY + h/2 -0.02, previewPos.z);
+        }
+      }
+      if(top && top.isGroup) top.position.set(previewPos.x, baseY, previewPos.z);
+    } else if (found.type === "groundPatch" || found.type === "boundaryCollider") {
+      try{
+        const desc = normalizeStaticDescriptor({ id: found.obj.id, pos: previewPos, size: found.obj.size, rotY: found.obj.rotY, visibleInPlay: found.obj.visibleInPlay, collisionEnabled: found.obj.collisionEnabled }, found.collection);
+        const center = getVisualCenter(desc);
+        for(const m of meshes){
+          if(m.userData && m.userData.isEditProxy) continue;
+          if(m.isMesh) { m.position.set(center.x, center.y, center.z); }
+        }
+        scene.traverse((o)=>{
+          if(o.userData && o.userData.isEditProxy && o.userData.proxyFor===id){
+            o.position.set(center.x, center.y, center.z);
+          }
+        });
+      }catch{}
+    } else if (found.type === "platform" || found.type === "obstacle") {
+      for(const m of meshes) if(m.isMesh) m.position.set(previewPos.x, (previewPos.y ?? 0)+ (found.obj.height??1)/2 -0.02, previewPos.z);
+    } else if (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi") {
+      for(const m of meshes) if(m.isMesh){
+        const h = found.type==="majorWaypoint"?1.6: found.type==="extractionBeacon"?1.2:0.6;
+        if(m.geometry?.type==="CylinderGeometry" || m.geometry?.type==="BoxGeometry") m.position.set(previewPos.x, baseY + h/2, previewPos.z);
+        else if(m.geometry?.type==="RingGeometry") m.position.set(previewPos.x, baseY+0.06, previewPos.z);
+        else if(m.geometry?.type==="SphereGeometry") m.position.set(previewPos.x, baseY + h +0.35, previewPos.z);
+      }
+    } else {
+      if(top) top.position.set(previewPos.x, baseY, previewPos.z);
+    }
+    updateHighlight();
+    updateHomeMarker();
+  }
   function onPointerMove(e) {
-    if (!isEdit || !isDragging || !selectedId) return;
+    if (!isEdit || !isDragging || !selectedId || !dragState) return;
     const pt = getGroundIntersection(e);
-    const found = draftApi.findObjectById(selectedId);
-    if (!found) return;
     const newX = pt.x + dragOffset.x;
     const newZ = pt.z + dragOffset.z;
-    const nx = newX;
-    const nz = newZ;
-    const oldX = found.obj.pos ? found.obj.pos.x : found.obj.x;
-    const oldZ = found.obj.pos ? found.obj.pos.z : found.obj.z;
-    const dx = nx - oldX, dz = nz - oldZ;
-    if (found.obj.pos) {
-      found.obj.pos.x = nx; found.obj.pos.z = nz;
-      if (found.type === "creature" && found.obj.homePos) {
-        const moveHome = document.getElementById("author-move-home")?.checked ?? true;
-        if (moveHome) { found.obj.homePos.x += dx; found.obj.homePos.z += dz; }
-      }
-    } else if (found.obj.x !== undefined) {
-      found.obj.x = nx; found.obj.z = nz;
-    }
-    syncPreviewForId(selectedId);
-    updateHomeMarker();
-    ui.setSelected(selectedId);
+    dragState.previewPos.x = newX;
+    dragState.previewPos.z = newZ;
+    // preview only, no canonical mutation
+    applyPreviewTransform(selectedId, dragState.previewPos, dragState.previewFacing);
     e.preventDefault();
   }
   function onPointerUp(e) {
     if (isDragging) {
       isDragging = false;
-      const found = draftApi.findObjectById(selectedId);
-      if (found) {
-        let newPos = null;
-        if (found.obj.pos) newPos = { x: found.obj.pos.x, y: found.obj.pos.y ?? 0, z: found.obj.pos.z };
-        else if (found.obj.x !== undefined) newPos = { x: found.obj.x, z: found.obj.z };
-        // revert direct mutation before transactional commit to preserve validation/history
-        if (dragStartPos) {
-          if (found.obj.pos) { found.obj.pos.x = dragStartPos.x; found.obj.pos.y = dragStartPos.y; found.obj.pos.z = dragStartPos.z; }
-          else if (found.obj.x !== undefined) { found.obj.x = dragStartPos.x; found.obj.z = dragStartPos.z; }
-          if (found.type === "creature" && found.obj.homePos && dragStartHome) {
-            found.obj.homePos.x = dragStartHome.x; found.obj.homePos.y = dragStartHome.y; found.obj.homePos.z = dragStartHome.z;
-          }
-        }
-        const patch = {};
-        if (newPos) patch.pos = newPos;
-        if (found.type === "creature" && found.obj.homePos && newPos && found.obj.homePos) {
-          // home already moved directly; include via pos patch will handle via creatureDelta logic inside transact
-          // but we restored, so need to pass moveHomeVia patch? Instead we will include homePos explicitly if needed
-          // The transact logic for creature will auto-move home if not specified; we already have home delta, so pass pos only
-        }
+      if(dragState && selectedId === dragState.id){
+        const previewPos = { ...dragState.previewPos };
+        dragState = null;
+        const patch = { pos: previewPos };
         const res = draftApi.updateTransform(selectedId, patch);
         if (!res.ok) {
           ui.setStatus("⚠ "+res.error, true);
-          // revert preview to restored draft
+          // snap back to canonical
           syncPreviewForId(selectedId);
+          updateSpawnMarkers();
         } else {
-          const v = draftApi.validate();
-          ui.setStatus(v.ok ? `Moved ${selectedId}` : "⚠ "+v.error, !v.ok);
+          ui.setStatus(`Moved ${selectedId}`, false);
+          reconcilePreview();
+          syncPreviewForId(selectedId);
+          updateSpawnMarkers();
+          ui.setSelected(selectedId);
+          if(ui.refreshHierarchy) ui.refreshHierarchy();
         }
+      } else {
+        dragState = null;
+        syncPreviewForId(selectedId);
       }
       dragStartPos = null; dragStartHome = null;
       updateEditorVisibility();
@@ -935,7 +1068,16 @@ export function createAuthorMode(opts) {
     if (isTextEditingTarget(document.activeElement)) return;
     if (e.key === "Escape") {
       if (pendingPlace) { exitPlaceMode(); e.preventDefault(); return; }
-      if (isDragging) { isDragging = false; dragStartPos=null; dragStartHome=null; e.preventDefault(); return; }
+      if (isDragging || dragState) {
+        isDragging = false;
+        if(dragState){
+          // cancel preview, restore canonical presentation
+          syncPreviewForId(dragState.id);
+          updateSpawnMarkers();
+          dragState=null;
+        }
+        dragStartPos=null; dragStartHome=null; e.preventDefault(); return;
+      }
     }
     if (!isEdit) return;
     const isCtrl = e.ctrlKey || e.metaKey;
@@ -944,11 +1086,8 @@ export function createAuthorMode(opts) {
       const res = draftApi.undo();
       if (res.ok) {
         ui.setStatus("Undo", false);
-        // restore preview/hierarchy
         if (selectedId && !draftApi.findObjectById(selectedId)) { selectedId = null; ui.setSelected(null); }
-        if (selectedId) syncPreviewForId(selectedId);
-        updateHighlight(); updateOverlays(); updateHomeMarker(); updateEditorVisibility();
-        ui.refreshHierarchy?.();
+        reconcilePreview();
       } else ui.setStatus(res.error, true);
       return;
     }
@@ -957,9 +1096,7 @@ export function createAuthorMode(opts) {
       const res = draftApi.redo();
       if (res.ok) {
         ui.setStatus("Redo", false);
-        if (selectedId) syncPreviewForId(selectedId);
-        updateHighlight(); updateOverlays(); updateHomeMarker(); updateEditorVisibility();
-        ui.refreshHierarchy?.();
+        reconcilePreview();
       } else ui.setStatus(res.error, true);
       return;
     }
@@ -972,9 +1109,7 @@ export function createAuthorMode(opts) {
       if (res.ok) {
         const deleted = selectedId;
         selectedId = null; ui.setSelected(null);
-        removePreviewMesh(deleted);
-        if (ui.refreshHierarchy) ui.refreshHierarchy();
-        updateHighlight(); updateHomeMarker();
+        reconcilePreview();
         ui.setStatus(`Deleted ${deleted}`, false);
       } else ui.setStatus(res.error, true);
       return;
@@ -1005,22 +1140,36 @@ export function createAuthorMode(opts) {
       e.preventDefault();
       const f = draftApi.findObjectById(selectedId);
       if (!f) return;
-      // rotate -15deg if supports rotation
-      const cur = f.obj.rotY ?? 0;
-      const patch = { rotY: cur - (15 * Math.PI/180) };
-      const res = draftApi.updateTransform(selectedId, patch);
-      if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+      const isSpawn = f.type==="campSpawn" || f.type==="runSpawn";
+      if(isSpawn){
+        const cur = f.obj.facingYaw ?? 0;
+        const patch = { facingYaw: cur - (15 * Math.PI/180) };
+        const res = draftApi.updateTransform(selectedId, patch);
+        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); updateSpawnMarkers(); ui.setSelected(selectedId); updateHighlight(); }
+      } else {
+        const cur = f.obj.rotY ?? 0;
+        const patch = { rotY: cur - (15 * Math.PI/180) };
+        const res = draftApi.updateTransform(selectedId, patch);
+        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+      }
       return;
     } else if (k === "e") {
-      // avoid conflict with contextual interaction E when not editing? In author edit we own E
       if (!isEdit) return;
       e.preventDefault();
       const f = draftApi.findObjectById(selectedId);
       if (!f) return;
-      const cur = f.obj.rotY ?? 0;
-      const patch = { rotY: cur + (15 * Math.PI/180) };
-      const res = draftApi.updateTransform(selectedId, patch);
-      if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+      const isSpawn = f.type==="campSpawn" || f.type==="runSpawn";
+      if(isSpawn){
+        const cur = f.obj.facingYaw ?? 0;
+        const patch = { facingYaw: cur + (15 * Math.PI/180) };
+        const res = draftApi.updateTransform(selectedId, patch);
+        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); updateSpawnMarkers(); ui.setSelected(selectedId); updateHighlight(); }
+      } else {
+        const cur = f.obj.rotY ?? 0;
+        const patch = { rotY: cur + (15 * Math.PI/180) };
+        const res = draftApi.updateTransform(selectedId, patch);
+        if (!res.ok) ui.setStatus(res.error, true); else { ui.setStatus(`Rotated ${selectedId}`, false); syncPreviewForId(selectedId); ui.setSelected(selectedId); updateHighlight(); }
+      }
       return;
     } else if (k === " " || k === "c") {
       // raise/lower: Space / C (C conflicts with sneak but in author mode we use Space for up and C for down)

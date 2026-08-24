@@ -100,8 +100,12 @@ window.addEventListener("orientationchange", () => {
 });
 
 const physicsWorld = createPhysicsWorld(RAPIER, playground);
+function resolveSpawnCapsuleCenter(feetY){
+  // authored support Y is feet elevation; derive capsule center via collider half extents + small clearance
+  return feetY + RAPIER_CONFIG.capsuleHalfHeight + RAPIER_CONFIG.capsuleRadius + 0.02;
+}
 let campSpawn = worldRegistry.getCampSpawnPosition();
-let startPos = { x: campSpawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: campSpawn.z };
+let startPos = { x: campSpawn.x, y: resolveSpawnCapsuleCenter(campSpawn.y ?? 0), z: campSpawn.z };
 const campStartFacing = campSpawn.facingYaw ?? 0;
 const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos);
 
@@ -386,13 +390,13 @@ frontierAnchorSystem = createFrontierAnchorSystem(worldRegistry, {
     const wp = worldRegistry.getWaypointById(id);
     const name = wp ? worldRegistry.getAnchorDisplayName(wp) : id;
     activationToast.show({ displayName: name, type: "majorWaypoint" });
-    activationToast.pulseWorld(wp ? wp.pos : { x: 0, y: 0, z: 0 }, 0x4fc3f7);
+    activationToast.pulseWorld(wp ? { x: wp.pos.x, y: wp.pos.y ?? 0, z: wp.pos.z } : { x: 0, y: 0, z: 0 }, 0x4fc3f7);
   },
   onBeaconDiscovered: (id) => {
     const bc = worldRegistry.getBeaconById(id);
     const name = bc ? worldRegistry.getAnchorDisplayName(bc) : id;
     activationToast.show({ displayName: name, type: "extractionBeacon" });
-    activationToast.pulseWorld(bc ? bc.pos : { x: 0, y: 0, z: 0 }, 0xff7043);
+    activationToast.pulseWorld(bc ? { x: bc.pos.x, y: bc.pos.y ?? 0, z: bc.pos.z } : { x: 0, y: 0, z: 0 }, 0xff7043);
   },
 });
 frontierAnchorSystem.prime(startPos);
@@ -454,7 +458,7 @@ function resetTransientWorldToCamp() {
   combatSession.reset();
   if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
   campSpawn = worldRegistry.getCampSpawnPosition();
-  const cPos = { x: campSpawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: campSpawn.z };
+  const cPos = { x: campSpawn.x, y: resolveSpawnCapsuleCenter(campSpawn.y ?? 0), z: campSpawn.z };
   const campFacing = campSpawn.facingYaw ?? 0;
   characterPhysics.setPosition(cPos);
   player.position.set(cPos.x, cPos.y, cPos.z);
@@ -530,9 +534,10 @@ function beginExpedition(waypointId) {
   expeditionSession.beginRun(waypointId);
   frontierProgress.markDeparted();
 
-  // Position player at safe authored start for waypoint (explicit spawn transform)
+  // Position player at safe authored start for waypoint (explicit spawn transform) — authored Y is feet/support elevation
   const spawn = worldRegistry.getWaypointSpawnPosition(waypointId);
-  const sPos = spawn ? { x: spawn.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: spawn.z } : { x: wp.pos.x, y: RAPIER_CONFIG.capsuleTotalHeight / 2 + 0.15, z: wp.pos.z + 1.0 };
+  const feetY = spawn ? (spawn.y ?? wp.pos.y ?? 0) : (wp.pos.y ?? 0);
+  const sPos = spawn ? { x: spawn.x, y: resolveSpawnCapsuleCenter(feetY), z: spawn.z } : { x: wp.pos.x, y: resolveSpawnCapsuleCenter(wp.pos.y ?? 0), z: wp.pos.z + 1.0 };
   const facing = spawn ? (spawn.facingYaw ?? 0) : 0;
   characterPhysics.setPosition(sPos);
   player.position.set(sPos.x, sPos.y, sPos.z);
@@ -665,6 +670,7 @@ let lastFpsUpdate = performance.now();
 let fps = 0;
 let accumulator = 0;
 let physicsSubstepsLast = 0;
+let pendingAttackLatch = false;
 const fixedDt = RAPIER_CONFIG.fixedDt;
 const maxSubsteps = RAPIER_CONFIG.maxSubsteps;
 const maxDelta = RAPIER_CONFIG.maxDelta;
@@ -695,7 +701,11 @@ function tick() {
   const kbIntent = keyboardInput.getIntent();
   const intent = mergeIntentsPure(touchIntent, kbIntent);
   const wasDodgeRequested = intent.dodgeRequested;
-  const wasAttackRequested = intent.attackRequested;
+  // Latch attack edge: keep pending until fixed step consumes it
+  const rawWasAttackRequested = intent.attackRequested;
+  if(rawWasAttackRequested) pendingAttackLatch = true;
+  let wasAttackRequested = pendingAttackLatch;
+
   const blocked = isAnyBlockingModal() || !!authorSuppress;
   const effectiveIntent = blocked ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
 
@@ -723,7 +733,7 @@ function tick() {
       };
 
       const fieldCanAttack = !blocked && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE") && expeditionSession.isActive();
-      const effectiveAttackRequested = wasAttackRequested && !blocked;
+      const effectiveAttackRequested = pendingAttackLatch && !blocked;
       const effectiveAttackHeld = !!intent.attackHeld && fieldCanAttack;
       const getManualHarvestTargets = () => {
         const pPos = pStBefore.pos;
@@ -843,7 +853,7 @@ function tick() {
       if (wasDodgeRequested && pStateFixed.mode === "DODGE") {
         intent.dodgeRequested = false;
       }
-      if (wasAttackRequested && fieldTool.activeProfile === "combat" && fieldTool.isSwinging) {
+      if (pendingAttackLatch && fieldTool.activeProfile === "combat" && fieldTool.isSwinging) {
         intent.attackRequested = false;
       }
     } else {
@@ -863,7 +873,18 @@ function tick() {
     touchMovement.consumeDodge();
     keyboardInput.consumeDodge?.();
   }
-  if (wasAttackRequested) {
+  // Consume attack edge only after eligible fixed step processed it (not on zero-substep frames)
+  // FieldTool consumes pending when it starts a swing; we detect via isSwinging transition
+  // For simplicity, if we had pending and we executed at least one fixed step and fieldTool is now swinging/combat, clear latch
+  // Also if fieldTool not swinging but we attempted harvest and it was on cooldown, we still consider pending consumed? For now, consume after any fixed step where pending was true and fieldTool either started swing or we decide to clear after one eligible step
+  if (pendingAttackLatch && physicsSubstepsLast > 0) {
+    // Check if fieldTool actually took the edge: it will be swinging if it started combat/harvest
+    // If not swinging, it means no eligible target but still edge should be consumed to avoid infinite queue; we consume anyway after one eligible step to avoid duplicate
+    touchMovement.consumeAttack?.();
+    keyboardInput.consumeAttack?.();
+    pendingAttackLatch = false;
+  } else if (!pendingAttackLatch) {
+    // ensure intent cleared if no latch but raw still? Already handled
     touchMovement.consumeAttack?.();
     keyboardInput.consumeAttack?.();
   }
@@ -876,6 +897,7 @@ function tick() {
   }
 
   particleSystem.update(dt);
+  if(activationToast && activationToast.update) activationToast.update(dt);
   if (substeps === 0 && !authorSuppress && !isAnyBlockingModal() && !expeditionSession.isResolved?.()) {
     pickupSystem.update(Math.min(dt, 1 / 30), pState.pos, (resId) => gameAudio.playPickup(resId), characterPhysics.collider);
     const aliveForRing = creatureSystem.getAliveCreatures();

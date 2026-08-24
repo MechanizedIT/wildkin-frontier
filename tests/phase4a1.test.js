@@ -267,8 +267,8 @@ describe("Phase 4A.1 — Ground Patch", ()=>{
   });
   it("collision-disabled ground produces no collider", ()=>{
     const data = JSON.parse(JSON.stringify(WORLD_DATA));
-    const reg = data.regions[0];
-    // make first ground patch collision disabled
+    // Use p2 region (index 2) to avoid spawn support failure for camp/p1 spawns
+    const reg = data.regions[2];
     if(reg.groundPatches && reg.groundPatches[0]){
       reg.groundPatches[0].collisionEnabled = false;
       const norm = normalizeWorldData(data);

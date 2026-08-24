@@ -208,9 +208,49 @@ export function createWorldRegistry(rawData) {
   }
 
   function getRegionDepthMap() {
-    // Simplistic depth: order index; south_basin 0, central 1, north 2
+    // Deterministic graph-derived depth from Camp via BFS (not raw JSON order)
     const map = {};
-    data.regions.forEach((r, i) => { map[r.id] = i; });
+    const visited = new Set();
+    const queue = [];
+    // Find Camp region id (prefer "camp", fallback first)
+    const campId = data.regions.find(r=>r.id==="camp")?.id ?? data.regions[0]?.id;
+    if(campId){
+      queue.push({ id: campId, depth: 0 });
+      visited.add(campId);
+      map[campId]=0;
+      while(queue.length){
+        const cur = queue.shift();
+        const region = regionMap.get(cur.id);
+        if(!region) continue;
+        for(const nid of region.neighbors){
+          if(visited.has(nid)) continue;
+          visited.add(nid);
+          map[nid]=cur.depth+1;
+          queue.push({ id: nid, depth: cur.depth+1 });
+        }
+      }
+    }
+    // For any disconnected region (should not happen), assign incremental depth after BFS max
+    let maxDepth = Math.max(0, ...Object.values(map));
+    for(const r of data.regions){
+      if(!(r.id in map)){
+        maxDepth +=1;
+        map[r.id]=maxDepth;
+      }
+    }
+    // Validate explicit depth field if present matches BFS (small explicit validated field allowed)
+    for(const r of data.regions){
+      if(r.depth !== undefined){
+        if(typeof r.depth !== "number" || !Number.isFinite(r.depth)) throw new Error(`region ${r.id} depth must be finite number`);
+        // If explicit depth differs from BFS, prefer explicit but validate within reasonable range? For now enforce explicit equals BFS for current frontier
+        // To keep determinism, we validate explicit matches BFS within tolerance for five-region chain
+        if(Math.abs(r.depth - map[r.id]) > 0.01){
+          // Allow explicit but warn? For strict, require match
+          // We will override with explicit to respect author intent, but ensure finite
+          map[r.id]=r.depth;
+        }
+      }
+    }
     return map;
   }
 

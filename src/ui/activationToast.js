@@ -25,29 +25,36 @@ export function createActivationToast(scene, camera, audio) {
     }, 2200);
   }
 
-  // In-world pulse: emissive ring + brief scale
+  // In-world pulse: emissive ring + brief scale (authoritative tick owned, not private rAF)
+  const activePulses = [];
   function pulseWorld(pos, color = 0x4fc3f7) {
     if (!scene) return;
+    const baseY = pos.y ?? 0;
     const ringGeo = new THREE.RingGeometry(0.5, 0.7, 18);
     const mat = new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.85, side: THREE.DoubleSide });
     const ring = new THREE.Mesh(ringGeo, mat);
     ring.rotation.x = -Math.PI/2;
-    ring.position.set(pos.x, 0.08, pos.z);
+    // spawn at anchor's authored world Y with small visible offset, elevated anchor appears at elevation
+    ring.position.set(pos.x, baseY + 0.12, pos.z);
     scene.add(ring);
-    let t = 0;
-    const start = performance.now();
-    function anim() {
-      const dt = (performance.now() - start) / 1000;
-      const scale = 1 + dt * 2.2;
-      ring.scale.set(scale, scale, 1);
-      mat.opacity = Math.max(0, 0.85 - dt*0.95);
-      if (dt < 1.0) requestAnimationFrame(anim);
-      else scene.remove(ring);
-    }
-    requestAnimationFrame(anim);
-    // sound
+    activePulses.push({ mesh: ring, mat, age: 0, geo: ringGeo });
     try { audio?.playActivation?.(color === 0xff7043 ? "beacon" : "waypoint"); } catch {}
   }
+  function update(dt){
+    for(let i=activePulses.length-1;i>=0;i--){
+      const p = activePulses[i];
+      p.age += dt;
+      const scale = 1 + p.age * 2.2;
+      p.mesh.scale.set(scale, scale, 1);
+      p.mat.opacity = Math.max(0, 0.85 - p.age*0.95);
+      if(p.age >= 1.0){
+        scene.remove(p.mesh);
+        p.geo.dispose();
+        p.mat.dispose();
+        activePulses.splice(i,1);
+      }
+    }
+  }
 
-  return { show, pulseWorld };
+  return { show, pulseWorld, update };
 }

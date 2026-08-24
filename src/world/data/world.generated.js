@@ -168,7 +168,7 @@ export const WORLD_DATA = {
           "id": "prop_camp_dropPod",
           "opacity": 1,
           "pos": {
-            "x": 0,
+            "x": -1.8,
             "y": 0,
             "z": 9.8
           },

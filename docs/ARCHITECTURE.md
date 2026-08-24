@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Post-Phase 4A.2 — Pre-4B Authoring Reliability & Expedition Interaction Closure)
+# Architecture — Wildkin Frontier (Post-Phase 4A.2.1 — Pre-4B Author Trust & Spawn/Input Repair)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A.2**. Phase 4A loop remains accepted; this slice closes authoring reliability and frontier interaction before Phase 4B.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A.2.1**. Phase 4A loop remains accepted; this repair slice closes trust, spawn/input and indicator defects before Phase 4B.
 
 ## Permanent Goals
 
@@ -27,7 +27,7 @@
 
 # Current Accepted Foundation
 
-Phase 3.1.1 validated core gameplay. Phase 3.5A added directed-world/runtime foundation. Phase 3.5B/B.1/B.2 human-accepted world-authoring pipeline. Phase 4A added first complete Camp ↔ expedition loop. Phase 4A.1 refines first-run/gate/start suppression and makes ground/boundaries authored.
+Phase 3.1.1 validated core gameplay. Phase 3.5A added directed-world/runtime foundation. Phase 3.5B/B.1/B.2 human-accepted world-authoring pipeline. Phase 4A added first complete Camp ↔ expedition loop. Phase 4A.1 refines first-run/gate/start suppression and makes ground/boundaries authored. Phase 4A.2 closed authoring/input/spawn trusts; Phase 4A.2.1 repairs the remaining human-accepted defects (canonical ownership, preview atomics, spawn Y, region rehome, input latch, pulse, indicators).
 
 Accepted current systems:
 
@@ -457,6 +457,39 @@ One suppression path: `isAnyBlockingModal()` (Map|AnchorPrompt|ResultCard) + aut
 - Palette categorized: World (Ground Patch, Boundary Collider), Environment/Props (Box, Fence, Gate, Forest Boundary, Water, Island, Drop Pod, Resonator), Traversal (Platform, Obstacle, Ladder), Resources (Tree, Rock, Fiber), Wildkin (Rusher, Spitter), Frontier/POI (Major Waypoint, Extraction Beacon, POI Chest).
 - Hierarchy adds `Ground` and `Boundaries / Colliders` under each Region.
 - Inspector shows `Display Name` for Waypoints/Beacons and `Visible in Play` / `Collision` / `Opacity` / `Tint` for props/ground/boundary (only where supported); tint text + color picker sync, live preview via `syncPreviewForId` cloning material per object.
+
+# Phase 4A.2.1 Repair — IMPLEMENTED
+
+## Canonical draft ownership & preview atomics
+- `authorDraft.getDraft()` and `findObjectById()` now return deep-cloned snapshots; normal UI cannot mutate canonical before validation.
+- All edits route through `updateTransform` / `createObjectAtPosition` transactional `transact()` → `normalizeWorldData` → atomic commit → one history entry → `persist`.
+- Drag/placement use preview-only state (`dragState` worldPos + `applyPreviewTransform` directly on Three meshes, no canonical mutation), Esc cancels preview and restores canonical via `syncPreviewForId`, invalid release snaps back and shows error.
+- `createObjectAtPosition(kind,subtype,worldPos,regionId)` creates at final intended transform/region in one transaction (no intermediate center then mutate).
+- `updateTransform` now auto-rehomes point-owned objects: `findContainingRegionStrict` for `pos` patch, exactly one containing region → set `patch.regionId` atomically, ambiguous/outside → reject with readable error, hierarchy updates in same transaction.
+- For Major Waypoint with explicit `runSpawn`, rehoming is rejected if runSpawn would leave target region (readable error, no silent move).
+- `getAllObjectIds` + `reconcilePreview()` ensures undo/redo/place/delete leave no stale ghost meshes: removes stale, creates missing via descriptor, re-syncs, updates hierarchy/selection.
+
+## Static descriptor single authority
+- `src/world/staticDescriptor.js` is now the production authority for rectangular statics (Box, Fence, Gate, ForestBoundary, GroundPatch, BoundaryCollider, Resonator, DropPod transform, Water/Island where visual-only, Platform/Obstacle where rectangular base-Y).
+- `staticWorldBuilder` and `createPhysicsWorld` both consume normalized descriptor (`position/baseY, rotationY, size, visibleInPlay, collisionEnabled, opacity, tint`) for Edit preview, runtime visual, and Rapier collider; elevated/rotated parity preserved.
+- `authorMode.syncPreviewForId` uses descriptor for Ground/Boundary live X/Y/Z/size/rotation/elevation, and for material reset: cloning per-object, restoring baseColor/transparent/opacity when opacity→1 or tint removed, sibling materials unaffected.
+
+## Spawn authoring/runtime parity
+- `authorDraft` virtual `camp_spawn` / `wp_*__runSpawn` now via explicit spawn mutation path: `updateTransform` on spawn id mutates `camp.playerSpawn.position` / `waypoint.runSpawn.position` + `facingYaw` transactionally; marker group is world-positioned (`group.position = pos, rotation.y = facing`) with children at local offsets (capsule 0,0.52, arrow 0,0.12,0.55, ring 0,0.06), line updates after movement; `ensureSpawnMarkers` clears/recreates from canonical, `updateSpawnMarkers` only moves group.
+- Q/E in `authorMode` now branches: spawn → `facingYaw` ±15° with immediate arrow preview, normal static → `rotY`; inspector numeric rotation for spawns also uses `facingYaw`.
+- `worldRegistry.getRegionDepthMap()` now BFS-derived from Camp via neighbors (not array order); validates explicit `depth` field if present.
+- Runtime spawn Y: `src/main.js` `resolveSpawnCapsuleCenter(feetY) = feetY + capsuleHalfHeight(0.20) + capsuleRadius(0.32) + 0.02` using `RAPIER_CONFIG`; Camp and every Waypoint `beginExpedition`/`resetToCamp` use authored `position.y` feet/support elevation, not global ground, and apply facing coherently to physics (`characterPhysics.setPosition`), visuals (`player.position`, `playerController.state.facing`), and `cameraFollow.snap`.
+- Spawn validation in `worldValidator`: for Camp/Run spawns checks finite X/Y/Z/facing, strict containment, feet very near support surface (groundPatch/platform top within 1.0), capsule not intersecting blocking collider (oriented box test, support excluded, radius 0.32 + eps).
+
+## Input latch
+- `src/input/keyboardInput.js`/`touchMovement.js` own disabled/clear semantics; `src/main.js` now latches tap edge: `pendingAttackLatch` set on `rawWasAttackRequested`, `effectiveAttackRequested = pendingLatch`, consumed only after an eligible fixed step (`physicsSubstepsLast>0`) invokes Field Tool once; zero-substep render frames keep latch pending, hold-repeat remains, duplicate mousedown+pointerdown guarded, F/touch precedence preserved.
+
+## Activation pulse & guidance
+- `src/ui/activationToast.js` pulse spawns at `pos.y+0.12` (authored world Y, elevated anchor correct) + small offset, no private `requestAnimationFrame`; exposes `update(dt)` driven by authoritative `main` tick, disposes geometry/material when age≥1.0, one pulse per first discovery only (frontierAnchorSystem still owns discovery).
+- `src/ui/frontierIndicators.js` reuses two persistent DOM nodes (`extractionNode`, `waypointNode`, `display:none` toggle) instead of `innerHTML=""` per frame; `getNextDeeperWaypoint` returns null at deepest depth (no backward pointing), uses BFS depthMap, keeps camera projection behavior.
+
+## Change Closure sweep covered
+- Sibling families checked: Box/Fence/Gate/ForestBoundary/GroundPatch/BoundaryCollider/Resonator/DropPod/Water/Island/Platform/Obstacle for descriptor/capability/material; resources/creatures/Waypoints/Beacons/POIs/props for point-owned rehome; Camp/RunSpawn for Y/facing; ground/boundary footprint vs point ownership.
 
 # Persistence Separation — Phase 4A Guardrail
 

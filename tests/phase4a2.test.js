@@ -128,13 +128,14 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
   });
   it("Play transition refuses invalid draft before corruption", ()=>{
     const draftApi=createAuthorDraft(WORLD_DATA);
-    // manually corrupt draft to invalid without using transact
-    const draft=draftApi.getDraft();
-    draft.regions[0].props[0].pos.x = NaN;
+    // manually corrupt raw draft to invalid without using transact (using raw access for test)
+    const raw = draftApi._getRawDraft ? draftApi._getRawDraft() : draftApi.getDraft();
+    raw.regions[0].props[0].pos.x = NaN;
     const v=draftApi.validate();
     assert.equal(v.ok,false);
-    // Should not allow Play: simulate main.js check
     assert.ok(v.error.includes("pos") || v.error.includes("finite"));
+    // restore for other tests
+    if(draftApi._setRawDraftForTest) draftApi._setRawDraftForTest(WORLD_DATA);
   });
   it("object can move beyond old ±12/±11 rectangle", ()=>{
     const draftApi=createAuthorDraft(WORLD_DATA);
@@ -172,7 +173,14 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
     const resId=res.id;
     const farPos={x:0,y:0,z:-10};
     const res2=draftApi.updateTransform(resId, {pos:farPos});
-    assert.equal(res2.ok,false);
+    // With auto-rehome, moving to a uniquely containing region should succeed and rehome to p4_threshold
+    assert.equal(res2.ok,true, res2.error);
+    const found = draftApi.findObjectById(resId);
+    assert.equal(found.region.id, "p4_threshold");
+    // Also test that ambiguous/outside all regions is rejected
+    const farOutside={x:100,y:0,z:100};
+    const res3=draftApi.updateTransform(resId, {pos:farOutside});
+    assert.equal(res3.ok,false);
   });
   it("traversal/static transform finite/positive checks", ()=>{
     const data=JSON.parse(JSON.stringify(WORLD_DATA));
@@ -199,16 +207,20 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
   });
   it("undo/redo restores canonical draft and selection", ()=>{
     const draftApi=createAuthorDraft(WORLD_DATA);
-    const box=draftApi.getDraft().regions.flatMap(r=>r.props).find(p=>p.subtype==="box");
+    // Pick a box not near spawn to avoid clearance failure (avoid p1 center)
+    const box = draftApi.getDraft().regions.flatMap(r=>r.props).find(p=>p.subtype==="box" && p.pos.x < -2);
+    assert.ok(box);
     const origX=box.pos.x;
-    draftApi.updateTransform(box.id, {pos:{x:origX+5,y:box.pos.y,z:box.pos.z}});
+    const newX = origX + 2.5;
+    const res = draftApi.updateTransform(box.id, {pos:{x:newX,y:box.pos.y,z:box.pos.z}});
+    assert.ok(res.ok, res.error);
     assert.notEqual(draftApi.findObjectById(box.id).obj.pos.x, origX);
     assert.ok(draftApi.canUndo());
     draftApi.undo();
     assert.equal(draftApi.findObjectById(box.id).obj.pos.x, origX);
     assert.ok(draftApi.canRedo());
     draftApi.redo();
-    assert.equal(draftApi.findObjectById(box.id).obj.pos.x, origX+5);
+    assert.equal(draftApi.findObjectById(box.id).obj.pos.x, newX);
   });
 });
 

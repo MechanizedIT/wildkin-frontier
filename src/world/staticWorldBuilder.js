@@ -107,17 +107,22 @@ export function createStaticWorld(worldData) {
   }
 
   function addPropMesh(prop) {
-    const pos = prop.pos;
-    const baseY = pos.y ?? 0;
-    const size = prop.size || { w: 1, h: 1, d: 1 };
-    const w = size.w ?? size.x ?? 1;
-    const h = size.h ?? size.y ?? 1;
-    const d = size.d ?? size.z ?? 1;
+    // Use canonical descriptor for rectangular statics where applicable
+    let desc = null;
+    try{
+      desc = normalizeStaticDescriptor({ id: prop.id, pos: prop.pos, size: prop.size || {w:1,h:1,d:1}, rotY: prop.rotY, visibleInPlay: prop.visibleInPlay, collisionEnabled: prop.collisionEnabled, opacity: prop.opacity, color: prop.color ?? prop.tint }, "props");
+    }catch(e){}
+    const pos = desc ? desc.position : prop.pos;
+    const baseY = desc ? desc.baseY : (pos.y ?? 0);
+    const size = desc ? desc.size : (prop.size || { w: 1, h: 1, d: 1 });
+    const w = desc ? desc.size.width : (size.w ?? size.x ?? 1);
+    const h = desc ? desc.size.height : (size.h ?? size.y ?? 1);
+    const d = desc ? desc.size.depth : (size.d ?? size.z ?? 1);
     const height = h;
-    const rotY = prop.rotY ?? 0;
-    const visibleInPlay = prop.visibleInPlay !== undefined ? !!prop.visibleInPlay : true;
-    const collisionEnabled = prop.collisionEnabled !== undefined ? !!prop.collisionEnabled : true;
-    const opacity = prop.opacity ?? 1;
+    const rotY = desc ? desc.rotationY : (prop.rotY ?? 0);
+    const visibleInPlay = desc ? desc.visibleInPlay : (prop.visibleInPlay !== undefined ? !!prop.visibleInPlay : true);
+    const collisionEnabled = desc ? desc.collisionEnabled : (prop.collisionEnabled !== undefined ? !!prop.collisionEnabled : true);
+    const opacity = desc ? desc.opacity : (prop.opacity ?? 1);
     const hasTint = prop.color !== undefined || prop.tint !== undefined;
 
     const subtype = prop.subtype || "box";
@@ -228,14 +233,16 @@ export function createStaticWorld(worldData) {
   }
 
   function addGroundPatch(patch) {
-    const pos = patch.pos;
-    const size = patch.size;
-    const w = size.w, h = size.h, d = size.d;
-    const rotY = patch.rotY ?? 0;
-    const visibleInPlay = patch.visibleInPlay !== false;
-    const collisionEnabled = patch.collisionEnabled !== false;
-    const opacity = patch.opacity ?? 1;
-    const color = parseColor(patch.color, 0x7bb26a);
+    let desc=null;
+    try{ desc = normalizeStaticDescriptor({ id: patch.id, pos: patch.pos, size: patch.size, rotY: patch.rotY, visibleInPlay: patch.visibleInPlay, collisionEnabled: patch.collisionEnabled, opacity: patch.opacity, color: patch.color }, "groundPatches"); }catch(e){}
+    const pos = desc ? desc.position : patch.pos;
+    const size = desc ? desc.size : patch.size;
+    const w = desc ? desc.size.width : size.w, h = desc ? desc.size.height : size.h, d = desc ? desc.size.depth : size.d;
+    const rotY = desc ? desc.rotationY : (patch.rotY ?? 0);
+    const visibleInPlay = desc ? desc.visibleInPlay : (patch.visibleInPlay !== false);
+    const collisionEnabled = desc ? desc.collisionEnabled : (patch.collisionEnabled !== false);
+    const opacity = desc ? desc.opacity : (patch.opacity ?? 1);
+    const color = parseColor(desc ? desc.color : patch.color, 0x7bb26a);
     let baseMat = new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.95 });
     if (patch.color !== undefined) baseMat = createTintedMaterial(groundMatBase, patch);
     else if (opacity < 1) {

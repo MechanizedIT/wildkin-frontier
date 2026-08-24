@@ -546,72 +546,48 @@ export function createAuthorUI(opts) {
     inp.addEventListener("change", () => {
       if (!selectedId) return;
       const patch = getSelectedPatch();
+      // Handle extra fields not in patch (creature homePos, requires, displayName via patch already covers most)
+      // For creature extra radii and homePos, we already build patch via getSelectedPatch for type/temperament, but need roam etc as patch extensions
       const found = draftApi.findObjectById(selectedId);
-      if (found && (found.type === "poi" || found.type === "majorWaypoint" || found.type === "extractionBeacon")) {
-        const t = container.querySelector("#author-anchor-type").value.trim();
-        if (t && found.obj.type !== t) found.obj.type = t;
-        if (found.type === "poi") {
-          const reqStr = container.querySelector("#author-requires").value.trim();
-          if (reqStr) { try { found.obj.requires = JSON.parse(reqStr); } catch { found.obj.requires = reqStr; } }
-          else found.obj.requires = null;
-        }
-        if (found.type === "majorWaypoint" || found.type === "extractionBeacon") {
-          const dn = container.querySelector("#author-displayname").value.trim();
-          if (dn) found.obj.displayName = dn;
-          else delete found.obj.displayName;
-        }
-      }
+      let extraPatch = {};
       if (found && found.type === "creature") {
-        const roam = parseFloat(container.querySelector("#author-roam").value); if (!isNaN(roam)) found.obj.roamRadius = roam;
-        const notice = parseFloat(container.querySelector("#author-notice").value); if (!isNaN(notice)) found.obj.noticeRadius = notice;
-        const personal = parseFloat(container.querySelector("#author-personal").value); if (!isNaN(personal)) found.obj.personalSpace = personal;
-        const leash = parseFloat(container.querySelector("#author-leash").value); if (!isNaN(leash)) found.obj.leashRadius = leash;
-        const sx = parseFloat(container.querySelector("#author-spawn-x").value);
-        const sz = parseFloat(container.querySelector("#author-spawn-z").value);
+        const roam = parseFloat(container.querySelector("#author-roam").value);
+        const notice = parseFloat(container.querySelector("#author-notice").value);
+        const personal = parseFloat(container.querySelector("#author-personal").value);
+        const leash = parseFloat(container.querySelector("#author-leash").value);
+        if (!isNaN(roam)) extraPatch.roamRadius = roam;
+        if (!isNaN(notice)) extraPatch.noticeRadius = notice;
+        if (!isNaN(personal)) extraPatch.personalSpace = personal;
+        if (!isNaN(leash)) extraPatch.leashRadius = leash;
+        // homePos handling: treat spawn vs home separately; for simplicity, include homePos if changed
         const hx = parseFloat(container.querySelector("#author-home-x").value);
         const hz = parseFloat(container.querySelector("#author-home-z").value);
-        const moveHome = container.querySelector("#author-move-home")?.checked;
-        if (!isNaN(sx) && !isNaN(sz)) {
-          const oldX = found.obj.pos.x, oldZ = found.obj.pos.z;
-          const dx = sx - oldX, dz = sz - oldZ;
-          if (dx !== 0 || dz !== 0) {
-            found.obj.pos.x = sx; found.obj.pos.z = sz;
-            if (moveHome && found.obj.homePos) { found.obj.homePos.x += dx; found.obj.homePos.z += dz; container.querySelector("#author-home-x").value = found.obj.homePos.x.toFixed(1); container.querySelector("#author-home-z").value = found.obj.homePos.z.toFixed(1); }
-          }
-        } else {
-          if (!isNaN(sx)) found.obj.pos.x = sx;
-          if (!isNaN(sz)) found.obj.pos.z = sz;
-        }
-        if (!isNaN(hx)) found.obj.homePos.x = hx;
-        if (!isNaN(hz)) found.obj.homePos.z = hz;
+        if (!isNaN(hx) && !isNaN(hz)) extraPatch.homePos = { x: hx, y: (found.obj.homePos?.y ?? 0), z: hz };
+        // spawn pos already in patch.pos via X/Z fields, but if user edited spawn fields separately, patch already has pos
       }
-      if (found && (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider")) {
-        const vis = container.querySelector("#author-visible");
-        const coll = container.querySelector("#author-collision");
-        if (vis) found.obj.visibleInPlay = vis.checked;
-        if (coll) found.obj.collisionEnabled = coll.checked;
-        const op = parseFloat(container.querySelector("#author-opacity").value);
-        if (!isNaN(op)) found.obj.opacity = Math.max(0, Math.min(1, op));
-        const tintText = container.querySelector("#author-tint-text").value.trim();
-        const tintColor = container.querySelector("#author-tint").value;
-        if (tintText) found.obj.color = tintText;
-        else if (tintColor && tintColor !== "#ffffff") found.obj.color = tintColor;
-        else if (!tintText && tintColor === "#ffffff" && (found.obj.color !== undefined || found.obj.tint !== undefined)) {
-          // user cleared -> remove color override if was present
-          delete found.obj.color; delete found.obj.tint;
-        }
-        const dn2 = container.querySelector("#author-displayname");
-        if (dn2 && (found.type === "majorWaypoint" || found.type === "extractionBeacon") && dn2.parentElement.style.display !== "none") {
-          // already handled
+      if (found && (found.type === "poi" || found.type === "majorWaypoint" || found.type === "extractionBeacon")) {
+        if (found.type === "poi") {
+          const reqStr = container.querySelector("#author-requires").value.trim();
+          if (reqStr) { try { extraPatch.requires = JSON.parse(reqStr); } catch { extraPatch.requires = reqStr; } }
+          else extraPatch.requires = null;
         }
       }
+      // merge extra
+      Object.assign(patch, extraPatch);
+      // For prop presentation, tint/opacity etc already in patch via getSelectedPatch; no direct mutation needed
       const res = draftApi.updateTransform(selectedId, patch);
+      // If creature and patch failed due to homePos, try without? but spec says should validate
       if (res.ok) {
+        // For creature, if spawn changed and moveHome checked, we already handled via patch.pos auto homeDelta inside draft; extra homePos patch may override
         const v = draftApi.validate();
         if (!v.ok) statusEl.textContent = "⚠ " + v.error, statusEl.style.color="#ffaaaa";
         else statusEl.textContent = "Edited — " + selectedId, statusEl.style.color="#aaffaa";
         opts.onDraftChanged?.(selectedId);
-      } else { statusEl.textContent = res.error; statusEl.style.color="#ffaaaa"; }
+      } else {
+        statusEl.textContent = res.error; statusEl.style.color="#ffaaaa";
+        // revert UI to canonical values
+        setSelected(selectedId);
+      }
     });
   }
   // Tint color picker live sync to text
@@ -666,11 +642,16 @@ export function createAuthorUI(opts) {
       const dz = parseFloat(btn.dataset.dz);
       const found = draftApi.findObjectById(selectedId);
       if (!found) return;
-      const obj = found.obj;
-      const moveHome = document.getElementById("author-move-home")?.checked ?? true;
-      if (obj.pos) { obj.pos.x += dx; obj.pos.z += dz; if (found.type==="creature" && obj.homePos && moveHome){ obj.homePos.x+=dx; obj.homePos.z+=dz; } }
-      else if (obj.x !== undefined) { obj.x += dx; obj.z += dz; }
-      draftApi.updateTransform(selectedId, {});
+      const curX = found.obj.pos ? found.obj.pos.x : found.obj.x;
+      const curZ = found.obj.pos ? found.obj.pos.z : found.obj.z;
+      const curY = found.obj.pos ? (found.obj.pos.y ?? 0) : (found.obj.y ?? 0);
+      const newX = curX + dx;
+      const newZ = curZ + dz;
+      let patch = {};
+      if (found.obj.pos) patch.pos = { x: newX, y: curY, z: newZ };
+      else patch = { x: newX, z: newZ };
+      const res = draftApi.updateTransform(selectedId, patch);
+      if(!res.ok){ statusEl.textContent = res.error; statusEl.style.color="#ffaaaa"; return; }
       setSelected(selectedId);
       const v = draftApi.validate();
       statusEl.textContent = v.ok ? `Nudged ${dx},${dz}` : v.error;
@@ -683,32 +664,67 @@ export function createAuthorUI(opts) {
     if (!f) return;
     if (f.type==="platform"||f.type==="obstacle") {
       const curY = f.obj.y ?? f.obj.baseY ?? 0;
-      const ny = curY + 0.2; f.obj.y = ny; f.obj.baseY = ny; draftApi.updateTransform(selectedId, { y: ny }); setSelected(selectedId); opts.onDraftChanged?.(selectedId); return;
+      const ny = curY + 0.2;
+      const res = draftApi.updateTransform(selectedId, { y: ny });
+      if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
+      setSelected(selectedId); opts.onDraftChanged?.(selectedId); return;
     }
-    if (f.obj.pos) { f.obj.pos.y = (f.obj.pos.y ?? 0) + 0.2; if (f.type==="creature"&&f.obj.homePos) f.obj.homePos.y+=0.2; draftApi.updateTransform(selectedId, {}); setSelected(selectedId); opts.onDraftChanged?.(selectedId); }
+    if (f.obj.pos) {
+      const ny = (f.obj.pos.y ?? 0) + 0.2;
+      const patch = { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } };
+      const res = draftApi.updateTransform(selectedId, patch);
+      if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
+      setSelected(selectedId); opts.onDraftChanged?.(selectedId);
+    }
   });
   container.querySelector("#author-down").addEventListener("click", () => {
     if (!selectedId) return;
     const f = draftApi.findObjectById(selectedId);
     if (!f) return;
     if (f.type==="platform"||f.type==="obstacle") {
-      const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = Math.max(0, curY -0.2); f.obj.y=ny; f.obj.baseY=ny; draftApi.updateTransform(selectedId,{y:ny}); setSelected(selectedId); opts.onDraftChanged?.(selectedId); return;
+      const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = Math.max(0, curY -0.2);
+      const res = draftApi.updateTransform(selectedId,{y:ny});
+      if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
+      setSelected(selectedId); opts.onDraftChanged?.(selectedId); return;
     }
-    if (f.obj.pos) { f.obj.pos.y = Math.max(-1, (f.obj.pos.y ?? 0) - 0.2); if (f.type==="creature"&&f.obj.homePos) f.obj.homePos.y=Math.max(-1,(f.obj.homePos.y??0)-0.2); draftApi.updateTransform(selectedId, {}); setSelected(selectedId); opts.onDraftChanged?.(selectedId); }
+    if (f.obj.pos) {
+      const ny = Math.max(-1, (f.obj.pos.y ?? 0) - 0.2);
+      const patch = { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } };
+      const res = draftApi.updateTransform(selectedId, patch);
+      if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
+      setSelected(selectedId); opts.onDraftChanged?.(selectedId);
+    }
   });
 
   toggleBtn.addEventListener("click", () => {
-    editMode = !editMode;
-    toggleBtn.textContent = editMode ? "PLAY" : "EDIT";
-    toggleBtn.style.background = editMode ? "#1a8a4a" : "#2a7fff";
-    badge.textContent = editMode ? "EDITING" : "PLAY TEST";
-    badge.style.background = editMode ? "#1a3a2a" : "#1a243a";
-    badge.style.color = editMode ? "#6aff8a" : "#8aa0c0";
-    statusEl.textContent = editMode ? "EDIT — drag objects, click palette then world" : "PLAY — testing draft";
-    opts.onToggleEdit?.(editMode);
-    if (!editMode) {
+    if(!editMode){
+      // currently in PLAY, want to go to EDIT - always allowed
+      editMode = true;
+      toggleBtn.textContent = "PLAY";
+      toggleBtn.style.background = "#1a8a4a";
+      badge.textContent = "EDITING";
+      badge.style.background = "#1a3a2a";
+      badge.style.color = "#6aff8a";
+      statusEl.textContent = "EDIT — drag objects, click palette then world";
+      opts.onToggleEdit?.(true);
+      return;
+    } else {
+      // currently in EDIT, wants PLAY - validate first before any state change
       const v = draftApi.validate();
-      if (!v.ok) { statusEl.textContent = "⚠ " + v.error; statusEl.style.color="#ffaaaa"; editMode = true; toggleBtn.textContent="EDIT"; badge.textContent="EDITING"; return; }
+      if (!v.ok) {
+        statusEl.textContent = "⚠ " + v.error;
+        statusEl.style.color="#ffaaaa";
+        // stay in EDIT, no state change
+        return;
+      }
+      editMode = false;
+      toggleBtn.textContent = "EDIT";
+      toggleBtn.style.background = "#2a7fff";
+      badge.textContent = "PLAY TEST";
+      badge.style.background = "#1a243a";
+      badge.style.color = "#8aa0c0";
+      statusEl.textContent = "PLAY — testing draft";
+      opts.onToggleEdit?.(false);
       onPlay?.();
     }
   });

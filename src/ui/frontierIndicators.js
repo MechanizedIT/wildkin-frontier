@@ -1,4 +1,4 @@
-// src/ui/frontierIndicators.js — camera-projected edge guidance (Phase 4A.2)
+// src/ui/frontierIndicators.js — camera-projected edge guidance (Phase 4A.2.1) patched for endpoint depth and DOM reuse
 import * as THREE from "three";
 
 export function createFrontierIndicators(opts = {}) {
@@ -14,7 +14,29 @@ export function createFrontierIndicators(opts = {}) {
   container.style.cssText = "position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden;";
   app.appendChild(container);
 
-  function clear() { container.innerHTML = ""; }
+  // DOM reuse: create two persistent indicator nodes instead of destroying/recreating each frame
+  function makeEl(type){
+    const el = document.createElement("div");
+    const isExtraction = type === "extraction";
+    const bg = isExtraction ? "rgba(255,112,67,0.92)" : "rgba(79,195,247,0.92)";
+    const shape = isExtraction ? "50%" : "3px";
+    el.style.cssText = `position:absolute;display:flex;align-items:center;gap:6px;background:${bg};color:#0e1420;font-size:11px;font-weight:800;padding:5px 7px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.35);white-space:nowrap;transform:translate(-50%,-50%);display:none;`;
+    const icon = document.createElement("span");
+    icon.style.cssText = `width:10px;height:10px;background:#fff;border-radius:${shape};flex-shrink:0;display:inline-block;`;
+    if (!isExtraction) icon.style.transform = "rotate(45deg)";
+    el.appendChild(icon);
+    const label = document.createElement("span");
+    el.appendChild(label);
+    container.appendChild(el);
+    return { el, label };
+  }
+  const extractionNode = makeEl("extraction");
+  const waypointNode = makeEl("waypoint");
+
+  function clear() {
+    extractionNode.el.style.display = "none";
+    waypointNode.el.style.display = "none";
+  }
 
   function getBestExtractionTarget(playerPos) {
     const gatePos = worldRegistry.getFrontierGatePos();
@@ -26,7 +48,6 @@ export function createFrontierIndicators(opts = {}) {
       if (frontierProgress && !frontierProgress.isDiscoveredBeacon?.(bc.id)) continue;
       candidates.push({ id: bc.id, pos: { x: bc.pos.x, z: bc.pos.z, y: 0.5 }, kind: "beacon", dist: Math.hypot(playerPos.x - bc.pos.x, playerPos.z - bc.pos.z) });
     }
-    // Waypoints as extraction: only unlocked ones are usable
     for (const wp of waypoints) {
       if (frontierProgress && !frontierProgress.isUnlockedWaypoint?.(wp.id)) continue;
       candidates.push({ id: wp.id, pos: { x: wp.pos.x, z: wp.pos.z, y: 0.8 }, kind: "waypoint", dist: Math.hypot(playerPos.x - wp.pos.x, playerPos.z - wp.pos.z) });
@@ -41,6 +62,9 @@ export function createFrontierIndicators(opts = {}) {
     const depthMap = worldRegistry.getRegionDepthMap?.() ?? {};
     const curRegion = worldRegistry.getRegionForPosition(playerPos);
     const curDepth = depthMap[curRegion] ?? 0;
+    // deepest endpoint must return no deeper-progress target (no backward pointing)
+    const maxDepth = Math.max(...Object.values(depthMap));
+    if (curDepth >= maxDepth) return null;
     let best = null;
     let bestDepth = Infinity;
     for (const wp of allWp) {
@@ -48,20 +72,7 @@ export function createFrontierIndicators(opts = {}) {
       if (d <= curDepth) continue;
       if (d < bestDepth) { bestDepth = d; best = wp; }
     }
-    // endpoint must not point to itself: if best is in same region as player and no deeper, don't self-point -> fallback to deepest not in curRegion
-    if (!best) {
-      let maxD = -1;
-      for (const wp of allWp) {
-        const d = depthMap[wp.regionId] ?? 0;
-        if (wp.regionId === curRegion) continue;
-        if (d > maxD) { maxD = d; best = wp; }
-      }
-      if (!best) {
-        // if only curRegion has waypoint, don't point to self; return null
-        return null;
-      }
-    }
-    // Don't rely on JSON order; use depth
+    if (!best) return null;
     return { id: best.id, pos: { x: best.pos.x, z: best.pos.z, y: 0.8 }, kind: "nextWaypoint", dist: Math.hypot(playerPos.x - best.pos.x, playerPos.z - best.pos.z) };
   }
 
@@ -78,18 +89,14 @@ export function createFrontierIndicators(opts = {}) {
   function clampToEdgeFromNDC(ndc, rect) {
     const w = rect.width, h = rect.height;
     const cx = w/2, cy = h/2;
-    // ndc.x -1..1 left..right, ndc.y -1..1 bottom..top
-    // For behind camera, ndc is inverted but still gives direction; we flip if z >1 (behind)
     let nx = ndc.x;
     let ny = ndc.y;
     if (ndc.z > 1 || ndc.z < -1) {
-      // behind camera: invert
       nx = -nx;
       ny = -ny;
     }
     const len = Math.hypot(nx, ny) || 1;
     nx /= len; ny /= len;
-    // y invert for screen: ndc.y up => screen y down, so invert ny
     ny = -ny;
     const pad = 22;
     const hw = w/2 - pad, hh = h/2 - pad;
@@ -101,17 +108,7 @@ export function createFrontierIndicators(opts = {}) {
     return { x: ex, y: ey };
   }
 
-  function createIndicator(type, target, distance) {
-    const el = document.createElement("div");
-    const isExtraction = type === "extraction";
-    const bg = isExtraction ? "rgba(255,112,67,0.92)" : "rgba(79,195,247,0.92)";
-    const shape = isExtraction ? "50%" : "3px";
-    el.style.cssText = `position:absolute;display:flex;align-items:center;gap:6px;background:${bg};color:#0e1420;font-size:11px;font-weight:800;padding:5px 7px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.35);white-space:nowrap;`;
-    const icon = document.createElement("span");
-    icon.style.cssText = `width:10px;height:10px;background:#fff;border-radius:${shape};flex-shrink:0;display:inline-block;`;
-    if (!isExtraction) icon.style.transform = "rotate(45deg)";
-    el.appendChild(icon);
-    const label = document.createElement("span");
+  function updateNode(node, type, target){
     let name = null;
     try {
       if (target.id) {
@@ -124,36 +121,49 @@ export function createFrontierIndicators(opts = {}) {
         }
       }
     } catch {}
-    label.textContent = name ? `${name} ${distance.toFixed(0)}m` : isExtraction ? `Extract ${distance.toFixed(0)}m` : `Waypoint ${distance.toFixed(0)}m`;
-    el.appendChild(label);
-    return el;
+    const isExtraction = type === "extraction";
+    node.label.textContent = name ? `${name} ${target.dist.toFixed(0)}m` : isExtraction ? `Extract ${target.dist.toFixed(0)}m` : `Waypoint ${target.dist.toFixed(0)}m`;
   }
 
   function update(camera) {
-    clear();
     const session = getSession();
     const isActive = session ? session.isActive?.() ?? session.getStatus?.() === "active" : false;
-    if (!isActive) return;
-    if (!camera || !camera.isCamera) return;
+    if (!isActive) { clear(); return; }
+    if (!camera || !camera.isCamera) { clear(); return; }
     const playerPos = getPlayerPos();
-    if (!playerPos) return;
+    if (!playerPos) { clear(); return; }
     const extraction = getBestExtractionTarget(playerPos);
     const nextWp = getNextDeeperWaypoint(playerPos);
-    const targets = [];
-    if (extraction) targets.push({ type: "extraction", target: extraction });
-    if (nextWp && nextWp.id !== extraction?.id) targets.push({ type: "waypoint", target: nextWp });
-
     const rect = container.getBoundingClientRect();
-    for (const entry of targets) {
-      const tgt = entry.target;
-      const ndc = projectToNDC(tgt.pos, camera);
-      if (isOnScreenNDC(ndc)) continue;
-      const edge = clampToEdgeFromNDC(ndc, rect);
-      const el = createIndicator(entry.type, tgt, tgt.dist);
-      el.style.left = edge.x + "px";
-      el.style.top = edge.y + "px";
-      el.style.transform = "translate(-50%, -50%)";
-      container.appendChild(el);
+    // extraction
+    if(extraction){
+      const ndc = projectToNDC(extraction.pos, camera);
+      if(isOnScreenNDC(ndc)){
+        extractionNode.el.style.display = "none";
+      } else {
+        const edge = clampToEdgeFromNDC(ndc, rect);
+        updateNode(extractionNode, "extraction", extraction);
+        extractionNode.el.style.left = edge.x + "px";
+        extractionNode.el.style.top = edge.y + "px";
+        extractionNode.el.style.display = "";
+      }
+    } else {
+      extractionNode.el.style.display = "none";
+    }
+    // waypoint
+    if(nextWp && (!extraction || nextWp.id !== extraction.id)){
+      const ndc2 = projectToNDC(nextWp.pos, camera);
+      if(isOnScreenNDC(ndc2)){
+        waypointNode.el.style.display = "none";
+      } else {
+        const edge2 = clampToEdgeFromNDC(ndc2, rect);
+        updateNode(waypointNode, "waypoint", nextWp);
+        waypointNode.el.style.left = edge2.x + "px";
+        waypointNode.el.style.top = edge2.y + "px";
+        waypointNode.el.style.display = "";
+      }
+    } else {
+      waypointNode.el.style.display = "none";
     }
   }
 

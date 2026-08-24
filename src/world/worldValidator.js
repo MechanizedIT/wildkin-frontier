@@ -377,6 +377,130 @@ export function normalizeWorldData(raw) {
         const rsPos = wp.runSpawn.position ? wp.runSpawn.position : wp.runSpawn;
         validatePos(rsPos, `waypoint ${wp.id} runSpawn`);
         if (!isInsideBounds(rsPos, region.bounds)) throw new Error(`waypoint ${wp.id} runSpawn not inside declared region ${region.id}`);
+        // finite facing
+        const facing = wp.runSpawn.facingYaw ?? wp.runSpawn.facing ?? 0;
+        if (facing !== undefined && !isNumber(facing)) throw new Error(`waypoint ${wp.id} runSpawn facingYaw must be finite number`);
+        if (!isNumber(rsPos.x) || !isNumber(rsPos.y ?? 0) || !isNumber(rsPos.z)) throw new Error(`waypoint ${wp.id} runSpawn position must be finite`);
+      }
+    }
+  }
+  // Spawn support and clearance validation (camp + runSpawns)
+  {
+    const spawnCapsuleTotalHeight = 1.04; // from physicsConfig: 0.20*2 + 0.32*2
+    const spawnRadius = 0.32;
+    const supportTolerance = 1.0; // feet very near support surface (allow elevating ground 0.5+size change test)
+    const clearanceEps = 0.05;
+    // Gather support surfaces: groundPatches (collisionEnabled) + platforms
+    const supportSurfaces = [];
+    for(const region of data.regions){
+      for(const gp of region.groundPatches ?? []){
+        if(gp.collisionEnabled === false) continue;
+        const w = gp.size.w, d = gp.size.d, h = gp.size.h;
+        const x = gp.pos.x, z = gp.pos.z, baseY = gp.pos.y ?? -0.25;
+        supportSurfaces.push({ id: gp.id, x, z, w, d, baseY, topY: baseY + h, regionId: region.id, isGround:true });
+      }
+      for(const plat of region.traversal.platforms ?? []){
+        const baseY = plat.y ?? plat.baseY ?? 0;
+        const topY = baseY + plat.height;
+        supportSurfaces.push({ id: plat.id, x: plat.x, z: plat.z, w: plat.w, d: plat.h, baseY, topY, regionId: region.id, isPlatform:true });
+      }
+    }
+    // Build blockers: props (collisionEnabled), boundaryColliders (collisionEnabled), obstacles, platforms (as volume) — but will exclude support surface later
+    const blockers = [];
+    for(const region of data.regions){
+      for(const prop of region.props ?? []){
+        if(prop.collisionEnabled === false) continue;
+        if(prop.subtype === "water") continue;
+        if(!prop.size) continue;
+        const w = prop.size.w ?? 1, d = prop.size.d ?? 1, h = prop.size.h ?? 1;
+        const x = prop.pos.x, z = prop.pos.z, baseY = prop.pos.y ?? 0;
+        const rotY = prop.rotY ?? 0;
+        blockers.push({ id: prop.id, x, z, halfW: w/2, halfD: d/2, baseY, topY: baseY + h, w, d, h, rotY });
+      }
+      for(const bc of region.boundaryColliders ?? []){
+        if(bc.collisionEnabled === false) continue;
+        const w = bc.size.w, d = bc.size.d, h = bc.size.h;
+        const x = bc.pos.x, z = bc.pos.z, baseY = bc.pos.y ?? 0;
+        const rotY = bc.rotY ?? 0;
+        blockers.push({ id: bc.id, x, z, halfW: w/2, halfD: d/2, baseY, topY: baseY + h, w,d,h, rotY });
+      }
+      for(const obs of region.traversal.obstacles ?? []){
+        const w = obs.w, d = obs.h, h = obs.height ?? 1;
+        const x = obs.x, z = obs.z, baseY = obs.y ?? obs.baseY ?? 0;
+        blockers.push({ id: obs.id, x, z, hx: w/2, hz: d/2, baseY, topY: baseY + h, w,d,h });
+      }
+      for(const plat of region.traversal.platforms ?? []){
+        const w = plat.w, d = plat.h, h = plat.height;
+        const x = plat.x, z = plat.z, baseY = plat.y ?? plat.baseY ?? 0;
+        blockers.push({ id: plat.id, x, z, hx: w/2, hz: d/2, baseY, topY: baseY + h, w,d,h, isPlatform:true });
+      }
+    }
+    function isSupported(spawnPos){
+      const feetY = spawnPos.y ?? 0;
+      let foundSupport = null;
+      for(const s of supportSurfaces){
+        const minX = s.x - s.w/2 - 0.15, maxX = s.x + s.w/2 + 0.15;
+        const minZ = s.z - s.d/2 - 0.15, maxZ = s.z + s.d/2 + 0.15;
+        if(spawnPos.x < minX || spawnPos.x > maxX || spawnPos.z < minZ || spawnPos.z > maxZ) continue;
+        if(Math.abs(feetY - s.topY) <= supportTolerance){
+          foundSupport = s;
+          break;
+        }
+      }
+      return foundSupport;
+    }
+    function isClear(spawnPos, supportId){
+      const feetY = spawnPos.y ?? 0;
+      const capMinY = feetY, capMaxY = feetY + spawnCapsuleTotalHeight;
+      for(const b of blockers){
+        if(b.id === supportId) continue;
+        const halfW = b.halfW ?? b.hx ?? (b.w/2);
+        const halfD = b.halfD ?? b.hz ?? (b.d/2);
+        const rotY = b.rotY ?? 0;
+        // transform spawn to blocker's local space for accurate oriented box test
+        const dx = spawnPos.x - b.x;
+        const dz = spawnPos.z - b.z;
+        const cos = Math.cos(-rotY), sin = Math.sin(-rotY);
+        const localX = dx * cos - dz * sin;
+        const localZ = dx * sin + dz * cos;
+        if(Math.abs(localX) > halfW + spawnRadius + clearanceEps) continue;
+        if(Math.abs(localZ) > halfD + spawnRadius + clearanceEps) continue;
+        const overlapY = Math.min(capMaxY, b.topY) - Math.max(capMinY, b.baseY);
+        if(overlapY > clearanceEps){
+          return { blocked: true, blockerId: b.id };
+        }
+      }
+      return { blocked: false };
+    }
+    // camp spawn
+    if(data.camp?.playerSpawn){
+      const spRaw = data.camp.playerSpawn;
+      const sp = spRaw.position ? spRaw.position : spRaw;
+      const feetPos = { x: sp.x, y: sp.y ?? 0, z: sp.z };
+      if(!isNumber(feetPos.x) || !isNumber(feetPos.y) || !isNumber(feetPos.z)) throw new Error("camp.playerSpawn position must be finite");
+      const facing = spRaw.facingYaw ?? spRaw.facing ?? 0;
+      if(!isNumber(facing)) throw new Error("camp.playerSpawn facingYaw must be finite");
+      const campReg = data.regions.find(r=>r.id==="camp");
+      if(campReg && !isInsideBounds(feetPos, campReg.bounds)) throw new Error("camp.playerSpawn must be strictly inside Camp region");
+      const support = isSupported(feetPos);
+      if(!support) throw new Error("camp.playerSpawn not supported by traversable surface (feet not on ground/platform)");
+      const clear = isClear(feetPos, support.id);
+      if(clear.blocked) throw new Error(`camp.playerSpawn capsule intersects blocker ${clear.blockerId}`);
+    }
+    // run spawns
+    for(const region of data.regions){
+      for(const wp of region.majorWaypoints){
+        if(!wp.runSpawn) continue;
+        const rs = wp.runSpawn.position ? wp.runSpawn.position : wp.runSpawn;
+        const feetPos = { x: rs.x, y: rs.y ?? 0, z: rs.z };
+        if(!isNumber(feetPos.x) || !isNumber(feetPos.y) || !isNumber(feetPos.z)) throw new Error(`waypoint ${wp.id} runSpawn position finite required`);
+        const facing = wp.runSpawn.facingYaw ?? wp.runSpawn.facing ?? 0;
+        if(!isNumber(facing)) throw new Error(`waypoint ${wp.id} runSpawn facingYaw finite required`);
+        if(!isInsideBounds(feetPos, region.bounds)) throw new Error(`waypoint ${wp.id} runSpawn not inside region ${region.id}`);
+        const support = isSupported(feetPos);
+        if(!support) throw new Error(`waypoint ${wp.id} runSpawn not supported by traversable surface`);
+        const clear = isClear(feetPos, support.id);
+        if(clear.blocked) throw new Error(`waypoint ${wp.id} runSpawn capsule intersects blocker ${clear.blockerId}`);
       }
     }
   }

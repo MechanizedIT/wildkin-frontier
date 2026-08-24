@@ -231,24 +231,23 @@ describe("Phase 3.5B.2 — Wildkin home", () => {
     const cr = draftApi.getDraft().regions.flatMap(r=>r.creatures)[0];
     const oldPos = {...cr.pos}, oldHome = {...cr.homePos};
     const newPos = { x: oldPos.x+1.0, y: oldPos.y, z: oldPos.z+0.5 };
-    // Simulate UI with moveHome checked: draftApi currently does NOT auto-move home, so caller must move both
-    // For this test, we simulate the correct behavior: move both by delta
-    const dx = newPos.x - oldPos.x, dz = newPos.z - oldPos.z;
-    cr.pos.x = newPos.x; cr.pos.z = newPos.z;
-    cr.homePos.x += dx; cr.homePos.z += dz;
+    const res = draftApi.updateTransform(cr.id, { pos: newPos });
+    assert.ok(res.ok, res.error);
     const after = draftApi.findObjectById(cr.id).obj;
     assert.equal(after.pos.x, newPos.x);
-    assert.equal(after.homePos.x, oldHome.x+dx);
+    assert.equal(after.homePos.x, oldHome.x + (newPos.x - oldPos.x));
+    assert.equal(after.homePos.z, oldHome.z + (newPos.z - oldPos.z));
   });
   it("checkbox OFF leaves home unchanged", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
     const cr = draftApi.getDraft().regions.flatMap(r=>r.creatures)[0];
-    const oldPos = {...cr.pos}, oldHome = {...cr.homePos};
-    const newPos = { x: oldPos.x+1.5, y: oldPos.y, z: oldPos.z };
-    // Simulate OFF: only move pos
-    cr.pos.x = newPos.x;
-    // home unchanged
-    assert.equal(cr.homePos.x, oldHome.x);
+    const oldHome = {...cr.homePos};
+    // Choose a move that avoids resource clearance (move away from tree at 1.2,5.8)
+    const newPos = { x: cr.pos.x -2.0, y: cr.pos.y, z: cr.pos.z -1.0 };
+    const res = draftApi.updateTransform(cr.id, { pos: newPos, moveHomeWithSpawn: false });
+    assert.ok(res.ok, res.error);
+    const after = draftApi.findObjectById(cr.id).obj;
+    assert.equal(after.homePos.x, oldHome.x);
   });
   it("explicit Home X/Z edit persists", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
@@ -312,14 +311,15 @@ describe("Phase 3.5B.2 — Hierarchy", () => {
   });
   it("placed/duplicated/deleted object appears/disappears", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
-    const regionId = draftApi.getDraft().regions[0].id;
-    const before = draftApi.getDraft().regions[0].props.length;
-    const res = draftApi.createObject(regionId, "prop", "box");
-    assert.ok(res.ok);
-    assert.equal(draftApi.getDraft().regions[0].props.length, before+1);
+    // Use p2 region (index 2) and offset creation to avoid spawn at center
+    const regionId = draftApi.getDraft().regions[2].id;
+    const before = draftApi.getDraft().regions[2].props.length;
+    const res = draftApi.createObjectAtPosition("prop", "box", { x: -4.5, y: 0, z: 0.5 }, regionId);
+    assert.ok(res.ok, res.error);
+    assert.equal(draftApi.getDraft().regions[2].props.length, before+1);
     const del = draftApi.deleteObject(res.id);
     assert.ok(del.ok);
-    assert.equal(draftApi.getDraft().regions[0].props.length, before);
+    assert.equal(draftApi.getDraft().regions[2].props.length, before);
   });
   it("hierarchy selection selects correct ID", () => {
     const uiSrc = fs.readFileSync(path.join(ROOT, "src/author/authorUI.js"), "utf-8");
@@ -328,14 +328,15 @@ describe("Phase 3.5B.2 — Hierarchy", () => {
   it("moving object to another region updates hierarchy ownership", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
     const regions = draftApi.getDraft().regions;
-    const srcRegionId = regions[0].id;
-    const dstRegionId = regions[1].id;
+    const srcRegionId = regions[1].id;
+    const dstRegionId = regions[2].id;
     const srcRegion = draftApi.findRegion(srcRegionId);
     const dstRegion = draftApi.findRegion(dstRegionId);
     const prop = srcRegion.props[0];
     if (!prop) return;
     const pid = prop.id;
-    const dstCenter = { x: (dstRegion.bounds.minX + dstRegion.bounds.maxX)/2, y: prop.pos.y ?? 0, z: (dstRegion.bounds.minZ + dstRegion.bounds.maxZ)/2 };
+    // Choose a destination offset that avoids intersecting p2 runSpawn/beacon spawns
+    const dstCenter = { x: (dstRegion.bounds.minX + dstRegion.bounds.maxX)/2 + 3.5, y: prop.pos.y ?? 0, z: (dstRegion.bounds.minZ + dstRegion.bounds.maxZ)/2 + 0.8 };
     const res = draftApi.updateTransform(pid, { regionId: dstRegionId, pos: dstCenter });
     assert.ok(res.ok, res.error);
     const found = draftApi.findObjectById(pid);
