@@ -809,5 +809,43 @@
 
 - **Remaining:** Human must confirm the recognizable player-facing closure path above before the slice status changes to accepted. Phase 4B.0 remains out of scope until that owner confirmation.
 
+## 2026-08-25 00:44 -05:00 — Phase 4B.0 Primitive Kitbash / Visual Asset Authoring — Codex (GPT-5)
+
+- **Goal:** Implement the complete active Phase 4B.0 slice on `main`: a deliberately bounded reusable primitive Visual Asset workflow, shared-instance/runtime/collision parity, and Camp Drop Pod migration, without beginning Phase 4B expedition content or pacing.
+
+- **Decisions / implementation:**
+  - Added strict top-level `visualAssets` v1 normalization and reference validation. Recipes are flat and support only Box, Cylinder, Cone, Sphere, Capsule, and Icosahedron parts with local position/rotation/scale/color plus zero or one simple Box collision recipe.
+  - Extended `VisualFactory` with the sole deterministic primitive recipe interpreter, stable part metadata, recipe-key invalidation, explicit missing-asset errors, and a visual-bounds helper used by Fit To Visual Bounds.
+  - Added the registry-backed `prop:visualAsset` Author Object type. Instances retain ordinary independent position/elevation/rotation/uniform scale, presentation, region rehome, duplicate/delete, selection, export, and runtime behavior while storing only a recipe reference.
+  - Added transactional draft/actions for create/rename/delete asset, add/update/duplicate/delete part, collision editing/fitting, deterministic instance IDs, reference-protected asset deletion, undo/redo, and persistence/reload.
+  - Added a dynamic Visual Assets palette and bounded Asset Edit UI/context: part selection/highlight, local transform/color inputs, direct canvas-local X/Z drag, bounded keyboard nudges/rotation, unrelated-root de-emphasis, focused camera, and a dedicated cyan collider proxy. No new frame loop or dependency was introduced.
+  - Shared-recipe edits rebuild every matching Author preview using the same `VisualFactory` recipe while preserving each root's independent world transform. Fixed programmatic New/Place/Edit entry to synchronize both visible and internal edit-mode state so one PLAY click reliably returns to Runtime Play.
+  - Runtime statics resolve the same canonical asset recipe and create collision only from the separate descriptor-derived native Rapier Box path. Local collision offsets rotate with the instance and all collision dimensions/offsets scale uniformly.
+  - Migrated the existing Camp Drop Pod to `asset_drop_pod`; the Camp prop is now one shared recipe reference with its existing placement and a separate simple Box collision.
+  - Preserved the accepted gameplay loop, one-rAF architecture, offline vendored runtime, readable submission, portrait layout, and all explicit Phase 4B.0 non-goals.
+
+- **Files changed:**
+  - World/runtime: `src/world/worldValidator.js`, `src/world/visualFactory.js`, `src/world/colliderDescriptor.js`, `src/world/staticWorldBuilder.js`, `src/world/data/world.json`, generated `src/world/data/world.generated.js`.
+  - Author workflow: `src/author/authorDraft.js`, `src/author/authorActions.js`, `src/author/authorTypeRegistry.js`, `src/author/authorPreview.js`, `src/author/authorUI.js`, `src/author/authorMode.js`.
+  - Tests: new `tests/phase4b0.test.js`; updated one legacy Phase 4A.2 expectation for props whose canonical shape is no longer always box-sized.
+  - Truth/docs: `README.md`, `docs/CURRENT_SLICE.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_PLAN.md`, `docs/PLAYTEST_NOTES.md`, `docs/BUILD_LOG.md`.
+
+- **Production-path proof:**
+  - New Phase 4B.0 coverage exercises schema defaults/failures, all six shapes, deterministic factory output, missing recipes, transactional asset/part edit with undo/redo, two reference instances, independent transforms and cross-region rehome, shared preview reconciliation, protected deletion, fit/export/reload stability, rotated/scaled collision offset, and migrated Drop Pod/runtime native collision.
+  - Real `?author=1` UI: created a four-part asset; edited part position/rotation/scale/color; fitted collision; directly dragged a selected part; placed two instances; changed the second instance's rotation/scale; changed the shared recipe and saw both rebuild; verified undo/redo; returned to Play in one click; browser warnings/errors were empty.
+  - Portrait runtime at 390×844 remained usable and rendered the same draft/runtime scene with no warnings/errors. This is automated browser evidence, not human perceptual/phone acceptance.
+
+- **Tests / gates:**
+  - `npm test` — PASS, 500/500 tests, 137 suites, 0 failures.
+  - `npm run world:generate` — PASS; generated source updated deterministically.
+  - `npm run world:check` — PASS; JSON and generated source synchronized.
+  - `npm run verify` — PASS: 500 tests, world check, build, and submission validation; root `index.html` 721.3 KB, submission directory 4770.4 KB (<35 MB), local vendor/offline/readability checks preserved.
+  - `npm run zip` — PASS; `dist/submission.zip` 1460.7 KB (1.43 MB).
+  - Browser desktop + 390×844 portrait runtime — PASS for automated workflow/readability smoke; console warnings/errors: none.
+
+- **Remaining / deferred:**
+  - Human acceptance remains required for recognizable multi-part construction, shared-instance editing, independent transform feel, Edit/Play visual parity, collision feel, export/reload, migrated Drop Pod readability, and real phone play. Automated screenshots and numeric/state assertions do not replace human perceptual proof.
+  - Phase 4B expedition experience/pacing is intentionally not started. Once Chris accepts Phase 4B.0, freeze editor/asset infrastructure and move directly to authored expedition content/tuning.
+
 
 

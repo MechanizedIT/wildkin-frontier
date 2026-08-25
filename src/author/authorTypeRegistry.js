@@ -2,7 +2,7 @@
 // Centralizes transform/capability/storage/visual/collider/inspector knowledge.
 // Production UI/Mode must not rely on hard-coded family lists for ordinary transform/presentation.
 
-import { describeBoxCollider, describeResourceCollider, describeCreatureCollider } from "../world/colliderDescriptor.js";
+import { describeBoxCollider, describeResourceCollider, describeCreatureCollider, describeVisualAssetCollider } from "../world/colliderDescriptor.js";
 
 // Helpers
 function isFiniteNumber(v) { return typeof v === "number" && Number.isFinite(v); }
@@ -160,6 +160,61 @@ function makePropDefinition(subtype, extra = {}) {
     inspector: [
       // presentation handled generically via capabilities, but custom fields none for props except displayName maybe
     ],
+  };
+}
+
+function makeVisualAssetInstanceDefinition() {
+  return {
+    key: "prop:visualAsset",
+    visualId: "asset",
+    sizeMode: "uniform",
+    capabilities: {
+      selectable: true, draggable: true, elevation: true, rotation: true, resize: true,
+      duplicatable: true, deletable: true, presentation: true, collisionControl: true,
+      sizeMode: "uniform",
+    },
+    ownership: { mode: "point" },
+    matches(found) {
+      return found.collection === "props" && found.obj.subtype === "visualAsset";
+    },
+    transform: {
+      read(found) {
+        const obj = found.obj;
+        return {
+          position: clonePos(obj.pos),
+          rotationY: obj.rotY ?? 0,
+          size: null,
+          uniformScale: isFiniteNumber(obj.uniformScale) ? obj.uniformScale : 1,
+          sizeMode: "uniform",
+        };
+      },
+      write(candidateObj, found, normalized) {
+        if (normalized.position) candidateObj.pos = clonePos(normalized.position);
+        if (isFiniteNumber(normalized.rotationY)) candidateObj.rotY = normalized.rotationY;
+        if (isFiniteNumber(normalized.uniformScale)) candidateObj.uniformScale = Math.max(0.2, Math.min(5, normalized.uniformScale));
+        delete candidateObj.size;
+        delete candidateObj.scale;
+        delete candidateObj.x; delete candidateObj.y; delete candidateObj.z;
+      },
+    },
+    visual: {
+      resolveRef(found) {
+        return { kind: "asset", id: found.obj.visualAssetId };
+      },
+    },
+    collision: {
+      describe(found) {
+        const asset = (found.visualAssets ?? []).find((entry) => entry.id === found.obj.visualAssetId);
+        return describeVisualAssetCollider({
+          collision: asset?.collision ?? null,
+          uniformScale: found.obj.uniformScale ?? 1,
+          position: found.obj.pos,
+          rotationY: found.obj.rotY ?? 0,
+          enabled: found.obj.collisionEnabled !== false,
+        });
+      },
+    },
+    inspector: [],
   };
 }
 
@@ -872,6 +927,7 @@ function makeSpawnDefinitions() {
 
 // Build definitions list
 const DEFINITIONS = [
+  makeVisualAssetInstanceDefinition(),
   makePropDefinition("box"),
   makePropDefinition("fence"),
   makePropDefinition("gate"),

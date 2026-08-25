@@ -403,6 +403,72 @@ export function createSpawnMarkerVisual({ color = 0x7ab8ff } = {}) {
   return group;
 }
 
+export const VISUAL_ASSET_SHAPES = Object.freeze([
+  "box",
+  "cylinder",
+  "cone",
+  "sphere",
+  "capsule",
+  "icosahedron",
+]);
+
+function createAssetPartGeometry(shape) {
+  if (shape === "box") return new THREE.BoxGeometry(1, 1, 1);
+  if (shape === "cylinder") return new THREE.CylinderGeometry(0.5, 0.5, 1, 12);
+  if (shape === "cone") return new THREE.ConeGeometry(0.5, 1, 12);
+  if (shape === "sphere") return new THREE.SphereGeometry(0.5, 12, 8);
+  if (shape === "capsule") return new THREE.CapsuleGeometry(0.35, 0.3, 6, 10);
+  if (shape === "icosahedron") return new THREE.IcosahedronGeometry(0.5, 0);
+  throw new Error(`Unsupported Visual Asset shape ${shape}`);
+}
+
+export function findVisualAsset(visualAssets, assetId) {
+  return (visualAssets ?? []).find((asset) => asset.id === assetId) ?? null;
+}
+
+export function createVisualAssetVisual(asset) {
+  if (!asset) throw new Error("Visual Asset recipe is required");
+  const group = new THREE.Group();
+  group.userData.visualKind = `asset/${asset.id}`;
+  group.userData.visualAssetId = asset.id;
+  for (const part of asset.parts ?? []) {
+    const geometry = createAssetPartGeometry(part.shape);
+    const material = matStandard(part.color, { roughness: 0.82, metalness: 0.05 });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = `${asset.id}:${part.id}`;
+    mesh.position.set(part.position.x, part.position.y, part.position.z);
+    mesh.rotation.set(part.rotation.x, part.rotation.y, part.rotation.z, "XYZ");
+    mesh.scale.set(part.scale.x, part.scale.y, part.scale.z);
+    mesh.userData.assetPartId = part.id;
+    mesh.userData.visualAssetId = asset.id;
+    group.add(mesh);
+  }
+  return group;
+}
+
+export function computeVisualAssetBounds(asset) {
+  const root = createVisualAssetVisual(asset);
+  root.updateMatrixWorld(true);
+  const bounds = new THREE.Box3().setFromObject(root);
+  if (bounds.isEmpty()) {
+    root.traverse((object) => {
+      object.geometry?.dispose?.();
+      object.material?.dispose?.();
+    });
+    throw new Error(`Visual Asset ${asset?.id ?? "unknown"} has no visual bounds`);
+  }
+  const size = bounds.getSize(new THREE.Vector3());
+  const center = bounds.getCenter(new THREE.Vector3());
+  root.traverse((object) => {
+    object.geometry?.dispose?.();
+    object.material?.dispose?.();
+  });
+  return {
+    offset: { x: center.x, y: center.y, z: center.z },
+    size: { w: size.x, h: size.y, d: size.z },
+  };
+}
+
 // Map VisualRef to constructor
 const BUILTIN_MAP = {
   "prop/box": createBoxVisual,
@@ -440,6 +506,11 @@ export function resolveVisualRef(visualRef) {
 }
 
 export function createVisual(visualRef, opts = {}) {
+  if (visualRef?.kind === "asset") {
+    const asset = findVisualAsset(opts.visualAssets, visualRef.id);
+    if (!asset) throw new Error(`Visual Asset ${visualRef.id} not found`);
+    return createVisualAssetVisual(asset);
+  }
   const ctor = resolveVisualRef(visualRef);
   if (!ctor) {
     // fallback simple box for unknown
@@ -467,8 +538,12 @@ function stableRecipeValue(value) {
 }
 
 export function getVisualRecipeKey(visualRef, opts = {}) {
+  const assetRecipe = visualRef?.kind === "asset"
+    ? findVisualAsset(opts.visualAssets, visualRef.id)
+    : null;
   return JSON.stringify(stableRecipeValue({
     visualRef,
+    assetRecipe,
     size: opts.size ?? null,
     poiType: opts.poiType ?? null,
     subtype: opts.subtype ?? null,

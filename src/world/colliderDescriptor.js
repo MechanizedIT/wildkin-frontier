@@ -23,10 +23,15 @@ export function describeBoxCollider({ size, position, rotationY = 0, enabled = t
 
 // For axis-aligned box at base position, derive center for Rapier
 export function getColliderCenter(descriptor) {
+  const offsetX = descriptor.offset?.x ?? 0;
+  const offsetZ = descriptor.offset?.z ?? 0;
+  const rotationY = descriptor.rotationY ?? 0;
+  const cos = Math.cos(rotationY);
+  const sin = Math.sin(rotationY);
   return {
-    x: descriptor.position.x + (descriptor.offset?.x ?? 0),
+    x: descriptor.position.x + offsetX * cos + offsetZ * sin,
     y: descriptor.position.y + (descriptor.offset?.y ?? 0),
-    z: descriptor.position.z + (descriptor.offset?.z ?? 0),
+    z: descriptor.position.z - offsetX * sin + offsetZ * cos,
   };
 }
 export function getColliderHalfExtents(descriptor) {
@@ -60,6 +65,29 @@ export function describeResourceCollider({ typeId, uniformScale = 1, position, r
     enabled: !!enabled,
     interactionHeight: (cfg.interactionHeight ?? 0.5) * uniformScale,
     editProxy: { visibleWhenHidden: false },
+  };
+}
+
+export function describeVisualAssetCollider({ collision, uniformScale = 1, position, rotationY = 0, enabled = true } = {}) {
+  if (!collision || collision.shape !== "box" || !enabled) {
+    return { shape: "none", enabled: false, editProxy: { visibleWhenHidden: false } };
+  }
+  return {
+    shape: "box",
+    size: {
+      width: collision.size.w * uniformScale,
+      height: collision.size.h * uniformScale,
+      depth: collision.size.d * uniformScale,
+    },
+    offset: {
+      x: collision.offset.x * uniformScale,
+      y: collision.offset.y * uniformScale,
+      z: collision.offset.z * uniformScale,
+    },
+    position: { ...position },
+    rotationY,
+    enabled: true,
+    editProxy: { visibleWhenHidden: true },
   };
 }
 

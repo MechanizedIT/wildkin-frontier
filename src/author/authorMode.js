@@ -3,10 +3,12 @@ import * as THREE from "three";
 import { createAuthorDraft } from "./authorDraft.js";
 import { createAuthorUI } from "./authorUI.js";
 import { resolveAuthorType, readNormalizedTransform } from "./authorTypeRegistry.js";
-import { applyVisualTransform } from "../world/visualFactory.js";
+import { applyVisualTransform, createVisual } from "../world/visualFactory.js";
+import { describeVisualAssetCollider } from "../world/colliderDescriptor.js";
 import { createAuthorActions } from "./authorActions.js";
 import {
   applyColliderProxyTransform,
+  disposeObject3D,
   findAuthorVisualRoot,
   previewColliderDescriptor,
   syncAuthorVisual,
@@ -49,6 +51,14 @@ export function createAuthorMode(opts) {
   let originalFog = null;
   let forestMats = [];
   let hudHidden = [];
+  let editingAssetId = null;
+  let selectedAssetPartId = null;
+  let assetEditContextId = null;
+  let assetEditTempRoot = null;
+  let assetEditProxy = null;
+  let assetEditHiddenRoots = [];
+  let assetEditCameraState = null;
+  let assetPartDrag = null;
 
   const ui = createAuthorUI({
     draftApi,
@@ -63,8 +73,33 @@ export function createAuthorMode(opts) {
         ui.element.querySelector("#author-toggle").style.background = "#1a8a4a";
         const badge = ui.element.querySelector("#author-mode-badge");
         if (badge) { badge.textContent = "EDITING"; badge.style.background = "#1a3a2a"; badge.style.color = "#6aff8a"; }
+        ui.setEditMode?.(true);
       }
       enterPlaceMode(item);
+    },
+    onPlaceAsset: (assetId, displayName) => {
+      if (editingAssetId) exitAssetEdit();
+      if (!isEdit) {
+        isEdit = true; suppressGameplay = true;
+        enterEdit();
+        ui.element.querySelector("#author-toggle").textContent = "PLAY";
+        const badge = ui.element.querySelector("#author-mode-badge");
+        if (badge) { badge.textContent = "EDITING"; badge.style.background = "#1a3a2a"; badge.style.color = "#6aff8a"; }
+        ui.setEditMode?.(true);
+      }
+      enterPlaceMode({ kind: "visualAsset", visualAssetId: assetId, label: displayName });
+    },
+    onAssetEditRequested: (assetId, partId) => enterAssetEdit(assetId, partId),
+    onAssetEditExitRequested: () => exitAssetEdit(),
+    onAssetPartSelected: (assetId, partId) => {
+      if (assetId !== editingAssetId) return;
+      selectedAssetPartId = partId;
+      updateAssetPartHighlight();
+    },
+    onAssetChanged: (assetId, partId) => {
+      if (partId !== undefined) selectedAssetPartId = partId;
+      reconcilePreview();
+      if (assetId === editingAssetId) refreshAssetEditContext();
     },
     onToggleEdit: (edit) => {
       isEdit = edit;
@@ -176,6 +211,155 @@ export function createAuthorMode(opts) {
       object.material.transparent = opacity < 1 || !!object.userData.baseTransparent;
       object.material.opacity = opacity < 1 ? opacity : object.userData.baseOpacity;
     });
+  }
+
+  function getAssetInstances(assetId) {
+    const instances = [];
+    for (const region of draftApi.getDraft().regions) {
+      for (const prop of region.props ?? []) {
+        if (prop.subtype === "visualAsset" && prop.visualAssetId === assetId) instances.push(prop);
+      }
+    }
+    return instances;
+  }
+
+  function getAssetEditRoot() {
+    return assetEditContextId ? findAuthorVisualRoot(scene, assetEditContextId) : assetEditTempRoot;
+  }
+
+  function updateAssetPartHighlight() {
+    const root = getAssetEditRoot();
+    if (!root) return;
+    root.traverse((object) => {
+      if (!object.isMesh || !object.userData?.assetPartId || !object.material?.emissive) return;
+      object.material.emissive.setHex(object.userData.assetPartId === selectedAssetPartId ? 0x315c7d : 0x000000);
+      object.material.emissiveIntensity = object.userData.assetPartId === selectedAssetPartId ? 0.55 : 0;
+    });
+  }
+
+  function syncAssetEditProxy() {
+    if (assetEditProxy) {
+      scene.remove(assetEditProxy);
+      disposeObject3D(assetEditProxy);
+      assetEditProxy = null;
+    }
+    const asset = editingAssetId ? draftApi.findVisualAssetById(editingAssetId) : null;
+    const root = getAssetEditRoot();
+    if (!asset?.collision || !root) return;
+    let position = { x: root.position.x, y: root.position.y, z: root.position.z };
+    let rotationY = root.rotation.y;
+    let uniformScale = root.scale.x || 1;
+    if (assetEditContextId) {
+      const found = draftApi.findObjectById(assetEditContextId);
+      const normalized = found ? readNormalizedTransform(found) : null;
+      if (normalized) {
+        position = normalized.position;
+        rotationY = normalized.rotationY ?? 0;
+        uniformScale = normalized.uniformScale ?? 1;
+      }
+    }
+    const descriptor = describeVisualAssetCollider({ collision: asset.collision, uniformScale, position, rotationY, enabled: true });
+    assetEditProxy = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0x4fc3f7, wireframe: true, transparent: true, opacity: 0.72 }),
+    );
+    assetEditProxy.name = "asset-edit-collider";
+    assetEditProxy.userData.isAssetEditProxy = true;
+    applyColliderProxyTransform(assetEditProxy, descriptor);
+    scene.add(assetEditProxy);
+  }
+
+  function refreshAssetEditContext() {
+    if (!editingAssetId) return;
+    const asset = draftApi.findVisualAssetById(editingAssetId);
+    if (!asset) return exitAssetEdit();
+    scene.traverse((object) => {
+      if (!object.userData?.authorVisualRoot) return;
+      const sameAsset = object.userData.visualRef?.kind === "asset" && object.userData.visualRef.id === editingAssetId;
+      if (!sameAsset && !assetEditHiddenRoots.some((entry) => entry.root === object)) {
+        assetEditHiddenRoots.push({ root: object, visible: object.visible });
+        object.visible = false;
+      }
+    });
+    if (!assetEditContextId) {
+      if (assetEditTempRoot) {
+        scene.remove(assetEditTempRoot);
+        disposeObject3D(assetEditTempRoot);
+      }
+      assetEditTempRoot = createVisual({ kind: "asset", id: editingAssetId }, { visualAssets: draftApi.getVisualAssets(), objectId: "asset_edit" });
+      const campPos = draftApi.getDraft().camp?.pos ?? { x: 0, y: 0, z: 9.5 };
+      assetEditTempRoot.position.set(campPos.x, campPos.y ?? 0, campPos.z);
+      assetEditTempRoot.userData.isAssetEditRoot = true;
+      scene.add(assetEditTempRoot);
+    }
+    updateAssetPartHighlight();
+    syncAssetEditProxy();
+    ui.setAssetEdit(editingAssetId, selectedAssetPartId);
+  }
+
+  function enterAssetEdit(assetId, partId = null) {
+    const asset = draftApi.findVisualAssetById(assetId);
+    if (!asset) return ui.setStatus(`Visual Asset ${assetId} not found`, true);
+    if (!isEdit) {
+      isEdit = true;
+      suppressGameplay = true;
+      enterEdit();
+      ui.element.querySelector("#author-toggle").textContent = "PLAY";
+      const badge = ui.element.querySelector("#author-mode-badge");
+      if (badge) { badge.textContent = "EDITING"; badge.style.background = "#1a3a2a"; badge.style.color = "#6aff8a"; }
+      ui.setEditMode?.(true);
+    }
+    if (editingAssetId) exitAssetEdit();
+    editingAssetId = assetId;
+    selectedAssetPartId = partId ?? asset.parts[0]?.id ?? null;
+    assetEditContextId = getAssetInstances(assetId)[0]?.id ?? null;
+    assetEditCameraState = { position: camera.position.clone(), rotation: camera.rotation.clone() };
+    assetEditHiddenRoots = [];
+    scene.traverse((object) => {
+      if (!object.userData?.authorVisualRoot) return;
+      const sameAsset = object.userData.visualRef?.kind === "asset" && object.userData.visualRef.id === assetId;
+      if (!sameAsset) {
+        assetEditHiddenRoots.push({ root: object, visible: object.visible });
+        object.visible = false;
+      }
+    });
+    refreshAssetEditContext();
+    const root = getAssetEditRoot();
+    if (root) {
+      camera.position.set(root.position.x, Math.max(5, root.position.y + 7), root.position.z + 0.01);
+      camera.lookAt(root.position.x, root.position.y, root.position.z);
+      camera.updateMatrixWorld();
+    }
+    ui.setStatus(`Asset Edit — ${asset.displayName}`, false);
+  }
+
+  function exitAssetEdit() {
+    if (!editingAssetId) return;
+    assetPartDrag = null;
+    for (const entry of assetEditHiddenRoots) if (entry.root.parent) entry.root.visible = entry.visible;
+    assetEditHiddenRoots = [];
+    if (assetEditTempRoot) {
+      scene.remove(assetEditTempRoot);
+      disposeObject3D(assetEditTempRoot);
+      assetEditTempRoot = null;
+    }
+    if (assetEditProxy) {
+      scene.remove(assetEditProxy);
+      disposeObject3D(assetEditProxy);
+      assetEditProxy = null;
+    }
+    if (assetEditCameraState) {
+      camera.position.copy(assetEditCameraState.position);
+      camera.rotation.copy(assetEditCameraState.rotation);
+      camera.updateMatrixWorld();
+      assetEditCameraState = null;
+    }
+    editingAssetId = null;
+    selectedAssetPartId = null;
+    assetEditContextId = null;
+    ui.clearAssetEdit();
+    ui.setStatus("EDIT — world objects", false);
+    updateHighlight();
   }
 
   // Live preview: sync a single object's mesh via normalized Author transform (registry-driven)
@@ -446,6 +630,7 @@ export function createAuthorMode(opts) {
     updateOverlays();
     if(isEdit) updateEditorVisibility();
     if(ui.refreshHierarchy) ui.refreshHierarchy();
+    if(ui.refreshVisualAssets) ui.refreshVisualAssets();
   }
   function updateEditorVisibility() {
     if (!isEdit) return;
@@ -484,8 +669,9 @@ export function createAuthorMode(opts) {
     const targetRegion = regionId || draftApi.getDraft().regions[0]?.id;
     const kind = pendingPlace.kind;
     const subtype = pendingPlace.subtype;
+    const visualAssetId = pendingPlace.visualAssetId;
     // Atomic creation at final intended position (no intermediate mutate)
-    const res = actions.placeObject({ kind, subtype, position: worldPos, regionId: targetRegion });
+    const res = actions.placeObject({ kind, subtype, visualAssetId, position: worldPos, regionId: targetRegion });
     if (!res.ok) { ui.setStatus("⚠ "+res.error, true); return true; }
     const newId = res.id;
     const v = draftApi.validate();
@@ -581,6 +767,7 @@ export function createAuthorMode(opts) {
     renderer.domElement.style.cursor = pendingPlace ? "crosshair" : "";
   }
   function exitEdit() {
+    if (editingAssetId) exitAssetEdit();
     if (editorCameraState) {
       camera.position.copy(editorCameraState.pos);
       camera.rotation.copy(editorCameraState.rot);
@@ -673,10 +860,61 @@ export function createAuthorMode(opts) {
     return pt;
   }
 
+  function getAssetPartHit(event) {
+    const root = getAssetEditRoot();
+    if (!root) return null;
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    for (const hit of raycaster.intersectObject(root, true)) {
+      if (hit.object.userData?.assetPartId) return hit;
+    }
+    return null;
+  }
+
+  function getAssetPlaneIntersection(event, worldY) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -worldY);
+    return raycaster.ray.intersectPlane(plane, new THREE.Vector3());
+  }
+
   function onPointerDown(e) {
     if (!isEdit) return;
     if (pendingPlace) return;
     if (e.button !== 0) return;
+    if (editingAssetId) {
+      const hit = getAssetPartHit(e);
+      if (hit) {
+        const root = getAssetEditRoot();
+        const mesh = hit.object;
+        selectedAssetPartId = mesh.userData.assetPartId;
+        ui.setAssetEdit(editingAssetId, selectedAssetPartId);
+        updateAssetPartHighlight();
+        const worldPosition = mesh.getWorldPosition(new THREE.Vector3());
+        const point = getAssetPlaneIntersection(e, worldPosition.y);
+        if (point && root) {
+          const localPoint = root.worldToLocal(point.clone());
+          assetPartDrag = {
+            pointerId: e.pointerId,
+            root,
+            mesh,
+            worldY: worldPosition.y,
+            startPosition: mesh.position.clone(),
+            previewPosition: mesh.position.clone(),
+            offsetX: mesh.position.x - localPoint.x,
+            offsetZ: mesh.position.z - localPoint.z,
+          };
+          renderer.domElement.setPointerCapture(e.pointerId);
+        }
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     const rect = renderer.domElement.getBoundingClientRect();
     mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -765,6 +1003,19 @@ export function createAuthorMode(opts) {
     updateHomeMarker();
   }
   function onPointerMove(e) {
+    if (assetPartDrag && e.pointerId === assetPartDrag.pointerId) {
+      const point = getAssetPlaneIntersection(e, assetPartDrag.worldY);
+      if (point) {
+        const localPoint = assetPartDrag.root.worldToLocal(point.clone());
+        assetPartDrag.previewPosition.x = localPoint.x + assetPartDrag.offsetX;
+        assetPartDrag.previewPosition.z = localPoint.z + assetPartDrag.offsetZ;
+        assetPartDrag.mesh.position.x = assetPartDrag.previewPosition.x;
+        assetPartDrag.mesh.position.z = assetPartDrag.previewPosition.z;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     if (!isEdit || !isDragging || !selectedId || !dragState || e.pointerId !== activePointerId) return;
     const pt = getGroundIntersection(e);
     const newX = pt.x + dragOffset.x;
@@ -775,6 +1026,22 @@ export function createAuthorMode(opts) {
     e.preventDefault();
   }
   function onPointerUp(e) {
+    if (assetPartDrag && e.pointerId === assetPartDrag.pointerId) {
+      const partId = selectedAssetPartId;
+      const position = assetPartDrag.previewPosition;
+      assetPartDrag = null;
+      const result = actions.updateAssetPart(editingAssetId, partId, { position: { x: position.x, z: position.z } });
+      if (!result.ok) ui.setStatus(result.error, true);
+      else {
+        ui.setStatus(`Moved part ${partId}`, false);
+        reconcilePreview();
+        refreshAssetEditContext();
+      }
+      try { renderer.domElement.releasePointerCapture(e.pointerId); } catch {}
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     if (isDragging && e.pointerId === activePointerId) {
       isDragging = false;
       if(dragState && selectedId === dragState.id){
@@ -811,6 +1078,12 @@ export function createAuthorMode(opts) {
   }
 
   function onPointerCancel(e) {
+    if (assetPartDrag && e.pointerId === assetPartDrag.pointerId) {
+      assetPartDrag.mesh.position.copy(assetPartDrag.startPosition);
+      assetPartDrag = null;
+      e.preventDefault();
+      return;
+    }
     if (!isDragging || (activePointerId !== null && e.pointerId !== activePointerId)) return;
     const cancelledId = dragState?.id;
     isDragging = false;
@@ -822,6 +1095,7 @@ export function createAuthorMode(opts) {
 
   function onCanvasClick(e) {
     if (!isEdit) return;
+    if (editingAssetId) { e.preventDefault(); e.stopPropagation(); return; }
     // If dragging just finished, ignore click
     if (isDragging) return;
     // If pending place, place object at click ground
@@ -880,6 +1154,12 @@ export function createAuthorMode(opts) {
     // bounded workflow: only in Edit and not when editing fields
     if (isTextEditingTarget(document.activeElement)) return;
     if (e.key === "Escape") {
+      if (assetPartDrag) {
+        assetPartDrag.mesh.position.copy(assetPartDrag.startPosition);
+        assetPartDrag = null;
+        e.preventDefault();
+        return;
+      }
       if (pendingPlace) { exitPlaceMode(); e.preventDefault(); return; }
       if (isDragging || dragState) {
         isDragging = false;
@@ -891,6 +1171,7 @@ export function createAuthorMode(opts) {
         }
         dragStartPos=null; dragStartHome=null; e.preventDefault(); return;
       }
+      if (editingAssetId) { exitAssetEdit(); e.preventDefault(); return; }
     }
     if (!isEdit) return;
     const isCtrl = e.ctrlKey || e.metaKey;
@@ -901,6 +1182,7 @@ export function createAuthorMode(opts) {
         ui.setStatus("Undo", false);
         if (selectedId && !draftApi.findObjectById(selectedId)) { selectedId = null; ui.setSelected(null); }
         reconcilePreview();
+        if (editingAssetId) refreshAssetEditContext();
       } else ui.setStatus(res.error, true);
       return;
     }
@@ -910,7 +1192,38 @@ export function createAuthorMode(opts) {
       if (res.ok) {
         ui.setStatus("Redo", false);
         reconcilePreview();
+        if (editingAssetId) refreshAssetEditContext();
       } else ui.setStatus(res.error, true);
+      return;
+    }
+    if (editingAssetId) {
+      const asset = draftApi.findVisualAssetById(editingAssetId);
+      const part = asset?.parts.find((entry) => entry.id === selectedAssetPartId);
+      if (!part) return;
+      const key = e.key.toLowerCase();
+      let result = null;
+      if (e.key === "Delete" || e.key === "Backspace") {
+        result = actions.deleteAssetPart(editingAssetId, selectedAssetPartId);
+        selectedAssetPartId = null;
+      } else if (key === "q" || key === "e") {
+        const delta = (key === "q" ? -15 : 15) * Math.PI / 180;
+        result = actions.updateAssetPart(editingAssetId, selectedAssetPartId, { rotation: { y: part.rotation.y + delta } });
+      } else {
+        const step = e.shiftKey ? 1 : 0.2;
+        let dx = 0; let dz = 0;
+        if (key === "arrowup" || key === "w") dz = -step;
+        else if (key === "arrowdown" || key === "s") dz = step;
+        else if (key === "arrowleft" || key === "a") dx = -step;
+        else if (key === "arrowright" || key === "d") dx = step;
+        else return;
+        result = actions.updateAssetPart(editingAssetId, selectedAssetPartId, { position: { x: part.position.x + dx, z: part.position.z + dz } });
+      }
+      e.preventDefault();
+      if (!result?.ok) ui.setStatus(result?.error ?? "Asset part edit failed", true);
+      else {
+        reconcilePreview();
+        refreshAssetEditContext();
+      }
       return;
     }
     if (!selectedId) return;

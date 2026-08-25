@@ -3,6 +3,7 @@ import {
   getInspectorFields,
   readNormalizedTransform,
 } from "./authorTypeRegistry.js";
+import { computeVisualAssetBounds } from "../world/visualFactory.js";
 
 function finite(value) {
   return typeof value === "number" && Number.isFinite(value);
@@ -34,8 +35,19 @@ export function buildInspectorTransform(base, capabilities, values = {}) {
 }
 
 export function createAuthorActions(draftApi) {
-  function placeObject({ kind, subtype, position, regionId }) {
-    return draftApi.createObjectAtPosition(kind, subtype, position, regionId);
+  function placeObject({ kind, subtype, visualAssetId, position, regionId }) {
+    return draftApi.createObjectAtPosition(kind, subtype, position, regionId, { visualAssetId });
+  }
+
+  function fitAssetCollision(assetId) {
+    const asset = draftApi.findVisualAssetById(assetId);
+    if (!asset) return { ok: false, error: "Visual Asset not found" };
+    try {
+      const fitted = computeVisualAssetBounds(asset);
+      return draftApi.updateAssetCollision(assetId, { shape: "box", ...fitted });
+    } catch (error) {
+      return { ok: false, error: error.message };
+    }
   }
 
   function commitTransform(id, changes = {}) {
@@ -83,5 +95,19 @@ export function createAuthorActions(draftApi) {
     return draftApi.updateInspectorField(id, key, value);
   }
 
-  return { placeObject, commitTransform, commitInspectorTransform, commitInspectorField };
+  return {
+    placeObject,
+    commitTransform,
+    commitInspectorTransform,
+    commitInspectorField,
+    createVisualAsset: (displayName) => draftApi.createVisualAsset(displayName),
+    renameVisualAsset: (assetId, displayName) => draftApi.renameVisualAsset(assetId, displayName),
+    deleteVisualAsset: (assetId) => draftApi.deleteVisualAsset(assetId),
+    addAssetPart: (assetId, shape) => draftApi.addAssetPart(assetId, shape),
+    updateAssetPart: (assetId, partId, patch) => draftApi.updateAssetPart(assetId, partId, patch),
+    duplicateAssetPart: (assetId, partId) => draftApi.duplicateAssetPart(assetId, partId),
+    deleteAssetPart: (assetId, partId) => draftApi.deleteAssetPart(assetId, partId),
+    updateAssetCollision: (assetId, collision) => draftApi.updateAssetCollision(assetId, collision),
+    fitAssetCollision,
+  };
 }

@@ -25,6 +25,42 @@ export function createAuthorUI(opts) {
       <summary style="font-weight:700;cursor:pointer;list-style:none">Palette — Click to place ▼</summary>
       <div id="author-palette" style="display:flex;flex-direction:column;gap:6px;margin-top:6px"></div>
     </details>
+    <details id="sec-visual-assets" open style="margin-bottom:8px">
+      <summary style="font-weight:700;cursor:pointer">Visual Assets</summary>
+      <button id="author-asset-new" style="width:100%;margin-top:6px;padding:6px;background:#244266;color:#dcecff;border:1px solid #3a6694;border-radius:5px">+ New Asset</button>
+      <div id="author-asset-list" style="display:flex;flex-direction:column;gap:4px;margin-top:6px"></div>
+      <div id="author-asset-editor" style="display:none;margin-top:7px;padding:6px;background:#0a0f1e;border:1px solid #3a6694;border-radius:6px">
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px"><strong style="flex:1">Asset Edit</strong><button id="author-asset-exit" style="padding:3px 7px">Exit</button></div>
+        <label style="display:block">Name <input id="author-asset-name" style="width:100%"></label>
+        <div id="author-asset-id" style="font-size:10px;color:#6f88a8;margin:3px 0 6px"></div>
+        <div style="font-size:11px;font-weight:700;margin-bottom:3px">Add Part</div>
+        <div id="author-asset-add-parts" style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+          <button data-asset-shape="box">+ Box</button><button data-asset-shape="cylinder">+ Cylinder</button>
+          <button data-asset-shape="cone">+ Cone</button><button data-asset-shape="sphere">+ Sphere</button>
+          <button data-asset-shape="capsule">+ Capsule</button><button data-asset-shape="icosahedron">+ Icosahedron</button>
+        </div>
+        <div id="author-asset-parts" style="display:flex;flex-wrap:wrap;gap:3px;margin:6px 0"></div>
+        <div id="author-asset-part-form" style="display:none;border-top:1px solid #1e2a4a;padding-top:5px">
+          <label style="display:block">Shape <input id="author-part-shape" readonly style="width:100%;opacity:.75"></label>
+          <div style="font-size:11px;margin-top:4px">Position</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-part-px" type="number" step="0.1" title="Position X"><input id="author-part-py" type="number" step="0.1" title="Position Y"><input id="author-part-pz" type="number" step="0.1" title="Position Z"></div>
+          <div style="font-size:11px;margin-top:4px">Rotation °</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-part-rx" type="number" step="5" title="Rotation X"><input id="author-part-ry" type="number" step="5" title="Rotation Y"><input id="author-part-rz" type="number" step="5" title="Rotation Z"></div>
+          <div style="font-size:11px;margin-top:4px">Scale</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-part-sx" type="number" min="0.01" step="0.1" title="Scale X"><input id="author-part-sy" type="number" min="0.01" step="0.1" title="Scale Y"><input id="author-part-sz" type="number" min="0.01" step="0.1" title="Scale Z"></div>
+          <label style="display:block;margin-top:4px">Color <input id="author-part-color" type="color" style="width:100%;height:25px"></label>
+          <div style="display:flex;gap:4px;margin-top:5px"><button id="author-part-duplicate" style="flex:1">Duplicate</button><button id="author-part-delete" style="flex:1;color:#ffaaaa">Delete</button></div>
+        </div>
+        <div style="border-top:1px solid #1e2a4a;margin-top:7px;padding-top:5px">
+          <strong style="font-size:11px">Collision</strong>
+          <select id="author-asset-collision" style="width:100%;margin-top:3px"><option value="none">None</option><option value="box">Box</option></select>
+          <div id="author-asset-collision-fields" style="display:none">
+            <div style="font-size:11px;margin-top:4px">Size W / H / D</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-col-w" type="number" min="0.01" step="0.1"><input id="author-col-h" type="number" min="0.01" step="0.1"><input id="author-col-d" type="number" min="0.01" step="0.1"></div>
+            <div style="font-size:11px;margin-top:4px">Offset X / Y / Z</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-col-x" type="number" step="0.1"><input id="author-col-y" type="number" step="0.1"><input id="author-col-z" type="number" step="0.1"></div>
+          </div>
+          <button id="author-asset-fit" style="width:100%;margin-top:4px">Fit To Visual Bounds</button>
+        </div>
+        <button id="author-asset-delete" style="width:100%;margin-top:7px;color:#ffaaaa">Delete Asset</button>
+        <div style="font-size:10px;color:#6f88a8;margin-top:5px">Click a part · drag local X/Z · Q/E rotate Y · Esc exits</div>
+      </div>
+    </details>
     <details id="sec-selected" open style="margin-bottom:8px">
       <summary style="font-weight:700;cursor:pointer">Selected</summary>
       <div id="author-selected" style="background:#0a0f1e;border:1px solid #1e2a4a;border-radius:6px;padding:6px;margin-top:6px">
@@ -125,7 +161,6 @@ export function createAuthorUI(opts) {
       { label: "Forest Boundary", kind: "forestBoundary" },
       { label: "Water", kind: "water" },
       { label: "Island", kind: "island" },
-      { label: "Drop Pod", kind: "dropPod" },
       { label: "Resonator", kind: "resonator" },
     ]},
     { title: "Traversal", items: [
@@ -175,6 +210,153 @@ export function createAuthorUI(opts) {
     det.appendChild(grid);
     paletteEl.appendChild(det);
   }
+
+  let editingAssetId = null;
+  let selectedAssetPartId = null;
+  const assetListEl = container.querySelector("#author-asset-list");
+  const assetEditorEl = container.querySelector("#author-asset-editor");
+
+  function assetActionResult(result, successText, nextPartId) {
+    if (!result?.ok) {
+      setStatus(result?.error ?? "Visual Asset edit failed", true);
+      return false;
+    }
+    if (nextPartId !== undefined) selectedAssetPartId = nextPartId;
+    setStatus(successText, false);
+    refreshVisualAssets();
+    opts.onAssetChanged?.(editingAssetId, selectedAssetPartId);
+    return true;
+  }
+
+  function refreshAssetEditor() {
+    const asset = editingAssetId ? draftApi.findVisualAssetById(editingAssetId) : null;
+    assetEditorEl.style.display = asset ? "" : "none";
+    if (!asset) return;
+    container.querySelector("#author-asset-name").value = asset.displayName;
+    container.querySelector("#author-asset-id").textContent = asset.id;
+    if (!asset.parts.some((part) => part.id === selectedAssetPartId)) selectedAssetPartId = asset.parts[0]?.id ?? null;
+    const partsHost = container.querySelector("#author-asset-parts");
+    partsHost.innerHTML = "";
+    for (const part of asset.parts) {
+      const button = document.createElement("button");
+      button.textContent = part.id;
+      button.dataset.assetPartId = part.id;
+      button.style.cssText = `font-size:10px;padding:3px 5px;border:1px solid #3a4f70;border-radius:3px;background:${part.id === selectedAssetPartId ? "#3a6694" : "#1a243a"};color:#dcecff`;
+      button.addEventListener("click", () => {
+        selectedAssetPartId = part.id;
+        refreshAssetEditor();
+        opts.onAssetPartSelected?.(editingAssetId, selectedAssetPartId);
+      });
+      partsHost.appendChild(button);
+    }
+    const part = asset.parts.find((entry) => entry.id === selectedAssetPartId);
+    const partForm = container.querySelector("#author-asset-part-form");
+    partForm.style.display = part ? "" : "none";
+    if (part) {
+      container.querySelector("#author-part-shape").value = part.shape;
+      for (const [id, value] of [
+        ["author-part-px", part.position.x], ["author-part-py", part.position.y], ["author-part-pz", part.position.z],
+        ["author-part-rx", part.rotation.x * 180 / Math.PI], ["author-part-ry", part.rotation.y * 180 / Math.PI], ["author-part-rz", part.rotation.z * 180 / Math.PI],
+        ["author-part-sx", part.scale.x], ["author-part-sy", part.scale.y], ["author-part-sz", part.scale.z],
+      ]) container.querySelector(`#${id}`).value = Number(value.toFixed(4));
+      container.querySelector("#author-part-color").value = part.color;
+    }
+    const collision = asset.collision;
+    container.querySelector("#author-asset-collision").value = collision ? "box" : "none";
+    container.querySelector("#author-asset-collision-fields").style.display = collision ? "" : "none";
+    if (collision) {
+      for (const [id, value] of [
+        ["author-col-w", collision.size.w], ["author-col-h", collision.size.h], ["author-col-d", collision.size.d],
+        ["author-col-x", collision.offset.x], ["author-col-y", collision.offset.y], ["author-col-z", collision.offset.z],
+      ]) container.querySelector(`#${id}`).value = value;
+    }
+  }
+
+  function refreshVisualAssets() {
+    const assets = draftApi.getVisualAssets();
+    assetListEl.innerHTML = "";
+    for (const asset of assets) {
+      const row = document.createElement("div");
+      row.style.cssText = "display:grid;grid-template-columns:1fr auto auto;gap:3px;align-items:center;background:#111a2a;border:1px solid #263b58;border-radius:4px;padding:4px";
+      const name = document.createElement("span");
+      name.textContent = asset.displayName;
+      name.style.fontSize = "11px";
+      const place = document.createElement("button"); place.textContent = "Place"; place.style.fontSize = "10px";
+      place.addEventListener("click", () => opts.onPlaceAsset?.(asset.id, asset.displayName));
+      const edit = document.createElement("button"); edit.textContent = "Edit"; edit.style.fontSize = "10px";
+      edit.addEventListener("click", () => opts.onAssetEditRequested?.(asset.id));
+      row.append(name, place, edit);
+      assetListEl.appendChild(row);
+    }
+    refreshAssetEditor();
+  }
+
+  function setAssetEdit(assetId, partId = null) {
+    editingAssetId = assetId;
+    selectedAssetPartId = partId;
+    refreshVisualAssets();
+  }
+
+  function clearAssetEdit() {
+    editingAssetId = null;
+    selectedAssetPartId = null;
+    refreshVisualAssets();
+  }
+
+  container.querySelector("#author-asset-new").addEventListener("click", () => {
+    const result = actions.createVisualAsset(`Visual Asset ${draftApi.getVisualAssets().length + 1}`);
+    if (!result.ok) return setStatus(result.error, true);
+    opts.onAssetEditRequested?.(result.assetId, result.partId);
+  });
+  container.querySelector("#author-asset-exit").addEventListener("click", () => opts.onAssetEditExitRequested?.());
+  container.querySelector("#author-asset-name").addEventListener("change", (event) => {
+    assetActionResult(actions.renameVisualAsset(editingAssetId, event.target.value), "Renamed Visual Asset");
+  });
+  for (const button of container.querySelectorAll("[data-asset-shape]")) {
+    button.addEventListener("click", () => {
+      const result = actions.addAssetPart(editingAssetId, button.dataset.assetShape);
+      assetActionResult(result, `Added ${button.dataset.assetShape}`, result.partId);
+    });
+  }
+  const partInputIds = new Set(["author-part-px","author-part-py","author-part-pz","author-part-rx","author-part-ry","author-part-rz","author-part-sx","author-part-sy","author-part-sz","author-part-color"]);
+  container.querySelector("#author-asset-part-form").addEventListener("change", (event) => {
+    if (!partInputIds.has(event.target.id) || !editingAssetId || !selectedAssetPartId) return;
+    const number = (id) => Number(container.querySelector(`#${id}`).value);
+    const patch = {
+      position: { x: number("author-part-px"), y: number("author-part-py"), z: number("author-part-pz") },
+      rotation: { x: number("author-part-rx") * Math.PI / 180, y: number("author-part-ry") * Math.PI / 180, z: number("author-part-rz") * Math.PI / 180 },
+      scale: { x: number("author-part-sx"), y: number("author-part-sy"), z: number("author-part-sz") },
+      color: container.querySelector("#author-part-color").value,
+    };
+    assetActionResult(actions.updateAssetPart(editingAssetId, selectedAssetPartId, patch), `Edited ${selectedAssetPartId}`);
+  });
+  container.querySelector("#author-part-duplicate").addEventListener("click", () => {
+    const result = actions.duplicateAssetPart(editingAssetId, selectedAssetPartId);
+    assetActionResult(result, "Duplicated part", result.partId);
+  });
+  container.querySelector("#author-part-delete").addEventListener("click", () => {
+    const result = actions.deleteAssetPart(editingAssetId, selectedAssetPartId);
+    assetActionResult(result, "Deleted part", null);
+  });
+  function commitAssetCollision() {
+    const mode = container.querySelector("#author-asset-collision").value;
+    if (mode === "none") return assetActionResult(actions.updateAssetCollision(editingAssetId, null), "Collision disabled");
+    const number = (id) => Number(container.querySelector(`#${id}`).value);
+    const collision = {
+      shape: "box",
+      size: { w: number("author-col-w") || 1, h: number("author-col-h") || 1, d: number("author-col-d") || 1 },
+      offset: { x: number("author-col-x") || 0, y: number("author-col-y") || 0.5, z: number("author-col-z") || 0 },
+    };
+    assetActionResult(actions.updateAssetCollision(editingAssetId, collision), "Collision updated");
+  }
+  container.querySelector("#author-asset-collision").addEventListener("change", commitAssetCollision);
+  container.querySelector("#author-asset-collision-fields").addEventListener("change", commitAssetCollision);
+  container.querySelector("#author-asset-fit").addEventListener("click", () => assetActionResult(actions.fitAssetCollision(editingAssetId), "Collision fit to visual bounds"));
+  container.querySelector("#author-asset-delete").addEventListener("click", () => {
+    const deletedId = editingAssetId;
+    const result = actions.deleteVisualAsset(deletedId);
+    if (assetActionResult(result, "Deleted Visual Asset", null)) opts.onAssetEditExitRequested?.();
+  });
 
   function refreshRegionSelects() {
     const regions = draftApi.getDraft().regions;
@@ -659,13 +841,40 @@ export function createAuthorUI(opts) {
     }
   });
 
-  function show() { container.style.display = ""; refreshRegionSelects(); refreshHierarchy(); }
+  function show() { container.style.display = ""; refreshRegionSelects(); refreshHierarchy(); refreshVisualAssets(); }
   function hide() { container.style.display = "none"; }
   function isEditMode() { return editMode; }
+  function setEditMode(nextEditMode) {
+    editMode = !!nextEditMode;
+    toggleBtn.textContent = editMode ? "PLAY" : "EDIT";
+    toggleBtn.style.background = editMode ? "#1a8a4a" : "#2a7fff";
+    badge.textContent = editMode ? "EDITING" : "PLAY TEST";
+    badge.style.background = editMode ? "#1a3a2a" : "#1a243a";
+    badge.style.color = editMode ? "#6aff8a" : "#8aa0c0";
+  }
   function getSelectedId() { return selectedId; }
   function setStatus(text, isError) { statusEl.textContent = text; statusEl.style.color = isError ? "#ffaaaa" : "#8aa0c0"; }
   function showPlaceHint(text) { placeHint.textContent = text; placeHint.style.display = text ? "" : "none"; }
   function hidePlaceHint() { placeHint.style.display = "none"; }
 
-  return { element: container, show, hide, isEditMode, getSelectedId, setSelected, setStatus, refreshRegionSelects, refreshHierarchy, showPlaceHint, hidePlaceHint };
+  return {
+    element: container,
+    show,
+    hide,
+    isEditMode,
+    setEditMode,
+    getSelectedId,
+    setSelected,
+    setStatus,
+    refreshRegionSelects,
+    refreshHierarchy,
+    refreshVisualAssets,
+    refreshAssetEditor,
+    setAssetEdit,
+    clearAssetEdit,
+    getEditingAssetId: () => editingAssetId,
+    getSelectedAssetPartId: () => selectedAssetPartId,
+    showPlaceHint,
+    hidePlaceHint,
+  };
 }

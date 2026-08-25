@@ -22,6 +22,7 @@ function visualOptions(found, normalized) {
     poiType: found.collection === "pois" ? found.obj.type : undefined,
     subtype: found.obj.subtype,
     requires: found.obj.requires ?? null,
+    visualAssets: found.visualAssets ?? [],
   };
 }
 

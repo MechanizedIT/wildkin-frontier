@@ -173,13 +173,10 @@ export const WORLD_DATA = {
             "z": 9.8
           },
           "rotY": 0,
-          "size": {
-            "d": 1.4,
-            "h": 1.6,
-            "w": 1.4
-          },
-          "subtype": "dropPod",
-          "visibleInPlay": true
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_drop_pod"
         },
         {
           "collisionEnabled": true,
@@ -1338,7 +1335,129 @@ export const WORLD_DATA = {
     }
   ],
   "startAnchorId": "camp_gate",
-  "version": "3.5B"
+  "version": "3.5B",
+  "visualAssets": [
+    {
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 0.8,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1.4,
+          "h": 1.6,
+          "w": 1.4
+        }
+      },
+      "displayName": "Drop Pod",
+      "id": "asset_drop_pod",
+      "parts": [
+        {
+          "color": "#d0d0d0",
+          "id": "body",
+          "position": {
+            "x": 0,
+            "y": 0.65,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.15,
+            "y": 1.3,
+            "z": 1.15
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#8fb8d8",
+          "id": "canopy",
+          "position": {
+            "x": 0,
+            "y": 1.28,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.18,
+            "y": 0.72,
+            "z": 1.18
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#727c88",
+          "id": "base",
+          "position": {
+            "x": 0,
+            "y": 0.12,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.4,
+            "y": 0.24,
+            "z": 1.4
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#f2a65a",
+          "id": "front_fin",
+          "position": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0.72
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.34,
+            "y": 0.5,
+            "z": 0.34
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#f2a65a",
+          "id": "rear_fin",
+          "position": {
+            "x": 0,
+            "y": 0.25,
+            "z": -0.72
+          },
+          "rotation": {
+            "x": 0,
+            "y": 3.1415926535,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.34,
+            "y": 0.5,
+            "z": 0.34
+          },
+          "shape": "cone"
+        }
+      ],
+      "version": 1
+    }
+  ]
 };
 
 export default WORLD_DATA;

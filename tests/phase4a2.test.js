@@ -202,8 +202,8 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
     pRegion.traversal.platforms[0].w = -1;
     assert.throws(()=>normalizeWorldData(data));
     const data2=JSON.parse(JSON.stringify(WORLD_DATA));
-    const r2=data2.regions.find(r=>r.props.length>0);
-    r2.props[0].size.w = 0;
+    const r2=data2.regions.find(r=>r.props.some((prop)=>prop.size));
+    r2.props.find((prop)=>prop.size).size.w = 0;
     assert.throws(()=>normalizeWorldData(data2));
   });
   it("hierarchy expanded-state preserved (unit: save/restore keys)", ()=>{

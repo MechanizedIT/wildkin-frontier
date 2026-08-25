@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Post-Phase 4A.2.2 — Author Object Contract & Parity Foundation)
+# Architecture — Wildkin Frontier (Phase 4B.0 — Primitive Visual Asset Authoring)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4A.2.2**. Phase 4A loop remains accepted; this contract slice eliminates family-specific Author seams and establishes the shared AuthorTypeRegistry / normalized transform / VisualRef seam for future kitbash.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4B.0**. Phase 4A remains accepted; Phase 4B.0 consumes the existing AuthorTypeRegistry / normalized transform / VisualRef seam for a deliberately bounded primitive Visual Asset workflow.
 
 ## Permanent Goals
 
@@ -27,7 +27,7 @@
 
 # Current Accepted Foundation
 
-Phase 3.1.1 validated core gameplay. Phase 3.5A added directed-world/runtime foundation. Phase 3.5B/B.1/B.2 human-accepted world-authoring pipeline. Phase 4A added first complete Camp ↔ expedition loop. Phase 4A.1 refines first-run/gate/start suppression and makes ground/boundaries authored. Phase 4A.2 closed authoring/input/spawn trusts; Phase 4A.2.1 repairs canonical ownership, preview atomics, spawn Y, region rehome, input latch, pulse, indicators. Phase 4A.2.2 establishes the shared AuthorTypeRegistry / normalized transform / VisualRef / ColliderDescriptor contract, proves Box/Tree/Ladder parity, and sweeps siblings; Phase 4A loop remains accepted and 4A.2.1 fixes are preserved.
+Phase 3.1.1 validated core gameplay. Phase 3.5A added directed-world/runtime foundation. Phase 3.5B/B.1/B.2 human-accepted world-authoring pipeline. Phase 4A added first complete Camp ↔ expedition loop. Phase 4A.1 refines first-run/gate/start suppression and makes ground/boundaries authored. Phase 4A.2 closed authoring/input/spawn trusts; Phase 4A.2.1 repairs canonical ownership, preview atomics, spawn Y, region rehome, input latch, pulse, indicators. Phase 4A.2.2 establishes the shared AuthorTypeRegistry / normalized transform / VisualRef / ColliderDescriptor contract. Phase 4B.0 adds canonical reusable primitive Visual Assets and migrates the Camp Drop Pod without changing expedition content or pacing.
 
 Accepted current systems:
 
@@ -597,6 +597,57 @@ Play reload
 - Older tests that assumed an authored object was a scene-root `Mesh` now query the tagged visual root and descendant world transform. Phase 4A.2.2 proof tests call the production action and preview modules rather than recreating proxy logic inside the test.
 
 Implementation and automated/browser verification are complete. The 2026-08-24 closure pass additionally verified editor-only proxies, Tree runtime transform persistence, and spaced Beacon display names through the real UI → Play reload. Spec §17 human acceptance remains pending; Phase 4B.0 is not authorized.
+
+# Phase 4B.0 Primitive Visual Assets — IMPLEMENTED
+
+## Canonical data and validation
+
+```text
+world.json
+├─ visualAssets[]
+│  ├─ id / displayName / version: 1
+│  ├─ parts[] (flat primitive recipes)
+│  └─ collision: null | one Box recipe
+└─ regions[].props[]
+   └─ subtype: visualAsset + visualAssetId + independent instance transform
+```
+
+- `src/world/worldValidator.js` owns strict normalization and validation for the top-level recipe table and instance references. Asset IDs and part IDs are unique in their scopes; colors are canonical `#RRGGBB`; transforms are finite; scales and collision sizes are positive; instance scale is a bounded positive uniform value.
+- The v1 part vocabulary is intentionally closed: `box`, `cylinder`, `cone`, `sphere`, `capsule`, `icosahedron`. Parts are flat. There are no imports, textures, nested groups, arbitrary meshes, CSG, inheritance, scripting, or material graphs.
+- Asset deletion is rejected while any world instance references the recipe. Export/reload runs through the same full-world normalization boundary, so a draft cannot persist dangling references or malformed recipes.
+
+## Shared visual and collision paths
+
+```text
+VisualRef { kind: "asset", id }
+        ↓
+VisualFactory.createVisualAssetVisual(recipe)
+        ↓
+Author preview and Runtime Play use the same local primitive root
+
+asset collision recipe + instance transform
+        ↓
+ColliderDescriptor.describeVisualAssetCollider
+        ↓
+Author collider proxy / native Rapier cuboid
+```
+
+- `src/world/visualFactory.js` is the sole primitive recipe interpreter. It creates deterministic local-space Three.js geometry, applies part-local transforms/colors, and tags roots/parts for selection and reconciliation. Recipe keys include the resolved asset recipe so a shared edit rebuilds all matching previews.
+- Render geometry never becomes collision geometry. `src/world/colliderDescriptor.js` scales the one Box recipe by the instance uniform scale and rotates its local X/Z offset into world space. `src/world/staticWorldBuilder.js` consumes that descriptor to create a native Rapier cuboid and the normal obstacle record.
+- Runtime presentation (`visible`, `collisionEnabled`, opacity, tint) remains the ordinary Author Object contract. Visual Asset instances therefore participate in selection, region rehome, duplicate/delete, independent transform edits, export, and Play like other props.
+
+## Transactional Asset Edit ownership
+
+- `src/author/authorDraft.js` owns asset and part mutation inside the existing transaction/normalization/undo stack. Deterministic counters create collision-free asset, part, and instance IDs.
+- `src/author/authorUI.js` owns the dynamic palette and bounded inspector. `src/author/authorMode.js` owns the temporary Asset Edit camera/context, part selection and canvas-local X/Z drag, selected-part highlight, unrelated-root de-emphasis, and the dedicated collider proxy. It does not own another frame loop.
+- `src/author/authorPreview.js` receives the current recipe table and rebuilds matching visual roots while preserving each instance's normalized transform. Undo/redo follows the same reconcile path.
+- Entering Asset Edit through New/Place/Edit synchronizes the visible badge and the UI's authoritative edit-mode flag. Returning to Play therefore takes one click and clears Asset Edit-only presentation.
+
+## Required proof asset
+
+`asset_drop_pod` is the canonical Camp proof recipe. The existing Camp prop now references it through `subtype: "visualAsset"` instead of embedding a special visual. Its placement and simple Box collision remain independently authored on the instance/recipe boundary.
+
+Phase 4B.0 automated and browser verification is complete; human perceptual/phone acceptance remains pending. Do not expand this into a general-purpose modeling tool. On acceptance, freeze this infrastructure and proceed to Phase 4B expedition pacing/content work.
 
 # Persistence Separation — Phase 4A Guardrail
 

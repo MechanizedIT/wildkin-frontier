@@ -2,7 +2,7 @@
 
 Single-player, portrait-mobile, Three.js/HTML5 survival & resource-management prototype for the Meta Horizon Creator Competition.
 
-## Current Playable Foundation (Phase 4A.2 — Pre-4B Authoring Reliability & Expedition Interaction Closure)
+## Current Playable Foundation (Phase 4B.0 — Primitive Visual Asset Authoring)
 
 - fixed high third-person / near top-down camera, one-thumb movement + run/sneak/jump/dodge, Rapier kinematic via authored Ground Patches/Boundary Colliders (base-Y, no global floor, safety at -30),
 - Field Tool harvesting (auto + manual, 3 resources), magnet pickups (hide-zero run carry vs persistent bank), Wildkin A/T/D/S + home/leash, combat + health/dodge, XP motes,
@@ -14,10 +14,10 @@ Single-player, portrait-mobile, Three.js/HTML5 survival & resource-management pr
 - **Top-right Map** inspect vs gate start, beacons never selectable; **minimal camera-projected edge indicators** (extraction + next deeper waypoint, not self-pointing),
 - **Upper-left HUD stack** (Auto Harvest + inventory, never overlap, safe-area, scrollable),
 - one desktop click = one swing (mouse vs touch ownership), one-rAF / fixed 1/60, Rapier-only, offline/portrait/<35 MB,
-- desktop `?author=1` Author Mode: transactional draft + 40-step undo/redo, canonical descriptor for Edit/Play/Rapier parity, live Ground/Boundary proxy, unbounded drag, draft-derived extents, region/ownership validation, Camp Spawn + Waypoint Run Spawn markers + facing arrow/line, hierarchy expansion preserved, bounded shortcuts (Delete/F/WASD/QE/Space/C/Undo/Redo/Esc, ignored while typing), capability-aware Visible/Collision/Opacity/Tint,
+- desktop `?author=1` Author Mode: transactional draft + 40-step undo/redo, canonical descriptor for Edit/Play/Rapier parity, live Ground/Boundary proxy, reusable primitive Visual Assets with bounded part editing and simple Box collision, unbounded world-object drag, draft-derived extents, region/ownership validation, Camp Spawn + Waypoint Run Spawn markers + facing arrow/line, hierarchy expansion preserved, bounded shortcuts (Delete/F/WASD/QE/Space/C/Undo/Redo/Esc, ignored while typing), capability-aware Visible/Collision/Opacity/Tint,
 - `?dev=1` **RESET PLAYER SAVE** (frontierProgress only).
 
-**Phase 3.5A/B.x + 4A/4A.1 accepted. Phase 4A.2 implementation-complete — Author Mode trustworthy, frontier interaction nonblocking and intentional. Human acceptance of 7 tests required before Phase 4B.**
+**Phase 3.5A/B.x + 4A/4A.1/4A.2.x accepted. Phase 4B.0 is implementation-complete with automated/browser proof; human Visual Asset acceptance is required before Phase 4B.**
 
 Phase 4B will author the first real 5–10 min expedition (Camp/Area 1 layout, temptation/danger pacing, first meaningful spend).
 

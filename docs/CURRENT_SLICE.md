@@ -1,6 +1,6 @@
 # Wildkin Frontier — Phase 4B.0: Primitive Kitbash / Visual Asset Authoring
 
-**Status:** READY TO IMPLEMENT  
+**Status:** IMPLEMENTED — AUTOMATED GATES PASS; HUMAN ACCEPTANCE PENDING
 **Active slice:** Phase 4B.0  
 **Canonical spec:** `docs/Specs/Phase_4B.0.md`
 
@@ -88,3 +88,20 @@ When the Phase 4B.0 human acceptance tests pass, **freeze editor/asset infrastru
 Use the accepted tools to build/tune the actual first 5–10 minute expedition rather than continuing to expand the modeling system.
 
 Read and implement the complete requirements in `docs/Specs/Phase_4B.0.md`.
+
+## Implementation checkpoint — 2026-08-25
+
+Phase 4B.0 is implemented without beginning Phase 4B expedition layout or pacing work.
+
+- `world.json.visualAssets` is the canonical flat primitive-recipe store. Version 1 supports Box, Cylinder, Cone, Sphere, Capsule, and Icosahedron parts with local position/rotation/scale/color plus zero or one independent simple Box collider.
+- Author Mode now exposes a dynamic Visual Assets palette and bounded Asset Edit context. New/rename/delete asset, add/edit/duplicate/delete part, selected-part canvas drag, Fit To Visual Bounds, place, ordinary instance transforms, undo/redo, export, and reload all use the transactional draft path.
+- World instances store `subtype: "visualAsset"`, `visualAssetId`, and their own position/rotation/uniform scale. Recipe edits reconcile every matching preview while instance transforms remain independent.
+- Edit and Runtime Play share `VisualFactory` primitive construction. Runtime collision remains descriptor-derived native Rapier Box collision and is not inferred from rendered meshes.
+- The Camp Drop Pod is migrated to the canonical `asset_drop_pod` recipe and remains a single positioned world instance with a simple independent Box collider.
+- Production-path automated coverage and real `?author=1` browser verification pass. Automated browser evidence is not human perceptual acceptance.
+
+### Human acceptance still required
+
+Perform the player-facing tests in `docs/Specs/Phase_4B.0.md`: build a recognizable multi-part asset, place two instances, independently transform them, edit the shared recipe and see both update, verify Play matches Edit, check simple collision behavior, and export/reload. Also confirm the migrated Camp Drop Pod is recognizable and behaves correctly on desktop and a portrait phone viewport.
+
+Do not start Phase 4B until Chris accepts this slice. On acceptance, freeze Visual Asset/editor infrastructure and use it for the first expedition experience and pacing slice.

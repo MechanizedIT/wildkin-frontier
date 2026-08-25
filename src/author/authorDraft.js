@@ -283,8 +283,141 @@ export function createAuthorDraft(repoData) {
       region: raw.region ? deepClone(raw.region) : null,
       collection: raw.collection,
       type: raw.type,
-      regionId: raw.region ? raw.region.id : null
+      regionId: raw.region ? raw.region.id : null,
+      visualAssets: deepClone(draft.visualAssets ?? []),
     };
+  }
+
+  function getVisualAssets() {
+    return deepClone(draft.visualAssets ?? []);
+  }
+
+  function findVisualAssetById(assetId) {
+    const asset = (draft.visualAssets ?? []).find((entry) => entry.id === assetId);
+    return asset ? deepClone(asset) : null;
+  }
+
+  function nextAvailableId(items, baseId) {
+    const used = new Set(items.map((item) => item.id));
+    if (!used.has(baseId)) return baseId;
+    let index = 2;
+    while (used.has(`${baseId}_${index}`)) index++;
+    return `${baseId}_${index}`;
+  }
+
+  function createVisualAsset(displayName = "Visual Asset") {
+    let assetId = null;
+    let partId = null;
+    const res = transact((candidate) => {
+      if (!Array.isArray(candidate.visualAssets)) candidate.visualAssets = [];
+      const cleanName = String(displayName).trim() || "Visual Asset";
+      const slug = cleanName.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "visual_asset";
+      assetId = nextAvailableId(candidate.visualAssets, `asset_${slug}`);
+      partId = "box";
+      candidate.visualAssets.push({
+        id: assetId,
+        displayName: cleanName,
+        version: 1,
+        parts: [{
+          id: partId,
+          shape: "box",
+          position: { x: 0, y: 0.5, z: 0 },
+          rotation: { x: 0, y: 0, z: 0 },
+          scale: { x: 1, y: 1, z: 1 },
+          color: "#8fb8d8",
+        }],
+        collision: null,
+      });
+    });
+    return res.ok ? { ok: true, assetId, partId } : res;
+  }
+
+  function renameVisualAsset(assetId, displayName) {
+    return transact((candidate) => {
+      const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      if (!asset) throw new Error("Visual Asset not found");
+      const cleanName = String(displayName).trim();
+      if (!cleanName) throw new Error("Visual Asset display name is required");
+      asset.displayName = cleanName;
+    });
+  }
+
+  function deleteVisualAsset(assetId) {
+    return transact((candidate) => {
+      const refs = candidate.regions.flatMap((region) => (region.props ?? []).filter((prop) => prop.visualAssetId === assetId));
+      if (refs.length) {
+        const sample = refs.slice(0, 3).map((prop) => prop.id).join(", ");
+        throw new Error(`Cannot delete Visual Asset: ${refs.length} instance${refs.length === 1 ? "" : "s"} reference it (${sample}${refs.length > 3 ? ", …" : ""})`);
+      }
+      const index = (candidate.visualAssets ?? []).findIndex((entry) => entry.id === assetId);
+      if (index < 0) throw new Error("Visual Asset not found");
+      candidate.visualAssets.splice(index, 1);
+    });
+  }
+
+  function addAssetPart(assetId, shape) {
+    let partId = null;
+    const res = transact((candidate) => {
+      const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      if (!asset) throw new Error("Visual Asset not found");
+      partId = nextAvailableId(asset.parts, shape);
+      asset.parts.push({
+        id: partId,
+        shape,
+        position: { x: 0, y: 0.5, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        scale: { x: 1, y: 1, z: 1 },
+        color: "#d0d0d0",
+      });
+    });
+    return res.ok ? { ok: true, partId } : res;
+  }
+
+  function updateAssetPart(assetId, partId, patch) {
+    return transact((candidate) => {
+      const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      const part = asset?.parts.find((entry) => entry.id === partId);
+      if (!part) throw new Error("Visual Asset part not found");
+      if (patch.shape !== undefined && patch.shape !== part.shape) throw new Error("Visual Asset part shape is read-only");
+      if (patch.position) part.position = { ...part.position, ...patch.position };
+      if (patch.rotation) part.rotation = { ...part.rotation, ...patch.rotation };
+      if (patch.scale) part.scale = { ...part.scale, ...patch.scale };
+      if (patch.color !== undefined) part.color = patch.color;
+    });
+  }
+
+  function duplicateAssetPart(assetId, partId) {
+    let newPartId = null;
+    const res = transact((candidate) => {
+      const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      const part = asset?.parts.find((entry) => entry.id === partId);
+      if (!part) throw new Error("Visual Asset part not found");
+      newPartId = nextAvailableId(asset.parts, `${part.id}_copy`);
+      const clone = deepClone(part);
+      clone.id = newPartId;
+      clone.position.x += 0.25;
+      clone.position.z += 0.25;
+      asset.parts.push(clone);
+    });
+    return res.ok ? { ok: true, partId: newPartId } : res;
+  }
+
+  function deleteAssetPart(assetId, partId) {
+    return transact((candidate) => {
+      const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      if (!asset) throw new Error("Visual Asset not found");
+      const index = asset.parts.findIndex((entry) => entry.id === partId);
+      if (index < 0) throw new Error("Visual Asset part not found");
+      asset.parts.splice(index, 1);
+    });
+  }
+
+  function updateAssetCollision(assetId, collision) {
+    return transact((candidate) => {
+      const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      if (!asset) throw new Error("Visual Asset not found");
+      asset.collision = collision == null ? null : deepClone(collision);
+    });
   }
 
   // Patch helper internal: apply patch to obj within candidate
@@ -902,7 +1035,7 @@ export function createAuthorDraft(repoData) {
     return { ok: true, id: createdId };
   }
 
-  function createObjectAtPosition(kind, subtype, worldPos, forcedRegionId){
+  function createObjectAtPosition(kind, subtype, worldPos, forcedRegionId, options = {}){
     let createdId=null;
     const res=transact((candidate)=>{
       let regionId = forcedRegionId;
@@ -923,7 +1056,26 @@ export function createAuthorDraft(repoData) {
       const nextIdLocal = (prefix) => `${prefix}_${draftCounter}_${Date.now().toString(36).slice(-4)}`;
       let obj=null;
       const y = worldPos.y ?? 0;
-      if (kind === "groundPatch" || kind === "ground") {
+      if (kind === "visualAsset") {
+        const visualAssetId = options.visualAssetId ?? subtype;
+        if (!(candidate.visualAssets ?? []).some((asset) => asset.id === visualAssetId)) throw new Error(`Visual Asset ${visualAssetId} not found`);
+        const allProps = candidate.regions.flatMap((entry) => entry.props ?? []);
+        const baseId = `prop_${visualAssetId.replace(/^asset_/, "")}`;
+        const id = nextAvailableId(allProps, baseId);
+        obj = {
+          id,
+          subtype: "visualAsset",
+          visualAssetId,
+          pos: { x: worldPos.x, y, z: worldPos.z },
+          rotY: 0,
+          uniformScale: 1,
+          visibleInPlay: true,
+          collisionEnabled: true,
+          opacity: 1,
+        };
+        region.props.push(obj);
+        createdId = id;
+      } else if (kind === "groundPatch" || kind === "ground") {
         const id = nextIdLocal("ground");
         obj = { id, pos: { x: worldPos.x, y, z: worldPos.z }, size: { w: 4, h: 0.5, d: 4 }, color: region.ground?.color ?? 0x7bb26a, opacity: 1, visibleInPlay: true, collisionEnabled: true, rotY: 0 };
         if (!region.groundPatches) region.groundPatches = [];
@@ -1132,6 +1284,16 @@ export function createAuthorDraft(repoData) {
     getLastError,
     findRegion,
     findObjectById,
+    getVisualAssets,
+    findVisualAssetById,
+    createVisualAsset,
+    renameVisualAsset,
+    deleteVisualAsset,
+    addAssetPart,
+    updateAssetPart,
+    duplicateAssetPart,
+    deleteAssetPart,
+    updateAssetCollision,
     updateTransform,
     updateNormalizedTransform,
     updateInspectorField,

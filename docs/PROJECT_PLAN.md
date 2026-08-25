@@ -459,7 +459,7 @@ Stop editor infrastructure work unless real Area 1 authoring exposes a concrete 
 
 Split this milestone into two bounded slices so implementation completeness and play feel are judged separately.
 
-### Phase 4A — First Complete Expedition Loop — ACTIVE / NEXT
+### Phase 4A — First Complete Expedition Loop — COMPLETE / ACCEPTED
 
 Goal:
 
@@ -495,6 +495,20 @@ Human test:
 - does death clearly explain what was lost vs retained?
 - do Waypoints unlock future starts while Beacons do not?
 - can the player immediately start another run from Camp?
+
+### Phase 4B.0 — Primitive Kitbash / Visual Asset Authoring — IMPLEMENTED / HUMAN ACCEPTANCE PENDING
+
+Implemented as the bounded tooling bridge between the accepted Author Object contract and content-driven Phase 4B:
+
+- canonical reusable flat primitive recipes in `world.json.visualAssets`,
+- Box, Cylinder, Cone, Sphere, Capsule, and Icosahedron parts,
+- bounded Asset Edit workflow with local part transforms/color,
+- shared reusable instances with independent world transforms,
+- zero/one simple Box collider and Fit To Visual Bounds,
+- transactional undo/redo/export/reload and runtime parity,
+- migrated Camp Drop Pod proof asset.
+
+Do not expand the modeling system. Human acceptance must confirm the shared-instance workflow, Edit/Play parity, simple collision, export/reload, recognizable Drop Pod, and portrait-phone readability. Once accepted, freeze editor/asset infrastructure.
 
 ### Phase 4B — First Expedition Experience & Pacing
 

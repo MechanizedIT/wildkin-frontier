@@ -180,3 +180,19 @@ This is implementation/browser evidence, **not a human acceptance pass**.
 ### Owner confirmation still requested
 
 In Edit, hide any visible collidable object and confirm its wireframe appears immediately; click Play and confirm the wireframe disappears while collision remains. Also rotate/scale one Tree or Rock, type a multi-word Waypoint/Beacon name, click Play, and confirm the resource appearance/collision and full display name match Edit. Any wireframe visible in Play, transform snap-back, or missing space is a failure.
+
+## 2026-08-25 — Phase 4B.0 Primitive Visual Asset authoring — automated browser evidence only
+
+This is implementation/browser evidence, **not human acceptance**.
+
+### Observed through the real `?author=1` UI
+
+- Created a new Visual Asset and added Box, Cylinder, Cone, and Sphere parts through the dynamic palette. Edited the Sphere's local position, rotation, nonuniform part scale, and color through real inspector controls.
+- Fit To Visual Bounds produced a visible independent cyan Box proxy around the combined visual. Direct canvas dragging of the selected Sphere updated its local X/Z inspector values.
+- Placed two world instances. Changed the second instance's ordinary authored rotation and uniform scale independently. Re-entering Asset Edit showed both instances retaining their independent transforms.
+- Changed the shared Box part's scale and color; both placed instances visibly rebuilt from the same recipe. Ctrl+Z restored both and Ctrl+Y reapplied both through the production undo/redo path.
+- Returning to Runtime Play required one click after the edit-mode state synchronization fix. Both shared instances remained visible and Asset Edit-only presentation disappeared. Browser warnings/errors: none.
+
+### Human acceptance still requested
+
+Using recognizable player-facing locations and visuals, build one multi-part prop, place two instances, transform one independently, edit the shared recipe, and confirm both update without snapping together. Click Play and confirm the appearance matches Edit and no cyan collider proxy remains. Verify the simple Box collision blocks only where expected, export/reload reproduces the recipe and instances, and the migrated Camp Drop Pod remains recognizable. Repeat the Play/readability check in a portrait phone viewport. Any transform coupling, recipe mismatch, mesh-derived collision, leaked editor proxy, reload loss, or unrecognizable Drop Pod is a failure.

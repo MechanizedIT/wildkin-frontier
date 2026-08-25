@@ -11,6 +11,7 @@ import {
   getVisualRecipeKey,
   tagVisualRoot,
 } from "./visualFactory.js";
+import { describeVisualAssetCollider, getColliderCenter } from "./colliderDescriptor.js";
 
 function parseColor(value, fallback) {
   if (value === undefined || value === null) return fallback;
@@ -93,8 +94,8 @@ export function createStaticWorld(worldData) {
     return mat;
   }
 
-  function addFactoryVisual({ id, visualId, size, position, rotationY = 0, options = {}, metadata = {} }) {
-    const visualRef = { kind: "builtin", id: visualId };
+  function addFactoryVisual({ id, visualId, visualRef: suppliedVisualRef, size, position, rotationY = 0, options = {}, metadata = {} }) {
+    const visualRef = suppliedVisualRef ?? { kind: "builtin", id: visualId };
     const visualOptions = { objectId: id, size, ...options };
     const root = tagVisualRoot(createVisual(visualRef, visualOptions), {
       objectId: id,
@@ -126,6 +127,65 @@ export function createStaticWorld(worldData) {
   }
 
   function addPropMesh(prop) {
+    if (prop.subtype === "visualAsset") {
+      const asset = (worldData.visualAssets ?? []).find((entry) => entry.id === prop.visualAssetId);
+      if (!asset) throw new Error(`Visual Asset ${prop.visualAssetId} not found for ${prop.id}`);
+      const scale = prop.uniformScale ?? 1;
+      const position = { x: prop.pos.x, y: prop.pos.y ?? 0, z: prop.pos.z };
+      const rotationY = prop.rotY ?? 0;
+      const visibleInPlay = prop.visibleInPlay !== false;
+      const collisionEnabled = prop.collisionEnabled !== false;
+      const opacity = prop.opacity ?? 1;
+      const root = addFactoryVisual({
+        id: prop.id,
+        visualRef: { kind: "asset", id: prop.visualAssetId },
+        position,
+        rotationY,
+        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: scale, sizeMode: "uniform" },
+        metadata: {
+          propId: prop.id,
+          propSubtype: prop.subtype,
+          visualAssetId: prop.visualAssetId,
+          visibleInPlay,
+          collisionEnabled,
+          opacity,
+        },
+      });
+      applyFactoryPresentation(root, prop, visibleInPlay, opacity);
+      const descriptor = describeVisualAssetCollider({
+        collision: asset.collision,
+        uniformScale: scale,
+        position,
+        rotationY,
+        enabled: collisionEnabled,
+      });
+      if (descriptor.enabled && descriptor.shape === "box") {
+        const center = getColliderCenter(descriptor);
+        const w = descriptor.size.width;
+        const height = descriptor.size.height;
+        const d = descriptor.size.depth;
+        const cos = Math.abs(Math.cos(rotationY));
+        const sin = Math.abs(Math.sin(rotationY));
+        const hx = cos * w / 2 + sin * d / 2;
+        const hz = sin * w / 2 + cos * d / 2;
+        obstacles.push({
+          id: prop.id,
+          x: center.x,
+          z: center.z,
+          w,
+          h: d,
+          height,
+          baseY: center.y - height / 2,
+          rotY: rotationY,
+          aabb: { minX: center.x - hx, maxX: center.x + hx, minZ: center.z - hz, maxZ: center.z + hz },
+          visibleInPlay,
+          collisionEnabled,
+          opacity,
+          visualAssetId: prop.visualAssetId,
+        });
+      }
+      return;
+    }
     // Use canonical descriptor for rectangular statics where applicable
     let desc = null;
     try{

@@ -6,9 +6,16 @@ const SUPPORTED_CREATURE_TYPES = new Set(["rusher", "spitter"]);
 const SUPPORTED_TEMPERAMENTS = new Set(["AGGRESSIVE", "TERRITORIAL", "DEFENSIVE", "SKITTISH"]);
 const SUPPORTED_ANCHOR_TYPES = new Set(["majorWaypoint", "extractionBeacon"]);
 const SUPPORTED_POI_TYPES = new Set(["chest", "barrier", "generic", "island"]);
+const SUPPORTED_VISUAL_ASSET_SHAPES = new Set(["box", "cylinder", "cone", "sphere", "capsule", "icosahedron"]);
 // Allow generic POI types beyond known — but if requires.type is companionAbility/materialRepair we validate.
 
 function isNumber(v) { return typeof v === "number" && Number.isFinite(v); }
+
+function validateCanonicalColor(value, label) {
+  if (typeof value !== "string" || !/^#[0-9a-fA-F]{6}$/.test(value)) {
+    throw new Error(`${label} color must be #RRGGBB`);
+  }
+}
 
 function clonePos(p) {
   return { x: p.x, y: p.y ?? 0, z: p.z };
@@ -61,6 +68,43 @@ export function normalizeWorldData(raw) {
   if (data.initialMajorWaypointId !== undefined && typeof data.initialMajorWaypointId !== "string") throw new Error("initialMajorWaypointId must be string");
   // Optional camp gate at root for backwards compat: frontierGateId
   if (data.frontierGateId !== undefined && typeof data.frontierGateId !== "string") throw new Error("frontierGateId must be string");
+  if (data.visualAssets === undefined) data.visualAssets = [];
+  if (!Array.isArray(data.visualAssets)) throw new Error("world.visualAssets must be an array");
+  const visualAssetIds = new Set();
+  for (const asset of data.visualAssets) {
+    if (!asset?.id || typeof asset.id !== "string") throw new Error("Visual Asset id required string");
+    if (visualAssetIds.has(asset.id)) throw new Error(`duplicate Visual Asset id ${asset.id}`);
+    visualAssetIds.add(asset.id);
+    if (typeof asset.displayName !== "string" || !asset.displayName.trim()) throw new Error(`Visual Asset ${asset.id} displayName required`);
+    if (asset.version !== 1) throw new Error(`Visual Asset ${asset.id} unsupported version ${asset.version}`);
+    if (!Array.isArray(asset.parts)) throw new Error(`Visual Asset ${asset.id} parts must be an array`);
+    const partIds = new Set();
+    for (const part of asset.parts) {
+      if (!part?.id || typeof part.id !== "string") throw new Error(`Visual Asset ${asset.id} part id required`);
+      if (partIds.has(part.id)) throw new Error(`Visual Asset ${asset.id} duplicate part id ${part.id}`);
+      partIds.add(part.id);
+      if (!SUPPORTED_VISUAL_ASSET_SHAPES.has(part.shape)) throw new Error(`Visual Asset ${asset.id} part ${part.id} unsupported shape ${part.shape}`);
+      validatePos(part.position, `Visual Asset ${asset.id} part ${part.id} position`);
+      validatePos(part.rotation, `Visual Asset ${asset.id} part ${part.id} rotation`);
+      validatePos(part.scale, `Visual Asset ${asset.id} part ${part.id} scale`);
+      for (const axis of ["x", "y", "z"]) {
+        if (!isNumber(part.position[axis])) throw new Error(`Visual Asset ${asset.id} part ${part.id} position.${axis} must be finite`);
+        if (!isNumber(part.rotation[axis])) throw new Error(`Visual Asset ${asset.id} part ${part.id} rotation.${axis} must be finite`);
+        if (!isNumber(part.scale[axis]) || part.scale[axis] <= 0) throw new Error(`Visual Asset ${asset.id} part ${part.id} scale.${axis} must be positive finite`);
+      }
+      validateCanonicalColor(part.color, `Visual Asset ${asset.id} part ${part.id}`);
+    }
+    if (asset.collision !== null && asset.collision !== undefined) {
+      const collision = asset.collision;
+      if (collision.shape !== "box") throw new Error(`Visual Asset ${asset.id} collision shape must be box`);
+      validatePos(collision.offset, `Visual Asset ${asset.id} collision offset`);
+      for (const axis of ["x", "y", "z"]) if (!isNumber(collision.offset[axis])) throw new Error(`Visual Asset ${asset.id} collision offset.${axis} must be finite`);
+      if (!collision.size || typeof collision.size !== "object") throw new Error(`Visual Asset ${asset.id} collision size required`);
+      for (const key of ["w", "h", "d"]) {
+        if (!isNumber(collision.size[key]) || collision.size[key] <= 0) throw new Error(`Visual Asset ${asset.id} collision size.${key} must be positive finite`);
+      }
+    }
+  }
   if (!Array.isArray(data.regions) || data.regions.length === 0) throw new Error("world.regions must be non-empty array");
 
   const allIds = new Set();
@@ -111,6 +155,12 @@ export function normalizeWorldData(raw) {
       if (allIds.has(prop.id)) throw new Error(`duplicate global id prop ${prop.id}`);
       allIds.add(prop.id);
       if (!prop.subtype || typeof prop.subtype !== "string") throw new Error(`prop ${prop.id} subtype required`);
+      if (prop.subtype === "visualAsset") {
+        if (!prop.visualAssetId || typeof prop.visualAssetId !== "string") throw new Error(`prop ${prop.id} visualAssetId required`);
+        if (!visualAssetIds.has(prop.visualAssetId)) throw new Error(`prop ${prop.id} unresolved Visual Asset ${prop.visualAssetId}`);
+        if (prop.uniformScale === undefined) prop.uniformScale = 1;
+        if (!isNumber(prop.uniformScale) || prop.uniformScale <= 0 || prop.uniformScale > 5) throw new Error(`prop ${prop.id} uniformScale must be >0 <=5`);
+      }
       validatePos(prop.pos, `prop ${prop.id}`);
       if (!isInsideBounds(prop.pos, region.bounds)) throw new Error(`prop ${prop.id} pos not inside region ${region.id} bounds`);
       // Phase 4A.1 presentation/collision extras
@@ -714,4 +764,5 @@ export const SUPPORTED = {
   temperaments: SUPPORTED_TEMPERAMENTS,
   anchorTypes: SUPPORTED_ANCHOR_TYPES,
   poiTypes: SUPPORTED_POI_TYPES,
+  visualAssetShapes: SUPPORTED_VISUAL_ASSET_SHAPES,
 };
