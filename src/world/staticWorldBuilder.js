@@ -130,7 +130,7 @@ export function createStaticWorld(worldData) {
     if (prop.subtype === "visualAsset") {
       const asset = (worldData.visualAssets ?? []).find((entry) => entry.id === prop.visualAssetId);
       if (!asset) throw new Error(`Visual Asset ${prop.visualAssetId} not found for ${prop.id}`);
-      if (asset.gameplay?.role === "harvestable") return;
+      if (asset.gameplay?.role === "harvestable" || asset.gameplay?.role === "wildkin") return;
       const scale = prop.uniformScale ?? 1;
       const position = { x: prop.pos.x, y: prop.pos.y ?? 0, z: prop.pos.z };
       const rotationY = prop.rotY ?? 0;
@@ -427,20 +427,22 @@ export function createStaticWorld(worldData) {
       const baseY = wp.pos.y ?? 0;
       addFactoryVisual({
         id: wp.id,
-        visualId: "anchor/waypoint",
+        visualRef: wp.visualAssetId ? { kind: "asset", id: wp.visualAssetId } : { kind: "builtin", id: "anchor/waypoint" },
         position: { x: wp.pos.x, y: baseY, z: wp.pos.z },
         rotationY: wp.rotY ?? 0,
-        metadata: { anchorId: wp.id, anchorType: wp.type, baseY, displayName: wp.displayName },
+        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: wp.uniformScale ?? 1, sizeMode: "uniform" },
+        metadata: { anchorId: wp.id, anchorType: wp.type, baseY, displayName: wp.displayName, visualAssetId: wp.visualAssetId ?? null },
       });
     }
     for (const bc of region.extractionBeacons ?? []) {
       const baseY = bc.pos.y ?? 0;
       addFactoryVisual({
         id: bc.id,
-        visualId: "anchor/beacon",
+        visualRef: bc.visualAssetId ? { kind: "asset", id: bc.visualAssetId } : { kind: "builtin", id: "anchor/beacon" },
         position: { x: bc.pos.x, y: baseY, z: bc.pos.z },
         rotationY: bc.rotY ?? 0,
-        metadata: { anchorId: bc.id, anchorType: bc.type, baseY, displayName: bc.displayName },
+        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: bc.uniformScale ?? 1, sizeMode: "uniform" },
+        metadata: { anchorId: bc.id, anchorType: bc.type, baseY, displayName: bc.displayName, visualAssetId: bc.visualAssetId ?? null },
       });
     }
     for (const poi of region.pois ?? []) {

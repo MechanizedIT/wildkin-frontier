@@ -339,7 +339,7 @@ While editing an asset:
 - the rest of the scene disappears; only the asset, its collision proxy, focused stage, and scene lighting remain,
 - late runtime visibility changes cannot leak world objects into the workbench,
 - live part edits update only the temporary asset root; shared world instances reconcile once on exit,
-- camera view can orbit left/right in 45° steps, reset, pan with inverted vertical mouse movement, and zoom without inheriting world-camera limits,
+- camera view can orbit left/right in 45° steps, reset, pan in the camera plane with inverted vertical pointer movement, and dolly along the fixed-pitch view ray without inheriting world-camera limits,
 - exit returns to ordinary world Edit without losing selection/camera state where practical.
 
 Do not build a second scene editor architecture.
@@ -380,9 +380,12 @@ Direct part Y dragging and 3-axis gizmos remain deferred.
 Every recipe has one bounded gameplay role:
 
 - **Prop** — ordinary static Visual Asset behavior.
-- **Harvestable** — uses the existing resource lifecycle with an authored drop, hit count, respawn duration, and wood/stone/fiber feedback profile.
+- **Harvestable** — uses the existing resource lifecycle with an authored drop, ordered part list, hit count, respawn duration, optional depleted-remnant Visual Asset, and wood/stone/fiber feedback profile.
+- **Wildkin** — uses one existing rusher/spitter behavior with authored temperament, species/hostility, health/damage/speed/respawn, and spatial behavior radii. This is a model/behavior adapter, not bonding or a new AI framework.
 
-The drop may be selected from `world.json.resourceDrops` or created in Author Mode with a stable ID, display name, and color. Custom drops participate in physical pickup collection, run cargo, extraction results, and persistent banking. Role metadata belongs to the shared asset recipe, so all placed instances behave consistently. This is not a generic component, scripting, crafting, equipment, container, or interaction framework.
+The drop may be selected from `world.json.resourceDrops` or created in Author Mode with a stable ID, display name, and color. Any Visual Asset may be assigned as its pooled pickup model. Custom drops participate in physical pickup collection, run cargo, extraction results, and persistent banking. Role metadata belongs to the shared asset recipe, so all placed instances behave consistently. This is not a generic component, scripting, crafting, equipment, container, or interaction framework.
+
+Harvestable parts are vertically reorderable. The bottom list entry is removed first; matching Hits to the part count provides one visible removal per hit. Respawn restores every authored part transform exactly. Major Waypoints and Extraction Beacons may also select a Visual Asset model and bounded uniform scale without changing their gameplay ownership.
 
 ## Starter primitive library and panel usability
 
@@ -680,7 +683,37 @@ At the default desktop Author viewport, search for `wood`, `iron`, and `ruin`, t
 
 Open the starter chest, select its lid, then alternate `Q`/`E` and `Space`/`C` several times. Orbit with `[` and `]`, reset with `0`, right-drag vertically, and use the wheel. Exit to the asset library.
 
-**Pass:** part shortcuts respond after part/canvas selection; part values return exactly after paired keys; camera orbit moves in readable 45° steps without changing part rotation; vertical pan uses the inverted direction and remains bounded; no world object flashes or appears during edits/camera movement; exit restores the prior world and camera; no sideways panel scrolling or browser warnings/errors occur.
+**Pass:** part shortcuts respond after part/canvas selection; part values return exactly after paired keys; camera orbit moves in readable 45° steps without changing part rotation; vertical pan uses the inverted pointer direction in the camera plane; wheel movement changes distance without changing pitch; no world object flashes or appears during edits/camera movement; exit restores the prior world and camera; no sideways panel scrolling or browser warnings/errors occur.
+
+## Test 13 — Ordered depletion and exact respawn
+
+Create a multi-part Harvestable, set Hits equal to its part count, and reorder two parts. Harvest it completely, wait for respawn, and repeat one hit.
+
+**Pass:** the bottom list entry disappears first; every hit removes the next bottom entry; respawn restores exact authored position/rotation/nonuniform scale/color; the reordered entry remains first on the next cycle.
+
+## Test 14 — Custom remnant and pickup model
+
+Assign one Visual Asset as the depleted remnant and another as the selected drop's model, then harvest and collect it.
+
+**Pass:** the custom remnant appears only while depleted, the custom pickup is readable and collectable, and extraction/results/bank retain the selected drop identity/count.
+
+## Test 15 — Visual Asset Wildkin
+
+Set a recognizable asset to Wildkin, choose a behavior and temperament, tune health/movement/radii, place it, and enter Play.
+
+**Pass:** exactly one creature owns the visual/collider; it uses the selected behavior/settings; authored scale/presentation/collision survive warning, death, region activation, and respawn; no static duplicate remains.
+
+## Test 16 — Anchor models and selection disclosure
+
+Select a Major Waypoint and Extraction Beacon from the scene, assign Visual Asset models/scales, then enter Play.
+
+**Pass:** each click expands/highlights its hierarchy row; custom models render at the authored scales; Waypoint discovery/start and Beacon extraction behavior remain unchanged.
+
+## Test 17 — Existing-draft catalog migration
+
+Open an older Author draft that predates newly shipped starter assets/drops.
+
+**Pass:** missing repository catalog entries appear; user-authored assets/drops and same-ID user edits are preserved; validation/export remain deterministic.
 
 ---
 

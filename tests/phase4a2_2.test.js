@@ -83,11 +83,11 @@ describe("Phase 4A.2.2 — AuthorTypeRegistry contract", ()=>{
     const crFound = draftApi.findObjectById(cr.id);
     const crDef = resolveAuthorType(crFound);
     assert.equal(crDef.capabilities.resize, false, "Wildkin should not support scale");
-    // Waypoint should not support resize
+    // Waypoint model overrides use the same place/rotate/resize authoring contract.
     const wp = draftApi.getDraft().regions.flatMap(r=>r.majorWaypoints)[0];
     const wpFound = draftApi.findObjectById(wp.id);
     const wpDef = resolveAuthorType(wpFound);
-    assert.equal(wpDef.capabilities.resize, false, "Waypoint should not support scale initially");
+    assert.equal(wpDef.capabilities.resize, true, "Waypoint models should support uniform scale");
     // Ladder should support rotation/resize via registry (previously hard-coded hidden)
     const lad = draftApi.getDraft().regions.flatMap(r=>r.traversal.climbables)[0];
     const ladFound = draftApi.findObjectById(lad.id);

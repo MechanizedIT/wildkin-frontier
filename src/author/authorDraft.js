@@ -26,6 +26,27 @@ function stableStringify(obj) {
   return JSON.stringify(sortedClone(obj), null, 2);
 }
 
+function mergeRepoCatalogs(savedDraft, repoData) {
+  let changed = false;
+  if (!Array.isArray(savedDraft.visualAssets)) savedDraft.visualAssets = [];
+  if (!Array.isArray(savedDraft.resourceDrops)) savedDraft.resourceDrops = [];
+  const savedAssetIds = new Set(savedDraft.visualAssets.map((entry) => entry.id));
+  for (const asset of repoData.visualAssets ?? []) {
+    if (savedAssetIds.has(asset.id)) continue;
+    savedDraft.visualAssets.push(deepClone(asset));
+    savedAssetIds.add(asset.id);
+    changed = true;
+  }
+  const savedDropIds = new Set(savedDraft.resourceDrops.map((entry) => entry.id));
+  for (const drop of repoData.resourceDrops ?? []) {
+    if (savedDropIds.has(drop.id)) continue;
+    savedDraft.resourceDrops.push(deepClone(drop));
+    savedDropIds.add(drop.id);
+    changed = true;
+  }
+  return changed;
+}
+
 const POINT_OWNED_COLLECTIONS = new Set(["props","resources","creatures","majorWaypoints","extractionBeacons","pois","platforms","obstacles","climbables"]);
 // groundPatches and boundaryColliders are footprint-owned, not point.
 
@@ -131,6 +152,7 @@ export function createAuthorDraft(repoData) {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return null;
       const parsed = JSON.parse(raw);
+      const migrated = mergeRepoCatalogs(parsed, repoData);
       normalizeWorldData(parsed);
       draft = parsed;
       const c = localStorage.getItem(STORAGE_KEY + ":counter");
@@ -138,6 +160,7 @@ export function createAuthorDraft(repoData) {
       lastValidated = draft;
       undoStack = [];
       redoStack = [];
+      if (migrated) persist();
       return deepClone(draft);
     } catch (e) {
       lastError = e.message;
@@ -357,21 +380,44 @@ export function createAuthorDraft(repoData) {
     });
   }
 
-  function createResourceDrop({ id, displayName, color }) {
+  function createResourceDrop({ id, displayName, color, visualAssetId = null }) {
     let dropId = null;
     const res = transact((candidate) => {
       const cleanId = String(id ?? "").trim().toLowerCase().replace(/[^a-z0-9_]+/g, "_").replace(/^_+|_+$/g, "");
       if (!cleanId) throw new Error("Custom drop ID is required");
       if ((candidate.resourceDrops ?? []).some((drop) => drop.id === cleanId)) throw new Error(`Resource drop ${cleanId} already exists`);
       dropId = cleanId;
-      candidate.resourceDrops.push({ id: cleanId, displayName: String(displayName ?? "").trim(), color });
+      const drop = { id: cleanId, displayName: String(displayName ?? "").trim(), color };
+      if (visualAssetId) drop.visualAssetId = visualAssetId;
+      candidate.resourceDrops.push(drop);
     });
     return res.ok ? { ok: true, dropId } : res;
   }
 
+  function updateResourceDrop(dropId, patch) {
+    return transact((candidate) => {
+      const drop = (candidate.resourceDrops ?? []).find((entry) => entry.id === dropId);
+      if (!drop) throw new Error("Resource drop not found");
+      if (patch.displayName !== undefined) drop.displayName = String(patch.displayName).trim();
+      if (patch.color !== undefined) drop.color = patch.color;
+      if (patch.visualAssetId !== undefined) {
+        if (patch.visualAssetId === null || patch.visualAssetId === "") delete drop.visualAssetId;
+        else drop.visualAssetId = patch.visualAssetId;
+      }
+    });
+  }
+
   function deleteVisualAsset(assetId) {
     return transact((candidate) => {
-      const refs = candidate.regions.flatMap((region) => (region.props ?? []).filter((prop) => prop.visualAssetId === assetId));
+      const refs = candidate.regions.flatMap((region) => [
+        ...(region.props ?? []).filter((prop) => prop.visualAssetId === assetId),
+        ...(region.majorWaypoints ?? []).filter((anchor) => anchor.visualAssetId === assetId),
+        ...(region.extractionBeacons ?? []).filter((anchor) => anchor.visualAssetId === assetId),
+      ]);
+      for (const drop of candidate.resourceDrops ?? []) if (drop.visualAssetId === assetId) refs.push(drop);
+      for (const asset of candidate.visualAssets ?? []) {
+        if (asset.id !== assetId && asset.gameplay?.harvestable?.remnantVisualAssetId === assetId) refs.push(asset);
+      }
       if (refs.length) {
         const sample = refs.slice(0, 3).map((prop) => prop.id).join(", ");
         throw new Error(`Cannot delete Visual Asset: ${refs.length} instance${refs.length === 1 ? "" : "s"} reference it (${sample}${refs.length > 3 ? ", …" : ""})`);
@@ -436,6 +482,19 @@ export function createAuthorDraft(repoData) {
       const index = asset.parts.findIndex((entry) => entry.id === partId);
       if (index < 0) throw new Error("Visual Asset part not found");
       asset.parts.splice(index, 1);
+    });
+  }
+
+  function reorderAssetPart(assetId, partId, direction) {
+    return transact((candidate) => {
+      const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      if (!asset) throw new Error("Visual Asset not found");
+      const index = asset.parts.findIndex((entry) => entry.id === partId);
+      if (index < 0) throw new Error("Visual Asset part not found");
+      const nextIndex = Math.max(0, Math.min(asset.parts.length - 1, index + direction));
+      if (nextIndex === index) return;
+      const [part] = asset.parts.splice(index, 1);
+      asset.parts.splice(nextIndex, 0, part);
     });
   }
 
@@ -879,6 +938,7 @@ export function createAuthorDraft(repoData) {
           try { val = JSON.parse(trimmed); } catch { throw new Error(`${fieldKey} must be valid JSON`); }
         }
       }
+      if (fieldDef?.type === "visualAsset" && val === "") val = undefined;
       if (val === undefined) {
         if (path.includes(".")) {
           const keys = path.split(".");
@@ -1318,11 +1378,13 @@ export function createAuthorDraft(repoData) {
     renameVisualAsset,
     updateVisualAssetSettings,
     createResourceDrop,
+    updateResourceDrop,
     deleteVisualAsset,
     addAssetPart,
     updateAssetPart,
     duplicateAssetPart,
     deleteAssetPart,
+    reorderAssetPart,
     updateAssetCollision,
     updateTransform,
     updateNormalizedTransform,

@@ -902,5 +902,26 @@
 
 - **Remaining:** Human perceptual acceptance remains required for camera/pan feel, prolonged no-pop stability, shortcut reliability in the owner's normal workflow, and overall desktop comfort. Phase 4B expedition content remains intentionally untouched.
 
+## 2026-08-25 13:02 -05:00 — Phase 4B.0 behavioral Visual Assets and authoring closure — Codex (GPT-5)
+
+- **Goal:** Complete the owner-directed Visual Asset/world-authoring pass on `main`: exact harvest respawn transforms, ordered depletion, custom remnants/drop models, Visual Asset Wildkin and anchor models, fixed-pitch camera movement, selection-driven hierarchy disclosure, saved-draft catalog migration, and a final professional UI/UX consistency audit.
+
+- **Design / implementation decisions:**
+  - Harvest chunks now snapshot and restore authored local position, rotation, nonuniform scale, opacity, and transparency. The vertical recipe list is transactional/reorderable, removes the bottom entry first, defaults new Harvestables to one hit per part, and explains hit/part mismatches in context.
+  - Resource drops may reference any Visual Asset for the bounded pooled pickup model; Harvestables may reference a depleted-remnant Visual Asset. Both references validate and round-trip through canonical world data, while fallback visuals remain available.
+  - Added a bounded `wildkin` recipe role that adapts to the existing rusher/spitter creature system rather than creating a parallel AI. Recipe-owned behavior/combat/spatial settings project through `worldRegistry`; `staticWorldBuilder` skips the source prop; authored instance scale, presentation, and collision remain authoritative through warning, region activation, death, and respawn.
+  - Major Waypoints and Extraction Beacons gained optional Visual Asset model and uniform-scale fields through the existing registry/inspector/static-runtime path. Selecting any scene object now expands its Region/category hierarchy, highlights the exact row, and scrolls it into view.
+  - Replaced radius/height-style workbench zoom with fixed-pitch view-ray dolly and camera-plane pan. Retained 45° orbit steps, requested inverted vertical pointer direction, isolated render-bound stage, focused shortcuts, dark inspector inputs, 420 px viewport-bounded panel, and no horizontal scrolling.
+  - Older saved Author drafts merge only missing repository Visual Asset/resource-drop IDs. User-authored entries and same-ID edits remain authoritative; no draft reset is required to receive newly shipped catalogs.
+  - Custom pickup mesh disposal was added to the existing bounded pool. No dependency, second animation loop, generic component system, imported model, Wildkin bonding, or Phase 4B expedition layout/pacing was introduced.
+
+- **Files changed:** `src/author/authorActions.js`, `src/author/authorDraft.js`, `src/author/authorMode.js`, `src/author/authorTypeRegistry.js`, `src/author/authorUI.js`, `src/creatures/createWildCreature.js`, `src/creatures/creatureSystem.js`, `src/main.js`, `src/resources/createResourceNode.js`, `src/resources/pickupSystem.js`, `src/resources/resourceConfig.js`, `src/resources/resourceSystem.js`, `src/world/staticWorldBuilder.js`, `src/world/worldRegistry.js`, `src/world/worldValidator.js`, `tests/phase4a2_2.test.js`, `tests/phase4b0.test.js`, `README.md`, `docs/CURRENT_SLICE.md`, `docs/Specs/Phase_4B.0.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_PLAN.md`, `docs/PLAYTEST_NOTES.md`, and `docs/BUILD_LOG.md`.
+
+- **Browser production proof:** Catalog migration populated the shipped library on an older draft; real `Q`/`E`/`Space`/`C` edits and Ctrl+Z restored exact chest-part values; part reorder changed and restored list position; camera buttons showed a readable 45° side view; Harvestable/drop/remnant and Wildkin settings rendered; scene selection expanded/highlighted the Camp prop and Forest Edge Waypoint hierarchy paths; Waypoint World Model exposed the full asset list; 1024×720 and 768×720 panels had matching client/scroll widths; all unrelated Author sections remained hidden in the workbench; warnings/errors were empty.
+
+- **Verification:** Focused `tests/phase4b0.test.js` passed 20 tests / 7 suites. `npm test` and `npm run verify` passed 511 tests / 140 suites with world data synchronized; submission validation passed at 4892.8 KB (<35 MB). `npm run zip` produced `dist/submission.zip` at 1477.4 KB (1.44 MB). `git diff --check` passed.
+
+- **Remaining:** Human perceptual acceptance remains required for ordered harvest/remnant/pickup readability through an actual extract/bank loop, Visual Asset Wildkin behavior and animation feel, custom Waypoint/Beacon recognizability, camera pan/dolly feel, prolonged workbench comfort, and portrait-phone presentation. The truncated owner bullet “we should be able to chose what the…” remains intentionally unspecified rather than guessed.
+
 
 

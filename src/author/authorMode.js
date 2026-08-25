@@ -17,6 +17,28 @@ import {
 
 export const ASSET_EDIT_CAMERA_STEP = Math.PI / 4;
 
+export function getAssetEditCameraPosition(view) {
+  const horizontalDistance = Math.cos(view.pitch) * view.distance;
+  return {
+    x: view.target.x + Math.sin(view.yaw) * horizontalDistance,
+    y: view.target.y + Math.sin(view.pitch) * view.distance,
+    z: view.target.z + Math.cos(view.yaw) * horizontalDistance,
+  };
+}
+
+export function getAssetEditPanTarget(view, dx, dy) {
+  const scale = Math.max(0.0015, view.distance * 0.0015);
+  const sinYaw = Math.sin(view.yaw);
+  const cosYaw = Math.cos(view.yaw);
+  const sinPitch = Math.sin(view.pitch);
+  const cosPitch = Math.cos(view.pitch);
+  return {
+    x: view.target.x + (-dx * cosYaw - dy * sinYaw * sinPitch) * scale,
+    y: view.target.y + dy * cosPitch * scale,
+    z: view.target.z + (dx * sinYaw - dy * cosYaw * sinPitch) * scale,
+  };
+}
+
 export function getAssetEditPartKeyPatch(part, event) {
   if (!part || !event) return null;
   const key = String(event.key ?? "").toLowerCase();
@@ -301,11 +323,8 @@ export function createAuthorMode(opts) {
   function applyAssetEditCamera() {
     if (!assetEditViewState) return;
     const view = assetEditViewState;
-    camera.position.set(
-      view.target.x + Math.sin(view.yaw) * view.radius,
-      view.target.y + view.heightOffset,
-      view.target.z + Math.cos(view.yaw) * view.radius,
-    );
+    const position = getAssetEditCameraPosition(view);
+    camera.position.set(position.x, position.y, position.z);
     camera.lookAt(view.target);
     camera.updateMatrixWorld();
   }
@@ -323,8 +342,8 @@ export function createAuthorMode(opts) {
     const view = assetEditViewState;
     view.target.copy(view.defaultTarget);
     view.yaw = view.defaultYaw;
-    view.radius = view.defaultRadius;
-    view.heightOffset = view.defaultHeightOffset;
+    view.distance = view.defaultDistance;
+    view.pitch = view.defaultPitch;
     applyAssetEditCamera();
     focusAssetEditShortcuts();
     ui.setStatus("Camera view reset", false);
@@ -333,20 +352,18 @@ export function createAuthorMode(opts) {
   function panAssetEditCamera(dx, dy) {
     if (!assetEditViewState) return;
     const view = assetEditViewState;
-    const scale = Math.max(0.0015, view.radius * 0.0015);
-    const sinYaw = Math.sin(view.yaw);
-    const cosYaw = Math.cos(view.yaw);
-    // Mouse-down movement pans forward on screen: deliberately inverted vertically.
-    view.target.x += (-dx * cosYaw - dy * sinYaw) * scale;
-    view.target.z += (dx * sinYaw - dy * cosYaw) * scale;
+    // Pan in the camera's image plane: horizontal follows camera-right while
+    // vertical follows camera-up (including the view pitch), never world Y alone.
+    const target = getAssetEditPanTarget(view, dx, dy);
+    view.target.set(target.x, target.y, target.z);
     applyAssetEditCamera();
   }
 
   function zoomAssetEditCamera(deltaY) {
     if (!assetEditViewState) return;
     const view = assetEditViewState;
-    view.radius = THREE.MathUtils.clamp(
-      view.radius + deltaY * view.span * 0.004,
+    view.distance = THREE.MathUtils.clamp(
+      view.distance + deltaY * view.span * 0.004,
       view.span * 1.15,
       view.span * 8,
     );
@@ -415,16 +432,18 @@ export function createAuthorMode(opts) {
       const yaw = Math.atan2(2.2, 2.6);
       const radius = span * Math.hypot(2.2, 2.6);
       const heightOffset = Math.max(2.8, span * 1.8) - target.y;
+      const distance = Math.hypot(radius, heightOffset);
+      const pitch = Math.atan2(heightOffset, radius);
       assetEditViewState = {
         target,
         yaw,
-        radius,
-        heightOffset,
+        distance,
+        pitch,
         span,
         defaultTarget: target.clone(),
         defaultYaw: yaw,
-        defaultRadius: radius,
-        defaultHeightOffset: heightOffset,
+        defaultDistance: distance,
+        defaultPitch: pitch,
       };
       applyAssetEditCamera();
     }

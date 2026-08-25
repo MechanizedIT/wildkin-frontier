@@ -182,7 +182,7 @@ pickupSystem = createPickupSystem(scene, physicsWorld, playground, (inv, resId) 
   inventoryHud.update(inv);
   if (resId) inventoryHud.pulse(resId);
   expeditionSession.setCargo(inv);
-}, { resourceDrops });
+}, { resourceDrops, visualAssets: worldRegistry.data.visualAssets ?? [] });
 pickupSystem.setPlayerCollider(characterPhysics.collider);
 inventoryHud.update(pickupSystem.getInventory());
 expeditionSession.setCargo(pickupSystem.getInventory());

@@ -5,13 +5,16 @@ import { WORLD_DATA } from "../src/world/data/world.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
 import { createAuthorActions } from "../src/author/authorActions.js";
-import { ASSET_EDIT_CAMERA_STEP, getAssetEditPartKeyPatch } from "../src/author/authorMode.js";
+import { ASSET_EDIT_CAMERA_STEP, getAssetEditCameraPosition, getAssetEditPanTarget, getAssetEditPartKeyPatch } from "../src/author/authorMode.js";
 import { readNormalizedTransform } from "../src/author/authorTypeRegistry.js";
 import { syncAuthorVisual } from "../src/author/authorPreview.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { createPickupSystem } from "../src/resources/pickupSystem.js";
 import { createRuntimeResourcePlacements } from "../src/resources/resourceSystem.js";
+import { createResourceNode, hideOneChunk, showAllChunks } from "../src/resources/createResourceNode.js";
+import { createVisualAssetResourceType } from "../src/resources/resourceConfig.js";
+import { createWildCreature } from "../src/creatures/createWildCreature.js";
 import { createExpeditionSession } from "../src/session/expeditionSession.js";
 import { createFrontierProgress } from "../src/save/frontierProgress.js";
 import {
@@ -132,6 +135,17 @@ describe("Phase 4B.0 — Asset Workbench controls", () => {
     assert.deepEqual(getAssetEditPartKeyPatch(part, { key: " ", code: "Space" }), { position: { y: 0.7 } });
     assert.deepEqual(getAssetEditPartKeyPatch(part, { key: "c", code: "KeyC" }), { position: { y: 0.3 } });
     assert.deepEqual(getAssetEditPartKeyPatch(part, { key: " ", code: "Space", shiftKey: true }), { position: { y: 1.5 } });
+  });
+
+  it("dollies on the view ray at fixed pitch and pans vertically in camera space", () => {
+    const view = { target: { x: 0, y: 1, z: 0 }, yaw: 0, pitch: Math.PI / 6, distance: 10 };
+    const far = getAssetEditCameraPosition(view);
+    const near = getAssetEditCameraPosition({ ...view, distance: 5 });
+    assert.ok(Math.abs((far.y - view.target.y) / (far.z - view.target.z) - Math.tan(view.pitch)) < 1e-9);
+    assert.ok(Math.abs((near.y - view.target.y) / (near.z - view.target.z) - Math.tan(view.pitch)) < 1e-9);
+    const panned = getAssetEditPanTarget(view, 0, 20);
+    assert.ok(panned.y > view.target.y, "vertical pan changes elevation");
+    assert.ok(panned.z < view.target.z, "vertical pan also follows camera pitch");
   });
 
   it("keeps camera orbit independent from the part rotation step", () => {
@@ -376,5 +390,129 @@ describe("Phase 4B.0 — Drop Pod/runtime proof", () => {
     assert.ok(obstacle);
     assert.equal(obstacle.w, asset.collision.size.w);
     assert.equal(obstacle.height, asset.collision.size.h);
+  });
+});
+
+describe("Phase 4B.0 — behavioral Visual Assets and authoring polish", () => {
+  it("non-destructively adds newly shipped asset/drop catalogs to an older saved draft", () => withMockStorage(() => {
+    const saved = clone(WORLD_DATA);
+    saved.visualAssets = [makeAsset("asset_user_custom")];
+    saved.resourceDrops = [{ id: "user_drop", displayName: "User Drop", color: "#123456" }];
+    for (const region of saved.regions) {
+      region.props = region.props.filter((prop) => prop.subtype !== "visualAsset");
+    }
+    localStorage.setItem("wildkin.authorDraft", JSON.stringify(saved));
+    const draft = createAuthorDraft(WORLD_DATA);
+    const loaded = draft.loadPersisted();
+    assert.ok(loaded.visualAssets.some((asset) => asset.id === "asset_user_custom"), "user asset is preserved");
+    assert.ok(loaded.resourceDrops.some((drop) => drop.id === "user_drop"), "user drop is preserved");
+    for (const repoAsset of WORLD_DATA.visualAssets) assert.ok(loaded.visualAssets.some((asset) => asset.id === repoAsset.id), `missing ${repoAsset.id}`);
+    for (const repoDrop of WORLD_DATA.resourceDrops) assert.ok(loaded.resourceDrops.some((drop) => drop.id === repoDrop.id), `missing ${repoDrop.id}`);
+  }));
+
+  it("restores every authored part transform after harvest respawn and consumes bottom-first", () => {
+    const asset = makeAsset("asset_scaled_resource");
+    asset.parts[0].scale = { x: 2.2, y: 0.45, z: 1.35 };
+    asset.parts.push({
+      id: "top",
+      shape: "sphere",
+      position: { x: 0, y: 1.25, z: 0 },
+      rotation: { x: 0.2, y: 0.4, z: 0.1 },
+      scale: { x: 0.4, y: 0.8, z: 0.6 },
+      color: "#88cc66",
+    });
+    asset.gameplay = { role: "harvestable", harvestable: { dropId: "wood", maxChunks: 2, respawnSeconds: 10, feedbackProfile: "wood" } };
+    const node = createResourceNode("visualAsset", { x: 0, y: 0, z: 0 }, 0, "scaled", {
+      visualAsset: asset,
+      resourceType: createVisualAssetResourceType(asset),
+    });
+    const firstRemoved = hideOneChunk(node);
+    assert.equal(firstRemoved.userData.assetPartId, "top", "bottom list item is harvested first");
+    for (const mesh of node.chunkMeshes) mesh.scale.setScalar(0.01);
+    showAllChunks(node);
+    assert.deepEqual(node.chunkMeshes[0].scale.toArray(), [2.2, 0.45, 1.35]);
+    assert.deepEqual(node.chunkMeshes[1].scale.toArray(), [0.4, 0.8, 0.6]);
+    assert.ok(node.chunkMeshes.every((mesh) => mesh.visible));
+  });
+
+  it("reorders parts transactionally and round-trips remnant/drop model references", () => withMockStorage(() => {
+    const draft = createAuthorDraft(WORLD_DATA);
+    const actions = createAuthorActions(draft);
+    const resource = actions.createVisualAsset("Ordered Resource");
+    const remnant = actions.createVisualAsset("Resource Base");
+    const pickupModel = actions.createVisualAsset("Sap Pickup");
+    assert.ok(actions.addAssetPart(resource.assetId, "sphere").ok);
+    const before = draft.findVisualAssetById(resource.assetId).parts.map((part) => part.id);
+    assert.ok(actions.reorderAssetPart(resource.assetId, before[0], 1).ok);
+    assert.deepEqual(draft.findVisualAssetById(resource.assetId).parts.map((part) => part.id), [before[1], before[0]]);
+    const drop = actions.createResourceDrop({ id: "sap", displayName: "Sap", color: "#ffcc66", visualAssetId: pickupModel.assetId });
+    assert.ok(drop.ok, drop.error);
+    assert.ok(actions.updateVisualAssetSettings(resource.assetId, { gameplay: {
+      role: "harvestable",
+      harvestable: { dropId: "sap", maxChunks: 2, respawnSeconds: 12, feedbackProfile: "wood", remnantVisualAssetId: remnant.assetId },
+    } }).ok);
+    const exported = normalizeWorldData(JSON.parse(draft.exportStableJson()));
+    assert.equal(exported.resourceDrops.find((entry) => entry.id === "sap").visualAssetId, pickupModel.assetId);
+    assert.equal(exported.visualAssets.find((entry) => entry.id === resource.assetId).gameplay.harvestable.remnantVisualAssetId, remnant.assetId);
+  }));
+
+  it("projects a Visual Asset Wildkin into existing AI without a static duplicate", () => {
+    const data = clone(WORLD_DATA);
+    const asset = makeAsset("asset_custom_wildkin");
+    asset.gameplay = { role: "wildkin", wildkin: {
+      archetype: "rusher", temperament: "TERRITORIAL", speciesTag: "mossling", hostileSpecies: ["blight"],
+      health: 7, moveSpeed: 1.6, damage: 2, respawnSeconds: 18,
+      roamRadius: 3.5, noticeRadius: 7, personalSpace: 2.4, leashRadius: 11,
+    } };
+    data.visualAssets.push(asset);
+    data.regions[0].props.push({
+      id: "custom_wildkin", subtype: "visualAsset", visualAssetId: asset.id,
+      pos: { x: 4, y: 0, z: 9 }, rotY: 0.5, uniformScale: 1.4,
+      visibleInPlay: false, collisionEnabled: false, opacity: 0.65, color: "#88aa66",
+    });
+    const normalized = normalizeWorldData(data);
+    const registry = createWorldRegistry(normalized);
+    const spawn = registry.getAllCreatures().find((entry) => entry.id === "custom_wildkin");
+    assert.equal(spawn.type, "rusher");
+    assert.equal(spawn.visualAsset.id, asset.id);
+    assert.equal(spawn.configOverrides.health, 7);
+    assert.equal(createStaticWorld(normalized).group.getObjectByName("custom_wildkin"), undefined);
+    const creature = createWildCreature(new THREE.Scene(), null, spawn, 0);
+    assert.equal(creature.group.userData.visualRef.id, asset.id);
+    assert.equal(creature.state.maxHealth, 7);
+    assert.equal(creature.state.temperament, "TERRITORIAL");
+    assert.equal(creature.group.visible, false);
+    assert.equal(creature.collisionEnabled, false);
+    creature.setVisible(true);
+    assert.equal(creature.group.visible, false, "instance visibility remains authoritative");
+    creature.setVisualScaleMultiplier(0.5);
+    assert.equal(Number(creature.group.scale.x.toFixed(3)), 0.7, "animation preserves authored scale");
+  });
+
+  it("uses Visual Assets for pickup drops, depleted remnants, Waypoints, and Beacons", () => {
+    const data = clone(WORLD_DATA);
+    const model = makeAsset("asset_shared_model");
+    model.gameplay = { role: "prop" };
+    data.visualAssets.push(model);
+    data.resourceDrops.push({ id: "relic", displayName: "Relic", color: "#aabbff", visualAssetId: model.id });
+    const wp = data.regions.flatMap((region) => region.majorWaypoints)[0];
+    const bc = data.regions.flatMap((region) => region.extractionBeacons)[0];
+    wp.visualAssetId = model.id; wp.uniformScale = 1.8;
+    bc.visualAssetId = model.id; bc.uniformScale = 0.75;
+    const normalized = normalizeWorldData(data);
+    const staticWorld = createStaticWorld(normalized);
+    assert.equal(staticWorld.group.getObjectByName(wp.id).userData.visualRef.id, model.id);
+    assert.equal(staticWorld.group.getObjectByName(wp.id).scale.x, 1.8);
+    assert.equal(staticWorld.group.getObjectByName(bc.id).userData.visualRef.id, model.id);
+    const pickupSystem = createPickupSystem(new THREE.Scene(), null, null, null, { resourceDrops: normalized.resourceDrops, visualAssets: normalized.visualAssets });
+    const pickup = pickupSystem.spawnPickup({ index: 0, regionId: "camp", type: { resourceId: "relic", solid: false, dropOriginHeight: 0.5 }, state: { position: { x: 0, y: 0, z: 0 } } });
+    assert.equal(pickup.mesh.userData.pickupVisualAssetId, model.id);
+    const harvestAsset = { ...makeAsset("asset_harvest_model"), gameplay: { role: "harvestable", harvestable: { dropId: "relic", maxChunks: 1, respawnSeconds: 8, feedbackProfile: "stone", remnantVisualAssetId: model.id } } };
+    const node = createResourceNode("visualAsset", { x: 0, y: 0, z: 0 }, 0, "remnant_proof", {
+      visualAsset: harvestAsset, remnantVisualAsset: model,
+      resourceType: createVisualAssetResourceType(harvestAsset, model),
+    });
+    assert.equal(node.remnantMesh.name, "customRemnant");
+    assert.equal(node.remnantMesh.children.length, model.parts.length);
   });
 });

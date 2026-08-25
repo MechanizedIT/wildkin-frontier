@@ -509,9 +509,10 @@ Implemented as the bounded tooling bridge between the accepted Author Object con
 - migrated Camp Drop Pod proof asset.
 - focused isolated Asset Edit stage with `Space`/`C` vertical part nudging,
 - searchable/categorized 21-recipe starter library and compact no-horizontal-scroll panel,
-- bounded Prop/Harvestable recipe roles plus canonical/custom resource drops carried through pickup, run cargo, results, and persistent banking.
+- bounded Prop/Harvestable/Wildkin recipe roles, ordered harvest parts with exact respawn restoration, custom depleted remnants and pickup models, and canonical/custom resource drops carried through pickup, run cargo, results, and persistent banking,
+- selectable Visual Asset models for Major Waypoints/Extraction Beacons, selection-driven hierarchy disclosure, and non-destructive starter-catalog migration for existing Author drafts.
 
-Do not expand the modeling system. Human acceptance must confirm the shared-instance workflow, isolated stage/vertical controls, starter-library usability, custom-harvestable flow, Edit/Play parity, simple collision, export/reload, recognizable Drop Pod, and portrait-phone readability. Once accepted, freeze editor/asset infrastructure.
+Do not expand the modeling system. Human acceptance must confirm the shared-instance workflow, isolated stage/vertical controls, fixed-pitch camera feel, starter-library usability, ordered custom-harvestable/remnant/pickup flow, Visual Asset Wildkin and anchor models, Edit/Play parity, simple collision, export/reload, recognizable Drop Pod, and portrait-phone readability. Once accepted, freeze editor/asset infrastructure.
 
 ### Phase 4B — First Expedition Experience & Pacing
 

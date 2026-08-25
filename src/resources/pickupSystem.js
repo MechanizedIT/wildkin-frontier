@@ -2,6 +2,7 @@
 import * as THREE from "three";
 import { HARVEST_CONFIG } from "./resourceConfig.js";
 import { findResourceDrop, getResourceDrops, makeEmptyResourceMap } from "./resourceDropCatalog.js";
+import { computeVisualAssetBounds, createVisual } from "../world/visualFactory.js";
 
 export const PICKUP_CONFIG = {
   woodCubeSize: 0.42,
@@ -49,6 +50,8 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
 
   const shared = getShared();
   const resourceDrops = getResourceDrops(opts.resourceDrops);
+  const visualAssets = opts.visualAssets ?? [];
+  const visualAssetMap = new Map(visualAssets.map((asset) => [asset.id, asset]));
   const pickups = [];
   const pool = [];
   const inventory = makeEmptyResourceMap(resourceDrops);
@@ -210,13 +213,38 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
 
   function createPickupMesh(resourceId) {
     const s = shared;
+    const drop = findResourceDrop(resourceDrops, resourceId);
+    const pickupAsset = drop?.visualAssetId ? visualAssetMap.get(drop.visualAssetId) : null;
+    if (pickupAsset) {
+      const wrapper = new THREE.Group();
+      const visual = createVisual(
+        { kind: "asset", id: pickupAsset.id },
+        { objectId: `pickup_${resourceId}`, visualAssets },
+      );
+      const bounds = computeVisualAssetBounds(pickupAsset);
+      const largest = Math.max(bounds.size.w, bounds.size.h, bounds.size.d, 0.01);
+      const scale = 0.58 / largest;
+      visual.scale.setScalar(scale);
+      visual.position.set(
+        -bounds.offset.x * scale,
+        -bounds.offset.y * scale,
+        -bounds.offset.z * scale,
+      );
+      wrapper.add(visual);
+      const glowMat = s.glowMatProto.clone();
+      const glow = new THREE.Mesh(s.glowGeo, glowMat);
+      glow.scale.setScalar(getPickupRadius(resourceId) / 0.26 * 0.95);
+      wrapper.add(glow);
+      wrapper.userData.glow = glow;
+      wrapper.userData.pickupVisualAssetId = pickupAsset.id;
+      return wrapper;
+    }
     let geo, matProto, mat;
     if (resourceId === "wood") { geo = s.woodGeo; matProto = s.woodMatProto; }
     else if (resourceId === "stone") { geo = s.stoneGeo; matProto = s.stoneMatProto; }
     else if (resourceId === "fiber") { geo = s.fiberGeo; matProto = s.fiberMatProto; }
     else {
       geo = s.stoneGeo;
-      const drop = findResourceDrop(resourceDrops, resourceId);
       mat = new THREE.MeshStandardMaterial({
         color: drop?.color ?? "#d8c6ff",
         flatShading: true,
@@ -237,6 +265,20 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     return m;
   }
 
+  function disposePickupMesh(mesh) {
+    if (mesh.userData.pickupVisualAssetId) {
+      mesh.traverse((object) => {
+        if (object.geometry && object.geometry !== shared.glowGeo) object.geometry.dispose?.();
+        if (!object.material) return;
+        const materials = Array.isArray(object.material) ? object.material : [object.material];
+        for (const material of materials) material.dispose?.();
+      });
+      return;
+    }
+    mesh.material?.dispose?.();
+    mesh.userData.glow?.material?.dispose?.();
+  }
+
   function acquireMesh(resourceId) {
     for (let i = pool.length - 1; i >= 0; i--) {
       const entry = pool[i];
@@ -251,6 +293,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     if (pool.length > 0) {
       const entry = pool.pop();
       scene.remove(entry.mesh);
+      disposePickupMesh(entry.mesh);
       return createPickupMesh(resourceId);
     }
     return createPickupMesh(resourceId);
@@ -261,8 +304,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     scene.remove(pickup.mesh);
     if (pool.length < 24) pool.push({ mesh: pickup.mesh, resourceId: pickup.resourceId });
     else {
-      if (pickup.mesh.material) pickup.mesh.material.dispose?.();
-      if (pickup.mesh.userData.glow?.material) pickup.mesh.userData.glow.material.dispose?.();
+      disposePickupMesh(pickup.mesh);
     }
   }
 

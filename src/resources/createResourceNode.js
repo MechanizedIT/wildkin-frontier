@@ -8,7 +8,15 @@ import {
   tagVisualRoot,
 } from "../world/visualFactory.js";
 
-function createRemnant(typeId, feedbackProfile = typeId) {
+function createRemnant(typeId, feedbackProfile = typeId, remnantVisualAsset = null, visualAssets = []) {
+  if (remnantVisualAsset) {
+    const remnant = createVisual(
+      { kind: "asset", id: remnantVisualAsset.id },
+      { objectId: `${remnantVisualAsset.id}_remnant`, visualAssets },
+    );
+    remnant.name = "customRemnant";
+    return remnant;
+  }
   if (typeId === "tree" || feedbackProfile === "wood") {
     const stump = new THREE.Mesh(
       new THREE.CylinderGeometry(0.40, 0.44, 0.22, 8),
@@ -69,10 +77,12 @@ export function createResourceNode(typeId, position, index = 0, objectId = null,
   const rotationY = transform.rotationY ?? 0;
   const uniformScale = transform.uniformScale ?? 1;
   const visualAsset = transform.visualAsset ?? type.visualAsset ?? null;
+  const remnantVisualAsset = transform.remnantVisualAsset ?? type.remnantVisualAsset ?? null;
+  const visualAssets = [visualAsset, remnantVisualAsset].filter(Boolean);
   const visualRef = visualAsset
     ? { kind: "asset", id: visualAsset.id }
     : { kind: "builtin", id: `resource/${typeId}` };
-  const visualOptions = { objectId: id, visualAssets: visualAsset ? [visualAsset] : undefined };
+  const visualOptions = { objectId: id, visualAssets: visualAssets.length ? visualAssets : undefined };
   const group = tagVisualRoot(new THREE.Group(), {
     objectId: id,
     visualRef,
@@ -108,7 +118,17 @@ export function createResourceNode(typeId, position, index = 0, objectId = null,
     if (visualAsset || object.name.includes("_chunk_") || object.name.includes("_tuft_")) chunkMeshes.push(object);
   });
 
-  const remnantMesh = createRemnant(typeId, type.feedbackProfile);
+  const originalChunkTransforms = chunkMeshes.map((mesh) => ({
+    pos: mesh.position.clone(),
+    scale: mesh.scale.clone(),
+    rot: mesh.rotation.clone(),
+    opacity: mesh.material?.opacity ?? 1,
+    transparent: mesh.material?.transparent ?? false,
+  }));
+  const visualRootBaseScale = visualRoot.scale.clone();
+  const visualRootBaseRotation = visualRoot.rotation.clone();
+
+  const remnantMesh = createRemnant(typeId, type.feedbackProfile, remnantVisualAsset, visualAssets);
   remnantMesh.visible = false;
   group.add(remnantMesh);
 
@@ -159,10 +179,16 @@ export function createResourceNode(typeId, position, index = 0, objectId = null,
     respawnGroup,
     respawnTicks: ticks,
     mainVisual: visualRoot,
-    originalChunkTransforms: chunkMeshes.map((mesh) => ({ pos: mesh.position.clone(), scale: mesh.scale.clone(), rot: mesh.rotation.clone() })),
+    originalChunkTransforms,
+    visualRootBaseScale,
+    visualRootBaseRotation,
   });
 
-  return { group, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, mainVisual: visualRoot, visualRoot };
+  return {
+    group, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks,
+    mainVisual: visualRoot, visualRoot, originalChunkTransforms,
+    visualRootBaseScale, visualRootBaseRotation,
+  };
 }
 
 export function hideOneChunk(node) {
@@ -176,10 +202,22 @@ export function hideOneChunk(node) {
 }
 
 export function showAllChunks(node) {
-  for (const mesh of node.chunkMeshes) {
+  for (let index = 0; index < node.chunkMeshes.length; index++) {
+    const mesh = node.chunkMeshes[index];
+    const original = node.originalChunkTransforms?.[index]
+      ?? node.group?.userData?.originalChunkTransforms?.[index];
     mesh.visible = true;
-    mesh.scale.set(1, 1, 1);
-    mesh.material.transparent = false;
-    mesh.material.opacity = 1;
+    if (original) {
+      mesh.position.copy(original.pos);
+      mesh.scale.copy(original.scale);
+      mesh.rotation.copy(original.rot);
+      if (mesh.material) {
+        mesh.material.transparent = original.transparent;
+        mesh.material.opacity = original.opacity;
+      }
+    } else if (mesh.material) {
+      mesh.material.transparent = false;
+      mesh.material.opacity = 1;
+    }
   }
 }

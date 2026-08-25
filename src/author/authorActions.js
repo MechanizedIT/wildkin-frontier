@@ -104,11 +104,13 @@ export function createAuthorActions(draftApi) {
     renameVisualAsset: (assetId, displayName) => draftApi.renameVisualAsset(assetId, displayName),
     updateVisualAssetSettings: (assetId, patch) => draftApi.updateVisualAssetSettings(assetId, patch),
     createResourceDrop: (drop) => draftApi.createResourceDrop(drop),
+    updateResourceDrop: (dropId, patch) => draftApi.updateResourceDrop(dropId, patch),
     deleteVisualAsset: (assetId) => draftApi.deleteVisualAsset(assetId),
     addAssetPart: (assetId, shape) => draftApi.addAssetPart(assetId, shape),
     updateAssetPart: (assetId, partId, patch) => draftApi.updateAssetPart(assetId, partId, patch),
     duplicateAssetPart: (assetId, partId) => draftApi.duplicateAssetPart(assetId, partId),
     deleteAssetPart: (assetId, partId) => draftApi.deleteAssetPart(assetId, partId),
+    reorderAssetPart: (assetId, partId, direction) => draftApi.reorderAssetPart(assetId, partId, direction),
     updateAssetCollision: (assetId, collision) => draftApi.updateAssetCollision(assetId, collision),
     fitAssetCollision,
   };

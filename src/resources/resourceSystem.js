@@ -8,6 +8,7 @@ import { describeResourceCollider, describeVisualAssetCollider, getColliderCente
 export function createRuntimeResourcePlacements(resources = []) {
   return resources.map((resource) => {
     const visualAsset = resource.visualAsset ?? null;
+    const remnantVisualAsset = resource.remnantVisualAsset ?? null;
     return {
       type: resource.type,
       pos: { ...resource.pos },
@@ -16,7 +17,8 @@ export function createRuntimeResourcePlacements(resources = []) {
       rotY: resource.rotY ?? resource.rotationY ?? 0,
       uniformScale: resource.uniformScale ?? resource.scale ?? 1,
       visualAsset,
-      resourceType: visualAsset ? createVisualAssetResourceType(visualAsset) : null,
+      remnantVisualAsset,
+      resourceType: visualAsset ? createVisualAssetResourceType(visualAsset, remnantVisualAsset) : null,
       resourceDrop: resource.resourceDrop ?? null,
       visibleInPlay: resource.visibleInPlay !== false,
       collisionEnabled: resource.collisionEnabled !== false,
@@ -70,6 +72,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     };
     transform.resourceType = p.resourceType ?? undefined;
     transform.visualAsset = p.visualAsset ?? undefined;
+    transform.remnantVisualAsset = p.remnantVisualAsset ?? undefined;
     const { group, state, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, visualRoot } = createResourceNode(p.type, p.pos, i, nodeId, transform);
     state.regionId = regionId;
     group.userData.authorId = nodeId;
@@ -344,11 +347,17 @@ export function createResourceSystem(scene, physicsWorld, placements) {
         if (n._wobbleTime < dur) {
           const t = n._wobbleTime / dur;
           const squash = Math.sin(t * Math.PI) * n._wobbleAmount;
-          n.visualRoot.scale.set(1 + squash * 0.4, 1 - squash, 1 + squash * 0.4);
-          n.visualRoot.rotation.z = Math.sin(t * Math.PI * 2) * 0.08 * n._wobbleAmount * 5;
+          const baseScale = n.visualRootBaseScale ?? n.group.userData.visualRootBaseScale;
+          const baseRotation = n.visualRootBaseRotation ?? n.group.userData.visualRootBaseRotation;
+          n.visualRoot.scale.set(
+            baseScale.x * (1 + squash * 0.4),
+            baseScale.y * (1 - squash),
+            baseScale.z * (1 + squash * 0.4),
+          );
+          n.visualRoot.rotation.z = baseRotation.z + Math.sin(t * Math.PI * 2) * 0.08 * n._wobbleAmount * 5;
         } else {
-          n.visualRoot.scale.set(1, 1, 1);
-          n.visualRoot.rotation.z = 0;
+          n.visualRoot.scale.copy(n.visualRootBaseScale ?? n.group.userData.visualRootBaseScale);
+          n.visualRoot.rotation.copy(n.visualRootBaseRotation ?? n.group.userData.visualRootBaseRotation);
           n._wobbleTime = undefined;
         }
       }
@@ -369,9 +378,10 @@ export function createResourceSystem(scene, physicsWorld, placements) {
         if (n._respawnPop < dur) {
           const t = n._respawnPop / dur;
           const s = 0.7 + Math.sin(t * Math.PI) * 0.35;
-          n.visualRoot.scale.set(s, s, s);
+          const baseScale = n.visualRootBaseScale ?? n.group.userData.visualRootBaseScale;
+          n.visualRoot.scale.set(baseScale.x * s, baseScale.y * s, baseScale.z * s);
         } else {
-          n.visualRoot.scale.set(1, 1, 1);
+          n.visualRoot.scale.copy(n.visualRootBaseScale ?? n.group.userData.visualRootBaseScale);
           n._respawnPop = undefined;
         }
       }

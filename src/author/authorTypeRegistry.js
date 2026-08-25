@@ -205,6 +205,14 @@ function makeVisualAssetInstanceDefinition() {
     collision: {
       describe(found) {
         const asset = (found.visualAssets ?? []).find((entry) => entry.id === found.obj.visualAssetId);
+        if (asset?.gameplay?.role === "wildkin") {
+          return describeCreatureCollider({
+            uniformScale: found.obj.uniformScale ?? 1,
+            position: found.obj.pos,
+            rotationY: found.obj.rotY ?? 0,
+            enabled: found.obj.collisionEnabled !== false,
+          });
+        }
         return describeVisualAssetCollider({
           collision: asset?.collision ?? null,
           uniformScale: found.obj.uniformScale ?? 1,
@@ -726,11 +734,11 @@ function makeWaypointDefinition() {
   return {
     key: "waypoint:major",
     visualId: "anchor/waypoint",
-    sizeMode: "none",
+    sizeMode: "uniform",
     capabilities: {
-      selectable: true, draggable: true, elevation: true, rotation: true, resize: false,
+      selectable: true, draggable: true, elevation: true, rotation: true, resize: true,
       duplicatable: true, deletable: true, presentation: false, collisionControl: false,
-      sizeMode: "none",
+      sizeMode: "uniform",
     },
     ownership: { mode: "point" },
     matches(found) { return found.collection === "majorWaypoints" || found.type === "majorWaypoint"; },
@@ -740,23 +748,25 @@ function makeWaypointDefinition() {
         return {
           position: { x: o.pos.x, y: o.pos.y ?? 0, z: o.pos.z },
           rotationY: o.rotY ?? 0,
-          size: null, uniformScale: 1, sizeMode: "none",
+          size: null, uniformScale: o.uniformScale ?? 1, sizeMode: "uniform",
         };
       },
       write(candidateObj, found, normalized) {
         const pos = normalized.position;
         if (pos) { candidateObj.pos.x = pos.x; candidateObj.pos.y = pos.y ?? 0; candidateObj.pos.z = pos.z; }
         if (isFiniteNumber(normalized.rotationY)) candidateObj.rotY = normalized.rotationY;
+        if (isFiniteNumber(normalized.uniformScale)) candidateObj.uniformScale = Math.max(0.2, Math.min(5, normalized.uniformScale));
         delete candidateObj.x; delete candidateObj.z;
       },
     },
-    visual: { resolveRef() { return { kind: "builtin", id: "anchor/waypoint" }; } },
+    visual: { resolveRef(found) { return found.obj.visualAssetId ? { kind: "asset", id: found.obj.visualAssetId } : { kind: "builtin", id: "anchor/waypoint" }; } },
     collision: {
       describe(found) { const o=found.obj; return { shape:"none", enabled:false, position:{x:o.pos.x,y:o.pos.y??0,z:o.pos.z}, editProxy:{visibleWhenHidden:false} }; }
     },
     inspector: [
       { key: "displayName", label: "Display Name", type: "text", path: "displayName" },
       { key: "type", label: "Anchor Type", type: "text", path: "type" },
+      { key: "visualAssetId", label: "World Model", type: "visualAsset", path: "visualAssetId" },
     ],
   };
 }
@@ -764,26 +774,28 @@ function makeBeaconDefinition() {
   return {
     key: "beacon:extraction",
     visualId: "anchor/beacon",
-    sizeMode: "none",
+    sizeMode: "uniform",
     capabilities: {
-      selectable: true, draggable: true, elevation: true, rotation: true, resize: false,
+      selectable: true, draggable: true, elevation: true, rotation: true, resize: true,
       duplicatable: true, deletable: true, presentation: false, collisionControl: false,
-      sizeMode: "none",
+      sizeMode: "uniform",
     },
     ownership: { mode: "point" },
     matches(found) { return found.collection === "extractionBeacons" || found.type === "extractionBeacon"; },
     transform: {
-      read(found) { const o=found.obj; return { position:{x:o.pos.x,y:o.pos.y??0,z:o.pos.z}, rotationY:o.rotY??0, size:null, uniformScale:1, sizeMode:"none" }; },
+      read(found) { const o=found.obj; return { position:{x:o.pos.x,y:o.pos.y??0,z:o.pos.z}, rotationY:o.rotY??0, size:null, uniformScale:o.uniformScale??1, sizeMode:"uniform" }; },
       write(candidateObj, found, normalized) {
         if (normalized.position) { candidateObj.pos.x = normalized.position.x; candidateObj.pos.y = normalized.position.y ?? 0; candidateObj.pos.z = normalized.position.z; }
         if (isFiniteNumber(normalized.rotationY)) candidateObj.rotY = normalized.rotationY;
+        if (isFiniteNumber(normalized.uniformScale)) candidateObj.uniformScale = Math.max(0.2, Math.min(5, normalized.uniformScale));
         delete candidateObj.x; delete candidateObj.z;
       },
     },
-    visual: { resolveRef() { return { kind: "builtin", id: "anchor/beacon" }; } },
+    visual: { resolveRef(found) { return found.obj.visualAssetId ? { kind: "asset", id: found.obj.visualAssetId } : { kind: "builtin", id: "anchor/beacon" }; } },
     collision: { describe(found){ const o=found.obj; return { shape:"none", enabled:false, position:{x:o.pos.x,y:o.pos.y??0,z:o.pos.z}, editProxy:{visibleWhenHidden:false} }; }},
     inspector: [
       { key: "displayName", label: "Display Name", type: "text", path: "displayName" },
+      { key: "visualAssetId", label: "World Model", type: "visualAsset", path: "visualAssetId" },
     ],
   };
 }

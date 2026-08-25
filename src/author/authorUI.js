@@ -15,7 +15,7 @@ export function createAuthorUI(opts) {
   container.id = "author-panel";
   container.style.cssText = "position:fixed;top:8px;left:8px;width:min(420px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;overflow-x:hidden;box-sizing:border-box;background:#0f1420f2;color:#d0d8e8;font:12px system-ui;border:1px solid #2a3a5a;border-radius:8px;z-index:9999;padding:10px;display:none;backdrop-filter:blur(6px)";
   container.innerHTML = `
-    <style>#author-panel *,#author-panel *::before,#author-panel *::after{box-sizing:border-box}#author-panel input,#author-panel select,#author-panel button{min-width:0}#author-panel .author-vec3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}#author-panel .author-vec3 input{width:100%;padding:3px 4px}#author-asset-editor input,#author-asset-editor select{background:#111a2a;color:#e2ebf7;border:1px solid #344966;border-radius:4px;padding:4px}#author-asset-editor button{background:#1b2b42;color:#dcecff;border:1px solid #3a5274;border-radius:4px;padding:4px;cursor:pointer}#author-asset-editor button:hover,#author-asset-editor button:focus-visible{background:#29496c;border-color:#5791c6;outline:none}#author-asset-editor button:disabled{opacity:.42;cursor:not-allowed}</style>
+    <style>#author-panel *,#author-panel *::before,#author-panel *::after{box-sizing:border-box}#author-panel input,#author-panel select,#author-panel button{min-width:0}#author-panel input,#author-panel select{background:#111a2a;color:#e2ebf7;border:1px solid #344966;border-radius:4px;padding:4px}#author-panel input::placeholder{color:#73839b}#author-panel input[type="checkbox"]{width:auto;accent-color:#3b8eea;padding:0}#author-panel .author-vec3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}#author-panel .author-vec3 input{width:100%;padding:3px 4px}#author-asset-editor button{background:#1b2b42;color:#dcecff;border:1px solid #3a5274;border-radius:4px;padding:4px;cursor:pointer}#author-asset-editor button:hover,#author-asset-editor button:focus-visible{background:#29496c;border-color:#5791c6;outline:none}#author-asset-editor button:disabled{opacity:.42;cursor:not-allowed}</style>
     <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">
       <button id="author-toggle" style="flex:1;padding:7px 8px;background:#2a7fff;color:#fff;border:none;border-radius:6px;font-weight:800">EDIT</button>
       <span id="author-mode-badge" style="font-size:10px;font-weight:700;padding:4px 6px;border-radius:4px;background:#1a243a;color:#8aa0c0">PLAY TEST</span>
@@ -38,7 +38,7 @@ export function createAuthorUI(opts) {
         <div style="border:1px solid #263b58;border-radius:5px;background:#101b2c;padding:5px;margin-bottom:6px">
           <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px"><strong style="font-size:11px;flex:1">Camera View</strong><span style="font-size:9px;color:#7890ad">45° steps</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px"><button id="author-camera-left" title="Orbit camera left ([)">↶ Left [</button><button id="author-camera-reset" title="Reset camera view (0)">Reset 0</button><button id="author-camera-right" title="Orbit camera right (])">Right ] ↷</button></div>
-          <div style="font-size:9px;color:#7890ad;margin-top:4px">Right-drag pans with inverted vertical · wheel zooms</div>
+          <div style="font-size:9px;color:#7890ad;margin-top:4px">Right-drag pans in the camera plane · wheel dollies at fixed pitch</div>
         </div>
         <div style="font-size:11px;font-weight:700;margin-bottom:3px">Add Part</div>
         <div id="author-asset-add-parts" style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
@@ -46,7 +46,8 @@ export function createAuthorUI(opts) {
           <button data-asset-shape="cone">+ Cone</button><button data-asset-shape="sphere">+ Sphere</button>
           <button data-asset-shape="capsule">+ Capsule</button><button data-asset-shape="icosahedron">+ Icosahedron</button>
         </div>
-        <div id="author-asset-parts" style="display:flex;flex-wrap:wrap;gap:3px;margin:6px 0"></div>
+        <div style="font-size:9px;color:#7890ad;margin-top:6px">Part order — harvestables remove parts from the bottom upward</div>
+        <div id="author-asset-parts" style="display:flex;flex-direction:column;gap:3px;margin:4px 0;max-height:190px;overflow-y:auto"></div>
         <div id="author-asset-part-form" style="display:none;border-top:1px solid #1e2a4a;padding-top:5px">
           <label style="display:block">Shape <input id="author-part-shape" readonly style="width:100%;opacity:.75"></label>
           <div style="font-size:11px;margin-top:4px">Position X / Y / Z</div><div class="author-vec3"><input id="author-part-px" type="number" step="0.1" title="Position X"><input id="author-part-py" type="number" step="0.1" title="Position Y"><input id="author-part-pz" type="number" step="0.1" title="Position Z"></div>
@@ -54,7 +55,7 @@ export function createAuthorUI(opts) {
           <div style="font-size:11px;margin-top:4px">Scale X / Y / Z</div><div class="author-vec3"><input id="author-part-sx" type="number" min="0.01" step="0.1" title="Scale X"><input id="author-part-sy" type="number" min="0.01" step="0.1" title="Scale Y"><input id="author-part-sz" type="number" min="0.01" step="0.1" title="Scale Z"></div>
           <label style="display:block;margin-top:4px">Color <input id="author-part-color" type="color" style="width:100%;height:25px"></label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px"><button id="author-part-rotate-left">Q · Rotate −15°</button><button id="author-part-rotate-right">E · Rotate +15°</button><button id="author-part-down">C · Lower 0.2</button><button id="author-part-up">Space · Raise 0.2</button></div>
-          <div style="display:flex;gap:4px;margin-top:5px"><button id="author-part-duplicate" style="flex:1">Duplicate</button><button id="author-part-delete" style="flex:1;color:#ffaaaa">Delete</button></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px"><button id="author-part-order-up">Move earlier ↑</button><button id="author-part-order-down">Move later ↓</button><button id="author-part-duplicate">Duplicate</button><button id="author-part-delete" style="color:#ffaaaa">Delete</button></div>
         </div>
         <div style="border-top:1px solid #1e2a4a;margin-top:7px;padding-top:5px">
           <strong style="font-size:11px">Collision</strong>
@@ -67,12 +68,22 @@ export function createAuthorUI(opts) {
         </div>
         <div style="border-top:1px solid #1e2a4a;margin-top:7px;padding-top:5px">
           <strong style="font-size:11px">Game Object Type</strong>
-          <select id="author-asset-role" style="width:100%;margin-top:3px"><option value="prop">Prop / Decoration</option><option value="harvestable">Harvestable Resource</option></select>
+          <select id="author-asset-role" style="width:100%;margin-top:3px"><option value="prop">Prop / Decoration</option><option value="harvestable">Harvestable Resource</option><option value="wildkin">Wildkin</option></select>
           <div id="author-asset-harvest-fields" style="display:none;margin-top:5px">
             <label style="display:block">Drops <select id="author-asset-drop" style="width:100%"></select></label>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px"><label>Hits <input id="author-asset-hits" type="number" min="1" max="12" step="1" style="width:100%"></label><label>Respawn sec <input id="author-asset-respawn" type="number" min="1" max="300" step="1" style="width:100%"></label></div>
+            <div id="author-harvest-order-note" style="font-size:9px;color:#8ca3c2;margin-top:3px"></div>
             <label style="display:block;margin-top:4px">Impact feel <select id="author-asset-feedback" style="width:100%"><option value="wood">Wood</option><option value="stone">Stone</option><option value="fiber">Plant / Fiber</option></select></label>
+            <label style="display:block;margin-top:4px">Depleted remnant <select id="author-asset-remnant" style="width:100%"></select></label>
+            <div style="border-top:1px solid #263b58;margin-top:6px;padding-top:5px"><strong style="font-size:10px">Selected drop model</strong><select id="author-drop-visual" style="width:100%;margin-top:3px"></select><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px"><button id="author-drop-visual-edit">Edit model asset</button><button id="author-drop-visual-new">+ New model asset</button></div></div>
             <details style="margin-top:6px;border:1px solid #263b58;border-radius:4px;padding:5px"><summary style="cursor:pointer">+ Create Custom Drop</summary><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px"><input id="author-drop-id" placeholder="iron_ore"><input id="author-drop-name" placeholder="Iron Ore"></div><input id="author-drop-color" type="color" value="#b7c0ca" style="width:100%;height:25px;margin-top:4px"><button id="author-drop-create" style="width:100%;margin-top:4px">Add Drop To Catalog</button></details>
+          </div>
+          <div id="author-asset-wildkin-fields" style="display:none;margin-top:5px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><label>Behavior <select id="author-wildkin-archetype" style="width:100%"><option value="rusher">Rusher</option><option value="spitter">Spitter</option></select></label><label>Temperament <select id="author-wildkin-temperament" style="width:100%"><option>AGGRESSIVE</option><option>TERRITORIAL</option><option>DEFENSIVE</option><option>SKITTISH</option></select></label></div>
+            <label style="display:block;margin-top:4px">Species tag <input id="author-wildkin-species" style="width:100%"></label>
+            <label style="display:block;margin-top:4px">Hostile species (comma-separated) <input id="author-wildkin-hostile" style="width:100%"></label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px"><label>Health <input id="author-wildkin-health" type="number" min="1" max="50" style="width:100%"></label><label>Damage <input id="author-wildkin-damage" type="number" min="0" max="20" step="0.1" style="width:100%"></label><label>Move speed <input id="author-wildkin-speed" type="number" min="0.1" max="12" step="0.1" style="width:100%"></label><label>Respawn sec <input id="author-wildkin-respawn" type="number" min="1" max="300" style="width:100%"></label></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px"><label>Roam radius <input id="author-wildkin-roam" type="number" min="0" max="50" step="0.1" style="width:100%"></label><label>Notice radius <input id="author-wildkin-notice" type="number" min="0.25" max="50" step="0.1" style="width:100%"></label><label>Personal space <input id="author-wildkin-personal" type="number" min="0.1" max="20" step="0.1" style="width:100%"></label><label>Leash radius <input id="author-wildkin-leash" type="number" min="0.5" max="100" step="0.1" style="width:100%"></label></div>
           </div>
         </div>
         <button id="author-asset-delete" style="width:100%;margin-top:7px;color:#ffaaaa">Delete Asset</button>
@@ -152,7 +163,7 @@ export function createAuthorUI(opts) {
       <button id="author-export" style="flex:1;padding:6px;background:#1a3a2a;color:#aaffaa;border:1px solid #2a6a4a;border-radius:6px">Export</button>
     </div>
     <button id="author-reset" style="width:100%;padding:6px;background:#3a1a1a;color:#ffaaaa;border:1px solid #6a2a2a;border-radius:6px">Reset Draft From Repo</button>
-    <div style="font-size:10px;color:#5a6a8a;margin-top:6px">Edit hides joystick · Right-drag pan (inverted) · Wheel zoom · Esc cancels place</div>
+    <div style="font-size:10px;color:#5a6a8a;margin-top:6px">World: right-drag pan · wheel zoom · Asset: camera-plane pan · fixed-pitch dolly · Esc cancels</div>
   `;
   document.body.appendChild(container);
 
@@ -270,11 +281,12 @@ export function createAuthorUI(opts) {
     if (!asset.parts.some((part) => part.id === selectedAssetPartId)) selectedAssetPartId = asset.parts[0]?.id ?? null;
     const partsHost = container.querySelector("#author-asset-parts");
     partsHost.innerHTML = "";
-    for (const part of asset.parts) {
+    for (let partIndex = 0; partIndex < asset.parts.length; partIndex++) {
+      const part = asset.parts[partIndex];
       const button = document.createElement("button");
-      button.textContent = part.id;
+      button.textContent = `${partIndex + 1}. ${part.id}${partIndex === asset.parts.length - 1 ? "  ← harvested first" : ""}`;
       button.dataset.assetPartId = part.id;
-      button.style.cssText = `font-size:10px;padding:3px 5px;border:1px solid #3a4f70;border-radius:3px;background:${part.id === selectedAssetPartId ? "#3a6694" : "#1a243a"};color:#dcecff`;
+      button.style.cssText = `font-size:10px;text-align:left;width:100%;padding:4px 6px;border:1px solid #3a4f70;border-radius:3px;background:${part.id === selectedAssetPartId ? "#3a6694" : "#1a243a"};color:#dcecff`;
       button.addEventListener("click", () => {
         selectedAssetPartId = part.id;
         refreshAssetEditor();
@@ -286,6 +298,9 @@ export function createAuthorUI(opts) {
     const partForm = container.querySelector("#author-asset-part-form");
     partForm.style.display = part ? "" : "none";
     if (part) {
+      const partIndex = asset.parts.findIndex((entry) => entry.id === part.id);
+      container.querySelector("#author-part-order-up").disabled = partIndex <= 0;
+      container.querySelector("#author-part-order-down").disabled = partIndex >= asset.parts.length - 1;
       container.querySelector("#author-part-shape").value = part.shape;
       for (const [id, value] of [
         ["author-part-px", part.position.x], ["author-part-py", part.position.y], ["author-part-pz", part.position.z],
@@ -305,8 +320,10 @@ export function createAuthorUI(opts) {
     }
     const role = asset.gameplay?.role ?? "prop";
     const harvestable = asset.gameplay?.harvestable ?? null;
+    const wildkin = asset.gameplay?.wildkin ?? null;
     container.querySelector("#author-asset-role").value = role;
     container.querySelector("#author-asset-harvest-fields").style.display = role === "harvestable" ? "" : "none";
+    container.querySelector("#author-asset-wildkin-fields").style.display = role === "wildkin" ? "" : "none";
     const dropSelect = container.querySelector("#author-asset-drop");
     dropSelect.innerHTML = "";
     for (const drop of draftApi.getResourceDrops()) {
@@ -320,6 +337,39 @@ export function createAuthorUI(opts) {
       container.querySelector("#author-asset-hits").value = harvestable.maxChunks;
       container.querySelector("#author-asset-respawn").value = harvestable.respawnSeconds;
       container.querySelector("#author-asset-feedback").value = harvestable.feedbackProfile;
+      const partCount = asset.parts.length;
+      const hitCount = harvestable.maxChunks;
+      const orderNote = container.querySelector("#author-harvest-order-note");
+      if (hitCount === partCount) orderNote.textContent = "1:1 feedback — each hit removes one part, bottom to top.";
+      else if (hitCount < partCount) orderNote.textContent = `${hitCount} hits / ${partCount} parts — bottom parts go first; remaining parts clear on the final hit.`;
+      else orderNote.textContent = `${hitCount} hits / ${partCount} parts — match Hits to parts for visible feedback on every hit.`;
+    }
+    const assetOptions = draftApi.getVisualAssets();
+    const remnantSelect = container.querySelector("#author-asset-remnant");
+    remnantSelect.innerHTML = '<option value="">Default remnant for impact feel</option>';
+    const dropVisualSelect = container.querySelector("#author-drop-visual");
+    dropVisualSelect.innerHTML = '<option value="">Default pickup shape</option>';
+    for (const optionAsset of assetOptions) {
+      const remnantOption = document.createElement("option");
+      remnantOption.value = optionAsset.id;
+      remnantOption.textContent = optionAsset.displayName;
+      remnantSelect.appendChild(remnantOption);
+      const pickupOption = remnantOption.cloneNode(true);
+      dropVisualSelect.appendChild(pickupOption);
+    }
+    remnantSelect.value = harvestable?.remnantVisualAssetId ?? "";
+    const selectedDrop = draftApi.getResourceDrops().find((drop) => drop.id === dropSelect.value);
+    dropVisualSelect.value = selectedDrop?.visualAssetId ?? "";
+    container.querySelector("#author-drop-visual-edit").disabled = !selectedDrop?.visualAssetId;
+    if (wildkin) {
+      for (const [id, value] of [
+        ["author-wildkin-archetype", wildkin.archetype], ["author-wildkin-temperament", wildkin.temperament],
+        ["author-wildkin-species", wildkin.speciesTag], ["author-wildkin-hostile", wildkin.hostileSpecies.join(", ")],
+        ["author-wildkin-health", wildkin.health], ["author-wildkin-damage", wildkin.damage],
+        ["author-wildkin-speed", wildkin.moveSpeed], ["author-wildkin-respawn", wildkin.respawnSeconds],
+        ["author-wildkin-roam", wildkin.roamRadius], ["author-wildkin-notice", wildkin.noticeRadius],
+        ["author-wildkin-personal", wildkin.personalSpace], ["author-wildkin-leash", wildkin.leashRadius],
+      ]) container.querySelector(`#${id}`).value = value;
     }
   }
 
@@ -411,6 +461,12 @@ export function createAuthorUI(opts) {
     const result = actions.deleteAssetPart(editingAssetId, selectedAssetPartId);
     assetActionResult(result, "Deleted part", null);
   });
+  container.querySelector("#author-part-order-up").addEventListener("click", () => {
+    assetActionResult(actions.reorderAssetPart(editingAssetId, selectedAssetPartId, -1), "Moved part earlier in harvest order");
+  });
+  container.querySelector("#author-part-order-down").addEventListener("click", () => {
+    assetActionResult(actions.reorderAssetPart(editingAssetId, selectedAssetPartId, 1), "Moved part later — it will harvest sooner");
+  });
   function nudgeSelectedPartY(delta) {
     const asset = draftApi.findVisualAssetById(editingAssetId);
     const part = asset?.parts.find((entry) => entry.id === selectedAssetPartId);
@@ -443,32 +499,83 @@ export function createAuthorUI(opts) {
   container.querySelector("#author-asset-fit").addEventListener("click", () => assetActionResult(actions.fitAssetCollision(editingAssetId), "Collision fit to visual bounds"));
   function commitAssetGameplay() {
     const role = container.querySelector("#author-asset-role").value;
-    const gameplay = role === "harvestable"
-      ? {
+    let gameplay;
+    if (role === "harvestable") {
+      gameplay = {
           role,
           harvestable: {
             dropId: container.querySelector("#author-asset-drop").value,
             maxChunks: Number(container.querySelector("#author-asset-hits").value) || 3,
             respawnSeconds: Number(container.querySelector("#author-asset-respawn").value) || 15,
             feedbackProfile: container.querySelector("#author-asset-feedback").value,
+            remnantVisualAssetId: container.querySelector("#author-asset-remnant").value || null,
           },
-        }
-      : { role: "prop" };
-    assetActionResult(actions.updateVisualAssetSettings(editingAssetId, { gameplay }), role === "harvestable" ? "Asset is harvestable" : "Asset is a prop");
+        };
+    } else if (role === "wildkin") {
+      gameplay = {
+        role,
+        wildkin: {
+          archetype: container.querySelector("#author-wildkin-archetype").value,
+          temperament: container.querySelector("#author-wildkin-temperament").value,
+          speciesTag: container.querySelector("#author-wildkin-species").value.trim() || "wildkin",
+          hostileSpecies: container.querySelector("#author-wildkin-hostile").value.split(",").map((tag) => tag.trim()).filter(Boolean),
+          health: Number(container.querySelector("#author-wildkin-health").value) || 3,
+          damage: Number(container.querySelector("#author-wildkin-damage").value) || 0,
+          moveSpeed: Number(container.querySelector("#author-wildkin-speed").value) || 2,
+          respawnSeconds: Number(container.querySelector("#author-wildkin-respawn").value) || 10,
+          roamRadius: Number(container.querySelector("#author-wildkin-roam").value) || 0,
+          noticeRadius: Number(container.querySelector("#author-wildkin-notice").value) || 5.5,
+          personalSpace: Number(container.querySelector("#author-wildkin-personal").value) || 2,
+          leashRadius: Number(container.querySelector("#author-wildkin-leash").value) || 7.5,
+        },
+      };
+    } else gameplay = { role: "prop" };
+    assetActionResult(actions.updateVisualAssetSettings(editingAssetId, { gameplay }), `Asset type: ${role}`);
   }
   container.querySelector("#author-asset-role").addEventListener("change", (event) => {
     if (event.target.value === "harvestable") {
       const drops = draftApi.getResourceDrops();
       container.querySelector("#author-asset-drop").value = drops[0]?.id ?? "wood";
-      container.querySelector("#author-asset-hits").value = 3;
+      const asset = draftApi.findVisualAssetById(editingAssetId);
+      container.querySelector("#author-asset-hits").value = Math.max(1, Math.min(12, asset?.parts.length ?? 3));
       container.querySelector("#author-asset-respawn").value = 15;
       container.querySelector("#author-asset-feedback").value = "fiber";
+      container.querySelector("#author-asset-remnant").value = "";
+    } else if (event.target.value === "wildkin") {
+      for (const [id, value] of [
+        ["author-wildkin-archetype", "rusher"], ["author-wildkin-temperament", "AGGRESSIVE"],
+        ["author-wildkin-species", "wildkin"], ["author-wildkin-hostile", ""],
+        ["author-wildkin-health", 3], ["author-wildkin-damage", 1], ["author-wildkin-speed", 2.5],
+        ["author-wildkin-respawn", 10], ["author-wildkin-roam", 2.5], ["author-wildkin-notice", 5.5],
+        ["author-wildkin-personal", 2], ["author-wildkin-leash", 7.5],
+      ]) container.querySelector(`#${id}`).value = value;
     }
     commitAssetGameplay();
   });
-  for (const id of ["author-asset-drop", "author-asset-hits", "author-asset-respawn", "author-asset-feedback"]) {
+  for (const id of ["author-asset-drop", "author-asset-hits", "author-asset-respawn", "author-asset-feedback", "author-asset-remnant"]) {
     container.querySelector(`#${id}`).addEventListener("change", commitAssetGameplay);
   }
+  for (const id of ["author-wildkin-archetype", "author-wildkin-temperament", "author-wildkin-species", "author-wildkin-hostile", "author-wildkin-health", "author-wildkin-damage", "author-wildkin-speed", "author-wildkin-respawn", "author-wildkin-roam", "author-wildkin-notice", "author-wildkin-personal", "author-wildkin-leash"]) {
+    container.querySelector(`#${id}`).addEventListener("change", commitAssetGameplay);
+  }
+  container.querySelector("#author-drop-visual").addEventListener("change", (event) => {
+    const dropId = container.querySelector("#author-asset-drop").value;
+    assetActionResult(actions.updateResourceDrop(dropId, { visualAssetId: event.target.value || null }), "Updated pickup model");
+  });
+  container.querySelector("#author-drop-visual-edit").addEventListener("click", () => {
+    const dropId = container.querySelector("#author-asset-drop").value;
+    const drop = draftApi.getResourceDrops().find((entry) => entry.id === dropId);
+    if (drop?.visualAssetId) opts.onAssetEditRequested?.(drop.visualAssetId);
+  });
+  container.querySelector("#author-drop-visual-new").addEventListener("click", () => {
+    const dropId = container.querySelector("#author-asset-drop").value;
+    const drop = draftApi.getResourceDrops().find((entry) => entry.id === dropId);
+    const created = actions.createVisualAsset(`${drop?.displayName ?? "Pickup"} Pickup`);
+    if (!created.ok) return setStatus(created.error, true);
+    const assigned = actions.updateResourceDrop(dropId, { visualAssetId: created.assetId });
+    if (!assigned.ok) return setStatus(assigned.error, true);
+    opts.onAssetEditRequested?.(created.assetId, created.partId);
+  });
   container.querySelector("#author-drop-create").addEventListener("click", () => {
     const result = actions.createResourceDrop({
       id: container.querySelector("#author-drop-id").value,
@@ -528,8 +635,26 @@ export function createAuthorUI(opts) {
     if (expandedState.has(key)) return expandedState.get(key);
     return fallback;
   }
-  function refreshHierarchy() {
-    saveExpandedState();
+  function revealHierarchySelection(found) {
+    if (!found?.region) return;
+    const categoryByCollection = {
+      groundPatches: "ground", boundaryColliders: "boundaries", props: "props",
+      platforms: "traversal", obstacles: "traversal", climbables: "traversal",
+      resources: "resources", creatures: "wildkin", majorWaypoints: "anchors",
+      extractionBeacons: "anchors", pois: "pois",
+    };
+    let category = categoryByCollection[found.collection]
+      ?? (found.type === "campSpawn" || found.type === "runSpawn" ? "spawns" : null);
+    if (found.collection === "props" && found.obj.subtype === "visualAsset") {
+      const role = draftApi.findVisualAssetById(found.obj.visualAssetId)?.gameplay?.role;
+      if (role === "harvestable") category = "resources";
+      if (role === "wildkin") category = "wildkin";
+    }
+    expandedState.set(`region:${found.region.id}`, true);
+    if (category) expandedState.set(`cat:${found.region.id}:${category}`, true);
+  }
+  function refreshHierarchy({ preserveExpandedState = false } = {}) {
+    if (!preserveExpandedState) saveExpandedState();
     if (!hierarchyEl) return;
     const draft = draftApi.getDraft();
     const filter = (filterEl?.value || "").toLowerCase().trim();
@@ -537,6 +662,10 @@ export function createAuthorUI(opts) {
     const scrollTop = hierarchyEl.scrollTop;
     hierarchyEl.innerHTML = "";
     for (const region of draft.regions) {
+      const visualAssetRole = (prop) => draft.visualAssets.find((asset) => asset.id === prop.visualAssetId)?.gameplay?.role ?? "prop";
+      const decorativeProps = (region.props ?? []).filter((prop) => prop.subtype !== "visualAsset" || visualAssetRole(prop) === "prop");
+      const assetResources = (region.props ?? []).filter((prop) => prop.subtype === "visualAsset" && visualAssetRole(prop) === "harvestable");
+      const assetWildkin = (region.props ?? []).filter((prop) => prop.subtype === "visualAsset" && visualAssetRole(prop) === "wildkin");
       // Build categories, including virtual spawns
       const spawnItems = [];
       if (region.id === "camp") {
@@ -551,10 +680,10 @@ export function createAuthorUI(opts) {
       const cats = [
         { label: "Ground", items: region.groundPatches ?? [], key: "ground" },
         { label: "Boundaries / Colliders", items: region.boundaryColliders ?? [], key: "boundaries" },
-        { label: "Props", items: region.props ?? [], key: "props" },
+        { label: "Props", items: decorativeProps, key: "props" },
         { label: "Traversal", items: [...(region.traversal?.platforms??[]), ...(region.traversal?.obstacles??[]), ...(region.traversal?.climbables??[])] , key: "traversal" },
-        { label: "Resources", items: region.resources ?? [], key: "resources" },
-        { label: "Wildkin", items: region.creatures ?? [], key: "wildkin" },
+        { label: "Resources", items: [...(region.resources ?? []), ...assetResources], key: "resources" },
+        { label: "Wildkin", items: [...(region.creatures ?? []), ...assetWildkin], key: "wildkin" },
         { label: "Anchors", items: [...(region.majorWaypoints??[]), ...(region.extractionBeacons??[])] , key: "anchors" },
         { label: "Spawns", items: spawnItems, key: "spawns" },
         { label: "POIs", items: region.pois ?? [], key: "pois" },
@@ -632,12 +761,15 @@ export function createAuthorUI(opts) {
         : "display:block;margin:4px 0";
       label.append(document.createTextNode(field.label + " "));
       let input;
-      if (field.type === "enum") {
+      if (field.type === "enum" || field.type === "visualAsset") {
         input = document.createElement("select");
-        for (const option of field.options ?? []) {
+        const options = field.type === "visualAsset"
+          ? [{ value: "", label: "Default built-in model" }, ...draftApi.getVisualAssets().map((asset) => ({ value: asset.id, label: asset.displayName }))]
+          : (field.options ?? []).map((option) => ({ value: option, label: option }));
+        for (const option of options) {
           const optionEl = document.createElement("option");
-          optionEl.value = option;
-          optionEl.textContent = option;
+          optionEl.value = option.value;
+          optionEl.textContent = option.label;
           input.append(optionEl);
         }
       } else {
@@ -675,6 +807,7 @@ export function createAuthorUI(opts) {
     }
     const found = draftApi.findObjectById(id);
     if (!found) { selectedId = null; selectedNone.style.display=""; selectedForm.style.display="none"; return; }
+    revealHierarchySelection(found);
     selectedNone.style.display="none";
     selectedForm.style.display="";
     selIdEl.textContent = `${found.type} — ${found.obj.id} — region: ${found.region ? found.region.id : "camp"}`;
@@ -755,6 +888,7 @@ export function createAuthorUI(opts) {
     } else presentation.style.display = "none";
 
     renderCustomFields(found, def);
+    refreshHierarchy({ preserveExpandedState: true });
     container.querySelector("#author-duplicate").style.display = caps?.duplicatable ? "" : "none";
     container.querySelector("#author-delete").style.display = caps?.deletable ? "" : "none";
   }

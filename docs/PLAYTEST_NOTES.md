@@ -232,3 +232,21 @@ This is implementation/browser evidence, **not human acceptance**.
 ### Human acceptance still requested
 
 Perform spec Test 12 by feel. Confirm the 45° orbit is useful from all sides, the inverted vertical pan matches expectation, shortcuts remain dependable after ordinary inspector use, no scene object flashes during a longer authoring session, and the wider focused panel is comfortable on the actual desktop setup.
+
+## 2026-08-25 — Phase 4B.0 behavioral assets and world-authoring closure — automated browser evidence only
+
+This is implementation/browser evidence, **not human acceptance**.
+
+### Observed through the real `?author=1` UI
+
+- Reloading an older saved Author draft non-destructively added the missing repository catalog: the Visual Assets library populated with the shipped recipes while the pre-existing draft remained usable.
+- The Frontier Chest workbench remained isolated during repeated edits. Its panel reported `clientWidth === scrollWidth === 403`; the same no-horizontal-overflow result held at a 768×720 narrow desktop viewport.
+- Real keyboard input on the selected chest band produced `Q: 0° → -15°`, `E: 0° → +15°`, `Space: 0.42 → 0.62`, and `C: 0.42 → 0.22`; Ctrl+Z returned each field to its exact starting value. Moving the part later changed its visible order from row 4 to row 5, and undo restored row 4.
+- The camera buttons visibly changed the chest from its initial angled/front view to a 45° right-side view. The production camera helper additionally verifies that wheel dolly preserves fixed pitch and right-drag translates in the current camera plane.
+- Harvestable controls exposed ordered hits, respawn, impact profile, depleted-remnant Visual Asset, selected drop model, edit-model, and create-model flows. Wildkin controls exposed behavior, temperament, species/hostility, health/damage/speed/respawn, and all four spatial radii.
+- Clicking the Camp Resonator in the scene selected it, expanded `camp → Props`, highlighted its exact hierarchy row, and scrolled it into view. Clicking Forest Edge selected the Major Waypoint, expanded `p1_forest_edge`, showed bounded Uniform Scale and a World Model dropdown containing the full Visual Asset catalog, and retained a dark readable inspector theme.
+- Browser console warnings/errors remained empty after the final reload.
+
+### Human acceptance still requested
+
+Perform spec Tests 13–17 in recognizable play. Harvest an ordered multi-part custom resource through depletion/respawn, collect its custom-model drop, inspect its custom remnant, and extract/bank it. Fight or observe a Visual Asset Wildkin through warning/death/respawn, and verify custom Waypoint/Beacon models retain their normal gameplay. Confirm camera pan/dolly feel, model recognizability, and portrait-phone readability by eye; automated state and screenshots do not replace perceptual acceptance.

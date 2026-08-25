@@ -94,7 +94,7 @@ export function getResourceType(id) {
   return RESOURCE_TYPES[id] ?? null;
 }
 
-export function createVisualAssetResourceType(asset) {
+export function createVisualAssetResourceType(asset, remnantVisualAsset = null) {
   const settings = asset?.gameplay?.harvestable;
   if (!asset || asset.gameplay?.role !== "harvestable" || !settings) return null;
   const collision = asset.collision;
@@ -121,6 +121,7 @@ export function createVisualAssetResourceType(asset) {
     feedbackProfile: settings.feedbackProfile,
     color: 0xffffff,
     visualAsset: asset,
+    remnantVisualAsset,
   };
 }
 

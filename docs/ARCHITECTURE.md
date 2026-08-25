@@ -642,7 +642,7 @@ Author collider proxy / native Rapier cuboid
 - `src/author/authorUI.js` owns the dynamic palette and bounded inspector. `src/author/authorMode.js` owns the temporary Asset Edit camera/context, part selection and canvas-local X/Z drag, selected-part highlight, unrelated-root de-emphasis, and the dedicated collider proxy. It does not own another frame loop.
 - `src/author/authorPreview.js` receives the current recipe table and rebuilds matching visual roots while preserving each instance's normalized transform. Undo/redo follows the same reconcile path.
 - Entering Asset Edit through New/Place/Edit synchronizes the visible badge and the UI's authoritative edit-mode flag. Returning to Play therefore takes one click and clears Asset Edit-only presentation.
-- The Asset Workbench uses an explicit camera owner (`target`, yaw, radius, height offset): `[`/`]` and UI buttons orbit in 45° steps, `0` resets, wheel changes bounded radius, and screen-relative right-drag pans without reusing world-camera height limits.
+- The Asset Workbench uses an explicit camera owner (`target`, yaw, fixed pitch, distance): `[`/`]` and UI buttons orbit in 45° steps, `0` resets, the wheel dollies on the view ray, and right-drag translates the target in the camera plane without reusing world-camera limits.
 - Recipe edits rebuild only the temporary workbench root while Asset Edit is active. A dirty flag triggers one shared world-preview reconciliation on exit, avoiding per-keystroke world rebuilds and preserving unrelated root identities.
 - Isolation is enforced both during Author visibility maintenance and immediately before the authoritative render. This prevents resource, creature, pickup, particle, or other late-toggled scene roots from leaking into the workbench while preserving their prior visibility for exit restoration.
 
@@ -656,22 +656,27 @@ Phase 4B.0 automated and browser verification is complete; human perceptual/phon
 
 ```text
 world.json.resourceDrops[]                world.json.visualAssets[].gameplay
-  id / displayName / color                  role: prop | harvestable
+  id / displayName / color                  role: prop | harvestable | wildkin
+  optional visualAssetId                    harvestable / wildkin config
                    \                       harvestable config
                     \                     /
                      normalizeWorldData
                              ↓
                 worldRegistry projection
                   ├ prop → staticWorldBuilder
-                  └ harvestable → ResourceSystem → PickupSystem
-                                                   ↓
+                  ├ harvestable → ResourceSystem → PickupSystem
+                  └ wildkin → CreatureSystem
+                                      ↓
                               ExpeditionSession → result UI → frontierProgress bank
 ```
 
 - `src/resources/resourceDropCatalog.js` is the small shared owner for default catalog fallback and dynamic count-map creation/normalization. UI modules render from the catalog; they do not define gameplay truth.
-- Asset gameplay metadata is recipe-owned. `worldRegistry` projects placed harvestable Visual Asset props into the existing region-aware resource list. `staticWorldBuilder` skips those instances, preventing a second visual/collider owner.
-- `createVisualAssetResourceType` adapts authored hit/respawn/feedback/collision data to the existing resource lifecycle. `createResourceNode` still obtains the detailed model from `VisualFactory`; collision remains the separate simple descriptor.
+- Asset gameplay metadata is recipe-owned. `worldRegistry` projects placed harvestable and Wildkin Visual Asset props into the existing region-aware resource/creature lists. `staticWorldBuilder` skips those instances, preventing a second visual/collider owner.
+- `createVisualAssetResourceType` adapts authored hit/respawn/feedback/collision data to the existing resource lifecycle. Ordered recipe parts are hidden from the bottom upward and exact local position/rotation/scale/material state is restored on respawn. A selected remnant asset replaces the fallback stump/rock/patch without becoming a second lifecycle owner.
+- Wildkin recipes adapt to the existing rusher/spitter AI and creature lifecycle. Authored instance scale, presentation, collision choice, and recipe appearance survive warning/death/respawn animation rather than being replaced by built-in defaults.
+- A resource-drop `visualAssetId` selects a normalized pooled pickup model. Major Waypoint and Extraction Beacon `visualAssetId`/`uniformScale` select their runtime models while their anchor discovery/extraction contracts remain unchanged.
 - Custom resource IDs remain ordinary data keys across PickupSystem, ExpeditionSession, result UI, and frontierProgress. Existing wood/stone/fiber saves normalize into the expanded catalog without losing accepted data.
+- Loading an older `wildkin.authorDraft` merges only missing repository asset/drop IDs. Existing saved entries win, so newly shipped catalogs appear without erasing user-authored recipes.
 - Asset Edit scene isolation is reversible presentation state owned by `authorMode`: non-light scene roots are hidden and tracked, stage roots are explicitly tagged, and prior visibility/background/fog/camera are restored on exit. Reconciliation re-applies isolation so newly rebuilt preview roots cannot leak into the workbench.
 
 # Persistence Separation — Phase 4A Guardrail

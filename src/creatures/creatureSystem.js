@@ -51,7 +51,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       if (wasActive && !isActive) {
         // Deactivating — hide, disable collision, freeze AI timers (no reset, timer stays for reactivation)
         c.state._regionInactive = true;
-        c.group.visible = false;
+        c.setVisible(false);
         c.showFocusRing(false);
         if (c.disableCollision) c.disableCollision();
         // Do NOT reset WINDUP/LUNGE — freeze in place to prevent instant attack but preserve state
@@ -60,7 +60,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         // Reactivating — restore without duplication, keep frozen state
         c.state._regionInactive = false;
         if (c.state.aiState !== "RESPAWNING" && !c.state.isDead) {
-          c.group.visible = true;
+          c.setVisible(true);
           if (c.enableCollision) c.enableCollision();
           // Keep WINDUP/LUNGE as is — will resume next update; no instant reset needed
         } else if (c.state.aiState === "RESPAWNING") {
@@ -399,7 +399,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     creature.state.fleeTime = 0;
     creature.state.retaliationRemaining = 0;
     creature.showFocusRing(false);
-    creature.group.scale.set(1, 1, 1);
+    creature.setVisualScaleMultiplier(1);
     // immediately disable collision
     if (creature.disableCollision) creature.disableCollision();
     // decide XP spawning elsewhere based on playerDamaged flag — pass flag via callback
@@ -448,8 +448,8 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     const pos = { x: home.x, y: startY, z: home.z };
     creature.setPosition(pos);
     if (creature.enableCollision) creature.enableCollision();
-    creature.group.visible = true;
-    creature.group.scale.set(0.2, 0.2, 0.2);
+    creature.setVisible(true);
+    creature.setVisualScaleMultiplier(0.2);
     creature._respawnPop = 0;
     creature._deathVisibleTime = undefined;
     return true;
@@ -599,15 +599,15 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         if (c._deathVisibleTime !== undefined) {
           c._deathVisibleTime -= dt;
           if (c._deathVisibleTime <= 0) {
-            c.group.visible = false;
+            c.setVisible(false);
             c._deathVisibleTime = undefined;
           }
         } else {
-          c.group.visible = false;
+          c.setVisible(false);
         }
         tryRespawn(c, dt);
         if (st.aiState !== "RESPAWNING") {
-          c.group.visible = true;
+          c.setVisible(true);
           st.aiState = "ROAM";
         }
         continue;
@@ -685,9 +685,9 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         if (c._respawnPop < dur) {
           const t = c._respawnPop / dur;
           const s = 0.2 + (1 - 0.2) * Math.sin(t * Math.PI * 0.5);
-          c.group.scale.set(s, s, s);
+          c.setVisualScaleMultiplier(s);
         } else {
-          c.group.scale.set(1, 1, 1);
+          c.setVisualScaleMultiplier(1);
           c._respawnPop = undefined;
         }
       }
@@ -704,7 +704,9 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         // lerp color intensity
         c.mainMesh.material.emissive?.setHex?.(pulse > 0.5 ? 0x553300 : 0x331100);
       }
-      c.group.scale.set(1 + pulse * 0.08, 1, 1 + pulse * 0.08);
+      c.setVisualScaleMultiplier(1 + pulse * 0.08, 1, 1 + pulse * 0.08);
+    } else if (c._respawnPop === undefined) {
+      c.setVisualScaleMultiplier(1);
     }
     if (st.aiState === "FLEE") {
       // maybe slightly transparent or fast? keep scale normal
@@ -1044,9 +1046,9 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       c._regionInactive = false;
       // Respect activeRegionSet if set — if creature's region inactive, keep hidden/disabled
       const shouldBeVisible = isRegionActive(c.state.regionId);
-      c.group.visible = shouldBeVisible;
+      c.setVisible(shouldBeVisible);
       if (!shouldBeVisible && c.disableCollision) c.disableCollision();
-      c.group.scale.set(1, 1, 1);
+      c.setVisualScaleMultiplier(1);
       c.showFocusRing(false);
       c._respawnPop = undefined;
       c._deathVisibleTime = undefined;

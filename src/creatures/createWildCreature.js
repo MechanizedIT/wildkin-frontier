@@ -9,14 +9,18 @@ function getConfig(type) {
 
 export function createWildCreature(scene, physicsWorld, spawn, index) {
   const type = spawn.type;
-  const cfg = getConfig(type);
-  const visualRef = { kind: "builtin", id: `creature/${type}` };
+  const cfg = { ...getConfig(type), ...(spawn.configOverrides ?? {}) };
+  const visualRef = spawn.visualAsset
+    ? { kind: "asset", id: spawn.visualAsset.id }
+    : { kind: "builtin", id: `creature/${type}` };
   const group = tagVisualRoot(new THREE.Group(), {
     objectId: spawn.id ?? `creature_${type}_${index}`,
     visualRef,
     recipeKey: getVisualRecipeKey(visualRef, { objectId: spawn.id }),
   });
   const creatureScale = spawn.uniformScale ?? spawn.scale ?? 1;
+  const visibleInPlay = spawn.visibleInPlay !== false;
+  const collisionEnabled = spawn.collisionEnabled !== false;
   group.name = spawn.id ?? `creature_${type}_${index}`;
   group.userData.authorId = spawn.id ?? group.name;
   group.userData.creatureId = spawn.id ?? group.name;
@@ -80,10 +84,33 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   };
 
   // Runtime and Author Edit share this deterministic visual recipe.
-  const visualRoot = createVisual(visualRef, { objectId: group.userData.authorId });
+  const visualRoot = createVisual(visualRef, {
+    objectId: group.userData.authorId,
+    visualAssets: spawn.visualAsset ? [spawn.visualAsset] : undefined,
+  });
+  const opacity = spawn.opacity ?? 1;
+  const tint = spawn.color ?? spawn.tint;
+  if (tint !== undefined || opacity < 1) {
+    visualRoot.traverse((object) => {
+      if (!object.isMesh || !object.material) return;
+      const materials = Array.isArray(object.material) ? object.material : [object.material];
+      const styled = materials.map((material) => {
+        const next = material.clone();
+        if (tint !== undefined && next.color) next.color.set(tint);
+        if (opacity < 1) {
+          next.transparent = true;
+          next.opacity = opacity;
+        }
+        return next;
+      });
+      object.material = Array.isArray(object.material) ? styled : styled[0];
+    });
+  }
   group.add(visualRoot);
-  const mainMesh = visualRoot.getObjectByName(type === "rusher" ? "rusherBody" : "spitterBody");
+  const mainMesh = visualRoot.getObjectByName(type === "rusher" ? "rusherBody" : "spitterBody")
+    ?? visualRoot.getObjectByProperty("isMesh", true);
   const headMesh = visualRoot.getObjectByName(type === "rusher" ? "" : "spitterSack");
+  const mainMeshBaseScale = mainMesh?.scale.clone() ?? null;
 
   // Focus ring (orange/red) — hidden by default, shows if would be hit
   const ringGeo = new THREE.RingGeometry(0.38, 0.52, 22);
@@ -152,7 +179,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   let body = null;
   let collider = null;
   let controller = null;
-  if (physicsWorld && physicsWorld.RAPIER) {
+  if (collisionEnabled && physicsWorld && physicsWorld.RAPIER) {
     const RAPIER = physicsWorld.RAPIER;
     const world = physicsWorld.world;
     const startY = basePos.y + (cfg.capsuleHalfHeight + cfg.capsuleRadius) * creatureScale + 0.05;
@@ -185,6 +212,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   // Propagate authorId to all child meshes for raycast picking (ensures Wildkin selectable)
   group.traverse((child) => { if (child.isMesh || child.isSprite) { child.userData.authorId = group.userData.authorId; child.userData.creatureId = group.userData.creatureId; } });
   scene.add(group);
+  group.visible = visibleInPlay;
 
   function setPosition(pos) {
     state.pos.set(pos.x, pos.y, pos.z);
@@ -223,7 +251,11 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     return { corrected, grounded };
   }
 
-  function setVisible(v) { group.visible = v; }
+  function setVisible(v) { group.visible = !!v && visibleInPlay; }
+
+  function setVisualScaleMultiplier(x = 1, y = x, z = x) {
+    group.scale.set(creatureScale * x, creatureScale * y, creatureScale * z);
+  }
 
   function updateVisual(dt) {
     // Facing
@@ -231,7 +263,11 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     // AI visual feedback
     if (state.aiState === "WINDUP") {
       const pulse = Math.sin(state.aiTimer * 12) * 0.18 + 1;
-      if (mainMesh) mainMesh.scale.set(pulse, (2 - pulse), pulse);
+      if (mainMesh && mainMeshBaseScale) mainMesh.scale.set(
+        mainMeshBaseScale.x * pulse,
+        mainMeshBaseScale.y * (2 - pulse),
+        mainMeshBaseScale.z * pulse,
+      );
       // warning color
       if (mainMesh && mainMesh.material && mainMesh.material.color) {
         // lerp to warning? Keep simple: emissive pulse
@@ -239,17 +275,17 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
       }
     } else {
       if (mainMesh) {
-        mainMesh.scale.lerp(new THREE.Vector3(1, 1, 1), dt * 8);
+        mainMesh.scale.lerp(mainMeshBaseScale, dt * 8);
         if (mainMesh.material && mainMesh.material.emissive) mainMesh.material.emissive.setHex(0x000000);
       }
     }
     if (state.aiState === "HURT") {
       const t = state.hurtTime;
       const flash = Math.sin(t * 22) > 0;
-      if (mainMesh && mainMesh.material) {
+      if (!spawn.visualAsset && mainMesh && mainMesh.material) {
         mainMesh.material.color.set(flash ? 0xffffff : (type === "rusher" ? 0xe14b2a : 0x7a4de8));
       }
-    } else if (!state.isDead) {
+    } else if (!spawn.visualAsset && !state.isDead) {
       if (mainMesh && mainMesh.material) mainMesh.material.color.set(type === "rusher" ? 0xe14b2a : 0x7a4de8);
     }
     // Focus ring opacity pulse when visible
@@ -284,12 +320,13 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   }
 
   function enableCollision() {
+    if (!collisionEnabled) return;
     if (collider) return;
     if (!physicsWorld || !physicsWorld.RAPIER || !body) return;
     const RAPIER = physicsWorld.RAPIER;
     const world = physicsWorld.world;
     try {
-      const capDesc = RAPIER.ColliderDesc.capsule(cfg.capsuleHalfHeight, cfg.capsuleRadius)
+      const capDesc = RAPIER.ColliderDesc.capsule(cfg.capsuleHalfHeight * creatureScale, cfg.capsuleRadius * creatureScale)
         .setTranslation(0, 0, 0)
         .setFriction(0.5)
         .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
@@ -314,7 +351,8 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
 
   return {
     group, state, get body() { return body; }, get collider() { return collider; }, set collider(v) { collider = v; }, controller, cfg, mainMesh, focusRing,
-    setPosition, getPosition, move, setVisible, updateVisual, showFocusRing, setTemperamentDebugVisible, applyKnockback, dispose, disableCollision, enableCollision,
+    setPosition, getPosition, move, setVisible, setVisualScaleMultiplier, updateVisual, showFocusRing, setTemperamentDebugVisible, applyKnockback, dispose, disableCollision, enableCollision,
+    visibleInPlay, collisionEnabled, creatureScale,
     get pos() { return state.pos; },
     get id() { return state.id; },
     get type() { return type; },

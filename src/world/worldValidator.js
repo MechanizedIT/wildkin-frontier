@@ -9,7 +9,7 @@ const SUPPORTED_TEMPERAMENTS = new Set(["AGGRESSIVE", "TERRITORIAL", "DEFENSIVE"
 const SUPPORTED_ANCHOR_TYPES = new Set(["majorWaypoint", "extractionBeacon"]);
 const SUPPORTED_POI_TYPES = new Set(["chest", "barrier", "generic", "island"]);
 const SUPPORTED_VISUAL_ASSET_SHAPES = new Set(["box", "cylinder", "cone", "sphere", "capsule", "icosahedron"]);
-const SUPPORTED_VISUAL_ASSET_ROLES = new Set(["prop", "harvestable"]);
+const SUPPORTED_VISUAL_ASSET_ROLES = new Set(["prop", "harvestable", "wildkin"]);
 const SUPPORTED_FEEDBACK_PROFILES = new Set(["wood", "stone", "fiber"]);
 // Allow generic POI types beyond known — but if requires.type is companionAbility/materialRepair we validate.
 
@@ -81,6 +81,9 @@ export function normalizeWorldData(raw) {
     resourceDropIds.add(drop.id);
     if (typeof drop.displayName !== "string" || !drop.displayName.trim()) throw new Error(`resource drop ${drop.id} displayName required`);
     validateCanonicalColor(drop.color, `resource drop ${drop.id}`);
+    if (drop.visualAssetId !== undefined && (typeof drop.visualAssetId !== "string" || !drop.visualAssetId)) {
+      throw new Error(`resource drop ${drop.id} visualAssetId must be a non-empty string`);
+    }
   }
   if (data.visualAssets === undefined) data.visualAssets = [];
   if (!Array.isArray(data.visualAssets)) throw new Error("world.visualAssets must be an array");
@@ -130,7 +133,36 @@ export function normalizeWorldData(raw) {
       if (!Number.isInteger(harvestable.maxChunks) || harvestable.maxChunks < 1 || harvestable.maxChunks > 12) throw new Error(`Visual Asset ${asset.id} maxChunks must be integer 1..12`);
       if (!isNumber(harvestable.respawnSeconds) || harvestable.respawnSeconds < 1 || harvestable.respawnSeconds > 300) throw new Error(`Visual Asset ${asset.id} respawnSeconds must be 1..300`);
       if (!SUPPORTED_FEEDBACK_PROFILES.has(harvestable.feedbackProfile)) throw new Error(`Visual Asset ${asset.id} unsupported feedback profile ${harvestable.feedbackProfile}`);
+      if (harvestable.remnantVisualAssetId !== undefined && harvestable.remnantVisualAssetId !== null
+        && (typeof harvestable.remnantVisualAssetId !== "string" || !harvestable.remnantVisualAssetId)) {
+        throw new Error(`Visual Asset ${asset.id} remnantVisualAssetId must be null or a non-empty string`);
+      }
     }
+    if (asset.gameplay.role === "wildkin") {
+      const wildkin = asset.gameplay.wildkin;
+      if (!wildkin || typeof wildkin !== "object") throw new Error(`Visual Asset ${asset.id} Wildkin settings required`);
+      if (!SUPPORTED_CREATURE_TYPES.has(wildkin.archetype)) throw new Error(`Visual Asset ${asset.id} unsupported Wildkin archetype ${wildkin.archetype}`);
+      if (!SUPPORTED_TEMPERAMENTS.has(wildkin.temperament)) throw new Error(`Visual Asset ${asset.id} unsupported Wildkin temperament ${wildkin.temperament}`);
+      for (const [key, min, max] of [
+        ["health", 1, 50], ["moveSpeed", 0.1, 12], ["damage", 0, 20], ["respawnSeconds", 1, 300],
+        ["roamRadius", 0, 50], ["noticeRadius", 0.25, 50], ["personalSpace", 0.1, 20], ["leashRadius", 0.5, 100],
+      ]) {
+        if (!isNumber(wildkin[key]) || wildkin[key] < min || wildkin[key] > max) {
+          throw new Error(`Visual Asset ${asset.id} Wildkin ${key} must be ${min}..${max}`);
+        }
+      }
+      if (typeof wildkin.speciesTag !== "string" || !wildkin.speciesTag.trim()) throw new Error(`Visual Asset ${asset.id} Wildkin speciesTag required`);
+      if (!Array.isArray(wildkin.hostileSpecies) || wildkin.hostileSpecies.some((tag) => typeof tag !== "string" || !tag.trim())) {
+        throw new Error(`Visual Asset ${asset.id} Wildkin hostileSpecies must be an array of strings`);
+      }
+    }
+  }
+  for (const drop of data.resourceDrops) {
+    if (drop.visualAssetId && !visualAssetIds.has(drop.visualAssetId)) throw new Error(`resource drop ${drop.id} unresolved Visual Asset ${drop.visualAssetId}`);
+  }
+  for (const asset of data.visualAssets) {
+    const remnantId = asset.gameplay?.harvestable?.remnantVisualAssetId;
+    if (remnantId && !visualAssetIds.has(remnantId)) throw new Error(`Visual Asset ${asset.id} unresolved remnant Visual Asset ${remnantId}`);
   }
   if (!Array.isArray(data.regions) || data.regions.length === 0) throw new Error("world.regions must be non-empty array");
 
@@ -355,7 +387,9 @@ export function normalizeWorldData(raw) {
       if (!isInsideBounds(wp.pos, region.bounds)) throw new Error(`waypoint ${wp.id} not inside region ${region.id} bounds`);
       if (wp.rotY !== undefined && !isNumber(wp.rotY)) throw new Error(`waypoint ${wp.id} rotY must be number`);
       if (wp.uniformScale !== undefined && !isNumber(wp.uniformScale)) throw new Error(`waypoint ${wp.id} uniformScale must be number`);
+      if (wp.uniformScale !== undefined && (wp.uniformScale <= 0 || wp.uniformScale > 5)) throw new Error(`waypoint ${wp.id} uniformScale must be >0 <=5`);
       if (wp.scale !== undefined && !isNumber(wp.scale)) throw new Error(`waypoint ${wp.id} scale must be number`);
+      if (wp.visualAssetId !== undefined && !visualAssetIds.has(wp.visualAssetId)) throw new Error(`waypoint ${wp.id} unresolved Visual Asset ${wp.visualAssetId}`);
     }
     // extractionBeacons
     if (!Array.isArray(region.extractionBeacons)) region.extractionBeacons = [];
@@ -370,6 +404,8 @@ export function normalizeWorldData(raw) {
       if (!isInsideBounds(eb.pos, region.bounds)) throw new Error(`beacon ${eb.id} not inside region ${region.id} bounds`);
       if (eb.rotY !== undefined && !isNumber(eb.rotY)) throw new Error(`beacon ${eb.id} rotY must be number`);
       if (eb.uniformScale !== undefined && !isNumber(eb.uniformScale)) throw new Error(`beacon ${eb.id} uniformScale must be number`);
+      if (eb.uniformScale !== undefined && (eb.uniformScale <= 0 || eb.uniformScale > 5)) throw new Error(`beacon ${eb.id} uniformScale must be >0 <=5`);
+      if (eb.visualAssetId !== undefined && !visualAssetIds.has(eb.visualAssetId)) throw new Error(`beacon ${eb.id} unresolved Visual Asset ${eb.visualAssetId}`);
     }
     // pois
     if (!Array.isArray(region.pois)) region.pois = [];

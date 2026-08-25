@@ -45,16 +45,47 @@ export function createWorldRegistry(rawData) {
       if (prop.subtype !== "visualAsset") continue;
       const visualAsset = visualAssetMap.get(prop.visualAssetId);
       if (visualAsset?.gameplay?.role !== "harvestable") continue;
+      const remnantId = visualAsset.gameplay.harvestable.remnantVisualAssetId;
       const entry = {
         ...prop,
         type: "visualAsset",
         regionId: rId,
         pos: { ...prop.pos },
         visualAsset,
+        remnantVisualAsset: remnantId ? visualAssetMap.get(remnantId) ?? null : null,
         resourceDrop: resourceDropMap.get(visualAsset.gameplay.harvestable.dropId) ?? null,
       };
       allResources.push(entry);
       resourcesByRegion.get(rId).push(entry);
+    }
+    for (const prop of region.props ?? []) {
+      if (prop.subtype !== "visualAsset") continue;
+      const visualAsset = visualAssetMap.get(prop.visualAssetId);
+      if (visualAsset?.gameplay?.role !== "wildkin") continue;
+      const settings = visualAsset.gameplay.wildkin;
+      const entry = {
+        ...prop,
+        type: settings.archetype,
+        regionId: rId,
+        pos: { ...prop.pos },
+        homePos: { ...prop.pos },
+        visualAsset,
+        temperament: settings.temperament,
+        speciesTag: settings.speciesTag,
+        hostileSpecies: [...settings.hostileSpecies],
+        roamRadius: settings.roamRadius,
+        noticeRadius: settings.noticeRadius,
+        personalSpace: settings.personalSpace,
+        leashRadius: settings.leashRadius,
+        configOverrides: {
+          health: settings.health,
+          moveSpeed: settings.moveSpeed,
+          damage: settings.damage,
+          respawnSeconds: settings.respawnSeconds,
+        },
+      };
+      allCreatures.push(entry);
+      creaturesByRegion.get(rId).push(entry);
     }
     for (const cr of region.creatures) {
       const entry = { ...cr, regionId: rId, pos: { ...cr.pos }, homePos: { ...(cr.homePos ?? cr.pos) } };
