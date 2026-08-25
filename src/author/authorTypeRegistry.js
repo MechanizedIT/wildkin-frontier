@@ -10,72 +10,80 @@ function isFiniteNumber(v) { return typeof v === "number" && Number.isFinite(v);
 function clonePos(p) { return { x: p.x, y: p.y ?? 0, z: p.z }; }
 
 // Ladder derived recompute helper
-function recomputeLadderDerived(ladder, oldLadder, delta, deltaRot) {
-  // delta = {x,z} translation, deltaY handled separately, deltaRot in radians
-  // Compute offsets and rotate them
+function rotatedAabb(centerX, centerZ, width, depth, rotationY) {
+  const cos = Math.abs(Math.cos(rotationY));
+  const sin = Math.abs(Math.sin(rotationY));
+  const halfX = cos * width / 2 + sin * depth / 2;
+  const halfZ = sin * width / 2 + cos * depth / 2;
+  return { minX: centerX - halfX, maxX: centerX + halfX, minZ: centerZ - halfZ, maxZ: centerZ + halfZ };
+}
+
+function inferLocalDepth(aabb, width, rotationY, fallback) {
+  if (!aabb) return fallback;
+  const worldWidth = aabb.maxX - aabb.minX;
+  const worldDepth = aabb.maxZ - aabb.minZ;
+  const cos = Math.abs(Math.cos(rotationY));
+  const sin = Math.abs(Math.sin(rotationY));
+  const candidates = [];
+  if (sin > 1e-6) candidates.push((worldWidth - cos * width) / sin);
+  if (cos > 1e-6) candidates.push((worldDepth - sin * width) / cos);
+  const valid = candidates.filter((value) => Number.isFinite(value) && value > 0.05);
+  return valid.length ? valid.reduce((sum, value) => sum + value, 0) / valid.length : fallback;
+}
+
+function recomputeLadderDerived(ladder, oldLadder, deltaRot) {
   const rotY = ladder.rotY ?? 0;
-  // wallNormal / approachDir rotate with ladder
   ladder.wallNormal = { x: Math.sin(rotY), z: Math.cos(rotY) };
   ladder.approachDir = { x: -ladder.wallNormal.x, z: -ladder.wallNormal.z };
   if (!oldLadder) return;
 
-  const deltaX = delta.x;
-  const deltaZ = delta.z;
-  const deltaY = delta.y ?? 0;
-
-  // Helper to rotate offset by deltaRot
   function rotateOffset(ox, oz) {
-    const cos = Math.cos(deltaRot), sin = Math.sin(deltaRot);
+    const cos = Math.cos(deltaRot);
+    const sin = Math.sin(deltaRot);
     return { x: ox * cos + oz * sin, z: -ox * sin + oz * cos };
   }
 
-  // topPlatform
   if (ladder.topPlatform && oldLadder.topPlatform) {
-    const offX = oldLadder.topPlatform.x - oldLadder.x;
-    const offZ = oldLadder.topPlatform.z - oldLadder.z;
-    const rotOff = rotateOffset(offX, offZ);
-    ladder.topPlatform.x = ladder.x + rotOff.x;
-    ladder.topPlatform.z = ladder.z + rotOff.z;
+    const offset = rotateOffset(
+      oldLadder.topPlatform.x - oldLadder.x,
+      oldLadder.topPlatform.z - oldLadder.z,
+    );
+    ladder.topPlatform.x = ladder.x + offset.x;
+    ladder.topPlatform.z = ladder.z + offset.z;
     ladder.topPlatform.topY = ladder.topY;
-    // aabb recompute
-    const w = ladder.topPlatform.w, h = ladder.topPlatform.h;
-    ladder.topPlatform.aabb = {
-      minX: ladder.topPlatform.x - w / 2,
-      maxX: ladder.topPlatform.x + w / 2,
-      minZ: ladder.topPlatform.z - h / 2,
-      maxZ: ladder.topPlatform.z + h / 2,
-    };
-    // if ladder width changed, maybe adjust platform? keep as is
+    ladder.topPlatform.aabb = rotatedAabb(
+      ladder.topPlatform.x,
+      ladder.topPlatform.z,
+      ladder.topPlatform.w,
+      ladder.topPlatform.h,
+      rotY,
+    );
   }
 
-  // mantleExit
   if (ladder.mantleExit && oldLadder.mantleExit) {
-    const offX = oldLadder.mantleExit.x - oldLadder.x;
-    const offZ = oldLadder.mantleExit.z - oldLadder.z;
-    const rotOff = rotateOffset(offX, offZ);
-    ladder.mantleExit.x = ladder.x + rotOff.x;
-    ladder.mantleExit.z = ladder.z + rotOff.z;
-    if (ladder.mantleExit.y !== undefined) ladder.mantleExit.y = (ladder.mantleExit.y ?? 0) + deltaY;
+    const offset = rotateOffset(
+      oldLadder.mantleExit.x - oldLadder.x,
+      oldLadder.mantleExit.z - oldLadder.z,
+    );
+    ladder.mantleExit.x = ladder.x + offset.x;
+    ladder.mantleExit.z = ladder.z + offset.z;
+    ladder.mantleExit.y = ladder.topY;
   }
 
-  // topEntryRegion — axis-aligned but we translate/rotate its center
   if (ladder.topEntryRegion && oldLadder.topEntryRegion) {
     const oldCenterX = (oldLadder.topEntryRegion.minX + oldLadder.topEntryRegion.maxX) / 2;
     const oldCenterZ = (oldLadder.topEntryRegion.minZ + oldLadder.topEntryRegion.maxZ) / 2;
-    const offX = oldCenterX - oldLadder.x;
-    const offZ = oldCenterZ - oldLadder.z;
-    const rotOff = rotateOffset(offX, offZ);
-    const newCenterX = ladder.x + rotOff.x;
-    const newCenterZ = ladder.z + rotOff.z;
-    // width/depth may need to scale with ladder width if ladder resized
-    const oldWidth = oldLadder.topEntryRegion.maxX - oldLadder.topEntryRegion.minX;
-    const oldDepth = oldLadder.topEntryRegion.maxZ - oldLadder.topEntryRegion.minZ;
-    const newWidth = ladder.w; // match ladder width
-    const newDepth = oldDepth; // keep depth
-    ladder.topEntryRegion.minX = newCenterX - newWidth / 2;
-    ladder.topEntryRegion.maxX = newCenterX + newWidth / 2;
-    ladder.topEntryRegion.minZ = newCenterZ - newDepth / 2;
-    ladder.topEntryRegion.maxZ = newCenterZ + newDepth / 2;
+    const offset = rotateOffset(oldCenterX - oldLadder.x, oldCenterZ - oldLadder.z);
+    const centerX = ladder.x + offset.x;
+    const centerZ = ladder.z + offset.z;
+    const depth = inferLocalDepth(
+      oldLadder.topEntryRegion,
+      oldLadder.w,
+      oldLadder.rotY ?? 0,
+      Math.max(oldLadder.h ?? 0.5, 0.75),
+    );
+    const aabb = rotatedAabb(centerX, centerZ, ladder.w, depth, rotY);
+    ladder.topEntryRegion = { ...ladder.topEntryRegion, ...aabb };
   }
 }
 
@@ -439,7 +447,7 @@ function makeLadderDefinition() {
         candidateObj.rotY = newRot;
 
         // Recompute dependent
-        recomputeLadderDerived(candidateObj, old, delta, deltaRot);
+        recomputeLadderDerived(candidateObj, old, deltaRot);
 
         // Ensure no shadow pos
         delete candidateObj.pos;
@@ -498,13 +506,13 @@ function makeResourceDefinition(typeId) {
         }
         if (isFiniteNumber(normalized.rotationY)) {
           candidateObj.rotY = normalized.rotationY;
-          candidateObj.rotationY = normalized.rotationY;
+          delete candidateObj.rotationY;
         }
         if (isFiniteNumber(normalized.uniformScale)) {
           // clamp scale to reasonable range 0.2..3.0 for gameplay
           const s = Math.max(0.2, Math.min(3.0, normalized.uniformScale));
           candidateObj.uniformScale = s;
-          candidateObj.scale = s;
+          delete candidateObj.scale;
         }
         // Ensure no shadow x/z/w etc
         delete candidateObj.x; delete candidateObj.z; delete candidateObj.y; delete candidateObj.baseY; delete candidateObj.w; delete candidateObj.h; delete candidateObj.height;
@@ -536,7 +544,7 @@ function makeCreatureDefinition(species) {
     visualId: `creature/${species}`,
     sizeMode: "none",
     capabilities: {
-      selectable: true, draggable: true, elevation: true, rotation: false, resize: false,
+      selectable: true, draggable: true, elevation: true, rotation: true, resize: false,
       duplicatable: true, deletable: true, presentation: false, collisionControl: false,
       sizeMode: "none",
       // Wildkin supports initial facing via rotationY? Spec says initial facing only, no scale. We'll expose rotation as facing but not resize.
@@ -574,7 +582,7 @@ function makeCreatureDefinition(species) {
           // move home together if not explicit home edit? But here we handle generic drag: home follows spawn if not explicitly separate?
           // The draft's apply logic had moveHomeWithSpawn behavior; we replicate: if candidateObj.homePos and not explicitly edited, move home by delta.
           // We can check if homePos exists and if normalized also doesn't have explicit home edit flag; for now always move home with spawn on drag.
-          if (candidateObj.homePos) {
+          if (candidateObj.homePos && normalized.moveHomeWithSpawn !== false) {
             candidateObj.homePos.x += dx;
             candidateObj.homePos.z += dz;
             candidateObj.homePos.y = (candidateObj.homePos.y ?? 0) + dy;
@@ -582,7 +590,7 @@ function makeCreatureDefinition(species) {
         }
         if (isFiniteNumber(normalized.rotationY)) {
           candidateObj.facingYaw = normalized.rotationY;
-          candidateObj.facing = normalized.rotationY;
+          delete candidateObj.facing;
         }
         delete candidateObj.x; delete candidateObj.z; delete candidateObj.y; delete candidateObj.baseY; delete candidateObj.w; delete candidateObj.h;
       },
@@ -608,6 +616,7 @@ function makeCreatureDefinition(species) {
       { key: "speciesTag", label: "Species Tag", type: "text", path: "speciesTag" },
       { key: "homePos.x", label: "Home X", type: "number", path: "homePos.x" },
       { key: "homePos.z", label: "Home Z", type: "number", path: "homePos.z" },
+      { key: "moveHomeWithSpawn", label: "Move Home With Spawn", type: "boolean", editorOnly: true, defaultValue: true },
     ],
   };
 }
@@ -640,7 +649,7 @@ function makeGenericCreatureDefinition() {
           const dz = pos.z - candidateObj.pos.z;
           const dy = (pos.y ?? 0) - (candidateObj.pos.y ?? 0);
           candidateObj.pos.x = pos.x; candidateObj.pos.y = pos.y ?? 0; candidateObj.pos.z = pos.z;
-          if (candidateObj.homePos) { candidateObj.homePos.x += dx; candidateObj.homePos.z += dz; candidateObj.homePos.y = (candidateObj.homePos.y ?? 0) + dy; }
+           if (candidateObj.homePos && normalized.moveHomeWithSpawn !== false) { candidateObj.homePos.x += dx; candidateObj.homePos.z += dz; candidateObj.homePos.y = (candidateObj.homePos.y ?? 0) + dy; }
         }
         if (isFiniteNumber(normalized.rotationY)) candidateObj.facingYaw = normalized.rotationY;
         delete candidateObj.x; delete candidateObj.z;
@@ -756,7 +765,7 @@ function makePoiDefinition(subtype) {
         if (isFiniteNumber(normalized.rotationY)) candidateObj.rotY = normalized.rotationY;
         if (isFiniteNumber(normalized.uniformScale)) {
           const s = Math.max(0.3, Math.min(3.0, normalized.uniformScale));
-          candidateObj.uniformScale = s; candidateObj.scale = s;
+          candidateObj.uniformScale = s; delete candidateObj.scale;
         }
         delete candidateObj.x; delete candidateObj.z;
       },
@@ -799,7 +808,7 @@ function makeGenericPoiDefinition() {
       write(candidateObj, found, normalized) {
         if (normalized.position) { candidateObj.pos.x = normalized.position.x; candidateObj.pos.y = normalized.position.y ?? 0; candidateObj.pos.z = normalized.position.z; }
         if (isFiniteNumber(normalized.rotationY)) candidateObj.rotY = normalized.rotationY;
-        if (isFiniteNumber(normalized.uniformScale)) { candidateObj.uniformScale = normalized.uniformScale; candidateObj.scale = normalized.uniformScale; }
+        if (isFiniteNumber(normalized.uniformScale)) { candidateObj.uniformScale = normalized.uniformScale; delete candidateObj.scale; }
         delete candidateObj.x; delete candidateObj.z;
       },
     },

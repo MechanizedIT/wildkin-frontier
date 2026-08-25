@@ -16,7 +16,7 @@ export function distance3D(a, b) {
 
 function getInteractionPoint(node) {
   const base = node.state.position;
-  const h = node.type.interactionHeight ?? node.type.colliderCenterY ?? 0.5;
+  const h = (node.type.interactionHeight ?? node.type.colliderCenterY ?? 0.5) * (node.state.uniformScale ?? 1);
   return { x: base.x, y: (base.y ?? 0) + h, z: base.z };
 }
 
@@ -82,7 +82,7 @@ export function shouldShowHalo(node, playerPos, playerMode, playerSpeed = 0, aut
 export function isRespawnIndicatorVisible(node, playerPos) {
   const base = node.state.position;
   // use interaction point? Use base + small height for fairness — use node base Y + interactionHeight/2
-  const nodeY = (base.y ?? 0) + (node.type.interactionHeight ?? 0.5) * 0.5;
+  const nodeY = (base.y ?? 0) + (node.type.interactionHeight ?? 0.5) * (node.state.uniformScale ?? 1) * 0.5;
   const pY = playerPos.y ?? 0.5;
   const dx = base.x - playerPos.x;
   const dy = nodeY - pY;
@@ -120,9 +120,14 @@ export function tickRespawn(node, dt) {
 // Check if player occupies future collider volume (simple AABB+ capsule approx)
 export function isPlayerInsideColliderVolume(playerPos, node) {
   if (!node.type.solid || !node.type.colliderHalfExtents) return false;
-  const he = node.type.colliderHalfExtents;
+  const scale = node.state.uniformScale ?? 1;
+  const he = {
+    x: node.type.colliderHalfExtents.x * scale,
+    y: node.type.colliderHalfExtents.y * scale,
+    z: node.type.colliderHalfExtents.z * scale,
+  };
   const baseY = node.state.position.y ?? 0;
-  const cy = baseY + node.type.colliderCenterY;
+  const cy = baseY + node.type.colliderCenterY * scale;
   const cx = node.state.position.x;
   const cz = node.state.position.z;
   // Player capsule center
@@ -135,8 +140,11 @@ export function isPlayerInsideColliderVolume(playerPos, node) {
   // Check overlap: distance from player center to cuboid center <= halfExtents + radius (xz) and y within half+radius+halfHeight?
   // For y, capsule extends pr+ph above/below center: total half = pr+ph? Actually capsule halfHeight 0.20 + radius 0.32 = 0.52 total half.
   const totalHalfY = ph + pr; // 0.52
-  const dx = Math.abs(px - cx);
-  const dz = Math.abs(pz - cz);
+  const yaw = -(node.state.rotationY ?? 0);
+  const worldDx = px - cx;
+  const worldDz = pz - cz;
+  const dx = Math.abs(worldDx * Math.cos(yaw) - worldDz * Math.sin(yaw));
+  const dz = Math.abs(worldDx * Math.sin(yaw) + worldDz * Math.cos(yaw));
   const dy = Math.abs(py - cy);
   if (dx > he.x + pr + 0.04) return false;
   if (dz > he.z + pr + 0.04) return false;

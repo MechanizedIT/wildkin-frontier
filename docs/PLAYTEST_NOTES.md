@@ -147,3 +147,21 @@ A ranged player weapon is desirable, but should be deferred to equipment/loadout
 
 1. **Phase 3.1 Creature Ecology & Combat Refinement:** projectile/collider correctness, unified Field Tool resource+creature hits, hold-to-attack, keep harvesting during danger, blue XP essence, temperaments, Wildkin-vs-Wildkin interactions, home/leash, lightweight steering.
 2. After 3.1, run an **architecture + world-authoring checkpoint** before adding extraction/persistence/capture so the current `main.js`/run-state/world-placement complexity does not keep expanding.
+
+---
+
+## 2026-08-24 — Phase 4A.2.2 stabilization — automated browser evidence only
+
+This is an implementation/automation record, **not a human playtest**. The nine spec §17 tests remain **TO BE PERFORMED BY HUMAN**.
+
+### Observed in the real `?author=1` browser path
+
+- Entered Edit with the existing local draft; no browser console warnings/errors.
+- Selected existing `ladder_south_high`. One tagged visual root contained the wall, five rungs, and marker. `Y+0.2` moved the visual root and atomically changed `bottomY`, `topY`, `topPlatform.topY`, and `mantleExit.y`; undo restored it. The real keyboard rotation path changed root `rotY` and rotated `wallNormal`, `approachDir`, `topEntryRegion`, and `mantleExit`; undo restored it.
+- Placed a Box through the palette/canvas. It immediately used a `prop/box` factory root with authored dimensions. Turning off Visible in Play while Collision remained enabled immediately hid the root and created one visible, correctly centered/sized wireframe proxy. Temporary Box was removed.
+- Placed a Tree through the palette/canvas. It immediately showed the deterministic factory Tree (Cylinder trunk plus five Cone foliage chunks), not a placeholder Box. Temporary Tree was removed.
+- Placed a temporary Box, clicked Play, allowed the normal reload, and observed the same canonical object and factory visual in Runtime Play. Returned to Edit, deleted it, and reloaded Play to persist cleanup.
+
+### Acceptance still pending
+
+Human must still perform the complete player-facing tests for Platform/Obstacle, Ladder traversal after arbitrary resize, all resource scale/harvest interactions, live proxy transform feel, several pre-existing Boundaries, the full registry-control matrix, Wildkin/POI metadata consumption, mixed cross-region undo/redo, and the Camp→expedition→harvest/combat→extract/return smoke test on desktop and phone. Do not treat the observations above as perceptual or gameplay acceptance.

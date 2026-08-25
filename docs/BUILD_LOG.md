@@ -745,7 +745,44 @@
   - Kitbash boundary respected: no primitive-part editing UI, visual asset JSON/database, save/rename/delete assets, GLB loading, prefab inheritance, etc. Only VisualRef/VisualFactory seam established for Phase 4B.0.
   - `staticWorldBuilder` still builds most runtime visuals directly (Box, Fence, etc.) rather than delegating every prop through `visualFactory`; parity is via same `position/size/rotation` interpretation, but full VisualFactory delegation for all runtime families is deferred to Phase 4B.0 when kitbash consumes the seam.
   - Known non-blocking: `runInventoryHud` one-shot `requestAnimationFrame` remains (not a loop); `authorMode` still has `requestAnimationFrame` only in `main.js` loop (verified).
-  - Do NOT begin Phase 4B.0 kitbash until human acceptance.
+- Do NOT begin Phase 4B.0 kitbash until human acceptance.
+
+## 2026-08-24 22:52 -05:00 — Phase 4A.2.2 stabilization and real acceptance-path proof — Codex (GPT-5)
+
+- **Goal:** Finish and stabilize the active Phase 4A.2.2 slice from the repository's actual state, repair false-positive parity tests, exercise the real Author browser path, run all mandatory gates, and leave the slice ready for owner playtest without starting Phase 4B.0.
+
+- **Decisions / implementation:**
+  - Added `authorActions` as the production capability-gated controller for palette placement, inspector transforms, and declarative inspector fields. `authorUI` now renders custom fields from the resolved registry and no longer commits family-specific raw patches.
+  - Added `authorPreview` as the shared preview owner for deterministic factory roots, recipe-key rebuilds, transform synchronization, safe disposal, and descriptor-driven hidden-collider proxies. `authorMode` now delegates to those modules, gates drag by `draggable`, tracks one pointer, and restores canonical preview on pointer cancel/lost capture.
+  - Ladder normalized writes now rotate/recompute `wallNormal`, `approachDir`, `topPlatform`, `topEntryRegion`, and `mantleExit`; factory resize rebuilds the wall, all rungs, and marker as one recipe.
+  - Runtime static props, ground/boundaries, platforms/obstacles/ladders, anchors, and POIs now instantiate through `VisualFactory`. Rotated AABBs were checked/recomputed across sibling rectangular paths.
+  - Resource and Wildkin gameplay wrappers now obtain their visible models from `VisualFactory`. Resource authored rotation/scale reaches visual roots, interaction/overlap math, and Rapier collider descriptors; transient wobble/pop stays on the inner visual so authored transform remains authoritative.
+  - Replaced representation-coupled legacy test lookups with tagged visual-root/descendant world-transform assertions. Phase 4A.2.2 Box/Tree/Ladder tests now invoke the production action and preview modules instead of recreating pseudo-handlers/proxies.
+  - Preserved canonical world schemas, the one-loop architecture, offline/local vendor constraints, and all Phase 4A/4A.2.1 gameplay behavior. No dependencies, network runtime, kitbash, GLB, prefab, region CRUD, or Phase 4B content added.
+
+- **Files changed:**
+  - Added: `src/author/authorActions.js`, `src/author/authorPreview.js`.
+  - Updated Author contract/UI/mode: `src/author/authorDraft.js`, `src/author/authorMode.js`, `src/author/authorTypeRegistry.js`, `src/author/authorUI.js`.
+  - Updated shared/runtime visual and collision consumers: `src/world/visualFactory.js`, `src/world/staticWorldBuilder.js`, `src/resources/createResourceNode.js`, `src/resources/resourceSystem.js`, `src/resources/harvestLogic.js`, `src/creatures/createWildCreature.js`.
+  - Updated integration expectations/proofs: `tests/phase35b1.test.js`, `tests/phase35b2.test.js`, `tests/phase4a1.test.js`, `tests/phase4a2.test.js`, `tests/phase4a2_1.test.js`, `tests/phase4a2_2.test.js`.
+  - Updated truth/docs: `docs/CURRENT_SLICE.md`, `docs/ARCHITECTURE.md`, `docs/PLAYTEST_NOTES.md`, `docs/BUILD_LOG.md`.
+
+- **Browser verification:**
+  - Reused the owner's existing no-cache dev server at `127.0.0.1:8080`; no server process was changed.
+  - Real `?author=1` UI/canvas: existing Ladder elevate/rotate updated one coherent root and all dependent canonical traversal fields; Tree and Box palette placement immediately produced real factory visuals; hidden collidable Box produced one correctly sized/centered live proxy; normal Play reload retained a temporary Box. Undo/delete/reload removed all temporary proof edits. Browser warnings/errors: none.
+  - This is automated browser evidence only. Spec §17 human acceptance is still **TO BE PERFORMED BY HUMAN**.
+
+- **Tests / gates:**
+  - `npm test` — PASS, 489/489 tests, 132 suites, 0 failures.
+  - `npm run world:generate` — PASS; `src/world/data/world.generated.js` regenerated deterministically with no world-content change.
+  - `npm run world:check` — PASS, `world.json` and generated data synchronized.
+  - `npm run verify` — PASS: tests, world check, build, and submission validation; submission directory 4722.8 KB (<35 MB), root index/vendor/offline/readability checks passed.
+  - `npm run zip` — PASS: `dist/submission.zip` 1451.8 KB (1.42 MB).
+  - `git diff --check` — PASS (line-ending conversion notices only; no whitespace errors).
+
+- **Remaining / deferred:**
+  - All nine human acceptance tests in `docs/Specs/Phase_4A.2.2.md` §17 remain pending, especially perceptual drag/resize feel, real climb/harvest/collider behavior after arbitrary scaling, mixed cross-region undo/redo, phone portrait verification, and the full Camp→expedition→harvest/combat→extract/return smoke.
+  - Phase 4B.0 remains blocked on owner acceptance by design.
 
 
 

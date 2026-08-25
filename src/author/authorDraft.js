@@ -694,24 +694,43 @@ export function createAuthorDraft(repoData) {
       const found = _findRawInCandidate(candidate, id);
       if (!found) throw new Error("object not found");
       const def = resolveAuthorType(found);
-      let path = fieldKey;
-      if (def && Array.isArray(def.inspector)) {
-        const fieldDef = def.inspector.find(f => f.key === fieldKey || f.path === fieldKey);
-        if (fieldDef) path = fieldDef.path ?? fieldDef.key;
-      }
+      if (!def) throw new Error("object is not authorable");
+      const fieldDef = (def.inspector ?? []).find(f => f.key === fieldKey || f.path === fieldKey);
+      const presentationFields = new Set(["visibleInPlay", "collisionEnabled", "opacity", "color"]);
+      if (!fieldDef && !presentationFields.has(fieldKey)) throw new Error(`unsupported inspector field ${fieldKey}`);
+      if (fieldDef?.editorOnly) throw new Error(`${fieldKey} is an editor option, not persisted data`);
+      const path = fieldDef?.path ?? fieldDef?.key ?? fieldKey;
       let val = value;
-      if (fieldKey === "requires" && typeof value === "string") {
+      if (fieldDef?.type === "number" || fieldKey === "opacity") {
+        val = typeof value === "number" ? value : Number(value);
+        if (!Number.isFinite(val)) throw new Error(`${fieldKey} must be a finite number`);
+        if (fieldDef?.min !== undefined) val = Math.max(fieldDef.min, val);
+        if (fieldDef?.max !== undefined) val = Math.min(fieldDef.max, val);
+        if (fieldKey === "opacity") val = Math.max(0, Math.min(1, val));
+      }
+      if (fieldDef?.type === "boolean" || fieldKey === "visibleInPlay" || fieldKey === "collisionEnabled") val = !!value;
+      if (fieldDef?.type === "enum" && fieldDef.options && !fieldDef.options.includes(val)) {
+        throw new Error(`${fieldKey} must be one of ${fieldDef.options.join(", ")}`);
+      }
+      if (fieldDef?.type === "json" && typeof value === "string") {
         const trimmed = value.trim();
         if (trimmed === "" || trimmed === "null") val = null;
         else {
-          try { val = JSON.parse(trimmed); } catch { val = trimmed; }
+          try { val = JSON.parse(trimmed); } catch { throw new Error(`${fieldKey} must be valid JSON`); }
         }
       }
-      if (path.includes(".")) setByPath(found.obj, path, val);
+      if (val === undefined) {
+        if (path.includes(".")) {
+          const keys = path.split(".");
+          let target = found.obj;
+          for (let i = 0; i < keys.length - 1; i++) target = target?.[keys[i]];
+          if (target) delete target[keys.at(-1)];
+        } else delete found.obj[path];
+      } else if (path.includes(".")) setByPath(found.obj, path, val);
       else found.obj[path] = val;
       if (path === "uniformScale" || path === "scale") {
         found.obj.uniformScale = val;
-        found.obj.scale = val;
+        delete found.obj.scale;
       }
       if (fieldKey === "homePos.x" || fieldKey === "homePos.z") {
         const axis = fieldKey.split(".")[1];

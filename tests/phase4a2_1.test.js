@@ -17,6 +17,13 @@ import { RAPIER_CONFIG } from "../src/game/config.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 
+function authoredMesh(group, id) {
+  const root = group.children.find((child) => child.userData?.authorVisualRoot && child.userData.authorId === id);
+  let mesh = null;
+  root?.traverse((object) => { if (!mesh && object.isMesh) mesh = object; });
+  return mesh;
+}
+
 function withMockStorage(fn){
   const s=new Map();
   const orig=global.localStorage;
@@ -155,10 +162,14 @@ describe("Phase 4A.2.1 — Author canonical ownership & preview atomics", ()=>{
     assert.equal(rap.ty, center.y);
     assert.equal(rap.hx, desc.size.width/2);
     const pg=createStaticWorld(draftApi.getDraft());
-    const mesh=pg.group.children.find(c=>c.name===gp.id);
+    const mesh=authoredMesh(pg.group, gp.id);
     assert.ok(mesh);
-    assert.ok(Math.abs(mesh.position.y - center.y) < 0.01);
-    assert.ok(Math.abs(mesh.rotation.y - 0.5) < 0.01);
+    mesh.updateWorldMatrix(true, false);
+    const worldPos = mesh.getWorldPosition(new THREE.Vector3());
+    const worldQuat = mesh.getWorldQuaternion(new THREE.Quaternion());
+    const worldEuler = new THREE.Euler().setFromQuaternion(worldQuat, "YXZ");
+    assert.ok(Math.abs(worldPos.y - (center.y - 0.02)) < 0.01);
+    assert.ok(Math.abs(worldEuler.y - 0.5) < 0.01);
   });
   it("newly placed hidden Boundary immediately owns a visible Edit proxy", ()=>{
     const draftApi=createAuthorDraft(WORLD_DATA);

@@ -1,236 +1,181 @@
-// src/resources/createResourceNode.js — procedural node visuals + state (no Rapier yet, collider added by system)
-// Deterministic variation: no Math.random() for visual variation; uses objectId/data-derived seed
+// src/resources/createResourceNode.js — resource lifecycle wrapper around shared VisualFactory output
 import * as THREE from "three";
 import { RESOURCE_TYPES } from "./resourceConfig.js";
+import {
+  applyVisualTransform,
+  createVisual,
+  getVisualRecipeKey,
+  tagVisualRoot,
+} from "../world/visualFactory.js";
 
-function hashString(str){
-  let h=2166136261>>>0;
-  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; }
-  return h>>>0;
-}
-function mulberry32(a){
-  return function(){
-    let t=a+=0x6D2B79F5;
-    t=Math.imul(t ^ t>>>15, t|1);
-    t^=t+Math.imul(t ^ t>>>7, t|61);
-    return ((t ^ t>>>14)>>>0)/4294967296;
-  };
-}
-function makeDeterministicRng(objectId, salt=""){
-  const seed = hashString(`${objectId}::${salt}`);
-  return mulberry32(seed);
+function createRemnant(typeId) {
+  if (typeId === "tree") {
+    const stump = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.40, 0.44, 0.22, 8),
+      new THREE.MeshStandardMaterial({ color: 0x5a3a1a, flatShading: true }),
+    );
+    stump.position.y = 0.11;
+    stump.name = "stump";
+    const ring = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.36, 0.36, 0.03, 9),
+      new THREE.MeshStandardMaterial({ color: 0xc9a86a }),
+    );
+    ring.position.y = 0.11;
+    ring.name = "stumpRing";
+    stump.add(ring);
+    return stump;
+  }
+  if (typeId === "rock") {
+    const rubble = new THREE.Mesh(
+      new THREE.BoxGeometry(0.85, 0.20, 0.85),
+      new THREE.MeshStandardMaterial({ color: 0x7a7a7a, flatShading: true }),
+    );
+    rubble.position.y = 0.10;
+    rubble.name = "rubble";
+    const pebblePositions = [[-0.22, -0.16], [0.19, -0.08], [0.05, 0.24]];
+    for (const [x, z] of pebblePositions) {
+      const pebble = new THREE.Mesh(
+        new THREE.DodecahedronGeometry(0.14, 0),
+        new THREE.MeshStandardMaterial({ color: 0x9a9a9a }),
+      );
+      pebble.position.set(x, 0.12, z);
+      rubble.add(pebble);
+    }
+    return rubble;
+  }
+  const patch = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.48, 0.48, 0.06, 8),
+    new THREE.MeshStandardMaterial({ color: 0x4a6a3a, flatShading: true }),
+  );
+  patch.position.y = 0.03;
+  patch.name = "cutPatch";
+  for (let i = 0; i < 4; i++) {
+    const stem = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.03, 0.03, 0.18, 4),
+      new THREE.MeshStandardMaterial({ color: 0x7ab87a }),
+    );
+    const angle = (i / 4) * Math.PI * 2;
+    stem.position.set(Math.cos(angle) * 0.18, 0.09, Math.sin(angle) * 0.18);
+    patch.add(stem);
+  }
+  return patch;
 }
 
-export function createResourceNode(typeId, position, index = 0, objectId = null) {
+export function createResourceNode(typeId, position, index = 0, objectId = null, transform = {}) {
   const type = RESOURCE_TYPES[typeId];
   if (!type) throw new Error(`Unknown resource type ${typeId}`);
 
-  const group = new THREE.Group();
-  group.position.set(position.x, position.y ?? 0, position.z);
+  const id = objectId ?? `${typeId}_${index}`;
+  const rotationY = transform.rotationY ?? 0;
+  const uniformScale = transform.uniformScale ?? 1;
+  const visualRef = { kind: "builtin", id: `resource/${typeId}` };
+  const visualOptions = { objectId: id };
+  const group = tagVisualRoot(new THREE.Group(), {
+    objectId: id,
+    visualRef,
+    recipeKey: getVisualRecipeKey(visualRef, visualOptions),
+  });
   group.name = `resource_${typeId}_${index}`;
+  applyVisualTransform(group, {
+    position: { x: position.x, y: position.y ?? 0, z: position.z },
+    rotationY,
+    uniformScale,
+    sizeMode: "uniform",
+  });
 
-  // State
   const state = {
-    id: objectId ?? `${typeId}_${index}`,
+    id,
     typeId,
     resourceId: type.resourceId,
     maxChunks: type.maxChunks,
     remainingChunks: type.maxChunks,
-    nodeState: "READY", // READY | RESPAWNING
+    nodeState: "READY",
     respawnRemaining: 0,
     position: { x: position.x, y: position.y ?? 0, z: position.z },
+    rotationY,
+    uniformScale,
   };
 
-  // Halo — subtle white pulsing ring on ground (size kept small even though visuals enlarged)
+  const visualRoot = createVisual(visualRef, visualOptions);
+  visualRoot.name = "resourceReadyVisual";
+  group.add(visualRoot);
+  const chunkMeshes = [];
+  visualRoot.traverse((object) => {
+    if (object.isMesh && (object.name.includes("_chunk_") || object.name.includes("_tuft_"))) chunkMeshes.push(object);
+  });
+
+  const remnantMesh = createRemnant(typeId);
+  remnantMesh.visible = false;
+  group.add(remnantMesh);
+
   const haloGeo = new THREE.RingGeometry(0.72, 0.90, 24);
   haloGeo.rotateX(-Math.PI / 2);
-  const haloMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false });
-  const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+  const haloMesh = new THREE.Mesh(
+    haloGeo,
+    new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }),
+  );
   haloMesh.position.y = 0.02;
   haloMesh.visible = false;
   haloMesh.name = "halo";
   group.add(haloMesh);
 
-  // Respawn progress — 12 small ticks in circle around remnant
   const respawnGroup = new THREE.Group();
   respawnGroup.name = "respawnProgress";
   respawnGroup.visible = false;
-  const tickCount = 12;
-  const tickRadius = 0.72;
   const ticks = [];
-  for (let i = 0; i < tickCount; i++) {
-    const ang = (i / tickCount) * Math.PI * 2;
-    const tickGeo = new THREE.BoxGeometry(0.11, 0.025, 0.07);
-    const tickMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.0 });
-    const tick = new THREE.Mesh(tickGeo, tickMat);
-    tick.position.set(Math.cos(ang) * tickRadius, 0.04, Math.sin(ang) * tickRadius);
-    tick.rotation.y = -ang;
+  for (let i = 0; i < 12; i++) {
+    const angle = (i / 12) * Math.PI * 2;
+    const tick = new THREE.Mesh(
+      new THREE.BoxGeometry(0.11, 0.025, 0.07),
+      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 }),
+    );
+    tick.position.set(Math.cos(angle) * 0.72, 0.04, Math.sin(angle) * 0.72);
+    tick.rotation.y = -angle;
     tick.visible = false;
     respawnGroup.add(tick);
     ticks.push(tick);
   }
-  // background faint ring
   const bgRingGeo = new THREE.RingGeometry(0.70, 0.74, 24);
   bgRingGeo.rotateX(-Math.PI / 2);
-  const bgRing = new THREE.Mesh(bgRingGeo, new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false }));
+  const bgRing = new THREE.Mesh(
+    bgRingGeo,
+    new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false }),
+  );
   bgRing.position.y = 0.025;
   bgRing.name = "respawnBg";
   respawnGroup.add(bgRing);
   group.add(respawnGroup);
 
-  // Remnant (stump/rubble/cut patch) — always present but hidden when READY? Show only when depleted.
-  let remnantMesh = null;
+  Object.assign(group.userData, {
+    resourceState: state,
+    resourceType: type,
+    chunkMeshes,
+    remnantMesh,
+    haloMesh,
+    respawnGroup,
+    respawnTicks: ticks,
+    mainVisual: visualRoot,
+    originalChunkTransforms: chunkMeshes.map((mesh) => ({ pos: mesh.position.clone(), scale: mesh.scale.clone(), rot: mesh.rotation.clone() })),
+  });
 
-  // Chunk meshes — authored low-poly children, one per harvest chunk
-  const chunkMeshes = [];
-  // Keep reference to main visuals for wobble
-  let mainVisual = null;
-  const variationRng = makeDeterministicRng(state.id, "variation");
-
-  if (typeId === "tree") {
-    // Low trunk ~0.52 tall, thick/wide, low broad canopy overlapping trunk
-    const trunkGeo = new THREE.CylinderGeometry(0.38, 0.46, 0.52, 8);
-    const trunkMat = new THREE.MeshStandardMaterial({ color: 0x6b4a2b, flatShading: true });
-    const trunk = new THREE.Mesh(trunkGeo, trunkMat);
-    trunk.position.y = 0.26;
-    group.add(trunk);
-    const foliageMat = new THREE.MeshStandardMaterial({ color: 0x2f7d32, flatShading: true });
-    const foliageMat2 = new THREE.MeshStandardMaterial({ color: 0x3a9a3a, flatShading: true });
-    // Low canopy: first foliage at 0.45-0.60, broad overlapping, total still large ~1.15 height
-    const blobPos = [
-      { x: 0, y: 0.78, z: 0, s: 0.92, mat: foliageMat },
-      { x: 0.68, y: 0.62, z: 0.38, s: 0.66, mat: foliageMat2 },
-      { x: -0.66, y: 0.58, z: 0.40, s: 0.64, mat: foliageMat },
-      { x: 0.42, y: 0.70, z: -0.52, s: 0.58, mat: foliageMat2 },
-      { x: -0.40, y: 0.52, z: -0.42, s: 0.56, mat: foliageMat },
-    ];
-    for (let i = 0; i < type.maxChunks; i++) {
-      const cfg = blobPos[i];
-      const g = new THREE.ConeGeometry(cfg.s, 1.10, 7);
-      const m = new THREE.Mesh(g, cfg.mat);
-      m.position.set(cfg.x, cfg.y, cfg.z);
-      m.name = `chunk_${i}`;
-      m.rotation.y = (variationRng() * 0.4 - 0.2);
-      group.add(m);
-      chunkMeshes.push(m);
-    }
-    // Stump remnant — very low, wide
-    const stumpGeo = new THREE.CylinderGeometry(0.40, 0.44, 0.22, 8);
-    const stumpMat = new THREE.MeshStandardMaterial({ color: 0x5a3a1a, flatShading: true });
-    remnantMesh = new THREE.Mesh(stumpGeo, stumpMat);
-    remnantMesh.position.y = 0.11;
-    remnantMesh.visible = false;
-    remnantMesh.name = "stump";
-    group.add(remnantMesh);
-    const ringGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.03, 9);
-    const ringMat = new THREE.MeshStandardMaterial({ color: 0xc9a86a });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.position.y = 0.11;
-    ring.name = "stumpRing";
-    remnantMesh.add(ring);
-    mainVisual = trunk;
-  } else if (typeId === "rock") {
-    const rockMat = new THREE.MeshStandardMaterial({ color: 0x8d8d8d, flatShading: true });
-    const rockMat2 = new THREE.MeshStandardMaterial({ color: 0xa8a8a8, flatShading: true });
-    const darkRock = new THREE.MeshStandardMaterial({ color: 0x6e6e6e, flatShading: true });
-    // Enlarged ~1.7x: 0.34->0.58, 0.26->0.44, etc
-    const lobes = [
-      { x: 0, y: 0.52, z: 0, s: 0.58, mat: rockMat },
-      { x: 0.46, y: 0.46, z: 0.26, s: 0.44, mat: rockMat2 },
-      { x: -0.43, y: 0.40, z: 0.30, s: 0.41, mat: darkRock },
-      { x: 0.20, y: 0.62, z: -0.36, s: 0.37, mat: rockMat },
-    ];
-    for (let i = 0; i < type.maxChunks; i++) {
-      const cfg = lobes[i];
-      const g = new THREE.DodecahedronGeometry(cfg.s, 0);
-      const m = new THREE.Mesh(g, cfg.mat);
-      m.position.set(cfg.x, cfg.y, cfg.z);
-      m.rotation.set(variationRng() * 0.6, variationRng() * 0.6, variationRng() * 0.6);
-      m.name = `chunk_${i}`;
-      group.add(m);
-      chunkMeshes.push(m);
-    }
-    // Rubble remnant enlarged
-    const rubbleGeo = new THREE.BoxGeometry(0.85, 0.20, 0.85);
-    const rubbleMat = new THREE.MeshStandardMaterial({ color: 0x7a7a7a, flatShading: true });
-    remnantMesh = new THREE.Mesh(rubbleGeo, rubbleMat);
-    remnantMesh.position.y = 0.10;
-    remnantMesh.visible = false;
-    remnantMesh.name = "rubble";
-    for (let i = 0; i < 3; i++) {
-      const peb = new THREE.Mesh(new THREE.DodecahedronGeometry(0.14, 0), new THREE.MeshStandardMaterial({ color: 0x9a9a9a }));
-      peb.position.set((variationRng() - 0.5) * 0.45, 0.12, (variationRng() - 0.5) * 0.45);
-      remnantMesh.add(peb);
-    }
-    group.add(remnantMesh);
-    mainVisual = chunkMeshes[0] ?? group;
-  } else if (typeId === "fiber") {
-    const bushMat = new THREE.MeshStandardMaterial({ color: 0x6abf69, flatShading: true });
-    const bushMat2 = new THREE.MeshStandardMaterial({ color: 0x4a9a4a, flatShading: true });
-    // Enlarged ~1.6x
-    const tufts = [
-      { x: 0, y: 0.42, z: 0, s: 0.45 },
-      { x: 0.35, y: 0.36, z: 0.19, s: 0.35 },
-      { x: -0.32, y: 0.38, z: 0.22, s: 0.38 },
-    ];
-    for (let i = 0; i < type.maxChunks; i++) {
-      const cfg = tufts[i];
-      const g = new THREE.SphereGeometry(cfg.s, 7, 5);
-      g.scale(1, 0.65, 1);
-      const mat = i % 2 === 0 ? bushMat : bushMat2;
-      const m = new THREE.Mesh(g, mat);
-      m.position.set(cfg.x, cfg.y, cfg.z);
-      m.name = `chunk_${i}`;
-      group.add(m);
-      chunkMeshes.push(m);
-    }
-    const patchGeo = new THREE.CylinderGeometry(0.48, 0.48, 0.06, 8);
-    const patchMat = new THREE.MeshStandardMaterial({ color: 0x4a6a3a, flatShading: true });
-    remnantMesh = new THREE.Mesh(patchGeo, patchMat);
-    remnantMesh.position.y = 0.03;
-    remnantMesh.visible = false;
-    remnantMesh.name = "cutPatch";
-    for (let i = 0; i < 4; i++) {
-      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.18, 4), new THREE.MeshStandardMaterial({ color: 0x7ab87a }));
-      const a = (i / 4) * Math.PI * 2;
-      stem.position.set(Math.cos(a) * 0.18, 0.09, Math.sin(a) * 0.18);
-      remnantMesh.add(stem);
-    }
-    group.add(remnantMesh);
-    mainVisual = chunkMeshes[0] ?? group;
-  }
-
-  // Attach state to group for external access
-  group.userData.resourceState = state;
-  group.userData.resourceType = type;
-  group.userData.chunkMeshes = chunkMeshes;
-  group.userData.remnantMesh = remnantMesh;
-  group.userData.haloMesh = haloMesh;
-  group.userData.respawnGroup = respawnGroup;
-  group.userData.respawnTicks = ticks;
-  group.userData.mainVisual = mainVisual;
-  group.userData.originalChunkTransforms = chunkMeshes.map(m => ({ pos: m.position.clone(), scale: m.scale.clone(), rot: m.rotation.clone() }));
-
-  return { group, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, mainVisual };
+  return { group, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, mainVisual: visualRoot, visualRoot };
 }
 
-// Helpers for visual degradation — called by system on hit
 export function hideOneChunk(node) {
   for (let i = node.chunkMeshes.length - 1; i >= 0; i--) {
-    const mesh = node.chunkMeshes[i];
-    if (mesh.visible) {
-      mesh.visible = false;
-      return mesh;
+    if (node.chunkMeshes[i].visible) {
+      node.chunkMeshes[i].visible = false;
+      return node.chunkMeshes[i];
     }
   }
   return null;
 }
 
 export function showAllChunks(node) {
-  for (const m of node.chunkMeshes) {
-    m.visible = true;
-    m.scale.set(1, 1, 1);
-    m.material.transparent = false;
-    m.material.opacity = 1;
+  for (const mesh of node.chunkMeshes) {
+    mesh.visible = true;
+    mesh.scale.set(1, 1, 1);
+    mesh.material.transparent = false;
+    mesh.material.opacity = 1;
   }
 }

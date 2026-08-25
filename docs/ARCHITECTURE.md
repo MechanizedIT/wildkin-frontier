@@ -564,6 +564,39 @@ One suppression path: `isAnyBlockingModal()` (Map|AnchorPrompt|ResultCard) + aut
 ## Change Closure sweep note for shared-contract change
 - Checked sibling families that share the normalized transform path: static props (Box/Fence/Gate/ForestBoundary/Water/Island/DropPod/Resonator), traversal (Platform/Obstacle/Ladder), resources (Tree/Rock/Fiber), anchors/POIs (Waypoint/Beacon/POI chest/barrier), Wildkin (Rusher/Spitter), spawns. All now exercise actual adapter/preview/runtime paths, not just compile.
 
+## Phase 4A.2.2 stabilization correction — 2026-08-24
+
+This checkpoint supersedes the earlier implementation report where it described runtime visuals as merely transform-compatible or claimed manual acceptance. The finalized contract is:
+
+```text
+Author UI / canvas input
+        ↓
+authorActions (capability-gated production controller)
+        ↓
+authorDraft transaction → resolved adapter → canonical object
+        ↓
+authorPreview
+  ├─ VisualFactory root synchronization
+  └─ ColliderDescriptor-driven Edit proxy synchronization
+        ↓
+Play reload
+  ├─ staticWorldBuilder → VisualFactory
+  ├─ resource lifecycle wrapper → VisualFactory resource visual
+  ├─ Wildkin lifecycle wrapper → VisualFactory creature visual
+  └─ simple descriptor-derived Rapier colliders
+```
+
+- `src/author/authorActions.js` owns production placement and transform/inspector commits. Capability checks happen before normalized candidates reach the draft transaction.
+- `src/author/authorPreview.js` owns visual-root creation/rebuild, transform synchronization, disposal, and the one descriptor-driven hidden-collider proxy lifecycle. Author Mode retains only spawn-marker-specific presentation behavior.
+- Visual recipe keys include the inputs that can alter geometry (`VisualRef`, dimensions, POI type/requirements). A dimension change rebuilds the entire local recipe, so Ladder wall, rungs, and marker cannot fragment.
+- Runtime statics/traversal/anchors/POIs use `VisualFactory` directly. Resource and Wildkin systems keep their gameplay/lifecycle wrappers but obtain their detailed visible models from the same factory used by Author Edit.
+- Resource `rotY`/`uniformScale` now reach the runtime visual root, interaction height, overlap checks, and Rapier collider descriptor. Temporary wobble/respawn animation applies to the inner visual, preserving authored root transform.
+- Rotated rectangular footprints are recomputed conservatively for props, ground, platforms, obstacles, and Ladder-derived entry regions. Ladder writes update `wallNormal`, `approachDir`, `topPlatform`, `topEntryRegion`, and `mantleExit` in the same transaction.
+- Pointer drags are capability-gated, track one active pointer, and restore canonical preview on cancel/lost capture. No second frame loop was introduced.
+- Older tests that assumed an authored object was a scene-root `Mesh` now query the tagged visual root and descendant world transform. Phase 4A.2.2 proof tests call the production action and preview modules rather than recreating proxy logic inside the test.
+
+Implementation and automated/browser verification are complete. Spec §17 human acceptance remains pending; Phase 4B.0 is not authorized.
+
 # Persistence Separation — Phase 4A Guardrail
 
 Three different persistence/state concepts must remain distinct:

@@ -1,8 +1,10 @@
 // src/author/authorUI.js — desktop Author Mode panel (Phase 4A.2.2 registry-driven)
 import { resolveAuthorType, readNormalizedTransform } from "./authorTypeRegistry.js";
+import { createAuthorActions } from "./authorActions.js";
 
 export function createAuthorUI(opts) {
   const draftApi = opts.draftApi;
+  const actions = opts.actions ?? createAuthorActions(draftApi);
   const onPlay = opts.onPlay;
   const onValidate = opts.onValidate;
   const onSelectRegion = opts.onSelectRegion;
@@ -53,30 +55,7 @@ export function createAuthorUI(opts) {
             <label style="display:block;margin:2px 0">Opacity <input id="author-opacity" type="number" min="0" max="1" step="0.05" style="width:100%"></label>
             <label style="display:block;margin:2px 0">Tint <input id="author-tint" type="color" style="width:100%;height:24px;padding:2px"><input id="author-tint-text" placeholder="#RRGGBB or empty" style="width:100%;margin-top:2px;font-size:11px"></label>
           </div>
-          <div id="author-displayname-row" style="display:none;margin-top:6px">
-            <label>Display Name <input id="author-displayname" placeholder="Readable name" style="width:100%"></label>
-          </div>
-          <div id="author-creature-fields" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:4px">
-            <div style="font-weight:600;margin-bottom:2px">Creature</div>
-            <label>Type <select id="author-creature-type"><option value="rusher">rusher</option><option value="spitter">spitter</option></select></label>
-            <label>Temperament <select id="author-temper"><option>AGGRESSIVE</option><option>TERRITORIAL</option><option>DEFENSIVE</option><option>SKITTISH</option></select></label>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px">
-              <label>Spawn X <input id="author-spawn-x" type="number" step="0.1" style="width:100%"></label>
-              <label>Spawn Z <input id="author-spawn-z" type="number" step="0.1" style="width:100%"></label>
-              <label>Home X <input id="author-home-x" type="number" step="0.1" style="width:100%"></label>
-              <label>Home Z <input id="author-home-z" type="number" step="0.1" style="width:100%"></label>
-              <label>Roam <input id="author-roam" type="number" step="0.1" style="width:100%"></label>
-              <label>Notice <input id="author-notice" type="number" step="0.1" style="width:100%"></label>
-              <label>Personal <input id="author-personal" type="number" step="0.1" style="width:100%"></label>
-              <label>Leash <input id="author-leash" type="number" step="0.1" style="width:100%"></label>
-            </div>
-            <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-size:11px"><input type="checkbox" id="author-move-home" checked> Move Home With Spawn</label>
-          </div>
-          <div id="author-anchor-fields" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:4px">
-            <div style="font-weight:600;margin-bottom:2px">Anchor / POI</div>
-            <label>Type <input id="author-anchor-type" style="width:100%"></label>
-            <label>Requires (JSON) <input id="author-requires" placeholder='null or {"type":"companionAbility","id":"swim"}' style="width:100%"></label>
-          </div>
+          <div id="author-custom-fields" style="display:none;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:4px"></div>
           <div style="display:flex;gap:6px;margin-top:6px">
             <button id="author-duplicate" style="flex:1;padding:6px;background:#2a3a5a;color:#fff;border:none;border-radius:4px">Duplicate</button>
             <button id="author-delete" style="flex:1;padding:6px;background:#5a1a1a;color:#ffaaaa;border:none;border-radius:4px">Delete</button>
@@ -321,10 +300,58 @@ export function createAuthorUI(opts) {
     } else { st.textContent = res.error; st.style.color="#ffaaaa"; }
   });
 
-  // Registry-driven capability helpers — production truth comes from AuthorTypeRegistry, no hard-coded families
-  function getRegistryCaps(found){
-    const def = resolveAuthorType(found);
-    return def ? def.capabilities : null;
+  function readPath(object, path) {
+    return path.split(".").reduce((value, key) => value?.[key], object);
+  }
+
+  function fieldId(key) {
+    return `author-field-${key.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+  }
+
+  function renderCustomFields(found, def) {
+    const host = container.querySelector("#author-custom-fields");
+    host.innerHTML = "";
+    const fields = def?.inspector ?? [];
+    host.style.display = fields.length ? "" : "none";
+    for (const field of fields) {
+      const label = document.createElement("label");
+      label.style.cssText = field.type === "boolean"
+        ? "display:flex;align-items:center;gap:6px;margin:4px 0"
+        : "display:block;margin:4px 0";
+      label.append(document.createTextNode(field.label + " "));
+      let input;
+      if (field.type === "enum") {
+        input = document.createElement("select");
+        for (const option of field.options ?? []) {
+          const optionEl = document.createElement("option");
+          optionEl.value = option;
+          optionEl.textContent = option;
+          input.append(optionEl);
+        }
+      } else {
+        input = document.createElement("input");
+        input.type = field.type === "number" ? "number" : field.type === "boolean" ? "checkbox" : "text";
+        if (field.type === "number") {
+          if (field.min !== undefined) input.min = field.min;
+          if (field.max !== undefined) input.max = field.max;
+          input.step = field.step ?? "0.1";
+        }
+        if (field.type === "json") input.placeholder = "null or JSON object";
+      }
+      input.id = fieldId(field.key);
+      input.dataset.authorField = field.key;
+      input.dataset.authorFieldType = field.type;
+      if (field.editorOnly) input.dataset.authorEditorOnly = "true";
+      input.style.width = field.type === "boolean" ? "auto" : "100%";
+      const raw = field.editorOnly
+        ? (field.defaultValue ?? false)
+        : readPath(found.obj, field.path ?? field.key);
+      if (field.type === "boolean") input.checked = !!raw;
+      else if (field.type === "json") input.value = raw == null ? "" : JSON.stringify(raw);
+      else input.value = raw ?? "";
+      label.append(input);
+      host.append(label);
+    }
   }
 
   function setSelected(id) {
@@ -341,7 +368,6 @@ export function createAuthorUI(opts) {
     selIdEl.textContent = `${found.type} — ${found.obj.id} — region: ${found.region ? found.region.id : "camp"}`;
     if (found.region) selRegionEl.value = found.region.id;
     const obj = found.obj;
-    const pos = obj.pos || (obj.x !== undefined ? { x: obj.x, y: obj.y ?? obj.baseY ?? 0, z: obj.z } : { x: 0, y: 0, z: 0 });
     // Registry-driven transform display: use normalized author transform
     const def = resolveAuthorType(found);
     const caps = def ? def.capabilities : null;
@@ -353,11 +379,6 @@ export function createAuthorUI(opts) {
     container.querySelector("#author-y").value = nPos.y ?? 0;
     const rotYdeg = (nRot * 180 / Math.PI).toFixed(1);
     container.querySelector("#author-rot").value = rotYdeg;
-    // For spawns, label rotation as Facing
-    const rotLabel = container.querySelector("#wrap-rot");
-    if (found.type === "campSpawn" || found.type === "runSpawn") {
-      const label = rotLabel.querySelector("input") ? rotLabel : null;
-    }
     // Size handling: box vs uniform
     const size = norm && norm.size ? norm.size : (obj.size || {});
     const uniformScale = norm ? (norm.uniformScale ?? 1) : 1;
@@ -395,23 +416,16 @@ export function createAuthorUI(opts) {
       scaleRow.style.display = "none";
     }
     const presentation = container.querySelector("#author-presentation");
-    const supportsPres = caps ? (caps.presentation || caps.collisionControl || caps.opacity || caps.tint || caps.visibleInPlay || caps.collision) : false;
-    // For props/ground/boundary, presentation still true even if caps not explicit; fallback check
-    const fallbackPres = (found.collection==="props" || found.collection==="groundPatches" || found.collection==="boundaryColliders");
-    const showPres = supportsPres || fallbackPres;
+    const showPres = !!(caps?.presentation || caps?.collisionControl);
     if (showPres) {
       presentation.style.display = "";
-      container.querySelector("#author-visible").checked = obj.visibleInPlay !== false;
+      const visibleEl = container.querySelector("#author-visible");
+      visibleEl.closest("label").style.display = caps.presentation ? "" : "none";
+      visibleEl.checked = obj.visibleInPlay !== false;
       const collEl = container.querySelector("#author-collision");
       const collRow = collEl.closest("label");
-      // Water has no meaningful collision control
-      const hideCollision = found.obj.subtype === "water";
-      if (hideCollision) {
-        collRow.style.display = "none";
-      } else {
-        collRow.style.display = "";
-        collEl.checked = obj.collisionEnabled !== false;
-      }
+      collRow.style.display = caps.collisionControl ? "" : "none";
+      collEl.checked = obj.collisionEnabled !== false;
       container.querySelector("#author-opacity").value = obj.opacity ?? 1;
       const tintVal = obj.color ?? obj.tint ?? "";
       let hex = "";
@@ -428,187 +442,78 @@ export function createAuthorUI(opts) {
       }
     } else presentation.style.display = "none";
 
-    const displayRow = container.querySelector("#author-displayname-row");
-    if (found.type === "majorWaypoint" || found.type === "extractionBeacon") {
-      displayRow.style.display = "";
-      container.querySelector("#author-displayname").value = obj.displayName ?? "";
-    } else displayRow.style.display = "none";
-
-    const creatureFields = container.querySelector("#author-creature-fields");
-    if (found.type === "creature") {
-      creatureFields.style.display="";
-      container.querySelector("#author-creature-type").value = obj.type;
-      container.querySelector("#author-temper").value = obj.temperament;
-      container.querySelector("#author-spawn-x").value = obj.pos?.x ?? "";
-      container.querySelector("#author-spawn-z").value = obj.pos?.z ?? "";
-      container.querySelector("#author-home-x").value = obj.homePos?.x ?? "";
-      container.querySelector("#author-home-z").value = obj.homePos?.z ?? "";
-      container.querySelector("#author-roam").value = obj.roamRadius ?? "";
-      container.querySelector("#author-notice").value = obj.noticeRadius ?? "";
-      container.querySelector("#author-personal").value = obj.personalSpace ?? "";
-      container.querySelector("#author-leash").value = obj.leashRadius ?? "";
-    } else creatureFields.style.display="none";
-    const anchorFields = container.querySelector("#author-anchor-fields");
-    if (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi") {
-      anchorFields.style.display="";
-      container.querySelector("#author-anchor-type").value = obj.type;
-      const rEl = container.querySelector("#author-requires");
-      rEl.value = obj.requires ? JSON.stringify(obj.requires) : "";
-      rEl.style.display = found.type === "poi" ? "" : "none";
-      rEl.parentElement.style.display = found.type === "poi" ? "" : "none";
-      if (found.type !== "poi") container.querySelector("#author-requires").style.display="none";
-    } else anchorFields.style.display="none";
+    renderCustomFields(found, def);
+    container.querySelector("#author-duplicate").style.display = caps?.duplicatable ? "" : "none";
+    container.querySelector("#author-delete").style.display = caps?.deletable ? "" : "none";
   }
 
-  function getSelectedPatch() {
-    const patch = {};
-    const x = parseFloat(container.querySelector("#author-x").value);
-    const z = parseFloat(container.querySelector("#author-z").value);
-    const y = parseFloat(container.querySelector("#author-y").value);
-    const rotDeg = parseFloat(container.querySelector("#author-rot").value);
-    const w = parseFloat(container.querySelector("#author-w").value);
-    const d = parseFloat(container.querySelector("#author-h").value);
-    const height = parseFloat(container.querySelector("#author-height").value);
-    const found = selectedId ? draftApi.findObjectById(selectedId) : null;
-    if (!isNaN(x) && !isNaN(z)) {
-      if (found && (found.type === "platform" || found.type === "obstacle")) {
-        patch.x = x; patch.z = z; if (!isNaN(y)) patch.y = y;
-      } else {
-        patch.pos = { x, y: isNaN(y)?0:y, z };
-      }
-    } else if (!isNaN(x) && found && (found.type === "platform" || found.type === "obstacle")) {
-      patch.x = x;
-    }
-    if (!isNaN(rotDeg)) {
-      if (found && (found.type === "campSpawn" || found.type === "runSpawn")) patch.facingYaw = rotDeg * Math.PI / 180;
-      else patch.rotY = rotDeg * Math.PI / 180;
-    }
-    // Registry-driven size handling
-    const defForSize = found ? resolveAuthorType(found) : null;
-    const sizeModeForPatch = defForSize ? (defForSize.capabilities.sizeMode ?? defForSize.sizeMode) : null;
-    if (defForSize && defForSize.capabilities.resize) {
-      if (sizeModeForPatch === "uniform") {
-        const scaleVal = parseFloat(container.querySelector("#author-scale").value);
-        if (!isNaN(scaleVal)) { patch.uniformScale = scaleVal; patch.scale = scaleVal; }
-      } else if (sizeModeForPatch === "box") {
-        if (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider" || found.collection === "props" || found.collection === "groundPatches") {
-          const size = {};
-          if (!isNaN(w)) size.w = w;
-          if (!isNaN(d)) size.d = d;
-          if (!isNaN(height)) size.h = height;
-          if (Object.keys(size).length) patch.size = size;
-        } else if (found.type === "platform" || found.type === "obstacle" || found.collection === "platforms" || found.collection === "obstacles") {
-          if (!isNaN(w)) patch.w = w;
-          if (!isNaN(d)) patch.h = d;
-          if (!isNaN(height)) patch.height = height;
-        } else if (found.type === "climbable" || found.collection === "climbables") {
-          // ladder: w=width, h=depth, height=vertical
-          if (!isNaN(w)) patch.w = w;
-          if (!isNaN(d)) patch.h = d;
-          if (!isNaN(height)) patch.height = height;
-          // also allow size object for uniform? For ladder box mode, size.height maps to height
-          const size = {};
-          if (!isNaN(w)) size.w = w;
-          if (!isNaN(d)) size.d = d;
-          if (!isNaN(height)) size.h = height;
-          if (Object.keys(size).length) patch.size = size;
-        } else if (found.type === "poi" || found.collection === "pois") {
-          // POI uniform handled above, but fallback box for chest? Allow size as uniform scale already
-          const scaleVal = parseFloat(container.querySelector("#author-scale").value);
-          if (!isNaN(scaleVal)) { patch.uniformScale = scaleVal; }
-        }
-      }
-    } else {
-      // No resize supported: ignore size inputs
-    }
-    const selRegion = selRegionEl.value;
-    if (selRegion) patch.regionId = selRegion;
-    if (found && found.type === "creature") {
-      patch.creatureType = container.querySelector("#author-creature-type").value;
-      patch.temperament = container.querySelector("#author-temper").value;
-    }
-    if (found && (found.type === "majorWaypoint" || found.type === "extractionBeacon" || found.type === "poi")) {
-      const t = container.querySelector("#author-anchor-type").value.trim();
-      if (t) patch.type = t;
-    }
-    if (found && (found.type === "majorWaypoint" || found.type === "extractionBeacon")) {
-      const dn = container.querySelector("#author-displayname").value.trim();
-      if (dn) patch.displayName = dn;
-      else patch.displayName = "";
-    }
-    if (found && (found.type === "prop" || found.type === "groundPatch" || found.type === "boundaryCollider")) {
-      const vis = container.querySelector("#author-visible");
-      const coll = container.querySelector("#author-collision");
-      const op = parseFloat(container.querySelector("#author-opacity").value);
-      const tintText = container.querySelector("#author-tint-text").value.trim();
-      const tintColor = container.querySelector("#author-tint").value;
-      if (vis) patch.visibleInPlay = vis.checked;
-      if (coll) patch.collisionEnabled = coll.checked;
-      if (!isNaN(op)) patch.opacity = Math.max(0, Math.min(1, op));
-      if (tintText) patch.color = tintText;
-      else if (tintColor && tintColor !== "#ffffff") patch.color = tintColor;
-      else if (!tintText && (found.obj.color !== undefined || found.obj.tint !== undefined)) {
-        // if user cleared, keep empty? We'll treat empty as no override - handled via display logic? For now if cleared, set to undefined by deleting?
-        // We'll set color to undefined to remove tint? But patch.color empty would keep previous; need to allow clearing.
-        // If text empty and color is #ffffff (default), we interpret as no tint if originally no tint
-        if (found.obj.color !== undefined || found.obj.tint !== undefined) {
-          // user cleared text and color is white -> remove
-          if (!tintText) patch.color = undefined;
-        }
-      }
-    }
-    return patch;
+  const commonTransformIds = new Set([
+    "author-x", "author-y", "author-z", "author-rot",
+    "author-w", "author-h", "author-height", "author-scale",
+  ]);
+
+  function parseNumber(id) {
+    const value = Number(container.querySelector(`#${id}`).value);
+    return Number.isFinite(value) ? value : undefined;
   }
 
-  const formInputs = container.querySelectorAll("#author-selected-form input, #author-selected-form select");
-  for (const inp of formInputs) {
-    inp.addEventListener("change", () => {
-      if (!selectedId) return;
-      const patch = getSelectedPatch();
-      // Handle extra fields not in patch (creature homePos, requires, displayName via patch already covers most)
-      // For creature extra radii and homePos, we already build patch via getSelectedPatch for type/temperament, but need roam etc as patch extensions
-      const found = draftApi.findObjectById(selectedId);
-      let extraPatch = {};
-      if (found && found.type === "creature") {
-        const roam = parseFloat(container.querySelector("#author-roam").value);
-        const notice = parseFloat(container.querySelector("#author-notice").value);
-        const personal = parseFloat(container.querySelector("#author-personal").value);
-        const leash = parseFloat(container.querySelector("#author-leash").value);
-        if (!isNaN(roam)) extraPatch.roamRadius = roam;
-        if (!isNaN(notice)) extraPatch.noticeRadius = notice;
-        if (!isNaN(personal)) extraPatch.personalSpace = personal;
-        if (!isNaN(leash)) extraPatch.leashRadius = leash;
-        // homePos handling: treat spawn vs home separately; for simplicity, include homePos if changed
-        const hx = parseFloat(container.querySelector("#author-home-x").value);
-        const hz = parseFloat(container.querySelector("#author-home-z").value);
-        if (!isNaN(hx) && !isNaN(hz)) extraPatch.homePos = { x: hx, y: (found.obj.homePos?.y ?? 0), z: hz };
-        // spawn pos already in patch.pos via X/Z fields, but if user edited spawn fields separately, patch already has pos
-      }
-      if (found && (found.type === "poi" || found.type === "majorWaypoint" || found.type === "extractionBeacon")) {
-        if (found.type === "poi") {
-          const reqStr = container.querySelector("#author-requires").value.trim();
-          if (reqStr) { try { extraPatch.requires = JSON.parse(reqStr); } catch { extraPatch.requires = reqStr; } }
-          else extraPatch.requires = null;
-        }
-      }
-      // merge extra
-      Object.assign(patch, extraPatch);
-      // For prop presentation, tint/opacity etc already in patch via getSelectedPatch; no direct mutation needed
-      const res = draftApi.updateTransform(selectedId, patch);
-      // If creature and patch failed due to homePos, try without? but spec says should validate
-      if (res.ok) {
-        // For creature, if spawn changed and moveHome checked, we already handled via patch.pos auto homeDelta inside draft; extra homePos patch may override
-        const v = draftApi.validate();
-        if (!v.ok) statusEl.textContent = "⚠ " + v.error, statusEl.style.color="#ffaaaa";
-        else statusEl.textContent = "Edited — " + selectedId, statusEl.style.color="#aaffaa";
-        opts.onDraftChanged?.(selectedId);
-      } else {
-        statusEl.textContent = res.error; statusEl.style.color="#ffaaaa";
-        // revert UI to canonical values
-        setSelected(selectedId);
-      }
+  function commitCommonTransform() {
+    if (!selectedId) return;
+    const moveHome = container.querySelector('[data-author-field="moveHomeWithSpawn"]');
+    const result = actions.commitInspectorTransform(selectedId, {
+      x: parseNumber("author-x"),
+      y: parseNumber("author-y"),
+      z: parseNumber("author-z"),
+      rotationY: (parseNumber("author-rot") ?? 0) * Math.PI / 180,
+      width: parseNumber("author-w"),
+      depth: parseNumber("author-h"),
+      height: parseNumber("author-height"),
+      uniformScale: parseNumber("author-scale"),
+      moveHomeWithSpawn: moveHome ? moveHome.checked : undefined,
     });
+    if (!result.ok) {
+      setStatus(result.error, true);
+      setSelected(selectedId);
+      return;
+    }
+    setStatus(`Edited — ${selectedId}`, false);
+    opts.onDraftChanged?.(selectedId);
   }
+
+  container.querySelector("#author-selected-form").addEventListener("change", (event) => {
+    if (!selectedId) return;
+    const input = event.target;
+    if (commonTransformIds.has(input.id)) {
+      commitCommonTransform();
+      return;
+    }
+    const presentationMap = {
+      "author-visible": ["visibleInPlay", input.checked],
+      "author-collision": ["collisionEnabled", input.checked],
+      "author-opacity": ["opacity", Number(input.value)],
+      "author-tint-text": ["color", input.value.trim() || undefined],
+      "author-tint": ["color", input.value],
+    };
+    if (presentationMap[input.id]) {
+      const [key, value] = presentationMap[input.id];
+      const result = actions.commitInspectorField(selectedId, key, value);
+      if (!result.ok) setStatus(result.error, true);
+      else { setStatus(`Edited — ${selectedId}`, false); opts.onDraftChanged?.(selectedId); }
+      return;
+    }
+    const key = input.dataset.authorField;
+    if (!key || input.dataset.authorEditorOnly === "true") return;
+    const type = input.dataset.authorFieldType;
+    const value = type === "number" ? Number(input.value) : type === "boolean" ? input.checked : input.value;
+    const result = actions.commitInspectorField(selectedId, key, value);
+    if (!result.ok) {
+      setStatus(result.error, true);
+      setSelected(selectedId);
+      return;
+    }
+    setStatus(`Edited ${key} — ${selectedId}`, false);
+    opts.onDraftChanged?.(selectedId);
+  });
   // Tint color picker live sync to text
   const tintColorInput = container.querySelector("#author-tint");
   const tintTextInput = container.querySelector("#author-tint-text");
@@ -622,7 +527,11 @@ export function createAuthorUI(opts) {
   selRegionEl.addEventListener("change", () => {
     if (!selectedId) return;
     const newRegion = selRegionEl.value;
-    const res = draftApi.updateTransform(selectedId, { regionId: newRegion });
+    const found = draftApi.findObjectById(selectedId);
+    const normalized = found ? readNormalizedTransform(found) : null;
+    const res = normalized
+      ? draftApi.updateNormalizedTransform(selectedId, { ...normalized, regionId: newRegion })
+      : { ok: false, error: "object is not authorable" };
     if (res.ok) {
       const v = draftApi.validate();
       if (!v.ok) statusEl.textContent = "⚠ " + v.error;
@@ -661,15 +570,11 @@ export function createAuthorUI(opts) {
       const dz = parseFloat(btn.dataset.dz);
       const found = draftApi.findObjectById(selectedId);
       if (!found) return;
-      const curX = found.obj.pos ? found.obj.pos.x : found.obj.x;
-      const curZ = found.obj.pos ? found.obj.pos.z : found.obj.z;
-      const curY = found.obj.pos ? (found.obj.pos.y ?? 0) : (found.obj.y ?? 0);
-      const newX = curX + dx;
-      const newZ = curZ + dz;
-      let patch = {};
-      if (found.obj.pos) patch.pos = { x: newX, y: curY, z: newZ };
-      else patch = { x: newX, z: newZ };
-      const res = draftApi.updateTransform(selectedId, patch);
+      const normalized = readNormalizedTransform(found);
+      if (!normalized) return;
+      const res = actions.commitTransform(selectedId, {
+        position: { ...normalized.position, x: normalized.position.x + dx, z: normalized.position.z + dz },
+      });
       if(!res.ok){ statusEl.textContent = res.error; statusEl.style.color="#ffaaaa"; return; }
       setSelected(selectedId);
       const v = draftApi.validate();
@@ -681,38 +586,21 @@ export function createAuthorUI(opts) {
     if (!selectedId) return;
     const f = draftApi.findObjectById(selectedId);
     if (!f) return;
-    if (f.type==="platform"||f.type==="obstacle") {
-      const curY = f.obj.y ?? f.obj.baseY ?? 0;
-      const ny = curY + 0.2;
-      const res = draftApi.updateTransform(selectedId, { y: ny });
-      if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
-      setSelected(selectedId); opts.onDraftChanged?.(selectedId); return;
-    }
-    if (f.obj.pos) {
-      const ny = (f.obj.pos.y ?? 0) + 0.2;
-      const patch = { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } };
-      const res = draftApi.updateTransform(selectedId, patch);
-      if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
-      setSelected(selectedId); opts.onDraftChanged?.(selectedId);
-    }
+    const normalized = readNormalizedTransform(f);
+    if (!normalized) return;
+    const res = actions.commitTransform(selectedId, { position: { ...normalized.position, y: normalized.position.y + 0.2 } });
+    if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
+    setSelected(selectedId); opts.onDraftChanged?.(selectedId);
   });
   container.querySelector("#author-down").addEventListener("click", () => {
     if (!selectedId) return;
     const f = draftApi.findObjectById(selectedId);
     if (!f) return;
-    if (f.type==="platform"||f.type==="obstacle") {
-      const curY = f.obj.y ?? f.obj.baseY ?? 0; const ny = Math.max(0, curY -0.2);
-      const res = draftApi.updateTransform(selectedId,{y:ny});
-      if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
-      setSelected(selectedId); opts.onDraftChanged?.(selectedId); return;
-    }
-    if (f.obj.pos) {
-      const ny = Math.max(-1, (f.obj.pos.y ?? 0) - 0.2);
-      const patch = { pos: { x: f.obj.pos.x, y: ny, z: f.obj.pos.z } };
-      const res = draftApi.updateTransform(selectedId, patch);
-      if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
-      setSelected(selectedId); opts.onDraftChanged?.(selectedId);
-    }
+    const normalized = readNormalizedTransform(f);
+    if (!normalized) return;
+    const res = actions.commitTransform(selectedId, { position: { ...normalized.position, y: Math.max(-1, normalized.position.y - 0.2) } });
+    if(!res.ok) { statusEl.textContent=res.error; statusEl.style.color="#ffaaaa"; return; }
+    setSelected(selectedId); opts.onDraftChanged?.(selectedId);
   });
 
   toggleBtn.addEventListener("click", () => {

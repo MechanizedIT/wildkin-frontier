@@ -1,6 +1,6 @@
 # Wildkin Frontier — Phase 4A.2.2: Author Object Contract & Parity Foundation
 
-**Status:** READY TO IMPLEMENT  
+**Status:** IMPLEMENTED — AUTOMATED/BROWSER VERIFIED; HUMAN ACCEPTANCE PENDING
 **Active slice:** Phase 4A.2.2  
 **Canonical spec:** `docs/Specs/Phase_4A.2.2.md`
 
@@ -103,3 +103,11 @@ Human must verify after implementation:
 When this slice is human-accepted, **freeze generic Author infrastructure** and proceed to a separate `Phase 4B.0 — Primitive Kitbash / Visual Asset Authoring`, then return to Phase 4B expedition content/pacing.
 
 Read and implement the full requirements in `docs/Specs/Phase_4A.2.2.md`. Do not begin 4B.0.
+
+## 2026-08-24 stabilization checkpoint
+
+- The production Author UI and canvas workflow now route placement and transforms through `authorActions`, resolved registry capabilities, normalized transforms, and descriptor-driven preview/proxy synchronization.
+- Edit and Runtime Play now construct current statics, traversal objects, resources, Wildkin, anchors, and POIs through the shared deterministic `VisualFactory` seam. Detailed resource/Wildkin lifecycle wrappers remain separate from their factory-created visual children.
+- Box, Tree, and Ladder were exercised in the real in-app browser at `?author=1`; existing Ladder transform changes updated the coherent root plus dependent traversal data, Tree/Box placement used real geometry immediately, a hidden collidable Box gained a live descriptor-sized proxy, and an Edit→Play reload retained the placed Box. Temporary proof edits were removed afterward. Browser console: no warnings/errors.
+- Automated gates and packaged-build evidence are recorded in `docs/BUILD_LOG.md`. The human acceptance tests in spec §17 remain **TO BE PERFORMED BY HUMAN**; automated/browser evidence does not mark perceptual or gameplay acceptance passed.
+- Phase 4B.0 remains out of scope and must not start until the owner accepts this slice.

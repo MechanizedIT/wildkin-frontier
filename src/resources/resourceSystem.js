@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { RESOURCE_TYPES, HARVEST_CONFIG, isHarvestCompatibleMode } from "./resourceConfig.js";
 import { createResourceNode, hideOneChunk, showAllChunks } from "./createResourceNode.js";
 import { isPlayerInsideColliderVolume, distance3D } from "./harvestLogic.js";
+import { describeResourceCollider, getColliderCenter, getColliderHalfExtents } from "../world/colliderDescriptor.js";
 
 export function createResourceSystem(scene, physicsWorld, placements) {
   const nodes = [];
@@ -10,12 +11,36 @@ export function createResourceSystem(scene, physicsWorld, placements) {
   let activeRegionSet = null; // null = all active (backwards compat for tests without region manager)
   let regionInactiveMap = new Map(); // node index -> bool whether collider removed due to region
 
+  function createRuntimeCollider(typeId, state) {
+    const descriptor = describeResourceCollider({
+      typeId,
+      uniformScale: state.uniformScale ?? 1,
+      position: state.position,
+      rotationY: state.rotationY ?? 0,
+    });
+    if (!descriptor.enabled || descriptor.shape !== "box") return null;
+    const center = getColliderCenter(descriptor);
+    const half = getColliderHalfExtents(descriptor);
+    const yaw = descriptor.rotationY ?? 0;
+    const colliderDesc = physicsWorld.RAPIER.ColliderDesc.cuboid(half.x, half.y, half.z)
+      .setTranslation(center.x, center.y, center.z);
+    colliderDesc.setRotation?.({ x: 0, y: Math.sin(yaw / 2), z: 0, w: Math.cos(yaw / 2) });
+    colliderDesc
+      .setFriction(0.6)
+      .setActiveCollisionTypes(physicsWorld.RAPIER.ActiveCollisionTypes.ALL);
+    return physicsWorld.world.createCollider(colliderDesc);
+  }
+
   // Create nodes from placements [{type, pos, regionId?, id?}]
   for (let i = 0; i < placements.length; i++) {
     const p = placements[i];
     const regionId = p.regionId ?? p.region ?? null;
     const nodeId = p.id ?? `${p.type}_${i}`;
-    const { group, state, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks } = createResourceNode(p.type, p.pos, i, nodeId);
+    const transform = {
+      rotationY: p.rotY ?? p.rotationY ?? 0,
+      uniformScale: p.uniformScale ?? p.scale ?? 1,
+    };
+    const { group, state, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, visualRoot } = createResourceNode(p.type, p.pos, i, nodeId, transform);
     state.regionId = regionId;
     group.userData.authorId = nodeId;
     group.userData.resourceId = nodeId;
@@ -26,19 +51,10 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     let collider = null;
     let remnantCollider = null;
     if (type.solid && type.colliderHalfExtents) {
-      const RAPIER = physicsWorld.RAPIER;
-      const world = physicsWorld.world;
-      const he = type.colliderHalfExtents;
-      const baseY = p.pos.y ?? 0;
-      const ty = baseY + type.colliderCenterY;
-      const desc = RAPIER.ColliderDesc.cuboid(he.x, he.y, he.z)
-        .setTranslation(p.pos.x, ty, p.pos.z)
-        .setFriction(0.6)
-        .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
-      collider = world.createCollider(desc);
-      world.step();
+      collider = createRuntimeCollider(p.type, state);
+      physicsWorld.world.step();
     }
-    nodes.push({ group, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, _regionInactive: false });
+    nodes.push({ group, visualRoot, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, _regionInactive: false });
   }
 
   function isRegionActive(regionId) {
@@ -99,7 +115,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
 
   function getInteractionPoint(node) {
     const base = node.state.position;
-    const h = node.type.interactionHeight ?? node.type.colliderCenterY ?? 0.5;
+    const h = (node.type.interactionHeight ?? node.type.colliderCenterY ?? 0.5) * (node.state.uniformScale ?? 1);
     return { x: base.x, y: (base.y ?? 0) + h, z: base.z };
   }
 
@@ -169,7 +185,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
 
   function isRespawnVisible(node, playerPos) {
     const base = node.state.position;
-    const nodeY = (base.y ?? 0) + (node.type.interactionHeight ?? 0.5) * 0.5;
+    const nodeY = (base.y ?? 0) + (node.type.interactionHeight ?? 0.5) * (node.state.uniformScale ?? 1) * 0.5;
     const pY = playerPos.y ?? 0.5;
     const dx = base.x - playerPos.x;
     const dy = nodeY - pY;
@@ -227,14 +243,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     if (isPlayerInsideColliderVolume(playerPos, node)) return false;
     if (node.collider) return true;
     const RAPIER = physicsWorld.RAPIER;
-    const he = node.type.colliderHalfExtents;
-    const baseY = node.state.position.y ?? 0;
-    const ty = baseY + node.type.colliderCenterY;
-    const desc = RAPIER.ColliderDesc.cuboid(he.x, he.y, he.z)
-      .setTranslation(node.state.position.x, ty, node.state.position.z)
-      .setFriction(0.6)
-      .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
-    node.collider = physicsWorld.world.createCollider(desc);
+    node.collider = createRuntimeCollider(node.state.typeId, node.state);
     physicsWorld.world.step();
     return true;
   }
@@ -291,11 +300,11 @@ export function createResourceSystem(scene, physicsWorld, placements) {
         if (n._wobbleTime < dur) {
           const t = n._wobbleTime / dur;
           const squash = Math.sin(t * Math.PI) * n._wobbleAmount;
-          n.group.scale.set(1 + squash * 0.4, 1 - squash, 1 + squash * 0.4);
-          n.group.rotation.z = Math.sin(t * Math.PI * 2) * 0.08 * n._wobbleAmount * 5;
+          n.visualRoot.scale.set(1 + squash * 0.4, 1 - squash, 1 + squash * 0.4);
+          n.visualRoot.rotation.z = Math.sin(t * Math.PI * 2) * 0.08 * n._wobbleAmount * 5;
         } else {
-          n.group.scale.set(1, 1, 1);
-          n.group.rotation.z = 0;
+          n.visualRoot.scale.set(1, 1, 1);
+          n.visualRoot.rotation.z = 0;
           n._wobbleTime = undefined;
         }
       }
@@ -316,9 +325,9 @@ export function createResourceSystem(scene, physicsWorld, placements) {
         if (n._respawnPop < dur) {
           const t = n._respawnPop / dur;
           const s = 0.7 + Math.sin(t * Math.PI) * 0.35;
-          n.group.scale.set(s, s, s);
+          n.visualRoot.scale.set(s, s, s);
         } else {
-          n.group.scale.set(1, 1, 1);
+          n.visualRoot.scale.set(1, 1, 1);
           n._respawnPop = undefined;
         }
       }

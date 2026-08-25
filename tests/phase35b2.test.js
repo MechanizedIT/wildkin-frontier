@@ -17,6 +17,16 @@ const ROOT = path.resolve(__dirname, "..");
 
 function makeScene(){ return new THREE.Scene(); }
 function makeApp(){ const el = { style:{}, appendChild:()=>{}, addEventListener:()=>{}, removeEventListener:()=>{}, getBoundingClientRect:()=>({left:0,top:0,width:520,height:900}), setPointerCapture:()=>{}, releasePointerCapture:()=>{} }; el.closest = ()=>null; return el; }
+function authoredVisual(group, id) {
+  const root = group.children.find((child) => child.userData?.authorVisualRoot && child.userData.authorId === id);
+  let mesh = null;
+  root?.traverse((object) => { if (!mesh && object.isMesh) mesh = object; });
+  return { root, mesh };
+}
+function worldY(object) {
+  object.updateWorldMatrix(true, false);
+  return object.getWorldPosition(new THREE.Vector3()).y;
+}
 
 describe("Phase 3.5B.2 — input ownership", () => {
   it("explicit disable prevents joystick start", () => {
@@ -87,9 +97,9 @@ describe("Phase 3.5B.2 — transform parity", () => {
     const draft = draftApi.getDraft();
     const reg = createWorldRegistry(draft);
     const pg = createStaticWorld(reg.data);
-    const mesh = pg.group.children.find(c=> c.name===prop.id);
+    const { root, mesh } = authoredVisual(pg.group, prop.id);
     assert.ok(mesh, "mesh should exist");
-    assert.ok(Math.abs(mesh.rotation.y - rot) < 0.001, "visual rotation should match");
+    assert.ok(Math.abs(root.rotation.y - rot) < 0.001, "visual root rotation should match");
     const obs = pg.obstacles.find(o=> o.id===prop.id);
     assert.ok(obs, "prop should have collider");
     assert.ok(Math.abs((obs.rotY ?? 0) - rot) < 0.001, "collider rotY should match visual");
@@ -109,9 +119,9 @@ describe("Phase 3.5B.2 — transform parity", () => {
     const obs = pg.obstacles.find(o=> o.id===prop.id);
     assert.ok(obs);
     assert.equal(obs.baseY, baseY);
-    const mesh = pg.group.children.find(c=> c.name===prop.id);
+    const { mesh } = authoredVisual(pg.group, prop.id);
     const h = prop.size?.h ?? 1;
-    assert.ok(Math.abs(mesh.position.y - (baseY + h/2 -0.02)) < 0.01);
+    assert.ok(Math.abs(worldY(mesh) - (baseY + h/2 -0.02)) < 0.01);
   });
   it("elevated platform/obstacle collision includes baseY if exposed", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
@@ -125,8 +135,8 @@ describe("Phase 3.5B.2 — transform parity", () => {
     const p = pg.platforms.find(x=> x.id===plat.id);
     assert.ok(p);
     assert.equal(p.baseY, newY);
-    const mesh = pg.group.children.find(c=> c.name===plat.id);
-    assert.ok(Math.abs(mesh.position.y - (newY + p.height/2 -0.02)) < 0.01);
+    const { mesh } = authoredVisual(pg.group, plat.id);
+    assert.ok(Math.abs(worldY(mesh) - (newY + p.height/2 -0.02)) < 0.01);
   });
   it("W/D/Height mappings produce matching render/collider dimensions", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
@@ -137,7 +147,7 @@ describe("Phase 3.5B.2 — transform parity", () => {
     const draft = draftApi.getDraft();
     const reg = createWorldRegistry(draft);
     const pg = createStaticWorld(reg.data);
-    const mesh = pg.group.children.find(c=> c.name===prop.id);
+    const { mesh } = authoredVisual(pg.group, prop.id);
     assert.ok(mesh);
     const gp = mesh.geometry.parameters;
     assert.ok(Math.abs(gp.width - newW) < 0.01);
@@ -191,7 +201,7 @@ describe("Phase 3.5B.2 — dimensions / preview", () => {
     const draft = draftApi.getDraft();
     const reg = createWorldRegistry(draft);
     const pg = createStaticWorld(reg.data);
-    const mesh = pg.group.children.find(c=> c.name===prop.id);
+    const { mesh } = authoredVisual(pg.group, prop.id);
     const gp = mesh.geometry.parameters;
     assert.ok(Math.abs(gp.width - newW) < 0.01, "preview geometry should reflect new width");
   });
@@ -206,7 +216,7 @@ describe("Phase 3.5B.2 — dimensions / preview", () => {
     assert.deepEqual(found.size, newSize);
     const reg2 = createWorldRegistry(parsed);
     const pg2 = createStaticWorld(reg2.data);
-    const mesh2 = pg2.group.children.find(c=> c.name===prop.id);
+    const { mesh: mesh2 } = authoredVisual(pg2.group, prop.id);
     const gp2 = mesh2.geometry.parameters;
     assert.ok(Math.abs(gp2.width - newSize.w)<0.01 && Math.abs(gp2.height - newSize.h)<0.01);
   });

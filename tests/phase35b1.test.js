@@ -14,6 +14,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 
 function makeScene(){ return new THREE.Scene(); }
+function authoredVisual(group, id) {
+  const root = group.children.find((child) => child.userData?.authorVisualRoot && child.userData.authorId === id);
+  let mesh = null;
+  root?.traverse((object) => { if (!mesh && object.isMesh) mesh = object; });
+  return { root, mesh };
+}
+function worldY(object) {
+  object.updateWorldMatrix(true, false);
+  return object.getWorldPosition(new THREE.Vector3()).y;
+}
 
 describe("Phase 3.5B.1 — draft / transforms", () => {
   it("X/Z nudge changes draft", () => {
@@ -33,12 +43,12 @@ describe("Phase 3.5B.1 — draft / transforms", () => {
     const draft = draftApi.getDraft();
     const reg = createWorldRegistry(draft);
     const pg = createStaticWorld(reg.data);
-    const mesh = pg.group.children.find(c=> c.name===prop.id);
+    const { mesh } = authoredVisual(pg.group, prop.id);
     assert.ok(mesh, "prop mesh should exist");
     // mesh y = baseY + height/2
     const h = prop.size?.h ?? 1;
     const expectedY = newY + h/2 -0.02;
-    assert.ok(Math.abs(mesh.position.y - expectedY) < 0.01, `mesh y ${mesh.position.y} should be ${expectedY}`);
+    assert.ok(Math.abs(worldY(mesh) - expectedY) < 0.01, `mesh world y ${worldY(mesh)} should be ${expectedY}`);
     // collision baseY matches
     const obs = pg.obstacles.find(o=> o.id===prop.id);
     if (obs) assert.equal(obs.baseY, newY);
@@ -94,13 +104,13 @@ describe("Phase 3.5B.1 — static builder / collision", () => {
     const draft = draftApi.getDraft();
     const reg = createWorldRegistry(draft);
     const pg = createStaticWorld(reg.data);
-    const mesh = pg.group.children.find(c=> c.name===prop.id);
+    const { mesh } = authoredVisual(pg.group, prop.id);
     assert.ok(mesh);
     const obs = pg.obstacles.find(o=> o.id===prop.id);
     assert.ok(obs, "prop should have collider");
     const h = prop.size?.h ?? 1;
     assert.equal(obs.baseY, 2.0);
-    assert.ok(Math.abs(mesh.position.y - (2.0 + h/2 -0.02)) < 0.01);
+    assert.ok(Math.abs(worldY(mesh) - (2.0 + h/2 -0.02)) < 0.01);
   });
   it("elevated platform visual and collision agree if Y supported", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
@@ -112,9 +122,9 @@ describe("Phase 3.5B.1 — static builder / collision", () => {
     const draft = draftApi.getDraft();
     const reg = createWorldRegistry(draft);
     const pg = createStaticWorld(reg.data);
-    const mesh = pg.group.children.find(c=> c.name===plat.id);
+    const { mesh } = authoredVisual(pg.group, plat.id);
     assert.ok(mesh);
-    assert.ok(Math.abs(mesh.position.y - (newY + plat.height/2 -0.02)) < 0.01);
+    assert.ok(Math.abs(worldY(mesh) - (newY + plat.height/2 -0.02)) < 0.01);
     const p = pg.platforms.find(p=>p.id===plat.id);
     assert.equal(p.baseY, newY);
   });
@@ -228,5 +238,4 @@ describe("Phase 3.5B.1 — mode isolation", () => {
     assert.ok(src.includes("isForestBoundary") && src.includes("opacity = 0.22"));
   });
 });
-
 

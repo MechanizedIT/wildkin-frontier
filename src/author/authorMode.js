@@ -1,11 +1,17 @@
 // src/author/authorMode.js — desktop dev-only Author Mode (Phase 4A.2.2 Author Object Contract)
 import * as THREE from "three";
 import { createAuthorDraft } from "./authorDraft.js";
-import { normalizeStaticDescriptor, getVisualCenter } from "../world/staticDescriptor.js";
 import { createAuthorUI } from "./authorUI.js";
-import { resolveAuthorType, readNormalizedTransform, getAuthorVisualRef } from "./authorTypeRegistry.js";
-import { createVisual } from "../world/visualFactory.js";
-import { getColliderDescriptor as getColliderDescFromRegistry } from "./authorTypeRegistry.js";
+import { resolveAuthorType, readNormalizedTransform } from "./authorTypeRegistry.js";
+import { applyVisualTransform } from "../world/visualFactory.js";
+import { createAuthorActions } from "./authorActions.js";
+import {
+  applyColliderProxyTransform,
+  findAuthorVisualRoot,
+  previewColliderDescriptor,
+  syncAuthorVisual,
+  syncEditProxy,
+} from "./authorPreview.js";
 
 export function createAuthorMode(opts) {
   const scene = opts.scene;
@@ -20,6 +26,7 @@ export function createAuthorMode(opts) {
   let regionManager = opts.regionManager || null;
 
   const draftApi = createAuthorDraft(draftSeed);
+  const actions = createAuthorActions(draftApi);
   const persisted = draftApi.loadPersisted();
   const usingDraft = persisted !== null;
   if (!usingDraft) draftApi.setDraft(draftSeed);
@@ -35,6 +42,7 @@ export function createAuthorMode(opts) {
   let suppressGameplay = false;
   let pendingPlace = null; // {kind, subtype, label}
   let isDragging = false;
+  let activePointerId = null;
   let dragOffset = { x: 0, z: 0 };
   let dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   let dragState = null; // {id, startPos, previewPos, startFacing, previewFacing} preview-only, no canonical mutation
@@ -44,6 +52,7 @@ export function createAuthorMode(opts) {
 
   const ui = createAuthorUI({
     draftApi,
+    actions,
     worldRegistry,
     onCreate: (item) => {
       if (!isEdit) {
@@ -124,7 +133,7 @@ export function createAuthorMode(opts) {
   function findAllMeshesByAuthorId(id) {
     const arr = [];
     scene.traverse((obj) => {
-      if (obj.userData && (obj.userData.authorId === id || obj.userData.propId === id || obj.userData.resourceId === id || obj.userData.creatureId === id || obj.userData.anchorId === id || obj.userData.poiId === id || obj.userData.platformId === id)) {
+      if (obj.userData && (obj.userData.authorId === id || obj.userData.propId === id || obj.userData.resourceId === id || obj.userData.creatureId === id || obj.userData.anchorId === id || obj.userData.poiId === id || obj.userData.platformId === id || obj.userData.climbableId === id)) {
         arr.push(obj);
       }
     });
@@ -142,6 +151,33 @@ export function createAuthorMode(opts) {
     }
     return fallback;
   }
+
+  function applyPresentation(root, found) {
+    if (!root) return;
+    const visible = found.obj.visibleInPlay !== false;
+    const opacity = found.obj.opacity ?? 1;
+    const tint = found.obj.color ?? found.obj.tint;
+    root.visible = visible;
+    root.traverse((object) => {
+      if (!object.isMesh || object.userData?.isEditProxy) return;
+      if (!object.material || (opacity >= 1 && tint === undefined && !object.userData.hasClonedMaterial)) return;
+      if (!object.userData.hasClonedMaterial) {
+        object.material = object.material.clone();
+        object.userData.hasClonedMaterial = true;
+        object.userData.baseColor = object.material.color?.getHex?.();
+        object.userData.baseTransparent = object.material.transparent;
+        object.userData.baseOpacity = object.material.opacity ?? 1;
+      }
+      if (object.material.color) {
+        object.material.color.setHex(tint === undefined
+          ? object.userData.baseColor
+          : parseTintColor(tint, object.userData.baseColor));
+      }
+      object.material.transparent = opacity < 1 || !!object.userData.baseTransparent;
+      object.material.opacity = opacity < 1 ? opacity : object.userData.baseOpacity;
+    });
+  }
+
   // Live preview: sync a single object's mesh via normalized Author transform (registry-driven)
   function syncPreviewForId(id) {
     const found = draftApi.findObjectById(id);
@@ -167,193 +203,10 @@ export function createAuthorMode(opts) {
       updateHighlight(); updateHomeMarker(); return;
     }
 
-    // Generic visual root: find top
-    let target = findMeshByAuthorId(id);
-    if (!target) return;
-    let top = target;
-    while (top && top.parent && top.parent.userData && top.parent.userData.authorId === id) top = top.parent;
-
-    const sizeMode = def.capabilities?.sizeMode ?? def.sizeMode ?? "box";
-
-    if (sizeMode === "uniform") {
-      const scale = norm.uniformScale ?? 1;
-      // top could be Group (visualFactory) or legacy Mesh
-      if (top.isGroup) {
-        top.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
-        top.rotation.y = norm.rotationY ?? 0;
-        top.scale.set(scale, scale, scale);
-      } else if (top.isMesh) {
-        // legacy path: position base
-        top.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
-        top.rotation.y = norm.rotationY ?? 0;
-        top.scale.set(scale, scale, scale);
-      }
-    } else if (sizeMode === "box") {
-      const size = norm.size;
-      const baseY = norm.position.y ?? 0;
-      if (!size) {
-        top.position.set(norm.position.x, baseY, norm.position.z);
-        top.rotation.y = norm.rotationY ?? 0;
-      } else if (top.isMesh && top.geometry?.type === "BoxGeometry") {
-        const desiredW = size.width, desiredH = size.height, desiredD = size.depth;
-        const gp = top.geometry.parameters;
-        if (gp && (Math.abs(gp.width - desiredW) > 0.01 || Math.abs(gp.height - desiredH) > 0.01 || Math.abs(gp.depth - desiredD) > 0.01)) {
-          const newGeo = new THREE.BoxGeometry(desiredW, desiredH, desiredD);
-          top.geometry.dispose(); top.geometry = newGeo;
-        }
-        const center = { x: norm.position.x, y: baseY + size.height / 2, z: norm.position.z };
-        // For ground/boundary which use center, vs props which also use center: both center logic same (base + h/2)
-        // For water, offset is -0.04: handle via subtype check
-        const isWater = found.obj.subtype === "water";
-        if (isWater) top.position.set(center.x, baseY - 0.04, center.z);
-        else top.position.set(center.x, center.y, center.z);
-        top.rotation.y = norm.rotationY ?? 0;
-      } else if (top.isGroup) {
-        top.position.set(norm.position.x, baseY, norm.position.z);
-        top.rotation.y = norm.rotationY ?? 0;
-        // Update child box geometry sizes
-        for (const child of top.children) {
-          if (child.isMesh && child.geometry?.type === "BoxGeometry") {
-            const desiredW = size.width, desiredH = size.height, desiredD = size.depth;
-            const gp = child.geometry.parameters;
-            if (gp && (Math.abs(gp.width - desiredW) > 0.01 || Math.abs(gp.height - desiredH) > 0.01 || Math.abs(gp.depth - desiredD) > 0.01)) {
-              const newGeo = new THREE.BoxGeometry(desiredW, desiredH, desiredD);
-              child.geometry.dispose(); child.geometry = newGeo;
-            }
-            // water child offset differs
-            const isWaterChild = found.obj.subtype === "water";
-            child.position.set(0, isWaterChild ? -0.04 : size.height / 2 - 0.02, 0);
-            child.rotation.y = 0; // group handles rotation
-          }
-        }
-        // Ladder special: its wall at height/2, rungs handled via recreate size? For ladder visual, wall height changes with size.height, we need to ensure wall geometry height matches.
-        // For ladder, the visualFactory already creates wall with current size; resizing via generic box logic above handles first child (wall) but rungs positions should be recomputed? For now handle wall only.
-        if (found.type === "climbable" || found.collection === "climbables") {
-          // For climbable, ensure wall height and rung distribution coherent: we can simply recreate visual via visualFactory if size changed significantly
-          // Simpler: if size.height changed more than 0.01, rebuild visual group via createVisual
-          // But to keep simple, we will just update wall mesh height; rungs will stay at old positions (acceptable for now). Full rebuild can be added later.
-        }
-      } else {
-        top.position.set(norm.position.x, baseY, norm.position.z);
-        top.rotation.y = norm.rotationY ?? 0;
-      }
-    } else {
-      // none (waypoint/beacon/poi without scale) — just position/rotation
-      top.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
-      top.rotation.y = norm.rotationY ?? 0;
-    }
-
-    // Presentation / proxy handling (generic for all types that support presentation)
-    const obj = found.obj;
-    const vis = obj.visibleInPlay !== false;
-    const op = obj.opacity ?? 1;
-    const col = obj.color ?? obj.tint;
-    const meshes = findAllMeshesByAuthorId(id);
-    // Apply visibility/opacity/tint to non-proxy meshes
-    for (const m of meshes) {
-      if (m.userData && m.userData.isEditProxy) continue;
-      if (m.isMesh) {
-        // For waypoints etc which hide not applicable? Still keep visible as per vis
-        if (def.capabilities.presentation || def.capabilities.collisionControl || found.collection === "props" || found.collection === "groundPatches" || found.collection === "boundaryColliders") {
-          m.visible = vis;
-        }
-        const needsTint = col !== undefined;
-        const needsOpacity = op < 1 - 1e-6;
-        if ((needsTint || needsOpacity) && (found.collection === "props" || found.collection === "groundPatches" || found.collection === "boundaryColliders")) {
-          if (!m.userData.hasClonedMaterial) {
-            m.material = m.material.clone();
-            m.userData.hasClonedMaterial = true;
-            if (m.userData.baseColor === undefined) m.userData.baseColor = m.material.color.getHex();
-            m.userData.baseTransparent = m.material.transparent;
-            m.userData.baseOpacity = m.material.opacity ?? 1;
-          }
-          if (needsTint) {
-            const hex = parseTintColor(col, m.userData.baseColor ?? m.material.color.getHex());
-            m.material.color.setHex(hex);
-          } else if (m.userData.baseColor !== undefined) {
-            m.material.color.setHex(m.userData.baseColor);
-          }
-          if (needsOpacity) { m.material.transparent = true; m.material.opacity = op; }
-          else { m.material.transparent = false; m.material.opacity = 1; }
-        } else if (m.userData.hasClonedMaterial && (found.collection === "props" || found.collection === "groundPatches")) {
-          if (m.userData.baseColor !== undefined) m.material.color.setHex(m.userData.baseColor);
-          m.material.transparent = !!m.userData.baseTransparent;
-          m.material.opacity = m.userData.baseOpacity ?? 1;
-        }
-      } else if (m.isGroup && (def.capabilities.presentation || found.collection === "props")) {
-        m.visible = vis;
-      }
-    }
-
-    // Live proxy lifecycle: ensure proxy exists when hidden+collidable, remove/hide when visible
-    const enabled = obj.collisionEnabled !== false;
-    // Only types with collisionControl or presentation get proxy semantics; but for safety, consider all with enabled collision
-    const shouldHaveProxy = !vis && enabled;
-    // Find existing proxies
-    let proxies = [];
-    scene.traverse(o=>{ if(o.userData && o.userData.isEditProxy && o.userData.proxyFor===id) proxies.push(o); });
-    if (shouldHaveProxy && proxies.length===0) {
-      // Create proxy immediately (no Play→Edit needed)
-      const size = norm.size ?? { width: 1, height: 1, depth: 1 };
-      const baseY2 = norm.position.y ?? 0;
-      const w=size.width, h=size.height, d=size.depth;
-      const rotY = norm.rotationY ?? 0;
-      let proxyColor = 0xffff00;
-      if (found.collection==="groundPatches") proxyColor = 0x7bb26a;
-      else if (found.collection==="boundaryColliders") proxyColor = 0x5a6a7a;
-      else if (found.obj.subtype==="fence") proxyColor = 0x8b7a5a;
-      else if (found.obj.subtype==="forestBoundary") proxyColor = 0x2d4a2e;
-      const geo = new THREE.BoxGeometry(w,h,d);
-      const mat = new THREE.MeshBasicMaterial({ color: proxyColor, wireframe: true, transparent: true, opacity: 0.42 });
-      const proxy = new THREE.Mesh(geo, mat);
-      // position at same as visual center
-      if (sizeMode==="box") {
-        proxy.position.set(norm.position.x, baseY2 + h/2, norm.position.z);
-        proxy.rotation.y = rotY;
-      } else {
-        proxy.position.set(norm.position.x, baseY2, norm.position.z);
-        proxy.rotation.y = rotY;
-        const s = norm.uniformScale ?? 1;
-        proxy.scale.set(s,s,s);
-      }
-      proxy.name = `${id}__proxy`;
-      proxy.userData.authorId=id;
-      proxy.userData.isEditProxy=true;
-      proxy.userData.proxyFor=id;
-      proxy.visible = isEdit;
-      scene.add(proxy);
-      proxies=[proxy];
-      if(top) top.userData.proxyMesh = proxy;
-    }
-    for (const p of proxies) {
-      p.visible = isEdit && shouldHaveProxy;
-      // keep transform coherent
-      if (sizeMode==="box" && norm.size) {
-        const w=norm.size.width, h=norm.size.height, d=norm.size.depth;
-        const gp = p.geometry.parameters;
-        if(gp && (Math.abs(gp.width-w)>0.01 || Math.abs(gp.height-h)>0.01 || Math.abs(gp.depth-d)>0.01)){
-          const newGeo=new THREE.BoxGeometry(w,h,d);
-          p.geometry.dispose(); p.geometry=newGeo;
-        }
-        const baseY2 = norm.position.y ??0;
-        p.position.set(norm.position.x, baseY2 + h/2, norm.position.z);
-        p.rotation.y = norm.rotationY ??0;
-      } else if (sizeMode==="uniform") {
-        p.position.set(norm.position.x, norm.position.y ??0, norm.position.z);
-        p.rotation.y = norm.rotationY ??0;
-        const s = norm.uniformScale ??1;
-        p.scale.set(s,s,s);
-      } else {
-        p.position.set(norm.position.x, norm.position.y ??0, norm.position.z);
-        p.rotation.y = norm.rotationY ??0;
-      }
-    }
-    // Also handle old proxyMesh linkage
-    scene.traverse(o=>{
-      if(o.userData && o.userData.proxyMesh && o.userData.proxyMesh.userData && o.userData.proxyMesh.userData.proxyFor===id){
-        o.userData.proxyMesh.visible = isEdit && shouldHaveProxy;
-      }
-    });
+    const root = syncAuthorVisual(scene, found, "author");
+    applyPresentation(root, found);
+    const proxy = syncEditProxy(scene, found, isEdit);
+    if (root) root.userData.proxyMesh = proxy;
 
     updateHighlight();
     updateHomeMarker();
@@ -476,54 +329,6 @@ export function createAuthorMode(opts) {
   function createPreviewMeshForNewObject(id) {
     const found = draftApi.findObjectById(id);
     if (!found) return;
-    // If mesh already exists, just sync
-    if(findMeshByAuthorId(id)) { syncPreviewForId(id); return; }
-    const def = resolveAuthorType(found);
-    if (!def) {
-      // fallback simple box
-      const geo = new THREE.BoxGeometry(1,1,1);
-      const mat = new THREE.MeshStandardMaterial({ color: 0x9aa0a6 });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.name = id;
-      mesh.userData.authorId = id;
-      scene.add(mesh);
-      syncPreviewForId(id);
-      return;
-    }
-    const visualRef = getAuthorVisualRef(found);
-    const norm = readNormalizedTransform(found);
-    // Prepare visual creation opts with size where applicable
-    const opts = { objectId: id };
-    if (norm && norm.size) opts.size = norm.size;
-    if (norm && norm.uniformScale) opts.uniformScale = norm.uniformScale;
-    if (found.obj.type) opts.poiType = found.obj.type;
-    if (found.obj.subtype) opts.subtype = found.obj.subtype;
-    const visual = createVisual(visualRef, opts);
-    visual.name = id;
-    visual.userData.authorId = id;
-    // Propagate authorId to children for raycast picking
-    visual.traverse((child)=>{ if(child.isMesh) { child.userData.authorId = id; } });
-    // Set initial transform from normalized (so preview appears immediately at correct location)
-    if (norm) {
-      if (def.capabilities.sizeMode === "uniform") {
-        const s = norm.uniformScale ?? 1;
-        visual.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
-        visual.rotation.y = norm.rotationY ?? 0;
-        visual.scale.set(s,s,s);
-      } else if (def.capabilities.sizeMode === "box") {
-        // For box, visual's child offset handles height; group at base
-        visual.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
-        visual.rotation.y = norm.rotationY ?? 0;
-        // Geometry size already may need adjustment; syncPreview will handle resizing
-      } else {
-        visual.position.set(norm.position.x, norm.position.y ?? 0, norm.position.z);
-        visual.rotation.y = norm.rotationY ?? 0;
-      }
-    } else {
-      const pos = found.obj.pos ?? { x: found.obj.x ?? 0, y: found.obj.y ?? 0, z: found.obj.z ?? 0 };
-      visual.position.set(pos.x, pos.y ?? 0, pos.z);
-    }
-    scene.add(visual);
     syncPreviewForId(id);
   }
 
@@ -587,12 +392,12 @@ export function createAuthorMode(opts) {
   function setProxyVisibility(edit) {
     scene.traverse((obj) => {
       if (obj.userData && obj.userData.isEditProxy) {
-        obj.visible = !!edit;
+        obj.visible = !!edit && obj.userData.authorProxyWanted !== false;
       }
       if (obj.userData && obj.userData.proxyMesh) {
         const proxy = obj.userData.proxyMesh;
         // proxy visible only in Edit when real is hidden
-        if (proxy) proxy.visible = !!edit && !obj.visible;
+        if (proxy) proxy.visible = !!edit && proxy.userData.authorProxyWanted !== false;
       }
     });
   }
@@ -680,7 +485,7 @@ export function createAuthorMode(opts) {
     const kind = pendingPlace.kind;
     const subtype = pendingPlace.subtype;
     // Atomic creation at final intended position (no intermediate mutate)
-    const res = draftApi.createObjectAtPosition(kind, subtype, worldPos, targetRegion);
+    const res = actions.placeObject({ kind, subtype, position: worldPos, regionId: targetRegion });
     if (!res.ok) { ui.setStatus("⚠ "+res.error, true); return true; }
     const newId = res.id;
     const v = draftApi.validate();
@@ -709,6 +514,8 @@ export function createAuthorMode(opts) {
     canvas.addEventListener("pointerdown", onPointerDown, true);
     canvas.addEventListener("pointermove", onPointerMove, true);
     canvas.addEventListener("pointerup", onPointerUp, true);
+    canvas.addEventListener("pointercancel", onPointerCancel, true);
+    canvas.addEventListener("lostpointercapture", onPointerCancel, true);
     canvas.addEventListener("click", onCanvasClick, true);
     window.addEventListener("keydown", onKeyDown);
     // Editor pan/zoom
@@ -767,6 +574,7 @@ export function createAuthorMode(opts) {
     setFogForEdit(true);
     setHudVisible(false);
     setForestTransparency(true);
+    reconcilePreview();
     setProxyVisibility(true);
     ensureSpawnMarkers();
     updateEditorVisibility();
@@ -885,11 +693,13 @@ export function createAuthorMode(opts) {
       if (hitSelected) break;
     }
     if (hitSelected && selectedId) {
-      isDragging = true;
       const pt = getGroundIntersection(e);
       const found = draftApi.findObjectById(selectedId);
       if (found) {
         const def = resolveAuthorType(found);
+        if (!def?.capabilities?.draggable) return;
+        isDragging = true;
+        activePointerId = e.pointerId;
         const norm = def ? readNormalizedTransform(found) : null;
         const curPos = norm ? norm.position : (found.obj.pos || { x: found.obj.x ?? 0, y: found.obj.y ?? 0, z: found.obj.z ?? 0 });
         const curY = curPos.y ?? 0;
@@ -916,13 +726,11 @@ export function createAuthorMode(opts) {
   function applyPreviewTransform(id, previewPos, previewFacing){
     const found = draftApi.findObjectById(id);
     if(!found) return;
-    const def = resolveAuthorType(found);
     const meshes = findAllMeshesByAuthorId(id);
-    let target = findMeshByAuthorId(id);
-    let top = target;
-    while (top && top.parent && top.parent.userData && top.parent.userData.authorId === id) top = top.parent;
     const isSpawn = found.type==="campSpawn" || found.type==="runSpawn";
     if(isSpawn){
+      let top = findMeshByAuthorId(id);
+      while (top?.parent?.userData?.authorId === id) top = top.parent;
       const group = meshes.find(m=> m.userData && m.userData.isSpawnMarkerGroup) || top;
       if(group){
         const by = previewPos.y ?? 0;
@@ -942,66 +750,22 @@ export function createAuthorMode(opts) {
       updateHighlight();
       return;
     }
-    // Generic preview using normalized transform: construct preview norm by overriding position
-    const baseNorm = def ? readNormalizedTransform(found) : null;
-    const previewNorm = baseNorm ? { ...baseNorm, position: { ...previewPos }, rotationY: previewFacing ?? baseNorm.rotationY } : { position: previewPos, rotationY: previewFacing };
-    // Reuse sync logic but with previewNorm: emulate by temporarily finding top and applying similar to syncPreviewForId but with previewNorm values
-    // For simplicity, directly set top transform as sync would
-    if (!def || !baseNorm) {
-      if(top) top.position.set(previewPos.x, previewPos.y ??0, previewPos.z);
-      updateHighlight(); updateHomeMarker(); return;
-    }
-    const sizeMode = def.capabilities?.sizeMode ?? def.sizeMode ?? "box";
-    if (sizeMode === "uniform") {
-      const scale = previewNorm.uniformScale ?? 1;
-      if(top) {
-        if(top.isGroup) {
-          top.position.set(previewPos.x, previewPos.y ??0, previewPos.z);
-          top.rotation.y = previewNorm.rotationY ??0;
-          top.scale.set(scale,scale,scale);
-        } else {
-          top.position.set(previewPos.x, previewPos.y ??0, previewPos.z);
-          top.rotation.y = previewNorm.rotationY ??0;
-          top.scale.set(scale,scale,scale);
-        }
-      }
-    } else if (sizeMode === "box") {
-      const size = previewNorm.size;
-      const baseY = previewPos.y ??0;
-      if(top && top.isMesh && top.geometry?.type==="BoxGeometry") {
-        const center = { x: previewPos.x, y: baseY + (size ? size.height/2 : 0.5), z: previewPos.z };
-        const isWater = found.obj.subtype === "water";
-        if(isWater) top.position.set(center.x, baseY -0.04, center.z);
-        else top.position.set(center.x, center.y, center.z);
-        top.rotation.y = previewNorm.rotationY ??0;
-      } else if(top && top.isGroup) {
-        top.position.set(previewPos.x, baseY, previewPos.z);
-        top.rotation.y = previewNorm.rotationY ??0;
-      } else if(top) {
-        top.position.set(previewPos.x, baseY, previewPos.z);
-        top.rotation.y = previewNorm.rotationY ??0;
-      }
-      // also update individual meshes for box case where meshes are direct children not group root
-      if(def.key.startsWith("prop:") || def.key==="groundPatch" || def.key==="boundaryCollider") {
-        for(const m of meshes){
-          if(m.userData && m.userData.isEditProxy) continue;
-          if(m.isMesh && m.geometry?.type==="BoxGeometry"){
-            const isWater = found.obj.subtype === "water";
-            const h = size ? size.height : 1;
-            m.position.set(previewPos.x, isWater ? baseY -0.04 : baseY + h/2 -0.02, previewPos.z);
-            m.rotation.y = previewNorm.rotationY ??0;
-          }
-        }
-      }
-    } else {
-      if(top) top.position.set(previewPos.x, previewPos.y ??0, previewPos.z);
-      if(top) top.rotation.y = previewNorm.rotationY ??0;
-    }
+    const baseNorm = readNormalizedTransform(found);
+    if (!baseNorm) return;
+    const previewNorm = {
+      ...baseNorm,
+      position: { ...previewPos },
+      rotationY: previewFacing ?? baseNorm.rotationY,
+    };
+    const root = findAuthorVisualRoot(scene, id);
+    if (root) applyVisualTransform(root, previewNorm);
+    const proxy = scene.children.find((object) => object.userData?.isEditProxy && object.userData.proxyFor === id);
+    if (proxy) applyColliderProxyTransform(proxy, previewColliderDescriptor(found, previewNorm));
     updateHighlight();
     updateHomeMarker();
   }
   function onPointerMove(e) {
-    if (!isEdit || !isDragging || !selectedId || !dragState) return;
+    if (!isEdit || !isDragging || !selectedId || !dragState || e.pointerId !== activePointerId) return;
     const pt = getGroundIntersection(e);
     const newX = pt.x + dragOffset.x;
     const newZ = pt.z + dragOffset.z;
@@ -1011,26 +775,17 @@ export function createAuthorMode(opts) {
     e.preventDefault();
   }
   function onPointerUp(e) {
-    if (isDragging) {
+    if (isDragging && e.pointerId === activePointerId) {
       isDragging = false;
       if(dragState && selectedId === dragState.id){
         const previewPos = { ...dragState.previewPos };
         const previewFacing = dragState.previewFacing;
         dragState = null;
         // Use normalized transform write via registry
-        const found = draftApi.findObjectById(selectedId);
-        const def = found ? resolveAuthorType(found) : null;
-        let res;
-        if (def) {
-          const baseNorm = readNormalizedTransform(found);
-          const normalized = { ...baseNorm, position: previewPos };
-          if (previewFacing !== undefined) normalized.rotationY = previewFacing;
-          // Preserve size/uniformScale from base
-          res = draftApi.updateNormalizedTransform(selectedId, normalized);
-        } else {
-          const patch = { pos: previewPos };
-          res = draftApi.updateTransform(selectedId, patch);
-        }
+        const res = actions.commitTransform(selectedId, {
+          position: previewPos,
+          rotationY: previewFacing,
+        });
         if (!res.ok) {
           ui.setStatus("⚠ "+res.error, true);
           syncPreviewForId(selectedId);
@@ -1048,10 +803,21 @@ export function createAuthorMode(opts) {
         syncPreviewForId(selectedId);
       }
       dragStartPos = null; dragStartHome = null;
+      activePointerId = null;
       updateEditorVisibility();
       try { renderer.domElement.releasePointerCapture(e.pointerId); } catch {}
       e.preventDefault(); e.stopPropagation();
     }
+  }
+
+  function onPointerCancel(e) {
+    if (!isDragging || (activePointerId !== null && e.pointerId !== activePointerId)) return;
+    const cancelledId = dragState?.id;
+    isDragging = false;
+    dragState = null;
+    activePointerId = null;
+    if (cancelledId) syncPreviewForId(cancelledId);
+    updateSpawnMarkers();
   }
 
   function onCanvasClick(e) {

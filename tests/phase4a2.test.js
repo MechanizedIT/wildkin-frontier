@@ -22,6 +22,16 @@ function withMockStorage(fn){
   global.localStorage=m;
   try{return fn(m);} finally {global.localStorage=orig;}
 }
+function authoredMesh(group, id) {
+  const root = group.children.find((child) => child.userData?.authorVisualRoot && child.userData.authorId === id);
+  let mesh = null;
+  root?.traverse((object) => { if (!mesh && object.isMesh) mesh = object; });
+  return mesh;
+}
+function worldY(object) {
+  object.updateWorldMatrix(true, false);
+  return object.getWorldPosition(new THREE.Vector3()).y;
+}
 
 describe("Phase 4A.2 — canonical descriptor parity", ()=>{
   it("Ground Patch move/rotate/elevate/resize → canonical → Edit → runtime → Rapier parity", ()=>{
@@ -45,9 +55,9 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
     assert.equal(desc2.rotationY, 0.7);
     // static builder should produce same center
     const pg=createStaticWorld(draftApi.getDraft());
-    const mesh=pg.group.children.find(c=>c.name===gp.id);
+    const mesh=authoredMesh(pg.group, gp.id);
     assert.ok(mesh);
-    assert.ok(Math.abs(mesh.position.y - (newPos.y + 0.6/2)) < 0.01);
+    assert.ok(Math.abs(worldY(mesh) - (newPos.y + 0.6/2 - 0.02)) < 0.01);
   });
   it("Boundary Collider base-Y convention parity", ()=>{
     const data=JSON.parse(JSON.stringify(WORLD_DATA));

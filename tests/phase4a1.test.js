@@ -11,6 +11,13 @@ import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
 import * as THREE from "three";
 
+function authoredMesh(group, id) {
+  const root = group.children.find((child) => child.userData?.authorVisualRoot && child.userData.authorId === id);
+  let mesh = null;
+  root?.traverse((object) => { if (!mesh && object.isMesh) mesh = object; });
+  return mesh;
+}
+
 function makeStorage() {
   const s = new Map();
   return { getItem(k){return s.get(k)??null}, setItem(k,v){s.set(k,v)}, removeItem(k){s.delete(k)}, clear(){s.clear()}, _store:s };
@@ -256,7 +263,7 @@ describe("Phase 4A.1 — Ground Patch", ()=>{
     const pg = createStaticWorld(reg.data);
     // Find a ground patch mesh
     const gp = patches[0];
-    const mesh = pg.group.children.find(c=> c.name===gp.id);
+    const mesh = authoredMesh(pg.group, gp.id);
     assert.ok(mesh, `ground mesh ${gp.id} should exist`);
     const geo = mesh.geometry;
     assert.ok(Math.abs(geo.parameters.width - gp.size.w) < 0.01);
@@ -412,8 +419,8 @@ describe("Phase 4A.1 — presentation/static collision", ()=>{
     p1.color = "#ff0000";
     const reg2 = createWorldRegistry(normalizeWorldData(data));
     const pg2 = createStaticWorld(reg2.data);
-    const m1 = pg2.group.children.find(c=> c.name===allProps[0].id);
-    const m2 = pg2.group.children.find(c=> c.name===allProps[1].id);
+    const m1 = authoredMesh(pg2.group, allProps[0].id);
+    const m2 = authoredMesh(pg2.group, allProps[1].id);
     assert.ok(m1 && m2);
     // m1 should be red, m2 should remain default fence color (0x8b7a5a = 9129690)
     assert.notEqual(m1.material.color.getHex(), m2.material.color.getHex());

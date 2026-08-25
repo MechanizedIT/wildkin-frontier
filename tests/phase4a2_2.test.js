@@ -12,6 +12,8 @@ import { createVisual, getVisualSignature } from "../src/world/visualFactory.js"
 import { describeBoxCollider, describeResourceCollider } from "../src/world/colliderDescriptor.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
+import { createAuthorActions } from "../src/author/authorActions.js";
+import { syncAuthorVisual, syncEditProxy } from "../src/author/authorPreview.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -179,13 +181,14 @@ describe("Phase 4A.2.2 — Ladder proof", ()=>{
 
   it("Ladder placement creates actual Ladder geometry immediately (no placeholder Box)", ()=>{
     const draftApi = createAuthorDraft(WORLD_DATA);
+    const actions = createAuthorActions(draftApi);
     const regionId = draftApi.getDraft().regions[1].id; // p1_forest_edge 3.5-7
     const worldPos = { x: 0, y: 0, z: 5.5 };
-    const res = draftApi.createObjectAtPosition("climbable", null, worldPos, regionId);
+    const res = actions.placeObject({ kind: "climbable", subtype: null, position: worldPos, regionId });
     assert.ok(res.ok, res.error);
     const found = draftApi.findObjectById(res.id);
-    const visualRef = { kind: "builtin", id: "traversal/ladder" };
-    const visual = createVisual(visualRef, { objectId: res.id, size: readNormalizedTransform(found).size });
+    const scene = new THREE.Scene();
+    const visual = syncAuthorVisual(scene, found);
     const sig = getVisualSignature(visual);
     // Real ladder has wall Box + rungs Box + cylinder marker, not just single Box
     assert.ok(sig.includes("BoxGeometry"), "ladder should have BoxGeometry");
@@ -200,13 +203,15 @@ describe("Phase 4A.2.2 — Ladder proof", ()=>{
 describe("Phase 4A.2.2 — Tree proof", ()=>{
   it("Tree placement creates actual Tree geometry immediately", ()=>{
     const draftApi = createAuthorDraft(WORLD_DATA);
+    const actions = createAuthorActions(draftApi);
     const regionId = draftApi.getDraft().regions[1].id;
     const pos = { x: 1.5, y: 0, z: 5.0 };
-    const res = draftApi.createObjectAtPosition("tree", null, pos, regionId);
+    const res = actions.placeObject({ kind: "tree", subtype: null, position: pos, regionId });
     assert.ok(res.ok, res.error);
     const found = draftApi.findObjectById(res.id);
     const visualRef = { kind: "builtin", id: "resource/tree" };
-    const visual = createVisual(visualRef, { objectId: res.id });
+    const scene = new THREE.Scene();
+    const visual = syncAuthorVisual(scene, found);
     const sig = getVisualSignature(visual);
     assert.ok(sig.includes("CylinderGeometry"), "Tree should have CylinderGeometry trunk");
     assert.ok(sig.includes("ConeGeometry"), "Tree should have ConeGeometry foliage");
@@ -282,48 +287,27 @@ describe("Phase 4A.2.2 — Box proof + proxy lifecycle", ()=>{
   });
 
   it("changing already-visible collidable Box to hidden must create proxy immediately without Play->Edit (live)", ()=>{
-    // Simulate Author Edit scene with THREE.Scene and our createPreview logic
     const draftApi = createAuthorDraft(WORLD_DATA);
+    const actions = createAuthorActions(draftApi);
     const box = draftApi.getDraft().regions.flatMap(r=>r.props).find(p=>p.subtype==="box" && p.visibleInPlay!==false);
     assert.ok(box);
-    // Simulate scene with initial visible box mesh
     const scene = new THREE.Scene();
-    const initialVisual = createVisual({kind:"builtin", id:"prop/box"}, {objectId: box.id, size: { w: box.size.w, h: box.size.h, d: box.size.d }});
-    initialVisual.name = box.id;
-    initialVisual.userData.authorId = box.id;
-    initialVisual.position.set(box.pos.x, box.pos.y ?? 0, box.pos.z);
-    scene.add(initialVisual);
-    // Verify no proxy initially
-    let proxies = []; scene.traverse(o=>{ if(o.userData.isEditProxy && o.userData.proxyFor===box.id) proxies.push(o); });
-    assert.equal(proxies.length, 0, "visible box should have no proxy initially");
-    // Now hide via draft
-    const res = draftApi.updateTransform(box.id, { visibleInPlay: false });
+    const initialVisual = syncAuthorVisual(scene, draftApi.findObjectById(box.id));
+    assert.ok(initialVisual?.userData.authorVisualRoot, "production preview should create the factory root");
+    assert.equal(syncEditProxy(scene, draftApi.findObjectById(box.id), true), null, "visible box should not need a proxy");
+
+    const res = actions.commitInspectorField(box.id, "visibleInPlay", false);
     assert.ok(res.ok, res.error);
-    // Simulate authorMode's syncPreviewForId live proxy creation: we replicate logic that would create proxy immediately
-    // Our actual authorMode syncPreview would create proxy if needed; we simulate by checking our earlier proxy creation condition
     const foundAfter = draftApi.findObjectById(box.id);
-    const def = resolveAuthorType(foundAfter);
-    const norm = readNormalizedTransform(foundAfter);
-    const shouldHaveProxy = !foundAfter.obj.visibleInPlay && foundAfter.obj.collisionEnabled!==false;
-    assert.ok(shouldHaveProxy, "should need proxy after hiding");
-    // Simulate proxy creation as authorMode does
-    if(shouldHaveProxy){
-      const geo = new THREE.BoxGeometry(norm.size.width, norm.size.height, norm.size.depth);
-      const mat = new THREE.MeshBasicMaterial({ color: 0xffff00, wireframe:true });
-      const proxy = new THREE.Mesh(geo, mat);
-      proxy.userData.isEditProxy = true;
-      proxy.userData.proxyFor = box.id;
-      proxy.position.set(norm.position.x, (norm.position.y??0)+norm.size.height/2, norm.position.z);
-      scene.add(proxy);
-    }
-    proxies = []; scene.traverse(o=>{ if(o.userData.isEditProxy && o.userData.proxyFor===box.id) proxies.push(o); });
-    assert.equal(proxies.length, 1, "hidden collidable Box should have proxy immediately after hide, without rebuild");
-    // Restoring visible should remove/hide proxy
-    const res2 = draftApi.updateTransform(box.id, { visibleInPlay: true });
+    const proxy = syncEditProxy(scene, foundAfter, true);
+    assert.ok(proxy?.visible, "production proxy sync should create the proxy immediately");
+    assert.equal(proxy.geometry.parameters.width, box.size.w);
+    assert.equal(proxy.position.y, (box.pos.y ?? 0) + box.size.h / 2);
+
+    const res2 = actions.commitInspectorField(box.id, "visibleInPlay", true);
     assert.ok(res2.ok);
-    // Simulate hiding proxy
-    for(const p of proxies) p.visible = false;
-    assert.equal(proxies[0].visible, false, "proxy should be hidden after restoring visible");
+    syncEditProxy(scene, draftApi.findObjectById(box.id), true);
+    assert.equal(proxy.visible, false, "production proxy sync should hide it after restoring visibility");
   });
 });
 

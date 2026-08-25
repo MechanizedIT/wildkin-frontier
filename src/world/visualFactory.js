@@ -80,7 +80,20 @@ export function createWaterVisual({ size } = {}) {
 export function createIslandVisual({ size } = {}) {
   return createBoxVisual({ size, color: 0xc2b280 });
 }
-export function createDropPodVisual() {
+function applyAuthoredBounds(group, size, nativeSize) {
+  if (!size) return group;
+  const width = size.width ?? size.w ?? nativeSize.width;
+  const height = size.height ?? size.h ?? nativeSize.height;
+  const depth = size.depth ?? size.d ?? nativeSize.depth;
+  group.scale.set(
+    width / nativeSize.width,
+    height / nativeSize.height,
+    depth / nativeSize.depth,
+  );
+  return group;
+}
+
+export function createDropPodVisual({ size } = {}) {
   const group = new THREE.Group();
   const podMat = matStandard(0xd0d0d0, { metalness: 0.3 });
   const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.7, 1.2, 8), podMat);
@@ -95,9 +108,9 @@ export function createDropPodVisual() {
   baseRing.position.y = 0.02;
   group.add(baseRing);
   group.userData.visualKind = "prop/dropPod";
-  return group;
+  return applyAuthoredBounds(group, size, { width: 1.7, height: 1.8, depth: 1.7 });
 }
-export function createResonatorVisual() {
+export function createResonatorVisual({ size } = {}) {
   const group = new THREE.Group();
   const mat = matStandard(0x7ab8ff, { emissive: 0x1a3a5a, emissiveIntensity: 0.25 });
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.3, 0.9), mat);
@@ -107,7 +120,7 @@ export function createResonatorVisual() {
   crystal.position.y = 0.75;
   group.add(crystal);
   group.userData.visualKind = "prop/resonator";
-  return group;
+  return applyAuthoredBounds(group, size, { width: 0.9, height: 1.2, depth: 0.9 });
 }
 
 export function createPlatformVisual({ size = { w:3, height:1.25, h:3 } } = {}) {
@@ -120,6 +133,15 @@ export function createPlatformVisual({ size = { w:3, height:1.25, h:3 } } = {}) 
   mesh.name = "visual_platform";
   const g = new THREE.Group();
   g.add(mesh);
+  if (height <= 1.5) {
+    const step = new THREE.Mesh(
+      new THREE.BoxGeometry(1.0, 0.04, 0.6),
+      matStandard(0xc9b48a),
+    );
+    step.position.set(0, 0.04, h / 2 + 0.7);
+    step.name = "platform_step";
+    g.add(step);
+  }
   g.userData.visualKind = "traversal/platform";
   return g;
 }
@@ -148,11 +170,13 @@ export function createLadderVisual({ size = { width:1.9, height:2.4, depth:0.5 }
   wall.position.set(0, height / 2 - 0.02, 0);
   wall.name = "ladder_wall";
   group.add(wall);
-  for (let i = 0; i < 5; i++) {
+  const rungCount = Math.max(2, Math.round(height / 0.48));
+  for (let i = 0; i < rungCount; i++) {
     const rung = new THREE.Mesh(new THREE.BoxGeometry(Math.min(w, 1.4), 0.06, 0.09), matStandard(0x6b4a2b));
-    const y = 0.35 + i * 0.42;
+    const y = ((i + 1) / (rungCount + 1)) * height;
     // rung slightly in front of wall
     rung.position.set(0, y, hDepth / 2 + 0.12);
+    rung.name = `ladder_rung_${i}`;
     group.add(rung);
   }
   const marker = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.45, 6), matStandard(0xfff3b0));
@@ -335,7 +359,7 @@ export function createBeaconVisual({ objectId = "beacon_default" } = {}) {
   return group;
 }
 
-export function createPoiVisual({ poiType = "chest", objectId = "poi_default" } = {}) {
+export function createPoiVisual({ poiType = "chest", objectId = "poi_default", requires = null } = {}) {
   const group = new THREE.Group();
   let mat = matStandard(0xffd54f, { emissive: 0x332200, emissiveIntensity: 0.12 });
   let h = 0.6;
@@ -344,6 +368,15 @@ export function createPoiVisual({ poiType = "chest", objectId = "poi_default" } 
   const mesh = new THREE.Mesh(geo, mat);
   mesh.position.y = h / 2;
   group.add(mesh);
+  if (requires) {
+    const lock = new THREE.Mesh(
+      new THREE.SphereGeometry(0.18, 6, 6),
+      matBasic(0xff4444, { transparent: true, opacity: 0.75 }),
+    );
+    lock.position.set(0, h + 0.35, 0);
+    lock.name = "poi_lock";
+    group.add(lock);
+  }
   group.userData.visualKind = `poi/${poiType}`;
   return group;
 }
@@ -421,6 +454,46 @@ export function createVisual(visualRef, opts = {}) {
   // For poi generic, forward poiType
   if (visualRef.id.startsWith("poi/") && opts.poiType) args.poiType = opts.poiType;
   return ctor(args);
+}
+
+function stableRecipeValue(value) {
+  if (Array.isArray(value)) return value.map(stableRecipeValue);
+  if (value && typeof value === "object") {
+    const out = {};
+    for (const key of Object.keys(value).sort()) out[key] = stableRecipeValue(value[key]);
+    return out;
+  }
+  return value;
+}
+
+export function getVisualRecipeKey(visualRef, opts = {}) {
+  return JSON.stringify(stableRecipeValue({
+    visualRef,
+    size: opts.size ?? null,
+    poiType: opts.poiType ?? null,
+    subtype: opts.subtype ?? null,
+    requires: opts.requires ?? null,
+  }));
+}
+
+export function tagVisualRoot(root, { objectId, visualRef, recipeKey } = {}) {
+  root.userData.authorId = objectId;
+  root.userData.authorVisualRoot = true;
+  root.userData.visualRef = visualRef;
+  root.userData.visualRecipeKey = recipeKey ?? getVisualRecipeKey(visualRef);
+  root.traverse((child) => {
+    child.userData.authorId = objectId;
+  });
+  return root;
+}
+
+export function applyVisualTransform(root, transform) {
+  const position = transform?.position ?? { x: 0, y: 0, z: 0 };
+  root.position.set(position.x, position.y ?? 0, position.z);
+  root.rotation.y = transform?.rotationY ?? 0;
+  const scale = transform?.uniformScale ?? 1;
+  if (transform?.sizeMode === "uniform") root.scale.set(scale, scale, scale);
+  return root;
 }
 
 export function getVisualSignature(group) {

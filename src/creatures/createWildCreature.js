@@ -1,6 +1,7 @@
 // src/creatures/createWildCreature.js — visual + state + Rapier kinematic body
 import * as THREE from "three";
 import { RUSHER_CONFIG, SPITTER_CONFIG } from "../combat/combatConfig.js";
+import { createVisual, getVisualRecipeKey, tagVisualRoot } from "../world/visualFactory.js";
 
 function getConfig(type) {
   return type === "spitter" ? SPITTER_CONFIG : RUSHER_CONFIG;
@@ -9,12 +10,19 @@ function getConfig(type) {
 export function createWildCreature(scene, physicsWorld, spawn, index) {
   const type = spawn.type;
   const cfg = getConfig(type);
-  const group = new THREE.Group();
+  const visualRef = { kind: "builtin", id: `creature/${type}` };
+  const group = tagVisualRoot(new THREE.Group(), {
+    objectId: spawn.id ?? `creature_${type}_${index}`,
+    visualRef,
+    recipeKey: getVisualRecipeKey(visualRef, { objectId: spawn.id }),
+  });
+  const creatureScale = spawn.uniformScale ?? spawn.scale ?? 1;
   group.name = spawn.id ?? `creature_${type}_${index}`;
   group.userData.authorId = spawn.id ?? group.name;
   group.userData.creatureId = spawn.id ?? group.name;
   const basePos = { x: spawn.pos.x, y: spawn.pos.y ?? 0, z: spawn.pos.z };
   group.position.set(basePos.x, basePos.y, basePos.z);
+  group.scale.set(creatureScale, creatureScale, creatureScale);
   // propagate authorId to children for raycast
   // (will be set after meshes added, but set now for group)
 
@@ -47,7 +55,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     isAggroed: false,
     aiState: "ROAM", // ROAM | ALERT | CHASE | REPOSITION | WINDUP | LUNGE | RECOVER | HURT | DEAD | RESPAWNING | WARN | FLEE | RETURN
     aiTimer: 0,
-    facing: Math.random() * Math.PI * 2,
+    facing: spawn.facingYaw ?? spawn.rotY ?? Math.random() * Math.PI * 2,
     vel: new THREE.Vector3(0, 0, 0),
     targetLungeDir: null,
     hurtTime: 0,
@@ -71,58 +79,11 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     lastDamagedByPlayer: false,
   };
 
-  // Visual: low-poly placeholder
-  let mainMesh, headMesh;
-  if (type === "rusher") {
-    // Compact low/broad, warm red/orange
-    const bodyGeo = new THREE.BoxGeometry(0.72, 0.42, 0.86);
-    const bodyMat = new THREE.MeshStandardMaterial({ color: 0xe14b2a, flatShading: true });
-    const body = new THREE.Mesh(bodyGeo, bodyMat);
-    body.position.y = 0.36;
-    body.name = "rusherBody";
-    group.add(body);
-    mainMesh = body;
-    const headGeo = new THREE.ConeGeometry(0.22, 0.38, 6);
-    const headMat = new THREE.MeshStandardMaterial({ color: 0xff8a4a, flatShading: true });
-    const head = new THREE.Mesh(headGeo, headMat);
-    head.rotation.x = Math.PI / 2;
-    head.position.set(0, 0.42, 0.52);
-    group.add(head);
-    headMesh = head;
-    // Eyes
-    const eyeGeo = new THREE.SphereGeometry(0.06, 5, 5);
-    const eyeMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
-    const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
-    eyeL.position.set(0.18, 0.48, 0.42);
-    group.add(eyeL);
-    const eyeR = eyeL.clone();
-    eyeR.position.set(-0.18, 0.48, 0.42);
-    group.add(eyeR);
-  } else {
-    // Spitter: taller, purple/teal
-    const bodyGeo = new THREE.CylinderGeometry(0.28, 0.34, 0.62, 7);
-    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x7a4de8, flatShading: true });
-    const body = new THREE.Mesh(bodyGeo, bodyMat);
-    body.position.y = 0.42;
-    body.name = "spitterBody";
-    group.add(body);
-    mainMesh = body;
-    const sackGeo = new THREE.SphereGeometry(0.22, 7, 6);
-    sackGeo.scale(1, 0.75, 1.2);
-    const sackMat = new THREE.MeshStandardMaterial({ color: 0x4ad4d4, flatShading: true, emissive: 0x0a4444, emissiveIntensity: 0.2 });
-    const sack = new THREE.Mesh(sackGeo, sackMat);
-    sack.position.set(0, 0.38, 0.38);
-    sack.name = "spitterSack";
-    group.add(sack);
-    headMesh = sack;
-  }
-
-  // Shadow
-  const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.42, 12), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.18 }));
-  shadow.rotation.x = -Math.PI / 2;
-  shadow.position.y = 0.02;
-  shadow.name = "shadow";
-  group.add(shadow);
+  // Runtime and Author Edit share this deterministic visual recipe.
+  const visualRoot = createVisual(visualRef, { objectId: group.userData.authorId });
+  group.add(visualRoot);
+  const mainMesh = visualRoot.getObjectByName(type === "rusher" ? "rusherBody" : "spitterBody");
+  const headMesh = visualRoot.getObjectByName(type === "rusher" ? "" : "spitterSack");
 
   // Focus ring (orange/red) — hidden by default, shows if would be hit
   const ringGeo = new THREE.RingGeometry(0.38, 0.52, 22);
@@ -194,11 +155,11 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   if (physicsWorld && physicsWorld.RAPIER) {
     const RAPIER = physicsWorld.RAPIER;
     const world = physicsWorld.world;
-    const startY = basePos.y + cfg.capsuleHalfHeight + cfg.capsuleRadius + 0.05;
+    const startY = basePos.y + (cfg.capsuleHalfHeight + cfg.capsuleRadius) * creatureScale + 0.05;
     const bodyDesc = RAPIER.RigidBodyDesc.kinematicPositionBased()
       .setTranslation(basePos.x, startY, basePos.z);
     body = world.createRigidBody(bodyDesc);
-    const capDesc = RAPIER.ColliderDesc.capsule(cfg.capsuleHalfHeight, cfg.capsuleRadius)
+    const capDesc = RAPIER.ColliderDesc.capsule(cfg.capsuleHalfHeight * creatureScale, cfg.capsuleRadius * creatureScale)
       .setTranslation(0, 0, 0)
       .setFriction(0.5)
       .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
@@ -227,7 +188,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
 
   function setPosition(pos) {
     state.pos.set(pos.x, pos.y, pos.z);
-    group.position.set(pos.x, pos.y - (cfg.capsuleHalfHeight + cfg.capsuleRadius), pos.z); // group base at ground
+    group.position.set(pos.x, pos.y - (cfg.capsuleHalfHeight + cfg.capsuleRadius) * creatureScale, pos.z); // group base at ground
     if (body) {
       body.setTranslation({ x: pos.x, y: pos.y, z: pos.z }, true);
       physicsWorld.world.step();
@@ -247,7 +208,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
       // fallback simple move
       const next = { x: state.pos.x + desired.x, y: state.pos.y + desired.y, z: state.pos.z + desired.z };
       state.pos.set(next.x, next.y, next.z);
-      group.position.set(next.x, next.y - (cfg.capsuleHalfHeight + cfg.capsuleRadius), next.z);
+      group.position.set(next.x, next.y - (cfg.capsuleHalfHeight + cfg.capsuleRadius) * creatureScale, next.z);
       return { corrected: desired, grounded: true };
     }
     const before = collider.translation();
@@ -258,7 +219,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     body.setTranslation(next, true);
     physicsWorld.world.step();
     state.pos.set(next.x, next.y, next.z);
-    group.position.set(next.x, next.y - (cfg.capsuleHalfHeight + cfg.capsuleRadius), next.z);
+    group.position.set(next.x, next.y - (cfg.capsuleHalfHeight + cfg.capsuleRadius) * creatureScale, next.z);
     return { corrected, grounded };
   }
 
@@ -337,7 +298,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
       // sync state pos
       const t = collider.translation();
       state.pos.set(t.x, t.y, t.z);
-      group.position.set(t.x, t.y - (cfg.capsuleHalfHeight + cfg.capsuleRadius), t.z);
+      group.position.set(t.x, t.y - (cfg.capsuleHalfHeight + cfg.capsuleRadius) * creatureScale, t.z);
     } catch {}
   }
 
