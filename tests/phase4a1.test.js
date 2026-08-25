@@ -9,6 +9,7 @@ import { createExpeditionSession } from "../src/session/expeditionSession.js";
 import { createFrontierAnchorSystem } from "../src/world/frontierAnchorSystem.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
+import { syncEditProxy } from "../src/author/authorPreview.js";
 import * as THREE from "three";
 
 function authoredMesh(group, id) {
@@ -359,8 +360,12 @@ describe("Phase 4A.1 — Boundary", ()=>{
     const mesh = pg.group.children.find(c=> c.name===bc.id);
     assert.ok(mesh);
     assert.equal(mesh.visible, false, "hidden boundary real mesh should be invisible in Play");
-    const proxy = pg.group.children.find(c=> c.name===`${bc.id}__proxy`);
-    assert.ok(proxy, "hidden boundary should have Edit proxy");
+    assert.equal(pg.group.children.some(c=> c.userData.isEditProxy), false, "runtime world should not contain Edit proxies");
+    const draftApi = createAuthorDraft(WORLD_DATA);
+    const scene = new THREE.Scene();
+    scene.add(pg.group);
+    const proxy = syncEditProxy(scene, draftApi.findObjectById(bc.id), true);
+    assert.ok(proxy?.visible, "entering Edit should create the hidden boundary proxy");
     assert.ok(proxy.userData.isEditProxy);
   });
 });
@@ -430,8 +435,11 @@ describe("Phase 4A.1 — presentation/static collision", ()=>{
     const pg = createStaticWorld(reg.data);
     const hidden = reg.getAllBoundaries().find(b=> b.visibleInPlay===false);
     assert.ok(hidden);
-    const proxy = pg.group.children.find(c=> c.userData.isEditProxy && c.userData.proxyFor===hidden.id);
-    assert.ok(proxy, "hidden collider proxy should exist and be findable by authorId");
+    const draftApi = createAuthorDraft(WORLD_DATA);
+    const scene = new THREE.Scene();
+    scene.add(pg.group);
+    const proxy = syncEditProxy(scene, draftApi.findObjectById(hidden.id), true);
+    assert.ok(proxy?.userData.isEditProxy && proxy.userData.proxyFor===hidden.id, "Edit proxy should be findable by authorId");
   });
 });
 

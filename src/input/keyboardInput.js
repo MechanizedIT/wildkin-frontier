@@ -3,6 +3,18 @@
 import { classifyMovementBand } from "../movement/movementBands.js";
 import { GESTURE_CONFIG } from "./gesture.js";
 
+export function isEditableKeyboardTarget(target) {
+  if (!target) return false;
+  const tag = target.tagName?.toLowerCase?.() ?? "";
+  if (tag === "input" || tag === "textarea" || tag === "select") return true;
+  if (target.isContentEditable) return true;
+  return !!target.closest?.("input, textarea, select, [contenteditable='true']");
+}
+
+export function shouldHandleGameplayKeyboardEvent(event, enabled = true, activeElement = globalThis.document?.activeElement) {
+  return !!enabled && !isEditableKeyboardTarget(event?.target) && !isEditableKeyboardTarget(activeElement);
+}
+
 export function createKeyboardInput(moveCfg, appElement = null) {
   let enabled = true;
   function setEnabled(v) {
@@ -38,6 +50,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
   }
 
   function onKeyDown(e) {
+    if (!shouldHandleGameplayKeyboardEvent(e, enabled)) return;
     const k = e.key.toLowerCase();
     // Phase 3.1: F tap = one swing, hold = repeat
     if (k === "f") {

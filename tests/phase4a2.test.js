@@ -7,6 +7,7 @@ import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
 import { normalizeStaticDescriptor, getVisualCenter, getRapierDescriptor } from "../src/world/staticDescriptor.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
+import { syncEditProxy } from "../src/author/authorPreview.js";
 import { createExpeditionSession } from "../src/session/expeditionSession.js";
 import { createFrontierProgress } from "../src/save/frontierProgress.js";
 import { createFrontierAnchorSystem } from "../src/world/frontierAnchorSystem.js";
@@ -82,8 +83,11 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
     assert.equal(found.obj.visibleInPlay, false);
     assert.equal(found.obj.collisionEnabled, true);
     const pg=createStaticWorld(draftApi.getDraft());
-    const proxy=pg.group.children.find(c=>c.userData.isEditProxy && c.userData.proxyFor===res.id);
-    assert.ok(proxy, "hidden boundary should have proxy");
+    assert.equal(pg.group.children.some(c=>c.userData.isEditProxy), false, "runtime builder should not emit editor artifacts");
+    const scene = new THREE.Scene();
+    scene.add(pg.group);
+    const proxy=syncEditProxy(scene, found, true);
+    assert.ok(proxy?.visible, "hidden boundary should gain a proxy in Edit");
   });
   it("all four visibleInPlay × collisionEnabled combinations", ()=>{
     const draftApi=createAuthorDraft(WORLD_DATA);

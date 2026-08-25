@@ -165,3 +165,18 @@ This is an implementation/automation record, **not a human playtest**. The nine 
 ### Acceptance still pending
 
 Human must still perform the complete player-facing tests for Platform/Obstacle, Ladder traversal after arbitrary resize, all resource scale/harvest interactions, live proxy transform feel, several pre-existing Boundaries, the full registry-control matrix, Wildkin/POI metadata consumption, mixed cross-region undo/redo, and the Camp→expedition→harvest/combat→extract/return smoke test on desktop and phone. Do not treat the observations above as perceptual or gameplay acceptance.
+
+## 2026-08-24 — Phase 4A.2.2 owner-playtest closure corrections — automated browser evidence only
+
+This is implementation/browser evidence, **not a human acceptance pass**.
+
+### Observed through the real Author UI → Play reload
+
+- On the recognizable initial Camp view in Play, the scene contained no editor collision wireframes. Entering Edit created visible wireframes for the four hidden Camp boundaries. Clicking Play and completing the normal reload returned the scene to zero editor proxies.
+- Selected the existing Tree author object, entered `57` in Rotation and `1.65` in Scale, then clicked Play. Runtime resource state and the visible resource root both retained 0.9948 radians / 1.65 scale. Tree, Rock, and Fiber share the tested placement adapter; focused tests cover all three siblings.
+- Selected the existing Tangled Hollow extraction beacon and typed `Silver Grove Beacon` with real Space key events. The input and canonical draft retained the complete name, and Runtime Play loaded the same spaced display name.
+- Browser console warnings/errors: none. The isolated playtest draft was cleared and the browser returned to the repository world afterward.
+
+### Owner confirmation still requested
+
+In Edit, hide any visible collidable object and confirm its wireframe appears immediately; click Play and confirm the wireframe disappears while collision remains. Also rotate/scale one Tree or Rock, type a multi-word Waypoint/Beacon name, click Play, and confirm the resource appearance/collision and full display name match Edit. Any wireframe visible in Play, transform snap-back, or missing space is a failure.

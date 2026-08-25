@@ -14,6 +14,8 @@ import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
 import { createAuthorActions } from "../src/author/authorActions.js";
 import { syncAuthorVisual, syncEditProxy } from "../src/author/authorPreview.js";
+import { createResourceSystem, createRuntimeResourcePlacements } from "../src/resources/resourceSystem.js";
+import { shouldHandleGameplayKeyboardEvent } from "../src/input/keyboardInput.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -23,6 +25,27 @@ function withMockStorage(fn){
   const orig=global.localStorage;
   global.localStorage={ getItem(k){return s.get(k)??null}, setItem(k,v){s.set(k,v)}, removeItem(k){s.delete(k)}, clear(){s.clear()} };
   try{return fn();} finally {global.localStorage=orig;}
+}
+
+function makePhysicsMock() {
+  return {
+    world: {
+      createCollider: () => ({ handle: 1, translation: () => ({ x: 0, y: 0, z: 0 }) }),
+      removeCollider: () => {},
+      step: () => {},
+    },
+    RAPIER: {
+      ColliderDesc: {
+        cuboid: () => ({
+          setTranslation() { return this; },
+          setRotation() { return this; },
+          setFriction() { return this; },
+          setActiveCollisionTypes() { return this; },
+        }),
+      },
+      ActiveCollisionTypes: { ALL: 0xffffffff },
+    },
+  };
 }
 
 describe("Phase 4A.2.2 — AuthorTypeRegistry contract", ()=>{
@@ -280,10 +303,15 @@ describe("Phase 4A.2.2 — Box proof + proxy lifecycle", ()=>{
     const desc = def.collision.describe(draftApi.findObjectById(box.id));
     assert.equal(desc.enabled, true);
     assert.equal(desc.editProxy.visibleWhenHidden, true);
-    // Check that staticWorldBuilder would create proxy for hidden box (existing test for new hidden boundary)
+    // Runtime construction must not leak editor-only wireframes.
     const pg = createStaticWorld(draftApi.getDraft());
-    const proxy = [...pg.group.children].find(c=>c.userData.isEditProxy && c.userData.proxyFor===box.id);
-    assert.ok(proxy, "hidden collidable Box should have proxy via builder");
+    assert.equal(pg.group.children.some(c=>c.userData.isEditProxy), false, "Play world should not contain Edit proxies");
+    const scene = new THREE.Scene();
+    scene.add(pg.group);
+    const proxy = syncEditProxy(scene, draftApi.findObjectById(box.id), true);
+    assert.ok(proxy?.visible, "hidden collidable Box should have a wireframe in Edit");
+    syncEditProxy(scene, draftApi.findObjectById(box.id), false);
+    assert.equal(proxy.visible, false, "Edit wireframe should be hidden outside Edit mode");
   });
 
   it("changing already-visible collidable Box to hidden must create proxy immediately without Play->Edit (live)", ()=>{
@@ -389,6 +417,47 @@ describe("Phase 4A.2.2 — inspector fields transactional", ()=>{
     const res = draftApi.updateInspectorField(wp.id, "displayName", "New Test Name");
     assert.ok(res.ok);
     assert.equal(draftApi.findObjectById(wp.id).obj.displayName, "New Test Name");
+  });
+
+  it("gameplay keyboard ownership leaves spaces available to display-name fields", ()=>{
+    const input = { tagName: "INPUT", isContentEditable: false };
+    const event = { key: " ", code: "Space", target: input };
+    assert.equal(shouldHandleGameplayKeyboardEvent(event, true, input), false, "focused text input should own Space");
+    assert.equal(shouldHandleGameplayKeyboardEvent(event, false, null), false, "disabled gameplay input should not intercept Space");
+  });
+});
+
+describe("Phase 4A.2.2 — runtime resource transform persistence", ()=>{
+  it("Tree, Rock, and Fiber keep authored rotation and uniform scale in Play", ()=>{
+    const draftApi = createAuthorDraft(WORLD_DATA);
+    const expected = new Map();
+    for (const [index, type] of ["tree", "rock", "fiber"].entries()) {
+      const resource = draftApi.getDraft().regions.flatMap(region=>region.resources).find(item=>item.type===type);
+      assert.ok(resource, `need authored ${type}`);
+      const found = draftApi.findObjectById(resource.id);
+      const base = readNormalizedTransform(found);
+      const rotationY = 0.35 + index * 0.4;
+      const uniformScale = 1.2 + index * 0.25;
+      const result = draftApi.updateNormalizedTransform(resource.id, { ...base, rotationY, uniformScale });
+      assert.ok(result.ok, result.error);
+      expected.set(resource.id, { rotationY, uniformScale, type });
+    }
+
+    const registry = createWorldRegistry(draftApi.getDraft());
+    const placements = createRuntimeResourcePlacements(registry.getAllResources());
+    const system = createResourceSystem(new THREE.Scene(), makePhysicsMock(), placements);
+
+    for (const [id, transform] of expected) {
+      const placement = placements.find(item=>item.id===id);
+      const node = system.nodes.find(item=>item.id===id);
+      assert.ok(placement && node, `${transform.type} should reach runtime placement and node construction`);
+      assert.equal(placement.rotY, transform.rotationY);
+      assert.equal(placement.uniformScale, transform.uniformScale);
+      assert.ok(Math.abs(node.group.rotation.y - transform.rotationY) < 1e-9, `${transform.type} Play visual rotation should match Edit`);
+      assert.ok(Math.abs(node.group.scale.x - transform.uniformScale) < 1e-9, `${transform.type} Play visual scale should match Edit`);
+      assert.equal(node.state.rotationY, transform.rotationY);
+      assert.equal(node.state.uniformScale, transform.uniformScale);
+    }
   });
 });
 

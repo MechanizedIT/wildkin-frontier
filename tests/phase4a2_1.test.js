@@ -10,6 +10,7 @@ import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
 import { normalizeStaticDescriptor, getVisualCenter, getRapierDescriptor, STATIC_CAPABILITIES } from "../src/world/staticDescriptor.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
+import { syncEditProxy } from "../src/author/authorPreview.js";
 import { createFrontierProgress } from "../src/save/frontierProgress.js";
 import { createExpeditionSession } from "../src/session/expeditionSession.js";
 import { RAPIER_CONFIG } from "../src/game/config.js";
@@ -181,8 +182,11 @@ describe("Phase 4A.2.1 — Author canonical ownership & preview atomics", ()=>{
     const found=draftApi.findObjectById(res.id);
     assert.equal(found.obj.visibleInPlay, false);
     const pg=createStaticWorld(draftApi.getDraft());
-    const proxy=pg.group.children.find(c=>c.userData.isEditProxy && c.userData.proxyFor===res.id);
-    assert.ok(proxy, "hidden boundary should have proxy immediately");
+    assert.equal(pg.group.children.some(c=>c.userData.isEditProxy), false, "Play construction should exclude Edit proxies");
+    const scene = new THREE.Scene();
+    scene.add(pg.group);
+    const proxy=syncEditProxy(scene, found, true);
+    assert.ok(proxy?.visible, "hidden boundary should have proxy immediately in Edit");
   });
 });
 

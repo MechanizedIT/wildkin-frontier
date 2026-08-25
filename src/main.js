@@ -12,7 +12,7 @@ import { MOVEMENT_CONFIG, CAMERA_CONFIG_FOLLOW, INPUT_CONFIG, RAPIER_CONFIG } fr
 import { createPhysicsWorld } from "./physics/createPhysicsWorld.js";
 import { createCharacterPhysics } from "./physics/createCharacterPhysics.js";
 import { createPhysicsDebug } from "./physics/physicsDebug.js";
-import { createResourceSystem } from "./resources/resourceSystem.js";
+import { createResourceSystem, createRuntimeResourcePlacements } from "./resources/resourceSystem.js";
 import { createPickupSystem } from "./resources/pickupSystem.js";
 import { createFieldTool } from "./tools/fieldTool.js";
 import { createGameAudio } from "./audio/gameAudio.js";
@@ -167,12 +167,7 @@ cameraFollow.snap();
 
 const physicsDebug = createPhysicsDebug(scene, characterPhysics, physicsWorld);
 
-const placementsFromWorld = worldRegistry.getAllResources().map(r => ({
-  type: r.type,
-  pos: { ...r.pos },
-  regionId: r.regionId,
-  id: r.id,
-}));
+const placementsFromWorld = createRuntimeResourcePlacements(worldRegistry.getAllResources());
 
 const gameAudio = createGameAudio();
 const particleSystem = createParticleSystem(scene);

@@ -534,7 +534,7 @@ One suppression path: `isAnyBlockingModal()` (Map|AnchorPrompt|ResultCard) + aut
 ## ColliderDescriptor + Edit proxy lifecycle
 - `src/world/colliderDescriptor.js` exports simple descriptor seam: `describeBoxCollider`, `describeResourceCollider` (scaled from `resourceConfig` halfExtents * uniformScale, offset `colliderCenterY * scale`), `describeCreatureCollider`, etc. Shape is always `box`/`capsule`/`none`, never detailed foliage mesh.
 - Same transform interpretation for visual root, Edit proxy, and runtime Rapier. `getColliderCenter` = `position + offset`; visual root at `position` (base) + `size.height/2` matches collider center.
-- Live proxy lifecycle: `authorMode.syncPreviewForId` now ensures `!visibleInPlay && collisionEnabled` immediately creates a wireframe `isEditProxy` Box (`0xffff00`, wireframe, opacity 0.42) at same transform, without requiring Play→Edit rebuild. Proxy geometry resizes/rotates/moves coherently with normalized size/rotation; visibility is `isEdit && shouldHaveProxy`. Existing newly placed Boundary behavior preserved, now via same descriptor path. `setProxyVisibility` and `scene.traverse` for `proxyMesh` link keep proxy/material sync live.
+- Live proxy lifecycle: `authorMode.syncPreviewForId` now ensures `!visibleInPlay && collisionEnabled` immediately creates a wireframe `isEditProxy` Box (`0xffff00`, wireframe, opacity 0.42) at same transform, without requiring Play→Edit rebuild. Proxy geometry resizes/rotates/moves coherently with normalized size/rotation; visibility is `isEdit && shouldHaveProxy`. `staticWorldBuilder` never constructs editor artifacts, so a fresh Runtime Play scene contains no proxies. Existing and newly placed Boundaries gain their proxy only through the descriptor-driven `authorPreview.syncEditProxy` path while Edit is active.
 
 ## Author Mode simplification (generic preview handle)
 - `authorMode` now around `resolveAuthorType`:
@@ -590,12 +590,13 @@ Play reload
 - `src/author/authorPreview.js` owns visual-root creation/rebuild, transform synchronization, disposal, and the one descriptor-driven hidden-collider proxy lifecycle. Author Mode retains only spawn-marker-specific presentation behavior.
 - Visual recipe keys include the inputs that can alter geometry (`VisualRef`, dimensions, POI type/requirements). A dimension change rebuilds the entire local recipe, so Ladder wall, rungs, and marker cannot fragment.
 - Runtime statics/traversal/anchors/POIs use `VisualFactory` directly. Resource and Wildkin systems keep their gameplay/lifecycle wrappers but obtain their detailed visible models from the same factory used by Author Edit.
-- Resource `rotY`/`uniformScale` now reach the runtime visual root, interaction height, overlap checks, and Rapier collider descriptor. Temporary wobble/respawn animation applies to the inner visual, preserving authored root transform.
+- `createRuntimeResourcePlacements` is the explicit world-registry → resource-runtime adapter. It preserves `rotY`/`rotationY` and canonical `uniformScale`/legacy `scale` instead of narrowing placements to only ID/type/position. Resource rotation/scale therefore reach the runtime visual root, interaction height, overlap checks, and Rapier collider descriptor. Temporary wobble/respawn animation applies to the inner visual, preserving authored root transform.
+- Gameplay keyboard capture rejects disabled input and focused input/textarea/select/contenteditable targets before shortcut handling. Author text fields therefore retain Space and other gameplay-bound keys; Waypoint/Beacon display names with spaces commit through the normal transactional inspector writer.
 - Rotated rectangular footprints are recomputed conservatively for props, ground, platforms, obstacles, and Ladder-derived entry regions. Ladder writes update `wallNormal`, `approachDir`, `topPlatform`, `topEntryRegion`, and `mantleExit` in the same transaction.
 - Pointer drags are capability-gated, track one active pointer, and restore canonical preview on cancel/lost capture. No second frame loop was introduced.
 - Older tests that assumed an authored object was a scene-root `Mesh` now query the tagged visual root and descendant world transform. Phase 4A.2.2 proof tests call the production action and preview modules rather than recreating proxy logic inside the test.
 
-Implementation and automated/browser verification are complete. Spec §17 human acceptance remains pending; Phase 4B.0 is not authorized.
+Implementation and automated/browser verification are complete. The 2026-08-24 closure pass additionally verified editor-only proxies, Tree runtime transform persistence, and spaced Beacon display names through the real UI → Play reload. Spec §17 human acceptance remains pending; Phase 4B.0 is not authorized.
 
 # Persistence Separation — Phase 4A Guardrail
 

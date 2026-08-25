@@ -5,6 +5,17 @@ import { createResourceNode, hideOneChunk, showAllChunks } from "./createResourc
 import { isPlayerInsideColliderVolume, distance3D } from "./harvestLogic.js";
 import { describeResourceCollider, getColliderCenter, getColliderHalfExtents } from "../world/colliderDescriptor.js";
 
+export function createRuntimeResourcePlacements(resources = []) {
+  return resources.map((resource) => ({
+    type: resource.type,
+    pos: { ...resource.pos },
+    regionId: resource.regionId ?? resource.region ?? null,
+    id: resource.id,
+    rotY: resource.rotY ?? resource.rotationY ?? 0,
+    uniformScale: resource.uniformScale ?? resource.scale ?? 1,
+  }));
+}
+
 export function createResourceSystem(scene, physicsWorld, placements) {
   const nodes = [];
   let timeAcc = 0;

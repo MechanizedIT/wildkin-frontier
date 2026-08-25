@@ -111,3 +111,11 @@ Read and implement the full requirements in `docs/Specs/Phase_4A.2.2.md`. Do not
 - Box, Tree, and Ladder were exercised in the real in-app browser at `?author=1`; existing Ladder transform changes updated the coherent root plus dependent traversal data, Tree/Box placement used real geometry immediately, a hidden collidable Box gained a live descriptor-sized proxy, and an Edit→Play reload retained the placed Box. Temporary proof edits were removed afterward. Browser console: no warnings/errors.
 - Automated gates and packaged-build evidence are recorded in `docs/BUILD_LOG.md`. The human acceptance tests in spec §17 remain **TO BE PERFORMED BY HUMAN**; automated/browser evidence does not mark perceptual or gameplay acceptance passed.
 - Phase 4B.0 remains out of scope and must not start until the owner accepts this slice.
+
+## 2026-08-24 owner-playtest closure corrections
+
+- Runtime world construction no longer emits Author wireframes. Hidden collidable props, Ground patches, and Boundaries gain descriptor-driven wireframes only while Edit is active; a fresh Play scene and an Edit → Play reload contain zero `isEditProxy` objects.
+- The world-registry → resource-runtime adapter now preserves authored rotation and uniform scale for Tree, Rock, and Fiber. The runtime resource root, state, interaction math, and simple collider path consume the same transform.
+- Gameplay keyboard capture now yields to focused text controls and to its explicit disabled state, so Waypoint/Beacon display names can contain spaces and still commit through the registry inspector transaction.
+- Automated browser proof used the real Author controls and Play reload: four hidden Camp boundary proxies appeared in Edit and disappeared in Play; a Tree retained 57° / 1.65× in runtime state and its visual root; `Silver Grove Beacon` retained its spaces after reload. No browser errors/warnings; temporary draft cleared.
+- These are same-slice acceptance corrections. Human confirmation remains **TO BE PERFORMED BY HUMAN** before changing this status to accepted or starting Phase 4B.0.

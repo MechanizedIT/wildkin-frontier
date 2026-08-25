@@ -4,7 +4,7 @@
 
 import * as THREE from "three";
 import { MOVEMENT_CONFIG } from "../game/config.js";
-import { normalizeStaticDescriptor, getVisualCenter } from "./staticDescriptor.js";
+import { normalizeStaticDescriptor } from "./staticDescriptor.js";
 import {
   applyVisualTransform,
   createVisual,
@@ -93,26 +93,6 @@ export function createStaticWorld(worldData) {
     return mat;
   }
 
-  function createProxyBox(id, pos, size, rotY, color) {
-    const w = size.w ?? size.x ?? 1;
-    const h = size.h ?? size.y ?? 1;
-    const d = size.d ?? size.z ?? 1;
-    const geo = new THREE.BoxGeometry(w, h, d);
-    const mat = new THREE.MeshBasicMaterial({ color: color ?? 0xffff00, wireframe: true, transparent: true, opacity: 0.42 });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(pos.x, (pos.y ?? 0) + h/2 - 0.02, pos.z);
-    mesh.rotation.y = rotY ?? 0;
-    mesh.name = `${id}__proxy`;
-    mesh.userData.authorId = id;
-    mesh.userData.isEditProxy = true;
-    mesh.userData.proxyFor = id;
-    // proxy should be selectable via same id
-    mesh.userData.originalVisibleInPlay = false;
-    mesh.userData.authorProxyWanted = true;
-    group.add(mesh);
-    return mesh;
-  }
-
   function addFactoryVisual({ id, visualId, size, position, rotationY = 0, options = {}, metadata = {} }) {
     const visualRef = { kind: "builtin", id: visualId };
     const visualOptions = { objectId: id, size, ...options };
@@ -185,12 +165,6 @@ export function createStaticWorld(worldData) {
       return;
     }
 
-    // Create Edit proxy for hidden objects
-    if (!visibleInPlay && collisionEnabled) {
-      const proxyColor = subtype === "fence" ? 0x8b7a5a : subtype === "forestBoundary" ? 0x2d4a2e : 0x9aa0a6;
-      createProxyBox(prop.id, pos, { w, h: height, d }, rotY, proxyColor);
-    }
-
     const blockingSubtypes = new Set(["fence", "gate", "box", "forestBoundary", "boundary", "obstacle", "barrier", "dropPod", "resonator"]);
     const isBlocking = blockingSubtypes.has(subtype) || prop.blocking === true;
     if (isBlocking) {
@@ -236,10 +210,6 @@ export function createStaticWorld(worldData) {
     });
     applyFactoryPresentation(root, patch, visibleInPlay, opacity);
 
-    if (!visibleInPlay && collisionEnabled) {
-      createProxyBox(patch.id, pos, size, rotY, color ?? 0x7bb26a);
-    }
-
     const cos = Math.abs(Math.cos(rotY)), sin = Math.abs(Math.sin(rotY));
     const hx = cos * w / 2 + sin * d / 2;
     const hz = sin * w / 2 + cos * d / 2;
@@ -272,8 +242,6 @@ export function createStaticWorld(worldData) {
       metadata: { boundaryId: bc.id, visibleInPlay, collisionEnabled },
     });
     applyFactoryPresentation(root, bc, visibleInPlay, opacity);
-    if (!visibleInPlay && collisionEnabled) root.userData.proxyMesh = createProxyBox(bc.id, pos, size, rotY, color);
-
     boundaries.push({ id: bc.id, x: pos.x, y: desc.baseY, z: pos.z, w, h, d, rotY, color, opacity, visibleInPlay, collisionEnabled });
 
     if (collisionEnabled) {

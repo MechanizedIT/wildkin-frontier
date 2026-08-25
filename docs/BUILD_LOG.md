@@ -784,5 +784,30 @@
   - All nine human acceptance tests in `docs/Specs/Phase_4A.2.2.md` §17 remain pending, especially perceptual drag/resize feel, real climb/harvest/collider behavior after arbitrary scaling, mixed cross-region undo/redo, phone portrait verification, and the full Camp→expedition→harvest/combat→extract/return smoke.
   - Phase 4B.0 remains blocked on owner acceptance by design.
 
+## 2026-08-24 — Phase 4A.2.2 owner-playtest closure corrections — Codex (GPT-5)
+
+- **Goal:** Resolve the final three owner-reported acceptance defects without entering Phase 4B.0: editor wireframes leaking into Play, resource rotation/scale disappearing in Play, and Space being unavailable in Waypoint/Beacon display names.
+
+- **Decisions / implementation:**
+  - Removed editor-proxy creation from `staticWorldBuilder`. `authorPreview.syncEditProxy` remains the sole proxy lifecycle owner and creates descriptor-sized wireframes only while Edit is active.
+  - Added `createRuntimeResourcePlacements` as the explicit registry-to-runtime adapter and routed `main.js` through it, preserving `rotY`/`rotationY` and `uniformScale`/legacy `scale` for Tree, Rock, and Fiber.
+  - Gated gameplay keyboard handling before shortcuts when input is disabled or focus belongs to an editable control, allowing spaced display names without weakening Author shortcuts outside fields.
+  - Updated older proxy tests to reflect the corrected runtime/editor ownership and added focused Play-path resource/input regressions. No dependency, schema, runtime-network, loop, or future-phase change.
+
+- **Files changed:**
+  - Runtime/input: `src/main.js`, `src/input/keyboardInput.js`, `src/resources/resourceSystem.js`, `src/world/staticWorldBuilder.js`.
+  - Tests: `tests/phase4a1.test.js`, `tests/phase4a2.test.js`, `tests/phase4a2_1.test.js`, `tests/phase4a2_2.test.js`.
+  - Truth/docs: `docs/CURRENT_SLICE.md`, `docs/ARCHITECTURE.md`, `docs/PLAYTEST_NOTES.md`, `docs/BUILD_LOG.md`.
+
+- **Focused verification:**
+  - `npm test` — PASS, 491/491 tests, 133 suites, 0 failures before aggregate gates.
+  - Real `?author=1` browser UI: Play had zero proxies; Edit created four hidden Camp boundary proxies; Play reload returned to zero. Tree Rotation `57` / Scale `1.65` persisted to runtime state and root transform. `Silver Grove Beacon` was typed with real key events and persisted through reload. Browser warnings/errors: none. Temporary draft cleared.
+  - Screenshots: `phase4a2-2-edit-proxies.png` and `phase4a2-2-play-clean.png` in the session visualization artifact directory.
+  - `npm run world:generate` and `npm run world:check` — PASS; generated world remained synchronized.
+  - `npm run verify` — PASS: 491 tests, world check, submission build, and validation; submission directory 4722.5 KB (<35 MB), offline/vendor/readability constraints preserved.
+  - `npm run zip` — PASS; `dist/submission.zip` 1451.9 KB (1.42 MB).
+
+- **Remaining:** Human must confirm the recognizable player-facing closure path above before the slice status changes to accepted. Phase 4B.0 remains out of scope until that owner confirmation.
+
 
 
