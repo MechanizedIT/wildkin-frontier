@@ -102,6 +102,8 @@ export function createAuthorActions(draftApi) {
     commitInspectorField,
     createVisualAsset: (displayName) => draftApi.createVisualAsset(displayName),
     renameVisualAsset: (assetId, displayName) => draftApi.renameVisualAsset(assetId, displayName),
+    updateVisualAssetSettings: (assetId, patch) => draftApi.updateVisualAssetSettings(assetId, patch),
+    createResourceDrop: (drop) => draftApi.createResourceDrop(drop),
     deleteVisualAsset: (assetId) => draftApi.deleteVisualAsset(assetId),
     addAssetPart: (assetId, shape) => draftApi.addAssetPart(assetId, shape),
     updateAssetPart: (assetId, partId, patch) => draftApi.updateAssetPart(assetId, partId, patch),

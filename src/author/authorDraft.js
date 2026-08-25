@@ -292,6 +292,10 @@ export function createAuthorDraft(repoData) {
     return deepClone(draft.visualAssets ?? []);
   }
 
+  function getResourceDrops() {
+    return deepClone(draft.resourceDrops ?? []);
+  }
+
   function findVisualAssetById(assetId) {
     const asset = (draft.visualAssets ?? []).find((entry) => entry.id === assetId);
     return asset ? deepClone(asset) : null;
@@ -317,6 +321,7 @@ export function createAuthorDraft(repoData) {
       candidate.visualAssets.push({
         id: assetId,
         displayName: cleanName,
+        category: "Custom",
         version: 1,
         parts: [{
           id: partId,
@@ -327,6 +332,7 @@ export function createAuthorDraft(repoData) {
           color: "#8fb8d8",
         }],
         collision: null,
+        gameplay: { role: "prop" },
       });
     });
     return res.ok ? { ok: true, assetId, partId } : res;
@@ -340,6 +346,27 @@ export function createAuthorDraft(repoData) {
       if (!cleanName) throw new Error("Visual Asset display name is required");
       asset.displayName = cleanName;
     });
+  }
+
+  function updateVisualAssetSettings(assetId, patch) {
+    return transact((candidate) => {
+      const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      if (!asset) throw new Error("Visual Asset not found");
+      if (patch.category !== undefined) asset.category = String(patch.category).trim();
+      if (patch.gameplay !== undefined) asset.gameplay = deepClone(patch.gameplay);
+    });
+  }
+
+  function createResourceDrop({ id, displayName, color }) {
+    let dropId = null;
+    const res = transact((candidate) => {
+      const cleanId = String(id ?? "").trim().toLowerCase().replace(/[^a-z0-9_]+/g, "_").replace(/^_+|_+$/g, "");
+      if (!cleanId) throw new Error("Custom drop ID is required");
+      if ((candidate.resourceDrops ?? []).some((drop) => drop.id === cleanId)) throw new Error(`Resource drop ${cleanId} already exists`);
+      dropId = cleanId;
+      candidate.resourceDrops.push({ id: cleanId, displayName: String(displayName ?? "").trim(), color });
+    });
+    return res.ok ? { ok: true, dropId } : res;
   }
 
   function deleteVisualAsset(assetId) {
@@ -1285,9 +1312,12 @@ export function createAuthorDraft(repoData) {
     findRegion,
     findObjectById,
     getVisualAssets,
+    getResourceDrops,
     findVisualAssetById,
     createVisualAsset,
     renameVisualAsset,
+    updateVisualAssetSettings,
+    createResourceDrop,
     deleteVisualAsset,
     addAssetPart,
     updateAssetPart,

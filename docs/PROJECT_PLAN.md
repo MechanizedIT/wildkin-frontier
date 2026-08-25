@@ -507,8 +507,11 @@ Implemented as the bounded tooling bridge between the accepted Author Object con
 - zero/one simple Box collider and Fit To Visual Bounds,
 - transactional undo/redo/export/reload and runtime parity,
 - migrated Camp Drop Pod proof asset.
+- focused isolated Asset Edit stage with `Space`/`C` vertical part nudging,
+- searchable/categorized 21-recipe starter library and compact no-horizontal-scroll panel,
+- bounded Prop/Harvestable recipe roles plus canonical/custom resource drops carried through pickup, run cargo, results, and persistent banking.
 
-Do not expand the modeling system. Human acceptance must confirm the shared-instance workflow, Edit/Play parity, simple collision, export/reload, recognizable Drop Pod, and portrait-phone readability. Once accepted, freeze editor/asset infrastructure.
+Do not expand the modeling system. Human acceptance must confirm the shared-instance workflow, isolated stage/vertical controls, starter-library usability, custom-harvestable flow, Edit/Play parity, simple collision, export/reload, recognizable Drop Pod, and portrait-phone readability. Once accepted, freeze editor/asset infrastructure.
 
 ### Phase 4B — First Expedition Experience & Pacing
 

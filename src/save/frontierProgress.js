@@ -2,16 +2,18 @@
 // Owns only: bankedResources, bankedXp, unlockedMajorWaypointIds, discoveredBeaconIds, hasDepartedOnce
 // LocalStorage only, versioned, filters stale world IDs, idempotent banking API.
 
+import { makeEmptyResourceMap, normalizeResourceMap } from "../resources/resourceDropCatalog.js";
+
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
 const VERSION = 1;
 
-function cloneRes(r) { return { wood: r.wood|0, stone: r.stone|0, fiber: r.fiber|0 }; }
+function cloneRes(r) { return { ...r }; }
 
-function defaultState(initialWaypointId) {
+function defaultState(initialWaypointId, resourceDrops) {
   return {
     version: VERSION,
-    bankedResources: { wood: 0, stone: 0, fiber: 0 },
+    bankedResources: makeEmptyResourceMap(resourceDrops),
     bankedXp: 0,
     unlockedMajorWaypointIds: initialWaypointId ? [initialWaypointId] : [],
     discoveredBeaconIds: [],
@@ -22,6 +24,7 @@ function defaultState(initialWaypointId) {
 export function createFrontierProgress(opts = {}) {
   const worldRegistry = opts.worldRegistry ?? null;
   const isAuthorMode = !!opts.isAuthorMode;
+  const resourceDrops = opts.resourceDrops;
   const initialWaypointId = opts.initialWaypointId ?? worldRegistry?.getInitialMajorWaypointId?.() ?? worldRegistry?.getAllWaypoints?.()[0]?.id ?? null;
   const storageKey = isAuthorMode ? AUTHOR_STORAGE_KEY : STORAGE_KEY;
   // In author mode we keep state in memory only if opts.inMemory is true? Per spec either isolated key or in-memory.
@@ -29,7 +32,7 @@ export function createFrontierProgress(opts = {}) {
   // If opts.inMemoryAuthor then never touch storage.
   const useMemoryOnly = isAuthorMode && !!opts.inMemoryAuthor;
 
-  let state = defaultState(initialWaypointId);
+  let state = defaultState(initialWaypointId, resourceDrops);
   let lastBankToken = null; // legacy fallback
   let bankedRunIds = new Set();
   // persist bankedRunIds via state? Keep in memory bounded; versioned save includes lastBankedRunIds
@@ -55,22 +58,17 @@ export function createFrontierProgress(opts = {}) {
   }
 
   function normalizeLoaded(raw) {
-    if (!raw || typeof raw !== "object") return defaultState(initialWaypointId);
-    const out = defaultState(initialWaypointId);
+    if (!raw || typeof raw !== "object") return defaultState(initialWaypointId, resourceDrops);
+    const out = defaultState(initialWaypointId, resourceDrops);
     out.version = raw.version === VERSION ? VERSION : VERSION;
     if (raw.bankedResources && typeof raw.bankedResources === "object") {
-      out.bankedResources.wood = raw.bankedResources.wood | 0;
-      out.bankedResources.stone = raw.bankedResources.stone | 0;
-      out.bankedResources.fiber = raw.bankedResources.fiber | 0;
+      out.bankedResources = normalizeResourceMap(raw.bankedResources, resourceDrops);
     }
     if (typeof raw.bankedXp === "number" && Number.isFinite(raw.bankedXp)) out.bankedXp = raw.bankedXp | 0;
     if (Array.isArray(raw.unlockedMajorWaypointIds)) out.unlockedMajorWaypointIds = raw.unlockedMajorWaypointIds.filter(x => typeof x === "string");
     else out.unlockedMajorWaypointIds = initialWaypointId ? [initialWaypointId] : [];
     if (Array.isArray(raw.discoveredBeaconIds)) out.discoveredBeaconIds = raw.discoveredBeaconIds.filter(x => typeof x === "string");
     out.hasDepartedOnce = !!raw.hasDepartedOnce;
-    if (out.bankedResources.wood < 0) out.bankedResources.wood = 0;
-    if (out.bankedResources.stone < 0) out.bankedResources.stone = 0;
-    if (out.bankedResources.fiber < 0) out.bankedResources.fiber = 0;
     if (out.bankedXp < 0) out.bankedXp = 0;
     if (out.unlockedMajorWaypointIds.length === 0 && initialWaypointId) out.unlockedMajorWaypointIds = [initialWaypointId];
     if (Array.isArray(raw.bankedRunIds)) {
@@ -91,10 +89,10 @@ export function createFrontierProgress(opts = {}) {
         const parsed = JSON.parse(raw);
         state = normalizeLoaded(parsed);
       } else {
-        state = defaultState(initialWaypointId);
+        state = defaultState(initialWaypointId, resourceDrops);
       }
     } catch {
-      state = defaultState(initialWaypointId);
+      state = defaultState(initialWaypointId, resourceDrops);
     }
     filterStale();
     // persist normalized if we filtered
@@ -111,7 +109,7 @@ export function createFrontierProgress(opts = {}) {
   }
 
   function clear() {
-    state = defaultState(initialWaypointId);
+    state = defaultState(initialWaypointId, resourceDrops);
     lastBankToken = null;
     bankedRunIds.clear();
     save();
@@ -166,41 +164,36 @@ export function createFrontierProgress(opts = {}) {
   }
 
   function bankRun(cargo, xp, runId = null) {
-    const wood = cargo?.wood | 0;
-    const stone = cargo?.stone | 0;
-    const fiber = cargo?.fiber | 0;
+    const normalizedCargo = normalizeResourceMap(cargo, resourceDrops, { keepUnknown: true });
+    const totalCargo = Object.values(normalizedCargo).reduce((sum, amount) => sum + amount, 0);
     const xpVal = xp | 0;
     if (runId) {
       if (bankedRunIds.has(runId)) return { added: false, state: getState() };
-      if (wood === 0 && stone === 0 && fiber === 0 && xpVal === 0) {
+      if (totalCargo === 0 && xpVal === 0) {
         bankedRunIds.add(runId);
         if (bankedRunIds.size > 20) { const arr = [...bankedRunIds]; bankedRunIds = new Set(arr.slice(-20)); }
         save();
         return { added: false, state: getState() };
       }
-      state.bankedResources.wood += wood;
-      state.bankedResources.stone += stone;
-      state.bankedResources.fiber += fiber;
+      for (const [id, amount] of Object.entries(normalizedCargo)) state.bankedResources[id] = (state.bankedResources[id] ?? 0) + amount;
       state.bankedXp += xpVal;
       bankedRunIds.add(runId);
       if (bankedRunIds.size > 20) { const arr = [...bankedRunIds]; bankedRunIds = new Set(arr.slice(-20)); }
       // also update legacy token to avoid double
-      lastBankToken = `${runId}:${wood}:${stone}:${fiber}:${xpVal}`;
+      lastBankToken = `${runId}:${JSON.stringify(normalizedCargo)}:${xpVal}`;
       save();
       return { added: true, state: getState() };
     }
     // legacy path without runId (for old tests)
-    const token = `${wood}:${stone}:${fiber}:${xpVal}:${state.bankedResources.wood}:${state.bankedResources.stone}:${state.bankedResources.fiber}:${state.bankedXp}`;
+    const token = `${JSON.stringify(normalizedCargo)}:${xpVal}:${JSON.stringify(state.bankedResources)}:${state.bankedXp}`;
     if (lastBankToken === token) return { added: false, state: getState() };
-    if (wood === 0 && stone === 0 && fiber === 0 && xpVal === 0) {
+    if (totalCargo === 0 && xpVal === 0) {
       lastBankToken = token;
       return { added: false, state: getState() };
     }
-    state.bankedResources.wood += wood;
-    state.bankedResources.stone += stone;
-    state.bankedResources.fiber += fiber;
+    for (const [id, amount] of Object.entries(normalizedCargo)) state.bankedResources[id] = (state.bankedResources[id] ?? 0) + amount;
     state.bankedXp += xpVal;
-    lastBankToken = `${wood}:${stone}:${fiber}:${xpVal}:${state.bankedResources.wood}:${state.bankedResources.stone}:${state.bankedResources.fiber}:${state.bankedXp}`;
+    lastBankToken = `${JSON.stringify(normalizedCargo)}:${xpVal}:${JSON.stringify(state.bankedResources)}:${state.bankedXp}`;
     save();
     return { added: true, state: getState() };
   }
@@ -220,7 +213,7 @@ export function createFrontierProgress(opts = {}) {
 
   // For testing / fresh-save helper
   function isFreshSave() {
-    return !state.hasDepartedOnce && state.bankedXp === 0 && state.bankedResources.wood===0 && state.bankedResources.stone===0 && state.bankedResources.fiber===0;
+    return !state.hasDepartedOnce && state.bankedXp === 0 && Object.values(state.bankedResources).every((amount) => amount === 0);
   }
 
   return {
@@ -242,6 +235,6 @@ export function createFrontierProgress(opts = {}) {
     getHasDeparted,
     isFreshSave,
     getStorageKey: () => storageKey,
-    _defaultState: () => defaultState(initialWaypointId),
+    _defaultState: () => defaultState(initialWaypointId, resourceDrops),
   };
 }

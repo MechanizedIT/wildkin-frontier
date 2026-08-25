@@ -649,6 +649,28 @@ Author collider proxy / native Rapier cuboid
 
 Phase 4B.0 automated and browser verification is complete; human perceptual/phone acceptance remains pending. Do not expand this into a general-purpose modeling tool. On acceptance, freeze this infrastructure and proceed to Phase 4B expedition pacing/content work.
 
+## Visual Asset role / custom-drop extension
+
+```text
+world.json.resourceDrops[]                world.json.visualAssets[].gameplay
+  id / displayName / color                  role: prop | harvestable
+                   \                       harvestable config
+                    \                     /
+                     normalizeWorldData
+                             ↓
+                worldRegistry projection
+                  ├ prop → staticWorldBuilder
+                  └ harvestable → ResourceSystem → PickupSystem
+                                                   ↓
+                              ExpeditionSession → result UI → frontierProgress bank
+```
+
+- `src/resources/resourceDropCatalog.js` is the small shared owner for default catalog fallback and dynamic count-map creation/normalization. UI modules render from the catalog; they do not define gameplay truth.
+- Asset gameplay metadata is recipe-owned. `worldRegistry` projects placed harvestable Visual Asset props into the existing region-aware resource list. `staticWorldBuilder` skips those instances, preventing a second visual/collider owner.
+- `createVisualAssetResourceType` adapts authored hit/respawn/feedback/collision data to the existing resource lifecycle. `createResourceNode` still obtains the detailed model from `VisualFactory`; collision remains the separate simple descriptor.
+- Custom resource IDs remain ordinary data keys across PickupSystem, ExpeditionSession, result UI, and frontierProgress. Existing wood/stone/fiber saves normalize into the expanded catalog without losing accepted data.
+- Asset Edit scene isolation is reversible presentation state owned by `authorMode`: non-light scene roots are hidden and tracked, stage roots are explicitly tagged, and prior visibility/background/fog/camera are restored on exit. Reconciliation re-applies isolation so newly rebuilt preview roots cannot leak into the workbench.
+
 # Persistence Separation — Phase 4A Guardrail
 
 Three different persistence/state concepts must remain distinct:

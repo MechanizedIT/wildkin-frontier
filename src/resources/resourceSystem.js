@@ -1,19 +1,29 @@
 // src/resources/resourceSystem.js — owns all harvest nodes, halos, respawn, degradation, Rapier colliders
 import * as THREE from "three";
-import { RESOURCE_TYPES, HARVEST_CONFIG, isHarvestCompatibleMode } from "./resourceConfig.js";
+import { RESOURCE_TYPES, HARVEST_CONFIG, createVisualAssetResourceType, isHarvestCompatibleMode } from "./resourceConfig.js";
 import { createResourceNode, hideOneChunk, showAllChunks } from "./createResourceNode.js";
 import { isPlayerInsideColliderVolume, distance3D } from "./harvestLogic.js";
-import { describeResourceCollider, getColliderCenter, getColliderHalfExtents } from "../world/colliderDescriptor.js";
+import { describeResourceCollider, describeVisualAssetCollider, getColliderCenter, getColliderHalfExtents } from "../world/colliderDescriptor.js";
 
 export function createRuntimeResourcePlacements(resources = []) {
-  return resources.map((resource) => ({
-    type: resource.type,
-    pos: { ...resource.pos },
-    regionId: resource.regionId ?? resource.region ?? null,
-    id: resource.id,
-    rotY: resource.rotY ?? resource.rotationY ?? 0,
-    uniformScale: resource.uniformScale ?? resource.scale ?? 1,
-  }));
+  return resources.map((resource) => {
+    const visualAsset = resource.visualAsset ?? null;
+    return {
+      type: resource.type,
+      pos: { ...resource.pos },
+      regionId: resource.regionId ?? resource.region ?? null,
+      id: resource.id,
+      rotY: resource.rotY ?? resource.rotationY ?? 0,
+      uniformScale: resource.uniformScale ?? resource.scale ?? 1,
+      visualAsset,
+      resourceType: visualAsset ? createVisualAssetResourceType(visualAsset) : null,
+      resourceDrop: resource.resourceDrop ?? null,
+      visibleInPlay: resource.visibleInPlay !== false,
+      collisionEnabled: resource.collisionEnabled !== false,
+      opacity: resource.opacity ?? 1,
+      tint: resource.color ?? resource.tint,
+    };
+  });
 }
 
 export function createResourceSystem(scene, physicsWorld, placements) {
@@ -22,13 +32,20 @@ export function createResourceSystem(scene, physicsWorld, placements) {
   let activeRegionSet = null; // null = all active (backwards compat for tests without region manager)
   let regionInactiveMap = new Map(); // node index -> bool whether collider removed due to region
 
-  function createRuntimeCollider(typeId, state) {
-    const descriptor = describeResourceCollider({
-      typeId,
-      uniformScale: state.uniformScale ?? 1,
-      position: state.position,
-      rotationY: state.rotationY ?? 0,
-    });
+  function createRuntimeCollider(typeId, state, type) {
+    const descriptor = type?.assetCollision
+      ? describeVisualAssetCollider({
+          collision: type.assetCollision,
+          uniformScale: state.uniformScale ?? 1,
+          position: state.position,
+          rotationY: state.rotationY ?? 0,
+        })
+      : describeResourceCollider({
+          typeId,
+          uniformScale: state.uniformScale ?? 1,
+          position: state.position,
+          rotationY: state.rotationY ?? 0,
+        });
     if (!descriptor.enabled || descriptor.shape !== "box") return null;
     const center = getColliderCenter(descriptor);
     const half = getColliderHalfExtents(descriptor);
@@ -51,21 +68,36 @@ export function createResourceSystem(scene, physicsWorld, placements) {
       rotationY: p.rotY ?? p.rotationY ?? 0,
       uniformScale: p.uniformScale ?? p.scale ?? 1,
     };
+    transform.resourceType = p.resourceType ?? undefined;
+    transform.visualAsset = p.visualAsset ?? undefined;
     const { group, state, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, visualRoot } = createResourceNode(p.type, p.pos, i, nodeId, transform);
     state.regionId = regionId;
     group.userData.authorId = nodeId;
     group.userData.resourceId = nodeId;
+    group.visible = p.visibleInPlay !== false;
+    const opacity = p.opacity ?? 1;
+    if (p.tint !== undefined || opacity < 1) {
+      visualRoot.traverse((object) => {
+        if (!object.isMesh || !object.material) return;
+        object.material = object.material.clone();
+        if (p.tint !== undefined && object.material.color) object.material.color.set(p.tint);
+        if (opacity < 1) {
+          object.material.transparent = true;
+          object.material.opacity = opacity;
+        }
+      });
+    }
     // Make whole group pickable via raycast (propagate authorId to children for reliable selection)
     group.traverse((child) => { if (child.isMesh) { child.userData.authorId = nodeId; child.userData.resourceId = nodeId; } });
     scene.add(group);
-    const type = RESOURCE_TYPES[p.type];
+    const type = p.resourceType ?? RESOURCE_TYPES[p.type];
     let collider = null;
     let remnantCollider = null;
-    if (type.solid && type.colliderHalfExtents) {
-      collider = createRuntimeCollider(p.type, state);
+    if (p.collisionEnabled !== false && type.solid && type.colliderHalfExtents) {
+      collider = createRuntimeCollider(p.type, state, type);
       physicsWorld.world.step();
     }
-    nodes.push({ group, visualRoot, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, _regionInactive: false });
+    nodes.push({ group, visualRoot, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, _regionInactive: false, visibleInPlay: p.visibleInPlay !== false, collisionEnabled: p.collisionEnabled !== false });
   }
 
   function isRegionActive(regionId) {
@@ -103,7 +135,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
       } else if (!wasActive && isActive) {
         // Reactivating — restore visuals without duplication
         n._regionInactive = false;
-        n.group.visible = true;
+        n.group.visible = n.visibleInPlay;
         // Halo/respawn visibility will be handled in next update based on state
         // Restore collider if READY and solid and not pending due to player overlap
         if (n.state.nodeState === "READY" && n.type.solid && n.type.colliderHalfExtents && !n.collider) {
@@ -250,11 +282,12 @@ export function createResourceSystem(scene, physicsWorld, placements) {
   }
 
   function tryRestoreCollider(node, playerPos) {
+    if (!node.collisionEnabled) return true;
     if (!node.type.solid || !node.type.colliderHalfExtents) return true;
     if (isPlayerInsideColliderVolume(playerPos, node)) return false;
     if (node.collider) return true;
     const RAPIER = physicsWorld.RAPIER;
-    node.collider = createRuntimeCollider(node.state.typeId, node.state);
+    node.collider = createRuntimeCollider(node.state.typeId, node.state, node.type);
     physicsWorld.world.step();
     return true;
   }

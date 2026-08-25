@@ -6,6 +6,8 @@ import { normalizeWorldData } from "./worldValidator.js";
 
 export function createWorldRegistry(rawData) {
   const data = normalizeWorldData(rawData);
+  const visualAssetMap = new Map((data.visualAssets ?? []).map((asset) => [asset.id, asset]));
+  const resourceDropMap = new Map((data.resourceDrops ?? []).map((drop) => [drop.id, drop]));
   const regionMap = new Map();
   for (const r of data.regions) regionMap.set(r.id, r);
 
@@ -36,6 +38,21 @@ export function createWorldRegistry(rawData) {
     boundariesByRegion.set(rId, []);
     for (const res of region.resources) {
       const entry = { ...res, regionId: rId, pos: { ...res.pos } };
+      allResources.push(entry);
+      resourcesByRegion.get(rId).push(entry);
+    }
+    for (const prop of region.props ?? []) {
+      if (prop.subtype !== "visualAsset") continue;
+      const visualAsset = visualAssetMap.get(prop.visualAssetId);
+      if (visualAsset?.gameplay?.role !== "harvestable") continue;
+      const entry = {
+        ...prop,
+        type: "visualAsset",
+        regionId: rId,
+        pos: { ...prop.pos },
+        visualAsset,
+        resourceDrop: resourceDropMap.get(visualAsset.gameplay.harvestable.dropId) ?? null,
+      };
       allResources.push(entry);
       resourcesByRegion.get(rId).push(entry);
     }

@@ -8,6 +8,11 @@ import { createAuthorActions } from "../src/author/authorActions.js";
 import { readNormalizedTransform } from "../src/author/authorTypeRegistry.js";
 import { syncAuthorVisual } from "../src/author/authorPreview.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
+import { createWorldRegistry } from "../src/world/worldRegistry.js";
+import { createPickupSystem } from "../src/resources/pickupSystem.js";
+import { createRuntimeResourcePlacements } from "../src/resources/resourceSystem.js";
+import { createExpeditionSession } from "../src/session/expeditionSession.js";
+import { createFrontierProgress } from "../src/save/frontierProgress.js";
 import {
   VISUAL_ASSET_SHAPES,
   createVisual,
@@ -81,6 +86,40 @@ describe("Phase 4B.0 — Visual Asset schema", () => {
     const unresolved = clone(WORLD_DATA);
     unresolved.regions[0].props.find((prop) => prop.subtype === "visualAsset").visualAssetId = "asset_missing";
     assert.throws(() => normalizeWorldData(unresolved), /unresolved Visual Asset/);
+  });
+
+  it("validates asset gameplay roles and their referenced resource drops", () => {
+    const unknownDrop = clone(WORLD_DATA);
+    const asset = unknownDrop.visualAssets.find((entry) => entry.id === "asset_berry_bush");
+    asset.gameplay.harvestable.dropId = "missing_drop";
+    assert.throws(() => normalizeWorldData(unknownDrop), /unresolved resource drop/);
+
+    const invalidRole = clone(WORLD_DATA);
+    invalidRole.visualAssets[0].gameplay = { role: "vendor" };
+    assert.throws(() => normalizeWorldData(invalidRole), /unsupported gameplay role/);
+  });
+});
+
+describe("Phase 4B.0 — starter primitive kit", () => {
+  it("ships every requested low-poly recipe as editable primitives", () => {
+    const expected = [
+      "asset_chest", "asset_wooden_crate", "asset_berry_bush", "asset_iron_ore_rock", "asset_crystal",
+      "asset_furnace", "asset_bench", "asset_table", "asset_chair", "asset_wood_floor", "asset_wood_wall",
+      "asset_wood_doorway", "asset_iron_gear", "asset_iron_pickaxe", "asset_iron_sword", "asset_redwood_tree",
+      "asset_fern", "asset_flower", "asset_grass_patch", "asset_ruin_arch", "asset_ruin_path",
+    ];
+    const byId = new Map(WORLD_DATA.visualAssets.map((asset) => [asset.id, asset]));
+    for (const id of expected) {
+      const asset = byId.get(id);
+      assert.ok(asset, `${id} missing`);
+      assert.ok(asset.category, `${id} needs a category`);
+      assert.ok(asset.parts.length >= 3, `${id} should be a composed primitive recipe`);
+      assert.ok(asset.parts.every((part) => VISUAL_ASSET_SHAPES.includes(part.shape)));
+    }
+    assert.deepEqual(
+      WORLD_DATA.resourceDrops.map((drop) => drop.id),
+      ["wood", "stone", "fiber", "berries", "iron_ore", "crystal_shard", "wildflower"],
+    );
   });
 });
 
@@ -230,6 +269,77 @@ describe("Phase 4B.0 — production Author actions and preview reconciliation", 
     assert.equal(obstacle.height, 2);
     assert.equal(obstacle.h, 4);
   });
+
+  it("authors and exports a custom harvestable role with a custom drop", () => withMockStorage(() => {
+    const draft = createAuthorDraft(WORLD_DATA);
+    const actions = createAuthorActions(draft);
+    const created = actions.createVisualAsset("Moon Seed Pod");
+    assert.ok(created.ok, created.error);
+    const drop = actions.createResourceDrop({ id: "moon_seed", displayName: "Moon Seed", color: "#9c7cff" });
+    assert.ok(drop.ok, drop.error);
+    assert.ok(actions.fitAssetCollision(created.assetId).ok);
+    const role = actions.updateVisualAssetSettings(created.assetId, {
+      category: "Resources",
+      gameplay: {
+        role: "harvestable",
+        harvestable: { dropId: "moon_seed", maxChunks: 6, respawnSeconds: 24, feedbackProfile: "fiber" },
+      },
+    });
+    assert.ok(role.ok, role.error);
+    const placed = actions.placeObject({
+      kind: "visualAsset",
+      visualAssetId: created.assetId,
+      position: { x: 4, y: 0, z: 9 },
+      regionId: "camp",
+    });
+    assert.ok(placed.ok, placed.error);
+    assert.ok(actions.commitInspectorField(placed.id, "visibleInPlay", false).ok);
+    assert.ok(actions.commitInspectorField(placed.id, "collisionEnabled", false).ok);
+    assert.ok(actions.commitInspectorField(placed.id, "opacity", 0.65).ok);
+    assert.ok(actions.commitInspectorField(placed.id, "color", "#c8b4ff").ok);
+
+    const exported = normalizeWorldData(JSON.parse(draft.exportStableJson()));
+    const exportedAsset = exported.visualAssets.find((asset) => asset.id === created.assetId);
+    assert.equal(exportedAsset.category, "Resources");
+    assert.deepEqual(exportedAsset.gameplay.harvestable, {
+      dropId: "moon_seed", maxChunks: 6, respawnSeconds: 24, feedbackProfile: "fiber",
+    });
+    assert.equal(exported.resourceDrops.find((entry) => entry.id === "moon_seed").displayName, "Moon Seed");
+
+    const registry = createWorldRegistry(exported);
+    const resource = registry.getAllResources().find((entry) => entry.id === placed.id);
+    assert.equal(resource.type, "visualAsset");
+    assert.equal(resource.resourceDrop.id, "moon_seed");
+    const [runtimePlacement] = createRuntimeResourcePlacements([resource]);
+    assert.equal(runtimePlacement.visibleInPlay, false);
+    assert.equal(runtimePlacement.collisionEnabled, false);
+    assert.equal(runtimePlacement.opacity, 0.65);
+    assert.equal(runtimePlacement.tint, "#c8b4ff");
+    const staticWorld = createStaticWorld(exported);
+    assert.equal(staticWorld.group.getObjectByName(placed.id), undefined, "resource runtime must own the harvestable visual");
+    assert.equal(staticWorld.obstacles.some((entry) => entry.id === placed.id), false, "resource runtime must own its collider");
+
+    const scene = new THREE.Scene();
+    const pickups = createPickupSystem(scene, null, null, null, { resourceDrops: exported.resourceDrops });
+    const pickup = pickups.spawnPickup({
+      index: 0,
+      regionId: "camp",
+      type: { resourceId: "moon_seed", solid: false, dropOriginHeight: 0.5 },
+      state: { position: { x: 0, y: 0, z: 0 } },
+    });
+    assert.equal(pickup.resourceId, "moon_seed");
+    assert.ok(pickups.collectPickup(pickup));
+    assert.equal(pickups.getInventory().moon_seed, 1);
+
+    const session = createExpeditionSession({ resourceDrops: exported.resourceDrops });
+    session.setCargo(pickups.getInventory());
+    assert.equal(session.snapshotRun().cargo.moon_seed, 1);
+    const progress = createFrontierProgress({ resourceDrops: exported.resourceDrops, inMemoryAuthor: true, isAuthorMode: true });
+    progress.load();
+    const banked = progress.bankRun(session.snapshotRun().cargo, 0, "custom-drop-proof");
+    assert.ok(banked.added);
+    assert.equal(progress.getBankedResources().moon_seed, 1);
+  }));
 });
 
 describe("Phase 4B.0 — Drop Pod/runtime proof", () => {

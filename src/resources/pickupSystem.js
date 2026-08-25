@@ -1,6 +1,7 @@
 // src/resources/pickupSystem.js — visible pickups with pooling, shared geometries, radius-aware collision & rescue magnetization
 import * as THREE from "three";
 import { HARVEST_CONFIG } from "./resourceConfig.js";
+import { findResourceDrop, getResourceDrops, makeEmptyResourceMap } from "./resourceDropCatalog.js";
 
 export const PICKUP_CONFIG = {
   woodCubeSize: 0.42,
@@ -33,7 +34,7 @@ function getShared() {
   return SHARED;
 }
 
-export function createPickupSystem(scene, physicsWorld = null, playground = null, onInventoryChanged) {
+export function createPickupSystem(scene, physicsWorld = null, playground = null, onInventoryChanged, opts = {}) {
   if (typeof physicsWorld === "function" && playground == null) {
     onInventoryChanged = physicsWorld;
     physicsWorld = null;
@@ -47,9 +48,10 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   }
 
   const shared = getShared();
+  const resourceDrops = getResourceDrops(opts.resourceDrops);
   const pickups = [];
   const pool = [];
-  const inventory = { wood: 0, stone: 0, fiber: 0 };
+  const inventory = makeEmptyResourceMap(resourceDrops);
   let nextId = 0;
   const MAX_ACTIVE = 32;
   const STALE_SECONDS = 30;
@@ -208,11 +210,21 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
 
   function createPickupMesh(resourceId) {
     const s = shared;
-    let geo, matProto;
+    let geo, matProto, mat;
     if (resourceId === "wood") { geo = s.woodGeo; matProto = s.woodMatProto; }
     else if (resourceId === "stone") { geo = s.stoneGeo; matProto = s.stoneMatProto; }
-    else { geo = s.fiberGeo; matProto = s.fiberMatProto; }
-    const mat = matProto.clone();
+    else if (resourceId === "fiber") { geo = s.fiberGeo; matProto = s.fiberMatProto; }
+    else {
+      geo = s.stoneGeo;
+      const drop = findResourceDrop(resourceDrops, resourceId);
+      mat = new THREE.MeshStandardMaterial({
+        color: drop?.color ?? "#d8c6ff",
+        flatShading: true,
+        emissive: drop?.color ?? "#d8c6ff",
+        emissiveIntensity: 0.12,
+      });
+    }
+    if (!mat) mat = matProto.clone();
     const m = new THREE.Mesh(geo, mat);
     m.castShadow = false;
     const glowMat = s.glowMatProto.clone();
@@ -460,7 +472,10 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   }
 
   function getInventory() { return { ...inventory }; }
-  function resetInventory() { inventory.wood = 0; inventory.stone = 0; inventory.fiber = 0; if (onInventoryChanged) onInventoryChanged({ ...inventory }, null); }
+  function resetInventory() {
+    for (const key of Object.keys(inventory)) inventory[key] = 0;
+    if (onInventoryChanged) onInventoryChanged({ ...inventory }, null);
+  }
   function getPickups() { return pickups; }
   function getCount() { return pickups.length; }
   function getPooledCount() { return pool.length; }

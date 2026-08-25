@@ -196,3 +196,22 @@ This is implementation/browser evidence, **not human acceptance**.
 ### Human acceptance still requested
 
 Using recognizable player-facing locations and visuals, build one multi-part prop, place two instances, transform one independently, edit the shared recipe, and confirm both update without snapping together. Click Play and confirm the appearance matches Edit and no cyan collider proxy remains. Verify the simple Box collision blocks only where expected, export/reload reproduces the recipe and instances, and the migrated Camp Drop Pod remains recognizable. Repeat the Play/readability check in a portrait phone viewport. Any transform coupling, recipe mismatch, mesh-derived collision, leaked editor proxy, reload loss, or unrecognizable Drop Pod is a failure.
+
+## 2026-08-25 — Phase 4B.0 focused workbench, starter kit, and harvestable roles — automated browser evidence only
+
+This is implementation/browser evidence, **not human acceptance**.
+
+### Observed through the real `?author=1` UI
+
+- A clean repository-backed Author origin listed all 21 requested starter recipes under Containers, Furniture, Machines, Nature, Resources, Ruins, Structures, and Tools. Searching `iron` reduced the list to Iron Mechanical Gear, Iron Ore Rock, Iron Pickaxe, and Iron Sword.
+- Asset Edit hid every non-light scene root and showed only the dedicated grid/platform, selected asset, and separate collider proxy. Browser inspection confirmed hidden world roots and zero stage roots after Exit; exiting restored 83 visible scene roots and a finite prior camera.
+- Initial browser proof exposed a bounds-name camera defect (`x/y/z` read from a `w/h/d` result); the corrected workbench visibly framed the Frontier Chest and Berry Bush.
+- Selecting the chest lid and using the production keyboard path changed local Y from `0.88` to `1.08` with `Space`; `C` returned it to `0.88`.
+- At the default desktop viewport, the 380 px panel reported `clientWidth === scrollWidth === 363`; each vector row reported `clientWidth === scrollWidth === 330`. No horizontal overflow was present.
+- Berry Bush displayed Game Object Type `harvestable`, drop `berries`, 4 hits, 14 second respawn, and plant/fiber feedback. The drop selector listed all seven canonical drops.
+- Placed a Berry Bush through the real palette/canvas and clicked Play. Runtime produced exactly one `asset:asset_berry_bush` resource yielding `berries`; `staticWorldBuilder` had no duplicate copy. Browser warnings/errors were empty.
+- A 390×844 normal-runtime smoke remained portrait-framed and usable with no browser warnings/errors.
+
+### Human acceptance still requested
+
+Use the recognizable setup in `docs/Specs/Phase_4B.0.md` Tests 9–11. Confirm the isolated stage feels clear, `Space`/`C` movement is readable, starter assets are recognizable enough for rapid map authoring, and a custom harvestable/drop remains understandable through real harvesting, depletion/respawn, extraction results, and banking. Automated state inspection is not proof of feel, recognizability, or phone performance.

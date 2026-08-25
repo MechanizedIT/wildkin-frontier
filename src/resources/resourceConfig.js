@@ -94,6 +94,36 @@ export function getResourceType(id) {
   return RESOURCE_TYPES[id] ?? null;
 }
 
+export function createVisualAssetResourceType(asset) {
+  const settings = asset?.gameplay?.harvestable;
+  if (!asset || asset.gameplay?.role !== "harvestable" || !settings) return null;
+  const collision = asset.collision;
+  const top = collision
+    ? collision.offset.y + collision.size.h * 0.5
+    : 0.65;
+  return {
+    id: `asset:${asset.id}`,
+    displayName: asset.displayName,
+    resourceId: settings.dropId,
+    maxChunks: settings.maxChunks,
+    respawnSeconds: settings.respawnSeconds,
+    solid: !!collision,
+    colliderShape: collision ? "cuboid" : null,
+    colliderHalfExtents: collision ? { x: collision.size.w * 0.5, y: collision.size.h * 0.5, z: collision.size.d * 0.5 } : null,
+    colliderCenterY: collision?.offset.y ?? 0,
+    colliderOffset: collision?.offset ?? { x: 0, y: 0, z: 0 },
+    assetCollision: collision ?? null,
+    remnantColliderHalfExtents: null,
+    remnantCenterY: 0,
+    interactionHeight: Math.max(0.25, top * 0.72),
+    dropOriginHeight: Math.max(0.3, top * 0.82),
+    impactEffectHeight: Math.max(0.2, top * 0.62),
+    feedbackProfile: settings.feedbackProfile,
+    color: 0xffffff,
+    visualAsset: asset,
+  };
+}
+
 // Compatible player modes for auto-harvest
 export const HARVEST_COMPATIBLE_MODES = new Set(["IDLE", "SNEAK", "WALK", "RUN"]);
 

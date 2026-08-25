@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { createAuthorDraft } from "./authorDraft.js";
 import { createAuthorUI } from "./authorUI.js";
 import { resolveAuthorType, readNormalizedTransform } from "./authorTypeRegistry.js";
-import { applyVisualTransform, createVisual } from "../world/visualFactory.js";
+import { applyVisualTransform, computeVisualAssetBounds, createVisual } from "../world/visualFactory.js";
 import { describeVisualAssetCollider } from "../world/colliderDescriptor.js";
 import { createAuthorActions } from "./authorActions.js";
 import {
@@ -53,12 +53,13 @@ export function createAuthorMode(opts) {
   let hudHidden = [];
   let editingAssetId = null;
   let selectedAssetPartId = null;
-  let assetEditContextId = null;
   let assetEditTempRoot = null;
   let assetEditProxy = null;
   let assetEditHiddenRoots = [];
   let assetEditCameraState = null;
   let assetPartDrag = null;
+  let assetEditStageHelpers = [];
+  let assetEditSceneState = null;
 
   const ui = createAuthorUI({
     draftApi,
@@ -213,19 +214,7 @@ export function createAuthorMode(opts) {
     });
   }
 
-  function getAssetInstances(assetId) {
-    const instances = [];
-    for (const region of draftApi.getDraft().regions) {
-      for (const prop of region.props ?? []) {
-        if (prop.subtype === "visualAsset" && prop.visualAssetId === assetId) instances.push(prop);
-      }
-    }
-    return instances;
-  }
-
-  function getAssetEditRoot() {
-    return assetEditContextId ? findAuthorVisualRoot(scene, assetEditContextId) : assetEditTempRoot;
-  }
+  function getAssetEditRoot() { return assetEditTempRoot; }
 
   function updateAssetPartHighlight() {
     const root = getAssetEditRoot();
@@ -246,18 +235,9 @@ export function createAuthorMode(opts) {
     const asset = editingAssetId ? draftApi.findVisualAssetById(editingAssetId) : null;
     const root = getAssetEditRoot();
     if (!asset?.collision || !root) return;
-    let position = { x: root.position.x, y: root.position.y, z: root.position.z };
-    let rotationY = root.rotation.y;
-    let uniformScale = root.scale.x || 1;
-    if (assetEditContextId) {
-      const found = draftApi.findObjectById(assetEditContextId);
-      const normalized = found ? readNormalizedTransform(found) : null;
-      if (normalized) {
-        position = normalized.position;
-        rotationY = normalized.rotationY ?? 0;
-        uniformScale = normalized.uniformScale ?? 1;
-      }
-    }
+    const position = { x: root.position.x, y: root.position.y, z: root.position.z };
+    const rotationY = root.rotation.y;
+    const uniformScale = root.scale.x || 1;
     const descriptor = describeVisualAssetCollider({ collision: asset.collision, uniformScale, position, rotationY, enabled: true });
     assetEditProxy = new THREE.Mesh(
       new THREE.BoxGeometry(1, 1, 1),
@@ -269,31 +249,33 @@ export function createAuthorMode(opts) {
     scene.add(assetEditProxy);
   }
 
+  function isolateAssetEditScene() {
+    for (const root of scene.children) {
+      if (root.isLight || root.userData?.isAssetEditStage || root.userData?.isAssetEditProxy) continue;
+      if (!assetEditHiddenRoots.some((entry) => entry.root === root)) {
+        assetEditHiddenRoots.push({ root, visible: root.visible });
+      }
+      root.visible = false;
+    }
+  }
+
   function refreshAssetEditContext() {
     if (!editingAssetId) return;
     const asset = draftApi.findVisualAssetById(editingAssetId);
     if (!asset) return exitAssetEdit();
-    scene.traverse((object) => {
-      if (!object.userData?.authorVisualRoot) return;
-      const sameAsset = object.userData.visualRef?.kind === "asset" && object.userData.visualRef.id === editingAssetId;
-      if (!sameAsset && !assetEditHiddenRoots.some((entry) => entry.root === object)) {
-        assetEditHiddenRoots.push({ root: object, visible: object.visible });
-        object.visible = false;
-      }
-    });
-    if (!assetEditContextId) {
-      if (assetEditTempRoot) {
-        scene.remove(assetEditTempRoot);
-        disposeObject3D(assetEditTempRoot);
-      }
-      assetEditTempRoot = createVisual({ kind: "asset", id: editingAssetId }, { visualAssets: draftApi.getVisualAssets(), objectId: "asset_edit" });
-      const campPos = draftApi.getDraft().camp?.pos ?? { x: 0, y: 0, z: 9.5 };
-      assetEditTempRoot.position.set(campPos.x, campPos.y ?? 0, campPos.z);
-      assetEditTempRoot.userData.isAssetEditRoot = true;
-      scene.add(assetEditTempRoot);
+    if (assetEditTempRoot) {
+      scene.remove(assetEditTempRoot);
+      disposeObject3D(assetEditTempRoot);
     }
+    assetEditTempRoot = createVisual({ kind: "asset", id: editingAssetId }, { visualAssets: draftApi.getVisualAssets(), objectId: "asset_edit" });
+    const bounds = computeVisualAssetBounds(asset);
+    assetEditTempRoot.position.set(0, -bounds.offset.y + bounds.size.h * 0.5, 0);
+    assetEditTempRoot.userData.isAssetEditRoot = true;
+    assetEditTempRoot.userData.isAssetEditStage = true;
+    scene.add(assetEditTempRoot);
     updateAssetPartHighlight();
     syncAssetEditProxy();
+    isolateAssetEditScene();
     ui.setAssetEdit(editingAssetId, selectedAssetPartId);
   }
 
@@ -312,22 +294,29 @@ export function createAuthorMode(opts) {
     if (editingAssetId) exitAssetEdit();
     editingAssetId = assetId;
     selectedAssetPartId = partId ?? asset.parts[0]?.id ?? null;
-    assetEditContextId = getAssetInstances(assetId)[0]?.id ?? null;
     assetEditCameraState = { position: camera.position.clone(), rotation: camera.rotation.clone() };
+    assetEditSceneState = { background: scene.background, fog: scene.fog };
     assetEditHiddenRoots = [];
-    scene.traverse((object) => {
-      if (!object.userData?.authorVisualRoot) return;
-      const sameAsset = object.userData.visualRef?.kind === "asset" && object.userData.visualRef.id === assetId;
-      if (!sameAsset) {
-        assetEditHiddenRoots.push({ root: object, visible: object.visible });
-        object.visible = false;
-      }
-    });
+    isolateAssetEditScene();
+    scene.background = new THREE.Color(0x0b1220);
+    scene.fog = null;
+    const grid = new THREE.GridHelper(10, 20, 0x355273, 0x1b2a40);
+    grid.userData.isAssetEditStage = true;
+    const platform = new THREE.Mesh(
+      new THREE.CylinderGeometry(3.2, 3.2, 0.08, 32),
+      new THREE.MeshStandardMaterial({ color: 0x18263a, roughness: 0.95, metalness: 0.05 }),
+    );
+    platform.position.y = -0.06;
+    platform.userData.isAssetEditStage = true;
+    assetEditStageHelpers = [grid, platform];
+    for (const helper of assetEditStageHelpers) scene.add(helper);
     refreshAssetEditContext();
     const root = getAssetEditRoot();
     if (root) {
-      camera.position.set(root.position.x, Math.max(5, root.position.y + 7), root.position.z + 0.01);
-      camera.lookAt(root.position.x, root.position.y, root.position.z);
+      const bounds = computeVisualAssetBounds(asset);
+      const span = Math.max(bounds.size.w, bounds.size.h, bounds.size.d, 1);
+      camera.position.set(span * 2.2, Math.max(2.8, span * 1.8), span * 2.6);
+      camera.lookAt(0, Math.max(0.35, bounds.size.h * 0.45), 0);
       camera.updateMatrixWorld();
     }
     ui.setStatus(`Asset Edit — ${asset.displayName}`, false);
@@ -338,6 +327,11 @@ export function createAuthorMode(opts) {
     assetPartDrag = null;
     for (const entry of assetEditHiddenRoots) if (entry.root.parent) entry.root.visible = entry.visible;
     assetEditHiddenRoots = [];
+    for (const helper of assetEditStageHelpers) {
+      scene.remove(helper);
+      disposeObject3D(helper);
+    }
+    assetEditStageHelpers = [];
     if (assetEditTempRoot) {
       scene.remove(assetEditTempRoot);
       disposeObject3D(assetEditTempRoot);
@@ -354,9 +348,13 @@ export function createAuthorMode(opts) {
       camera.updateMatrixWorld();
       assetEditCameraState = null;
     }
+    if (assetEditSceneState) {
+      scene.background = assetEditSceneState.background;
+      scene.fog = assetEditSceneState.fog;
+      assetEditSceneState = null;
+    }
     editingAssetId = null;
     selectedAssetPartId = null;
-    assetEditContextId = null;
     ui.clearAssetEdit();
     ui.setStatus("EDIT — world objects", false);
     updateHighlight();
@@ -1208,6 +1206,10 @@ export function createAuthorMode(opts) {
       } else if (key === "q" || key === "e") {
         const delta = (key === "q" ? -15 : 15) * Math.PI / 180;
         result = actions.updateAssetPart(editingAssetId, selectedAssetPartId, { rotation: { y: part.rotation.y + delta } });
+      } else if (e.code === "Space" || key === "c") {
+        const step = e.shiftKey ? 1 : 0.2;
+        const dy = e.code === "Space" ? step : -step;
+        result = actions.updateAssetPart(editingAssetId, selectedAssetPartId, { position: { y: part.position.y + dy } });
       } else {
         const step = e.shiftKey ? 1 : 0.2;
         let dx = 0; let dz = 0;

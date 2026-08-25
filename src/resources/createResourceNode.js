@@ -8,8 +8,8 @@ import {
   tagVisualRoot,
 } from "../world/visualFactory.js";
 
-function createRemnant(typeId) {
-  if (typeId === "tree") {
+function createRemnant(typeId, feedbackProfile = typeId) {
+  if (typeId === "tree" || feedbackProfile === "wood") {
     const stump = new THREE.Mesh(
       new THREE.CylinderGeometry(0.40, 0.44, 0.22, 8),
       new THREE.MeshStandardMaterial({ color: 0x5a3a1a, flatShading: true }),
@@ -25,7 +25,7 @@ function createRemnant(typeId) {
     stump.add(ring);
     return stump;
   }
-  if (typeId === "rock") {
+  if (typeId === "rock" || feedbackProfile === "stone") {
     const rubble = new THREE.Mesh(
       new THREE.BoxGeometry(0.85, 0.20, 0.85),
       new THREE.MeshStandardMaterial({ color: 0x7a7a7a, flatShading: true }),
@@ -62,14 +62,17 @@ function createRemnant(typeId) {
 }
 
 export function createResourceNode(typeId, position, index = 0, objectId = null, transform = {}) {
-  const type = RESOURCE_TYPES[typeId];
+  const type = transform.resourceType ?? RESOURCE_TYPES[typeId];
   if (!type) throw new Error(`Unknown resource type ${typeId}`);
 
   const id = objectId ?? `${typeId}_${index}`;
   const rotationY = transform.rotationY ?? 0;
   const uniformScale = transform.uniformScale ?? 1;
-  const visualRef = { kind: "builtin", id: `resource/${typeId}` };
-  const visualOptions = { objectId: id };
+  const visualAsset = transform.visualAsset ?? type.visualAsset ?? null;
+  const visualRef = visualAsset
+    ? { kind: "asset", id: visualAsset.id }
+    : { kind: "builtin", id: `resource/${typeId}` };
+  const visualOptions = { objectId: id, visualAssets: visualAsset ? [visualAsset] : undefined };
   const group = tagVisualRoot(new THREE.Group(), {
     objectId: id,
     visualRef,
@@ -85,7 +88,7 @@ export function createResourceNode(typeId, position, index = 0, objectId = null,
 
   const state = {
     id,
-    typeId,
+    typeId: type.id,
     resourceId: type.resourceId,
     maxChunks: type.maxChunks,
     remainingChunks: type.maxChunks,
@@ -101,10 +104,11 @@ export function createResourceNode(typeId, position, index = 0, objectId = null,
   group.add(visualRoot);
   const chunkMeshes = [];
   visualRoot.traverse((object) => {
-    if (object.isMesh && (object.name.includes("_chunk_") || object.name.includes("_tuft_"))) chunkMeshes.push(object);
+    if (!object.isMesh) return;
+    if (visualAsset || object.name.includes("_chunk_") || object.name.includes("_tuft_")) chunkMeshes.push(object);
   });
 
-  const remnantMesh = createRemnant(typeId);
+  const remnantMesh = createRemnant(typeId, type.feedbackProfile);
   remnantMesh.visible = false;
   group.add(remnantMesh);
 

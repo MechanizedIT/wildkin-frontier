@@ -5,7 +5,7 @@ Single-player, portrait-mobile, Three.js/HTML5 survival & resource-management pr
 ## Current Playable Foundation (Phase 4B.0 — Primitive Visual Asset Authoring)
 
 - fixed high third-person / near top-down camera, one-thumb movement + run/sneak/jump/dodge, Rapier kinematic via authored Ground Patches/Boundary Colliders (base-Y, no global floor, safety at -30),
-- Field Tool harvesting (auto + manual, 3 resources), magnet pickups (hide-zero run carry vs persistent bank), Wildkin A/T/D/S + home/leash, combat + health/dodge, XP motes,
+- Field Tool harvesting (auto + manual, data-driven built-in/custom drops), magnet pickups (hide-zero run carry vs persistent bank), Wildkin A/T/D/S + home/leash, combat + health/dodge, XP motes,
 - single-source `world.json` (`camp.playerSpawn {position,facingYaw}`, `MajorWaypoint.runSpawn {position,facingYaw}`, `groundPatches`/`boundaryColliders` base-Y, `visibleInPlay/collisionEnabled/opacity/color`) → generated pipeline,
 - current+neighbor region activation, bounded pools, deterministic export,
 - **Camp → START EXPEDITION (near closed gate) → Map start-selection → teleport to authored Run Spawn (facing applied) → carry unsecured value → discover Waypoint/Beacon (one-shot pulse/sound/toast) → contextual EXTRACT while nearby (E / mobile button) → walking away = Keep Going → RETURN & SECURE at Camp gate → bank or lose → outcome card → Camp**
@@ -14,7 +14,7 @@ Single-player, portrait-mobile, Three.js/HTML5 survival & resource-management pr
 - **Top-right Map** inspect vs gate start, beacons never selectable; **minimal camera-projected edge indicators** (extraction + next deeper waypoint, not self-pointing),
 - **Upper-left HUD stack** (Auto Harvest + inventory, never overlap, safe-area, scrollable),
 - one desktop click = one swing (mouse vs touch ownership), one-rAF / fixed 1/60, Rapier-only, offline/portrait/<35 MB,
-- desktop `?author=1` Author Mode: transactional draft + 40-step undo/redo, canonical descriptor for Edit/Play/Rapier parity, live Ground/Boundary proxy, reusable primitive Visual Assets with bounded part editing and simple Box collision, unbounded world-object drag, draft-derived extents, region/ownership validation, Camp Spawn + Waypoint Run Spawn markers + facing arrow/line, hierarchy expansion preserved, bounded shortcuts (Delete/F/WASD/QE/Space/C/Undo/Redo/Esc, ignored while typing), capability-aware Visible/Collision/Opacity/Tint,
+- desktop `?author=1` Author Mode: transactional draft + 40-step undo/redo, canonical descriptor for Edit/Play/Rapier parity, live Ground/Boundary proxy, 21 searchable/categorized starter Visual Assets, isolated Asset Edit stage, compact part controls (`Space`/`C` vertical nudge), simple Box collision, per-recipe Prop/Harvestable role with existing/custom drops, unbounded world-object drag, draft-derived extents, region/ownership validation, Camp Spawn + Waypoint Run Spawn markers + facing arrow/line, hierarchy expansion preserved, bounded shortcuts (ignored while typing), capability-aware Visible/Collision/Opacity/Tint,
 - `?dev=1` **RESET PLAYER SAVE** (frontierProgress only).
 
 **Phase 3.5A/B.x + 4A/4A.1/4A.2.x accepted. Phase 4B.0 is implementation-complete with automated/browser proof; human Visual Asset acceptance is required before Phase 4B.**
@@ -62,6 +62,8 @@ The dev server binds to `0.0.0.0:8080`.
 5. Click **PLAY** — validates draft, persists to Author local storage, reloads with authoritative Rapier state.
 6. **Export** downloads deterministic `world.json`; copy to `src/world/data/world.json`, `npm run world:generate`, then `npm test && npm run verify`.
 7. **Reset Draft From Repo** restores canonical repo world data. Normal play (`/` without `?author=1`) ignores author draft.
+
+Visual Asset workflow: use search/categories to find a starter recipe, then **Place** or **Edit**. Asset Edit hides the rest of the scene; select a part and use WASD/arrows for local X/Z, `Space`/`C` for local Y, Q/E for local Y rotation, and `Shift` for coarse steps. Set **Game Object Type** to Prop or Harvestable. A Harvestable can select a drop or add a custom drop ID/name/color plus hit count and respawn time; all instances of that recipe share the role.
 
 - Fresh-save testing: `http://localhost:8080/?dev=1` shows **RESET PLAYER SAVE** (center top, confirms, clears `wildkin.frontierProgress` only, reloads fresh Camp). Normal `/` has no button.
 - Desktop normal play: `http://localhost:8080/`

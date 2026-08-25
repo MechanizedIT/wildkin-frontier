@@ -45,7 +45,7 @@ const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 4A.1 — 0.11.1";
+const VERSION = "Phase 4B.0 — 0.12.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -110,7 +110,8 @@ const campStartFacing = campSpawn.facingYaw ?? 0;
 const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos);
 
 // Persistent frontier progress (isolated from author draft)
-const frontierProgress = createFrontierProgress({ worldRegistry, isAuthorMode: authorEnabled });
+const resourceDrops = worldRegistry.data.resourceDrops;
+const frontierProgress = createFrontierProgress({ worldRegistry, isAuthorMode: authorEnabled, resourceDrops });
 frontierProgress.load();
 
 // Dev-only one-action reset (visible only with ?dev=1, not in normal submission)
@@ -136,6 +137,7 @@ const expeditionSession = createExpeditionSession({
   regionDepthMap,
   initialRegionId: initialRegion,
   initialStatus: "camp",
+  resourceDrops,
 });
 expeditionSession.setRegion(initialRegion, null);
 
@@ -171,7 +173,7 @@ const placementsFromWorld = createRuntimeResourcePlacements(worldRegistry.getAll
 
 const gameAudio = createGameAudio();
 const particleSystem = createParticleSystem(scene);
-const inventoryHud = createRunInventoryHud();
+const inventoryHud = createRunInventoryHud(resourceDrops);
 const autoHarvestToggle = createAutoHarvestToggle(true);
 let autoHarvestEnabled = true;
 autoHarvestToggle.onToggle((v) => { autoHarvestEnabled = v; });
@@ -180,7 +182,7 @@ pickupSystem = createPickupSystem(scene, physicsWorld, playground, (inv, resId) 
   inventoryHud.update(inv);
   if (resId) inventoryHud.pulse(resId);
   expeditionSession.setCargo(inv);
-});
+}, { resourceDrops });
 pickupSystem.setPlayerCollider(characterPhysics.collider);
 inventoryHud.update(pickupSystem.getInventory());
 expeditionSession.setCargo(pickupSystem.getInventory());
@@ -340,6 +342,7 @@ anchorPrompt = createAnchorPrompt({
 });
 
 runResultCard = createRunResultCard({
+  resourceDrops,
   onContinue: () => {
     // Continue returns direct Camp control (already reset to camp)
     refreshMapAvailability();

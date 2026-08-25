@@ -847,5 +847,40 @@
   - Human acceptance remains required for recognizable multi-part construction, shared-instance editing, independent transform feel, Edit/Play visual parity, collision feel, export/reload, migrated Drop Pod readability, and real phone play. Automated screenshots and numeric/state assertions do not replace human perceptual proof.
   - Phase 4B expedition experience/pacing is intentionally not started. Once Chris accepts Phase 4B.0, freeze editor/asset infrastructure and move directly to authored expedition content/tuning.
 
+## 2026-08-25 01:53 -05:00 — Phase 4B.0 Authoring Polish, Starter Kit & Harvestable Asset Roles — Codex (GPT-5)
+
+- **Goal:** Implement the owner-directed Phase 4B.0 usability/content amendment on `main`: fully isolate Asset Edit, repair vertical part controls, remove horizontal panel overflow, add a practical low-poly starter library, and make Visual Assets usable as data-driven harvestables with existing or custom drops.
+
+- **Design / implementation decisions:**
+  - Asset Edit now owns a temporary world-origin workbench. It records and hides all non-light scene roots, tags the stage/asset/proxy explicitly, re-applies isolation after reconciliation, frames the asset from computed bounds, and restores prior visibility/background/fog/camera on exit. Browser verification found and fixed a real `w/h/d` versus `x/y/z` camera-framing mismatch.
+  - `Space`/`C` directly raise/lower the selected part by 0.2; `Shift` uses 1.0. Matching buttons make the action discoverable. Existing focused-input ownership remains authoritative.
+  - Widened the desktop panel to a viewport-bounded 380 px, disabled horizontal overflow, compacted vector controls, and added category/search navigation. Asset Edit hides unrelated world-authoring sections while keeping the reusable asset catalog available.
+  - Added 21 categorized, editable, stylized low-poly primitive recipes requested by the owner. They remain plain `world.json` recipes using only the six approved primitive shapes; no dependency or imported mesh was added.
+  - Added top-level canonical `resourceDrops` and recipe-owned `gameplay.role` (`prop` or `harvestable`). Harvestables author drop ID, hit count, respawn seconds, and one of the existing wood/stone/fiber feedback profiles. Custom drops author stable ID/display name/color.
+  - `worldRegistry` projects placed harvestable Visual Asset props into the existing resource lifecycle. `staticWorldBuilder` skips those recipes, preserving exactly one visual/collider owner. `createVisualAssetResourceType` adapts recipe/collision data without introducing an ECS or generic component framework.
+  - Generalized resource pickup inventory, run session cargo, results UI, and persistent bank maps around the canonical drop catalog. Existing wood/stone/fiber defaults and saves remain normalized and accepted.
+  - Updated Phase/version labels to Phase 4B.0 — 0.12.0 and amended current-slice/spec/architecture/project-plan/readme/manual-test truth. Phase 4B world layout/pacing remains intentionally untouched.
+
+- **Files changed:**
+  - Authoring: `src/author/authorMode.js`, `src/author/authorUI.js`, `src/author/authorDraft.js`, `src/author/authorActions.js`.
+  - World/resource contract: `src/world/worldValidator.js`, `src/world/worldRegistry.js`, `src/world/staticWorldBuilder.js`, `src/world/data/world.json`, `src/world/data/world.generated.js`, `src/resources/resourceDropCatalog.js`, `src/resources/resourceConfig.js`, `src/resources/createResourceNode.js`, `src/resources/resourceSystem.js`, `src/resources/pickupSystem.js`.
+  - Run/persistence/UI: `src/session/expeditionSession.js`, `src/save/frontierProgress.js`, `src/ui/runInventoryHud.js`, `src/ui/runResultCard.js`, `src/main.js`, `index.html`.
+  - Tests/docs: `tests/phase4b0.test.js`, `README.md`, `docs/CURRENT_SLICE.md`, `docs/Specs/Phase_4B.0.md`, `docs/PROJECT_PLAN.md`, `docs/ARCHITECTURE.md`, `docs/PLAYTEST_NOTES.md`, `docs/BUILD_LOG.md`.
+
+- **Consistency sweep / production proof:**
+  - Verified the shared contract across Author UI → draft transaction → strict validation → generated export → world registry → static/resource runtime ownership → instance visibility/collision/opacity/tint → simple collider/visual → physical pickup → run cargo → result/bank persistence.
+  - Added tests for invalid roles/unresolved drops, all 21 starter IDs/shapes/categories, custom drop/harvestable export-reload, registry projection, no static duplicate, custom pickup collection, expedition cargo, and persistent banking.
+  - Real browser: starter catalog/categories/search passed; isolated Chest/Berry stages visibly rendered; Chest lid `Space`/`C` moved `0.88 → 1.08 → 0.88`; panel/vector rows had no horizontal overflow; Berry settings were truthful; a placed Berry Bush became exactly one runtime `berries` resource with no static copy; 390×844 runtime smoke passed; warnings/errors none. The isolated playtest draft lives only on the `127.0.0.2` test origin and does not affect normal `localhost` play.
+
+- **Tests / gates:**
+  - `npm test` / `npm run verify` — PASS, 503 tests, 138 suites, 0 failures.
+  - `npm run world:generate` and `npm run world:check` — PASS; generated source synchronized.
+  - `npm run verify` — PASS; submission root `index.html` 810.0 KB, directory 4859.1 KB (<35 MB), local vendor/offline/readability checks preserved.
+  - `npm run zip` — PASS; `dist/submission.zip` 1470.7 KB (1.44 MB).
+
+- **Remaining / deferred:**
+  - Human perceptual acceptance remains required for starter-asset recognizability, focused workbench feel, real-device input/readability, and a hand-played custom drop through harvest/depletion/respawn/extraction/banking.
+  - No crafting, equipment stats, containers, generic interaction scripting/components, imported models, or Phase 4B expedition content were added.
+
 
 

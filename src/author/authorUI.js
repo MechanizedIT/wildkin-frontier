@@ -13,8 +13,9 @@ export function createAuthorUI(opts) {
 
   const container = document.createElement("div");
   container.id = "author-panel";
-  container.style.cssText = "position:fixed;top:8px;left:8px;width:300px;max-height:92vh;overflow:auto;background:#0f1420f2;color:#d0d8e8;font:12px system-ui;border:1px solid #2a3a5a;border-radius:8px;z-index:9999;padding:8px;display:none;backdrop-filter:blur(6px)";
+  container.style.cssText = "position:fixed;top:8px;left:8px;width:min(380px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;overflow-x:hidden;box-sizing:border-box;background:#0f1420f2;color:#d0d8e8;font:12px system-ui;border:1px solid #2a3a5a;border-radius:8px;z-index:9999;padding:10px;display:none;backdrop-filter:blur(6px)";
   container.innerHTML = `
+    <style>#author-panel *,#author-panel *::before,#author-panel *::after{box-sizing:border-box}#author-panel input,#author-panel select,#author-panel button{min-width:0}#author-panel .author-vec3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}#author-panel .author-vec3 input{width:100%;padding:3px 4px}</style>
     <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">
       <button id="author-toggle" style="flex:1;padding:7px 8px;background:#2a7fff;color:#fff;border:none;border-radius:6px;font-weight:800">EDIT</button>
       <span id="author-mode-badge" style="font-size:10px;font-weight:700;padding:4px 6px;border-radius:4px;background:#1a243a;color:#8aa0c0">PLAY TEST</span>
@@ -27,11 +28,12 @@ export function createAuthorUI(opts) {
     </details>
     <details id="sec-visual-assets" open style="margin-bottom:8px">
       <summary style="font-weight:700;cursor:pointer">Visual Assets</summary>
+      <input id="author-asset-filter" placeholder="Search assets or category" style="width:100%;margin-top:6px;padding:6px;background:#0a0f1e;color:#dcecff;border:1px solid #2a3a5a;border-radius:5px">
       <button id="author-asset-new" style="width:100%;margin-top:6px;padding:6px;background:#244266;color:#dcecff;border:1px solid #3a6694;border-radius:5px">+ New Asset</button>
-      <div id="author-asset-list" style="display:flex;flex-direction:column;gap:4px;margin-top:6px"></div>
+      <div id="author-asset-list" style="display:flex;flex-direction:column;gap:4px;margin-top:6px;max-height:230px;overflow-y:auto;overflow-x:hidden"></div>
       <div id="author-asset-editor" style="display:none;margin-top:7px;padding:6px;background:#0a0f1e;border:1px solid #3a6694;border-radius:6px">
         <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px"><strong style="flex:1">Asset Edit</strong><button id="author-asset-exit" style="padding:3px 7px">Exit</button></div>
-        <label style="display:block">Name <input id="author-asset-name" style="width:100%"></label>
+        <div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:5px"><label>Name <input id="author-asset-name" style="width:100%"></label><label>Category <input id="author-asset-category" style="width:100%"></label></div>
         <div id="author-asset-id" style="font-size:10px;color:#6f88a8;margin:3px 0 6px"></div>
         <div style="font-size:11px;font-weight:700;margin-bottom:3px">Add Part</div>
         <div id="author-asset-add-parts" style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
@@ -42,10 +44,11 @@ export function createAuthorUI(opts) {
         <div id="author-asset-parts" style="display:flex;flex-wrap:wrap;gap:3px;margin:6px 0"></div>
         <div id="author-asset-part-form" style="display:none;border-top:1px solid #1e2a4a;padding-top:5px">
           <label style="display:block">Shape <input id="author-part-shape" readonly style="width:100%;opacity:.75"></label>
-          <div style="font-size:11px;margin-top:4px">Position</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-part-px" type="number" step="0.1" title="Position X"><input id="author-part-py" type="number" step="0.1" title="Position Y"><input id="author-part-pz" type="number" step="0.1" title="Position Z"></div>
-          <div style="font-size:11px;margin-top:4px">Rotation °</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-part-rx" type="number" step="5" title="Rotation X"><input id="author-part-ry" type="number" step="5" title="Rotation Y"><input id="author-part-rz" type="number" step="5" title="Rotation Z"></div>
-          <div style="font-size:11px;margin-top:4px">Scale</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-part-sx" type="number" min="0.01" step="0.1" title="Scale X"><input id="author-part-sy" type="number" min="0.01" step="0.1" title="Scale Y"><input id="author-part-sz" type="number" min="0.01" step="0.1" title="Scale Z"></div>
+          <div style="font-size:11px;margin-top:4px">Position X / Y / Z</div><div class="author-vec3"><input id="author-part-px" type="number" step="0.1" title="Position X"><input id="author-part-py" type="number" step="0.1" title="Position Y"><input id="author-part-pz" type="number" step="0.1" title="Position Z"></div>
+          <div style="font-size:11px;margin-top:4px">Rotation X / Y / Z °</div><div class="author-vec3"><input id="author-part-rx" type="number" step="5" title="Rotation X"><input id="author-part-ry" type="number" step="5" title="Rotation Y"><input id="author-part-rz" type="number" step="5" title="Rotation Z"></div>
+          <div style="font-size:11px;margin-top:4px">Scale X / Y / Z</div><div class="author-vec3"><input id="author-part-sx" type="number" min="0.01" step="0.1" title="Scale X"><input id="author-part-sy" type="number" min="0.01" step="0.1" title="Scale Y"><input id="author-part-sz" type="number" min="0.01" step="0.1" title="Scale Z"></div>
           <label style="display:block;margin-top:4px">Color <input id="author-part-color" type="color" style="width:100%;height:25px"></label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px"><button id="author-part-down">C · Y−0.2</button><button id="author-part-up">Space · Y+0.2</button></div>
           <div style="display:flex;gap:4px;margin-top:5px"><button id="author-part-duplicate" style="flex:1">Duplicate</button><button id="author-part-delete" style="flex:1;color:#ffaaaa">Delete</button></div>
         </div>
         <div style="border-top:1px solid #1e2a4a;margin-top:7px;padding-top:5px">
@@ -57,8 +60,18 @@ export function createAuthorUI(opts) {
           </div>
           <button id="author-asset-fit" style="width:100%;margin-top:4px">Fit To Visual Bounds</button>
         </div>
+        <div style="border-top:1px solid #1e2a4a;margin-top:7px;padding-top:5px">
+          <strong style="font-size:11px">Game Object Type</strong>
+          <select id="author-asset-role" style="width:100%;margin-top:3px"><option value="prop">Prop / Decoration</option><option value="harvestable">Harvestable Resource</option></select>
+          <div id="author-asset-harvest-fields" style="display:none;margin-top:5px">
+            <label style="display:block">Drops <select id="author-asset-drop" style="width:100%"></select></label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px"><label>Hits <input id="author-asset-hits" type="number" min="1" max="12" step="1" style="width:100%"></label><label>Respawn sec <input id="author-asset-respawn" type="number" min="1" max="300" step="1" style="width:100%"></label></div>
+            <label style="display:block;margin-top:4px">Impact feel <select id="author-asset-feedback" style="width:100%"><option value="wood">Wood</option><option value="stone">Stone</option><option value="fiber">Plant / Fiber</option></select></label>
+            <details style="margin-top:6px;border:1px solid #263b58;border-radius:4px;padding:5px"><summary style="cursor:pointer">+ Create Custom Drop</summary><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px"><input id="author-drop-id" placeholder="iron_ore"><input id="author-drop-name" placeholder="Iron Ore"></div><input id="author-drop-color" type="color" value="#b7c0ca" style="width:100%;height:25px;margin-top:4px"><button id="author-drop-create" style="width:100%;margin-top:4px">Add Drop To Catalog</button></details>
+          </div>
+        </div>
         <button id="author-asset-delete" style="width:100%;margin-top:7px;color:#ffaaaa">Delete Asset</button>
-        <div style="font-size:10px;color:#6f88a8;margin-top:5px">Click a part · drag local X/Z · Q/E rotate Y · Esc exits</div>
+        <div style="font-size:10px;color:#6f88a8;margin-top:5px">Click a part · drag/WASD local X/Z · Space/C local Y · Q/E rotate Y · Esc exits</div>
       </div>
     </details>
     <details id="sec-selected" open style="margin-bottom:8px">
@@ -215,6 +228,14 @@ export function createAuthorUI(opts) {
   let selectedAssetPartId = null;
   const assetListEl = container.querySelector("#author-asset-list");
   const assetEditorEl = container.querySelector("#author-asset-editor");
+  const assetFilterEl = container.querySelector("#author-asset-filter");
+
+  function setAssetFocus(focused) {
+    for (const id of ["sec-palette", "sec-selected", "sec-hierarchy", "sec-region"]) {
+      const section = container.querySelector(`#${id}`);
+      if (section) section.style.display = focused ? "none" : "";
+    }
+  }
 
   function assetActionResult(result, successText, nextPartId) {
     if (!result?.ok) {
@@ -233,6 +254,7 @@ export function createAuthorUI(opts) {
     assetEditorEl.style.display = asset ? "" : "none";
     if (!asset) return;
     container.querySelector("#author-asset-name").value = asset.displayName;
+    container.querySelector("#author-asset-category").value = asset.category ?? "Uncategorized";
     container.querySelector("#author-asset-id").textContent = asset.id;
     if (!asset.parts.some((part) => part.id === selectedAssetPartId)) selectedAssetPartId = asset.parts[0]?.id ?? null;
     const partsHost = container.querySelector("#author-asset-parts");
@@ -270,12 +292,42 @@ export function createAuthorUI(opts) {
         ["author-col-x", collision.offset.x], ["author-col-y", collision.offset.y], ["author-col-z", collision.offset.z],
       ]) container.querySelector(`#${id}`).value = value;
     }
+    const role = asset.gameplay?.role ?? "prop";
+    const harvestable = asset.gameplay?.harvestable ?? null;
+    container.querySelector("#author-asset-role").value = role;
+    container.querySelector("#author-asset-harvest-fields").style.display = role === "harvestable" ? "" : "none";
+    const dropSelect = container.querySelector("#author-asset-drop");
+    dropSelect.innerHTML = "";
+    for (const drop of draftApi.getResourceDrops()) {
+      const option = document.createElement("option");
+      option.value = drop.id;
+      option.textContent = drop.displayName;
+      dropSelect.appendChild(option);
+    }
+    if (harvestable) {
+      dropSelect.value = harvestable.dropId;
+      container.querySelector("#author-asset-hits").value = harvestable.maxChunks;
+      container.querySelector("#author-asset-respawn").value = harvestable.respawnSeconds;
+      container.querySelector("#author-asset-feedback").value = harvestable.feedbackProfile;
+    }
   }
 
   function refreshVisualAssets() {
-    const assets = draftApi.getVisualAssets();
+    const query = assetFilterEl.value.trim().toLowerCase();
+    const assets = draftApi.getVisualAssets()
+      .filter((asset) => !query || `${asset.displayName} ${asset.category ?? ""} ${asset.id}`.toLowerCase().includes(query))
+      .sort((a, b) => (a.category ?? "").localeCompare(b.category ?? "") || a.displayName.localeCompare(b.displayName));
     assetListEl.innerHTML = "";
+    let currentCategory = null;
     for (const asset of assets) {
+      const category = asset.category ?? "Uncategorized";
+      if (category !== currentCategory) {
+        currentCategory = category;
+        const heading = document.createElement("div");
+        heading.textContent = category;
+        heading.style.cssText = "font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7187a7;margin:4px 2px 0";
+        assetListEl.appendChild(heading);
+      }
       const row = document.createElement("div");
       row.style.cssText = "display:grid;grid-template-columns:1fr auto auto;gap:3px;align-items:center;background:#111a2a;border:1px solid #263b58;border-radius:4px;padding:4px";
       const name = document.createElement("span");
@@ -294,14 +346,18 @@ export function createAuthorUI(opts) {
   function setAssetEdit(assetId, partId = null) {
     editingAssetId = assetId;
     selectedAssetPartId = partId;
+    setAssetFocus(true);
     refreshVisualAssets();
   }
 
   function clearAssetEdit() {
     editingAssetId = null;
     selectedAssetPartId = null;
+    setAssetFocus(false);
     refreshVisualAssets();
   }
+
+  assetFilterEl.addEventListener("input", refreshVisualAssets);
 
   container.querySelector("#author-asset-new").addEventListener("click", () => {
     const result = actions.createVisualAsset(`Visual Asset ${draftApi.getVisualAssets().length + 1}`);
@@ -311,6 +367,9 @@ export function createAuthorUI(opts) {
   container.querySelector("#author-asset-exit").addEventListener("click", () => opts.onAssetEditExitRequested?.());
   container.querySelector("#author-asset-name").addEventListener("change", (event) => {
     assetActionResult(actions.renameVisualAsset(editingAssetId, event.target.value), "Renamed Visual Asset");
+  });
+  container.querySelector("#author-asset-category").addEventListener("change", (event) => {
+    assetActionResult(actions.updateVisualAssetSettings(editingAssetId, { category: event.target.value }), "Updated asset category");
   });
   for (const button of container.querySelectorAll("[data-asset-shape]")) {
     button.addEventListener("click", () => {
@@ -338,6 +397,14 @@ export function createAuthorUI(opts) {
     const result = actions.deleteAssetPart(editingAssetId, selectedAssetPartId);
     assetActionResult(result, "Deleted part", null);
   });
+  function nudgeSelectedPartY(delta) {
+    const asset = draftApi.findVisualAssetById(editingAssetId);
+    const part = asset?.parts.find((entry) => entry.id === selectedAssetPartId);
+    if (!part) return;
+    assetActionResult(actions.updateAssetPart(editingAssetId, selectedAssetPartId, { position: { y: part.position.y + delta } }), `Moved ${selectedAssetPartId} Y`);
+  }
+  container.querySelector("#author-part-up").addEventListener("click", () => nudgeSelectedPartY(0.2));
+  container.querySelector("#author-part-down").addEventListener("click", () => nudgeSelectedPartY(-0.2));
   function commitAssetCollision() {
     const mode = container.querySelector("#author-asset-collision").value;
     if (mode === "none") return assetActionResult(actions.updateAssetCollision(editingAssetId, null), "Collision disabled");
@@ -352,6 +419,47 @@ export function createAuthorUI(opts) {
   container.querySelector("#author-asset-collision").addEventListener("change", commitAssetCollision);
   container.querySelector("#author-asset-collision-fields").addEventListener("change", commitAssetCollision);
   container.querySelector("#author-asset-fit").addEventListener("click", () => assetActionResult(actions.fitAssetCollision(editingAssetId), "Collision fit to visual bounds"));
+  function commitAssetGameplay() {
+    const role = container.querySelector("#author-asset-role").value;
+    const gameplay = role === "harvestable"
+      ? {
+          role,
+          harvestable: {
+            dropId: container.querySelector("#author-asset-drop").value,
+            maxChunks: Number(container.querySelector("#author-asset-hits").value) || 3,
+            respawnSeconds: Number(container.querySelector("#author-asset-respawn").value) || 15,
+            feedbackProfile: container.querySelector("#author-asset-feedback").value,
+          },
+        }
+      : { role: "prop" };
+    assetActionResult(actions.updateVisualAssetSettings(editingAssetId, { gameplay }), role === "harvestable" ? "Asset is harvestable" : "Asset is a prop");
+  }
+  container.querySelector("#author-asset-role").addEventListener("change", (event) => {
+    if (event.target.value === "harvestable") {
+      const drops = draftApi.getResourceDrops();
+      container.querySelector("#author-asset-drop").value = drops[0]?.id ?? "wood";
+      container.querySelector("#author-asset-hits").value = 3;
+      container.querySelector("#author-asset-respawn").value = 15;
+      container.querySelector("#author-asset-feedback").value = "fiber";
+    }
+    commitAssetGameplay();
+  });
+  for (const id of ["author-asset-drop", "author-asset-hits", "author-asset-respawn", "author-asset-feedback"]) {
+    container.querySelector(`#${id}`).addEventListener("change", commitAssetGameplay);
+  }
+  container.querySelector("#author-drop-create").addEventListener("click", () => {
+    const result = actions.createResourceDrop({
+      id: container.querySelector("#author-drop-id").value,
+      displayName: container.querySelector("#author-drop-name").value,
+      color: container.querySelector("#author-drop-color").value,
+    });
+    if (!result.ok) return setStatus(result.error, true);
+    refreshAssetEditor();
+    container.querySelector("#author-asset-drop").value = result.dropId;
+    commitAssetGameplay();
+    container.querySelector("#author-drop-id").value = "";
+    container.querySelector("#author-drop-name").value = "";
+  });
   container.querySelector("#author-asset-delete").addEventListener("click", () => {
     const deletedId = editingAssetId;
     const result = actions.deleteVisualAsset(deletedId);

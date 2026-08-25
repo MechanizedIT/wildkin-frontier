@@ -1,9 +1,14 @@
 // src/ui/runResultCard.js — recovery/loss card over Camp (Phase 4A)
 
+import { getResourceDrops } from "../resources/resourceDropCatalog.js";
+
 export function createRunResultCard(opts = {}) {
   const app = document.getElementById("app");
   if (!app) return { show(){}, hide(){}, isVisible:()=>false, destroy(){} };
   const onContinue = opts.onContinue ?? (()=>{});
+  const drops = getResourceDrops(opts.resourceDrops);
+  const dropNames = new Map(drops.map((drop) => [drop.id, drop.displayName]));
+  const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
 
   const overlay = document.createElement("div");
   overlay.id = "run-result-overlay";
@@ -39,7 +44,7 @@ export function createRunResultCard(opts = {}) {
     const isExtract = data.type === "extracted";
     titleEl.textContent = isExtract ? "EXPEDITION COMPLETE" : "EXPEDITION LOST";
     titleEl.style.color = isExtract ? "#8fe08e" : "#ff6b6b";
-    const cargo = data.snapshot?.cargo ?? data.cargo ?? { wood:0, stone:0, fiber:0 };
+    const cargo = data.snapshot?.cargo ?? data.cargo ?? {};
     const xp = data.snapshot?.xp ?? data.xp ?? 0;
     const newWps = data.snapshot?.newWaypoints ?? data.newWaypoints ?? [];
     const newBcs = data.snapshot?.newBeacons ?? data.newBeacons ?? [];
@@ -47,21 +52,17 @@ export function createRunResultCard(opts = {}) {
     let html = "";
     if (isExtract) html += `<div style="font-weight:800;margin-bottom:6px;">Recovered</div>`;
     else html += `<div style="font-weight:800;margin-bottom:6px;">Lost</div>`;
-    const rows = [];
-    if (cargo.wood) rows.push(`Wood <strong>+${cargo.wood}</strong>`); else if (!isExtract && cargo.wood===0) {} else if (isExtract && cargo.wood===0) {}
     // For extracted, show +; for lost, show without +
     const fmt = (label, val) => {
       if (!val) return null;
       return `<div style="display:flex;justify-content:space-between;"><span>${label}</span><span>${isExtract ? "+" : ""}${val}</span></div>`;
     };
     const lines = [];
-    const wLine = fmt("Wood", cargo.wood);
-    const sLine = fmt("Stone", cargo.stone);
-    const fLine = fmt("Fiber", cargo.fiber);
     const xpLine = fmt("XP", xp);
-    if (wLine) lines.push(wLine);
-    if (sLine) lines.push(sLine);
-    if (fLine) lines.push(fLine);
+    for (const [id, amount] of Object.entries(cargo)) {
+      const line = fmt(escapeHtml(dropNames.get(id) ?? id), amount);
+      if (line) lines.push(line);
+    }
     if (xpLine) lines.push(xpLine);
     if (lines.length === 0) lines.push(`<div style="color:rgba(230,235,245,0.65)">No resources carried</div>`);
     html += lines.join("");
@@ -85,7 +86,11 @@ export function createRunResultCard(opts = {}) {
     bodyEl.innerHTML = html;
 
     if (data.bankedResources) {
-      bankEl.textContent = `Banked Total — Wood ${data.bankedResources.wood} · Stone ${data.bankedResources.stone} · Fiber ${data.bankedResources.fiber} · XP ${data.bankedXp ?? 0}`;
+      const totals = Object.entries(data.bankedResources)
+        .filter(([, amount]) => amount > 0)
+        .map(([id, amount]) => `${dropNames.get(id) ?? id} ${amount}`);
+      totals.push(`XP ${data.bankedXp ?? 0}`);
+      bankEl.textContent = `Banked Total — ${totals.join(" · ")}`;
     } else {
       bankEl.textContent = "";
     }

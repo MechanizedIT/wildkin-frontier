@@ -2,6 +2,8 @@
 // Statuses: camp | active | extracted | lost
 // Owns only transient run state, not persistent bank.
 
+import { makeEmptyResourceMap, normalizeResourceMap } from "../resources/resourceDropCatalog.js";
+
 function generateRunId() {
   try {
     if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -9,11 +11,13 @@ function generateRunId() {
   return `run_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
 }
 export function createExpeditionSession(opts = {}) {
+  const resourceDrops = opts.resourceDrops;
+  const emptyCargo = () => makeEmptyResourceMap(resourceDrops);
   let startAnchorId = opts.startAnchorId ?? "camp_gate";
   let status = opts.initialStatus ?? "active"; // camp | active | extracted | lost | dead (dead alias for lost)
   let runXp = 0;
   let kills = 0;
-  let unsecuredCargo = { wood: 0, stone: 0, fiber: 0 };
+  let unsecuredCargo = emptyCargo();
   let currentRegionId = opts.initialRegionId ?? null;
   let currentPocketId = opts.initialPocketId ?? null;
   let maxDepth = 0;
@@ -44,7 +48,7 @@ export function createExpeditionSession(opts = {}) {
   function addKill() { kills += 1; }
   function setCargo(cargo) {
     if (!cargo) return;
-    unsecuredCargo = { wood: cargo.wood | 0, stone: cargo.stone | 0, fiber: cargo.fiber | 0 };
+    unsecuredCargo = normalizeResourceMap(cargo, resourceDrops, { keepUnknown: true });
   }
   function incrementCargo(resourceId, amount = 1) {
     if (unsecuredCargo[resourceId] !== undefined) unsecuredCargo[resourceId] += amount;
@@ -62,7 +66,7 @@ export function createExpeditionSession(opts = {}) {
     resolved = false;
     runXp = 0;
     kills = 0;
-    unsecuredCargo = { wood: 0, stone: 0, fiber: 0 };
+    unsecuredCargo = emptyCargo();
     extractionOutcome = null;
     unsecuredWildkin = [];
     runDiscoveries = { newWaypoints: [], newBeacons: [] };
@@ -76,7 +80,7 @@ export function createExpeditionSession(opts = {}) {
     resolved = false;
     runXp = 0;
     kills = 0;
-    unsecuredCargo = { wood: 0, stone: 0, fiber: 0 };
+    unsecuredCargo = emptyCargo();
     extractionOutcome = null;
     unsecuredWildkin = [];
     runDiscoveries = { newWaypoints: [], newBeacons: [] };
@@ -90,7 +94,7 @@ export function createExpeditionSession(opts = {}) {
     resolved = false;
     runXp = 0;
     kills = 0;
-    unsecuredCargo = { wood: 0, stone: 0, fiber: 0 };
+    unsecuredCargo = emptyCargo();
     extractionOutcome = null;
     unsecuredWildkin = [];
     runDiscoveries = { newWaypoints: [], newBeacons: [] };

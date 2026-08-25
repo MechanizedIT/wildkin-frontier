@@ -1,12 +1,16 @@
 // src/world/worldValidator.js — normalization + validation for data-driven world (Phase 3.5A)
 // Runtime systems consume normalized data, not raw JSON independently.
 
+import { DEFAULT_RESOURCE_DROPS } from "../resources/resourceDropCatalog.js";
+
 const SUPPORTED_RESOURCE_TYPES = new Set(["tree", "rock", "fiber"]);
 const SUPPORTED_CREATURE_TYPES = new Set(["rusher", "spitter"]);
 const SUPPORTED_TEMPERAMENTS = new Set(["AGGRESSIVE", "TERRITORIAL", "DEFENSIVE", "SKITTISH"]);
 const SUPPORTED_ANCHOR_TYPES = new Set(["majorWaypoint", "extractionBeacon"]);
 const SUPPORTED_POI_TYPES = new Set(["chest", "barrier", "generic", "island"]);
 const SUPPORTED_VISUAL_ASSET_SHAPES = new Set(["box", "cylinder", "cone", "sphere", "capsule", "icosahedron"]);
+const SUPPORTED_VISUAL_ASSET_ROLES = new Set(["prop", "harvestable"]);
+const SUPPORTED_FEEDBACK_PROFILES = new Set(["wood", "stone", "fiber"]);
 // Allow generic POI types beyond known — but if requires.type is companionAbility/materialRepair we validate.
 
 function isNumber(v) { return typeof v === "number" && Number.isFinite(v); }
@@ -68,6 +72,16 @@ export function normalizeWorldData(raw) {
   if (data.initialMajorWaypointId !== undefined && typeof data.initialMajorWaypointId !== "string") throw new Error("initialMajorWaypointId must be string");
   // Optional camp gate at root for backwards compat: frontierGateId
   if (data.frontierGateId !== undefined && typeof data.frontierGateId !== "string") throw new Error("frontierGateId must be string");
+  if (data.resourceDrops === undefined) data.resourceDrops = DEFAULT_RESOURCE_DROPS.map((drop) => ({ ...drop }));
+  if (!Array.isArray(data.resourceDrops) || data.resourceDrops.length === 0) throw new Error("world.resourceDrops must be a non-empty array");
+  const resourceDropIds = new Set();
+  for (const drop of data.resourceDrops) {
+    if (!drop?.id || typeof drop.id !== "string" || !/^[a-z][a-z0-9_]*$/.test(drop.id)) throw new Error("resource drop id must use lowercase letters, numbers, and underscores");
+    if (resourceDropIds.has(drop.id)) throw new Error(`duplicate resource drop id ${drop.id}`);
+    resourceDropIds.add(drop.id);
+    if (typeof drop.displayName !== "string" || !drop.displayName.trim()) throw new Error(`resource drop ${drop.id} displayName required`);
+    validateCanonicalColor(drop.color, `resource drop ${drop.id}`);
+  }
   if (data.visualAssets === undefined) data.visualAssets = [];
   if (!Array.isArray(data.visualAssets)) throw new Error("world.visualAssets must be an array");
   const visualAssetIds = new Set();
@@ -76,6 +90,8 @@ export function normalizeWorldData(raw) {
     if (visualAssetIds.has(asset.id)) throw new Error(`duplicate Visual Asset id ${asset.id}`);
     visualAssetIds.add(asset.id);
     if (typeof asset.displayName !== "string" || !asset.displayName.trim()) throw new Error(`Visual Asset ${asset.id} displayName required`);
+    if (asset.category === undefined) asset.category = "Uncategorized";
+    if (typeof asset.category !== "string" || !asset.category.trim()) throw new Error(`Visual Asset ${asset.id} category required`);
     if (asset.version !== 1) throw new Error(`Visual Asset ${asset.id} unsupported version ${asset.version}`);
     if (!Array.isArray(asset.parts)) throw new Error(`Visual Asset ${asset.id} parts must be an array`);
     const partIds = new Set();
@@ -103,6 +119,17 @@ export function normalizeWorldData(raw) {
       for (const key of ["w", "h", "d"]) {
         if (!isNumber(collision.size[key]) || collision.size[key] <= 0) throw new Error(`Visual Asset ${asset.id} collision size.${key} must be positive finite`);
       }
+    }
+    if (asset.gameplay === undefined) asset.gameplay = { role: "prop" };
+    if (!asset.gameplay || typeof asset.gameplay !== "object") throw new Error(`Visual Asset ${asset.id} gameplay required`);
+    if (!SUPPORTED_VISUAL_ASSET_ROLES.has(asset.gameplay.role)) throw new Error(`Visual Asset ${asset.id} unsupported gameplay role ${asset.gameplay.role}`);
+    if (asset.gameplay.role === "harvestable") {
+      const harvestable = asset.gameplay.harvestable;
+      if (!harvestable || typeof harvestable !== "object") throw new Error(`Visual Asset ${asset.id} harvestable settings required`);
+      if (!resourceDropIds.has(harvestable.dropId)) throw new Error(`Visual Asset ${asset.id} unresolved resource drop ${harvestable.dropId}`);
+      if (!Number.isInteger(harvestable.maxChunks) || harvestable.maxChunks < 1 || harvestable.maxChunks > 12) throw new Error(`Visual Asset ${asset.id} maxChunks must be integer 1..12`);
+      if (!isNumber(harvestable.respawnSeconds) || harvestable.respawnSeconds < 1 || harvestable.respawnSeconds > 300) throw new Error(`Visual Asset ${asset.id} respawnSeconds must be 1..300`);
+      if (!SUPPORTED_FEEDBACK_PROFILES.has(harvestable.feedbackProfile)) throw new Error(`Visual Asset ${asset.id} unsupported feedback profile ${harvestable.feedbackProfile}`);
     }
   }
   if (!Array.isArray(data.regions) || data.regions.length === 0) throw new Error("world.regions must be non-empty array");
@@ -765,4 +792,5 @@ export const SUPPORTED = {
   anchorTypes: SUPPORTED_ANCHOR_TYPES,
   poiTypes: SUPPORTED_POI_TYPES,
   visualAssetShapes: SUPPORTED_VISUAL_ASSET_SHAPES,
+  visualAssetRoles: SUPPORTED_VISUAL_ASSET_ROLES,
 };

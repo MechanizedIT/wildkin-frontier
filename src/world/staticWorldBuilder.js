@@ -130,6 +130,7 @@ export function createStaticWorld(worldData) {
     if (prop.subtype === "visualAsset") {
       const asset = (worldData.visualAssets ?? []).find((entry) => entry.id === prop.visualAssetId);
       if (!asset) throw new Error(`Visual Asset ${prop.visualAssetId} not found for ${prop.id}`);
+      if (asset.gameplay?.role === "harvestable") return;
       const scale = prop.uniformScale ?? 1;
       const position = { x: prop.pos.x, y: prop.pos.y ?? 0, z: prop.pos.z };
       const rotationY = prop.rotY ?? 0;

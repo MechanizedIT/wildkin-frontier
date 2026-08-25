@@ -46,6 +46,19 @@ VisualRef
 - production-path tests + real browser verification,
 - preserve all accepted expedition/gameplay behavior and hackathon constraints.
 
+## Owner-directed usability/content amendment — 2026-08-25
+
+The owner explicitly extended this slice with the minimum content-authoring features needed to use the tool productively:
+
+- Asset Edit is a focused workbench: the world, player, gameplay effects, markers, and other authored objects disappear until Asset Edit exits; lighting remains available for truthful material preview.
+- Selected parts support direct vertical keyboard nudging: `Space` raises, `C` lowers, and `Shift` changes the step from 0.2 to 1.0. Focused form controls retain keyboard ownership.
+- The Visual Assets panel is 380 px/viewport bounded, has no horizontal scrolling, uses compact vector fields, and provides search plus readable categories.
+- The canonical starter library includes 21 stylized low-poly primitive recipes: chest, wooden crate, berry bush, iron ore rock, crystal, furnace, bench, table, chair, wood floor, wood wall, wood doorway, iron mechanical gear, iron pickaxe, iron sword, redwood tree, fern, flower, grass patch, stone ruin arch, and stone ruin path.
+- A Visual Asset owns one bounded gameplay role: `prop` or `harvestable`. Harvestables select a canonical resource drop, hit count, respawn duration, and an existing wood/stone/fiber feedback profile.
+- `world.json.resourceDrops` is the canonical drop catalog. Author Mode can select an existing drop or add a custom ID/display name/color. Custom drops must flow through runtime pickups, run cargo, results, and persistent banking.
+
+This does not authorize a general component system, scripting, crafting behavior, container behavior, equipment stats, imported meshes, nested assets, or Phase 4B world/pacing content.
+
 ## Explicit non-goals
 
 Do not add:
@@ -98,10 +111,13 @@ Phase 4B.0 is implemented without beginning Phase 4B expedition layout or pacing
 - World instances store `subtype: "visualAsset"`, `visualAssetId`, and their own position/rotation/uniform scale. Recipe edits reconcile every matching preview while instance transforms remain independent.
 - Edit and Runtime Play share `VisualFactory` primitive construction. Runtime collision remains descriptor-derived native Rapier Box collision and is not inferred from rendered meshes.
 - The Camp Drop Pod is migrated to the canonical `asset_drop_pod` recipe and remains a single positioned world instance with a simple independent Box collider.
+- Asset Edit now uses a dedicated isolated stage and restores the previous scene/camera exactly on exit. The selected part can be raised/lowered with `Space`/`C`, while focused text/number inputs keep normal typing behavior.
+- The starter palette ships 21 categorized primitive assets and a search field. Its compact 380 px panel is viewport-bounded with horizontal overflow disabled.
+- Canonical `resourceDrops` plus asset `gameplay` metadata let a shared asset recipe become a Prop or Harvestable. Harvestable instances are projected by `worldRegistry` into the existing resource lifecycle; `staticWorldBuilder` deliberately skips them so there is one visual/collider owner. Custom drops remain data-driven through pickups, HUD/results, run session, and persistent bank.
 - Production-path automated coverage and real `?author=1` browser verification pass. Automated browser evidence is not human perceptual acceptance.
 
 ### Human acceptance still required
 
-Perform the player-facing tests in `docs/Specs/Phase_4B.0.md`: build a recognizable multi-part asset, place two instances, independently transform them, edit the shared recipe and see both update, verify Play matches Edit, check simple collision behavior, and export/reload. Also confirm the migrated Camp Drop Pod is recognizable and behaves correctly on desktop and a portrait phone viewport.
+Perform the player-facing tests in `docs/Specs/Phase_4B.0.md`: build a recognizable multi-part asset, place two instances, independently transform them, edit the shared recipe and see both update, verify Play matches Edit, check simple collision behavior, and export/reload. Also verify the isolated workbench, `Space`/`C` vertical nudging, starter-kit readability, and one custom harvestable/drop through extraction and banking. Confirm the migrated Camp Drop Pod remains recognizable and behaves correctly on desktop and a portrait phone viewport.
 
 Do not start Phase 4B until Chris accepts this slice. On acceptance, freeze Visual Asset/editor infrastructure and use it for the first expedition experience and pacing slice.

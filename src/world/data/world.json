@@ -11,13 +11,13 @@
       "position": {
         "x": 0,
         "y": 0,
-        "z": 10.0
+        "z": 10
       },
       "facingYaw": 3.1415926535
     },
     "radius": 2.8,
     "frontierGateId": "gate_camp_frontier",
-    "description": "Camp clearing \u2014 drop pod, Matter Resonator, frontier gate"
+    "description": "Camp clearing — drop pod, Matter Resonator, frontier gate"
   },
   "initialMajorWaypointId": "wp_p1_entry",
   "frontierGateId": "gate_camp_frontier",
@@ -30,48 +30,3618 @@
         {
           "id": "body",
           "shape": "cylinder",
-          "position": { "x": 0, "y": 0.65, "z": 0 },
-          "rotation": { "x": 0, "y": 0, "z": 0 },
-          "scale": { "x": 1.15, "y": 1.3, "z": 1.15 },
+          "position": {
+            "x": 0,
+            "y": 0.65,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.15,
+            "y": 1.3,
+            "z": 1.15
+          },
           "color": "#d0d0d0"
         },
         {
           "id": "canopy",
           "shape": "sphere",
-          "position": { "x": 0, "y": 1.28, "z": 0 },
-          "rotation": { "x": 0, "y": 0, "z": 0 },
-          "scale": { "x": 1.18, "y": 0.72, "z": 1.18 },
+          "position": {
+            "x": 0,
+            "y": 1.28,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.18,
+            "y": 0.72,
+            "z": 1.18
+          },
           "color": "#8fb8d8"
         },
         {
           "id": "base",
           "shape": "cylinder",
-          "position": { "x": 0, "y": 0.12, "z": 0 },
-          "rotation": { "x": 0, "y": 0, "z": 0 },
-          "scale": { "x": 1.4, "y": 0.24, "z": 1.4 },
+          "position": {
+            "x": 0,
+            "y": 0.12,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.4,
+            "y": 0.24,
+            "z": 1.4
+          },
           "color": "#727c88"
         },
         {
           "id": "front_fin",
           "shape": "cone",
-          "position": { "x": 0, "y": 0.25, "z": 0.72 },
-          "rotation": { "x": 0, "y": 0, "z": 0 },
-          "scale": { "x": 0.34, "y": 0.5, "z": 0.34 },
+          "position": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0.72
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.34,
+            "y": 0.5,
+            "z": 0.34
+          },
           "color": "#f2a65a"
         },
         {
           "id": "rear_fin",
           "shape": "cone",
-          "position": { "x": 0, "y": 0.25, "z": -0.72 },
-          "rotation": { "x": 0, "y": 3.1415926535, "z": 0 },
-          "scale": { "x": 0.34, "y": 0.5, "z": 0.34 },
+          "position": {
+            "x": 0,
+            "y": 0.25,
+            "z": -0.72
+          },
+          "rotation": {
+            "x": 0,
+            "y": 3.1415926535,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.34,
+            "y": 0.5,
+            "z": 0.34
+          },
           "color": "#f2a65a"
         }
       ],
       "collision": {
         "shape": "box",
-        "offset": { "x": 0, "y": 0.8, "z": 0 },
-        "size": { "w": 1.4, "h": 1.6, "d": 1.4 }
+        "offset": {
+          "x": 0,
+          "y": 0.8,
+          "z": 0
+        },
+        "size": {
+          "w": 1.4,
+          "h": 1.6,
+          "d": 1.4
+        }
+      },
+      "category": "Machines",
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_chest",
+      "displayName": "Frontier Chest",
+      "category": "Containers",
+      "version": 1,
+      "parts": [
+        {
+          "id": "body",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.42,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.35,
+            "y": 0.72,
+            "z": 0.85
+          },
+          "color": "#8b572a"
+        },
+        {
+          "id": "lid",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.88,
+            "z": -0.03
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.42,
+            "y": 0.28,
+            "z": 0.9
+          },
+          "color": "#a66b32"
+        },
+        {
+          "id": "band_l",
+          "shape": "box",
+          "position": {
+            "x": -0.45,
+            "y": 0.57,
+            "z": 0.44
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 1.02,
+            "z": 0.06
+          },
+          "color": "#4e5966"
+        },
+        {
+          "id": "band_r",
+          "shape": "box",
+          "position": {
+            "x": 0.45,
+            "y": 0.57,
+            "z": 0.44
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 1.02,
+            "z": 0.06
+          },
+          "color": "#4e5966"
+        },
+        {
+          "id": "lock",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.58,
+            "z": 0.48
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.34,
+            "z": 0.11
+          },
+          "color": "#e3b34c"
+        },
+        {
+          "id": "lock_pin",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 0.75,
+            "z": 0.55
+          },
+          "rotation": {
+            "x": 1.5707963267948966,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.12,
+            "z": 0.18
+          },
+          "color": "#f5d26f"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 0.51,
+          "z": 0
+        },
+        "size": {
+          "w": 1.42,
+          "h": 1.02,
+          "d": 0.9
+        }
+      },
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_wooden_crate",
+      "displayName": "Wooden Crate",
+      "category": "Containers",
+      "version": 1,
+      "parts": [
+        {
+          "id": "core",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "color": "#9a6230"
+        },
+        {
+          "id": "slat_top",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.88,
+            "z": 0.515
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.08,
+            "y": 0.14,
+            "z": 0.07
+          },
+          "color": "#c18445"
+        },
+        {
+          "id": "slat_bottom",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.12,
+            "z": 0.515
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.08,
+            "y": 0.14,
+            "z": 0.07
+          },
+          "color": "#c18445"
+        },
+        {
+          "id": "brace_a",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0.54
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.72
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 1.02,
+            "z": 0.07
+          },
+          "color": "#6d431f"
+        },
+        {
+          "id": "brace_b",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0.55
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.72
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 1.02,
+            "z": 0.07
+          },
+          "color": "#6d431f"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 0.5,
+          "z": 0
+        },
+        "size": {
+          "w": 1.08,
+          "h": 1,
+          "d": 1.08
+        }
+      },
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_berry_bush",
+      "displayName": "Berry Bush",
+      "category": "Resources",
+      "version": 1,
+      "parts": [
+        {
+          "id": "stem",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 0.3,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.16,
+            "y": 0.6,
+            "z": 0.16
+          },
+          "color": "#476b2c"
+        },
+        {
+          "id": "leaf_l",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.28,
+            "y": 0.48,
+            "z": 0.02
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.72,
+            "y": 0.58,
+            "z": 0.58
+          },
+          "color": "#3f8c4a"
+        },
+        {
+          "id": "leaf_r",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.28,
+            "y": 0.46,
+            "z": -0.04
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.68,
+            "y": 0.55,
+            "z": 0.62
+          },
+          "color": "#347b42"
+        },
+        {
+          "id": "leaf_top",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0,
+            "y": 0.73,
+            "z": 0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.7,
+            "y": 0.52,
+            "z": 0.62
+          },
+          "color": "#4a9b54"
+        },
+        {
+          "id": "berry_1",
+          "shape": "sphere",
+          "position": {
+            "x": -0.34,
+            "y": 0.72,
+            "z": 0.34
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.18,
+            "z": 0.18
+          },
+          "color": "#e65373"
+        },
+        {
+          "id": "berry_2",
+          "shape": "sphere",
+          "position": {
+            "x": 0.28,
+            "y": 0.68,
+            "z": 0.34
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.18,
+            "z": 0.18
+          },
+          "color": "#c93d61"
+        },
+        {
+          "id": "berry_3",
+          "shape": "sphere",
+          "position": {
+            "x": -0.08,
+            "y": 0.92,
+            "z": 0.28
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.18,
+            "z": 0.18
+          },
+          "color": "#e65373"
+        },
+        {
+          "id": "berry_4",
+          "shape": "sphere",
+          "position": {
+            "x": 0.43,
+            "y": 0.5,
+            "z": 0.2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.18,
+            "z": 0.18
+          },
+          "color": "#c93d61"
+        },
+        {
+          "id": "berry_5",
+          "shape": "sphere",
+          "position": {
+            "x": -0.42,
+            "y": 0.47,
+            "z": 0.18
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.18,
+            "z": 0.18
+          },
+          "color": "#e65373"
+        },
+        {
+          "id": "berry_6",
+          "shape": "sphere",
+          "position": {
+            "x": 0.1,
+            "y": 0.52,
+            "z": 0.48
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.18,
+            "z": 0.18
+          },
+          "color": "#c93d61"
+        }
+      ],
+      "collision": null,
+      "gameplay": {
+        "role": "harvestable",
+        "harvestable": {
+          "dropId": "berries",
+          "maxChunks": 4,
+          "respawnSeconds": 14,
+          "feedbackProfile": "fiber"
+        }
+      }
+    },
+    {
+      "id": "asset_iron_ore_rock",
+      "displayName": "Iron Ore Rock",
+      "category": "Resources",
+      "version": 1,
+      "parts": [
+        {
+          "id": "rock_a",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.2,
+            "y": 0.38,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.05,
+            "y": 0.78,
+            "z": 0.9
+          },
+          "color": "#59636d"
+        },
+        {
+          "id": "rock_b",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.34,
+            "y": 0.3,
+            "z": -0.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.76,
+            "y": 0.62,
+            "z": 0.7
+          },
+          "color": "#6b747d"
+        },
+        {
+          "id": "ore_1",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.28,
+            "y": 0.55,
+            "z": 0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.22,
+            "z": 0.18
+          },
+          "color": "#9db1c4"
+        },
+        {
+          "id": "ore_2",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.22,
+            "y": 0.48,
+            "z": 0.43
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.24,
+            "y": 0.2,
+            "z": 0.16
+          },
+          "color": "#7f95aa"
+        },
+        {
+          "id": "ore_3",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.48,
+            "y": 0.35,
+            "z": 0.18
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 0.17,
+            "z": 0.15
+          },
+          "color": "#b5c2cf"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 0.425,
+          "z": 0
+        },
+        "size": {
+          "w": 1.35,
+          "h": 0.85,
+          "d": 1.15
+        }
+      },
+      "gameplay": {
+        "role": "harvestable",
+        "harvestable": {
+          "dropId": "iron_ore",
+          "maxChunks": 5,
+          "respawnSeconds": 22,
+          "feedbackProfile": "stone"
+        }
+      }
+    },
+    {
+      "id": "asset_crystal",
+      "displayName": "Aether Crystal",
+      "category": "Resources",
+      "version": 1,
+      "parts": [
+        {
+          "id": "base",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0,
+            "y": 0.16,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.85,
+            "y": 0.32,
+            "z": 0.7
+          },
+          "color": "#43556d"
+        },
+        {
+          "id": "spire",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0,
+            "y": 0.82,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.2,
+            "z": 0.08
+          },
+          "scale": {
+            "x": 0.38,
+            "y": 1.45,
+            "z": 0.38
+          },
+          "color": "#67dce8"
+        },
+        {
+          "id": "spire_l",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.32,
+            "y": 0.56,
+            "z": 0.04
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.25,
+            "z": -0.28
+          },
+          "scale": {
+            "x": 0.24,
+            "y": 0.88,
+            "z": 0.24
+          },
+          "color": "#8ff2f0"
+        },
+        {
+          "id": "spire_r",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.32,
+            "y": 0.47,
+            "z": -0.06
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.35,
+            "z": 0.32
+          },
+          "scale": {
+            "x": 0.21,
+            "y": 0.72,
+            "z": 0.21
+          },
+          "color": "#47b8d2"
+        },
+        {
+          "id": "core",
+          "shape": "sphere",
+          "position": {
+            "x": 0,
+            "y": 0.67,
+            "z": 0.02
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.28,
+            "z": 0.28
+          },
+          "color": "#d4ffff"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 0.775,
+          "z": 0
+        },
+        "size": {
+          "w": 0.95,
+          "h": 1.55,
+          "d": 0.8
+        }
+      },
+      "gameplay": {
+        "role": "harvestable",
+        "harvestable": {
+          "dropId": "crystal_shard",
+          "maxChunks": 4,
+          "respawnSeconds": 28,
+          "feedbackProfile": "stone"
+        }
+      }
+    },
+    {
+      "id": "asset_furnace",
+      "displayName": "Frontier Furnace",
+      "category": "Machines",
+      "version": 1,
+      "parts": [
+        {
+          "id": "base",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.15,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.25,
+            "y": 0.3,
+            "z": 1.05
+          },
+          "color": "#4f5660"
+        },
+        {
+          "id": "body",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.78,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.05,
+            "y": 1,
+            "z": 0.9
+          },
+          "color": "#69717b"
+        },
+        {
+          "id": "top",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 1.34,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.18,
+            "y": 0.16,
+            "z": 1.02
+          },
+          "color": "#444b55"
+        },
+        {
+          "id": "mouth",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.72,
+            "z": 0.48
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.58,
+            "y": 0.46,
+            "z": 0.08
+          },
+          "color": "#171c22"
+        },
+        {
+          "id": "fire",
+          "shape": "sphere",
+          "position": {
+            "x": 0,
+            "y": 0.68,
+            "z": 0.55
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.35,
+            "y": 0.26,
+            "z": 0.12
+          },
+          "color": "#ff7b32"
+        },
+        {
+          "id": "chimney",
+          "shape": "cylinder",
+          "position": {
+            "x": 0.27,
+            "y": 1.82,
+            "z": -0.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.34,
+            "y": 0.95,
+            "z": 0.34
+          },
+          "color": "#3d454f"
+        },
+        {
+          "id": "rim",
+          "shape": "cylinder",
+          "position": {
+            "x": 0.27,
+            "y": 2.3,
+            "z": -0.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.45,
+            "y": 0.12,
+            "z": 0.45
+          },
+          "color": "#59636e"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 1.18,
+          "z": 0
+        },
+        "size": {
+          "w": 1.25,
+          "h": 2.36,
+          "d": 1.05
+        }
+      },
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_bench",
+      "displayName": "Wooden Bench",
+      "category": "Furniture",
+      "version": 1,
+      "parts": [
+        {
+          "id": "seat",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.65,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.9,
+            "y": 0.18,
+            "z": 0.58
+          },
+          "color": "#9a6230"
+        },
+        {
+          "id": "leg_l",
+          "shape": "box",
+          "position": {
+            "x": -0.68,
+            "y": 0.31,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.65,
+            "z": 0.42
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "leg_r",
+          "shape": "box",
+          "position": {
+            "x": 0.68,
+            "y": 0.31,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.65,
+            "z": 0.42
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "back",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 1.13,
+            "z": -0.24
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.9,
+            "y": 0.52,
+            "z": 0.14
+          },
+          "color": "#a66b32"
+        },
+        {
+          "id": "post_l",
+          "shape": "box",
+          "position": {
+            "x": -0.78,
+            "y": 0.91,
+            "z": -0.24
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.72,
+            "z": 0.14
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "post_r",
+          "shape": "box",
+          "position": {
+            "x": 0.78,
+            "y": 0.91,
+            "z": -0.24
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.72,
+            "z": 0.14
+          },
+          "color": "#65401f"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 0.7,
+          "z": 0
+        },
+        "size": {
+          "w": 1.9,
+          "h": 1.4,
+          "d": 0.58
+        }
+      },
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_table",
+      "displayName": "Wooden Table",
+      "category": "Furniture",
+      "version": 1,
+      "parts": [
+        {
+          "id": "top",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.95,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.8,
+            "y": 0.18,
+            "z": 1.15
+          },
+          "color": "#a66b32"
+        },
+        {
+          "id": "leg_1",
+          "shape": "box",
+          "position": {
+            "x": -0.68,
+            "y": 0.46,
+            "z": -0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.92,
+            "z": 0.18
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "leg_2",
+          "shape": "box",
+          "position": {
+            "x": 0.68,
+            "y": 0.46,
+            "z": -0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.92,
+            "z": 0.18
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "leg_3",
+          "shape": "box",
+          "position": {
+            "x": -0.68,
+            "y": 0.46,
+            "z": 0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.92,
+            "z": 0.18
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "leg_4",
+          "shape": "box",
+          "position": {
+            "x": 0.68,
+            "y": 0.46,
+            "z": 0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.92,
+            "z": 0.18
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "brace",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.46,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.28,
+            "y": 0.12,
+            "z": 0.12
+          },
+          "color": "#7c4d25"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 0.52,
+          "z": 0
+        },
+        "size": {
+          "w": 1.8,
+          "h": 1.04,
+          "d": 1.15
+        }
+      },
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_chair",
+      "displayName": "Wooden Chair",
+      "category": "Furniture",
+      "version": 1,
+      "parts": [
+        {
+          "id": "seat",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.62,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.82,
+            "y": 0.16,
+            "z": 0.82
+          },
+          "color": "#a66b32"
+        },
+        {
+          "id": "leg_1",
+          "shape": "box",
+          "position": {
+            "x": -0.28,
+            "y": 0.3,
+            "z": -0.28
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 0.6,
+            "z": 0.13
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "leg_2",
+          "shape": "box",
+          "position": {
+            "x": 0.28,
+            "y": 0.3,
+            "z": -0.28
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 0.6,
+            "z": 0.13
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "leg_3",
+          "shape": "box",
+          "position": {
+            "x": -0.28,
+            "y": 0.3,
+            "z": 0.28
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 0.6,
+            "z": 0.13
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "leg_4",
+          "shape": "box",
+          "position": {
+            "x": 0.28,
+            "y": 0.3,
+            "z": 0.28
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 0.6,
+            "z": 0.13
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "back_l",
+          "shape": "box",
+          "position": {
+            "x": -0.31,
+            "y": 1.12,
+            "z": -0.33
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 1.05,
+            "z": 0.13
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "back_r",
+          "shape": "box",
+          "position": {
+            "x": 0.31,
+            "y": 1.12,
+            "z": -0.33
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 1.05,
+            "z": 0.13
+          },
+          "color": "#65401f"
+        },
+        {
+          "id": "back_slat",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 1.27,
+            "z": -0.33
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.68,
+            "y": 0.38,
+            "z": 0.11
+          },
+          "color": "#a66b32"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 0.825,
+          "z": 0
+        },
+        "size": {
+          "w": 0.86,
+          "h": 1.65,
+          "d": 0.86
+        }
+      },
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_wood_floor",
+      "displayName": "Wood Floor",
+      "category": "Structures",
+      "version": 1,
+      "parts": [
+        {
+          "id": "plank_1",
+          "shape": "box",
+          "position": {
+            "x": -1.2,
+            "y": 0.08,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 0.16,
+            "z": 2.7
+          },
+          "color": "#aa6f37"
+        },
+        {
+          "id": "plank_2",
+          "shape": "box",
+          "position": {
+            "x": -0.6,
+            "y": 0.08,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 0.16,
+            "z": 2.7
+          },
+          "color": "#95602f"
+        },
+        {
+          "id": "plank_3",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.08,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 0.16,
+            "z": 2.7
+          },
+          "color": "#aa6f37"
+        },
+        {
+          "id": "plank_4",
+          "shape": "box",
+          "position": {
+            "x": 0.6,
+            "y": 0.08,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 0.16,
+            "z": 2.7
+          },
+          "color": "#95602f"
+        },
+        {
+          "id": "plank_5",
+          "shape": "box",
+          "position": {
+            "x": 1.2,
+            "y": 0.08,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 0.16,
+            "z": 2.7
+          },
+          "color": "#aa6f37"
+        },
+        {
+          "id": "brace_front",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.04,
+            "z": 1.23
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 3,
+            "y": 0.08,
+            "z": 0.16
+          },
+          "color": "#5c391d"
+        },
+        {
+          "id": "brace_back",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.04,
+            "z": -1.23
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 3,
+            "y": 0.08,
+            "z": 0.16
+          },
+          "color": "#5c391d"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 0.08,
+          "z": 0
+        },
+        "size": {
+          "w": 3,
+          "h": 0.16,
+          "d": 2.7
+        }
+      },
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_wood_wall",
+      "displayName": "Wood Wall",
+      "category": "Structures",
+      "version": 1,
+      "parts": [
+        {
+          "id": "board_1",
+          "shape": "box",
+          "position": {
+            "x": -1.1,
+            "y": 1.2,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.4,
+            "y": 2.35,
+            "z": 0.18
+          },
+          "color": "#aa6f37"
+        },
+        {
+          "id": "board_2",
+          "shape": "box",
+          "position": {
+            "x": -0.66,
+            "y": 1.2,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.4,
+            "y": 2.35,
+            "z": 0.18
+          },
+          "color": "#95602f"
+        },
+        {
+          "id": "board_3",
+          "shape": "box",
+          "position": {
+            "x": -0.22,
+            "y": 1.2,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.4,
+            "y": 2.35,
+            "z": 0.18
+          },
+          "color": "#aa6f37"
+        },
+        {
+          "id": "board_4",
+          "shape": "box",
+          "position": {
+            "x": 0.22,
+            "y": 1.2,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.4,
+            "y": 2.35,
+            "z": 0.18
+          },
+          "color": "#95602f"
+        },
+        {
+          "id": "board_5",
+          "shape": "box",
+          "position": {
+            "x": 0.66,
+            "y": 1.2,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.4,
+            "y": 2.35,
+            "z": 0.18
+          },
+          "color": "#aa6f37"
+        },
+        {
+          "id": "board_6",
+          "shape": "box",
+          "position": {
+            "x": 1.1,
+            "y": 1.2,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.4,
+            "y": 2.35,
+            "z": 0.18
+          },
+          "color": "#95602f"
+        },
+        {
+          "id": "rail_low",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.34,
+            "z": 0.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.65,
+            "y": 0.18,
+            "z": 0.16
+          },
+          "color": "#5c391d"
+        },
+        {
+          "id": "rail_high",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 2.02,
+            "z": 0.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.65,
+            "y": 0.18,
+            "z": 0.16
+          },
+          "color": "#5c391d"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 1.2,
+          "z": 0
+        },
+        "size": {
+          "w": 2.65,
+          "h": 2.4,
+          "d": 0.32
+        }
+      },
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_wood_doorway",
+      "displayName": "Wood Doorway",
+      "category": "Structures",
+      "version": 1,
+      "parts": [
+        {
+          "id": "post_l",
+          "shape": "box",
+          "position": {
+            "x": -1.05,
+            "y": 1.25,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 2.5,
+            "z": 0.3
+          },
+          "color": "#754922"
+        },
+        {
+          "id": "post_r",
+          "shape": "box",
+          "position": {
+            "x": 1.05,
+            "y": 1.25,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 2.5,
+            "z": 0.3
+          },
+          "color": "#754922"
+        },
+        {
+          "id": "header",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 2.38,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.35,
+            "y": 0.32,
+            "z": 0.34
+          },
+          "color": "#95602f"
+        },
+        {
+          "id": "brace_l",
+          "shape": "box",
+          "position": {
+            "x": -0.68,
+            "y": 1.9,
+            "z": 0.13
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.62
+          },
+          "scale": {
+            "x": 0.16,
+            "y": 1.15,
+            "z": 0.14
+          },
+          "color": "#b5793d"
+        },
+        {
+          "id": "brace_r",
+          "shape": "box",
+          "position": {
+            "x": 0.68,
+            "y": 1.9,
+            "z": 0.13
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.62
+          },
+          "scale": {
+            "x": 0.16,
+            "y": 1.15,
+            "z": 0.14
+          },
+          "color": "#b5793d"
+        }
+      ],
+      "collision": null,
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_iron_gear",
+      "displayName": "Iron Mechanical Gear",
+      "category": "Machines",
+      "version": 1,
+      "parts": [
+        {
+          "id": "wheel",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 0.78,
+            "z": 0
+          },
+          "rotation": {
+            "x": 1.5707963267948966,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.15,
+            "y": 0.22,
+            "z": 1.15
+          },
+          "color": "#677381"
+        },
+        {
+          "id": "hub",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 0.78,
+            "z": 0.15
+          },
+          "rotation": {
+            "x": 1.5707963267948966,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 0.32,
+            "z": 0.42
+          },
+          "color": "#a3afba"
+        },
+        {
+          "id": "tooth_1",
+          "shape": "box",
+          "position": {
+            "x": 0.68,
+            "y": 0.78,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.3,
+            "z": 0.34
+          },
+          "color": "#87929d"
+        },
+        {
+          "id": "tooth_2",
+          "shape": "box",
+          "position": {
+            "x": 0.4808326112068524,
+            "y": 1.2608326112068524,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.7853981633974483
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.3,
+            "z": 0.34
+          },
+          "color": "#74808d"
+        },
+        {
+          "id": "tooth_3",
+          "shape": "box",
+          "position": {
+            "x": 4.163799117101001e-17,
+            "y": 1.46,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 1.5707963267948966
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.3,
+            "z": 0.34
+          },
+          "color": "#87929d"
+        },
+        {
+          "id": "tooth_4",
+          "shape": "box",
+          "position": {
+            "x": -0.48083261120685233,
+            "y": 1.2608326112068524,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 2.356194490192345
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.3,
+            "z": 0.34
+          },
+          "color": "#74808d"
+        },
+        {
+          "id": "tooth_5",
+          "shape": "box",
+          "position": {
+            "x": -0.68,
+            "y": 0.7800000000000001,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 3.141592653589793
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.3,
+            "z": 0.34
+          },
+          "color": "#87929d"
+        },
+        {
+          "id": "tooth_6",
+          "shape": "box",
+          "position": {
+            "x": -0.48083261120685244,
+            "y": 0.2991673887931477,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 3.9269908169872414
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.3,
+            "z": 0.34
+          },
+          "color": "#74808d"
+        },
+        {
+          "id": "tooth_7",
+          "shape": "box",
+          "position": {
+            "x": -1.2491397351303002e-16,
+            "y": 0.09999999999999998,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 4.71238898038469
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.3,
+            "z": 0.34
+          },
+          "color": "#87929d"
+        },
+        {
+          "id": "tooth_8",
+          "shape": "box",
+          "position": {
+            "x": 0.4808326112068522,
+            "y": 0.2991673887931476,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 5.497787143782138
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.3,
+            "z": 0.34
+          },
+          "color": "#74808d"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 0.78,
+          "z": 0
+        },
+        "size": {
+          "w": 1.75,
+          "h": 1.75,
+          "d": 0.38
+        }
+      },
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_iron_pickaxe",
+      "displayName": "Iron Pickaxe",
+      "category": "Tools",
+      "version": 1,
+      "parts": [
+        {
+          "id": "handle",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 0.95,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.35
+          },
+          "scale": {
+            "x": 0.16,
+            "y": 1.8,
+            "z": 0.16
+          },
+          "color": "#83522a"
+        },
+        {
+          "id": "grip",
+          "shape": "cylinder",
+          "position": {
+            "x": -0.27,
+            "y": 0.18,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.35
+          },
+          "scale": {
+            "x": 0.22,
+            "y": 0.38,
+            "z": 0.22
+          },
+          "color": "#4d3522"
+        },
+        {
+          "id": "head",
+          "shape": "box",
+          "position": {
+            "x": 0.3,
+            "y": 1.76,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.08
+          },
+          "scale": {
+            "x": 1.35,
+            "y": 0.22,
+            "z": 0.28
+          },
+          "color": "#82909e"
+        },
+        {
+          "id": "point",
+          "shape": "cone",
+          "position": {
+            "x": 0.98,
+            "y": 1.7,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -1.5707963267948966
+          },
+          "scale": {
+            "x": 0.34,
+            "y": 0.48,
+            "z": 0.34
+          },
+          "color": "#b3bec8"
+        }
+      ],
+      "collision": null,
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_iron_sword",
+      "displayName": "Iron Sword",
+      "category": "Tools",
+      "version": 1,
+      "parts": [
+        {
+          "id": "blade",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 1.18,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.22,
+            "y": 1.65,
+            "z": 0.08
+          },
+          "color": "#b9c5cf"
+        },
+        {
+          "id": "point",
+          "shape": "cone",
+          "position": {
+            "x": 0,
+            "y": 2.06,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.23,
+            "y": 0.42,
+            "z": 0.1
+          },
+          "color": "#d6e0e7"
+        },
+        {
+          "id": "guard",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 0.38,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.82,
+            "y": 0.15,
+            "z": 0.15
+          },
+          "color": "#71808d"
+        },
+        {
+          "id": "grip",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 0.04,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.16,
+            "y": 0.58,
+            "z": 0.16
+          },
+          "color": "#704422"
+        },
+        {
+          "id": "pommel",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0,
+            "y": -0.27,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.24,
+            "y": 0.24,
+            "z": 0.24
+          },
+          "color": "#8f9da8"
+        }
+      ],
+      "collision": null,
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_redwood_tree",
+      "displayName": "Redwood Tree",
+      "category": "Nature",
+      "version": 1,
+      "parts": [
+        {
+          "id": "trunk",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 1.8,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.05,
+            "y": 3.6,
+            "z": 1.05
+          },
+          "color": "#79442d"
+        },
+        {
+          "id": "trunk_high",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 3.65,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.72,
+            "y": 1.3,
+            "z": 0.72
+          },
+          "color": "#8b5034"
+        },
+        {
+          "id": "canopy_1",
+          "shape": "cone",
+          "position": {
+            "x": 0,
+            "y": 3,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.1,
+            "y": 1.45,
+            "z": 2.1
+          },
+          "color": "#245f3a"
+        },
+        {
+          "id": "canopy_2",
+          "shape": "cone",
+          "position": {
+            "x": 0,
+            "y": 3.75,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.7,
+            "y": 1.45,
+            "z": 1.7
+          },
+          "color": "#2d7547"
+        },
+        {
+          "id": "canopy_3",
+          "shape": "cone",
+          "position": {
+            "x": 0,
+            "y": 4.45,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.25,
+            "y": 1.45,
+            "z": 1.25
+          },
+          "color": "#3a8a52"
+        },
+        {
+          "id": "root_1",
+          "shape": "cone",
+          "position": {
+            "x": 0.62,
+            "y": 0.28,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -1.5707963267948966
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 0.72,
+            "z": 0.42
+          },
+          "color": "#6a3b28"
+        },
+        {
+          "id": "root_2",
+          "shape": "cone",
+          "position": {
+            "x": -0.62,
+            "y": 0.28,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 1.5707963267948966
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 0.72,
+            "z": 0.42
+          },
+          "color": "#6a3b28"
+        },
+        {
+          "id": "root_3",
+          "shape": "cone",
+          "position": {
+            "x": 0,
+            "y": 0.28,
+            "z": 0.62
+          },
+          "rotation": {
+            "x": 1.5707963267948966,
+            "y": 0,
+            "z": -1.5707963267948966
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 0.72,
+            "z": 0.42
+          },
+          "color": "#6a3b28"
+        },
+        {
+          "id": "root_4",
+          "shape": "cone",
+          "position": {
+            "x": 0,
+            "y": 0.28,
+            "z": -0.62
+          },
+          "rotation": {
+            "x": 1.5707963267948966,
+            "y": 0,
+            "z": 1.5707963267948966
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 0.72,
+            "z": 0.42
+          },
+          "color": "#6a3b28"
+        }
+      ],
+      "collision": {
+        "shape": "box",
+        "offset": {
+          "x": 0,
+          "y": 2.125,
+          "z": 0
+        },
+        "size": {
+          "w": 1.25,
+          "h": 4.25,
+          "d": 1.25
+        }
+      },
+      "gameplay": {
+        "role": "harvestable",
+        "harvestable": {
+          "dropId": "wood",
+          "maxChunks": 8,
+          "respawnSeconds": 35,
+          "feedbackProfile": "wood"
+        }
+      }
+    },
+    {
+      "id": "asset_fern",
+      "displayName": "Frontier Fern",
+      "category": "Nature",
+      "version": 1,
+      "parts": [
+        {
+          "id": "root",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 0.12,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.15,
+            "y": 0.24,
+            "z": 0.15
+          },
+          "color": "#315b31"
+        },
+        {
+          "id": "frond_1",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.36,
+            "y": 0.34,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.15
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.09,
+            "z": 0.82
+          },
+          "color": "#5cad62"
+        },
+        {
+          "id": "frond_2",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.2545584412271571,
+            "y": 0.39,
+            "z": 0.2545584412271571
+          },
+          "rotation": {
+            "x": 0.17677669529663687,
+            "y": -0.7853981633974483,
+            "z": 0.10606601717798213
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.09,
+            "z": 0.82
+          },
+          "color": "#4b9a55"
+        },
+        {
+          "id": "frond_3",
+          "shape": "icosahedron",
+          "position": {
+            "x": 2.2043642384652358e-17,
+            "y": 0.34,
+            "z": 0.36
+          },
+          "rotation": {
+            "x": 0.25,
+            "y": -1.5707963267948966,
+            "z": 9.184850993605149e-18
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.09,
+            "z": 0.82
+          },
+          "color": "#5cad62"
+        },
+        {
+          "id": "frond_4",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.2545584412271571,
+            "y": 0.29000000000000004,
+            "z": 0.2545584412271571
+          },
+          "rotation": {
+            "x": 0.1767766952966369,
+            "y": -2.356194490192345,
+            "z": -0.10606601717798211
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.09,
+            "z": 0.82
+          },
+          "color": "#4b9a55"
+        },
+        {
+          "id": "frond_5",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.36,
+            "y": 0.34,
+            "z": 4.4087284769304716e-17
+          },
+          "rotation": {
+            "x": 3.061616997868383e-17,
+            "y": -3.141592653589793,
+            "z": -0.15
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.09,
+            "z": 0.82
+          },
+          "color": "#5cad62"
+        },
+        {
+          "id": "frond_6",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.25455844122715715,
+            "y": 0.39,
+            "z": -0.2545584412271571
+          },
+          "rotation": {
+            "x": -0.17677669529663687,
+            "y": -3.9269908169872414,
+            "z": -0.10606601717798216
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.09,
+            "z": 0.82
+          },
+          "color": "#4b9a55"
+        },
+        {
+          "id": "frond_7",
+          "shape": "icosahedron",
+          "position": {
+            "x": -6.613092715395706e-17,
+            "y": 0.34,
+            "z": -0.36
+          },
+          "rotation": {
+            "x": -0.25,
+            "y": -4.71238898038469,
+            "z": -2.7554552980815445e-17
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.09,
+            "z": 0.82
+          },
+          "color": "#5cad62"
+        },
+        {
+          "id": "frond_8",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.25455844122715704,
+            "y": 0.29000000000000004,
+            "z": -0.25455844122715715
+          },
+          "rotation": {
+            "x": -0.17677669529663692,
+            "y": -5.497787143782138,
+            "z": 0.1060660171779821
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.09,
+            "z": 0.82
+          },
+          "color": "#4b9a55"
+        }
+      ],
+      "collision": null,
+      "gameplay": {
+        "role": "harvestable",
+        "harvestable": {
+          "dropId": "fiber",
+          "maxChunks": 3,
+          "respawnSeconds": 12,
+          "feedbackProfile": "fiber"
+        }
+      }
+    },
+    {
+      "id": "asset_flower",
+      "displayName": "Frontier Flower",
+      "category": "Nature",
+      "version": 1,
+      "parts": [
+        {
+          "id": "stem",
+          "shape": "cylinder",
+          "position": {
+            "x": 0,
+            "y": 0.38,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 0.76,
+            "z": 0.08
+          },
+          "color": "#4a8a43"
+        },
+        {
+          "id": "leaf_l",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.16,
+            "y": 0.28,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.35
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.08,
+            "z": 0.16
+          },
+          "color": "#62a95b"
+        },
+        {
+          "id": "leaf_r",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.16,
+            "y": 0.42,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.35
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.08,
+            "z": 0.15
+          },
+          "color": "#569a51"
+        },
+        {
+          "id": "center",
+          "shape": "sphere",
+          "position": {
+            "x": 0,
+            "y": 0.82,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 0.2,
+            "z": 0.2
+          },
+          "color": "#f5c542"
+        },
+        {
+          "id": "petal_1",
+          "shape": "sphere",
+          "position": {
+            "x": 0.22,
+            "y": 0.82,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.16,
+            "z": 0.08
+          },
+          "color": "#ffc0dd"
+        },
+        {
+          "id": "petal_2",
+          "shape": "sphere",
+          "position": {
+            "x": 0.11000000000000003,
+            "y": 1.0105255888325764,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 1.0471975511965976
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.16,
+            "z": 0.08
+          },
+          "color": "#f09bc9"
+        },
+        {
+          "id": "petal_3",
+          "shape": "sphere",
+          "position": {
+            "x": -0.10999999999999995,
+            "y": 1.0105255888325764,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 2.0943951023931953
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.16,
+            "z": 0.08
+          },
+          "color": "#ffc0dd"
+        },
+        {
+          "id": "petal_4",
+          "shape": "sphere",
+          "position": {
+            "x": -0.22,
+            "y": 0.82,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 3.141592653589793
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.16,
+            "z": 0.08
+          },
+          "color": "#f09bc9"
+        },
+        {
+          "id": "petal_5",
+          "shape": "sphere",
+          "position": {
+            "x": -0.1100000000000001,
+            "y": 0.6294744111674235,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 4.1887902047863905
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.16,
+            "z": 0.08
+          },
+          "color": "#ffc0dd"
+        },
+        {
+          "id": "petal_6",
+          "shape": "sphere",
+          "position": {
+            "x": 0.11000000000000003,
+            "y": 0.6294744111674234,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 5.235987755982989
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.16,
+            "z": 0.08
+          },
+          "color": "#f09bc9"
+        }
+      ],
+      "collision": null,
+      "gameplay": {
+        "role": "harvestable",
+        "harvestable": {
+          "dropId": "wildflower",
+          "maxChunks": 2,
+          "respawnSeconds": 10,
+          "feedbackProfile": "fiber"
+        }
+      }
+    },
+    {
+      "id": "asset_grass_patch",
+      "displayName": "Patch of Grass",
+      "category": "Nature",
+      "version": 1,
+      "parts": [
+        {
+          "id": "blade_1",
+          "shape": "cone",
+          "position": {
+            "x": 0.12,
+            "y": 0.25,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.18
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.5,
+            "z": 0.09
+          },
+          "color": "#6bb85c"
+        },
+        {
+          "id": "blade_2",
+          "shape": "cone",
+          "position": {
+            "x": -0.13260921907976,
+            "y": 0.31,
+            "z": 0.12171604255420158
+          },
+          "rotation": {
+            "x": 0.10819203782595697,
+            "y": 2.399,
+            "z": -0.13260921907976
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.62,
+            "z": 0.09
+          },
+          "color": "#4f9c45"
+        },
+        {
+          "id": "blade_3",
+          "shape": "cone",
+          "position": {
+            "x": 0.02052155533250054,
+            "y": 0.37,
+            "z": -0.23912102744580016
+          },
+          "rotation": {
+            "x": -0.15941401829720012,
+            "y": 4.798,
+            "z": 0.015391166499375407
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.74,
+            "z": 0.09
+          },
+          "color": "#6bb85c"
+        },
+        {
+          "id": "blade_4",
+          "shape": "cone",
+          "position": {
+            "x": 0.18321887309203083,
+            "y": 0.25,
+            "z": 0.2375517723421282
+          },
+          "rotation": {
+            "x": 0.12669427858246837,
+            "y": 7.197,
+            "z": 0.10993132385521849
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.5,
+            "z": 0.09
+          },
+          "color": "#4f9c45"
+        },
+        {
+          "id": "blade_5",
+          "shape": "cone",
+          "position": {
+            "x": -0.35473582208418897,
+            "y": 0.31,
+            "z": -0.06133919244866712
+          },
+          "rotation": {
+            "x": -0.02726186331051872,
+            "y": 9.596,
+            "z": -0.17736791104209448
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.62,
+            "z": 0.09
+          },
+          "color": "#6bb85c"
+        },
+        {
+          "id": "blade_6",
+          "shape": "cone",
+          "position": {
+            "x": 0.3532874340107995,
+            "y": 0.37,
+            "z": -0.22712989448785692
+          },
+          "rotation": {
+            "x": -0.08652567409061217,
+            "y": 11.995000000000001,
+            "z": 0.15140890029034262
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.74,
+            "z": 0.09
+          },
+          "color": "#4f9c45"
+        },
+        {
+          "id": "blade_7",
+          "shape": "cone",
+          "position": {
+            "x": -0.12192900845745389,
+            "y": 0.25,
+            "z": 0.4642556589817534
+          },
+          "rotation": {
+            "x": 0.15475188632725115,
+            "y": 14.394,
+            "z": -0.04572337817154521
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.5,
+            "z": 0.09
+          },
+          "color": "#6bb85c"
+        },
+        {
+          "id": "blade_8",
+          "shape": "cone",
+          "position": {
+            "x": -0.25211531843712287,
+            "y": 0.31,
+            "z": -0.4775331048308046
+          },
+          "rotation": {
+            "x": -0.14149129032023838,
+            "y": 16.793,
+            "z": -0.08403843947904095
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.62,
+            "z": 0.09
+          },
+          "color": "#4f9c45"
+        },
+        {
+          "id": "blade_9",
+          "shape": "cone",
+          "position": {
+            "x": 0.565162069164309,
+            "y": 0.37,
+            "z": 0.20147415610424266
+          },
+          "rotation": {
+            "x": 0.05372644162779804,
+            "y": 19.192,
+            "z": 0.16954862074929272
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.74,
+            "z": 0.09
+          },
+          "color": "#6bb85c"
+        }
+      ],
+      "collision": null,
+      "gameplay": {
+        "role": "harvestable",
+        "harvestable": {
+          "dropId": "fiber",
+          "maxChunks": 2,
+          "respawnSeconds": 8,
+          "feedbackProfile": "fiber"
+        }
+      }
+    },
+    {
+      "id": "asset_ruin_arch",
+      "displayName": "Stone Ruin Arch",
+      "category": "Ruins",
+      "version": 1,
+      "parts": [
+        {
+          "id": "left_0",
+          "shape": "box",
+          "position": {
+            "x": -1.05,
+            "y": 0.38,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.04
+          },
+          "scale": {
+            "x": 0.62,
+            "y": 0.65,
+            "z": 0.72
+          },
+          "color": "#8b918a"
+        },
+        {
+          "id": "right_0",
+          "shape": "box",
+          "position": {
+            "x": 1.05,
+            "y": 0.38,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.04
+          },
+          "scale": {
+            "x": 0.62,
+            "y": 0.65,
+            "z": 0.72
+          },
+          "color": "#737b76"
+        },
+        {
+          "id": "left_1",
+          "shape": "box",
+          "position": {
+            "x": -1.05,
+            "y": 1.1,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0.03,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.62,
+            "y": 0.65,
+            "z": 0.72
+          },
+          "color": "#78807b"
+        },
+        {
+          "id": "right_1",
+          "shape": "box",
+          "position": {
+            "x": 1.05,
+            "y": 1.1,
+            "z": 0
+          },
+          "rotation": {
+            "x": -0.03,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.62,
+            "y": 0.65,
+            "z": 0.72
+          },
+          "color": "#868d86"
+        },
+        {
+          "id": "left_2",
+          "shape": "box",
+          "position": {
+            "x": -1.05,
+            "y": 1.8199999999999998,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0.06,
+            "y": 0,
+            "z": 0.04
+          },
+          "scale": {
+            "x": 0.62,
+            "y": 0.65,
+            "z": 0.72
+          },
+          "color": "#8b918a"
+        },
+        {
+          "id": "right_2",
+          "shape": "box",
+          "position": {
+            "x": 1.05,
+            "y": 1.8199999999999998,
+            "z": 0
+          },
+          "rotation": {
+            "x": -0.06,
+            "y": 0,
+            "z": -0.04
+          },
+          "scale": {
+            "x": 0.62,
+            "y": 0.65,
+            "z": 0.72
+          },
+          "color": "#737b76"
+        },
+        {
+          "id": "arch_l",
+          "shape": "box",
+          "position": {
+            "x": -0.58,
+            "y": 2.37,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.38
+          },
+          "scale": {
+            "x": 0.78,
+            "y": 0.58,
+            "z": 0.72
+          },
+          "color": "#929790"
+        },
+        {
+          "id": "arch_mid",
+          "shape": "box",
+          "position": {
+            "x": 0,
+            "y": 2.58,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.72,
+            "y": 0.58,
+            "z": 0.72
+          },
+          "color": "#7f8781"
+        },
+        {
+          "id": "arch_r",
+          "shape": "box",
+          "position": {
+            "x": 0.58,
+            "y": 2.37,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.38
+          },
+          "scale": {
+            "x": 0.78,
+            "y": 0.58,
+            "z": 0.72
+          },
+          "color": "#969b94"
+        },
+        {
+          "id": "moss",
+          "shape": "icosahedron",
+          "position": {
+            "x": -1.22,
+            "y": 1.42,
+            "z": 0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.18,
+            "z": 0.18
+          },
+          "color": "#5f7f4f"
+        }
+      ],
+      "collision": null,
+      "gameplay": {
+        "role": "prop"
+      }
+    },
+    {
+      "id": "asset_ruin_path",
+      "displayName": "Stone Ruin Path",
+      "category": "Ruins",
+      "version": 1,
+      "parts": [
+        {
+          "id": "stone_1",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.85,
+            "y": 0.07,
+            "z": -1.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.08,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.8,
+            "y": 0.14,
+            "z": 0.65
+          },
+          "color": "#7b817b"
+        },
+        {
+          "id": "stone_2",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.05,
+            "y": 0.07,
+            "z": -1
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.05,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.82,
+            "y": 0.14,
+            "z": 0.72
+          },
+          "color": "#92968e"
+        },
+        {
+          "id": "stone_3",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.9,
+            "y": 0.07,
+            "z": -0.92
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.12,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.7,
+            "y": 0.14,
+            "z": 0.62
+          },
+          "color": "#686f6b"
+        },
+        {
+          "id": "stone_4",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.62,
+            "y": 0.07,
+            "z": -0.28
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.08,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.9,
+            "y": 0.14,
+            "z": 0.62
+          },
+          "color": "#7b817b"
+        },
+        {
+          "id": "stone_5",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.34,
+            "y": 0.07,
+            "z": -0.22
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.06,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.78,
+            "y": 0.14,
+            "z": 0.7
+          },
+          "color": "#92968e"
+        },
+        {
+          "id": "stone_6",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.95,
+            "y": 0.07,
+            "z": -0.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.1,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.62,
+            "y": 0.14,
+            "z": 0.58
+          },
+          "color": "#686f6b"
+        },
+        {
+          "id": "stone_7",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.88,
+            "y": 0.07,
+            "z": 0.52
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.05,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.68,
+            "y": 0.14,
+            "z": 0.64
+          },
+          "color": "#7b817b"
+        },
+        {
+          "id": "stone_8",
+          "shape": "icosahedron",
+          "position": {
+            "x": -0.05,
+            "y": 0.07,
+            "z": 0.58
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.04,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.86,
+            "y": 0.14,
+            "z": 0.72
+          },
+          "color": "#92968e"
+        },
+        {
+          "id": "stone_9",
+          "shape": "icosahedron",
+          "position": {
+            "x": 0.84,
+            "y": 0.07,
+            "z": 0.62
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.09,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.74,
+            "y": 0.14,
+            "z": 0.64
+          },
+          "color": "#686f6b"
+        }
+      ],
+      "collision": null,
+      "gameplay": {
+        "role": "prop"
       }
     }
   ],
@@ -82,7 +3652,7 @@
       "bounds": {
         "minX": -12.5,
         "maxX": 12.5,
-        "minZ": 7.0,
+        "minZ": 7,
         "maxZ": 11.5
       },
       "neighbors": [
@@ -119,7 +3689,7 @@
           },
           "size": {
             "w": 0.9,
-            "h": 1.0,
+            "h": 1,
             "d": 0.9
           },
           "rotY": 0.6,
@@ -185,7 +3755,7 @@
           "id": "fence_camp_north_west",
           "subtype": "fence",
           "pos": {
-            "x": -4.0,
+            "x": -4,
             "y": 0,
             "z": 7.2
           },
@@ -203,7 +3773,7 @@
           "id": "fence_camp_north_east",
           "subtype": "fence",
           "pos": {
-            "x": 4.0,
+            "x": 4,
             "y": 0,
             "z": 7.2
           },
@@ -226,7 +3796,7 @@
             "z": 7.2
           },
           "size": {
-            "w": 2.0,
+            "w": 2,
             "h": 1.4,
             "d": 0.5
           },
@@ -327,12 +3897,12 @@
         {
           "id": "ground_camp",
           "pos": {
-            "x": 0.0,
+            "x": 0,
             "y": -0.25,
             "z": 9.25
           },
           "size": {
-            "w": 25.0,
+            "w": 25,
             "h": 0.5,
             "d": 4.5
           },
@@ -425,7 +3995,7 @@
         "minX": -12.5,
         "maxX": 12.5,
         "minZ": 3.5,
-        "maxZ": 7.0
+        "maxZ": 7
       },
       "neighbors": [
         "camp",
@@ -441,12 +4011,12 @@
           "id": "prop_p1_forest_west",
           "subtype": "forestBoundary",
           "pos": {
-            "x": -11.0,
+            "x": -11,
             "y": 0,
             "z": 5.2
           },
           "size": {
-            "w": 2.0,
+            "w": 2,
             "h": 2.8,
             "d": 3.2
           },
@@ -459,12 +4029,12 @@
           "id": "prop_p1_forest_east",
           "subtype": "forestBoundary",
           "pos": {
-            "x": 11.0,
+            "x": 11,
             "y": 0,
             "z": 5.2
           },
           "size": {
-            "w": 2.0,
+            "w": 2,
             "h": 2.8,
             "d": 3.2
           },
@@ -477,7 +4047,7 @@
           "id": "prop_p1_box_01",
           "subtype": "box",
           "pos": {
-            "x": -5.0,
+            "x": -5,
             "y": 0,
             "z": 4.6
           },
@@ -526,7 +4096,7 @@
           "pos": {
             "x": -2.2,
             "y": 0,
-            "z": 5.0
+            "z": 5
           }
         },
         {
@@ -535,7 +4105,7 @@
           "pos": {
             "x": -3.2,
             "y": 0,
-            "z": 6.0
+            "z": 6
           }
         },
         {
@@ -567,7 +4137,7 @@
           "roamRadius": 2.8,
           "noticeRadius": 4.8,
           "personalSpace": 1.8,
-          "leashRadius": 6.0
+          "leashRadius": 6
         }
       ],
       "traversal": {
@@ -575,7 +4145,7 @@
         "obstacles": [
           {
             "id": "obs_p1_rock",
-            "x": -5.0,
+            "x": -5,
             "z": 4.6,
             "w": 1.2,
             "h": 1.2,
@@ -611,7 +4181,7 @@
           "id": "poi_p1_chest",
           "type": "chest",
           "pos": {
-            "x": 6.0,
+            "x": 6,
             "y": 0,
             "z": 4.8
           },
@@ -622,12 +4192,12 @@
         {
           "id": "ground_p1_forest_edge",
           "pos": {
-            "x": 0.0,
+            "x": 0,
             "y": -0.25,
             "z": 5.25
           },
           "size": {
-            "w": 25.0,
+            "w": 25,
             "h": 0.5,
             "d": 3.5
           },
@@ -646,7 +4216,7 @@
       "bounds": {
         "minX": -12.5,
         "maxX": 12.5,
-        "minZ": 0.0,
+        "minZ": 0,
         "maxZ": 3.5
       },
       "neighbors": [
@@ -746,7 +4316,7 @@
           "id": "fiber_p2_02",
           "type": "fiber",
           "pos": {
-            "x": 1.0,
+            "x": 1,
             "y": 0,
             "z": 0.6
           }
@@ -755,7 +4325,7 @@
           "id": "rock_p2_02",
           "type": "rock",
           "pos": {
-            "x": -2.0,
+            "x": -2,
             "y": 0,
             "z": 2.6
           }
@@ -768,14 +4338,14 @@
           "temperament": "TERRITORIAL",
           "speciesTag": "fang",
           "pos": {
-            "x": -6.0,
+            "x": -6,
             "y": 0,
-            "z": 2.0
+            "z": 2
           },
           "homePos": {
-            "x": -6.0,
+            "x": -6,
             "y": 0,
-            "z": 2.0
+            "z": 2
           },
           "roamRadius": 2.4,
           "noticeRadius": 5.8,
@@ -788,18 +4358,18 @@
           "temperament": "AGGRESSIVE",
           "speciesTag": "spit",
           "pos": {
-            "x": 1.0,
+            "x": 1,
             "y": 0,
             "z": 2.4
           },
           "homePos": {
-            "x": 1.0,
+            "x": 1,
             "y": 0,
             "z": 2.4
           },
           "roamRadius": 2.2,
           "noticeRadius": 6.2,
-          "personalSpace": 2.0,
+          "personalSpace": 2,
           "leashRadius": 7.5,
           "hostileSpecies": [
             "flutter"
@@ -819,10 +4389,10 @@
           },
           {
             "id": "obs_p2_pond_edge",
-            "x": 3.0,
+            "x": 3,
             "z": 1.8,
             "w": 0.6,
-            "h": 2.0,
+            "h": 2,
             "height": 0.6
           }
         ],
@@ -835,9 +4405,9 @@
           "id": "beacon_p2_01",
           "type": "extractionBeacon",
           "pos": {
-            "x": -2.0,
+            "x": -2,
             "y": 0,
-            "z": 1.0
+            "z": 1
           },
           "displayName": "Tangled Hollow Beacon"
         }
@@ -874,12 +4444,12 @@
         {
           "id": "ground_p2_complication",
           "pos": {
-            "x": 0.0,
+            "x": 0,
             "y": -0.25,
             "z": 1.75
           },
           "size": {
-            "w": 25.0,
+            "w": 25,
             "h": 0.5,
             "d": 3.5
           },
@@ -899,7 +4469,7 @@
         "minX": -12.5,
         "maxX": 12.5,
         "minZ": -4.5,
-        "maxZ": 0.0
+        "maxZ": 0
       },
       "neighbors": [
         "p2_complication",
@@ -921,7 +4491,7 @@
           },
           "size": {
             "w": 1.8,
-            "h": 1.0,
+            "h": 1,
             "d": 1.8
           },
           "rotY": 0,
@@ -935,12 +4505,12 @@
           "pos": {
             "x": -7.5,
             "y": 0,
-            "z": -2.0
+            "z": -2
           },
           "size": {
             "w": 0.4,
             "h": 1.2,
-            "d": 3.0
+            "d": 3
           },
           "rotY": 0,
           "visibleInPlay": true,
@@ -964,7 +4534,7 @@
           "pos": {
             "x": 6.2,
             "y": 0,
-            "z": -2.0
+            "z": -2
           }
         },
         {
@@ -1002,19 +4572,19 @@
           "temperament": "DEFENSIVE",
           "speciesTag": "fang",
           "pos": {
-            "x": 4.0,
+            "x": 4,
             "y": 0,
-            "z": -3.0
+            "z": -3
           },
           "homePos": {
-            "x": 4.0,
+            "x": 4,
             "y": 0,
-            "z": -3.0
+            "z": -3
           },
           "roamRadius": 2.6,
           "noticeRadius": 5.2,
           "personalSpace": 1.9,
-          "leashRadius": 7.0
+          "leashRadius": 7
         },
         {
           "id": "rusher_p3_hunter",
@@ -1022,12 +4592,12 @@
           "temperament": "AGGRESSIVE",
           "speciesTag": "fang",
           "pos": {
-            "x": -9.0,
+            "x": -9,
             "y": 0,
             "z": -3.8
           },
           "homePos": {
-            "x": -9.0,
+            "x": -9,
             "y": 0,
             "z": -3.8
           },
@@ -1054,7 +4624,7 @@
             "id": "lowB",
             "x": 0.8,
             "z": -1.2,
-            "w": 4.0,
+            "w": 4,
             "h": 3.4,
             "height": 1.25
           }
@@ -1066,7 +4636,7 @@
             "z": -0.8,
             "w": 1.8,
             "h": 1.8,
-            "height": 1.0
+            "height": 1
           }
         ],
         "jumpTraversals": [
@@ -1135,7 +4705,7 @@
           "id": "poi_p3_cache",
           "type": "chest",
           "pos": {
-            "x": -1.0,
+            "x": -1,
             "y": 0,
             "z": -3.5
           },
@@ -1146,12 +4716,12 @@
         {
           "id": "ground_p3_temptation",
           "pos": {
-            "x": 0.0,
+            "x": 0,
             "y": -0.25,
             "z": -2.25
           },
           "size": {
-            "w": 25.0,
+            "w": 25,
             "h": 0.5,
             "d": 4.5
           },
@@ -1186,14 +4756,14 @@
           "id": "prop_p4_high_island",
           "subtype": "box",
           "pos": {
-            "x": 8.0,
+            "x": 8,
             "y": 0,
             "z": -8.5
           },
           "size": {
-            "w": 2.0,
+            "w": 2,
             "h": 0.6,
-            "d": 2.0
+            "d": 2
           },
           "rotY": 0,
           "visibleInPlay": true,
@@ -1224,7 +4794,7 @@
           "id": "rock_p4_02",
           "type": "rock",
           "pos": {
-            "x": -3.0,
+            "x": -3,
             "y": 0,
             "z": -5.5
           }
@@ -1242,7 +4812,7 @@
           "id": "fiber_p4_02",
           "type": "fiber",
           "pos": {
-            "x": 4.0,
+            "x": 4,
             "y": 0,
             "z": -5.8
           }
@@ -1299,7 +4869,7 @@
               "h": 3.8,
               "topY": 2.4,
               "aabb": {
-                "minX": 0.0,
+                "minX": 0,
                 "maxX": 4.4,
                 "minZ": -9.1,
                 "maxZ": -5.3
@@ -1316,7 +4886,7 @@
             "topEntryRegion": {
               "minX": 1.25,
               "maxX": 3.15,
-              "minZ": -6.0,
+              "minZ": -6,
               "maxZ": -5.25
             },
             "mantleExit": {
@@ -1352,7 +4922,7 @@
           "id": "poi_p4_island",
           "type": "chest",
           "pos": {
-            "x": 8.0,
+            "x": 8,
             "y": 0,
             "z": -8.5
           },
@@ -1366,14 +4936,14 @@
         {
           "id": "ground_p4_threshold",
           "pos": {
-            "x": 0.0,
+            "x": 0,
             "y": -0.25,
-            "z": -8.0
+            "z": -8
           },
           "size": {
-            "w": 25.0,
+            "w": 25,
             "h": 0.5,
-            "d": 7.0
+            "d": 7
           },
           "color": 8363882,
           "opacity": 1,
@@ -1385,5 +4955,42 @@
       "boundaryColliders": []
     }
   ],
-  "startAnchorId": "camp_gate"
+  "startAnchorId": "camp_gate",
+  "resourceDrops": [
+    {
+      "id": "wood",
+      "displayName": "Wood",
+      "color": "#8d5a2b"
+    },
+    {
+      "id": "stone",
+      "displayName": "Stone",
+      "color": "#9a9a9a"
+    },
+    {
+      "id": "fiber",
+      "displayName": "Fiber",
+      "color": "#6abf69"
+    },
+    {
+      "id": "berries",
+      "displayName": "Frontier Berries",
+      "color": "#d94b6a"
+    },
+    {
+      "id": "iron_ore",
+      "displayName": "Iron Ore",
+      "color": "#74869a"
+    },
+    {
+      "id": "crystal_shard",
+      "displayName": "Crystal Shard",
+      "color": "#6de5ef"
+    },
+    {
+      "id": "wildflower",
+      "displayName": "Wildflower",
+      "color": "#f3a7d8"
+    }
+  ]
 }

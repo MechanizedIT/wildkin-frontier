@@ -336,7 +336,7 @@ While editing an asset:
 - its primitive children are selectable,
 - normal gameplay input remains suppressed,
 - world-object dragging must not accidentally fire when dragging a primitive part,
-- the rest of the world may remain visible but should be visually de-emphasized enough that part selection is clear,
+- the rest of the scene disappears; only the asset, its collision proxy, focused stage, and scene lighting remain,
 - exit returns to ordinary world Edit without losing selection/camera state where practical.
 
 Do not build a second scene editor architecture.
@@ -362,12 +362,28 @@ Required shortcuts/interaction:
 - click part to select,
 - direct drag changes local X/Z,
 - inspector changes Y,
+- `Space` raises local Y and `C` lowers local Y (0.2 units; `Shift` uses 1.0),
 - Q/E rotates local Y in 15° increments,
 - existing keyboard nudge convention may be reused for local X/Z,
 - undo/redo uses existing Author history,
 - Esc cancels an active part drag or exits placement before exiting Asset Edit.
 
-If adding direct part Y dragging or 3-axis gizmos would broaden the phase, defer them.
+Direct part Y dragging and 3-axis gizmos remain deferred.
+
+## Asset gameplay role and drops
+
+Every recipe has one bounded gameplay role:
+
+- **Prop** — ordinary static Visual Asset behavior.
+- **Harvestable** — uses the existing resource lifecycle with an authored drop, hit count, respawn duration, and wood/stone/fiber feedback profile.
+
+The drop may be selected from `world.json.resourceDrops` or created in Author Mode with a stable ID, display name, and color. Custom drops participate in physical pickup collection, run cargo, extraction results, and persistent banking. Role metadata belongs to the shared asset recipe, so all placed instances behave consistently. This is not a generic component, scripting, crafting, equipment, container, or interaction framework.
+
+## Starter primitive library and panel usability
+
+Ship categorized editable recipes for the owner-requested 21-asset starter kit: chest, wooden crate, berry bush, iron ore rock, crystal, furnace, bench, table, chair, wood floor, wood wall, wood doorway, iron gear, iron pickaxe, iron sword, redwood tree, fern, flower, grass patch, stone ruin arch, and stone ruin path.
+
+The Visual Assets list includes search. The desktop panel must fit without sideways scrolling; compact vector inputs remain fully visible at the supported desktop viewport.
 
 ## Part creation
 
@@ -637,6 +653,24 @@ Camp → start expedition → harvest/combat → extract/return.
 
 **Pass:** 4A/4A.2.2 behavior remains intact; no asset editing UI/input leaks into Play.
 
+## Test 9 — Focused Asset Edit and vertical controls
+
+Enter Asset Edit on the starter chest, select its lid, press `Space`, then `C`.
+
+**Pass:** the rest of the game scene is absent; the lid visibly moves up and then returns down; the camera/stage remains stable; exiting Asset Edit restores the world. Typing spaces into an asset/category/drop text field does not move a part.
+
+## Test 10 — Custom harvestable/drop end to end
+
+Create a distinctive resource asset, add a custom drop with a readable name/color, set the role to Harvestable, choose a small hit count/respawn time, place it in a recognizable clear area, and enter Play. Harvest it, collect the drop, then extract.
+
+**Pass:** the asset uses the shared resource lifecycle without a duplicate static copy/collider; each hit yields the selected custom drop; depletion and respawn are readable; run cargo/result/bank use the custom display name and retain the exact count.
+
+## Test 11 — Starter library and panel fit
+
+At the default desktop Author viewport, search for `wood`, `iron`, and `ruin`, then open at least one asset in each group.
+
+**Pass:** all requested starter recipes are findable and recognizable; categories/search reduce scanning; all position/rotation/scale inputs fit without horizontal scrolling.
+
 ---
 
 # 16. Explicit non-goals
@@ -655,7 +689,7 @@ Do **not** implement in Phase 4B.0:
 - material/shader editor,
 - prefab inheritance/variants,
 - “make unique” instance workflow,
-- asset folders/tags/search,
+- asset folders/tags,
 - multi-select,
 - transform gizmos,
 - region CRUD,
