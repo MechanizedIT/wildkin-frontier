@@ -1,121 +1,90 @@
-# Wildkin Frontier — Phase 4A.2.2: Author Object Contract & Parity Foundation
+# Wildkin Frontier — Phase 4B.0: Primitive Kitbash / Visual Asset Authoring
 
-**Status:** IMPLEMENTED — AUTOMATED/BROWSER VERIFIED; HUMAN ACCEPTANCE PENDING
-**Active slice:** Phase 4A.2.2  
-**Canonical spec:** `docs/Specs/Phase_4A.2.2.md`
+**Status:** READY TO IMPLEMENT  
+**Active slice:** Phase 4B.0  
+**Canonical spec:** `docs/Specs/Phase_4B.0.md`
 
-**Purpose:** Replace the remaining object-family-specific Author Mode seams with one small data-driven Author Object contract so existing world objects can be edited consistently and the later primitive kitbash / visual asset system can plug into a stable authoring foundation.
+**Previous slice:** Phase 4A.2.2 — **OWNER ACCEPTED 2026-08-25** after Codex stabilization and owner playtesting. Freeze generic Author Object infrastructure unless Phase 4B.0 exposes a true contract regression.
 
-Phase 4A.2.1 materially improved Ground/Boundary placement, spawn Y/facing, cross-region movement, fast-click input and undo/redo, but human playtesting exposed a deeper remaining problem: Author Mode still knows concrete gameplay/storage schemas and still creates placeholder previews for several families. A read-only Codex audit reproduced Platform shadow-`pos` writes, custom inspector write failures, placeholder Tree/Ladder previews, duplicate capability truth, and incomplete collider/proxy sharing.
+## Goal
 
-This phase is therefore **Author Object Contract / parity repair before kitbash**.
+Add a deliberately small reusable primitive Visual Asset workflow to the accepted Author Mode so the owner can build recognizable low-poly props quickly and reuse them across Camp/Area 1 without external modeling or duplicated geometry data.
 
-## Required end state
+The existing architecture is the locked base:
 
 ```text
-canonical world object + storage location
-                │
-                ▼
-       AuthorTypeRegistry.resolve()
-                │
-                ▼
-       AuthorObjectSnapshot
-       ├─ normalized transform
-       ├─ capabilities
-       ├─ inspector fields
-       ├─ ownership policy
-       ├─ VisualRef
-       └─ ColliderDescriptor
-          │                │
-          ▼                ▼
- common Author Mode     Author Draft
- preview / drag / UI    transactional adapter write
-          │
-          ▼
-      VisualFactory
-       ↙       ↘
- Author Edit   Runtime Play
+world object
+→ AuthorTypeRegistry / normalized Author transform
+→ VisualRef
+→ deterministic VisualFactory
+→ Author Edit + Runtime Play
+→ separate simple ColliderDescriptor
 ```
 
-Author Mode must not need to know that Platform uses `x/z/y/w/h/height`, Ladder uses `bottomY/topY`, Tree is a resource, or Spawn uses `facingYaw`. Resolved adapters translate between a normalized editor-facing view and existing canonical gameplay schemas.
+Phase 4B.0 adds:
+
+```text
+VisualRef
+├ builtin
+└ asset → canonical primitive recipe in world.json.visualAssets
+```
 
 ## Hard scope
 
-- central Author type registry / definitions for every current authorable family,
-- normalized Author transform + transactional storage adapters,
-- registry-owned transform/presentation capabilities,
-- small declarative custom-inspector schema,
-- `VisualRef` + deterministic pure visual-construction seam shared by Edit and Play,
-- collider descriptor + live hidden-collider proxy lifecycle,
-- proof objects: **Box, Tree, Ladder**,
-- sibling sweep: Platform/Obstacle, Rock/Fiber, current statics, anchors/POIs, Wildkin metadata, spawns,
-- remove placeholder preview behavior for supported migrated families,
-- repair existing Boundary parity through the shared contract,
-- contract + Three.js integration + real browser-path verification where feasible,
-- preserve all accepted 4A/4A.2.1 gameplay and hackathon constraints.
+- top-level canonical `visualAssets` recipes in `world.json`,
+- primitive recipe v1: Box, Cylinder, Cone, Sphere, Capsule, Icosahedron,
+- flat asset-part hierarchy only,
+- local part position/rotation/scale/color editing,
+- dynamic Visual Assets palette: New / Place / Edit,
+- bounded Asset Edit mode inside current Author Mode,
+- reusable world instances referencing one asset recipe,
+- ordinary instance position/elevation/rotation/uniform scale through existing Author Object contract,
+- zero/one simple native Box collider per asset + Fit To Visual Bounds,
+- shared-instance reconciliation and undo/redo,
+- deterministic export/generated-world/runtime support,
+- migrate current Camp Drop Pod as the required proof asset,
+- production-path tests + real browser verification,
+- preserve all accepted expedition/gameplay behavior and hackathon constraints.
 
 ## Explicit non-goals
 
-Do **not** implement:
+Do not add:
 
-- kitbash primitive-part editing or reusable asset persistence,
-- GLB import/loading,
-- prefab inheritance,
-- region CRUD,
-- terrain tools,
-- generic gizmos/multi-select,
-- generic material/shader/animation editors,
-- ECS or engine rewrite,
-- Phase 4B expedition layout/pacing,
-- Wildkin bonding/companions,
-- Resonator progression,
-- second-area content.
+- GLB/glTF/OBJ/FBX import,
+- texture/UV tools,
+- CSG/boolean modeling,
+- vertex/face editing,
+- nested part groups,
+- bones/animation editor,
+- material/shader editor,
+- prefab inheritance or “make unique”,
+- multi-select/generic gizmos,
+- terrain/region tooling,
+- Phase 4B expedition layout/pacing changes,
+- Wildkin bonding,
+- Resonator progression.
 
-The future kitbash phase should consume the `VisualRef`/VisualFactory seam created here; it must not be implemented here.
+## Required proof
 
-## Architecture decisions locked for this slice
+```text
+New Asset
+→ add/edit several primitives
+→ place two independent instances
+→ edit shared recipe
+→ both instances update
+→ Play matches Edit
+→ collision remains simple/independent
+→ export/reload reproduces result
+```
 
-1. **Keep existing canonical gameplay schemas.** Do not migrate all `world.json` objects to one universal transform schema.
-2. **Normalize only the Author view.** Adapters read/write canonical schemas atomically.
-3. **Author Mode never constructs raw family-specific transform patches.** It submits normalized candidate transforms to adapters.
-4. **Capabilities come from resolved type definitions.** Remove production dependence on hard-coded `supportsRot`, `supportsSize`, `supportsY`, local capability maps, and equivalents.
-5. **Edit and Play share visual construction.** New Tree/Ladder/etc. must immediately use their real deterministic visual rather than a placeholder Box.
-6. **Detailed visuals remain separate from simple collision descriptors.**
-7. **Every appropriate world object supports position/elevation/rotation/meaningful resize unless a concrete gameplay reason says otherwise.** Exceptions must be explicit in type capabilities.
-8. **Box + Tree + Ladder are proof objects** before claiming sibling parity.
-
-## Human acceptance anchors
-
-Human must verify after implementation:
-
-- existing Platform/Obstacle drag/rotate/resize persists and Play matches,
-- existing/new Ladder immediately shows and edits the real Ladder visual and traversal behavior,
-- new Tree/Rock/Fiber immediately show real visuals; Tree/Rock rotation/uniform scale are coherent,
-- visible collidable Box → hidden creates wireframe proxy immediately without Play → Edit,
-- pre-existing Boundary edits behave exactly like newly placed Boundary edits,
-- inspector controls are registry-driven for Box/Platform/Ladder/Tree/Wildkin/Waypoint/Beacon/POI/Spawn,
-- Wildkin custom metadata and POI requirements persist through selection/export/reload,
-- mixed undo/redo/cross-region operations remain synchronized,
-- Camp → expedition → harvest/combat → extract/return and elevated spawn remain regression-free.
+The existing Camp Drop Pod must become a shared primitive Visual Asset instance and retain recognizable Camp placement/collision.
 
 ## Stop condition
 
-When this slice is human-accepted, **freeze generic Author infrastructure** and proceed to a separate `Phase 4B.0 — Primitive Kitbash / Visual Asset Authoring`, then return to Phase 4B expedition content/pacing.
+When the Phase 4B.0 human acceptance tests pass, **freeze editor/asset infrastructure** and proceed directly to:
 
-Read and implement the full requirements in `docs/Specs/Phase_4A.2.2.md`. Do not begin 4B.0.
+**Phase 4B — First Expedition Experience & Pacing**
 
-## 2026-08-24 stabilization checkpoint
+Use the accepted tools to build/tune the actual first 5–10 minute expedition rather than continuing to expand the modeling system.
 
-- The production Author UI and canvas workflow now route placement and transforms through `authorActions`, resolved registry capabilities, normalized transforms, and descriptor-driven preview/proxy synchronization.
-- Edit and Runtime Play now construct current statics, traversal objects, resources, Wildkin, anchors, and POIs through the shared deterministic `VisualFactory` seam. Detailed resource/Wildkin lifecycle wrappers remain separate from their factory-created visual children.
-- Box, Tree, and Ladder were exercised in the real in-app browser at `?author=1`; existing Ladder transform changes updated the coherent root plus dependent traversal data, Tree/Box placement used real geometry immediately, a hidden collidable Box gained a live descriptor-sized proxy, and an Edit→Play reload retained the placed Box. Temporary proof edits were removed afterward. Browser console: no warnings/errors.
-- Automated gates and packaged-build evidence are recorded in `docs/BUILD_LOG.md`. The human acceptance tests in spec §17 remain **TO BE PERFORMED BY HUMAN**; automated/browser evidence does not mark perceptual or gameplay acceptance passed.
-- Phase 4B.0 remains out of scope and must not start until the owner accepts this slice.
-
-## 2026-08-24 owner-playtest closure corrections
-
-- Runtime world construction no longer emits Author wireframes. Hidden collidable props, Ground patches, and Boundaries gain descriptor-driven wireframes only while Edit is active; a fresh Play scene and an Edit → Play reload contain zero `isEditProxy` objects.
-- The world-registry → resource-runtime adapter now preserves authored rotation and uniform scale for Tree, Rock, and Fiber. The runtime resource root, state, interaction math, and simple collider path consume the same transform.
-- Gameplay keyboard capture now yields to focused text controls and to its explicit disabled state, so Waypoint/Beacon display names can contain spaces and still commit through the registry inspector transaction.
-- Automated browser proof used the real Author controls and Play reload: four hidden Camp boundary proxies appeared in Edit and disappeared in Play; a Tree retained 57° / 1.65× in runtime state and its visual root; `Silver Grove Beacon` retained its spaces after reload. No browser errors/warnings; temporary draft cleared.
-- These are same-slice acceptance corrections. Human confirmation remains **TO BE PERFORMED BY HUMAN** before changing this status to accepted or starting Phase 4B.0.
+Read and implement the complete requirements in `docs/Specs/Phase_4B.0.md`.
