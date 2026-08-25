@@ -215,3 +215,20 @@ This is implementation/browser evidence, **not human acceptance**.
 ### Human acceptance still requested
 
 Use the recognizable setup in `docs/Specs/Phase_4B.0.md` Tests 9–11. Confirm the isolated stage feels clear, `Space`/`C` movement is readable, starter assets are recognizable enough for rapid map authoring, and a custom harvestable/drop remains understandable through real harvesting, depletion/respawn, extraction results, and banking. Automated state inspection is not proof of feel, recognizability, or phone performance.
+
+## 2026-08-25 — Phase 4B.0 Asset Workbench stabilization — automated browser evidence only
+
+This is implementation/browser evidence, **not human acceptance**.
+
+### Observed through real pointer and keyboard input
+
+- Opened the repository-backed Frontier Chest workbench at the normal desktop viewport. The focused 420 px panel hid the asset catalog and unrelated Author sections, themed its controls consistently, and left the 3D stage unobstructed.
+- Clicking the chest lid focused the renderer canvas. Real `Q`/`E` input changed local Y rotation `0° → -15° → 0°`; real `Space`/`C` changed local Y `0.88 → 1.08 → 0.88`. Canvas focus remained active after every temporary-root refresh.
+- `]` produced a visibly different right-side view and the truthful status `Camera rotated right 45°`. A real right-button vertical drag moved the view in the requested inverted direction with a bounded scale; reset/orbit controls remained available.
+- The first stabilization screenshot exposed late resource roots above the asset. Render-bound isolation plus an Asset Edit visibility early-return removed the leak. After the fix, 123 unrelated scene roots retained identical UUIDs through 12 consecutive part edits and zero were visible before or after the sequence.
+- Exiting removed every tagged workbench-stage root, restored 83 visible non-light roots, restored the saved camera, and returned status to `EDIT — world objects`.
+- At 1024×720, panel `clientWidth === scrollWidth === 403`, editor `clientWidth === scrollWidth === 382`, and every part input stayed inside the panel bounds. Browser warnings/errors: none.
+
+### Human acceptance still requested
+
+Perform spec Test 12 by feel. Confirm the 45° orbit is useful from all sides, the inverted vertical pan matches expectation, shortcuts remain dependable after ordinary inspector use, no scene object flashes during a longer authoring session, and the wider focused panel is comfortable on the actual desktop setup.

@@ -337,6 +337,9 @@ While editing an asset:
 - normal gameplay input remains suppressed,
 - world-object dragging must not accidentally fire when dragging a primitive part,
 - the rest of the scene disappears; only the asset, its collision proxy, focused stage, and scene lighting remain,
+- late runtime visibility changes cannot leak world objects into the workbench,
+- live part edits update only the temporary asset root; shared world instances reconcile once on exit,
+- camera view can orbit left/right in 45° steps, reset, pan with inverted vertical mouse movement, and zoom without inheriting world-camera limits,
 - exit returns to ordinary world Edit without losing selection/camera state where practical.
 
 Do not build a second scene editor architecture.
@@ -364,7 +367,9 @@ Required shortcuts/interaction:
 - inspector changes Y,
 - `Space` raises local Y and `C` lowers local Y (0.2 units; `Shift` uses 1.0),
 - Q/E rotates local Y in 15° increments,
+- `[`/`]` rotates the camera view by 45° and `0` resets it without changing the selected part,
 - existing keyboard nudge convention may be reused for local X/Z,
+- clicking a part or the canvas returns keyboard ownership to the workbench; focused form controls retain normal typing,
 - undo/redo uses existing Author history,
 - Esc cancels an active part drag or exits placement before exiting Asset Edit.
 
@@ -670,6 +675,12 @@ Create a distinctive resource asset, add a custom drop with a readable name/colo
 At the default desktop Author viewport, search for `wood`, `iron`, and `ruin`, then open at least one asset in each group.
 
 **Pass:** all requested starter recipes are findable and recognizable; categories/search reduce scanning; all position/rotation/scale inputs fit without horizontal scrolling.
+
+## Test 12 — Workbench camera, focus, and stability
+
+Open the starter chest, select its lid, then alternate `Q`/`E` and `Space`/`C` several times. Orbit with `[` and `]`, reset with `0`, right-drag vertically, and use the wheel. Exit to the asset library.
+
+**Pass:** part shortcuts respond after part/canvas selection; part values return exactly after paired keys; camera orbit moves in readable 45° steps without changing part rotation; vertical pan uses the inverted direction and remains bounded; no world object flashes or appears during edits/camera movement; exit restores the prior world and camera; no sideways panel scrolling or browser warnings/errors occur.
 
 ---
 

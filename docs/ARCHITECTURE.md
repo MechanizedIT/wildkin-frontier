@@ -642,6 +642,9 @@ Author collider proxy / native Rapier cuboid
 - `src/author/authorUI.js` owns the dynamic palette and bounded inspector. `src/author/authorMode.js` owns the temporary Asset Edit camera/context, part selection and canvas-local X/Z drag, selected-part highlight, unrelated-root de-emphasis, and the dedicated collider proxy. It does not own another frame loop.
 - `src/author/authorPreview.js` receives the current recipe table and rebuilds matching visual roots while preserving each instance's normalized transform. Undo/redo follows the same reconcile path.
 - Entering Asset Edit through New/Place/Edit synchronizes the visible badge and the UI's authoritative edit-mode flag. Returning to Play therefore takes one click and clears Asset Edit-only presentation.
+- The Asset Workbench uses an explicit camera owner (`target`, yaw, radius, height offset): `[`/`]` and UI buttons orbit in 45° steps, `0` resets, wheel changes bounded radius, and screen-relative right-drag pans without reusing world-camera height limits.
+- Recipe edits rebuild only the temporary workbench root while Asset Edit is active. A dirty flag triggers one shared world-preview reconciliation on exit, avoiding per-keystroke world rebuilds and preserving unrelated root identities.
+- Isolation is enforced both during Author visibility maintenance and immediately before the authoritative render. This prevents resource, creature, pickup, particle, or other late-toggled scene roots from leaking into the workbench while preserving their prior visibility for exit restoration.
 
 ## Required proof asset
 

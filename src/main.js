@@ -933,6 +933,7 @@ function tick() {
     }
   }
 
+  if (authorSuppress && authorMode?.prepareRender) authorMode.prepareRender();
   renderer.render(scene, camera);
 }
 

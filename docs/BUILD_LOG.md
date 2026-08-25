@@ -882,5 +882,25 @@
   - Human perceptual acceptance remains required for starter-asset recognizability, focused workbench feel, real-device input/readability, and a hand-played custom drop through harvest/depletion/respawn/extraction/banking.
   - No crafting, equipment stats, containers, generic interaction scripting/components, imported models, or Phase 4B expedition content were added.
 
+## 2026-08-25 03:22 -05:00 — Phase 4B.0 Asset Workbench stabilization and UX pass — Codex (GPT-5)
+
+- **Goal:** Audit and repair the owner-reported Asset Workbench lag, scene popping, unreliable `Q`/`E` and `Space`/`C` shortcuts, camera limitations, vertical pan direction, and remaining panel polish on `main`.
+
+- **Design / implementation decisions:**
+  - Replaced per-part full-world reconciliation with temporary workbench-root refreshes plus one dirty-asset reconciliation on exit. This preserves shared-instance correctness while eliminating unrelated scene reconstruction during every key/button/drag edit.
+  - Added render-bound isolation and an Asset Edit early-return in region visibility maintenance. This closes the sibling visibility paths for resources, creatures, pickups, particles, and any other root that becomes visible after initial workbench entry.
+  - Made the renderer canvas explicitly focusable. Part selection, canvas pointer-down, orbit, and reset return focus to it, while focused input/select/textarea/contenteditable controls continue to own typing.
+  - Added a dedicated bounded camera controller: 45° orbit through `[`/`]` and buttons, `0`/button reset, asset-relative wheel zoom, and screen-relative right-drag pan with the owner-requested inverted vertical sign. The world camera controls and limits remain unchanged.
+  - Widened the viewport-bounded panel to 420 px, hid the catalog while an asset is open, added discoverable camera/rotation/vertical buttons, themed workbench controls, retained compact vector fields, and kept horizontal overflow disabled.
+  - Extracted the production part-key patch helper and camera step constant for focused regression coverage. No dependency, second frame loop, gameplay feature, or future-phase content was added.
+
+- **Files changed:** `src/author/authorMode.js`, `src/author/authorUI.js`, `src/main.js`, `tests/phase4b0.test.js`, `README.md`, `docs/CURRENT_SLICE.md`, `docs/Specs/Phase_4B.0.md`, `docs/ARCHITECTURE.md`, `docs/PLAYTEST_NOTES.md`, `docs/BUILD_LOG.md`.
+
+- **Browser production proof:** Frontier Chest lid real-key sequence `Q/E: 0° → -15° → 0°`, `Space/C: 0.88 → 1.08 → 0.88`; renderer focus retained. `]` visibly orbited 45°. Real right-button vertical drag used the inverted direction and remained bounded after sensitivity tuning. A browser-found late-root leak was fixed; afterward 123 unrelated scene-root identities remained stable and zero were visible across 12 consecutive part edits. Exit removed all stage roots and restored 83 visible roots plus the prior camera. At 1024×720, panel/editor client and scroll widths matched and all transform fields stayed in bounds. Warnings/errors: none.
+
+- **Verification:** Focused `tests/phase4b0.test.js` passed 14 tests / 6 suites. `npm test` and final `npm run verify` passed 505 tests / 139 suites with world data synchronized; submission validation passed at 4865.6 KB (<35 MB). `npm run zip` produced `dist/submission.zip` at 1472.2 KB (1.44 MB). Browser warnings/errors remained empty.
+
+- **Remaining:** Human perceptual acceptance remains required for camera/pan feel, prolonged no-pop stability, shortcut reliability in the owner's normal workflow, and overall desktop comfort. Phase 4B expedition content remains intentionally untouched.
+
 
 

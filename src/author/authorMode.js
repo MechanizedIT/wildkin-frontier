@@ -15,6 +15,29 @@ import {
   syncEditProxy,
 } from "./authorPreview.js";
 
+export const ASSET_EDIT_CAMERA_STEP = Math.PI / 4;
+
+export function getAssetEditPartKeyPatch(part, event) {
+  if (!part || !event) return null;
+  const key = String(event.key ?? "").toLowerCase();
+  const step = event.shiftKey ? 1 : 0.2;
+  if (key === "q" || key === "e") {
+    const delta = (key === "q" ? -15 : 15) * Math.PI / 180;
+    return { rotation: { y: part.rotation.y + delta } };
+  }
+  if (event.code === "Space" || key === " " || key === "c") {
+    return { position: { y: part.position.y + (key === "c" ? -step : step) } };
+  }
+  let dx = 0;
+  let dz = 0;
+  if (key === "arrowup" || key === "w") dz = -step;
+  else if (key === "arrowdown" || key === "s") dz = step;
+  else if (key === "arrowleft" || key === "a") dx = -step;
+  else if (key === "arrowright" || key === "d") dx = step;
+  else return null;
+  return { position: { x: part.position.x + dx, z: part.position.z + dz } };
+}
+
 export function createAuthorMode(opts) {
   const scene = opts.scene;
   const camera = opts.camera;
@@ -56,7 +79,10 @@ export function createAuthorMode(opts) {
   let assetEditTempRoot = null;
   let assetEditProxy = null;
   let assetEditHiddenRoots = [];
+  let assetEditHiddenRootSet = new Set();
   let assetEditCameraState = null;
+  let assetEditViewState = null;
+  let assetEditDirty = false;
   let assetPartDrag = null;
   let assetEditStageHelpers = [];
   let assetEditSceneState = null;
@@ -96,12 +122,17 @@ export function createAuthorMode(opts) {
       if (assetId !== editingAssetId) return;
       selectedAssetPartId = partId;
       updateAssetPartHighlight();
+      focusAssetEditShortcuts();
     },
     onAssetChanged: (assetId, partId) => {
       if (partId !== undefined) selectedAssetPartId = partId;
-      reconcilePreview();
-      if (assetId === editingAssetId) refreshAssetEditContext();
+      if (assetId === editingAssetId) {
+        assetEditDirty = true;
+        refreshAssetEditContext();
+      } else reconcilePreview();
     },
+    onAssetCameraOrbit: (direction) => orbitAssetEditCamera(direction),
+    onAssetCameraReset: () => resetAssetEditCamera(),
     onToggleEdit: (edit) => {
       isEdit = edit;
       suppressGameplay = edit;
@@ -252,11 +283,74 @@ export function createAuthorMode(opts) {
   function isolateAssetEditScene() {
     for (const root of scene.children) {
       if (root.isLight || root.userData?.isAssetEditStage || root.userData?.isAssetEditProxy) continue;
-      if (!assetEditHiddenRoots.some((entry) => entry.root === root)) {
+      if (!assetEditHiddenRootSet.has(root)) {
         assetEditHiddenRoots.push({ root, visible: root.visible });
+        assetEditHiddenRootSet.add(root);
       }
       root.visible = false;
     }
+  }
+
+  function focusAssetEditShortcuts() {
+    const canvas = renderer.domElement;
+    if (!canvas || !editingAssetId) return;
+    if (canvas.tabIndex < 0) canvas.tabIndex = 0;
+    try { canvas.focus({ preventScroll: true }); } catch { canvas.focus(); }
+  }
+
+  function applyAssetEditCamera() {
+    if (!assetEditViewState) return;
+    const view = assetEditViewState;
+    camera.position.set(
+      view.target.x + Math.sin(view.yaw) * view.radius,
+      view.target.y + view.heightOffset,
+      view.target.z + Math.cos(view.yaw) * view.radius,
+    );
+    camera.lookAt(view.target);
+    camera.updateMatrixWorld();
+  }
+
+  function orbitAssetEditCamera(direction) {
+    if (!assetEditViewState || !editingAssetId) return;
+    assetEditViewState.yaw += direction * ASSET_EDIT_CAMERA_STEP;
+    applyAssetEditCamera();
+    focusAssetEditShortcuts();
+    ui.setStatus(`Camera rotated ${direction < 0 ? "left" : "right"} 45°`, false);
+  }
+
+  function resetAssetEditCamera() {
+    if (!assetEditViewState || !editingAssetId) return;
+    const view = assetEditViewState;
+    view.target.copy(view.defaultTarget);
+    view.yaw = view.defaultYaw;
+    view.radius = view.defaultRadius;
+    view.heightOffset = view.defaultHeightOffset;
+    applyAssetEditCamera();
+    focusAssetEditShortcuts();
+    ui.setStatus("Camera view reset", false);
+  }
+
+  function panAssetEditCamera(dx, dy) {
+    if (!assetEditViewState) return;
+    const view = assetEditViewState;
+    const scale = Math.max(0.0015, view.radius * 0.0015);
+    const sinYaw = Math.sin(view.yaw);
+    const cosYaw = Math.cos(view.yaw);
+    // Mouse-down movement pans forward on screen: deliberately inverted vertically.
+    view.target.x += (-dx * cosYaw - dy * sinYaw) * scale;
+    view.target.z += (dx * sinYaw - dy * cosYaw) * scale;
+    applyAssetEditCamera();
+  }
+
+  function zoomAssetEditCamera(deltaY) {
+    if (!assetEditViewState) return;
+    const view = assetEditViewState;
+    view.radius = THREE.MathUtils.clamp(
+      view.radius + deltaY * view.span * 0.004,
+      view.span * 1.15,
+      view.span * 8,
+    );
+    applyAssetEditCamera();
   }
 
   function refreshAssetEditContext() {
@@ -294,9 +388,11 @@ export function createAuthorMode(opts) {
     if (editingAssetId) exitAssetEdit();
     editingAssetId = assetId;
     selectedAssetPartId = partId ?? asset.parts[0]?.id ?? null;
+    assetEditDirty = false;
     assetEditCameraState = { position: camera.position.clone(), rotation: camera.rotation.clone() };
     assetEditSceneState = { background: scene.background, fog: scene.fog };
     assetEditHiddenRoots = [];
+    assetEditHiddenRootSet.clear();
     isolateAssetEditScene();
     scene.background = new THREE.Color(0x0b1220);
     scene.fog = null;
@@ -315,18 +411,34 @@ export function createAuthorMode(opts) {
     if (root) {
       const bounds = computeVisualAssetBounds(asset);
       const span = Math.max(bounds.size.w, bounds.size.h, bounds.size.d, 1);
-      camera.position.set(span * 2.2, Math.max(2.8, span * 1.8), span * 2.6);
-      camera.lookAt(0, Math.max(0.35, bounds.size.h * 0.45), 0);
-      camera.updateMatrixWorld();
+      const target = new THREE.Vector3(0, Math.max(0.35, bounds.size.h * 0.45), 0);
+      const yaw = Math.atan2(2.2, 2.6);
+      const radius = span * Math.hypot(2.2, 2.6);
+      const heightOffset = Math.max(2.8, span * 1.8) - target.y;
+      assetEditViewState = {
+        target,
+        yaw,
+        radius,
+        heightOffset,
+        span,
+        defaultTarget: target.clone(),
+        defaultYaw: yaw,
+        defaultRadius: radius,
+        defaultHeightOffset: heightOffset,
+      };
+      applyAssetEditCamera();
     }
+    focusAssetEditShortcuts();
     ui.setStatus(`Asset Edit — ${asset.displayName}`, false);
   }
 
   function exitAssetEdit() {
     if (!editingAssetId) return;
+    const shouldReconcile = assetEditDirty;
     assetPartDrag = null;
     for (const entry of assetEditHiddenRoots) if (entry.root.parent) entry.root.visible = entry.visible;
     assetEditHiddenRoots = [];
+    assetEditHiddenRootSet.clear();
     for (const helper of assetEditStageHelpers) {
       scene.remove(helper);
       disposeObject3D(helper);
@@ -348,6 +460,7 @@ export function createAuthorMode(opts) {
       camera.updateMatrixWorld();
       assetEditCameraState = null;
     }
+    assetEditViewState = null;
     if (assetEditSceneState) {
       scene.background = assetEditSceneState.background;
       scene.fog = assetEditSceneState.fog;
@@ -355,9 +468,12 @@ export function createAuthorMode(opts) {
     }
     editingAssetId = null;
     selectedAssetPartId = null;
+    assetEditDirty = false;
     ui.clearAssetEdit();
     ui.setStatus("EDIT — world objects", false);
+    if (shouldReconcile) reconcilePreview();
     updateHighlight();
+    updateEditorVisibility();
   }
 
   // Live preview: sync a single object's mesh via normalized Author transform (registry-driven)
@@ -632,6 +748,10 @@ export function createAuthorMode(opts) {
   }
   function updateEditorVisibility() {
     if (!isEdit) return;
+    if (editingAssetId) {
+      isolateAssetEditScene();
+      return;
+    }
     const focus = { x: camera.position.x, z: camera.position.z };
     let focusRegion = null;
     try { focusRegion = draftApi.findContainingRegion({ x: focus.x, z: focus.z }); if (!focusRegion) focusRegion = draftApi.findNearestRegion({ x: focus.x, z: focus.z }); } catch {}
@@ -644,6 +764,10 @@ export function createAuthorMode(opts) {
     if (resourceSystem) resourceSystem.setActiveRegions(activeIds);
     if (creatureSystem) creatureSystem.setActiveRegions(activeIds);
     highlightOverlayForSelected();
+  }
+
+  function prepareRender() {
+    if (editingAssetId) isolateAssetEditScene();
   }
 
   // Place mode
@@ -694,6 +818,7 @@ export function createAuthorMode(opts) {
     ui.show();
     createOverlays();
     const canvas = renderer.domElement;
+    canvas.tabIndex = 0;
     // Selection / placement / drag handling
     canvas.addEventListener("pointerdown", onPointerDown, true);
     canvas.addEventListener("pointermove", onPointerMove, true);
@@ -716,15 +841,21 @@ export function createAuthorMode(opts) {
       const dx = e.clientX - lastX;
       const dy = e.clientY - lastY;
       lastX = e.clientX; lastY = e.clientY;
-      panEditorCamera(dx * -0.04, dy * -0.04); // inverted vertical per 3.5B.1
-      updateEditorVisibility();
+      if (editingAssetId) panAssetEditCamera(dx, dy);
+      else {
+        panEditorCamera(dx * -0.04, dy * -0.04); // world-editor drag convention from 3.5B.1
+        updateEditorVisibility();
+      }
     }, true);
     canvas.addEventListener("mouseup", () => isPanning = false, true);
     canvas.addEventListener("wheel", (e) => {
       if (!isEdit) return;
       e.preventDefault();
-      zoomEditorCamera(e.deltaY * 0.02);
-      updateEditorVisibility();
+      if (editingAssetId) zoomAssetEditCamera(e.deltaY);
+      else {
+        zoomEditorCamera(e.deltaY * 0.02);
+        updateEditorVisibility();
+      }
     }, { passive: false });
     canvas.addEventListener("contextmenu", (e) => { if (isEdit) e.preventDefault(); }, true);
     // Also hide context menu on place mode right click cancel
@@ -733,7 +864,7 @@ export function createAuthorMode(opts) {
     }, true);
     ui.setStatus(usingDraft ? "Loaded draft from localStorage" : "Using repo world — edit to create draft", false);
     // Initial editor visibility will be set on enterEdit
-    return { enabled: true, draftApi, ui, isEditMode: () => isEdit, suppressGameplay: () => suppressGameplay, getSelectedId: () => selectedId, updateEditorVisibility };
+    return { enabled: true, draftApi, ui, isEditMode: () => isEdit, suppressGameplay: () => suppressGameplay, getSelectedId: () => selectedId, updateEditorVisibility, prepareRender };
   }
 
   // Expose setter for systems after init (main.js may call)
@@ -885,6 +1016,7 @@ export function createAuthorMode(opts) {
     if (pendingPlace) return;
     if (e.button !== 0) return;
     if (editingAssetId) {
+      focusAssetEditShortcuts();
       const hit = getAssetPartHit(e);
       if (hit) {
         const root = getAssetEditRoot();
@@ -1032,7 +1164,7 @@ export function createAuthorMode(opts) {
       if (!result.ok) ui.setStatus(result.error, true);
       else {
         ui.setStatus(`Moved part ${partId}`, false);
-        reconcilePreview();
+        assetEditDirty = true;
         refreshAssetEditContext();
       }
       try { renderer.domElement.releasePointerCapture(e.pointerId); } catch {}
@@ -1179,8 +1311,10 @@ export function createAuthorMode(opts) {
       if (res.ok) {
         ui.setStatus("Undo", false);
         if (selectedId && !draftApi.findObjectById(selectedId)) { selectedId = null; ui.setSelected(null); }
-        reconcilePreview();
-        if (editingAssetId) refreshAssetEditContext();
+        if (editingAssetId) {
+          assetEditDirty = true;
+          refreshAssetEditContext();
+        } else reconcilePreview();
       } else ui.setStatus(res.error, true);
       return;
     }
@@ -1189,41 +1323,40 @@ export function createAuthorMode(opts) {
       const res = draftApi.redo();
       if (res.ok) {
         ui.setStatus("Redo", false);
-        reconcilePreview();
-        if (editingAssetId) refreshAssetEditContext();
+        if (editingAssetId) {
+          assetEditDirty = true;
+          refreshAssetEditContext();
+        } else reconcilePreview();
       } else ui.setStatus(res.error, true);
       return;
     }
     if (editingAssetId) {
+      if (e.key === "[" || e.key === "]") {
+        e.preventDefault();
+        orbitAssetEditCamera(e.key === "[" ? -1 : 1);
+        return;
+      }
+      if (e.key === "0") {
+        e.preventDefault();
+        resetAssetEditCamera();
+        return;
+      }
       const asset = draftApi.findVisualAssetById(editingAssetId);
       const part = asset?.parts.find((entry) => entry.id === selectedAssetPartId);
       if (!part) return;
-      const key = e.key.toLowerCase();
       let result = null;
       if (e.key === "Delete" || e.key === "Backspace") {
         result = actions.deleteAssetPart(editingAssetId, selectedAssetPartId);
         selectedAssetPartId = null;
-      } else if (key === "q" || key === "e") {
-        const delta = (key === "q" ? -15 : 15) * Math.PI / 180;
-        result = actions.updateAssetPart(editingAssetId, selectedAssetPartId, { rotation: { y: part.rotation.y + delta } });
-      } else if (e.code === "Space" || key === "c") {
-        const step = e.shiftKey ? 1 : 0.2;
-        const dy = e.code === "Space" ? step : -step;
-        result = actions.updateAssetPart(editingAssetId, selectedAssetPartId, { position: { y: part.position.y + dy } });
       } else {
-        const step = e.shiftKey ? 1 : 0.2;
-        let dx = 0; let dz = 0;
-        if (key === "arrowup" || key === "w") dz = -step;
-        else if (key === "arrowdown" || key === "s") dz = step;
-        else if (key === "arrowleft" || key === "a") dx = -step;
-        else if (key === "arrowright" || key === "d") dx = step;
-        else return;
-        result = actions.updateAssetPart(editingAssetId, selectedAssetPartId, { position: { x: part.position.x + dx, z: part.position.z + dz } });
+        const patch = getAssetEditPartKeyPatch(part, e);
+        if (!patch) return;
+        result = actions.updateAssetPart(editingAssetId, selectedAssetPartId, patch);
       }
       e.preventDefault();
       if (!result?.ok) ui.setStatus(result?.error ?? "Asset part edit failed", true);
       else {
-        reconcilePreview();
+        assetEditDirty = true;
         refreshAssetEditContext();
       }
       return;
@@ -1372,5 +1505,5 @@ export function createAuthorMode(opts) {
     updateHomeMarker();
   }
 
-  return { init, setSystems, draftApi, ui, isEditMode: () => isEdit, suppressGameplay: () => suppressGameplay, getSelectedId: () => selectedId, updateHighlight, updateOverlays, updateEditorVisibility, findMeshByAuthorId, syncPreviewForId };
+  return { init, setSystems, draftApi, ui, isEditMode: () => isEdit, suppressGameplay: () => suppressGameplay, getSelectedId: () => selectedId, updateHighlight, updateOverlays, updateEditorVisibility, prepareRender, findMeshByAuthorId, syncPreviewForId };
 }

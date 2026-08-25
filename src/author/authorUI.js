@@ -13,9 +13,9 @@ export function createAuthorUI(opts) {
 
   const container = document.createElement("div");
   container.id = "author-panel";
-  container.style.cssText = "position:fixed;top:8px;left:8px;width:min(380px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;overflow-x:hidden;box-sizing:border-box;background:#0f1420f2;color:#d0d8e8;font:12px system-ui;border:1px solid #2a3a5a;border-radius:8px;z-index:9999;padding:10px;display:none;backdrop-filter:blur(6px)";
+  container.style.cssText = "position:fixed;top:8px;left:8px;width:min(420px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;overflow-x:hidden;box-sizing:border-box;background:#0f1420f2;color:#d0d8e8;font:12px system-ui;border:1px solid #2a3a5a;border-radius:8px;z-index:9999;padding:10px;display:none;backdrop-filter:blur(6px)";
   container.innerHTML = `
-    <style>#author-panel *,#author-panel *::before,#author-panel *::after{box-sizing:border-box}#author-panel input,#author-panel select,#author-panel button{min-width:0}#author-panel .author-vec3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}#author-panel .author-vec3 input{width:100%;padding:3px 4px}</style>
+    <style>#author-panel *,#author-panel *::before,#author-panel *::after{box-sizing:border-box}#author-panel input,#author-panel select,#author-panel button{min-width:0}#author-panel .author-vec3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}#author-panel .author-vec3 input{width:100%;padding:3px 4px}#author-asset-editor input,#author-asset-editor select{background:#111a2a;color:#e2ebf7;border:1px solid #344966;border-radius:4px;padding:4px}#author-asset-editor button{background:#1b2b42;color:#dcecff;border:1px solid #3a5274;border-radius:4px;padding:4px;cursor:pointer}#author-asset-editor button:hover,#author-asset-editor button:focus-visible{background:#29496c;border-color:#5791c6;outline:none}#author-asset-editor button:disabled{opacity:.42;cursor:not-allowed}</style>
     <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">
       <button id="author-toggle" style="flex:1;padding:7px 8px;background:#2a7fff;color:#fff;border:none;border-radius:6px;font-weight:800">EDIT</button>
       <span id="author-mode-badge" style="font-size:10px;font-weight:700;padding:4px 6px;border-radius:4px;background:#1a243a;color:#8aa0c0">PLAY TEST</span>
@@ -32,9 +32,14 @@ export function createAuthorUI(opts) {
       <button id="author-asset-new" style="width:100%;margin-top:6px;padding:6px;background:#244266;color:#dcecff;border:1px solid #3a6694;border-radius:5px">+ New Asset</button>
       <div id="author-asset-list" style="display:flex;flex-direction:column;gap:4px;margin-top:6px;max-height:230px;overflow-y:auto;overflow-x:hidden"></div>
       <div id="author-asset-editor" style="display:none;margin-top:7px;padding:6px;background:#0a0f1e;border:1px solid #3a6694;border-radius:6px">
-        <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px"><strong style="flex:1">Asset Edit</strong><button id="author-asset-exit" style="padding:3px 7px">Exit</button></div>
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px"><strong style="flex:1">Asset Workbench</strong><button id="author-asset-exit" style="padding:4px 8px">Back to Library</button></div>
         <div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:5px"><label>Name <input id="author-asset-name" style="width:100%"></label><label>Category <input id="author-asset-category" style="width:100%"></label></div>
         <div id="author-asset-id" style="font-size:10px;color:#6f88a8;margin:3px 0 6px"></div>
+        <div style="border:1px solid #263b58;border-radius:5px;background:#101b2c;padding:5px;margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px"><strong style="font-size:11px;flex:1">Camera View</strong><span style="font-size:9px;color:#7890ad">45° steps</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px"><button id="author-camera-left" title="Orbit camera left ([)">↶ Left [</button><button id="author-camera-reset" title="Reset camera view (0)">Reset 0</button><button id="author-camera-right" title="Orbit camera right (])">Right ] ↷</button></div>
+          <div style="font-size:9px;color:#7890ad;margin-top:4px">Right-drag pans with inverted vertical · wheel zooms</div>
+        </div>
         <div style="font-size:11px;font-weight:700;margin-bottom:3px">Add Part</div>
         <div id="author-asset-add-parts" style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
           <button data-asset-shape="box">+ Box</button><button data-asset-shape="cylinder">+ Cylinder</button>
@@ -48,7 +53,7 @@ export function createAuthorUI(opts) {
           <div style="font-size:11px;margin-top:4px">Rotation X / Y / Z °</div><div class="author-vec3"><input id="author-part-rx" type="number" step="5" title="Rotation X"><input id="author-part-ry" type="number" step="5" title="Rotation Y"><input id="author-part-rz" type="number" step="5" title="Rotation Z"></div>
           <div style="font-size:11px;margin-top:4px">Scale X / Y / Z</div><div class="author-vec3"><input id="author-part-sx" type="number" min="0.01" step="0.1" title="Scale X"><input id="author-part-sy" type="number" min="0.01" step="0.1" title="Scale Y"><input id="author-part-sz" type="number" min="0.01" step="0.1" title="Scale Z"></div>
           <label style="display:block;margin-top:4px">Color <input id="author-part-color" type="color" style="width:100%;height:25px"></label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px"><button id="author-part-down">C · Y−0.2</button><button id="author-part-up">Space · Y+0.2</button></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px"><button id="author-part-rotate-left">Q · Rotate −15°</button><button id="author-part-rotate-right">E · Rotate +15°</button><button id="author-part-down">C · Lower 0.2</button><button id="author-part-up">Space · Raise 0.2</button></div>
           <div style="display:flex;gap:4px;margin-top:5px"><button id="author-part-duplicate" style="flex:1">Duplicate</button><button id="author-part-delete" style="flex:1;color:#ffaaaa">Delete</button></div>
         </div>
         <div style="border-top:1px solid #1e2a4a;margin-top:7px;padding-top:5px">
@@ -71,7 +76,7 @@ export function createAuthorUI(opts) {
           </div>
         </div>
         <button id="author-asset-delete" style="width:100%;margin-top:7px;color:#ffaaaa">Delete Asset</button>
-        <div style="font-size:10px;color:#6f88a8;margin-top:5px">Click a part · drag/WASD local X/Z · Space/C local Y · Q/E rotate Y · Esc exits</div>
+        <div style="font-size:10px;color:#7f98ba;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:5px">Select a part, then use drag/WASD for local X/Z · Space/C for Y · Q/E for rotation · [/] camera · Esc exits. Clicking the canvas restores shortcut focus.</div>
       </div>
     </details>
     <details id="sec-selected" open style="margin-bottom:8px">
@@ -235,6 +240,11 @@ export function createAuthorUI(opts) {
       const section = container.querySelector(`#${id}`);
       if (section) section.style.display = focused ? "none" : "";
     }
+    for (const id of ["author-asset-filter", "author-asset-new", "author-asset-list"]) {
+      const control = container.querySelector(`#${id}`);
+      if (control) control.style.display = focused ? "none" : "";
+    }
+    assetEditorEl.style.marginTop = focused ? "0" : "7px";
   }
 
   function assetActionResult(result, successText, nextPartId) {
@@ -244,8 +254,9 @@ export function createAuthorUI(opts) {
     }
     if (nextPartId !== undefined) selectedAssetPartId = nextPartId;
     setStatus(successText, false);
-    refreshVisualAssets();
-    opts.onAssetChanged?.(editingAssetId, selectedAssetPartId);
+    if (opts.onAssetChanged) opts.onAssetChanged(editingAssetId, selectedAssetPartId);
+    else if (editingAssetId) refreshAssetEditor();
+    else refreshVisualAssets();
     return true;
   }
 
@@ -347,7 +358,7 @@ export function createAuthorUI(opts) {
     editingAssetId = assetId;
     selectedAssetPartId = partId;
     setAssetFocus(true);
-    refreshVisualAssets();
+    refreshAssetEditor();
   }
 
   function clearAssetEdit() {
@@ -365,6 +376,9 @@ export function createAuthorUI(opts) {
     opts.onAssetEditRequested?.(result.assetId, result.partId);
   });
   container.querySelector("#author-asset-exit").addEventListener("click", () => opts.onAssetEditExitRequested?.());
+  container.querySelector("#author-camera-left").addEventListener("click", () => opts.onAssetCameraOrbit?.(-1));
+  container.querySelector("#author-camera-reset").addEventListener("click", () => opts.onAssetCameraReset?.());
+  container.querySelector("#author-camera-right").addEventListener("click", () => opts.onAssetCameraOrbit?.(1));
   container.querySelector("#author-asset-name").addEventListener("change", (event) => {
     assetActionResult(actions.renameVisualAsset(editingAssetId, event.target.value), "Renamed Visual Asset");
   });
@@ -405,6 +419,14 @@ export function createAuthorUI(opts) {
   }
   container.querySelector("#author-part-up").addEventListener("click", () => nudgeSelectedPartY(0.2));
   container.querySelector("#author-part-down").addEventListener("click", () => nudgeSelectedPartY(-0.2));
+  function rotateSelectedPartY(delta) {
+    const asset = draftApi.findVisualAssetById(editingAssetId);
+    const part = asset?.parts.find((entry) => entry.id === selectedAssetPartId);
+    if (!part) return;
+    assetActionResult(actions.updateAssetPart(editingAssetId, selectedAssetPartId, { rotation: { y: part.rotation.y + delta } }), `Rotated ${selectedAssetPartId}`);
+  }
+  container.querySelector("#author-part-rotate-left").addEventListener("click", () => rotateSelectedPartY(-15 * Math.PI / 180));
+  container.querySelector("#author-part-rotate-right").addEventListener("click", () => rotateSelectedPartY(15 * Math.PI / 180));
   function commitAssetCollision() {
     const mode = container.querySelector("#author-asset-collision").value;
     if (mode === "none") return assetActionResult(actions.updateAssetCollision(editingAssetId, null), "Collision disabled");

@@ -5,6 +5,7 @@ import { WORLD_DATA } from "../src/world/data/world.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
 import { createAuthorActions } from "../src/author/authorActions.js";
+import { ASSET_EDIT_CAMERA_STEP, getAssetEditPartKeyPatch } from "../src/author/authorMode.js";
 import { readNormalizedTransform } from "../src/author/authorTypeRegistry.js";
 import { syncAuthorVisual } from "../src/author/authorPreview.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
@@ -120,6 +121,22 @@ describe("Phase 4B.0 — starter primitive kit", () => {
       WORLD_DATA.resourceDrops.map((drop) => drop.id),
       ["wood", "stone", "fiber", "berries", "iron_ore", "crystal_shard", "wildflower"],
     );
+  });
+});
+
+describe("Phase 4B.0 — Asset Workbench controls", () => {
+  it("maps the documented rotate and vertical shortcuts to local part edits", () => {
+    const part = makeAsset().parts[0];
+    assert.equal(getAssetEditPartKeyPatch(part, { key: "q", code: "KeyQ" }).rotation.y, -15 * Math.PI / 180);
+    assert.equal(getAssetEditPartKeyPatch(part, { key: "e", code: "KeyE" }).rotation.y, 15 * Math.PI / 180);
+    assert.deepEqual(getAssetEditPartKeyPatch(part, { key: " ", code: "Space" }), { position: { y: 0.7 } });
+    assert.deepEqual(getAssetEditPartKeyPatch(part, { key: "c", code: "KeyC" }), { position: { y: 0.3 } });
+    assert.deepEqual(getAssetEditPartKeyPatch(part, { key: " ", code: "Space", shiftKey: true }), { position: { y: 1.5 } });
+  });
+
+  it("keeps camera orbit independent from the part rotation step", () => {
+    assert.equal(ASSET_EDIT_CAMERA_STEP, Math.PI / 4);
+    assert.notEqual(ASSET_EDIT_CAMERA_STEP, 15 * Math.PI / 180);
   });
 });
 

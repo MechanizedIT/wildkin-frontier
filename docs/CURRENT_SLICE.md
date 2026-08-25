@@ -52,7 +52,8 @@ The owner explicitly extended this slice with the minimum content-authoring feat
 
 - Asset Edit is a focused workbench: the world, player, gameplay effects, markers, and other authored objects disappear until Asset Edit exits; lighting remains available for truthful material preview.
 - Selected parts support direct vertical keyboard nudging: `Space` raises, `C` lowers, and `Shift` changes the step from 0.2 to 1.0. Focused form controls retain keyboard ownership.
-- The Visual Assets panel is 380 px/viewport bounded, has no horizontal scrolling, uses compact vector fields, and provides search plus readable categories.
+- The Visual Assets panel is 420 px/viewport bounded, has no horizontal scrolling, uses compact vector fields, and provides search plus readable categories.
+- Asset Workbench camera controls orbit in deterministic 45° steps with `[`/`]`, reset with `0`, use bounded wheel zoom, and apply the owner-requested inverted vertical right-drag pan.
 - The canonical starter library includes 21 stylized low-poly primitive recipes: chest, wooden crate, berry bush, iron ore rock, crystal, furnace, bench, table, chair, wood floor, wood wall, wood doorway, iron mechanical gear, iron pickaxe, iron sword, redwood tree, fern, flower, grass patch, stone ruin arch, and stone ruin path.
 - A Visual Asset owns one bounded gameplay role: `prop` or `harvestable`. Harvestables select a canonical resource drop, hit count, respawn duration, and an existing wood/stone/fiber feedback profile.
 - `world.json.resourceDrops` is the canonical drop catalog. Author Mode can select an existing drop or add a custom ID/display name/color. Custom drops must flow through runtime pickups, run cargo, results, and persistent banking.
@@ -112,7 +113,8 @@ Phase 4B.0 is implemented without beginning Phase 4B expedition layout or pacing
 - Edit and Runtime Play share `VisualFactory` primitive construction. Runtime collision remains descriptor-derived native Rapier Box collision and is not inferred from rendered meshes.
 - The Camp Drop Pod is migrated to the canonical `asset_drop_pod` recipe and remains a single positioned world instance with a simple independent Box collider.
 - Asset Edit now uses a dedicated isolated stage and restores the previous scene/camera exactly on exit. The selected part can be raised/lowered with `Space`/`C`, while focused text/number inputs keep normal typing behavior.
-- The starter palette ships 21 categorized primitive assets and a search field. Its compact 380 px panel is viewport-bounded with horizontal overflow disabled.
+- The starter palette ships 21 categorized primitive assets and a search field. Its compact 420 px panel is viewport-bounded with horizontal overflow disabled.
+- The stabilization pass keeps late-toggled runtime roots hidden at the render boundary, avoids resource/creature region churn during Asset Edit, and defers shared world-preview reconciliation until workbench exit. Part/canvas selection focuses the renderer so `Q`/`E`, `Space`/`C`, movement, and camera shortcuts remain reliable after inspector use.
 - Canonical `resourceDrops` plus asset `gameplay` metadata let a shared asset recipe become a Prop or Harvestable. Harvestable instances are projected by `worldRegistry` into the existing resource lifecycle; `staticWorldBuilder` deliberately skips them so there is one visual/collider owner. Custom drops remain data-driven through pickups, HUD/results, run session, and persistent bank.
 - Production-path automated coverage and real `?author=1` browser verification pass. Automated browser evidence is not human perceptual acceptance.
 
