@@ -1,128 +1,156 @@
-# Wildkin Frontier — Phase 4B.0: Primitive Kitbash / Visual Asset Authoring
+# Wildkin Frontier — Phase 4B: First Expedition Experience & Pacing
 
-**Status:** IMPLEMENTED — AUTOMATED GATES PASS; HUMAN ACCEPTANCE PENDING
-**Active slice:** Phase 4B.0  
-**Canonical spec:** `docs/Specs/Phase_4B.0.md`
+**Status:** READY TO IMPLEMENT  
+**Active slice:** Phase 4B  
+**Canonical spec:** `docs/Specs/Phase_4B.md`
 
-**Previous slice:** Phase 4A.2.2 — **OWNER ACCEPTED 2026-08-25** after Codex stabilization and owner playtesting. Freeze generic Author Object infrastructure unless Phase 4B.0 exposes a true contract regression.
+**Previous slice:** Phase 4B.0 — **OWNER ACCEPTED FOR NOW 2026-08-25** after several owner test/iteration sessions. Freeze generic Author Mode / Visual Asset infrastructure unless real Phase 4B level-authoring exposes a true blocker.
 
 ## Goal
 
-Add a deliberately small reusable primitive Visual Asset workflow to the accepted Author Mode so the owner can build recognizable low-poly props quickly and reuse them across Camp/Area 1 without external modeling or duplicated geometry data.
-
-The existing architecture is the locked base:
+Turn the rough Camp + Area 1 skeleton into one intentional **5–10 minute first expedition** that proves the game’s core risk/reward thesis:
 
 ```text
-world object
-→ AuthorTypeRegistry / normalized Author transform
-→ VisualRef
-→ deterministic VisualFactory
-→ Author Edit + Runtime Play
-→ separate simple ColliderDescriptor
+acquire value
+→ see temptation ahead
+→ assess danger
+→ extract or push
+→ consequence
+→ Camp improvement
+→ meaningfully better next run
 ```
 
-Phase 4B.0 adds:
+The fresh player should move through:
 
 ```text
-VisualRef
-├ builtin
-└ asset → canonical primitive recipe in world.json.visualAssets
+Camp
+→ first Waypoint start
+→ safe/readable harvesting
+→ first complication
+→ Extraction Beacon: EXTRACT / KEEP GOING
+→ richer/more dangerous Pocket 2 + locked temptation
+→ deeper accumulated risk
+→ aspirational Threshold Rise Major Waypoint
+→ smart extraction or understandable death
+→ Camp result
+→ Matter Resonator improvement
+→ retry
 ```
+
+This is a **player-experience/content/pacing slice**, not another tooling phase.
 
 ## Hard scope
 
-- top-level canonical `visualAssets` recipes in `world.json`,
-- primitive recipe v1: Box, Cylinder, Cone, Sphere, Capsule, Icosahedron,
-- flat asset-part hierarchy only,
-- local part position/rotation/scale/color editing,
-- dynamic Visual Assets palette: New / Place / Edit,
-- bounded Asset Edit mode inside current Author Mode,
-- reusable world instances referencing one asset recipe,
-- ordinary instance position/elevation/rotation/uniform scale through existing Author Object contract,
-- zero/one simple native Box collider per asset + Fit To Visual Bounds,
-- shared-instance reconciliation and undo/redo,
-- deterministic export/generated-world/runtime support,
-- migrate current Camp Drop Pod as the required proof asset,
-- production-path tests + real browser verification,
-- preserve all accepted expedition/gameplay behavior and hackathon constraints.
+- reshape/clarify Camp using the accepted Author + Visual Asset tools,
+- intentionally author/tune the existing Area 1 pockets through Threshold Rise,
+- Pocket 1 = comfort / harvesting / low-pressure ecology,
+- one readable first danger before the first Beacon,
+- first Beacon arrives after the player has something worth banking,
+- Pocket 2 = visibly better value + more danger + memorable locked pond/island/chest-style temptation,
+- Pocket 3+ = stronger pressure and higher-value opportunity while retreat remains possible,
+- Threshold Rise = readable aspirational Major Waypoint, difficult but not hard-gated on a first run,
+- tune resource/value distribution shallow → deep,
+- tune Wildkin temperament/home/leash/danger shallow → deep,
+- use landmarks and current Map/edge guidance to make forward vs safety readable,
+- add exactly one persistent Matter Resonator purchase: **Matter Attractor I**,
+- tune extraction/result/Camp feedback so successful return naturally leads to upgrade/retry,
+- fresh-save, extraction, death, repeat-run, desktop and portrait-mobile human acceptance.
 
-## Owner-directed usability/content amendment — 2026-08-25
+## Pacing targets
 
-The owner explicitly extended this slice with the minimum content-authoring features needed to use the tool productively:
+These are targets for real play feel, not timers:
 
-- Asset Edit is a focused workbench: the world, player, gameplay effects, markers, and other authored objects disappear until Asset Edit exits; lighting remains available for truthful material preview.
-- Selected parts support direct vertical keyboard nudging: `Space` raises, `C` lowers, and `Shift` changes the step from 0.2 to 1.0. Focused form controls retain keyboard ownership.
-- The Visual Assets panel is 420 px/viewport bounded, has no horizontal scrolling, uses compact vector fields, and provides search plus readable categories.
-- Asset Workbench camera controls orbit in deterministic 45° steps with `[`/`]`, reset with `0`, dolly on the view ray at a fixed pitch, and right-drag in the camera plane with the owner-requested inverted vertical pointer direction.
-- The canonical starter library includes 21 stylized low-poly primitive recipes: chest, wooden crate, berry bush, iron ore rock, crystal, furnace, bench, table, chair, wood floor, wood wall, wood doorway, iron mechanical gear, iron pickaxe, iron sword, redwood tree, fern, flower, grass patch, stone ruin arch, and stone ruin path.
-- A Visual Asset owns one bounded gameplay role: `prop`, `harvestable`, or `wildkin`. Harvestables select a canonical resource drop, ordered bottom-first hit feedback, respawn duration, depleted-remnant asset, and an existing wood/stone/fiber impact profile. Wildkin select an existing rusher/spitter behavior plus temperament, species/hostility, health/damage/speed/respawn, and roam/notice/personal-space/leash radii.
-- `world.json.resourceDrops` is the canonical drop catalog. Author Mode can select an existing drop or add a custom ID/display name/color, then assign any Visual Asset as its pickup model. Custom drops must flow through runtime pickups, run cargo, results, and persistent banking.
-- Major Waypoints and Extraction Beacons can select a Visual Asset as their world model and author its uniform scale while preserving their existing anchor behavior.
-- Selecting an object in the scene expands its Region/category hierarchy and highlights the row. Older saved Author drafts non-destructively receive missing repository starter assets/drops; user-authored entries with matching IDs remain authoritative.
+- Camp: ~0:00–0:30
+- Pocket 1 comfort: ~first 1–2 min
+- first complication before Beacon 1
+- Beacon 1 risk decision: ~1.5–3 min
+- Pocket 2 temptation: ~2.5–5 min
+- Pocket 3 pressure: ~4–7 min
+- Threshold Rise aspiration: ~6–10+ min
 
-This does not authorize a general component system, scripting, crafting behavior, container behavior, equipment stats, imported meshes, nested assets, or Phase 4B world/pacing content.
+A normal first-time player should be unlikely—but not mechanically forbidden—to reach Threshold Rise on the first run. A skilled/lucky player may succeed.
+
+## Matter Resonator — one progression choice only
+
+**Matter Attractor I**
+
+Player-facing effect:
+
+> Pickups begin pulling toward the player from farther away and travel somewhat faster.
+
+Requirements:
+- Camp-only contextual purchase,
+- uses persistent banked materials,
+- tune cost against the final authored run yield rather than arbitrary grind,
+- one solid Pocket 2 extraction should usually make the player able or close to able to buy it,
+- deduct once, persist across reload/death/new runs, cannot repurchase,
+- next-run pickup attraction difference is clearly noticeable,
+- preserve existing pickup collision/rest/magnet guarantees,
+- no skill tree or progression framework.
 
 ## Explicit non-goals
 
 Do not add:
 
-- GLB/glTF/OBJ/FBX import,
-- texture/UV tools,
-- CSG/boolean modeling,
-- vertex/face editing,
-- nested part groups,
-- bones/animation editor,
-- material/shader editor,
-- prefab inheritance or “make unique”,
-- multi-select/generic gizmos,
-- terrain/region tooling,
-- Phase 4B expedition layout/pacing changes,
-- Wildkin bonding,
-- Resonator progression.
+- more generic editor/Visual Asset infrastructure unless a true blocker is proven,
+- GLB/import tooling,
+- Wildkin bonding/capture,
+- companions/mounts,
+- secured Wildkin Camp population,
+- full Matter Resonator minigame,
+- skill tree or multiple upgrades,
+- crafting/equipment/loadout,
+- ranged player weapon,
+- carry-capacity pressure,
+- Camp expansion/free placement,
+- second frontier area/final endpoint,
+- procedural world generation,
+- broad engine/navigation refactor,
+- broad final-submission polish.
 
-## Required proof
+## Implementation order
 
-```text
-New Asset
-→ add/edit several primitives
-→ place two independent instances
-→ edit shared recipe
-→ both instances update
-→ Play matches Edit
-→ collision remains simple/independent
-→ export/reload reproduces result
+1. **Baseline:** fresh-save run current Area 1, record time/value/danger at anchors; do not improve tools.
+2. **World/pacing:** Camp → Pocket 1 → complication → Beacon 1 → Pocket 2 locked temptation → Pocket 3 → Threshold.
+3. **Value/ecology:** resource clusters, distinct deeper reward, Wildkin temperament/home/leash, retreat lanes, Beacon timing.
+4. **Matter Attractor I:** implement/tune the one persistent Camp upgrade against actual run yield.
+5. **Fresh-save playtest loop:** repeat full runs and fix only the highest-value pacing/readability failures.
+
+Prefer authored data/layout/Visual Asset changes over new systems.
+
+## Human acceptance anchors
+
+Human must verify:
+
+1. Fresh first 2 minutes are readable, rewarding and not immediately chaotic.
+2. Beacon 1 presents a real `EXTRACT / KEEP GOING` choice because the player has value to lose and temptation ahead.
+3. Pocket 2 clearly feels richer/more dangerous and its locked revisit POI is memorable, not confusing/broken.
+4. Deeper pressure increases while retreat remains viable and Threshold Rise reads as an important goal.
+5. Meaningful extraction clearly banks progress and returns control at Camp quickly.
+6. Matter Attractor I is understandable, affordable on the intended curve, persistent, and noticeably improves the next run.
+7. Death clearly loses unsecured value while preserving permanent frontier/upgrades.
+8. Full Camp → expedition → Beacon → deeper push → extract/death → Camp → retry loop works on desktop and portrait mobile.
+
+Automated tests do not prove pacing.
+
+## Gates
+
+Run:
+
+```bash
+npm test
+npm run world:generate
+npm run world:check
+npm run verify
+npm run zip
 ```
 
-The existing Camp Drop Pod must become a shared primitive Visual Asset instance and retain recognizable Camp placement/collision.
+Preserve one looping first-party rAF, Rapier authoritative physics, offline/local runtime, readable source, portrait gameplay, and submission comfortably under 35 MB.
 
 ## Stop condition
 
-When the Phase 4B.0 human acceptance tests pass, **freeze editor/asset infrastructure** and proceed directly to:
+Phase 4B is complete only when a human fresh-save playtest demonstrates:
 
-**Phase 4B — First Expedition Experience & Pacing**
+> **acquire value → see temptation → assess danger → extract or push → consequence → Camp improvement → meaningfully better next run**
 
-Use the accepted tools to build/tune the actual first 5–10 minute expedition rather than continuing to expand the modeling system.
-
-Read and implement the complete requirements in `docs/Specs/Phase_4B.0.md`.
-
-## Implementation checkpoint — 2026-08-25
-
-Phase 4B.0 is implemented without beginning Phase 4B expedition layout or pacing work.
-
-- `world.json.visualAssets` is the canonical flat primitive-recipe store. Version 1 supports Box, Cylinder, Cone, Sphere, Capsule, and Icosahedron parts with local position/rotation/scale/color plus zero or one independent simple Box collider.
-- Author Mode now exposes a dynamic Visual Assets palette and bounded Asset Edit context. New/rename/delete asset, add/edit/duplicate/delete part, selected-part canvas drag, Fit To Visual Bounds, place, ordinary instance transforms, undo/redo, export, and reload all use the transactional draft path.
-- World instances store `subtype: "visualAsset"`, `visualAssetId`, and their own position/rotation/uniform scale. Recipe edits reconcile every matching preview while instance transforms remain independent.
-- Edit and Runtime Play share `VisualFactory` primitive construction. Runtime collision remains descriptor-derived native Rapier Box collision and is not inferred from rendered meshes.
-- The Camp Drop Pod is migrated to the canonical `asset_drop_pod` recipe and remains a single positioned world instance with a simple independent Box collider.
-- Asset Edit now uses a dedicated isolated stage and restores the previous scene/camera exactly on exit. The selected part can be raised/lowered with `Space`/`C`, while focused text/number inputs keep normal typing behavior.
-- The starter palette ships 21 categorized primitive assets and a search field. Its compact 420 px panel is viewport-bounded with horizontal overflow disabled.
-- The stabilization pass keeps late-toggled runtime roots hidden at the render boundary, avoids resource/creature region churn during Asset Edit, and defers shared world-preview reconciliation until workbench exit. Part/canvas selection focuses the renderer so `Q`/`E`, `Space`/`C`, movement, and camera shortcuts remain reliable after inspector use.
-- Canonical `resourceDrops` plus asset `gameplay` metadata let a shared asset recipe become a Prop, Harvestable, or Wildkin. `worldRegistry` projects behavioral instances into the existing resource/creature lifecycles; `staticWorldBuilder` deliberately skips them so there is one visual/collider owner. Ordered harvest parts restore their exact authored transforms on respawn; custom depleted remnants and pickup models share `VisualFactory`. Custom drops remain data-driven through pickups, HUD/results, run session, and persistent bank.
-- Major Waypoint/Extraction Beacon model references, custom-drop model references, depleted-remnant references, and gameplay-role references all validate through the same canonical Visual Asset table and export/reload path.
-- Production-path automated coverage and real `?author=1` browser verification pass. Automated browser evidence is not human perceptual acceptance.
-
-### Human acceptance still required
-
-Perform the player-facing tests in `docs/Specs/Phase_4B.0.md`: build a recognizable multi-part asset, place two instances, independently transform them, edit the shared recipe and see both update, verify Play matches Edit, check simple collision behavior, and export/reload. Also verify the isolated workbench, `Space`/`C` vertical nudging, starter-kit readability, and one custom harvestable/drop through extraction and banking. Confirm the migrated Camp Drop Pod remains recognizable and behaves correctly on desktop and a portrait phone viewport.
-
-Do not start Phase 4B until Chris accepts this slice. On acceptance, freeze Visual Asset/editor infrastructure and use it for the first expedition experience and pacing slice.
+After acceptance, freeze first-expedition pacing except later regression/balance fixes. The next major gameplay planning step is **Wildkin bonding / securing / companion value** on top of the proven expedition loop.
