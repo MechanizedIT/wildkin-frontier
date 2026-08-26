@@ -72,13 +72,15 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, host, () => {
-  const nets = os.networkInterfaces();
-  const addrs = [];
-  for (const ifaces of Object.values(nets)) {
-    for (const iface of ifaces || []) {
-      if (iface.family === "IPv4" && !iface.internal) addrs.push(iface.address);
+  let addrs = [];
+  try {
+    const nets = os.networkInterfaces();
+    for (const ifaces of Object.values(nets)) {
+      for (const iface of ifaces || []) {
+        if (iface.family === "IPv4" && !iface.internal) addrs.push(iface.address);
+      }
     }
-  }
+  } catch {}
   console.log(`[serve] serving ${root}`);
   console.log(`[serve] local:   http://localhost:${port}/`);
   for (const a of addrs) {

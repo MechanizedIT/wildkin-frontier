@@ -35,3 +35,7 @@
 ## Git Workflow — Owner Locked
 
 26. Work directly on `main`. Do not create or use task or feature branches for this project, locally or remotely, unless Chris explicitly reverses this rule. Commit cohesive work directly to `main`.
+
+## Communication — Default Style
+
+27. Default to plain, human language. Lead with the big idea, what changed for the player/builder, and why it matters. Keep file paths, technical jargon, and implementation details out of the default response; include them only when the user explicitly asks for "tech detail," "dev detail," or "show files."

@@ -28,9 +28,19 @@ function visualOptions(found, normalized) {
 
 export function disposeObject3D(root) {
   root.traverse((object) => {
-    object.geometry?.dispose?.();
-    if (Array.isArray(object.material)) object.material.forEach((material) => material.dispose?.());
-    else object.material?.dispose?.();
+    const geo = object.geometry;
+    const isShared = geo?.userData?.isSharedAssetGeometry;
+    if (geo && !isShared) geo.dispose?.();
+    // Cached materials are also shared — do not dispose them; transient materials are disposed
+    const mat = object.material;
+    if (!mat) return;
+    const isSharedMat = mat.userData?.isSharedAssetMaterial;
+    if (Array.isArray(mat)) {
+      for (const m of mat) if (!m.userData?.isSharedAssetMaterial) m.dispose?.();
+    } else if (!isSharedMat) {
+      // Heuristic: asset cached materials have roughness 0.82/metalness 0.05 exactly and flatShading; but we set flag now in visualFactory
+      mat.dispose?.();
+    }
   });
 }
 

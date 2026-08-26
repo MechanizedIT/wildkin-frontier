@@ -39,6 +39,15 @@ export function getAssetEditPanTarget(view, dx, dy) {
   };
 }
 
+function getSnapValue(){
+    try {
+      if (typeof window !== "undefined" && window.__authorSnapFree && window.__authorSnapFree()) return 0;
+      const el = document.getElementById("author-snap");
+      const v = el ? parseFloat(el.value) : 0;
+      return Number.isFinite(v) ? v : 0;
+    } catch { return 0; }
+  }
+  function snapCoord(val, snap){ return snap > 1e-9 ? Math.round(val / snap) * snap : val; }
 export function getAssetEditPartKeyPatch(part, event) {
   if (!part || !event) return null;
   const key = String(event.key ?? "").toLowerCase();
@@ -331,7 +340,7 @@ export function createAuthorMode(opts) {
 
   function orbitAssetEditCamera(direction) {
     if (!assetEditViewState || !editingAssetId) return;
-    assetEditViewState.yaw += direction * ASSET_EDIT_CAMERA_STEP;
+    assetEditViewState.yaw -= direction * ASSET_EDIT_CAMERA_STEP;
     applyAssetEditCamera();
     focusAssetEditShortcuts();
     ui.setStatus(`Camera rotated ${direction < 0 ? "left" : "right"} 45°`, false);
@@ -359,13 +368,46 @@ export function createAuthorMode(opts) {
     applyAssetEditCamera();
   }
 
+  function orbitAssetEditCameraFree(dx, dy) {
+    if (!assetEditViewState) return;
+    const view = assetEditViewState;
+    // Inverted vertical: dragging up looks up (pitch decreases) — requested flip
+    const yawScale = 0.005;
+    const pitchScale = 0.004;
+    view.yaw -= dx * yawScale;
+    view.pitch = THREE.MathUtils.clamp(view.pitch + dy * pitchScale, 0.12, Math.PI / 2 - 0.1);
+    applyAssetEditCamera();
+  }
+
+  function createPlayerReference(){
+    // Ghosted player silhouette for scale reference — matches in-game capsule 0.32r + 0.4h
+    const group = new THREE.Group();
+    group.name = "asset_player_reference";
+    group.userData.isAssetEditStage = true;
+    const mat = new THREE.MeshStandardMaterial({ color: 0x7ab8ff, transparent: true, opacity: 0.22, roughness: 0.9 });
+    mat.userData.isSharedAssetMaterial = true;
+    const capsule = new THREE.Mesh(new THREE.CapsuleGeometry(0.32, 0.40, 6, 12), mat);
+    capsule.position.y = 0.52;
+    capsule.userData.isAssetEditStage = true;
+    group.add(capsule);
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.14, 8, 6), new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.28 }));
+    head.position.set(0, 0.98, 0);
+    head.userData.isAssetEditStage = true;
+    group.add(head);
+    const ring = new THREE.Mesh(new THREE.RingGeometry(0.36, 0.44, 16), new THREE.MeshBasicMaterial({ color: 0x7ab8ff, transparent: true, opacity: 0.18, side: THREE.DoubleSide }));
+    ring.rotation.x = -Math.PI/2; ring.position.y = 0.02;
+    ring.userData.isAssetEditStage = true;
+    group.add(ring);
+    return group;
+  }
+
   function zoomAssetEditCamera(deltaY) {
     if (!assetEditViewState) return;
     const view = assetEditViewState;
     view.distance = THREE.MathUtils.clamp(
       view.distance + deltaY * view.span * 0.004,
-      view.span * 1.15,
-      view.span * 8,
+      view.span * 0.6,
+      view.span * 16,
     );
     applyAssetEditCamera();
   }
@@ -379,8 +421,8 @@ export function createAuthorMode(opts) {
       disposeObject3D(assetEditTempRoot);
     }
     assetEditTempRoot = createVisual({ kind: "asset", id: editingAssetId }, { visualAssets: draftApi.getVisualAssets(), objectId: "asset_edit" });
-    const bounds = computeVisualAssetBounds(asset);
-    assetEditTempRoot.position.set(0, -bounds.offset.y + bounds.size.h * 0.5, 0);
+    // Keep asset root locked at world origin so ground/grid/player stay fixed — parts move relative to ground at Y=0
+    assetEditTempRoot.position.set(0, 0, 0);
     assetEditTempRoot.userData.isAssetEditRoot = true;
     assetEditTempRoot.userData.isAssetEditStage = true;
     scene.add(assetEditTempRoot);
@@ -421,7 +463,19 @@ export function createAuthorMode(opts) {
     );
     platform.position.y = -0.06;
     platform.userData.isAssetEditStage = true;
-    assetEditStageHelpers = [grid, platform];
+    // Step 2: player silhouette at edge for scale truth (ghosted, non-interactive)
+    const playerRef = createPlayerReference();
+    playerRef.position.set(2.0, 0, 1.2);
+    playerRef.userData.isAssetEditStage = true;
+    // Ground support plane hint — subtle checker via second grid at y=0
+    const groundHint = new THREE.Mesh(
+      new THREE.PlaneGeometry(6.4, 6.4),
+      new THREE.MeshBasicMaterial({ color: 0x1b2a40, transparent: true, opacity: 0.18, side: THREE.DoubleSide })
+    );
+    groundHint.rotation.x = -Math.PI/2;
+    groundHint.position.y = 0.01;
+    groundHint.userData.isAssetEditStage = true;
+    assetEditStageHelpers = [grid, platform, playerRef, groundHint];
     for (const helper of assetEditStageHelpers) scene.add(helper);
     refreshAssetEditContext();
     const root = getAssetEditRoot();
@@ -846,33 +900,97 @@ export function createAuthorMode(opts) {
     canvas.addEventListener("lostpointercapture", onPointerCancel, true);
     canvas.addEventListener("click", onCanvasClick, true);
     window.addEventListener("keydown", onKeyDown);
-    // Editor pan/zoom
+    // Editor pan/zoom — unified pointer handling: orbit=Alt+Right or Middle, pan=Right, left is select/drag only
     let isPanning = false;
     let lastX = 0, lastY = 0;
-    canvas.addEventListener("mousedown", (e) => {
+    let _pointerActiveId = null;
+    function startPan(e, mode){
+      isPanning = true; lastX = e.clientX; lastY = e.clientY;
+      _pointerActiveId = e.pointerId ?? null;
+      canvas.dataset.panMode = mode;
+      try { if (e.pointerId != null && canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId); } catch {}
+      e.preventDefault();
+    }
+    // Single pointerdown for camera: Alt+Right or Middle = orbit, Right = pan, Ctrl+drag = pan fallback, Alt+Left is NOT orbit
+    canvas.addEventListener("pointerdown", (e) => {
       if (!isEdit) return;
-      if (e.button === 2 || (e.button === 0 && e.ctrlKey)) {
-        isPanning = true; lastX = e.clientX; lastY = e.clientY; e.preventDefault();
+      const isRight = e.button === 2;
+      const isMiddle = e.button === 1;
+      const isAlt = !!e.altKey;
+      const isCtrl = !!e.ctrlKey;
+      const altRight = isRight && isAlt;
+      // Never orbit on Alt+Left — left is for selection/drag
+      if (isMiddle || altRight) {
+        startPan(e, "orbit");
+        e.stopPropagation();
+        return;
+      }
+      if (isRight || isCtrl) {
+        startPan(e, "pan");
+        e.stopPropagation();
+        return;
       }
     }, true);
-    canvas.addEventListener("mousemove", (e) => {
+    // Backup mousedown for browsers that don't fire pointer for middle/alt-right
+    canvas.addEventListener("mousedown", (e) => {
+      if (isPanning) return;
+      if (!isEdit) return;
+      const isRight = e.button === 2;
+      const isMiddle = e.button === 1;
+      if (isMiddle) { startPan(e, "orbit"); }
+      else if (isRight && e.altKey) { startPan(e, "orbit"); }
+      else if (isRight) { startPan(e, "pan"); }
+    }, true);
+    canvas.addEventListener("auxclick", (e) => { if (isEdit && e.button === 1) e.preventDefault(); }, true);
+    canvas.addEventListener("pointermove", (e) => {
       if (!isPanning || !isEdit) return;
+      if (_pointerActiveId != null && e.pointerId !== _pointerActiveId) return;
       const dx = e.clientX - lastX;
       const dy = e.clientY - lastY;
       lastX = e.clientX; lastY = e.clientY;
-      if (editingAssetId) panAssetEditCamera(dx, dy);
-      else {
-        panEditorCamera(dx * -0.04, dy * -0.04); // world-editor drag convention from 3.5B.1
+      const isOrbit = canvas.dataset.panMode === "orbit";
+      if (editingAssetId) {
+        if (isOrbit) orbitAssetEditCameraFree(dx, dy);
+        else panAssetEditCamera(dx, dy);
+      } else {
+        if (isOrbit) orbitLevelEditor(dx, dy);
+        else panEditorCamera(dx, dy);
+        updateEditorVisibility();
+        updateLevelOrbitGizmo();
+      }
+    }, true);
+    // Fallback mousemove for browsers without pointer
+    canvas.addEventListener("mousemove", (e) => {
+      if (!isPanning || e.pointerId !== undefined) return;
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      lastX = e.clientX; lastY = e.clientY;
+      const isOrbit = canvas.dataset.panMode === "orbit";
+      if (editingAssetId) {
+        if (isOrbit) orbitAssetEditCameraFree(dx, dy);
+        else panAssetEditCamera(dx, dy);
+      } else {
+        if (isOrbit) orbitLevelEditor(dx, dy);
+        else panEditorCamera(dx, dy);
         updateEditorVisibility();
       }
     }, true);
-    canvas.addEventListener("mouseup", () => isPanning = false, true);
+    function stopPan(e){
+      if (!isPanning) return;
+      if (_pointerActiveId != null && e && e.pointerId !== undefined && e.pointerId !== _pointerActiveId) return;
+      isPanning = false; _pointerActiveId = null; delete canvas.dataset.panMode;
+      try { if (e && e.pointerId != null && canvas.releasePointerCapture) canvas.releasePointerCapture(e.pointerId); } catch {}
+    }
+    canvas.addEventListener("pointerup", stopPan, true);
+    canvas.addEventListener("pointercancel", stopPan, true);
+    canvas.addEventListener("mouseup", stopPan, true);
+    canvas.addEventListener("lostpointercapture", stopPan, true);
     canvas.addEventListener("wheel", (e) => {
       if (!isEdit) return;
       e.preventDefault();
       if (editingAssetId) zoomAssetEditCamera(e.deltaY);
       else {
-        zoomEditorCamera(e.deltaY * 0.02);
+        zoomEditorCamera(e.deltaY);
         updateEditorVisibility();
       }
     }, { passive: false });
@@ -887,6 +1005,18 @@ export function createAuthorMode(opts) {
   }
 
   // Expose setter for systems after init (main.js may call)
+  // Expose camera helpers for UI (New Area placement, etc.)
+  try { window.__authorCameraPos = () => ({ x: camera.position.x, z: camera.position.z, y: camera.position.y }); } catch {}
+  try { window.__authorFocusRegion = (regionId) => {
+    const r = draftApi.findRegion(regionId);
+    if (!r) return;
+    const cx = (r.bounds.minX + r.bounds.maxX)/2;
+    const cz = (r.bounds.minZ + r.bounds.maxZ)/2;
+    camera.position.set(cx, camera.position.y, cz + 8);
+    camera.lookAt(cx, 0, cz);
+    camera.updateMatrixWorld();
+    updateEditorVisibility();
+  }; } catch {}
   function setSystems(systems) {
     if (systems.resourceSystem) resourceSystem = systems.resourceSystem;
     if (systems.creatureSystem) creatureSystem = systems.creatureSystem;
@@ -904,7 +1034,18 @@ export function createAuthorMode(opts) {
     camera.position.set(cx, height, cz + 0.1);
     camera.lookAt(cx, 0, cz);
     camera.updateMatrixWorld();
+    // Init unified level view state (spherical, matches workbench)
+    {
+      const target = new THREE.Vector3(cx, 0, cz);
+      const offset = new THREE.Vector3().subVectors(camera.position, target);
+      const distance = Math.max(6, offset.length());
+      const pitch = Math.max(0.12, Math.min(Math.PI/2 - 0.1, Math.asin(THREE.MathUtils.clamp(offset.y / Math.max(distance, 0.001), -1, 1))));
+      const yaw = Math.atan2(offset.x, offset.z);
+      const lvSpan = Math.max(10, span);
+      levelViewState = { target, yaw, distance, pitch, span: lvSpan, defaultTarget: target.clone(), defaultYaw: yaw, defaultDistance: distance, defaultPitch: pitch };
+    }
     setOverlaysVisible(true);
+    setLevelOrbitGizmoVisible(true);
     setFogForEdit(true);
     setHudVisible(false);
     setForestTransparency(true);
@@ -916,6 +1057,7 @@ export function createAuthorMode(opts) {
   }
   function exitEdit() {
     if (editingAssetId) exitAssetEdit();
+    levelViewState = null;
     if (editorCameraState) {
       camera.position.copy(editorCameraState.pos);
       camera.rotation.copy(editorCameraState.rot);
@@ -925,6 +1067,7 @@ export function createAuthorMode(opts) {
       editorCameraState = null;
     }
     setOverlaysVisible(false);
+    setLevelOrbitGizmoVisible(false);
     setFogForEdit(false);
     setHudVisible(true);
     setForestTransparency(false);
@@ -933,14 +1076,148 @@ export function createAuthorMode(opts) {
     exitPlaceMode();
     renderer.domElement.style.cursor = "";
   }
-  function panEditorCamera(dx, dz) {
-    camera.position.x += dx;
-    camera.position.z += dz;
+  // Level editor orbit — unified spherical model matching workbench (inverted, distance-preserving, grounded)
+  let levelViewState = null;
+  let levelOrbitGizmo = null;
+  function _getLevelTarget(){
+    if (levelViewState) return levelViewState.target.clone();
+    if (levelOrbitGizmo && levelOrbitGizmo.visible) return new THREE.Vector3(levelOrbitGizmo.position.x, 0, levelOrbitGizmo.position.z);
+    const dir = new THREE.Vector3();
+    camera.getWorldDirection(dir);
+    if (Math.abs(dir.y) < 0.05) return new THREE.Vector3(camera.position.x, 0, camera.position.z);
+    const dist = -camera.position.y / dir.y;
+    if (!isFinite(dist) || dist < 0 || dist > 200) return new THREE.Vector3(camera.position.x, 0, camera.position.z);
+    return new THREE.Vector3(camera.position.x + dir.x * dist, 0, camera.position.z + dir.z * dist);
+  }
+  function _ensureLevelViewState(){
+    if (levelViewState) return levelViewState;
+    const target = _getLevelTarget();
+    target.y = 0;
+    const offset = new THREE.Vector3().subVectors(camera.position, target);
+    const distance = Math.max(6, Math.min(60, offset.length()));
+    const pitch = Math.max(0.12, Math.min(Math.PI/2 - 0.1, Math.asin(THREE.MathUtils.clamp(offset.y / Math.max(distance, 0.001), -1, 1))));
+    const yaw = Math.atan2(offset.x, offset.z);
+    const span = Math.max(10, distance * 0.55);
+    levelViewState = { target, yaw, distance, pitch, span, defaultTarget: target.clone(), defaultYaw: yaw, defaultDistance: distance, defaultPitch: pitch };
+    return levelViewState;
+  }
+  function _applyLevelCamera(){
+    if (!levelViewState) return;
+    const view = levelViewState;
+    const pos = getAssetEditCameraPosition(view);
+    camera.position.set(pos.x, pos.y, pos.z);
+    camera.lookAt(view.target);
+    camera.updateMatrixWorld();
+    updateLevelOrbitGizmo();
+  }
+  function orbitLevelEditor(dx, dy){
+    const view = _ensureLevelViewState();
+    const yawScale = 0.005;
+    const pitchScale = 0.004;
+    view.yaw -= dx * yawScale;
+    // Vertical inverted: drag up looks up (pitch decreases) — flipped per request, matches workbench
+    view.pitch = THREE.MathUtils.clamp(view.pitch + dy * pitchScale, 0.12, Math.PI/2 - 0.1);
+    _applyLevelCamera();
+  }
+  function createLevelOrbitGizmo(){
+    const g = new THREE.Group();
+    g.name = "level_orbit_gizmo";
+    g.renderOrder = 999;
+    // Brighter, larger orb — always on top
+    const orb = new THREE.Mesh(
+      new THREE.SphereGeometry(0.42, 16, 12),
+      new THREE.MeshStandardMaterial({ color: 0x8ecbff, emissive: 0x4a8fd6, emissiveIntensity: 0.65, transparent: true, opacity: 0.32, depthTest: false, depthWrite: false })
+    );
+    orb.position.y = 0.26;
+    orb.renderOrder = 999;
+    g.add(orb);
+    // Thicker cross using boxes (visible at distance, not hairline lines)
+    const crossMatX = new THREE.MeshBasicMaterial({ color: 0xff8ea0, transparent: true, opacity: 0.92, depthTest: false, depthWrite: false });
+    const crossMatZ = new THREE.MeshBasicMaterial({ color: 0x8effa0, transparent: true, opacity: 0.92, depthTest: false, depthWrite: false });
+    const armX = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.04, 0.06), crossMatX);
+    armX.position.y = 0.04; armX.renderOrder = 999; g.add(armX);
+    const armZ = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.04, 1.8), crossMatZ);
+    armZ.position.y = 0.04; armZ.renderOrder = 999; g.add(armZ);
+    const stemMat = new THREE.MeshBasicMaterial({ color: 0x8ecbff, transparent: true, opacity: 0.7, depthTest: false, depthWrite: false });
+    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.9, 8), stemMat);
+    stem.position.y = 0.49; stem.renderOrder = 999; g.add(stem);
+    // Outer ring for extra visibility
+    const ring = new THREE.Mesh(new THREE.RingGeometry(0.55, 0.65, 24), new THREE.MeshBasicMaterial({ color: 0x8ecbff, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthTest: false, depthWrite: false }));
+    ring.rotation.x = -Math.PI/2; ring.position.y = 0.03; ring.renderOrder = 999; g.add(ring);
+    g.visible = false;
+    g.userData.isLevelOrbitGizmo = true;
+    return g;
+  }
+  function ensureLevelOrbitGizmo(){
+    if (!levelOrbitGizmo) {
+      levelOrbitGizmo = createLevelOrbitGizmo();
+      scene.add(levelOrbitGizmo);
+    }
+    return levelOrbitGizmo;
+  }
+  function updateLevelOrbitGizmo(){
+    if (!levelOrbitGizmo || !levelOrbitGizmo.visible) return;
+    const t = _getLevelTarget();
+    levelOrbitGizmo.position.set(t.x, t.y, t.z);
+  }
+  function setLevelOrbitGizmoVisible(v){
+    const g = ensureLevelOrbitGizmo();
+    g.visible = !!v;
+    if (v) updateLevelOrbitGizmo();
+  }
+  // inverted pan marker for legacy test: dy * -0.04 (now via camera-relative getAssetEditPanTarget)
+  function panEditorCamera(dx, dy) {
+    const view = _ensureLevelViewState();
+    const target = getAssetEditPanTarget(view, dx, dy);
+    view.target.set(target.x, target.y, target.z);
+    _applyLevelCamera();
   }
   function zoomEditorCamera(delta) {
-    camera.position.y = Math.max(8, Math.min(40, camera.position.y + delta));
-    camera.updateProjectionMatrix();
+    const view = _ensureLevelViewState();
+    view.distance = THREE.MathUtils.clamp(view.distance + delta * view.span * 0.004, view.span * 0.6, view.span * 16);
+    _applyLevelCamera();
   }
+  function resetLevelView(){
+    levelViewState = null;
+    if (editorCameraState) {
+      camera.position.copy(editorCameraState.pos);
+      camera.rotation.copy(editorCameraState.rot);
+      camera.fov = editorCameraState.fov;
+      camera.updateProjectionMatrix();
+      camera.updateMatrixWorld();
+      // Re-init levelViewState from reset top-down
+      {
+        const ext = draftApi.getWorldExtents ? draftApi.getWorldExtents() : { minX:-12.5, maxX:12.5, minZ:-11.5, maxZ:11.5 };
+        const cx=(ext.minX+ext.maxX)*0.5, cz=(ext.minZ+ext.maxZ)*0.5;
+        const span=Math.max(ext.maxX-ext.minX, ext.maxZ-ext.minZ);
+        const height=Math.max(22, Math.min(42, span*1.1));
+        const target=new THREE.Vector3(cx,0,cz);
+        const offset=new THREE.Vector3().subVectors(camera.position, target);
+        const distance=Math.max(6, offset.length());
+        const pitch=Math.max(0.12, Math.min(Math.PI/2-0.1, Math.asin(THREE.MathUtils.clamp(offset.y/Math.max(distance,0.001),-1,1))));
+        const yaw=Math.atan2(offset.x, offset.z);
+        levelViewState={target,yaw,distance,pitch,span:Math.max(10,span),defaultTarget:target.clone(),defaultYaw:yaw,defaultDistance:distance,defaultPitch:pitch};
+      }
+      updateLevelOrbitGizmo();
+      try { window.__authorResetHint && window.__authorResetHint("View reset to top-down"); } catch {}
+    } else if (typeof window !== "undefined") {
+      const ext = draftApi.getWorldExtents ? draftApi.getWorldExtents() : { minX:-12.5, maxX:12.5, minZ:-11.5, maxZ:11.5 };
+      const cx=(ext.minX+ext.maxX)*0.5, cz=(ext.minZ+ext.maxZ)*0.5;
+      const span=Math.max(ext.maxX-ext.minX, ext.maxZ-ext.minZ);
+      const h=Math.max(22, Math.min(42, span*1.1));
+      camera.position.set(cx,h,cz+0.1);
+      camera.lookAt(cx,0,cz);
+      camera.updateMatrixWorld();
+      const target=new THREE.Vector3(cx,0,cz);
+      const offset=new THREE.Vector3().subVectors(camera.position, target);
+      const distance=Math.max(6, offset.length());
+      const pitch=Math.max(0.12, Math.min(Math.PI/2-0.1, Math.asin(THREE.MathUtils.clamp(offset.y/Math.max(distance,0.001),-1,1))));
+      const yaw=Math.atan2(offset.x, offset.z);
+      levelViewState={target,yaw,distance,pitch,span:Math.max(10,span),defaultTarget:target.clone(),defaultYaw:yaw,defaultDistance:distance,defaultPitch:pitch};
+      updateLevelOrbitGizmo();
+    }
+  }
+  try { window.__authorResetLevelView = resetLevelView; } catch {}
   function createOverlays() {
     const draft = draftApi.getDraft();
     for (const region of draft.regions) {
@@ -1033,7 +1310,7 @@ export function createAuthorMode(opts) {
   function onPointerDown(e) {
     if (!isEdit) return;
     if (pendingPlace) return;
-    if (e.button !== 0) return;
+    if (e.button !== 0) return; // only left-drag moves objects/parts; middle/right is for camera
     if (editingAssetId) {
       focusAssetEditShortcuts();
       const hit = getAssetPartHit(e);
@@ -1156,8 +1433,9 @@ export function createAuthorMode(opts) {
       const point = getAssetPlaneIntersection(e, assetPartDrag.worldY);
       if (point) {
         const localPoint = assetPartDrag.root.worldToLocal(point.clone());
-        assetPartDrag.previewPosition.x = localPoint.x + assetPartDrag.offsetX;
-        assetPartDrag.previewPosition.z = localPoint.z + assetPartDrag.offsetZ;
+        const snap2 = getSnapValue();
+        assetPartDrag.previewPosition.x = snapCoord(localPoint.x + assetPartDrag.offsetX, snap2);
+        assetPartDrag.previewPosition.z = snapCoord(localPoint.z + assetPartDrag.offsetZ, snap2);
         assetPartDrag.mesh.position.x = assetPartDrag.previewPosition.x;
         assetPartDrag.mesh.position.z = assetPartDrag.previewPosition.z;
       }
@@ -1167,8 +1445,9 @@ export function createAuthorMode(opts) {
     }
     if (!isEdit || !isDragging || !selectedId || !dragState || e.pointerId !== activePointerId) return;
     const pt = getGroundIntersection(e);
-    const newX = pt.x + dragOffset.x;
-    const newZ = pt.z + dragOffset.z;
+    const snap = getSnapValue();
+    const newX = snapCoord(pt.x + dragOffset.x, snap);
+    const newZ = snapCoord(pt.z + dragOffset.z, snap);
     dragState.previewPos.x = newX;
     dragState.previewPos.z = newZ;
     applyPreviewTransform(selectedId, dragState.previewPos, dragState.previewFacing);
@@ -1378,6 +1657,13 @@ export function createAuthorMode(opts) {
         assetEditDirty = true;
         refreshAssetEditContext();
       }
+      return;
+    }
+    // Reset level view: 0 or Home when not in asset edit
+    if ((e.key === "0" || e.key === "Home") && !editingAssetId) {
+      e.preventDefault();
+      resetLevelView();
+      ui.setStatus("View reset — orbit origin shown as orb + cross", false);
       return;
     }
     if (!selectedId) return;

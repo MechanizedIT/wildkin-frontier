@@ -36,6 +36,44 @@ function matBasic(color, opts = {}) {
   return new THREE.MeshBasicMaterial({ color, ...opts });
 }
 
+// --- Performance caches (Step 1a) — shared unit geometries & deterministic recipe hashing ---
+const _assetGeoCache = new Map();
+const _cachedGeoSet = new WeakSet();
+const _matCache = new Map();
+
+// Exposed for tests / debug only — not gameplay API
+export function __getAssetGeoCacheSize(){ return _assetGeoCache.size; }
+export function clearVisualFactoryCaches(){ _assetGeoCache.clear(); _matCache.clear(); }
+
+function getCachedAssetGeometry(shape){
+  if(_assetGeoCache.has(shape)) return _assetGeoCache.get(shape);
+  let geo;
+  if (shape === "box") geo = new THREE.BoxGeometry(1, 1, 1);
+  else if (shape === "cylinder") geo = new THREE.CylinderGeometry(0.5, 0.5, 1, 12);
+  else if (shape === "cone") geo = new THREE.ConeGeometry(0.5, 1, 12);
+  else if (shape === "sphere") geo = new THREE.SphereGeometry(0.5, 12, 8);
+  else if (shape === "capsule") geo = new THREE.CapsuleGeometry(0.35, 0.3, 6, 10);
+  else if (shape === "icosahedron") geo = new THREE.IcosahedronGeometry(0.5, 0);
+  else throw new Error(`Unsupported Visual Asset shape ${shape}`);
+  _assetGeoCache.set(shape, geo);
+  _cachedGeoSet.add(geo);
+  geo.userData = geo.userData || {};
+  geo.userData.isSharedAssetGeometry = true;
+  return geo;
+}
+function isCachedGeometry(geo){ return _cachedGeoSet.has(geo); }
+
+function getCachedStandardMaterial(color, optsKey = "") {
+  const key = `${String(color)}::${optsKey}`;
+  if(_matCache.has(key)) return _matCache.get(key);
+  const mat = new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.82, metalness: 0.05 });
+  mat.userData = mat.userData || {};
+  mat.userData.isSharedAssetMaterial = true;
+  // optsKey is hash of opts; for asset parts opts is constant, so cache hit
+  _matCache.set(key, mat);
+  return mat;
+}
+
 // ---- Pure visual constructors ----
 
 export function createBoxVisual({ size = { w: 1, h: 1, d: 1 }, color = 0x9aa0a6 } = {}) {
@@ -413,6 +451,10 @@ export const VISUAL_ASSET_SHAPES = Object.freeze([
 ]);
 
 function createAssetPartGeometry(shape) {
+  return getCachedAssetGeometry(shape);
+}
+// Keep original non-cached creator for explicit disposal paths (bounds calc)
+function createAssetPartGeometryUncached(shape) {
   if (shape === "box") return new THREE.BoxGeometry(1, 1, 1);
   if (shape === "cylinder") return new THREE.CylinderGeometry(0.5, 0.5, 1, 12);
   if (shape === "cone") return new THREE.ConeGeometry(0.5, 1, 12);
@@ -432,8 +474,9 @@ export function createVisualAssetVisual(asset) {
   group.userData.visualKind = `asset/${asset.id}`;
   group.userData.visualAssetId = asset.id;
   for (const part of asset.parts ?? []) {
-    const geometry = createAssetPartGeometry(part.shape);
-    const material = matStandard(part.color, { roughness: 0.82, metalness: 0.05 });
+    const geometry = getCachedAssetGeometry(part.shape);
+    // Cached material per color — asset parts share flat roughness 0.82/metalness 0.05
+    const material = getCachedStandardMaterial(part.color, "asset:0.82:0.05");
     const mesh = new THREE.Mesh(geometry, material);
     mesh.name = `${asset.id}:${part.id}`;
     mesh.position.set(part.position.x, part.position.y, part.position.z);
@@ -447,22 +490,18 @@ export function createVisualAssetVisual(asset) {
 }
 
 export function computeVisualAssetBounds(asset) {
+  // Use cached geometries — do not dispose shared buffers
   const root = createVisualAssetVisual(asset);
   root.updateMatrixWorld(true);
   const bounds = new THREE.Box3().setFromObject(root);
   if (bounds.isEmpty()) {
-    root.traverse((object) => {
-      object.geometry?.dispose?.();
-      object.material?.dispose?.();
-    });
+    // No disposal of cached geometry/material — just drop the transient group
+    root.clear();
     throw new Error(`Visual Asset ${asset?.id ?? "unknown"} has no visual bounds`);
   }
   const size = bounds.getSize(new THREE.Vector3());
   const center = bounds.getCenter(new THREE.Vector3());
-  root.traverse((object) => {
-    object.geometry?.dispose?.();
-    object.material?.dispose?.();
-  });
+  root.clear();
   return {
     offset: { x: center.x, y: center.y, z: center.z },
     size: { w: size.x, h: size.y, d: size.z },
@@ -537,10 +576,28 @@ function stableRecipeValue(value) {
   return value;
 }
 
+// Fast hashed recipe key — stable, deterministic, distinguishes asset edits without deep stringify each frame
+const _recipeKeyCache = new Map();
+const _RECIPE_KEY_CACHE_LIMIT = 256;
+function hashStable(value){
+  // Use hashString on sorted JSON for assetRecipe only; small fields stay inline
+  try { return String(hashString(JSON.stringify(stableRecipeValue(value)))); } catch { return String(Math.random()).slice(2); }
+}
 export function getVisualRecipeKey(visualRef, opts = {}) {
-  const assetRecipe = visualRef?.kind === "asset"
-    ? findVisualAsset(opts.visualAssets, visualRef.id)
-    : null;
+  if (visualRef?.kind === "asset") {
+    const asset = findVisualAsset(opts.visualAssets, visualRef.id);
+    // hash asset recipe if present — cache per asset content hash
+    const assetHash = asset ? hashStable(asset) : "missing";
+    const small = `${visualRef.kind}:${visualRef.id}|a:${assetHash}|s:${JSON.stringify(opts.size ?? null)}|p:${opts.poiType ?? ""}|t:${opts.subtype ?? ""}|r:${JSON.stringify(opts.requires ?? null)}`;
+    // tiny LRU for repeated calls within same draft generation
+    if (_recipeKeyCache.has(small)) return _recipeKeyCache.get(small);
+    const key = `${small}`;
+    if (_recipeKeyCache.size >= _RECIPE_KEY_CACHE_LIMIT) _recipeKeyCache.delete(_recipeKeyCache.keys().next().value);
+    _recipeKeyCache.set(small, key);
+    return key;
+  }
+  // Builtin: cheap JSON of visualRef + small opts (no asset)
+  const assetRecipe = null;
   return JSON.stringify(stableRecipeValue({
     visualRef,
     assetRecipe,

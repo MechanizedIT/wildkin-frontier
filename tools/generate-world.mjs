@@ -25,9 +25,47 @@ function stringifyStable(obj) {
 }
 
 async function main() {
-  const raw = fs.readFileSync(JSON_PATH, "utf-8");
+  // Step 5: support optional split sources — if src/world/data/sources/*.json exists, merge them deterministically
+  const SOURCES_DIR = path.join(ROOT, "src", "world", "data", "sources");
+  let raw;
   let parsed;
-  try { parsed = JSON.parse(raw); } catch (e) { console.error("[generate-world] invalid JSON", e.message); process.exit(1); }
+  if (fs.existsSync(SOURCES_DIR)) {
+    const files = fs.readdirSync(SOURCES_DIR).filter(f => f.endsWith(".json")).sort();
+    if (files.length > 0) {
+      console.log(`[generate-world] merging ${files.length} source files from ${path.relative(ROOT, SOURCES_DIR)}`);
+      // Base is world.json if it exists, else empty
+      let base = {};
+      if (fs.existsSync(JSON_PATH)) {
+        try { base = JSON.parse(fs.readFileSync(JSON_PATH, "utf-8")); } catch {}
+      }
+      // Merge strategy: shallow merge for top-level keys, arrays concatenated with dedup by id where possible
+      for (const file of files) {
+        const content = JSON.parse(fs.readFileSync(path.join(SOURCES_DIR, file), "utf-8"));
+        for (const [key, value] of Object.entries(content)) {
+          if (Array.isArray(value) && Array.isArray(base[key])) {
+            // dedup by id if items have id
+            const seen = new Set(base[key].map(v => v?.id).filter(Boolean));
+            for (const item of value) {
+              if (item?.id && seen.has(item.id)) continue;
+              base[key].push(item);
+            }
+          } else if (value && typeof value === "object" && base[key] && typeof base[key] === "object" && !Array.isArray(value)) {
+            base[key] = { ...base[key], ...value };
+          } else {
+            base[key] = value;
+          }
+        }
+      }
+      parsed = base;
+      raw = JSON.stringify(parsed);
+    } else {
+      raw = fs.readFileSync(JSON_PATH, "utf-8");
+      try { parsed = JSON.parse(raw); } catch (e) { console.error("[generate-world] invalid JSON", e.message); process.exit(1); }
+    }
+  } else {
+    raw = fs.readFileSync(JSON_PATH, "utf-8");
+    try { parsed = JSON.parse(raw); } catch (e) { console.error("[generate-world] invalid JSON", e.message); process.exit(1); }
+  }
   // Validate via normalize if available
   try {
     const { normalizeWorldData } = await import(pathToFileURL(path.join(ROOT, "src", "world", "worldValidator.js")).href);

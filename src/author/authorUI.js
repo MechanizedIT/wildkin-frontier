@@ -2,6 +2,101 @@
 import { resolveAuthorType, readNormalizedTransform } from "./authorTypeRegistry.js";
 import { createAuthorActions } from "./authorActions.js";
 
+// Step 3: thumbnail cache + canvas generator (2D top-down projection, no WebGL)
+const _thumbCache = new Map();
+function getAssetThumbnailCanvas(asset){
+  const key = asset.id + ":" + JSON.stringify(asset.parts.map(p=>`${p.shape}:${p.color}:${p.position.x},${p.position.y},${p.position.z}:${p.scale.x},${p.scale.y},${p.scale.z}`));
+  if (_thumbCache.has(key)) {
+    const cached = _thumbCache.get(key);
+    const clone = document.createElement("canvas");
+    clone.width = cached.width; clone.height = cached.height;
+    const c = clone.getContext("2d");
+    if (c) c.drawImage(cached,0,0);
+    clone.style.width = cached.width+"px"; clone.style.height = cached.height+"px";
+    clone.style.borderRadius = "3px"; clone.style.flexShrink = "0";
+    return clone;
+  }
+  // Clone will not exist for canvas? We'll cache ImageData? Simpler cache canvas element and clone via draw
+  const size = 36;
+  const canvas = document.createElement("canvas");
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return canvas;
+  // Background
+  ctx.fillStyle = "#0a0f1e";
+  ctx.fillRect(0,0,size,size);
+  ctx.strokeStyle = "#2a3a5a";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(0.5,0.5,size-1,size-1);
+  // Determine bounds of parts in XZ plane for projection
+  let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
+  for (const part of asset.parts){
+    const sx = Math.abs(part.scale.x)*0.5, sz = Math.abs(part.scale.z)*0.5;
+    minX = Math.min(minX, part.position.x - sx);
+    maxX = Math.max(maxX, part.position.x + sx);
+    minZ = Math.min(minZ, part.position.z - sz);
+    maxZ = Math.max(maxZ, part.position.z + sz);
+  }
+  if (!isFinite(minX)) { minX=-1; maxX=1; minZ=-1; maxZ=1; }
+  const pad = 0.3;
+  minX -= pad; maxX += pad; minZ -= pad; maxZ += pad;
+  const spanX = Math.max(0.6, maxX-minX);
+  const spanZ = Math.max(0.6, maxZ-minZ);
+  const span = Math.max(spanX, spanZ);
+  const scale = (size-6)/span;
+  const cx = (minX+maxX)/2, cz = (minZ+maxZ)/2;
+  // Sort back to front by Y for painter
+  const sorted = [...asset.parts].sort((a,b)=>a.position.y-b.position.y);
+  for (const part of sorted){
+    const px = (part.position.x - cx)*scale + size/2;
+    const pz = (part.position.z - cz)*scale + size/2;
+    const rx = Math.max(2, part.scale.x*scale*0.5);
+    const rz = Math.max(2, part.scale.z*scale*0.5);
+    ctx.fillStyle = part.color || "#8899aa";
+    ctx.globalAlpha = 0.92;
+    // Shape icon
+    ctx.beginPath();
+    if (part.shape==="sphere"||part.shape==="icosahedron"){
+      ctx.ellipse(px, pz, rx, rz, 0, 0, Math.PI*2);
+      ctx.fill();
+    } else if (part.shape==="cylinder"||part.shape==="capsule"){
+      ctx.ellipse(px, pz, rx*0.85, rz*0.85, 0, 0, Math.PI*2);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,0.25)"; ctx.stroke();
+    } else if (part.shape==="cone"){
+      ctx.moveTo(px, pz - rz);
+      ctx.lineTo(px - rx, pz + rz*0.6);
+      ctx.lineTo(px + rx, pz + rz*0.6);
+      ctx.closePath(); ctx.fill();
+    } else {
+      ctx.fillRect(px - rx, pz - rz, rx*2, rz*2);
+    }
+    // height hint — small vertical bar
+    const h = Math.max(1, Math.min(8, part.position.y*2));
+    ctx.fillStyle = "rgba(255,255,255,0.22)";
+    ctx.fillRect(px + rx +1, pz - rz, 1.2, h);
+  }
+  ctx.globalAlpha = 1;
+  // Border highlight for harvestable/wildkin roles
+  const role = asset.gameplay?.role;
+  if (role==="harvestable") { ctx.strokeStyle = "#4caf50"; ctx.lineWidth = 1.2; ctx.strokeRect(1,1,size-2,size-2);}
+  else if (role==="wildkin") { ctx.strokeStyle = "#ff7043"; ctx.lineWidth = 1.2; ctx.strokeRect(1,1,size-2,size-2);}
+  _thumbCache.set(key, canvas);
+  // Return clone to avoid mutating cached canvas
+  const clone = document.createElement("canvas");
+  clone.width = size; clone.height = size;
+  clone.getContext("2d").drawImage(canvas,0,0);
+  clone.style.width = size+"px"; clone.style.height = size+"px";
+  clone.style.borderRadius = "3px";
+  clone.style.flexShrink = "0";
+  if (size>0) {}
+  return clone;
+}
+function patchRoleTabs(){
+  const sel = container.querySelector("#author-asset-role");
+  // will be called after DOM ready
+}
+
 export function createAuthorUI(opts) {
   const draftApi = opts.draftApi;
   const actions = opts.actions ?? createAuthorActions(draftApi);
@@ -13,14 +108,17 @@ export function createAuthorUI(opts) {
 
   const container = document.createElement("div");
   container.id = "author-panel";
-  container.style.cssText = "position:fixed;top:8px;left:8px;width:min(420px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;overflow-x:hidden;box-sizing:border-box;background:#0f1420f2;color:#d0d8e8;font:12px system-ui;border:1px solid #2a3a5a;border-radius:8px;z-index:9999;padding:10px;display:none;backdrop-filter:blur(6px)";
+  container.style.cssText = "position:fixed;top:8px;left:8px;width:min(440px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;overflow-x:hidden;box-sizing:border-box;background:#0f1420f2;color:#d0d8e8;font:12px system-ui;border:1px solid #2a3a5a;border-radius:8px;z-index:9999;padding:10px;display:none;backdrop-filter:blur(6px)";
   container.innerHTML = `
     <style>#author-panel *,#author-panel *::before,#author-panel *::after{box-sizing:border-box}#author-panel input,#author-panel select,#author-panel button{min-width:0}#author-panel input,#author-panel select{background:#111a2a;color:#e2ebf7;border:1px solid #344966;border-radius:4px;padding:4px}#author-panel input::placeholder{color:#73839b}#author-panel input[type="checkbox"]{width:auto;accent-color:#3b8eea;padding:0}#author-panel .author-vec3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}#author-panel .author-vec3 input{width:100%;padding:3px 4px}#author-asset-editor button{background:#1b2b42;color:#dcecff;border:1px solid #3a5274;border-radius:4px;padding:4px;cursor:pointer}#author-asset-editor button:hover,#author-asset-editor button:focus-visible{background:#29496c;border-color:#5791c6;outline:none}#author-asset-editor button:disabled{opacity:.42;cursor:not-allowed}</style>
     <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">
       <button id="author-toggle" style="flex:1;padding:7px 8px;background:#2a7fff;color:#fff;border:none;border-radius:6px;font-weight:800">EDIT</button>
       <span id="author-mode-badge" style="font-size:10px;font-weight:700;padding:4px 6px;border-radius:4px;background:#1a243a;color:#8aa0c0">PLAY TEST</span>
+      <button id="author-collapse" title="Collapse panel to see more play area — click to restore" style="padding:7px 8px;background:#1a243a;color:#8aa0c0;border:1px solid #2a3a5a;border-radius:6px;font-size:11px">◀ Hide</button>
     </div>
     <div id="author-status" style="font-size:11px;color:#8aa0c0;margin-bottom:8px;min-height:14px">Author Mode — READY</div>
+    <div style="display:flex;gap:4px;align-items:center;margin-bottom:6px"><label style="font-size:10px;color:#7890ad">Snap grid <select id="author-snap" style="padding:2px 4px;font-size:10px"><option value="0">Off</option><option value="0.25">0.25</option><option value="0.5" selected>0.5</option><option value="1">1.0</option></select></label><button id="author-align-ground" title="Snap selected bottom to ground" style="flex:1;padding:3px;font-size:10px">↧ Drop to ground</button><button id="author-reset-view" title="Reset level camera to top-down (also 0 / Home)" style="padding:3px 6px;font-size:10px;background:#1a243a;color:#dcecff;border:1px solid #2a3a5a;border-radius:4px">⟲ Reset view 0</button></div>
+    <div style="font-size:10px;color:#7890ad;margin: -2px 0 6px">Hold <b>Shift</b> while dragging to ignore snap · <b>Alt+right or middle-drag</b> to orbit · right-drag to pan · orb+cross shows orbit point</div>
     <div id="author-place-hint" style="display:none;font-size:11px;color:#ffd54f;background:#2a2410;border:1px solid #6a5a20;border-radius:6px;padding:6px;margin-bottom:8px"></div>
     <details id="sec-palette" open style="margin-bottom:8px">
       <summary style="font-weight:700;cursor:pointer;list-style:none">Palette — Click to place ▼</summary>
@@ -38,7 +136,7 @@ export function createAuthorUI(opts) {
         <div style="border:1px solid #263b58;border-radius:5px;background:#101b2c;padding:5px;margin-bottom:6px">
           <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px"><strong style="font-size:11px;flex:1">Camera View</strong><span style="font-size:9px;color:#7890ad">45° steps</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px"><button id="author-camera-left" title="Orbit camera left ([)">↶ Left [</button><button id="author-camera-reset" title="Reset camera view (0)">Reset 0</button><button id="author-camera-right" title="Orbit camera right (])">Right ] ↷</button></div>
-          <div style="font-size:9px;color:#7890ad;margin-top:4px">Right-drag pans in the camera plane · wheel dollies at fixed pitch</div>
+          <div style="font-size:9px;color:#7890ad;margin-top:4px">Right-drag pans · Alt+right or middle free-orbits (inverted) · wheel zooms · orb+cross is orbit point</div>
         </div>
         <div style="font-size:11px;font-weight:700;margin-bottom:3px">Add Part</div>
         <div id="author-asset-add-parts" style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
@@ -68,6 +166,11 @@ export function createAuthorUI(opts) {
         </div>
         <div style="border-top:1px solid #1e2a4a;margin-top:7px;padding-top:5px">
           <strong style="font-size:11px">Game Object Type</strong>
+          <div id="author-role-tabs" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:4px">
+            <button data-role-tab="prop" style="padding:4px;font-size:10px;border:1px solid #3a4f70;border-radius:3px;background:#1a243a;color:#dcecff">Prop</button>
+            <button data-role-tab="harvestable" style="padding:4px;font-size:10px;border:1px solid #3a4f70;border-radius:3px;background:#1a243a;color:#dcecff">Harvest</button>
+            <button data-role-tab="wildkin" style="padding:4px;font-size:10px;border:1px solid #3a4f70;border-radius:3px;background:#1a243a;color:#dcecff">Wildkin</button>
+          </div>
           <select id="author-asset-role" style="width:100%;margin-top:3px"><option value="prop">Prop / Decoration</option><option value="harvestable">Harvestable Resource</option><option value="wildkin">Wildkin</option></select>
           <div id="author-asset-harvest-fields" style="display:none;margin-top:5px">
             <label style="display:block">Drops <select id="author-asset-drop" style="width:100%"></select></label>
@@ -142,19 +245,20 @@ export function createAuthorUI(opts) {
       <input id="author-filter" placeholder="filter id/type" style="width:100%;margin-top:4px;font-size:11px;padding:4px;border-radius:4px;border:1px solid #2a3a5a;background:#0a0f1e;color:#d0d8e8">
       <div id="author-hierarchy" style="max-height:240px;overflow:auto;margin-top:4px;border:1px solid #1e2a4a;border-radius:4px;padding:4px;background:#0a0f1e;font-size:11px"></div>
     </details>
-    <details id="sec-region" style="margin-bottom:8px">
-      <summary style="font-weight:700;cursor:pointer">Region</summary>
+    <details id="sec-region" open style="margin-bottom:8px">
+      <summary style="font-weight:700;cursor:pointer">Regions — Area Chunks <span style="font-weight:400;color:#7890ad">(what keeps phones fast)</span></summary>
+      <div style="font-size:10px;color:#7890ad;margin-top:4px">Each Region is a rectangular chunk. Neighbors = which chunks stay awake together. Player in Camp + Forest Edge keeps both alive so trees don't pop in.</div>
       <div style="background:#0a0f1e;border:1px solid #1e2a4a;border-radius:6px;padding:6px;margin-top:6px">
-        <label>Region <select id="author-region-select" style="width:100%"></select></label>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:4px"><label style="flex:1">Region <select id="author-region-select" style="width:100%"></select></label><button id="author-region-new" title="Create a new 12x12 region next to current view" style="padding:4px 8px;background:#244266;color:#dcecff;border:1px solid #3a6694;border-radius:4px;font-size:11px">+ New Area</button></div>
         <div id="author-region-form" style="margin-top:6px;display:grid;grid-template-columns:1fr 1fr;gap:4px">
           <label>Display <input id="author-region-name" style="width:100%"></label>
-          <label>Neighbors <input id="author-region-neighbors" placeholder="comma list" style="width:100%"></label>
+          <label>Neighbors <div id="author-region-neighbors" style="display:flex;flex-wrap:wrap;gap:3px;min-height:26px;padding:3px;background:#0a0f1e;border:1px solid #2a3a5a;border-radius:4px"></div><input type="hidden" id="author-region-neighbors-input"></label>
           <label>minX <input id="author-b-minX" type="number" step="0.5" style="width:100%"></label>
           <label>maxX <input id="author-b-maxX" type="number" step="0.5" style="width:100%"></label>
           <label>minZ <input id="author-b-minZ" type="number" step="0.5" style="width:100%"></label>
           <label>maxZ <input id="author-b-maxZ" type="number" step="0.5" style="width:100%"></label>
         </div>
-        <button id="author-region-apply" style="margin-top:6px;width:100%;padding:6px;background:#1e2a4a;color:#aaccff;border:none;border-radius:4px">Apply Region</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px"><button id="author-region-apply" style="padding:6px;background:#1e2a4a;color:#aaccff;border:none;border-radius:4px">Apply</button><button id="author-region-focus" style="padding:6px;background:#1a243a;color:#dcecff;border:1px solid #2a3a5a;border-radius:4px">Focus Camera</button></div>
         <div id="author-region-status" style="font-size:11px;color:#8aa0c0;margin-top:4px"></div>
       </div>
     </details>
@@ -322,6 +426,13 @@ export function createAuthorUI(opts) {
     const harvestable = asset.gameplay?.harvestable ?? null;
     const wildkin = asset.gameplay?.wildkin ?? null;
     container.querySelector("#author-asset-role").value = role;
+    // Step 3: sync tab highlight
+    for (const btn of container.querySelectorAll("[data-role-tab]")) {
+      const active = btn.dataset.roleTab === role;
+      btn.style.background = active ? "#244266" : "#1a243a";
+      btn.style.borderColor = active ? "#3a6694" : "#3a4f70";
+      btn.style.fontWeight = active ? "700" : "400";
+    }
     container.querySelector("#author-asset-harvest-fields").style.display = role === "harvestable" ? "" : "none";
     container.querySelector("#author-asset-wildkin-fields").style.display = role === "wildkin" ? "" : "none";
     const dropSelect = container.querySelector("#author-asset-drop");
@@ -390,15 +501,34 @@ export function createAuthorUI(opts) {
         assetListEl.appendChild(heading);
       }
       const row = document.createElement("div");
-      row.style.cssText = "display:grid;grid-template-columns:1fr auto auto;gap:3px;align-items:center;background:#111a2a;border:1px solid #263b58;border-radius:4px;padding:4px";
+      row.style.cssText = "display:grid;grid-template-columns:36px 1fr auto auto;gap:4px;align-items:center;background:#111a2a;border:1px solid #263b58;border-radius:4px;padding:4px";
+      try {
+        const thumb = getAssetThumbnailCanvas(asset);
+        thumb.title = `${asset.parts.length} parts · ${asset.gameplay?.role ?? "prop"}`;
+        // Hover ghost: show larger preview near cursor via title + larger thumb on hover
+        thumb.addEventListener("mouseenter", () => { thumb.style.outline = "1px solid #3a6694"; });
+        thumb.addEventListener("mouseleave", () => { thumb.style.outline = "none"; });
+        row.append(thumb);
+      } catch {}
+      const nameWrap = document.createElement("div");
+      nameWrap.style.cssText = "display:flex;flex-direction:column;min-width:0";
       const name = document.createElement("span");
       name.textContent = asset.displayName;
-      name.style.fontSize = "11px";
-      const place = document.createElement("button"); place.textContent = "Place"; place.style.fontSize = "10px";
+      name.style.cssText = "font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
+      const meta = document.createElement("span");
+      meta.textContent = `${asset.parts.length} parts · ${asset.category ?? ""}`;
+      meta.style.cssText = "font-size:9px;color:#7890ad;overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
+      nameWrap.append(name, meta);
+      row.append(nameWrap);
+      const place = document.createElement("button"); place.textContent = "Place"; place.style.fontSize = "10px"; place.title = "Place instance (click ground)";
       place.addEventListener("click", () => opts.onPlaceAsset?.(asset.id, asset.displayName));
+      place.addEventListener("mouseenter", () => {
+        // Step 3: hover ghost hint — update status bar
+        if (opts.onAssetHoverPreview) opts.onAssetHoverPreview(asset.id);
+      });
       const edit = document.createElement("button"); edit.textContent = "Edit"; edit.style.fontSize = "10px";
       edit.addEventListener("click", () => opts.onAssetEditRequested?.(asset.id));
-      row.append(name, place, edit);
+      row.append(place, edit);
       assetListEl.appendChild(row);
     }
     refreshAssetEditor();
@@ -419,6 +549,74 @@ export function createAuthorUI(opts) {
   }
 
   assetFilterEl.addEventListener("input", refreshVisualAssets);
+  const collapseBtn = container.querySelector("#author-collapse");
+  let _collapsed = false;
+  function setCollapsed(v){
+    _collapsed = v;
+    container.style.transform = v ? "translateX(calc(-100% - 20px))" : "";
+    collapseBtn.textContent = v ? "Show ▶" : "◀ Hide";
+    collapseBtn.title = v ? "Show author panel" : "Collapse panel to see more play area";
+    // Show a tiny floating tab when collapsed
+    let tab = document.getElementById("author-collapsed-tab");
+    if (v) {
+      if (!tab) {
+        tab = document.createElement("button");
+        tab.id = "author-collapsed-tab";
+        tab.textContent = "Show Author ▶";
+        tab.style.cssText = "position:fixed;top:8px;left:8px;z-index:9998;padding:7px 10px;background:#0f1420f2;color:#d0d8e8;border:1px solid #2a3a5a;border-radius:6px;font:12px system-ui;backdrop-filter:blur(6px)";
+        tab.addEventListener("click", () => setCollapsed(false));
+        document.body.appendChild(tab);
+      }
+      tab.style.display = "";
+    } else if (tab) tab.style.display = "none";
+  }
+  collapseBtn.addEventListener("click", () => setCollapsed(!_collapsed));
+  // Keyboard shortcut: H to toggle
+  window.addEventListener("keydown", (e) => { if (e.key.toLowerCase()==="h" && !e.ctrlKey && !e.metaKey && e.target && !/input|textarea|select/i.test(e.target.tagName)) setCollapsed(!_collapsed); });
+  const resetViewBtn = container.querySelector("#author-reset-view");
+  if (resetViewBtn) resetViewBtn.addEventListener("click", () => {
+    try { if (window.__authorResetLevelView) window.__authorResetLevelView(); container.querySelector("#author-status").textContent = "View reset — orbit point is the orb + cross on ground"; } catch {}
+  });
+  const snapEl = container.querySelector("#author-snap");
+  try { const saved = localStorage.getItem("wildkin.authorSnap"); if (saved !== null) snapEl.value = saved; } catch {}
+  snapEl.addEventListener("change", () => { try { localStorage.setItem("wildkin.authorSnap", snapEl.value); } catch {} });
+  // Snap grid hotkey: hold Shift for temporary free movement (inverts current snap setting)
+  let _snapHotkeyFree = false;
+  window.addEventListener("keydown", (e) => { if (e.key === "Shift" && !e.repeat) _snapHotkeyFree = true; });
+  window.addEventListener("keyup", (e) => { if (e.key === "Shift") _snapHotkeyFree = false; });
+  window.addEventListener("blur", () => _snapHotkeyFree = false);
+  // expose helper for authorMode
+  window.__authorSnapFree = () => _snapHotkeyFree;
+  container.querySelector("#author-align-ground").addEventListener("click", () => {
+    if (!selectedId) return setStatus("Select an object to align", true);
+    const found = draftApi.findObjectById(selectedId);
+    if (!found) return setStatus("Object not found", true);
+    // Rest bottom on ground: for box-like objects height/2 above base, for visualAssets use visual bounds
+    let targetY = 0;
+    try {
+      const obj = found.obj;
+      // VisualAsset instance: use its visual bounds to find bottom offset
+      if (obj.subtype === "visualAsset" && obj.visualAssetId) {
+        const asset = draftApi.findVisualAssetById(obj.visualAssetId);
+        if (asset) {
+          // Find lowest point of any part (position.y - scale.y*0.5)
+          let lowest = Infinity;
+          for (const part of asset.parts) lowest = Math.min(lowest, part.position.y - part.scale.y * 0.5);
+          const scale = obj.uniformScale ?? obj.scale ?? 1;
+          targetY = -lowest * scale;
+        }
+      } else if (obj.size) {
+        const h = obj.size.h ?? obj.size.height ?? obj.height ?? 1;
+        targetY = h / 2;
+      } else if (obj.height !== undefined) {
+        targetY = (obj.height ?? 1) / 2;
+      }
+    } catch {}
+    const curX = found.obj.pos?.x ?? found.obj.x ?? 0;
+    const curZ = found.obj.pos?.z ?? found.obj.z ?? 0;
+    const res = draftApi.updateTransform(selectedId, { pos: { x: curX, y: targetY, z: curZ } });
+    if (!res.ok) setStatus(res.error, true); else { setStatus("Dropped — bottom now on ground", false); if (opts.onDraftChanged) opts.onDraftChanged(selectedId); }
+  });
 
   container.querySelector("#author-asset-new").addEventListener("click", () => {
     const result = actions.createVisualAsset(`Visual Asset ${draftApi.getVisualAssets().length + 1}`);
@@ -532,6 +730,12 @@ export function createAuthorUI(opts) {
     } else gameplay = { role: "prop" };
     assetActionResult(actions.updateVisualAssetSettings(editingAssetId, { gameplay }), `Asset type: ${role}`);
   }
+  for (const btn of container.querySelectorAll("[data-role-tab]")) {
+    btn.addEventListener("click", () => {
+      container.querySelector("#author-asset-role").value = btn.dataset.roleTab;
+      container.querySelector("#author-asset-role").dispatchEvent(new Event("change", { bubbles: true }));
+    });
+  }
   container.querySelector("#author-asset-role").addEventListener("change", (event) => {
     if (event.target.value === "harvestable") {
       const drops = draftApi.getResourceDrops();
@@ -613,7 +817,30 @@ export function createAuthorUI(opts) {
     const r = draftApi.findRegion(rid);
     if (!r) return;
     container.querySelector("#author-region-name").value = r.displayName || "";
-    container.querySelector("#author-region-neighbors").value = (r.neighbors || []).join(", ");
+    // Render neighbors as checkboxes for friendliness
+    const host = container.querySelector("#author-region-neighbors");
+    const hidden = container.querySelector("#author-region-neighbors-input");
+    if (host) {
+      host.innerHTML = "";
+      const all = draftApi.getDraft().regions;
+      const curSet = new Set(r.neighbors || []);
+      for (const other of all) if (other.id !== r.id) {
+        const label = document.createElement("label");
+        label.style.cssText = "display:flex;gap:2px;align-items:center;font-size:10px;background:#111a2a;border:1px solid #2a3a5a;border-radius:3px;padding:2px 4px;cursor:pointer";
+        const cb = document.createElement("input"); cb.type="checkbox"; cb.value=other.id; cb.checked = curSet.has(other.id);
+        cb.addEventListener("change", () => {
+          const vals = Array.from(host.querySelectorAll("input:checked")).map(i=>i.value);
+          hidden.value = vals.join(", ");
+        });
+        label.append(cb, document.createTextNode(other.id));
+        host.append(label);
+      }
+      hidden.value = (r.neighbors || []).join(", ");
+      if (all.length <= 1) host.textContent = "No other regions yet — create one first";
+    } else {
+      const fallback = container.querySelector("#author-region-neighbors");
+      if (fallback) fallback.value = (r.neighbors || []).join(", ");
+    }
     container.querySelector("#author-b-minX").value = r.bounds.minX;
     container.querySelector("#author-b-maxX").value = r.bounds.maxX;
     container.querySelector("#author-b-minZ").value = r.bounds.minZ;
@@ -621,6 +848,47 @@ export function createAuthorUI(opts) {
   }
   const hierarchyEl = container.querySelector("#author-hierarchy");
   const filterEl = container.querySelector("#author-filter");
+  // Region: New + Focus helpers
+  const newBtn = container.querySelector("#author-region-new");
+  if (newBtn) newBtn.addEventListener("click", () => {
+    const base = draftApi.getDraft().regions[0];
+    const draft = draftApi.getDraft();
+    // Use current camera position as hint for new region placement
+    let cx = 0, cz = 0;
+    try { cx = window.__authorCameraPos ? window.__authorCameraPos().x : 0; cz = window.__authorCameraPos ? window.__authorCameraPos().z : 0; } catch {}
+    if (!isFinite(cx)) cx = (base.bounds.minX + base.bounds.maxX)/2 + 24;
+    if (!isFinite(cz)) cz = (base.bounds.minZ + base.bounds.maxZ)/2;
+    const size = 12;
+    const id = "r_" + Date.now().toString(36).slice(-4);
+    const res = draftApi.createRegion ? draftApi.createRegion({ id, displayName: "New Area", bounds: { minX: cx-size/2, maxX: cx+size/2, minZ: cz-size/2, maxZ: cz+size/2 }, neighbors: [] }) : null;
+    if (!res || !res.ok) {
+      // Fallback: direct transact via draftApi if createRegion not available — do minimal region push
+      try {
+        const cur = draftApi.getDraft();
+        cur.regions.push({ id, displayName: "New Area", bounds: { minX: cx-size/2, maxX: cx+size/2, minZ: cz-size/2, maxZ: cz+size/2 }, neighbors: [], props: [], resources: [], creatures: [], majorWaypoints: [], extractionBeacons: [], pois: [], traversal: { platforms:[], obstacles:[], climbables:[] }, groundPatches: [], boundaryColliders: [] });
+        // Use transact-like: we don't have direct, so use updateRegion path? Just persist via setDraft
+        draftApi.setDraft(cur);
+        refreshRegionSelects();
+        regionSelectEl.value = id;
+        refreshRegionForm();
+        setStatus("Created region " + id + " — adjust bounds and Apply", false);
+        if (opts.onSelectRegion) opts.onSelectRegion();
+      } catch (e) { setStatus(e.message || String(e), true); }
+    } else {
+      refreshRegionSelects();
+      regionSelectEl.value = id;
+      refreshRegionForm();
+      setStatus("Created region " + id, false);
+    }
+  });
+  const focusBtn = container.querySelector("#author-region-focus");
+  if (focusBtn) focusBtn.addEventListener("click", () => {
+    const rid = regionSelectEl.value;
+    const r = draftApi.findRegion(rid);
+    if (!r) return setStatus("Region not found", true);
+    if (opts.onFocusRegion) opts.onFocusRegion(rid);
+    else setStatus("Focused " + rid, false);
+  });
   if (filterEl) filterEl.addEventListener("input", refreshHierarchy);
   let expandedState = new Map();
   function saveExpandedState() {
@@ -724,7 +992,7 @@ export function createAuthorUI(opts) {
     const rid = regionSelectEl.value;
     const patch = {
       displayName: container.querySelector("#author-region-name").value,
-      neighbors: container.querySelector("#author-region-neighbors").value.split(",").map(s=>s.trim()).filter(Boolean),
+      neighbors: (container.querySelector("#author-region-neighbors-input")?.value || container.querySelector("#author-region-neighbors")?.value || "").split(",").map(s=>s.trim()).filter(Boolean),
       bounds: {
         minX: parseFloat(container.querySelector("#author-b-minX").value),
         maxX: parseFloat(container.querySelector("#author-b-maxX").value),

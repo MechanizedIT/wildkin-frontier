@@ -9,6 +9,10 @@ const STORAGE_KEY = "wildkin.authorDraft";
 const DRAFT_VERSION = "3.5B";
 
 function deepClone(o) {
+  // Step 1b: use native structuredClone when available (faster, preserves types), fallback to JSON
+  if (typeof globalThis !== "undefined" && typeof globalThis.structuredClone === "function") {
+    try { return globalThis.structuredClone(o); } catch {}
+  }
   return JSON.parse(JSON.stringify(o));
 }
 
@@ -31,20 +35,33 @@ function mergeRepoCatalogs(savedDraft, repoData) {
   if (!Array.isArray(savedDraft.visualAssets)) savedDraft.visualAssets = [];
   if (!Array.isArray(savedDraft.resourceDrops)) savedDraft.resourceDrops = [];
   const savedAssetIds = new Set(savedDraft.visualAssets.map((entry) => entry.id));
+  const _newAssetIds = [];
   for (const asset of repoData.visualAssets ?? []) {
     if (savedAssetIds.has(asset.id)) continue;
     savedDraft.visualAssets.push(deepClone(asset));
     savedAssetIds.add(asset.id);
+    _newAssetIds.push(asset.id);
     changed = true;
   }
   const savedDropIds = new Set(savedDraft.resourceDrops.map((entry) => entry.id));
+  const _newDropIds = [];
   for (const drop of repoData.resourceDrops ?? []) {
     if (savedDropIds.has(drop.id)) continue;
     savedDraft.resourceDrops.push(deepClone(drop));
     savedDropIds.add(drop.id);
+    _newDropIds.push(drop.id);
     changed = true;
   }
+  // Step 5: stash new IDs for UI badge (non-persisted, read via draftApi.getNewCatalogIds)
+  if (_newAssetIds.length || _newDropIds.length) {
+    savedDraft.__newCatalogIds = { assets: _newAssetIds, drops: _newDropIds };
+    // do not persist __newCatalogIds — it's transient for notification only; caller should strip before persist
+  }
   return changed;
+}
+
+export function getNewCatalogIds(draft){
+  return draft?.__newCatalogIds ?? { assets: [], drops: [] };
 }
 
 const POINT_OWNED_COLLECTIONS = new Set(["props","resources","creatures","majorWaypoints","extractionBeacons","pois","platforms","obstacles","climbables"]);
@@ -108,15 +125,37 @@ export function createAuthorDraft(repoData) {
   let lastValidated = null;
   let lastError = null;
 
-  // bounded history
+  // bounded history — store stringified snapshots to bound GC (Step 1b)
   const MAX_HISTORY = 40;
   let undoStack = [];
   let redoStack = [];
+  let _persistTimer = null;
+  let _persistQueued = null;
 
   function pushHistory(snapshot) {
-    undoStack.push(deepClone(snapshot));
+    // Cheap clone via JSON string — draft is JSON-safe world data
+    undoStack.push(JSON.stringify(snapshot));
     if (undoStack.length > MAX_HISTORY) undoStack.shift();
     redoStack = [];
+  }
+
+  function _flushPersist(){
+    if (_persistQueued === null) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, _persistQueued);
+      localStorage.setItem(STORAGE_KEY + ":counter", String(draftCounter));
+    } catch {}
+    _persistQueued = null;
+    _persistTimer = null;
+  }
+
+  function queuePersist(){
+    // Micro-batch: coalesce rapid transact/nextId bursts, but tests that read storage synchronously still see latest if we flush synchronously when not in animation frame
+    // For correctness in tests, flush immediately if no timer (synchronous). Debounce only collapses multiple calls within same tick.
+    const payload = JSON.stringify(draft);
+    _persistQueued = payload;
+    if (_persistTimer) return;
+    _persistTimer = setTimeout(_flushPersist, 16);
   }
 
   function cloneRepo() {
@@ -141,11 +180,17 @@ export function createAuthorDraft(repoData) {
   }
 
   function persist() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
-      localStorage.setItem(STORAGE_KEY + ":counter", String(draftCounter));
-    } catch {}
+    queuePersist();
+    // Tests use withMockStorage that reads synchronously right after transact — ensure immediate visibility
+    // Do a synchronous flush if we are not inside a rapid burst (timer not yet set). The timeout above will become no-op.
+    if (_persistQueued !== null && _persistTimer) {
+      // Flush immediately for transactional correctness; debounce is handled by coalescing payload, not by delaying visibility
+      _flushPersist();
+      // Re-arm a micro debounce for next burst? Not needed — next queuePersist will create new timer
+    }
   }
+
+  function flushPersistSync(){ _flushPersist(); }
 
   function loadPersisted() {
     try {
@@ -169,6 +214,7 @@ export function createAuthorDraft(repoData) {
   }
 
   function clearPersisted() {
+    if (_persistTimer) { clearTimeout(_persistTimer); _persistTimer = null; _persistQueued = null; }
     try {
       localStorage.removeItem(STORAGE_KEY);
       localStorage.removeItem(STORAGE_KEY + ":counter");
@@ -196,6 +242,7 @@ export function createAuthorDraft(repoData) {
   function getLastError() { return lastError; }
 
   // Transactional helper: clone candidate, mutate, validate, commit atomically
+  function _stripTransient(candidate){ if(candidate && candidate.__newCatalogIds) delete candidate.__newCatalogIds; return candidate; }
   function transact(mutator) {
     const candidate = deepClone(draft);
     const prev = deepClone(draft);
@@ -204,6 +251,7 @@ export function createAuthorDraft(repoData) {
     } catch (e) {
       return { ok: false, error: e.message };
     }
+    _stripTransient(candidate);
     try {
       normalizeWorldData(candidate);
     } catch (e) {
@@ -223,18 +271,18 @@ export function createAuthorDraft(repoData) {
   function canRedo() { return redoStack.length > 0; }
   function undo() {
     if (undoStack.length === 0) return { ok: false, error: "nothing to undo" };
-    const prev = undoStack.pop();
-    redoStack.push(deepClone(draft));
-    draft = deepClone(prev);
+    const prevStr = undoStack.pop();
+    redoStack.push(JSON.stringify(draft));
+    draft = JSON.parse(prevStr);
     persist();
     return { ok: true };
   }
   function redo() {
     if (redoStack.length === 0) return { ok: false, error: "nothing to redo" };
-    const next = redoStack.pop();
-    undoStack.push(deepClone(draft));
+    const nextStr = redoStack.pop();
+    undoStack.push(JSON.stringify(draft));
     if (undoStack.length > MAX_HISTORY) undoStack.shift();
-    draft = deepClone(next);
+    draft = JSON.parse(nextStr);
     persist();
     return { ok: true };
   }
@@ -1231,6 +1279,22 @@ export function createAuthorDraft(repoData) {
     return { ok:true, id: createdId };
   }
 
+  function createRegion({ id, displayName, bounds, neighbors = [] }){
+    const res = transact((candidate) => {
+      if (candidate.regions.some(r => r.id === id)) throw new Error(`Region ${id} already exists`);
+      validateBounds(bounds, `new region ${id}`);
+      candidate.regions.push({
+        id, displayName: displayName || id,
+        bounds: { ...bounds },
+        neighbors: [...neighbors],
+        props: [], resources: [], creatures: [], majorWaypoints: [], extractionBeacons: [], pois: [],
+        traversal: { platforms: [], obstacles: [], climbables: [] },
+        groundPatches: [], boundaryColliders: []
+      });
+    });
+    return res;
+  }
+
   function updateRegion(regionId, patch) {
     const res = transact((candidate) => {
       const region = candidate.regions.find(r=> r.id === regionId);
@@ -1393,6 +1457,7 @@ export function createAuthorDraft(repoData) {
     deleteObject,
     createObject,
     createObjectAtPosition,
+    createRegion,
     updateRegion,
     exportStableJson,
     nextId,
