@@ -18,19 +18,20 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
   const getPlayerPos = opts.getPlayerPos ?? (() => ({ x: 0, y: 0, z: 0 }));
   const getSession = opts.getSession ?? (() => null);
   const frontierProgress = opts.frontierProgress ?? null;
+  const getActiveSectionId = opts.getActiveSectionId ?? (() => null);
 
   function buildAnchors() {
     const anchors = [];
     const gatePos = worldRegistry.getFrontierGatePos();
     if (gatePos) {
-      anchors.push({ id: worldRegistry.getFrontierGateId(), type: "gate", pos: { x: gatePos.x, y: gatePos.y ?? 0, z: gatePos.z }, radius: ANCHOR_CONFIG.gateRadius, armed: true, inside: false, cooldown: false });
+      anchors.push({ id: worldRegistry.getFrontierGateId(), sectionId: gatePos.sectionId ?? gatePos.regionId ?? "camp", type: "gate", pos: { x: gatePos.x, y: gatePos.y ?? 0, z: gatePos.z }, radius: ANCHOR_CONFIG.gateRadius, armed: true, inside: false, cooldown: false });
     }
     for (const wp of worldRegistry.getAllWaypoints()) {
       if (wp.id === "wp_camp_gate") continue;
-      anchors.push({ id: wp.id, type: "majorWaypoint", pos: { x: wp.pos.x, y: wp.pos.y ?? 0, z: wp.pos.z }, radius: ANCHOR_CONFIG.waypointRadius, armed: true, inside: false, cooldown: false });
+      anchors.push({ id: wp.id, sectionId: wp.sectionId ?? wp.regionId, type: "majorWaypoint", pos: { x: wp.pos.x, y: wp.pos.y ?? 0, z: wp.pos.z }, radius: ANCHOR_CONFIG.waypointRadius, armed: true, inside: false, cooldown: false });
     }
     for (const bc of worldRegistry.getAllBeacons()) {
-      anchors.push({ id: bc.id, type: "extractionBeacon", pos: { x: bc.pos.x, y: bc.pos.y ?? 0, z: bc.pos.z }, radius: ANCHOR_CONFIG.beaconRadius, armed: true, inside: false, cooldown: false });
+      anchors.push({ id: bc.id, sectionId: bc.sectionId ?? bc.regionId, type: "extractionBeacon", pos: { x: bc.pos.x, y: bc.pos.y ?? 0, z: bc.pos.z }, radius: ANCHOR_CONFIG.beaconRadius, armed: true, inside: false, cooldown: false });
     }
     return anchors;
   }
@@ -82,7 +83,9 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
     const isActive = session ? session.isActive?.() ?? session.getStatus?.() === "active" : false;
     let best = null;
     let bestDist = Infinity;
+    const activeSectionId = getActiveSectionId();
     for (const anchor of anchors) {
+      if (activeSectionId && anchor.sectionId !== activeSectionId) continue;
       const dist = distanceXZ(playerPos, anchor.pos);
       const inside = dist <= anchor.radius;
       if (!inside) continue;
@@ -117,7 +120,9 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
     const isCamp = session ? session.isCamp?.() ?? session.getStatus?.() === "camp" : false;
     const isActive = session ? session.isActive?.() ?? session.getStatus?.() === "active" : false;
 
+    const activeSectionId = getActiveSectionId();
     for (const anchor of anchors) {
+      if (activeSectionId && anchor.sectionId !== activeSectionId) continue;
       const dist = distanceXZ(pos, anchor.pos);
       const nowInside = dist <= anchor.radius;
       const wasInside = !!anchor.inside;

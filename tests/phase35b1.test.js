@@ -4,7 +4,7 @@ import * as THREE from "three";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { WORLD_DATA } from "../src/world/data/world.js";
+import { WORLD_DATA } from "./fixtures/crescentWorld.generated.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
@@ -15,7 +15,8 @@ const ROOT = path.resolve(__dirname, "..");
 
 function makeScene(){ return new THREE.Scene(); }
 function authoredVisual(group, id) {
-  const root = group.children.find((child) => child.userData?.authorVisualRoot && child.userData.authorId === id);
+  let root = null;
+  group.traverse((child) => { if (!root && child.userData?.authorVisualRoot && child.userData.authorId === id) root = child; });
   let mesh = null;
   root?.traverse((object) => { if (!mesh && object.isMesh) mesh = object; });
   return { root, mesh };
@@ -137,7 +138,7 @@ describe("Phase 3.5B.1 — static builder / collision", () => {
     const draft = draftApi.getDraft();
     const reg = createWorldRegistry(draft);
     const pg = createStaticWorld(reg.data);
-    const mesh = pg.group.children.find(c=> c.name===prop.id);
+    const mesh = pg.group.getObjectByName(prop.id);
     assert.ok(mesh);
     assert.ok(Math.abs(mesh.rotation.y - rot) < 0.001);
   });

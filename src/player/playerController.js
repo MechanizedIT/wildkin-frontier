@@ -107,6 +107,35 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     return true;
   }
 
+  function launchFromJumpPad({ direction, horizontalLaunch, verticalLaunch }) {
+    if (!direction || !Number.isFinite(horizontalLaunch) || !Number.isFinite(verticalLaunch)) return false;
+    const length = Math.hypot(direction.x, direction.z);
+    if (length < 1e-6 || horizontalLaunch <= 0 || verticalLaunch <= 0) return false;
+    const dirX = direction.x / length;
+    const dirZ = direction.z / length;
+    traversal.reset();
+    state.mode = "JUMP";
+    state.jumpData = {
+      hVel: { x: dirX * horizontalLaunch, z: dirZ * horizontalLaunch },
+      initialSpeed: horizontalLaunch,
+      landingRegion: null,
+      maxLandingCorrection: 0,
+      airTime: (2 * verticalLaunch) / (moveCfg.jumpGravity ?? 12),
+      time: 0,
+      source: "jumpPad",
+    };
+    state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, horizontalLaunch);
+    state.verticalVelocity = verticalLaunch;
+    state.grounded = false;
+    state.speed = horizontalLaunch;
+    state.vel.set(dirX * horizontalLaunch, 0, dirZ * horizontalLaunch);
+    state.facing = Math.atan2(dirX, dirZ);
+    state.fallHVel = null;
+    state.climbable = null;
+    state.mantleData = null;
+    return true;
+  }
+
   function syncMesh(dt) {
     playerMesh.position.copy(state.pos);
     let visualMode = state.mode;
@@ -615,5 +644,5 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     };
   }
 
-  return { update, getState, state, traversal, visuals, syncPosFromPhysics };
+  return { update, getState, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad };
 }

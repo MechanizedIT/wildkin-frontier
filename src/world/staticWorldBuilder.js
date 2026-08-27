@@ -41,6 +41,10 @@ export function createStaticWorld(worldData) {
   const climbables = [];
   const groundPatches = [];
   const boundaries = [];
+  const sectionGroups = new Map();
+  let currentSectionId = null;
+  let currentSectionGroup = group;
+  let activeSectionId = null;
 
   // Base materials (shared)
   const platformMat = new THREE.MeshStandardMaterial({ color: 0x8d7a5a, flatShading: true });
@@ -103,9 +107,9 @@ export function createStaticWorld(worldData) {
       recipeKey: getVisualRecipeKey(visualRef, visualOptions),
     });
     root.name = id;
-    Object.assign(root.userData, metadata);
+    Object.assign(root.userData, { sectionId: currentSectionId, regionId: currentSectionId }, metadata);
     applyVisualTransform(root, { position, rotationY, uniformScale: options.uniformScale, sizeMode: options.sizeMode });
-    group.add(root);
+    currentSectionGroup.add(root);
     return root;
   }
 
@@ -147,6 +151,8 @@ export function createStaticWorld(worldData) {
           propId: prop.id,
           propSubtype: prop.subtype,
           visualAssetId: prop.visualAssetId,
+          sectionId: currentSectionId,
+          regionId: currentSectionId,
           visibleInPlay,
           collisionEnabled,
           opacity,
@@ -171,6 +177,8 @@ export function createStaticWorld(worldData) {
         const hz = sin * w / 2 + cos * d / 2;
         obstacles.push({
           id: prop.id,
+          sectionId: currentSectionId,
+          regionId: currentSectionId,
           x: center.x,
           z: center.z,
           w,
@@ -236,7 +244,7 @@ export function createStaticWorld(worldData) {
       const halfW = w/2, halfD = d/2;
       const hx = cos*halfW + sin*halfD;
       const hz = sin*halfW + cos*halfD;
-      obstacles.push({ id: prop.id, x: pos.x, z: pos.z, w, h: d, height, baseY, rotY: rot, aabb: { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz }, visibleInPlay, collisionEnabled, opacity });
+      obstacles.push({ id: prop.id, sectionId: currentSectionId, regionId: currentSectionId, x: pos.x, z: pos.z, w, h: d, height, baseY, rotY: rot, aabb: { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz }, visibleInPlay, collisionEnabled, opacity });
     } else {
       if (!collisionEnabled) return;
       // non-blocking but collisionEnabled true? If subtype not blocking but collisionEnabled true, still add? That's unusual but allow as generic collider
@@ -275,11 +283,11 @@ export function createStaticWorld(worldData) {
     const hx = cos * w / 2 + sin * d / 2;
     const hz = sin * w / 2 + cos * d / 2;
     const aabb = { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz };
-    groundPatches.push({ id: patch.id, x: pos.x, y: baseY, z: pos.z, w, h, d, rotY, color, opacity, visibleInPlay, collisionEnabled, aabb });
+    groundPatches.push({ id: patch.id, sectionId: currentSectionId, regionId: currentSectionId, x: pos.x, y: baseY, z: pos.z, w, h, d, rotY, color, opacity, visibleInPlay, collisionEnabled, aabb });
 
     if (collisionEnabled) {
       // Add to obstacles as flat platform? For physics we will create collider separately in createPhysicsWorld via playground.groundPatches
-      obstacles.push({ id: patch.id, x: pos.x, z: pos.z, w, h: d, height: h, baseY, rotY, aabb, isGround: true, visibleInPlay, collisionEnabled });
+      obstacles.push({ id: patch.id, sectionId: currentSectionId, regionId: currentSectionId, x: pos.x, z: pos.z, w, h: d, height: h, baseY, rotY, aabb, isGround: true, visibleInPlay, collisionEnabled });
     }
   }
 
@@ -303,7 +311,7 @@ export function createStaticWorld(worldData) {
       metadata: { boundaryId: bc.id, visibleInPlay, collisionEnabled },
     });
     applyFactoryPresentation(root, bc, visibleInPlay, opacity);
-    boundaries.push({ id: bc.id, x: pos.x, y: desc.baseY, z: pos.z, w, h, d, rotY, color, opacity, visibleInPlay, collisionEnabled });
+    boundaries.push({ id: bc.id, sectionId: currentSectionId, regionId: currentSectionId, x: pos.x, y: desc.baseY, z: pos.z, w, h, d, rotY, color, opacity, visibleInPlay, collisionEnabled });
 
     if (collisionEnabled) {
       const rot = rotY;
@@ -312,7 +320,7 @@ export function createStaticWorld(worldData) {
       const hz = sin*(w/2) + cos*(d/2);
       const height = h;
       const baseY2 = desc.baseY;
-      obstacles.push({ id: bc.id, x: pos.x, z: pos.z, w, h: d, height, baseY: baseY2, rotY: rot, isBoundary: true, aabb: { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz }, visibleInPlay, collisionEnabled });
+      obstacles.push({ id: bc.id, sectionId: currentSectionId, regionId: currentSectionId, x: pos.x, z: pos.z, w, h: d, height, baseY: baseY2, rotY: rot, isBoundary: true, aabb: { minX: pos.x - hx, maxX: pos.x + hx, minZ: pos.z - hz, maxZ: pos.z + hz }, visibleInPlay, collisionEnabled });
     }
   }
 
@@ -347,6 +355,12 @@ export function createStaticWorld(worldData) {
   }
 
   for (const region of regions) {
+    currentSectionId = region.id;
+    currentSectionGroup = new THREE.Group();
+    currentSectionGroup.name = `section_${region.id}`;
+    currentSectionGroup.userData.sectionId = region.id;
+    group.add(currentSectionGroup);
+    sectionGroups.set(region.id, currentSectionGroup);
     // Ground patches (authored)
     for (const gp of region.groundPatches ?? []) {
       addGroundPatch(gp);
@@ -376,7 +390,7 @@ export function createStaticWorld(worldData) {
       const hx = cos * plat.w / 2 + sin * plat.h / 2;
       const hz = sin * plat.w / 2 + cos * plat.h / 2;
       const aabb = { minX: plat.x - hx, maxX: plat.x + hx, minZ: plat.z - hz, maxZ: plat.z + hz };
-      platforms.push({ id: plat.id, x: plat.x, z: plat.z, w: plat.w, h: plat.h, height: plat.height, baseY, rotY, aabb, regionId: region.id });
+      platforms.push({ id: plat.id, sectionId: region.id, x: plat.x, z: plat.z, w: plat.w, h: plat.h, height: plat.height, baseY, rotY, aabb, regionId: region.id });
     }
 
     // Traversal obstacles — support authored Y
@@ -395,7 +409,7 @@ export function createStaticWorld(worldData) {
       const cos = Math.abs(Math.cos(rotY)), sin = Math.abs(Math.sin(rotY));
       const hx = cos * obs.w / 2 + sin * obs.h / 2;
       const hz = sin * obs.w / 2 + cos * obs.h / 2;
-      obstacles.push({ id: obs.id, x: obs.x, z: obs.z, w: obs.w, h: obs.h, height: h, baseY, rotY, aabb: { minX: obs.x - hx, maxX: obs.x + hx, minZ: obs.z - hz, maxZ: obs.z + hz } });
+      obstacles.push({ id: obs.id, sectionId: region.id, regionId: region.id, x: obs.x, z: obs.z, w: obs.w, h: obs.h, height: h, baseY, rotY, aabb: { minX: obs.x - hx, maxX: obs.x + hx, minZ: obs.z - hz, maxZ: obs.z + hz } });
     }
 
     // Climbables
@@ -408,18 +422,20 @@ export function createStaticWorld(worldData) {
         rotationY: cl.rotY ?? 0,
         metadata: { climbableId: cl.id },
       });
-      climbables.push({ ...cl });
+      climbables.push({ ...cl, sectionId: region.id, regionId: region.id });
     }
 
     // Jump traversals — data only, but add gap markers for visibility
     for (const jt of region.traversal?.jumpTraversals ?? []) {
-      jumpTraversals.push({ ...jt });
+      jumpTraversals.push({ ...jt, sectionId: region.id, regionId: region.id });
       const gapGeo = new THREE.BoxGeometry(Math.max(1.2, jt.triggerRadius * 1.2), 0.02, Math.max(1.2, jt.triggerRadius * 1.2));
       const gapMat = new THREE.MeshStandardMaterial({ color: 0x4a6a3a, transparent: true, opacity: 0.35 });
       const gap = new THREE.Mesh(gapGeo, gapMat);
       gap.position.set(jt.triggerCenter.x, -0.12, jt.triggerCenter.z);
       gap.name = jt.id;
-      group.add(gap);
+      gap.userData.sectionId = region.id;
+      gap.userData.regionId = region.id;
+      currentSectionGroup.add(gap);
     }
 
     // Anchors & POIs placeholders — support authored Y and displayName
@@ -458,6 +474,56 @@ export function createStaticWorld(worldData) {
         metadata: { poiId: poi.id, poiType: poi.type, baseY, displayName: poi.displayName ?? poi.type },
       });
     }
+
+    for (const entry of region.entryPoints ?? []) {
+      addFactoryVisual({
+        id: entry.id,
+        visualId: "prop/gate",
+        size: { width: 2.2, height: 2.4, depth: 0.45 },
+        position: entry.pos,
+        rotationY: entry.facingYaw ?? 0,
+        metadata: { entryPointId: entry.id, visibleInPlay: true, collisionEnabled: false },
+      });
+    }
+    for (const gate of region.portalGates ?? []) {
+      const useRuinAsset = gate.state === "ruined" && (worldData.visualAssets ?? []).some((asset) => asset.id === (gate.visualAssetId ?? "asset_ruin_arch"));
+      addFactoryVisual({
+        id: gate.id,
+        visualRef: useRuinAsset ? { kind: "asset", id: gate.visualAssetId ?? "asset_ruin_arch" } : { kind: "builtin", id: "prop/gate" },
+        size: { width: 2.4, height: 2.6, depth: 0.5 },
+        position: gate.pos,
+        rotationY: gate.rotY ?? 0,
+        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: gate.uniformScale ?? 1, sizeMode: useRuinAsset ? "uniform" : "box" },
+        metadata: { portalGateId: gate.id, portalState: gate.state, visibleInPlay: true, collisionEnabled: false },
+      });
+    }
+    for (const pad of region.jumpPads ?? []) {
+      addFactoryVisual({
+        id: pad.id,
+        visualRef: pad.visualAssetId ? { kind: "asset", id: pad.visualAssetId } : { kind: "builtin", id: "prop/gate" },
+        size: { width: 1.8, height: 0.25, depth: 1.8 },
+        position: pad.pos,
+        rotationY: pad.rotY ?? 0,
+        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: pad.uniformScale ?? 1, sizeMode: pad.visualAssetId ? "uniform" : "box" },
+        metadata: { jumpPadId: pad.id, visibleInPlay: true, collisionEnabled: false },
+      });
+    }
+    for (const start of region.parkourStarts ?? []) {
+      addFactoryVisual({ id: start.id, visualId: "anchor/waypoint", position: start.pos, rotationY: start.rotY ?? 0, metadata: { parkourStartId: start.id, visibleInPlay: true, collisionEnabled: false } });
+    }
+    for (const checkpoint of region.parkourCheckpoints ?? []) {
+      addFactoryVisual({ id: checkpoint.id, visualId: "anchor/beacon", position: checkpoint.pos, rotationY: checkpoint.rotY ?? 0, metadata: { parkourCheckpointId: checkpoint.id, visibleInPlay: true, collisionEnabled: false } });
+    }
+    for (const chest of region.lootChests ?? []) {
+      addFactoryVisual({
+        id: chest.id,
+        visualRef: chest.visualAssetId ? { kind: "asset", id: chest.visualAssetId } : { kind: "builtin", id: "poi/chest" },
+        position: chest.pos,
+        rotationY: chest.rotY ?? 0,
+        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: chest.uniformScale ?? 1, sizeMode: "uniform" },
+        metadata: { lootChestId: chest.id, visibleInPlay: true, collisionEnabled: false },
+      });
+    }
   }
 
   // Derived structures
@@ -470,11 +536,14 @@ export function createStaticWorld(worldData) {
     h: p.h,
     x: p.x,
     z: p.z,
+    sectionId: p.sectionId,
+    regionId: p.regionId,
   }));
 
   function getGroundHeight(x, z, currentY) {
     const check = (p) => x >= p.aabb.minX && x <= p.aabb.maxX && z >= p.aabb.minZ && z <= p.aabb.maxZ;
     for (const p of platforms) {
+      if (activeSectionId && p.sectionId !== activeSectionId) continue;
       if (!check(p)) continue;
       if (currentY === undefined || currentY === null) {
         return p.height;
@@ -488,8 +557,9 @@ export function createStaticWorld(worldData) {
   }
 
   function getCollisionObstaclesForHeight(posY) {
-    const active = [...obstacles];
+    const active = obstacles.filter((entry) => !activeSectionId || entry.sectionId === activeSectionId);
     for (const c of platformSideColliders) {
+      if (activeSectionId && c.sectionId !== activeSectionId) continue;
       const threshold = c.height - 0.18;
       if (posY < threshold) active.push(c);
     }
@@ -544,6 +614,11 @@ export function createStaticWorld(worldData) {
     heightEnd: t.landingRegion.height,
   }));
 
+  function setActiveSection(sectionId) {
+    activeSectionId = sectionId;
+    for (const [id, sectionGroup] of sectionGroups) sectionGroup.visible = id === sectionId;
+  }
+
   return {
     group,
     obstacles,
@@ -554,10 +629,17 @@ export function createStaticWorld(worldData) {
     climbables,
     groundPatches,
     boundaries,
+    sectionGroups,
+    setActiveSection,
+    getActiveSectionId: () => activeSectionId,
     getGroundHeight,
     getCollisionObstaclesForHeight,
     resolveStuckPosition,
     isBlockedByPlatformSide,
-    bounds: MOVEMENT_CONFIG.worldBounds,
+    getBoundsForSection: (sectionId) => {
+      const section = regions.find((entry) => entry.id === sectionId);
+      return section ? { ...section.bounds } : null;
+    },
+    get bounds() { return regions.find((entry) => entry.id === activeSectionId)?.bounds ?? MOVEMENT_CONFIG.worldBounds; },
   };
 }

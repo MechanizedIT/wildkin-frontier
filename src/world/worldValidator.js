@@ -11,6 +11,7 @@ const SUPPORTED_POI_TYPES = new Set(["chest", "barrier", "generic", "island"]);
 const SUPPORTED_VISUAL_ASSET_SHAPES = new Set(["box", "cylinder", "cone", "sphere", "capsule", "icosahedron"]);
 const SUPPORTED_VISUAL_ASSET_ROLES = new Set(["prop", "harvestable", "wildkin"]);
 const SUPPORTED_FEEDBACK_PROFILES = new Set(["wood", "stone", "fiber"]);
+const SUPPORTED_PORTAL_STATES = new Set(["active", "ruined"]);
 // Allow generic POI types beyond known — but if requires.type is companionAbility/materialRepair we validate.
 
 function isNumber(v) { return typeof v === "number" && Number.isFinite(v); }
@@ -164,6 +165,20 @@ export function normalizeWorldData(raw) {
     const remnantId = asset.gameplay?.harvestable?.remnantVisualAssetId;
     if (remnantId && !visualAssetIds.has(remnantId)) throw new Error(`Visual Asset ${asset.id} unresolved remnant Visual Asset ${remnantId}`);
   }
+  if (data.lootTables === undefined) data.lootTables = [];
+  if (!Array.isArray(data.lootTables)) throw new Error("world.lootTables must be an array");
+  const lootTableIds = new Set();
+  for (const table of data.lootTables) {
+    if (!table?.id || typeof table.id !== "string") throw new Error("loot table id required");
+    if (lootTableIds.has(table.id)) throw new Error(`duplicate loot table id ${table.id}`);
+    lootTableIds.add(table.id);
+    if (!Array.isArray(table.rewards) || table.rewards.length === 0) throw new Error(`loot table ${table.id} rewards required`);
+    for (const reward of table.rewards) {
+      if (reward.type !== "resource" && reward.type !== "xp") throw new Error(`loot table ${table.id} unsupported reward ${reward.type}`);
+      if (!Number.isInteger(reward.amount) || reward.amount <= 0) throw new Error(`loot table ${table.id} reward amount must be positive integer`);
+      if (reward.type === "resource" && !resourceDropIds.has(reward.id)) throw new Error(`loot table ${table.id} unresolved resource ${reward.id}`);
+    }
+  }
   if (!Array.isArray(data.regions) || data.regions.length === 0) throw new Error("world.regions must be non-empty array");
 
   const allIds = new Set();
@@ -183,6 +198,18 @@ export function normalizeWorldData(raw) {
 
   for (const region of data.regions) {
     validateBounds(region.bounds, `region ${region.id}`);
+    const boundsWidth = region.bounds.maxX - region.bounds.minX;
+    const boundsDepth = region.bounds.maxZ - region.bounds.minZ;
+    if (region.size === undefined) region.size = { width: boundsWidth, depth: boundsDepth };
+    if (!region.size || !isNumber(region.size.width) || !isNumber(region.size.depth) || region.size.width <= 0 || region.size.depth <= 0) {
+      throw new Error(`section ${region.id} size must have positive width/depth`);
+    }
+    if (Math.abs(region.size.width - boundsWidth) > 1e-6 || Math.abs(region.size.depth - boundsDepth) > 1e-6) {
+      throw new Error(`section ${region.id} size must match local bounds`);
+    }
+    if (region.sectionType === "camp" && (region.size.width !== 100 || region.size.depth !== 100)) throw new Error("Camp section must be 100x100");
+    if (region.sectionType === "expedition" && (region.size.width !== 50 || region.size.depth !== 50)) throw new Error(`standard expedition section ${region.id} must be 50x50`);
+    if (region.sectionProfile === undefined) region.sectionProfile = null;
     if (!Array.isArray(region.neighbors)) throw new Error(`region ${region.id} neighbors must be array`);
     // check neighbor refs valid and no self, no duplicate
     const seenNeighbors = new Set();
@@ -325,6 +352,9 @@ export function normalizeWorldData(raw) {
       if (res.scale !== undefined && !isNumber(res.scale)) throw new Error(`resource ${res.id} scale must be number`);
       if (res.uniformScale !== undefined && (res.uniformScale <= 0 || res.uniformScale > 5)) throw new Error(`resource ${res.id} uniformScale must be >0 <=5`);
       if (res.scale !== undefined && (res.scale <= 0 || res.scale > 5)) throw new Error(`resource ${res.id} scale must be >0 <=5`);
+      if (res.level === undefined && res.tier === undefined) res.level = 1;
+      if (res.level !== undefined && (!Number.isInteger(res.level) || res.level < 1)) throw new Error(`resource ${res.id} level must be positive integer`);
+      if (res.tier !== undefined && (!Number.isInteger(res.tier) || res.tier < 1)) throw new Error(`resource ${res.id} tier must be positive integer`);
     }
     // creatures
     if (!Array.isArray(region.creatures)) region.creatures = [];
@@ -352,6 +382,8 @@ export function normalizeWorldData(raw) {
       if (cr.facingYaw !== undefined && !isNumber(cr.facingYaw)) throw new Error(`creature ${cr.id} facingYaw must be number`);
       if (cr.rotY !== undefined && !isNumber(cr.rotY)) throw new Error(`creature ${cr.id} rotY must be number`);
       if (cr.rotationY !== undefined && !isNumber(cr.rotationY)) throw new Error(`creature ${cr.id} rotationY must be number`);
+      if (cr.level === undefined) cr.level = 1;
+      if (!Number.isInteger(cr.level) || cr.level < 1) throw new Error(`creature ${cr.id} level must be positive integer`);
     }
     // traversal
     if (!region.traversal) region.traversal = {};
@@ -431,6 +463,91 @@ export function normalizeWorldData(raw) {
       validatePos(poi.pos, `poi ${poi.id}`);
       if (!isInsideBounds(poi.pos, region.bounds)) throw new Error(`poi ${poi.id} not inside region ${region.id} bounds`);
     }
+
+    for (const key of ["entryPoints", "portalGates", "jumpPads", "parkourStarts", "parkourCheckpoints", "killVolumes", "lootChests"]) {
+      if (region[key] === undefined) region[key] = [];
+      if (!Array.isArray(region[key])) throw new Error(`section ${region.id} ${key} must be an array`);
+    }
+    for (const entry of region.entryPoints) {
+      if (!entry.id || typeof entry.id !== "string" || allIds.has(entry.id)) throw new Error(`duplicate or missing entry point id ${entry.id}`);
+      allIds.add(entry.id);
+      validatePos(entry.pos, `entry point ${entry.id}`);
+      if (!isInsideBounds(entry.pos, region.bounds)) throw new Error(`entry point ${entry.id} outside section ${region.id}`);
+      if (entry.facingYaw === undefined) entry.facingYaw = 0;
+      if (!isNumber(entry.facingYaw)) throw new Error(`entry point ${entry.id} facingYaw must be finite`);
+    }
+    for (const gate of region.portalGates) {
+      if (!gate.id || typeof gate.id !== "string" || allIds.has(gate.id)) throw new Error(`duplicate or missing portal gate id ${gate.id}`);
+      allIds.add(gate.id);
+      validatePos(gate.pos, `portal gate ${gate.id}`);
+      if (!isInsideBounds(gate.pos, region.bounds)) throw new Error(`portal gate ${gate.id} outside section ${region.id}`);
+      if (!SUPPORTED_PORTAL_STATES.has(gate.state)) throw new Error(`portal gate ${gate.id} state must be active or ruined`);
+      if (typeof gate.targetSectionId !== "string" || typeof gate.targetEntryId !== "string") throw new Error(`portal gate ${gate.id} target section/entry required`);
+      if (gate.rotY === undefined) gate.rotY = 0;
+      if (!isNumber(gate.rotY)) throw new Error(`portal gate ${gate.id} rotY must be finite`);
+      if (gate.triggerRadius === undefined) gate.triggerRadius = 1.85;
+      if (!isNumber(gate.triggerRadius) || gate.triggerRadius <= 0) throw new Error(`portal gate ${gate.id} triggerRadius must be positive`);
+      if (gate.requirements !== undefined) {
+        if (!gate.requirements || typeof gate.requirements !== "object") throw new Error(`portal gate ${gate.id} requirements must be object`);
+        if (gate.requirements.minPlayerLevel !== undefined && (!Number.isInteger(gate.requirements.minPlayerLevel) || gate.requirements.minPlayerLevel < 1)) throw new Error(`portal gate ${gate.id} minPlayerLevel must be positive integer`);
+        for (const [resourceId, amount] of Object.entries(gate.requirements.resources ?? {})) {
+          if (!resourceDropIds.has(resourceId) || !Number.isInteger(amount) || amount <= 0) throw new Error(`portal gate ${gate.id} invalid resource requirement ${resourceId}`);
+        }
+      }
+    }
+    for (const pad of region.jumpPads) {
+      if (!pad.id || typeof pad.id !== "string" || allIds.has(pad.id)) throw new Error(`duplicate or missing Jump Pad id ${pad.id}`);
+      allIds.add(pad.id);
+      validatePos(pad.pos, `Jump Pad ${pad.id}`);
+      if (!isInsideBounds(pad.pos, region.bounds)) throw new Error(`Jump Pad ${pad.id} outside section ${region.id}`);
+      if (pad.rotY === undefined) pad.rotY = 0;
+      if (pad.triggerRadius === undefined) pad.triggerRadius = 1.1;
+      if (pad.cooldown === undefined) pad.cooldown = 0.8;
+      for (const key of ["rotY", "triggerRadius", "horizontalLaunch", "verticalLaunch", "cooldown"]) if (!isNumber(pad[key])) throw new Error(`Jump Pad ${pad.id} ${key} must be finite`);
+      if (pad.triggerRadius <= 0 || pad.horizontalLaunch <= 0 || pad.verticalLaunch <= 0 || pad.cooldown < 0) throw new Error(`Jump Pad ${pad.id} launch values must be positive`);
+      if (pad.visualAssetId !== undefined && !visualAssetIds.has(pad.visualAssetId)) throw new Error(`Jump Pad ${pad.id} unresolved Visual Asset ${pad.visualAssetId}`);
+    }
+    for (const start of region.parkourStarts) {
+      if (!start.id || typeof start.id !== "string" || allIds.has(start.id) || typeof start.courseId !== "string") throw new Error(`invalid Parkour Start ${start.id}`);
+      allIds.add(start.id); validatePos(start.pos, `Parkour Start ${start.id}`);
+      if (!isInsideBounds(start.pos, region.bounds)) throw new Error(`Parkour Start ${start.id} outside section ${region.id}`);
+      start.triggerRadius ??= 1.1;
+      if (!isNumber(start.triggerRadius) || start.triggerRadius <= 0) throw new Error(`Parkour Start ${start.id} triggerRadius must be positive`);
+    }
+    for (const checkpoint of region.parkourCheckpoints) {
+      if (!checkpoint.id || typeof checkpoint.id !== "string" || allIds.has(checkpoint.id) || typeof checkpoint.courseId !== "string") throw new Error(`invalid Parkour Checkpoint ${checkpoint.id}`);
+      allIds.add(checkpoint.id); validatePos(checkpoint.pos, `Parkour Checkpoint ${checkpoint.id}`);
+      if (!isInsideBounds(checkpoint.pos, region.bounds)) throw new Error(`Parkour Checkpoint ${checkpoint.id} outside section ${region.id}`);
+      checkpoint.triggerRadius ??= 1.1;
+      if (!isNumber(checkpoint.triggerRadius) || checkpoint.triggerRadius <= 0) throw new Error(`Parkour Checkpoint ${checkpoint.id} triggerRadius must be positive`);
+    }
+    for (const volume of region.killVolumes) {
+      if (!volume.id || typeof volume.id !== "string" || allIds.has(volume.id)) throw new Error(`invalid Kill Volume ${volume.id}`);
+      allIds.add(volume.id); validatePos(volume.pos, `Kill Volume ${volume.id}`);
+      if (!volume.size || !isNumber(volume.size.w) || !isNumber(volume.size.h) || !isNumber(volume.size.d) || volume.size.w <= 0 || volume.size.h <= 0 || volume.size.d <= 0) throw new Error(`Kill Volume ${volume.id} size must be positive`);
+      if (volume.courseId !== undefined && typeof volume.courseId !== "string") throw new Error(`Kill Volume ${volume.id} courseId must be string`);
+    }
+    for (const chest of region.lootChests) {
+      if (!chest.id || typeof chest.id !== "string" || allIds.has(chest.id)) throw new Error(`invalid Loot Chest ${chest.id}`);
+      allIds.add(chest.id); validatePos(chest.pos, `Loot Chest ${chest.id}`);
+      if (!isInsideBounds(chest.pos, region.bounds)) throw new Error(`Loot Chest ${chest.id} outside section ${region.id}`);
+      if (!lootTableIds.has(chest.lootTableId)) throw new Error(`Loot Chest ${chest.id} missing loot table ${chest.lootTableId}`);
+      if (chest.refillSeconds !== undefined && chest.refillSeconds !== null && (!isNumber(chest.refillSeconds) || chest.refillSeconds <= 0)) throw new Error(`Loot Chest ${chest.id} refillSeconds must be positive or null`);
+      chest.triggerRadius ??= 1.45;
+      if (chest.visualAssetId !== undefined && !visualAssetIds.has(chest.visualAssetId)) throw new Error(`Loot Chest ${chest.id} unresolved Visual Asset ${chest.visualAssetId}`);
+    }
+  }
+
+  const courseIdsBySection = new Map(data.regions.map((section) => [section.id, new Set(section.parkourStarts.map((entry) => entry.courseId))]));
+  for (const section of data.regions) {
+    for (const gate of section.portalGates) {
+      const targetSection = data.regions.find((entry) => entry.id === gate.targetSectionId);
+      if (!targetSection) throw new Error(`portal gate ${gate.id} target section ${gate.targetSectionId} missing`);
+      if (!targetSection.entryPoints.some((entry) => entry.id === gate.targetEntryId)) throw new Error(`portal gate ${gate.id} target entry ${gate.targetEntryId} missing`);
+    }
+    for (const checkpoint of section.parkourCheckpoints) if (!courseIdsBySection.get(section.id).has(checkpoint.courseId)) throw new Error(`Parkour Checkpoint ${checkpoint.id} references missing course ${checkpoint.courseId}`);
+    for (const volume of section.killVolumes) if (volume.courseId && !courseIdsBySection.get(section.id).has(volume.courseId)) throw new Error(`Kill Volume ${volume.id} references missing course ${volume.courseId}`);
+    for (const chest of section.lootChests) if (chest.courseId && !courseIdsBySection.get(section.id).has(chest.courseId)) throw new Error(`Loot Chest ${chest.id} references missing course ${chest.courseId}`);
   }
 
   // Phase 4A frontier metadata validation
@@ -441,6 +558,7 @@ export function normalizeWorldData(raw) {
     let foundGate = false;
     for (const region of data.regions) {
       for (const prop of region.props) if (prop.id === gateId && (prop.subtype === "gate" || prop.subtype === "boundary")) foundGate = true;
+      for (const gate of region.portalGates ?? []) if (gate.id === gateId) foundGate = true;
     }
     if (!foundGate) {
       // also allow gate being not strictly gate subtype but still present globally
@@ -550,30 +668,31 @@ export function normalizeWorldData(raw) {
         const w = prop.size.w ?? 1, d = prop.size.d ?? 1, h = prop.size.h ?? 1;
         const x = prop.pos.x, z = prop.pos.z, baseY = prop.pos.y ?? 0;
         const rotY = prop.rotY ?? 0;
-        blockers.push({ id: prop.id, x, z, halfW: w/2, halfD: d/2, baseY, topY: baseY + h, w, d, h, rotY });
+        blockers.push({ id: prop.id, sectionId: region.id, x, z, halfW: w/2, halfD: d/2, baseY, topY: baseY + h, w, d, h, rotY });
       }
       for(const bc of region.boundaryColliders ?? []){
         if(bc.collisionEnabled === false) continue;
         const w = bc.size.w, d = bc.size.d, h = bc.size.h;
         const x = bc.pos.x, z = bc.pos.z, baseY = bc.pos.y ?? 0;
         const rotY = bc.rotY ?? 0;
-        blockers.push({ id: bc.id, x, z, halfW: w/2, halfD: d/2, baseY, topY: baseY + h, w,d,h, rotY });
+        blockers.push({ id: bc.id, sectionId: region.id, x, z, halfW: w/2, halfD: d/2, baseY, topY: baseY + h, w,d,h, rotY });
       }
       for(const obs of region.traversal.obstacles ?? []){
         const w = obs.w, d = obs.h, h = obs.height ?? 1;
         const x = obs.x, z = obs.z, baseY = obs.y ?? obs.baseY ?? 0;
-        blockers.push({ id: obs.id, x, z, hx: w/2, hz: d/2, baseY, topY: baseY + h, w,d,h });
+        blockers.push({ id: obs.id, sectionId: region.id, x, z, hx: w/2, hz: d/2, baseY, topY: baseY + h, w,d,h });
       }
       for(const plat of region.traversal.platforms ?? []){
         const w = plat.w, d = plat.h, h = plat.height;
         const x = plat.x, z = plat.z, baseY = plat.y ?? plat.baseY ?? 0;
-        blockers.push({ id: plat.id, x, z, hx: w/2, hz: d/2, baseY, topY: baseY + h, w,d,h, isPlatform:true });
+        blockers.push({ id: plat.id, sectionId: region.id, x, z, hx: w/2, hz: d/2, baseY, topY: baseY + h, w,d,h, isPlatform:true });
       }
     }
-    function isSupported(spawnPos){
+    function isSupported(spawnPos, sectionId){
       const feetY = spawnPos.y ?? 0;
       let foundSupport = null;
       for(const s of supportSurfaces){
+        if (s.regionId !== sectionId) continue;
         const minX = s.x - s.w/2 - 0.15, maxX = s.x + s.w/2 + 0.15;
         const minZ = s.z - s.d/2 - 0.15, maxZ = s.z + s.d/2 + 0.15;
         if(spawnPos.x < minX || spawnPos.x > maxX || spawnPos.z < minZ || spawnPos.z > maxZ) continue;
@@ -584,10 +703,11 @@ export function normalizeWorldData(raw) {
       }
       return foundSupport;
     }
-    function isClear(spawnPos, supportId){
+    function isClear(spawnPos, supportId, sectionId){
       const feetY = spawnPos.y ?? 0;
       const capMinY = feetY, capMaxY = feetY + spawnCapsuleTotalHeight;
       for(const b of blockers){
+        if (b.sectionId !== sectionId) continue;
         if(b.id === supportId) continue;
         const halfW = b.halfW ?? b.hx ?? (b.w/2);
         const halfD = b.halfD ?? b.hz ?? (b.d/2);
@@ -617,9 +737,9 @@ export function normalizeWorldData(raw) {
       if(!isNumber(facing)) throw new Error("camp.playerSpawn facingYaw must be finite");
       const campReg = data.regions.find(r=>r.id==="camp");
       if(campReg && !isInsideBounds(feetPos, campReg.bounds)) throw new Error("camp.playerSpawn must be strictly inside Camp region");
-      const support = isSupported(feetPos);
+      const support = isSupported(feetPos, "camp");
       if(!support) throw new Error("camp.playerSpawn not supported by traversable surface (feet not on ground/platform)");
-      const clear = isClear(feetPos, support.id);
+      const clear = isClear(feetPos, support.id, "camp");
       if(clear.blocked) throw new Error(`camp.playerSpawn capsule intersects blocker ${clear.blockerId}`);
     }
     // run spawns
@@ -632,9 +752,9 @@ export function normalizeWorldData(raw) {
         const facing = wp.runSpawn.facingYaw ?? wp.runSpawn.facing ?? 0;
         if(!isNumber(facing)) throw new Error(`waypoint ${wp.id} runSpawn facingYaw finite required`);
         if(!isInsideBounds(feetPos, region.bounds)) throw new Error(`waypoint ${wp.id} runSpawn not inside region ${region.id}`);
-        const support = isSupported(feetPos);
+        const support = isSupported(feetPos, region.id);
         if(!support) throw new Error(`waypoint ${wp.id} runSpawn not supported by traversable surface`);
-        const clear = isClear(feetPos, support.id);
+        const clear = isClear(feetPos, support.id, region.id);
         if(clear.blocked) throw new Error(`waypoint ${wp.id} runSpawn capsule intersects blocker ${clear.blockerId}`);
       }
     }
@@ -658,18 +778,18 @@ export function normalizeWorldData(raw) {
   for (const region of data.regions) {
     for (const plat of region.traversal.platforms) {
       const aabb = { minX: plat.x - plat.w / 2, maxX: plat.x + plat.w / 2, minZ: plat.z - plat.h / 2, maxZ: plat.z + plat.h / 2, height: plat.height };
-      allPlatforms.push(aabb);
+      allPlatforms.push({ ...aabb, sectionId: region.id });
     }
     for (const obs of region.traversal.obstacles) {
       const aabb = { minX: obs.x - obs.w / 2, maxX: obs.x + obs.w / 2, minZ: obs.z - obs.h / 2, maxZ: obs.z + obs.h / 2, height: obs.height };
-      allObstacles.push(aabb);
+      allObstacles.push({ ...aabb, sectionId: region.id });
     }
     for (const res of region.resources) {
       // solid resources: tree, rock
       if (res.type === "tree" || res.type === "rock") {
         const half = res.type === "tree" ? 0.58 : 0.72; // from resourceConfig
         const aabb = { minX: res.pos.x - half, maxX: res.pos.x + half, minZ: res.pos.z - half, maxZ: res.pos.z + half, height: 1.0 };
-        allSolidResources.push(aabb);
+        allSolidResources.push({ ...aabb, sectionId: region.id });
       }
     }
   }
@@ -677,6 +797,7 @@ export function normalizeWorldData(raw) {
     for (const cr of region.creatures) {
       const x = cr.pos.x, z = cr.pos.z;
       for (const plat of allPlatforms) {
+        if (plat.sectionId !== region.id) continue;
         const minX = plat.minX - creatureRadius, maxX = plat.maxX + creatureRadius;
         const minZ = plat.minZ - creatureRadius, maxZ = plat.maxZ + creatureRadius;
         if (x >= minX && x <= maxX && z >= minZ && z <= maxZ) {
@@ -684,6 +805,7 @@ export function normalizeWorldData(raw) {
         }
       }
       for (const obs of allObstacles) {
+        if (obs.sectionId !== region.id) continue;
         const minX = obs.minX - creatureRadius, maxX = obs.maxX + creatureRadius;
         const minZ = obs.minZ - creatureRadius, maxZ = obs.maxZ + creatureRadius;
         if (x >= minX && x <= maxX && z >= minZ && z <= maxZ) {
@@ -691,6 +813,7 @@ export function normalizeWorldData(raw) {
         }
       }
       for (const res of allSolidResources) {
+        if (res.sectionId !== region.id) continue;
         const minX = res.minX - creatureRadius, maxX = res.maxX + creatureRadius;
         const minZ = res.minZ - creatureRadius, maxZ = res.maxZ + creatureRadius;
         if (x >= minX && x <= maxX && z >= minZ && z <= maxZ) {
@@ -701,18 +824,7 @@ export function normalizeWorldData(raw) {
     }
   }
 
-  // Region overlap validation: no ambiguous overlapping interiors
-  for (let i = 0; i < data.regions.length; i++) {
-    for (let j = i + 1; j < data.regions.length; j++) {
-      const a = data.regions[i].bounds;
-      const b = data.regions[j].bounds;
-      const overlapX = Math.min(a.maxX, b.maxX) - Math.max(a.minX, b.minX);
-      const overlapZ = Math.min(a.maxZ, b.maxZ) - Math.max(a.minZ, b.minZ);
-      if (overlapX > 1e-6 && overlapZ > 1e-6) {
-        throw new Error(`region overlap: ${data.regions[i].id} overlaps ${data.regions[j].id}`);
-      }
-    }
-  }
+  // Section-local coordinate overlap is intentional; section identity owns content.
   // Neighbor reciprocity
   for (const region of data.regions) {
     for (const nid of region.neighbors) {
@@ -722,34 +834,10 @@ export function normalizeWorldData(raw) {
       }
     }
   }
-  // Ground/Boundary ownership intersection
+  // Ground/Boundary ownership is checked only against the declared local section.
   for (const region of data.regions) {
     for (const gp of region.groundPatches ?? []) {
-      const footprint = { x: gp.pos.x, z: gp.pos.z, w: gp.size.w, d: gp.size.d };
-      const intersecting = [];
-      for (const r of data.regions) {
-        const b = r.bounds;
-        const fx1 = footprint.x - footprint.w/2, fx2 = footprint.x + footprint.w/2;
-        const fz1 = footprint.z - footprint.d/2, fz2 = footprint.z + footprint.d/2;
-        const overlap = !(fx2 < b.minX || fx1 > b.maxX || fz2 < b.minZ || fz1 > b.maxZ);
-        if (overlap) intersecting.push(r.id);
-      }
-      if (!intersecting.includes(region.id)) throw new Error(`groundPatch ${gp.id} does not intersect declared owner ${region.id}`);
-      // if footprint only intersects far non-neighbor, warn as error for obviously unrelated ownership
-      for (const iid of intersecting) {
-        if (iid !== region.id && !region.neighbors.includes(iid)) {
-          // allow crossing into neighbor only; unrelated is error
-          // But ground patches are large (25 wide) covering all width — they will intersect camp but that's neighbor? For p1, ground 25 wide intersects camp and p2 which are neighbors => ok. For camp ground 25 wide intersects p1 => neighbor ok.
-          // So we check if intersecting contains unrelated id that is not neighbor and not self -> if more than neighbors, it would be unrelated
-          if (!region.neighbors.includes(iid) && iid !== region.id) {
-            // if intersecting includes unrelated far region, that's invalid
-            // Only error if intersecting length > neighbors+1 and contains far
-            // For current map this should pass; if future ground spans 3 regions it's error
-            // We'll enforce that intersecting must be subset of {self + neighbors}
-            throw new Error(`groundPatch ${gp.id} intersects unrelated region ${iid} not neighbor of ${region.id}`);
-          }
-        }
-      }
+      if (!isInsideBounds(gp.pos, region.bounds)) throw new Error(`groundPatch ${gp.id} center outside declared section ${region.id}`);
     }
     for (const bc of region.boundaryColliders ?? []) {
       // boundaryColliders are outer limits; ownership is informational, no strict intersection required for now

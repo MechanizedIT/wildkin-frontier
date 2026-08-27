@@ -4,7 +4,7 @@ import * as THREE from "three";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { WORLD_DATA } from "../src/world/data/world.js";
+import { WORLD_DATA } from "./fixtures/crescentWorld.generated.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";

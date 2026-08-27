@@ -14,6 +14,8 @@ import {
   syncAuthorVisual,
   syncEditProxy,
 } from "./authorPreview.js";
+import { predictJumpPadTrajectory } from "../world/jumpPadSystem.js";
+import { summarizeSection } from "../world/sectionProfile.js";
 
 export const ASSET_EDIT_CAMERA_STEP = Math.PI / 4;
 
@@ -89,6 +91,7 @@ export function createAuthorMode(opts) {
 
   let isEdit = false;
   let selectedId = null;
+  let selectedEditSectionId = draftApi.getDraft().regions.find((entry) => entry.id === "camp")?.id ?? draftApi.getDraft().regions[0]?.id ?? null;
   let highlightMesh = null;
   let homeMarker = null;
   let regionOverlays = [];
@@ -117,11 +120,30 @@ export function createAuthorMode(opts) {
   let assetPartDrag = null;
   let assetEditStageHelpers = [];
   let assetEditSceneState = null;
+  let trajectoryPreviewLines = [];
+  let trajectoryPreviewSignature = null;
+
+  function formatSectionSummary(sectionId) {
+    const summary = summarizeSection(draftApi.getDraft(), sectionId);
+    if (!summary) return "Section not found";
+    const range = (value) => value ? `${value.min}–${value.max}` : "—";
+    const mark = (status) => status === "ok" ? "✓" : status === "warning" ? "△" : "·";
+    return `${summary.displayName.toUpperCase()} — Tier ${summary.tier} — Lv ${range(summary.recommendedLevel)}\n\n`
+      + `Resources: ${summary.resourceValue} / target ${range(summary.resourceTarget)} ${mark(summary.resourceStatus)}\n`
+      + `Wildkin: ${summary.wildkinCount} / target ${range(summary.wildkinCountTarget)} ${mark(summary.wildkinCountStatus)}\n`
+      + `Wildkin levels: ${range(summary.wildkinLevelRange)} / target ${range(summary.wildkinLevelTarget)}\n\n`
+      + `Waypoint       ${mark(summary.countStatus.waypoint)}\n`
+      + `Beacon         ${mark(summary.countStatus.extractionBeacons)}\n`
+      + `Secret         ${mark(summary.countStatus.secrets)}\n`
+      + `Parkour        ${mark(summary.countStatus.parkourCourses)}\n`
+      + `Outbound Gate  ${mark(summary.countStatus.outboundPortals)}`;
+  }
 
   const ui = createAuthorUI({
     draftApi,
     actions,
     worldRegistry,
+    getSectionSummary: formatSectionSummary,
     onCreate: (item) => {
       if (!isEdit) {
         isEdit = true; suppressGameplay = true;
@@ -179,6 +201,7 @@ export function createAuthorMode(opts) {
     },
     onDraftChanged: (id, deletedId) => {
       reconcilePreview();
+      ui.refreshRegionSelects?.();
       if (id) {
         selectedId = id; ui.setSelected(id);
       }
@@ -196,7 +219,14 @@ export function createAuthorMode(opts) {
     onValidate: (ok, err) => {
       if (ok) ui.setStatus("✓ Valid", false); else ui.setStatus("⚠ " + err, true);
     },
-    onSelectRegion: () => { updateOverlays(); if (ui.refreshHierarchy) ui.refreshHierarchy(); },
+    onSelectRegion: (sectionId) => {
+      selectedEditSectionId = sectionId;
+      regionManager?.activate?.(sectionId);
+      updateOverlays();
+      updateEditorVisibility();
+      updateTrajectoryPreviews();
+      if (ui.refreshHierarchy) ui.refreshHierarchy();
+    },
     onFocusObject: (id) => {
       const found = draftApi.findObjectById(id);
       if (!found) return;
@@ -825,18 +855,56 @@ export function createAuthorMode(opts) {
       isolateAssetEditScene();
       return;
     }
-    const focus = { x: camera.position.x, z: camera.position.z };
-    let focusRegion = null;
-    try { focusRegion = draftApi.findContainingRegion({ x: focus.x, z: focus.z }); if (!focusRegion) focusRegion = draftApi.findNearestRegion({ x: focus.x, z: focus.z }); } catch {}
-    if (!focusRegion) return;
-    // Use draft-derived neighbor expansion: draft neighbors for that region
-    const draftRegion = draftApi.findRegion(focusRegion);
-    let activeSet = new Set([focusRegion]);
-    if (draftRegion && Array.isArray(draftRegion.neighbors)) for (const nid of draftRegion.neighbors) activeSet.add(nid);
-    const activeIds = [...activeSet];
+    if (!selectedEditSectionId) return;
+    const activeIds = [selectedEditSectionId];
+    regionManager?.activate?.(selectedEditSectionId);
     if (resourceSystem) resourceSystem.setActiveRegions(activeIds);
     if (creatureSystem) creatureSystem.setActiveRegions(activeIds);
+    scene.traverse((object) => {
+      const authorId = object.userData?.authorId;
+      if (!authorId || object.parent?.userData?.authorId === authorId) return;
+      const found = draftApi.findObjectById(authorId);
+      if (found?.regionId) object.visible = found.regionId === selectedEditSectionId;
+    });
+    updateTrajectoryPreviews();
     highlightOverlayForSelected();
+  }
+
+  function clearTrajectoryPreviews({ resetSignature = true } = {}) {
+    for (const line of trajectoryPreviewLines) {
+      scene.remove(line);
+      line.geometry?.dispose?.();
+      line.material?.dispose?.();
+    }
+    trajectoryPreviewLines = [];
+    if (resetSignature) trajectoryPreviewSignature = null;
+  }
+
+  function updateTrajectoryPreviews() {
+    if (!isEdit || editingAssetId || !selectedEditSectionId) {
+      clearTrajectoryPreviews();
+      return;
+    }
+    const section = draftApi.findRegion(selectedEditSectionId);
+    const signature = JSON.stringify((section?.jumpPads ?? []).map((pad) => ({
+      id: pad.id,
+      pos: pad.pos,
+      launch: pad.launch,
+    })));
+    if (trajectoryPreviewSignature === signature) return;
+    clearTrajectoryPreviews({ resetSignature: false });
+    trajectoryPreviewSignature = signature;
+    for (const pad of section?.jumpPads ?? []) {
+      const points = predictJumpPadTrajectory(pad).map((point) => new THREE.Vector3(point.x, point.y + 0.12, point.z));
+      const line = new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(points),
+        new THREE.LineBasicMaterial({ color: 0x7fffe2, transparent: true, opacity: 0.9 }),
+      );
+      line.name = `jump_trajectory_${pad.id}`;
+      line.userData.authorHelper = true;
+      scene.add(line);
+      trajectoryPreviewLines.push(line);
+    }
   }
 
   function prepareRender() {
@@ -859,9 +927,7 @@ export function createAuthorMode(opts) {
 
   function handlePlaceClick(worldPos) {
     if (!pendingPlace) return false;
-    let regionId = draftApi.findContainingRegion({ x: worldPos.x, z: worldPos.z });
-    if (!regionId) regionId = draftApi.findNearestRegion({ x: worldPos.x, z: worldPos.z });
-    const targetRegion = regionId || draftApi.getDraft().regions[0]?.id;
+    const targetRegion = selectedEditSectionId;
     const kind = pendingPlace.kind;
     const subtype = pendingPlace.subtype;
     const visualAssetId = pendingPlace.visualAssetId;
@@ -1025,6 +1091,8 @@ export function createAuthorMode(opts) {
   }
 
   function enterEdit() {
+    selectedEditSectionId = ui.getSelectedRegionId?.() ?? selectedEditSectionId;
+    ui.setSelectedRegionId?.(selectedEditSectionId);
     editorCameraState = { pos: camera.position.clone(), rot: camera.rotation.clone(), fov: camera.fov, fog: scene.fog };
     const ext = draftApi.getWorldExtents ? draftApi.getWorldExtents() : { minX: -12.5, maxX: 12.5, minZ: -11.5, maxZ: 11.5 };
     const cx = (ext.minX + ext.maxX) * 0.5;
@@ -1073,6 +1141,7 @@ export function createAuthorMode(opts) {
     setForestTransparency(false);
     setProxyVisibility(false);
     clearSpawnMarkers();
+    clearTrajectoryPreviews();
     exitPlaceMode();
     renderer.domElement.style.cursor = "";
   }
@@ -1232,6 +1301,7 @@ export function createAuthorMode(opts) {
       scene.add(line);
       regionOverlays.push(line);
       const label = makeLabel(region.id, b);
+      label.userData.regionId = region.id;
       scene.add(label);
       regionOverlays.push(label);
     }
@@ -1246,13 +1316,13 @@ export function createAuthorMode(opts) {
     sprite.position.set(cx, 1.2, cz); sprite.scale.set(3.5, 0.9, 1); sprite.visible = false; sprite.name = `label_${text}`; return sprite;
   }
   function setOverlaysVisible(visible) {
-    for (const o of regionOverlays) o.visible = visible;
+    for (const o of regionOverlays) o.visible = visible && o.userData.regionId === selectedEditSectionId;
     highlightOverlayForSelected();
   }
   function highlightOverlayForSelected() {
     for (const line of regionOverlays) {
       if (line.isLine && line.userData.regionId) {
-        const isSel = selectedId && draftApi.findObjectById(selectedId)?.region.id === line.userData.regionId;
+        const isSel = line.userData.regionId === selectedEditSectionId;
         line.material.color.set(isSel ? 0xffd54f : 0x4fc3f7);
         line.material.opacity = isSel ? 1.0 : 0.7;
       }

@@ -246,10 +246,11 @@ export function createAuthorUI(opts) {
       <div id="author-hierarchy" style="max-height:240px;overflow:auto;margin-top:4px;border:1px solid #1e2a4a;border-radius:4px;padding:4px;background:#0a0f1e;font-size:11px"></div>
     </details>
     <details id="sec-region" open style="margin-bottom:8px">
-      <summary style="font-weight:700;cursor:pointer">Regions — Area Chunks <span style="font-weight:400;color:#7890ad">(what keeps phones fast)</span></summary>
-      <div style="font-size:10px;color:#7890ad;margin-top:4px">Each Region is a rectangular chunk. Neighbors = which chunks stay awake together. Player in Camp + Forest Edge keeps both alive so trees don't pop in.</div>
+      <summary style="font-weight:700;cursor:pointer">Section Context</summary>
+      <div style="font-size:10px;color:#7890ad;margin-top:4px">Only the selected section is visible and editable. Overlapping local coordinates never change ownership.</div>
       <div style="background:#0a0f1e;border:1px solid #1e2a4a;border-radius:6px;padding:6px;margin-top:6px">
-        <div style="display:grid;grid-template-columns:1fr auto;gap:4px"><label style="flex:1">Region <select id="author-region-select" style="width:100%"></select></label><button id="author-region-new" title="Create a new 12x12 region next to current view" style="padding:4px 8px;background:#244266;color:#dcecff;border:1px solid #3a6694;border-radius:4px;font-size:11px">+ New Area</button></div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:4px"><label style="flex:1">Camp / Section <select id="author-region-select" style="width:100%"></select></label><button id="author-region-new" title="Create a new standard 50x50 section" style="padding:4px 8px;background:#244266;color:#dcecff;border:1px solid #3a6694;border-radius:4px;font-size:11px">+ New Section</button></div>
+        <pre id="author-section-summary" style="white-space:pre-wrap;font:10px/1.45 ui-monospace,monospace;color:#a8bdd8;background:#080d18;border:1px solid #1e2a4a;border-radius:4px;padding:6px;margin:6px 0 0"></pre>
         <div id="author-region-form" style="margin-top:6px;display:grid;grid-template-columns:1fr 1fr;gap:4px">
           <label>Display <input id="author-region-name" style="width:100%"></label>
           <label>Neighbors <div id="author-region-neighbors" style="display:flex;flex-wrap:wrap;gap:3px;min-height:26px;padding:3px;background:#0a0f1e;border:1px solid #2a3a5a;border-radius:4px"></div><input type="hidden" id="author-region-neighbors-input"></label>
@@ -300,6 +301,10 @@ export function createAuthorUI(opts) {
       { label: "Platform", kind: "platform" },
       { label: "Obstacle", kind: "obstacle" },
       { label: "Ladder", kind: "climbable" },
+      { label: "Jump Pad", kind: "jumpPad" },
+      { label: "Parkour Start", kind: "parkourStart" },
+      { label: "Checkpoint", kind: "parkourCheckpoint" },
+      { label: "Kill Volume", kind: "killVolume" },
     ]},
     { title: "Resources", items: [
       { label: "Tree", kind: "tree" },
@@ -313,6 +318,8 @@ export function createAuthorUI(opts) {
     { title: "Frontier / POI", items: [
       { label: "Major Waypoint", kind: "majorWaypoint" },
       { label: "Extraction Beacon", kind: "extractionBeacon" },
+      { label: "Portal Gate", kind: "portalGate" },
+      { label: "Loot Chest", kind: "lootChest" },
       { label: "POI Chest", kind: "poi", subtype: "chest" },
     ]},
   ];
@@ -805,7 +812,7 @@ export function createAuthorUI(opts) {
     regionSelectEl.innerHTML = "";
     selRegionEl.innerHTML = "";
     for (const r of regions) {
-      const o1 = document.createElement("option"); o1.value = r.id; o1.textContent = r.id; regionSelectEl.appendChild(o1);
+      const o1 = document.createElement("option"); o1.value = r.id; o1.textContent = r.displayName ? `${r.displayName} (${r.id})` : r.id; regionSelectEl.appendChild(o1);
       const o2 = document.createElement("option"); o2.value = r.id; o2.textContent = r.id; selRegionEl.appendChild(o2);
     }
     if (regions.find(r => r.id === curSel)) regionSelectEl.value = curSel;
@@ -845,6 +852,9 @@ export function createAuthorUI(opts) {
     container.querySelector("#author-b-maxX").value = r.bounds.maxX;
     container.querySelector("#author-b-minZ").value = r.bounds.minZ;
     container.querySelector("#author-b-maxZ").value = r.bounds.maxZ;
+    const summary = opts.getSectionSummary?.(rid);
+    const summaryEl = container.querySelector("#author-section-summary");
+    if (summaryEl) summaryEl.textContent = summary ?? "No section profile targets authored.";
   }
   const hierarchyEl = container.querySelector("#author-hierarchy");
   const filterEl = container.querySelector("#author-filter");
@@ -853,14 +863,9 @@ export function createAuthorUI(opts) {
   if (newBtn) newBtn.addEventListener("click", () => {
     const base = draftApi.getDraft().regions[0];
     const draft = draftApi.getDraft();
-    // Use current camera position as hint for new region placement
-    let cx = 0, cz = 0;
-    try { cx = window.__authorCameraPos ? window.__authorCameraPos().x : 0; cz = window.__authorCameraPos ? window.__authorCameraPos().z : 0; } catch {}
-    if (!isFinite(cx)) cx = (base.bounds.minX + base.bounds.maxX)/2 + 24;
-    if (!isFinite(cz)) cz = (base.bounds.minZ + base.bounds.maxZ)/2;
-    const size = 12;
-    const id = "r_" + Date.now().toString(36).slice(-4);
-    const res = draftApi.createRegion ? draftApi.createRegion({ id, displayName: "New Area", bounds: { minX: cx-size/2, maxX: cx+size/2, minZ: cz-size/2, maxZ: cz+size/2 }, neighbors: [] }) : null;
+    const cx = 0, cz = 0, size = 50;
+    const id = "section_" + Date.now().toString(36).slice(-4);
+    const res = draftApi.createRegion ? draftApi.createRegion({ id, displayName: "New Section", bounds: { minX: -25, maxX: 25, minZ: -25, maxZ: 25 }, neighbors: [] }) : null;
     if (!res || !res.ok) {
       // Fallback: direct transact via draftApi if createRegion not available — do minimal region push
       try {
@@ -929,7 +934,7 @@ export function createAuthorUI(opts) {
     // preserve scroll
     const scrollTop = hierarchyEl.scrollTop;
     hierarchyEl.innerHTML = "";
-    for (const region of draft.regions) {
+    for (const region of draft.regions.filter((entry) => entry.id === regionSelectEl.value)) {
       const visualAssetRole = (prop) => draft.visualAssets.find((asset) => asset.id === prop.visualAssetId)?.gameplay?.role ?? "prop";
       const decorativeProps = (region.props ?? []).filter((prop) => prop.subtype !== "visualAsset" || visualAssetRole(prop) === "prop");
       const assetResources = (region.props ?? []).filter((prop) => prop.subtype === "visualAsset" && visualAssetRole(prop) === "harvestable");
@@ -949,12 +954,12 @@ export function createAuthorUI(opts) {
         { label: "Ground", items: region.groundPatches ?? [], key: "ground" },
         { label: "Boundaries / Colliders", items: region.boundaryColliders ?? [], key: "boundaries" },
         { label: "Props", items: decorativeProps, key: "props" },
-        { label: "Traversal", items: [...(region.traversal?.platforms??[]), ...(region.traversal?.obstacles??[]), ...(region.traversal?.climbables??[])] , key: "traversal" },
+        { label: "Traversal", items: [...(region.traversal?.platforms??[]), ...(region.traversal?.obstacles??[]), ...(region.traversal?.climbables??[]), ...(region.jumpPads??[]), ...(region.parkourStarts??[]), ...(region.parkourCheckpoints??[]), ...(region.killVolumes??[])] , key: "traversal" },
         { label: "Resources", items: [...(region.resources ?? []), ...assetResources], key: "resources" },
         { label: "Wildkin", items: [...(region.creatures ?? []), ...assetWildkin], key: "wildkin" },
-        { label: "Anchors", items: [...(region.majorWaypoints??[]), ...(region.extractionBeacons??[])] , key: "anchors" },
+        { label: "Anchors", items: [...(region.majorWaypoints??[]), ...(region.extractionBeacons??[]), ...(region.entryPoints??[]), ...(region.portalGates??[])] , key: "anchors" },
         { label: "Spawns", items: spawnItems, key: "spawns" },
-        { label: "POIs", items: region.pois ?? [], key: "pois" },
+        { label: "POIs", items: [...(region.pois ?? []), ...(region.lootChests ?? [])], key: "pois" },
       ];
       let hasVisible = !filter || region.id.toLowerCase().includes(filter) || (region.displayName&&region.displayName.toLowerCase().includes(filter));
       for (const c of cats) for (const o of c.items) if (!filter || o.id.toLowerCase().includes(filter) || (o.type&&o.type.toLowerCase().includes(filter)) || (o.subtype&&o.subtype.toLowerCase().includes(filter)) || (o.displayName&&o.displayName.toLowerCase().includes(filter))) hasVisible=true;
@@ -987,7 +992,11 @@ export function createAuthorUI(opts) {
     }
     hierarchyEl.scrollTop = scrollTop;
   }
-  regionSelectEl.addEventListener("change", refreshRegionForm);
+  regionSelectEl.addEventListener("change", () => {
+    refreshRegionForm();
+    refreshHierarchy();
+    opts.onSelectRegion?.(regionSelectEl.value);
+  });
   container.querySelector("#author-region-apply").addEventListener("click", () => {
     const rid = regionSelectEl.value;
     const patch = {
@@ -1396,6 +1405,14 @@ export function createAuthorUI(opts) {
     isEditMode,
     setEditMode,
     getSelectedId,
+    getSelectedRegionId: () => regionSelectEl.value,
+    setSelectedRegionId: (sectionId) => {
+      if ([...regionSelectEl.options].some((option) => option.value === sectionId)) {
+        regionSelectEl.value = sectionId;
+        refreshRegionForm();
+        refreshHierarchy();
+      }
+    },
     setSelected,
     setStatus,
     refreshRegionSelects,

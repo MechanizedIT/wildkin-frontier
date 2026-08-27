@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as THREE from "three";
-import { WORLD_DATA } from "../src/world/data/world.js";
+import { WORLD_DATA } from "./fixtures/crescentWorld.generated.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
 import { resolveAuthorType, readNormalizedTransform, checkAllObjectsResolve, getAllDefinitions } from "../src/author/authorTypeRegistry.js";
@@ -361,11 +361,11 @@ describe("Phase 4A.2.2 — Boundary parity via shared contract", ()=>{
     const baseNew = readNormalizedTransform(foundNew);
     assert.ok(baseExisting.size && baseNew.size, "both should have size");
     // Move existing via normalized
-    const newNorm = { ...baseExisting, position: { x: baseExisting.position.x+0.5, y: baseExisting.position.y, z: baseExisting.position.z+0.5 } };
+    const newNorm = { ...baseExisting, position: { ...baseExisting.position, y: baseExisting.position.y+0.25 } };
     const resMove = draftApi.updateNormalizedTransform(existing.id, newNorm);
     assert.ok(resMove.ok, resMove.error);
     const after = draftApi.findObjectById(existing.id).obj;
-    assert.equal(after.pos.x, newNorm.position.x);
+    assert.equal(after.pos.y, newNorm.position.y);
   });
 });
 
@@ -555,7 +555,7 @@ describe("Phase 4A.2.2 — sibling sweep", ()=>{
     const found = draftApi.findObjectById(ground.id);
     const def = resolveAuthorType(found);
     const base = readNormalizedTransform(found);
-    const res = draftApi.updateNormalizedTransform(ground.id, { ...base, position: { x: base.position.x+0.5, y: base.position.y, z: base.position.z } });
+    const res = draftApi.updateNormalizedTransform(ground.id, { ...base, position: { ...base.position, y: base.position.y+0.1 } });
     assert.ok(res.ok, res.error);
     const boundary = draftApi.getDraft().regions.flatMap(r=>r.boundaryColliders)[0];
     const bFound = draftApi.findObjectById(boundary.id);

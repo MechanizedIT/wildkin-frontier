@@ -278,3 +278,27 @@ Useful systems/content from the pass may remain, but the continuous elongated "C
 ### Next
 
 Implement **Phase 4B.1 — Section Framework & Level-Design Toolkit**, then stop system expansion and use the tools for the owner-authored Phase 4B.2 Section 1 vertical slice.
+
+---
+
+## 2026-08-27 — Phase 4B.1 framework verification — automated Chrome/CDP evidence only
+
+This is implementation/browser evidence, **not human acceptance**. The checks used the repository dev server at `http://localhost:8080/`, a real Chrome page, real DOM controls, and real pointer/keyboard CDP input. Automated state inspection cannot establish feel, recognizability, phone performance, or final pacing.
+
+### Author Mode (`?author=1`)
+
+- At the desktop author viewport, the actual section selector exposed `camp`, `section_1`, and `section_2`; the palette exposed Jump Pad, Parkour Start, Checkpoint, Kill Volume, Portal Gate, and Loot Chest.
+- Entering and leaving Edit through the real button changed the mode and input ownership correctly. Selecting Section 1, placing a Jump Pad, rotating it with real `E`, and placing Portal Gate/Loot/Checkpoint pieces kept the new objects owned by Section 1; no automatic rehoming occurred.
+- Switching the real selector to Section 2 and back updated visible roots and the read-only section profile summary. Editor trajectory helpers were present for the proof Jump Pad and updated after rotation.
+
+### Normal runtime (`?dev=1`)
+
+- After clearing the normal save, positioning the player at the Camp Gate and clicking the actual `START EXPEDITION` contextual button activated Section 1 at its authored entry, with no initial Waypoint unlocked.
+- The production parkour system started the proof course, recorded a checkpoint, and safely respawned from a kill volume with health restored and run cargo preserved.
+- Opening the Section 1 secret chest through the actual contextual button awarded its iron loot/XP once; the follow-up label became `CHEST EMPTY` and a second click did not duplicate the reward.
+- With level-2 XP and the required current run cargo, the actual ruined-gate interaction showed its requirement detail, repaired and persisted the gate, deducted the required wood/stone, and then transitioned through the portal to Section 2 while preserving the active run. Section 1 colliders were disabled and Section 2 colliders enabled.
+- Moving onto the Section 2 Waypoint through the runtime path added `wp_section_2` to frontier progress. Browser warnings/errors were empty during the final reload/check sequence.
+
+### Human acceptance still requested
+
+Use the player-facing checklist in `docs/Specs/Phase_4B.1.md` and the next Phase 4B.2 brief. Confirm the sparse pieces read naturally on the target phone, traversal and parkour are understandable by feel, portal/loot feedback is clear, and the owner-authored Section 1 composition has convincing routes, secrets, encounters, and pacing.

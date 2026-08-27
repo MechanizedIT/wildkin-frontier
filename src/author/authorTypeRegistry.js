@@ -597,6 +597,7 @@ function makeResourceDefinition(typeId) {
     },
     inspector: [
       { key: "type", label: "Resource Type", type: "enum", options: ["tree","rock","fiber"], path: "type" },
+      { key: "level", label: "Resource Level", type: "number", min: 1, max: 20, step: 1, path: "level" },
     ],
   };
 }
@@ -671,6 +672,7 @@ function makeCreatureDefinition(species) {
     },
     inspector: [
       { key: "type", label: "Creature Type", type: "enum", options: ["rusher","spitter"], path: "type" },
+      { key: "level", label: "Wildkin Level", type: "number", min: 1, max: 20, step: 1, path: "level" },
       { key: "temperament", label: "Temperament", type: "enum", options: ["AGGRESSIVE","TERRITORIAL","DEFENSIVE","SKITTISH"], path: "temperament" },
       { key: "roamRadius", label: "Roam Radius", type: "number", min: 0, max: 20, step: 0.1, path: "roamRadius" },
       { key: "noticeRadius", label: "Notice Radius", type: "number", min: 0, max: 30, step: 0.1, path: "noticeRadius" },
@@ -721,6 +723,7 @@ function makeGenericCreatureDefinition() {
     visual: { resolveRef() { return { kind: "builtin", id: "creature/rusher" }; } },
     collision: { describe(found) { const o=found.obj; return describeCreatureCollider({ position:{x:o.pos.x,y:o.pos.y??0,z:o.pos.z}}); }},
     inspector: [
+      { key: "level", label: "Wildkin Level", type: "number", min: 1, max: 20, step: 1, path: "level" },
       { key: "temperament", label: "Temperament", type: "enum", options: ["AGGRESSIVE","TERRITORIAL","DEFENSIVE","SKITTISH"], path: "temperament" },
       { key: "roamRadius", label: "Roam Radius", type: "number", path: "roamRadius" },
       { key: "noticeRadius", label: "Notice Radius", type: "number", path: "noticeRadius" },
@@ -888,6 +891,45 @@ function makeGenericPoiDefinition() {
   };
 }
 
+function makeSectionObjectDefinition(collection, key, visualId, inspector = [], { sized = false } = {}) {
+  return {
+    key: `section:${key}`,
+    visualId,
+    sizeMode: sized ? "box" : "none",
+    capabilities: {
+      selectable: true, draggable: true, elevation: true, rotation: true, resize: sized,
+      duplicatable: true, deletable: true, presentation: false, collisionControl: false,
+      sizeMode: sized ? "box" : "none",
+    },
+    ownership: { mode: "section" },
+    matches(found) { return found.collection === collection || found.type === key; },
+    transform: {
+      read(found) {
+        const object = found.obj;
+        return {
+          position: { x: object.pos.x, y: object.pos.y ?? 0, z: object.pos.z },
+          rotationY: object.rotY ?? object.facingYaw ?? 0,
+          size: sized ? { width: object.size.w, height: object.size.h, depth: object.size.d } : null,
+          uniformScale: 1,
+          sizeMode: sized ? "box" : "none",
+        };
+      },
+      write(candidateObj, _found, normalized) {
+        if (normalized.position) candidateObj.pos = { x: normalized.position.x, y: normalized.position.y ?? 0, z: normalized.position.z };
+        if (isFiniteNumber(normalized.rotationY)) candidateObj.rotY = normalized.rotationY;
+        if (sized && normalized.size) candidateObj.size = { w: normalized.size.width, h: normalized.size.height, d: normalized.size.depth };
+      },
+    },
+    visual: {
+      resolveRef(found) {
+        return found.obj.visualAssetId ? { kind: "asset", id: found.obj.visualAssetId } : { kind: "builtin", id: visualId };
+      },
+    },
+    collision: { describe() { return { shape: "none", enabled: false, editProxy: { visibleWhenHidden: false } }; } },
+    inspector,
+  };
+}
+
 function makeSpawnDefinitions() {
   const campSpawn = {
     key: "spawn:camp",
@@ -961,6 +1003,39 @@ const DEFINITIONS = [
   makeGenericCreatureDefinition(),
   makeWaypointDefinition(),
   makeBeaconDefinition(),
+  makeSectionObjectDefinition("entryPoints", "entryPoint", "spawn/marker", [
+    { key: "facingYaw", label: "Facing (radians)", type: "number", path: "facingYaw" },
+  ]),
+  makeSectionObjectDefinition("portalGates", "portalGate", "prop/gate", [
+    { key: "displayName", label: "Display Name", type: "text", path: "displayName" },
+    { key: "state", label: "State", type: "text", path: "state" },
+    { key: "targetSectionId", label: "Target Section", type: "text", path: "targetSectionId" },
+    { key: "targetEntryId", label: "Target Entry", type: "text", path: "targetEntryId" },
+    { key: "requirements", label: "Requirements", type: "json", path: "requirements" },
+  ]),
+  makeSectionObjectDefinition("jumpPads", "jumpPad", "prop/gate", [
+    { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius" },
+    { key: "horizontalLaunch", label: "Horizontal Launch", type: "number", path: "horizontalLaunch" },
+    { key: "verticalLaunch", label: "Vertical Launch", type: "number", path: "verticalLaunch" },
+    { key: "cooldown", label: "Cooldown", type: "number", path: "cooldown" },
+  ]),
+  makeSectionObjectDefinition("parkourStarts", "parkourStart", "spawn/marker", [
+    { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
+    { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius" },
+  ]),
+  makeSectionObjectDefinition("parkourCheckpoints", "parkourCheckpoint", "anchor/waypoint", [
+    { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
+    { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius" },
+  ]),
+  makeSectionObjectDefinition("killVolumes", "killVolume", "boundaryCollider", [
+    { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
+  ], { sized: true }),
+  makeSectionObjectDefinition("lootChests", "lootChest", "poi/chest", [
+    { key: "displayName", label: "Display Name", type: "text", path: "displayName" },
+    { key: "lootTableId", label: "Loot Table", type: "text", path: "lootTableId" },
+    { key: "refillSeconds", label: "Refill Seconds (blank = once)", type: "number", path: "refillSeconds" },
+    { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
+  ]),
   makePoiDefinition("chest"),
   makePoiDefinition("barrier"),
   makeGenericPoiDefinition(),
@@ -1129,6 +1204,9 @@ export function checkAllObjectsResolve(worldData) {
     for (const wp of region.majorWaypoints ?? []) ids.push({ id: wp.id, collection: "majorWaypoints", obj: wp, type: "majorWaypoint", region });
     for (const bc2 of region.extractionBeacons ?? []) ids.push({ id: bc2.id, collection: "extractionBeacons", obj: bc2, type: "extractionBeacon", region });
     for (const poi of region.pois ?? []) ids.push({ id: poi.id, collection: "pois", obj: poi, type: "poi", region });
+    for (const [collection, type] of [["entryPoints","entryPoint"],["portalGates","portalGate"],["jumpPads","jumpPad"],["parkourStarts","parkourStart"],["parkourCheckpoints","parkourCheckpoint"],["killVolumes","killVolume"],["lootChests","lootChest"]]) {
+      for (const obj of region[collection] ?? []) ids.push({ id: obj.id, collection, obj, type, region });
+    }
   }
   ids.push({ id: "camp_spawn", collection: "campSpawn", obj: { id: "camp_spawn", pos: worldData.camp?.playerSpawn?.position ?? worldData.camp?.playerSpawn ?? {x:0,y:0,z:0}, facingYaw: worldData.camp?.playerSpawn?.facingYaw ?? 0, _virtual:true,_campSpawn:true }, type: "campSpawn", region: worldData.regions.find(r=>r.id==="camp") });
   for (const region of worldData.regions) for (const wp of region.majorWaypoints ?? []) {

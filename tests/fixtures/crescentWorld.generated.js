@@ -4,113 +4,78 @@
 
 export const WORLD_DATA = {
   "camp": {
-    "description": "100x100 persistent Camp proof shell",
+    "description": "Camp clearing — drop pod, Matter Resonator, frontier gate",
     "frontierGateId": "gate_camp_frontier",
     "id": "camp",
     "playerSpawn": {
-      "facingYaw": 3.141592653589793,
+      "facingYaw": 3.1415926535,
       "position": {
         "x": 0,
         "y": 0,
-        "z": 12
+        "z": 12.6
       }
     },
     "pos": {
       "x": 0,
       "y": 0,
-      "z": 0
+      "z": 12.4
     },
-    "radius": 4
-  },
-  "defaultExpeditionEntry": {
-    "entryId": "entry_section_1",
-    "sectionId": "section_1"
+    "radius": 2.8
   },
   "frontierGateId": "gate_camp_frontier",
-  "lootTables": [
-    {
-      "displayName": "Section 1 Secret",
-      "id": "loot_secret_section_1",
-      "rewards": [
-        {
-          "amount": 2,
-          "id": "iron_ore",
-          "type": "resource"
-        },
-        {
-          "amount": 8,
-          "type": "xp"
-        }
-      ]
-    },
-    {
-      "displayName": "Parkour Cache",
-      "id": "loot_parkour_section_1",
-      "rewards": [
-        {
-          "amount": 1,
-          "id": "crystal_shard",
-          "type": "resource"
-        },
-        {
-          "amount": 12,
-          "type": "xp"
-        }
-      ]
-    }
-  ],
+  "initialMajorWaypointId": "wp_p1_entry",
   "regions": [
     {
       "boundaryColliders": [
         {
           "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_camp_north",
-          "opacity": 0.35,
+          "color": 5925498,
+          "id": "boundary_north",
+          "opacity": 0.5,
           "pos": {
             "x": 0,
             "y": 0,
-            "z": -49.5
+            "z": -36.68
           },
           "rotY": 0,
           "size": {
             "d": 0.5,
             "h": 3,
-            "w": 99
+            "w": 30
           },
           "visibleInPlay": false
         },
         {
           "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_camp_south",
-          "opacity": 0.35,
+          "color": 5925498,
+          "id": "boundary_south",
+          "opacity": 0.5,
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 49.5
+            "z": 15.68
           },
           "rotY": 0,
           "size": {
             "d": 0.5,
             "h": 3,
-            "w": 99
+            "w": 30
           },
           "visibleInPlay": false
         },
         {
           "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_camp_west",
-          "opacity": 0.35,
+          "color": 5925498,
+          "id": "boundary_west",
+          "opacity": 0.5,
           "pos": {
-            "x": -49.5,
+            "x": -14.68,
             "y": 0,
             "z": 0
           },
           "rotY": 0,
           "size": {
-            "d": 99,
+            "d": 53,
             "h": 3,
             "w": 0.5
           },
@@ -118,17 +83,17 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_camp_east",
-          "opacity": 0.35,
+          "color": 5925498,
+          "id": "boundary_east",
+          "opacity": 0.5,
           "pos": {
-            "x": 49.5,
+            "x": 14.68,
             "y": 0,
             "z": 0
           },
           "rotY": 0,
           "size": {
-            "d": 99,
+            "d": 53,
             "h": 3,
             "w": 0.5
           },
@@ -136,85 +101,65 @@ export const WORLD_DATA = {
         }
       ],
       "bounds": {
-        "maxX": 50,
-        "maxZ": 50,
-        "minX": -50,
-        "minZ": -50
+        "maxX": 14.5,
+        "maxZ": 15.5,
+        "minX": -14.5,
+        "minZ": 8
       },
       "creatures": [],
       "displayName": "Camp",
-      "entryPoints": [
-        {
-          "facingYaw": 0,
-          "id": "entry_camp",
-          "pos": {
-            "x": 0,
-            "y": 0,
-            "z": -5
-          }
-        }
-      ],
       "extractionBeacons": [],
       "ground": {
-        "color": "#66885f",
+        "color": 8363882,
         "type": "plain"
       },
       "groundPatches": [
         {
           "collisionEnabled": true,
-          "color": "#66885f",
+          "color": 8363882,
           "id": "ground_camp",
           "opacity": 1,
           "pos": {
             "x": 0,
-            "y": -0.5,
-            "z": 0
+            "y": -0.25,
+            "z": 11.75
           },
           "rotY": 0,
           "size": {
-            "d": 100,
+            "d": 7.5,
             "h": 0.5,
-            "w": 100
+            "w": 29
           },
           "visibleInPlay": true
         }
       ],
       "id": "camp",
-      "jumpPads": [],
-      "killVolumes": [],
-      "lootChests": [],
-      "majorWaypoints": [],
-      "neighbors": [],
-      "parkourCheckpoints": [],
-      "parkourStarts": [],
+      "majorWaypoints": [
+        {
+          "displayName": "Camp Gate",
+          "id": "wp_camp_gate",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 8.4
+          },
+          "type": "majorWaypoint"
+        }
+      ],
+      "neighbors": [
+        "p1_forest_edge"
+      ],
       "pockets": [],
       "pois": [
         {
           "id": "poi_camp_resonator",
           "pos": {
-            "x": 6,
+            "x": 3.8,
             "y": 0,
-            "z": 9
+            "z": 12.1
           },
           "requires": null,
           "type": "resonator"
-        }
-      ],
-      "portalGates": [
-        {
-          "displayName": "Frontier Gate",
-          "entryId": "entry_camp",
-          "id": "gate_camp_frontier",
-          "pos": {
-            "x": 0,
-            "y": 0,
-            "z": -8
-          },
-          "rotY": 3.141592653589793,
-          "state": "active",
-          "targetEntryId": "entry_section_1",
-          "targetSectionId": "section_1",
-          "triggerRadius": 1.85
         }
       ],
       "props": [
@@ -223,9 +168,9 @@ export const WORLD_DATA = {
           "id": "prop_camp_dropPod",
           "opacity": 1,
           "pos": {
-            "x": -6,
+            "x": -3.6,
             "y": 0,
-            "z": 9
+            "z": 12.4
           },
           "rotY": 0,
           "subtype": "visualAsset",
@@ -238,33 +183,81 @@ export const WORLD_DATA = {
           "id": "prop_camp_resonator",
           "opacity": 1,
           "pos": {
-            "x": 6,
+            "x": 3.8,
             "y": 0,
-            "z": 9
+            "z": 12.1
           },
-          "rotY": 0,
+          "rotY": 0.6,
           "size": {
-            "d": 1.5,
-            "h": 1.4,
-            "w": 1.5
+            "d": 0.9,
+            "h": 1,
+            "w": 0.9
           },
           "subtype": "resonator",
           "visibleInPlay": true
         },
         {
           "collisionEnabled": true,
-          "id": "fence_camp_west",
+          "id": "fence_camp_south",
           "opacity": 1,
           "pos": {
-            "x": -14,
+            "x": 0,
             "y": 0,
-            "z": 0
+            "z": 15.1
           },
           "rotY": 0,
           "size": {
-            "d": 28,
-            "h": 1.3,
-            "w": 0.5
+            "d": 0.4,
+            "h": 1.2,
+            "w": 18
+          },
+          "subtype": "fence",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_workbench",
+          "opacity": 1,
+          "pos": {
+            "x": 5.9,
+            "y": 0,
+            "z": 12.5
+          },
+          "rotY": -1.5707963268,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_bench"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_camp_supply_crate",
+          "opacity": 1,
+          "pos": {
+            "x": -6.1,
+            "y": 0,
+            "z": 11.5
+          },
+          "rotY": 0.35,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wooden_crate"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "fence_camp_west",
+          "opacity": 1,
+          "pos": {
+            "x": -11.8,
+            "y": 0,
+            "z": 11.8
+          },
+          "rotY": 0,
+          "size": {
+            "d": 4.8,
+            "h": 1.2,
+            "w": 0.4
           },
           "subtype": "fence",
           "visibleInPlay": true
@@ -274,27 +267,129 @@ export const WORLD_DATA = {
           "id": "fence_camp_east",
           "opacity": 1,
           "pos": {
-            "x": 14,
+            "x": 11.8,
             "y": 0,
-            "z": 0
+            "z": 11.8
           },
           "rotY": 0,
           "size": {
-            "d": 28,
-            "h": 1.3,
-            "w": 0.5
+            "d": 4.8,
+            "h": 1.2,
+            "w": 0.4
           },
           "subtype": "fence",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "fence_camp_north_west",
+          "opacity": 1,
+          "pos": {
+            "x": -5.5,
+            "y": 0,
+            "z": 8.2
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.4,
+            "h": 1.2,
+            "w": 6
+          },
+          "subtype": "fence",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "fence_camp_north_east",
+          "opacity": 1,
+          "pos": {
+            "x": 5.5,
+            "y": 0,
+            "z": 8.2
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.4,
+            "h": 1.2,
+            "w": 6
+          },
+          "subtype": "fence",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "gate_camp_frontier",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 8.2
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.5,
+            "h": 1.4,
+            "w": 2
+          },
+          "subtype": "gate",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "forest_camp_west",
+          "opacity": 1,
+          "pos": {
+            "x": -13.2,
+            "y": 0,
+            "z": 11.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 8,
+            "h": 3.5,
+            "w": 1.8
+          },
+          "subtype": "forestBoundary",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "forest_camp_east",
+          "opacity": 1,
+          "pos": {
+            "x": 13.2,
+            "y": 0,
+            "z": 11.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 8,
+            "h": 3.5,
+            "w": 1.8
+          },
+          "subtype": "forestBoundary",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "forest_camp_north",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 15.1
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.8,
+            "h": 3.2,
+            "w": 20
+          },
+          "subtype": "forestBoundary",
           "visibleInPlay": true
         }
       ],
       "resources": [],
-      "sectionProfile": null,
-      "sectionType": "camp",
-      "size": {
-        "depth": 100,
-        "width": 100
-      },
       "traversal": {
         "climbables": [],
         "jumpTraversals": [],
@@ -303,688 +398,1309 @@ export const WORLD_DATA = {
       }
     },
     {
-      "boundaryColliders": [
-        {
-          "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_1_north",
-          "opacity": 0.35,
-          "pos": {
-            "x": 0,
-            "y": 0,
-            "z": -24.5
-          },
-          "rotY": 0,
-          "size": {
-            "d": 0.5,
-            "h": 3,
-            "w": 49
-          },
-          "visibleInPlay": false
-        },
-        {
-          "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_1_south",
-          "opacity": 0.35,
-          "pos": {
-            "x": 0,
-            "y": 0,
-            "z": 24.5
-          },
-          "rotY": 0,
-          "size": {
-            "d": 0.5,
-            "h": 3,
-            "w": 49
-          },
-          "visibleInPlay": false
-        },
-        {
-          "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_1_west",
-          "opacity": 0.35,
-          "pos": {
-            "x": -24.5,
-            "y": 0,
-            "z": 0
-          },
-          "rotY": 0,
-          "size": {
-            "d": 49,
-            "h": 3,
-            "w": 0.5
-          },
-          "visibleInPlay": false
-        },
-        {
-          "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_1_east",
-          "opacity": 0.35,
-          "pos": {
-            "x": 24.5,
-            "y": 0,
-            "z": 0
-          },
-          "rotY": 0,
-          "size": {
-            "d": 49,
-            "h": 3,
-            "w": 0.5
-          },
-          "visibleInPlay": false
-        }
-      ],
+      "boundaryColliders": [],
       "bounds": {
-        "maxX": 25,
-        "maxZ": 25,
-        "minX": -25,
-        "minZ": -25
+        "maxX": 14.5,
+        "maxZ": 8,
+        "minX": -14.5,
+        "minZ": 0.5
       },
       "creatures": [
         {
           "homePos": {
-            "x": -12,
+            "x": 8.6,
             "y": 0,
-            "z": -4
+            "z": 5.1
           },
-          "id": "rusher_section_1_01",
-          "leashRadius": 7,
-          "level": 1,
-          "noticeRadius": 5.5,
-          "personalSpace": 1.9,
+          "id": "rusher_p1_skittish",
+          "leashRadius": 4.2,
+          "noticeRadius": 4.2,
+          "personalSpace": 1.6,
           "pos": {
-            "x": -12,
+            "x": 8.6,
             "y": 0,
-            "z": -4
+            "z": 5.1
           },
-          "roamRadius": 2.5,
+          "roamRadius": 2.2,
           "speciesTag": "fang",
-          "temperament": "TERRITORIAL",
+          "temperament": "SKITTISH",
           "type": "rusher"
         }
       ],
-      "displayName": "Section 1 Proof",
-      "entryPoints": [
-        {
-          "facingYaw": 3.141592653589793,
-          "id": "entry_section_1",
-          "pos": {
-            "x": 0,
-            "y": 0,
-            "z": 20
-          }
-        }
-      ],
-      "extractionBeacons": [
-        {
-          "displayName": "Section 1 Beacon",
-          "id": "beacon_section_1",
-          "pos": {
-            "x": -16,
-            "y": 0,
-            "z": 1
-          },
-          "type": "extractionBeacon"
-        }
-      ],
+      "displayName": "Fern Run",
+      "extractionBeacons": [],
       "ground": {
-        "color": "#6f9b69",
+        "color": 8363882,
         "type": "plain"
       },
       "groundPatches": [
         {
           "collisionEnabled": true,
-          "color": "#6f9b69",
-          "id": "ground_section_1",
+          "color": 8363882,
+          "id": "ground_p1_forest_edge",
           "opacity": 1,
           "pos": {
             "x": 0,
-            "y": -0.5,
-            "z": 0
+            "y": -0.25,
+            "z": 4.25
           },
           "rotY": 0,
           "size": {
-            "d": 50,
+            "d": 7.5,
             "h": 0.5,
-            "w": 50
+            "w": 29
           },
           "visibleInPlay": true
         }
       ],
-      "id": "section_1",
-      "jumpPads": [
-        {
-          "cooldown": 1,
-          "horizontalLaunch": 7,
-          "id": "jump_pad_section_1",
-          "pos": {
-            "x": 8,
-            "y": 0.35,
-            "z": -3
-          },
-          "rotY": 3.141592653589793,
-          "triggerRadius": 1.15,
-          "verticalLaunch": 5.8,
-          "visualAssetId": "asset_frontier_launch_pad"
-        }
-      ],
-      "killVolumes": [
-        {
-          "courseId": "course_section_1",
-          "id": "kill_volume_section_1",
-          "pos": {
-            "x": 3,
-            "y": 0.6,
-            "z": -8
-          },
-          "size": {
-            "d": 5,
-            "h": 1.2,
-            "w": 3
-          }
-        }
-      ],
-      "lootChests": [
-        {
-          "displayName": "Hidden Cache",
-          "id": "chest_secret_section_1",
-          "lootTableId": "loot_secret_section_1",
-          "pos": {
-            "x": -19,
-            "y": 0,
-            "z": -13
-          },
-          "refillSeconds": null,
-          "rotY": 0,
-          "secret": true,
-          "triggerRadius": 1.45,
-          "visualAssetId": "asset_chest"
-        },
-        {
-          "courseId": "course_section_1",
-          "displayName": "Parkour Cache",
-          "id": "chest_parkour_section_1",
-          "lootTableId": "loot_parkour_section_1",
-          "pos": {
-            "x": 8,
-            "y": 0.35,
-            "z": -16
-          },
-          "refillSeconds": 86400,
-          "rotY": 0,
-          "secret": false,
-          "triggerRadius": 1.45,
-          "visualAssetId": "asset_chest"
-        }
-      ],
+      "id": "p1_forest_edge",
       "majorWaypoints": [
         {
-          "displayName": "Section 1 Waypoint",
-          "id": "wp_section_1",
+          "displayName": "Forest Edge",
+          "id": "wp_p1_entry",
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 9
+            "z": 7.2
           },
           "runSpawn": {
-            "facingYaw": 3.141592653589793,
+            "facingYaw": 3.1415926535,
             "position": {
               "x": 0,
               "y": 0,
-              "z": 12
+              "z": 6.1
             }
           },
           "type": "majorWaypoint"
         }
       ],
-      "neighbors": [],
-      "parkourCheckpoints": [
-        {
-          "courseId": "course_section_1",
-          "id": "parkour_checkpoint_section_1",
-          "pos": {
-            "x": 8,
-            "y": 0.35,
-            "z": -8
-          },
-          "respawnFacingYaw": 3.141592653589793,
-          "respawnPosition": {
-            "x": 8,
-            "y": 0.35,
-            "z": -8
-          },
-          "rotY": 3.141592653589793,
-          "triggerRadius": 1.2
-        }
-      ],
-      "parkourStarts": [
-        {
-          "courseId": "course_section_1",
-          "id": "parkour_start_section_1",
-          "pos": {
-            "x": 8,
-            "y": 0,
-            "z": 1
-          },
-          "respawnFacingYaw": 3.141592653589793,
-          "respawnPosition": {
-            "x": 8,
-            "y": 0,
-            "z": 1
-          },
-          "rotY": 3.141592653589793,
-          "triggerRadius": 1.2
-        }
+      "neighbors": [
+        "camp",
+        "p2_complication"
       ],
       "pockets": [],
-      "pois": [],
-      "portalGates": [
+      "pois": [
         {
-          "displayName": "Section 2 Gate",
-          "entryId": "entry_section_1",
-          "id": "gate_section_1_to_2",
+          "id": "poi_p1_chest",
+          "pos": {
+            "x": -8.7,
+            "y": 0,
+            "z": 2.4
+          },
+          "requires": null,
+          "type": "chest"
+        }
+      ],
+      "props": [
+        {
+          "collisionEnabled": true,
+          "id": "prop_p1_forest_west",
+          "opacity": 1,
+          "pos": {
+            "x": -13.2,
+            "y": 0,
+            "z": 4.3
+          },
+          "rotY": 0,
+          "size": {
+            "d": 7.2,
+            "h": 2.8,
+            "w": 2
+          },
+          "subtype": "forestBoundary",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_p1_forest_east",
+          "opacity": 1,
+          "pos": {
+            "x": 13.2,
+            "y": 0,
+            "z": 4.3
+          },
+          "rotY": 0,
+          "size": {
+            "d": 7.2,
+            "h": 2.8,
+            "w": 2
+          },
+          "subtype": "forestBoundary",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_p1_box_01",
+          "opacity": 1,
+          "pos": {
+            "x": -4.8,
+            "y": 0,
+            "z": 2.2
+          },
+          "rotY": 0.5,
+          "size": {
+            "d": 1.2,
+            "h": 0.9,
+            "w": 1.2
+          },
+          "subtype": "box",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p1_launch_stone_throat",
+          "opacity": 1,
+          "pos": {
+            "x": 8.3,
+            "y": 1.2,
+            "z": 1.55
+          },
+          "rotY": 3.1415926535,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_frontier_launch_pad"
+        }
+      ],
+      "resources": [
+        {
+          "id": "tree_p1_01",
+          "pos": {
+            "x": 2.4,
+            "y": 0,
+            "z": 6.2
+          },
+          "type": "tree"
+        },
+        {
+          "id": "tree_p1_02",
+          "pos": {
+            "x": -9.2,
+            "y": 0,
+            "z": 5.4
+          },
+          "type": "tree"
+        },
+        {
+          "id": "rock_p1_01",
+          "pos": {
+            "x": 5.2,
+            "y": 0,
+            "z": 3.4
+          },
+          "type": "rock"
+        },
+        {
+          "id": "fiber_p1_01",
+          "pos": {
+            "x": -2.8,
+            "y": 0,
+            "z": 5.5
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "tree_p1_camp01",
+          "pos": {
+            "x": -6.4,
+            "y": 0,
+            "z": 3.8
+          },
+          "type": "tree"
+        },
+        {
+          "id": "fiber_p1_camp02",
+          "pos": {
+            "x": 0.7,
+            "y": 0,
+            "z": 3.6
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "rock_p1_02",
+          "pos": {
+            "x": -7.3,
+            "y": 0,
+            "z": 3.1
+          },
+          "type": "rock"
+        },
+        {
+          "id": "fiber_p1_03",
+          "pos": {
+            "x": 4.5,
+            "y": 0,
+            "z": 5.2
+          },
+          "type": "fiber"
+        }
+      ],
+      "traversal": {
+        "climbables": [],
+        "jumpTraversals": [
+          {
+            "direction": {
+              "x": 0,
+              "z": -1
+            },
+            "id": "jump_p1_stone_throat_shortcut",
+            "landingPlatformId": "p2_throat_shelf",
+            "landingRegion": {
+              "height": 1.2,
+              "maxX": 9.5,
+              "maxZ": -0.2,
+              "minX": 7.1,
+              "minZ": -1.9
+            },
+            "maxLandingCorrection": 1.4,
+            "minTakeoffSpeed": 2.2,
+            "triggerCenter": {
+              "x": 8.3,
+              "z": 1.55
+            },
+            "triggerRadius": 1.35
+          }
+        ],
+        "obstacles": [
+          {
+            "h": 1.2,
+            "height": 0.9,
+            "id": "obs_p1_rock",
+            "w": 1.2,
+            "x": -4.8,
+            "z": 2.2
+          }
+        ],
+        "platforms": [
+          {
+            "h": 2.2,
+            "height": 1.2,
+            "id": "p1_stone_throat_shelf",
+            "w": 3.2,
+            "x": 8.2,
+            "z": 1.05
+          }
+        ]
+      }
+    },
+    {
+      "boundaryColliders": [],
+      "bounds": {
+        "maxX": 14.5,
+        "maxZ": 0.5,
+        "minX": -14.5,
+        "minZ": -8
+      },
+      "creatures": [
+        {
+          "homePos": {
+            "x": -4.8,
+            "y": 0,
+            "z": -2.7
+          },
+          "id": "rusher_p2_territorial",
+          "leashRadius": 3.6,
+          "noticeRadius": 4.8,
+          "personalSpace": 2.2,
+          "pos": {
+            "x": -4.8,
+            "y": 0,
+            "z": -2.7
+          },
+          "roamRadius": 1.8,
+          "speciesTag": "fang",
+          "temperament": "TERRITORIAL",
+          "type": "rusher"
+        },
+        {
+          "homePos": {
+            "x": 8.2,
+            "y": 0,
+            "z": -4.3
+          },
+          "hostileSpecies": [
+            "flutter"
+          ],
+          "id": "spitter_p2_aggro",
+          "leashRadius": 3.4,
+          "noticeRadius": 4.6,
+          "personalSpace": 2,
+          "pos": {
+            "x": 8.2,
+            "y": 0,
+            "z": -4.3
+          },
+          "roamRadius": 1.7,
+          "speciesTag": "spit",
+          "temperament": "AGGRESSIVE",
+          "type": "spitter"
+        }
+      ],
+      "displayName": "Stone Throat",
+      "extractionBeacons": [
+        {
+          "displayName": "Tangled Hollow Beacon",
+          "id": "beacon_p2_01",
+          "pos": {
+            "x": -5.6,
+            "y": 0,
+            "z": -6.2
+          },
+          "type": "extractionBeacon"
+        }
+      ],
+      "ground": {
+        "color": 8363882,
+        "type": "plain"
+      },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": 8363882,
+          "id": "ground_p2_complication",
+          "opacity": 1,
           "pos": {
             "x": 0,
+            "y": -0.25,
+            "z": -3.75
+          },
+          "rotY": 0,
+          "size": {
+            "d": 8.5,
+            "h": 0.5,
+            "w": 29
+          },
+          "visibleInPlay": true
+        }
+      ],
+      "id": "p2_complication",
+      "majorWaypoints": [],
+      "neighbors": [
+        "p1_forest_edge",
+        "p3_temptation"
+      ],
+      "pockets": [],
+      "pois": [
+        {
+          "id": "poi_p2_pond_chest",
+          "pos": {
+            "x": 4.8,
             "y": 0,
-            "z": -21
+            "z": -5.6
           },
-          "requirements": {
-            "minPlayerLevel": 2,
-            "resources": {
-              "stone": 2,
-              "wood": 2
-            }
+          "requires": {
+            "id": "swim",
+            "type": "companionAbility"
           },
-          "rotY": 3.141592653589793,
-          "state": "ruined",
-          "targetEntryId": "entry_section_2",
-          "targetSectionId": "section_2",
-          "triggerRadius": 1.85,
-          "visualAssetId": "asset_ruin_arch"
+          "type": "chest"
+        },
+        {
+          "id": "poi_p2_barrier",
+          "pos": {
+            "x": -10.6,
+            "y": 0,
+            "z": -5.8
+          },
+          "requires": {
+            "id": "breakBarrier",
+            "type": "companionAbility"
+          },
+          "type": "barrier"
+        },
+        {
+          "displayName": "Guarded Iron Vein",
+          "id": "poi_p2_guarded_iron",
+          "pos": {
+            "x": -0.8,
+            "y": 0,
+            "z": -2.9
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "displayName": "Mirror Bank Iron",
+          "id": "poi_p2_iron_bank",
+          "pos": {
+            "x": 7.6,
+            "y": 0,
+            "z": -6.7
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1.1,
+          "visualAssetId": "asset_iron_ore_rock"
         }
       ],
       "props": [
         {
           "collisionEnabled": false,
-          "id": "prop_section_1_marker",
+          "id": "prop_p2_pond_water",
           "opacity": 1,
           "pos": {
-            "x": -8,
+            "x": 4.8,
+            "y": -0.08,
+            "z": -5.6
+          },
+          "rotY": 0,
+          "size": {
+            "d": 4.4,
+            "h": 0.2,
+            "w": 10.6
+          },
+          "subtype": "water",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_p2_pond_island",
+          "opacity": 1,
+          "pos": {
+            "x": 4.8,
             "y": 0,
-            "z": 8
+            "z": -5.6
+          },
+          "rotY": 0,
+          "size": {
+            "d": 2.4,
+            "h": 0.4,
+            "w": 2.4
+          },
+          "subtype": "island",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_p2_box_01",
+          "opacity": 1,
+          "pos": {
+            "x": -2.2,
+            "y": 0,
+            "z": -2.8
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.6,
+            "h": 1.1,
+            "w": 2.4
+          },
+          "subtype": "box",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p2_launch_mirror_pane",
+          "opacity": 1,
+          "pos": {
+            "x": 8.2,
+            "y": 1.2,
+            "z": -0.6
+          },
+          "rotY": 3.1415926535,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_frontier_launch_pad"
+        }
+      ],
+      "resources": [
+        {
+          "id": "tree_p2_01",
+          "pos": {
+            "x": -9.2,
+            "y": 0,
+            "z": -1.4
+          },
+          "type": "tree"
+        },
+        {
+          "id": "rock_p2_01",
+          "pos": {
+            "x": 8.2,
+            "y": 0,
+            "z": -6.5
+          },
+          "type": "rock"
+        },
+        {
+          "id": "fiber_p2_01",
+          "pos": {
+            "x": -7.2,
+            "y": 0,
+            "z": -3.2
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "fiber_p2_02",
+          "pos": {
+            "x": 0.8,
+            "y": 0,
+            "z": -3.8
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "rock_p2_02",
+          "pos": {
+            "x": -0.6,
+            "y": 0,
+            "z": -2.1
+          },
+          "type": "rock"
+        },
+        {
+          "id": "rock_p2_guarded_iron",
+          "pos": {
+            "x": 0.7,
+            "y": 0,
+            "z": -3.1
+          },
+          "type": "rock"
+        },
+        {
+          "id": "rock_p2_bank_iron",
+          "pos": {
+            "x": 9.2,
+            "y": 0,
+            "z": -6.7
+          },
+          "type": "rock"
+        }
+      ],
+      "traversal": {
+        "climbables": [],
+        "jumpTraversals": [
+          {
+            "direction": {
+              "x": 0,
+              "z": -1
+            },
+            "id": "jump_p2_mirror_pane",
+            "landingPlatformId": "p3_pond_east_shelf",
+            "landingRegion": {
+              "height": 1.25,
+              "maxX": 9.4,
+              "maxZ": -9,
+              "minX": 7,
+              "minZ": -10.7
+            },
+            "maxLandingCorrection": 1.4,
+            "minTakeoffSpeed": 2.2,
+            "triggerCenter": {
+              "x": 8.2,
+              "z": -0.6
+            },
+            "triggerRadius": 1.35
+          }
+        ],
+        "obstacles": [
+          {
+            "h": 0.6,
+            "height": 1.1,
+            "id": "obs_p2_wall",
+            "w": 2.4,
+            "x": -2.2,
+            "z": -2.8
+          },
+          {
+            "h": 2,
+            "height": 0.6,
+            "id": "obs_p2_pond_edge",
+            "w": 0.6,
+            "x": -0.2,
+            "z": -5.6
+          }
+        ],
+        "platforms": [
+          {
+            "h": 2.2,
+            "height": 1.2,
+            "id": "p2_throat_shelf",
+            "w": 3.2,
+            "x": 8.2,
+            "z": -0.9
+          },
+          {
+            "h": 2.8,
+            "height": 1.25,
+            "id": "p2_mirror_overlook",
+            "w": 4.4,
+            "x": -5.6,
+            "z": -6.2
+          }
+        ]
+      }
+    },
+    {
+      "boundaryColliders": [],
+      "bounds": {
+        "maxX": 14.5,
+        "maxZ": -8,
+        "minX": -14.5,
+        "minZ": -19
+      },
+      "creatures": [
+        {
+          "homePos": {
+            "x": 1.2,
+            "y": 0,
+            "z": -15.8
+          },
+          "id": "rusher_p3_defensive",
+          "leashRadius": 4.3,
+          "noticeRadius": 5.3,
+          "personalSpace": 1.9,
+          "pos": {
+            "x": 1.2,
+            "y": 0,
+            "z": -15.8
+          },
+          "roamRadius": 2.1,
+          "speciesTag": "fang",
+          "temperament": "DEFENSIVE",
+          "type": "rusher"
+        },
+        {
+          "homePos": {
+            "x": 2.4,
+            "y": 0,
+            "z": -17.5
+          },
+          "hostileSpecies": [
+            "flutter"
+          ],
+          "id": "rusher_p3_hunter",
+          "leashRadius": 4.5,
+          "noticeRadius": 5.8,
+          "personalSpace": 1.8,
+          "pos": {
+            "x": 2.4,
+            "y": 0,
+            "z": -17.5
+          },
+          "roamRadius": 2.2,
+          "speciesTag": "fang",
+          "temperament": "AGGRESSIVE",
+          "type": "rusher"
+        }
+      ],
+      "displayName": "Fallen Observatory",
+      "extractionBeacons": [
+        {
+          "displayName": "Fallen Observatory Beacon",
+          "id": "beacon_p3_01",
+          "pos": {
+            "x": -7.2,
+            "y": 0,
+            "z": -17.1
+          },
+          "type": "extractionBeacon"
+        }
+      ],
+      "ground": {
+        "color": 8363882,
+        "type": "plain"
+      },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": 8363882,
+          "id": "ground_p3_temptation",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.25,
+            "z": -13.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 11,
+            "h": 0.5,
+            "w": 29
+          },
+          "visibleInPlay": true
+        }
+      ],
+      "id": "p3_temptation",
+      "majorWaypoints": [],
+      "neighbors": [
+        "p2_complication",
+        "p4_threshold"
+      ],
+      "pockets": [],
+      "pois": [
+        {
+          "id": "poi_p3_cache",
+          "pos": {
+            "x": 5.8,
+            "y": 0,
+            "z": -16.8
+          },
+          "requires": null,
+          "type": "chest"
+        },
+        {
+          "displayName": "Observatory Crystal",
+          "id": "poi_p3_crystal_observatory",
+          "pos": {
+            "x": 5.7,
+            "y": 0,
+            "z": -16.7
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1.15,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "displayName": "High Iron Shelf",
+          "id": "poi_p3_iron_shelf",
+          "pos": {
+            "x": -1.4,
+            "y": 1.25,
+            "z": -14.6
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1,
+          "visualAssetId": "asset_iron_ore_rock"
+        }
+      ],
+      "props": [
+        {
+          "collisionEnabled": true,
+          "id": "prop_p3_box_01",
+          "opacity": 1,
+          "pos": {
+            "x": 4.8,
+            "y": 0,
+            "z": -15.3
+          },
+          "rotY": 0,
+          "size": {
+            "d": 1.8,
+            "h": 1,
+            "w": 1.8
+          },
+          "subtype": "box",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_p3_fence_01",
+          "opacity": 1,
+          "pos": {
+            "x": -10.8,
+            "y": 0,
+            "z": -13.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 8.2,
+            "h": 1.2,
+            "w": 0.4
+          },
+          "subtype": "fence",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p3_launch_pond_east",
+          "opacity": 1,
+          "pos": {
+            "x": 8.2,
+            "y": 1.25,
+            "z": -10.8
+          },
+          "rotY": -1.5707963268,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_frontier_launch_pad"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p3_launch_observatory_west",
+          "opacity": 1,
+          "pos": {
+            "x": 3,
+            "y": 1.25,
+            "z": -12.3
+          },
+          "rotY": 1.5707963268,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_frontier_launch_pad"
+        }
+      ],
+      "resources": [
+        {
+          "id": "tree_p3_01",
+          "pos": {
+            "x": -10.2,
+            "y": 0,
+            "z": -10.4
+          },
+          "type": "tree"
+        },
+        {
+          "id": "tree_p3_02",
+          "pos": {
+            "x": 6.1,
+            "y": 0,
+            "z": -15.9
+          },
+          "type": "tree"
+        },
+        {
+          "id": "rock_p3_01",
+          "pos": {
+            "x": 8.6,
+            "y": 0,
+            "z": -17.2
+          },
+          "type": "rock"
+        },
+        {
+          "id": "fiber_p3_01",
+          "pos": {
+            "x": -8.4,
+            "y": 0,
+            "z": -14.1
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "fiber_p3_02",
+          "pos": {
+            "x": 9.2,
+            "y": 0,
+            "z": -17.8
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "rock_p3_crystal_01",
+          "pos": {
+            "x": 6.9,
+            "y": 0,
+            "z": -16.7
+          },
+          "type": "rock"
+        },
+        {
+          "id": "rock_p3_shelf_iron",
+          "pos": {
+            "x": -0.1,
+            "y": 1.25,
+            "z": -14.6
+          },
+          "type": "rock"
+        }
+      ],
+      "traversal": {
+        "climbables": [],
+        "jumpTraversals": [
+          {
+            "direction": {
+              "x": 1,
+              "z": 0
+            },
+            "id": "gap_east_01",
+            "landingPlatformId": "p3_middle_shelf",
+            "landingRegion": {
+              "height": 1.25,
+              "maxX": 5.7,
+              "maxZ": -11.3,
+              "minX": 3.3,
+              "minZ": -13.3
+            },
+            "maxLandingCorrection": 1.4,
+            "minTakeoffSpeed": 2.2,
+            "triggerCenter": {
+              "x": 7,
+              "z": -10.8
+            },
+            "triggerRadius": 1.45
+          },
+          {
+            "direction": {
+              "x": -1,
+              "z": 0
+            },
+            "id": "gap_west_01",
+            "landingPlatformId": "p3_observatory_shelf",
+            "landingRegion": {
+              "height": 1.25,
+              "maxX": 0.5,
+              "maxZ": -12.8,
+              "minX": -3.5,
+              "minZ": -15.6
+            },
+            "maxLandingCorrection": 1.4,
+            "minTakeoffSpeed": 2.2,
+            "triggerCenter": {
+              "x": 3,
+              "z": -12.3
+            },
+            "triggerRadius": 1.45
+          }
+        ],
+        "obstacles": [
+          {
+            "h": 1.8,
+            "height": 1,
+            "id": "obs_p3_center_east",
+            "w": 1.8,
+            "x": 4.8,
+            "z": -15.3
+          }
+        ],
+        "platforms": [
+          {
+            "h": 3.6,
+            "height": 1.25,
+            "id": "p3_observatory_shelf",
+            "w": 4.2,
+            "x": -1.5,
+            "z": -14.2
+          },
+          {
+            "h": 3.4,
+            "height": 1.25,
+            "id": "p3_pond_east_shelf",
+            "w": 4,
+            "x": 8.2,
+            "z": -9.8
+          },
+          {
+            "h": 2.4,
+            "height": 1.25,
+            "id": "p3_middle_shelf",
+            "w": 2.8,
+            "x": 4.5,
+            "z": -12.3
+          }
+        ]
+      }
+    },
+    {
+      "boundaryColliders": [],
+      "bounds": {
+        "maxX": 14.5,
+        "maxZ": -19,
+        "minX": -14.5,
+        "minZ": -36
+      },
+      "creatures": [
+        {
+          "homePos": {
+            "x": 7.8,
+            "y": 0,
+            "z": -25.6
+          },
+          "id": "spitter_p4_skittish",
+          "leashRadius": 3.8,
+          "noticeRadius": 5.4,
+          "personalSpace": 1.9,
+          "pos": {
+            "x": 7.8,
+            "y": 0,
+            "z": -25.6
+          },
+          "roamRadius": 1.8,
+          "speciesTag": "flutter",
+          "temperament": "SKITTISH",
+          "type": "spitter"
+        },
+        {
+          "homePos": {
+            "x": 3.8,
+            "y": 0,
+            "z": -29.1
+          },
+          "id": "rusher_p4_threshold_guardian",
+          "leashRadius": 3.6,
+          "noticeRadius": 5.2,
+          "personalSpace": 2.2,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": -29.1
+          },
+          "roamRadius": 1.8,
+          "speciesTag": "fang",
+          "temperament": "TERRITORIAL",
+          "type": "rusher"
+        }
+      ],
+      "displayName": "Threshold Rise",
+      "extractionBeacons": [],
+      "ground": {
+        "color": 8363882,
+        "type": "plain"
+      },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": 8363882,
+          "id": "ground_p4_threshold",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.25,
+            "z": -27.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 17,
+            "h": 0.5,
+            "w": 29
+          },
+          "visibleInPlay": true
+        }
+      ],
+      "id": "p4_threshold",
+      "majorWaypoints": [
+        {
+          "displayName": "Threshold Rise",
+          "id": "wp_p4_threshold",
+          "pos": {
+            "x": 0,
+            "y": 3.75,
+            "z": -31.8
+          },
+          "runSpawn": {
+            "facingYaw": 3.1415926535,
+            "position": {
+              "x": 0,
+              "y": 3.75,
+              "z": -30.5
+            }
+          },
+          "type": "majorWaypoint"
+        }
+      ],
+      "neighbors": [
+        "p3_temptation"
+      ],
+      "pockets": [],
+      "pois": [
+        {
+          "id": "poi_p4_island",
+          "pos": {
+            "x": 8.4,
+            "y": 0,
+            "z": -31.2
+          },
+          "requires": {
+            "id": "swim",
+            "type": "companionAbility"
+          },
+          "type": "chest"
+        },
+        {
+          "displayName": "Threshold Crystal",
+          "id": "poi_p4_threshold_crystal",
+          "pos": {
+            "x": 2.1,
+            "y": 3.75,
+            "z": -32.8
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1.15,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "displayName": "Rise Iron Deposit",
+          "id": "poi_p4_rise_iron",
+          "pos": {
+            "x": 5.3,
+            "y": 0,
+            "z": -29.2
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1.1,
+          "visualAssetId": "asset_iron_ore_rock"
+        }
+      ],
+      "props": [
+        {
+          "collisionEnabled": true,
+          "id": "prop_p4_high_island",
+          "opacity": 1,
+          "pos": {
+            "x": 8.4,
+            "y": 0,
+            "z": -31.2
+          },
+          "rotY": 0,
+          "size": {
+            "d": 2,
+            "h": 0.6,
+            "w": 2
+          },
+          "subtype": "box",
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p4_threshold_arch",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": 3.75,
+            "z": -31.8
           },
           "rotY": 0,
           "subtype": "visualAsset",
-          "uniformScale": 0.8,
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p4_observatory_path",
+          "opacity": 1,
+          "pos": {
+            "x": -4.4,
+            "y": 0,
+            "z": -27.4
+          },
+          "rotY": 0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
           "visibleInPlay": true,
           "visualAssetId": "asset_ruin_path"
         }
       ],
       "resources": [
         {
-          "id": "tree_section_1_01",
-          "level": 1,
+          "id": "tree_p4_01",
           "pos": {
-            "x": -10,
-            "y": 0,
-            "z": 14
+            "x": 0,
+            "y": 3.75,
+            "z": -31.8
           },
           "type": "tree"
         },
         {
-          "id": "rock_section_1_01",
+          "id": "rock_p4_01",
           "pos": {
-            "x": 9,
+            "x": -2.8,
             "y": 0,
-            "z": 13
+            "z": -25.8
           },
-          "tier": 1,
           "type": "rock"
         },
         {
-          "id": "fiber_section_1_01",
-          "level": 1,
+          "id": "rock_p4_02",
           "pos": {
-            "x": -5,
+            "x": 5.6,
             "y": 0,
-            "z": 5
+            "z": -29.4
+          },
+          "type": "rock"
+        },
+        {
+          "id": "fiber_p4_01",
+          "pos": {
+            "x": -8.8,
+            "y": 0,
+            "z": -23.2
           },
           "type": "fiber"
-        }
-      ],
-      "sectionProfile": {
-        "expected": {
-          "extractionBeacons": {
-            "max": 1,
-            "min": 1
-          },
-          "outboundPortals": {
-            "max": 1,
-            "min": 1
-          },
-          "parkourCourses": {
-            "max": 1,
-            "min": 1
-          },
-          "secrets": {
-            "max": 1,
-            "min": 1
-          },
-          "waypoint": 1
-        },
-        "recommendedLevel": {
-          "max": 3,
-          "min": 1
-        },
-        "resourceValueTarget": {
-          "max": 8,
-          "min": 3
-        },
-        "tier": 1,
-        "wildkinCountTarget": {
-          "max": 3,
-          "min": 1
-        },
-        "wildkinLevelTarget": {
-          "max": 2,
-          "min": 1
-        }
-      },
-      "sectionType": "expedition",
-      "size": {
-        "depth": 50,
-        "width": 50
-      },
-      "traversal": {
-        "climbables": [],
-        "jumpTraversals": [],
-        "obstacles": [
-          {
-            "baseY": 0,
-            "h": 2,
-            "height": 2,
-            "id": "overlap_blocker_section_1",
-            "rotY": 0,
-            "w": 2,
-            "x": 12,
-            "y": 0,
-            "z": 8
-          }
-        ],
-        "platforms": [
-          {
-            "baseY": 0,
-            "h": 3,
-            "height": 0.35,
-            "id": "platform_section_1_takeoff",
-            "rotY": 0,
-            "w": 3,
-            "x": 8,
-            "y": 0,
-            "z": -3
-          },
-          {
-            "baseY": 0,
-            "h": 4,
-            "height": 0.35,
-            "id": "platform_section_1_landing",
-            "rotY": 0,
-            "w": 4,
-            "x": 8,
-            "y": 0,
-            "z": -14
-          }
-        ]
-      }
-    },
-    {
-      "boundaryColliders": [
-        {
-          "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_2_north",
-          "opacity": 0.35,
-          "pos": {
-            "x": 0,
-            "y": 0,
-            "z": -24.5
-          },
-          "rotY": 0,
-          "size": {
-            "d": 0.5,
-            "h": 3,
-            "w": 49
-          },
-          "visibleInPlay": false
         },
         {
-          "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_2_south",
-          "opacity": 0.35,
+          "id": "fiber_p4_02",
           "pos": {
-            "x": 0,
+            "x": 3.2,
             "y": 0,
-            "z": 24.5
+            "z": -21.6
           },
-          "rotY": 0,
-          "size": {
-            "d": 0.5,
-            "h": 3,
-            "w": 49
-          },
-          "visibleInPlay": false
+          "type": "fiber"
         },
         {
-          "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_2_west",
-          "opacity": 0.35,
+          "id": "rock_p4_threshold_crystal",
           "pos": {
-            "x": -24.5,
-            "y": 0,
-            "z": 0
+            "x": 1.2,
+            "y": 3.75,
+            "z": -32.8
           },
-          "rotY": 0,
-          "size": {
-            "d": 49,
-            "h": 3,
-            "w": 0.5
-          },
-          "visibleInPlay": false
+          "type": "rock"
         },
         {
-          "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_2_east",
-          "opacity": 0.35,
+          "id": "rock_p4_rise_iron",
           "pos": {
-            "x": 24.5,
+            "x": 6.7,
             "y": 0,
-            "z": 0
-          },
-          "rotY": 0,
-          "size": {
-            "d": 49,
-            "h": 3,
-            "w": 0.5
-          },
-          "visibleInPlay": false
-        }
-      ],
-      "bounds": {
-        "maxX": 25,
-        "maxZ": 25,
-        "minX": -25,
-        "minZ": -25
-      },
-      "creatures": [
-        {
-          "homePos": {
-            "x": -12,
-            "y": 0,
-            "z": -5
-          },
-          "hostileSpecies": [],
-          "id": "spitter_section_2_01",
-          "leashRadius": 7,
-          "level": 2,
-          "noticeRadius": 5,
-          "personalSpace": 2,
-          "pos": {
-            "x": -12,
-            "y": 0,
-            "z": -5
-          },
-          "roamRadius": 2,
-          "speciesTag": "spit",
-          "temperament": "DEFENSIVE",
-          "type": "spitter"
-        }
-      ],
-      "displayName": "Section 2 Proof",
-      "entryPoints": [
-        {
-          "facingYaw": 3.141592653589793,
-          "id": "entry_section_2",
-          "pos": {
-            "x": 0,
-            "y": 0,
-            "z": 20
-          }
-        }
-      ],
-      "extractionBeacons": [],
-      "ground": {
-        "color": "#596a8e",
-        "type": "plain"
-      },
-      "groundPatches": [
-        {
-          "collisionEnabled": true,
-          "color": "#596a8e",
-          "id": "ground_section_2",
-          "opacity": 1,
-          "pos": {
-            "x": 0,
-            "y": -0.5,
-            "z": 0
-          },
-          "rotY": 0,
-          "size": {
-            "d": 50,
-            "h": 0.5,
-            "w": 50
-          },
-          "visibleInPlay": true
-        }
-      ],
-      "id": "section_2",
-      "jumpPads": [],
-      "killVolumes": [],
-      "lootChests": [],
-      "majorWaypoints": [
-        {
-          "displayName": "Section 2 Waypoint",
-          "id": "wp_section_2",
-          "pos": {
-            "x": 0,
-            "y": 0,
-            "z": 9
-          },
-          "runSpawn": {
-            "facingYaw": 3.141592653589793,
-            "position": {
-              "x": 0,
-              "y": 0,
-              "z": 12
-            }
-          },
-          "type": "majorWaypoint"
-        }
-      ],
-      "neighbors": [],
-      "parkourCheckpoints": [],
-      "parkourStarts": [],
-      "pockets": [],
-      "pois": [],
-      "portalGates": [],
-      "props": [],
-      "resources": [
-        {
-          "id": "rock_section_2_01",
-          "level": 2,
-          "pos": {
-            "x": -9,
-            "y": 0,
-            "z": 11
+            "z": -29.2
           },
           "type": "rock"
         }
       ],
-      "sectionProfile": {
-        "expected": {
-          "extractionBeacons": {
-            "max": 1,
-            "min": 0
-          },
-          "outboundPortals": {
-            "max": 0,
-            "min": 0
-          },
-          "parkourCourses": {
-            "max": 0,
-            "min": 0
-          },
-          "secrets": {
-            "max": 0,
-            "min": 0
-          },
-          "waypoint": 1
-        },
-        "recommendedLevel": {
-          "max": 4,
-          "min": 2
-        },
-        "resourceValueTarget": {
-          "max": 4,
-          "min": 1
-        },
-        "tier": 2,
-        "wildkinCountTarget": {
-          "max": 2,
-          "min": 1
-        },
-        "wildkinLevelTarget": {
-          "max": 3,
-          "min": 2
-        }
-      },
-      "sectionType": "expedition",
-      "size": {
-        "depth": 50,
-        "width": 50
-      },
       "traversal": {
-        "climbables": [],
-        "jumpTraversals": [],
-        "obstacles": [
+        "climbables": [
           {
-            "baseY": 0,
-            "h": 1.5,
-            "height": 1,
-            "id": "overlap_blocker_section_2",
-            "rotY": 1.5707963267948966,
-            "w": 5,
-            "x": 12,
-            "y": 0,
-            "z": 8
+            "approachDir": {
+              "x": 0,
+              "z": -1
+            },
+            "bottomY": 0,
+            "h": 0.5,
+            "id": "ladder_south_high",
+            "mantleExit": {
+              "x": 0,
+              "z": -30.5
+            },
+            "topEntryRegion": {
+              "maxX": 0.95,
+              "maxZ": -29.35,
+              "minX": -0.95,
+              "minZ": -30.1
+            },
+            "topPlatform": {
+              "aabb": {
+                "maxX": 2.8,
+                "maxZ": -29.4,
+                "minX": -2.8,
+                "minZ": -34.2
+              },
+              "h": 4.8,
+              "topY": 3.75,
+              "w": 5.6,
+              "x": 0,
+              "z": -31.8
+            },
+            "topY": 3.75,
+            "w": 1.9,
+            "wallNormal": {
+              "x": 0,
+              "z": 1
+            },
+            "x": 0,
+            "z": -29.15
           }
         ],
-        "platforms": []
+        "jumpTraversals": [],
+        "obstacles": [],
+        "platforms": [
+          {
+            "h": 4.8,
+            "height": 3.75,
+            "id": "p4_threshold_dais",
+            "w": 5.6,
+            "x": 0,
+            "z": -31.8
+          }
+        ]
       }
     }
   ],
@@ -1025,7 +1741,8 @@ export const WORLD_DATA = {
       "id": "wildflower"
     }
   ],
-  "version": "4B.1",
+  "startAnchorId": "camp_gate",
+  "version": "3.5B",
   "visualAssets": [
     {
       "category": "Machines",

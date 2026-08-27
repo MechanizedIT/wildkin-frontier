@@ -1,6 +1,6 @@
 # Wildkin Frontier — Phase 4B.1: Section Framework & Level-Design Toolkit
 
-**Status:** READY TO IMPLEMENT  
+**Status:** IMPLEMENTED — automated gates and browser verification pass; human acceptance pending
 **Active slice:** Phase 4B.1  
 **Canonical spec:** `docs/Specs/Phase_4B.1.md`
 
@@ -101,4 +101,19 @@ without needing an AI agent to decide where those pieces should go.
 
 When the framework is technically reliable and the owner can use the sparse proof sections, **freeze systems work and move to Phase 4B.2 — owner-authored Section 1 vertical slice**.
 
-Read and implement the complete requirements in `docs/Specs/Phase_4B.1.md`.
+## Implementation checkpoint — 2026-08-27
+
+The Phase 4B.1 framework is implemented and the canonical world is now a sparse Camp → Section 1 → Section 2 proof graph. The owner can select a section in Author Mode, place standardized traversal/parkour/portal/loot pieces in section-local coordinates, inspect a read-only profile summary, and export a validated draft without automatic rehoming.
+
+Runtime keeps one explicit active section: inactive section visuals, Rapier colliders, resources, creatures, anchors, loot, jump pads, and parkour queries are isolated; portal travel preserves the expedition run and arrives at the destination entry. Fresh saves use the Camp Gate → Section 1 entry path, Waypoints unlock only after discovery, and repaired gates plus loot claims persist through the normal frontier save. Matter Attractor migration, level derivation, and compatibility paths are covered by production tests.
+
+Validation completed for this checkpoint:
+
+- `npm test` — pass (535 tests, 148 suites)
+- `npm run world:generate` — pass
+- `npm run world:check` — pass
+- `npm run verify` — pass
+- `npm run zip` — pass
+- Real Chrome `?author=1` and normal-runtime browser checks — pass for the documented automated scenarios
+
+Automated browser inspection is not human acceptance of feel, visual readability, phone performance, or final level pacing. The next bounded action is Phase 4B.2: human-authored Section 1 composition and playtest.

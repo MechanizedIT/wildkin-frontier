@@ -66,6 +66,9 @@ describe("Phase 4B.0 — Visual Asset schema", () => {
         delete prop.uniformScale;
       }
     });
+    for (const region of legacy.regions) {
+      for (const object of [...(region.jumpPads ?? []), ...(region.portalGates ?? []), ...(region.lootChests ?? []), ...(region.majorWaypoints ?? []), ...(region.extractionBeacons ?? [])]) delete object.visualAssetId;
+    }
     assert.deepEqual(normalizeWorldData(legacy).visualAssets, []);
     assert.equal(normalizeWorldData(WORLD_DATA).visualAssets[0].id, "asset_drop_pod");
   });
@@ -232,9 +235,9 @@ describe("Phase 4B.0 — production Author actions and preview reconciliation", 
     assert.ok(moved.ok, moved.error);
     assert.deepEqual(draft.findVisualAssetById(created.assetId), recipeBefore);
     assert.notDeepEqual(readNormalizedTransform(draft.findObjectById(first.id)), readNormalizedTransform(draft.findObjectById(second.id)));
-    const rehome = actions.commitTransform(first.id, { position: { x: 0, y: 0, z: 5.5 } });
-    assert.ok(rehome.ok, rehome.error);
-    assert.equal(draft.findObjectById(first.id).region.id, "p1_forest_edge");
+    const moveWithinSection = actions.commitTransform(first.id, { position: { x: 0, y: 0, z: 5.5 } });
+    assert.ok(moveWithinSection.ok, moveWithinSection.error);
+    assert.equal(draft.findObjectById(first.id).region.id, "camp", "overlapping local coordinates must never auto-rehome an object");
   }));
 
   it("rebuilds every shared preview root on recipe edit while preserving world transforms", () => withMockStorage(() => {

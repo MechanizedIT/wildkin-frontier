@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import fs from "node:fs";
-import { WORLD_DATA } from "../src/world/data/world.js";
+import { WORLD_DATA } from "./fixtures/crescentWorld.generated.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
@@ -24,7 +24,8 @@ function withMockStorage(fn){
   try{return fn(m);} finally {global.localStorage=orig;}
 }
 function authoredMesh(group, id) {
-  const root = group.children.find((child) => child.userData?.authorVisualRoot && child.userData.authorId === id);
+  let root = null;
+  group.traverse((child) => { if (!root && child.userData?.authorVisualRoot && child.userData.authorId === id) root = child; });
   let mesh = null;
   root?.traverse((object) => { if (!mesh && object.isMesh) mesh = object; });
   return mesh;
@@ -68,7 +69,7 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
     const center=getVisualCenter(desc);
     assert.equal(center.y, bc.pos.y + bc.size.h/2);
     const draftApi=createAuthorDraft(WORLD_DATA);
-    const res=draftApi.updateTransform(bc.id, {pos:{x:0,y:1,z:0}, size:{w:2,h:2,d:0.5}});
+    const res=draftApi.updateTransform(bc.id, {pos:{...bc.pos,y:1}, size:{w:2,h:2,d:0.5}});
     assert.ok(res.ok);
     const found=draftApi.findObjectById(bc.id);
     assert.equal(found.obj.pos.y,1);
@@ -100,7 +101,7 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
       assert.equal(found.obj.visibleInPlay, vis);
       assert.equal(found.obj.collisionEnabled, coll);
       const pg=createStaticWorld(draftApi.getDraft());
-      const mesh=pg.group.children.find(c=>c.name===box.id);
+      const mesh=pg.group.getObjectByName(box.id);
       if(vis) assert.equal(mesh.visible, true);
       else assert.equal(mesh.visible, false);
       const hasCollider=pg.obstacles.some(o=>o.id===box.id);
@@ -172,15 +173,15 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
     // This checks that draft query is distinct
     assert.ok(q===null || q==="p1_forest_edge");
   });
-  it("ambiguous region overlap rejected", ()=>{
+  it("section-local bounds may overlap", ()=>{
     const data=JSON.parse(JSON.stringify(WORLD_DATA));
     const camp = data.regions.find((region) => region.id === "camp");
     const p1 = data.regions.find((region) => region.id === "p1_forest_edge");
     // Extend Camp slightly into its current neighbor while preserving all Camp-owned objects.
     camp.bounds.minZ = p1.bounds.maxZ - 0.5;
-    assert.throws(()=>normalizeWorldData(data), /overlap/);
+    assert.doesNotThrow(()=>normalizeWorldData(data));
   });
-  it("point-owned object outside declared region rejected or rehomed", ()=>{
+  it("point-owned object preserves its section unless ownership is explicit", ()=>{
     const data=JSON.parse(JSON.stringify(WORLD_DATA));
     const regionWithRes=data.regions.find(r=>r.resources && r.resources.length>0);
     const res=regionWithRes.resources[0];
@@ -192,11 +193,12 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
       y:0,
       z:(targetRegion.bounds.minZ + targetRegion.bounds.maxZ) / 2,
     };
-    const res2=draftApi.updateTransform(resId, {pos:farPos});
-    // With auto-rehome, moving to a uniquely containing region should succeed and rehome to p4_threshold
+    const implicitMove=draftApi.updateTransform(resId, {pos:farPos});
+    assert.equal(implicitMove.ok,false, "coordinates alone must not rehome an object");
+    const res2=draftApi.updateTransform(resId, {pos:farPos, regionId:targetRegion.id});
     assert.equal(res2.ok,true, res2.error);
     const found = draftApi.findObjectById(resId);
-    assert.equal(found.region.id, "p4_threshold");
+    assert.equal(found.region.id, targetRegion.id);
     // Also test that ambiguous/outside all regions is rejected
     const farOutside={x:100,y:0,z:100};
     const res3=draftApi.updateTransform(resId, {pos:farOutside});

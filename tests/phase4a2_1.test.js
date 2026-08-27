@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as THREE from "three";
-import { WORLD_DATA } from "../src/world/data/world.js";
+import { WORLD_DATA } from "./fixtures/crescentWorld.generated.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
@@ -19,7 +19,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 
 function authoredMesh(group, id) {
-  const root = group.children.find((child) => child.userData?.authorVisualRoot && child.userData.authorId === id);
+  let root = null;
+  group.traverse((child) => { if (!root && child.userData?.authorVisualRoot && child.userData.authorId === id) root = child; });
   let mesh = null;
   root?.traverse((object) => { if (!mesh && object.isMesh) mesh = object; });
   return mesh;
@@ -290,14 +291,16 @@ describe("Phase 4A.2.1 — Spawn repair", ()=>{
   });
 });
 
-describe("Phase 4A.2.1 — Region auto-rehome", ()=>{
-  it("Beacon crossing boundary rehomes in same transaction atomically", ()=>{
+describe("Phase 4A.2.1 — explicit section ownership", ()=>{
+  it("Beacon crossing section bounds requires an explicit section move", ()=>{
     const draftApi=createAuthorDraft(WORLD_DATA);
     const beacon=draftApi.getDraft().regions.flatMap(r=>r.extractionBeacons)[0];
     const srcRegion=draftApi.findObjectById(beacon.id).region.id;
     const dstRegion=draftApi.findRegion("p3_temptation");
     const targetPos={x: (dstRegion.bounds.minX+dstRegion.bounds.maxX)/2, y:0, z: (dstRegion.bounds.minZ+dstRegion.bounds.maxZ)/2 };
-    const res=draftApi.updateTransform(beacon.id, {pos: targetPos});
+    const implicit=draftApi.updateTransform(beacon.id, {pos: targetPos});
+    assert.equal(implicit.ok, false, "coordinates must not silently change section ownership");
+    const res=draftApi.updateTransform(beacon.id, {pos: targetPos, regionId:dstRegion.id});
     assert.ok(res.ok, res.error);
     const after=draftApi.findObjectById(beacon.id);
     assert.equal(after.region.id, "p3_temptation", "should have rehomed to p3");
@@ -320,7 +323,7 @@ describe("Phase 4A.2.1 — Region auto-rehome", ()=>{
     const wpId=wp.id;
     // wp runSpawn at (0,0,5.2) in p1 (3.5-7). Try to move waypoint to camp (7-11.5) while runSpawn stays at 5.2 outside camp -> should reject when rehoming
     const targetPos={x:0,y:0,z:10}; // inside camp
-    const res=draftApi.updateTransform(wpId, {pos: targetPos});
+    const res=draftApi.updateTransform(wpId, {pos: targetPos, regionId:"camp"});
     assert.equal(res.ok, false, "should reject because runSpawn would be outside new region");
     assert.ok(res.error.includes("Run Spawn"));
   });

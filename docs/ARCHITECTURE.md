@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Phase 4B.1 Planned — Section Framework & Level-Design Toolkit)
+# Architecture — Wildkin Frontier (Phase 4B.1 Implemented — Section Framework & Level-Design Toolkit)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document distinguishes the **implemented foundation through the stopped Phase 4B first pass** from the **Phase 4B.1 target architecture**. Phase 4B.1 replaces the continuous-strip level assumption with portal-connected self-contained sections while preserving the accepted Author/Visual Asset contracts.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document records the **implemented Phase 4B.1 foundation** after the stopped Phase 4B first pass. The section framework replaces the continuous-strip level assumption with portal-connected self-contained sections while preserving the accepted Author/Visual Asset contracts. Final section composition remains human-owned in Phase 4B.2.
 
 ## Permanent Goals
 
@@ -41,7 +41,9 @@ Accepted current systems:
 - bounded pools, data-driven `world.json` source with `camp.playerSpawn`, Camp + Area 1 regions/anchors/POIs + `frontierGateId/initialMajorWaypointId/spawnOffset/displayName`,
 - explicit authored `groundPatches` (one per region, visible/collision toggles) + `boundaryColliders` (outer limits, hidden in Play, proxy in Edit) replacing hard-coded global floor/bounds walls,
 - generic static presentation/collision contract (`visibleInPlay, collisionEnabled, opacity, color/tint` with per-object material cloning),
-- current+neighbor region activation,
+- explicit active-section activation through `SectionRuntime` (with a legacy `regionManager` compatibility alias),
+- portal-connected Camp/Section topology with section-local authored coordinates,
+- inactive-section visual, Rapier, resource, creature, anchor, loot, jump-pad, and parkour isolation,
 - `ExpeditionSession` (camp/active/extracted/dead, idempotent, `suppressUntilExit` generic),
 - `frontierProgress` (bank + unlocks, isolated author key),
 - frontier anchor interaction with `prime` edge-trigger + generic suppression,
@@ -123,7 +125,7 @@ A repaired gate becomes persistent frontier progress.
 
 ## SectionRuntime
 
-Current implementation only partially deactivates distant gameplay while the static world is still built globally. Phase 4B.1 introduces an explicit section runtime owner:
+Phase 4B.1 makes the active section an explicit runtime owner while keeping the authored world resident for deterministic, offline-safe execution:
 
 ```text
 SectionRuntime
@@ -132,14 +134,14 @@ SectionRuntime
   transitionThroughPortal(portalId)
 ```
 
-Prototype implementation may keep world data resident and use deterministic activation/deactivation:
+The implementation uses deterministic activation/deactivation:
 
 - active section static root visible,
-- active section Rapier colliders enabled/present,
-- active section resources/Wildkin/anchors active,
-- inactive sections hidden and non-simulating,
-- transient pickups/projectiles/XP cleared or transitioned safely,
-- transition moves player to destination entry and reprimes interaction state.
+- active section Rapier colliders enabled; inactive section-owned colliders are disabled,
+- active section resources/Wildkin/anchors/loot/traversal queries run; inactive section systems are frozen or ignored,
+- inactive section scene groups are hidden and non-simulating,
+- transient pickups/projectiles/XP are cleared or transitioned safely at section changes,
+- transition moves the player to the destination entry and reprimes interaction state.
 
 The seam must permit later lazy instantiate/destroy without changing section data or Portal Gate semantics.
 
@@ -279,9 +281,21 @@ src/world/
   worldValidator.js
     normalize/validate authored world
   worldRegistry.js
-    region/object/anchor query registry
+    section/object/anchor query registry and topology maps
   regionManager.js
-    current+neighbor active-region owner
+    compatibility alias to SectionRuntime for legacy callers
+  sectionProfile.js
+    standard dimensions and read-only balance metadata helpers
+  sectionRuntime.js
+    explicit active-section lifecycle and activation hooks
+  portalGateSystem.js
+    active/ruined gate interaction, requirements, and transitions
+  jumpPadSystem.js
+    first-class launch pads and cooldowns
+  parkourSystem.js
+    bounded course/checkpoint/kill-volume lifecycle
+  lootSystem.js
+    reusable chest/table claims and refill timing
   staticWorldBuilder.js
     visuals + static/traversal descriptors from world data
   createMovementPlayground.js
@@ -331,7 +345,11 @@ src/creatures/
 
 src/save/
   frontierProgress.js
-    persistent bank + discovered/unlocked anchors (versioned localStorage, stale-filter, idempotent bank)
+    persistent bank, anchors, repaired gates, loot claims, and keyed upgrades (versioned localStorage, stale-filter, idempotent bank)
+
+src/progression/
+  playerLevel.js
+    banked-XP level curve used by gate requirements
 
 src/world/
   frontierAnchorSystem.js
@@ -350,21 +368,22 @@ src/audio/
 
 # Fixed Update Ownership
 
-Conceptually (Phase 4A):
+Conceptually (Phase 4B.1):
 
 ```text
 main.js (thin: creates, injects, owns single rAF)
-  ├─ init scene/Rapier/worldRegistry(regionDepthMap)/campSpawn/frontierProgress(load)/session(camp)/regionManager
+  ├─ init scene/Rapier/worldRegistry/SectionRuntime/campSpawn/frontierProgress/load/session(camp)
   ├─ create player/input/FieldTool/resource/pickup/creature/projectile/XP/combat/audio/HUD/Map/AnchorPrompt/ResultCard/Indicators
+  ├─ create PortalGate/JumpPad/Parkour/Loot systems and wire their callbacks → SectionRuntime/session/progression
   ├─ wire anchorSystem callbacks → Map/prompt/frontierProgress/session
-  ├─ wire playerCombat.onDeath → deathFlow, anchor prompts → extractionFlow, map start → beginExpedition
+  ├─ wire playerCombat.onDeath → deathFlow, portal/anchor prompts → expedition/extraction flows
   └─ single rAF tick
        ├─ syncInputBlock (authorEdit | Map|Prompt|ResultCard) → touch/keyboard setEnabled
        ├─ gather/merge intents → effectiveIntent (zeroed when blocked)
        ├─ fixed substeps (when !blocked && !resolved)
        │    ├─ frontierAnchorSystem.update(playerPos) → may open Map/Prompt
-       │    ├─ combatSession, FieldTool, playerCombat, playerController/Rapier, regionManager
-       │    ├─ creatures/projectiles/XP/resources/pickups + focus rings
+       │    ├─ combatSession, FieldTool, playerCombat, playerController/Rapier
+       │    ├─ SectionRuntime-owned jump pads/parkour + creatures/projectiles/XP/resources/pickups + focus rings
        │    └─ harvesting allowed only when session.isActive() && !blocked
        ├─ indicators.update(camera) (visual, active-run only)
        └─ render
@@ -537,29 +556,22 @@ Section 2 (50×50)
 
 Section 1/2 proof shells are infrastructure proof only; final human-authored level composition follows after 4B.1.
 
-# Spatial Activation / Streaming — Transitioning in Phase 4B.1
+# Spatial Activation / Streaming — Implemented Phase 4B.1 boundary
 
 Existing `regionManager` behavior remains useful evidence but is no longer the final world-structure abstraction.
 
-Current behavior:
-
-```text
-current region + neighbors active
-distant resource/Wildkin simulation frozen
-static world mostly constructed globally
-```
-
-Target:
+Implemented behavior:
 
 ```text
 one explicit active expedition section
 portal transition boundary
 inactive sections hidden/non-simulating/non-colliding
+active-section-owned resources/Wildkin/anchors/traversal queries only
 ```
 
 Camp is a special active home section.
 
-Phase 4B.1 should prefer one `SectionRuntime` owner over scattered checks. Region/pocket APIs may be adapted or retained internally during migration, but gameplay systems should converge on the explicit active section.
+`SectionRuntime` is the authoritative owner. The `regionManager` name remains only as a compatibility alias for older integrations; new gameplay contracts use section identity and explicit activation.
 
 Three.js frustum culling remains render-only. True asynchronous asset streaming remains deferred until profiling requires it.
 
@@ -596,17 +608,22 @@ Do not turn Author Mode into a general engine editor. No prefab system, scriptin
 `src/save/frontierProgress.js` — implemented as specified:
 
 ```text
-version: 1
+version: 2
 bankedResources: { wood, stone, fiber }
 bankedXp
-unlockedMajorWaypointIds: [initialMajorWaypointId]
+unlockedMajorWaypointIds: []
 discoveredBeaconIds: []
 hasDepartedOnce
+repairedPortalGateIds: []
+claimedLootChestIds: []
+lootRefillAvailableAt: {}
+upgrades: { matter_attractor: 0 }
 ```
 
 - localStorage `wildkin.frontierProgress` (normal) vs `wildkin.authorFrontierProgress` (author isolated key),
-- version/default normalization, stale-filter via worldRegistry, dedup,
+- version/default normalization and compatibility migration from the pre-keyed Matter Attractor flag, stale-filter via worldRegistry, dedup,
 - idempotent `bankRun` token guard, `unlockWaypoint`/`discoverBeacon` return true only on new discovery, `markDeparted` once,
+- repaired gate IDs, one-time loot claims/refill timestamps, and keyed upgrade levels persist in the normal save,
 - no DOM dependency.
 
 ## 2. Frontier anchor interaction owner

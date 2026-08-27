@@ -39,11 +39,12 @@ export function createFrontierIndicators(opts = {}) {
   }
 
   function getBestExtractionTarget(playerPos) {
+    const activeSectionId = getSession()?.getCurrentRegionId?.() ?? null;
     const gatePos = worldRegistry.getFrontierGatePos();
-    const beacons = worldRegistry.getAllBeacons();
-    const waypoints = worldRegistry.getAllWaypoints().filter(w => w.id !== "wp_camp_gate");
+    const beacons = worldRegistry.getAllBeacons().filter((entry) => entry.regionId === activeSectionId);
+    const waypoints = worldRegistry.getAllWaypoints().filter(w => w.id !== "wp_camp_gate" && w.regionId === activeSectionId);
     const candidates = [];
-    if (gatePos) candidates.push({ id: worldRegistry.getFrontierGateId(), pos: { x: gatePos.x, z: gatePos.z, y: 0.5 }, kind: "gate", dist: Math.hypot(playerPos.x - gatePos.x, playerPos.z - gatePos.z) });
+    if (gatePos && activeSectionId === "camp") candidates.push({ id: worldRegistry.getFrontierGateId(), pos: { x: gatePos.x, z: gatePos.z, y: 0.5 }, kind: "gate", dist: Math.hypot(playerPos.x - gatePos.x, playerPos.z - gatePos.z) });
     for (const bc of beacons) {
       if (frontierProgress && !frontierProgress.isDiscoveredBeacon?.(bc.id)) continue;
       candidates.push({ id: bc.id, pos: { x: bc.pos.x, z: bc.pos.z, y: 0.5 }, kind: "beacon", dist: Math.hypot(playerPos.x - bc.pos.x, playerPos.z - bc.pos.z) });
@@ -58,6 +59,7 @@ export function createFrontierIndicators(opts = {}) {
   }
 
   function getNextDeeperWaypoint(playerPos) {
+    if (worldRegistry.getDefaultExpeditionEntry?.()) return null;
     const allWp = worldRegistry.getAllWaypoints().filter(w => w.id !== "wp_camp_gate");
     const depthMap = worldRegistry.getRegionDepthMap?.() ?? {};
     const curRegion = worldRegistry.getRegionForPosition(playerPos);

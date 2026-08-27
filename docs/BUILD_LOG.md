@@ -1013,4 +1013,23 @@
 
 - **Verification:** `npm test` 511/511, `npm run verify` PASS (4925KB). Synthetic check: drag down `dy=+20` raises pitch `0.50→0.58`, drag up lowers `0.50→0.42`; `pan dy=20` moves `y +0.49` and `z -0.34` (not just XZ).
 
+## 2026-08-27 — Phase 4B.1 Section Framework & Level-Design Toolkit — Codex (GPT-5)
+
+- **Goal / Prompt:** Implement the complete `docs/Specs/Phase_4B.1.md` slice so the owner can build portal-connected 50×50 sections from reliable reusable pieces, while keeping final geography, pacing, and composition human-authored.
+- **Decisions:**
+  - Replaced the canonical elongated Crescent proof layout with sparse Camp (100×100) → Section 1 (50×50) → Section 2 (50×50) data using section-local coordinates and explicit ownership.
+  - Made `SectionRuntime` the active-section owner; retained the `regionManager` name only as a compatibility alias. Inactive section visuals, Rapier colliders, resources, Wildkin, anchors, loot, jump pads, and parkour queries are isolated deterministically without async streaming.
+  - Added first-class Portal Gates, Jump Pads, Parkour Start/Checkpoint/Kill Volume, Loot Chest/Loot Table/refill persistence, centralized banked-XP levels, keyed Matter Attractor migration, section profiles, and a read-only Author summary. No automatic layout generation or final Section 1 design was added.
+  - Kept Author placement section-local and explicit, with palette support and trajectory guidance; drafts no longer silently rehome objects between sections.
+- **Files/Features Changed:**
+  - Added `src/world/sectionProfile.js`, `sectionRuntime.js`, `portalGateSystem.js`, `jumpPadSystem.js`, `parkourSystem.js`, `lootSystem.js`, `src/progression/playerLevel.js`, migration tooling, frozen regression fixture, and `tests/phase4b1.test.js`.
+  - Updated world validation/registry/builders/physics, player teleport synchronization, frontier persistence, pickup/player systems, Author draft/registry/UI/mode, contextual interaction, indicators, `main.js`, canonical sparse world JSON/generated data, compatibility regression suites, and phase documentation.
+- **Tests/Validation Performed:**
+  - `npm test` — PASS (535 tests, 148 suites).
+  - `npm run world:generate` — PASS; `npm run world:check` — PASS.
+  - `npm run verify` — PASS; `npm run zip` — PASS.
+  - Real Chrome browser verification — PASS for the automated `?author=1` palette/section/trajectory scenarios and normal-runtime Camp Gate → Section 1 → gate repair → Section 2, parkour safe respawn, one-time loot, and Waypoint discovery scenarios. Evidence is automated browser inspection, not human acceptance.
+- **Remaining Issues / Deferred:**
+  - Human acceptance remains pending for perceptual movement/traversal readability, visual recognition, phone performance, and final Section 1 composition/pacing. Those are the owner-authored Phase 4B.2 responsibilities.
+
 

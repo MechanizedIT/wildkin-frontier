@@ -29,7 +29,11 @@ import { createCombatSession } from "./combat/combatSession.js";
 import { createCombatHud } from "./ui/combatHud.js";
 import WORLD_DATA from "./world/data/world.js";
 import { createWorldRegistry } from "./world/worldRegistry.js";
-import { createRegionManager } from "./world/regionManager.js";
+import { createSectionRuntime } from "./world/sectionRuntime.js";
+import { createPortalGateSystem } from "./world/portalGateSystem.js";
+import { createJumpPadSystem } from "./world/jumpPadSystem.js";
+import { createParkourSystem } from "./world/parkourSystem.js";
+import { createLootSystem } from "./world/lootSystem.js";
 import { createExpeditionSession } from "./session/expeditionSession.js";
 import { createFrontierProgress } from "./save/frontierProgress.js";
 import { createFrontierAnchorSystem } from "./world/frontierAnchorSystem.js";
@@ -48,12 +52,13 @@ import {
   getMatterResonatorInteraction,
   validateMatterAttractorCost,
 } from "./progression/matterAttractor.js";
+import { getPlayerLevel } from "./progression/playerLevel.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 4B — 0.13.0";
+const VERSION = "Phase 4B.1 — 0.14.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -142,7 +147,7 @@ if (devEnabled) {
 }
 
 // Expedition session — begins at Camp (not active)
-const initialRegion = worldRegistry.getRegionForPosition(startPos);
+const initialRegion = "camp";
 const expeditionSession = createExpeditionSession({
   startAnchorId: worldRegistry.getInitialMajorWaypointId() ?? "wp_p1_entry",
   regionDepthMap,
@@ -154,9 +159,12 @@ expeditionSession.setRegion(initialRegion, null);
 
 let lastActiveIds = [];
 let resourceSystem, creatureSystem, pickupSystem, projectileSystem, xpMoteSystem;
-const regionManager = createRegionManager(worldRegistry, {
-  onChange: ({ currentRegionId, activeIds, prevActiveIds }) => {
-    expeditionSession.setRegion(currentRegionId, null);
+const sectionRuntime = createSectionRuntime({
+  worldRegistry,
+  playground,
+  physicsWorld,
+  onChange: ({ sectionId, activeIds, prevActiveIds }) => {
+    expeditionSession.setRegion(sectionId, null);
     if (resourceSystem) resourceSystem.setActiveRegions(activeIds);
     if (creatureSystem) creatureSystem.setActiveRegions(activeIds);
     const deactivated = prevActiveIds.filter(id => !activeIds.includes(id));
@@ -177,6 +185,35 @@ playerController.state.facing = campStartFacing;
 
 const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG);
 cameraFollow.snap();
+
+function placePlayerAtFeetTransform(feetPosition, facingYaw = 0) {
+  const position = {
+    x: feetPosition.x,
+    y: resolveSpawnCapsuleCenter(feetPosition.y ?? 0),
+    z: feetPosition.z,
+  };
+  characterPhysics.setPosition(position);
+  player.position.set(position.x, position.y, position.z);
+  const state = playerController.state;
+  state.mode = "IDLE";
+  state.pos.set(position.x, position.y, position.z);
+  state.vel.set(0, 0, 0);
+  state.verticalVelocity = 0;
+  state.grounded = true;
+  state.facing = facingYaw;
+  state.speed = 0;
+  state.dodgeCooldown = 0;
+  state.dodgeTime = 0;
+  state.airCap = 0;
+  state.jumpData = null;
+  state.fallHVel = null;
+  state.climbable = null;
+  state.mantleData = null;
+  playerController.traversal.reset();
+  playerController.syncPosFromPhysics();
+  cameraFollow.snap();
+  return position;
+}
 
 const physicsDebug = createPhysicsDebug(scene, characterPhysics, physicsWorld);
 
@@ -216,6 +253,7 @@ const combatSession = createCombatSession();
 
 let isDead = false; // transient death overlay flag — now replaced by result card flow but kept for tick guard
 let pendingResultSnapshot = null;
+let parkourSystem = null;
 
 const playerCombat = createPlayerCombat({
   playerMesh: player,
@@ -228,6 +266,7 @@ const playerCombat = createPlayerCombat({
   onDamageFeedback: () => combatHud.pulseDamage(),
   onDeath: () => {
     if (expeditionSession.isResolved?.()) return;
+    if (parkourSystem?.handleFatalFailure("damage")) return;
     handleDeathFlow();
   },
   scene,
@@ -294,11 +333,11 @@ projectileSystem.setWildkinDamageCallback((target, dmg, pos, owner) => {
 
 xpMoteSystem.setPlayerPos(playerController.getState().pos);
 
-// Prime region activation after all gameplay systems exist (start at Camp)
+// Prime explicit section activation after all gameplay systems exist (start at Camp).
 {
-  const init = regionManager.update(startPos);
+  const init = sectionRuntime.activate("camp");
   lastActiveIds = init.activeIds;
-  expeditionSession.setRegion(init.currentRegionId, init.currentPocketId);
+  expeditionSession.setRegion("camp", null);
   resourceSystem.setActiveRegions(init.activeIds);
   creatureSystem.setActiveRegions(init.activeIds);
 }
@@ -394,6 +433,8 @@ matterResonatorPanel = createMatterResonatorPanel({
     syncInputBlock();
   },
 });
+// Compatibility name for existing Author/debug seams while sections supersede position-derived regions.
+const regionManager = sectionRuntime;
 syncMatterResonatorVisualState();
 
 frontierIndicators = createFrontierIndicators({
@@ -421,12 +462,89 @@ function getNearbyResonatorInteraction(playerPos) {
   } : null;
 }
 
+function transitionThroughPortalGate(gate) {
+  if (!expeditionSession.isActive()) return false;
+  const result = sectionRuntime.transitionThroughPortal(gate.id, {
+    beforeTransition: () => {
+      contextualInteraction?.setInteraction(null);
+      projectileSystem.reset();
+      combatSession.reset();
+      if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
+      parkourSystem?.leaveCourse();
+      jumpPadSystem?.reset();
+    },
+    onArrive: ({ entry }) => {
+      const arrival = placePlayerAtFeetTransform(entry.pos, entry.facingYaw ?? entry.rotY ?? 0);
+      frontierAnchorSystem?.reset();
+      frontierAnchorSystem?.prime(arrival);
+    },
+  });
+  return result.ok;
+}
+
+function handleParkourSafeFailure({ respawn }) {
+  if (!respawn?.position) return;
+  projectileSystem.reset();
+  combatSession.reset();
+  if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
+  playerCombat.reset();
+  combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
+  placePlayerAtFeetTransform(respawn.position, respawn.facingYaw ?? 0);
+}
+
+let portalGateSystem = null;
+let jumpPadSystem = null;
+let lootSystem = null;
+
+portalGateSystem = createPortalGateSystem(worldRegistry, {
+  frontierProgress,
+  getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
+  getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),
+  getCargo: () => pickupSystem.getInventory(),
+  spendCargo: (_cargo, cost) => pickupSystem.spendInventory(cost),
+  onTravel: transitionThroughPortalGate,
+});
+
+jumpPadSystem = createJumpPadSystem(worldRegistry, {
+  getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
+  launchPlayer: (launch) => playerController.launchFromJumpPad(launch),
+});
+
+parkourSystem = createParkourSystem(worldRegistry, {
+  getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
+  onSafeFailure: handleParkourSafeFailure,
+  onNormalFatal: () => handleDeathFlow(),
+});
+
+lootSystem = createLootSystem(worldRegistry, {
+  frontierProgress,
+  getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
+  grantRewards: (rewards) => {
+    pickupSystem.grantInventory(rewards.resources);
+    if (rewards.xp > 0) xpMoteSystem.setXp(xpMoteSystem.getXp() + rewards.xp);
+  },
+  onCourseReward: () => parkourSystem.completeCourse(),
+});
+
 // Contextual interaction (single owner)
 let contextualInteraction = null;
 contextualInteraction = createContextualInteraction({
   onActivate: (info) => {
     if (isAnyBlockingModal()) return;
-    if (info.type === "gate") {
+    if (info.type === "portalGate") {
+      const result = portalGateSystem.activate(info.id);
+      if (result.action === "camp-start") {
+        const unlocked = frontierProgress.getUnlockedWaypoints();
+        if (unlocked.length === 0) beginExpeditionFromDefaultEntry();
+        else {
+          frontierMap.openStartSelection();
+          refreshMapAvailability();
+          syncInputBlock();
+        }
+      }
+    } else if (info.type === "lootChest") {
+      lootSystem.open(info.id);
+    } else if (info.type === "gate") {
       if (expeditionSession.isCamp()) {
         frontierMap.openStartSelection();
         refreshMapAvailability();
@@ -448,6 +566,7 @@ contextualInteraction = createContextualInteraction({
 frontierAnchorSystem = createFrontierAnchorSystem(worldRegistry, {
   getPlayerPos: () => playerController.getState().pos,
   getSession: () => expeditionSession,
+  getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
   frontierProgress,
   onWaypointDiscovered: (id) => {
     const wp = worldRegistry.getWaypointById(id);
@@ -521,53 +640,21 @@ function resetTransientWorldToCamp() {
   combatSession.reset();
   if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
   campSpawn = worldRegistry.getCampSpawnPosition();
-  const cPos = { x: campSpawn.x, y: resolveSpawnCapsuleCenter(campSpawn.y ?? 0), z: campSpawn.z };
   const campFacing = campSpawn.facingYaw ?? 0;
-  characterPhysics.setPosition(cPos);
-  player.position.set(cPos.x, cPos.y, cPos.z);
-  const st = playerController.state;
-  st.mode = "IDLE";
-  st.pos.set(cPos.x, cPos.y, cPos.z);
-  st.vel.set(0, 0, 0);
-  st.verticalVelocity = 0;
-  st.grounded = true;
-  st.facing = campFacing;
-  st.speed = 0;
-  st.dodgeCooldown = 0;
-  st.dodgeTime = 0;
-  st.airCap = 0;
-  st.jumpData = null;
-  st.fallHVel = null;
-  st.climbable = null;
-  st.mantleData = null;
-  playerController.traversal.reset();
-  playerController.syncPosFromPhysics();
-  cameraFollow.snap();
-  {
-    const cur = regionManager.update(cPos);
-    expeditionSession.setRegion(cur.currentRegionId, cur.currentPocketId);
-    resourceSystem.setActiveRegions(cur.activeIds);
-    creatureSystem.setActiveRegions(cur.activeIds);
-    pickupSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
-    projectileSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
-    xpMoteSystem.cullInactiveRegions(cur.activeIds, worldRegistry);
-    lastActiveIds = cur.activeIds;
-  }
+  const cPos = placePlayerAtFeetTransform(campSpawn, campFacing);
+  const activated = sectionRuntime.activate("camp");
+  lastActiveIds = activated.activeIds;
   frontierAnchorSystem.reset();
   frontierAnchorSystem.prime(cPos);
+  jumpPadSystem?.reset();
+  parkourSystem?.reset();
   isDead = false;
   accumulator = 0;
   autoHarvestToggle.setEnabled(autoHarvestEnabled, false);
 }
 
-function beginExpedition(waypointId) {
-  // Validate: must be at camp, waypoint unlocked + exists
-  if (!expeditionSession.isCamp()) return false;
-  if (!waypointId) return false;
-  const wp = worldRegistry.getWaypointById(waypointId);
-  if (!wp) return false;
-  if (!frontierProgress.isUnlockedWaypoint(waypointId)) return false;
-
+function beginExpeditionAtTransform({ sectionId, startAnchorId, feetPosition, facingYaw = 0, suppressAnchorId = null }) {
+  if (!expeditionSession.isCamp() || !worldRegistry.getSectionById(sectionId)) return false;
   // Clear old run state (transient)
   pickupSystem.resetInventory();
   inventoryHud.update(pickupSystem.getInventory());
@@ -594,38 +681,18 @@ function beginExpedition(waypointId) {
   if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
 
   // Set session active
-  expeditionSession.beginRun(waypointId);
+  expeditionSession.beginRun(startAnchorId);
   frontierProgress.markDeparted();
-
-  // Position player at safe authored start for waypoint (explicit spawn transform) — authored Y is feet/support elevation
-  const spawn = worldRegistry.getWaypointSpawnPosition(waypointId);
-  const feetY = spawn ? (spawn.y ?? wp.pos.y ?? 0) : (wp.pos.y ?? 0);
-  const sPos = spawn ? { x: spawn.x, y: resolveSpawnCapsuleCenter(feetY), z: spawn.z } : { x: wp.pos.x, y: resolveSpawnCapsuleCenter(wp.pos.y ?? 0), z: wp.pos.z + 1.0 };
-  const facing = spawn ? (spawn.facingYaw ?? 0) : 0;
-  characterPhysics.setPosition(sPos);
-  player.position.set(sPos.x, sPos.y, sPos.z);
-  const st = playerController.state;
-  st.mode = "IDLE";
-  st.pos.set(sPos.x, sPos.y, sPos.z);
-  st.vel.set(0,0,0);
-  st.verticalVelocity = 0;
-  st.grounded = true;
-  st.facing = facing;
-  st.speed = 0;
-  playerController.traversal.reset();
-  playerController.syncPosFromPhysics();
-  cameraFollow.snap();
-  {
-    const cur = regionManager.update(sPos);
-    expeditionSession.setRegion(cur.currentRegionId, cur.currentPocketId);
-    resourceSystem.setActiveRegions(cur.activeIds);
-    creatureSystem.setActiveRegions(cur.activeIds);
-    lastActiveIds = cur.activeIds;
-  }
+  const activated = sectionRuntime.activate(sectionId);
+  if (!activated.ok) return false;
+  lastActiveIds = activated.activeIds;
+  const sPos = placePlayerAtFeetTransform(feetPosition, facingYaw);
   // Generic suppression until leave/re-enter for any selectable waypoint
   frontierAnchorSystem.reset();
   frontierAnchorSystem.prime(sPos);
-  frontierAnchorSystem.suppressUntilExit(waypointId);
+  if (suppressAnchorId) frontierAnchorSystem.suppressUntilExit(suppressAnchorId);
+  jumpPadSystem.reset();
+  parkourSystem.reset();
   frontierMap.close();
   anchorPrompt.hide();
   runResultCard.hide();
@@ -633,6 +700,34 @@ function beginExpedition(waypointId) {
   syncInputBlock();
   refreshMapAvailability();
   return true;
+}
+
+function beginExpedition(waypointId) {
+  if (!waypointId || !frontierProgress.isUnlockedWaypoint(waypointId)) return false;
+  const waypoint = worldRegistry.getWaypointById(waypointId);
+  if (!waypoint) return false;
+  const spawn = worldRegistry.getWaypointSpawnPosition(waypointId);
+  const feetPosition = spawn ?? { x: waypoint.pos.x, y: waypoint.pos.y ?? 0, z: waypoint.pos.z + 1 };
+  return beginExpeditionAtTransform({
+    sectionId: waypoint.regionId,
+    startAnchorId: waypointId,
+    feetPosition,
+    facingYaw: spawn?.facingYaw ?? 0,
+    suppressAnchorId: waypointId,
+  });
+}
+
+function beginExpeditionFromDefaultEntry() {
+  const destination = worldRegistry.getDefaultExpeditionEntry();
+  if (!destination) return false;
+  const entry = worldRegistry.getEntryPoint(destination.sectionId, destination.entryId);
+  if (!entry) return false;
+  return beginExpeditionAtTransform({
+    sectionId: destination.sectionId,
+    startAnchorId: destination.entryId,
+    feetPosition: entry.pos,
+    facingYaw: entry.facingYaw ?? entry.rotY ?? 0,
+  });
 }
 
 function handleExtractionFlow(data) {
@@ -779,7 +874,10 @@ function tick() {
     if (!expeditionSession.isResolved?.() && !authorSuppress && !isAnyBlockingModal()) {
       const pPosForAnchor = playerController.getState().pos;
       frontierAnchorSystem.update(pPosForAnchor);
-      const nearby = getNearbyResonatorInteraction(pPosForAnchor) ?? frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession);
+      const nearby = getNearbyResonatorInteraction(pPosForAnchor)
+        ?? portalGateSystem.getNearbyInteraction(pPosForAnchor)
+        ?? lootSystem.getNearbyInteraction(pPosForAnchor)
+        ?? frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession);
       if (contextualInteraction) contextualInteraction.setInteraction(nearby);
       // Pause AI while blocking already handled via isAnyBlockingModal guard
       const pStBefore = playerController.getState();
@@ -884,13 +982,8 @@ function tick() {
 
       const pStateFixed = playerController.getState();
       const pPosFixed = pStateFixed.pos;
-
-      {
-        const regionRes = regionManager.update(pPosFixed);
-        if (regionRes.changed) {
-          lastActiveIds = regionRes.activeIds;
-        }
-      }
+      jumpPadSystem.update(pPosFixed);
+      parkourSystem.update(pPosFixed);
 
       creatureSystem.setPlayerPos(pPosFixed);
       creatureSystem.setPlayerState(pStateFixed);
@@ -1009,8 +1102,9 @@ tick();
 // Debug globals — gameplay code must not rely on window.__game
 window.__game = {
   scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
-  worldRegistry, regionManager, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
-  beginExpedition, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
+  worldRegistry, regionManager, sectionRuntime, portalGateSystem, jumpPadSystem, parkourSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
+  beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
+  getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),
   clearProgress: () => { frontierProgress.clear(); console.log("[frontierProgress] cleared"); },
   get autoHarvestEnabled() { return autoHarvestEnabled; },
   set autoHarvestEnabled(v) { autoHarvestEnabled = !!v; autoHarvestToggle.setEnabled(autoHarvestEnabled); },

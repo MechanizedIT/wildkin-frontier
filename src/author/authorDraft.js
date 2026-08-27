@@ -64,7 +64,16 @@ export function getNewCatalogIds(draft){
   return draft?.__newCatalogIds ?? { assets: [], drops: [] };
 }
 
-const POINT_OWNED_COLLECTIONS = new Set(["props","resources","creatures","majorWaypoints","extractionBeacons","pois","platforms","obstacles","climbables"]);
+const SECTION_OBJECT_COLLECTIONS = {
+  entryPoints: "entryPoint",
+  portalGates: "portalGate",
+  jumpPads: "jumpPad",
+  parkourStarts: "parkourStart",
+  parkourCheckpoints: "parkourCheckpoint",
+  killVolumes: "killVolume",
+  lootChests: "lootChest",
+};
+const POINT_OWNED_COLLECTIONS = new Set(["props","resources","creatures","majorWaypoints","extractionBeacons","pois","platforms","obstacles","climbables", ...Object.keys(SECTION_OBJECT_COLLECTIONS)]);
 // groundPatches and boundaryColliders are footprint-owned, not point.
 
 function isPointOwned(collection, type){
@@ -114,6 +123,7 @@ function getCollectionArrayForCandidate(region, collection, candidate) {
   if (collection === "majorWaypoints") return reg.majorWaypoints;
   if (collection === "extractionBeacons") return reg.extractionBeacons;
   if (collection === "pois") return reg.pois;
+  if (SECTION_OBJECT_COLLECTIONS[collection]) { if (!reg[collection]) reg[collection] = []; return reg[collection]; }
   return [];
 }
 
@@ -341,6 +351,9 @@ export function createAuthorDraft(repoData) {
       for (const wp of region.majorWaypoints ?? []) if (wp.id === id) return { obj: wp, region, collection: "majorWaypoints", type: "majorWaypoint" };
       for (const bc of region.extractionBeacons ?? []) if (bc.id === id) return { obj: bc, region, collection: "extractionBeacons", type: "extractionBeacon" };
       for (const poi of region.pois ?? []) if (poi.id === id) return { obj: poi, region, collection: "pois", type: "poi" };
+      for (const [collection, type] of Object.entries(SECTION_OBJECT_COLLECTIONS)) {
+        for (const obj of region[collection] ?? []) if (obj.id === id) return { obj, region, collection, type };
+      }
     }
     return null;
   }
@@ -846,51 +859,19 @@ export function createAuthorDraft(repoData) {
     if (collection === "majorWaypoints") return region.majorWaypoints;
     if (collection === "extractionBeacons") return region.extractionBeacons;
     if (collection === "pois") return region.pois;
+    if (SECTION_OBJECT_COLLECTIONS[collection]) { if (!region[collection]) region[collection] = []; return region[collection]; }
     return [];
   }
 
   function updateTransform(id, patch) {
-    // auto-rehome for point-owned moves: if patch.pos and not explicit regionId, resolve unique containing region
     const res = transact((candidate) => {
       const found = _findRawInCandidate(candidate, id);
       if (!found) throw new Error("object not found");
-      // Auto-rehome point-owned
       let patchClone = {...patch};
-      if(patchClone.pos && isPointOwned(found.collection, found.type) && patchClone.regionId===undefined){
-        const target = findContainingRegionStrictInCandidate(candidate, patchClone.pos);
-        if(target && found.region && target!==found.region.id){
-          // for waypoint, check runSpawn validity before setting
-          if(found.type==="majorWaypoint"){
-            const wp = found.obj;
-            if(wp.runSpawn){
-              const rs = wp.runSpawn.position ? wp.runSpawn.position : wp.runSpawn;
-              const targetReg = candidate.regions.find(r=>r.id===target);
-              if(targetReg && (rs.x < targetReg.bounds.minX || rs.x > targetReg.bounds.maxX || rs.z < targetReg.bounds.minZ || rs.z > targetReg.bounds.maxZ)){
-                throw new Error(`Cannot move Waypoint ${wp.id} to ${target}: its Run Spawn would be outside target region`);
-              }
-            }
-          }
-          patchClone.regionId = target;
-        } else if(!target){
-          // if outside all regions => invalid
-          // But footprint vs point distinction: groundPatches not auto, so skip
-          // For point-owned, require unique containing region
-          // If pos is outside any region -> reject
-          // Check if pos is outside candidate world? We can test by strict: if no containing region, throw
-          // However for some point-owned that are being moved outside intentionally invalid drag, we should reject
-          // Only reject if patch is for point-owned and we attempted to move outside: throw
-          // But if object is being dragged but stays inside same region, target would be same region, not null? Actually if same region, find returns that id, which equals found.region.id, so we won't set regionId, but that's fine (stay). If null (outside all), we should reject.
-          // Detect: if patch.pos is provided and object is point-owned, we expect target not null
-          // If null => outside or ambiguous => error
-          // However for ambiguous overlap, find returns null as well => reject
-          const currentContains = findContainingRegionStrictInCandidate(candidate, patchClone.pos);
-          // If currentContains null, we are outside/ambiguous => reject
-          // But if object already in region and moving within same region, currentContains would be that region, not null
-          // So if target null and original region contains new pos? Wait we computed target as containing region for new pos. If null, means either outside all or ambiguous overlap (multiple). Both invalid.
-          throw new Error(`Position has no unique containing region — move rejected`);
-        } else if(!target && isPointOwned(found.collection, found.type)){
-          // ambiguous overlap
-          throw new Error(`Ambiguous region overlap — move rejected`);
+      if (patchClone.pos && found.region && isPointOwned(found.collection, found.type) && patchClone.regionId === undefined) {
+        const bounds = found.region.bounds;
+        if (patchClone.pos.x < bounds.minX || patchClone.pos.x > bounds.maxX || patchClone.pos.z < bounds.minZ || patchClone.pos.z > bounds.maxZ) {
+          throw new Error(`Position not inside selected section ${found.region.id}`);
         }
       }
       // explicit regionId + pos mismatch validation
@@ -913,22 +894,10 @@ export function createAuthorDraft(repoData) {
       const found = _findRawInCandidate(candidate, id);
       if (!found) throw new Error("object not found");
       const normalizedClone = { ...normalized };
-      if (normalizedClone.position && isPointOwned(found.collection, found.type) && normalizedClone.regionId === undefined && normalizedClone._regionId === undefined) {
-        const target = findContainingRegionStrictInCandidate(candidate, normalizedClone.position);
-        if (target && found.region && target !== found.region.id) {
-          if (found.type === "majorWaypoint") {
-            const wp = found.obj;
-            if (wp.runSpawn) {
-              const rs = wp.runSpawn.position ? wp.runSpawn.position : wp.runSpawn;
-              const targetReg = candidate.regions.find(r => r.id === target);
-              if (targetReg && (rs.x < targetReg.bounds.minX || rs.x > targetReg.bounds.maxX || rs.z < targetReg.bounds.minZ || rs.z > targetReg.bounds.maxZ)) {
-                throw new Error(`Cannot move Waypoint ${wp.id} to ${target}: its Run Spawn would be outside target region`);
-              }
-            }
-          }
-          normalizedClone._regionId = target;
-        } else if (!target) {
-          throw new Error(`Position has no unique containing region — move rejected`);
+      if (normalizedClone.position && found.region && isPointOwned(found.collection, found.type) && normalizedClone.regionId === undefined && normalizedClone._regionId === undefined) {
+        const bounds = found.region.bounds;
+        if (normalizedClone.position.x < bounds.minX || normalizedClone.position.x > bounds.maxX || normalizedClone.position.z < bounds.minZ || normalizedClone.position.z > bounds.maxZ) {
+          throw new Error(`Position not inside selected section ${found.region.id}`);
         }
       }
       if (normalizedClone.position && normalizedClone.regionId) {
@@ -1012,21 +981,7 @@ export function createAuthorDraft(repoData) {
   function duplicateObject(id) {
     let newId = null;
     const res = transact((candidate) => {
-      let found = null;
-      for (const region of candidate.regions) {
-        for (const p of region.props ?? []) if (p.id === id) found = { obj: p, region, collection: "props" };
-        for (const gp of region.groundPatches ?? []) if (gp.id === id) found = { obj: gp, region, collection: "groundPatches" };
-        for (const bc of region.boundaryColliders ?? []) if (bc.id === id) found = { obj: bc, region, collection: "boundaryColliders" };
-        for (const pl of region.traversal?.platforms ?? []) if (pl.id === id) found = { obj: pl, region, collection: "platforms" };
-        for (const ob of region.traversal?.obstacles ?? []) if (ob.id === id) found = { obj: ob, region, collection: "obstacles" };
-        for (const cl of region.traversal?.climbables ?? []) if (cl.id === id) found = { obj: cl, region, collection: "climbables" };
-        for (const r of region.resources ?? []) if (r.id === id) found = { obj: r, region, collection: "resources" };
-        for (const cr of region.creatures ?? []) if (cr.id === id) found = { obj: cr, region, collection: "creatures" };
-        for (const wp of region.majorWaypoints ?? []) if (wp.id === id) found = { obj: wp, region, collection: "majorWaypoints" };
-        for (const bc of region.extractionBeacons ?? []) if (bc.id === id) found = { obj: bc, region, collection: "extractionBeacons" };
-        for (const poi of region.pois ?? []) if (poi.id === id) found = { obj: poi, region, collection: "pois" };
-        if (found) break;
-      }
+      const found = _findRawInCandidate(candidate, id);
       if (!found) throw new Error("not found");
       const clone = deepClone(found.obj);
       const baseId = clone.id;
@@ -1034,7 +989,7 @@ export function createAuthorDraft(repoData) {
       let counter = 1;
       const existsInCandidate = (checkId) => {
         for (const region of candidate.regions) {
-          for (const arr of [region.props, region.groundPatches, region.boundaryColliders, region.resources, region.creatures, region.majorWaypoints, region.extractionBeacons, region.pois, region.traversal?.platforms, region.traversal?.obstacles, region.traversal?.climbables]) {
+          for (const arr of [region.props, region.groundPatches, region.boundaryColliders, region.resources, region.creatures, region.majorWaypoints, region.extractionBeacons, region.pois, region.traversal?.platforms, region.traversal?.obstacles, region.traversal?.climbables, ...Object.keys(SECTION_OBJECT_COLLECTIONS).map((key) => region[key])]) {
             if (!arr) continue;
             for (const o of arr) if (o.id === checkId) return true;
           }
@@ -1062,21 +1017,7 @@ export function createAuthorDraft(repoData) {
   function deleteObject(id) {
     if (id === "camp_spawn" || (id && id.endsWith("__runSpawn"))) return { ok: false, error: "spawn is not deletable" };
     const res = transact((candidate) => {
-      let found = null;
-      for (const region of candidate.regions) {
-        for (const p of region.props ?? []) if (p.id === id) found = { obj: p, region, collection: "props" };
-        for (const gp of region.groundPatches ?? []) if (gp.id === id) found = { obj: gp, region, collection: "groundPatches" };
-        for (const bc of region.boundaryColliders ?? []) if (bc.id === id) found = { obj: bc, region, collection: "boundaryColliders" };
-        for (const pl of region.traversal?.platforms ?? []) if (pl.id === id) found = { obj: pl, region, collection: "platforms" };
-        for (const ob of region.traversal?.obstacles ?? []) if (ob.id === id) found = { obj: ob, region, collection: "obstacles" };
-        for (const cl of region.traversal?.climbables ?? []) if (cl.id === id) found = { obj: cl, region, collection: "climbables" };
-        for (const r of region.resources ?? []) if (r.id === id) found = { obj: r, region, collection: "resources" };
-        for (const cr of region.creatures ?? []) if (cr.id === id) found = { obj: cr, region, collection: "creatures" };
-        for (const wp of region.majorWaypoints ?? []) if (wp.id === id) found = { obj: wp, region, collection: "majorWaypoints" };
-        for (const bc of region.extractionBeacons ?? []) if (bc.id === id) found = { obj: bc, region, collection: "extractionBeacons" };
-        for (const poi of region.pois ?? []) if (poi.id === id) found = { obj: poi, region, collection: "pois" };
-        if (found) break;
-      }
+      const found = _findRawInCandidate(candidate, id);
       if (!found) throw new Error("not found");
       const arr = getCollectionArrayForCandidate(found.region, found.collection, candidate);
       const idx = arr.indexOf(found.obj);
@@ -1130,13 +1071,13 @@ export function createAuthorDraft(repoData) {
         createdId = id;
       } else if (kind === "tree" || kind === "rock" || kind === "fiber") {
         const id = nextIdLocal(kind);
-        obj = { id, type: kind, pos: { x: centerX + (Math.random() - 0.5) * 2, y: 0, z: centerZ + (Math.random() - 0.5) * 2 } };
+        obj = { id, type: kind, level: 1, pos: { x: centerX + (Math.random() - 0.5) * 2, y: 0, z: centerZ + (Math.random() - 0.5) * 2 } };
         region.resources.push(obj);
         createdId = id;
       } else if (kind === "rusher" || kind === "spitter") {
         const id = nextIdLocal(kind);
         const pos = { x: centerX, y: 0, z: centerZ };
-        obj = { id, type: kind, temperament: "AGGRESSIVE", speciesTag: kind === "rusher" ? "fang" : "spit", pos: { ...pos }, homePos: { ...pos }, roamRadius: 2.5, noticeRadius: 5.5, personalSpace: 1.9, leashRadius: 7.0 };
+        obj = { id, type: kind, level: 1, temperament: "AGGRESSIVE", speciesTag: kind === "rusher" ? "fang" : "spit", pos: { ...pos }, homePos: { ...pos }, roamRadius: 2.5, noticeRadius: 5.5, personalSpace: 1.9, leashRadius: 7.0 };
         if (kind === "spitter") obj.hostileSpecies = ["flutter"];
         region.creatures.push(obj);
         createdId = id;
@@ -1245,13 +1186,13 @@ export function createAuthorDraft(repoData) {
         createdId = id;
       } else if (kind === "tree" || kind === "rock" || kind === "fiber") {
         const id = nextIdLocal(kind);
-        obj = { id, type: kind, pos: { x: worldPos.x, y, z: worldPos.z } };
+        obj = { id, type: kind, level: 1, pos: { x: worldPos.x, y, z: worldPos.z } };
         region.resources.push(obj);
         createdId = id;
       } else if (kind === "rusher" || kind === "spitter") {
         const id = nextIdLocal(kind);
         const pos = { x: worldPos.x, y, z: worldPos.z };
-        obj = { id, type: kind, temperament: "AGGRESSIVE", speciesTag: kind === "rusher" ? "fang" : "spit", pos: { ...pos }, homePos: { ...pos }, roamRadius: 2.5, noticeRadius: 5.5, personalSpace: 1.9, leashRadius: 7.0 };
+        obj = { id, type: kind, level: 1, temperament: "AGGRESSIVE", speciesTag: kind === "rusher" ? "fang" : "spit", pos: { ...pos }, homePos: { ...pos }, roamRadius: 2.5, noticeRadius: 5.5, personalSpace: 1.9, leashRadius: 7.0 };
         if (kind === "spitter") obj.hostileSpecies = ["flutter"];
         region.creatures.push(obj);
         createdId = id;
@@ -1271,6 +1212,39 @@ export function createAuthorDraft(repoData) {
         obj = { id, type: poiType, pos: { x: worldPos.x, y, z: worldPos.z }, requires: null };
         region.pois.push(obj);
         createdId = id;
+      } else if (kind === "portalGate") {
+        const id = nextIdLocal("portal");
+        const targetSection = candidate.regions.find((entry) => entry.id !== region.id && (entry.entryPoints ?? []).length) ?? region;
+        const targetEntry = targetSection.entryPoints?.[0];
+        if (!targetEntry) throw new Error("Add an Entry Point before placing a Portal Gate");
+        obj = { id, displayName: "New Portal Gate", pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, entryId: null, targetSectionId: targetSection.id, targetEntryId: targetEntry.id, state: "active", triggerRadius: 1.85, requirements: { minPlayerLevel: 1, resources: {} } };
+        (region.portalGates ??= []).push(obj); createdId = id;
+      } else if (kind === "jumpPad") {
+        const id = nextIdLocal("jump_pad");
+        obj = { id, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.1, horizontalLaunch: 8, verticalLaunch: 6, cooldown: 0.8, visualAssetId: "asset_frontier_launch_pad" };
+        (region.jumpPads ??= []).push(obj); createdId = id;
+      } else if (kind === "parkourStart") {
+        const id = nextIdLocal("parkour_start");
+        obj = { id, courseId: `course_${id}`, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.1 };
+        (region.parkourStarts ??= []).push(obj); createdId = id;
+      } else if (kind === "parkourCheckpoint") {
+        const id = nextIdLocal("parkour_checkpoint");
+        const courseId = region.parkourStarts?.[0]?.courseId;
+        if (!courseId) throw new Error("Place a Parkour Start before a Checkpoint");
+        obj = { id, courseId, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.1 };
+        (region.parkourCheckpoints ??= []).push(obj); createdId = id;
+      } else if (kind === "killVolume") {
+        const id = nextIdLocal("kill_volume");
+        const courseId = region.parkourStarts?.[0]?.courseId;
+        if (!courseId) throw new Error("Place a Parkour Start before a Kill Volume");
+        obj = { id, courseId, pos: { x: worldPos.x, y, z: worldPos.z }, size: { w: 4, h: 2, d: 4 } };
+        (region.killVolumes ??= []).push(obj); createdId = id;
+      } else if (kind === "lootChest") {
+        const id = nextIdLocal("loot_chest");
+        const lootTableId = candidate.lootTables?.[0]?.id;
+        if (!lootTableId) throw new Error("Add a Loot Table before placing a Loot Chest");
+        obj = { id, displayName: "New Loot Chest", pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.45, lootTableId, refillSeconds: null, visualAssetId: "asset_chest" };
+        (region.lootChests ??= []).push(obj); createdId = id;
       } else {
         throw new Error(`unknown kind ${kind}`);
       }
@@ -1287,7 +1261,9 @@ export function createAuthorDraft(repoData) {
         id, displayName: displayName || id,
         bounds: { ...bounds },
         neighbors: [...neighbors],
+        sectionType: "expedition", size: { width: 50, depth: 50 },
         props: [], resources: [], creatures: [], majorWaypoints: [], extractionBeacons: [], pois: [],
+        entryPoints: [], portalGates: [], jumpPads: [], parkourStarts: [], parkourCheckpoints: [], killVolumes: [], lootChests: [],
         traversal: { platforms: [], obstacles: [], climbables: [] },
         groundPatches: [], boundaryColliders: []
       });

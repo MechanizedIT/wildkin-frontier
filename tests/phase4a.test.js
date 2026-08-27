@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import fs from "node:fs";
-import { WORLD_DATA } from "../src/world/data/world.js";
+import { WORLD_DATA } from "./fixtures/crescentWorld.generated.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createFrontierProgress } from "../src/save/frontierProgress.js";
@@ -36,7 +36,7 @@ describe("Phase 4A — persistent frontier progress", () => {
       const prog = createFrontierProgress({ worldRegistry: reg });
       prog.load();
       const s = prog.getState();
-      assert.equal(s.version, 1);
+      assert.equal(s.version, 2);
       assert.deepEqual(s.bankedResources, { wood:0, stone:0, fiber:0 });
       assert.equal(s.bankedXp, 0);
       assert.equal(s.hasDepartedOnce, false);

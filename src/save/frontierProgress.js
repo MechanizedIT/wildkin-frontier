@@ -6,7 +6,7 @@ import { makeEmptyResourceMap, normalizeResourceMap } from "../resources/resourc
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
-const VERSION = 1;
+const VERSION = 2;
 
 function cloneRes(r) { return { ...r }; }
 
@@ -17,8 +17,11 @@ function defaultState(initialWaypointId, resourceDrops) {
     bankedXp: 0,
     unlockedMajorWaypointIds: initialWaypointId ? [initialWaypointId] : [],
     discoveredBeaconIds: [],
+    repairedPortalGateIds: [],
+    claimedLootChestIds: [],
+    lootChestReadyAt: {},
     hasDepartedOnce: false,
-    matterAttractorI: false,
+    upgrades: { matter_attractor: 0 },
   };
 }
 
@@ -26,7 +29,12 @@ export function createFrontierProgress(opts = {}) {
   const worldRegistry = opts.worldRegistry ?? null;
   const isAuthorMode = !!opts.isAuthorMode;
   const resourceDrops = opts.resourceDrops;
-  const initialWaypointId = opts.initialWaypointId ?? worldRegistry?.getInitialMajorWaypointId?.() ?? worldRegistry?.getAllWaypoints?.()[0]?.id ?? null;
+  const registryDefinesInitialWaypoint = typeof worldRegistry?.getInitialMajorWaypointId === "function";
+  const initialWaypointId = Object.prototype.hasOwnProperty.call(opts, "initialWaypointId")
+    ? opts.initialWaypointId
+    : registryDefinesInitialWaypoint
+      ? worldRegistry.getInitialMajorWaypointId()
+      : worldRegistry?.getAllWaypoints?.()[0]?.id ?? null;
   const storageKey = isAuthorMode ? AUTHOR_STORAGE_KEY : STORAGE_KEY;
   // In author mode we keep state in memory only if opts.inMemory is true? Per spec either isolated key or in-memory.
   // We use isolated key but also expose that it does not corrupt normal key.
@@ -44,6 +52,8 @@ export function createFrontierProgress(opts = {}) {
     if (!worldRegistry) return;
     const allWpIds = new Set(worldRegistry.getAllWaypoints().map(w => w.id));
     const allBeaconIds = new Set(worldRegistry.getAllBeacons().map(b => b.id));
+    const allPortalGateIds = new Set(worldRegistry.getAllPortalGates?.().map((gate) => gate.id) ?? []);
+    const allLootChestIds = new Set(worldRegistry.getAllLootChests?.().map((chest) => chest.id) ?? []);
     state.unlockedMajorWaypointIds = state.unlockedMajorWaypointIds.filter(id => allWpIds.has(id));
     // ensure initial waypoint always present
     if (initialWaypointId && !state.unlockedMajorWaypointIds.includes(initialWaypointId)) {
@@ -53,9 +63,14 @@ export function createFrontierProgress(opts = {}) {
       if (allWpIds.has(initialWaypointId)) state.unlockedMajorWaypointIds.unshift(initialWaypointId);
     }
     state.discoveredBeaconIds = state.discoveredBeaconIds.filter(id => allBeaconIds.has(id));
+    state.repairedPortalGateIds = state.repairedPortalGateIds.filter((id) => allPortalGateIds.has(id));
+    state.claimedLootChestIds = state.claimedLootChestIds.filter((id) => allLootChestIds.has(id));
+    state.lootChestReadyAt = Object.fromEntries(Object.entries(state.lootChestReadyAt).filter(([id]) => allLootChestIds.has(id)));
     // dedup
     state.unlockedMajorWaypointIds = [...new Set(state.unlockedMajorWaypointIds)];
     state.discoveredBeaconIds = [...new Set(state.discoveredBeaconIds)];
+    state.repairedPortalGateIds = [...new Set(state.repairedPortalGateIds)];
+    state.claimedLootChestIds = [...new Set(state.claimedLootChestIds)];
   }
 
   function normalizeLoaded(raw) {
@@ -69,8 +84,14 @@ export function createFrontierProgress(opts = {}) {
     if (Array.isArray(raw.unlockedMajorWaypointIds)) out.unlockedMajorWaypointIds = raw.unlockedMajorWaypointIds.filter(x => typeof x === "string");
     else out.unlockedMajorWaypointIds = initialWaypointId ? [initialWaypointId] : [];
     if (Array.isArray(raw.discoveredBeaconIds)) out.discoveredBeaconIds = raw.discoveredBeaconIds.filter(x => typeof x === "string");
+    if (Array.isArray(raw.repairedPortalGateIds)) out.repairedPortalGateIds = raw.repairedPortalGateIds.filter((value) => typeof value === "string");
+    if (Array.isArray(raw.claimedLootChestIds)) out.claimedLootChestIds = raw.claimedLootChestIds.filter((value) => typeof value === "string");
+    if (raw.lootChestReadyAt && typeof raw.lootChestReadyAt === "object" && !Array.isArray(raw.lootChestReadyAt)) {
+      out.lootChestReadyAt = Object.fromEntries(Object.entries(raw.lootChestReadyAt).filter(([, value]) => Number.isFinite(value) && value >= 0));
+    }
     out.hasDepartedOnce = !!raw.hasDepartedOnce;
-    out.matterAttractorI = !!raw.matterAttractorI;
+    const keyedLevel = Math.max(0, Math.floor(Number(raw.upgrades?.matter_attractor) || 0));
+    out.upgrades.matter_attractor = Math.max(keyedLevel, raw.matterAttractorI === true ? 1 : 0);
     if (out.bankedXp < 0) out.bankedXp = 0;
     if (out.unlockedMajorWaypointIds.length === 0 && initialWaypointId) out.unlockedMajorWaypointIds = [initialWaypointId];
     if (Array.isArray(raw.bankedRunIds)) {
@@ -124,8 +145,12 @@ export function createFrontierProgress(opts = {}) {
       bankedXp: state.bankedXp,
       unlockedMajorWaypointIds: [...state.unlockedMajorWaypointIds],
       discoveredBeaconIds: [...state.discoveredBeaconIds],
+      repairedPortalGateIds: [...state.repairedPortalGateIds],
+      claimedLootChestIds: [...state.claimedLootChestIds],
+      lootChestReadyAt: { ...state.lootChestReadyAt },
       hasDepartedOnce: !!state.hasDepartedOnce,
-      matterAttractorI: !!state.matterAttractorI,
+      upgrades: { ...state.upgrades },
+      matterAttractorI: (state.upgrades.matter_attractor ?? 0) >= 1,
     };
   }
 
@@ -202,7 +227,7 @@ export function createFrontierProgress(opts = {}) {
   }
 
   function purchaseMatterAttractorI(cost) {
-    if (state.matterAttractorI) return { purchased: false, reason: "owned", state: getState() };
+    if ((state.upgrades.matter_attractor ?? 0) >= 1) return { purchased: false, reason: "owned", state: getState() };
     if (!cost || typeof cost !== "object" || Array.isArray(cost)) {
       return { purchased: false, reason: "invalid-cost", state: getState() };
     }
@@ -221,7 +246,7 @@ export function createFrontierProgress(opts = {}) {
     const nextResources = { ...state.bankedResources };
     for (const [id, amount] of entries) nextResources[id] -= amount;
     state.bankedResources = nextResources;
-    state.matterAttractorI = true;
+    state.upgrades = { ...state.upgrades, matter_attractor: 1 };
     save();
     return { purchased: true, reason: "purchased", state: getState() };
   }
@@ -238,7 +263,40 @@ export function createFrontierProgress(opts = {}) {
   function getUnlockedWaypoints() { return [...state.unlockedMajorWaypointIds]; }
   function getDiscoveredBeacons() { return [...state.discoveredBeaconIds]; }
   function getHasDeparted() { return !!state.hasDepartedOnce; }
-  function hasMatterAttractorI() { return !!state.matterAttractorI; }
+  function hasMatterAttractorI() { return (state.upgrades.matter_attractor ?? 0) >= 1; }
+
+  function isPortalGateRepaired(id) { return state.repairedPortalGateIds.includes(id); }
+  function repairPortalGate(id) {
+    if (!id || typeof id !== "string" || isPortalGateRepaired(id)) return false;
+    if (worldRegistry?.getPortalGateById && !worldRegistry.getPortalGateById(id)) return false;
+    state.repairedPortalGateIds.push(id);
+    save();
+    return true;
+  }
+
+  function getLootChestAvailability(id, refillSeconds, now = Date.now()) {
+    if (refillSeconds === undefined || refillSeconds === null) {
+      return { available: !state.claimedLootChestIds.includes(id), readyAt: null };
+    }
+    const readyAt = state.lootChestReadyAt[id] ?? 0;
+    return { available: now >= readyAt, readyAt };
+  }
+
+  function claimLootChest(id, refillSeconds, now = Date.now()) {
+    if (!id || typeof id !== "string") return { claimed: false, reason: "invalid" };
+    if (worldRegistry?.getLootChestById && !worldRegistry.getLootChestById(id)) return { claimed: false, reason: "stale" };
+    const availability = getLootChestAvailability(id, refillSeconds, now);
+    if (!availability.available) return { claimed: false, reason: "cooldown", readyAt: availability.readyAt };
+    if (refillSeconds === undefined || refillSeconds === null) {
+      if (!state.claimedLootChestIds.includes(id)) state.claimedLootChestIds.push(id);
+      save();
+      return { claimed: true, readyAt: null };
+    }
+    const readyAt = now + refillSeconds * 1000;
+    state.lootChestReadyAt[id] = readyAt;
+    save();
+    return { claimed: true, readyAt };
+  }
 
   // For testing / fresh-save helper
   function isFreshSave() {
@@ -264,6 +322,10 @@ export function createFrontierProgress(opts = {}) {
     getDiscoveredBeacons,
     getHasDeparted,
     hasMatterAttractorI,
+    isPortalGateRepaired,
+    repairPortalGate,
+    getLootChestAvailability,
+    claimLootChest,
     isFreshSave,
     getStorageKey: () => storageKey,
     _defaultState: () => defaultState(initialWaypointId, resourceDrops),

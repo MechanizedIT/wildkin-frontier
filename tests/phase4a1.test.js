@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import fs from "node:fs";
-import { WORLD_DATA } from "../src/world/data/world.js";
+import { WORLD_DATA } from "./fixtures/crescentWorld.generated.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createFrontierProgress } from "../src/save/frontierProgress.js";
@@ -13,7 +13,8 @@ import { syncEditProxy } from "../src/author/authorPreview.js";
 import * as THREE from "three";
 
 function authoredMesh(group, id) {
-  const root = group.children.find((child) => child.userData?.authorVisualRoot && child.userData.authorId === id);
+  let root = null;
+  group.traverse((child) => { if (!root && child.userData?.authorVisualRoot && child.userData.authorId === id) root = child; });
   let mesh = null;
   root?.traverse((object) => { if (!mesh && object.isMesh) mesh = object; });
   return mesh;
@@ -357,7 +358,7 @@ describe("Phase 4A.1 — Boundary", ()=>{
     const pg = createStaticWorld(reg.data);
     const bc = reg.getAllBoundaries().find(b=> b.visibleInPlay===false);
     assert.ok(bc, "should have hidden boundary");
-    const mesh = pg.group.children.find(c=> c.name===bc.id);
+    const mesh = pg.group.getObjectByName(bc.id);
     assert.ok(mesh);
     assert.equal(mesh.visible, false, "hidden boundary real mesh should be invisible in Play");
     assert.equal(pg.group.children.some(c=> c.userData.isEditProxy), false, "runtime world should not contain Edit proxies");
@@ -394,7 +395,7 @@ describe("Phase 4A.1 — presentation/static collision", ()=>{
     box.visibleInPlay = false;
     const reg = createWorldRegistry(normalizeWorldData(data));
     const pg = createStaticWorld(reg.data);
-    const mesh = pg.group.children.find(c=> c.name===box.id);
+    const mesh = pg.group.getObjectByName(box.id);
     assert.ok(mesh);
     assert.equal(mesh.visible, false);
   });

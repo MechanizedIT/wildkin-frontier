@@ -27,8 +27,23 @@ export function createContextualInteraction(opts = {}) {
     if (!info) {
       buttonEl.style.display = "none";
       buttonEl.textContent = "";
+      buttonEl.removeAttribute("title");
+      buttonEl.removeAttribute("aria-label");
     } else {
-      buttonEl.textContent = info.label;
+      buttonEl.textContent = "";
+      const label = document.createElement("span");
+      label.textContent = info.label;
+      buttonEl.appendChild(label);
+      if (info.detail) {
+        const detail = document.createElement("small");
+        detail.textContent = info.detail;
+        detail.style.cssText = "display:block;margin-top:3px;font-size:10px;font-weight:700;letter-spacing:0.01em;opacity:0.84;line-height:1.25;";
+        buttonEl.appendChild(detail);
+        buttonEl.title = info.detail;
+      } else {
+        buttonEl.title = info.label;
+      }
+      buttonEl.setAttribute("aria-label", info.detail ? `${info.label}. ${info.detail}` : info.label);
       buttonEl.style.display = "block";
     }
   }

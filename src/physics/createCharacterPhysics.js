@@ -60,8 +60,10 @@ export function createCharacterPhysics(RAPIER, world, initialPos) {
   function setPosition(pos) {
     // Keep body and collider in sync
     body.setTranslation({ x: pos.x, y: pos.y, z: pos.z }, true);
-    // collider translation is automatically synced via body, but ensure broadphase sees it.
-    // For parented collider, setTranslation on body is sufficient; call propagate if needed.
+    // Propagate the kinematic body's transform before the next controller query.
+    // Without this step, a teleport followed by syncPosFromPhysics can read the
+    // previous collider translation for one frame and undo the authored arrival.
+    world.step();
   }
 
   // Move by desired translation (world units), returns { corrected, grounded, numCollisions, collisions }

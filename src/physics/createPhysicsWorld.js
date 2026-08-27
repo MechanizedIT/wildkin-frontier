@@ -9,8 +9,10 @@ export function createPhysicsWorld(RAPIER, playground) {
   // Length unit default 1.0 is fine for ~1u character.
 
   const staticColliders = [];
+  const colliderSections = new Map();
+  let activeSectionId = null;
 
-  function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0) {
+  function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0, sectionId = null) {
     const desc = RAPIER.ColliderDesc.cuboid(hx, hy, hz)
       .setTranslation(tx, ty, tz)
       .setFriction(0.6)
@@ -21,6 +23,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     }
     const c = world.createCollider(desc);
     staticColliders.push(c);
+    colliderSections.set(c, sectionId);
     return c;
   }
 
@@ -38,11 +41,11 @@ export function createPhysicsWorld(RAPIER, playground) {
       const rotY = gp.rotY ?? 0;
       const x = gp.x ?? gp.pos?.x ?? 0;
       const z = gp.z ?? gp.pos?.z ?? 0;
-      addCuboid(hx, hy, hz, x, ty, z, rotY);
+      addCuboid(hx, hy, hz, x, ty, z, rotY, gp.sectionId ?? gp.regionId ?? null);
     }
   } else {
     // Legacy fallback for worlds without groundPatches (tests)
-    addCuboid(13, 0.25, 12, 0, -0.25, 0, 0);
+    addCuboid(13, 0.25, 12, 0, -0.25, 0, 0, null);
   }
 
   // Obstacles — respect authored baseY and rotY for parity (includes ground patch colliders if they were marked as obstacles already)
@@ -59,7 +62,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     const rotY = o.rotY ?? 0;
     // Respect collisionEnabled flag if present
     if (o.collisionEnabled === false) continue;
-    addCuboid(hx, hy, hz, o.x, ty, o.z, rotY);
+    addCuboid(hx, hy, hz, o.x, ty, o.z, rotY, o.sectionId ?? o.regionId ?? null);
   }
 
   // Platforms — respect baseY/rotY
@@ -70,7 +73,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     const baseY = p.baseY ?? p.y ?? 0;
     const ty = baseY + hy;
     const rotY = p.rotY ?? 0;
-    addCuboid(hx, hy, hz, p.x, ty, p.z, rotY);
+    addCuboid(hx, hy, hz, p.x, ty, p.z, rotY, p.sectionId ?? p.regionId ?? null);
   }
 
   // Boundary colliders — authored outer limits (explicit, canonical baseY + h/2 center)
@@ -86,14 +89,23 @@ export function createPhysicsWorld(RAPIER, playground) {
       const y = baseY + hy;
       const z = b.z ?? b.pos?.z ?? 0;
       const rotY = b.rotY ?? 0;
-      addCuboid(hx, hy, hz, x, y, z, rotY);
+      addCuboid(hx, hy, hz, x, y, z, rotY, b.sectionId ?? b.regionId ?? null);
     }
   }
   // Safety floor far below gameplay (not walkable when authored ground deleted)
-  addCuboid(30, 0.5, 30, 0, -30, 0, 0);
+  addCuboid(60, 0.5, 60, 0, -30, 0, 0, null);
 
   // Initial pipeline update so character controller queries see static colliders immediately
   world.step();
 
-  return { world, staticColliders, RAPIER };
+  function setActiveSection(sectionId) {
+    activeSectionId = sectionId;
+    for (const collider of staticColliders) {
+      const owner = colliderSections.get(collider);
+      collider.setEnabled?.(owner === null || owner === sectionId);
+    }
+    world.step();
+  }
+
+  return { world, staticColliders, colliderSections, setActiveSection, getActiveSectionId: () => activeSectionId, RAPIER };
 }

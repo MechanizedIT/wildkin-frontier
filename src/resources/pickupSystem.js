@@ -521,6 +521,22 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     for (const key of Object.keys(inventory)) inventory[key] = 0;
     if (onInventoryChanged) onInventoryChanged({ ...inventory }, null);
   }
+  function grantInventory(rewards = {}) {
+    for (const [resourceId, amount] of Object.entries(rewards)) {
+      if (!Object.prototype.hasOwnProperty.call(inventory, resourceId)) continue;
+      const value = Math.max(0, Math.floor(Number(amount) || 0));
+      inventory[resourceId] += value;
+    }
+    if (onInventoryChanged) onInventoryChanged({ ...inventory }, null);
+    return getInventory();
+  }
+  function spendInventory(cost = {}) {
+    const entries = Object.entries(cost);
+    if (entries.some(([resourceId, amount]) => !Object.prototype.hasOwnProperty.call(inventory, resourceId) || !Number.isInteger(amount) || amount <= 0 || inventory[resourceId] < amount)) return false;
+    for (const [resourceId, amount] of entries) inventory[resourceId] -= amount;
+    if (onInventoryChanged) onInventoryChanged({ ...inventory }, null);
+    return true;
+  }
   function getPickups() { return pickups; }
   function getCount() { return pickups.length; }
   function getPooledCount() { return pool.length; }
@@ -579,5 +595,5 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
 
   function setActiveRegions(activeSet) { return cullInactiveRegions(activeSet); }
 
-  return { spawnPickup, collectPickup, update, getInventory, resetInventory, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, cullInactiveRegions, setActiveRegions, inventory, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, setMagnetTuning, getMagnetTuning, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
+  return { spawnPickup, collectPickup, update, getInventory, resetInventory, grantInventory, spendInventory, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, cullInactiveRegions, setActiveRegions, inventory, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, setMagnetTuning, getMagnetTuning, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
 }
