@@ -250,3 +250,31 @@ This is implementation/browser evidence, **not human acceptance**.
 ### Human acceptance still requested
 
 Perform spec Tests 13–17 in recognizable play. Harvest an ordered multi-part custom resource through depletion/respawn, collect its custom-model drop, inspect its custom remnant, and extract/bank it. Fight or observe a Visual Asset Wildkin through warning/death/respawn, and verify custom Waypoint/Beacon models retain their normal gameplay. Confirm camera pan/dolly feel, model recognizability, and portrait-phone readability by eye; automated state and screenshots do not replace perceptual acceptance.
+
+
+---
+
+## 2026-08-27 — Phase 4B first-pass stop / level-design direction
+
+### Human observation
+
+The first Phase 4B implementation pass was intentionally stopped after review/play because AI-authored level layout/pacing was not producing a convincing human-designed section.
+
+Useful systems/content from the pass may remain, but the continuous elongated "Crescent Basin" direction is not accepted as the final world structure.
+
+### New owner-directed level-design direction
+
+- Standard base world cell: **50×50**.
+- Camp target footprint: **100×100**, with future **25×25** expansion plots.
+- Expedition spaces become self-contained portal-connected sections rather than one physically adjacent strip.
+- A section normally has one discoverable Major Waypoint; entry portals are not Waypoints.
+- Fresh Camp Gate travel goes directly to Section 1 until a frontier Waypoint has actually been discovered.
+- Ruined section gates can require player level + carried resources to rebuild and permanently unlock the next section.
+- Section 1 should eventually contain at least one secret, one optional parkour challenge, a repeatable loot chest, resources/Wildkin appropriate to its tier, an Extraction Beacon, its Waypoint, and an outbound ruined gate.
+- Dedicated first-class Jump Pads are preferred over the current visual pad + invisible destination-authored jump link.
+- Parkour failures may safely respawn at course start/checkpoint without resolving expedition death or losing run cargo.
+- AI should build standardized systems, Visual Assets, behaviors, validation and authoring tools; the owner will perform final level composition and repeated play/balance tuning.
+
+### Next
+
+Implement **Phase 4B.1 — Section Framework & Level-Design Toolkit**, then stop system expansion and use the tools for the owner-authored Phase 4B.2 Section 1 vertical slice.
