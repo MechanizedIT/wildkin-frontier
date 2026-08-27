@@ -1,119 +1,80 @@
-# Wildkin Frontier — Phase 4B.1: Section Framework & Level-Design Toolkit
+# Wildkin Frontier — Phase 4B.1.1: Section Toolkit Closure
 
-**Status:** IMPLEMENTED — automated gates and browser verification pass; human acceptance pending
-**Active slice:** Phase 4B.1  
-**Canonical spec:** `docs/Specs/Phase_4B.1.md`
+**Status:** READY TO IMPLEMENT  
+**Active slice:** Phase 4B.1.1  
+**Canonical spec:** `docs/Specs/Phase_4B.1.1.md`  
+**Base implementation:** `9083ae2825ba506397b566bc89e3285e381ba450`
 
-**Previous direction:** Phase 4B AI-authored continuous-area pacing pass — **STOPPED EARLY 2026-08-27**. Useful systems work from commit `cad34988dbc43824256419a8a2301a4e9372a942` may remain, especially Matter Attractor I, useful assets/content IDs, and valid regression tests. The elongated continuous "Crescent Basin" layout is not the target world structure.
+Phase 4B.1 is substantially implemented and validated, but repo review found a small set of concrete closure defects that should be fixed **before** serious owner-authored Section 1 composition begins.
 
 ## Goal
 
-Give the owner a standardized section grammar and reusable level-design pieces so the **human owner designs the actual levels** while AI handles reliable systems/tooling.
+Close only these toolkit gaps:
 
-Target topology:
+1. Jump Pad trajectory preview must live-refresh from canonical `rotY`, `horizontalLaunch`, and `verticalLaunch` values.
+2. Parkour must have an explicit End/Exit so safe-death protection cannot remain active after the player abandons a course.
+3. Parkour fail/completion behavior must be strictly scoped by `courseId`.
+4. Expedition-section Portal links should use physical receiving gate endpoints, including a reciprocal Section 1 ⇄ Section 2 proof pair.
+5. Fresh Camp departure should arrive at a physical Section 1 frontier/forest-edge gate endpoint.
+6. Ruined-gate repair must be all-or-nothing from the player's perspective.
+
+## Locked foundations
+
+Do not reopen:
+
+- 100×100 Camp / 50×50 section grammar,
+- section-local coordinates,
+- explicit active SectionRuntime,
+- inactive visual/physics/simulation isolation,
+- fresh Camp Gate direct departure when no Waypoints are discovered,
+- discoverable Major Waypoints,
+- current run cargo + player level for ruined-gate repair,
+- persistent repaired frontier progress,
+- physical Jump Pad launch with no landing magnet,
+- reusable loot/persistence,
+- Matter Attractor keyed upgrade migration,
+- owner-authored final level composition.
+
+## Proof topology after closure
 
 ```text
-Camp — 100×100
-  ↓ portal
-Section 1 — 50×50
-  ├ discoverable Waypoint
-  ├ Extraction Beacon
-  ├ secret chest
-  ├ simple parkour + Jump Pad
-  └ ruined portal → Section 2
-Section 2 — 50×50
-  └ minimal proof + discoverable Waypoint
+Camp
+  gate_camp_frontier
+       ↓
+Section 1
+  physical Camp-arrival gate
+  Waypoint / Beacon
+  proof Jump Pad + parkour + Parkour End
+  ruined gate_section_1_to_2
+       ⇅
+Section 2
+  gate_section_2_to_1
+  Waypoint
 ```
 
-Sections use local coordinates and are connected by Portal Gates rather than required physical adjacency.
-
-## Locked design decisions
-
-- Standard world cell = **50×50**.
-- Standard expedition section = **50×50**.
-- Camp = **100×100**, with future **25×25** expansion plots.
-- World topology is a section/portal graph, not one giant continuous coordinate strip.
-- Camp Frontier Gate is a portal/launcher, not a Major Waypoint.
-- Fresh save: Camp Gate → Section 1 entry directly.
-- A section Waypoint must be physically discovered before it becomes a future start.
-- Extraction Beacons remain extraction-only.
-- Ruined Portal Gates may require player level + **current run cargo** to rebuild.
-- Repaired gates are permanent immediately, even if the player later dies.
-- AI builds systems/tools; final section composition/pacing is human-authored.
-- Jump Pads become first-class traversal objects; destination-hardcoded jump links are legacy.
-- Parkour can safely respawn at course checkpoints without losing run cargo while the course is active.
-- Loot Chest + Loot Table is reusable for secrets and repeatable parkour rewards.
-- Banked XP gains one central player-level derivation.
-- Matter Attractor I remains, but persistence should migrate toward keyed upgrade levels.
-- Section profile + read-only Author summary guide balance; they do not auto-generate content.
-
-## Hard scope
-
-Implement:
-
-- section-local canonical data/ownership,
-- explicit active-section runtime,
-- inactive-section visual/physics/simulation isolation,
-- Portal Gate transitions,
-- ruined gate construction/persistence,
-- first-launch/Waypoint semantics,
-- first-class Jump Pad + editor trajectory aid,
-- Parkour Start / Checkpoint / Kill Volume,
-- reusable Loot Chest / Loot Table / refill persistence,
-- player level foundation,
-- Matter Attractor save migration,
-- section profile metadata + read-only Author summary,
-- sparse proof Camp + Section 1 + Section 2 shells,
-- production integration/browser tests.
+Section 1 ⇄ Section 2 should work in both directions after repair without extracting, double-charging, or bouncing immediately back through the receiving gate.
 
 ## Do not do
 
-- final Section 1 level design,
-- procedural/AI level generation,
-- full skill tree,
-- bonding/companions,
-- crafting/equipment,
-- Camp expansion UI,
+- final Section 1 layout/pacing,
+- procedural level design,
+- full portal graph UI,
+- generic scripting/quests,
+- new progression systems,
+- Camp return/extraction redesign,
 - async streaming,
-- generic scripting/quest engine,
-- broad editor polish.
-
-## Human outcome after this slice
-
-The owner should be able to open Author Mode and independently build Section 1 from standardized pieces:
-
-```text
-geography
-+ Visual Assets
-+ resources
-+ Wildkin
-+ Waypoint
-+ Beacon
-+ Portal Gate
-+ Jump Pad
-+ parkour
-+ secret/repeatable chest
-```
-
-without needing an AI agent to decide where those pieces should go.
+- broad Author Mode overhaul.
 
 ## Stop condition
 
-When the framework is technically reliable and the owner can use the sparse proof sections, **freeze systems work and move to Phase 4B.2 — owner-authored Section 1 vertical slice**.
+When the closure fixes and production/browser tests pass, leave:
 
-## Implementation checkpoint — 2026-08-27
+```text
+Phase 4B.1.1 = IMPLEMENTED / HUMAN ACCEPTANCE PENDING
+```
 
-The Phase 4B.1 framework is implemented and the canonical world is now a sparse Camp → Section 1 → Section 2 proof graph. The owner can select a section in Author Mode, place standardized traversal/parkour/portal/loot pieces in section-local coordinates, inspect a read-only profile summary, and export a validated draft without automatic rehoming.
+Then stop.
 
-Runtime keeps one explicit active section: inactive section visuals, Rapier colliders, resources, creatures, anchors, loot, jump pads, and parkour queries are isolated; portal travel preserves the expedition run and arrives at the destination entry. Fresh saves use the Camp Gate → Section 1 entry path, Waypoints unlock only after discovery, and repaired gates plus loot claims persist through the normal frontier save. Matter Attractor migration, level derivation, and compatibility paths are covered by production tests.
+The owner will human-test the toolkit. Only after owner acceptance should the project move to **Phase 4B.2 — Human-Authored Section 1 Vertical Slice**.
 
-Validation completed for this checkpoint:
-
-- `npm test` — pass (535 tests, 148 suites)
-- `npm run world:generate` — pass
-- `npm run world:check` — pass
-- `npm run verify` — pass
-- `npm run zip` — pass
-- Real Chrome `?author=1` and normal-runtime browser checks — pass for the documented automated scenarios
-
-Automated browser inspection is not human acceptance of feel, visual readability, phone performance, or final level pacing. The next bounded action is Phase 4B.2: human-authored Section 1 composition and playtest.
+Read and implement the full requirements in `docs/Specs/Phase_4B.1.1.md`.
