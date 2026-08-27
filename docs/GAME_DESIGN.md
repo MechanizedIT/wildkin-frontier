@@ -26,7 +26,7 @@ Harvesting, wildlife, combat, traversal, parkour challenges, loot, bonding, extr
 
 **acquire value → discover opportunity → assess danger → secure / spend / push → experience consequence → change the next run**.
 
-# Design Pillars
+## Design Pillars
 
 - **Directed freedom, not rails or sprawl.** Local exploration is free, but deeper direction is readable.
 - **Risk creates stories.** The player should often possess something worth protecting while seeing something tempting farther ahead.
@@ -70,7 +70,7 @@ After at least one frontier Waypoint is known, the Camp gate may open start sele
 
 Avoid long intros/cutscenes. Teach primarily through geography, landmarking, readable interactions, and short contextual prompts.
 
-# Core Loop
+## Core Loop
 
 **PREPARE**  
 Begin at Camp. Check map/frontier progress, choose an available major Waypoint start, active companion/loadout when those systems exist, then leave through the gate.
@@ -129,7 +129,7 @@ The distinction is now:
 
 **Portal = reach another section. Waypoint = start here later. Beacon = secure this run.**
 
-# Map & POI Guidance
+## Map & POI Guidance
 
 - Map is always accessible from a top-right button.
 - Map progressively reveals Camp, major Waypoints, discovered Extraction Beacons, and important discovered POIs.
@@ -235,7 +235,7 @@ Not every future section must contain every ingredient, but the Section Author s
 
 The designer—not an agent—decides exact geometry, routes, encounters, visual composition, resource placement, and challenge layout.
 
-# HUD / Companion Action Direction
+## HUD / Companion Action Direction
 
 - Map button: top-right.
 - Resource inventory: upper-left; hide zero-count entries; container may scroll if the list later grows.
@@ -266,7 +266,7 @@ Player XP should similarly gain one central **player level** derivation. Portal 
 
 Camp expansion/base building remains later depth. The 100×100 / 25×25 plot convention should be preserved now so later expansion has a stable spatial grammar.
 
-# World Authoring & Runtime Scale
+## World Authoring & Runtime Scale
 
 The competition frontier should be handcrafted, data-driven, and primarily **human level-designed**.
 
@@ -406,7 +406,7 @@ Resource definition
 
 Phase 4B.1 only needs enough standardized level/tier plumbing to support Section 1/2 and future balancing; avoid a large RPG-stat framework.
 
-# World & Difficulty
+## World & Difficulty
 
 Difficulty is primarily **section/tier progression plus local authored encounter design**, not distance in one continuous coordinate strip.
 
@@ -424,7 +424,7 @@ Within a section, danger should still be spatial and readable: tempting value ca
 
 Retreat to an Extraction Beacon or Portal should remain understandable. Do not balance by simply inflating HP or filling every space with enemies.
 
-# Prototype First-Session Target
+## Prototype First-Session Target
 
 Phase 4B should prove the new section grammar with **Camp + Section 1 + a minimal Section 2 proof**, while the owner performs the actual level design.
 
@@ -445,7 +445,7 @@ Section 2 in Phase 4B only needs enough authored identity to prove the transitio
 
 The competition prototype can expand this graph later, but Phase 4B should establish that the first section is worth replaying and that unlocking a new section feels like meaningful frontier progress.
 
-# Death & Results
+## Death & Results
 
 On successful extraction:
 
@@ -485,14 +485,14 @@ Future survival progression may retain a percentage of resources on death, but n
 
 - Handcrafted frontier graph of self-contained portal-connected sections, not open-world sprawl, a single continuous coordinate strip, or a forced runner.
 - Camp begins as drop pod + small Resonator + perimeter fence + frontier gate in dense alien forest.
-- Always-accessible map; gate opens expedition-start selection.
+- Always-accessible map; fresh Camp-gate travel goes directly to Section 1, while later Camp-gate travel can open start selection once frontier Waypoints are discovered.
 - Portal Gates connect sections; Major Waypoints are discovered inside sections and unlock future starts; Extraction Beacons only extract.
-- Either anchor offers **EXTRACT / KEEP GOING**.
+- Extraction Beacons, and Major Waypoints where explicitly allowed, offer **EXTRACT / KEEP GOING**; Portal Gates transition sections rather than bank runs.
 - Resource inventory may be unlimited in prototype.
 - Wildkin unsecured capture capacity starts at 1 and may be upgraded later.
 - Prototype includes a final endpoint that should not be first-run reachable.
 - Earlier areas should contain gated revisitable POIs.
-- Region/pocket spatial activation belongs in the directed-world architecture.
+- Explicit active-section runtime/streaming boundaries belong in the portal-connected section architecture.
 - Unified Field Tool/manual combat/Auto Harvest rules remain locked from Phase 3.1.1.
 
 ## Open Questions
