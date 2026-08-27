@@ -85,6 +85,10 @@ export function createRunResultCard(opts = {}) {
 
     bodyEl.innerHTML = html;
 
+    if (isExtract && data.upgradeAvailable) {
+      bodyEl.insertAdjacentHTML("beforeend", `<div style="margin-top:10px;color:#6de5ef;font-weight:900;">Matter Resonator upgrade available</div>`);
+    }
+
     if (data.bankedResources) {
       const totals = Object.entries(data.bankedResources)
         .filter(([, amount]) => amount > 0)

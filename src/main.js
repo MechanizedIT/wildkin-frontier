@@ -40,12 +40,20 @@ import { createFrontierIndicators } from "./ui/frontierIndicators.js";
 import { createAuthorMode } from "./author/authorMode.js";
 import { createContextualInteraction } from "./ui/contextualInteraction.js";
 import { createActivationToast } from "./ui/activationToast.js";
+import { createMatterResonatorPanel } from "./ui/matterResonatorPanel.js";
+import {
+  MATTER_ATTRACTOR_I,
+  canAffordMatterAttractorI,
+  getMatterAttractorPickupTuning,
+  getMatterResonatorInteraction,
+  validateMatterAttractorCost,
+} from "./progression/matterAttractor.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 4B.0 — 0.12.0";
+const VERSION = "Phase 4B — 0.13.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -113,6 +121,9 @@ const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, star
 const resourceDrops = worldRegistry.data.resourceDrops;
 const frontierProgress = createFrontierProgress({ worldRegistry, isAuthorMode: authorEnabled, resourceDrops });
 frontierProgress.load();
+if (!validateMatterAttractorCost(resourceDrops, MATTER_ATTRACTOR_I.cost)) {
+  throw new Error("Matter Attractor I cost references an invalid resource catalog entry");
+}
 
 // Dev-only one-action reset (visible only with ?dev=1, not in normal submission)
 if (devEnabled) {
@@ -184,6 +195,7 @@ pickupSystem = createPickupSystem(scene, physicsWorld, playground, (inv, resId) 
   expeditionSession.setCargo(inv);
 }, { resourceDrops, visualAssets: worldRegistry.data.visualAssets ?? [] });
 pickupSystem.setPlayerCollider(characterPhysics.collider);
+pickupSystem.setMagnetTuning(getMatterAttractorPickupTuning(frontierProgress.hasMatterAttractorI()));
 inventoryHud.update(pickupSystem.getInventory());
 expeditionSession.setCargo(pickupSystem.getInventory());
 
@@ -292,10 +304,10 @@ xpMoteSystem.setPlayerPos(playerController.getState().pos);
 }
 
 // UI — Map, AnchorPrompt, ResultCard, Indicators (Phase 4A focused owners)
-let frontierMap, anchorPrompt, runResultCard, frontierIndicators, frontierAnchorSystem;
+let frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem;
 
 function isAnyBlockingModal() {
-  return (frontierMap && frontierMap.isOpen()) || (anchorPrompt && anchorPrompt.isVisible()) || (runResultCard && runResultCard.isVisible());
+  return (frontierMap && frontierMap.isOpen()) || (anchorPrompt && anchorPrompt.isVisible()) || (runResultCard && runResultCard.isVisible()) || (matterResonatorPanel && matterResonatorPanel.isVisible());
 }
 
 function setGameplayInputBlocked(blocked) {
@@ -310,7 +322,8 @@ function refreshMapAvailability() {
   const mapOpen = frontierMap.isOpen();
   const anchorOpen = anchorPrompt.isVisible();
   const resultOpen = runResultCard.isVisible();
-  const shouldDisableMapButton = anchorOpen || resultOpen || (authorCtx && authorCtx.isEditMode && authorCtx.isEditMode());
+  const resonatorOpen = matterResonatorPanel?.isVisible?.() ?? false;
+  const shouldDisableMapButton = anchorOpen || resultOpen || resonatorOpen || (authorCtx && authorCtx.isEditMode && authorCtx.isEditMode());
   frontierMap.setEnabled(!shouldDisableMapButton);
 }
 
@@ -350,6 +363,39 @@ runResultCard = createRunResultCard({
   },
 });
 
+function syncMatterResonatorVisualState() {
+  const owned = frontierProgress.hasMatterAttractorI();
+  scene.traverse((node) => {
+    if (node.userData?.authorId !== "prop_camp_resonator" || !node.material) return;
+    const materials = Array.isArray(node.material) ? node.material : [node.material];
+    for (const material of materials) {
+      if (!material.emissive) continue;
+      material.emissive.setHex(owned ? 0x2dddea : 0x1a3a5a);
+      material.emissiveIntensity = owned ? 0.85 : 0.25;
+      material.needsUpdate = true;
+    }
+  });
+}
+
+matterResonatorPanel = createMatterResonatorPanel({
+  frontierProgress,
+  resourceDrops,
+  onPurchase: () => {
+    if (!expeditionSession.isCamp()) return { purchased: false, reason: "camp-only" };
+    const result = frontierProgress.purchaseMatterAttractorI(MATTER_ATTRACTOR_I.cost);
+    if (result.purchased) {
+      pickupSystem.setMagnetTuning(getMatterAttractorPickupTuning(true));
+      syncMatterResonatorVisualState();
+    }
+    return result;
+  },
+  onClose: () => {
+    refreshMapAvailability();
+    syncInputBlock();
+  },
+});
+syncMatterResonatorVisualState();
+
 frontierIndicators = createFrontierIndicators({
   worldRegistry,
   frontierProgress,
@@ -359,6 +405,21 @@ frontierIndicators = createFrontierIndicators({
 });
 
 const activationToast = createActivationToast(scene, camera, gameAudio);
+
+const resonatorPoi = worldRegistry.getAllPois().find((poi) => poi.type === "resonator") ?? null;
+function getNearbyResonatorInteraction(playerPos) {
+  if (!resonatorPoi || !playerPos) return null;
+  const distance = Math.hypot(playerPos.x - resonatorPoi.pos.x, playerPos.z - resonatorPoi.pos.z);
+  const interaction = getMatterResonatorInteraction({
+    isCamp: expeditionSession.isCamp(),
+    distance,
+    owned: frontierProgress.hasMatterAttractorI(),
+  });
+  return interaction ? {
+    ...interaction,
+    id: resonatorPoi.id,
+  } : null;
+}
 
 // Contextual interaction (single owner)
 let contextualInteraction = null;
@@ -375,6 +436,10 @@ contextualInteraction = createContextualInteraction({
       }
     } else if (info.type === "majorWaypoint" || info.type === "extractionBeacon") {
       handleExtractionFlow({ id: info.id, type: info.type });
+    } else if (info.type === "resonator" && expeditionSession.isCamp()) {
+      matterResonatorPanel.show();
+      refreshMapAvailability();
+      syncInputBlock();
     }
   },
 });
@@ -564,6 +629,7 @@ function beginExpedition(waypointId) {
   frontierMap.close();
   anchorPrompt.hide();
   runResultCard.hide();
+  matterResonatorPanel.hide();
   syncInputBlock();
   refreshMapAvailability();
   return true;
@@ -596,6 +662,7 @@ function handleExtractionFlow(data) {
     bankedResources: banked.bankedResources,
     bankedXp: banked.bankedXp,
     displayNames,
+    upgradeAvailable: !banked.matterAttractorI && canAffordMatterAttractorI(banked.bankedResources),
   });
   refreshMapAvailability();
   syncInputBlock();
@@ -712,7 +779,7 @@ function tick() {
     if (!expeditionSession.isResolved?.() && !authorSuppress && !isAnyBlockingModal()) {
       const pPosForAnchor = playerController.getState().pos;
       frontierAnchorSystem.update(pPosForAnchor);
-      const nearby = frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession);
+      const nearby = getNearbyResonatorInteraction(pPosForAnchor) ?? frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession);
       if (contextualInteraction) contextualInteraction.setInteraction(nearby);
       // Pause AI while blocking already handled via isAnyBlockingModal guard
       const pStBefore = playerController.getState();
@@ -942,7 +1009,7 @@ tick();
 // Debug globals — gameplay code must not rely on window.__game
 window.__game = {
   scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
-  worldRegistry, regionManager, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
+  worldRegistry, regionManager, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
   beginExpedition, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   clearProgress: () => { frontierProgress.clear(); console.log("[frontierProgress] cleared"); },
   get autoHarvestEnabled() { return autoHarvestEnabled; },

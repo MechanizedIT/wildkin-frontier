@@ -73,7 +73,8 @@ export const MOVEMENT_CONFIG = {
   airMinSpeedCap: 3.3, // == walkSpeed, ensures falling from standstill still steerable
 
   // World bounds
-  worldBounds: { minX: -12.5, maxX: 12.5, minZ: -11.5, maxZ: 11.5 },
+  // Crescent Basin's authored retreat route extends north-to-south from Camp to Threshold Rise.
+  worldBounds: { minX: -14.5, maxX: 14.5, minZ: -36.5, maxZ: 15.5 },
 };
 
 export const CAMERA_CONFIG_FOLLOW = {
@@ -92,8 +93,8 @@ export const INPUT_CONFIG = {
 };
 
 export const WORLD_CONFIG = {
-  playgroundHalfX: 12,
-  playgroundHalfZ: 11,
+  playgroundHalfX: 14,
+  playgroundHalfZ: 36,
 };
 
 // Rapier physics tuning — also defined in src/physics/physicsConfig.js (single source of truth is physicsConfig)

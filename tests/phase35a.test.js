@@ -81,8 +81,8 @@ describe("Phase 3.5A — world data", () => {
     const reg = createWorldRegistry(WORLD_DATA);
     const allRes = reg.getAllResources();
     const allCrea = reg.getAllCreatures();
-    // Phase 3.5B skeleton has ~18-21 resources across camp+4 pockets
-    assert.ok(allRes.length >= 12 && allRes.length <= 28, `should have 12-28 resources got ${allRes.length}`);
+    // Authored Area 1 remains deliberately bounded even after the Phase 4B pacing pass.
+    assert.ok(allRes.length >= 20 && allRes.length <= 36, `should have 20-36 resources got ${allRes.length}`);
     assert.ok(allCrea.length >= 5 && allCrea.length <= 10, `should have 5-10 creatures got ${allCrea.length}`);
     // Check at least one known resource exists (camp or p1)
     const anyTree = allRes.find(r => r.type === "tree");
@@ -322,12 +322,13 @@ describe("Phase 3.5A — creature/resource integration", () => {
     // Make all creatures active initially
     cs.setActiveRegions(allIds);
     // Pick an aggressive creature — SKITTISH never enters WINDUP, so use AGGRESSIVE
-    const targetCreature = cs.getCreatures().find(c => c.state.temperament === "AGGRESSIVE");
+    const targetCreature = cs.getCreatures().find(c => c.state.type === "rusher" && c.state.temperament === "AGGRESSIVE");
     assert.ok(targetCreature);
     const targetRegion = targetCreature.state.regionId;
     const otherRegions = allIds.filter(id => id !== targetRegion);
-    // Force into WINDUP to test timer freeze
-    targetCreature.state.aiState = "WINDUP";
+    // Use the target-independent HURT timer so authored nearby Wildkin cannot retarget/reset the state.
+    targetCreature.state.aiState = "HURT";
+    targetCreature.state.hurtTime = 1;
     targetCreature.state.aiTimer = 0;
     const beforeTimer = targetCreature.state.aiTimer;
     // Deactivate target region
@@ -335,7 +336,7 @@ describe("Phase 3.5A — creature/resource integration", () => {
     cs.update(0.1);
     // Timer should not have progressed
     assert.equal(targetCreature.state.aiTimer, beforeTimer);
-    assert.equal(targetCreature.state.aiState, "WINDUP");
+    assert.equal(targetCreature.state.aiState, "HURT");
     // Reactivate and verify it progresses
     cs.setActiveRegions(allIds);
     cs.update(0.1);

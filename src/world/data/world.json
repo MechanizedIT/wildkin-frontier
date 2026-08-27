@@ -5,13 +5,13 @@
     "pos": {
       "x": 0,
       "y": 0,
-      "z": 9.5
+      "z": 12.4
     },
     "playerSpawn": {
       "position": {
         "x": 0,
         "y": 0,
-        "z": 10
+        "z": 12.6
       },
       "facingYaw": 3.1415926535
     },
@@ -3643,6 +3643,40 @@
       "gameplay": {
         "role": "prop"
       }
+    },
+    {
+      "id": "asset_frontier_launch_pad",
+      "displayName": "Frontier Launch Pad",
+      "category": "Traversal",
+      "version": 1,
+      "parts": [
+        {
+          "id": "stone_base",
+          "shape": "box",
+          "position": { "x": 0, "y": 0.08, "z": 0 },
+          "rotation": { "x": 0, "y": 0, "z": 0 },
+          "scale": { "x": 1.15, "y": 0.16, "z": 1.45 },
+          "color": "#53606a"
+        },
+        {
+          "id": "cyan_inset",
+          "shape": "box",
+          "position": { "x": 0, "y": 0.18, "z": -0.1 },
+          "rotation": { "x": 0, "y": 0, "z": 0 },
+          "scale": { "x": 0.72, "y": 0.05, "z": 0.9 },
+          "color": "#58dce7"
+        },
+        {
+          "id": "forward_chevron",
+          "shape": "cone",
+          "position": { "x": 0, "y": 0.25, "z": -0.78 },
+          "rotation": { "x": 1.5707963268, "y": 0, "z": 0 },
+          "scale": { "x": 0.24, "y": 0.38, "z": 0.24 },
+          "color": "#d8ffff"
+        }
+      ],
+      "collision": null,
+      "gameplay": { "role": "prop" }
     }
   ],
   "regions": [
@@ -3650,10 +3684,10 @@
       "id": "camp",
       "displayName": "Camp",
       "bounds": {
-        "minX": -12.5,
-        "maxX": 12.5,
-        "minZ": 7,
-        "maxZ": 11.5
+        "minX": -14.5,
+        "maxX": 14.5,
+        "minZ": 8,
+        "maxZ": 15.5
       },
       "neighbors": [
         "p1_forest_edge"
@@ -3669,9 +3703,9 @@
           "subtype": "visualAsset",
           "visualAssetId": "asset_drop_pod",
           "pos": {
-            "x": -1.8,
+            "x": -3.6,
             "y": 0,
-            "z": 9.8
+            "z": 12.4
           },
           "rotY": 0,
           "uniformScale": 1,
@@ -3683,9 +3717,9 @@
           "id": "prop_camp_resonator",
           "subtype": "resonator",
           "pos": {
-            "x": 2.2,
+            "x": 3.8,
             "y": 0,
-            "z": 9.2
+            "z": 12.1
           },
           "size": {
             "w": 0.9,
@@ -3703,7 +3737,7 @@
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 11.3
+            "z": 15.1
           },
           "size": {
             "w": 18,
@@ -3716,12 +3750,34 @@
           "opacity": 1
         },
         {
+          "id": "prop_camp_workbench",
+          "subtype": "visualAsset",
+          "visualAssetId": "asset_bench",
+          "pos": { "x": 5.9, "y": 0, "z": 12.5 },
+          "rotY": -1.5707963268,
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "collisionEnabled": false,
+          "opacity": 1
+        },
+        {
+          "id": "prop_camp_supply_crate",
+          "subtype": "visualAsset",
+          "visualAssetId": "asset_wooden_crate",
+          "pos": { "x": -6.1, "y": 0, "z": 11.5 },
+          "rotY": 0.35,
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "collisionEnabled": true,
+          "opacity": 1
+        },
+        {
           "id": "fence_camp_west",
           "subtype": "fence",
           "pos": {
-            "x": -9.2,
+            "x": -11.8,
             "y": 0,
-            "z": 9.2
+            "z": 11.8
           },
           "size": {
             "w": 0.4,
@@ -3737,9 +3793,9 @@
           "id": "fence_camp_east",
           "subtype": "fence",
           "pos": {
-            "x": 9.2,
+            "x": 11.8,
             "y": 0,
-            "z": 9.2
+            "z": 11.8
           },
           "size": {
             "w": 0.4,
@@ -3755,9 +3811,9 @@
           "id": "fence_camp_north_west",
           "subtype": "fence",
           "pos": {
-            "x": -4,
+            "x": -5.5,
             "y": 0,
-            "z": 7.2
+            "z": 8.2
           },
           "size": {
             "w": 6,
@@ -3773,9 +3829,9 @@
           "id": "fence_camp_north_east",
           "subtype": "fence",
           "pos": {
-            "x": 4,
+            "x": 5.5,
             "y": 0,
-            "z": 7.2
+            "z": 8.2
           },
           "size": {
             "w": 6,
@@ -3793,7 +3849,7 @@
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 7.2
+            "z": 8.2
           },
           "size": {
             "w": 2,
@@ -3809,9 +3865,9 @@
           "id": "forest_camp_west",
           "subtype": "forestBoundary",
           "pos": {
-            "x": -11.2,
+            "x": -13.2,
             "y": 0,
-            "z": 9.5
+            "z": 11.5
           },
           "size": {
             "w": 1.8,
@@ -3827,9 +3883,9 @@
           "id": "forest_camp_east",
           "subtype": "forestBoundary",
           "pos": {
-            "x": 11.2,
+            "x": 13.2,
             "y": 0,
-            "z": 9.5
+            "z": 11.5
           },
           "size": {
             "w": 1.8,
@@ -3847,7 +3903,7 @@
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 11.3
+            "z": 15.1
           },
           "size": {
             "w": 20,
@@ -3875,7 +3931,7 @@
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 7.4
+            "z": 8.4
           },
           "displayName": "Camp Gate"
         }
@@ -3886,9 +3942,9 @@
           "id": "poi_camp_resonator",
           "type": "resonator",
           "pos": {
-            "x": 2.2,
+            "x": 3.8,
             "y": 0,
-            "z": 9.2
+            "z": 12.1
           },
           "requires": null
         }
@@ -3899,12 +3955,12 @@
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": 9.25
+            "z": 11.75
           },
           "size": {
-            "w": 25,
+            "w": 29,
             "h": 0.5,
-            "d": 4.5
+            "d": 7.5
           },
           "color": 8363882,
           "opacity": 1,
@@ -3919,10 +3975,10 @@
           "pos": {
             "x": 0,
             "y": 0,
-            "z": -11.68
+            "z": -36.68
           },
           "size": {
-            "w": 26,
+            "w": 30,
             "h": 3,
             "d": 0.5
           },
@@ -3937,10 +3993,10 @@
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 11.68
+            "z": 15.68
           },
           "size": {
-            "w": 26,
+            "w": 30,
             "h": 3,
             "d": 0.5
           },
@@ -3953,14 +4009,14 @@
         {
           "id": "boundary_west",
           "pos": {
-            "x": -12.68,
+            "x": -14.68,
             "y": 0,
             "z": 0
           },
           "size": {
             "w": 0.5,
             "h": 3,
-            "d": 23
+            "d": 53
           },
           "rotY": 0,
           "visibleInPlay": false,
@@ -3971,14 +4027,14 @@
         {
           "id": "boundary_east",
           "pos": {
-            "x": 12.68,
+            "x": 14.68,
             "y": 0,
             "z": 0
           },
           "size": {
             "w": 0.5,
             "h": 3,
-            "d": 23
+            "d": 53
           },
           "rotY": 0,
           "visibleInPlay": false,
@@ -3990,12 +4046,12 @@
     },
     {
       "id": "p1_forest_edge",
-      "displayName": "Forest Edge",
+      "displayName": "Fern Run",
       "bounds": {
-        "minX": -12.5,
-        "maxX": 12.5,
-        "minZ": 3.5,
-        "maxZ": 7
+        "minX": -14.5,
+        "maxX": 14.5,
+        "minZ": 0.5,
+        "maxZ": 8
       },
       "neighbors": [
         "camp",
@@ -4011,14 +4067,14 @@
           "id": "prop_p1_forest_west",
           "subtype": "forestBoundary",
           "pos": {
-            "x": -11,
+            "x": -13.2,
             "y": 0,
-            "z": 5.2
+            "z": 4.3
           },
           "size": {
             "w": 2,
             "h": 2.8,
-            "d": 3.2
+            "d": 7.2
           },
           "rotY": 0,
           "visibleInPlay": true,
@@ -4029,14 +4085,14 @@
           "id": "prop_p1_forest_east",
           "subtype": "forestBoundary",
           "pos": {
-            "x": 11,
+            "x": 13.2,
             "y": 0,
-            "z": 5.2
+            "z": 4.3
           },
           "size": {
             "w": 2,
             "h": 2.8,
-            "d": 3.2
+            "d": 7.2
           },
           "rotY": 0,
           "visibleInPlay": true,
@@ -4047,9 +4103,9 @@
           "id": "prop_p1_box_01",
           "subtype": "box",
           "pos": {
-            "x": -5,
+            "x": -4.8,
             "y": 0,
-            "z": 4.6
+            "z": 2.2
           },
           "size": {
             "w": 1.2,
@@ -4060,6 +4116,17 @@
           "visibleInPlay": true,
           "collisionEnabled": true,
           "opacity": 1
+        },
+        {
+          "id": "prop_p1_launch_stone_throat",
+          "subtype": "visualAsset",
+          "visualAssetId": "asset_frontier_launch_pad",
+          "pos": { "x": 8.3, "y": 1.2, "z": 1.55 },
+          "rotY": 3.1415926535,
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "collisionEnabled": false,
+          "opacity": 1
         }
       ],
       "resources": [
@@ -4067,55 +4134,65 @@
           "id": "tree_p1_01",
           "type": "tree",
           "pos": {
-            "x": 1.2,
+            "x": 2.4,
             "y": 0,
-            "z": 5.8
+            "z": 6.2
           }
         },
         {
           "id": "tree_p1_02",
           "type": "tree",
           "pos": {
-            "x": -8.8,
+            "x": -9.2,
             "y": 0,
-            "z": 6.2
+            "z": 5.4
           }
         },
         {
           "id": "rock_p1_01",
           "type": "rock",
           "pos": {
-            "x": 3.2,
+            "x": 5.2,
             "y": 0,
-            "z": 4.2
+            "z": 3.4
           }
         },
         {
           "id": "fiber_p1_01",
           "type": "fiber",
           "pos": {
-            "x": -2.2,
+            "x": -2.8,
             "y": 0,
-            "z": 5
+            "z": 5.5
           }
         },
         {
           "id": "tree_p1_camp01",
           "type": "tree",
           "pos": {
-            "x": -3.2,
+            "x": -6.4,
             "y": 0,
-            "z": 6
+            "z": 3.8
           }
         },
         {
           "id": "fiber_p1_camp02",
           "type": "fiber",
           "pos": {
-            "x": 2.6,
+            "x": 0.7,
             "y": 0,
-            "z": 5.2
+            "z": 3.6
           }
+        },
+        {
+          "id": "rock_p1_02",
+          "type": "rock",
+          "pos": { "x": -7.3, "y": 0, "z": 3.1 }
+        },
+        {
+          "id": "fiber_p1_03",
+          "type": "fiber",
+          "pos": { "x": 4.5, "y": 0, "z": 5.2 }
         }
       ],
       "creatures": [
@@ -4125,34 +4202,47 @@
           "temperament": "SKITTISH",
           "speciesTag": "fang",
           "pos": {
-            "x": -1.2,
+            "x": 8.6,
             "y": 0,
-            "z": 5.8
+            "z": 5.1
           },
           "homePos": {
-            "x": -1.2,
+            "x": 8.6,
             "y": 0,
-            "z": 5.8
+            "z": 5.1
           },
-          "roamRadius": 2.8,
-          "noticeRadius": 4.8,
-          "personalSpace": 1.8,
-          "leashRadius": 6
+          "roamRadius": 2.2,
+          "noticeRadius": 4.2,
+          "personalSpace": 1.6,
+          "leashRadius": 4.2
         }
       ],
       "traversal": {
-        "platforms": [],
+        "platforms": [
+          { "id": "p1_stone_throat_shelf", "x": 8.2, "z": 1.05, "w": 3.2, "h": 2.2, "height": 1.2 }
+        ],
         "obstacles": [
           {
             "id": "obs_p1_rock",
-            "x": -5,
-            "z": 4.6,
+            "x": -4.8,
+            "z": 2.2,
             "w": 1.2,
             "h": 1.2,
             "height": 0.9
           }
         ],
-        "jumpTraversals": [],
+        "jumpTraversals": [
+          {
+            "id": "jump_p1_stone_throat_shortcut",
+            "triggerCenter": { "x": 8.3, "z": 1.55 },
+            "triggerRadius": 1.35,
+            "direction": { "x": 0, "z": -1 },
+            "landingRegion": { "minX": 7.1, "maxX": 9.5, "minZ": -1.9, "maxZ": -0.2, "height": 1.2 },
+            "minTakeoffSpeed": 2.2,
+            "maxLandingCorrection": 1.4,
+            "landingPlatformId": "p2_throat_shelf"
+          }
+        ],
         "climbables": []
       },
       "majorWaypoints": [
@@ -4162,14 +4252,14 @@
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 6.6
+            "z": 7.2
           },
           "displayName": "Forest Edge",
           "runSpawn": {
             "position": {
               "x": 0,
               "y": 0,
-              "z": 5.2
+              "z": 6.1
             },
             "facingYaw": 3.1415926535
           }
@@ -4181,9 +4271,9 @@
           "id": "poi_p1_chest",
           "type": "chest",
           "pos": {
-            "x": 6,
+            "x": -8.7,
             "y": 0,
-            "z": 4.8
+            "z": 2.4
           },
           "requires": null
         }
@@ -4194,12 +4284,12 @@
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": 5.25
+            "z": 4.25
           },
           "size": {
-            "w": 25,
+            "w": 29,
             "h": 0.5,
-            "d": 3.5
+            "d": 7.5
           },
           "color": 8363882,
           "opacity": 1,
@@ -4212,12 +4302,12 @@
     },
     {
       "id": "p2_complication",
-      "displayName": "Tangled Hollow",
+      "displayName": "Stone Throat",
       "bounds": {
-        "minX": -12.5,
-        "maxX": 12.5,
-        "minZ": 0,
-        "maxZ": 3.5
+        "minX": -14.5,
+        "maxX": 14.5,
+        "minZ": -8,
+        "maxZ": 0.5
       },
       "neighbors": [
         "p1_forest_edge",
@@ -4233,14 +4323,14 @@
           "id": "prop_p2_pond_water",
           "subtype": "water",
           "pos": {
-            "x": 5.5,
+            "x": 4.8,
             "y": -0.08,
-            "z": 1.8
+            "z": -5.6
           },
           "size": {
-            "w": 4.2,
+            "w": 10.6,
             "h": 0.2,
-            "d": 3.6
+            "d": 4.4
           },
           "rotY": 0,
           "visibleInPlay": true,
@@ -4251,14 +4341,14 @@
           "id": "prop_p2_pond_island",
           "subtype": "island",
           "pos": {
-            "x": 5.5,
+            "x": 4.8,
             "y": 0,
-            "z": 1.8
+            "z": -5.6
           },
           "size": {
-            "w": 1.4,
+            "w": 2.4,
             "h": 0.4,
-            "d": 1.4
+            "d": 2.4
           },
           "rotY": 0,
           "visibleInPlay": true,
@@ -4269,9 +4359,9 @@
           "id": "prop_p2_box_01",
           "subtype": "box",
           "pos": {
-            "x": -3.5,
+            "x": -2.2,
             "y": 0,
-            "z": 2.2
+            "z": -2.8
           },
           "size": {
             "w": 2.4,
@@ -4282,6 +4372,17 @@
           "visibleInPlay": true,
           "collisionEnabled": true,
           "opacity": 1
+        },
+        {
+          "id": "prop_p2_launch_mirror_pane",
+          "subtype": "visualAsset",
+          "visualAssetId": "asset_frontier_launch_pad",
+          "pos": { "x": 8.2, "y": 1.2, "z": -0.6 },
+          "rotY": 3.1415926535,
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "collisionEnabled": false,
+          "opacity": 1
         }
       ],
       "resources": [
@@ -4289,46 +4390,56 @@
           "id": "tree_p2_01",
           "type": "tree",
           "pos": {
-            "x": -8.2,
+            "x": -9.2,
             "y": 0,
-            "z": 1.5
+            "z": -1.4
           }
         },
         {
           "id": "rock_p2_01",
           "type": "rock",
           "pos": {
-            "x": 7.4,
+            "x": 8.2,
             "y": 0,
-            "z": 1.2
+            "z": -6.5
           }
         },
         {
           "id": "fiber_p2_01",
           "type": "fiber",
           "pos": {
-            "x": -6.8,
+            "x": -7.2,
             "y": 0,
-            "z": 2.8
+            "z": -3.2
           }
         },
         {
           "id": "fiber_p2_02",
           "type": "fiber",
           "pos": {
-            "x": 1,
+            "x": 0.8,
             "y": 0,
-            "z": 0.6
+            "z": -3.8
           }
         },
         {
           "id": "rock_p2_02",
           "type": "rock",
           "pos": {
-            "x": -2,
+            "x": -0.6,
             "y": 0,
-            "z": 2.6
+            "z": -2.1
           }
+        },
+        {
+          "id": "rock_p2_guarded_iron",
+          "type": "rock",
+          "pos": { "x": 0.7, "y": 0, "z": -3.1 }
+        },
+        {
+          "id": "rock_p2_bank_iron",
+          "type": "rock",
+          "pos": { "x": 9.2, "y": 0, "z": -6.7 }
         }
       ],
       "creatures": [
@@ -4338,19 +4449,19 @@
           "temperament": "TERRITORIAL",
           "speciesTag": "fang",
           "pos": {
-            "x": -6,
+            "x": -4.8,
             "y": 0,
-            "z": 2
+            "z": -2.7
           },
           "homePos": {
-            "x": -6,
+            "x": -4.8,
             "y": 0,
-            "z": 2
+            "z": -2.7
           },
-          "roamRadius": 2.4,
-          "noticeRadius": 5.8,
-          "personalSpace": 2.4,
-          "leashRadius": 6.5
+          "roamRadius": 1.8,
+          "noticeRadius": 4.8,
+          "personalSpace": 2.2,
+          "leashRadius": 3.6
         },
         {
           "id": "spitter_p2_aggro",
@@ -4358,45 +4469,59 @@
           "temperament": "AGGRESSIVE",
           "speciesTag": "spit",
           "pos": {
-            "x": 1,
+            "x": 8.2,
             "y": 0,
-            "z": 2.4
+            "z": -4.3
           },
           "homePos": {
-            "x": 1,
+            "x": 8.2,
             "y": 0,
-            "z": 2.4
+            "z": -4.3
           },
-          "roamRadius": 2.2,
-          "noticeRadius": 6.2,
+          "roamRadius": 1.7,
+          "noticeRadius": 4.6,
           "personalSpace": 2,
-          "leashRadius": 7.5,
+          "leashRadius": 3.4,
           "hostileSpecies": [
             "flutter"
           ]
         }
       ],
       "traversal": {
-        "platforms": [],
+        "platforms": [
+          { "id": "p2_throat_shelf", "x": 8.2, "z": -0.9, "w": 3.2, "h": 2.2, "height": 1.2 },
+          { "id": "p2_mirror_overlook", "x": -5.6, "z": -6.2, "w": 4.4, "h": 2.8, "height": 1.25 }
+        ],
         "obstacles": [
           {
             "id": "obs_p2_wall",
-            "x": -3.5,
-            "z": 2.2,
+            "x": -2.2,
+            "z": -2.8,
             "w": 2.4,
             "h": 0.6,
             "height": 1.1
           },
           {
             "id": "obs_p2_pond_edge",
-            "x": 3,
-            "z": 1.8,
+            "x": -0.2,
+            "z": -5.6,
             "w": 0.6,
             "h": 2,
             "height": 0.6
           }
         ],
-        "jumpTraversals": [],
+        "jumpTraversals": [
+          {
+            "id": "jump_p2_mirror_pane",
+            "triggerCenter": { "x": 8.2, "z": -0.6 },
+            "triggerRadius": 1.35,
+            "direction": { "x": 0, "z": -1 },
+            "landingRegion": { "minX": 7.0, "maxX": 9.4, "minZ": -10.7, "maxZ": -9.0, "height": 1.25 },
+            "minTakeoffSpeed": 2.2,
+            "maxLandingCorrection": 1.4,
+            "landingPlatformId": "p3_pond_east_shelf"
+          }
+        ],
         "climbables": []
       },
       "majorWaypoints": [],
@@ -4405,9 +4530,9 @@
           "id": "beacon_p2_01",
           "type": "extractionBeacon",
           "pos": {
-            "x": -2,
+            "x": -5.6,
             "y": 0,
-            "z": 1
+            "z": -6.2
           },
           "displayName": "Tangled Hollow Beacon"
         }
@@ -4417,9 +4542,9 @@
           "id": "poi_p2_pond_chest",
           "type": "chest",
           "pos": {
-            "x": 5.5,
+            "x": 4.8,
             "y": 0,
-            "z": 1.8
+            "z": -5.6
           },
           "requires": {
             "type": "companionAbility",
@@ -4430,14 +4555,32 @@
           "id": "poi_p2_barrier",
           "type": "barrier",
           "pos": {
-            "x": -5.2,
+            "x": -10.6,
             "y": 0,
-            "z": 0.8
+            "z": -5.8
           },
           "requires": {
             "type": "companionAbility",
             "id": "breakBarrier"
           }
+        },
+        {
+          "id": "poi_p2_guarded_iron",
+          "type": "resourceLandmark",
+          "pos": { "x": -0.8, "y": 0, "z": -2.9 },
+          "displayName": "Guarded Iron Vein",
+          "visualAssetId": "asset_iron_ore_rock",
+          "uniformScale": 1,
+          "requires": null
+        },
+        {
+          "id": "poi_p2_iron_bank",
+          "type": "resourceLandmark",
+          "pos": { "x": 7.6, "y": 0, "z": -6.7 },
+          "displayName": "Mirror Bank Iron",
+          "visualAssetId": "asset_iron_ore_rock",
+          "uniformScale": 1.1,
+          "requires": null
         }
       ],
       "groundPatches": [
@@ -4446,12 +4589,12 @@
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": 1.75
+            "z": -3.75
           },
           "size": {
-            "w": 25,
+            "w": 29,
             "h": 0.5,
-            "d": 3.5
+            "d": 8.5
           },
           "color": 8363882,
           "opacity": 1,
@@ -4464,12 +4607,12 @@
     },
     {
       "id": "p3_temptation",
-      "displayName": "Sunken Rise",
+      "displayName": "Fallen Observatory",
       "bounds": {
-        "minX": -12.5,
-        "maxX": 12.5,
-        "minZ": -4.5,
-        "maxZ": 0
+        "minX": -14.5,
+        "maxX": 14.5,
+        "minZ": -19,
+        "maxZ": -8
       },
       "neighbors": [
         "p2_complication",
@@ -4485,9 +4628,9 @@
           "id": "prop_p3_box_01",
           "subtype": "box",
           "pos": {
-            "x": 4.2,
+            "x": 4.8,
             "y": 0,
-            "z": -0.8
+            "z": -15.3
           },
           "size": {
             "w": 1.8,
@@ -4503,18 +4646,40 @@
           "id": "prop_p3_fence_01",
           "subtype": "fence",
           "pos": {
-            "x": -7.5,
+            "x": -10.8,
             "y": 0,
-            "z": -2
+            "z": -13.5
           },
           "size": {
             "w": 0.4,
             "h": 1.2,
-            "d": 3
+            "d": 8.2
           },
           "rotY": 0,
           "visibleInPlay": true,
           "collisionEnabled": true,
+          "opacity": 1
+        },
+        {
+          "id": "prop_p3_launch_pond_east",
+          "subtype": "visualAsset",
+          "visualAssetId": "asset_frontier_launch_pad",
+          "pos": { "x": 8.2, "y": 1.25, "z": -10.8 },
+          "rotY": -1.5707963268,
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "collisionEnabled": false,
+          "opacity": 1
+        },
+        {
+          "id": "prop_p3_launch_observatory_west",
+          "subtype": "visualAsset",
+          "visualAssetId": "asset_frontier_launch_pad",
+          "pos": { "x": 3.0, "y": 1.25, "z": -12.3 },
+          "rotY": 1.5707963268,
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "collisionEnabled": false,
           "opacity": 1
         }
       ],
@@ -4523,46 +4688,56 @@
           "id": "tree_p3_01",
           "type": "tree",
           "pos": {
-            "x": -8.6,
+            "x": -10.2,
             "y": 0,
-            "z": -1.2
+            "z": -10.4
           }
         },
         {
           "id": "tree_p3_02",
           "type": "tree",
           "pos": {
-            "x": 6.2,
+            "x": 6.1,
             "y": 0,
-            "z": -2
+            "z": -15.9
           }
         },
         {
           "id": "rock_p3_01",
           "type": "rock",
           "pos": {
-            "x": 7.2,
+            "x": 8.6,
             "y": 0,
-            "z": -0.6
+            "z": -17.2
           }
         },
         {
           "id": "fiber_p3_01",
           "type": "fiber",
           "pos": {
-            "x": -7.2,
+            "x": -8.4,
             "y": 0,
-            "z": -3.2
+            "z": -14.1
           }
         },
         {
           "id": "fiber_p3_02",
           "type": "fiber",
           "pos": {
-            "x": 8.4,
+            "x": 9.2,
             "y": 0,
-            "z": -3.8
+            "z": -17.8
           }
+        },
+        {
+          "id": "rock_p3_crystal_01",
+          "type": "rock",
+          "pos": { "x": 6.9, "y": 0, "z": -16.7 }
+        },
+        {
+          "id": "rock_p3_shelf_iron",
+          "type": "rock",
+          "pos": { "x": -0.1, "y": 1.25, "z": -14.6 }
         }
       ],
       "creatures": [
@@ -4572,19 +4747,19 @@
           "temperament": "DEFENSIVE",
           "speciesTag": "fang",
           "pos": {
-            "x": 4,
+            "x": 1.2,
             "y": 0,
-            "z": -3
+            "z": -15.8
           },
           "homePos": {
-            "x": 4,
+            "x": 1.2,
             "y": 0,
-            "z": -3
+            "z": -15.8
           },
-          "roamRadius": 2.6,
-          "noticeRadius": 5.2,
+          "roamRadius": 2.1,
+          "noticeRadius": 5.3,
           "personalSpace": 1.9,
-          "leashRadius": 7
+          "leashRadius": 4.3
         },
         {
           "id": "rusher_p3_hunter",
@@ -4592,19 +4767,19 @@
           "temperament": "AGGRESSIVE",
           "speciesTag": "fang",
           "pos": {
-            "x": -9,
+            "x": 2.4,
             "y": 0,
-            "z": -3.8
+            "z": -17.5
           },
           "homePos": {
-            "x": -9,
+            "x": 2.4,
             "y": 0,
-            "z": -3.8
+            "z": -17.5
           },
-          "roamRadius": 2.8,
-          "noticeRadius": 6.8,
+          "roamRadius": 2.2,
+          "noticeRadius": 5.8,
           "personalSpace": 1.8,
-          "leashRadius": 8.5,
+          "leashRadius": 4.5,
           "hostileSpecies": [
             "flutter"
           ]
@@ -4613,27 +4788,35 @@
       "traversal": {
         "platforms": [
           {
-            "id": "lowA",
-            "x": -5.8,
-            "z": -1.2,
+            "id": "p3_observatory_shelf",
+            "x": -1.5,
+            "z": -14.2,
             "w": 4.2,
             "h": 3.6,
             "height": 1.25
           },
           {
-            "id": "lowB",
-            "x": 0.8,
-            "z": -1.2,
+            "id": "p3_pond_east_shelf",
+            "x": 8.2,
+            "z": -9.8,
             "w": 4,
             "h": 3.4,
+            "height": 1.25
+          },
+          {
+            "id": "p3_middle_shelf",
+            "x": 4.5,
+            "z": -12.3,
+            "w": 2.8,
+            "h": 2.4,
             "height": 1.25
           }
         ],
         "obstacles": [
           {
             "id": "obs_p3_center_east",
-            "x": 4.2,
-            "z": -0.8,
+            "x": 4.8,
+            "z": -15.3,
             "w": 1.8,
             "h": 1.8,
             "height": 1
@@ -4643,8 +4826,8 @@
           {
             "id": "gap_east_01",
             "triggerCenter": {
-              "x": -3.7,
-              "z": -1.2
+            "x": 7,
+            "z": -10.8
             },
             "triggerRadius": 1.45,
             "direction": {
@@ -4652,21 +4835,21 @@
               "z": 0
             },
             "landingRegion": {
-              "minX": -1.2,
-              "maxX": 2.2,
-              "minZ": -2.4,
-              "maxZ": 0.1,
+              "minX": 3.3,
+              "maxX": 5.7,
+              "minZ": -13.3,
+              "maxZ": -11.3,
               "height": 1.25
             },
             "minTakeoffSpeed": 2.2,
             "maxLandingCorrection": 1.4,
-            "landingPlatformId": "lowB"
+            "landingPlatformId": "p3_middle_shelf"
           },
           {
             "id": "gap_west_01",
             "triggerCenter": {
-              "x": -1.25,
-              "z": -0.4
+            "x": 3.0,
+            "z": -12.3
             },
             "triggerRadius": 1.45,
             "direction": {
@@ -4674,15 +4857,15 @@
               "z": 0
             },
             "landingRegion": {
-              "minX": -7.6,
-              "maxX": -3.9,
-              "minZ": -2.4,
-              "maxZ": 0.3,
+              "minX": -3.5,
+              "maxX": 0.5,
+              "minZ": -15.6,
+              "maxZ": -12.8,
               "height": 1.25
             },
             "minTakeoffSpeed": 2.2,
             "maxLandingCorrection": 1.4,
-            "landingPlatformId": "lowA"
+            "landingPlatformId": "p3_observatory_shelf"
           }
         ],
         "climbables": []
@@ -4693,11 +4876,11 @@
           "id": "beacon_p3_01",
           "type": "extractionBeacon",
           "pos": {
-            "x": 0.5,
+            "x": -7.2,
             "y": 0,
-            "z": -1.5
+            "z": -17.1
           },
-          "displayName": "Sunken Rise Beacon"
+          "displayName": "Fallen Observatory Beacon"
         }
       ],
       "pois": [
@@ -4705,10 +4888,28 @@
           "id": "poi_p3_cache",
           "type": "chest",
           "pos": {
-            "x": -1,
+            "x": 5.8,
             "y": 0,
-            "z": -3.5
+            "z": -16.8
           },
+          "requires": null
+        },
+        {
+          "id": "poi_p3_crystal_observatory",
+          "type": "resourceLandmark",
+          "pos": { "x": 5.7, "y": 0, "z": -16.7 },
+          "displayName": "Observatory Crystal",
+          "visualAssetId": "asset_crystal",
+          "uniformScale": 1.15,
+          "requires": null
+        },
+        {
+          "id": "poi_p3_iron_shelf",
+          "type": "resourceLandmark",
+          "pos": { "x": -1.4, "y": 1.25, "z": -14.6 },
+          "displayName": "High Iron Shelf",
+          "visualAssetId": "asset_iron_ore_rock",
+          "uniformScale": 1,
           "requires": null
         }
       ],
@@ -4718,12 +4919,12 @@
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": -2.25
+            "z": -13.5
           },
           "size": {
-            "w": 25,
+            "w": 29,
             "h": 0.5,
-            "d": 4.5
+            "d": 11
           },
           "color": 8363882,
           "opacity": 1,
@@ -4738,10 +4939,10 @@
       "id": "p4_threshold",
       "displayName": "Threshold Rise",
       "bounds": {
-        "minX": -12.5,
-        "maxX": 12.5,
-        "minZ": -11.5,
-        "maxZ": -4.5
+        "minX": -14.5,
+        "maxX": 14.5,
+        "minZ": -36,
+        "maxZ": -19
       },
       "neighbors": [
         "p3_temptation"
@@ -4756,9 +4957,9 @@
           "id": "prop_p4_high_island",
           "subtype": "box",
           "pos": {
-            "x": 8,
+            "x": 8.4,
             "y": 0,
-            "z": -8.5
+            "z": -31.2
           },
           "size": {
             "w": 2,
@@ -4769,6 +4970,28 @@
           "visibleInPlay": true,
           "collisionEnabled": true,
           "opacity": 1
+        },
+        {
+          "id": "prop_p4_threshold_arch",
+          "subtype": "visualAsset",
+          "visualAssetId": "asset_ruin_arch",
+          "pos": { "x": 0, "y": 3.75, "z": -31.8 },
+          "rotY": 0,
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "collisionEnabled": false,
+          "opacity": 1
+        },
+        {
+          "id": "prop_p4_observatory_path",
+          "subtype": "visualAsset",
+          "visualAssetId": "asset_ruin_path",
+          "pos": { "x": -4.4, "y": 0, "z": -27.4 },
+          "rotY": 0.15,
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "collisionEnabled": false,
+          "opacity": 1
         }
       ],
       "resources": [
@@ -4776,46 +4999,56 @@
           "id": "tree_p4_01",
           "type": "tree",
           "pos": {
-            "x": 2.2,
-            "y": 2.4,
-            "z": -7.2
+            "x": 0,
+            "y": 3.75,
+            "z": -31.8
           }
         },
         {
           "id": "rock_p4_01",
           "type": "rock",
           "pos": {
-            "x": -1.8,
+            "x": -2.8,
             "y": 0,
-            "z": -6.8
+            "z": -25.8
           }
         },
         {
           "id": "rock_p4_02",
           "type": "rock",
           "pos": {
-            "x": -3,
+            "x": 5.6,
             "y": 0,
-            "z": -5.5
+            "z": -29.4
           }
         },
         {
           "id": "fiber_p4_01",
           "type": "fiber",
           "pos": {
-            "x": -4.2,
+            "x": -8.8,
             "y": 0,
-            "z": -9.2
+            "z": -23.2
           }
         },
         {
           "id": "fiber_p4_02",
           "type": "fiber",
           "pos": {
-            "x": 4,
+            "x": 3.2,
             "y": 0,
-            "z": -5.8
+            "z": -21.6
           }
+        },
+        {
+          "id": "rock_p4_threshold_crystal",
+          "type": "rock",
+          "pos": { "x": 1.2, "y": 3.75, "z": -32.8 }
+        },
+        {
+          "id": "rock_p4_rise_iron",
+          "type": "rock",
+          "pos": { "x": 6.7, "y": 0, "z": -29.2 }
         }
       ],
       "creatures": [
@@ -4825,30 +5058,42 @@
           "temperament": "SKITTISH",
           "speciesTag": "flutter",
           "pos": {
-            "x": -6.8,
+            "x": 7.8,
             "y": 0,
-            "z": -6.2
+            "z": -25.6
           },
           "homePos": {
-            "x": -6.8,
+            "x": 7.8,
             "y": 0,
-            "z": -6.2
+            "z": -25.6
           },
-          "roamRadius": 2.4,
-          "noticeRadius": 4.8,
-          "personalSpace": 1.6,
-          "leashRadius": 6.8
+          "roamRadius": 1.8,
+          "noticeRadius": 5.4,
+          "personalSpace": 1.9,
+          "leashRadius": 3.8
+        },
+        {
+          "id": "rusher_p4_threshold_guardian",
+          "type": "rusher",
+          "temperament": "TERRITORIAL",
+          "speciesTag": "fang",
+          "pos": { "x": 3.8, "y": 0, "z": -29.1 },
+          "homePos": { "x": 3.8, "y": 0, "z": -29.1 },
+          "roamRadius": 1.8,
+          "noticeRadius": 5.2,
+          "personalSpace": 2.2,
+          "leashRadius": 3.6
         }
       ],
       "traversal": {
         "platforms": [
           {
-            "id": "high",
-            "x": 2.2,
-            "z": -7.2,
-            "w": 4.4,
-            "h": 3.8,
-            "height": 2.4
+            "id": "p4_threshold_dais",
+            "x": 0,
+            "z": -31.8,
+            "w": 5.6,
+            "h": 4.8,
+            "height": 3.75
           }
         ],
         "obstacles": [],
@@ -4856,23 +5101,23 @@
         "climbables": [
           {
             "id": "ladder_south_high",
-            "x": 2.2,
-            "z": -5.05,
+            "x": 0,
+            "z": -29.15,
             "w": 1.9,
             "h": 0.5,
             "bottomY": 0,
-            "topY": 2.4,
+            "topY": 3.75,
             "topPlatform": {
-              "x": 2.2,
-              "z": -7.2,
-              "w": 4.4,
-              "h": 3.8,
-              "topY": 2.4,
+              "x": 0,
+              "z": -31.8,
+              "w": 5.6,
+              "h": 4.8,
+              "topY": 3.75,
               "aabb": {
-                "minX": 0,
-                "maxX": 4.4,
-                "minZ": -9.1,
-                "maxZ": -5.3
+                "minX": -2.8,
+                "maxX": 2.8,
+                "minZ": -34.2,
+                "maxZ": -29.4
               }
             },
             "wallNormal": {
@@ -4884,14 +5129,14 @@
               "z": -1
             },
             "topEntryRegion": {
-              "minX": 1.25,
-              "maxX": 3.15,
-              "minZ": -6,
-              "maxZ": -5.25
+              "minX": -0.95,
+              "maxX": 0.95,
+              "minZ": -30.1,
+              "maxZ": -29.35
             },
             "mantleExit": {
-              "x": 2.2,
-              "z": -6.4
+              "x": 0,
+              "z": -30.5
             }
           }
         ]
@@ -4901,16 +5146,16 @@
           "id": "wp_p4_threshold",
           "type": "majorWaypoint",
           "pos": {
-            "x": 2.2,
-            "y": 2.4,
-            "z": -7.2
+            "x": 0,
+            "y": 3.75,
+            "z": -31.8
           },
           "displayName": "Threshold Rise",
           "runSpawn": {
             "position": {
-              "x": 2.2,
-              "y": 2.4,
-              "z": -6.4
+              "x": 0,
+              "y": 3.75,
+              "z": -30.5
             },
             "facingYaw": 3.1415926535
           }
@@ -4922,14 +5167,32 @@
           "id": "poi_p4_island",
           "type": "chest",
           "pos": {
-            "x": 8,
+            "x": 8.4,
             "y": 0,
-            "z": -8.5
+            "z": -31.2
           },
           "requires": {
             "type": "companionAbility",
             "id": "swim"
           }
+        },
+        {
+          "id": "poi_p4_threshold_crystal",
+          "type": "resourceLandmark",
+          "pos": { "x": 2.1, "y": 3.75, "z": -32.8 },
+          "displayName": "Threshold Crystal",
+          "visualAssetId": "asset_crystal",
+          "uniformScale": 1.15,
+          "requires": null
+        },
+        {
+          "id": "poi_p4_rise_iron",
+          "type": "resourceLandmark",
+          "pos": { "x": 5.3, "y": 0, "z": -29.2 },
+          "displayName": "Rise Iron Deposit",
+          "visualAssetId": "asset_iron_ore_rock",
+          "uniformScale": 1.1,
+          "requires": null
         }
       ],
       "groundPatches": [
@@ -4938,12 +5201,12 @@
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": -8
+            "z": -27.5
           },
           "size": {
-            "w": 25,
+            "w": 29,
             "h": 0.5,
-            "d": 7
+            "d": 17
           },
           "color": 8363882,
           "opacity": 1,

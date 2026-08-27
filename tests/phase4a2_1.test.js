@@ -132,8 +132,13 @@ describe("Phase 4A.2.1 — Author canonical ownership & preview atomics", ()=>{
   });
   it("undo/redo reconciles scene objects for placement/deletion", ()=>{
     const draftApi=createAuthorDraft(WORLD_DATA);
-    const regionId = draftApi.getDraft().regions[2].id;
-    const res = draftApi.createObjectAtPosition("prop", "box", {x: -6, y:0, z:1}, regionId);
+    const region = draftApi.getDraft().regions[2];
+    const regionId = region.id;
+    const res = draftApi.createObjectAtPosition("prop", "box", {
+      x: (region.bounds.minX + region.bounds.maxX) / 2,
+      y: 0,
+      z: (region.bounds.minZ + region.bounds.maxZ) / 2,
+    }, regionId);
     assert.ok(res.ok);
     const id = res.id;
     assert.ok(draftApi.findObjectById(id), "placed object should exist");
@@ -279,7 +284,8 @@ describe("Phase 4A.2.1 — Spawn repair", ()=>{
     const data=JSON.parse(JSON.stringify(WORLD_DATA));
     // Place a blocking box directly at camp spawn
     const campReg=data.regions.find(r=>r.id==="camp");
-    campReg.props.push({ id:"test_block_spawn", subtype:"box", pos:{x:0,y:0,z:10}, size:{w:2,h:1,d:2}, rotY:0, visibleInPlay:true, collisionEnabled:true, opacity:1 });
+    const campSpawn = data.camp.playerSpawn.position;
+    campReg.props.push({ id:"test_block_spawn", subtype:"box", pos:{...campSpawn}, size:{w:2,h:1,d:2}, rotY:0, visibleInPlay:true, collisionEnabled:true, opacity:1 });
     assert.throws(()=> normalizeWorldData(data), /capsule intersects blocker/);
   });
 });

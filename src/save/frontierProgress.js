@@ -18,6 +18,7 @@ function defaultState(initialWaypointId, resourceDrops) {
     unlockedMajorWaypointIds: initialWaypointId ? [initialWaypointId] : [],
     discoveredBeaconIds: [],
     hasDepartedOnce: false,
+    matterAttractorI: false,
   };
 }
 
@@ -69,6 +70,7 @@ export function createFrontierProgress(opts = {}) {
     else out.unlockedMajorWaypointIds = initialWaypointId ? [initialWaypointId] : [];
     if (Array.isArray(raw.discoveredBeaconIds)) out.discoveredBeaconIds = raw.discoveredBeaconIds.filter(x => typeof x === "string");
     out.hasDepartedOnce = !!raw.hasDepartedOnce;
+    out.matterAttractorI = !!raw.matterAttractorI;
     if (out.bankedXp < 0) out.bankedXp = 0;
     if (out.unlockedMajorWaypointIds.length === 0 && initialWaypointId) out.unlockedMajorWaypointIds = [initialWaypointId];
     if (Array.isArray(raw.bankedRunIds)) {
@@ -123,6 +125,7 @@ export function createFrontierProgress(opts = {}) {
       unlockedMajorWaypointIds: [...state.unlockedMajorWaypointIds],
       discoveredBeaconIds: [...state.discoveredBeaconIds],
       hasDepartedOnce: !!state.hasDepartedOnce,
+      matterAttractorI: !!state.matterAttractorI,
     };
   }
 
@@ -198,6 +201,31 @@ export function createFrontierProgress(opts = {}) {
     return { added: true, state: getState() };
   }
 
+  function purchaseMatterAttractorI(cost) {
+    if (state.matterAttractorI) return { purchased: false, reason: "owned", state: getState() };
+    if (!cost || typeof cost !== "object" || Array.isArray(cost)) {
+      return { purchased: false, reason: "invalid-cost", state: getState() };
+    }
+    const entries = Object.entries(cost);
+    if (entries.length === 0 || entries.some(([id, amount]) => typeof id !== "string" || !id || !Number.isInteger(amount) || amount <= 0)) {
+      return { purchased: false, reason: "invalid-cost", state: getState() };
+    }
+    for (const [id, amount] of entries) {
+      if (!Object.prototype.hasOwnProperty.call(state.bankedResources, id)) {
+        return { purchased: false, reason: "invalid-resource", state: getState() };
+      }
+      if ((state.bankedResources[id] ?? 0) < amount) {
+        return { purchased: false, reason: "unaffordable", state: getState() };
+      }
+    }
+    const nextResources = { ...state.bankedResources };
+    for (const [id, amount] of entries) nextResources[id] -= amount;
+    state.bankedResources = nextResources;
+    state.matterAttractorI = true;
+    save();
+    return { purchased: true, reason: "purchased", state: getState() };
+  }
+
   // For idempotent run resolution helper: generic resolve token
   function tryResolve(token) {
     if (lastBankToken === token) return false;
@@ -210,6 +238,7 @@ export function createFrontierProgress(opts = {}) {
   function getUnlockedWaypoints() { return [...state.unlockedMajorWaypointIds]; }
   function getDiscoveredBeacons() { return [...state.discoveredBeaconIds]; }
   function getHasDeparted() { return !!state.hasDepartedOnce; }
+  function hasMatterAttractorI() { return !!state.matterAttractorI; }
 
   // For testing / fresh-save helper
   function isFreshSave() {
@@ -227,12 +256,14 @@ export function createFrontierProgress(opts = {}) {
     discoverBeacon,
     markDeparted,
     bankRun,
+    purchaseMatterAttractorI,
     tryResolve,
     getBankedResources,
     getBankedXp,
     getUnlockedWaypoints,
     getDiscoveredBeacons,
     getHasDeparted,
+    hasMatterAttractorI,
     isFreshSave,
     getStorageKey: () => storageKey,
     _defaultState: () => defaultState(initialWaypointId, resourceDrops),

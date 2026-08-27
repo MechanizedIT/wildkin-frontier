@@ -55,6 +55,9 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   const pickups = [];
   const pool = [];
   const inventory = makeEmptyResourceMap(resourceDrops);
+  let magnetRadius = HARVEST_CONFIG.pickupMagnetRadius;
+  let magnetSpeed = HARVEST_CONFIG.pickupMagnetSpeed;
+  let magnetAccel = HARVEST_CONFIG.pickupMagnetAccel;
   let nextId = 0;
   const MAX_ACTIVE = 32;
   const STALE_SECONDS = 30;
@@ -490,7 +493,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
         if (p.mesh.userData.glow) p.mesh.userData.glow.material.opacity = 0.12 + Math.sin(p.age * 4) * 0.06;
         const dx = playerPos.x - p.pos.x; const dz = playerPos.z - p.pos.z; const dy = (playerPos.y ?? 0.5) - p.pos.y;
         const dist = Math.hypot(dx, dz, dy * 0.5);
-        if (p.age > HARVEST_CONFIG.magnetDelayAfterSpawn && dist <= HARVEST_CONFIG.pickupMagnetRadius) {
+        if (p.age > HARVEST_CONFIG.magnetDelayAfterSpawn && dist <= magnetRadius) {
           p.state = "MAGNETIZING";
         }
       }
@@ -501,7 +504,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
         if (dist < PICKUP_CONFIG.collectionRadius) { collectPickup(p, playPickupSound); continue; }
         const len = dist > 1e-5 ? dist : 1;
         const nx = dx / len, ny = dy / len, nz = dz / len;
-        const speed = HARVEST_CONFIG.pickupMagnetSpeed + HARVEST_CONFIG.pickupMagnetAccel * Math.min(0.8, p.age);
+        const speed = magnetSpeed + magnetAccel * Math.min(0.8, p.age);
         const nextX = p.mesh.position.x + nx * speed * dt;
         const nextY = p.mesh.position.y + ny * speed * dt;
         const nextZ = p.mesh.position.z + nz * speed * dt;
@@ -522,6 +525,19 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   function getCount() { return pickups.length; }
   function getPooledCount() { return pool.length; }
   function getDebug() { return { active: pickups.length, pooled: pool.length }; }
+
+  function setMagnetTuning(tuning = null) {
+    const radius = tuning?.magnetRadius;
+    const speed = tuning?.magnetSpeed;
+    const accel = tuning?.magnetAccel;
+    magnetRadius = Number.isFinite(radius) && radius > 0 ? radius : HARVEST_CONFIG.pickupMagnetRadius;
+    magnetSpeed = Number.isFinite(speed) && speed > 0 ? speed : HARVEST_CONFIG.pickupMagnetSpeed;
+    magnetAccel = Number.isFinite(accel) && accel > 0 ? accel : HARVEST_CONFIG.pickupMagnetAccel;
+  }
+
+  function getMagnetTuning() {
+    return { magnetRadius, magnetSpeed, magnetAccel };
+  }
 
   function clear() {
     for (const p of pickups) {
@@ -563,5 +579,5 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
 
   function setActiveRegions(activeSet) { return cullInactiveRegions(activeSet); }
 
-  return { spawnPickup, collectPickup, update, getInventory, resetInventory, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, cullInactiveRegions, setActiveRegions, inventory, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
+  return { spawnPickup, collectPickup, update, getInventory, resetInventory, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, cullInactiveRegions, setActiveRegions, inventory, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, setMagnetTuning, getMagnetTuning, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
 }

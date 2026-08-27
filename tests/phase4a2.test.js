@@ -174,9 +174,10 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
   });
   it("ambiguous region overlap rejected", ()=>{
     const data=JSON.parse(JSON.stringify(WORLD_DATA));
-    // create overlap by moving camp minZ to 6, p1 maxZ remains 7 => overlap 6-7 but keep objects inside
-    data.regions[0].bounds={minX:-12.5,maxX:12.5,minZ:6,maxZ:11.5};
-    // p1 already 3.5-7, so overlap 6-7
+    const camp = data.regions.find((region) => region.id === "camp");
+    const p1 = data.regions.find((region) => region.id === "p1_forest_edge");
+    // Extend Camp slightly into its current neighbor while preserving all Camp-owned objects.
+    camp.bounds.minZ = p1.bounds.maxZ - 0.5;
     assert.throws(()=>normalizeWorldData(data), /overlap/);
   });
   it("point-owned object outside declared region rejected or rehomed", ()=>{
@@ -185,7 +186,12 @@ describe("Phase 4A.2 — canonical descriptor parity", ()=>{
     const res=regionWithRes.resources[0];
     const draftApi=createAuthorDraft(data);
     const resId=res.id;
-    const farPos={x:0,y:0,z:-10};
+    const targetRegion = data.regions.find((region) => region.id === "p4_threshold");
+    const farPos={
+      x:(targetRegion.bounds.minX + targetRegion.bounds.maxX) / 2,
+      y:0,
+      z:(targetRegion.bounds.minZ + targetRegion.bounds.maxZ) / 2,
+    };
     const res2=draftApi.updateTransform(resId, {pos:farPos});
     // With auto-rehome, moving to a uniquely containing region should succeed and rehome to p4_threshold
     assert.equal(res2.ok,true, res2.error);

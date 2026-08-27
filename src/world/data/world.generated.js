@@ -12,13 +12,13 @@ export const WORLD_DATA = {
       "position": {
         "x": 0,
         "y": 0,
-        "z": 10
+        "z": 12.6
       }
     },
     "pos": {
       "x": 0,
       "y": 0,
-      "z": 9.5
+      "z": 12.4
     },
     "radius": 2.8
   },
@@ -35,13 +35,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": -11.68
+            "z": -36.68
           },
           "rotY": 0,
           "size": {
             "d": 0.5,
             "h": 3,
-            "w": 26
+            "w": 30
           },
           "visibleInPlay": false
         },
@@ -53,13 +53,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 11.68
+            "z": 15.68
           },
           "rotY": 0,
           "size": {
             "d": 0.5,
             "h": 3,
-            "w": 26
+            "w": 30
           },
           "visibleInPlay": false
         },
@@ -69,13 +69,13 @@ export const WORLD_DATA = {
           "id": "boundary_west",
           "opacity": 0.5,
           "pos": {
-            "x": -12.68,
+            "x": -14.68,
             "y": 0,
             "z": 0
           },
           "rotY": 0,
           "size": {
-            "d": 23,
+            "d": 53,
             "h": 3,
             "w": 0.5
           },
@@ -87,13 +87,13 @@ export const WORLD_DATA = {
           "id": "boundary_east",
           "opacity": 0.5,
           "pos": {
-            "x": 12.68,
+            "x": 14.68,
             "y": 0,
             "z": 0
           },
           "rotY": 0,
           "size": {
-            "d": 23,
+            "d": 53,
             "h": 3,
             "w": 0.5
           },
@@ -101,10 +101,10 @@ export const WORLD_DATA = {
         }
       ],
       "bounds": {
-        "maxX": 12.5,
-        "maxZ": 11.5,
-        "minX": -12.5,
-        "minZ": 7
+        "maxX": 14.5,
+        "maxZ": 15.5,
+        "minX": -14.5,
+        "minZ": 8
       },
       "creatures": [],
       "displayName": "Camp",
@@ -122,13 +122,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": 9.25
+            "z": 11.75
           },
           "rotY": 0,
           "size": {
-            "d": 4.5,
+            "d": 7.5,
             "h": 0.5,
-            "w": 25
+            "w": 29
           },
           "visibleInPlay": true
         }
@@ -141,7 +141,7 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 7.4
+            "z": 8.4
           },
           "type": "majorWaypoint"
         }
@@ -154,9 +154,9 @@ export const WORLD_DATA = {
         {
           "id": "poi_camp_resonator",
           "pos": {
-            "x": 2.2,
+            "x": 3.8,
             "y": 0,
-            "z": 9.2
+            "z": 12.1
           },
           "requires": null,
           "type": "resonator"
@@ -168,9 +168,9 @@ export const WORLD_DATA = {
           "id": "prop_camp_dropPod",
           "opacity": 1,
           "pos": {
-            "x": -1.8,
+            "x": -3.6,
             "y": 0,
-            "z": 9.8
+            "z": 12.4
           },
           "rotY": 0,
           "subtype": "visualAsset",
@@ -183,9 +183,9 @@ export const WORLD_DATA = {
           "id": "prop_camp_resonator",
           "opacity": 1,
           "pos": {
-            "x": 2.2,
+            "x": 3.8,
             "y": 0,
-            "z": 9.2
+            "z": 12.1
           },
           "rotY": 0.6,
           "size": {
@@ -203,7 +203,7 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 11.3
+            "z": 15.1
           },
           "rotY": 0,
           "size": {
@@ -215,13 +215,43 @@ export const WORLD_DATA = {
           "visibleInPlay": true
         },
         {
+          "collisionEnabled": false,
+          "id": "prop_camp_workbench",
+          "opacity": 1,
+          "pos": {
+            "x": 5.9,
+            "y": 0,
+            "z": 12.5
+          },
+          "rotY": -1.5707963268,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_bench"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_camp_supply_crate",
+          "opacity": 1,
+          "pos": {
+            "x": -6.1,
+            "y": 0,
+            "z": 11.5
+          },
+          "rotY": 0.35,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wooden_crate"
+        },
+        {
           "collisionEnabled": true,
           "id": "fence_camp_west",
           "opacity": 1,
           "pos": {
-            "x": -9.2,
+            "x": -11.8,
             "y": 0,
-            "z": 9.2
+            "z": 11.8
           },
           "rotY": 0,
           "size": {
@@ -237,9 +267,9 @@ export const WORLD_DATA = {
           "id": "fence_camp_east",
           "opacity": 1,
           "pos": {
-            "x": 9.2,
+            "x": 11.8,
             "y": 0,
-            "z": 9.2
+            "z": 11.8
           },
           "rotY": 0,
           "size": {
@@ -255,9 +285,9 @@ export const WORLD_DATA = {
           "id": "fence_camp_north_west",
           "opacity": 1,
           "pos": {
-            "x": -4,
+            "x": -5.5,
             "y": 0,
-            "z": 7.2
+            "z": 8.2
           },
           "rotY": 0,
           "size": {
@@ -273,9 +303,9 @@ export const WORLD_DATA = {
           "id": "fence_camp_north_east",
           "opacity": 1,
           "pos": {
-            "x": 4,
+            "x": 5.5,
             "y": 0,
-            "z": 7.2
+            "z": 8.2
           },
           "rotY": 0,
           "size": {
@@ -293,7 +323,7 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 7.2
+            "z": 8.2
           },
           "rotY": 0,
           "size": {
@@ -309,9 +339,9 @@ export const WORLD_DATA = {
           "id": "forest_camp_west",
           "opacity": 1,
           "pos": {
-            "x": -11.2,
+            "x": -13.2,
             "y": 0,
-            "z": 9.5
+            "z": 11.5
           },
           "rotY": 0,
           "size": {
@@ -327,9 +357,9 @@ export const WORLD_DATA = {
           "id": "forest_camp_east",
           "opacity": 1,
           "pos": {
-            "x": 11.2,
+            "x": 13.2,
             "y": 0,
-            "z": 9.5
+            "z": 11.5
           },
           "rotY": 0,
           "size": {
@@ -347,7 +377,7 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 11.3
+            "z": 15.1
           },
           "rotY": 0,
           "size": {
@@ -370,34 +400,34 @@ export const WORLD_DATA = {
     {
       "boundaryColliders": [],
       "bounds": {
-        "maxX": 12.5,
-        "maxZ": 7,
-        "minX": -12.5,
-        "minZ": 3.5
+        "maxX": 14.5,
+        "maxZ": 8,
+        "minX": -14.5,
+        "minZ": 0.5
       },
       "creatures": [
         {
           "homePos": {
-            "x": -1.2,
+            "x": 8.6,
             "y": 0,
-            "z": 5.8
+            "z": 5.1
           },
           "id": "rusher_p1_skittish",
-          "leashRadius": 6,
-          "noticeRadius": 4.8,
-          "personalSpace": 1.8,
+          "leashRadius": 4.2,
+          "noticeRadius": 4.2,
+          "personalSpace": 1.6,
           "pos": {
-            "x": -1.2,
+            "x": 8.6,
             "y": 0,
-            "z": 5.8
+            "z": 5.1
           },
-          "roamRadius": 2.8,
+          "roamRadius": 2.2,
           "speciesTag": "fang",
           "temperament": "SKITTISH",
           "type": "rusher"
         }
       ],
-      "displayName": "Forest Edge",
+      "displayName": "Fern Run",
       "extractionBeacons": [],
       "ground": {
         "color": 8363882,
@@ -412,13 +442,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": 5.25
+            "z": 4.25
           },
           "rotY": 0,
           "size": {
-            "d": 3.5,
+            "d": 7.5,
             "h": 0.5,
-            "w": 25
+            "w": 29
           },
           "visibleInPlay": true
         }
@@ -431,14 +461,14 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 6.6
+            "z": 7.2
           },
           "runSpawn": {
             "facingYaw": 3.1415926535,
             "position": {
               "x": 0,
               "y": 0,
-              "z": 5.2
+              "z": 6.1
             }
           },
           "type": "majorWaypoint"
@@ -453,9 +483,9 @@ export const WORLD_DATA = {
         {
           "id": "poi_p1_chest",
           "pos": {
-            "x": 6,
+            "x": -8.7,
             "y": 0,
-            "z": 4.8
+            "z": 2.4
           },
           "requires": null,
           "type": "chest"
@@ -467,13 +497,13 @@ export const WORLD_DATA = {
           "id": "prop_p1_forest_west",
           "opacity": 1,
           "pos": {
-            "x": -11,
+            "x": -13.2,
             "y": 0,
-            "z": 5.2
+            "z": 4.3
           },
           "rotY": 0,
           "size": {
-            "d": 3.2,
+            "d": 7.2,
             "h": 2.8,
             "w": 2
           },
@@ -485,13 +515,13 @@ export const WORLD_DATA = {
           "id": "prop_p1_forest_east",
           "opacity": 1,
           "pos": {
-            "x": 11,
+            "x": 13.2,
             "y": 0,
-            "z": 5.2
+            "z": 4.3
           },
           "rotY": 0,
           "size": {
-            "d": 3.2,
+            "d": 7.2,
             "h": 2.8,
             "w": 2
           },
@@ -503,9 +533,9 @@ export const WORLD_DATA = {
           "id": "prop_p1_box_01",
           "opacity": 1,
           "pos": {
-            "x": -5,
+            "x": -4.8,
             "y": 0,
-            "z": 4.6
+            "z": 2.2
           },
           "rotY": 0.5,
           "size": {
@@ -515,58 +545,91 @@ export const WORLD_DATA = {
           },
           "subtype": "box",
           "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p1_launch_stone_throat",
+          "opacity": 1,
+          "pos": {
+            "x": 8.3,
+            "y": 1.2,
+            "z": 1.55
+          },
+          "rotY": 3.1415926535,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_frontier_launch_pad"
         }
       ],
       "resources": [
         {
           "id": "tree_p1_01",
           "pos": {
-            "x": 1.2,
-            "y": 0,
-            "z": 5.8
-          },
-          "type": "tree"
-        },
-        {
-          "id": "tree_p1_02",
-          "pos": {
-            "x": -8.8,
+            "x": 2.4,
             "y": 0,
             "z": 6.2
           },
           "type": "tree"
         },
         {
+          "id": "tree_p1_02",
+          "pos": {
+            "x": -9.2,
+            "y": 0,
+            "z": 5.4
+          },
+          "type": "tree"
+        },
+        {
           "id": "rock_p1_01",
           "pos": {
-            "x": 3.2,
+            "x": 5.2,
             "y": 0,
-            "z": 4.2
+            "z": 3.4
           },
           "type": "rock"
         },
         {
           "id": "fiber_p1_01",
           "pos": {
-            "x": -2.2,
+            "x": -2.8,
             "y": 0,
-            "z": 5
+            "z": 5.5
           },
           "type": "fiber"
         },
         {
           "id": "tree_p1_camp01",
           "pos": {
-            "x": -3.2,
+            "x": -6.4,
             "y": 0,
-            "z": 6
+            "z": 3.8
           },
           "type": "tree"
         },
         {
           "id": "fiber_p1_camp02",
           "pos": {
-            "x": 2.6,
+            "x": 0.7,
+            "y": 0,
+            "z": 3.6
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "rock_p1_02",
+          "pos": {
+            "x": -7.3,
+            "y": 0,
+            "z": 3.1
+          },
+          "type": "rock"
+        },
+        {
+          "id": "fiber_p1_03",
+          "pos": {
+            "x": 4.5,
             "y": 0,
             "z": 5.2
           },
@@ -575,82 +638,114 @@ export const WORLD_DATA = {
       ],
       "traversal": {
         "climbables": [],
-        "jumpTraversals": [],
+        "jumpTraversals": [
+          {
+            "direction": {
+              "x": 0,
+              "z": -1
+            },
+            "id": "jump_p1_stone_throat_shortcut",
+            "landingPlatformId": "p2_throat_shelf",
+            "landingRegion": {
+              "height": 1.2,
+              "maxX": 9.5,
+              "maxZ": -0.2,
+              "minX": 7.1,
+              "minZ": -1.9
+            },
+            "maxLandingCorrection": 1.4,
+            "minTakeoffSpeed": 2.2,
+            "triggerCenter": {
+              "x": 8.3,
+              "z": 1.55
+            },
+            "triggerRadius": 1.35
+          }
+        ],
         "obstacles": [
           {
             "h": 1.2,
             "height": 0.9,
             "id": "obs_p1_rock",
             "w": 1.2,
-            "x": -5,
-            "z": 4.6
+            "x": -4.8,
+            "z": 2.2
           }
         ],
-        "platforms": []
+        "platforms": [
+          {
+            "h": 2.2,
+            "height": 1.2,
+            "id": "p1_stone_throat_shelf",
+            "w": 3.2,
+            "x": 8.2,
+            "z": 1.05
+          }
+        ]
       }
     },
     {
       "boundaryColliders": [],
       "bounds": {
-        "maxX": 12.5,
-        "maxZ": 3.5,
-        "minX": -12.5,
-        "minZ": 0
+        "maxX": 14.5,
+        "maxZ": 0.5,
+        "minX": -14.5,
+        "minZ": -8
       },
       "creatures": [
         {
           "homePos": {
-            "x": -6,
+            "x": -4.8,
             "y": 0,
-            "z": 2
+            "z": -2.7
           },
           "id": "rusher_p2_territorial",
-          "leashRadius": 6.5,
-          "noticeRadius": 5.8,
-          "personalSpace": 2.4,
+          "leashRadius": 3.6,
+          "noticeRadius": 4.8,
+          "personalSpace": 2.2,
           "pos": {
-            "x": -6,
+            "x": -4.8,
             "y": 0,
-            "z": 2
+            "z": -2.7
           },
-          "roamRadius": 2.4,
+          "roamRadius": 1.8,
           "speciesTag": "fang",
           "temperament": "TERRITORIAL",
           "type": "rusher"
         },
         {
           "homePos": {
-            "x": 1,
+            "x": 8.2,
             "y": 0,
-            "z": 2.4
+            "z": -4.3
           },
           "hostileSpecies": [
             "flutter"
           ],
           "id": "spitter_p2_aggro",
-          "leashRadius": 7.5,
-          "noticeRadius": 6.2,
+          "leashRadius": 3.4,
+          "noticeRadius": 4.6,
           "personalSpace": 2,
           "pos": {
-            "x": 1,
+            "x": 8.2,
             "y": 0,
-            "z": 2.4
+            "z": -4.3
           },
-          "roamRadius": 2.2,
+          "roamRadius": 1.7,
           "speciesTag": "spit",
           "temperament": "AGGRESSIVE",
           "type": "spitter"
         }
       ],
-      "displayName": "Tangled Hollow",
+      "displayName": "Stone Throat",
       "extractionBeacons": [
         {
           "displayName": "Tangled Hollow Beacon",
           "id": "beacon_p2_01",
           "pos": {
-            "x": -2,
+            "x": -5.6,
             "y": 0,
-            "z": 1
+            "z": -6.2
           },
           "type": "extractionBeacon"
         }
@@ -668,13 +763,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": 1.75
+            "z": -3.75
           },
           "rotY": 0,
           "size": {
-            "d": 3.5,
+            "d": 8.5,
             "h": 0.5,
-            "w": 25
+            "w": 29
           },
           "visibleInPlay": true
         }
@@ -690,9 +785,9 @@ export const WORLD_DATA = {
         {
           "id": "poi_p2_pond_chest",
           "pos": {
-            "x": 5.5,
+            "x": 4.8,
             "y": 0,
-            "z": 1.8
+            "z": -5.6
           },
           "requires": {
             "id": "swim",
@@ -703,15 +798,41 @@ export const WORLD_DATA = {
         {
           "id": "poi_p2_barrier",
           "pos": {
-            "x": -5.2,
+            "x": -10.6,
             "y": 0,
-            "z": 0.8
+            "z": -5.8
           },
           "requires": {
             "id": "breakBarrier",
             "type": "companionAbility"
           },
           "type": "barrier"
+        },
+        {
+          "displayName": "Guarded Iron Vein",
+          "id": "poi_p2_guarded_iron",
+          "pos": {
+            "x": -0.8,
+            "y": 0,
+            "z": -2.9
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "displayName": "Mirror Bank Iron",
+          "id": "poi_p2_iron_bank",
+          "pos": {
+            "x": 7.6,
+            "y": 0,
+            "z": -6.7
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1.1,
+          "visualAssetId": "asset_iron_ore_rock"
         }
       ],
       "props": [
@@ -720,15 +841,15 @@ export const WORLD_DATA = {
           "id": "prop_p2_pond_water",
           "opacity": 1,
           "pos": {
-            "x": 5.5,
+            "x": 4.8,
             "y": -0.08,
-            "z": 1.8
+            "z": -5.6
           },
           "rotY": 0,
           "size": {
-            "d": 3.6,
+            "d": 4.4,
             "h": 0.2,
-            "w": 4.2
+            "w": 10.6
           },
           "subtype": "water",
           "visibleInPlay": true
@@ -738,15 +859,15 @@ export const WORLD_DATA = {
           "id": "prop_p2_pond_island",
           "opacity": 1,
           "pos": {
-            "x": 5.5,
+            "x": 4.8,
             "y": 0,
-            "z": 1.8
+            "z": -5.6
           },
           "rotY": 0,
           "size": {
-            "d": 1.4,
+            "d": 2.4,
             "h": 0.4,
-            "w": 1.4
+            "w": 2.4
           },
           "subtype": "island",
           "visibleInPlay": true
@@ -756,9 +877,9 @@ export const WORLD_DATA = {
           "id": "prop_p2_box_01",
           "opacity": 1,
           "pos": {
-            "x": -3.5,
+            "x": -2.2,
             "y": 0,
-            "z": 2.2
+            "z": -2.8
           },
           "rotY": 0,
           "size": {
@@ -768,141 +889,214 @@ export const WORLD_DATA = {
           },
           "subtype": "box",
           "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p2_launch_mirror_pane",
+          "opacity": 1,
+          "pos": {
+            "x": 8.2,
+            "y": 1.2,
+            "z": -0.6
+          },
+          "rotY": 3.1415926535,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_frontier_launch_pad"
         }
       ],
       "resources": [
         {
           "id": "tree_p2_01",
           "pos": {
-            "x": -8.2,
+            "x": -9.2,
             "y": 0,
-            "z": 1.5
+            "z": -1.4
           },
           "type": "tree"
         },
         {
           "id": "rock_p2_01",
           "pos": {
-            "x": 7.4,
+            "x": 8.2,
             "y": 0,
-            "z": 1.2
+            "z": -6.5
           },
           "type": "rock"
         },
         {
           "id": "fiber_p2_01",
           "pos": {
-            "x": -6.8,
+            "x": -7.2,
             "y": 0,
-            "z": 2.8
+            "z": -3.2
           },
           "type": "fiber"
         },
         {
           "id": "fiber_p2_02",
           "pos": {
-            "x": 1,
+            "x": 0.8,
             "y": 0,
-            "z": 0.6
+            "z": -3.8
           },
           "type": "fiber"
         },
         {
           "id": "rock_p2_02",
           "pos": {
-            "x": -2,
+            "x": -0.6,
             "y": 0,
-            "z": 2.6
+            "z": -2.1
+          },
+          "type": "rock"
+        },
+        {
+          "id": "rock_p2_guarded_iron",
+          "pos": {
+            "x": 0.7,
+            "y": 0,
+            "z": -3.1
+          },
+          "type": "rock"
+        },
+        {
+          "id": "rock_p2_bank_iron",
+          "pos": {
+            "x": 9.2,
+            "y": 0,
+            "z": -6.7
           },
           "type": "rock"
         }
       ],
       "traversal": {
         "climbables": [],
-        "jumpTraversals": [],
+        "jumpTraversals": [
+          {
+            "direction": {
+              "x": 0,
+              "z": -1
+            },
+            "id": "jump_p2_mirror_pane",
+            "landingPlatformId": "p3_pond_east_shelf",
+            "landingRegion": {
+              "height": 1.25,
+              "maxX": 9.4,
+              "maxZ": -9,
+              "minX": 7,
+              "minZ": -10.7
+            },
+            "maxLandingCorrection": 1.4,
+            "minTakeoffSpeed": 2.2,
+            "triggerCenter": {
+              "x": 8.2,
+              "z": -0.6
+            },
+            "triggerRadius": 1.35
+          }
+        ],
         "obstacles": [
           {
             "h": 0.6,
             "height": 1.1,
             "id": "obs_p2_wall",
             "w": 2.4,
-            "x": -3.5,
-            "z": 2.2
+            "x": -2.2,
+            "z": -2.8
           },
           {
             "h": 2,
             "height": 0.6,
             "id": "obs_p2_pond_edge",
             "w": 0.6,
-            "x": 3,
-            "z": 1.8
+            "x": -0.2,
+            "z": -5.6
           }
         ],
-        "platforms": []
+        "platforms": [
+          {
+            "h": 2.2,
+            "height": 1.2,
+            "id": "p2_throat_shelf",
+            "w": 3.2,
+            "x": 8.2,
+            "z": -0.9
+          },
+          {
+            "h": 2.8,
+            "height": 1.25,
+            "id": "p2_mirror_overlook",
+            "w": 4.4,
+            "x": -5.6,
+            "z": -6.2
+          }
+        ]
       }
     },
     {
       "boundaryColliders": [],
       "bounds": {
-        "maxX": 12.5,
-        "maxZ": 0,
-        "minX": -12.5,
-        "minZ": -4.5
+        "maxX": 14.5,
+        "maxZ": -8,
+        "minX": -14.5,
+        "minZ": -19
       },
       "creatures": [
         {
           "homePos": {
-            "x": 4,
+            "x": 1.2,
             "y": 0,
-            "z": -3
+            "z": -15.8
           },
           "id": "rusher_p3_defensive",
-          "leashRadius": 7,
-          "noticeRadius": 5.2,
+          "leashRadius": 4.3,
+          "noticeRadius": 5.3,
           "personalSpace": 1.9,
           "pos": {
-            "x": 4,
+            "x": 1.2,
             "y": 0,
-            "z": -3
+            "z": -15.8
           },
-          "roamRadius": 2.6,
+          "roamRadius": 2.1,
           "speciesTag": "fang",
           "temperament": "DEFENSIVE",
           "type": "rusher"
         },
         {
           "homePos": {
-            "x": -9,
+            "x": 2.4,
             "y": 0,
-            "z": -3.8
+            "z": -17.5
           },
           "hostileSpecies": [
             "flutter"
           ],
           "id": "rusher_p3_hunter",
-          "leashRadius": 8.5,
-          "noticeRadius": 6.8,
+          "leashRadius": 4.5,
+          "noticeRadius": 5.8,
           "personalSpace": 1.8,
           "pos": {
-            "x": -9,
+            "x": 2.4,
             "y": 0,
-            "z": -3.8
+            "z": -17.5
           },
-          "roamRadius": 2.8,
+          "roamRadius": 2.2,
           "speciesTag": "fang",
           "temperament": "AGGRESSIVE",
           "type": "rusher"
         }
       ],
-      "displayName": "Sunken Rise",
+      "displayName": "Fallen Observatory",
       "extractionBeacons": [
         {
-          "displayName": "Sunken Rise Beacon",
+          "displayName": "Fallen Observatory Beacon",
           "id": "beacon_p3_01",
           "pos": {
-            "x": 0.5,
+            "x": -7.2,
             "y": 0,
-            "z": -1.5
+            "z": -17.1
           },
           "type": "extractionBeacon"
         }
@@ -920,13 +1114,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": -2.25
+            "z": -13.5
           },
           "rotY": 0,
           "size": {
-            "d": 4.5,
+            "d": 11,
             "h": 0.5,
-            "w": 25
+            "w": 29
           },
           "visibleInPlay": true
         }
@@ -942,12 +1136,38 @@ export const WORLD_DATA = {
         {
           "id": "poi_p3_cache",
           "pos": {
-            "x": -1,
+            "x": 5.8,
             "y": 0,
-            "z": -3.5
+            "z": -16.8
           },
           "requires": null,
           "type": "chest"
+        },
+        {
+          "displayName": "Observatory Crystal",
+          "id": "poi_p3_crystal_observatory",
+          "pos": {
+            "x": 5.7,
+            "y": 0,
+            "z": -16.7
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1.15,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "displayName": "High Iron Shelf",
+          "id": "poi_p3_iron_shelf",
+          "pos": {
+            "x": -1.4,
+            "y": 1.25,
+            "z": -14.6
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1,
+          "visualAssetId": "asset_iron_ore_rock"
         }
       ],
       "props": [
@@ -956,9 +1176,9 @@ export const WORLD_DATA = {
           "id": "prop_p3_box_01",
           "opacity": 1,
           "pos": {
-            "x": 4.2,
+            "x": 4.8,
             "y": 0,
-            "z": -0.8
+            "z": -15.3
           },
           "rotY": 0,
           "size": {
@@ -974,65 +1194,113 @@ export const WORLD_DATA = {
           "id": "prop_p3_fence_01",
           "opacity": 1,
           "pos": {
-            "x": -7.5,
+            "x": -10.8,
             "y": 0,
-            "z": -2
+            "z": -13.5
           },
           "rotY": 0,
           "size": {
-            "d": 3,
+            "d": 8.2,
             "h": 1.2,
             "w": 0.4
           },
           "subtype": "fence",
           "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p3_launch_pond_east",
+          "opacity": 1,
+          "pos": {
+            "x": 8.2,
+            "y": 1.25,
+            "z": -10.8
+          },
+          "rotY": -1.5707963268,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_frontier_launch_pad"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p3_launch_observatory_west",
+          "opacity": 1,
+          "pos": {
+            "x": 3,
+            "y": 1.25,
+            "z": -12.3
+          },
+          "rotY": 1.5707963268,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_frontier_launch_pad"
         }
       ],
       "resources": [
         {
           "id": "tree_p3_01",
           "pos": {
-            "x": -8.6,
+            "x": -10.2,
             "y": 0,
-            "z": -1.2
+            "z": -10.4
           },
           "type": "tree"
         },
         {
           "id": "tree_p3_02",
           "pos": {
-            "x": 6.2,
+            "x": 6.1,
             "y": 0,
-            "z": -2
+            "z": -15.9
           },
           "type": "tree"
         },
         {
           "id": "rock_p3_01",
           "pos": {
-            "x": 7.2,
+            "x": 8.6,
             "y": 0,
-            "z": -0.6
+            "z": -17.2
           },
           "type": "rock"
         },
         {
           "id": "fiber_p3_01",
           "pos": {
-            "x": -7.2,
+            "x": -8.4,
             "y": 0,
-            "z": -3.2
+            "z": -14.1
           },
           "type": "fiber"
         },
         {
           "id": "fiber_p3_02",
           "pos": {
-            "x": 8.4,
+            "x": 9.2,
             "y": 0,
-            "z": -3.8
+            "z": -17.8
           },
           "type": "fiber"
+        },
+        {
+          "id": "rock_p3_crystal_01",
+          "pos": {
+            "x": 6.9,
+            "y": 0,
+            "z": -16.7
+          },
+          "type": "rock"
+        },
+        {
+          "id": "rock_p3_shelf_iron",
+          "pos": {
+            "x": -0.1,
+            "y": 1.25,
+            "z": -14.6
+          },
+          "type": "rock"
         }
       ],
       "traversal": {
@@ -1044,19 +1312,19 @@ export const WORLD_DATA = {
               "z": 0
             },
             "id": "gap_east_01",
-            "landingPlatformId": "lowB",
+            "landingPlatformId": "p3_middle_shelf",
             "landingRegion": {
               "height": 1.25,
-              "maxX": 2.2,
-              "maxZ": 0.1,
-              "minX": -1.2,
-              "minZ": -2.4
+              "maxX": 5.7,
+              "maxZ": -11.3,
+              "minX": 3.3,
+              "minZ": -13.3
             },
             "maxLandingCorrection": 1.4,
             "minTakeoffSpeed": 2.2,
             "triggerCenter": {
-              "x": -3.7,
-              "z": -1.2
+              "x": 7,
+              "z": -10.8
             },
             "triggerRadius": 1.45
           },
@@ -1066,19 +1334,19 @@ export const WORLD_DATA = {
               "z": 0
             },
             "id": "gap_west_01",
-            "landingPlatformId": "lowA",
+            "landingPlatformId": "p3_observatory_shelf",
             "landingRegion": {
               "height": 1.25,
-              "maxX": -3.9,
-              "maxZ": 0.3,
-              "minX": -7.6,
-              "minZ": -2.4
+              "maxX": 0.5,
+              "maxZ": -12.8,
+              "minX": -3.5,
+              "minZ": -15.6
             },
             "maxLandingCorrection": 1.4,
             "minTakeoffSpeed": 2.2,
             "triggerCenter": {
-              "x": -1.25,
-              "z": -0.4
+              "x": 3,
+              "z": -12.3
             },
             "triggerRadius": 1.45
           }
@@ -1089,26 +1357,34 @@ export const WORLD_DATA = {
             "height": 1,
             "id": "obs_p3_center_east",
             "w": 1.8,
-            "x": 4.2,
-            "z": -0.8
+            "x": 4.8,
+            "z": -15.3
           }
         ],
         "platforms": [
           {
             "h": 3.6,
             "height": 1.25,
-            "id": "lowA",
+            "id": "p3_observatory_shelf",
             "w": 4.2,
-            "x": -5.8,
-            "z": -1.2
+            "x": -1.5,
+            "z": -14.2
           },
           {
             "h": 3.4,
             "height": 1.25,
-            "id": "lowB",
+            "id": "p3_pond_east_shelf",
             "w": 4,
-            "x": 0.8,
-            "z": -1.2
+            "x": 8.2,
+            "z": -9.8
+          },
+          {
+            "h": 2.4,
+            "height": 1.25,
+            "id": "p3_middle_shelf",
+            "w": 2.8,
+            "x": 4.5,
+            "z": -12.3
           }
         ]
       }
@@ -1116,31 +1392,51 @@ export const WORLD_DATA = {
     {
       "boundaryColliders": [],
       "bounds": {
-        "maxX": 12.5,
-        "maxZ": -4.5,
-        "minX": -12.5,
-        "minZ": -11.5
+        "maxX": 14.5,
+        "maxZ": -19,
+        "minX": -14.5,
+        "minZ": -36
       },
       "creatures": [
         {
           "homePos": {
-            "x": -6.8,
+            "x": 7.8,
             "y": 0,
-            "z": -6.2
+            "z": -25.6
           },
           "id": "spitter_p4_skittish",
-          "leashRadius": 6.8,
-          "noticeRadius": 4.8,
-          "personalSpace": 1.6,
+          "leashRadius": 3.8,
+          "noticeRadius": 5.4,
+          "personalSpace": 1.9,
           "pos": {
-            "x": -6.8,
+            "x": 7.8,
             "y": 0,
-            "z": -6.2
+            "z": -25.6
           },
-          "roamRadius": 2.4,
+          "roamRadius": 1.8,
           "speciesTag": "flutter",
           "temperament": "SKITTISH",
           "type": "spitter"
+        },
+        {
+          "homePos": {
+            "x": 3.8,
+            "y": 0,
+            "z": -29.1
+          },
+          "id": "rusher_p4_threshold_guardian",
+          "leashRadius": 3.6,
+          "noticeRadius": 5.2,
+          "personalSpace": 2.2,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": -29.1
+          },
+          "roamRadius": 1.8,
+          "speciesTag": "fang",
+          "temperament": "TERRITORIAL",
+          "type": "rusher"
         }
       ],
       "displayName": "Threshold Rise",
@@ -1158,13 +1454,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": -0.25,
-            "z": -8
+            "z": -27.5
           },
           "rotY": 0,
           "size": {
-            "d": 7,
+            "d": 17,
             "h": 0.5,
-            "w": 25
+            "w": 29
           },
           "visibleInPlay": true
         }
@@ -1175,16 +1471,16 @@ export const WORLD_DATA = {
           "displayName": "Threshold Rise",
           "id": "wp_p4_threshold",
           "pos": {
-            "x": 2.2,
-            "y": 2.4,
-            "z": -7.2
+            "x": 0,
+            "y": 3.75,
+            "z": -31.8
           },
           "runSpawn": {
             "facingYaw": 3.1415926535,
             "position": {
-              "x": 2.2,
-              "y": 2.4,
-              "z": -6.4
+              "x": 0,
+              "y": 3.75,
+              "z": -30.5
             }
           },
           "type": "majorWaypoint"
@@ -1198,15 +1494,41 @@ export const WORLD_DATA = {
         {
           "id": "poi_p4_island",
           "pos": {
-            "x": 8,
+            "x": 8.4,
             "y": 0,
-            "z": -8.5
+            "z": -31.2
           },
           "requires": {
             "id": "swim",
             "type": "companionAbility"
           },
           "type": "chest"
+        },
+        {
+          "displayName": "Threshold Crystal",
+          "id": "poi_p4_threshold_crystal",
+          "pos": {
+            "x": 2.1,
+            "y": 3.75,
+            "z": -32.8
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1.15,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "displayName": "Rise Iron Deposit",
+          "id": "poi_p4_rise_iron",
+          "pos": {
+            "x": 5.3,
+            "y": 0,
+            "z": -29.2
+          },
+          "requires": null,
+          "type": "resourceLandmark",
+          "uniformScale": 1.1,
+          "visualAssetId": "asset_iron_ore_rock"
         }
       ],
       "props": [
@@ -1215,9 +1537,9 @@ export const WORLD_DATA = {
           "id": "prop_p4_high_island",
           "opacity": 1,
           "pos": {
-            "x": 8,
+            "x": 8.4,
             "y": 0,
-            "z": -8.5
+            "z": -31.2
           },
           "rotY": 0,
           "size": {
@@ -1227,53 +1549,101 @@ export const WORLD_DATA = {
           },
           "subtype": "box",
           "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p4_threshold_arch",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": 3.75,
+            "z": -31.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_p4_observatory_path",
+          "opacity": 1,
+          "pos": {
+            "x": -4.4,
+            "y": 0,
+            "z": -27.4
+          },
+          "rotY": 0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_path"
         }
       ],
       "resources": [
         {
           "id": "tree_p4_01",
           "pos": {
-            "x": 2.2,
-            "y": 2.4,
-            "z": -7.2
+            "x": 0,
+            "y": 3.75,
+            "z": -31.8
           },
           "type": "tree"
         },
         {
           "id": "rock_p4_01",
           "pos": {
-            "x": -1.8,
+            "x": -2.8,
             "y": 0,
-            "z": -6.8
+            "z": -25.8
           },
           "type": "rock"
         },
         {
           "id": "rock_p4_02",
           "pos": {
-            "x": -3,
+            "x": 5.6,
             "y": 0,
-            "z": -5.5
+            "z": -29.4
           },
           "type": "rock"
         },
         {
           "id": "fiber_p4_01",
           "pos": {
-            "x": -4.2,
+            "x": -8.8,
             "y": 0,
-            "z": -9.2
+            "z": -23.2
           },
           "type": "fiber"
         },
         {
           "id": "fiber_p4_02",
           "pos": {
-            "x": 4,
+            "x": 3.2,
             "y": 0,
-            "z": -5.8
+            "z": -21.6
           },
           "type": "fiber"
+        },
+        {
+          "id": "rock_p4_threshold_crystal",
+          "pos": {
+            "x": 1.2,
+            "y": 3.75,
+            "z": -32.8
+          },
+          "type": "rock"
+        },
+        {
+          "id": "rock_p4_rise_iron",
+          "pos": {
+            "x": 6.7,
+            "y": 0,
+            "z": -29.2
+          },
+          "type": "rock"
         }
       ],
       "traversal": {
@@ -1287,48 +1657,48 @@ export const WORLD_DATA = {
             "h": 0.5,
             "id": "ladder_south_high",
             "mantleExit": {
-              "x": 2.2,
-              "z": -6.4
+              "x": 0,
+              "z": -30.5
             },
             "topEntryRegion": {
-              "maxX": 3.15,
-              "maxZ": -5.25,
-              "minX": 1.25,
-              "minZ": -6
+              "maxX": 0.95,
+              "maxZ": -29.35,
+              "minX": -0.95,
+              "minZ": -30.1
             },
             "topPlatform": {
               "aabb": {
-                "maxX": 4.4,
-                "maxZ": -5.3,
-                "minX": 0,
-                "minZ": -9.1
+                "maxX": 2.8,
+                "maxZ": -29.4,
+                "minX": -2.8,
+                "minZ": -34.2
               },
-              "h": 3.8,
-              "topY": 2.4,
-              "w": 4.4,
-              "x": 2.2,
-              "z": -7.2
+              "h": 4.8,
+              "topY": 3.75,
+              "w": 5.6,
+              "x": 0,
+              "z": -31.8
             },
-            "topY": 2.4,
+            "topY": 3.75,
             "w": 1.9,
             "wallNormal": {
               "x": 0,
               "z": 1
             },
-            "x": 2.2,
-            "z": -5.05
+            "x": 0,
+            "z": -29.15
           }
         ],
         "jumpTraversals": [],
         "obstacles": [],
         "platforms": [
           {
-            "h": 3.8,
-            "height": 2.4,
-            "id": "high",
-            "w": 4.4,
-            "x": 2.2,
-            "z": -7.2
+            "h": 4.8,
+            "height": 3.75,
+            "id": "p4_threshold_dais",
+            "w": 5.6,
+            "x": 0,
+            "z": -31.8
           }
         ]
       }
@@ -4992,6 +5362,78 @@ export const WORLD_DATA = {
             "z": 0.64
           },
           "shape": "icosahedron"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Traversal",
+      "collision": null,
+      "displayName": "Frontier Launch Pad",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_frontier_launch_pad",
+      "parts": [
+        {
+          "color": "#53606a",
+          "id": "stone_base",
+          "position": {
+            "x": 0,
+            "y": 0.08,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.15,
+            "y": 0.16,
+            "z": 1.45
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#58dce7",
+          "id": "cyan_inset",
+          "position": {
+            "x": 0,
+            "y": 0.18,
+            "z": -0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.72,
+            "y": 0.05,
+            "z": 0.9
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#d8ffff",
+          "id": "forward_chevron",
+          "position": {
+            "x": 0,
+            "y": 0.25,
+            "z": -0.78
+          },
+          "rotation": {
+            "x": 1.5707963268,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.24,
+            "y": 0.38,
+            "z": 0.24
+          },
+          "shape": "cone"
         }
       ],
       "version": 1
