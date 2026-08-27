@@ -1,8 +1,10 @@
 # Wildkin Frontier — Phase 4B.1: Section Framework & Level-Design Toolkit
 
-**Status:** READY TO IMPLEMENT  
-**Active slice:** Phase 4B.1  
+**Status:** IMPLEMENTED IN `9083ae2` — CLOSURE FOLLOW-UP REQUIRED  
+**Active slice:** Superseded by Phase 4B.1.1  
 **Purpose:** Replace the stopped continuous-strip level assumption with a reusable portal-connected section framework so the owner can hand-build levels from standardized systems instead of asking AI to invent level layout/pacing.
+
+> **Phase 4B.1.1 closure note — 2026-08-27:** Repository review after `9083ae2` found bounded toolkit issues: stale Jump Pad trajectory invalidation, stale/insufficiently scoped parkour protection, missing physical paired Portal endpoints, and a gate-repair partial-state risk. Implement `docs/Specs/Phase_4B.1.1.md` before owner-authored Phase 4B.2 level composition.
 
 Phase 4B.0 remains owner-accepted for now. The stopped Phase 4B first pass contains useful implementation work, especially Matter Attractor I, some reusable assets/content IDs, and tests. **Do not revert the whole commit.** Preserve useful systems while replacing the continuous "Crescent Basin" world layout and destination-hardcoded jump authoring model.
 
