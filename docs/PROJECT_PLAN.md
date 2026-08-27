@@ -272,66 +272,122 @@ Do not keep polishing the systems-test arena unless later real-frontier play exp
 
 # 8. Camp / Matter Resonator
 
-A small Matter Resonator is visible at Camp from first launch.
+Camp is a persistent 100×100 home space (2×2 standard 50×50 cells) with future 25×25 expansion plots.
 
-Core prototype role:
+The Matter Resonator remains the first readable Camp progression object.
 
-- recovered expedition matter synchronizes/banks through a readable Camp interaction,
-- exactly one small reliable unlock/spend should eventually make a successful extraction change the next run.
+The stopped Phase 4B pass implemented the useful first upgrade **Matter Attractor I**. Keep its player-facing effect, but Phase 4B.1 should migrate persistence from the one-off `matterAttractorI` boolean toward a tiny keyed upgrade-level shape while preserving old saves:
 
-Phase 4A proves banking/results without requiring a spend. Phase 4B should add/tune the first small meaningful Resonator-linked spend/unlock only after the mechanical expedition loop works.
+```text
+upgrades:
+  matter_attractor: 1
+```
 
-Future optional role:
+This is enough foundation for future Resonator buffs. Do not build the full Resonator progression tree/minigame yet.
 
-- deposit materials for Resonance attempts,
-- short skill-influenced kickoff/minigame,
-- duplicate-protected discoveries that unlock new possibilities.
+Banked XP should also gain one central player-level derivation. Portal repair requirements and later systems may consume `playerLevel`; do not create multiple competing level formulas.
 
-The full Resonator system and large base expansion remain optional until the expedition loop is strong.
+Future optional Camp work:
+
+- unlock 25×25 plots inside the 100×100 Camp footprint,
+- place useful structures,
+- expand Resonator choices,
+- secure/display Wildkin.
+
+Do not let Camp/base features displace the section exploration loop.
 
 # 9. World Authoring & Performance Architecture
 
-## Data-Driven World
+## Human-authored section graph
 
-`src/world/data/world.json` is the one manually maintained authored source, with deterministic generated runtime data.
+The frontier is now planned as a graph of **self-contained sections joined by Portal Gates**.
 
-Data supports:
+Standard spatial grammar:
 
-- Camp and gate,
-- areas/regions,
-- exploration pockets,
-- terrain/ground,
+- base cell: **50×50**,
+- normal expedition section: **50×50**,
+- special/large section: multiples of 50,
+- Camp: **100×100**,
+- future Camp plot: **25×25**.
+
+Sections do not need to be physically adjacent in world coordinates.
+
+Each expedition section can own:
+
+- entry point(s),
+- normally one discoverable Major Waypoint,
+- zero or more Extraction Beacons,
+- paired Portal Gates,
 - resources,
-- Wildkin spawn/home/temperament,
-- platforms/ramps/ladders/parkour,
-- major Waypoints,
-- Extraction Beacons,
-- POIs,
-- optional lock/unlock requirements.
+- Wildkin,
+- traversal,
+- POIs/secrets,
+- parkour course data,
+- loot chests,
+- section tier / recommended level / content targets.
 
-## Dev-Only Authoring — ACCEPTED
+## Portal progression
 
-The desktop Author Mode is accepted after Phase 3.5B.2 and provides the Area 1 workflow needed for future tuning:
+Portal Gates are different from Waypoints.
 
-- palette → click-world placement,
-- scene/hierarchy selection,
-- direct X/Z drag,
-- move/rotate/elevate/resize where coherently supported,
-- visual ↔ Rapier transform parity for supported solids,
-- duplicate/delete,
-- Wildkin spawn/home editing,
-- Region → Category → Object hierarchy,
-- camera focus/visibility for editing,
-- quick Edit ↔ Play,
-- deterministic JSON export/reset.
+- Camp Gate sends a fresh player directly to Section 1 entry.
+- Section Waypoints are found inside sections and become future expedition starts.
+- Ruined outbound Portal Gates may require player level + carried resources to rebuild.
+- Rebuilt gates persist immediately as frontier progress.
+- Portal topology, not coordinate adjacency, defines the frontier.
 
-Do not continue expanding the editor unless real level-authoring work exposes a blocker.
+## Authoring philosophy
 
-## Region / Pocket Activation — ACCEPTED
+AI agents build **tools and standardized behaviors**. The owner performs final level design.
 
-The lightweight region manager keeps current region + neighbors active and stops distant creature/resource simulation while preserving a neighbor buffer. Three.js frustum culling remains render-only; full async asset streaming is unnecessary until profiling proves otherwise.
+Use Author Mode to place and tune:
 
-Near-top-down camera and directed areas make this practical.
+- terrain/props,
+- resources,
+- Wildkin,
+- Waypoints/Beacons/Portal Gates,
+- Jump Pads/ladders,
+- secrets/chests,
+- parkour triggers/checkpoints/hazards.
+
+Do not ask agents to auto-compose the final section and treat it as playtesting.
+
+## First-class traversal/challenge pieces
+
+Phase 4B.1 should add:
+
+- Jump Pad with physical launch parameters and editor trajectory preview,
+- Parkour Start,
+- Parkour Checkpoint,
+- Kill/Fail Volume,
+- reusable Loot Chest + Loot Table.
+
+During an active parkour challenge, course failure may respawn at the latest course checkpoint without losing expedition cargo. Outside the course, normal expedition death rules apply.
+
+## Section profile / balance aid
+
+Add lightweight section design metadata and a **read-only Author summary**, e.g.:
+
+```text
+Tier / recommended level
+resource value actual vs target
+Wildkin count/levels actual vs target
+Waypoint present?
+Beacons count
+secrets count
+parkour count
+outbound gates count
+```
+
+This is a design checklist/validator, not automatic generation.
+
+## Runtime activation
+
+Current region activation only freezes parts of distant simulation while static geometry is still broadly constructed.
+
+Phase 4B.1 introduces an explicit section runtime seam so only the active section is visible/simulating/colliding during normal expedition play. The implementation can remain synchronous/data-resident for the prototype; true async streaming is deferred.
+
+The section contract should allow later instantiate/unload optimization without redesigning authored data.
 
 # 10. Hackathon Guardrails
 
@@ -514,31 +570,74 @@ Implemented as the bounded tooling bridge between the accepted Author Object con
 
 Do not expand the modeling system. Human acceptance must confirm the shared-instance workflow, isolated stage/vertical controls, fixed-pitch camera feel, starter-library usability, ordered custom-harvestable/remnant/pickup flow, Visual Asset Wildkin and anchor models, Edit/Play parity, simple collision, export/reload, recognizable Drop Pod, and portrait-phone readability. Once accepted, freeze editor/asset infrastructure.
 
-### Phase 4B — First Expedition Experience & Pacing
+### Phase 4B — Section-Based First Expedition
 
-Only after 4A is human-accepted.
+The original Phase 4B AI-authored continuous-area pass was stopped after useful partial work. The project is re-baselined so agents build the section framework and the owner designs the actual levels.
+
+#### Phase 4B.1 — Section Framework & Level-Design Toolkit
 
 Goal:
 
-> **Make the first 5–10 minute expedition intentionally tense, readable, tempting, and replayable.**
+> **Give the owner standardized pieces to hand-build repeatable sections without requiring AI to invent the level.**
 
-Use accepted Author Mode to reshape/tune:
+Build only:
 
-- Camp spacing/readability and forest boundary presentation,
-- p1 comfort / harvesting introduction,
-- first complication timing,
-- Extraction Beacon placement and carried-value timing,
-- p2 temptation and visible locked pond/island chest,
-- resource/encounter distribution,
-- p3/p4 danger/value gradient,
-- next Major Waypoint visibility/pressure,
-- practical first-run limit,
-- edge guidance/map readability,
-- retreat/backtracking feel,
-- one small Matter Resonator synchronization/spend/unlock so a successful extraction can materially affect the next run,
-- only the minimum environmental/UI polish needed to understand the above.
+- 50×50 standard section contract,
+- 100×100 Camp shell + 25×25 future plot convention,
+- portal-connected topology independent of coordinate adjacency,
+- explicit active-section runtime seam,
+- Camp Gate → fresh Section 1 entry semantics,
+- discoverable per-section Waypoint semantics,
+- paired active/ruined Portal Gates,
+- persistent gate repair using player level + carried resources,
+- first-class Jump Pad,
+- Parkour Start / Checkpoint / Kill Volume + safe course respawn,
+- reusable Loot Chest + Loot Table + refill persistence,
+- centralized player level from banked XP,
+- migrate Matter Attractor I toward keyed upgrade-level persistence,
+- section tier/recommended-level/content-profile metadata,
+- read-only Author section summary,
+- normalized proof shells for Camp, Section 1, Section 2.
 
-4B should be driven by repeated human phone playtests and author-tool adjustments, not generic content expansion.
+Do **not** finish-design Section 1. Proof content exists only to verify the tools.
+
+#### Phase 4B.2 — Human-Authored Section 1 Vertical Slice
+
+The owner uses the accepted tools to build/tune the actual section.
+
+Target Section 1 experience:
+
+```text
+Camp
+→ Frontier Gate
+→ Section 1 entry
+→ gather/explore
+→ fight/avoid Wildkin
+→ discover Waypoint
+→ find secret
+→ attempt simple parkour
+→ extract
+→ use Matter Resonator
+→ run again
+→ gain level/resources
+→ rebuild Section 2 portal
+→ enter Section 2
+```
+
+Section 1 should ultimately contain:
+
+- one discoverable Major Waypoint,
+- at least one Extraction Beacon,
+- at least one secret loot opportunity,
+- at least one parkour course with repeatable reward,
+- resources and Wildkin appropriate to its tier,
+- one ruined outbound portal.
+
+Section 2 only needs enough distinct identity during Phase 4B to prove progression into a new section.
+
+Balance/layout/pacing is human-playtested and human-adjusted. AI may assist with analysis, asset recipes, data cleanup, and bounded implementation—not final placement decisions.
+
+## Phase 5 — Wildkin Bonding as High-Value Risk
 
 ## Phase 5 — Wildkin Bonding as High-Value Risk
 
@@ -569,13 +668,13 @@ Build only what playtests justify:
 
 Persistent local save already exists from Phase 4A; extend the same owner rather than creating another save path.
 
-## Phase 7 — Multi-Area Pacing, Deeper Starts & Final Endpoint
+## Phase 7 — Frontier Graph Expansion, Deeper Starts & Final Endpoint
 
 Goal: repeated runs create strategic start/depth choices and a clear long-term prototype objective.
 
 Build/tune:
 
-- next major Waypoint / second area if needed,
+- additional authored sections/portal branches as needed,
 - deeper-start tradeoff: skips early gathering/XP/preparation,
 - Extraction Beacon spacing based on real tension,
 - additional gated revisit opportunities only if worthwhile,
@@ -590,7 +689,7 @@ Only after the expedition/bonding/replay loop is strong.
 
 Optional:
 
-- small resource-driven Camp expansion/free placement,
+- resource-driven 25×25 Camp plot unlocks/free placement within the 100×100 Camp footprint,
 - useful structures,
 - full Resonance deposit → skill-influenced attempt → duplicate-protected discovery loop.
 
@@ -656,11 +755,12 @@ A slice is done only when:
 
 # 14. Immediate Next Actions
 
-1. Treat Phase 3.5A + 3.5B/3.5B.1/3.5B.2 as accepted; stop editor infrastructure work.
-2. Run **Phase 4A** in a fresh high-reasoning Muse session: complete mechanical Camp → run → extract/death → Camp → replay loop only.
-3. Human-playtest fresh save, Beacon extraction, deeper-Waypoint unlock, death retention/loss, physical retreat, map inspection, and repeated phone cycles.
-4. If the loop is understandable, move to **Phase 4B** and use Author Mode to make Area 1's first 5–10 minutes intentionally paced and tempting.
-5. Add Wildkin bonding/capture only after the basic expedition risk loop works and feels worth strengthening.
-6. Re-baseline later phases after repeated phone playtests of expedition + Wildkin risk.
+1. Treat the stopped Phase 4B continuous "Crescent Basin" layout as temporary migration data, not final level design.
+2. Run **Phase 4B.1** with a strong implementation model: build section/portal/Jump Pad/parkour/loot/progression/profile contracts only.
+3. Human-test the tooling using the deliberately sparse Camp + Section 1 + Section 2 proof shells.
+4. Freeze framework work once the section grammar is usable.
+5. Move to **Phase 4B.2** and have the owner hand-author Section 1 using the tools.
+6. Tune Section 1 through repeated human desktop/phone play: resource economy, Wildkin placements, secret, parkour, Beacon, Waypoint, ruined gate and return loop.
+7. Add Wildkin bonding only after the Section 1 → extract → improve → unlock Section 2 loop is understandable and worth replaying.
 
 **Wildkin Frontier should make the player want to risk “one more pocket” and then play “one more run.”**
