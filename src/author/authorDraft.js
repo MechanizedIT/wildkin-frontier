@@ -70,6 +70,7 @@ const SECTION_OBJECT_COLLECTIONS = {
   jumpPads: "jumpPad",
   parkourStarts: "parkourStart",
   parkourCheckpoints: "parkourCheckpoint",
+  parkourEnds: "parkourEnd",
   killVolumes: "killVolume",
   lootChests: "lootChest",
 };
@@ -1214,7 +1215,9 @@ export function createAuthorDraft(repoData) {
         createdId = id;
       } else if (kind === "portalGate") {
         const id = nextIdLocal("portal");
-        const targetSection = candidate.regions.find((entry) => entry.id !== region.id && (entry.entryPoints ?? []).length) ?? region;
+        const targetSection = candidate.regions.find((entry) => entry.id !== region.id && entry.id !== "camp" && (entry.entryPoints ?? []).length)
+          ?? candidate.regions.find((entry) => entry.id !== region.id && (entry.entryPoints ?? []).length)
+          ?? region;
         const targetEntry = targetSection.entryPoints?.[0];
         if (!targetEntry) throw new Error("Add an Entry Point before placing a Portal Gate");
         obj = { id, displayName: "New Portal Gate", pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, entryId: null, targetSectionId: targetSection.id, targetEntryId: targetEntry.id, state: "active", triggerRadius: 1.85, requirements: { minPlayerLevel: 1, resources: {} } };
@@ -1233,6 +1236,12 @@ export function createAuthorDraft(repoData) {
         if (!courseId) throw new Error("Place a Parkour Start before a Checkpoint");
         obj = { id, courseId, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.1 };
         (region.parkourCheckpoints ??= []).push(obj); createdId = id;
+      } else if (kind === "parkourEnd") {
+        const id = nextIdLocal("parkour_end");
+        const courseId = region.parkourStarts?.[0]?.courseId;
+        if (!courseId) throw new Error("Place a Parkour Start before a Parkour End");
+        obj = { id, courseId, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.2 };
+        (region.parkourEnds ??= []).push(obj); createdId = id;
       } else if (kind === "killVolume") {
         const id = nextIdLocal("kill_volume");
         const courseId = region.parkourStarts?.[0]?.courseId;
@@ -1263,7 +1272,7 @@ export function createAuthorDraft(repoData) {
         neighbors: [...neighbors],
         sectionType: "expedition", size: { width: 50, depth: 50 },
         props: [], resources: [], creatures: [], majorWaypoints: [], extractionBeacons: [], pois: [],
-        entryPoints: [], portalGates: [], jumpPads: [], parkourStarts: [], parkourCheckpoints: [], killVolumes: [], lootChests: [],
+        entryPoints: [], portalGates: [], jumpPads: [], parkourStarts: [], parkourCheckpoints: [], parkourEnds: [], killVolumes: [], lootChests: [],
         traversal: { platforms: [], obstacles: [], climbables: [] },
         groundPatches: [], boundaryColliders: []
       });

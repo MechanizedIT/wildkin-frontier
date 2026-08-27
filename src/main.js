@@ -502,6 +502,7 @@ portalGateSystem = createPortalGateSystem(worldRegistry, {
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),
   getCargo: () => pickupSystem.getInventory(),
   spendCargo: (_cargo, cost) => pickupSystem.spendInventory(cost),
+  refundCargo: (cost) => pickupSystem.grantInventory(cost),
   onTravel: transitionThroughPortalGate,
 });
 
@@ -523,7 +524,7 @@ lootSystem = createLootSystem(worldRegistry, {
     pickupSystem.grantInventory(rewards.resources);
     if (rewards.xp > 0) xpMoteSystem.setXp(xpMoteSystem.getXp() + rewards.xp);
   },
-  onCourseReward: () => parkourSystem.completeCourse(),
+  onCourseReward: (courseId) => parkourSystem.completeCourse(courseId),
 });
 
 // Contextual interaction (single owner)
@@ -718,9 +719,9 @@ function beginExpedition(waypointId) {
 }
 
 function beginExpeditionFromDefaultEntry() {
-  const destination = worldRegistry.getDefaultExpeditionEntry();
+  const destination = worldRegistry.getDefaultExpeditionArrival?.() ?? worldRegistry.getDefaultExpeditionEntry();
   if (!destination) return false;
-  const entry = worldRegistry.getEntryPoint(destination.sectionId, destination.entryId);
+  const entry = destination.gate ? destination : worldRegistry.getEntryPoint(destination.sectionId, destination.entryId);
   if (!entry) return false;
   return beginExpeditionAtTransform({
     sectionId: destination.sectionId,

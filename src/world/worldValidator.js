@@ -464,7 +464,7 @@ export function normalizeWorldData(raw) {
       if (!isInsideBounds(poi.pos, region.bounds)) throw new Error(`poi ${poi.id} not inside region ${region.id} bounds`);
     }
 
-    for (const key of ["entryPoints", "portalGates", "jumpPads", "parkourStarts", "parkourCheckpoints", "killVolumes", "lootChests"]) {
+    for (const key of ["entryPoints", "portalGates", "jumpPads", "parkourStarts", "parkourCheckpoints", "parkourEnds", "killVolumes", "lootChests"]) {
       if (region[key] === undefined) region[key] = [];
       if (!Array.isArray(region[key])) throw new Error(`section ${region.id} ${key} must be an array`);
     }
@@ -482,7 +482,11 @@ export function normalizeWorldData(raw) {
       validatePos(gate.pos, `portal gate ${gate.id}`);
       if (!isInsideBounds(gate.pos, region.bounds)) throw new Error(`portal gate ${gate.id} outside section ${region.id}`);
       if (!SUPPORTED_PORTAL_STATES.has(gate.state)) throw new Error(`portal gate ${gate.id} state must be active or ruined`);
-      if (typeof gate.targetSectionId !== "string" || typeof gate.targetEntryId !== "string") throw new Error(`portal gate ${gate.id} target section/entry required`);
+      const oneWayArrival = gate.role === "arrival" && gate.travelEnabled === false;
+      if (!oneWayArrival && typeof gate.targetGateId !== "string" && (typeof gate.targetSectionId !== "string" || typeof gate.targetEntryId !== "string")) throw new Error(`portal gate ${gate.id} target gate or section/entry required`);
+      if (gate.targetGateId !== undefined && (typeof gate.targetGateId !== "string" || !gate.targetGateId)) throw new Error(`portal gate ${gate.id} targetGateId must be a non-empty string`);
+      if (gate.role !== undefined && gate.role !== "arrival") throw new Error(`portal gate ${gate.id} role must be arrival when specified`);
+      if (gate.travelEnabled !== undefined && typeof gate.travelEnabled !== "boolean") throw new Error(`portal gate ${gate.id} travelEnabled must be boolean`);
       if (gate.rotY === undefined) gate.rotY = 0;
       if (!isNumber(gate.rotY)) throw new Error(`portal gate ${gate.id} rotY must be finite`);
       if (gate.triggerRadius === undefined) gate.triggerRadius = 1.85;
@@ -521,6 +525,13 @@ export function normalizeWorldData(raw) {
       checkpoint.triggerRadius ??= 1.1;
       if (!isNumber(checkpoint.triggerRadius) || checkpoint.triggerRadius <= 0) throw new Error(`Parkour Checkpoint ${checkpoint.id} triggerRadius must be positive`);
     }
+    for (const end of region.parkourEnds) {
+      if (!end.id || typeof end.id !== "string" || allIds.has(end.id) || typeof end.courseId !== "string") throw new Error(`invalid Parkour End ${end.id}`);
+      allIds.add(end.id); validatePos(end.pos, `Parkour End ${end.id}`);
+      if (!isInsideBounds(end.pos, region.bounds)) throw new Error(`Parkour End ${end.id} outside section ${region.id}`);
+      end.triggerRadius ??= 1.1;
+      if (!isNumber(end.triggerRadius) || end.triggerRadius <= 0) throw new Error(`Parkour End ${end.id} triggerRadius must be positive`);
+    }
     for (const volume of region.killVolumes) {
       if (!volume.id || typeof volume.id !== "string" || allIds.has(volume.id)) throw new Error(`invalid Kill Volume ${volume.id}`);
       allIds.add(volume.id); validatePos(volume.pos, `Kill Volume ${volume.id}`);
@@ -542,11 +553,23 @@ export function normalizeWorldData(raw) {
   for (const section of data.regions) {
     for (const gate of section.portalGates) {
       const targetSection = data.regions.find((entry) => entry.id === gate.targetSectionId);
-      if (!targetSection) throw new Error(`portal gate ${gate.id} target section ${gate.targetSectionId} missing`);
-      if (!targetSection.entryPoints.some((entry) => entry.id === gate.targetEntryId)) throw new Error(`portal gate ${gate.id} target entry ${gate.targetEntryId} missing`);
+      if (gate.role === "arrival" && gate.travelEnabled === false && !gate.targetGateId) continue;
+      if (gate.targetGateId) {
+        const targetGate = data.regions.flatMap((entry) => entry.portalGates).find((entry) => entry.id === gate.targetGateId);
+        if (!targetGate) throw new Error(`portal gate ${gate.id} target gate ${gate.targetGateId} missing`);
+        if (targetGate.id === gate.id) throw new Error(`portal gate ${gate.id} cannot target itself`);
+        const special = (gate.role === "arrival" && gate.travelEnabled === false)
+          || (targetGate.role === "arrival" && targetGate.travelEnabled === false);
+        if (!special && targetGate.targetGateId !== gate.id) throw new Error(`portal gate ${gate.id} target gate ${gate.targetGateId} is not reciprocal`);
+      } else {
+        const targetSection = data.regions.find((entry) => entry.id === gate.targetSectionId);
+        if (!targetSection) throw new Error(`portal gate ${gate.id} target section ${gate.targetSectionId} missing`);
+        if (!targetSection.entryPoints.some((entry) => entry.id === gate.targetEntryId)) throw new Error(`portal gate ${gate.id} target entry ${gate.targetEntryId} missing`);
+      }
     }
     for (const checkpoint of section.parkourCheckpoints) if (!courseIdsBySection.get(section.id).has(checkpoint.courseId)) throw new Error(`Parkour Checkpoint ${checkpoint.id} references missing course ${checkpoint.courseId}`);
     for (const volume of section.killVolumes) if (volume.courseId && !courseIdsBySection.get(section.id).has(volume.courseId)) throw new Error(`Kill Volume ${volume.id} references missing course ${volume.courseId}`);
+    for (const end of section.parkourEnds) if (!courseIdsBySection.get(section.id).has(end.courseId)) throw new Error(`Parkour End ${end.id} references missing course ${end.courseId}`);
     for (const chest of section.lootChests) if (chest.courseId && !courseIdsBySection.get(section.id).has(chest.courseId)) throw new Error(`Loot Chest ${chest.id} references missing course ${chest.courseId}`);
   }
 

@@ -514,6 +514,9 @@ export function createStaticWorld(worldData) {
     for (const checkpoint of region.parkourCheckpoints ?? []) {
       addFactoryVisual({ id: checkpoint.id, visualId: "anchor/beacon", position: checkpoint.pos, rotationY: checkpoint.rotY ?? 0, metadata: { parkourCheckpointId: checkpoint.id, visibleInPlay: true, collisionEnabled: false } });
     }
+    for (const end of region.parkourEnds ?? []) {
+      addFactoryVisual({ id: end.id, visualId: "anchor/beacon", position: end.pos, rotationY: end.rotY ?? 0, metadata: { parkourEndId: end.id, visibleInPlay: true, collisionEnabled: false } });
+    }
     for (const chest of region.lootChests ?? []) {
       addFactoryVisual({
         id: chest.id,

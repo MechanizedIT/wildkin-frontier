@@ -63,10 +63,21 @@ export function createParkourSystem(worldRegistry, opts = {}) {
         if (isInside) insideIds.add(checkpoint.id); else insideIds.delete(checkpoint.id);
       }
     }
+    // End/Exit is an explicit course-owned trigger. It is intentionally
+    // checked only against the active course so another course cannot clear
+    // protection or checkpoint state.
+    for (const end of worldRegistry.getParkourEndsForSection?.(sectionId) ?? []) {
+      const isInside = insideTrigger(playerPos, end);
+      if (isInside && !insideIds.has(end.id)) {
+        if (activeCourseId && end.courseId === activeCourseId) leaveCourse();
+      }
+      if (isInside) insideIds.add(end.id); else insideIds.delete(end.id);
+    }
     for (const volume of worldRegistry.getKillVolumesForSection?.(sectionId) ?? []) {
       const isInside = insideTrigger(playerPos, volume);
       if (isInside && !insideIds.has(volume.id)) {
-        if (!handleFatalFailure("kill-volume")) onNormalFatal({ volume });
+        if (activeCourseId && volume.courseId === activeCourseId) handleFatalFailure("kill-volume");
+        else onNormalFatal({ volume });
       }
       if (isInside) insideIds.add(volume.id); else insideIds.delete(volume.id);
     }
@@ -82,7 +93,11 @@ export function createParkourSystem(worldRegistry, opts = {}) {
   return {
     update,
     handleFatalFailure,
-    completeCourse: leaveCourse,
+    completeCourse: (courseId = null) => {
+      if (courseId !== null && courseId !== activeCourseId) return false;
+      leaveCourse();
+      return true;
+    },
     leaveCourse,
     reset: leaveCourse,
     isActive: () => !!activeCourseId,

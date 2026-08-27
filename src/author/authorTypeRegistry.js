@@ -1009,6 +1009,9 @@ const DEFINITIONS = [
   makeSectionObjectDefinition("portalGates", "portalGate", "prop/gate", [
     { key: "displayName", label: "Display Name", type: "text", path: "displayName" },
     { key: "state", label: "State", type: "text", path: "state" },
+    { key: "role", label: "Role", type: "text", path: "role" },
+    { key: "travelEnabled", label: "Travel Enabled", type: "boolean", path: "travelEnabled" },
+    { key: "targetGateId", label: "Target Gate", type: "text", path: "targetGateId" },
     { key: "targetSectionId", label: "Target Section", type: "text", path: "targetSectionId" },
     { key: "targetEntryId", label: "Target Entry", type: "text", path: "targetEntryId" },
     { key: "requirements", label: "Requirements", type: "json", path: "requirements" },
@@ -1026,6 +1029,10 @@ const DEFINITIONS = [
   makeSectionObjectDefinition("parkourCheckpoints", "parkourCheckpoint", "anchor/waypoint", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
     { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius" },
+  ]),
+  makeSectionObjectDefinition("parkourEnds", "parkourEnd", "anchor/beacon", [
+    { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
+    { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius", min: 0.1 },
   ]),
   makeSectionObjectDefinition("killVolumes", "killVolume", "boundaryCollider", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },

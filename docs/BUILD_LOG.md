@@ -1033,3 +1033,10 @@
   - Human acceptance remains pending for perceptual movement/traversal readability, visual recognition, phone performance, and final Section 1 composition/pacing. Those are the owner-authored Phase 4B.2 responsibilities.
 
 
+## 2026-08-27 — Phase 4B.1.1 Section Toolkit Closure — Codex (GPT-5)
+
+- **Goal:** Close the reviewed Phase 4B.1.1 defects without reopening the section framework or authoring final level content.
+- **Decisions:** The Jump Pad preview now keys directly from canonical trajectory fields. Parkour End is a `parkourEnds[]` object with strict course matching. Ordinary expedition portals prefer reciprocal physical `targetGateId` endpoints while preserving legacy entry targeting. Receiving-gate arrivals use a deterministic outside-trigger offset. Ruined-gate repair uses an explicit refund/rollback seam around the existing run-inventory owner.
+- **Files changed:** `src/world/jumpPadSystem.js`, `src/author/authorMode.js`, `src/world/parkourSystem.js`, `src/world/portalGateSystem.js`, `src/world/sectionRuntime.js`, `src/world/worldValidator.js`, `src/world/worldRegistry.js`, `src/world/staticWorldBuilder.js`, `src/author/authorDraft.js`, `src/author/authorTypeRegistry.js`, `src/author/authorUI.js`, `src/main.js`, `src/world/data/world.json`, `src/world/data/world.generated.js`, `tests/phase4b1_1.test.js`, and phase documentation.
+- **Verification:** `npm test` PASS (540 tests); `npm run world:generate` PASS; `npm run world:check`, `npm run verify`, and `npm run zip` PASS (1.46 MB ZIP). Automated browser smoke confirmed clean normal runtime loading and the updated Author palette/section controls; browser/phone human acceptance was not performed in this session and remains pending.
+- **Remaining:** Run the player-facing Author trajectory, parkour exit/fail, Camp arrival, Section 1 ⇄ Section 2, and repair rollback flows in a real browser/portrait viewport before accepting the slice. Do not start Phase 4B.2.

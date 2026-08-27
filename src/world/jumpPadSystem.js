@@ -4,6 +4,18 @@ export function getJumpPadDirection(rotY = 0) {
   return { x: Math.sin(rotY), z: Math.cos(rotY) };
 }
 
+// Canonical invalidation key shared by Author preview and tests. Keep this tied
+// to the runtime fields rather than introducing an editor-only aggregate.
+export function getJumpPadTrajectorySignature(pad = {}) {
+  return JSON.stringify({
+    id: pad.id ?? null,
+    pos: { x: pad.pos?.x ?? 0, y: pad.pos?.y ?? 0, z: pad.pos?.z ?? 0 },
+    rotY: pad.rotY ?? 0,
+    horizontalLaunch: pad.horizontalLaunch ?? 0,
+    verticalLaunch: pad.verticalLaunch ?? 0,
+  });
+}
+
 export function predictJumpPadTrajectory(pad, { gravity = 12, duration = null, steps = 24 } = {}) {
   const direction = getJumpPadDirection(pad.rotY ?? 0);
   const horizontal = pad.horizontalLaunch;

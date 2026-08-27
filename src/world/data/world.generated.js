@@ -186,6 +186,7 @@ export const WORLD_DATA = {
       "majorWaypoints": [],
       "neighbors": [],
       "parkourCheckpoints": [],
+      "parkourEnds": [],
       "parkourStarts": [],
       "pockets": [],
       "pois": [
@@ -213,6 +214,7 @@ export const WORLD_DATA = {
           "rotY": 3.141592653589793,
           "state": "active",
           "targetEntryId": "entry_section_1",
+          "targetGateId": "gate_section_1_camp_arrival",
           "targetSectionId": "section_1",
           "triggerRadius": 1.85
         }
@@ -560,6 +562,19 @@ export const WORLD_DATA = {
           "triggerRadius": 1.2
         }
       ],
+      "parkourEnds": [
+        {
+          "courseId": "course_section_1",
+          "id": "parkour_end_section_1",
+          "pos": {
+            "x": 8,
+            "y": 0,
+            "z": -16
+          },
+          "rotY": 0,
+          "triggerRadius": 1.2
+        }
+      ],
       "parkourStarts": [
         {
           "courseId": "course_section_1",
@@ -583,6 +598,20 @@ export const WORLD_DATA = {
       "pois": [],
       "portalGates": [
         {
+          "displayName": "Camp Arrival",
+          "id": "gate_section_1_camp_arrival",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 20
+          },
+          "role": "arrival",
+          "rotY": 3.141592653589793,
+          "state": "active",
+          "travelEnabled": false,
+          "triggerRadius": 1.85
+        },
+        {
           "displayName": "Section 2 Gate",
           "entryId": "entry_section_1",
           "id": "gate_section_1_to_2",
@@ -598,9 +627,10 @@ export const WORLD_DATA = {
               "wood": 2
             }
           },
-          "rotY": 3.141592653589793,
+          "rotY": 0,
           "state": "ruined",
           "targetEntryId": "entry_section_2",
+          "targetGateId": "gate_section_2_to_1",
           "targetSectionId": "section_2",
           "triggerRadius": 1.85,
           "visualAssetId": "asset_ruin_arch"
@@ -908,10 +938,28 @@ export const WORLD_DATA = {
       ],
       "neighbors": [],
       "parkourCheckpoints": [],
+      "parkourEnds": [],
       "parkourStarts": [],
       "pockets": [],
       "pois": [],
-      "portalGates": [],
+      "portalGates": [
+        {
+          "displayName": "Section 1 Return Gate",
+          "id": "gate_section_2_to_1",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": -21
+          },
+          "rotY": 0,
+          "state": "active",
+          "targetEntryId": "entry_section_1",
+          "targetGateId": "gate_section_1_to_2",
+          "targetSectionId": "section_1",
+          "triggerRadius": 1.85,
+          "visualAssetId": "asset_ruin_arch"
+        }
+      ],
       "props": [],
       "resources": [
         {

@@ -36,6 +36,8 @@ export function createWorldRegistry(rawData) {
   const parkourStartsByRegion = new Map();
   const allParkourCheckpoints = [];
   const parkourCheckpointsByRegion = new Map();
+  const allParkourEnds = [];
+  const parkourEndsByRegion = new Map();
   const allKillVolumes = [];
   const killVolumesByRegion = new Map();
   const allLootChests = [];
@@ -56,6 +58,7 @@ export function createWorldRegistry(rawData) {
     jumpPadsByRegion.set(rId, []);
     parkourStartsByRegion.set(rId, []);
     parkourCheckpointsByRegion.set(rId, []);
+    parkourEndsByRegion.set(rId, []);
     killVolumesByRegion.set(rId, []);
     lootChestsByRegion.set(rId, []);
     for (const res of region.resources) {
@@ -159,6 +162,10 @@ export function createWorldRegistry(rawData) {
       const entry = { ...source, sectionId: rId, regionId: rId, pos: { ...source.pos } };
       allParkourCheckpoints.push(entry); parkourCheckpointsByRegion.get(rId).push(entry);
     }
+    for (const source of region.parkourEnds ?? []) {
+      const entry = { ...source, sectionId: rId, regionId: rId, pos: { ...source.pos } };
+      allParkourEnds.push(entry); parkourEndsByRegion.get(rId).push(entry);
+    }
     for (const source of region.killVolumes ?? []) {
       const entry = { ...source, sectionId: rId, regionId: rId, pos: { ...source.pos }, size: { ...source.size } };
       allKillVolumes.push(entry); killVolumesByRegion.get(rId).push(entry);
@@ -203,11 +210,17 @@ export function createWorldRegistry(rawData) {
   function getEntryPointsForSection(sectionId) { return entryPointsByRegion.get(sectionId) ?? []; }
   function getEntryPoint(sectionId, entryId) { return (entryPointsByRegion.get(sectionId) ?? []).find((entry) => entry.id === entryId) ?? null; }
   function getPortalGateById(id) { return allPortalGates.find((entry) => entry.id === id) ?? null; }
+  function getPortalTargetGate(gateOrId) {
+    const gate = typeof gateOrId === "string" ? getPortalGateById(gateOrId) : gateOrId;
+    return gate?.targetGateId ? getPortalGateById(gate.targetGateId) : null;
+  }
   function getAllPortalGates() { return allPortalGates; }
   function getPortalGatesForSection(sectionId) { return portalGatesByRegion.get(sectionId) ?? []; }
   function getJumpPadsForSection(sectionId) { return jumpPadsByRegion.get(sectionId) ?? []; }
   function getParkourStartsForSection(sectionId) { return parkourStartsByRegion.get(sectionId) ?? []; }
   function getParkourCheckpointsForSection(sectionId) { return parkourCheckpointsByRegion.get(sectionId) ?? []; }
+  function getParkourEndsForSection(sectionId) { return parkourEndsByRegion.get(sectionId) ?? []; }
+  function getAllParkourEnds() { return allParkourEnds; }
   function getKillVolumesForSection(sectionId) { return killVolumesByRegion.get(sectionId) ?? []; }
   function getLootChestsForSection(sectionId) { return lootChestsByRegion.get(sectionId) ?? []; }
   function getAllLootChests() { return allLootChests; }
@@ -234,6 +247,21 @@ export function createWorldRegistry(rawData) {
     if (configured && getEntryPoint(configured.sectionId, configured.entryId)) return { ...configured };
     const firstSection = data.regions.find((entry) => entry.id !== "camp" && entry.entryPoints?.length);
     return firstSection ? { sectionId: firstSection.id, entryId: firstSection.entryPoints[0].id } : null;
+  }
+  function getDefaultExpeditionArrival() {
+    const configured = data.defaultExpeditionEntry;
+    const sourceGate = getPortalGateById(getFrontierGateId());
+    const target = sourceGate?.targetGateId ? getPortalGateById(sourceGate.targetGateId) : null;
+    if (target && configured?.sectionId === target.sectionId) {
+      const yaw = target.rotY ?? 0;
+      const forward = { x: Math.sin(yaw), z: Math.cos(yaw) };
+      const distance = (target.triggerRadius ?? 1.85) + 0.65;
+      return { sectionId: target.sectionId, entryId: target.id, pos: { x: target.pos.x + forward.x * distance, y: target.pos.y ?? 0, z: target.pos.z + forward.z * distance }, facingYaw: yaw, gate: target };
+    }
+    const entry = getDefaultExpeditionEntry();
+    if (!entry) return null;
+    const point = getEntryPoint(entry.sectionId, entry.entryId);
+    return point ? { sectionId: entry.sectionId, entryId: point.id, pos: { ...point.pos }, facingYaw: point.facingYaw ?? 0, gate: null } : null;
   }
   function getWaypointById(id) { return allWaypoints.find(w => w.id === id) ?? null; }
   function getBeaconById(id) { return allBeacons.find(b => b.id === id) ?? null; }
@@ -401,11 +429,14 @@ export function createWorldRegistry(rawData) {
     getEntryPointsForSection,
     getEntryPoint,
     getPortalGateById,
+    getPortalTargetGate,
     getAllPortalGates,
     getPortalGatesForSection,
     getJumpPadsForSection,
     getParkourStartsForSection,
     getParkourCheckpointsForSection,
+    getParkourEndsForSection,
+    getAllParkourEnds,
     getKillVolumesForSection,
     getLootChestsForSection,
     getAllLootChests,
@@ -417,6 +448,7 @@ export function createWorldRegistry(rawData) {
     getFrontierGatePos,
     getInitialMajorWaypointId,
     getDefaultExpeditionEntry,
+    getDefaultExpeditionArrival,
     getWaypointById,
     getBeaconById,
     getWaypointSpawnPosition,

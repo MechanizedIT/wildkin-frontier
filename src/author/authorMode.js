@@ -14,7 +14,7 @@ import {
   syncAuthorVisual,
   syncEditProxy,
 } from "./authorPreview.js";
-import { predictJumpPadTrajectory } from "../world/jumpPadSystem.js";
+import { predictJumpPadTrajectory, getJumpPadTrajectorySignature } from "../world/jumpPadSystem.js";
 import { summarizeSection } from "../world/sectionProfile.js";
 
 export const ASSET_EDIT_CAMERA_STEP = Math.PI / 4;
@@ -886,11 +886,7 @@ export function createAuthorMode(opts) {
       return;
     }
     const section = draftApi.findRegion(selectedEditSectionId);
-    const signature = JSON.stringify((section?.jumpPads ?? []).map((pad) => ({
-      id: pad.id,
-      pos: pad.pos,
-      launch: pad.launch,
-    })));
+    const signature = JSON.stringify((section?.jumpPads ?? []).map(getJumpPadTrajectorySignature));
     if (trajectoryPreviewSignature === signature) return;
     clearTrajectoryPreviews({ resetSignature: false });
     trajectoryPreviewSignature = signature;

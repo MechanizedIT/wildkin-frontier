@@ -4021,6 +4021,7 @@
           "entryId": "entry_camp",
           "targetSectionId": "section_1",
           "targetEntryId": "entry_section_1",
+          "targetGateId": "gate_section_1_camp_arrival",
           "state": "active",
           "triggerRadius": 1.85
         }
@@ -4028,6 +4029,7 @@
       "jumpPads": [],
       "parkourStarts": [],
       "parkourCheckpoints": [],
+      "parkourEnds": [],
       "killVolumes": [],
       "lootChests": [],
       "sectionProfile": null
@@ -4305,6 +4307,16 @@
       ],
       "portalGates": [
         {
+          "id": "gate_section_1_camp_arrival",
+          "displayName": "Camp Arrival",
+          "pos": { "x": 0, "y": 0, "z": 20 },
+          "rotY": 3.141592653589793,
+          "role": "arrival",
+          "travelEnabled": false,
+          "state": "active",
+          "triggerRadius": 1.85
+        },
+        {
           "id": "gate_section_1_to_2",
           "displayName": "Section 2 Gate",
           "pos": {
@@ -4312,10 +4324,11 @@
             "y": 0,
             "z": -21
           },
-          "rotY": 3.141592653589793,
+          "rotY": 0,
           "entryId": "entry_section_1",
           "targetSectionId": "section_2",
           "targetEntryId": "entry_section_2",
+          "targetGateId": "gate_section_2_to_1",
           "state": "ruined",
           "triggerRadius": 1.85,
           "visualAssetId": "asset_ruin_arch",
@@ -4380,6 +4393,15 @@
             "z": -8
           },
           "respawnFacingYaw": 3.141592653589793
+        }
+      ],
+      "parkourEnds": [
+        {
+          "id": "parkour_end_section_1",
+          "courseId": "course_section_1",
+          "pos": { "x": 8, "y": 0, "z": -16 },
+          "rotY": 0,
+          "triggerRadius": 1.2
         }
       ],
       "killVolumes": [
@@ -4672,10 +4694,24 @@
           "facingYaw": 3.141592653589793
         }
       ],
-      "portalGates": [],
+      "portalGates": [
+        {
+          "id": "gate_section_2_to_1",
+          "displayName": "Section 1 Return Gate",
+          "pos": { "x": 0, "y": 0, "z": -21 },
+          "rotY": 0,
+          "targetGateId": "gate_section_1_to_2",
+          "targetSectionId": "section_1",
+          "targetEntryId": "entry_section_1",
+          "state": "active",
+          "triggerRadius": 1.85,
+          "visualAssetId": "asset_ruin_arch"
+        }
+      ],
       "jumpPads": [],
       "parkourStarts": [],
       "parkourCheckpoints": [],
+      "parkourEnds": [],
       "killVolumes": [],
       "lootChests": [],
       "sectionProfile": {

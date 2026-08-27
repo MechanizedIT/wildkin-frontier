@@ -4,6 +4,30 @@ export function createSectionRuntime({ worldRegistry, playground, physicsWorld, 
   if (!worldRegistry) throw new Error("SectionRuntime requires worldRegistry");
   let activeSectionId = null;
 
+  function resolvePortalDestination(gate) {
+    if (gate?.targetGateId) {
+      const targetGate = worldRegistry.getPortalGateById?.(gate.targetGateId);
+      if (!targetGate) return null;
+      const radius = targetGate.triggerRadius ?? 1.85;
+      const yaw = targetGate.rotY ?? 0;
+      const forward = { x: Math.sin(yaw), z: Math.cos(yaw) };
+      return {
+        // Preserve the legacy entry-shaped identity for callers while exposing
+        // the physical receiving gate separately on `gate`.
+        id: gate.targetEntryId ?? targetGate.id,
+        pos: {
+          x: targetGate.pos.x + forward.x * (radius + 0.65),
+          y: targetGate.pos.y ?? 0,
+          z: targetGate.pos.z + forward.z * (radius + 0.65),
+        },
+        facingYaw: yaw,
+        gate: targetGate,
+      };
+    }
+    const entry = worldRegistry.getEntryPoint?.(gate.targetSectionId, gate.targetEntryId);
+    return entry ? { ...entry, gate: null } : null;
+  }
+
   function activate(sectionId, entryId = null) {
     const section = worldRegistry.getSectionById?.(sectionId) ?? worldRegistry.getRegionById?.(sectionId);
     if (!section) return { ok: false, reason: "missing-section", sectionId };
@@ -27,19 +51,21 @@ export function createSectionRuntime({ worldRegistry, playground, physicsWorld, 
     const gate = worldRegistry.getPortalGateById?.(portalId);
     if (!gate) return { ok: false, reason: "missing-portal", portalId };
     if (gate.sectionId !== activeSectionId) return { ok: false, reason: "inactive-source", portalId };
-    const entry = worldRegistry.getEntryPoint?.(gate.targetSectionId, gate.targetEntryId);
+    const entry = resolvePortalDestination(gate);
     if (!entry) return { ok: false, reason: "missing-target-entry", portalId };
     handlers.beforeTransition?.({ gate, entry });
-    const activated = activate(gate.targetSectionId, gate.targetEntryId);
+    const destinationSectionId = entry.gate?.sectionId ?? gate.targetSectionId;
+    const activated = activate(destinationSectionId, entry.id ?? gate.targetEntryId);
     if (!activated.ok) return activated;
-    handlers.onArrive?.({ gate, entry, sectionId: gate.targetSectionId });
-    handlers.afterTransition?.({ gate, entry, sectionId: gate.targetSectionId });
-    return { ok: true, gate, entry, sectionId: gate.targetSectionId };
+    handlers.onArrive?.({ gate, entry, receivingGate: entry.gate ?? null, sectionId: destinationSectionId });
+    handlers.afterTransition?.({ gate, entry, receivingGate: entry.gate ?? null, sectionId: destinationSectionId });
+    return { ok: true, gate, entry, receivingGate: entry.gate ?? null, sectionId: destinationSectionId };
   }
 
   return {
     activate,
     transitionThroughPortal,
+    resolvePortalDestination,
     getActiveSectionId: () => activeSectionId,
     getCurrentRegionId: () => activeSectionId,
     getCurrentPocketId: () => null,

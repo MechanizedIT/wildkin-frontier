@@ -1,6 +1,6 @@
 # Wildkin Frontier — Phase 4B.1.1: Section Toolkit Closure
 
-**Status:** READY TO IMPLEMENT  
+**Status:** IMPLEMENTED / HUMAN ACCEPTANCE PENDING  
 **Active slice:** Phase 4B.1.1  
 **Canonical spec:** `docs/Specs/Phase_4B.1.1.md`  
 **Base implementation:** `9083ae2825ba506397b566bc89e3285e381ba450`
@@ -76,5 +76,13 @@ Phase 4B.1.1 = IMPLEMENTED / HUMAN ACCEPTANCE PENDING
 Then stop.
 
 The owner will human-test the toolkit. Only after owner acceptance should the project move to **Phase 4B.2 — Human-Authored Section 1 Vertical Slice**.
+
+## Phase 4B.1.1 closure checkpoint
+
+- Jump Pad trajectory preview invalidates from canonical position, rotation, horizontal launch, and vertical launch fields.
+- Parkour End is a first-class section object and parkour checkpoint/fail/reward behavior is course-scoped.
+- Expedition portals support reciprocal physical `targetGateId` endpoints with legacy entry fallback; Section 1 has a physical Camp arrival endpoint and Section 2 has a reciprocal return gate.
+- Ruined-gate repair uses an explicit rollback seam so cargo and persistent repair commit together from the player perspective.
+- Automated implementation coverage is complete; player-facing browser/phone acceptance remains pending.
 
 Read and implement the full requirements in `docs/Specs/Phase_4B.1.1.md`.

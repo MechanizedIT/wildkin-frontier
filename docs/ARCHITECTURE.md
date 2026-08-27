@@ -102,7 +102,7 @@ Section
   └─ sectionProfile
 ```
 
-Portal Gates connect explicit section/entry pairs. World-space placement of one section relative to another is not part of gameplay topology.
+Portal Gates connect explicit physical receiving endpoints. `targetGateId` is the preferred ordinary expedition link and must be reciprocal; `targetSectionId + targetEntryId` remains a readable legacy compatibility path. World-space placement of one section relative to another is not part of gameplay topology. Arrival transforms are derived from the receiving gate and offset outside its trigger radius.
 
 Recommended data seam:
 
@@ -113,6 +113,9 @@ portalGate {
   pos / rotY
   targetSectionId
   targetEntryId
+  targetGateId?               // preferred physical receiving endpoint
+  role?: arrival              // one-way arrival-only endpoint
+  travelEnabled?: boolean
   state: active | ruined
   requirements?: {
     minPlayerLevel?
@@ -182,6 +185,7 @@ ParkourCourse
   checkpoint triggers[]
   kill/fail volumes[]
   reward chest id?
+  end/exit trigger(s) keyed by courseId
 ```
 
 Runtime owns at most one active course:

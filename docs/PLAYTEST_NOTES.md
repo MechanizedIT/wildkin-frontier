@@ -302,3 +302,6 @@ This is implementation/browser evidence, **not human acceptance**. The checks us
 ### Human acceptance still requested
 
 Use the player-facing checklist in `docs/Specs/Phase_4B.1.md` and the next Phase 4B.2 brief. Confirm the sparse pieces read naturally on the target phone, traversal and parkour are understandable by feel, portal/loot feedback is clear, and the owner-authored Section 1 composition has convincing routes, secrets, encounters, and pacing.
+## 2026-08-27 — Phase 4B.1.1 automated implementation evidence
+
+This is automated/unit evidence only, not human acceptance. The closure regression suite covers canonical Jump Pad trajectory invalidation, course-scoped parkour checkpoint/fail/end/replacement behavior, and atomic repair rollback. World generation and normalization pass with the physical Section 1 ⇄ Section 2 gate pair and Section 1 Camp-arrival endpoint. A real browser/phone perceptual pass remains to be performed by the owner.

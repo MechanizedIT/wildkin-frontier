@@ -304,6 +304,7 @@ export function createAuthorUI(opts) {
       { label: "Jump Pad", kind: "jumpPad" },
       { label: "Parkour Start", kind: "parkourStart" },
       { label: "Checkpoint", kind: "parkourCheckpoint" },
+      { label: "Parkour End", kind: "parkourEnd" },
       { label: "Kill Volume", kind: "killVolume" },
     ]},
     { title: "Resources", items: [
@@ -954,7 +955,7 @@ export function createAuthorUI(opts) {
         { label: "Ground", items: region.groundPatches ?? [], key: "ground" },
         { label: "Boundaries / Colliders", items: region.boundaryColliders ?? [], key: "boundaries" },
         { label: "Props", items: decorativeProps, key: "props" },
-        { label: "Traversal", items: [...(region.traversal?.platforms??[]), ...(region.traversal?.obstacles??[]), ...(region.traversal?.climbables??[]), ...(region.jumpPads??[]), ...(region.parkourStarts??[]), ...(region.parkourCheckpoints??[]), ...(region.killVolumes??[])] , key: "traversal" },
+        { label: "Traversal", items: [...(region.traversal?.platforms??[]), ...(region.traversal?.obstacles??[]), ...(region.traversal?.climbables??[]), ...(region.jumpPads??[]), ...(region.parkourStarts??[]), ...(region.parkourCheckpoints??[]), ...(region.parkourEnds??[]), ...(region.killVolumes??[])] , key: "traversal" },
         { label: "Resources", items: [...(region.resources ?? []), ...assetResources], key: "resources" },
         { label: "Wildkin", items: [...(region.creatures ?? []), ...assetWildkin], key: "wildkin" },
         { label: "Anchors", items: [...(region.majorWaypoints??[]), ...(region.extractionBeacons??[]), ...(region.entryPoints??[]), ...(region.portalGates??[])] , key: "anchors" },

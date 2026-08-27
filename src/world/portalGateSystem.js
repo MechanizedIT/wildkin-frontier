@@ -31,12 +31,35 @@ export function spendPortalCargo(cargo = {}, requirements = {}) {
   return { ok: true, cargo: nextCargo, spent: status.resources };
 }
 
+// Small production seam for tests and callers that need all-or-nothing repair.
+// `spendCargo` may return a boolean or { ok, rollback }; callers can also supply
+// an explicit refundCargo callback for mutable inventories.
+export function repairPortalGateAtomic({ gateId, requirements, playerLevel, cargo, spendCargo, refundCargo, commitRepair } = {}) {
+  const status = getPortalRequirementStatus({ requirements, playerLevel, cargo });
+  if (!status.ok) return { ok: false, reason: status.levelMet ? "insufficient-resources" : "insufficient-level", status };
+  let spent;
+  try { spent = spendCargo?.({ ...cargo }, status.resources); } catch {
+    return { ok: false, reason: "spend-failed", status };
+  }
+  const spendOk = spent === true || spent?.ok === true;
+  if (!spendOk) return { ok: false, reason: "spend-failed", status };
+  let committed = false;
+  try { committed = commitRepair?.(gateId) === true; } catch { committed = false; }
+  if (!committed) {
+    try { spent?.rollback?.(); } catch {}
+    try { refundCargo?.(status.resources, cargo); } catch {}
+    return { ok: false, reason: "repair-failed", status };
+  }
+  return { ok: true, spent: status.resources, status };
+}
+
 export function createPortalGateSystem(worldRegistry, opts = {}) {
   const frontierProgress = opts.frontierProgress;
   const getActiveSectionId = opts.getActiveSectionId ?? (() => null);
   const getPlayerLevel = opts.getPlayerLevel ?? (() => 1);
   const getCargo = opts.getCargo ?? (() => ({}));
   const spendCargo = opts.spendCargo ?? (() => false);
+  const refundCargo = opts.refundCargo ?? (() => {});
   const onTravel = opts.onTravel ?? (() => false);
   const campGateId = worldRegistry.getFrontierGateId?.();
 
@@ -48,6 +71,7 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
     if (!playerPos) return null;
     let best = null;
     for (const gate of worldRegistry.getPortalGatesForSection?.(getActiveSectionId()) ?? []) {
+      if (gate.role === "arrival" && gate.travelEnabled === false) continue;
       const radius = gate.triggerRadius ?? 1.85;
       const distance = Math.hypot(playerPos.x - gate.pos.x, playerPos.z - gate.pos.z);
       if (distance > radius || (best && best.distance <= distance)) continue;
@@ -74,17 +98,24 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
   function activate(portalId) {
     const gate = worldRegistry.getPortalGateById?.(portalId);
     if (!gate || gate.sectionId !== getActiveSectionId()) return { ok: false, reason: "inactive-or-missing" };
+    if (gate.role === "arrival" && gate.travelEnabled === false) return { ok: false, reason: "arrival-only" };
     if (gate.id === campGateId) return { ok: true, action: "camp-start", gate };
     if (isGateActive(gate)) return { ok: !!onTravel(gate), action: "travel", gate };
     const cargo = getCargo();
     const status = getPortalRequirementStatus({ requirements: gate.requirements, playerLevel: getPlayerLevel(), cargo });
     if (!status.ok) return { ok: false, reason: status.levelMet ? "insufficient-resources" : "insufficient-level", status };
     if (frontierProgress?.isPortalGateRepaired?.(portalId)) return { ok: false, reason: "already-repaired" };
-    const spent = spendCargo(cargo, status.resources);
-    if (!spent) return { ok: false, reason: "spend-failed" };
-    const repaired = frontierProgress?.repairPortalGate?.(portalId);
-    if (!repaired) return { ok: false, reason: "repair-failed" };
-    return { ok: true, action: "repaired", gate, spent: status.resources };
+    const result = repairPortalGateAtomic({
+      gateId: portalId,
+      requirements: gate.requirements,
+      playerLevel: getPlayerLevel(),
+      cargo,
+      spendCargo: (_snapshot, cost) => spendCargo(cargo, cost),
+      refundCargo,
+      commitRepair: (id) => frontierProgress?.repairPortalGate?.(id) === true,
+    });
+    if (!result.ok) return result;
+    return { ok: true, action: "repaired", gate, spent: result.spent };
   }
 
   return { getNearbyInteraction, activate, isGateActive };
