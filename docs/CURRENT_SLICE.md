@@ -1,156 +1,104 @@
-# Wildkin Frontier — Phase 4B: First Expedition Experience & Pacing
+# Wildkin Frontier — Phase 4B.1: Section Framework & Level-Design Toolkit
 
 **Status:** READY TO IMPLEMENT  
-**Active slice:** Phase 4B  
-**Canonical spec:** `docs/Specs/Phase_4B.md`
+**Active slice:** Phase 4B.1  
+**Canonical spec:** `docs/Specs/Phase_4B.1.md`
 
-**Previous slice:** Phase 4B.0 — **OWNER ACCEPTED FOR NOW 2026-08-25** after several owner test/iteration sessions. Freeze generic Author Mode / Visual Asset infrastructure unless real Phase 4B level-authoring exposes a true blocker.
+**Previous direction:** Phase 4B AI-authored continuous-area pacing pass — **STOPPED EARLY 2026-08-27**. Useful systems work from commit `cad34988dbc43824256419a8a2301a4e9372a942` may remain, especially Matter Attractor I, useful assets/content IDs, and valid regression tests. The elongated continuous "Crescent Basin" layout is not the target world structure.
 
 ## Goal
 
-Turn the rough Camp + Area 1 skeleton into one intentional **5–10 minute first expedition** that proves the game’s core risk/reward thesis:
+Give the owner a standardized section grammar and reusable level-design pieces so the **human owner designs the actual levels** while AI handles reliable systems/tooling.
+
+Target topology:
 
 ```text
-acquire value
-→ see temptation ahead
-→ assess danger
-→ extract or push
-→ consequence
-→ Camp improvement
-→ meaningfully better next run
+Camp — 100×100
+  ↓ portal
+Section 1 — 50×50
+  ├ discoverable Waypoint
+  ├ Extraction Beacon
+  ├ secret chest
+  ├ simple parkour + Jump Pad
+  └ ruined portal → Section 2
+Section 2 — 50×50
+  └ minimal proof + discoverable Waypoint
 ```
 
-The fresh player should move through:
+Sections use local coordinates and are connected by Portal Gates rather than required physical adjacency.
 
-```text
-Camp
-→ first Waypoint start
-→ safe/readable harvesting
-→ first complication
-→ Extraction Beacon: EXTRACT / KEEP GOING
-→ richer/more dangerous Pocket 2 + locked temptation
-→ deeper accumulated risk
-→ aspirational Threshold Rise Major Waypoint
-→ smart extraction or understandable death
-→ Camp result
-→ Matter Resonator improvement
-→ retry
-```
+## Locked design decisions
 
-This is a **player-experience/content/pacing slice**, not another tooling phase.
+- Standard world cell = **50×50**.
+- Standard expedition section = **50×50**.
+- Camp = **100×100**, with future **25×25** expansion plots.
+- World topology is a section/portal graph, not one giant continuous coordinate strip.
+- Camp Frontier Gate is a portal/launcher, not a Major Waypoint.
+- Fresh save: Camp Gate → Section 1 entry directly.
+- A section Waypoint must be physically discovered before it becomes a future start.
+- Extraction Beacons remain extraction-only.
+- Ruined Portal Gates may require player level + **current run cargo** to rebuild.
+- Repaired gates are permanent immediately, even if the player later dies.
+- AI builds systems/tools; final section composition/pacing is human-authored.
+- Jump Pads become first-class traversal objects; destination-hardcoded jump links are legacy.
+- Parkour can safely respawn at course checkpoints without losing run cargo while the course is active.
+- Loot Chest + Loot Table is reusable for secrets and repeatable parkour rewards.
+- Banked XP gains one central player-level derivation.
+- Matter Attractor I remains, but persistence should migrate toward keyed upgrade levels.
+- Section profile + read-only Author summary guide balance; they do not auto-generate content.
 
 ## Hard scope
 
-- reshape/clarify Camp using the accepted Author + Visual Asset tools,
-- intentionally author/tune the existing Area 1 pockets through Threshold Rise,
-- Pocket 1 = comfort / harvesting / low-pressure ecology,
-- one readable first danger before the first Beacon,
-- first Beacon arrives after the player has something worth banking,
-- Pocket 2 = visibly better value + more danger + memorable locked pond/island/chest-style temptation,
-- Pocket 3+ = stronger pressure and higher-value opportunity while retreat remains possible,
-- Threshold Rise = readable aspirational Major Waypoint, difficult but not hard-gated on a first run,
-- tune resource/value distribution shallow → deep,
-- tune Wildkin temperament/home/leash/danger shallow → deep,
-- use landmarks and current Map/edge guidance to make forward vs safety readable,
-- add exactly one persistent Matter Resonator purchase: **Matter Attractor I**,
-- tune extraction/result/Camp feedback so successful return naturally leads to upgrade/retry,
-- fresh-save, extraction, death, repeat-run, desktop and portrait-mobile human acceptance.
+Implement:
 
-## Pacing targets
+- section-local canonical data/ownership,
+- explicit active-section runtime,
+- inactive-section visual/physics/simulation isolation,
+- Portal Gate transitions,
+- ruined gate construction/persistence,
+- first-launch/Waypoint semantics,
+- first-class Jump Pad + editor trajectory aid,
+- Parkour Start / Checkpoint / Kill Volume,
+- reusable Loot Chest / Loot Table / refill persistence,
+- player level foundation,
+- Matter Attractor save migration,
+- section profile metadata + read-only Author summary,
+- sparse proof Camp + Section 1 + Section 2 shells,
+- production integration/browser tests.
 
-These are targets for real play feel, not timers:
+## Do not do
 
-- Camp: ~0:00–0:30
-- Pocket 1 comfort: ~first 1–2 min
-- first complication before Beacon 1
-- Beacon 1 risk decision: ~1.5–3 min
-- Pocket 2 temptation: ~2.5–5 min
-- Pocket 3 pressure: ~4–7 min
-- Threshold Rise aspiration: ~6–10+ min
+- final Section 1 level design,
+- procedural/AI level generation,
+- full skill tree,
+- bonding/companions,
+- crafting/equipment,
+- Camp expansion UI,
+- async streaming,
+- generic scripting/quest engine,
+- broad editor polish.
 
-A normal first-time player should be unlikely—but not mechanically forbidden—to reach Threshold Rise on the first run. A skilled/lucky player may succeed.
+## Human outcome after this slice
 
-## Matter Resonator — one progression choice only
+The owner should be able to open Author Mode and independently build Section 1 from standardized pieces:
 
-**Matter Attractor I**
-
-Player-facing effect:
-
-> Pickups begin pulling toward the player from farther away and travel somewhat faster.
-
-Requirements:
-- Camp-only contextual purchase,
-- uses persistent banked materials,
-- tune cost against the final authored run yield rather than arbitrary grind,
-- one solid Pocket 2 extraction should usually make the player able or close to able to buy it,
-- deduct once, persist across reload/death/new runs, cannot repurchase,
-- next-run pickup attraction difference is clearly noticeable,
-- preserve existing pickup collision/rest/magnet guarantees,
-- no skill tree or progression framework.
-
-## Explicit non-goals
-
-Do not add:
-
-- more generic editor/Visual Asset infrastructure unless a true blocker is proven,
-- GLB/import tooling,
-- Wildkin bonding/capture,
-- companions/mounts,
-- secured Wildkin Camp population,
-- full Matter Resonator minigame,
-- skill tree or multiple upgrades,
-- crafting/equipment/loadout,
-- ranged player weapon,
-- carry-capacity pressure,
-- Camp expansion/free placement,
-- second frontier area/final endpoint,
-- procedural world generation,
-- broad engine/navigation refactor,
-- broad final-submission polish.
-
-## Implementation order
-
-1. **Baseline:** fresh-save run current Area 1, record time/value/danger at anchors; do not improve tools.
-2. **World/pacing:** Camp → Pocket 1 → complication → Beacon 1 → Pocket 2 locked temptation → Pocket 3 → Threshold.
-3. **Value/ecology:** resource clusters, distinct deeper reward, Wildkin temperament/home/leash, retreat lanes, Beacon timing.
-4. **Matter Attractor I:** implement/tune the one persistent Camp upgrade against actual run yield.
-5. **Fresh-save playtest loop:** repeat full runs and fix only the highest-value pacing/readability failures.
-
-Prefer authored data/layout/Visual Asset changes over new systems.
-
-## Human acceptance anchors
-
-Human must verify:
-
-1. Fresh first 2 minutes are readable, rewarding and not immediately chaotic.
-2. Beacon 1 presents a real `EXTRACT / KEEP GOING` choice because the player has value to lose and temptation ahead.
-3. Pocket 2 clearly feels richer/more dangerous and its locked revisit POI is memorable, not confusing/broken.
-4. Deeper pressure increases while retreat remains viable and Threshold Rise reads as an important goal.
-5. Meaningful extraction clearly banks progress and returns control at Camp quickly.
-6. Matter Attractor I is understandable, affordable on the intended curve, persistent, and noticeably improves the next run.
-7. Death clearly loses unsecured value while preserving permanent frontier/upgrades.
-8. Full Camp → expedition → Beacon → deeper push → extract/death → Camp → retry loop works on desktop and portrait mobile.
-
-Automated tests do not prove pacing.
-
-## Gates
-
-Run:
-
-```bash
-npm test
-npm run world:generate
-npm run world:check
-npm run verify
-npm run zip
+```text
+geography
++ Visual Assets
++ resources
++ Wildkin
++ Waypoint
++ Beacon
++ Portal Gate
++ Jump Pad
++ parkour
++ secret/repeatable chest
 ```
 
-Preserve one looping first-party rAF, Rapier authoritative physics, offline/local runtime, readable source, portrait gameplay, and submission comfortably under 35 MB.
+without needing an AI agent to decide where those pieces should go.
 
 ## Stop condition
 
-Phase 4B is complete only when a human fresh-save playtest demonstrates:
+When the framework is technically reliable and the owner can use the sparse proof sections, **freeze systems work and move to Phase 4B.2 — owner-authored Section 1 vertical slice**.
 
-> **acquire value → see temptation → assess danger → extract or push → consequence → Camp improvement → meaningfully better next run**
-
-After acceptance, freeze first-expedition pacing except later regression/balance fixes. The next major gameplay planning step is **Wildkin bonding / securing / companion value** on top of the proven expedition loop.
+Read and implement the complete requirements in `docs/Specs/Phase_4B.1.md`.
