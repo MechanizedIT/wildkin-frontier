@@ -1,6 +1,6 @@
-# Architecture — Wildkin Frontier (Phase 4B.0 — Primitive Visual Asset Authoring)
+# Architecture — Wildkin Frontier (Phase 4B.1 Planned — Section Framework & Level-Design Toolkit)
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document describes the **current implemented architecture through Phase 4B.0**. Phase 4A remains accepted; Phase 4B.0 consumes the existing AuthorTypeRegistry / normalized transform / VisualRef seam for a deliberately bounded primitive Visual Asset workflow.
+> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document distinguishes the **implemented foundation through the stopped Phase 4B first pass** from the **Phase 4B.1 target architecture**. Phase 4B.1 replaces the continuous-strip level assumption with portal-connected self-contained sections while preserving the accepted Author/Visual Asset contracts.
 
 ## Permanent Goals
 
@@ -50,6 +50,211 @@ Accepted current systems:
 - desktop Author Mode with categorized palette, Ground/Boundaries hierarchy, Display Name + presentation controls, Edit proxy for hidden colliders, live tint/opacity preview, deterministic export/reset,
 - visual ↔ Rapier parity for supported solids including ground/boundary with rotation/opacity/tint,
 - single rAF/fixed 1/60, offline/portrait/<35 MB.
+
+# Phase 4B.1 Architectural Direction
+
+The stopped Phase 4B first pass is **not** the new world-layout authority. It usefully added Matter Attractor I and some content/test work, but its elongated continuous "Crescent Basin" layout and destination-authored jump links are superseded by the section framework below.
+
+The new responsibility split is:
+
+```text
+AI / implementation agents
+  → build stable level-design primitives, catalogs, validation, persistence, section runtime
+
+Owner / human level designer
+  → compose actual section geography, encounter placement, secrets, parkour, resource rhythm, landmarks and pacing
+```
+
+Do not ask an implementation agent to invent the finished Section 1 layout as proof that the systems work.
+
+## Standard spatial grammar
+
+```text
+base world cell = 50 × 50
+standard expedition section = 50 × 50
+large/special section = integer multiples of 50
+Camp = 100 × 100 (2 × 2 cells)
+future Camp plot = 25 × 25
+```
+
+These are authoring conventions. Runtime section topology is a graph and **does not depend on physical adjacency**.
+
+## Section graph model
+
+Target world concepts:
+
+```text
+Camp
+  └─ Camp Frontier Gate
+       ↓
+Section
+  ├─ entryPoints[]
+  ├─ normally one Major Waypoint
+  ├─ extractionBeacons[]
+  ├─ portalGates[]
+  ├─ resources[]
+  ├─ creatures[]
+  ├─ traversal[]
+  ├─ parkourCourses[]
+  ├─ lootChests[]
+  └─ sectionProfile
+```
+
+Portal Gates connect explicit section/entry pairs. World-space placement of one section relative to another is not part of gameplay topology.
+
+Recommended data seam:
+
+```text
+portalGate {
+  id
+  sectionId
+  pos / rotY
+  targetSectionId
+  targetEntryId
+  state: active | ruined
+  requirements?: {
+    minPlayerLevel?
+    resources?
+  }
+}
+```
+
+A repaired gate becomes persistent frontier progress.
+
+## SectionRuntime
+
+Current implementation only partially deactivates distant gameplay while the static world is still built globally. Phase 4B.1 introduces an explicit section runtime owner:
+
+```text
+SectionRuntime
+  activate(sectionId, entryId?)
+  getActiveSectionId()
+  transitionThroughPortal(portalId)
+```
+
+Prototype implementation may keep world data resident and use deterministic activation/deactivation:
+
+- active section static root visible,
+- active section Rapier colliders enabled/present,
+- active section resources/Wildkin/anchors active,
+- inactive sections hidden and non-simulating,
+- transient pickups/projectiles/XP cleared or transitioned safely,
+- transition moves player to destination entry and reprimes interaction state.
+
+The seam must permit later lazy instantiate/destroy without changing section data or Portal Gate semantics.
+
+Do **not** build async/network streaming in 4B.1.
+
+## First-class Jump Pad
+
+The current `jumpTraversals` contract encodes a trigger, direction, destination landing rectangle, correction and optional destination platform. That is acceptable legacy data but **not the target human authoring primitive**.
+
+Phase 4B.1 adds a first-class Jump Pad object:
+
+```text
+jumpPad {
+  id
+  pos
+  rotY
+  triggerSize / radius
+  horizontalLaunch
+  verticalLaunch
+  cooldown?
+  visualAssetId?
+}
+```
+
+Rotation determines launch direction. Runtime applies actual launch velocity; it does not require a named landing platform or authored landing rectangle.
+
+Author Mode should render an **editor-only trajectory prediction** from the same launch/gravity math. Prediction is guidance only and must not magnetically correct runtime landing.
+
+Legacy `jumpTraversals` may remain readable during migration, but proof content should use Jump Pads.
+
+## Parkour runtime contract
+
+Use a bounded challenge owner, not a generic scripting/quest system:
+
+```text
+ParkourCourse
+  start trigger
+  checkpoint triggers[]
+  kill/fail volumes[]
+  reward chest id?
+```
+
+Runtime owns at most one active course:
+
+```text
+inactive
+  → enter Start
+active(courseId, checkpoint)
+  → checkpoint updates respawn point
+  → fatal course failure => restore HP + respawn checkpoint + preserve run cargo
+  → complete/exit => normal expedition death rules resume
+```
+
+Normal Wildkin/projectiles may be hazards. The special rule is the active course's death interception, not custom enemy behavior.
+
+## Loot contract
+
+One reusable Loot Chest behavior:
+
+```text
+lootChest {
+  id
+  pos
+  lootTableId
+  refill: never | duration
+  visualAssetId?
+}
+```
+
+One reusable Loot Table catalog describes rewards.
+
+Persistence records one-time claim or next available timestamp per chest. Do not create bespoke chest code per section.
+
+## Progression foundation
+
+Current `bankedXp` remains the authoritative XP store. Add a pure centralized level curve:
+
+```text
+bankedXp → playerLevel
+```
+
+Portal requirements may reference `minPlayerLevel`.
+
+Matter Attractor I should migrate from a one-off boolean toward:
+
+```text
+upgrades: {
+  matter_attractor: 1
+}
+```
+
+Compatibility migration must preserve existing saves. This is a tiny upgrade registry, **not a skill tree**.
+
+## Section profile / balance guidance
+
+Each section can define lightweight design metadata:
+
+```text
+sectionProfile {
+  tier
+  recommendedLevel: { min, max }
+  resourceValueTarget?: { min, max }
+  wildkinCountTarget?: { min, max }
+  wildkinLevelTarget?: { min, max }
+  expected?: {
+    waypoint
+    extractionBeacons
+    secrets
+    parkourCourses
+    outboundPortals
+  }
+}
+```
+
+Author Mode may compute a read-only summary from actual section contents. It must not auto-place or auto-balance content.
 
 # Current High-Level Module Areas
 
@@ -285,7 +490,9 @@ It does not own:
 - map DOM,
 - creature AI.
 
-# Single-Source World Pipeline — Accepted
+# Single-Source World Pipeline — Accepted / Extended by 4B.1
+
+The canonical pipeline remains:
 
 ```text
 src/world/data/world.json
@@ -294,53 +501,67 @@ src/world/data/world.json
   → src/world/data/world.js
   → normalize / validate
   → worldRegistry
-  → staticWorldBuilder + gameplay placement systems
+  → section runtime + static/gameplay builders
 ```
 
-Rules:
+Rules remain:
 
-- `world.json` is the one manually maintained authored source.
-- Generated runtime data is never hand-edited.
-- `npm run world:check` catches stale generated data.
-- `npm run verify` includes world consistency before build validation.
-- Runtime world/UI systems should query normalized/registry data rather than duplicate anchor/region coordinates.
+- `world.json` is the canonical authored source,
+- generated runtime data is never hand-edited,
+- stale generation fails verification,
+- runtime/UI query normalized registry data,
+- Author Mode edits through the transactional draft.
 
-Current authored skeleton:
+The **current** repository still contains the stopped Phase 4B continuous strip:
 
 ```text
-Camp
-  ↓ gate
-p1 Forest Edge
-  ↓
-p2 Tangled Hollow / Beacon
-  ↓
-p3 Sunken Rise / Beacon
-  ↓
-p4 Threshold Rise / next Major Waypoint
+Camp → Fern Run → Stone Throat → Fallen Observatory → Threshold Rise
 ```
 
-This is a spatial proof, not final pacing/art.
+Treat that layout as temporary migration input, not the target topology.
 
-# Spatial Activation / Streaming — Accepted
-
-Three.js frustum culling is render-only. `src/world/regionManager.js` owns lightweight gameplay activation.
+Phase 4B.1 proof data should instead establish:
 
 ```text
-ACTIVE = current region + immediate neighbors
-INACTIVE = distant regions
+Camp (100×100)
+  └─ portal
+Section 1 (50×50)
+  ├─ discoverable Waypoint
+  ├─ Beacon
+  ├─ secret chest
+  ├─ simple parkour proof
+  └─ ruined portal → Section 2
+Section 2 (50×50)
+  └─ minimal identity + discoverable Waypoint
 ```
 
-Accepted behavior:
+Section 1/2 proof shells are infrastructure proof only; final human-authored level composition follows after 4B.1.
 
-- resources hide/remove collider/freeze timers while inactive,
-- creatures hide/disable collider/freeze AI/attack/respawn while inactive,
-- pooled pickups/projectiles/XP are culled by region policy,
-- entities are created once and toggled rather than duplicated,
-- neighbor buffer prevents visible simulation holes,
-- author Edit visibility can follow editor camera while gameplay remains paused,
-- Play restores player-centered region activation.
+# Spatial Activation / Streaming — Transitioning in Phase 4B.1
 
-Do not add async/network asset streaming until profiling proves it necessary.
+Existing `regionManager` behavior remains useful evidence but is no longer the final world-structure abstraction.
+
+Current behavior:
+
+```text
+current region + neighbors active
+distant resource/Wildkin simulation frozen
+static world mostly constructed globally
+```
+
+Target:
+
+```text
+one explicit active expedition section
+portal transition boundary
+inactive sections hidden/non-simulating/non-colliding
+```
+
+Camp is a special active home section.
+
+Phase 4B.1 should prefer one `SectionRuntime` owner over scattered checks. Region/pocket APIs may be adapted or retained internally during migration, but gameplay systems should converge on the explicit active section.
+
+Three.js frustum culling remains render-only. True asynchronous asset streaming remains deferred until profiling requires it.
 
 # Author Mode — Accepted Phase 3.5B.2
 
