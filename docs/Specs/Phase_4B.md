@@ -1,8 +1,10 @@
 # Wildkin Frontier — Phase 4B: First Expedition Experience & Pacing
 
-**Status:** READY TO IMPLEMENT  
+**Status:** STOPPED EARLY / SUPERSEDED BY PHASE 4B.1 + 4B.2  
 **Active slice:** Phase 4B  
 **Purpose:** Use the accepted expedition loop, Author Mode, and Visual Asset tooling to turn the rough Area 1 skeleton into one intentional 5–10 minute first expedition with a clear risk curve, meaningful extraction decisions, visible temptation, and one small persistent Camp upgrade that changes the next run.
+
+> **Direction change — 2026-08-27:** The AI-authored continuous-area/Crescent Basin approach was stopped after a useful first pass. Preserve useful systems work such as Matter Attractor I and reusable assets/tests, but do not continue treating the elongated continuous strip as the target level. Phase 4B.1 builds a portal-connected section framework and level-design toolkit; Phase 4B.2 is the owner's human-authored Section 1 vertical slice.
 
 Phase 4B.0 is owner-accepted for now. **Freeze editor / Visual Asset infrastructure.** This phase is about the player experience, not more tooling.
 
