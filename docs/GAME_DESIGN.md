@@ -14,15 +14,19 @@
 
 Wildkin Frontier is a short-session survival expedition game built around one central decision:
 
-> **How far do I dare push before I turn back and secure what I found?**
+> **How far do I dare push before I secure what I found?**
 
-The player moves through a handcrafted directed frontier made of wide exploration pockets rather than a large open world or forced endless runner. Forward/deeper means visibly better rewards and greater danger. The player may always retreat.
+The frontier is a **handcrafted graph of self-contained sections**, not one giant seamless coordinate plane. A section is a compact authored play space with its own ecology, resources, traversal, secrets, extraction opportunities, and connections. Ruined/active portal gates connect sections without requiring their physical world geometry to touch.
 
-Harvesting, wildlife, combat, traversal, bonding, extraction, and progression all exist to strengthen the same loop:
+This structure keeps local exploration free while making long-term frontier progression readable:
 
-**acquire value → see temptation ahead → assess danger → secure or push → experience consequence → change the next run**.
+**Camp → enter a known section → gather / fight / explore → discover its Waypoint → extract or push → repair a gate → unlock another section → return stronger.**
 
-## Design Pillars
+Harvesting, wildlife, combat, traversal, parkour challenges, loot, bonding, extraction, portal construction, and progression all exist to strengthen the same loop:
+
+**acquire value → discover opportunity → assess danger → secure / spend / push → experience consequence → change the next run**.
+
+# Design Pillars
 
 - **Directed freedom, not rails or sprawl.** Local exploration is free, but deeper direction is readable.
 - **Risk creates stories.** The player should often possess something worth protecting while seeing something tempting farther ahead.
@@ -33,31 +37,40 @@ Harvesting, wildlife, combat, traversal, bonding, extraction, and progression al
 
 ## Camp & First Launch
 
-Camp is a small clearing on an alien planet surrounded by tall, dense forest and a basic perimeter fence.
+Camp is the player's persistent home on the alien planet.
+
+## Standard Camp footprint
+
+Use a **100×100 Camp ground tile**, conceptually a 2×2 group of standard 50×50 world cells.
+
+Future Camp expansion uses **25×25 plots**, giving a full 100×100 Camp sixteen possible plots. The prototype does not need to unlock/build all sixteen plots yet, but the spatial convention should be established now so later Camp growth does not require a map rewrite.
 
 Initial Camp contains:
 
-- the player's **drop pod**,
-- the **frontier gate**,
-- a small **Matter Resonator**,
-- room for secured Wildkin to visibly inhabit later.
+- the player's drop pod,
+- the frontier gate,
+- a small Matter Resonator,
+- a basic perimeter,
+- room for future structures and secured Wildkin.
 
-Camp is the physical home/menu between expeditions. It should be readable immediately and stay small for the prototype.
+Camp remains a special persistent section rather than a normal expedition section.
 
-Long-term, the clearing may expand outward in a Forager/Dreamdale-like way by spending resources. Free placement/base expansion is not required for the core competition loop.
-
-### First launch flow
+## First launch flow
 
 1. Player gains control at Camp beside the drop pod.
 2. Map button is always visible at top-right.
-3. First map view shows only Camp and the frontier gate/start.
-4. Walking through the gate opens the expedition-start map.
-5. On a new save only the first area/start is selectable.
-6. Later activated **major Waypoints** appear as selectable future starts.
+3. A fresh map shows Camp and known frontier information only.
+4. The **Camp Frontier Gate is a portal, not a Major Waypoint**.
+5. On a fresh save, walking through the Camp gate sends the player directly to the **Section 1 entry portal** because no frontier Waypoint has been discovered yet.
+6. The player explores Section 1 and must physically discover its Major Waypoint.
+7. Once discovered, that Waypoint becomes a selectable future expedition start.
+8. Later discovered section Waypoints appear as additional selectable starts.
 
-Avoid a long intro/cutscene. Teach the game primarily through geography, readable interactions, and short contextual prompts.
+After at least one frontier Waypoint is known, the Camp gate may open start selection so the player can choose among unlocked Waypoints.
 
-## Core Loop
+Avoid long intros/cutscenes. Teach primarily through geography, landmarking, readable interactions, and short contextual prompts.
+
+# Core Loop
 
 **PREPARE**  
 Begin at Camp. Check map/frontier progress, choose an available major Waypoint start, active companion/loadout when those systems exist, then leave through the gate.
@@ -74,32 +87,49 @@ Extraction returns to Camp and banks the run. Death returns to Camp and loses un
 **PROGRESS**  
 See map/Camp progress, synchronize recovered matter, make a small meaningful upgrade/loadout choice, secure Wildkin, then go again.
 
-## Frontier Anchors: Major Waypoints vs Extraction Beacons
+## Frontier Anchors: Portal Gates, Major Waypoints & Extraction Beacons
 
-Use two distinct anchor roles so safe banking does not trivialize risk.
+These are three distinct concepts.
 
-### Major Waypoint
+## Portal Gate
 
-- Normally marks the beginning of an area or a meaningful frontier step.
-- First activation permanently adds it to the map.
-- Becomes a selectable starting location for future expeditions.
-- Can also extract the current run.
-- Reaching the **next** major Waypoint should feel like a major accomplishment.
+Portal Gates define **section-to-section topology**.
 
-### Extraction Beacon
+- Gates connect as explicit pairs/links; geometry does not need to be spatially adjacent.
+- A section may have one or more outgoing Portal Gates.
+- An entry portal determines where the player arrives in the destination section.
+- A ruined/locked gate may require a minimum player level and resources to rebuild.
+- Gate construction is persistent frontier progress.
+- Resources spent rebuilding a gate are secured into that progress immediately; dying afterward does not undo the repaired connection.
+- The Camp Frontier Gate is the special home-side portal into the frontier.
 
-- Smaller mid-area anchor.
+Portal Gates are **not** expedition-start Waypoints.
+
+## Major Waypoint
+
+- Each standard expedition section should normally have **one** Major Waypoint somewhere in the section, usually away from the entry portal.
+- The Waypoint begins undiscovered unless explicitly configured otherwise.
+- First physical discovery permanently adds it to the map.
+- Once discovered, it becomes a selectable starting location for later expeditions.
+- Discovering a Waypoint therefore shortens future runs and is meaningful persistent progress.
+- A Major Waypoint may also permit extraction when that benefits the current loop, but its primary identity is persistent start unlock.
+
+## Extraction Beacon
+
+- Smaller safety anchor.
 - Allows extraction/banking and return to Camp.
-- **Never** becomes a future starting location.
-- Use roughly 1–2 between major Waypoints only when pacing benefits.
+- Never becomes a future starting location.
+- A section may have zero, one, or several Beacons depending on its intended risk curve.
 
-Interacting with either anchor opens a simple:
+At a valid extraction anchor, preserve the simple:
 
 **EXTRACT / KEEP GOING**
 
-This preserves the decision: extracting halfway through an area is safe, but the next run still begins at the last major Waypoint and must replay that stretch.
+The distinction is now:
 
-## Map & POI Guidance
+**Portal = reach another section. Waypoint = start here later. Beacon = secure this run.**
+
+# Map & POI Guidance
 
 - Map is always accessible from a top-right button.
 - Map progressively reveals Camp, major Waypoints, discovered Extraction Beacons, and important discovered POIs.
@@ -185,7 +215,27 @@ Later Wildkin, tools, materials, or skills can unlock these POIs. This gives sma
 
 Some future Wildkin may be mountable or grant traversal abilities such as swimming/climbing/gliding/breaking. Treat these as creature-specific utility, not a giant generic ability framework.
 
-## HUD / Companion Action Direction
+## Section Content Grammar
+
+A standard expedition section should be designed from a reusable checklist rather than from a required linear route.
+
+Typical ingredients:
+
+- 1 entry portal,
+- normally 1 discoverable Major Waypoint,
+- 0+ Extraction Beacons,
+- 1+ outbound Portal Gates,
+- at least 1 secret/revisit reward,
+- at least 1 optional traversal/parkour challenge when appropriate,
+- authored resource clusters,
+- authored Wildkin ecology/encounters,
+- landmarks that make navigation readable.
+
+Not every future section must contain every ingredient, but the Section Author summary should make omissions intentional.
+
+The designer—not an agent—decides exact geometry, routes, encounters, visual composition, resource placement, and challenge layout.
+
+# HUD / Companion Action Direction
 
 - Map button: top-right.
 - Resource inventory: upper-left; hide zero-count entries; container may scroll if the list later grows.
@@ -197,60 +247,205 @@ Prototype only needs the actions required by its actual companions.
 
 ## Camp, Matter Resonator & Economy
 
-The small Matter Resonator is physically present from first launch.
+The Matter Resonator is physically present from first launch.
 
-For the prototype it can be the readable place where recovered matter is synchronized/banked and where a very small number of unlocks/upgrades become available.
+For the prototype it is the readable Camp place where recovered matter enables persistent upgrades.
 
-A larger skill-influenced Resonance-attempt/discovery minigame remains optional and must not displace the expedition loop.
+The stopped Phase 4B pass implemented a useful first upgrade concept, **Matter Attractor I**: increased pickup magnet radius/speed. Keep that player-facing effect, but progression storage should evolve away from one-off booleans toward a tiny keyed upgrade-level model, for example:
 
-Camp expansion/base building is future depth; only a taste of persistent home progression is needed for the competition build.
+```text
+upgrades:
+  matter_attractor: 1
+```
 
-## World Authoring & Runtime Scale
+This is foundation for later Resonator buffs without building the full future system now.
 
-The competition frontier should be handcrafted, data-driven, and fast for a human to tune.
+The future Resonator may support a small standardized set of upgrade families and/or a skill-influenced Resonance discovery interaction. Do not build a full upgrade tree during Phase 4B.1.
 
-- Use `world.json` or equivalent as runtime placement/source of truth.
-- Support Camp/gates, areas/regions, exploration pockets, terrain, resources, Wildkin homes/spawns, traversal geometry, major Waypoints, Extraction Beacons, POIs, and optional unlock requirements.
-- Add a small dev-only author mode for place/select/move/rotate/elevate/resize/duplicate/delete and quick Edit ↔ Play iteration.
-- Gated POIs and traversal challenges should be explicit authored data/geometry.
+Player XP should similarly gain one central **player level** derivation. Portal gates and later systems can depend on `minPlayerLevel` without each feature inventing its own progression math.
 
-### Spatial activation / streaming
+Camp expansion/base building remains later depth. The 100×100 / 25×25 plot convention should be preserved now so later expansion has a stable spatial grammar.
 
-Three.js render frustum culling helps drawing performance, but it does **not** stop distant gameplay simulation by itself.
+# World Authoring & Runtime Scale
 
-The runtime should have a lightweight region/pocket activation manager:
+The competition frontier should be handcrafted, data-driven, and primarily **human level-designed**.
 
-- current region/pocket + nearby neighbors active,
-- distant creatures, pickups, expensive AI, and physics/colliders deactivated or not instantiated,
-- avoid per-frame work for the whole frontier,
-- all assets/data remain local/offline,
-- full asynchronous asset streaming is unnecessary until profiling proves it is needed.
+AI/agents should build reliable authoring primitives, reusable behaviors, validation, catalogs, and systems. They should not be relied on to decide the final placement, route composition, encounter pacing, or visual rhythm of finished sections.
 
-The fixed near-top-down camera makes aggressive spatial activation practical because only a limited local area needs to be visually/simulated at once.
+## Standard world cells
 
-## World & Difficulty
+- Canonical base cell: **50×50 world units**.
+- Standard expedition section: one 50×50 cell.
+- Large/special sections may deliberately use 50×100, 100×50, or 100×100 multiples.
+- Camp: **100×100** (2×2 standard cells).
+- Future Camp plots: **25×25**.
 
-Danger is primarily spatial, not timer-driven.
+The 50×50 size is a design/building convention, not a requirement that every future space be identical.
 
-Farther from the last secure point should generally mean:
+## Section graph
 
-- more complex/stronger threats,
-- more valuable resources,
-- rarer Wildkin,
-- more traversal/environment pressure,
-- higher extraction stakes.
+Sections are connected by **Portal Gates**, not by touching coordinate bounds.
 
-Layouts should deliberately place temptation beyond danger.
+A section owns local authored content:
 
-## Prototype First-Session Target
+- local ground/boundaries,
+- entry point(s),
+- normally one Major Waypoint,
+- zero or more Extraction Beacons,
+- Portal Gates,
+- resources,
+- Wildkin,
+- traversal,
+- POIs/secrets,
+- parkour/challenge data,
+- loot chests,
+- section tier / recommended level / content targets.
 
-The first meaningful session should roughly teach:
+Runtime section placement coordinates are an implementation detail. The map/topology is the portal graph.
 
-**Camp → gate/map → first-area start → safe harvest pocket → first complication → Extraction Beacon → stronger temptation / visible gated mystery → higher-value unsecured reward → another extraction opportunity → glimpse/pressure toward next major Waypoint → extract or die → Camp results → immediate desire to retry.**
+## Section runtime seam
 
-The competition prototype **will have a clear final deep-frontier endpoint**, but it should require progression and should not be realistically reachable on the first run.
+The current region manager already reduces distant resource/Wildkin simulation, but the current static builder still constructs the whole authored static world. Phase 4B.1 should introduce an explicit runtime owner such as:
 
-## Death & Results
+```text
+SectionRuntime.activate(sectionId)
+```
+
+For the prototype this may activate/deactivate section roots, colliders, AI, resources, pickups, and relevant anchors without implementing complex asynchronous streaming.
+
+The contract must allow future true instantiate/unload behavior without rewriting section data.
+
+Only the active expedition section (plus any tightly required transition state) should be live. Portal travel provides a clean transition boundary.
+
+## Level-design tooling
+
+Author Mode should make the standardized pieces easy for a human to assemble:
+
+- section shell/bounds/grid,
+- Portal Gate,
+- Major Waypoint,
+- Extraction Beacon,
+- Jump Pad,
+- Parkour Start / Checkpoint / Kill Volume,
+- Loot Chest,
+- resources/Wildkin/props/traversal,
+- section profile summary.
+
+Do not auto-generate finished levels.
+
+## Section content profile
+
+Each section should carry lightweight design metadata such as:
+
+- tier,
+- recommended player-level range,
+- resource-value target/envelope,
+- Wildkin count/level envelope,
+- expected required anchors/challenges.
+
+Author Mode may show a **read-only design summary** comparing authored content to these targets. This is guidance/validation, not procedural placement.
+
+## First-class Jump Pad
+
+Replace the current decorative launch-pad + separate hard-coded destination jump definition with one Author object that owns its launch behavior.
+
+A Jump Pad should author:
+
+- position/rotation,
+- trigger footprint,
+- horizontal launch strength,
+- vertical launch strength,
+- optional cooldown.
+
+Rotation determines launch direction. Runtime launches the player physically; it should not require a named destination platform or magnetic landing rectangle.
+
+Author Mode should show an editor-only predicted trajectory/landing aid.
+
+Ladders remain their own first-class traversal type.
+
+## Parkour challenge contract
+
+A small reusable Parkour Course contract may include:
+
+- Parkour Start Trigger,
+- optional Checkpoints,
+- Kill Volumes / normal hazards,
+- completion/reward chest.
+
+While a parkour course is active, fatal parkour failure can restore the player at the latest course checkpoint with run cargo preserved rather than resolving expedition death. Leaving/completing the course restores normal death consequences.
+
+Keep this explicit and bounded; do not create a generic quest/scripting engine.
+
+## Loot
+
+Use one reusable Loot Chest behavior with data-driven Loot Tables.
+
+A chest may be:
+
+- one-time/persistent secret loot, or
+- repeatable with a long real-time/refill cooldown.
+
+Persistent save data should record one-time claims or the next refill availability rather than bespoke logic per chest.
+
+## Content scaling
+
+Prefer centralized content definitions over arbitrary per-instance combat/economy stats.
+
+Longer-term direction:
+
+```text
+Wildkin species definition
++ placed level
++ temperament
+→ resolved stats
+
+Resource definition
++ resource tier/level
+→ resolved yield/durability/value
+```
+
+Phase 4B.1 only needs enough standardized level/tier plumbing to support Section 1/2 and future balancing; avoid a large RPG-stat framework.
+
+# World & Difficulty
+
+Difficulty is primarily **section/tier progression plus local authored encounter design**, not distance in one continuous coordinate strip.
+
+Later sections generally introduce:
+
+- higher-level/stronger Wildkin,
+- new Wildkin types,
+- higher-value/new resources,
+- harder optional traversal,
+- stronger loot tables,
+- more dangerous secrets/challenges,
+- more expensive Portal Gate requirements.
+
+Within a section, danger should still be spatial and readable: tempting value can be guarded, off-route, elevated, or placed behind optional hazards.
+
+Retreat to an Extraction Beacon or Portal should remain understandable. Do not balance by simply inflating HP or filling every space with enemies.
+
+# Prototype First-Session Target
+
+Phase 4B should prove the new section grammar with **Camp + Section 1 + a minimal Section 2 proof**, while the owner performs the actual level design.
+
+Target player arc:
+
+**Camp → Frontier Gate → Section 1 entry portal → gather/explore → fight or avoid a couple Wildkin → discover Section 1 Waypoint → find at least one secret → attempt one simple parkour challenge → extract → use Matter Resonator → run again → gain sufficient XP/resources → repair the ruined Section 2 Portal Gate → enter Section 2 → immediately see new resource/Wildkin identity.**
+
+Section 1 should ultimately contain, by human design:
+
+- one Major Waypoint,
+- at least one Extraction Beacon,
+- at least one secret loot opportunity,
+- at least one parkour course with repeatable reward,
+- one ruined outbound Portal Gate,
+- resources/Wildkin appropriate to its tier.
+
+Section 2 in Phase 4B only needs enough authored identity to prove the transition and progression structure. It is not required to be a finished level yet.
+
+The competition prototype can expand this graph later, but Phase 4B should establish that the first section is worth replaying and that unlocking a new section feels like meaningful frontier progress.
+
+# Death & Results
 
 On successful extraction:
 
@@ -282,10 +477,16 @@ Future survival progression may retain a percentage of resources on death, but n
 
 ## Resolved Decisions
 
-- Directed frontier of wide exploration pockets, not open-world sprawl or forced runner.
+- Standard world cell is 50×50; Camp is 100×100 with future 25×25 expansion plots.
+- Expedition sections do not need to be physically adjacent; paired Portal Gates define world topology.
+- AI builds level-design systems/tools; the owner performs final section/level composition and pacing.
+- Jump Pads become first-class traversal objects; destination-hardcoded jump links are not the long-term authoring model.
+- Standard sections support reusable secret/parkour/loot patterns rather than bespoke one-off code.
+
+- Handcrafted frontier graph of self-contained portal-connected sections, not open-world sprawl, a single continuous coordinate strip, or a forced runner.
 - Camp begins as drop pod + small Resonator + perimeter fence + frontier gate in dense alien forest.
 - Always-accessible map; gate opens expedition-start selection.
-- Major Waypoints unlock future starts; Extraction Beacons only extract.
+- Portal Gates connect sections; Major Waypoints are discovered inside sections and unlock future starts; Extraction Beacons only extract.
 - Either anchor offers **EXTRACT / KEEP GOING**.
 - Resource inventory may be unlimited in prototype.
 - Wildkin unsecured capture capacity starts at 1 and may be upgraded later.
@@ -299,6 +500,6 @@ Future survival progression may retain a percentage of resources on death, but n
 - Exact Wildkin bonding/capture mechanic.
 - Exact first prototype Wildkin species/ability.
 - Exact XP/skill-point retention rules after death.
-- Exact first Matter Resonator unlock/spend.
-- Exact Area 1 POIs, encounter pacing, Beacon locations, and first major Waypoint target.
+- Exact long-term Matter Resonator upgrade catalog and costs beyond Matter Attractor I.
+- Exact human-authored Section 1/2 layouts, encounter placement, loot tables, gate costs, and balance targets.
 - Which companion abilities/mounts make the competition cut versus later game.
