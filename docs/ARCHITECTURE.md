@@ -946,7 +946,7 @@ Continue to preserve:
 - fixed 1/60 gameplay,
 - bounded fixed-step catch-up,
 - capped DPR,
-- region/pocket-limited active simulation,
+- active-section-limited simulation,
 - bounded pools,
 - no unbounded arrays,
 - no per-frame DOM creation,
@@ -989,10 +989,12 @@ Stop/reconsider if a slice introduces:
 - hard-coded Waypoint IDs scattered through UI,
 - Author Mode draft and player progression sharing one key/owner,
 - duplicate world coordinates outside the `world.json` pipeline,
-- per-frame whole-world iteration after region activation,
+- per-frame whole-world iteration after explicit section activation,
 - major feature framework not required by current slice,
 - human world iteration blocked again on agent coordinate edits.
 
-Phase 4A should cross one threshold only:
+Phase 4B.1 should cross one threshold only:
 
-> **The current systems become a complete, repeatable Camp → expedition → secure-or-risk → outcome → Camp loop.**
+> **The owner can build portal-connected 50×50 sections from standardized, reliable pieces while runtime keeps only the active section live.**
+
+Finished level composition remains Phase 4B.2 human design work.
