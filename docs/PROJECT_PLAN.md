@@ -23,42 +23,59 @@ It records stable game direction, competition guardrails, development workflow, 
 
 Wildkin Frontier is a short-session survival expedition game built around one question:
 
-> **How far do I dare push before I turn back and secure what I found?**
+> **How far do I dare push before I secure what I found?**
 
-The player moves through a handcrafted **directed frontier** made of wide exploration pockets. The game is not a forced endless runner and not a large open-world survival sandbox for the prototype.
+The frontier is a handcrafted **graph of self-contained sections** joined by Portal Gates. Sections do not need to be physically adjacent in one giant world coordinate plane.
 
-Forward/deeper should visibly mean:
+A normal expedition section is a compact human-authored play space containing its own mix of:
 
-- better resources,
-- more interesting Wildkin,
-- harder threats,
-- more environmental pressure,
-- more to lose before the next secure opportunity.
+- resources,
+- Wildkin,
+- traversal,
+- secrets/loot,
+- extraction opportunities,
+- a discoverable Waypoint,
+- one or more portal connections.
 
-The player may always retreat.
+Long-term progression is both vertical and spatial:
+
+```text
+Camp
+→ enter known section
+→ gather / fight / explore
+→ discover Waypoint
+→ extract / upgrade / retry
+→ meet portal requirements
+→ rebuild ruined gate
+→ unlock another section
+```
+
+The prototype is not a forced endless runner and not a large seamless open-world survival sandbox.
+
+The owner performs final level composition and pacing. AI agents build reusable systems, Visual Assets, behaviors, validation, and authoring tools.
 
 ## Core Loop
 
 **PREPARE**  
-Begin at Camp, check map/frontier progress, choose an available major Waypoint start and any available companion/loadout choices.
+Begin at Camp, check frontier progress/level/upgrades, then leave through the Camp Frontier Gate. A fresh save goes directly to Section 1; after Waypoints are discovered the gate can offer those known starts.
 
 **EXPEDITION**  
-Explore wide directed pockets → harvest / avoid / fight / bond → collect unsecured value → notice POIs, Extraction Beacons, and tempting deeper rewards.
+Explore the active section → harvest / avoid / fight / later bond → collect unsecured value → discover secrets, traversal challenges, Waypoints, Beacons, and outbound ruined/active Portal Gates.
 
-**RISK DECISION**  
-At an Extraction Beacon or major Waypoint choose **EXTRACT** or **KEEP GOING**.
+**RISK / PROGRESSION DECISION**  
+Choose whether to extract and bank, keep exploring, spend carried resources to permanently rebuild a portal, or push into a newly unlocked section.
 
 **OUTCOME**  
-Extract to Camp and bank the run, or die and lose unsecured value.
+Extraction returns to Camp and banks unsecured cargo. Normal death returns to Camp and loses unsecured value. Parkour-course failure is a local challenge reset and does not resolve the expedition.
 
 **PROGRESS**  
-See Camp/map progress, synchronize recovered matter, secure Wildkin, make a small meaningful progression choice, and run again.
+Banked XP determines player level; Matter Resonator upgrades improve later runs; discovered Waypoints shorten future starts; repaired Portal Gates permanently expand the reachable frontier.
 
 ## Focus Rule
 
 Every system must strengthen:
 
-**acquire value → see temptation ahead → assess danger → secure or push → consequence → meaningfully different next run**.
+**acquire value → discover opportunity → assess danger → secure / spend / push → consequence → meaningfully different next run**.
 
 If a feature does not improve engagement, playability, core-loop clarity, focus, or originality, defer it.
 
