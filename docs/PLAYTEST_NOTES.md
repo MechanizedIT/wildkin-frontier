@@ -332,3 +332,34 @@ This is automated input and screenshot evidence, **not human acceptance**. The c
 ### Human acceptance still requested
 
 Confirm by feel on the target desktop and portrait phone: Camp/S1/S2 framing, smooth wheel response at trackpad and mouse deltas, min/max zoom usefulness, pan/orbit readability, Focus Object/Section placement, section-switch context, and that no distant geometry clips at the editor limit. Diagnostics were not exposed through this browser's page-evaluation surface, so the expected approximately 0/sec camera-only full-sync rate remains covered by source/unit tests rather than claimed as a browser observation.
+
+## 2026-08-28 — Phase 4B.1.4 parity and travel closure — automated browser evidence only
+
+This is real browser/UI evidence and automated state inspection, **not owner human acceptance**. A clean-origin repository server was used for canonical Author checks so the existing saved Author draft was not deleted or reset.
+
+### Author and Play parity
+
+- A clean `?author=1` load showed Camp, Section 1, and Section 2. Section 1 hierarchy exposed the real Jump Pad, both Portal Gates, Waypoint, Beacon, two chests, Entry Point, Parkour Start/Checkpoint/End, and Kill Volume.
+- In Edit, Entry Point, Parkour markers, and Kill Volume resolved as `editorHelperOnly`. Selecting Section 2 made all Section 1 helper roots effectively hidden while the Section 2 Entry Point helper remained visible.
+- In Section 1 Play, Entry Point, Parkour Start/Checkpoint/End, and Kill Volume had zero visible presentation roots. The real arrival/outbound gates, Jump Pad, Waypoint, Beacon, and both chests remained visible.
+- The existing saved draft on the normal development origin loaded successfully and retained its authored region/content shape. Targeted persisted-draft migration is additionally covered by an automated authored-transform preservation test.
+- Clean Author load had no browser warnings or errors.
+
+### Camp travel, progression, and extraction
+
+- Starting at the physical Camp gate presented only a clickable **Forest Edge** row at zero discoveries. Travel began an active Section 1 run at `z=17.5`, outside the Forest Edge gate trigger; the Section 1 Waypoint remained locked.
+- Physically entering the Section 1 Waypoint displayed its activation toast and extraction action. After returning to Camp, the Camp travel selector contained both Forest Edge and the discovered Section 1 Waypoint, with no Beacon or decorative gate row.
+- With Wood 3, Stone 2, and RUN XP 29, the Forest Edge gate displayed **RETURN TO CAMP**. **KEEP EXPLORING** left the session active with exact cargo/XP and an unchanged bank. Confirm returned to Camp, showed `EXPEDITION COMPLETE`, banked exactly Wood 3 / Stone 2 / XP 29, and recorded the new Waypoint.
+- A second real extraction banked XP 21 to the exact 50 boundary. The Camp HUD visibly changed from `LV 1` to `LV 2`; RUN XP reset to 0.
+- At the ruined Section 2 gate with 29 banked XP, the visible panel reported Level `1 / 2`, Stone `0 / 2`, Wood `0 / 2`, and Persistent XP `29 / 50`; repair was disabled.
+
+### Hazard and workbench checks
+
+- During the matching parkour course, entering the proof Kill Volume after its checkpoint safely respawned to that checkpoint and kept the expedition active.
+- Outside the course, entering the same volume resolved the run and displayed `Cause: Fatal Hazard`. The combat death path separately displayed `Cause: Combat`.
+- The browser pass exposed an initial checkpoint/volume overlap after relocation. Moving the proof volume farther down the optional lane to `x=8, z=-12` separated safe respawn from the hazard; the safe and fatal journeys were rerun successfully.
+- Real wheel input over the Iron Sword workbench moved view distance `9.77 → 8.18 → 9.77`. The Stone Ruin Arch moved `10.26 → 8.56 → 10.26`, showing bounded reversible zoom without the previous no-effect jump. Pure tests cover more extreme spans (`0.1` and `120`) and clamp behavior.
+
+### Human acceptance still requested
+
+Run the checklist in `docs/CURRENT_SLICE.md` and the Phase 4B.1.4 handoff: visually judge helper recognizability, duplicate cleanup, Camp/Forest Edge clarity, extraction confidence, gate readability, intentional-hazard clarity, workbench zoom feel, and sustained 20–30 second Author smoothness on the target desktop/phone. Automated UI/state evidence does not establish perceptual or performance acceptance.

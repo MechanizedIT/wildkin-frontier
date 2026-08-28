@@ -478,9 +478,9 @@ export const WORLD_DATA = {
           "courseId": "course_section_1",
           "id": "kill_volume_section_1",
           "pos": {
-            "x": 3,
+            "x": 8,
             "y": 0.6,
-            "z": -8
+            "z": -12
           },
           "size": {
             "d": 5,
@@ -598,14 +598,15 @@ export const WORLD_DATA = {
       "pois": [],
       "portalGates": [
         {
-          "displayName": "Camp Arrival",
+          "campReturnEnabled": true,
+          "displayName": "Forest Edge",
           "id": "gate_section_1_camp_arrival",
           "pos": {
             "x": 0,
             "y": 0,
             "z": 20
           },
-          "role": "arrival",
+          "role": "campLink",
           "rotY": 3.141592653589793,
           "state": "active",
           "travelEnabled": false,

@@ -12,3 +12,18 @@ export function getPlayerLevel(bankedXp) {
   const xp = Math.max(0, Math.floor(Number(bankedXp) || 0));
   return Math.floor(Math.sqrt(xp / PLAYER_LEVEL_XP_STEP)) + 1;
 }
+
+export function getPlayerLevelProgress(bankedXp) {
+  const xp = Math.max(0, Math.floor(Number(bankedXp) || 0));
+  const level = getPlayerLevel(xp);
+  const levelStartXp = getXpForLevel(level);
+  const nextLevelXp = getXpForLevel(level + 1);
+  return {
+    level,
+    bankedXp: xp,
+    levelStartXp,
+    nextLevelXp,
+    progressXp: xp - levelStartXp,
+    progressMax: nextLevelXp - levelStartXp,
+  };
+}

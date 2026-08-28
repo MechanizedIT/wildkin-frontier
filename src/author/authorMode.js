@@ -22,6 +22,15 @@ export const ASSET_EDIT_CAMERA_STEP = Math.PI / 4;
 // Camera movement is intentionally camera-only. Full editor section sync is event-driven.
 export const AUTHOR_CAMERA_SYNC_POLICY = Object.freeze({ pan: false, orbit: false, zoom: false });
 
+export function getAssetWorkbenchViewLimits(assetSpan, stageSpan = 10) {
+  const span = Math.max(0.1, Number(assetSpan) || 1);
+  const effectiveSpan = Math.max(span, stageSpan);
+  return {
+    minDistance: Math.max(0.6, span * 0.6),
+    maxDistance: Math.max(32, effectiveSpan * 4),
+  };
+}
+
 export function getAssetEditCameraPosition(view) {
   const horizontalDistance = Math.cos(view.pitch) * view.distance;
   return {
@@ -498,7 +507,7 @@ export function createAuthorMode(opts) {
   function zoomAssetEditCamera(deltaY, deltaMode = 0) {
     if (!assetEditViewState) return;
     const view = assetEditViewState;
-    view.distance = getNextAuthorZoomDistance(view.distance, deltaY, view.span * 0.6, view.span * 4, deltaMode);
+    view.distance = getNextAuthorZoomDistance(view.distance, deltaY, view.minDistance, view.maxDistance, deltaMode);
     applyAssetEditCamera();
   }
 
@@ -576,7 +585,8 @@ export function createAuthorMode(opts) {
       const yaw = Math.atan2(2.2, 2.6);
       const radius = span * Math.hypot(2.2, 2.6);
       const heightOffset = Math.max(2.8, span * 1.8) - target.y;
-      const distance = Math.hypot(radius, heightOffset);
+      const limits = getAssetWorkbenchViewLimits(span);
+      const distance = THREE.MathUtils.clamp(Math.hypot(radius, heightOffset), limits.minDistance, limits.maxDistance);
       const pitch = Math.atan2(heightOffset, radius);
       assetEditViewState = {
         target,
@@ -584,6 +594,8 @@ export function createAuthorMode(opts) {
         distance,
         pitch,
         span,
+        minDistance: limits.minDistance,
+        maxDistance: limits.maxDistance,
         defaultTarget: target.clone(),
         defaultYaw: yaw,
         defaultDistance: distance,
@@ -666,6 +678,7 @@ export function createAuthorMode(opts) {
 
     const root = syncAuthorVisual(scene, found, "author");
     applyPresentation(root, found);
+    if (root?.userData?.editorHelperOnly) root.visible = !!isEdit && found.regionId === selectedEditSectionId;
     const proxy = syncEditProxy(scene, found, isEdit);
     if (root) root.userData.proxyMesh = proxy;
 
@@ -914,6 +927,15 @@ export function createAuthorMode(opts) {
     editorVisibilitySyncLastReason = reason;
   }
 
+  function setEditorHelperVisibility(edit) {
+    scene.traverse((object) => {
+      if (!object.userData?.editorHelperOnly) return;
+      const authorId = object.userData.authorId;
+      const found = authorId ? draftApi.findObjectById(authorId) : null;
+      object.visible = !!edit && (!found?.regionId || found.regionId === selectedEditSectionId);
+    });
+  }
+
   function syncEditorSectionVisibility(reason = "explicit") {
     if (!isEdit) return;
     if (editingAssetId) {
@@ -1029,6 +1051,7 @@ export function createAuthorMode(opts) {
     ui.setSelected(newId);
     selectedId = newId;
     reconcilePreview();
+    setEditorHelperVisibility(true);
     syncPreviewForId(newId);
     updateHighlight();
     exitPlaceMode();
@@ -1210,6 +1233,7 @@ export function createAuthorMode(opts) {
     setHudVisible(true);
     setForestTransparency(false);
     setProxyVisibility(false);
+    setEditorHelperVisibility(false);
     clearSpawnMarkers();
     clearTrajectoryPreviews();
     exitPlaceMode();

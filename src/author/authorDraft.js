@@ -4,6 +4,10 @@
 
 import { normalizeWorldData } from "../world/worldValidator.js";
 import { resolveAuthorType, writeNormalizedTransform } from "./authorTypeRegistry.js";
+import {
+  SECTION_OBJECT_COLLECTIONS,
+  enumerateRegionAuthorObjects,
+} from "./authorObjectCollections.js";
 
 const STORAGE_KEY = "wildkin.authorDraft";
 const DRAFT_VERSION = "3.5B";
@@ -52,6 +56,19 @@ function mergeRepoCatalogs(savedDraft, repoData) {
     _newDropIds.push(drop.id);
     changed = true;
   }
+  // Targeted schema migration for canonical Camp-link semantics. Preserve all
+  // authored transforms/content and only fill the newly explicit contract.
+  for (const repoRegion of repoData.regions ?? []) {
+    for (const repoGate of repoRegion.portalGates ?? []) {
+      if (repoGate.campReturnEnabled !== true && repoGate.role !== "campLink") continue;
+      const savedGate = (savedDraft.regions ?? [])
+        .flatMap((region) => region.portalGates ?? [])
+        .find((gate) => gate.id === repoGate.id);
+      if (!savedGate) continue;
+      if (savedGate.campReturnEnabled === undefined) { savedGate.campReturnEnabled = true; changed = true; }
+      if (savedGate.role === "arrival") { savedGate.role = "campLink"; changed = true; }
+    }
+  }
   // Step 5: stash new IDs for UI badge (non-persisted, read via draftApi.getNewCatalogIds)
   if (_newAssetIds.length || _newDropIds.length) {
     savedDraft.__newCatalogIds = { assets: _newAssetIds, drops: _newDropIds };
@@ -60,20 +77,19 @@ function mergeRepoCatalogs(savedDraft, repoData) {
   return changed;
 }
 
+export function preparePersistedAuthorDraft(savedDraft, repoData) {
+  const data = deepClone(savedDraft);
+  const changed = mergeRepoCatalogs(data, repoData);
+  const newCatalogIds = getNewCatalogIds(data);
+  delete data.__newCatalogIds;
+  normalizeWorldData(data);
+  return { data, changed, newCatalogIds };
+}
+
 export function getNewCatalogIds(draft){
   return draft?.__newCatalogIds ?? { assets: [], drops: [] };
 }
 
-const SECTION_OBJECT_COLLECTIONS = {
-  entryPoints: "entryPoint",
-  portalGates: "portalGate",
-  jumpPads: "jumpPad",
-  parkourStarts: "parkourStart",
-  parkourCheckpoints: "parkourCheckpoint",
-  parkourEnds: "parkourEnd",
-  killVolumes: "killVolume",
-  lootChests: "lootChest",
-};
 const POINT_OWNED_COLLECTIONS = new Set(["props","resources","creatures","majorWaypoints","extractionBeacons","pois","platforms","obstacles","climbables", ...Object.keys(SECTION_OBJECT_COLLECTIONS)]);
 // groundPatches and boundaryColliders are footprint-owned, not point.
 
@@ -163,7 +179,7 @@ export function createAuthorDraft(repoData) {
   function queuePersist(){
     // Micro-batch: coalesce rapid transact/nextId bursts, but tests that read storage synchronously still see latest if we flush synchronously when not in animation frame
     // For correctness in tests, flush immediately if no timer (synchronous). Debounce only collapses multiple calls within same tick.
-    const payload = JSON.stringify(draft);
+    const payload = JSON.stringify(_stripTransient(deepClone(draft)));
     _persistQueued = payload;
     if (_persistTimer) return;
     _persistTimer = setTimeout(_flushPersist, 16);
@@ -207,10 +223,12 @@ export function createAuthorDraft(repoData) {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return null;
-      const parsed = JSON.parse(raw);
-      const migrated = mergeRepoCatalogs(parsed, repoData);
-      normalizeWorldData(parsed);
-      draft = parsed;
+      const prepared = preparePersistedAuthorDraft(JSON.parse(raw), repoData);
+      const migrated = prepared.changed;
+      draft = prepared.data;
+      if (prepared.newCatalogIds.assets.length || prepared.newCatalogIds.drops.length) {
+        draft.__newCatalogIds = prepared.newCatalogIds;
+      }
       const c = localStorage.getItem(STORAGE_KEY + ":counter");
       if (c) draftCounter = parseInt(c, 10) || 0;
       lastValidated = draft;
@@ -341,19 +359,8 @@ export function createAuthorDraft(repoData) {
     }
     if (id === "camp" && candidate.camp) return { obj: candidate.camp, region: null, collection: "camp", type: "camp" };
     for (const region of candidate.regions) {
-      for (const p of region.props ?? []) if (p.id === id) return { obj: p, region, collection: "props", type: "prop" };
-      for (const gp of region.groundPatches ?? []) if (gp.id === id) return { obj: gp, region, collection: "groundPatches", type: "groundPatch" };
-      for (const bc of region.boundaryColliders ?? []) if (bc.id === id) return { obj: bc, region, collection: "boundaryColliders", type: "boundaryCollider" };
-      for (const pl of region.traversal?.platforms ?? []) if (pl.id === id) return { obj: pl, region, collection: "platforms", type: "platform" };
-      for (const ob of region.traversal?.obstacles ?? []) if (ob.id === id) return { obj: ob, region, collection: "obstacles", type: "obstacle" };
-      for (const cl of region.traversal?.climbables ?? []) if (cl.id === id) return { obj: cl, region, collection: "climbables", type: "climbable" };
-      for (const r of region.resources ?? []) if (r.id === id) return { obj: r, region, collection: "resources", type: "resource" };
-      for (const cr of region.creatures ?? []) if (cr.id === id) return { obj: cr, region, collection: "creatures", type: "creature" };
-      for (const wp of region.majorWaypoints ?? []) if (wp.id === id) return { obj: wp, region, collection: "majorWaypoints", type: "majorWaypoint" };
-      for (const bc of region.extractionBeacons ?? []) if (bc.id === id) return { obj: bc, region, collection: "extractionBeacons", type: "extractionBeacon" };
-      for (const poi of region.pois ?? []) if (poi.id === id) return { obj: poi, region, collection: "pois", type: "poi" };
-      for (const [collection, type] of Object.entries(SECTION_OBJECT_COLLECTIONS)) {
-        for (const obj of region[collection] ?? []) if (obj.id === id) return { obj, region, collection, type };
+      for (const entry of enumerateRegionAuthorObjects(region)) {
+        if (entry.obj.id === id) return entry;
       }
     }
     return null;
@@ -1367,17 +1374,7 @@ export function createAuthorDraft(repoData) {
   function getAllObjectIds(){
     const ids=[];
     for(const region of draft.regions){
-      for(const p of region.props??[]) ids.push(p.id);
-      for(const gp of region.groundPatches??[]) ids.push(gp.id);
-      for(const bc of region.boundaryColliders??[]) ids.push(bc.id);
-      for(const pl of region.traversal?.platforms??[]) ids.push(pl.id);
-      for(const ob of region.traversal?.obstacles??[]) ids.push(ob.id);
-      for(const cl of region.traversal?.climbables??[]) ids.push(cl.id);
-      for(const r of region.resources??[]) ids.push(r.id);
-      for(const cr of region.creatures??[]) ids.push(cr.id);
-      for(const wp of region.majorWaypoints??[]) ids.push(wp.id);
-      for(const bc of region.extractionBeacons??[]) ids.push(bc.id);
-      for(const poi of region.pois??[]) ids.push(poi.id);
+      for (const entry of enumerateRegionAuthorObjects(region)) ids.push(entry.obj.id);
     }
     ids.push("camp_spawn");
     for(const region of draft.regions) for(const wp of region.majorWaypoints??[]) ids.push(wp.id+"__runSpawn");

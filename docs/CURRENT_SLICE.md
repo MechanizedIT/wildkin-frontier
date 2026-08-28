@@ -1,87 +1,75 @@
-# Wildkin Frontier — Phase 4B.1.3: Author Camera Closure
+# Wildkin Frontier — Phase 4B.1.4: Author / Runtime Parity & Frontier Travel UX Closure
 
-**Status:** IMPLEMENTED / HUMAN ACCEPTANCE PENDING  
-**Active slice:** Phase 4B.1.3
-**Base implementation:** `312c368` — Phase 4B.1.2 Author Performance Closure
+**Status:** IMPLEMENTED / HUMAN ACCEPTANCE PENDING
 
-This is a narrow camera/projection closure pass. It keeps the completed Phase 4B.1.2 event-driven toolkit intact while making Author framing section-local, zoom bounded, and safe to enter/exit without changing gameplay camera state.
+**Active slice:** Phase 4B.1.4
 
-## Goal
+**Base implementation:** `f4e3bbb` — Phase 4B.1.3 Author Camera Closure
 
-Close only these Author performance gaps:
+This is the final bounded closure pass for the Phase 4B.1 section toolkit. It aligns Author with the real runtime object model, makes Camp travel and return-to-Camp extraction coherent, exposes persistent level and gate requirements clearly, distinguishes intentional fatal hazards from combat loss, and fixes Visual Asset Workbench zoom bounds. It does not begin Phase 4B.2 or author the final Section 1 layout.
 
-1. Use selected Camp/Section 1/Section 2 bounds for editor framing, reset, and zoom limits.
-2. Replace span-linear wheel jumps with normalized, smooth distance-relative zoom.
-3. Give Author Mode an editor-only far plane and restore gameplay near/far/fov/pose exactly on exit.
-4. Route Focus Object and Focus Section through canonical `levelViewState`.
-5. Preserve event-driven visibility synchronization and diagnostics from Phase 4B.1.2.
+## Implemented closure
+
+1. One canonical Author object enumerator covers props, ground, boundaries, traversal, resources, Wildkin, anchors, Entry Points, Portal Gates, Jump Pads, Parkour Start/Checkpoint/End, Kill Volumes, and Loot Chests.
+2. Real structures remain player-facing in Edit and Play: Portal Gates, Jump Pads, Major Waypoints, Extraction Beacons, and Loot Chests.
+3. Entry Points, Parkour Start/Checkpoint/End, Kill Volumes, and spawn markers are distinct editor-only helpers. They do not create duplicate physical gates, Waypoints, or Beacons in Play.
+4. Saved Author drafts receive only the targeted Camp-link schema/catalog migration; authored transforms and content remain intact.
+5. The Camp Gate always opens a destination selector. Forest Edge is always available; physically discovered Major Waypoints are added; Beacons and ordinary gates are not start destinations.
+6. Forest Edge starts outside the Section 1 arrival trigger. Its physical gate is an explicit Camp link that asks for confirmation and resolves through the same idempotent extraction/banking owner as Waypoint or Beacon extraction.
+7. Persistent Level and banked XP progress are shown separately from RUN XP. Ruined gates show current/required level, current/required run cargo, and next-level banked-XP progress.
+8. Expedition loss records and presents a reason (`Combat` or `Fatal Hazard`). A matching active parkour course still intercepts its own hazard and safely respawns at the latest checkpoint.
+9. The proof Kill Volume is in the optional parkour lane at `x=8, z=-12`, separated from the checkpoint and ordinary travel route.
+10. Asset Workbench zoom derives dedicated min/max distances from actual asset span and uses the existing normalized exponential wheel path.
 
 ## Locked foundations
 
 Do not reopen:
 
 - 100×100 Camp / 50×50 section grammar,
-- section-local coordinates,
-- explicit active SectionRuntime,
+- section-local coordinates and explicit `SectionRuntime`,
 - inactive visual/physics/simulation isolation,
-- fresh Camp Gate direct departure when no Waypoints are discovered,
-- discoverable Major Waypoints,
-- current run cargo + player level for ruined-gate repair,
-- persistent repaired frontier progress,
+- one authoritative `requestAnimationFrame` loop,
+- portal travel between ordinary reciprocal physical gates,
+- discoverable Major Waypoints and persistent frontier progress,
+- current run cargo + persistent player level for ruined-gate repair,
 - physical Jump Pad launch with no landing magnet,
-- reusable loot/persistence,
-- Matter Attractor keyed upgrade migration,
-- owner-authored final level composition.
+- reusable loot/persistence and Matter Attractor keyed migration,
+- event-driven Author synchronization and the Phase 4B.1.3 camera contract,
+- owner-authored final geography, pacing, landmarks, encounters, and balance.
 
-## Proof topology after closure
+## Proof topology
 
 ```text
 Camp
-  gate_camp_frontier
-       ↓
+  gate_camp_frontier → destination selector
+       ├─ Forest Edge (always)
+       └─ discovered Major Waypoints
+              ↓
 Section 1
-  physical Camp-arrival gate
-  Waypoint / Beacon
-  proof Jump Pad + parkour + Parkour End
+  gate_section_1_camp_arrival → confirmed extraction / Camp return
+  real Waypoint / Beacon / Jump Pad / chests
+  editor-only parkour helpers + fatal proof volume
   ruined gate_section_1_to_2
        ⇅
 Section 2
   gate_section_2_to_1
-  Waypoint
+  real Waypoint
 ```
 
-Section 1 ⇄ Section 2 should work in both directions after repair without extracting, double-charging, or bouncing immediately back through the receiving gate.
+## Verification checkpoint
 
-## Do not do
-
-- final Section 1 layout/pacing,
-- procedural level design,
-- full portal graph UI,
-- generic scripting/quests,
-- new progression systems,
-- Camp return/extraction redesign,
-- async streaming,
-- broad Author Mode overhaul.
+- Automated coverage: 558 tests were green before final documentation; the final aggregate gates must remain green.
+- Canonical generated world and source JSON are in sync.
+- Real browser journeys covered fresh Camp travel, physical Waypoint discovery, discovered destination travel, explicit Camp-return Cancel and Confirm, exact banking at XP 29 and Level 2 at XP 50, ruined-gate requirements, fatal-hazard vs combat loss, matching-course safe respawn, Author hierarchy/helper isolation, player-facing Play objects, section switching, and small/large workbench wheel zoom.
+- Browser console warnings/errors were empty on the clean canonical Author load.
+- Human perception, sustained 20–30 second Author smoothness, and target-device/phone feel remain owner acceptance work.
 
 ## Stop condition
 
-When the closure fixes and production/browser tests pass, leave:
+Leave:
 
 ```text
-Phase 4B.1.3 = IMPLEMENTED / HUMAN ACCEPTANCE PENDING
+Phase 4B.1.4 = IMPLEMENTED / HUMAN ACCEPTANCE PENDING
 ```
 
-Then stop.
-
-The owner will human-test the toolkit. Only after owner acceptance should the project move to **Phase 4B.2 — Human-Authored Section 1 Vertical Slice**.
-
-## Phase 4B.1.3 closure checkpoint
-
-- Author framing/reset now uses the selected section's bounds: Camp span 100, Sections 1/2 span 50.
-- Wheel input normalizes pixel/line/page deltas, clamps outliers, and applies exponential distance-relative zoom inside section-local limits.
-- Edit entry raises the camera far plane to cover the bounded editor range; exit restores near/far/fov, pose, and rotation from the gameplay snapshot.
-- Focus Object and Focus Section update `levelViewState.target` before applying the camera.
-- Full Author section synchronization remains event-driven and instrumented via `window.__author.mode.getEditorDiagnostics()`.
-- Automated implementation coverage and browser smoke are complete; player-facing browser/phone acceptance remains pending.
-
-Preserve the Phase 4B.1.1 contracts in `docs/Specs/Phase_4B.1.1.md`; do not start Phase 4B.2.
+Do not activate **Phase 4B.2 — Human-Authored Section 1 Vertical Slice** until the owner explicitly accepts this closure.

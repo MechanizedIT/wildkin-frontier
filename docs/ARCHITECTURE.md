@@ -1,4 +1,4 @@
-# Architecture — Wildkin Frontier (Phase 4B.1 Implemented — Section Framework & Level-Design Toolkit)
+# Architecture — Wildkin Frontier (Phase 4B.1.4 Implemented — Toolkit Closure)
 
 > Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document records the **implemented Phase 4B.1 foundation** after the stopped Phase 4B first pass. The section framework replaces the continuous-strip level assumption with portal-connected self-contained sections while preserving the accepted Author/Visual Asset contracts. Final section composition remains human-owned in Phase 4B.2.
 
@@ -125,6 +125,43 @@ portalGate {
 ```
 
 A repaired gate becomes persistent frontier progress.
+
+## Author visual-role contract
+
+Author and runtime now share one canonical region-object enumeration seam. Adding a new authored collection requires registering it there so lookup, duplicate-ID checks, type resolution, hierarchy coverage, and preview construction cannot drift into separate hand-maintained family lists.
+
+Every resolved Author type has one of two visual roles:
+
+```text
+playerFacing
+  Portal Gates, Jump Pads, Major Waypoints, Extraction Beacons, Loot Chests,
+  and the ordinary authored world objects that players physically see.
+
+editorHelperOnly
+  Entry Points, Parkour Start/Checkpoint/End, Kill Volumes, Camp Spawn,
+  and Waypoint run-spawn markers.
+```
+
+`playerFacing` objects use the same recognizable runtime structure in Edit and Play. Author may add selection/highlight overlays, but it must not substitute a second gate, Waypoint, or Beacon-shaped proxy. `editorHelperOnly` objects receive distinct labeled Author recipes and exist only while editing the selected section. Play builds no physical presentation for them. The Kill Volume recipe renders its exact authored box as a translucent red volume.
+
+Saved Author drafts are never reset to pick up this contract. Load performs a targeted catalog/schema merge, preserves authored transforms/content, and only upgrades matching repository Camp-link fields.
+
+## Camp start destinations and Camp-link extraction
+
+The Camp Gate is a travel selector, not an immediate teleport and not a topology inspection row. Its destination data is derived from canonical world/progress state:
+
+```text
+fresh progress
+  → Forest Edge section entry (always available)
+
+after physical discovery
+  → Forest Edge
+  → each unlocked Major Waypoint, using its canonical runSpawn
+```
+
+Extraction Beacons and ordinary Portal Gates never become Camp start destinations. The map keeps two explicit modes: read-only frontier inspection from the MAP button, and actionable destination selection from the physical Camp Gate.
+
+Forest Edge is the physical `gate_section_1_camp_arrival` endpoint with `role: campLink`, `campReturnEnabled: true`, and `travelEnabled: false`. Camp departure computes an outside-trigger arrival transform from that gate. Re-entering it during an active expedition opens an explicit Return to Camp confirmation. Cancel is a no-op. Confirm delegates to the shared successful-extraction resolver, which snapshots cargo/XP/discoveries, resolves the run, banks by run ID exactly once, resets to Camp, and presents the normal success result. Waypoint and Beacon extraction use the same resolver.
 
 ## SectionRuntime
 

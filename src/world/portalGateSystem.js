@@ -1,5 +1,7 @@
 // First-class Portal Gate interaction, requirements, repair, and transition dispatch.
 
+import { getPlayerLevelProgress } from "../progression/playerLevel.js";
+
 function normalizedResourceRequirements(requirements = {}) {
   return requirements.resources && typeof requirements.resources === "object"
     ? Object.fromEntries(Object.entries(requirements.resources).filter(([, amount]) => Number.isInteger(amount) && amount > 0))
@@ -20,6 +22,20 @@ export function getPortalRequirementStatus({ requirements = {}, playerLevel = 1,
     levelMet: playerLevel >= minPlayerLevel,
     resources,
     missingResources,
+  };
+}
+
+export function getPortalRequirementViewModel({ requirements = {}, bankedXp = 0, cargo = {} } = {}) {
+  const progress = getPlayerLevelProgress(bankedXp);
+  const status = getPortalRequirementStatus({ requirements, playerLevel: progress.level, cargo });
+  return {
+    ok: status.ok,
+    level: { current: progress.level, required: status.minPlayerLevel, met: status.levelMet },
+    resources: Object.entries(status.resources).map(([id, required]) => {
+      const current = Math.max(0, Math.floor(Number(cargo[id]) || 0));
+      return { id, current, required, met: current >= required };
+    }),
+    progress,
   };
 }
 
@@ -57,6 +73,7 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
   const frontierProgress = opts.frontierProgress;
   const getActiveSectionId = opts.getActiveSectionId ?? (() => null);
   const getPlayerLevel = opts.getPlayerLevel ?? (() => 1);
+  const getBankedXp = opts.getBankedXp ?? (() => 0);
   const getCargo = opts.getCargo ?? (() => ({}));
   const spendCargo = opts.spendCargo ?? (() => false);
   const refundCargo = opts.refundCargo ?? (() => {});
@@ -67,27 +84,32 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
     return gate.state === "active" || frontierProgress?.isPortalGateRepaired?.(gate.id);
   }
 
+  function isCampLink(gate) {
+    return gate?.role === "campLink" || gate?.campReturnEnabled === true;
+  }
+
   function getNearbyInteraction(playerPos) {
     if (!playerPos) return null;
     let best = null;
     for (const gate of worldRegistry.getPortalGatesForSection?.(getActiveSectionId()) ?? []) {
-      if (gate.role === "arrival" && gate.travelEnabled === false) continue;
+      if (gate.role === "arrival" && gate.travelEnabled === false && !isCampLink(gate)) continue;
       const radius = gate.triggerRadius ?? 1.85;
       const distance = Math.hypot(playerPos.x - gate.pos.x, playerPos.z - gate.pos.z);
       if (distance > radius || (best && best.distance <= distance)) continue;
       if (gate.id === campGateId) {
-        best = { id: gate.id, type: "portalGate", action: "camp-start", label: "START EXPEDITION", distance };
+        best = { id: gate.id, type: "portalGate", action: "camp-start", label: "TRAVEL", distance };
+      } else if (isCampLink(gate)) {
+        best = { id: gate.id, type: "portalGate", action: "return-to-camp", label: "RETURN TO CAMP", distance };
       } else if (isGateActive(gate)) {
-        best = { id: gate.id, type: "portalGate", action: "travel", label: `TRAVEL — ${gate.displayName ?? gate.targetSectionId}`, distance };
+        best = { id: gate.id, type: "portalGate", action: "travel", label: "TRAVEL", detail: gate.displayName ?? gate.targetSectionId, distance };
       } else {
-        const status = getPortalRequirementStatus({ requirements: gate.requirements, playerLevel: getPlayerLevel(), cargo: getCargo() });
-        const label = status.ok ? "REBUILD FRONTIER GATE" : `RUINED GATE — LV ${status.minPlayerLevel}`;
         const cargo = getCargo() ?? {};
-        const resourceDetail = Object.entries(status.resources)
-          .map(([id, required]) => `${id.replace(/_/g, " ")} ${Math.max(0, Math.floor(Number(cargo[id]) || 0))}/${required}`)
+        const requirementView = getPortalRequirementViewModel({ requirements: gate.requirements, bankedXp: getBankedXp(), cargo });
+        const resourceDetail = requirementView.resources
+          .map(({ id, current, required }) => `${id.replace(/_/g, " ")} ${current}/${required}`)
           .join(" · ");
-        const detail = `Requires Level ${status.minPlayerLevel}${resourceDetail ? ` · ${resourceDetail}` : ""}`;
-        best = { id: gate.id, type: "portalGate", action: "repair", label, detail, requirementStatus: status, distance };
+        const detail = `Level ${requirementView.level.current}/${requirementView.level.required}${resourceDetail ? ` · ${resourceDetail}` : ""}`;
+        best = { id: gate.id, type: "portalGate", action: "inspect", label: "INSPECT GATE", detail, requirementView, distance };
       }
     }
     if (!best) return null;
@@ -98,9 +120,17 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
   function activate(portalId) {
     const gate = worldRegistry.getPortalGateById?.(portalId);
     if (!gate || gate.sectionId !== getActiveSectionId()) return { ok: false, reason: "inactive-or-missing" };
+    if (isCampLink(gate)) return { ok: true, action: "return-to-camp", gate };
     if (gate.role === "arrival" && gate.travelEnabled === false) return { ok: false, reason: "arrival-only" };
     if (gate.id === campGateId) return { ok: true, action: "camp-start", gate };
     if (isGateActive(gate)) return { ok: !!onTravel(gate), action: "travel", gate };
+    return repair(portalId);
+  }
+
+  function repair(portalId) {
+    const gate = worldRegistry.getPortalGateById?.(portalId);
+    if (!gate || gate.sectionId !== getActiveSectionId()) return { ok: false, reason: "inactive-or-missing" };
+    if (isGateActive(gate)) return { ok: false, reason: "already-active", gate };
     const cargo = getCargo();
     const status = getPortalRequirementStatus({ requirements: gate.requirements, playerLevel: getPlayerLevel(), cargo });
     if (!status.ok) return { ok: false, reason: status.levelMet ? "insufficient-resources" : "insufficient-level", status };
@@ -118,5 +148,5 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
     return { ok: true, action: "repaired", gate, spent: result.spent };
   }
 
-  return { getNearbyInteraction, activate, isGateActive };
+  return { getNearbyInteraction, activate, repair, isGateActive, isCampLink };
 }

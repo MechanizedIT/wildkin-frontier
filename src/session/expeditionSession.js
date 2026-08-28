@@ -123,13 +123,13 @@ export function createExpeditionSession(opts = {}) {
     if (!runDiscoveries.newBeacons.includes(id)) runDiscoveries.newBeacons.push(id);
   }
 
-  function onDeath() {
+  function onDeath(reason = "other") {
     if (resolved) return null;
     // snapshot before clearing
-    const snap = snapshotRun();
+    const snap = { ...snapshotRun(), deathReason: String(reason || "other") };
     status = "dead";
     resolved = true;
-    extractionOutcome = { type: "lost", snapshot: snap };
+    extractionOutcome = { type: "lost", reason: snap.deathReason, snapshot: snap };
     return snap;
   }
 
@@ -148,9 +148,9 @@ export function createExpeditionSession(opts = {}) {
     if (resolved) return null;
     return onExtract();
   }
-  function tryResolveDeath() {
+  function tryResolveDeath(reason = "other") {
     if (resolved) return null;
-    return onDeath();
+    return onDeath(reason);
   }
 
   function setStatus(s) { status = s; }

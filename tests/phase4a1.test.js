@@ -97,7 +97,7 @@ describe("Phase 4A.1 — fresh launch / gate", ()=>{
     assert.equal(sys.getNearbyInteraction(outside, sess), null);
     sys.update(inside);
     const nearby = sys.getNearbyInteraction(inside, sess);
-    assert.ok(nearby && nearby.type === "gate" && nearby.label === "START EXPEDITION");
+    assert.ok(nearby && nearby.type === "gate" && nearby.label === "TRAVEL");
     sys.update(inside);
     assert.ok(sys.getNearbyInteraction(inside, sess), "staying inside should keep gate interaction");
     sys.update(outside);

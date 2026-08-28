@@ -42,6 +42,7 @@ import { createAnchorPrompt } from "./ui/anchorPrompt.js";
 import { createRunResultCard } from "./ui/runResultCard.js";
 import { createFrontierIndicators } from "./ui/frontierIndicators.js";
 import { createAuthorMode } from "./author/authorMode.js";
+import { preparePersistedAuthorDraft } from "./author/authorDraft.js";
 import { createContextualInteraction } from "./ui/contextualInteraction.js";
 import { createActivationToast } from "./ui/activationToast.js";
 import { createMatterResonatorPanel } from "./ui/matterResonatorPanel.js";
@@ -53,12 +54,13 @@ import {
   validateMatterAttractorCost,
 } from "./progression/matterAttractor.js";
 import { getPlayerLevel } from "./progression/playerLevel.js";
+import { createReturnToCampFlow, resolveSuccessfulExtraction } from "./session/runResolution.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 4B.1.3 — 0.16.0";
+const VERSION = "Phase 4B.1.4 — 0.17.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -78,7 +80,8 @@ if (authorEnabled) {
   try {
     const raw = localStorage.getItem("wildkin.authorDraft");
     if (raw) {
-      const parsed = JSON.parse(raw);
+      const prepared = preparePersistedAuthorDraft(JSON.parse(raw), canonicalWorldData);
+      const parsed = prepared.data;
       if (parsed && Array.isArray(parsed.regions) && parsed.version) {
         effectiveWorldData = parsed;
       }
@@ -240,6 +243,7 @@ resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld);
 const fieldTool = createFieldTool(player, gameAudio);
 
 const combatHud = createCombatHud();
+combatHud.updateLevel(getPlayerLevel(frontierProgress.getBankedXp()));
 xpMoteSystem = createXpMoteSystem(scene, {
   onXpChanged: (xp) => {
     combatHud.updateXp(xp);
@@ -267,7 +271,7 @@ const playerCombat = createPlayerCombat({
   onDeath: () => {
     if (expeditionSession.isResolved?.()) return;
     if (parkourSystem?.handleFatalFailure("damage")) return;
-    handleDeathFlow();
+    handleDeathFlow("combat");
   },
   scene,
 });
@@ -344,6 +348,7 @@ xpMoteSystem.setPlayerPos(playerController.getState().pos);
 
 // UI — Map, AnchorPrompt, ResultCard, Indicators (Phase 4A focused owners)
 let frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem;
+let returnToCampFlow = null;
 
 function isAnyBlockingModal() {
   return (frontierMap && frontierMap.isOpen()) || (anchorPrompt && anchorPrompt.isVisible()) || (runResultCard && runResultCard.isVisible()) || (matterResonatorPanel && matterResonatorPanel.isVisible());
@@ -369,8 +374,8 @@ function refreshMapAvailability() {
 frontierMap = createFrontierMap({
   worldRegistry,
   frontierProgress,
-  onStartSelected: (waypointId) => {
-    beginExpedition(waypointId);
+  onStartSelected: (destination) => {
+    beginExpeditionDestination(destination);
   },
   onClose: () => {
     refreshMapAvailability();
@@ -384,10 +389,20 @@ frontierMap = createFrontierMap({
 
 anchorPrompt = createAnchorPrompt({
   onExtract: (data) => {
-    handleExtractionFlow(data);
+    if (data.type === "portalRepair") {
+      portalGateSystem?.repair(data.id);
+      refreshMapAvailability();
+      syncInputBlock();
+    } else if (data.type === "campReturn") {
+      const resolved = returnToCampFlow?.confirm();
+      if (resolved?.ok) finalizeSuccessfulExtraction(resolved, data);
+    } else {
+      handleExtractionFlow(data);
+    }
   },
   onKeepGoing: (data) => {
-    if (frontierAnchorSystem) frontierAnchorSystem.handleKeepGoing(data.id);
+    if (data.type === "campReturn") returnToCampFlow?.cancel();
+    else if (data.type !== "portalRepair" && frontierAnchorSystem) frontierAnchorSystem.handleKeepGoing(data.id);
     refreshMapAvailability();
     syncInputBlock();
   },
@@ -500,6 +515,7 @@ portalGateSystem = createPortalGateSystem(worldRegistry, {
   frontierProgress,
   getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),
+  getBankedXp: () => frontierProgress.getBankedXp(),
   getCargo: () => pickupSystem.getInventory(),
   spendCargo: (_cargo, cost) => pickupSystem.spendInventory(cost),
   refundCargo: (cost) => pickupSystem.grantInventory(cost),
@@ -514,7 +530,7 @@ jumpPadSystem = createJumpPadSystem(worldRegistry, {
 parkourSystem = createParkourSystem(worldRegistry, {
   getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
   onSafeFailure: handleParkourSafeFailure,
-  onNormalFatal: () => handleDeathFlow(),
+  onNormalFatal: ({ reason } = {}) => handleDeathFlow(reason ?? "fatal_hazard"),
 });
 
 lootSystem = createLootSystem(worldRegistry, {
@@ -527,21 +543,36 @@ lootSystem = createLootSystem(worldRegistry, {
   onCourseReward: (courseId) => parkourSystem.completeCourse(courseId),
 });
 
+returnToCampFlow = createReturnToCampFlow({
+  session: expeditionSession,
+  getCargo: () => pickupSystem.getInventory(),
+  getXp: () => xpMoteSystem.getXp(),
+  bankRun: (cargo, xp, runId) => frontierProgress.bankRun(cargo, xp, runId),
+});
+
 // Contextual interaction (single owner)
 let contextualInteraction = null;
 contextualInteraction = createContextualInteraction({
   onActivate: (info) => {
     if (isAnyBlockingModal()) return;
     if (info.type === "portalGate") {
-      const result = portalGateSystem.activate(info.id);
-      if (result.action === "camp-start") {
-        const unlocked = frontierProgress.getUnlockedWaypoints();
-        if (unlocked.length === 0) beginExpeditionFromDefaultEntry();
-        else {
-          frontierMap.openStartSelection();
+      if (info.action === "camp-start") {
+        frontierMap.openStartSelection();
+        refreshMapAvailability();
+        syncInputBlock();
+      } else if (info.action === "return-to-camp") {
+        if (returnToCampFlow.request({ id: info.id }).ok) {
+          anchorPrompt.show({ type: "campReturn", id: info.id, cargo: pickupSystem.getInventory(), xp: xpMoteSystem.getXp() });
           refreshMapAvailability();
           syncInputBlock();
         }
+      } else if (info.action === "inspect") {
+        const gate = worldRegistry.getPortalGateById(info.id);
+        anchorPrompt.show({ type: "portalRepair", id: info.id, displayName: gate?.displayName, requirementView: info.requirementView });
+        refreshMapAvailability();
+        syncInputBlock();
+      } else {
+        portalGateSystem.activate(info.id);
       }
     } else if (info.type === "lootChest") {
       lootSystem.open(info.id);
@@ -551,10 +582,17 @@ contextualInteraction = createContextualInteraction({
         refreshMapAvailability();
         syncInputBlock();
       } else if (expeditionSession.isActive()) {
-        handleExtractionFlow({ id: info.id, type: "gate" });
+        if (returnToCampFlow.request({ id: info.id }).ok) {
+          anchorPrompt.show({ type: "campReturn", id: info.id, cargo: pickupSystem.getInventory(), xp: xpMoteSystem.getXp() });
+          refreshMapAvailability();
+          syncInputBlock();
+        }
       }
     } else if (info.type === "majorWaypoint" || info.type === "extractionBeacon") {
-      handleExtractionFlow({ id: info.id, type: info.type });
+      const anchor = info.type === "majorWaypoint" ? worldRegistry.getWaypointById(info.id) : worldRegistry.getBeaconById(info.id);
+      anchorPrompt.show({ id: info.id, type: info.type, displayName: anchor ? worldRegistry.getAnchorDisplayName(anchor) : null, cargo: pickupSystem.getInventory(), xp: xpMoteSystem.getXp() });
+      refreshMapAvailability();
+      syncInputBlock();
     } else if (info.type === "resonator" && expeditionSession.isCamp()) {
       matterResonatorPanel.show();
       refreshMapAvailability();
@@ -718,6 +756,19 @@ function beginExpedition(waypointId) {
   });
 }
 
+function beginExpeditionDestination(destination) {
+  if (!destination) return false;
+  if (destination.type === "waypoint") return beginExpedition(destination.id);
+  if (destination.type !== "sectionEntry") return false;
+  return beginExpeditionAtTransform({
+    sectionId: destination.sectionId,
+    startAnchorId: destination.id,
+    feetPosition: destination.feetPosition,
+    facingYaw: destination.facingYaw ?? 0,
+    suppressAnchorId: null,
+  });
+}
+
 function beginExpeditionFromDefaultEntry() {
   const destination = worldRegistry.getDefaultExpeditionArrival?.() ?? worldRegistry.getDefaultExpeditionEntry();
   if (!destination) return false;
@@ -736,16 +787,28 @@ function handleExtractionFlow(data) {
   if (!expeditionSession.isActive()) return;
   const cargo = pickupSystem.getInventory();
   const xp = xpMoteSystem.getXp();
-  const snap = expeditionSession.tryResolveExtract();
-  if (!snap) return;
-  frontierProgress.bankRun(cargo, xp, snap.runId);
-  // Determine new discoveries for card (snapshot already has runDiscoveries)
-  const discoveries = expeditionSession.getRunDiscoveries();
+  const resolved = resolveSuccessfulExtraction({
+    session: expeditionSession,
+    cargo,
+    xp,
+    bankRun: (bankCargo, bankXp, runId) => frontierProgress.bankRun(bankCargo, bankXp, runId),
+  });
+  if (!resolved.ok) return;
+  finalizeSuccessfulExtraction(resolved, data);
+}
+
+function finalizeSuccessfulExtraction(resolved, data) {
+  const snap = resolved.snapshot;
   const banked = frontierProgress.getState();
-  pendingResultSnapshot = { cargo: { ...cargo }, xp, newWaypoints: [...discoveries.newWaypoints], newBeacons: [...discoveries.newBeacons] };
+  pendingResultSnapshot = {
+    cargo: { ...snap.cargo },
+    xp: snap.xp,
+    newWaypoints: [...snap.newWaypoints],
+    newBeacons: [...snap.newBeacons],
+  };
   // Return/reset transient world to Camp (shared path)
-  expeditionSession.resetToCamp();
   resetTransientWorldToCamp();
+  combatHud.updateLevel(getPlayerLevel(banked.bankedXp));
   syncInputBlock();
   frontierMap.close();
   anchorPrompt.hide();
@@ -762,10 +825,10 @@ function handleExtractionFlow(data) {
   });
   refreshMapAvailability();
   syncInputBlock();
-  frontierAnchorSystem.handleExtracted(data.id);
+  frontierAnchorSystem.handleExtracted(data?.id);
 }
 
-function handleDeathFlow() {
+function handleDeathFlow(reason = "combat") {
   if (expeditionSession.isResolved?.()) return;
   if (!expeditionSession.isActive()) {
     // If died at camp (should not happen), just reset
@@ -774,11 +837,11 @@ function handleDeathFlow() {
   }
   const cargo = pickupSystem.getInventory();
   const xp = xpMoteSystem.getXp();
-  const snap = expeditionSession.tryResolveDeath();
+  const snap = expeditionSession.tryResolveDeath(reason);
   if (!snap) return;
   const discoveries = expeditionSession.getRunDiscoveries();
   // Death banks nothing, but discoveries (waypoints/beacons) already persisted via anchor system unlocks — they survive
-  pendingResultSnapshot = { cargo: { ...cargo }, xp, newWaypoints: [...discoveries.newWaypoints], newBeacons: [...discoveries.newBeacons] };
+  pendingResultSnapshot = { cargo: { ...cargo }, xp, deathReason: snap.deathReason, newWaypoints: [...discoveries.newWaypoints], newBeacons: [...discoveries.newBeacons] };
   const banked = frontierProgress.getState();
   // Return/reset to Camp via shared path
   expeditionSession.resetToCamp();

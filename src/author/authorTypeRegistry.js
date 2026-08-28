@@ -3,6 +3,7 @@
 // Production UI/Mode must not rely on hard-coded family lists for ordinary transform/presentation.
 
 import { describeBoxCollider, describeResourceCollider, describeCreatureCollider, describeVisualAssetCollider } from "../world/colliderDescriptor.js";
+import { enumerateRegionAuthorObjects } from "./authorObjectCollections.js";
 
 // Helpers
 function isFiniteNumber(v) { return typeof v === "number" && Number.isFinite(v); }
@@ -891,10 +892,11 @@ function makeGenericPoiDefinition() {
   };
 }
 
-function makeSectionObjectDefinition(collection, key, visualId, inspector = [], { sized = false } = {}) {
+function makeSectionObjectDefinition(collection, key, visualId, inspector = [], { sized = false, visualRole = "playerFacing" } = {}) {
   return {
     key: `section:${key}`,
     visualId,
+    visualRole,
     sizeMode: sized ? "box" : "none",
     capabilities: {
       selectable: true, draggable: true, elevation: true, rotation: true, resize: sized,
@@ -934,6 +936,7 @@ function makeSpawnDefinitions() {
   const campSpawn = {
     key: "spawn:camp",
     visualId: "spawn/marker",
+    visualRole: "editorHelperOnly",
     sizeMode: "none",
     capabilities: {
       selectable: true, draggable: true, elevation: true, rotation: true, resize: false,
@@ -960,6 +963,7 @@ function makeSpawnDefinitions() {
   const runSpawn = {
     key: "spawn:run",
     visualId: "spawn/marker",
+    visualRole: "editorHelperOnly",
     sizeMode: "none",
     capabilities: {
       selectable: true, draggable: true, elevation: true, rotation: true, resize: false,
@@ -1003,9 +1007,9 @@ const DEFINITIONS = [
   makeGenericCreatureDefinition(),
   makeWaypointDefinition(),
   makeBeaconDefinition(),
-  makeSectionObjectDefinition("entryPoints", "entryPoint", "spawn/marker", [
+  makeSectionObjectDefinition("entryPoints", "entryPoint", "editor/entry-point", [
     { key: "facingYaw", label: "Facing (radians)", type: "number", path: "facingYaw" },
-  ]),
+  ], { visualRole: "editorHelperOnly" }),
   makeSectionObjectDefinition("portalGates", "portalGate", "prop/gate", [
     { key: "displayName", label: "Display Name", type: "text", path: "displayName" },
     { key: "state", label: "State", type: "text", path: "state" },
@@ -1022,21 +1026,21 @@ const DEFINITIONS = [
     { key: "verticalLaunch", label: "Vertical Launch", type: "number", path: "verticalLaunch" },
     { key: "cooldown", label: "Cooldown", type: "number", path: "cooldown" },
   ]),
-  makeSectionObjectDefinition("parkourStarts", "parkourStart", "spawn/marker", [
+  makeSectionObjectDefinition("parkourStarts", "parkourStart", "editor/parkour-start", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
     { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius" },
-  ]),
-  makeSectionObjectDefinition("parkourCheckpoints", "parkourCheckpoint", "anchor/waypoint", [
+  ], { visualRole: "editorHelperOnly" }),
+  makeSectionObjectDefinition("parkourCheckpoints", "parkourCheckpoint", "editor/parkour-checkpoint", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
     { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius" },
-  ]),
-  makeSectionObjectDefinition("parkourEnds", "parkourEnd", "anchor/beacon", [
+  ], { visualRole: "editorHelperOnly" }),
+  makeSectionObjectDefinition("parkourEnds", "parkourEnd", "editor/parkour-end", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
     { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius", min: 0.1 },
-  ]),
-  makeSectionObjectDefinition("killVolumes", "killVolume", "boundaryCollider", [
+  ], { visualRole: "editorHelperOnly" }),
+  makeSectionObjectDefinition("killVolumes", "killVolume", "editor/kill-volume", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
-  ], { sized: true }),
+  ], { sized: true, visualRole: "editorHelperOnly" }),
   makeSectionObjectDefinition("lootChests", "lootChest", "poi/chest", [
     { key: "displayName", label: "Display Name", type: "text", path: "displayName" },
     { key: "lootTableId", label: "Loot Table", type: "text", path: "lootTableId" },
@@ -1097,6 +1101,11 @@ export function getAllDefinitions() { return [...DEFINITIONS]; }
 export function getAuthorCapabilities(found) {
   const def = resolveAuthorType(found);
   return def ? def.capabilities : null;
+}
+
+export function getAuthorVisualRole(found) {
+  const def = resolveAuthorType(found);
+  return def ? (def.visualRole ?? "playerFacing") : null;
 }
 
 export function getAuthorVisualRef(found) {
@@ -1200,20 +1209,7 @@ export function checkAllObjectsResolve(worldData) {
   // Use authorDraft-like enumeration
   const ids = [];
   for (const region of worldData.regions) {
-    for (const p of region.props ?? []) ids.push({ id: p.id, collection: "props", obj: p, type: "prop", region });
-    for (const gp of region.groundPatches ?? []) ids.push({ id: gp.id, collection: "groundPatches", obj: gp, type: "groundPatch", region });
-    for (const bc of region.boundaryColliders ?? []) ids.push({ id: bc.id, collection: "boundaryColliders", obj: bc, type: "boundaryCollider", region });
-    for (const pl of region.traversal?.platforms ?? []) ids.push({ id: pl.id, collection: "platforms", obj: pl, type: "platform", region });
-    for (const ob of region.traversal?.obstacles ?? []) ids.push({ id: ob.id, collection: "obstacles", obj: ob, type: "obstacle", region });
-    for (const cl of region.traversal?.climbables ?? []) ids.push({ id: cl.id, collection: "climbables", obj: cl, type: "climbable", region });
-    for (const r of region.resources ?? []) ids.push({ id: r.id, collection: "resources", obj: r, type: "resource", region });
-    for (const cr of region.creatures ?? []) ids.push({ id: cr.id, collection: "creatures", obj: cr, type: "creature", region });
-    for (const wp of region.majorWaypoints ?? []) ids.push({ id: wp.id, collection: "majorWaypoints", obj: wp, type: "majorWaypoint", region });
-    for (const bc2 of region.extractionBeacons ?? []) ids.push({ id: bc2.id, collection: "extractionBeacons", obj: bc2, type: "extractionBeacon", region });
-    for (const poi of region.pois ?? []) ids.push({ id: poi.id, collection: "pois", obj: poi, type: "poi", region });
-    for (const [collection, type] of [["entryPoints","entryPoint"],["portalGates","portalGate"],["jumpPads","jumpPad"],["parkourStarts","parkourStart"],["parkourCheckpoints","parkourCheckpoint"],["killVolumes","killVolume"],["lootChests","lootChest"]]) {
-      for (const obj of region[collection] ?? []) ids.push({ id: obj.id, collection, obj, type, region });
-    }
+    for (const entry of enumerateRegionAuthorObjects(region)) ids.push({ id: entry.obj.id, ...entry });
   }
   ids.push({ id: "camp_spawn", collection: "campSpawn", obj: { id: "camp_spawn", pos: worldData.camp?.playerSpawn?.position ?? worldData.camp?.playerSpawn ?? {x:0,y:0,z:0}, facingYaw: worldData.camp?.playerSpawn?.facingYaw ?? 0, _virtual:true,_campSpawn:true }, type: "campSpawn", region: worldData.regions.find(r=>r.id==="camp") });
   for (const region of worldData.regions) for (const wp of region.majorWaypoints ?? []) {

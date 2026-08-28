@@ -4308,10 +4308,11 @@
       "portalGates": [
         {
           "id": "gate_section_1_camp_arrival",
-          "displayName": "Camp Arrival",
+          "displayName": "Forest Edge",
           "pos": { "x": 0, "y": 0, "z": 20 },
           "rotY": 3.141592653589793,
-          "role": "arrival",
+          "role": "campLink",
+          "campReturnEnabled": true,
           "travelEnabled": false,
           "state": "active",
           "triggerRadius": 1.85
@@ -4409,9 +4410,9 @@
           "id": "kill_volume_section_1",
           "courseId": "course_section_1",
           "pos": {
-            "x": 3,
+            "x": 8,
             "y": 0.6,
-            "z": -8
+            "z": -12
           },
           "size": {
             "w": 3,

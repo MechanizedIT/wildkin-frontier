@@ -441,6 +441,67 @@ export function createSpawnMarkerVisual({ color = 0x7ab8ff } = {}) {
   return group;
 }
 
+function createEditorRingMarker({ color, visualKind, arrow = false } = {}) {
+  const group = new THREE.Group();
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(0.52, 0.72, 20),
+    matBasic(color, { transparent: true, opacity: 0.82, side: THREE.DoubleSide, depthWrite: false }),
+  );
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.05;
+  group.add(ring);
+  const post = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.05, 0.05, 1.2, 8),
+    matBasic(color, { transparent: true, opacity: 0.9 }),
+  );
+  post.position.y = 0.62;
+  group.add(post);
+  const cap = new THREE.Mesh(
+    arrow ? new THREE.ConeGeometry(0.24, 0.46, 8) : new THREE.OctahedronGeometry(0.2, 0),
+    matStandard(color, { emissive: color, emissiveIntensity: 0.35 }),
+  );
+  cap.position.set(0, arrow ? 0.24 : 1.3, arrow ? 0.72 : 0);
+  if (arrow) cap.rotation.x = Math.PI / 2;
+  group.add(cap);
+  group.userData.visualKind = visualKind;
+  group.userData.editorHelperOnly = true;
+  return group;
+}
+
+export function createEntryPointHelperVisual() {
+  return createEditorRingMarker({ color: 0x9be7ff, visualKind: "editor/entry-point", arrow: true });
+}
+export function createParkourStartHelperVisual() {
+  return createEditorRingMarker({ color: 0x35f2c0, visualKind: "editor/parkour-start" });
+}
+export function createParkourCheckpointHelperVisual() {
+  return createEditorRingMarker({ color: 0x4fa3ff, visualKind: "editor/parkour-checkpoint" });
+}
+export function createParkourEndHelperVisual() {
+  return createEditorRingMarker({ color: 0xffd54f, visualKind: "editor/parkour-end" });
+}
+export function createKillVolumeHelperVisual({ size = { width: 1, height: 1, depth: 1 } } = {}) {
+  const width = size.width ?? size.w ?? 1;
+  const height = size.height ?? size.h ?? 1;
+  const depth = size.depth ?? size.d ?? 1;
+  const group = new THREE.Group();
+  const volume = new THREE.Mesh(
+    new THREE.BoxGeometry(width, height, depth),
+    matBasic(0xff2f3d, { transparent: true, opacity: 0.24, depthWrite: false, side: THREE.DoubleSide }),
+  );
+  volume.position.y = height / 2;
+  group.add(volume);
+  const edges = new THREE.LineSegments(
+    new THREE.EdgesGeometry(volume.geometry),
+    new THREE.LineBasicMaterial({ color: 0xff6470, transparent: true, opacity: 0.95 }),
+  );
+  edges.position.copy(volume.position);
+  group.add(edges);
+  group.userData.visualKind = "editor/kill-volume";
+  group.userData.editorHelperOnly = true;
+  return group;
+}
+
 export const VISUAL_ASSET_SHAPES = Object.freeze([
   "box",
   "cylinder",
@@ -534,6 +595,11 @@ const BUILTIN_MAP = {
   "poi/barrier": createPoiVisual,
   "poi/generic": createPoiVisual,
   "spawn/marker": createSpawnMarkerVisual,
+  "editor/entry-point": createEntryPointHelperVisual,
+  "editor/parkour-start": createParkourStartHelperVisual,
+  "editor/parkour-checkpoint": createParkourCheckpointHelperVisual,
+  "editor/parkour-end": createParkourEndHelperVisual,
+  "editor/kill-volume": createKillVolumeHelperVisual,
 };
 
 export function resolveVisualRef(visualRef) {

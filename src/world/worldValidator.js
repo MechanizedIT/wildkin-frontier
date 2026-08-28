@@ -482,11 +482,13 @@ export function normalizeWorldData(raw) {
       validatePos(gate.pos, `portal gate ${gate.id}`);
       if (!isInsideBounds(gate.pos, region.bounds)) throw new Error(`portal gate ${gate.id} outside section ${region.id}`);
       if (!SUPPORTED_PORTAL_STATES.has(gate.state)) throw new Error(`portal gate ${gate.id} state must be active or ruined`);
-      const oneWayArrival = gate.role === "arrival" && gate.travelEnabled === false;
+      const campLink = gate.role === "campLink" || gate.campReturnEnabled === true;
+      const oneWayArrival = (gate.role === "arrival" || campLink) && gate.travelEnabled === false;
       if (!oneWayArrival && typeof gate.targetGateId !== "string" && (typeof gate.targetSectionId !== "string" || typeof gate.targetEntryId !== "string")) throw new Error(`portal gate ${gate.id} target gate or section/entry required`);
       if (gate.targetGateId !== undefined && (typeof gate.targetGateId !== "string" || !gate.targetGateId)) throw new Error(`portal gate ${gate.id} targetGateId must be a non-empty string`);
-      if (gate.role !== undefined && gate.role !== "arrival") throw new Error(`portal gate ${gate.id} role must be arrival when specified`);
+      if (gate.role !== undefined && gate.role !== "arrival" && gate.role !== "campLink") throw new Error(`portal gate ${gate.id} role must be arrival or campLink when specified`);
       if (gate.travelEnabled !== undefined && typeof gate.travelEnabled !== "boolean") throw new Error(`portal gate ${gate.id} travelEnabled must be boolean`);
+      if (gate.campReturnEnabled !== undefined && typeof gate.campReturnEnabled !== "boolean") throw new Error(`portal gate ${gate.id} campReturnEnabled must be boolean`);
       if (gate.rotY === undefined) gate.rotY = 0;
       if (!isNumber(gate.rotY)) throw new Error(`portal gate ${gate.id} rotY must be finite`);
       if (gate.triggerRadius === undefined) gate.triggerRadius = 1.85;
@@ -553,13 +555,14 @@ export function normalizeWorldData(raw) {
   for (const section of data.regions) {
     for (const gate of section.portalGates) {
       const targetSection = data.regions.find((entry) => entry.id === gate.targetSectionId);
-      if (gate.role === "arrival" && gate.travelEnabled === false && !gate.targetGateId) continue;
+      const gateIsSpecialArrival = (gate.role === "arrival" || gate.role === "campLink" || gate.campReturnEnabled === true) && gate.travelEnabled === false;
+      if (gateIsSpecialArrival && !gate.targetGateId) continue;
       if (gate.targetGateId) {
         const targetGate = data.regions.flatMap((entry) => entry.portalGates).find((entry) => entry.id === gate.targetGateId);
         if (!targetGate) throw new Error(`portal gate ${gate.id} target gate ${gate.targetGateId} missing`);
         if (targetGate.id === gate.id) throw new Error(`portal gate ${gate.id} cannot target itself`);
-        const special = (gate.role === "arrival" && gate.travelEnabled === false)
-          || (targetGate.role === "arrival" && targetGate.travelEnabled === false);
+        const special = gateIsSpecialArrival
+          || ((targetGate.role === "arrival" || targetGate.role === "campLink" || targetGate.campReturnEnabled === true) && targetGate.travelEnabled === false);
         if (!special && targetGate.targetGateId !== gate.id) throw new Error(`portal gate ${gate.id} target gate ${gate.targetGateId} is not reciprocal`);
       } else {
         const targetSection = data.regions.find((entry) => entry.id === gate.targetSectionId);

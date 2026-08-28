@@ -8,6 +8,7 @@ import {
 import { getColliderCenter } from "../world/colliderDescriptor.js";
 import {
   getAuthorVisualRef,
+  getAuthorVisualRole,
   getColliderDescriptor,
   readNormalizedTransform,
   resolveAuthorType,
@@ -26,6 +27,28 @@ function visualOptions(found, normalized) {
   };
 }
 
+function addEditorHelperLabel(root, found, normalized) {
+  if (typeof document === "undefined") return;
+  const label = found.obj.courseId ? `${found.type}: ${found.obj.courseId}` : found.type;
+  const canvas = document.createElement("canvas");
+  canvas.width = 512;
+  canvas.height = 72;
+  const context = canvas.getContext("2d");
+  if (!context) return;
+  context.fillStyle = "rgba(10,14,22,0.86)";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#ffffff";
+  context.font = "bold 24px system-ui";
+  context.fillText(label, 14, 46);
+  const texture = new THREE.CanvasTexture(canvas);
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false }));
+  sprite.position.set(0, Math.max(1.7, (normalized?.size?.height ?? 0) + 0.35), 0);
+  sprite.scale.set(3.8, 0.54, 1);
+  sprite.renderOrder = 1000;
+  sprite.userData.authorHelperLabel = true;
+  root.add(sprite);
+}
+
 export function disposeObject3D(root) {
   root.traverse((object) => {
     const geo = object.geometry;
@@ -36,9 +59,10 @@ export function disposeObject3D(root) {
     if (!mat) return;
     const isSharedMat = mat.userData?.isSharedAssetMaterial;
     if (Array.isArray(mat)) {
-      for (const m of mat) if (!m.userData?.isSharedAssetMaterial) m.dispose?.();
+      for (const m of mat) if (!m.userData?.isSharedAssetMaterial) { m.map?.dispose?.(); m.dispose?.(); }
     } else if (!isSharedMat) {
       // Heuristic: asset cached materials have roughness 0.82/metalness 0.05 exactly and flatShading; but we set flag now in visualFactory
+      mat.map?.dispose?.();
       mat.dispose?.();
     }
   });
@@ -64,6 +88,11 @@ export function createAuthorVisual(found, mode = "author") {
     visualRef,
     recipeKey,
   });
+  const visualRole = getAuthorVisualRole(found);
+  root.userData.authorVisualRole = visualRole;
+  root.userData.editorHelperOnly = visualRole === "editorHelperOnly";
+  if (found.obj.courseId) root.userData.courseId = found.obj.courseId;
+  if (root.userData.editorHelperOnly) addEditorHelperLabel(root, found, normalized);
   root.name = found.obj.id;
   applyVisualTransform(root, normalized);
   return root;

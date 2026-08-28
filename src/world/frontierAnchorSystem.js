@@ -93,8 +93,8 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
       if (anchor.type !== "gate" && (!anchor.armed || anchor.cooldown)) continue;
       let candidate = null;
       if (anchor.type === "gate") {
-        if (isCamp) candidate = { id: anchor.id, type: "gate", label: "START EXPEDITION", dist };
-        else if (isActive) candidate = { id: anchor.id, type: "gate", label: "RETURN & SECURE", dist };
+        if (isCamp) candidate = { id: anchor.id, type: "gate", label: "TRAVEL", dist };
+        else if (isActive) candidate = { id: anchor.id, type: "gate", label: "RETURN TO CAMP", dist };
       } else if (anchor.type === "majorWaypoint") {
         if (!isActive) continue;
         const name = worldRegistry.getAnchorDisplayName(worldRegistry.getWaypointById(anchor.id) ?? { id: anchor.id, type: "majorWaypoint" });

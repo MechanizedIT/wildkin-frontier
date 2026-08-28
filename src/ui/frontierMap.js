@@ -1,5 +1,9 @@
 // src/ui/frontierMap.js — top-right Map with inspect vs start-selection modes (Phase 4A)
-// One Map UI, no teleport/start from inspect, only unlocked MajorWaypoints selectable in start mode.
+// One Map UI: inspect never travels; Camp travel mode uses the centralized
+// destination resolver for Forest Edge plus discovered Major Waypoints.
+
+import { getPlayerLevelProgress } from "../progression/playerLevel.js";
+import { getCampStartDestinations } from "../world/campTravel.js";
 
 export function createFrontierMap(opts = {}) {
   const worldRegistry = opts.worldRegistry;
@@ -83,13 +87,50 @@ export function createFrontierMap(opts = {}) {
   function buildList() {
     listEl.innerHTML = "";
     const prog = frontierProgress ? frontierProgress.getState() : { unlockedMajorWaypointIds: [], discoveredBeaconIds: [], hasDepartedOnce: false };
-    const gateId = worldRegistry.getFrontierGateId();
-    const gatePos = worldRegistry.getFrontierGatePos();
-    const waypoints = worldRegistry.getAllWaypoints().filter(w => w.regionId !== "camp" || w.id === "wp_camp_gate");
     // Separate camp gate waypoint vs frontier waypoints
     const frontierWaypoints = worldRegistry.getAllWaypoints().filter(w => w.id !== "wp_camp_gate" && w.regionId !== "camp");
     // For inspect fresh save: hide frontierWaypoints if not departed
     const showFrontierWaypoints = !(mode === "inspect" && !prog.hasDepartedOnce);
+
+    const appendProgress = () => {
+      const level = getPlayerLevelProgress(prog.bankedXp ?? 0);
+      const bankRow = document.createElement("div");
+      bankRow.style.cssText = "font-size:11px;color:rgba(230,235,245,0.72);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:8px 10px;line-height:1.45;";
+      const resources = prog.bankedResources ?? {};
+      bankRow.textContent = `Level ${level.level} · ${level.bankedXp} / ${level.nextLevelXp} XP\nBanked — Wood ${resources.wood ?? 0} · Stone ${resources.stone ?? 0} · Fiber ${resources.fiber ?? 0}`;
+      bankRow.style.whiteSpace = "pre-line";
+      listEl.appendChild(bankRow);
+    };
+
+    if (mode === "startSelection") {
+      for (const destination of getCampStartDestinations(worldRegistry, prog)) {
+        const row = document.createElement("div");
+        row.style.cssText = "display:flex;align-items:center;gap:10px;background:rgba(79,195,247,0.14);border:1px solid rgba(79,195,247,0.35);border-radius:10px;padding:10px;cursor:pointer;";
+        const copy = document.createElement("div");
+        copy.style.cssText = "flex:1;min-width:0;";
+        const name = document.createElement("div");
+        name.textContent = destination.displayName;
+        name.style.cssText = "font-size:13px;font-weight:800;";
+        const description = document.createElement("div");
+        description.textContent = destination.description;
+        description.style.cssText = "font-size:11px;color:rgba(230,235,245,0.65);margin-top:2px;";
+        copy.append(name, description);
+        const action = document.createElement("span");
+        action.textContent = "TRAVEL";
+        action.style.cssText = "font-size:11px;font-weight:900;color:#4fc3f7;";
+        row.append(copy, action);
+        row.setAttribute("role", "button");
+        row.tabIndex = 0;
+        const select = () => onStartSelected(destination);
+        row.addEventListener("click", select);
+        row.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") select();
+        });
+        listEl.appendChild(row);
+      }
+      appendProgress();
+      return;
+    }
 
     // Gate row always
     const gateRow = document.createElement("div");
@@ -109,8 +150,9 @@ export function createFrontierMap(opts = {}) {
     if (!showFrontierWaypoints) {
       const unknown = document.createElement("div");
       unknown.style.cssText = "font-size:12px;color:rgba(230,235,245,0.62);background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.12);border-radius:10px;padding:8px 10px;";
-      unknown.textContent = "Frontier beyond gate — walk through the gate to choose your first expedition start.";
+      unknown.textContent = "Forest Edge is the known frontier entrance. Major Waypoints appear here after physical discovery.";
       listEl.appendChild(unknown);
+      appendProgress();
       return;
     }
 
@@ -162,16 +204,7 @@ export function createFrontierMap(opts = {}) {
       // no beacons yet
     }
 
-    // Bank summary if available
-    if (prog.bankedResources) {
-      const total = prog.bankedResources.wood + prog.bankedResources.stone + prog.bankedResources.fiber;
-      if (total > 0 || prog.bankedXp > 0) {
-        const bankRow = document.createElement("div");
-        bankRow.style.cssText = "font-size:11px;color:rgba(230,235,245,0.65);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:8px 10px;";
-        bankRow.textContent = `Banked — Wood ${prog.bankedResources.wood} · Stone ${prog.bankedResources.stone} · Fiber ${prog.bankedResources.fiber} · XP ${prog.bankedXp}`;
-        listEl.appendChild(bankRow);
-      }
-    }
+    appendProgress();
   }
 
   function openInspect() {
@@ -188,8 +221,8 @@ export function createFrontierMap(opts = {}) {
   function openStartSelection() {
     if (isOpen) return false;
     mode = "startSelection";
-    titleEl.textContent = "CHOOSE START";
-    subtitleEl.textContent = "Select an unlocked Major Waypoint to begin your expedition.";
+    titleEl.textContent = "TRAVEL TO THE FRONTIER";
+    subtitleEl.textContent = "Choose the known entrance or a discovered Major Waypoint.";
     buildList();
     show();
     return true;

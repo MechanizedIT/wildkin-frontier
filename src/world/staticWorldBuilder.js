@@ -475,16 +475,8 @@ export function createStaticWorld(worldData) {
       });
     }
 
-    for (const entry of region.entryPoints ?? []) {
-      addFactoryVisual({
-        id: entry.id,
-        visualId: "prop/gate",
-        size: { width: 2.2, height: 2.4, depth: 0.45 },
-        position: entry.pos,
-        rotationY: entry.facingYaw ?? 0,
-        metadata: { entryPointId: entry.id, visibleInPlay: true, collisionEnabled: false },
-      });
-    }
+    // Entry Points and Parkour course markers are logical/editor-only helpers.
+    // Physical Portal Gates own player-facing gate structures in Play.
     for (const gate of region.portalGates ?? []) {
       const useRuinAsset = gate.state === "ruined" && (worldData.visualAssets ?? []).some((asset) => asset.id === (gate.visualAssetId ?? "asset_ruin_arch"));
       addFactoryVisual({
@@ -507,15 +499,6 @@ export function createStaticWorld(worldData) {
         options: { visualAssets: worldData.visualAssets ?? [], uniformScale: pad.uniformScale ?? 1, sizeMode: pad.visualAssetId ? "uniform" : "box" },
         metadata: { jumpPadId: pad.id, visibleInPlay: true, collisionEnabled: false },
       });
-    }
-    for (const start of region.parkourStarts ?? []) {
-      addFactoryVisual({ id: start.id, visualId: "anchor/waypoint", position: start.pos, rotationY: start.rotY ?? 0, metadata: { parkourStartId: start.id, visibleInPlay: true, collisionEnabled: false } });
-    }
-    for (const checkpoint of region.parkourCheckpoints ?? []) {
-      addFactoryVisual({ id: checkpoint.id, visualId: "anchor/beacon", position: checkpoint.pos, rotationY: checkpoint.rotY ?? 0, metadata: { parkourCheckpointId: checkpoint.id, visibleInPlay: true, collisionEnabled: false } });
-    }
-    for (const end of region.parkourEnds ?? []) {
-      addFactoryVisual({ id: end.id, visualId: "anchor/beacon", position: end.pos, rotationY: end.rotY ?? 0, metadata: { parkourEndId: end.id, visibleInPlay: true, collisionEnabled: false } });
     }
     for (const chest of region.lootChests ?? []) {
       addFactoryVisual({

@@ -1,7 +1,7 @@
 // src/ui/combatHud.js — health pips + XP, compact readable
 export function createCombatHud() {
   const hud = document.getElementById("hud");
-  if (!hud) return { updateHealth() {}, updateXp() {}, pulseDamage() {}, destroy() {} };
+  if (!hud) return { updateHealth() {}, updateXp() {}, updateLevel() {}, pulseDamage() {}, destroy() {} };
 
   const container = document.createElement("div");
   container.id = "combat-hud";
@@ -16,7 +16,9 @@ export function createCombatHud() {
   const xpRow = document.createElement("div");
   xpRow.id = "xp-hud";
   xpRow.style.cssText = "font-size:12px;font-weight:800;color:#ffe066;background:rgba(14,20,32,0.84);border:1px solid rgba(255,255,255,0.13);border-radius:8px;padding:4px 8px;min-width:64px;text-align:center;backdrop-filter:blur(6px);";
-  xpRow.textContent = "XP 0";
+  let persistentLevel = 1;
+  let runXp = 0;
+  xpRow.textContent = "LV 1 · RUN XP 0";
   container.appendChild(xpRow);
 
   const pips = [];
@@ -46,7 +48,13 @@ export function createCombatHud() {
   }
 
   function updateXp(xp) {
-    xpRow.textContent = `XP ${xp}`;
+    runXp = Math.max(0, Math.floor(Number(xp) || 0));
+    xpRow.textContent = `LV ${persistentLevel} · RUN XP ${runXp}`;
+  }
+
+  function updateLevel(level) {
+    persistentLevel = Math.max(1, Math.floor(Number(level) || 1));
+    xpRow.textContent = `LV ${persistentLevel} · RUN XP ${runXp}`;
   }
 
   function pulseDamage() {
@@ -92,6 +100,7 @@ export function createCombatHud() {
   return {
     updateHealth,
     updateXp,
+    updateLevel,
     pulseDamage: () => { pulseDamage(); showEdgePulse(); },
     pulseXp,
     showEdgePulse,

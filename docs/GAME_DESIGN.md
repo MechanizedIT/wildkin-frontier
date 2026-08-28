@@ -61,12 +61,12 @@ Camp remains a special persistent section rather than a normal expedition sectio
 2. Map button is always visible at top-right.
 3. A fresh map shows Camp and known frontier information only.
 4. The **Camp Frontier Gate is a portal, not a Major Waypoint**.
-5. On a fresh save, walking through the Camp gate sends the player directly to the **Section 1 entry portal** because no frontier Waypoint has been discovered yet.
-6. The player explores Section 1 and must physically discover its Major Waypoint.
-7. Once discovered, that Waypoint becomes a selectable future expedition start.
-8. Later discovered section Waypoints appear as additional selectable starts.
+5. The Camp gate always opens travel selection. **Forest Edge** is the known Section 1 entry and is always clickable, including on a fresh save.
+6. A fresh selector contains Forest Edge only; it does not show a decorative gate row, Beacons, or ordinary Portal Gates as starts.
+7. The player starts outside the physical Forest Edge arrival gate, explores Section 1, and must physically discover its Major Waypoint.
+8. Once discovered, that Waypoint becomes an additional selectable future expedition start. Later discovered section Waypoints join the same list.
 
-After at least one frontier Waypoint is known, the Camp gate may open start selection so the player can choose among unlocked Waypoints.
+Forest Edge remains available after Waypoints are known. Re-entering its physical Section 1 gate during an active run asks for confirmation, then returns to Camp through the normal extraction/banking result path.
 
 Avoid long intros/cutscenes. Teach primarily through geography, landmarking, readable interactions, and short contextual prompts.
 
@@ -485,7 +485,7 @@ Future survival progression may retain a percentage of resources on death, but n
 
 - Handcrafted frontier graph of self-contained portal-connected sections, not open-world sprawl, a single continuous coordinate strip, or a forced runner.
 - Camp begins as drop pod + small Resonator + perimeter fence + frontier gate in dense alien forest.
-- Always-accessible map; fresh Camp-gate travel goes directly to Section 1, while later Camp-gate travel can open start selection once frontier Waypoints are discovered.
+- Always-accessible inspect map; the physical Camp gate opens travel selection with Forest Edge always available and physically discovered Major Waypoints added over time.
 - Portal Gates connect sections; Major Waypoints are discovered inside sections and unlock future starts; Extraction Beacons only extract.
 - Extraction Beacons, and Major Waypoints where explicitly allowed, offer **EXTRACT / KEEP GOING**; Portal Gates transition sections rather than bank runs.
 - Resource inventory may be unlimited in prototype.

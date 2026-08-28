@@ -51,7 +51,12 @@ export function createRunResultCard(opts = {}) {
 
     let html = "";
     if (isExtract) html += `<div style="font-weight:800;margin-bottom:6px;">Recovered</div>`;
-    else html += `<div style="font-weight:800;margin-bottom:6px;">Lost</div>`;
+    else {
+      const causeLabels = { combat: "Combat", fatal_hazard: "Fatal Hazard", projectile: "Projectile", other: "Unknown" };
+      const reason = data.snapshot?.deathReason ?? data.reason ?? "other";
+      html += `<div style="font-weight:800;margin-bottom:6px;">Cause: ${causeLabels[reason] ?? "Unknown"}</div>`;
+      html += `<div style="font-weight:800;margin-bottom:6px;">Lost</div>`;
+    }
     // For extracted, show +; for lost, show without +
     const fmt = (label, val) => {
       if (!val) return null;

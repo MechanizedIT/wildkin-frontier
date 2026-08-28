@@ -52,6 +52,9 @@ export function createAnchorPrompt(opts = {}) {
 
   function show(data) {
     current = data;
+    extractBtn.disabled = false;
+    extractBtn.style.opacity = "1";
+    keepBtn.textContent = "KEEP GOING";
     let title = data.title;
     const dn = data.displayName ? String(data.displayName).toUpperCase() : null;
     if (!title) {
@@ -60,21 +63,41 @@ export function createAnchorPrompt(opts = {}) {
         else title = data.isNew ? "WAYPOINT ACTIVATED" : "WAYPOINT";
       } else if (data.type === "extractionBeacon") {
         title = dn ? dn : "EXTRACTION BEACON";
-      } else if (data.type === "gate") title = "RETURN TO CAMP";
+      } else if (data.type === "gate" || data.type === "campReturn") title = "RETURN TO CAMP?";
+      else if (data.type === "portalRepair") title = data.displayName ? String(data.displayName).toUpperCase() : "FRONTIER GATE";
       else title = dn ?? "FRONTIER ANCHOR";
     }
     titleEl.textContent = title;
-    if (data.type === "gate") {
-      summaryEl.textContent = `Secure everything you are carrying? — ${formatCargo(data.cargo ?? {wood:0,stone:0,fiber:0}, data.xp ?? 0)}`;
-      extractBtn.textContent = "RETURN & SECURE";
+    if (data.type === "gate" || data.type === "campReturn") {
+      summaryEl.textContent = `Returning now will secure your carried resources and run XP.\n${formatCargo(data.cargo ?? {wood:0,stone:0,fiber:0}, data.xp ?? 0)}`;
+      summaryEl.style.whiteSpace = "pre-line";
+      extractBtn.textContent = "RETURN TO CAMP";
+      keepBtn.textContent = "KEEP EXPLORING";
+    } else if (data.type === "portalRepair") {
+      const model = data.requirementView;
+      const lines = ["Requirements"];
+      lines.push(`Level      ${model.level.current} / ${model.level.required}${model.level.met ? " ✓" : ""}`);
+      for (const resource of model.resources) {
+        const label = resource.id.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+        lines.push(`${label}      ${resource.current} / ${resource.required}${resource.met ? " ✓" : ""}`);
+      }
+      lines.push(`Persistent XP: ${model.progress.bankedXp} / ${model.progress.nextLevelXp}`);
+      summaryEl.textContent = lines.join("\n");
+      summaryEl.style.whiteSpace = "pre-line";
+      extractBtn.textContent = "REPAIR GATE";
+      extractBtn.disabled = !model.ok;
+      extractBtn.style.opacity = model.ok ? "1" : "0.45";
+      keepBtn.textContent = "CLOSE";
     } else if (data.type === "majorWaypoint") {
       const sub = data.isNew ? "New expedition start unlocked. Extract now or keep going?" : "Extract to Camp and secure this run, or keep going?";
       summaryEl.textContent = `${formatCargo(data.cargo ?? {wood:0,stone:0,fiber:0}, data.xp ?? 0)} — ${sub}`;
       extractBtn.textContent = "EXTRACT";
+      summaryEl.style.whiteSpace = "normal";
     } else {
       const sub = "Extraction available. Secure this run and return to Camp?";
       summaryEl.textContent = `${formatCargo(data.cargo ?? {wood:0,stone:0,fiber:0}, data.xp ?? 0)} — ${sub}`;
       extractBtn.textContent = "EXTRACT";
+      summaryEl.style.whiteSpace = "normal";
     }
     overlay.style.display = "flex";
     visible = true;

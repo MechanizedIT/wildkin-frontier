@@ -77,7 +77,7 @@ export function createParkourSystem(worldRegistry, opts = {}) {
       const isInside = insideTrigger(playerPos, volume);
       if (isInside && !insideIds.has(volume.id)) {
         if (activeCourseId && volume.courseId === activeCourseId) handleFatalFailure("kill-volume");
-        else onNormalFatal({ volume });
+        else onNormalFatal({ volume, reason: "fatal_hazard" });
       }
       if (isInside) insideIds.add(volume.id); else insideIds.delete(volume.id);
     }
