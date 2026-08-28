@@ -58,7 +58,7 @@ const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 4B.1 — 0.14.0";
+const VERSION = "Phase 4B.1.2 — 0.15.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -811,6 +811,7 @@ if (authorEnabled) {
     camera,
     renderer,
     worldRegistry,
+    sectionRuntime,
     draftSeed: canonicalWorldData,
     resourceSystem,
     creatureSystem,
@@ -852,8 +853,6 @@ function tick() {
     refreshMapAvailability();
     prevAuthorSuppress = authorSuppress;
   }
-  if (authorSuppress && authorMode && authorMode.updateEditorVisibility) authorMode.updateEditorVisibility();
-
   // Also keep indicators updated outside fixed step (visual)
   if (frontierIndicators && !authorSuppress) frontierIndicators.update(camera);
   refreshMapAvailability();

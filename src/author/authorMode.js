@@ -19,6 +19,9 @@ import { summarizeSection } from "../world/sectionProfile.js";
 
 export const ASSET_EDIT_CAMERA_STEP = Math.PI / 4;
 
+// Camera movement is intentionally camera-only. Full editor section sync is event-driven.
+export const AUTHOR_CAMERA_SYNC_POLICY = Object.freeze({ pan: false, orbit: false, zoom: false });
+
 export function getAssetEditCameraPosition(view) {
   const horizontalDistance = Math.cos(view.pitch) * view.distance;
   return {
@@ -82,6 +85,7 @@ export function createAuthorMode(opts) {
   let resourceSystem = opts.resourceSystem || null;
   let creatureSystem = opts.creatureSystem || null;
   let regionManager = opts.regionManager || null;
+  let sectionRuntime = opts.sectionRuntime || null;
 
   const draftApi = createAuthorDraft(draftSeed);
   const actions = createAuthorActions(draftApi);
@@ -122,6 +126,11 @@ export function createAuthorMode(opts) {
   let assetEditSceneState = null;
   let trajectoryPreviewLines = [];
   let trajectoryPreviewSignature = null;
+  let editorWorldDirty = true;
+  let editorPreviousSectionId = null;
+  let editorVisibilitySyncCount = 0;
+  let editorVisibilitySyncTimes = [];
+  let editorVisibilitySyncLastReason = null;
 
   function formatSectionSummary(sectionId) {
     const summary = summarizeSection(draftApi.getDraft(), sectionId);
@@ -199,8 +208,13 @@ export function createAuthorMode(opts) {
       if (onRebuild) onRebuild(draftApi.getDraft());
       else window.location.reload();
     },
-    onDraftChanged: (id, deletedId) => {
-      reconcilePreview();
+    onDraftChanged: (id, deletedId, changeKind = "property") => {
+      if (deletedId || changeKind === "structural") reconcilePreview("draft-structure");
+      else {
+        syncPreviewForId(id);
+        updateSpawnMarkers();
+        updateTrajectoryPreviews();
+      }
       ui.refreshRegionSelects?.();
       if (id) {
         selectedId = id; ui.setSelected(id);
@@ -221,9 +235,8 @@ export function createAuthorMode(opts) {
     },
     onSelectRegion: (sectionId) => {
       selectedEditSectionId = sectionId;
-      regionManager?.activate?.(sectionId);
       updateOverlays();
-      updateEditorVisibility();
+      updateEditorVisibility("section-selection");
       updateTrajectoryPreviews();
       if (ui.refreshHierarchy) ui.refreshHierarchy();
     },
@@ -236,7 +249,7 @@ export function createAuthorMode(opts) {
       camera.position.z = pos.z + 5;
       camera.lookAt(pos.x, 0, pos.z);
       camera.updateMatrixWorld();
-      selectedId = id; ui.setSelected(id); updateHighlight(); updateHomeMarker(); updateEditorVisibility();
+      selectedId = id; ui.setSelected(id); updateHighlight(); updateHomeMarker();
     }
   });
 
@@ -576,7 +589,7 @@ export function createAuthorMode(opts) {
     ui.setStatus("EDIT — world objects", false);
     if (shouldReconcile) reconcilePreview();
     updateHighlight();
-    updateEditorVisibility();
+    if (!shouldReconcile) updateEditorVisibility("asset-edit-exit");
   }
 
   // Live preview: sync a single object's mesh via normalized Author transform (registry-driven)
@@ -803,7 +816,7 @@ export function createAuthorMode(opts) {
     });
   }
 
-  function reconcilePreview(){
+  function reconcilePreview(reason = "preview-rebuild"){
     // Reconcile canonical draft vs scene preview (commit/undo/redo/place/delete)
     const allIds = draftApi.getAllObjectIds ? draftApi.getAllObjectIds() : [];
     const idSet = new Set(allIds);
@@ -845,21 +858,29 @@ export function createAuthorMode(opts) {
     updateHighlight();
     updateHomeMarker();
     updateOverlays();
-    if(isEdit) updateEditorVisibility();
+    if(isEdit) updateEditorVisibility(reason);
     if(ui.refreshHierarchy) ui.refreshHierarchy();
     if(ui.refreshVisualAssets) ui.refreshVisualAssets();
   }
-  function updateEditorVisibility() {
+  function markEditorWorldDirty(reason = "world-change") {
+    editorWorldDirty = true;
+    editorVisibilitySyncLastReason = reason;
+  }
+
+  function syncEditorSectionVisibility(reason = "explicit") {
     if (!isEdit) return;
     if (editingAssetId) {
       isolateAssetEditScene();
-      return;
+      return false;
     }
     if (!selectedEditSectionId) return;
     const activeIds = [selectedEditSectionId];
-    regionManager?.activate?.(selectedEditSectionId);
-    if (resourceSystem) resourceSystem.setActiveRegions(activeIds);
-    if (creatureSystem) creatureSystem.setActiveRegions(activeIds);
+    const activated = sectionRuntime?.activate?.(selectedEditSectionId);
+    if (!activated?.ok) {
+      regionManager?.activate?.(selectedEditSectionId);
+      if (resourceSystem) resourceSystem.setActiveRegions(activeIds);
+      if (creatureSystem) creatureSystem.setActiveRegions(activeIds);
+    }
     scene.traverse((object) => {
       const authorId = object.userData?.authorId;
       if (!authorId || object.parent?.userData?.authorId === authorId) return;
@@ -868,6 +889,29 @@ export function createAuthorMode(opts) {
     });
     updateTrajectoryPreviews();
     highlightOverlayForSelected();
+    editorWorldDirty = false;
+    editorVisibilitySyncLastReason = reason;
+    editorVisibilitySyncCount += 1;
+    const now = performance.now();
+    editorVisibilitySyncTimes.push(now);
+    editorVisibilitySyncTimes = editorVisibilitySyncTimes.filter((time) => now - time <= 5000);
+    return true;
+  }
+
+  function updateEditorVisibility(reason = "explicit") {
+    markEditorWorldDirty(reason);
+    return syncEditorSectionVisibility(reason);
+  }
+
+  function getEditorDiagnostics() {
+    const now = performance.now();
+    editorVisibilitySyncTimes = editorVisibilitySyncTimes.filter((time) => now - time <= 1000);
+    return {
+      fullVisibilitySyncCount: editorVisibilitySyncCount,
+      fullVisibilitySyncsLastSecond: editorVisibilitySyncTimes.length,
+      lastFullVisibilitySyncReason: editorVisibilitySyncLastReason,
+      worldDirty: editorWorldDirty,
+    };
   }
 
   function clearTrajectoryPreviews({ resetSignature = true } = {}) {
@@ -904,7 +948,7 @@ export function createAuthorMode(opts) {
   }
 
   function prepareRender() {
-    if (editingAssetId) isolateAssetEditScene();
+    if (editingAssetId && assetEditHiddenRootSet.size === 0) isolateAssetEditScene();
   }
 
   // Place mode
@@ -940,7 +984,6 @@ export function createAuthorMode(opts) {
     reconcilePreview();
     syncPreviewForId(newId);
     updateHighlight();
-    updateEditorVisibility();
     exitPlaceMode();
     return true;
   }
@@ -1017,7 +1060,6 @@ export function createAuthorMode(opts) {
       } else {
         if (isOrbit) orbitLevelEditor(dx, dy);
         else panEditorCamera(dx, dy);
-        updateEditorVisibility();
         updateLevelOrbitGizmo();
       }
     }, true);
@@ -1034,7 +1076,7 @@ export function createAuthorMode(opts) {
       } else {
         if (isOrbit) orbitLevelEditor(dx, dy);
         else panEditorCamera(dx, dy);
-        updateEditorVisibility();
+        updateLevelOrbitGizmo();
       }
     }, true);
     function stopPan(e){
@@ -1053,7 +1095,6 @@ export function createAuthorMode(opts) {
       if (editingAssetId) zoomAssetEditCamera(e.deltaY);
       else {
         zoomEditorCamera(e.deltaY);
-        updateEditorVisibility();
       }
     }, { passive: false });
     canvas.addEventListener("contextmenu", (e) => { if (isEdit) e.preventDefault(); }, true);
@@ -1077,16 +1118,17 @@ export function createAuthorMode(opts) {
     camera.position.set(cx, camera.position.y, cz + 8);
     camera.lookAt(cx, 0, cz);
     camera.updateMatrixWorld();
-    updateEditorVisibility();
   }; } catch {}
   function setSystems(systems) {
     if (systems.resourceSystem) resourceSystem = systems.resourceSystem;
     if (systems.creatureSystem) creatureSystem = systems.creatureSystem;
     if (systems.regionManager) regionManager = systems.regionManager;
+    if (systems.sectionRuntime) sectionRuntime = systems.sectionRuntime;
     if (systems.worldRegistry) { /* already */ }
   }
 
   function enterEdit() {
+    editorPreviousSectionId = sectionRuntime?.getActiveSectionId?.() ?? null;
     selectedEditSectionId = ui.getSelectedRegionId?.() ?? selectedEditSectionId;
     ui.setSelectedRegionId?.(selectedEditSectionId);
     editorCameraState = { pos: camera.position.clone(), rot: camera.rotation.clone(), fov: camera.fov, fog: scene.fog };
@@ -1116,7 +1158,6 @@ export function createAuthorMode(opts) {
     reconcilePreview();
     setProxyVisibility(true);
     ensureSpawnMarkers();
-    updateEditorVisibility();
     renderer.domElement.style.cursor = pendingPlace ? "crosshair" : "";
   }
   function exitEdit() {
@@ -1139,6 +1180,10 @@ export function createAuthorMode(opts) {
     clearSpawnMarkers();
     clearTrajectoryPreviews();
     exitPlaceMode();
+    if (editorPreviousSectionId && sectionRuntime?.getActiveSectionId?.() !== editorPreviousSectionId) {
+      sectionRuntime.activate(editorPreviousSectionId);
+    }
+    editorPreviousSectionId = null;
     renderer.domElement.style.cursor = "";
   }
   // Level editor orbit — unified spherical model matching workbench (inverted, distance-preserving, grounded)
@@ -1565,7 +1610,6 @@ export function createAuthorMode(opts) {
       }
       dragStartPos = null; dragStartHome = null;
       activePointerId = null;
-      updateEditorVisibility();
       try { renderer.domElement.releasePointerCapture(e.pointerId); } catch {}
       e.preventDefault(); e.stopPropagation();
     }
@@ -1757,7 +1801,7 @@ export function createAuthorMode(opts) {
       camera.position.z = pos.z + 5;
       camera.lookAt(pos.x, 0, pos.z);
       camera.updateMatrixWorld();
-      updateHighlight(); updateHomeMarker(); updateEditorVisibility();
+      updateHighlight(); updateHomeMarker();
       return;
     }
     const step = e.shiftKey ? 1.0 : 0.2;
@@ -1855,7 +1899,7 @@ export function createAuthorMode(opts) {
       const normalized = { ...base, position: { ...base.position, x: newX, z: newZ } };
       const res = draftApi.updateNormalizedTransform(selectedId, normalized);
       if (!res.ok) ui.setStatus(res.error, true);
-      else { syncPreviewForId(selectedId); updateHomeMarker(); ui.setSelected(selectedId); updateHighlight(); updateEditorVisibility(); }
+      else { syncPreviewForId(selectedId); updateHomeMarker(); ui.setSelected(selectedId); updateHighlight(); updateEditorVisibility("object-move"); }
     }
   }
 
@@ -1876,5 +1920,5 @@ export function createAuthorMode(opts) {
     updateHomeMarker();
   }
 
-  return { init, setSystems, draftApi, ui, isEditMode: () => isEdit, suppressGameplay: () => suppressGameplay, getSelectedId: () => selectedId, updateHighlight, updateOverlays, updateEditorVisibility, prepareRender, findMeshByAuthorId, syncPreviewForId };
+  return { init, setSystems, draftApi, ui, isEditMode: () => isEdit, suppressGameplay: () => suppressGameplay, getSelectedId: () => selectedId, updateHighlight, updateOverlays, markEditorWorldDirty, syncEditorSectionVisibility, updateEditorVisibility, getEditorDiagnostics, prepareRender, findMeshByAuthorId, syncPreviewForId };
 }

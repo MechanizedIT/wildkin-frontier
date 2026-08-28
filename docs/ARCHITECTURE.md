@@ -579,6 +579,8 @@ Camp is a special active home section.
 
 Three.js frustum culling remains render-only. True asynchronous asset streaming remains deferred until profiling requires it.
 
+Author section synchronization is event-driven: entering Edit, changing the selected section, rebuilding/placing/deleting/moving draft objects, and entering/leaving Asset Edit may run the full section visibility/resource/creature sync. Camera pan, orbit, zoom, focus, and the main animation frame do not. `window.__author.mode.getEditorDiagnostics()` reports recent full-sync counts for profiling. Jump Pad trajectory previews remain a targeted signature-driven refresh.
+
 # Author Mode — Accepted Phase 3.5B.2
 
 Desktop-only `?author=1` is now accepted infrastructure.

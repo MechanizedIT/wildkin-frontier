@@ -305,3 +305,14 @@ Use the player-facing checklist in `docs/Specs/Phase_4B.1.md` and the next Phase
 ## 2026-08-27 — Phase 4B.1.1 automated implementation evidence
 
 This is automated/unit evidence only, not human acceptance. The closure regression suite covers canonical Jump Pad trajectory invalidation, course-scoped parkour checkpoint/fail/end/replacement behavior, and atomic repair rollback. World generation and normalization pass with the physical Section 1 ⇄ Section 2 gate pair and Section 1 Camp-arrival endpoint. A real browser/phone perceptual pass remains to be performed by the owner.
+
+## 2026-08-27 — Phase 4B.1.2 Author performance automated evidence
+
+This is automated/browser evidence only, not human acceptance.
+
+- The production `?author=1&dev=1` path loaded with the Phase 4B.1.2 label and no browser warnings/errors.
+- Entered Edit, selected Section 1, switched the real camera through right-drag pan, Alt-drag orbit, and wheel zoom, then selected `jump_pad_section_1` and changed Rotation, Horizontal Launch, and Vertical Launch through the real inspector controls without reload.
+- SectionRuntime regression coverage confirms repeated activation of the same section produces no second playground activation, physics activation, or change callback. Source-level regression coverage confirms the main loop and camera handlers no longer invoke full editor synchronization.
+- A temporary browser attempt to place 200 cheap Box objects exceeded the bounded automation window before a trustworthy workload count was available. No stress fixture or decorated level was committed.
+
+Human acceptance still requested: perform sustained pan/orbit/zoom by feel on the target desktop and phone viewport, use `window.__author.mode.getEditorDiagnostics()` while simply looking and while moving the camera (expected full sync rate approximately 0/sec), and verify section switching, object selection, overlays/gizmo alignment, and live Jump Pad trajectory readability.

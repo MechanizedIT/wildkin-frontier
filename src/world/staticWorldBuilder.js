@@ -618,8 +618,10 @@ export function createStaticWorld(worldData) {
   }));
 
   function setActiveSection(sectionId) {
+    if (activeSectionId === sectionId) return { changed: false, sectionId };
     activeSectionId = sectionId;
     for (const [id, sectionGroup] of sectionGroups) sectionGroup.visible = id === sectionId;
+    return { changed: true, sectionId };
   }
 
   return {

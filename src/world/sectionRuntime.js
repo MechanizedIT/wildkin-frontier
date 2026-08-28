@@ -31,6 +31,9 @@ export function createSectionRuntime({ worldRegistry, playground, physicsWorld, 
   function activate(sectionId, entryId = null) {
     const section = worldRegistry.getSectionById?.(sectionId) ?? worldRegistry.getRegionById?.(sectionId);
     if (!section) return { ok: false, reason: "missing-section", sectionId };
+    if (activeSectionId === sectionId) {
+      return { ok: true, sectionId, previousSectionId: sectionId, entryId, activeIds: [sectionId], changed: false };
+    }
     const previousSectionId = activeSectionId;
     activeSectionId = sectionId;
     const sectionGroups = playground?.sectionGroups;
@@ -44,7 +47,7 @@ export function createSectionRuntime({ worldRegistry, playground, physicsWorld, 
     if (onChange && previousSectionId !== sectionId) {
       onChange({ sectionId, previousSectionId, entryId, activeIds, prevActiveIds: previousSectionId ? [previousSectionId] : [] });
     }
-    return { ok: true, sectionId, previousSectionId, entryId, activeIds };
+    return { ok: true, sectionId, previousSectionId, entryId, activeIds, changed: true };
   }
 
   function transitionThroughPortal(portalId, handlers = {}) {

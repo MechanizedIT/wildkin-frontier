@@ -1260,7 +1260,7 @@ export function createAuthorUI(opts) {
       const v = draftApi.validate();
       if (!v.ok) statusEl.textContent = "⚠ " + v.error;
       else statusEl.textContent = "Moved to " + newRegion;
-      opts.onDraftChanged?.(selectedId);
+      opts.onDraftChanged?.(selectedId, undefined, "structural");
     } else statusEl.textContent = res.error;
   });
 
@@ -1272,7 +1272,7 @@ export function createAuthorUI(opts) {
       statusEl.style.color="#aaffaa";
       refreshRegionSelects(); refreshHierarchy();
       setSelected(res.newId);
-      opts.onDraftChanged?.(res.newId);
+      opts.onDraftChanged?.(res.newId, undefined, "structural");
       opts.onSelectNew?.(res.newId);
     } else statusEl.textContent = res.error;
   });
@@ -1284,7 +1284,7 @@ export function createAuthorUI(opts) {
       const deleted = selectedId;
       setSelected(null);
       refreshRegionSelects(); refreshHierarchy();
-      opts.onDraftChanged?.(null, deleted);
+      opts.onDraftChanged?.(null, deleted, "structural");
     } else statusEl.textContent = res.error;
   });
   for (const btn of container.querySelectorAll(".nudge")) {

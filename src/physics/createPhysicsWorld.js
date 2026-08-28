@@ -99,12 +99,14 @@ export function createPhysicsWorld(RAPIER, playground) {
   world.step();
 
   function setActiveSection(sectionId) {
+    if (activeSectionId === sectionId) return { changed: false, sectionId };
     activeSectionId = sectionId;
     for (const collider of staticColliders) {
       const owner = colliderSections.get(collider);
       collider.setEnabled?.(owner === null || owner === sectionId);
     }
     world.step();
+    return { changed: true, sectionId };
   }
 
   return { world, staticColliders, colliderSections, setActiveSection, getActiveSectionId: () => activeSectionId, RAPIER };
