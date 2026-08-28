@@ -316,3 +316,19 @@ This is automated/browser evidence only, not human acceptance.
 - A temporary browser attempt to place 200 cheap Box objects exceeded the bounded automation window before a trustworthy workload count was available. No stress fixture or decorated level was committed.
 
 Human acceptance still requested: perform sustained pan/orbit/zoom by feel on the target desktop and phone viewport, use `window.__author.mode.getEditorDiagnostics()` while simply looking and while moving the camera (expected full sync rate approximately 0/sec), and verify section switching, object selection, overlays/gizmo alignment, and live Jump Pad trajectory readability.
+
+## 2026-08-27 — Phase 4B.1.3 Author camera closure — automated browser evidence only
+
+This is automated input and screenshot evidence, **not human acceptance**. The checks used the repository server at `http://127.0.0.1:8093/` in the in-app browser.
+
+### Observed through the real `?author=1&dev=1` UI
+
+- The page loaded the Phase 4B.1.3 label (`0.16.0`) with no console warnings or errors.
+- Entered Edit and used the real section selector across Camp, Section 1, and Section 2. Each section remained selectable and its section profile updated in the visible UI; Camp is framed from span 100 and Sections 1/2 from span 50 by the pure metric tests.
+- Sent an extreme wheel scroll over the renderer and then clicked the real **Reset view 0** control. The editor remained rendered with the orbit orb/cross and returned the visible reset status; no world-disappeared or browser-error state appeared.
+- Used the real Section 2 **Focus Camera** control, right-drag pan, and Alt-drag orbit. The renderer stayed visible and the final screenshot retained the orbit marker and section editor surface.
+- Deterministic camera tests verify zoom limits of 320 for Camp and 160 for Sections 1/2, with an editor far plane of 500 for these ranges; the gameplay projection snapshot restores near/far/fov after Edit exit.
+
+### Human acceptance still requested
+
+Confirm by feel on the target desktop and portrait phone: Camp/S1/S2 framing, smooth wheel response at trackpad and mouse deltas, min/max zoom usefulness, pan/orbit readability, Focus Object/Section placement, section-switch context, and that no distant geometry clips at the editor limit. Diagnostics were not exposed through this browser's page-evaluation surface, so the expected approximately 0/sec camera-only full-sync rate remains covered by source/unit tests rather than claimed as a browser observation.

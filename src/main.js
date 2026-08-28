@@ -58,7 +58,7 @@ const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 4B.1.2 — 0.15.0";
+const VERSION = "Phase 4B.1.3 — 0.16.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 

@@ -132,6 +132,48 @@ export function createAuthorMode(opts) {
   let editorVisibilitySyncTimes = [];
   let editorVisibilitySyncLastReason = null;
 
+  function getSelectedSectionViewMetrics() {
+    const region = selectedEditSectionId ? draftApi.findRegion(selectedEditSectionId) : null;
+    if (region) return getAuthorSectionViewMetrics(region);
+    const ext = draftApi.getWorldExtents?.() ?? { minX: -25, maxX: 25, minZ: -25, maxZ: 25 };
+    return getAuthorSectionViewMetrics({ bounds: ext });
+  }
+
+  function getLevelViewDistanceLimits(metrics) {
+    const span = Math.max(1, metrics?.span ?? 1);
+    return {
+      minDistance: Math.max(4, span * 0.12),
+      maxDistance: Math.max(24, span * 3.2),
+    };
+  }
+
+  function createLevelViewStateForSection(distanceOverride = null) {
+    const metrics = getSelectedSectionViewMetrics();
+    const limits = getLevelViewDistanceLimits(metrics);
+    const target = new THREE.Vector3(metrics.centerX, 0, metrics.centerZ);
+    const distance = THREE.MathUtils.clamp(
+      Number.isFinite(distanceOverride) ? distanceOverride : Math.max(limits.minDistance, metrics.span * 0.42),
+      limits.minDistance,
+      limits.maxDistance,
+    );
+    const yaw = 0;
+    const pitch = Math.PI / 2 - 0.16;
+    return {
+      target,
+      yaw,
+      distance,
+      pitch,
+      span: metrics.span,
+      minDistance: limits.minDistance,
+      maxDistance: limits.maxDistance,
+      metrics,
+      defaultTarget: target.clone(),
+      defaultYaw: yaw,
+      defaultDistance: distance,
+      defaultPitch: pitch,
+    };
+  }
+
   function formatSectionSummary(sectionId) {
     const summary = summarizeSection(draftApi.getDraft(), sectionId);
     if (!summary) return "Section not found";
@@ -235,20 +277,29 @@ export function createAuthorMode(opts) {
     },
     onSelectRegion: (sectionId) => {
       selectedEditSectionId = sectionId;
+      if (isEdit && !editingAssetId) resetLevelView();
       updateOverlays();
+      setOverlaysVisible(isEdit);
       updateEditorVisibility("section-selection");
       updateTrajectoryPreviews();
       if (ui.refreshHierarchy) ui.refreshHierarchy();
+    },
+    onFocusRegion: (regionId) => {
+      const region = draftApi.findRegion(regionId);
+      if (!region) return;
+      selectedEditSectionId = regionId;
+      ui.setSelectedRegionId?.(regionId);
+      levelViewState = createLevelViewStateForSection();
+      focusLevelEditorTarget(region.bounds && (region.bounds.minX + region.bounds.maxX) * 0.5, region.bounds && (region.bounds.minZ + region.bounds.maxZ) * 0.5);
+      updateOverlays();
+      setOverlaysVisible(isEdit);
     },
     onFocusObject: (id) => {
       const found = draftApi.findObjectById(id);
       if (!found) return;
       const pos = found.obj.pos || { x: found.obj.x, z: found.obj.z };
       if (!pos) return;
-      camera.position.x = pos.x;
-      camera.position.z = pos.z + 5;
-      camera.lookAt(pos.x, 0, pos.z);
-      camera.updateMatrixWorld();
+      focusLevelEditorTarget(pos.x, pos.z);
       selectedId = id; ui.setSelected(id); updateHighlight(); updateHomeMarker();
     }
   });
@@ -444,14 +495,10 @@ export function createAuthorMode(opts) {
     return group;
   }
 
-  function zoomAssetEditCamera(deltaY) {
+  function zoomAssetEditCamera(deltaY, deltaMode = 0) {
     if (!assetEditViewState) return;
     const view = assetEditViewState;
-    view.distance = THREE.MathUtils.clamp(
-      view.distance + deltaY * view.span * 0.004,
-      view.span * 0.6,
-      view.span * 16,
-    );
+    view.distance = getNextAuthorZoomDistance(view.distance, deltaY, view.span * 0.6, view.span * 4, deltaMode);
     applyAssetEditCamera();
   }
 
@@ -1092,9 +1139,9 @@ export function createAuthorMode(opts) {
     canvas.addEventListener("wheel", (e) => {
       if (!isEdit) return;
       e.preventDefault();
-      if (editingAssetId) zoomAssetEditCamera(e.deltaY);
+      if (editingAssetId) zoomAssetEditCamera(e.deltaY, e.deltaMode);
       else {
-        zoomEditorCamera(e.deltaY);
+        zoomEditorCamera(e.deltaY, e.deltaMode);
       }
     }, { passive: false });
     canvas.addEventListener("contextmenu", (e) => { if (isEdit) e.preventDefault(); }, true);
@@ -1113,11 +1160,12 @@ export function createAuthorMode(opts) {
   try { window.__authorFocusRegion = (regionId) => {
     const r = draftApi.findRegion(regionId);
     if (!r) return;
-    const cx = (r.bounds.minX + r.bounds.maxX)/2;
-    const cz = (r.bounds.minZ + r.bounds.maxZ)/2;
-    camera.position.set(cx, camera.position.y, cz + 8);
-    camera.lookAt(cx, 0, cz);
-    camera.updateMatrixWorld();
+    selectedEditSectionId = regionId;
+    ui.setSelectedRegionId?.(regionId);
+    if (levelViewState) levelViewState = createLevelViewStateForSection();
+    const metrics = getAuthorSectionViewMetrics(r);
+    focusLevelEditorTarget(metrics.centerX, metrics.centerZ);
+    setOverlaysVisible(isEdit);
   }; } catch {}
   function setSystems(systems) {
     if (systems.resourceSystem) resourceSystem = systems.resourceSystem;
@@ -1131,25 +1179,11 @@ export function createAuthorMode(opts) {
     editorPreviousSectionId = sectionRuntime?.getActiveSectionId?.() ?? null;
     selectedEditSectionId = ui.getSelectedRegionId?.() ?? selectedEditSectionId;
     ui.setSelectedRegionId?.(selectedEditSectionId);
-    editorCameraState = { pos: camera.position.clone(), rot: camera.rotation.clone(), fov: camera.fov, fog: scene.fog };
-    const ext = draftApi.getWorldExtents ? draftApi.getWorldExtents() : { minX: -12.5, maxX: 12.5, minZ: -11.5, maxZ: 11.5 };
-    const cx = (ext.minX + ext.maxX) * 0.5;
-    const cz = (ext.minZ + ext.maxZ) * 0.5;
-    const span = Math.max(ext.maxX - ext.minX, ext.maxZ - ext.minZ);
-    const height = Math.max(22, Math.min(42, span * 1.1));
-    camera.position.set(cx, height, cz + 0.1);
-    camera.lookAt(cx, 0, cz);
-    camera.updateMatrixWorld();
-    // Init unified level view state (spherical, matches workbench)
-    {
-      const target = new THREE.Vector3(cx, 0, cz);
-      const offset = new THREE.Vector3().subVectors(camera.position, target);
-      const distance = Math.max(6, offset.length());
-      const pitch = Math.max(0.12, Math.min(Math.PI/2 - 0.1, Math.asin(THREE.MathUtils.clamp(offset.y / Math.max(distance, 0.001), -1, 1))));
-      const yaw = Math.atan2(offset.x, offset.z);
-      const lvSpan = Math.max(10, span);
-      levelViewState = { target, yaw, distance, pitch, span: lvSpan, defaultTarget: target.clone(), defaultYaw: yaw, defaultDistance: distance, defaultPitch: pitch };
-    }
+    editorCameraState = { pos: camera.position.clone(), rot: camera.rotation.clone(), projection: captureAuthorCameraProjection(camera), fog: scene.fog };
+    levelViewState = createLevelViewStateForSection();
+    camera.far = getAuthorEditorFarPlane(levelViewState.maxDistance, levelViewState.span);
+    camera.updateProjectionMatrix();
+    _applyLevelCamera();
     setOverlaysVisible(true);
     setLevelOrbitGizmoVisible(true);
     setFogForEdit(true);
@@ -1166,8 +1200,7 @@ export function createAuthorMode(opts) {
     if (editorCameraState) {
       camera.position.copy(editorCameraState.pos);
       camera.rotation.copy(editorCameraState.rot);
-      camera.fov = editorCameraState.fov;
-      camera.updateProjectionMatrix();
+      restoreAuthorCameraProjection(camera, editorCameraState.projection);
       camera.updateMatrixWorld();
       editorCameraState = null;
     }
@@ -1201,14 +1234,7 @@ export function createAuthorMode(opts) {
   }
   function _ensureLevelViewState(){
     if (levelViewState) return levelViewState;
-    const target = _getLevelTarget();
-    target.y = 0;
-    const offset = new THREE.Vector3().subVectors(camera.position, target);
-    const distance = Math.max(6, Math.min(60, offset.length()));
-    const pitch = Math.max(0.12, Math.min(Math.PI/2 - 0.1, Math.asin(THREE.MathUtils.clamp(offset.y / Math.max(distance, 0.001), -1, 1))));
-    const yaw = Math.atan2(offset.x, offset.z);
-    const span = Math.max(10, distance * 0.55);
-    levelViewState = { target, yaw, distance, pitch, span, defaultTarget: target.clone(), defaultYaw: yaw, defaultDistance: distance, defaultPitch: pitch };
+    levelViewState = createLevelViewStateForSection();
     return levelViewState;
   }
   function _applyLevelCamera(){
@@ -1282,50 +1308,26 @@ export function createAuthorMode(opts) {
     view.target.set(target.x, target.y, target.z);
     _applyLevelCamera();
   }
-  function zoomEditorCamera(delta) {
+  function zoomEditorCamera(delta, deltaMode = 0) {
     const view = _ensureLevelViewState();
-    view.distance = THREE.MathUtils.clamp(view.distance + delta * view.span * 0.004, view.span * 0.6, view.span * 16);
+    view.distance = getNextAuthorZoomDistance(view.distance, delta, view.minDistance, view.maxDistance, deltaMode);
     _applyLevelCamera();
   }
+
+  function focusLevelEditorTarget(x, z) {
+    const view = _ensureLevelViewState();
+    view.target.set(Number.isFinite(x) ? x : view.target.x, 0, Number.isFinite(z) ? z : view.target.z);
+    _applyLevelCamera();
+  }
+
   function resetLevelView(){
-    levelViewState = null;
+    levelViewState = createLevelViewStateForSection();
     if (editorCameraState) {
-      camera.position.copy(editorCameraState.pos);
-      camera.rotation.copy(editorCameraState.rot);
-      camera.fov = editorCameraState.fov;
+      camera.far = getAuthorEditorFarPlane(levelViewState.maxDistance, levelViewState.span);
       camera.updateProjectionMatrix();
-      camera.updateMatrixWorld();
-      // Re-init levelViewState from reset top-down
-      {
-        const ext = draftApi.getWorldExtents ? draftApi.getWorldExtents() : { minX:-12.5, maxX:12.5, minZ:-11.5, maxZ:11.5 };
-        const cx=(ext.minX+ext.maxX)*0.5, cz=(ext.minZ+ext.maxZ)*0.5;
-        const span=Math.max(ext.maxX-ext.minX, ext.maxZ-ext.minZ);
-        const height=Math.max(22, Math.min(42, span*1.1));
-        const target=new THREE.Vector3(cx,0,cz);
-        const offset=new THREE.Vector3().subVectors(camera.position, target);
-        const distance=Math.max(6, offset.length());
-        const pitch=Math.max(0.12, Math.min(Math.PI/2-0.1, Math.asin(THREE.MathUtils.clamp(offset.y/Math.max(distance,0.001),-1,1))));
-        const yaw=Math.atan2(offset.x, offset.z);
-        levelViewState={target,yaw,distance,pitch,span:Math.max(10,span),defaultTarget:target.clone(),defaultYaw:yaw,defaultDistance:distance,defaultPitch:pitch};
-      }
-      updateLevelOrbitGizmo();
-      try { window.__authorResetHint && window.__authorResetHint("View reset to top-down"); } catch {}
-    } else if (typeof window !== "undefined") {
-      const ext = draftApi.getWorldExtents ? draftApi.getWorldExtents() : { minX:-12.5, maxX:12.5, minZ:-11.5, maxZ:11.5 };
-      const cx=(ext.minX+ext.maxX)*0.5, cz=(ext.minZ+ext.maxZ)*0.5;
-      const span=Math.max(ext.maxX-ext.minX, ext.maxZ-ext.minZ);
-      const h=Math.max(22, Math.min(42, span*1.1));
-      camera.position.set(cx,h,cz+0.1);
-      camera.lookAt(cx,0,cz);
-      camera.updateMatrixWorld();
-      const target=new THREE.Vector3(cx,0,cz);
-      const offset=new THREE.Vector3().subVectors(camera.position, target);
-      const distance=Math.max(6, offset.length());
-      const pitch=Math.max(0.12, Math.min(Math.PI/2-0.1, Math.asin(THREE.MathUtils.clamp(offset.y/Math.max(distance,0.001),-1,1))));
-      const yaw=Math.atan2(offset.x, offset.z);
-      levelViewState={target,yaw,distance,pitch,span:Math.max(10,span),defaultTarget:target.clone(),defaultYaw:yaw,defaultDistance:distance,defaultPitch:pitch};
-      updateLevelOrbitGizmo();
     }
+    _applyLevelCamera();
+    try { window.__authorResetHint && window.__authorResetHint("View reset to selected section"); } catch {}
   }
   try { window.__authorResetLevelView = resetLevelView; } catch {}
   function createOverlays() {
@@ -1797,10 +1799,7 @@ export function createAuthorMode(opts) {
       if (!found) return;
       const pos = found.obj.pos || { x: found.obj.x, z: found.obj.z };
       if (!pos) return;
-      camera.position.x = pos.x;
-      camera.position.z = pos.z + 5;
-      camera.lookAt(pos.x, 0, pos.z);
-      camera.updateMatrixWorld();
+      focusLevelEditorTarget(pos.x, pos.z);
       updateHighlight(); updateHomeMarker();
       return;
     }
@@ -1921,4 +1920,63 @@ export function createAuthorMode(opts) {
   }
 
   return { init, setSystems, draftApi, ui, isEditMode: () => isEdit, suppressGameplay: () => suppressGameplay, getSelectedId: () => selectedId, updateHighlight, updateOverlays, markEditorWorldDirty, syncEditorSectionVisibility, updateEditorVisibility, getEditorDiagnostics, prepareRender, findMeshByAuthorId, syncPreviewForId };
+}
+
+
+const AUTHOR_WHEEL_LINE_PIXELS = 16;
+const AUTHOR_WHEEL_PAGE_PIXELS = 100;
+const AUTHOR_WHEEL_MAX_PIXELS = 120;
+
+/** Normalize browser wheel units and clamp hostile/outlier deltas. */
+export function normalizeAuthorWheelDelta(delta, deltaMode = 0) {
+  let value = Number.isFinite(delta) ? Number(delta) : 0;
+  if (deltaMode === 1) value *= AUTHOR_WHEEL_LINE_PIXELS;
+  else if (deltaMode === 2) value *= AUTHOR_WHEEL_PAGE_PIXELS;
+  return Math.max(-AUTHOR_WHEEL_MAX_PIXELS, Math.min(AUTHOR_WHEEL_MAX_PIXELS, value));
+}
+
+/** Apply smooth, distance-relative zoom without the old span-linear jumps. */
+export function getNextAuthorZoomDistance(distance, delta, minDistance, maxDistance, deltaMode = 0) {
+  const min = Math.min(minDistance, maxDistance);
+  const max = Math.max(minDistance, maxDistance);
+  const current = Number.isFinite(distance) ? distance : min;
+  const normalized = normalizeAuthorWheelDelta(delta, deltaMode);
+  const next = current * Math.exp(normalized * 0.0015);
+  return Math.max(min, Math.min(max, next));
+}
+
+export function getAuthorSectionViewMetrics(region) {
+  const bounds = region?.bounds;
+  const minX = Number.isFinite(bounds?.minX) ? bounds.minX : 0;
+  const maxX = Number.isFinite(bounds?.maxX) ? bounds.maxX : minX + 1;
+  const minZ = Number.isFinite(bounds?.minZ) ? bounds.minZ : 0;
+  const maxZ = Number.isFinite(bounds?.maxZ) ? bounds.maxZ : minZ + 1;
+  const width = Math.max(1, Math.abs(maxX - minX));
+  const depth = Math.max(1, Math.abs(maxZ - minZ));
+  return {
+    minX, maxX, minZ, maxZ,
+    centerX: (minX + maxX) * 0.5,
+    centerZ: (minZ + maxZ) * 0.5,
+    width,
+    depth,
+    span: Math.max(width, depth),
+  };
+}
+
+export function getAuthorEditorFarPlane(maxDistance, span, minimum = 500) {
+  const distance = Number.isFinite(maxDistance) ? maxDistance : 0;
+  const sectionSpan = Number.isFinite(span) ? span : 0;
+  return Math.max(minimum, distance + Math.max(24, sectionSpan * 1.5));
+}
+
+export function captureAuthorCameraProjection(camera) {
+  return { near: camera.near, far: camera.far, fov: camera.fov };
+}
+
+export function restoreAuthorCameraProjection(camera, snapshot) {
+  if (!camera || !snapshot) return;
+  camera.near = snapshot.near;
+  camera.far = snapshot.far;
+  camera.fov = snapshot.fov;
+  camera.updateProjectionMatrix?.();
 }
