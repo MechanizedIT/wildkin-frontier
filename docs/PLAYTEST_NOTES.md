@@ -251,6 +251,28 @@ This is implementation/browser evidence, **not human acceptance**.
 
 Perform spec Tests 13–17 in recognizable play. Harvest an ordered multi-part custom resource through depletion/respawn, collect its custom-model drop, inspect its custom remnant, and extract/bank it. Fight or observe a Visual Asset Wildkin through warning/death/respawn, and verify custom Waypoint/Beacon models retain their normal gameplay. Confirm camera pan/dolly feel, model recognizability, and portrait-phone readability by eye; automated state and screenshots do not replace perceptual acceptance.
 
+---
+
+## 2026-08-31 — Phase 4B.1.5 movement, parkour, and progression — automated browser evidence only
+
+This is production browser evidence, **not owner human acceptance**. It used the repository server at `http://localhost:8080/` and the real built source in the Codex in-app Chromium browser.
+
+### Portrait runtime — 390×844
+
+- The game loaded as Phase 4B.1.5 / 0.18.0 with the persistent top-center `LV 1` and `47 / 50 XP` progress presentation visible at the phone viewport.
+- The debug loop held roughly 30 fps while idle, and browser warning/error logs remained empty.
+- The browser automation surface could send discrete keys but could not reproduce a trustworthy sustained held run. Running-camera smoothness over 20–30 seconds therefore remains explicitly unproven and belongs to owner acceptance.
+
+### Desktop Author — 1440×900
+
+- `?author=1` loaded cleanly and exposed distinct `Jump Pad — Low`, `Jump Pad — Medium`, `Jump Pad — High`, `Parkour Start`, `Checkpoint`, `Parkour End`, `Course Zone`, and `Kill Volume` palette entries.
+- The selected browser profile contained an older compatible Author draft, so canonical proof-object enumeration was established by automated tests/world validation rather than destructively resetting that draft.
+- Asset Workbench opened real small (`Patch of Grass`) and large (`Redwood Tree`) assets. The shared orb/cross/stem gizmo was visible, centered, and scaled with both assets. Workbench entry/exit and camera controls loaded without warnings or errors.
+
+### Still requires the owner
+
+Run the checklist in `docs/CURRENT_SLICE.md`: sustained running and direction changes; Edit/Play gate parity and live repair; parkour feedback and Course Zone abandonment; carried-XP death/extraction behavior; ruined-gate requirement clarity; Matter Resonator readability; standing/running Low/Medium/High Jump Pad feel and Author guidance; and subjective workbench gizmo/camera comfort. Automated tests and screenshots do not establish perceptual feel, audio clarity, or target-device performance.
+
 
 ---
 

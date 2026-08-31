@@ -60,7 +60,7 @@ const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 4B.1.4 — 0.17.0";
+const VERSION = "Phase 4B.1.5 — 0.18.0";
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -185,6 +185,7 @@ const keyboardInput = createKeyboardInput(MOVEMENT_CONFIG, app);
 const playerController = createPlayerController(player, playground, camera, MOVEMENT_CONFIG, characterPhysics);
 player.position.set(startPos.x, startPos.y, startPos.z);
 playerController.state.facing = campStartFacing;
+playerController.snapRenderPose();
 
 const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG);
 cameraFollow.snap();
@@ -214,6 +215,7 @@ function placePlayerAtFeetTransform(feetPosition, facingYaw = 0) {
   state.mantleData = null;
   playerController.traversal.reset();
   playerController.syncPosFromPhysics();
+  playerController.snapRenderPose();
   cameraFollow.snap();
   return position;
 }
@@ -230,7 +232,7 @@ let autoHarvestEnabled = true;
 autoHarvestToggle.onToggle((v) => { autoHarvestEnabled = v; });
 
 pickupSystem = createPickupSystem(scene, physicsWorld, playground, (inv, resId) => {
-  inventoryHud.update(inv);
+  inventoryHud.update(inv, xpMoteSystem?.getXp?.() ?? 0);
   if (resId) inventoryHud.pulse(resId);
   expeditionSession.setCargo(inv);
 }, { resourceDrops, visualAssets: worldRegistry.data.visualAssets ?? [] });
@@ -243,10 +245,14 @@ resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld);
 const fieldTool = createFieldTool(player, gameAudio);
 
 const combatHud = createCombatHud();
-combatHud.updateLevel(getPlayerLevel(frontierProgress.getBankedXp()));
+combatHud.updateProgress(frontierProgress.getBankedXp());
+let lastCarriedXp = 0;
 xpMoteSystem = createXpMoteSystem(scene, {
   onXpChanged: (xp) => {
     combatHud.updateXp(xp);
+    inventoryHud.update(pickupSystem.getInventory(), xp);
+    if (xp > lastCarriedXp) inventoryHud.pulseXp();
+    lastCarriedXp = xp;
     expeditionSession.setXp(xp);
   },
   onCollectSound: () => gameAudio.playXpCollect(),
@@ -390,7 +396,8 @@ frontierMap = createFrontierMap({
 anchorPrompt = createAnchorPrompt({
   onExtract: (data) => {
     if (data.type === "portalRepair") {
-      portalGateSystem?.repair(data.id);
+      const repair = portalGateSystem?.repair(data.id);
+      if (repair?.ok) playground.refreshPortalGateVisual?.(data.id, "active");
       refreshMapAvailability();
       syncInputBlock();
     } else if (data.type === "campReturn") {
@@ -517,6 +524,7 @@ portalGateSystem = createPortalGateSystem(worldRegistry, {
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),
   getBankedXp: () => frontierProgress.getBankedXp(),
   getCargo: () => pickupSystem.getInventory(),
+  getCarriedXp: () => xpMoteSystem.getXp(),
   spendCargo: (_cargo, cost) => pickupSystem.spendInventory(cost),
   refundCargo: (cost) => pickupSystem.grantInventory(cost),
   onTravel: transitionThroughPortalGate,
@@ -531,6 +539,22 @@ parkourSystem = createParkourSystem(worldRegistry, {
   getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
   onSafeFailure: handleParkourSafeFailure,
   onNormalFatal: ({ reason } = {}) => handleDeathFlow(reason ?? "fatal_hazard"),
+  onCourseStarted: ({ start }) => {
+    activationToast.pulseWorld(start.pos, 0x59f0c8);
+    activationToast.showMessage({ title: "PARKOUR START", subtitle: "Course protection active" });
+    gameAudio.playParkour?.("start");
+  },
+  onCheckpointActivated: ({ checkpoint }) => {
+    activationToast.pulseWorld(checkpoint.pos, 0x5ba7ff);
+    activationToast.showMessage({ title: "CHECKPOINT", subtitle: "Safe respawn updated" });
+    gameAudio.playParkour?.("checkpoint");
+  },
+  onCourseEnded: ({ end }) => {
+    activationToast.pulseWorld(end.pos, 0xffd45b);
+    activationToast.showMessage({ title: "COURSE COMPLETE", subtitle: "Normal expedition risk restored" });
+    gameAudio.playParkour?.("complete");
+  },
+  onCourseAbandoned: () => activationToast.showMessage({ title: "COURSE LEFT", subtitle: "Checkpoint protection cleared" }),
 });
 
 lootSystem = createLootSystem(worldRegistry, {
@@ -651,9 +675,10 @@ function syncInputBlock() {
 function resetTransientWorldToCamp() {
   if (pickupSystem.clear) { try { pickupSystem.clear(); } catch {} }
   pickupSystem.resetInventory();
-  inventoryHud.update(pickupSystem.getInventory());
+  inventoryHud.update(pickupSystem.getInventory(), 0);
   expeditionSession.setCargo(pickupSystem.getInventory());
   xpMoteSystem.reset();
+  lastCarriedXp = 0;
   combatHud.updateXp(0);
   expeditionSession.setXp(0);
   projectileSystem.reset();
@@ -696,8 +721,9 @@ function beginExpeditionAtTransform({ sectionId, startAnchorId, feetPosition, fa
   if (!expeditionSession.isCamp() || !worldRegistry.getSectionById(sectionId)) return false;
   // Clear old run state (transient)
   pickupSystem.resetInventory();
-  inventoryHud.update(pickupSystem.getInventory());
+  inventoryHud.update(pickupSystem.getInventory(), 0);
   xpMoteSystem.reset();
+  lastCarriedXp = 0;
   combatHud.updateXp(0);
   projectileSystem.reset();
   if (pickupSystem.clear) { try { pickupSystem.clear(); } catch {} }
@@ -808,7 +834,13 @@ function finalizeSuccessfulExtraction(resolved, data) {
   };
   // Return/reset transient world to Camp (shared path)
   resetTransientWorldToCamp();
-  combatHud.updateLevel(getPlayerLevel(banked.bankedXp));
+  combatHud.updateProgress(banked.bankedXp);
+  const previousLevel = getPlayerLevel(Math.max(0, banked.bankedXp - snap.xp));
+  const newLevel = getPlayerLevel(banked.bankedXp);
+  if (newLevel > previousLevel) {
+    activationToast.showMessage({ title: `LEVEL UP — LV ${newLevel}`, subtitle: newLevel - previousLevel > 1 ? `${newLevel - previousLevel} levels secured` : "Persistent progression advanced" });
+    gameAudio.playLevelUp?.();
+  }
   syncInputBlock();
   frontierMap.close();
   anchorPrompt.hide();
@@ -918,8 +950,6 @@ function tick() {
   }
   // Also keep indicators updated outside fixed step (visual)
   if (frontierIndicators && !authorSuppress) frontierIndicators.update(camera);
-  refreshMapAvailability();
-
   const touchIntent = touchMovement.getIntent();
   const kbIntent = keyboardInput.getIntent();
   const intent = mergeIntentsPure(touchIntent, kbIntent);
@@ -1111,6 +1141,7 @@ function tick() {
   }
 
   const pState = playerController.getState();
+  playerController.prepareRender(fixedDt > 0 ? accumulator / fixedDt : 1);
   const moveDir = pState.speed > 0.1 ? { x: Math.sin(pState.facing), z: Math.cos(pState.facing) } : null;
   if (authorSuppress) {
   } else {

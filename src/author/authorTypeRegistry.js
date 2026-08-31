@@ -4,6 +4,7 @@
 
 import { describeBoxCollider, describeResourceCollider, describeCreatureCollider, describeVisualAssetCollider } from "../world/colliderDescriptor.js";
 import { enumerateRegionAuthorObjects } from "./authorObjectCollections.js";
+import { resolveJumpPadVisual, resolveParkourMarkerVisual, resolvePortalGateVisual } from "../world/playerFacingVisuals.js";
 
 // Helpers
 function isFiniteNumber(v) { return typeof v === "number" && Number.isFinite(v); }
@@ -892,7 +893,7 @@ function makeGenericPoiDefinition() {
   };
 }
 
-function makeSectionObjectDefinition(collection, key, visualId, inspector = [], { sized = false, visualRole = "playerFacing" } = {}) {
+function makeSectionObjectDefinition(collection, key, visualId, inspector = [], { sized = false, visualRole = "playerFacing", resolveVisualRef = null } = {}) {
   return {
     key: `section:${key}`,
     visualId,
@@ -924,6 +925,7 @@ function makeSectionObjectDefinition(collection, key, visualId, inspector = [], 
     },
     visual: {
       resolveRef(found) {
+        if (resolveVisualRef) return resolveVisualRef(found).visualRef;
         return found.obj.visualAssetId ? { kind: "asset", id: found.obj.visualAssetId } : { kind: "builtin", id: visualId };
       },
     },
@@ -1019,25 +1021,34 @@ const DEFINITIONS = [
     { key: "targetSectionId", label: "Target Section", type: "text", path: "targetSectionId" },
     { key: "targetEntryId", label: "Target Entry", type: "text", path: "targetEntryId" },
     { key: "requirements", label: "Requirements", type: "json", path: "requirements" },
-  ]),
-  makeSectionObjectDefinition("jumpPads", "jumpPad", "prop/gate", [
+    { key: "visualAssetId", label: "Fallback Visual Asset", type: "visualAsset", path: "visualAssetId" },
+    { key: "activeVisualAssetId", label: "Active Visual Asset", type: "visualAsset", path: "activeVisualAssetId" },
+    { key: "ruinedVisualAssetId", label: "Ruined Visual Asset", type: "visualAsset", path: "ruinedVisualAssetId" },
+  ], { resolveVisualRef: (found) => resolvePortalGateVisual(found.obj, found.obj.state, found.visualAssets ?? []) }),
+  makeSectionObjectDefinition("jumpPads", "jumpPad", "traversal/jump-pad", [
     { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius" },
-    { key: "horizontalLaunch", label: "Horizontal Launch", type: "number", path: "horizontalLaunch" },
-    { key: "verticalLaunch", label: "Vertical Launch", type: "number", path: "verticalLaunch" },
+    { key: "powerPreset", label: "Power Preset", type: "enum", options: ["low", "medium", "high"], path: "powerPreset" },
+    { key: "verticalLaunch", label: "Vertical Override (blank = preset)", type: "number", path: "verticalLaunch" },
     { key: "cooldown", label: "Cooldown", type: "number", path: "cooldown" },
-  ]),
-  makeSectionObjectDefinition("parkourStarts", "parkourStart", "editor/parkour-start", [
+  ], { resolveVisualRef: (found) => resolveJumpPadVisual(found.obj, found.visualAssets ?? []) }),
+  makeSectionObjectDefinition("parkourStarts", "parkourStart", "parkour/start", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
     { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius" },
-  ], { visualRole: "editorHelperOnly" }),
-  makeSectionObjectDefinition("parkourCheckpoints", "parkourCheckpoint", "editor/parkour-checkpoint", [
+    { key: "visualAssetId", label: "Visual Asset", type: "visualAsset", path: "visualAssetId" },
+  ], { resolveVisualRef: (found) => resolveParkourMarkerVisual(found.obj, "start", found.visualAssets ?? []) }),
+  makeSectionObjectDefinition("parkourCheckpoints", "parkourCheckpoint", "parkour/checkpoint", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
     { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius" },
-  ], { visualRole: "editorHelperOnly" }),
-  makeSectionObjectDefinition("parkourEnds", "parkourEnd", "editor/parkour-end", [
+    { key: "visualAssetId", label: "Visual Asset", type: "visualAsset", path: "visualAssetId" },
+  ], { resolveVisualRef: (found) => resolveParkourMarkerVisual(found.obj, "checkpoint", found.visualAssets ?? []) }),
+  makeSectionObjectDefinition("parkourEnds", "parkourEnd", "parkour/end", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
     { key: "triggerRadius", label: "Trigger Radius", type: "number", path: "triggerRadius", min: 0.1 },
-  ], { visualRole: "editorHelperOnly" }),
+    { key: "visualAssetId", label: "Visual Asset", type: "visualAsset", path: "visualAssetId" },
+  ], { resolveVisualRef: (found) => resolveParkourMarkerVisual(found.obj, "end", found.visualAssets ?? []) }),
+  makeSectionObjectDefinition("parkourCourseZones", "parkourCourseZone", "editor/parkour-course-zone", [
+    { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
+  ], { sized: true, visualRole: "editorHelperOnly" }),
   makeSectionObjectDefinition("killVolumes", "killVolume", "editor/kill-volume", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
   ], { sized: true, visualRole: "editorHelperOnly" }),

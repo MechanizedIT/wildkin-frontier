@@ -76,12 +76,13 @@ export function createAnchorPrompt(opts = {}) {
     } else if (data.type === "portalRepair") {
       const model = data.requirementView;
       const lines = ["Requirements"];
-      lines.push(`Level      ${model.level.current} / ${model.level.required}${model.level.met ? " ✓" : ""}`);
+      lines.push(`LEVEL       ${model.level.current} / ${model.level.required}${model.level.met ? " ✓" : ""}`);
+      lines.push(`BANKED XP   ${model.progress.progressXp} / ${model.progress.progressMax} toward LV ${model.progress.level + 1}`);
+      lines.push(`CARRIED XP  +${model.carriedXp ?? 0}  (secure at Camp)`);
       for (const resource of model.resources) {
         const label = resource.id.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
         lines.push(`${label}      ${resource.current} / ${resource.required}${resource.met ? " ✓" : ""}`);
       }
-      lines.push(`Persistent XP: ${model.progress.bankedXp} / ${model.progress.nextLevelXp}`);
       summaryEl.textContent = lines.join("\n");
       summaryEl.style.whiteSpace = "pre-line";
       extractBtn.textContent = "REPAIR GATE";

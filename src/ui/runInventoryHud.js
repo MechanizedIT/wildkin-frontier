@@ -1,6 +1,7 @@
 // src/ui/runInventoryHud.js — compact upper-left icon+count list (Phase 4A: hide zeros, upper-left, readable carry)
 import { getOrCreateHudStack } from "./hudStack.js";
 import { getResourceDrops } from "../resources/resourceDropCatalog.js";
+import { getCarriedXpViewModel } from "./progressionModels.js";
 
 export function createRunInventoryHud(resourceDrops) {
   const hud = document.getElementById("hud");
@@ -43,6 +44,9 @@ export function createRunInventoryHud(resourceDrops) {
     rows[drop.id] = makeRow(drop, index);
     colors[drop.id] = drop.color;
   });
+  const xpDrop = { id: "xp", displayName: "Unsecured XP", color: "#ffe066" };
+  rows.xp = makeRow(xpDrop, drops.length);
+  colors.xp = xpDrop.color;
 
   function spawnFloating(resourceId) {
     const row = rows[resourceId];
@@ -75,19 +79,22 @@ export function createRunInventoryHud(resourceDrops) {
     spawnFloating(resourceId);
   }
 
-  function update(inventory) {
+  function update(inventory, carriedXp = 0) {
+    const xpModel = getCarriedXpViewModel(carriedXp);
     for (const key of Object.keys(rows)) {
       const row = rows[key];
       const span = row?.querySelector("[data-count]");
-      const val = inventory[key] ?? 0;
+      const val = key === "xp" ? xpModel.count : inventory[key] ?? 0;
       if (span) span.textContent = String(val);
       if (row) row.style.display = val > 0 ? "flex" : "none";
     }
   }
 
+  function pulseXp() { pulse("xp"); }
+
   function destroy() {
     container.remove();
   }
 
-  return { update, pulse, spawnFloating, rows, element: container, destroy };
+  return { update, pulse, pulseXp, spawnFloating, rows, element: container, destroy };
 }

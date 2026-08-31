@@ -206,5 +206,15 @@ export function createGameAudio() {
     }
   }
 
-  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, playHit, playHurt, playEnemyHit, playEnemyDeath, playProjectileFire, playProjectileHit, playXpCollect, playCombatWhoosh, playActivation, get context() { return ctx; } };
+  function playParkour(kind) {
+    const base = kind === "checkpoint" ? 620 : kind === "complete" ? 760 : 520;
+    tone({ freq: base, freq2: base * 1.35, duration: kind === "complete" ? 0.22 : 0.14, type: "sine", gain: 0.14, filterFreq: 2600 });
+    if (kind === "complete") setTimeout(() => tone({ freq: 980, freq2: 1320, duration: 0.18, type: "sine", gain: 0.11, filterFreq: 3200 }), 90);
+  }
+
+  function playLevelUp() {
+    playParkour("complete");
+  }
+
+  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, playHit, playHurt, playEnemyHit, playEnemyDeath, playProjectileFire, playProjectileHit, playXpCollect, playCombatWhoosh, playActivation, playParkour, playLevelUp, get context() { return ctx; } };
 }

@@ -81,11 +81,11 @@ describe("Phase 4B.1.4 — canonical Author parity", () => {
     const registry = createWorldRegistry(WORLD_DATA);
     const staticWorld = createStaticWorld(WORLD_DATA);
     const draft = createAuthorDraft(WORLD_DATA);
-    for (const id of ["gate_section_1_camp_arrival", "gate_section_1_to_2", "jump_pad_section_1", "wp_section_1", "beacon_section_1"]) {
+    for (const id of ["gate_section_1_camp_arrival", "gate_section_1_to_2", "jump_pad_section_1", "wp_section_1", "beacon_section_1", "parkour_start_section_1", "parkour_checkpoint_section_1", "parkour_end_section_1"]) {
       assert.ok(findAuthorRoot(staticWorld.group, id), `${id} must have a Play visual`);
       assert.equal(getAuthorVisualRole(draft.findObjectById(id)), "playerFacing");
     }
-    for (const id of ["entry_section_1", "parkour_start_section_1", "parkour_checkpoint_section_1", "parkour_end_section_1", "kill_volume_section_1"]) {
+    for (const id of ["entry_section_1", "parkour_zone_section_1_a", "kill_volume_section_1"]) {
       assert.equal(findAuthorRoot(staticWorld.group, id), null, `${id} must not leak into Play`);
       const found = draft.findObjectById(id);
       assert.equal(getAuthorVisualRole(found), "editorHelperOnly");

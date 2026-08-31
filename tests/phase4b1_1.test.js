@@ -9,10 +9,9 @@ import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { createSectionRuntime } from "../src/world/sectionRuntime.js";
 
 describe("Phase 4B.1.1 — closure contracts", () => {
-  it("invalidates Jump Pad preview for every canonical trajectory field", () => {
-    const base = { id: "pad", pos: { x: 0, y: 0, z: 0 }, rotY: 0, horizontalLaunch: 8, verticalLaunch: 6 };
-    assert.notEqual(getJumpPadTrajectorySignature(base), getJumpPadTrajectorySignature({ ...base, rotY: 0.5 }));
-    assert.notEqual(getJumpPadTrajectorySignature(base), getJumpPadTrajectorySignature({ ...base, horizontalLaunch: 9 }));
+  it("invalidates Jump Pad guidance for every canonical vertical-carry field", () => {
+    const base = { id: "pad", pos: { x: 0, y: 0, z: 0 }, powerPreset: "medium", verticalLaunch: 6 };
+    assert.notEqual(getJumpPadTrajectorySignature(base), getJumpPadTrajectorySignature({ ...base, powerPreset: "high" }));
     assert.notEqual(getJumpPadTrajectorySignature(base), getJumpPadTrajectorySignature({ ...base, verticalLaunch: 7 }));
     assert.notEqual(getJumpPadTrajectorySignature(base), getJumpPadTrajectorySignature({ ...base, pos: { x: 1, y: 0, z: 0 } }));
     assert.ok(predictJumpPadTrajectory(base).at(-1).y < 0.001);

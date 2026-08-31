@@ -1231,24 +1231,30 @@ export function createAuthorDraft(repoData) {
         (region.portalGates ??= []).push(obj); createdId = id;
       } else if (kind === "jumpPad") {
         const id = nextIdLocal("jump_pad");
-        obj = { id, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.1, horizontalLaunch: 8, verticalLaunch: 6, cooldown: 0.8, visualAssetId: "asset_frontier_launch_pad" };
+        obj = { id, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.3, powerPreset: options.powerPreset ?? "medium", verticalLaunch: null, cooldown: 1, visualAssetId: "asset_frontier_launch_pad" };
         (region.jumpPads ??= []).push(obj); createdId = id;
       } else if (kind === "parkourStart") {
         const id = nextIdLocal("parkour_start");
-        obj = { id, courseId: `course_${id}`, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.1 };
+        obj = { id, courseId: `course_${id}`, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.8 };
         (region.parkourStarts ??= []).push(obj); createdId = id;
       } else if (kind === "parkourCheckpoint") {
         const id = nextIdLocal("parkour_checkpoint");
         const courseId = region.parkourStarts?.[0]?.courseId;
         if (!courseId) throw new Error("Place a Parkour Start before a Checkpoint");
-        obj = { id, courseId, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.1 };
+        obj = { id, courseId, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.8 };
         (region.parkourCheckpoints ??= []).push(obj); createdId = id;
       } else if (kind === "parkourEnd") {
         const id = nextIdLocal("parkour_end");
         const courseId = region.parkourStarts?.[0]?.courseId;
         if (!courseId) throw new Error("Place a Parkour Start before a Parkour End");
-        obj = { id, courseId, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.2 };
+        obj = { id, courseId, pos: { x: worldPos.x, y, z: worldPos.z }, rotY: 0, triggerRadius: 1.8 };
         (region.parkourEnds ??= []).push(obj); createdId = id;
+      } else if (kind === "parkourCourseZone") {
+        const id = nextIdLocal("parkour_zone");
+        const courseId = region.parkourStarts?.[0]?.courseId;
+        if (!courseId) throw new Error("Place a Parkour Start before a Course Zone");
+        obj = { id, courseId, pos: { x: worldPos.x, y: Math.max(2, y), z: worldPos.z }, size: { w: 8, h: 6, d: 12 } };
+        (region.parkourCourseZones ??= []).push(obj); createdId = id;
       } else if (kind === "killVolume") {
         const id = nextIdLocal("kill_volume");
         const courseId = region.parkourStarts?.[0]?.courseId;
@@ -1279,7 +1285,7 @@ export function createAuthorDraft(repoData) {
         neighbors: [...neighbors],
         sectionType: "expedition", size: { width: 50, depth: 50 },
         props: [], resources: [], creatures: [], majorWaypoints: [], extractionBeacons: [], pois: [],
-        entryPoints: [], portalGates: [], jumpPads: [], parkourStarts: [], parkourCheckpoints: [], parkourEnds: [], killVolumes: [], lootChests: [],
+        entryPoints: [], portalGates: [], jumpPads: [], parkourStarts: [], parkourCheckpoints: [], parkourEnds: [], parkourCourseZones: [], killVolumes: [], lootChests: [],
         traversal: { platforms: [], obstacles: [], climbables: [] },
         groundPatches: [], boundaryColliders: []
       });

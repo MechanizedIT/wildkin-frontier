@@ -502,6 +502,59 @@ export function createKillVolumeHelperVisual({ size = { width: 1, height: 1, dep
   return group;
 }
 
+export function createParkourCourseZoneHelperVisual({ size = { width: 1, height: 1, depth: 1 } } = {}) {
+  const group = createKillVolumeHelperVisual({ size });
+  group.traverse((object) => {
+    if (!object.material?.color) return;
+    object.material = object.material.clone();
+    object.material.color.setHex(0x39bde8);
+    object.material.opacity = object.material.wireframe ? 0.78 : 0.14;
+  });
+  group.userData.parkourCourseZone = true;
+  return group;
+}
+
+function createJumpPadBuiltinVisual(opts = {}) {
+  const radius = Math.max(0.65, Number(opts.triggerRadius) || 1.1);
+  const group = new THREE.Group();
+  const color = opts.powerPreset === "low" ? 0x69d98a : opts.powerPreset === "high" ? 0xff8a5b : 0x6de5ef;
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.0, 0.22, 20), new THREE.MeshStandardMaterial({ color: 0x263746, metalness: 0.35, roughness: 0.55 }));
+  base.position.y = 0.11;
+  group.add(base);
+  const ring = new THREE.Mesh(new THREE.RingGeometry(0.5, 0.78, 24), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.78, side: THREE.DoubleSide }));
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.235;
+  group.add(ring);
+  const trigger = new THREE.Mesh(new THREE.RingGeometry(Math.max(0.05, radius - 0.035), radius, 32), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.22, side: THREE.DoubleSide }));
+  trigger.rotation.x = -Math.PI / 2;
+  trigger.position.y = 0.04;
+  group.add(trigger);
+  return group;
+}
+
+function createParkourMarkerBuiltinVisual(opts = {}) {
+  const kind = opts.markerKind ?? "start";
+  const color = kind === "checkpoint" ? 0x5ba7ff : kind === "end" ? 0xffd45b : 0x59f0c8;
+  const radius = Math.max(0.5, Number(opts.triggerRadius) || 1.8);
+  const group = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.22, roughness: 0.55 });
+  const left = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.14, 1.5, 10), mat);
+  left.position.set(-0.68, 0.75, 0);
+  const right = left.clone();
+  right.position.x = 0.68;
+  const top = new THREE.Mesh(new THREE.TorusGeometry(0.68, 0.09, 8, 24, Math.PI), mat);
+  top.rotation.z = Math.PI;
+  top.position.y = 1.45;
+  group.add(left, right, top);
+  const trigger = new THREE.Mesh(new THREE.RingGeometry(Math.max(0.05, radius - 0.045), radius, 36), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.35, side: THREE.DoubleSide }));
+  trigger.rotation.x = -Math.PI / 2;
+  trigger.position.y = 0.035;
+  trigger.userData.parkourTriggerRing = true;
+  group.add(trigger);
+  group.userData.parkourMarkerKind = kind;
+  return group;
+}
+
 export const VISUAL_ASSET_SHAPES = Object.freeze([
   "box",
   "cylinder",
@@ -600,6 +653,11 @@ const BUILTIN_MAP = {
   "editor/parkour-checkpoint": createParkourCheckpointHelperVisual,
   "editor/parkour-end": createParkourEndHelperVisual,
   "editor/kill-volume": createKillVolumeHelperVisual,
+  "editor/parkour-course-zone": createParkourCourseZoneHelperVisual,
+  "traversal/jump-pad": createJumpPadBuiltinVisual,
+  "parkour/start": createParkourMarkerBuiltinVisual,
+  "parkour/checkpoint": createParkourMarkerBuiltinVisual,
+  "parkour/end": createParkourMarkerBuiltinVisual,
 };
 
 export function resolveVisualRef(visualRef) {

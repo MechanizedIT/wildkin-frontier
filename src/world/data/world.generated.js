@@ -186,6 +186,7 @@ export const WORLD_DATA = {
       "majorWaypoints": [],
       "neighbors": [],
       "parkourCheckpoints": [],
+      "parkourCourseZones": [],
       "parkourEnds": [],
       "parkourStarts": [],
       "pockets": [],
@@ -460,16 +461,16 @@ export const WORLD_DATA = {
       "jumpPads": [
         {
           "cooldown": 1,
-          "horizontalLaunch": 7,
           "id": "jump_pad_section_1",
           "pos": {
             "x": 8,
             "y": 0.35,
             "z": -3
           },
+          "powerPreset": "medium",
           "rotY": 3.141592653589793,
-          "triggerRadius": 1.15,
-          "verticalLaunch": 5.8,
+          "triggerRadius": 1.3,
+          "verticalLaunch": null,
           "visualAssetId": "asset_frontier_launch_pad"
         }
       ],
@@ -559,7 +560,23 @@ export const WORLD_DATA = {
             "z": -8
           },
           "rotY": 3.141592653589793,
-          "triggerRadius": 1.2
+          "triggerRadius": 1.8
+        }
+      ],
+      "parkourCourseZones": [
+        {
+          "courseId": "course_section_1",
+          "id": "parkour_zone_section_1_a",
+          "pos": {
+            "x": 8,
+            "y": 2,
+            "z": -7.5
+          },
+          "size": {
+            "d": 21,
+            "h": 6,
+            "w": 8
+          }
         }
       ],
       "parkourEnds": [
@@ -572,7 +589,7 @@ export const WORLD_DATA = {
             "z": -16
           },
           "rotY": 0,
-          "triggerRadius": 1.2
+          "triggerRadius": 1.8
         }
       ],
       "parkourStarts": [
@@ -591,7 +608,7 @@ export const WORLD_DATA = {
             "z": 1
           },
           "rotY": 3.141592653589793,
-          "triggerRadius": 1.2
+          "triggerRadius": 1.8
         }
       ],
       "pockets": [],
@@ -939,6 +956,7 @@ export const WORLD_DATA = {
       ],
       "neighbors": [],
       "parkourCheckpoints": [],
+      "parkourCourseZones": [],
       "parkourEnds": [],
       "parkourStarts": [],
       "pockets": [],

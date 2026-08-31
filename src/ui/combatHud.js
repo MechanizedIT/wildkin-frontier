@@ -1,7 +1,8 @@
-// src/ui/combatHud.js — health pips + XP, compact readable
+// src/ui/combatHud.js — health pips + persistent Level progress, compact readable
+import { getPlayerLevelProgress } from "../progression/playerLevel.js";
 export function createCombatHud() {
   const hud = document.getElementById("hud");
-  if (!hud) return { updateHealth() {}, updateXp() {}, updateLevel() {}, pulseDamage() {}, destroy() {} };
+  if (!hud) return { updateHealth() {}, updateXp() {}, updateLevel() {}, updateProgress() {}, pulseDamage() {}, destroy() {} };
 
   const container = document.createElement("div");
   container.id = "combat-hud";
@@ -15,10 +16,17 @@ export function createCombatHud() {
 
   const xpRow = document.createElement("div");
   xpRow.id = "xp-hud";
-  xpRow.style.cssText = "font-size:12px;font-weight:800;color:#ffe066;background:rgba(14,20,32,0.84);border:1px solid rgba(255,255,255,0.13);border-radius:8px;padding:4px 8px;min-width:64px;text-align:center;backdrop-filter:blur(6px);";
-  let persistentLevel = 1;
-  let runXp = 0;
-  xpRow.textContent = "LV 1 · RUN XP 0";
+  xpRow.style.cssText = "font-size:11px;font-weight:800;color:#ffe066;background:rgba(14,20,32,0.84);border:1px solid rgba(255,255,255,0.13);border-radius:8px;padding:5px 8px;min-width:132px;text-align:center;backdrop-filter:blur(6px);";
+  const levelLabel = document.createElement("div");
+  levelLabel.style.cssText = "font-size:12px;font-weight:900;margin-bottom:3px";
+  const progressTrack = document.createElement("div");
+  progressTrack.style.cssText = "height:5px;border-radius:999px;background:rgba(255,255,255,0.14);overflow:hidden;margin-bottom:3px";
+  const progressFill = document.createElement("div");
+  progressFill.style.cssText = "height:100%;width:0;background:linear-gradient(90deg,#6de5ef,#ffe066);transition:width 0.25s";
+  progressTrack.append(progressFill);
+  const progressText = document.createElement("div");
+  progressText.style.cssText = "font-size:10px;color:rgba(255,255,255,0.8)";
+  xpRow.append(levelLabel, progressTrack, progressText);
   container.appendChild(xpRow);
 
   const pips = [];
@@ -47,14 +55,17 @@ export function createCombatHud() {
     }
   }
 
-  function updateXp(xp) {
-    runXp = Math.max(0, Math.floor(Number(xp) || 0));
-    xpRow.textContent = `LV ${persistentLevel} · RUN XP ${runXp}`;
+  function updateXp() {}
+
+  function updateProgress(bankedXp) {
+    const progress = getPlayerLevelProgress(bankedXp);
+    levelLabel.textContent = `LV ${progress.level}`;
+    progressText.textContent = `${progress.progressXp} / ${progress.progressMax} XP`;
+    progressFill.style.width = `${progress.progressMax > 0 ? (progress.progressXp / progress.progressMax) * 100 : 0}%`;
   }
 
-  function updateLevel(level) {
-    persistentLevel = Math.max(1, Math.floor(Number(level) || 1));
-    xpRow.textContent = `LV ${persistentLevel} · RUN XP ${runXp}`;
+  function updateLevel() {
+    // Compatibility shim. Persistent progress is refreshed from authoritative banked XP.
   }
 
   function pulseDamage() {
@@ -95,12 +106,13 @@ export function createCombatHud() {
 
   // Initial
   updateHealth(5, 5);
-  updateXp(0);
+  updateProgress(0);
 
   return {
     updateHealth,
     updateXp,
     updateLevel,
+    updateProgress,
     pulseDamage: () => { pulseDamage(); showEdgePulse(); },
     pulseXp,
     showEdgePulse,

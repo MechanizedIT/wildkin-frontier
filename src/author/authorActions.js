@@ -35,8 +35,8 @@ export function buildInspectorTransform(base, capabilities, values = {}) {
 }
 
 export function createAuthorActions(draftApi) {
-  function placeObject({ kind, subtype, visualAssetId, position, regionId }) {
-    return draftApi.createObjectAtPosition(kind, subtype, position, regionId, { visualAssetId });
+  function placeObject({ kind, subtype, visualAssetId, powerPreset, position, regionId }) {
+    return draftApi.createObjectAtPosition(kind, subtype, position, regionId, { visualAssetId, powerPreset });
   }
 
   function fitAssetCollision(assetId) {

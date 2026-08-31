@@ -25,6 +25,27 @@ export function createActivationToast(scene, camera, audio) {
     }, 2200);
   }
 
+  function showMessage({ title, subtitle = "" }) {
+    if (!toastEl) return;
+    toastEl.replaceChildren();
+    const titleEl = document.createElement("div");
+    titleEl.textContent = title;
+    titleEl.style.cssText = "font-size:13px;font-weight:900;letter-spacing:0.06em;";
+    toastEl.append(titleEl);
+    if (subtitle) {
+      const subtitleEl = document.createElement("div");
+      subtitleEl.textContent = subtitle;
+      subtitleEl.style.cssText = "font-size:11px;font-weight:600;color:rgba(230,235,245,0.78);margin-top:2px;";
+      toastEl.append(subtitleEl);
+    }
+    toastEl.style.opacity = "1";
+    toastEl.style.transform = "translateX(-50%) translateY(0)";
+    setTimeout(() => {
+      toastEl.style.opacity = "0";
+      toastEl.style.transform = "translateX(-50%) translateY(12px)";
+    }, 1900);
+  }
+
   // In-world pulse: emissive ring + brief scale (authoritative tick owned, not private rAF)
   const activePulses = [];
   function pulseWorld(pos, color = 0x4fc3f7) {
@@ -56,5 +77,5 @@ export function createActivationToast(scene, camera, audio) {
     }
   }
 
-  return { show, pulseWorld, update };
+  return { show, showMessage, pulseWorld, update };
 }

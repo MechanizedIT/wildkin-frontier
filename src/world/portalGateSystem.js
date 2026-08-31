@@ -25,7 +25,7 @@ export function getPortalRequirementStatus({ requirements = {}, playerLevel = 1,
   };
 }
 
-export function getPortalRequirementViewModel({ requirements = {}, bankedXp = 0, cargo = {} } = {}) {
+export function getPortalRequirementViewModel({ requirements = {}, bankedXp = 0, carriedXp = 0, cargo = {} } = {}) {
   const progress = getPlayerLevelProgress(bankedXp);
   const status = getPortalRequirementStatus({ requirements, playerLevel: progress.level, cargo });
   return {
@@ -36,6 +36,7 @@ export function getPortalRequirementViewModel({ requirements = {}, bankedXp = 0,
       return { id, current, required, met: current >= required };
     }),
     progress,
+    carriedXp: Math.max(0, Math.floor(Number(carriedXp) || 0)),
   };
 }
 
@@ -75,6 +76,7 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
   const getPlayerLevel = opts.getPlayerLevel ?? (() => 1);
   const getBankedXp = opts.getBankedXp ?? (() => 0);
   const getCargo = opts.getCargo ?? (() => ({}));
+  const getCarriedXp = opts.getCarriedXp ?? (() => 0);
   const spendCargo = opts.spendCargo ?? (() => false);
   const refundCargo = opts.refundCargo ?? (() => {});
   const onTravel = opts.onTravel ?? (() => false);
@@ -104,7 +106,7 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
         best = { id: gate.id, type: "portalGate", action: "travel", label: "TRAVEL", detail: gate.displayName ?? gate.targetSectionId, distance };
       } else {
         const cargo = getCargo() ?? {};
-        const requirementView = getPortalRequirementViewModel({ requirements: gate.requirements, bankedXp: getBankedXp(), cargo });
+        const requirementView = getPortalRequirementViewModel({ requirements: gate.requirements, bankedXp: getBankedXp(), carriedXp: getCarriedXp(), cargo });
         const resourceDetail = requirementView.resources
           .map(({ id, current, required }) => `${id.replace(/_/g, " ")} ${current}/${required}`)
           .join(" · ");

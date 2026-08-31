@@ -26,6 +26,7 @@ export const SECTION_OBJECT_COLLECTIONS = Object.freeze({
   parkourStarts: "parkourStart",
   parkourCheckpoints: "parkourCheckpoint",
   parkourEnds: "parkourEnd",
+  parkourCourseZones: "parkourCourseZone",
   killVolumes: "killVolume",
   lootChests: "lootChest",
 });

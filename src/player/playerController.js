@@ -6,6 +6,27 @@ import { createPlayerVisuals } from "./playerVisuals.js";
 // Phase 1.2 — Rapier KinematicCharacterController migration.
 // Wildkin owns intent/speeds/accel/facing/dodge/jump/climb. Rapier owns collision/slide/grounding.
 
+export function interpolateRenderPose(previous, current, alpha) {
+  const t = Math.max(0, Math.min(1, Number(alpha) || 0));
+  const delta = Math.atan2(Math.sin(current.facing - previous.facing), Math.cos(current.facing - previous.facing));
+  return {
+    position: {
+      x: previous.position.x + (current.position.x - previous.position.x) * t,
+      y: previous.position.y + (current.position.y - previous.position.y) * t,
+      z: previous.position.z + (current.position.z - previous.position.z) * t,
+    },
+    facing: previous.facing + delta * t,
+  };
+}
+
+export function resolveJumpPadLaunchVelocity(horizontalVelocity = {}, verticalLaunch = 0) {
+  return {
+    x: Number.isFinite(horizontalVelocity.x) ? horizontalVelocity.x : 0,
+    y: Math.max(0, Number(verticalLaunch) || 0),
+    z: Number.isFinite(horizontalVelocity.z) ? horizontalVelocity.z : 0,
+  };
+}
+
 export function createPlayerController(playerMesh, playground, camera, moveCfg, characterPhysics) {
   const state = {
     mode: "IDLE",
@@ -38,6 +59,9 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
 
   const traversal = createTraversalController(playground, moveCfg);
   const visuals = createPlayerVisuals(playerMesh);
+  const previousPhysicsPose = { position: state.pos.clone(), facing: state.facing };
+  const currentPhysicsPose = { position: state.pos.clone(), facing: state.facing };
+  const renderedPose = { position: state.pos.clone(), facing: state.facing };
 
   function syncPosFromPhysics() {
     if (!characterPhysics) return;
@@ -107,29 +131,30 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     return true;
   }
 
-  function launchFromJumpPad({ direction, horizontalLaunch, verticalLaunch }) {
-    if (!direction || !Number.isFinite(horizontalLaunch) || !Number.isFinite(verticalLaunch)) return false;
-    const length = Math.hypot(direction.x, direction.z);
-    if (length < 1e-6 || horizontalLaunch <= 0 || verticalLaunch <= 0) return false;
-    const dirX = direction.x / length;
-    const dirZ = direction.z / length;
+  function launchFromJumpPad({ verticalLaunch }) {
+    if (!Number.isFinite(verticalLaunch) || verticalLaunch <= 0) return false;
+    const horizontal = state.mode === "JUMP" && state.jumpData
+      ? state.jumpData.hVel
+      : state.mode === "FALL" && state.fallHVel ? state.fallHVel : state.vel;
+    const launchVelocity = resolveJumpPadLaunchVelocity(horizontal, verticalLaunch);
+    const horizontalSpeed = Math.hypot(launchVelocity.x, launchVelocity.z);
     traversal.reset();
     state.mode = "JUMP";
     state.jumpData = {
-      hVel: { x: dirX * horizontalLaunch, z: dirZ * horizontalLaunch },
-      initialSpeed: horizontalLaunch,
+      hVel: { x: launchVelocity.x, z: launchVelocity.z },
+      initialSpeed: horizontalSpeed,
       landingRegion: null,
       maxLandingCorrection: 0,
       airTime: (2 * verticalLaunch) / (moveCfg.jumpGravity ?? 12),
       time: 0,
       source: "jumpPad",
     };
-    state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, horizontalLaunch);
+    state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, horizontalSpeed);
     state.verticalVelocity = verticalLaunch;
     state.grounded = false;
-    state.speed = horizontalLaunch;
-    state.vel.set(dirX * horizontalLaunch, 0, dirZ * horizontalLaunch);
-    state.facing = Math.atan2(dirX, dirZ);
+    state.speed = horizontalSpeed;
+    state.vel.set(launchVelocity.x, 0, launchVelocity.z);
+    if (horizontalSpeed > 0.1) state.facing = Math.atan2(launchVelocity.x, launchVelocity.z);
     state.fallHVel = null;
     state.climbable = null;
     state.mantleData = null;
@@ -137,13 +162,38 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   }
 
   function syncMesh(dt) {
-    playerMesh.position.copy(state.pos);
+    currentPhysicsPose.position.copy(state.pos);
+    currentPhysicsPose.facing = state.facing;
     let visualMode = state.mode;
     // traversal debug mode override if needed
     const travMode = traversal.getState().mode;
     if (travMode !== "IDLE" && state.mode === "IDLE") visualMode = travMode;
-    playerMesh.rotation.y = state.facing;
     visuals.sync(dt, { mode: visualMode, speed: state.speed });
+  }
+
+  function prepareRender(alpha) {
+    const pose = interpolateRenderPose(previousPhysicsPose, currentPhysicsPose, alpha);
+    renderedPose.position.set(pose.position.x, pose.position.y, pose.position.z);
+    renderedPose.facing = pose.facing;
+    playerMesh.position.copy(renderedPose.position);
+    playerMesh.rotation.y = renderedPose.facing;
+    return getRenderPose();
+  }
+
+  function getRenderPose() {
+    return { position: renderedPose.position.clone(), facing: renderedPose.facing };
+  }
+
+  function snapRenderPose() {
+    previousPhysicsPose.position.copy(state.pos);
+    currentPhysicsPose.position.copy(state.pos);
+    renderedPose.position.copy(state.pos);
+    previousPhysicsPose.facing = state.facing;
+    currentPhysicsPose.facing = state.facing;
+    renderedPose.facing = state.facing;
+    playerMesh.position.copy(state.pos);
+    playerMesh.rotation.y = state.facing;
+    return getRenderPose();
   }
 
   function rapierMove(hVelX, hVelZ, vertVel, dt) {
@@ -196,6 +246,8 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     const fixedDt = Math.min(dt, moveCfg.maxDelta ?? 0.05);
     if (fixedDt <= 0) return;
     if (!characterPhysics) return;
+    previousPhysicsPose.position.copy(currentPhysicsPose.position);
+    previousPhysicsPose.facing = currentPhysicsPose.facing;
 
     // Phase 3: handle knockback if provided via combatOpts
     if (combatOpts && combatOpts.knockback && combatOpts.knockback.remaining > 0) {
@@ -226,6 +278,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       const hvLen = Math.hypot(jd.hVel.x, jd.hVel.z);
       if (hvLen > 0.1) state.facing = Math.atan2(jd.hVel.x, jd.hVel.z);
       state.speed = hvLen;
+      state.vel.set(jd.hVel.x, 0, jd.hVel.z);
 
       // landing: grounded + descending; Rapier determines actual landing position — no horizontal magnet
       let landed = false;
@@ -644,5 +697,6 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     };
   }
 
-  return { update, getState, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad };
+  snapRenderPose();
+  return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad };
 }

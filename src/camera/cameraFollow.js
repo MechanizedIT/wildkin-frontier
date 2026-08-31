@@ -5,13 +5,15 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg) {
   // For lookAt tracking, we keep a separate smoothed lookAt point slightly ahead when running
   const smoothedLookAt = new THREE.Vector3(target.position.x, 0, target.position.z);
   const smoothedPos = new THREE.Vector3().copy(camera.position);
+  const desiredPos = new THREE.Vector3();
+  const lookAtTarget = new THREE.Vector3();
 
   let lookAheadX = 0;
   let lookAheadZ = 0;
 
   function update(dt, speed, moveDir) {
     // Desired camera position = target + offset
-    const desiredPos = new THREE.Vector3(target.position.x + offset.x, offset.y, target.position.z + offset.z);
+    desiredPos.set(target.position.x + offset.x, offset.y, target.position.z + offset.z);
 
     // Look-ahead when running
     const isRunning = speed > 5.0;
@@ -28,7 +30,7 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg) {
       lookAheadZ = (lookAheadZ / aheadLen) * maxAhead;
     }
 
-    const lookAtTarget = new THREE.Vector3(target.position.x + lookAheadX, 0, target.position.z + lookAheadZ);
+    lookAtTarget.set(target.position.x + lookAheadX, 0, target.position.z + lookAheadZ);
 
     // Smooth both pos and lookAt
     const posLerp = 1 - Math.exp(-(cfg.followLerp ?? 5) * dt);

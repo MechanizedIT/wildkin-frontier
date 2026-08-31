@@ -1,4 +1,4 @@
-# Architecture — Wildkin Frontier (Phase 4B.1.4 Implemented — Toolkit Closure)
+# Architecture — Wildkin Frontier (Phase 4B.1.5 Implemented — Human Acceptance Pending)
 
 > Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document records the **implemented Phase 4B.1 foundation** after the stopped Phase 4B first pass. The section framework replaces the continuous-strip level assumption with portal-connected self-contained sections while preserving the accepted Author/Visual Asset contracts. Final section composition remains human-owned in Phase 4B.2.
 
@@ -134,15 +134,16 @@ Every resolved Author type has one of two visual roles:
 
 ```text
 playerFacing
-  Portal Gates, Jump Pads, Major Waypoints, Extraction Beacons, Loot Chests,
+  Portal Gates, Jump Pads, Parkour Start/Checkpoint/End, Major Waypoints,
+  Extraction Beacons, Loot Chests,
   and the ordinary authored world objects that players physically see.
 
 editorHelperOnly
-  Entry Points, Parkour Start/Checkpoint/End, Kill Volumes, Camp Spawn,
+  Entry Points, Parkour Course Zones, Kill Volumes, Camp Spawn,
   and Waypoint run-spawn markers.
 ```
 
-`playerFacing` objects use the same recognizable runtime structure in Edit and Play. Author may add selection/highlight overlays, but it must not substitute a second gate, Waypoint, or Beacon-shaped proxy. `editorHelperOnly` objects receive distinct labeled Author recipes and exist only while editing the selected section. Play builds no physical presentation for them. The Kill Volume recipe renders its exact authored box as a translucent red volume.
+`playerFacing` objects use the same resolver and recognizable runtime structure in Edit and Play. Portal resolution includes active, ruined, and fallback recipes; repair replaces the live runtime visual immediately without rebuilding the section. Author may add selection/highlight overlays, but it must not substitute a second gate, marker, Waypoint, or Beacon-shaped proxy. `editorHelperOnly` objects receive distinct labeled Author recipes and exist only while editing the selected section. Play builds no physical presentation for them. Course Zones render as cyan authoring volumes; Kill Volumes render their exact authored boxes in translucent red.
 
 Saved Author drafts are never reset to pick up this contract. Load performs a targeted catalog/schema merge, preserves authored transforms/content, and only upgrades matching repository Camp-link fields.
 
@@ -191,24 +192,23 @@ Do **not** build async/network streaming in 4B.1.
 
 The current `jumpTraversals` contract encodes a trigger, direction, destination landing rectangle, correction and optional destination platform. That is acceptable legacy data but **not the target human authoring primitive**.
 
-Phase 4B.1 adds a first-class Jump Pad object:
+Phase 4B.1.5 revises the first-class Jump Pad object around vertical momentum carry:
 
 ```text
 jumpPad {
   id
   pos
-  rotY
   triggerSize / radius
-  horizontalLaunch
-  verticalLaunch
+  powerPreset: low | medium | high
+  verticalLaunch?  // explicit override
   cooldown?
   visualAssetId?
 }
 ```
 
-Rotation determines launch direction. Runtime applies actual launch velocity; it does not require a named landing platform or authored landing rectangle.
+Runtime preserves the player's current authoritative horizontal velocity and replaces only vertical velocity. Pad rotation and legacy `horizontalLaunch` remain readable for compatible drafts but do not force a landing direction in the canonical mode. Low/Medium/High vertical power lives in one preset table.
 
-Author Mode should render an **editor-only trajectory prediction** from the same launch/gravity math. Prediction is guidance only and must not magnetically correct runtime landing.
+Author Mode renders **editor-only truthful guidance** from the same launch/gravity math: an apex line, airtime label, and concentric walk/run carry-distance rings. It does not draw one fictional fixed-direction landing arc and does not magnetically correct runtime landing.
 
 Legacy `jumpTraversals` may remain readable during migration, but proof content should use Jump Pads.
 
@@ -220,6 +220,7 @@ Use a bounded challenge owner, not a generic scripting/quest system:
 ParkourCourse
   start trigger
   checkpoint triggers[]
+  course zones[] keyed by courseId
   kill/fail volumes[]
   reward chest id?
   end/exit trigger(s) keyed by courseId
@@ -233,10 +234,11 @@ inactive
 active(courseId, checkpoint)
   → checkpoint updates respawn point
   → fatal course failure => restore HP + respawn checkpoint + preserve run cargo
+  → leave all matching Course Zones => abandon + clear checkpoint protection
   → complete/exit => normal expedition death rules resume
 ```
 
-Normal Wildkin/projectiles may be hazards. The special rule is the active course's death interception, not custom enemy behavior.
+Multiple Course Zones for one course form a union. The course remains active while the player is inside any matching zone. Legacy courses without zones retain their older behavior for draft/save compatibility. Normal Wildkin/projectiles may be hazards. The special rule is the active course's death interception, not custom enemy behavior.
 
 ## Loot contract
 
@@ -258,13 +260,24 @@ Persistence records one-time claim or next available timestamp per chest. Do not
 
 ## Progression foundation
 
-Current `bankedXp` remains the authoritative XP store. Add a pure centralized level curve:
+Current `bankedXp` remains the authoritative XP store. A pure centralized level curve derives persistent Level and within-level progress:
 
 ```text
 bankedXp → playerLevel
 ```
 
 Portal requirements may reference `minPlayerLevel`.
+
+Presentation keeps expedition cargo and permanent progression distinct:
+
+```text
+top-center HUD       → persistent Level + banked within-level XP
+upper-left run HUD   → carried/unsecured resources + carried XP (hidden at zero)
+ruined-gate prompt   → Level, banked XP, carried XP, and resources as separate facts
+Matter Resonator     → all permanent resource balances + persistent Level/XP + upgrade status
+```
+
+Only successful extraction moves carried XP into `bankedXp`; death still loses carried XP. Existing save keys and migrations remain unchanged.
 
 Matter Attractor I should migrate from a one-off boolean toward:
 
@@ -426,11 +439,15 @@ main.js (thin: creates, injects, owns single rAF)
        │    ├─ combatSession, FieldTool, playerCombat, playerController/Rapier
        │    ├─ SectionRuntime-owned jump pads/parkour + creatures/projectiles/XP/resources/pickups + focus rings
        │    └─ harvesting allowed only when session.isActive() && !blocked
+       ├─ interpolate previous/current authoritative player pose using accumulator / fixedDt
+       ├─ camera follows the interpolated render pose; teleports snap both pose samples
        ├─ indicators.update(camera) (visual, active-run only)
        └─ render
 ```
 
 Order remains deterministic; extraction/death share `resetTransientWorldToCamp` helper.
+
+Rapier and `playerController.state` remain authoritative at the fixed cadence. Interpolation changes only the player mesh and camera-facing render pose between fixed samples; gameplay queries, collisions, travel, extraction, and persistence never read the interpolated pose. The single first-party animation loop owns both fixed stepping and presentation. Map availability and other event-derived UI are refreshed on their state-changing seams, not every rendered frame.
 
 # Rapier Ownership
 
@@ -923,7 +940,7 @@ Author collider proxy / native Rapier cuboid
 - `src/author/authorUI.js` owns the dynamic palette and bounded inspector. `src/author/authorMode.js` owns the temporary Asset Edit camera/context, part selection and canvas-local X/Z drag, selected-part highlight, unrelated-root de-emphasis, and the dedicated collider proxy. It does not own another frame loop.
 - `src/author/authorPreview.js` receives the current recipe table and rebuilds matching visual roots while preserving each instance's normalized transform. Undo/redo follows the same reconcile path.
 - Entering Asset Edit through New/Place/Edit synchronizes the visible badge and the UI's authoritative edit-mode flag. Returning to Play therefore takes one click and clears Asset Edit-only presentation.
-- The Asset Workbench uses an explicit camera owner (`target`, yaw, fixed pitch, distance): `[`/`]` and UI buttons orbit in 45° steps, `0` resets, the wheel dollies on the view ray, and right-drag translates the target in the camera plane without reusing world-camera limits.
+- The Asset Workbench uses an explicit camera owner (`target`, yaw, fixed pitch, distance): `[`/`]` and UI buttons orbit in 45° steps, `0` resets, the wheel dollies on the view ray, and right-drag translates the target in the camera plane without reusing world-camera limits. Phase 4B.1.5 shares the same scale-aware orb/cross/stem orientation helper with the level editor; workbench entry/update/exit owns its visibility and target synchronization for both small and large assets.
 - Recipe edits rebuild only the temporary workbench root while Asset Edit is active. A dirty flag triggers one shared world-preview reconciliation on exit, avoiding per-keystroke world rebuilds and preserving unrelated root identities.
 - Isolation is enforced both during Author visibility maintenance and immediately before the authoritative render. This prevents resource, creature, pickup, particle, or other late-toggled scene roots from leaking into the workbench while preserving their prior visibility for exit restoration.
 

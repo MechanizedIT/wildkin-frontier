@@ -14,8 +14,10 @@ import {
   syncAuthorVisual,
   syncEditProxy,
 } from "./authorPreview.js";
-import { predictJumpPadTrajectory, getJumpPadTrajectorySignature } from "../world/jumpPadSystem.js";
+import { getJumpPadGuidance, getJumpPadTrajectorySignature } from "../world/jumpPadSystem.js";
 import { summarizeSection } from "../world/sectionProfile.js";
+import { createOrbitGizmo, updateOrbitGizmo } from "./orbitGizmo.js";
+import { MOVEMENT_CONFIG } from "../game/config.js";
 
 export const ASSET_EDIT_CAMERA_STEP = Math.PI / 4;
 
@@ -132,6 +134,7 @@ export function createAuthorMode(opts) {
   let assetEditDirty = false;
   let assetPartDrag = null;
   let assetEditStageHelpers = [];
+  let assetEditOrbitGizmo = null;
   let assetEditSceneState = null;
   let trajectoryPreviewLines = [];
   let trajectoryPreviewSignature = null;
@@ -439,6 +442,12 @@ export function createAuthorMode(opts) {
     camera.position.set(position.x, position.y, position.z);
     camera.lookAt(view.target);
     camera.updateMatrixWorld();
+    if (assetEditOrbitGizmo) updateOrbitGizmo(assetEditOrbitGizmo, {
+      target: view.target,
+      yaw: view.yaw + Math.PI,
+      scale: THREE.MathUtils.clamp(view.distance / 10, 0.45, 1.15),
+      visible: true,
+    });
   }
 
   function orbitAssetEditCamera(direction) {
@@ -574,7 +583,9 @@ export function createAuthorMode(opts) {
     groundHint.rotation.x = -Math.PI/2;
     groundHint.position.y = 0.01;
     groundHint.userData.isAssetEditStage = true;
-    assetEditStageHelpers = [grid, platform, playerRef, groundHint];
+    assetEditOrbitGizmo = createOrbitGizmo({ name: "asset_workbench_orbit_gizmo" });
+    assetEditOrbitGizmo.userData.isAssetEditStage = true;
+    assetEditStageHelpers = [grid, platform, playerRef, groundHint, assetEditOrbitGizmo];
     for (const helper of assetEditStageHelpers) scene.add(helper);
     refreshAssetEditContext();
     const root = getAssetEditRoot();
@@ -619,6 +630,7 @@ export function createAuthorMode(opts) {
       disposeObject3D(helper);
     }
     assetEditStageHelpers = [];
+    assetEditOrbitGizmo = null;
     if (assetEditTempRoot) {
       scene.remove(assetEditTempRoot);
       disposeObject3D(assetEditTempRoot);
@@ -987,6 +999,7 @@ export function createAuthorMode(opts) {
     for (const line of trajectoryPreviewLines) {
       scene.remove(line);
       line.geometry?.dispose?.();
+      line.material?.map?.dispose?.();
       line.material?.dispose?.();
     }
     trajectoryPreviewLines = [];
@@ -1004,15 +1017,44 @@ export function createAuthorMode(opts) {
     clearTrajectoryPreviews({ resetSignature: false });
     trajectoryPreviewSignature = signature;
     for (const pad of section?.jumpPads ?? []) {
-      const points = predictJumpPadTrajectory(pad).map((point) => new THREE.Vector3(point.x, point.y + 0.12, point.z));
-      const line = new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints(points),
+      const guidance = getJumpPadGuidance(pad, { gravity: MOVEMENT_CONFIG.jumpGravity, walkSpeed: MOVEMENT_CONFIG.walkSpeed, runSpeed: MOVEMENT_CONFIG.runSpeed });
+      const apexLine = new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(pad.pos.x, (pad.pos.y ?? 0) + 0.12, pad.pos.z),
+          new THREE.Vector3(pad.pos.x, (pad.pos.y ?? 0) + guidance.apexHeightDelta, pad.pos.z),
+        ]),
         new THREE.LineBasicMaterial({ color: 0x7fffe2, transparent: true, opacity: 0.9 }),
       );
-      line.name = `jump_trajectory_${pad.id}`;
-      line.userData.authorHelper = true;
-      scene.add(line);
-      trajectoryPreviewLines.push(line);
+      apexLine.name = `jump_apex_${pad.id}`;
+      apexLine.userData.authorHelper = true;
+      scene.add(apexLine);
+      trajectoryPreviewLines.push(apexLine);
+      for (const [distance, color] of [[guidance.walkCarryDistance, 0x65d69a], [guidance.runCarryDistance, 0xffc857]]) {
+        const points = [];
+        for (let index = 0; index <= 48; index++) {
+          const angle = index / 48 * Math.PI * 2;
+          points.push(new THREE.Vector3(pad.pos.x + Math.cos(angle) * distance, (pad.pos.y ?? 0) + 0.08, pad.pos.z + Math.sin(angle) * distance));
+        }
+        const ring = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.58 }));
+        ring.userData.authorHelper = true;
+        scene.add(ring);
+        trajectoryPreviewLines.push(ring);
+      }
+      if (typeof document !== "undefined") {
+        const canvas = document.createElement("canvas"); canvas.width = 420; canvas.height = 72;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.fillStyle = "rgba(10,14,22,.88)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#dffcff"; ctx.font = "bold 20px system-ui";
+          ctx.fillText(`APEX +${guidance.apexHeightDelta.toFixed(1)}  ·  AIR ${guidance.airtime.toFixed(1)}s  ·  WALK/RUN RINGS`, 12, 44);
+          const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(canvas), transparent: true, depthTest: false }));
+          sprite.position.set(pad.pos.x, (pad.pos.y ?? 0) + guidance.apexHeightDelta + 0.45, pad.pos.z);
+          sprite.scale.set(6.2, 1.06, 1);
+          sprite.userData.authorHelper = true;
+          scene.add(sprite);
+          trajectoryPreviewLines.push(sprite);
+        }
+      }
     }
   }
 
@@ -1040,8 +1082,9 @@ export function createAuthorMode(opts) {
     const kind = pendingPlace.kind;
     const subtype = pendingPlace.subtype;
     const visualAssetId = pendingPlace.visualAssetId;
+    const powerPreset = pendingPlace.powerPreset;
     // Atomic creation at final intended position (no intermediate mutate)
-    const res = actions.placeObject({ kind, subtype, visualAssetId, position: worldPos, regionId: targetRegion });
+    const res = actions.placeObject({ kind, subtype, visualAssetId, powerPreset, position: worldPos, regionId: targetRegion });
     if (!res.ok) { ui.setStatus("⚠ "+res.error, true); return true; }
     const newId = res.id;
     const v = draftApi.validate();
@@ -1280,31 +1323,7 @@ export function createAuthorMode(opts) {
     _applyLevelCamera();
   }
   function createLevelOrbitGizmo(){
-    const g = new THREE.Group();
-    g.name = "level_orbit_gizmo";
-    g.renderOrder = 999;
-    // Brighter, larger orb — always on top
-    const orb = new THREE.Mesh(
-      new THREE.SphereGeometry(0.42, 16, 12),
-      new THREE.MeshStandardMaterial({ color: 0x8ecbff, emissive: 0x4a8fd6, emissiveIntensity: 0.65, transparent: true, opacity: 0.32, depthTest: false, depthWrite: false })
-    );
-    orb.position.y = 0.26;
-    orb.renderOrder = 999;
-    g.add(orb);
-    // Thicker cross using boxes (visible at distance, not hairline lines)
-    const crossMatX = new THREE.MeshBasicMaterial({ color: 0xff8ea0, transparent: true, opacity: 0.92, depthTest: false, depthWrite: false });
-    const crossMatZ = new THREE.MeshBasicMaterial({ color: 0x8effa0, transparent: true, opacity: 0.92, depthTest: false, depthWrite: false });
-    const armX = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.04, 0.06), crossMatX);
-    armX.position.y = 0.04; armX.renderOrder = 999; g.add(armX);
-    const armZ = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.04, 1.8), crossMatZ);
-    armZ.position.y = 0.04; armZ.renderOrder = 999; g.add(armZ);
-    const stemMat = new THREE.MeshBasicMaterial({ color: 0x8ecbff, transparent: true, opacity: 0.7, depthTest: false, depthWrite: false });
-    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.9, 8), stemMat);
-    stem.position.y = 0.49; stem.renderOrder = 999; g.add(stem);
-    // Outer ring for extra visibility
-    const ring = new THREE.Mesh(new THREE.RingGeometry(0.55, 0.65, 24), new THREE.MeshBasicMaterial({ color: 0x8ecbff, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthTest: false, depthWrite: false }));
-    ring.rotation.x = -Math.PI/2; ring.position.y = 0.03; ring.renderOrder = 999; g.add(ring);
-    g.visible = false;
+    const g = createOrbitGizmo({ name: "level_orbit_gizmo" });
     g.userData.isLevelOrbitGizmo = true;
     return g;
   }
@@ -1318,7 +1337,7 @@ export function createAuthorMode(opts) {
   function updateLevelOrbitGizmo(){
     if (!levelOrbitGizmo || !levelOrbitGizmo.visible) return;
     const t = _getLevelTarget();
-    levelOrbitGizmo.position.set(t.x, t.y, t.z);
+    updateOrbitGizmo(levelOrbitGizmo, { target: t, yaw: levelViewState?.yaw ?? 0, scale: 1, visible: true });
   }
   function setLevelOrbitGizmoVisible(v){
     const g = ensureLevelOrbitGizmo();

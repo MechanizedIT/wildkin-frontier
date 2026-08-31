@@ -38,6 +38,8 @@ export function createWorldRegistry(rawData) {
   const parkourCheckpointsByRegion = new Map();
   const allParkourEnds = [];
   const parkourEndsByRegion = new Map();
+  const allParkourCourseZones = [];
+  const parkourCourseZonesByRegion = new Map();
   const allKillVolumes = [];
   const killVolumesByRegion = new Map();
   const allLootChests = [];
@@ -59,6 +61,7 @@ export function createWorldRegistry(rawData) {
     parkourStartsByRegion.set(rId, []);
     parkourCheckpointsByRegion.set(rId, []);
     parkourEndsByRegion.set(rId, []);
+    parkourCourseZonesByRegion.set(rId, []);
     killVolumesByRegion.set(rId, []);
     lootChestsByRegion.set(rId, []);
     for (const res of region.resources) {
@@ -166,6 +169,10 @@ export function createWorldRegistry(rawData) {
       const entry = { ...source, sectionId: rId, regionId: rId, pos: { ...source.pos } };
       allParkourEnds.push(entry); parkourEndsByRegion.get(rId).push(entry);
     }
+    for (const source of region.parkourCourseZones ?? []) {
+      const entry = { ...source, sectionId: rId, regionId: rId, pos: { ...source.pos }, size: { ...source.size } };
+      allParkourCourseZones.push(entry); parkourCourseZonesByRegion.get(rId).push(entry);
+    }
     for (const source of region.killVolumes ?? []) {
       const entry = { ...source, sectionId: rId, regionId: rId, pos: { ...source.pos }, size: { ...source.size } };
       allKillVolumes.push(entry); killVolumesByRegion.get(rId).push(entry);
@@ -221,6 +228,8 @@ export function createWorldRegistry(rawData) {
   function getParkourCheckpointsForSection(sectionId) { return parkourCheckpointsByRegion.get(sectionId) ?? []; }
   function getParkourEndsForSection(sectionId) { return parkourEndsByRegion.get(sectionId) ?? []; }
   function getAllParkourEnds() { return allParkourEnds; }
+  function getParkourCourseZonesForSection(sectionId) { return parkourCourseZonesByRegion.get(sectionId) ?? []; }
+  function getAllParkourCourseZones() { return allParkourCourseZones; }
   function getKillVolumesForSection(sectionId) { return killVolumesByRegion.get(sectionId) ?? []; }
   function getLootChestsForSection(sectionId) { return lootChestsByRegion.get(sectionId) ?? []; }
   function getAllLootChests() { return allLootChests; }
@@ -437,6 +446,8 @@ export function createWorldRegistry(rawData) {
     getParkourCheckpointsForSection,
     getParkourEndsForSection,
     getAllParkourEnds,
+    getParkourCourseZonesForSection,
+    getAllParkourCourseZones,
     getKillVolumesForSection,
     getLootChestsForSection,
     getAllLootChests,

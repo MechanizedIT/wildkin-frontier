@@ -2,6 +2,7 @@
 
 import { MATTER_ATTRACTOR_I, canAffordMatterAttractorI, getMatterAttractorMissing } from "../progression/matterAttractor.js";
 import { getResourceDrops } from "../resources/resourceDropCatalog.js";
+import { getMatterResonatorViewModel } from "./progressionModels.js";
 
 export function createMatterResonatorPanel(opts = {}) {
   const app = document.getElementById("app");
@@ -36,6 +37,21 @@ export function createMatterResonatorPanel(opts = {}) {
   close.style.cssText = "border:0;background:transparent;color:rgba(230,235,245,0.72);font-size:11px;font-weight:800;padding:6px;cursor:pointer;";
   top.appendChild(close);
 
+  const storageTitle = document.createElement("div");
+  storageTitle.textContent = "STORAGE";
+  storageTitle.style.cssText = "font-size:11px;font-weight:900;letter-spacing:.1em;color:#8fb4c8;margin:8px 0 5px";
+  panel.appendChild(storageTitle);
+  const storageEl = document.createElement("div");
+  storageEl.style.cssText = "display:grid;grid-template-columns:1fr auto;gap:4px 12px;background:rgba(255,255,255,.045);border-radius:9px;padding:8px 10px;font-size:12px";
+  panel.appendChild(storageEl);
+  const progressionEl = document.createElement("div");
+  progressionEl.style.cssText = "margin:9px 0;padding:8px 10px;border-radius:9px;background:rgba(109,229,239,.08);font-size:12px;font-weight:800";
+  panel.appendChild(progressionEl);
+  const upgradesTitle = document.createElement("div");
+  upgradesTitle.textContent = "UPGRADES";
+  upgradesTitle.style.cssText = storageTitle.style.cssText;
+  panel.appendChild(upgradesTitle);
+
   const upgradeName = document.createElement("div");
   upgradeName.textContent = MATTER_ATTRACTOR_I.displayName;
   upgradeName.style.cssText = "font-size:18px;font-weight:900;margin-bottom:4px;";
@@ -66,6 +82,17 @@ export function createMatterResonatorPanel(opts = {}) {
     const state = frontierProgress?.getState?.() ?? { bankedResources: {}, matterAttractorI: false };
     const owned = !!state.matterAttractorI;
     const bank = state.bankedResources ?? {};
+    const view = getMatterResonatorViewModel({ state, resourceDrops: drops });
+    storageEl.replaceChildren();
+    for (const entry of view.storage) {
+      const name = document.createElement("span");
+      name.textContent = entry.displayName;
+      const count = document.createElement("strong");
+      count.textContent = String(entry.count);
+      storageEl.append(name, count);
+    }
+    if (view.storage.length === 0) storageEl.textContent = "No secured matter yet.";
+    progressionEl.textContent = `PROGRESSION  ·  LV ${view.progression.level}  ·  ${view.progression.progressXp} / ${view.progression.progressMax} XP`;
     costEl.replaceChildren();
     for (const [id, required] of Object.entries(MATTER_ATTRACTOR_I.cost)) {
       const have = bank[id] ?? 0;
@@ -115,4 +142,3 @@ export function createMatterResonatorPanel(opts = {}) {
 
   return { show, hide, refresh, isVisible: () => visible, element: overlay, destroy: () => overlay.remove() };
 }
-

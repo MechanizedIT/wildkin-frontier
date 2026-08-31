@@ -23,6 +23,9 @@ function visualOptions(found, normalized) {
     poiType: found.collection === "pois" ? found.obj.type : undefined,
     subtype: found.obj.subtype,
     requires: found.obj.requires ?? null,
+    triggerRadius: found.obj.triggerRadius,
+    powerPreset: found.obj.powerPreset,
+    markerKind: found.type === "parkourCheckpoint" ? "checkpoint" : found.type === "parkourEnd" ? "end" : found.type === "parkourStart" ? "start" : undefined,
     visualAssets: found.visualAssets ?? [],
   };
 }

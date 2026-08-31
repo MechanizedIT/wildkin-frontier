@@ -6,7 +6,7 @@ import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { createSectionRuntime } from "../src/world/sectionRuntime.js";
 import { createPortalGateSystem, getPortalRequirementStatus, spendPortalCargo } from "../src/world/portalGateSystem.js";
-import { createJumpPadSystem, getJumpPadDirection, predictJumpPadTrajectory } from "../src/world/jumpPadSystem.js";
+import { createJumpPadSystem, getJumpPadGuidance, JUMP_PAD_PRESETS } from "../src/world/jumpPadSystem.js";
 import { createParkourSystem } from "../src/world/parkourSystem.js";
 import { createLootSystem } from "../src/world/lootSystem.js";
 import { summarizeSection } from "../src/world/sectionProfile.js";
@@ -147,14 +147,12 @@ describe("Phase 4B.1 — level, gate repair, and upgrade persistence", () => {
 });
 
 describe("Phase 4B.1 — Jump Pad, parkour, and loot production systems", () => {
-  it("uses rotation for launch and shares the same trajectory math", () => {
-    assert.deepEqual(getJumpPadDirection(0), { x: 0, z: 1 });
-    const east = getJumpPadDirection(Math.PI / 2);
-    assert.ok(Math.abs(east.x - 1) < 1e-9);
-    assert.ok(Math.abs(east.z) < 1e-9);
-    const points = predictJumpPadTrajectory({ pos: { x: 0, y: 0, z: 0 }, rotY: Math.PI / 2, horizontalLaunch: 8, verticalLaunch: 6 }, { gravity: 12, steps: 2 });
-    assert.ok(points.at(-1).x > 0);
-    assert.ok(Math.abs(points.at(-1).y) < 1e-9);
+  it("uses vertical power presets and direction-independent momentum guidance", () => {
+    assert.ok(JUMP_PAD_PRESETS.low.verticalLaunch < JUMP_PAD_PRESETS.medium.verticalLaunch);
+    assert.ok(JUMP_PAD_PRESETS.medium.verticalLaunch < JUMP_PAD_PRESETS.high.verticalLaunch);
+    const guidance = getJumpPadGuidance({ powerPreset: "medium" }, { gravity: 12, walkSpeed: 3, runSpeed: 6 });
+    assert.ok(guidance.apexHeightDelta > 0);
+    assert.equal(guidance.runCarryDistance, guidance.walkCarryDistance * 2);
   });
 
   it("triggers a real launch only on entry and honors cooldown", () => {
@@ -209,8 +207,8 @@ describe("Phase 4B.1 — Author palette production coverage", () => {
     const placements = [
       ["portalGate", { x: -20, y: 0, z: 20 }],
       ["jumpPad", { x: -12, y: 0, z: 18 }],
-      ["parkourStart", { x: 12, y: 12, z: 0 }],
-      ["parkourCheckpoint", { x: 12, y: 12, z: -4 }],
+      ["parkourStart", { x: 10, y: 0, z: 0 }],
+      ["parkourCheckpoint", { x: 10, y: 0, z: -4 }],
       ["killVolume", { x: 12, y: 0.6, z: -8 }],
       ["lootChest", { x: -20, y: 0, z: 14 }],
     ];

@@ -1,11 +1,13 @@
 # Wildkin Frontier — Phase 4B.1.5: Movement Feel, Parkour & Progression Readability
 
-**Status:** READY TO IMPLEMENT  
+**Status:** IMPLEMENTED / HUMAN ACCEPTANCE PENDING
 **Active slice:** Phase 4B.1.5  
 **Canonical spec:** docs/Specs/Phase_4B.1.5.md  
 **Base implementation:** 721ebe41de18305d6d5c0fd89e99be3c190455fe — Phase 4B.1.4 Author / Runtime Parity & Frontier Travel UX Closure
 
 Phase 4B.1.4 is substantially accepted from owner testing. The remaining framework blockers are movement/camera feel, parkour lifecycle/readability, persistent-vs-carried progression clarity, Jump Pad feel, truthful Portal visual parity, persistent Camp storage visibility, and one Asset Workbench camera-orientation helper.
+
+Phase 4B.1.5 implementation is complete in the repository. Automated regressions, world generation/validation, packaging, and browser smoke evidence cover the framework contracts. Perceptual movement feel, real-play traversal readability, and the complete owner checklist below remain human acceptance work; Phase 4B.2 is not active.
 
 ## Goal
 
@@ -109,5 +111,19 @@ Phase 4B.1.5 — IMPLEMENTED / HUMAN ACCEPTANCE PENDING
 ~~~
 
 Then stop.
+
+## Owner human acceptance checklist
+
+1. Run and change direction for 20–30 seconds on the target phone. Confirm the player/camera are smooth without fixed-step jitter or excessive lag.
+2. Compare Camp, Section 1, and Section 2 gates in Edit and Play. Confirm the real models match, ruined state is truthful, and repair changes the gameplay model immediately.
+3. Enter Parkour Start and Checkpoint. Confirm the larger player-facing markers and visual/audio feedback are clear.
+4. Start a course, activate a checkpoint, leave the entire cyan Course Zone, then die elsewhere. Confirm the course/checkpoint reset and normal death rules resume.
+5. Confirm the top-center persistent Level and next-Level progress are immediately understandable.
+6. Collect XP during an expedition. Confirm it appears as unsecured XP in the upper-left, does not advance the persistent bar until extraction, is lost on death, and banks on extraction.
+7. Inspect a ruined gate and confirm persistent Level, banked XP, carried XP, and resource requirements are distinct.
+8. Open the Matter Resonator and confirm permanent resources, persistent Level/XP, and upgrade status are clear.
+9. Walk and run across Low/Medium/High Jump Pads. Confirm standing launches mostly vertically, running preserves horizontal momentum, and all three powers feel distinct.
+10. In Author, confirm Jump Pad guidance communicates apex, airtime, and walk/run carry distance without implying one fixed landing direction.
+11. In Asset Workbench, inspect small and large assets and confirm the origin/orbit/camera gizmo is understandable while zoom, pan, and orbit still feel good.
 
 Only after explicit owner acceptance should the project move to **Phase 4B.2 — Human-Authored Section 1 Vertical Slice**.

@@ -12,6 +12,7 @@ import {
   tagVisualRoot,
 } from "./visualFactory.js";
 import { describeVisualAssetCollider, getColliderCenter } from "./colliderDescriptor.js";
+import { resolveJumpPadVisual, resolveParkourMarkerVisual, resolvePortalGateVisual } from "./playerFacingVisuals.js";
 
 function parseColor(value, fallback) {
   if (value === undefined || value === null) return fallback;
@@ -42,6 +43,7 @@ export function createStaticWorld(worldData) {
   const groundPatches = [];
   const boundaries = [];
   const sectionGroups = new Map();
+  const portalVisualRoots = new Map();
   let currentSectionId = null;
   let currentSectionGroup = group;
   let activeSectionId = null;
@@ -111,6 +113,14 @@ export function createStaticWorld(worldData) {
     applyVisualTransform(root, { position, rotationY, uniformScale: options.uniformScale, sizeMode: options.sizeMode });
     currentSectionGroup.add(root);
     return root;
+  }
+
+  function disposeFactoryRoot(root) {
+    root?.traverse((object) => {
+      if (object.geometry && !object.geometry.userData?.isSharedAssetGeometry) object.geometry.dispose?.();
+      const materials = Array.isArray(object.material) ? object.material : object.material ? [object.material] : [];
+      for (const material of materials) if (!material.userData?.isSharedAssetMaterial) material.dispose?.();
+    });
   }
 
   function applyFactoryPresentation(root, prop, visibleInPlay, opacity) {
@@ -475,30 +485,45 @@ export function createStaticWorld(worldData) {
       });
     }
 
-    // Entry Points and Parkour course markers are logical/editor-only helpers.
-    // Physical Portal Gates own player-facing gate structures in Play.
+    // Entry Points and technical volumes remain editor-only. Gates, pads, and
+    // Parkour markers use the same player-facing resolvers as Author.
     for (const gate of region.portalGates ?? []) {
-      const useRuinAsset = gate.state === "ruined" && (worldData.visualAssets ?? []).some((asset) => asset.id === (gate.visualAssetId ?? "asset_ruin_arch"));
-      addFactoryVisual({
+      const resolved = resolvePortalGateVisual(gate, gate.state, worldData.visualAssets ?? []);
+      const root = addFactoryVisual({
         id: gate.id,
-        visualRef: useRuinAsset ? { kind: "asset", id: gate.visualAssetId ?? "asset_ruin_arch" } : { kind: "builtin", id: "prop/gate" },
-        size: { width: 2.4, height: 2.6, depth: 0.5 },
+        visualRef: resolved.visualRef,
+        size: resolved.size,
         position: gate.pos,
         rotationY: gate.rotY ?? 0,
-        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: gate.uniformScale ?? 1, sizeMode: useRuinAsset ? "uniform" : "box" },
-        metadata: { portalGateId: gate.id, portalState: gate.state, visibleInPlay: true, collisionEnabled: false },
+        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: gate.uniformScale ?? 1, sizeMode: resolved.sizeMode },
+        metadata: { portalGateId: gate.id, portalState: resolved.effectiveState, visibleInPlay: true, collisionEnabled: false },
       });
+      portalVisualRoots.set(gate.id, root);
     }
     for (const pad of region.jumpPads ?? []) {
+      const resolved = resolveJumpPadVisual(pad, worldData.visualAssets ?? []);
       addFactoryVisual({
         id: pad.id,
-        visualRef: pad.visualAssetId ? { kind: "asset", id: pad.visualAssetId } : { kind: "builtin", id: "prop/gate" },
-        size: { width: 1.8, height: 0.25, depth: 1.8 },
+        visualRef: resolved.visualRef,
+        size: resolved.size,
         position: pad.pos,
         rotationY: pad.rotY ?? 0,
-        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: pad.uniformScale ?? 1, sizeMode: pad.visualAssetId ? "uniform" : "box" },
+        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: pad.uniformScale ?? 1, sizeMode: resolved.sizeMode, triggerRadius: pad.triggerRadius, powerPreset: pad.powerPreset },
         metadata: { jumpPadId: pad.id, visibleInPlay: true, collisionEnabled: false },
       });
+    }
+    for (const [collection, kind] of [[region.parkourStarts, "start"], [region.parkourCheckpoints, "checkpoint"], [region.parkourEnds, "end"]]) {
+      for (const marker of collection ?? []) {
+        const resolved = resolveParkourMarkerVisual(marker, kind, worldData.visualAssets ?? []);
+        addFactoryVisual({
+          id: marker.id,
+          visualRef: resolved.visualRef,
+          position: marker.pos,
+          rotationY: marker.rotY ?? 0,
+          options: { visualAssets: worldData.visualAssets ?? [], uniformScale: marker.uniformScale ?? 1, sizeMode: resolved.sizeMode, triggerRadius: marker.triggerRadius, markerKind: kind },
+          metadata: { parkourMarkerId: marker.id, parkourMarkerKind: kind, courseId: marker.courseId, visibleInPlay: true, collisionEnabled: false },
+        });
+      }
     }
     for (const chest of region.lootChests ?? []) {
       addFactoryVisual({
@@ -607,6 +632,33 @@ export function createStaticWorld(worldData) {
     return { changed: true, sectionId };
   }
 
+  function refreshPortalGateVisual(gateId, effectiveState) {
+    const gate = regions.flatMap((section) => section.portalGates ?? []).find((entry) => entry.id === gateId);
+    const oldRoot = portalVisualRoots.get(gateId);
+    if (!gate || !oldRoot?.parent) return null;
+    const parent = oldRoot.parent;
+    const resolved = resolvePortalGateVisual(gate, effectiveState, worldData.visualAssets ?? []);
+    const previousSectionId = currentSectionId;
+    const previousGroup = currentSectionGroup;
+    currentSectionId = oldRoot.userData.sectionId;
+    currentSectionGroup = parent;
+    parent.remove(oldRoot);
+    disposeFactoryRoot(oldRoot);
+    const root = addFactoryVisual({
+      id: gate.id,
+      visualRef: resolved.visualRef,
+      size: resolved.size,
+      position: gate.pos,
+      rotationY: gate.rotY ?? 0,
+      options: { visualAssets: worldData.visualAssets ?? [], uniformScale: gate.uniformScale ?? 1, sizeMode: resolved.sizeMode },
+      metadata: { portalGateId: gate.id, portalState: resolved.effectiveState, visibleInPlay: true, collisionEnabled: false },
+    });
+    portalVisualRoots.set(gateId, root);
+    currentSectionId = previousSectionId;
+    currentSectionGroup = previousGroup;
+    return root;
+  }
+
   return {
     group,
     obstacles,
@@ -619,6 +671,7 @@ export function createStaticWorld(worldData) {
     boundaries,
     sectionGroups,
     setActiveSection,
+    refreshPortalGateVisual,
     getActiveSectionId: () => activeSectionId,
     getGroundHeight,
     getCollisionObstaclesForHeight,

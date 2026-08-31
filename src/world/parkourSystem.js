@@ -14,6 +14,10 @@ export function createParkourSystem(worldRegistry, opts = {}) {
   const getActiveSectionId = opts.getActiveSectionId ?? (() => null);
   const onSafeFailure = opts.onSafeFailure ?? (() => {});
   const onNormalFatal = opts.onNormalFatal ?? (() => {});
+  const onCourseStarted = opts.onCourseStarted ?? (() => {});
+  const onCheckpointActivated = opts.onCheckpointActivated ?? (() => {});
+  const onCourseEnded = opts.onCourseEnded ?? (() => {});
+  const onCourseAbandoned = opts.onCourseAbandoned ?? (() => {});
   let activeCourseId = null;
   let latestCheckpoint = null;
   let courseStartState = null;
@@ -28,6 +32,7 @@ export function createParkourSystem(worldRegistry, opts = {}) {
       facingYaw: start.respawnFacingYaw ?? start.rotY ?? 0,
     };
     latestCheckpoint = null;
+    onCourseStarted({ courseId: start.courseId, start });
   }
 
   function getRespawnState() { return latestCheckpoint ?? courseStartState; }
@@ -52,15 +57,25 @@ export function createParkourSystem(worldRegistry, opts = {}) {
         if (checkpoint.courseId !== activeCourseId) continue;
         const isInside = insideTrigger(playerPos, checkpoint);
         if (isInside && !insideIds.has(checkpoint.id)) {
-          latestCheckpoint = {
-            courseId: checkpoint.courseId,
-            sectionId,
-            checkpointId: checkpoint.id,
-            position: { ...(checkpoint.respawnPosition ?? checkpoint.pos) },
-            facingYaw: checkpoint.respawnFacingYaw ?? checkpoint.rotY ?? 0,
-          };
+          if (latestCheckpoint?.checkpointId !== checkpoint.id) {
+            latestCheckpoint = {
+              courseId: checkpoint.courseId,
+              sectionId,
+              checkpointId: checkpoint.id,
+              position: { ...(checkpoint.respawnPosition ?? checkpoint.pos) },
+              facingYaw: checkpoint.respawnFacingYaw ?? checkpoint.rotY ?? 0,
+            };
+            onCheckpointActivated({ courseId: activeCourseId, checkpoint, respawn: latestCheckpoint });
+          }
         }
         if (isInside) insideIds.add(checkpoint.id); else insideIds.delete(checkpoint.id);
+      }
+    }
+    if (activeCourseId) {
+      const matchingZones = worldRegistry.getParkourCourseZonesForSection?.(sectionId)
+        ?.filter((zone) => zone.courseId === activeCourseId) ?? [];
+      if (matchingZones.length > 0 && !matchingZones.some((zone) => insideTrigger(playerPos, zone))) {
+        leaveCourse("left-course", true);
       }
     }
     // End/Exit is an explicit course-owned trigger. It is intentionally
@@ -69,7 +84,11 @@ export function createParkourSystem(worldRegistry, opts = {}) {
     for (const end of worldRegistry.getParkourEndsForSection?.(sectionId) ?? []) {
       const isInside = insideTrigger(playerPos, end);
       if (isInside && !insideIds.has(end.id)) {
-        if (activeCourseId && end.courseId === activeCourseId) leaveCourse();
+        if (activeCourseId && end.courseId === activeCourseId) {
+          const courseId = activeCourseId;
+          onCourseEnded({ courseId, end });
+          leaveCourse("completed", false);
+        }
       }
       if (isInside) insideIds.add(end.id); else insideIds.delete(end.id);
     }
@@ -83,11 +102,13 @@ export function createParkourSystem(worldRegistry, opts = {}) {
     }
   }
 
-  function leaveCourse() {
+  function leaveCourse(reason = "left-course", notify = reason === "left-course") {
+    const courseId = activeCourseId;
     activeCourseId = null;
     latestCheckpoint = null;
     courseStartState = null;
     insideIds.clear();
+    if (notify && courseId) onCourseAbandoned({ courseId, reason });
   }
 
   return {

@@ -45,6 +45,12 @@ function isInsideBounds(pos, bounds) {
   return pos.x >= bounds.minX && pos.x <= bounds.maxX && pos.z >= bounds.minZ && pos.z <= bounds.maxZ;
 }
 
+function isInsideCourseZone(pos, zone) {
+  return Math.abs(pos.x - zone.pos.x) <= zone.size.w / 2
+    && Math.abs((pos.y ?? 0) - (zone.pos.y ?? 0)) <= zone.size.h / 2
+    && Math.abs(pos.z - zone.pos.z) <= zone.size.d / 2;
+}
+
 export function normalizeWorldData(raw) {
   if (!raw || typeof raw !== "object") throw new Error("world data must be an object");
   const data = JSON.parse(JSON.stringify(raw)); // deep clone
@@ -464,7 +470,7 @@ export function normalizeWorldData(raw) {
       if (!isInsideBounds(poi.pos, region.bounds)) throw new Error(`poi ${poi.id} not inside region ${region.id} bounds`);
     }
 
-    for (const key of ["entryPoints", "portalGates", "jumpPads", "parkourStarts", "parkourCheckpoints", "parkourEnds", "killVolumes", "lootChests"]) {
+    for (const key of ["entryPoints", "portalGates", "jumpPads", "parkourStarts", "parkourCheckpoints", "parkourEnds", "parkourCourseZones", "killVolumes", "lootChests"]) {
       if (region[key] === undefined) region[key] = [];
       if (!Array.isArray(region[key])) throw new Error(`section ${region.id} ${key} must be an array`);
     }
@@ -493,6 +499,9 @@ export function normalizeWorldData(raw) {
       if (!isNumber(gate.rotY)) throw new Error(`portal gate ${gate.id} rotY must be finite`);
       if (gate.triggerRadius === undefined) gate.triggerRadius = 1.85;
       if (!isNumber(gate.triggerRadius) || gate.triggerRadius <= 0) throw new Error(`portal gate ${gate.id} triggerRadius must be positive`);
+      for (const field of ["visualAssetId", "activeVisualAssetId", "ruinedVisualAssetId"]) {
+        if (gate[field] !== undefined && !visualAssetIds.has(gate[field])) throw new Error(`portal gate ${gate.id} unresolved Visual Asset ${gate[field]}`);
+      }
       if (gate.requirements !== undefined) {
         if (!gate.requirements || typeof gate.requirements !== "object") throw new Error(`portal gate ${gate.id} requirements must be object`);
         if (gate.requirements.minPlayerLevel !== undefined && (!Number.isInteger(gate.requirements.minPlayerLevel) || gate.requirements.minPlayerLevel < 1)) throw new Error(`portal gate ${gate.id} minPlayerLevel must be positive integer`);
@@ -509,30 +518,43 @@ export function normalizeWorldData(raw) {
       if (pad.rotY === undefined) pad.rotY = 0;
       if (pad.triggerRadius === undefined) pad.triggerRadius = 1.1;
       if (pad.cooldown === undefined) pad.cooldown = 0.8;
-      for (const key of ["rotY", "triggerRadius", "horizontalLaunch", "verticalLaunch", "cooldown"]) if (!isNumber(pad[key])) throw new Error(`Jump Pad ${pad.id} ${key} must be finite`);
-      if (pad.triggerRadius <= 0 || pad.horizontalLaunch <= 0 || pad.verticalLaunch <= 0 || pad.cooldown < 0) throw new Error(`Jump Pad ${pad.id} launch values must be positive`);
+      if (pad.powerPreset === undefined) pad.powerPreset = "medium";
+      if (!["low", "medium", "high"].includes(pad.powerPreset)) throw new Error(`Jump Pad ${pad.id} powerPreset must be low, medium, or high`);
+      if (pad.verticalLaunch === undefined) pad.verticalLaunch = null;
+      for (const key of ["rotY", "triggerRadius", "cooldown"]) if (!isNumber(pad[key])) throw new Error(`Jump Pad ${pad.id} ${key} must be finite`);
+      if (pad.verticalLaunch !== null && (!isNumber(pad.verticalLaunch) || pad.verticalLaunch <= 0)) throw new Error(`Jump Pad ${pad.id} verticalLaunch override must be positive or null`);
+      if (pad.horizontalLaunch !== undefined && !isNumber(pad.horizontalLaunch)) throw new Error(`Jump Pad ${pad.id} legacy horizontalLaunch must be finite`);
+      if (pad.triggerRadius <= 0 || pad.cooldown < 0) throw new Error(`Jump Pad ${pad.id} trigger/cooldown values invalid`);
       if (pad.visualAssetId !== undefined && !visualAssetIds.has(pad.visualAssetId)) throw new Error(`Jump Pad ${pad.id} unresolved Visual Asset ${pad.visualAssetId}`);
     }
     for (const start of region.parkourStarts) {
       if (!start.id || typeof start.id !== "string" || allIds.has(start.id) || typeof start.courseId !== "string") throw new Error(`invalid Parkour Start ${start.id}`);
       allIds.add(start.id); validatePos(start.pos, `Parkour Start ${start.id}`);
       if (!isInsideBounds(start.pos, region.bounds)) throw new Error(`Parkour Start ${start.id} outside section ${region.id}`);
-      start.triggerRadius ??= 1.1;
+      start.triggerRadius ??= 1.8;
       if (!isNumber(start.triggerRadius) || start.triggerRadius <= 0) throw new Error(`Parkour Start ${start.id} triggerRadius must be positive`);
+      if (start.visualAssetId !== undefined && !visualAssetIds.has(start.visualAssetId)) throw new Error(`Parkour Start ${start.id} unresolved Visual Asset ${start.visualAssetId}`);
     }
     for (const checkpoint of region.parkourCheckpoints) {
       if (!checkpoint.id || typeof checkpoint.id !== "string" || allIds.has(checkpoint.id) || typeof checkpoint.courseId !== "string") throw new Error(`invalid Parkour Checkpoint ${checkpoint.id}`);
       allIds.add(checkpoint.id); validatePos(checkpoint.pos, `Parkour Checkpoint ${checkpoint.id}`);
       if (!isInsideBounds(checkpoint.pos, region.bounds)) throw new Error(`Parkour Checkpoint ${checkpoint.id} outside section ${region.id}`);
-      checkpoint.triggerRadius ??= 1.1;
+      checkpoint.triggerRadius ??= 1.8;
       if (!isNumber(checkpoint.triggerRadius) || checkpoint.triggerRadius <= 0) throw new Error(`Parkour Checkpoint ${checkpoint.id} triggerRadius must be positive`);
+      if (checkpoint.visualAssetId !== undefined && !visualAssetIds.has(checkpoint.visualAssetId)) throw new Error(`Parkour Checkpoint ${checkpoint.id} unresolved Visual Asset ${checkpoint.visualAssetId}`);
     }
     for (const end of region.parkourEnds) {
       if (!end.id || typeof end.id !== "string" || allIds.has(end.id) || typeof end.courseId !== "string") throw new Error(`invalid Parkour End ${end.id}`);
       allIds.add(end.id); validatePos(end.pos, `Parkour End ${end.id}`);
       if (!isInsideBounds(end.pos, region.bounds)) throw new Error(`Parkour End ${end.id} outside section ${region.id}`);
-      end.triggerRadius ??= 1.1;
+      end.triggerRadius ??= 1.8;
       if (!isNumber(end.triggerRadius) || end.triggerRadius <= 0) throw new Error(`Parkour End ${end.id} triggerRadius must be positive`);
+      if (end.visualAssetId !== undefined && !visualAssetIds.has(end.visualAssetId)) throw new Error(`Parkour End ${end.id} unresolved Visual Asset ${end.visualAssetId}`);
+    }
+    for (const zone of region.parkourCourseZones) {
+      if (!zone.id || typeof zone.id !== "string" || allIds.has(zone.id) || !zone.courseId || typeof zone.courseId !== "string") throw new Error(`invalid Parkour Course Zone ${zone.id}`);
+      allIds.add(zone.id); validatePos(zone.pos, `Parkour Course Zone ${zone.id}`);
+      if (!zone.size || !isNumber(zone.size.w) || !isNumber(zone.size.h) || !isNumber(zone.size.d) || zone.size.w <= 0 || zone.size.h <= 0 || zone.size.d <= 0) throw new Error(`Parkour Course Zone ${zone.id} size must be positive`);
     }
     for (const volume of region.killVolumes) {
       if (!volume.id || typeof volume.id !== "string" || allIds.has(volume.id)) throw new Error(`invalid Kill Volume ${volume.id}`);
@@ -571,9 +593,20 @@ export function normalizeWorldData(raw) {
       }
     }
     for (const checkpoint of section.parkourCheckpoints) if (!courseIdsBySection.get(section.id).has(checkpoint.courseId)) throw new Error(`Parkour Checkpoint ${checkpoint.id} references missing course ${checkpoint.courseId}`);
+    for (const zone of section.parkourCourseZones) if (!courseIdsBySection.get(section.id).has(zone.courseId)) throw new Error(`Parkour Course Zone ${zone.id} references missing course ${zone.courseId}`);
     for (const volume of section.killVolumes) if (volume.courseId && !courseIdsBySection.get(section.id).has(volume.courseId)) throw new Error(`Kill Volume ${volume.id} references missing course ${volume.courseId}`);
     for (const end of section.parkourEnds) if (!courseIdsBySection.get(section.id).has(end.courseId)) throw new Error(`Parkour End ${end.id} references missing course ${end.courseId}`);
     for (const chest of section.lootChests) if (chest.courseId && !courseIdsBySection.get(section.id).has(chest.courseId)) throw new Error(`Loot Chest ${chest.id} references missing course ${chest.courseId}`);
+    for (const courseId of courseIdsBySection.get(section.id)) {
+      const zones = section.parkourCourseZones.filter((zone) => zone.courseId === courseId);
+      if (zones.length === 0) continue;
+      const requiredMarkers = [
+        ...section.parkourStarts.filter((entry) => entry.courseId === courseId),
+        ...section.parkourCheckpoints.filter((entry) => entry.courseId === courseId),
+        ...section.parkourEnds.filter((entry) => entry.courseId === courseId),
+      ];
+      for (const marker of requiredMarkers) if (!zones.some((zone) => isInsideCourseZone(marker.pos, zone))) throw new Error(`${marker.id} must be inside a matching Parkour Course Zone`);
+    }
   }
 
   // Phase 4A frontier metadata validation
