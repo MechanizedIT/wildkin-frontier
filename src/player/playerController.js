@@ -19,11 +19,14 @@ export function interpolateRenderPose(previous, current, alpha) {
   };
 }
 
-export function resolveJumpPadLaunchVelocity(horizontalVelocity = {}, verticalLaunch = 0) {
+export function resolveJumpPadLaunchVelocity(horizontalVelocity = {}, verticalLaunch = 0, authoredHorizontalVelocity = null) {
+  const authored = authoredHorizontalVelocity && Number.isFinite(authoredHorizontalVelocity.x) && Number.isFinite(authoredHorizontalVelocity.z)
+    ? authoredHorizontalVelocity
+    : null;
   return {
-    x: Number.isFinite(horizontalVelocity.x) ? horizontalVelocity.x : 0,
+    x: authored ? authored.x : (Number.isFinite(horizontalVelocity.x) ? horizontalVelocity.x : 0),
     y: Math.max(0, Number(verticalLaunch) || 0),
-    z: Number.isFinite(horizontalVelocity.z) ? horizontalVelocity.z : 0,
+    z: authored ? authored.z : (Number.isFinite(horizontalVelocity.z) ? horizontalVelocity.z : 0),
   };
 }
 
@@ -48,6 +51,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     climbTime: 0,
     mantleData: null,
   };
+  let moveSpeedMultiplier = 1;
 
   const tmpDir = new THREE.Vector3();
   const tmpForward = new THREE.Vector3();
@@ -131,12 +135,17 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     return true;
   }
 
-  function launchFromJumpPad({ verticalLaunch }) {
+  function launchFromJumpPad({ verticalLaunch, horizontalLaunch = 0, direction = null }) {
     if (!Number.isFinite(verticalLaunch) || verticalLaunch <= 0) return false;
     const horizontal = state.mode === "JUMP" && state.jumpData
       ? state.jumpData.hVel
       : state.mode === "FALL" && state.fallHVel ? state.fallHVel : state.vel;
-    const launchVelocity = resolveJumpPadLaunchVelocity(horizontal, verticalLaunch);
+    const launchMagnitude = Math.max(0, Number(horizontalLaunch) || 0);
+    const authoredHorizontal = launchMagnitude > 0 && direction
+      && Number.isFinite(direction.x) && Number.isFinite(direction.z)
+      ? { x: direction.x * launchMagnitude, z: direction.z * launchMagnitude }
+      : null;
+    const launchVelocity = resolveJumpPadLaunchVelocity(horizontal, verticalLaunch, authoredHorizontal);
     const horizontalSpeed = Math.hypot(launchVelocity.x, launchVelocity.z);
     traversal.reset();
     state.mode = "JUMP";
@@ -148,6 +157,8 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       airTime: (2 * verticalLaunch) / (moveCfg.jumpGravity ?? 12),
       time: 0,
       source: "jumpPad",
+      // An authored thrust is a deterministic traversal vector, not ordinary run carry.
+      lockHorizontal: authoredHorizontal !== null,
     };
     state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, horizontalSpeed);
     state.verticalVelocity = verticalLaunch;
@@ -159,6 +170,12 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.climbable = null;
     state.mantleData = null;
     return true;
+  }
+
+  // Persistent movement bonuses apply to normal grounded locomotion only.
+  function setMoveSpeedMultiplier(value) {
+    moveSpeedMultiplier = Math.max(0.5, Math.min(1.5, Number.isFinite(value) ? value : 1));
+    return moveSpeedMultiplier;
   }
 
   function syncMesh(dt) {
@@ -271,8 +288,8 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     if (state.mode === "JUMP" && state.jumpData) {
       const jd = state.jumpData;
       jd.time += fixedDt;
-      // shared airborne horizontal control — ignores band speeds, uses airAcceleration/decel + frozen cap
-      applyAirborneHorizontalControl(fixedDt, worldDir, jd.hVel);
+      // Authored pad thrusts retain their vector through the arc; ordinary jumps keep air control.
+      if (!jd.lockHorizontal) applyAirborneHorizontalControl(fixedDt, worldDir, jd.hVel);
       state.verticalVelocity -= (moveCfg.jumpGravity ?? 12) * fixedDt;
       const res = rapierMove(jd.hVel.x, jd.hVel.z, state.verticalVelocity, fixedDt);
       const hvLen = Math.hypot(jd.hVel.x, jd.hVel.z);
@@ -540,7 +557,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
 
     // --- Jump (authored) — preserves actual horizontal velocity and uses shared air model ---
     const band = classifyMovementBand(intent.moveMagnitude, moveCfg);
-    const targetSpeed = getBandSpeed(band, moveCfg);
+    const targetSpeed = getBandSpeed(band, moveCfg) * moveSpeedMultiplier;
     const effSpeed = Math.max(state.speed, targetSpeed);
     const jumpHit = traversal.tryStartJump(worldDir, state.pos, effSpeed, intent.moveMagnitude);
     if (jumpHit) {
@@ -698,5 +715,5 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   }
 
   snapRenderPose();
-  return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad };
+  return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad, setMoveSpeedMultiplier };
 }

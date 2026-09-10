@@ -1093,3 +1093,9 @@ Phase 4B.1 should cross one threshold only:
 > **The owner can build portal-connected 50×50 sections from standardized, reliable pieces while runtime keeps only the active section live.**
 
 Finished level composition remains Phase 4B.2 human design work.
+
+## Sunlit Wilds 0.3 visual, landscape and skill ownership
+
+`terrainSurfaceModel.js` owns continuous heights and route grading. The rendered grid supplies the same vertices/indices to Rapier; floor queries ground the player shadow, pickups, XP, followers and placed objects. The landscape draft transaction rebases object families against old/new terrain, preserving elevation offsets, with Apply/Undo/export parity. Platforms prefer `baseY` consistently in author, validation, rendering and physics. Frozen asset catalogs make Author preview lookup cheap without exposing mutable draft state.
+
+`skillCatalog.js` defines the three connected paths and effects. `frontierProgress.js` owns unlocks, banked-level point budgets and normalized save restoration; the UI reads the resulting model. `itemIcons.js` supplies the same original art identity to inventory, costs, rewards and HUD. `hazardVisual.js` renders each kill volume as a thorn bed in Author and Play; parkour failure/protection tests use the corresponding centered, yaw-rotated bounds. Visuals do not own additional physics or frame loops.

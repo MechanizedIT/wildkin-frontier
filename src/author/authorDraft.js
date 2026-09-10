@@ -3,6 +3,7 @@
 // Canonical ownership: external callers receive cloned snapshots, not direct mutable refs.
 
 import { normalizeWorldData } from "../world/worldValidator.js";
+import { replaceRegionLandscape } from './landscapeDraft.js';
 import { resolveAuthorType, writeNormalizedTransform } from "./authorTypeRegistry.js";
 import {
   SECTION_OBJECT_COLLECTIONS,
@@ -366,7 +367,9 @@ export function createAuthorDraft(repoData) {
     return null;
   }
 
-  function findObjectById(id) {
+  let previewCatalogSource=null,previewCatalog=null;
+  function freezeSnapshot(value){if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freezeSnapshot(child);Object.freeze(value);}return value;}
+  function findObjectById(id, immutableCatalog = false) {
     const raw = _findRawInCandidate(draft, id);
     if(!raw) return null;
     // return snapshot clone
@@ -376,8 +379,13 @@ export function createAuthorDraft(repoData) {
       collection: raw.collection,
       type: raw.type,
       regionId: raw.region ? raw.region.id : null,
-      visualAssets: deepClone(draft.visualAssets ?? []),
+      visualAssets: immutableCatalog ? getPreviewCatalog() : deepClone(draft.visualAssets ?? []),
     };
+  }
+
+  function getPreviewCatalog(){
+    if(previewCatalogSource!==draft.visualAssets){previewCatalogSource=draft.visualAssets;previewCatalog=freezeSnapshot(deepClone(draft.visualAssets??[]));}
+    return previewCatalog;
   }
 
   function getVisualAssets() {
@@ -650,7 +658,7 @@ export function createAuthorDraft(repoData) {
       if (isPlatformLike) {
         obj.x = patch.pos.x;
         obj.z = patch.pos.z;
-        const ny = patch.pos.y ?? obj.y ?? obj.baseY ?? 0;
+        const ny = patch.pos.y ?? obj.baseY ?? obj.y ?? 0;
         obj.y = ny; obj.baseY = ny;
       } else if (isClimbable) {
         const oldBottom = obj.bottomY ?? 0;
@@ -1297,6 +1305,7 @@ export function createAuthorDraft(repoData) {
     const res = transact((candidate) => {
       const region = candidate.regions.find(r=> r.id === regionId);
       if (!region) throw new Error("region not found");
+      if (patch.surface !== undefined) replaceRegionLandscape(candidate, regionId, patch.surface);
       if (patch.displayName !== undefined) region.displayName = patch.displayName;
       if (patch.bounds) region.bounds = { ...region.bounds, ...patch.bounds };
       if (patch.neighbors !== undefined) region.neighbors = patch.neighbors;
@@ -1426,6 +1435,7 @@ export function createAuthorDraft(repoData) {
     getVisualAssets,
     getResourceDrops,
     findVisualAssetById,
+    findPreviewObjectById: id=>findObjectById(id,true),
     createVisualAsset,
     renameVisualAsset,
     updateVisualAssetSettings,

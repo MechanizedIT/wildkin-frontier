@@ -14,6 +14,8 @@ import {
 import { describeVisualAssetCollider, getColliderCenter } from "./colliderDescriptor.js";
 import { resolveJumpPadVisual, resolveParkourMarkerVisual, resolvePortalGateVisual } from "./playerFacingVisuals.js";
 import { applyTerrainSurface } from "../presentation/terrainSurface.js";
+import { createAuthoredTerrain } from "../presentation/authoredTerrain.js";
+import { getSurfaceHeight } from "./terrainSurfaceModel.js";
 
 function parseColor(value, fallback) {
   if (value === undefined || value === null) return fallback;
@@ -42,6 +44,7 @@ export function createStaticWorld(worldData) {
   const jumpTraversals = [];
   const climbables = [];
   const groundPatches = [];
+  const terrainSurfaces = [];
   const boundaries = [];
   const sectionGroups = new Map();
   const portalVisualRoots = new Map();
@@ -340,7 +343,7 @@ export function createStaticWorld(worldData) {
   const regions = worldData?.regions ?? [];
   // Determine if any ground patches exist globally; if none, fallback to old global ground for legacy tests
   let hasAuthoredGround = false;
-  for (const r of regions) if (r.groundPatches && r.groundPatches.length > 0) hasAuthoredGround = true;
+  for (const r of regions) if (r.surface || r.groundPatches?.length > 0) hasAuthoredGround = true;
   if (!hasAuthoredGround) {
     // Legacy fallback: global floor as before (for tests without groundPatches)
     const groundGeo = new THREE.BoxGeometry(26, 0.5, 24);
@@ -375,8 +378,14 @@ export function createStaticWorld(worldData) {
     group.add(currentSectionGroup);
     sectionGroups.set(region.id, currentSectionGroup);
     // Ground patches (authored)
+    if (region.surface) {
+      const terrain = createAuthoredTerrain(region);
+      currentSectionGroup.add(terrain.group);
+      terrainSurfaces.push(terrain);
+    }
     for (const gp of region.groundPatches ?? []) {
-      addGroundPatch(gp);
+      // A region's continuous surface replaces its former flat base only.
+      if (!region.surface) addGroundPatch(gp);
     }
     // Props
     for (const prop of region.props ?? []) {
@@ -389,7 +398,7 @@ export function createStaticWorld(worldData) {
 
     // Traversal platforms — baseY from plat.y / plat.baseY / pos.y (authored elevation)
     for (const plat of region.traversal?.platforms ?? []) {
-      const baseY = plat.y ?? plat.baseY ?? (plat.pos?.y) ?? 0;
+      const baseY = plat.baseY ?? plat.y ?? (plat.pos?.y) ?? 0;
       const rotY = plat.rotY ?? 0;
       addFactoryVisual({
         id: plat.id,
@@ -408,7 +417,7 @@ export function createStaticWorld(worldData) {
 
     // Traversal obstacles — support authored Y
     for (const obs of region.traversal?.obstacles ?? []) {
-      const baseY = obs.y ?? obs.baseY ?? (obs.pos?.y) ?? 0;
+      const baseY = obs.baseY ?? obs.y ?? (obs.pos?.y) ?? 0;
       const h = obs.height ?? 1.0;
       const rotY = obs.rotY ?? 0;
       addFactoryVisual({
@@ -488,7 +497,7 @@ export function createStaticWorld(worldData) {
       });
     }
 
-    // Entry Points and technical volumes remain editor-only. Gates, pads, and
+    // Entry Points and course bounds remain editor-only. Gates, pads, and
     // Parkour markers use the same player-facing resolvers as Author.
     for (const gate of region.portalGates ?? []) {
       const resolved = resolvePortalGateVisual(gate, gate.state, worldData.visualAssets ?? []);
@@ -538,6 +547,16 @@ export function createStaticWorld(worldData) {
         metadata: { lootChestId: chest.id, visibleInPlay: true, collisionEnabled: false },
       });
     }
+    for (const hazard of region.killVolumes ?? []) {
+      addFactoryVisual({
+        id: hazard.id,
+        visualId: "hazard/thornbed",
+        size: hazard.size,
+        position: hazard.pos,
+        rotationY: hazard.rotY ?? 0,
+        metadata: { hazardId: hazard.id, courseId: hazard.courseId, visibleInPlay: true, collisionEnabled: false },
+      });
+    }
   }
 
   // Derived structures
@@ -555,19 +574,21 @@ export function createStaticWorld(worldData) {
   }));
 
   function getGroundHeight(x, z, currentY) {
+    const surface = regions.find(r => r.id === activeSectionId)?.surface;
+    const terrainHeight = getSurfaceHeight(surface, x, z);
     const check = (p) => x >= p.aabb.minX && x <= p.aabb.maxX && z >= p.aabb.minZ && z <= p.aabb.maxZ;
     for (const p of platforms) {
       if (activeSectionId && p.sectionId !== activeSectionId) continue;
       if (!check(p)) continue;
       if (currentY === undefined || currentY === null) {
-        return p.height;
+        return p.baseY + p.height;
       } else {
-        const threshold = p.height - 0.45;
-        if (currentY < threshold) return 0;
+        const threshold = p.baseY + p.height - 0.45;
+        if (currentY < threshold) return terrainHeight;
       }
-      return p.height;
+      return p.baseY + p.height;
     }
-    return 0;
+    return terrainHeight;
   }
 
   function getCollisionObstaclesForHeight(posY) {
@@ -671,6 +692,7 @@ export function createStaticWorld(worldData) {
     jumpTraversals,
     climbables,
     groundPatches,
+    terrainSurfaces,
     boundaries,
     sectionGroups,
     setActiveSection,

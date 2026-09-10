@@ -1,4 +1,5 @@
 import { createBondingSession } from "../companions/bondingLogic.js";
+import { iconMarkup } from "./itemIcons.js";
 
 export function createBondingPanel({ app, onFinished, onBlockingChanged, audio }) {
   const overlay = document.createElement("div");
@@ -7,7 +8,7 @@ export function createBondingPanel({ app, onFinished, onBlockingChanged, audio }
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
   overlay.setAttribute("aria-label", "Wildkin resonance bonding");
-  overlay.innerHTML = `<section class="bond-card"><small class="eyebrow">LISTEN • ANSWER • CONNECT</small><h2></h2><p class="bond-instructions">Tap Resonance when the moving light enters the golden band. Three echoes earn its trust.</p><div class="bond-emblem" aria-hidden="true">✿</div><div class="bond-track"><div class="bond-window"></div><div class="bond-cursor"></div></div><p class="bond-status" aria-live="polite">Listen for the rhythm.</p><button class="bond-tap" type="button">Resonance <small>Space / tap</small></button><button class="bond-cancel" type="button">Leave peacefully</button><p class="bond-footnote">New bonds are unsecured until you return to Camp.</p></section>`;
+  overlay.innerHTML = `<section class="bond-card"><small class="eyebrow">LISTEN • ANSWER • CONNECT</small><h2></h2><p class="bond-instructions">Tap in the gold band. Land 3 echoes.</p><div class="bond-emblem" aria-hidden="true">✿</div><div class="bond-track"><div class="bond-window"></div><div class="bond-cursor"></div></div><p class="bond-status" aria-live="polite">Listen for the rhythm.</p><button class="bond-tap" type="button">Resonance <small>Space / tap</small></button><button class="bond-cancel" type="button">Leave peacefully</button><p class="bond-footnote">New bond: at risk until extraction.</p></section>`;
   app.append(overlay);
   const cursor = overlay.querySelector(".bond-cursor");
   const status = overlay.querySelector(".bond-status");
@@ -52,10 +53,10 @@ export function createBondingPanel({ app, onFinished, onBlockingChanged, audio }
       session = createBondingSession();
       restoreFocus = document.activeElement;
       overlay.querySelector("h2").textContent = `Befriend ${species.name}`;
-      overlay.querySelector(".bond-emblem").textContent = species.glyph;
+      overlay.querySelector(".bond-emblem").innerHTML = iconMarkup(species.id, { size: 72, label: species.name });
       overlay.style.setProperty("--bond-color", species.color);
       overlay.hidden = false; tapButton.disabled = false;
-      status.textContent = "Listen for the rhythm. Three good echoes form a bond.";
+      status.textContent = "Three echoes form a bond.";
       onBlockingChanged(); tapButton.focus({ preventScroll: true });
       return true;
     },

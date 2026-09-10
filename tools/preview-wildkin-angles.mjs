@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+
+const browser=await chromium.launch({headless:true,channel:'msedge'});
+const page=await browser.newPage({viewport:{width:512,height:512}});
+await page.goto('http://localhost:8080/');
+await page.locator('[data-action=start]').click();
+const ids=['mossling','tidefin','emberhorn','skydancer'];
+const views={front:[0,2.3,5],side:[5,2.3,0]};
+for(const id of ids)for(const [name,cam] of Object.entries(views)){
+ await page.evaluate(async ({id,cam})=>{document.querySelector('#turntable')?.remove();const THREE=await import('/vendor/three.module.js');const {createWildkinMeshVisual}=await import('/src/world/wildkinMeshKit.js');const wrap=document.createElement('div');wrap.id='turntable';wrap.style.cssText='position:fixed;z-index:9999;inset:0;background:#162c3d';document.body.append(wrap);const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(512,512);renderer.setPixelRatio(1);renderer.setClearColor(0x162c3d,1);wrap.append(renderer.domElement);const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(34,1,.1,100);scene.add(new THREE.HemisphereLight(0xdff7eb,0x234759,2.2));const sun=new THREE.DirectionalLight(0xffe0b0,2.1);sun.position.set(3,5,5);scene.add(sun);const floor=new THREE.Mesh(new THREE.CircleGeometry(3.4,48),new THREE.MeshStandardMaterial({color:0x294b57,roughness:1}));floor.rotation.x=-Math.PI/2;scene.add(floor);const model=createWildkinMeshVisual(`asset_wildkin_${id}`);model.scale.setScalar(.72);scene.add(model);camera.position.set(...cam);camera.lookAt(0,1.05,.42);renderer.render(scene,camera)},{id,cam});
+ await page.screenshot({path:`dist/qa/turntable-${id}-${name}.png`});
+}
+await browser.close();

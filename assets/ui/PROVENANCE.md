@@ -1,0 +1,19 @@
+# Original Sunlit Wilds artwork
+
+`frontier-icons.png` was generated for Wildkin Frontier on 2026-09-09 with the built-in image-generation tool. No reference game's assets were copied. The source is preserved in the owner's Codex generated-images directory; this project contains its own runtime copy.
+
+Production prompt: regular four-by-four icon atlas; original high-contrast, chunky painted fantasy inventory art on dark ink navy, consistent upper-left lighting and generous per-cell padding; no text or borders. Row 1: timber logs, blue-grey stones, grass fiber, coral berries. Row 2: silver-veined iron ore, cyan crystal, pink wildflower, gold XP star. Row 3: explorer backpack, branching golden skill sapling, animal paw, parchment map. Row 4: silver axe, teal shield, leather boot, medkit. Warm ivory, jade, apricot and amber palette.
+
+The game uses CSS atlas coordinates, preserving the generated image without destructive edits. Resource identity is shared across UI surfaces by `src/ui/itemIcons.js`.
+
+`wildkin-portraits.png` was generated in the same session with the built-in image-generation tool. Its four original designs also guided the native sculpted mesh recipes; those meshes are original code-authored geometry, not extracted reference-game assets.
+
+Portrait production prompt:
+
+Use case: stylized-concept. Production game portrait atlas and 3D character design reference for an ORIGINAL creature exploration adventure Wildkin Frontier. Square image regular exact TWO BY TWO grid, four separate appealing creature character portraits, centered in equal square cells with generous padding and no overlap. Solid deep ink navy #172b3b background throughout. Original polished stylized high contrast 3D-like painted art, rounded strong silhouettes, broad clean readable shapes, lush jade and cream colors, warm highlights, dark colored undersides. NO text, NO frames, NO borders, NO logos. TOP LEFT: Mossling, a little stout four-legged forest creature, ivory cream pear-shaped furry body, broad head, oversized dark shiny curious eyes, jade leaf-shaped ears, turquoise leafy mane and three broad leaves sprouting along its back, short rounded paws, small gold bud on forehead, friendly but wild. TOP RIGHT: Tidefin, a sleek little blue otter-newt creature with ivory belly, expressive dark eyes, turquoise swept fins on its cheeks and wide curled fan tail, four short feet, one coral accent fin, playful. BOTTOM LEFT: Emberhorn, stocky cinnamon-and-coral armadillo-ram creature, cream blunt curved horns, layered dark terracotta back armor with golden ember seams, broad feet, determined eyes, no humanoid body. BOTTOM RIGHT: Skydancer, small elegant ivory and lavender bird-dragon with enormous swept teal wings, little cream face with attentive dark eyes, gold crest, two delicate feet and a long split ribbon tail, graceful airborne pose. Full creature visible in each cell occupying 75%, consistent front three-quarter angle, lighting upper-left, simplified but beautifully finished suitable mobile game companion portraits. These must be distinct original designs, do not copy any known commercial characters.
+
+The explorer and all new environment/creature mesh kits were authored in this repository. Their canonical baked geometry remains editable through the Asset Workbench; source recipes live in `src/world/environmentMeshKit.js`, `src/world/wildkinMeshKit.js`, `src/world/sculptedGeometry.js` and `src/player/explorerMesh.js`.
+
+`../fonts/Nunito.ttf` is the Nunito family vendored from the Google Fonts repository, distributed under the SIL Open Font License in `../fonts/OFL-Nunito.txt`. It is loaded locally; no font service request is made while playing.
+
+The visible thorn-crystal hazard beds are original procedural geometry in `src/world/hazardVisual.js`, shared by Author and Play.

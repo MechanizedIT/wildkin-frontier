@@ -3,6 +3,7 @@ import * as RAPIER from "rapier";
 import { createCamera, updateCameraAspect, CAMERA_CONFIG } from "./game/createCamera.js";
 import { createRenderer, resizeRenderer } from "./game/createRenderer.js";
 import { createScene } from "./game/createScene.js";
+import { createPlayerProjectedShadow } from "./presentation/playerProjectedShadow.js";
 import { createPlayerController } from "./player/playerController.js";
 import { createCameraFollow } from "./camera/cameraFollow.js";
 import { createTouchMovement } from "./input/touchMovement.js";
@@ -128,6 +129,7 @@ let campSpawn = worldRegistry.getCampSpawnPosition();
 let startPos = { x: campSpawn.x, y: resolveSpawnCapsuleCenter(campSpawn.y ?? 0), z: campSpawn.z };
 const campStartFacing = campSpawn.facingYaw ?? 0;
 const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos);
+const playerProjectedShadow = createPlayerProjectedShadow({ scene, player, characterPhysics, physicsWorld, playground });
 
 // Persistent frontier progress (isolated from author draft)
 const resourceDrops = worldRegistry.data.resourceDrops;
@@ -487,6 +489,7 @@ function getNearbyResonatorInteraction(playerPos) {
   });
   return interaction ? {
     ...interaction,
+    label: 'Workshop',
     id: resonatorPoi.id,
   } : null;
 }
@@ -635,6 +638,8 @@ contextualInteraction = createContextualInteraction({
       if (betaGame) betaGame.openWorkshop(); else matterResonatorPanel.show();
       refreshMapAvailability();
       syncInputBlock();
+    } else if (info.type === 'campSanctuary' && expeditionSession.isCamp()) {
+      betaGame?.openSanctuary();refreshMapAvailability();syncInputBlock();
     }
   },
 });
@@ -1185,6 +1190,7 @@ function tick() {
 
   const pState = playerController.getState();
   playerController.prepareRender(fixedDt > 0 ? accumulator / fixedDt : 1);
+  playerProjectedShadow.update({ hidden: authorSuppress });
   const moveDir = pState.speed > 0.1 ? { x: Math.sin(pState.facing), z: Math.cos(pState.facing) } : null;
   if (authorSuppress) {
   } else {
@@ -1240,7 +1246,7 @@ tick();
 
 // Debug globals — gameplay code must not rely on window.__game
 window.__game = {
-  scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
+  scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
   worldRegistry, regionManager, sectionRuntime, portalGateSystem, jumpPadSystem, parkourSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   betaGame,

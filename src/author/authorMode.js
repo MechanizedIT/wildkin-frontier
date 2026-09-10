@@ -18,6 +18,7 @@ import { getJumpPadGuidance, getJumpPadTrajectorySignature } from "../world/jump
 import { summarizeSection } from "../world/sectionProfile.js";
 import { createOrbitGizmo, updateOrbitGizmo } from "./orbitGizmo.js";
 import { MOVEMENT_CONFIG } from "../game/config.js";
+import { createAuthoredTerrain } from '../presentation/authoredTerrain.js';
 
 export const ASSET_EDIT_CAMERA_STEP = Math.PI / 4;
 
@@ -143,6 +144,7 @@ export function createAuthorMode(opts) {
   let editorVisibilitySyncCount = 0;
   let editorVisibilitySyncTimes = [];
   let editorVisibilitySyncLastReason = null;
+  const landscapePreviewSignatures=new Map((draftApi.getDraft().regions??[]).map(r=>[r.id,JSON.stringify({surface:r.surface,bounds:r.bounds})]));
 
   function getSelectedSectionViewMetrics() {
     const region = selectedEditSectionId ? draftApi.findRegion(selectedEditSectionId) : null;
@@ -307,7 +309,7 @@ export function createAuthorMode(opts) {
       setOverlaysVisible(isEdit);
     },
     onFocusObject: (id) => {
-      const found = draftApi.findObjectById(id);
+      const found = draftApi.findPreviewObjectById(id);
       if (!found) return;
       const pos = found.obj.pos || { x: found.obj.x, z: found.obj.z };
       if (!pos) return;
@@ -665,7 +667,7 @@ export function createAuthorMode(opts) {
 
   // Live preview: sync a single object's mesh via normalized Author transform (registry-driven)
   function syncPreviewForId(id) {
-    const found = draftApi.findObjectById(id);
+    const found = draftApi.findPreviewObjectById(id);
     if (!found) return;
     const def = resolveAuthorType(found);
     if (!def) return;
@@ -709,7 +711,7 @@ export function createAuthorMode(opts) {
   function updateHomeMarker() {
     if (homeMarker) { scene.remove(homeMarker); homeMarker = null; }
     if (!selectedId) return;
-    const found = draftApi.findObjectById(selectedId);
+    const found = draftApi.findPreviewObjectById(selectedId);
     if (!found || found.type !== "creature") return;
     const spawn = found.obj.pos;
     const home = found.obj.homePos;
@@ -740,12 +742,12 @@ export function createAuthorMode(opts) {
   function ensureSpawnMarkers() {
     clearSpawnMarkers();
     // Camp spawn
-    const campFound = draftApi.findObjectById("camp_spawn");
+    const campFound = draftApi.findPreviewObjectById("camp_spawn");
     if (campFound) createSpawnMarker("camp_spawn", campFound.obj.pos, campFound.obj.facingYaw ?? 0, 0x7ab8ff);
     for (const region of draftApi.getDraft().regions) {
       for (const wp of region.majorWaypoints ?? []) {
         const id = wp.id + "__runSpawn";
-        const found = draftApi.findObjectById(id);
+        const found = draftApi.findPreviewObjectById(id);
         if (!found) continue;
         createSpawnMarker(id, found.obj.pos, found.obj.facingYaw ?? 0, 0xffd54f);
         // line from waypoint to run spawn
@@ -791,7 +793,7 @@ export function createAuthorMode(opts) {
   }
   function updateSpawnMarkers() {
     for (const id of ["camp_spawn"]) {
-      const found = draftApi.findObjectById(id);
+      const found = draftApi.findPreviewObjectById(id);
       if (!found) continue;
       syncPreviewForId(id);
     }
@@ -804,7 +806,7 @@ export function createAuthorMode(opts) {
       const id = line.userData.authorId;
       const baseId = id.replace("__runSpawn","");
       const wp = draftApi.getDraft().regions.flatMap(r=>r.majorWaypoints??[]).find(w=>w.id===baseId);
-      const rs = draftApi.findObjectById(id);
+      const rs = draftApi.findPreviewObjectById(id);
       if (wp && rs) {
         const pts = [new THREE.Vector3(wp.pos.x, (wp.pos.y??0)+0.1, wp.pos.z), new THREE.Vector3(rs.obj.pos.x, (rs.obj.pos.y??0)+0.1, rs.obj.pos.z)];
         line.geometry.setFromPoints(pts);
@@ -813,7 +815,7 @@ export function createAuthorMode(opts) {
   }
 
   function createPreviewMeshForNewObject(id) {
-    const found = draftApi.findObjectById(id);
+    const found = draftApi.findPreviewObjectById(id);
     if (!found) return;
     syncPreviewForId(id);
   }
@@ -889,6 +891,16 @@ export function createAuthorMode(opts) {
   }
 
   function reconcilePreview(reason = "preview-rebuild"){
+    // Landscape is a region-owned visual, not an individual selectable prop.
+    // Edit rebuilds it only when its authored shape changes; Play rebuilds physics.
+    for(const region of draftApi.getDraft().regions??[]){
+      const signature=JSON.stringify({surface:region.surface,bounds:region.bounds});
+      if(signature===landscapePreviewSignatures.get(region.id))continue;
+      const old=scene.getObjectByName(`landscape_${region.id}`);
+      if(region.surface){const terrain=createAuthoredTerrain(region).group;terrain.visible=old?.visible??(region.id===selectedEditSectionId);(old?.parent??scene).add(terrain);}
+      if(old){old.parent?.remove(old);disposeObject3D(old);}
+      landscapePreviewSignatures.set(region.id,signature);
+    }
     // Reconcile canonical draft vs scene preview (commit/undo/redo/place/delete)
     const allIds = draftApi.getAllObjectIds ? draftApi.getAllObjectIds() : [];
     const idSet = new Set(allIds);
@@ -931,6 +943,8 @@ export function createAuthorMode(opts) {
     updateHomeMarker();
     updateOverlays();
     if(isEdit) updateEditorVisibility(reason);
+    if(ui.refreshRegionSelects)ui.refreshRegionSelects();
+    if(selectedId)ui.setSelected(selectedId);
     if(ui.refreshHierarchy) ui.refreshHierarchy();
     if(ui.refreshVisualAssets) ui.refreshVisualAssets();
   }
@@ -943,7 +957,7 @@ export function createAuthorMode(opts) {
     scene.traverse((object) => {
       if (!object.userData?.editorHelperOnly) return;
       const authorId = object.userData.authorId;
-      const found = authorId ? draftApi.findObjectById(authorId) : null;
+      const found = authorId ? draftApi.findPreviewObjectById(authorId) : null;
       object.visible = !!edit && (!found?.regionId || found.regionId === selectedEditSectionId);
     });
   }
@@ -965,7 +979,7 @@ export function createAuthorMode(opts) {
     scene.traverse((object) => {
       const authorId = object.userData?.authorId;
       if (!authorId || object.parent?.userData?.authorId === authorId) return;
-      const found = draftApi.findObjectById(authorId);
+      const found = draftApi.findPreviewObjectById(authorId);
       if (found?.regionId) object.visible = found.regionId === selectedEditSectionId;
     });
     updateTrajectoryPreviews();
@@ -1514,7 +1528,7 @@ export function createAuthorMode(opts) {
     }
     if (hitSelected && selectedId) {
       const pt = getGroundIntersection(e);
-      const found = draftApi.findObjectById(selectedId);
+      const found = draftApi.findPreviewObjectById(selectedId);
       if (found) {
         const def = resolveAuthorType(found);
         if (!def?.capabilities?.draggable) return;
@@ -1544,7 +1558,7 @@ export function createAuthorMode(opts) {
   let dragStartPos = null;
   let dragStartHome = null;
   function applyPreviewTransform(id, previewPos, previewFacing){
-    const found = draftApi.findObjectById(id);
+    const found = draftApi.findPreviewObjectById(id);
     if(!found) return;
     const meshes = findAllMeshesByAuthorId(id);
     const isSpawn = found.type==="campSpawn" || found.type==="runSpawn";
@@ -1705,7 +1719,7 @@ export function createAuthorMode(opts) {
         if (cur.userData && (cur.userData.propId || cur.userData.resourceId || cur.userData.creatureId || cur.userData.anchorId || cur.userData.poiId || cur.userData.platformId)) {
           picked = cur.userData.propId || cur.userData.resourceId || cur.userData.creatureId || cur.userData.anchorId || cur.userData.poiId || cur.userData.platformId; break;
         }
-        if (cur.name && draftApi.findObjectById(cur.name)) { picked = cur.name; break; }
+        if (cur.name && draftApi.findPreviewObjectById(cur.name)) { picked = cur.name; break; }
         cur = cur.parent;
       }
       if (picked) break;
@@ -1763,7 +1777,7 @@ export function createAuthorMode(opts) {
       const res = draftApi.undo();
       if (res.ok) {
         ui.setStatus("Undo", false);
-        if (selectedId && !draftApi.findObjectById(selectedId)) { selectedId = null; ui.setSelected(null); }
+        if (selectedId && !draftApi.findPreviewObjectById(selectedId)) { selectedId = null; ui.setSelected(null); }
         if (editingAssetId) {
           assetEditDirty = true;
           refreshAssetEditContext();
@@ -1838,7 +1852,7 @@ export function createAuthorMode(opts) {
     // Focus
     if (e.key.toLowerCase() === "f" && !isCtrl) {
       e.preventDefault();
-      const found = draftApi.findObjectById(selectedId);
+      const found = draftApi.findPreviewObjectById(selectedId);
       if (!found) return;
       const pos = found.obj.pos || { x: found.obj.x, z: found.obj.z };
       if (!pos) return;
@@ -1856,7 +1870,7 @@ export function createAuthorMode(opts) {
     else if (k === "arrowright" || k === "d") dx = step;
     else if (k === "q") {
       e.preventDefault();
-      const f = draftApi.findObjectById(selectedId);
+      const f = draftApi.findPreviewObjectById(selectedId);
       if (!f) return;
       const def = resolveAuthorType(f);
       const base = readNormalizedTransform(f);
@@ -1877,7 +1891,7 @@ export function createAuthorMode(opts) {
     } else if (k === "e") {
       if (!isEdit) return;
       e.preventDefault();
-      const f = draftApi.findObjectById(selectedId);
+      const f = draftApi.findPreviewObjectById(selectedId);
       if (!f) return;
       const base = readNormalizedTransform(f);
       if (!base) return;
@@ -1894,7 +1908,7 @@ export function createAuthorMode(opts) {
       return;
     } else if (k === " " || k === "c") {
       e.preventDefault();
-      const f = draftApi.findObjectById(selectedId);
+      const f = draftApi.findPreviewObjectById(selectedId);
       if (!f) return;
       const base = readNormalizedTransform(f);
       if (!base) return;
@@ -1909,7 +1923,7 @@ export function createAuthorMode(opts) {
       return;
     } else if (k === "pageup") {
       e.preventDefault();
-      const f = draftApi.findObjectById(selectedId);
+      const f = draftApi.findPreviewObjectById(selectedId);
       if (!f) return;
       const base = readNormalizedTransform(f);
       if (!base) return;
@@ -1920,7 +1934,7 @@ export function createAuthorMode(opts) {
       return;
     } else if (k === "pagedown") {
       e.preventDefault();
-      const f = draftApi.findObjectById(selectedId);
+      const f = draftApi.findPreviewObjectById(selectedId);
       if (!f) return;
       const base = readNormalizedTransform(f);
       if (!base) return;
@@ -1932,7 +1946,7 @@ export function createAuthorMode(opts) {
     } else if (dx === 0 && dz === 0) return;
     if (dx !== 0 || dz !== 0) {
       e.preventDefault();
-      const found = draftApi.findObjectById(selectedId);
+      const found = draftApi.findPreviewObjectById(selectedId);
       if (!found) return;
       const base = readNormalizedTransform(found);
       if (!base) return;
@@ -1948,10 +1962,10 @@ export function createAuthorMode(opts) {
   function updateHighlight() {
     if (highlightMesh) { scene.remove(highlightMesh); highlightMesh = null; }
     if (!selectedId) { if (homeMarker) { scene.remove(homeMarker); homeMarker = null; } return; }
-    const found = draftApi.findObjectById(selectedId);
+    const found = draftApi.findPreviewObjectById(selectedId);
     if (!found) { if (homeMarker) { scene.remove(homeMarker); homeMarker = null; } return; }
     const norm = readNormalizedTransform(found);
-    const pos = norm ? norm.position : (found.obj.pos || (found.obj.x !== undefined ? { x: found.obj.x, y: found.obj.y ?? found.obj.baseY ?? 0, z: found.obj.z } : null));
+    const pos = norm ? norm.position : (found.obj.pos || (found.obj.x !== undefined ? { x: found.obj.x, y: found.obj.baseY ?? found.obj.y ?? 0, z: found.obj.z } : null));
     if (!pos) return;
     const y = (pos.y ?? 0) + 0.8;
     const geo = new THREE.RingGeometry(0.45, 0.58, 16);

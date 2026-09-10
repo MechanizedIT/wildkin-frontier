@@ -1,0 +1,19 @@
+// Connected, data-driven skill board. It reads a flat catalog and never owns progression.
+const esc = (value = "") => String(value).replace(/[&<>\"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fallbackIcon = (id, label = "") => `<span>${esc(label || id)}</span>`;
+function statusFor(node, unlocked, points, level) { if (unlocked.has(node.id)) return "unlocked"; if (level < node.minLevel) return "level-locked"; if (node.prerequisite && !unlocked.has(node.prerequisite)) return "path-locked"; return points < (node.cost || 1) ? "point-locked" : "available"; }
+export function createSkillTree({ skills = {}, iconMarkup = fallbackIcon, selectedId = null } = {}) {
+ const nodes=Array.isArray(skills.nodes)?skills.nodes:[], unlocked=new Set(skills.unlocked??[]), level=Number(skills.level)||1, points=Number(skills.points)||0;
+ const selected=nodes.find(n=>n.id===selectedId)??nodes.find(n=>statusFor(n,unlocked,points,level)==="available")??nodes[0]??null;
+ const roots=nodes.filter(n=>!n.prerequisite).sort((a,b)=>(a.column??0)-(b.column??0)), byId=new Map(nodes.map(n=>[n.id,n]));
+ const children=(id)=>nodes.filter(n=>n.prerequisite===id).sort((a,b)=>(a.row??0)-(b.row??0));
+ const layout=new Map();
+ roots.forEach((root,index)=>{const x=(index+.5)/Math.max(roots.length,1)*100;layout.set(root.id,{x,y:14});const kids=children(root.id);kids.forEach((kid,k)=>{layout.set(kid.id,{x:x+(k===0?-8:8),y:48});const tails=children(kid.id);tails.forEach(tail=>layout.set(tail.id,{x,y:82}));});});
+ // Preserve a legible fallback for unusual authored catalog shapes.
+ nodes.forEach(n=>{if(!layout.has(n.id))layout.set(n.id,{x:50,y:50});});
+ const lines=nodes.map(n=>{const parent=byId.get(n.prerequisite);if(!parent)return"";const a=layout.get(parent.id),b=layout.get(n.id);const lit=unlocked.has(parent.id)&&(unlocked.has(n.id)||statusFor(n,unlocked,points,level)==="available");return `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" class="skill-tree__line ${lit?"is-lit":""}"/>`;}).join("");
+ const buttons=nodes.map(n=>{const pos=layout.get(n.id),state=statusFor(n,unlocked,points,level);return `<button type="button" class="skill-tree__node is-${state} ${selected?.id===n.id?"is-selected":""}" data-skill-id="${esc(n.id)}" style="--x:${pos.x}%;--y:${pos.y}%" aria-pressed="${selected?.id===n.id}" aria-label="${esc(n.name)}"><span class="skill-tree__orb">${iconMarkup(n.icon||"skills",{size:42,label:n.name})}</span><small>${esc(n.name)}</small>${unlocked.has(n.id)?"<b>✓</b>":""}</button>`;}).join("");
+ const state=selected?statusFor(selected,unlocked,points,level):"", canBuy=state==="available", lock=!selected?"No skills found.":state==="unlocked"?"Awakened":state==="level-locked"?`Reach level ${selected.minLevel}`:state==="path-locked"?"Awaken the linked skill first":state==="point-locked"?"Earn another skill point":`${selected.cost||1} skill point`;
+ return `<section class="skill-board"><div class="skill-board__top"><div><p class="beta-kicker">FRONTIER MASTERY</p><h2>Skill paths</h2></div><div class="skill-board__points">${iconMarkup("skills",{size:29,label:"Skill points"})}<b>${points}</b><small>POINTS</small></div></div><div class="skill-tree"><svg class="skill-tree__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>${buttons}</div>${selected?`<article class="skill-detail is-${state}"><div class="skill-detail__icon">${iconMarkup(selected.icon||"skills",{size:52,label:selected.name})}</div><div><p class="beta-kicker">${esc(selected.branch||"MASTERY")} · LV ${selected.minLevel||1}</p><h3>${esc(selected.name)}</h3><p>${esc(selected.description)}</p><strong>${esc(lock)}</strong></div>${canBuy?`<button class="beta-gold-button" data-action="purchaseSkill" data-id="${esc(selected.id)}">AWAKEN</button>`:""}</article>`:""}</section>`;
+}
+

@@ -15,7 +15,7 @@ export function initializeFrontierShadows({ scene, sun, player, playground } = {
     if (!object.isMesh) return;
     const material = Array.isArray(object.material) ? object.material[0] : object.material;
     const transparent = !!material?.transparent || material?.opacity < 0.99;
-    const ground = !!object.userData?.groundPatchId || object.name === "legacy_ground";
+    const ground = !!object.userData?.isGround || !!object.userData?.groundPatchId || object.name === "legacy_ground";
     object.receiveShadow = ground || (!transparent && !isPlayer);
     object.castShadow = !ground && !transparent && object.name !== "shadow";
   });

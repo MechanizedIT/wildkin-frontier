@@ -39,7 +39,7 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   const armVec = new THREE.Vector3().subVectors(handLocal, shoulderLocal);
   const armLen = armVec.length();
   const armGeo = new THREE.CylinderGeometry(0.042, 0.032, armLen, 6);
-  const armMat = new THREE.MeshStandardMaterial({ color: 0x5a6a7a, flatShading: true });
+  const armMat = new THREE.MeshStandardMaterial({ color: 0xdcb574, roughness:.8 });
   const armMesh = new THREE.Mesh(armGeo, armMat);
   armMesh.position.copy(shoulderLocal).add(handLocal).multiplyScalar(0.5);
   armMesh.lookAt(handLocal);
@@ -71,14 +71,16 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   toolGroup.name = "fieldTool";
 
   const handleGeo = new THREE.CylinderGeometry(0.075, 0.090, 0.78, 7);
-  const handleMat = new THREE.MeshStandardMaterial({ color: 0x2a2f3a, flatShading: true });
+  const handleMat = new THREE.MeshStandardMaterial({ color: 0x9d5930, roughness:.82 });
   const handle = new THREE.Mesh(handleGeo, handleMat);
   handle.rotation.x = Math.PI / 2;
   handle.position.set(0, 0.02, 0.39);
   toolGroup.add(handle);
 
-  const headGeo = new THREE.BoxGeometry(0.40, 0.28, 0.20);
-  const headMat = new THREE.MeshStandardMaterial({ color: 0x8ecae6, flatShading: true, emissive: 0x1a3a5a, emissiveIntensity: 0.26 });
+  const blade = new THREE.Shape();
+  blade.moveTo(-.16,-.08);blade.lineTo(.12,-.22);blade.quadraticCurveTo(.29,0,.12,.22);blade.lineTo(-.16,.08);blade.closePath();
+  const headGeo = new THREE.ExtrudeGeometry(blade,{depth:.12,bevelEnabled:true,bevelSegments:1,bevelSize:.025,bevelThickness:.025,curveSegments:6});headGeo.translate(0,0,-.06);
+  const headMat = new THREE.MeshStandardMaterial({ color: 0xcde9e7, roughness:.38,metalness:.25 });
   const head = new THREE.Mesh(headGeo, headMat);
   head.position.set(0, 0.08, 0.88);
   head.rotation.z = 0.16;
@@ -86,7 +88,7 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   toolGroup.add(head);
 
   const wedgeGeo = new THREE.CylinderGeometry(0.085, 0.165, 0.30, 5);
-  const wedgeMat = new THREE.MeshStandardMaterial({ color: 0xc9d6ff, flatShading: true, emissive: 0x334466, emissiveIntensity: 0.20 });
+  const wedgeMat = new THREE.MeshStandardMaterial({ color: 0xffc66b, roughness:.5,metalness:.18 });
   const wedge = new THREE.Mesh(wedgeGeo, wedgeMat);
   wedge.position.set(0, 0.10, 1.06);
   wedge.rotation.z = Math.PI / 2;

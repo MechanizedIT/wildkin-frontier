@@ -1,15 +1,42 @@
-# Wildkin Frontier author guide
+# Sunlit Wilds 0.3.0-alpha.1 — author guide
 
-Open the local game with `?author=1` in the address bar. Author mode is a desktop editing tool. It keeps its draft in `wildkin.authorDraft`; player progression, companions, and Expedition cargo remain separate.
+Author mode is a desktop tool for the local alpha. Open the game with `?author=1`. It works on an isolated `wildkin.authorDraft` local draft; player progression, companions, and expedition cargo remain separate. This guide describes the current tools, not a release workflow.
 
-Start in **Play Test** to inspect the currently saved draft. Click **EDIT** to enter editing. While editing, player controls and beta HUD feedback are suppressed so the scene stays selectable. Pick a Camp or Section from **Section Context** before placing or moving objects. The campaign currently has Camp plus five frontier sections. Each section has its own local coordinates; moving an object in one section does not move an object in another.
+## Work with a draft
 
-To edit a level, select an object in the world or in **Hierarchy**. The Selected card shows its player-facing transform and type fields. Drag to move on X/Z, or use the visible position fields for exact placement. Use the palette to place new standard props, anchors, resources, and traversal helpers. Hold Shift while dragging to bypass the selected snap increment. Validate before returning to Play Test; invalid changes keep the editor open and display the reason.
+Start in **Play Test** to inspect the current draft, then select **EDIT**. Editing suppresses player controls and the gameplay HUD so the scene remains selectable. Choose Camp or a frontier section from **Section Context** before placing or moving objects. Camp and each of the five sections use their own local coordinates.
 
-To create a new campaign area, use **+ New Section**, give it a clear display name, set its bounds and neighbors, then Apply. Add an entry point, waypoint, portal gate, and the play objects needed for its intended route. Portal gates should lead to a real entry in a neighboring section. The authored world validator is the source of truth for missing links, invalid bounds, and unplayable object combinations.
+Select an object in the scene or **Hierarchy**. The Selected card exposes player-facing transform and type fields. Drag on X/Z or enter a precise position. The palette places standard props, anchors, resources, and traversal helpers. Hold Shift while dragging to bypass the selected snap increment. Validate before switching back to Play Test.
 
-For visual assets, open **Visual Assets**, select an item, and enter **Asset Workbench**. Add simple geometric parts, arrange their local transform, choose collision, then choose its game-object role. Use **Harvestable Resource** to set drops, hit count, respawn timing, impact feel, and depleted remnant. Use **Wildkin** to set the species tag, behavior archetype, temperament, health, damage, movement, notice range, and leash. A custom Wildkin recipe supports its authored visual and creature behavior, but changing its species tag does not create a companion ability. The four bonded abilities are configured by asset IDs in the companion catalog: Tidefin, Mossling, Emberhorn, and Skydancer.
+## Shape a Sunlit Wilds region
 
-Before exporting, click **Campaign Readiness** beside Validate. It checks the current draft’s route, gates, renewable resources, companions, and finale requirements, then displays a readable READY report or the issues to correct. It is a campaign-level check; still use Validate for structural data errors and play-test the route yourself. The Workbench currently edits assets inside the draft but does not have a dedicated per-asset JSON download. **Export** creates the complete validated `world.json` draft, including asset recipes and custom fauna definitions, so it is the correct export for a campaign update. Save that file into the project’s world-data workflow, run `npm run world:generate`, then run `npm run verify` before treating it as a playable build. Undo and redo are available while editing; use them for draft changes, then validate again.
+Each region can own an authored landscape surface. Open **Landscape · paths, hills & water** to edit its palette, routes, raised landforms, ponds, and grass detail, then apply the changes. The editor keeps placed objects grounded against the edited surface and rejects invalid terrain data as part of the draft transaction.
 
-For a human check, open the intended section in Edit, select an object, move it a small recognizable amount, use Undo then Redo, and confirm the object returns to each expected location. Switch to Play Test and approach the edited object as a player would. Confirm that it is visible, has the expected collision, interaction, or creature behavior, and that the normal beta HUD returns only outside editing.
+Kill Volumes now preview as thorn-crystal beds in both Edit and Play. Their position, size and yaw drive the visible footprint and failure region together; put them under the flight gap, with clear space around the takeoff, landing and checkpoint. Course protection bounds remain editor helpers.
+
+Use landscape to make a route legible before filling it: define the primary path, reserve clear movement space, put water and elevation at meaningful edges, then place landmarks, resources, creatures, and optional detours. Re-enter Play Test and approach the result as a player; visual placement alone does not prove a navigable route.
+
+## Build objects and visual assets
+
+Open **Visual Assets**, select an asset, then enter **Asset Workbench**. Asset recipes support simple parts and authored mesh parts with local transforms, materials, and collision. They drive the project’s original sculpted Wildkin, environment, Camp structures, resource visuals, and other editable low-poly models.
+
+For harvestables, set drops, hit count, respawn timing, impact feel, and depleted remnant. For Wildkin, set species tag, behavior archetype, temperament, health, damage, movement, notice range, and leash. The four companion abilities remain tied to their catalogued asset IDs; changing a visual species tag does not create a new companion power.
+
+## Validate, readiness-check, and export
+
+Use **Validate** for structural world-data errors. Use **Campaign Readiness** for the draft’s route links, renewable economy, companion rewards, and finale requirements. Treat a READY result as a structural check, then play-test the actual route and interactions.
+
+**Export** creates the complete validated world draft, including region surfaces, asset recipes, and custom fauna. Review the export before replacing `src/world/data/world.json`, then run:
+
+```sh
+npm run world:generate
+npm run verify
+```
+
+The baseline authoring script rebuilds the canonical authored world and can overwrite an editor export. Keep reviewed exports separate until deliberately integrated. Undo and redo are available during editing; validate again after undoing or redoing a landscape or object change.
+
+## Short author acceptance pass
+
+In EDIT, make one recognizable object adjustment and one modest landscape change. Use Undo and Redo, then confirm both states visually. Switch to Play Test, follow the intended route to the changed object, and verify visibility, collision, terrain grounding, and the expected interaction or creature behavior. Record the section and landmark for any blocked route, floating object, hidden prompt, or visual regression.
+
+The current evidence and open quality work are tracked in the [Sunlit Wilds review](SUNLIT_WILDS_REVIEW.md) and [visual redesign plan](VISUAL_REDESIGN_PLAN.md). The older [beta candidate report](BETA_CANDIDATE_REPORT.md) is historical.

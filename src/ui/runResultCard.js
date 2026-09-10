@@ -1,139 +1,24 @@
-// src/ui/runResultCard.js — recovery/loss card over Camp (Phase 4A)
-
-import { getResourceDrops } from "../resources/resourceDropCatalog.js";
+import { iconMarkup } from './itemIcons.js';
+import { bindDialogInput } from './dialogInput.js';
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 export function createRunResultCard(opts = {}) {
-  const app = document.getElementById("app");
-  if (!app) return { show(){}, hide(){}, isVisible:()=>false, destroy(){} };
-  const onContinue = opts.onContinue ?? (()=>{});
-  const drops = getResourceDrops(opts.resourceDrops);
-  const dropNames = new Map(drops.map((drop) => [drop.id, drop.displayName]));
-  const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
-
-  const overlay = document.createElement("div");
-  overlay.id = "run-result-overlay";
-  overlay.style.cssText = "position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,14,22,0.78);backdrop-filter:blur(4px);z-index:23;padding:max(18px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));pointer-events:auto;text-align:center;";
-  app.appendChild(overlay);
-
-  const card = document.createElement("div");
-  card.style.cssText = "background:rgba(14,20,32,0.96);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:16px 14px 14px;min-width:min(360px, 92vw);max-width:92vw;color:#e6ebf5;box-shadow:0 8px 28px rgba(0,0,0,0.45);";
-  overlay.appendChild(card);
-
-  const titleEl = document.createElement("div");
-  titleEl.style.cssText = "font-size:18px;font-weight:900;letter-spacing:0.06em;margin-bottom:10px;";
-  card.appendChild(titleEl);
-
-  const bodyEl = document.createElement("div");
-  bodyEl.style.cssText = "font-size:13px;line-height:1.55;color:rgba(230,235,245,0.90);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;margin-bottom:12px;text-align:left;";
-  card.appendChild(bodyEl);
-
-  const bankEl = document.createElement("div");
-  bankEl.style.cssText = "font-size:11px;color:rgba(230,235,245,0.65);margin-bottom:12px;";
-  card.appendChild(bankEl);
-
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.textContent = "CONTINUE";
-  btn.style.cssText = "appearance:none;border:none;background:#2f7d32;color:#eaffea;font-size:14px;font-weight:900;letter-spacing:0.04em;padding:10px 18px;border-radius:10px;cursor:pointer;min-width:140px;";
-  card.appendChild(btn);
-
-  let visible = false;
-
-  function show(data) {
-    // snapshot companions are run cargo: only extraction secures them; loss returns them to the frontier.
-    const isExtract = data.type === "extracted";
-    titleEl.textContent = isExtract ? "EXPEDITION COMPLETE" : "EXPEDITION LOST";
-    titleEl.style.color = isExtract ? "#8fe08e" : "#ff6b6b";
-    const cargo = data.snapshot?.cargo ?? data.cargo ?? {};
-    const xp = data.snapshot?.xp ?? data.xp ?? 0;
-    const newWps = data.snapshot?.newWaypoints ?? data.newWaypoints ?? [];
-    const newBcs = data.snapshot?.newBeacons ?? data.newBeacons ?? [];
-    const companions = data.snapshot?.companions ?? data.companions ?? [];
-    const campaignComplete = !!(data.snapshot?.campaignCompleted ?? data.campaignCompleted);
-
-    let html = "";
-    if (isExtract) html += `<div style="font-weight:800;margin-bottom:6px;">Recovered</div>`;
-    else {
-      const causeLabels = { combat: "Combat", fatal_hazard: "Fatal Hazard", projectile: "Projectile", other: "Unknown" };
-      const reason = data.snapshot?.deathReason ?? data.reason ?? "other";
-      html += `<div style="font-weight:800;margin-bottom:6px;">Cause: ${causeLabels[reason] ?? "Unknown"}</div>`;
-      html += `<div style="font-weight:800;margin-bottom:6px;">Lost</div>`;
-    }
-    // For extracted, show +; for lost, show without +
-    const fmt = (label, val) => {
-      if (!val) return null;
-      return `<div style="display:flex;justify-content:space-between;"><span>${label}</span><span>${isExtract ? "+" : ""}${val}</span></div>`;
-    };
-    const lines = [];
-    const xpLine = fmt("XP", xp);
-    for (const [id, amount] of Object.entries(cargo)) {
-      const line = fmt(escapeHtml(dropNames.get(id) ?? id), amount);
-      if (line) lines.push(line);
-    }
-    if (xpLine) lines.push(xpLine);
-    if (lines.length === 0) lines.push(`<div style="color:rgba(230,235,245,0.65)">No resources carried</div>`);
-    html += lines.join("");
-
-    if (newWps.length || newBcs.length) {
-      html += `<div style="margin-top:10px;font-weight:800;">Frontier Progress</div>`;
-      for (const wp of newWps) {
-        const name = data.displayNames?.[wp] ?? data.regionNames?.[wp] ?? wp;
-        html += `<div>New Waypoint: ${name}</div>`;
-      }
-      for (const bc of newBcs) {
-        const name = data.displayNames?.[bc] ?? bc;
-        html += `<div>Beacon discovered: ${name}</div>`;
-      }
-      if (isExtract) {} else {
-        html += `<div style="margin-top:6px;color:#8fe08e;">Frontier Progress Kept</div>`;
-      }
-    } else if (!isExtract) {
-    }
-
-    if (companions.length) {
-      const names = companions.map((companion) => escapeHtml(typeof companion === "string" ? companion.replaceAll("_", " ") : (companion.name ?? companion.id ?? "Wildkin"))).join(", ");
-      html += `<div style="margin-top:10px;font-weight:800;">Wildkin Bonds</div>`;
-      html += `<div style="color:${isExtract ? "#9fe8c5" : "#ffbc86"}">${isExtract ? `Secured at Camp: ${names}` : `Bond lost in the frontier: ${names}`}</div>`;
-    }
-    if (campaignComplete) {
-      html += `<div style="margin-top:12px;padding:10px;border:1px solid rgba(255,207,124,.38);border-radius:10px;color:#ffe0a5;font-weight:900;">FRONTIER STEWARD<br><span style="font-weight:500;color:#d5efe1">The opening frontier is restored. Continue exploring, strengthening bonds, and finding every signal.</span></div>`;
-    }
-
-    bodyEl.innerHTML = html;
-
-    if (isExtract && data.upgradeAvailable) {
-      bodyEl.insertAdjacentHTML("beforeend", `<div style="margin-top:10px;color:#6de5ef;font-weight:900;">Matter Resonator upgrade available</div>`);
-    }
-
-    if (data.bankedResources) {
-      const totals = Object.entries(data.bankedResources)
-        .filter(([, amount]) => amount > 0)
-        .map(([id, amount]) => `${dropNames.get(id) ?? id} ${amount}`);
-      totals.push(`XP ${data.bankedXp ?? 0}`);
-      bankEl.textContent = `Banked Total — ${totals.join(" · ")}`;
-    } else {
-      bankEl.textContent = "";
-    }
-
-    btn.textContent = campaignComplete ? "CONTINUE EXPLORING" : "CONTINUE";
-    overlay.style.display = "flex";
-    visible = true;
+  const app=document.getElementById('app');
+  if(!app)return {show(){},hide(){},isVisible:()=>false,destroy(){}};
+  const overlay=document.createElement('div');overlay.id='run-result-overlay';overlay.className='frontier-overlay';overlay.style.display='none';
+  overlay.innerHTML='<div class="frontier-card result-card" role="dialog" aria-modal="true" aria-label="Expedition results"><div class="result-emblem"></div><h2></h2><div class="result-body"></div><button class="result-continue">Continue</button></div>';app.append(overlay);
+  const btn=overlay.querySelector('button');let visible=false;
+  function show(data){
+    const secured=data.type==='extracted',snapshot=data.snapshot??data,cargo=snapshot.cargo??data.cargo??{},xp=snapshot.xp??data.xp??0;
+    const companions=snapshot.companions??[],waypoints=snapshot.newWaypoints??[],beacons=snapshot.newBeacons??[],complete=!!snapshot.campaignCompleted;
+    overlay.querySelector('h2').textContent=complete?'Frontier restored':secured?'Home with your haul':'Back on your feet';
+    overlay.querySelector('.result-emblem').innerHTML=iconMarkup(complete?'wildflower':secured?'backpack':'shield',{size:76});
+    const items=Object.entries({...cargo,xp}).filter(([,n])=>n>0);
+    overlay.querySelector('.result-body').innerHTML=`<p>${secured?'Safely stored at Camp.':'Carried items lost. Your Camp is safe.'}</p><div class="reward-grid ${secured?'secured':'lost'}">${items.map(([id,n])=>`<div>${iconMarkup(id,{size:46})}<b>${secured?'+':''}${n}</b></div>`).join('')}</div>${companions.length?`<div class="result-bonds">${companions.map(c=>{const id=typeof c==='string'?c:c.id;return `<div>${iconMarkup(id,{size:56})}<b>${esc(typeof c==='string'?c:c.name??id)}</b></div>`;}).join('')}<p>${secured?'Bonds secured':'Wildkin returned to the wild'}</p></div>`:''}${waypoints.length+beacons.length?`<p class="result-progress">${iconMarkup('map',{size:26})} ${waypoints.length+beacons.length} new discoveries${secured?'':' kept'}</p>`:''}${complete?'<p class="result-milestone">Heartwood is alive again.</p>':''}${secured&&data.upgradeAvailable?'<p class="result-progress">Workshop upgrade available</p>':''}`;
+    btn.textContent=complete?'Keep exploring':'Continue';overlay.style.display='flex';visible=true;btn.focus();
   }
-
-  function hide() {
-    overlay.style.display = "none";
-    visible = false;
-  }
-
-  btn.addEventListener("click", () => { hide(); onContinue(); });
-  overlay.addEventListener("click", (e) => { if (e.target === overlay) { /* ignore */ } });
-
-  return {
-    show,
-    hide,
-    isVisible: () => visible,
-    element: overlay,
-    button: btn,
-    destroy: () => overlay.remove(),
-  };
+  function hide(){overlay.style.display='none';visible=false;}
+  btn.addEventListener('click',()=>{hide();opts.onContinue?.();});
+  const unbind=bindDialogInput(overlay,()=>visible,()=>btn.click());
+  return {show,hide,isVisible:()=>visible,element:overlay,button:btn,destroy(){unbind();overlay.remove();}};
 }

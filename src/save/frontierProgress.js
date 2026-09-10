@@ -6,6 +6,7 @@ import { makeEmptyResourceMap, normalizeResourceMap } from "../resources/resourc
 import { CONSUMABLE_CATALOG, getUpgradeDefinition, getUpgradeModifiers, getUpgradeTier, UPGRADE_CATALOG } from "../progression/upgradeCatalog.js";
 import { getCampaignObjective } from "../progression/campaignProgress.js";
 import { getPlayerLevel } from "../progression/playerLevel.js";
+import { getAvailableSkillPoints, getSkillPurchaseReason, normalizeSkillUnlocks, mergeSkillModifiers } from "../progression/skillCatalog.js";
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
@@ -57,6 +58,7 @@ function defaultState(initialWaypointId, resourceDrops) {
     version: VERSION,
     bankedResources: makeEmptyResourceMap(resourceDrops),
     bankedXp: 0,
+    skillUnlocks: [],
     unlockedMajorWaypointIds: initialWaypointId ? [initialWaypointId] : [],
     discoveredBeaconIds: [],
     repairedPortalGateIds: [],
@@ -153,6 +155,7 @@ export function createFrontierProgress(opts = {}) {
         .slice(0, MAX_PERSISTED_LIST_ENTRIES));
     }
     out.hasDepartedOnce = !!raw.hasDepartedOnce;
+    out.skillUnlocks = normalizeSkillUnlocks(raw.skillUnlocks, getPlayerLevel(out.bankedXp));
     for (const upgrade of UPGRADE_CATALOG) {
       const rawValue = raw.upgrades?.[upgrade.id];
       const rawLevel = typeof rawValue === "number" && Number.isFinite(rawValue) ? Math.max(0, Math.floor(rawValue)) : 0;
@@ -201,6 +204,7 @@ export function createFrontierProgress(opts = {}) {
   function serializedState() {
     return {
       ...state,
+      skillUnlocks: [...state.skillUnlocks],
       bankedResources: { ...state.bankedResources },
       unlockedMajorWaypointIds: [...state.unlockedMajorWaypointIds],
       discoveredBeaconIds: [...state.discoveredBeaconIds],
@@ -289,6 +293,8 @@ export function createFrontierProgress(opts = {}) {
   function getState() {
     return {
       version: state.version,
+      skillUnlocks: [...state.skillUnlocks],
+      skillPointsAvailable: getAvailableSkillPoints(state.skillUnlocks, getPlayerLevel(state.bankedXp)),
       bankedResources: { ...state.bankedResources },
       bankedXp: state.bankedXp,
       unlockedMajorWaypointIds: [...state.unlockedMajorWaypointIds],
@@ -474,7 +480,17 @@ export function createFrontierProgress(opts = {}) {
   }
 
   function getUpgradeLevel(id) { return getUpgradeDefinition(id) ? (state.upgrades[id] ?? 0) : 0; }
-  function getModifiers() { return getUpgradeModifiers(state.upgrades); }
+  function getModifiers() { return mergeSkillModifiers(getUpgradeModifiers(state.upgrades), state.skillUnlocks); }
+
+  function purchaseSkill(id) {
+    const reason = getSkillPurchaseReason(id, state.skillUnlocks, getPlayerLevel(state.bankedXp));
+    if (reason) return { purchased: false, reason, state: getState() };
+    const previous = [...state.skillUnlocks];
+    state.skillUnlocks.push(id);
+    const result = save();
+    if (!result.saved) { state.skillUnlocks = previous; return { purchased:false, reason:result.reason, state:getState() }; }
+    return { purchased:true, skill:id, state:getState() };
+  }
 
   function secureCompanions(ids, runId = null) {
     if (runId && state.securedCompanionRunIds.includes(runId)) return { added: false, companions: [], state: getState() };
@@ -617,6 +633,7 @@ export function createFrontierProgress(opts = {}) {
     bankRun,
     purchaseMatterAttractorI,
     purchaseUpgrade,
+    purchaseSkill,
     getUpgradeLevel,
     getModifiers,
     secureCompanions,

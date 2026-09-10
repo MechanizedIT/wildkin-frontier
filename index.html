@@ -3,9 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-    <meta name="theme-color" content="#102d2c" />
+    <meta name="theme-color" content="#172b3b" />
     <meta name="description" content="Explore an alien frontier, bond with its wildlife, and bring your discoveries home. A single-player expedition adventure." />
     <title>Wildkin Frontier</title>
+    <link rel="icon" href="data:," />
+    <link rel="preload" as="image" href="assets/ui/frontier-icons.png" />
+    <link rel="preload" as="image" href="assets/ui/wildkin-portraits.png" />
+    <link rel="preload" as="font" type="font/ttf" href="assets/fonts/Nunito.ttf" crossorigin />
+    <style>@font-face{font-family:Nunito;src:url('assets/fonts/Nunito.ttf') format('truetype');font-weight:200 1000;font-display:swap}</style>
     <link rel="stylesheet" href="./styles/game.css" />
     <link rel="stylesheet" href="./styles/beta.css" />
     <link rel="stylesheet" href="./styles/bonding.css" />
@@ -22,12 +27,12 @@
   <body>
     <div id="app" aria-label="Game canvas container">
       <canvas id="c" aria-label="3D scene"></canvas>
-      <div id="boot-status" role="status" aria-live="polite"><small>WILDKIN FRONTIER</small><h1>Tuning the frontier…</h1><p>Preparing your local world.</p></div>
+      <div id="boot-status" role="status" aria-live="polite"><span class="boot-emblem" style="background-image:url('assets/ui/frontier-icons.png');background-size:400% 400%;background-position:66.667% 66.667%" aria-hidden="true"></span><small>SUNLIT WILDS</small><h1>Wildkin Frontier</h1><p>Opening your world…</p><span class="boot-progress" aria-hidden="true"></span></div>
       <div id="hud" aria-hidden="false">
         <div class="hud-top">
           <div class="badge">
             <strong>WILDKIN FRONTIER</strong>
-            <small>Beta 0.2.0 · development diagnostics</small>
+            <small>Sunlit Wilds 0.3 · development diagnostics</small>
           </div>
           <div class="badge" style="text-align: right">
             <strong style="font-size: 11px">Left: move · Right: Tap attack / Swipe dodge</strong>

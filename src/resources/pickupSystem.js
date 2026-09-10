@@ -69,11 +69,12 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   function setPhysicsWorld(pw) { physicsWorld = pw; RAPIER = pw?.RAPIER ?? RAPIER; }
 
   function getSurfaceY(x, z) {
+    const authoredSurface = playground?.getGroundHeight?.(x, z);
+    if (Number.isFinite(authoredSurface)) return authoredSurface;
     if (playground && playground.platforms) {
       for (const p of playground.platforms) {
-        if (x >= p.aabb.minX && x <= p.aabb.maxX && z >= p.aabb.minZ && z <= p.aabb.maxZ) return p.height;
+        if (x >= p.aabb.minX && x <= p.aabb.maxX && z >= p.aabb.minZ && z <= p.aabb.maxZ) return (p.baseY ?? 0) + p.height;
       }
-      return 0;
     }
     return 0;
   }

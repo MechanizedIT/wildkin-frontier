@@ -1,9 +1,9 @@
 {
   "name": "wildkin-frontier",
-  "version": "0.2.0",
+  "version": "0.3.0-alpha.1",
   "private": true,
   "type": "module",
-  "description": "Wildkin Frontier — single-player expedition adventure, local beta candidate",
+  "description": "Wildkin Frontier — Sunlit Wilds, single-player expedition adventure",
   "scripts": {
     "dev": "node tools/serve.mjs",
     "serve": "node tools/serve.mjs",
@@ -23,7 +23,11 @@
     "test:boundaries": "node tools/test-beta-boundaries.mjs",
     "test:combat": "node tools/playtest-beta-combat.mjs",
     "test:author": "node tools/playtest-beta-author.mjs",
-    "test:package": "node tools/test-beta-package.mjs"
+    "test:package": "node tools/test-beta-package.mjs",
+    "test:sunlit-ui": "node tools/playtest-sunlit-ui.mjs",
+    "test:traversal": "node tools/playtest-sunlit-traversal.mjs",
+    "test:landscape": "node tools/playtest-landscape-ui.mjs",
+    "test:hazards": "node tools/playtest-sunlit-hazard.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.20.0",

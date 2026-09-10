@@ -2,6 +2,7 @@
 import { resolveAuthorType, readNormalizedTransform } from "./authorTypeRegistry.js";
 import { createAuthorActions } from "./authorActions.js";
 import { analyzeCampaign } from "./campaignReadiness.js";
+import { createLandscapeEditor } from './landscapeEditor.js';
 
 // Step 3: thumbnail cache + canvas generator (2D top-down projection, no WebGL)
 const _thumbCache = new Map();
@@ -57,7 +58,11 @@ function getAssetThumbnailCanvas(asset){
     ctx.globalAlpha = 0.92;
     // Shape icon
     ctx.beginPath();
-    if (part.shape==="sphere"||part.shape==="icosahedron"){
+    if (part.shape==='mesh' && part.geometry?.positions) {
+      const v=part.geometry.positions,indices=part.geometry.indices;
+      const c=Math.cos(part.rotation.y),s=Math.sin(part.rotation.y);
+      for(let i=0;i<indices.length;i+=3){ctx.beginPath();for(let j=0;j<3;j++){const k=indices[i+j]*3,x=v[k]*part.scale.x,z=v[k+2]*part.scale.z;const tx=px+(x*c+z*s)*scale,tz=pz+(z*c-x*s)*scale;j===0?ctx.moveTo(tx,tz):ctx.lineTo(tx,tz);}ctx.closePath();ctx.fill();}
+    } else if (part.shape==="sphere"||part.shape==="icosahedron"){
       ctx.ellipse(px, pz, rx, rz, 0, 0, Math.PI*2);
       ctx.fill();
     } else if (part.shape==="cylinder"||part.shape==="capsule"){
@@ -262,6 +267,7 @@ export function createAuthorUI(opts) {
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px"><button id="author-region-apply" style="padding:6px;background:#1e2a4a;color:#aaccff;border:none;border-radius:4px">Apply</button><button id="author-region-focus" style="padding:6px;background:#1a243a;color:#dcecff;border:1px solid #2a3a5a;border-radius:4px">Focus Camera</button></div>
         <div id="author-region-status" style="font-size:11px;color:#8aa0c0;margin-top:4px"></div>
+        <div id="author-landscape-editor"></div>
       </div>
     </details>
     <div style="display:flex;gap:6px;margin-bottom:6px">
@@ -281,6 +287,11 @@ export function createAuthorUI(opts) {
   const placeHint = container.querySelector("#author-place-hint");
   const paletteEl = container.querySelector("#author-palette");
   const regionSelectEl = container.querySelector("#author-region-select");
+  const landscapeEditor=createLandscapeEditor(container.querySelector('#author-landscape-editor'),(id,surface)=>{
+    const result=draftApi.updateRegion(id,{surface});
+    if(result.ok){opts.onDraftChanged?.(null,undefined,'structural');refreshHierarchy();}
+    return result;
+  });
   const selRegionEl = container.querySelector("#author-sel-region");
   const selectedNone = container.querySelector("#author-selected-none");
   const selectedForm = container.querySelector("#author-selected-form");
@@ -830,6 +841,7 @@ export function createAuthorUI(opts) {
     const rid = regionSelectEl.value;
     const r = draftApi.findRegion(rid);
     if (!r) return;
+    landscapeEditor.refresh(r);
     container.querySelector("#author-region-name").value = r.displayName || "";
     // Render neighbors as checkboxes for friendliness
     const host = container.querySelector("#author-region-neighbors");
@@ -1101,7 +1113,7 @@ export function createAuthorUI(opts) {
     const def = resolveAuthorType(found);
     const caps = def ? def.capabilities : null;
     const norm = readNormalizedTransform(found);
-    const nPos = norm ? norm.position : (obj.pos || { x: obj.x ?? 0, y: obj.y ?? obj.baseY ?? 0, z: obj.z ?? 0 });
+    const nPos = norm ? norm.position : (obj.pos || { x: obj.x ?? 0, y: obj.baseY ?? obj.y ?? 0, z: obj.z ?? 0 });
     const nRot = norm ? (norm.rotationY ?? 0) : (obj.facingYaw ?? obj.rotY ?? 0);
     container.querySelector("#author-x").value = nPos.x ?? 0;
     container.querySelector("#author-z").value = nPos.z ?? 0;

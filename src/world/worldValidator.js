@@ -2,13 +2,14 @@
 // Runtime systems consume normalized data, not raw JSON independently.
 
 import { DEFAULT_RESOURCE_DROPS } from "../resources/resourceDropCatalog.js";
+import { validateSurface, getSurfaceHeight } from "./terrainSurfaceModel.js";
 
 const SUPPORTED_RESOURCE_TYPES = new Set(["tree", "rock", "fiber"]);
 const SUPPORTED_CREATURE_TYPES = new Set(["rusher", "spitter"]);
 const SUPPORTED_TEMPERAMENTS = new Set(["AGGRESSIVE", "TERRITORIAL", "DEFENSIVE", "SKITTISH"]);
 const SUPPORTED_ANCHOR_TYPES = new Set(["majorWaypoint", "extractionBeacon"]);
 const SUPPORTED_POI_TYPES = new Set(["chest", "barrier", "generic", "island"]);
-const SUPPORTED_VISUAL_ASSET_SHAPES = new Set(["box", "cylinder", "cone", "sphere", "capsule", "icosahedron"]);
+const SUPPORTED_VISUAL_ASSET_SHAPES = new Set(["box", "cylinder", "cone", "sphere", "capsule", "icosahedron", "mesh"]);
 const SUPPORTED_VISUAL_ASSET_ROLES = new Set(["prop", "harvestable", "wildkin"]);
 const SUPPORTED_FEEDBACK_PROFILES = new Set(["wood", "stone", "fiber"]);
 const SUPPORTED_PORTAL_STATES = new Set(["active", "ruined"]);
@@ -110,6 +111,11 @@ export function normalizeWorldData(raw) {
       if (partIds.has(part.id)) throw new Error(`Visual Asset ${asset.id} duplicate part id ${part.id}`);
       partIds.add(part.id);
       if (!SUPPORTED_VISUAL_ASSET_SHAPES.has(part.shape)) throw new Error(`Visual Asset ${asset.id} part ${part.id} unsupported shape ${part.shape}`);
+      if (part.shape === 'mesh') {
+        const vertices=part.geometry?.positions, indices=part.geometry?.indices;
+        if(!Array.isArray(vertices)||vertices.length<9||vertices.length>180000||vertices.length%3||vertices.some(v=>!isNumber(v)||Math.abs(v)>100))throw new Error(`Visual Asset ${asset.id} part ${part.id} invalid mesh vertices`);
+        if(!Array.isArray(indices)||indices.length<3||indices.length>300000||indices.length%3||indices.some(i=>!Number.isInteger(i)||i<0||i>=vertices.length/3))throw new Error(`Visual Asset ${asset.id} part ${part.id} invalid mesh indices`);
+      }
       validatePos(part.position, `Visual Asset ${asset.id} part ${part.id} position`);
       validatePos(part.rotation, `Visual Asset ${asset.id} part ${part.id} rotation`);
       validatePos(part.scale, `Visual Asset ${asset.id} part ${part.id} scale`);
@@ -119,6 +125,9 @@ export function normalizeWorldData(raw) {
         if (!isNumber(part.scale[axis]) || part.scale[axis] <= 0) throw new Error(`Visual Asset ${asset.id} part ${part.id} scale.${axis} must be positive finite`);
       }
       validateCanonicalColor(part.color, `Visual Asset ${asset.id} part ${part.id}`);
+      if(part.flatShading!==undefined&&typeof part.flatShading!=='boolean')throw new Error(`Visual Asset ${asset.id} part ${part.id} invalid shading`);
+      if(part.side!==undefined&&![0,1,2].includes(part.side))throw new Error(`Visual Asset ${asset.id} part ${part.id} invalid material side`);
+      if(part.roughness!==undefined&&(!isNumber(part.roughness)||part.roughness<0||part.roughness>1))throw new Error(`Visual Asset ${asset.id} part ${part.id} invalid roughness`);
     }
     if (asset.collision !== null && asset.collision !== undefined) {
       const collision = asset.collision;
@@ -280,6 +289,7 @@ export function normalizeWorldData(raw) {
       }
       if (prop.rotY !== undefined && !isNumber(prop.rotY)) throw new Error(`prop ${prop.id} rotY must be number`);
     }
+    if (region.surface !== undefined) validateSurface(region.surface, `region ${region.id} surface`);
     // groundPatches
     if (region.groundPatches === undefined) region.groundPatches = [];
     if (!Array.isArray(region.groundPatches)) throw new Error(`region ${region.id} groundPatches must be array`);
@@ -554,11 +564,13 @@ export function normalizeWorldData(raw) {
     for (const zone of region.parkourCourseZones) {
       if (!zone.id || typeof zone.id !== "string" || allIds.has(zone.id) || !zone.courseId || typeof zone.courseId !== "string") throw new Error(`invalid Parkour Course Zone ${zone.id}`);
       allIds.add(zone.id); validatePos(zone.pos, `Parkour Course Zone ${zone.id}`);
+      if (zone.rotY !== undefined && !isNumber(zone.rotY)) throw new Error(`Parkour Course Zone ${zone.id} rotation must be finite`);
       if (!zone.size || !isNumber(zone.size.w) || !isNumber(zone.size.h) || !isNumber(zone.size.d) || zone.size.w <= 0 || zone.size.h <= 0 || zone.size.d <= 0) throw new Error(`Parkour Course Zone ${zone.id} size must be positive`);
     }
     for (const volume of region.killVolumes) {
       if (!volume.id || typeof volume.id !== "string" || allIds.has(volume.id)) throw new Error(`invalid Kill Volume ${volume.id}`);
       allIds.add(volume.id); validatePos(volume.pos, `Kill Volume ${volume.id}`);
+      if (volume.rotY !== undefined && !isNumber(volume.rotY)) throw new Error(`Kill Volume ${volume.id} rotation must be finite`);
       if (!volume.size || !isNumber(volume.size.w) || !isNumber(volume.size.h) || !isNumber(volume.size.d) || volume.size.w <= 0 || volume.size.h <= 0 || volume.size.d <= 0) throw new Error(`Kill Volume ${volume.id} size must be positive`);
       if (volume.courseId !== undefined && typeof volume.courseId !== "string") throw new Error(`Kill Volume ${volume.id} courseId must be string`);
     }
@@ -712,7 +724,7 @@ export function normalizeWorldData(raw) {
         supportSurfaces.push({ id: gp.id, x, z, w, d, baseY, topY: baseY + h, regionId: region.id, isGround:true });
       }
       for(const plat of region.traversal.platforms ?? []){
-        const baseY = plat.y ?? plat.baseY ?? 0;
+        const baseY = plat.baseY ?? plat.y ?? 0;
         const topY = baseY + plat.height;
         supportSurfaces.push({ id: plat.id, x: plat.x, z: plat.z, w: plat.w, d: plat.h, baseY, topY, regionId: region.id, isPlatform:true });
       }
@@ -738,18 +750,22 @@ export function normalizeWorldData(raw) {
       }
       for(const obs of region.traversal.obstacles ?? []){
         const w = obs.w, d = obs.h, h = obs.height ?? 1;
-        const x = obs.x, z = obs.z, baseY = obs.y ?? obs.baseY ?? 0;
+        const x = obs.x, z = obs.z, baseY = obs.baseY ?? obs.y ?? 0;
         blockers.push({ id: obs.id, sectionId: region.id, x, z, hx: w/2, hz: d/2, baseY, topY: baseY + h, w,d,h });
       }
       for(const plat of region.traversal.platforms ?? []){
         const w = plat.w, d = plat.h, h = plat.height;
-        const x = plat.x, z = plat.z, baseY = plat.y ?? plat.baseY ?? 0;
+        const x = plat.x, z = plat.z, baseY = plat.baseY ?? plat.y ?? 0;
         blockers.push({ id: plat.id, sectionId: region.id, x, z, hx: w/2, hz: d/2, baseY, topY: baseY + h, w,d,h, isPlatform:true });
       }
     }
     function isSupported(spawnPos, sectionId){
       const feetY = spawnPos.y ?? 0;
       let foundSupport = null;
+      const region = data.regions.find(r => r.id === sectionId);
+      if (region?.surface && isInsideBounds(spawnPos, region.bounds) && Math.abs(feetY-getSurfaceHeight(region.surface,spawnPos.x,spawnPos.z)) < .2) {
+        foundSupport = { id:`terrain_${sectionId}`, regionId:sectionId, topY:getSurfaceHeight(region.surface,spawnPos.x,spawnPos.z) };
+      }
       for(const s of supportSurfaces){
         if (s.regionId !== sectionId) continue;
         const minX = s.x - s.w/2 - 0.15, maxX = s.x + s.w/2 + 0.15;
@@ -909,7 +925,7 @@ export function normalizeWorldData(raw) {
       if (!isNumber(plat.x) || !isNumber(plat.z)) throw new Error(`platform ${plat.id} x/z finite required`);
       if (!isNumber(plat.w) || !isNumber(plat.h) || !isNumber(plat.height)) throw new Error(`platform ${plat.id} w/h/height finite required`);
       if (plat.w <= 0 || plat.h <= 0 || plat.height <= 0) throw new Error(`platform ${plat.id} size must be positive`);
-      const y = plat.y ?? plat.baseY ?? 0;
+      const y = plat.baseY ?? plat.y ?? 0;
       if (!isNumber(y)) throw new Error(`platform ${plat.id} y finite required`);
     }
     for (const obs of region.traversal.obstacles) {

@@ -1,31 +1,36 @@
-# Beta 0.2 — player playtest
+# Sunlit Wilds 0.3.0-alpha.1 — player playtest
 
-Start at the normal local game address, without `?author=1`. If you have older progress, export it from Journal → Settings before using a fresh browser profile. This guide describes things to see and do as a player. It is not necessary to open developer tools.
+This is a local alpha playtest, not a release or owner-accepted build. Start at the normal local address without `?author=1`. The guide describes recognizable player actions; it does not require developer tools. Physical-phone performance and full campaign acceptance remain unproven.
 
-## First expedition
+## Controls and shell
 
-1. **Leave Camp.** Choose Enter Frontier. Beside the drop pod, walk toward the glowing gate a few steps ahead. Tap its travel prompt or press E, then choose Forest Edge. You should arrive outside the Verdant Verge gate. Failure signs: no travel prompt, trapped movement, duplicate menus, or a blank scene.
-2. **Gather a reason to return.** Approach a tree, rock, or plant and stand still. Your Field Tool should visibly swing, matter should pop free and pull toward you, and carried resources should appear. Turn Auto Harvest off and try F or a right-side tap/hold; manual harvesting should still work. Swipes should dodge without producing an unwanted extra attack.
-3. **Discover safety.** Follow the trail into the region until you find the blue Waypoint. Approach it and choose Extract. You should see a recovery card at Camp, with banked resources and XP. The Waypoint should now appear as a future start when you visit the Camp gate. An orange Beacon also extracts but never becomes a start location.
-4. **Prepare a stronger run.** Open Journal → Workshop at Camp, or use the Matter Resonator beside the pod. Read each upgrade's missing materials and level requirement. Secure those supplies on another run, then synchronize an affordable upgrade or craft a medkit. Purchases must deduct the shown materials exactly once; unusable upgrades should explain why.
+Desktop: **WASD** move, **Shift** run, **C** sneak, **F** or mouse hold use the Field Tool, **Space** dodge, **E** interact, **Q** companion ability, and **H** medkit. **B** or **J** opens **Backpack**, **K** opens **Skill paths**, and **M** opens the map. The main shell tabs are MAP, PACK, WORK, SKILLS, WILDKIN, and **···** settings.
 
-## Bonds, combat and consequences
+On touch, drag lower-left to move, tap/hold right to use the tool, and swipe to dodge. Report any lost movement, accidental swings, or menu state that does not clear after closing it.
 
-5. **Meet a Mossling.** Look for the little green garden-antlered grazer in Verdant Verge. Approach without hitting it and choose Bond. Tap Resonance as the moving light reaches the gold band; three good echoes form a bond. Leave peacefully or miss three times to check that the game resumes cleanly. A successful bond follows you, but the Journal must label it unsecured until you extract.
-6. **Use a companion.** Extract with the new bond, then select it in Journal → Wildkin at Camp. On your next expedition, lose some health to a threat and use Bloom (Q or its action button). Health should recover and the cooldown should begin. Find the matching root-sealed cache and use Bloom nearby to awaken it. Later Tidefin shields, Emberhorn sends a shockwave, and Skydancer launches you upward; their matching caches invite revisits.
-7. **Check risk.** Carry fresh materials or a new bond, then deliberately let hostile wildlife defeat you. Camp should show a loss card. Previously secured upgrades, Wildkin, Waypoints and repaired gates should survive, while that run's cargo and new bonds should be gone. Export your save first if you want to preserve a particular test state.
-8. **Try optional traversal.** Approach a marked Jump Pad with some running momentum, climb a ladder, or enter an optional parkour course. Check that the start/checkpoint/end cues are understandable. Falling inside an active protected course should return you to its checkpoint with cargo; leaving the course restores normal expedition risk.
+## First frontier loop
 
-## Deeper frontier and ending
+1. **Orient in Frontier Haven.** Choose **Enter Frontier**. From the landing pod, find the covered **Workshop** and the curved **Sanctuary**. Press **E** at the Workshop to open WORK and confirm it shows secured materials and upgrade costs. Press **E** at the Sanctuary to open WILDKIN. Failure signs include a missing prompt, blocked movement, an empty screen, or an interaction that opens the wrong panel.
+2. **Travel through the Camp gate.** Walk to the gate and use its prompt to choose Forest Edge. You should arrive at the Verdant Verge entrance, with the route and nearby grove visible. Failure signs: no travel choice, an arrival inside scenery, or an unresponsive character.
+3. **Gather and extract.** Approach a tree, rock, ore, crystal, flower, berry, or fiber field and stand still for Auto Harvest, then try **F** or a right-side hold. Matter should visibly release and reach your carried PACK. Find a blue Waypoint or orange Beacon and extract. At Camp, PACK’s **STORED** tab should show the returned resources; carried material is at risk until extraction.
+4. **Spend and advance.** Return to WORK to synchronize an affordable upgrade or craft a medkit. Open **Skill paths** with **K** and inspect the 12 nodes across its three branches. If you have a point and meet a node’s requirement, select it and use **AWAKEN**. Costs and requirements should be readable, and a successful purchase should occur once.
 
-9. **Repair, then push.** Find the ruined outbound gate in each region. The prompt shows a persistent player-level requirement and materials required from your current carried cargo. Bank XP to gain levels, then bring fresh materials to the gate. Repairing should spend cargo and persist even if that expedition later fails. Follow the connected regions, discovering each Waypoint so later runs can start deeper.
-10. **Secure the Heartwood.** In Heartwood Vault, approach the Guardian before the ancient Core cache. Move outside its amber ground ring before impact, use your Field Tool and companion, and retreat or heal when needed. The Core remains sealed until the Guardian falls. Retrieving it is only half the job: extract to see the ending. Dying with the Core must leave it available on a future expedition. Reload after a successful return to confirm the ending stays secured.
+## Bonds, risk, and deeper routes
 
-## Phone and usability acceptance
+5. **Meet a Mossling.** In Verdant Verge, approach the green garden-antlered grazer without attacking. Choose Bond, then time Resonance taps through its gold band. A successful new bond remains unsecured until extraction. After extracting, use WILDKIN at Camp to select the companion for a future run.
+6. **Use the companion.** On an expedition, use **Q** or the ability button. The ability should have a readable effect and cooldown. Matching sealed caches are intended revisits once the appropriate Wildkin is secured.
+7. **Check expedition risk.** Carry fresh materials or a new bond, then allow a hostile creature to defeat you. The Camp result should preserve previously secured upgrades, Waypoints, gates, and companions while clearing that run’s cargo and unsecured bond.
+8. **Push farther only as route evidence allows.** Repair an outbound gate when its prompt’s level and carried-material requirements are met. Later zones contain landmarks, water and elevation, optional courses, more wildlife, and the Heartwood Guardian/Core finale. Record the exact landmark and action if a route, pad, collision, or interaction blocks progress; later course grading remains under active QA.
 
-- On a physical phone in portrait, play at least one full expedition. Try movement and attack simultaneously, abrupt direction changes, repeated swipes, opening/closing menus while holding a gesture, and switching away from the browser. Controls must resume without drifting or stuck attacks.
-- At low health and with several carried resources, check that health, danger rings, action prompts and extraction choices remain readable without covering the character. Listen for distinguishable harvest, hit, pickup, discovery and bonding feedback. Sound off should remain off after reload.
-- Open Journal → Settings and export a backup. Restore that file at Camp after confirming its name. Try an unrelated JSON file; it should be rejected without changing your progress.
-- Play continuously for 15 minutes across several regions. Watch for heat, long pauses, growing stutter, flickering terrain, disappearing models or missed touch input. Automated browser tests do not establish physical-phone performance.
+## Human-device checks still needed
 
-When reporting an issue, describe the region or recognizable landmark, what you did, what happened, and what you expected. Note the device/browser and whether you loaded an older save. Screenshots are especially useful for readability and visual problems.
+- Play an expedition on a physical phone in portrait: move and attack together, change direction sharply, repeat swipes, open and close panels during a gesture, and background the browser. Controls should resume without drift or stuck attacks.
+- At low health and with cargo, check that hazards, prompts, action buttons, and HUD remain readable. Listen for distinct harvest, hit, pickup, discovery, and bonding feedback.
+- Use **···** settings to export a save, then restore it at Camp. An unrelated JSON file should be rejected without replacing progress.
+- Play continuously across several regions and look for heat, long pauses, growing stutter, terrain flicker, missing models, or dropped touch input. Automated desktop results do not establish physical-phone performance.
+
+When reporting an issue, include the region and landmark, the action, the observed result, the expected result, device/browser, and whether an older save was loaded. Screenshots help with readability and visual issues.
+
+## Visible parkour danger
+
+The dark thorn-crystal beds with amber rims are hazardous. Enter through the green course start, then walk onto the launch pad and clear the bed to the blue checkpoint. Both the takeoff and landing are safe. Deliberately step into the thorns after starting a course: you should return to its latest checkpoint with your cargo. Outside an active course, the same visible hazard carries normal expedition risk. Failure signs are an invisible hazard, a safe landing that resets you, or a failed course that loses your cargo.

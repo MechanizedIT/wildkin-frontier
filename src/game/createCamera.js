@@ -2,12 +2,12 @@ import * as THREE from "three";
 
 // Centralized camera config — Phase 1 can tune height/tilt/follow without rewriting scene creation.
 export const CAMERA_CONFIG = {
-  fov: 42,
+  fov: 48,
   near: 0.1,
   far: 60,
   // High third-person / near top-down portrait framing
-  height: 14,
-  distance: 10,
+  height: 16,
+  distance: 11.5,
   lookAt: { x: 0, y: 0, z: 0 },
 };
 

@@ -10,6 +10,7 @@ import { createGuardianEncounter } from "../combat/guardianEncounter.js";
 import { createCombatFeedback } from "../presentation/combatFeedback.js";
 import { createCompanionAbilityFx } from "../presentation/companionAbilityFx.js";
 import { initializePlayerOcclusion } from "../presentation/playerOcclusion.js";
+import { SKILL_CATALOG, SKILL_BY_ID } from "../progression/skillCatalog.js";
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -37,6 +38,7 @@ export function createBetaGame(deps) {
   function refreshModifiers() {
     const m = progress.getModifiers();
     playerCombat.configure({ maxHealth: 5 + m.maxHealthBonus });
+    playerController.setMoveSpeedMultiplier?.(m.moveSpeedMultiplier ?? 1);
     pickupSystem.setMagnetTuning(m.pickupMagnetRadius ? { magnetRadius: m.pickupMagnetRadius, magnetSpeed: m.pickupMagnetSpeed, magnetAccel: 17.5 } : null);
     combatHud.updateProgress(progress.getBankedXp());
   }
@@ -53,13 +55,13 @@ export function createBetaGame(deps) {
   }
   function objectiveModel() {
     const s = progress.getState();
-    if (s.campaignCompleted) return { title: "A frontier worth returning to", description: "The Heartwood Core is safe. Discover every Wildkin, awaken the four secret seals and perfect your loadout. Your frontier stays open." };
-    if (corePending) return { title: "Bring the Heartwood home", description: "The Core is unsecured. Reach an Extraction Beacon or Waypoint and return to Camp." };
-    if (companions.getPending().length) return { title: "Get your new Wildkin home", description: "Extract at a Beacon or Waypoint. Newly bonded Wildkin are lost if you fall before returning to Camp." };
-    if (!s.hasDepartedOnce && isCamp()) return { title: "Answer the frontier call", description: "Follow the amber path to the tall Camp gate. Press E or tap the green travel prompt, then choose Forest Edge." };
-    if (session.isActive() && !s.completedObjectives.includes("first_extract")) return { title: "Gather, then secure your finds", description: "Stand beside trees, stone or plants to harvest. Find the blue Waypoint or orange Beacon, then Extract. Carried matter and XP are at risk until you return." };
+    if (s.campaignCompleted) return { title: "Explore the wilds", description: "Discover every Wildkin and awaken the four seals." };
+    if (corePending) return { title: "Bring the Core home", description: "Extract to secure the Heartwood Core." };
+    if (companions.getPending().length) return { title: "Bring your Wildkin home", description: "Extract to secure your new bond." };
+    if (!s.hasDepartedOnce && isCamp()) return { title: "Through the gate", description: "Follow the path. Tap Travel at the glowing arch." };
+    if (session.isActive() && !s.completedObjectives.includes("first_extract")) return { title: "Gather & return", description: "Gather nearby. Extract at a blue Waypoint or amber Beacon." };
     const next = getNextCampaignObjective(s);
-    if (next?.id === "frontier_finale") return { title: "Follow the Heartwood signal", description: "Repair the deeper gates and reach Heartwood Vault. Defeat its Guardian, retrieve the Core, and extract to Camp." };
+    if (next?.id === "frontier_finale") return { title: "Find the Heartwood", description: "Repair the gates. Defeat the Guardian and extract with its Core." };
     return next ? { title: next.title, description: next.description } : { title: "Explore the frontier", description: "Follow the path toward the next ruined gate. Every discovered Waypoint opens a new start for future expeditions." };
   }
   function getModel() {
@@ -67,25 +69,31 @@ export function createBetaGame(deps) {
     const pending = companions.getPending();
     return { isCamp: isCamp(), regionName: registry.getSectionById(getSectionId())?.displayName ?? registry.getSectionById(getSectionId())?.name ?? "Camp",
       bankedXp: s.bankedXp, playerLevel: getPlayerLevel(s.bankedXp), health: playerCombat.getHealth(), maxHealth: playerCombat.getMaxHealth(), cargo: pickupSystem.getInventory(), carriedXp: xpMoteSystem.getXp(), progress: s,
+      skills: {nodes:SKILL_CATALOG,unlocked:s.skillUnlocks,points:s.skillPointsAvailable,level:getPlayerLevel(s.bankedXp)},
       companions: COMPANIONS.map(c => ({ ...c, secured: s.securedCompanions.includes(c.id), active: s.activeCompanionId === c.id, discovered: s.discoveredSpecies.includes(c.id), pending: pending.some(p => p.id === c.id) })),
       pendingCompanions: pending, captureCapacity: progress.getModifiers().captureCapacity, objective: objectiveModel(), medkits: s.craftedConsumables.medkit ?? 0,
       ability: companions.getAbility(), settings, campaignComplete: s.campaignCompleted,
       objectives: deriveCampaignProgress(s).map(({id,title,completed}) => ({id,title,completed})) };
   }
   function action(type, payload) {
-    if (type === "start") { audio.unlock(); toast("Welcome to Frontier Haven", "Follow the amber path to the gate. Journal holds your objectives and controls."); return; }
+    if (type === "start") { audio.unlock(); return; }
+    if (type === "purchaseSkill") {
+      const r = progress.purchaseSkill(payload);
+      if (r.purchased) { refreshModifiers(); audio.playLevelUp(); pulse(playerController.getState().pos,0xffcf65); }
+      return {ok:r.purchased,message:r.purchased ? `${SKILL_BY_ID[payload].name} learned` : r.reason==='storage-write-failed' ? 'Could not save. Point kept.' : r.reason==='prerequisite' ? 'Learn the connected skill first.' : r.reason==='level-locked' ? 'Secure more XP to level up.' : 'No skill points available.'};
+    }
     if (type === "openMap") { shell.close(); openMap(); return; }
     if (type === "purchaseUpgrade") {
-      if (!isCamp()) return { ok: false, message: "Return to Camp to synchronize upgrades." };
+      if (!isCamp()) return { ok: false, message: "Upgrade at Camp." };
       const result = progress.purchaseUpgrade(payload);
       if (result.purchased) { refreshModifiers(); playerCombat.reset(); refreshObjectives(); audio.playLevelUp(); pulse(playerController.getState().pos, 0xffcc78); }
-      return { ok: result.purchased, message: result.purchased ? "Synchronized. Your next expedition begins stronger." : result.reason === "level-locked" ? "Bank more expedition XP to reach the required level." : "Recover the required materials, then return to Camp." };
+      return { ok: result.purchased, message: result.purchased ? "Upgraded." : result.reason === "level-locked" ? "Secure more XP to level up." : "Gather the materials shown." };
     }
     if (type === "craftMedkit") {
       if (!isCamp()) return { ok: false, message: "Craft field supplies at Camp." };
       const r = progress.craftConsumable("medkit");
       if (r.crafted) audio.playPickup("fiber");
-      return { ok: r.crafted, message: r.crafted ? "Field medkit prepared. Use H or the + button while exploring." : "Need 3 Fiber and 2 Frontier Berries in Camp storage." };
+      return { ok: r.crafted, message: r.crafted ? "Medkit packed." : "Need 3 fiber and 2 berries." };
     }
     if (type === "selectCompanion") {
       if (!isCamp()) return { ok: false, message: "Choose your companion at the Camp sanctuary." };
@@ -129,7 +137,8 @@ export function createBetaGame(deps) {
   window.addEventListener("keydown", e => {
     if (e.repeat || authorEnabled || isBlocking() || deps.isOtherBlocking() || /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
     const key = e.key.toLowerCase();
-    if (key === "j") { e.preventDefault(); shell.open(); }
+    if (key === "j" || key === "b") { e.preventDefault(); shell.open('inventory'); }
+    if (key === "k") { e.preventDefault(); shell.open('skills'); }
     if (key === "m") { e.preventDefault(); openMap(); }
     if (key === "h" || key === "q") { e.preventDefault(); const r = action(key === "h" ? "heal" : "ability"); if (r?.message) toast("Frontier", r.message); }
   });
@@ -140,7 +149,14 @@ export function createBetaGame(deps) {
     isBlocking, getModel, companions, shell, refreshModifiers, refreshObjectives,
     showWelcome: () => { if (!authorEnabled) shell.showWelcome(); },
     openWorkshop: () => shell.open("workshop"),
-    getNearbyInteraction: companions.getNearbyInteraction,
+    openSanctuary: () => shell.open('wildkin'),
+    getNearbyInteraction(pos){
+      if(isCamp()){
+        const sanctuary=registry.getSectionById('camp')?.props?.find(p=>p.id==='prop_camp_sanctuary');
+        if(sanctuary&&Math.hypot(pos.x-sanctuary.pos.x,pos.z-sanctuary.pos.z)<2)return {type:'campSanctuary',id:sanctuary.id,label:'Wildkin'};
+      }
+      return companions.getNearbyInteraction(pos);
+    },
     beginBond: companions.beginBond,
     getDamage: () => progress.getModifiers().fieldToolDamageMultiplier,
     onCreatureDamaged: (creature, amount) => combatFeedback.showDamage(creature.state.pos, amount),
@@ -149,7 +165,7 @@ export function createBetaGame(deps) {
       if (harvestBonus >= 1) { harvestBonus -= 1; pickupSystem.spawnPickup(node); combatFeedback.showReward(node.state.position, "+1 BONUS"); }
     },
     onCreatureDied(creature) {
-      if (creature.state.id === "wildkin_guardian") { guardianDefeated = true; toast("The Guardian rests", "The Heartwood Core is waiting beyond the ancient arch. Retrieve it, then get home."); }
+      if (creature.state.id === "wildkin_guardian") { guardianDefeated = true; toast("The Guardian rests", "Claim the Heartwood Core."); }
     },
     lootAccess(chest) {
       if (chest.id === "chest_heartwood_core" && !guardianDefeated) return { ok: false, label: "HEARTWOOD SEALED", reason: "Defeat the Heartwood Guardian to quiet the seal." };
@@ -157,7 +173,7 @@ export function createBetaGame(deps) {
     },
     onLoot(rewards, chest) {
       if (chest?.id === "chest_heartwood_core") corePending = true;
-      toast(chest?.displayName ?? "Recovered cache", chest?.id === "chest_heartwood_core" ? "Heartwood Core recovered. Extract to secure it." : `+${rewards.xp} carried XP · recovered matter added to cargo`);
+      toast(chest?.displayName ?? "Recovered cache", chest?.id === "chest_heartwood_core" ? "Bring the Core home." : `+${rewards.xp} XP`);
       pulse(chest?.pos ?? playerController.getState().pos, 0xffd878); audio.playLevelUp();
     },
     onExtract(runId) {
@@ -182,7 +198,7 @@ export function createBetaGame(deps) {
       atmosphere.motes.visible = !hidden;
       contactShadows.update(sectionId, hidden);
       if (sectionId !== lastSection) { lastSection = sectionId; sectionIntro = 0.8; }
-      if (sectionIntro > 0 && !paused && !hidden) { sectionIntro -= dt; if (sectionIntro <= 0 && session.isActive()) toast(getModel().regionName, `Frontier tier ${registry.getSectionById(sectionId)?.sectionProfile?.tier ?? 1} · secure value or push deeper`); }
+      if (sectionIntro > 0 && !paused && !hidden) { sectionIntro -= dt; if (sectionIntro <= 0 && session.isActive()) toast(getModel().regionName); }
       objectiveTimer += dt;
       if (objectiveTimer > 1 && !hidden) {
         objectiveTimer = 0; refreshObjectives();

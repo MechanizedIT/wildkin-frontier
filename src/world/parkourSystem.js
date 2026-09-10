@@ -3,9 +3,11 @@
 function insideTrigger(pos, trigger) {
   if (!pos || !trigger?.pos) return false;
   if (trigger.size) {
-    return Math.abs(pos.x - trigger.pos.x) <= trigger.size.w / 2
+    const dx = pos.x - trigger.pos.x, dz = pos.z - trigger.pos.z;
+    const yaw = trigger.rotY ?? 0, c = Math.cos(yaw), s = Math.sin(yaw);
+    return Math.abs(dx * c - dz * s) <= trigger.size.w / 2
       && Math.abs((pos.y ?? 0) - (trigger.pos.y ?? 0)) <= trigger.size.h / 2
-      && Math.abs(pos.z - trigger.pos.z) <= trigger.size.d / 2;
+      && Math.abs(dx * s + dz * c) <= trigger.size.d / 2;
   }
   return Math.hypot(pos.x - trigger.pos.x, pos.z - trigger.pos.z) <= (trigger.triggerRadius ?? 1.1);
 }

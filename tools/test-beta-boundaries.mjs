@@ -20,7 +20,9 @@ try {
   await page.keyboard.press("j");
   await page.locator('[data-tab="workshop"]').click();
   await page.screenshot({ path: "dist/qa/workshop-phone.png" });
-  assert.match(await page.locator(".beta-workshop").innerText(), /secured/i);
+  // The current Workshop is the Camp-only panel; retain the behavior check
+  // while using its shipped selector instead of the retired beta-shell class.
+  assert.match(await page.locator(".workshop-panel").innerText(), /secured/i);
   await page.keyboard.press("Escape");
   await page.evaluate(() => window.__game.beginExpeditionFromDefaultEntry());
   assert.equal(await page.evaluate(() => window.__game.playerCombat.getMaxHealth()), 8);

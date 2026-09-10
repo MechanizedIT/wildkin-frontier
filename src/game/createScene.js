@@ -6,12 +6,12 @@ import { initializeFrontierShadows } from "../presentation/frontierShadows.js";
 export function createScene(worldData = null) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x1d5c58);
-  scene.fog = new THREE.FogExp2(0x1d5c58, 0.015);
-  scene.add(new THREE.HemisphereLight(0xe3f3e9, 0x426253, 1.38));
-  const sun = new THREE.DirectionalLight(0xffebc5, 1.62);
+  scene.fog = new THREE.FogExp2(0x1d5c58, 0.005);
+  scene.add(new THREE.HemisphereLight(0xdbedff, 0x444e76, 0.95));
+  const sun = new THREE.DirectionalLight(0xfff2db, 2.0);
   sun.position.set(-7, 13, 5);
   scene.add(sun);
-  const fill = new THREE.DirectionalLight(0x58e6c9, 0.68);
+  const fill = new THREE.DirectionalLight(0xb0f4ed, 0.25);
   fill.position.set(8, 5, -8);
   scene.add(fill);
   const playground = createMovementPlayground(worldData);

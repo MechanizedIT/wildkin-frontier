@@ -5,6 +5,7 @@
 // - deterministic for same objectId/data
 
 import * as THREE from "three";
+import { createThornBedVisual } from "./hazardVisual.js";
 
 // Simple deterministic RNG based on string seed
 function hashString(str) {
@@ -63,10 +64,23 @@ function getCachedAssetGeometry(shape){
 }
 function isCachedGeometry(geo){ return _cachedGeoSet.has(geo); }
 
-function getCachedStandardMaterial(color, optsKey = "") {
+function getAuthoredMeshGeometry(part) {
+  // The cache is content-addressed; changing an authored mesh cannot leave a
+  // stale visual in preview, bounds fitting, runtime or exported worlds.
+  const key=`mesh:${JSON.stringify(part.geometry)}`;
+  if(_assetGeoCache.has(key))return _assetGeoCache.get(key);
+  const geometry=new THREE.BufferGeometry();
+  geometry.setAttribute('position',new THREE.Float32BufferAttribute(part.geometry.positions,3));
+  geometry.setIndex(part.geometry.indices);geometry.computeVertexNormals();
+  geometry.userData.isSharedAssetGeometry=true;
+  _assetGeoCache.set(key,geometry);_cachedGeoSet.add(geometry);
+  return geometry;
+}
+
+function getCachedStandardMaterial(color, optsKey = "", options = {}) {
   const key = `${String(color)}::${optsKey}`;
   if(_matCache.has(key)) return _matCache.get(key);
-  const mat = new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.82, metalness: 0.05 });
+  const mat = new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.82, metalness: 0.05, ...options });
   mat.userData = mat.userData || {};
   mat.userData.isSharedAssetMaterial = true;
   // optsKey is hash of opts; for asset parts opts is constant, so cache hit
@@ -96,7 +110,19 @@ export function createFenceVisual({ size } = {}) {
   return createBoxVisual({ size, color: 0x8b7a5a });
 }
 export function createGateVisual({ size } = {}) {
-  return createBoxVisual({ size, color: 0xc9b48a });
+  const group = new THREE.Group();
+  const stone = matStandard(0x54736f, { roughness: 0.88 });
+  const trim = matStandard(0xe2bd67, { roughness: 0.64, metalness: 0.12 });
+  for (const x of [-0.9, 0.9]) {
+    const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.34, 1.9, 0.45), stone);
+    pillar.position.set(x, 0.95, 0); group.add(pillar);
+    const cap = new THREE.Mesh(new THREE.IcosahedronGeometry(0.28, 0), trim);
+    cap.position.set(x, 2.02, 0); group.add(cap);
+  }
+  const lintel = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.28, 0.5), stone);
+  lintel.position.set(0, 1.92, 0); group.add(lintel);
+  group.userData.visualKind = "prop/gate";
+  return applyAuthoredBounds(group, size, { width: 2.2, height: 2.25, depth: 0.5 });
 }
 export function createForestBoundaryVisual({ size } = {}) {
   return createBoxVisual({ size, color: 0x2d4a2e });
@@ -133,32 +159,34 @@ function applyAuthoredBounds(group, size, nativeSize) {
 
 export function createDropPodVisual({ size } = {}) {
   const group = new THREE.Group();
-  const podMat = matStandard(0xd0d0d0, { metalness: 0.3 });
-  const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.7, 1.2, 8), podMat);
-  cyl.position.y = 0.6;
-  cyl.name = "dropPod_cyl";
-  group.add(cyl);
-  const top = new THREE.Mesh(new THREE.SphereGeometry(0.6, 8, 6, 0, Math.PI * 2, 0, Math.PI / 2), podMat);
-  top.position.y = 1.2;
-  group.add(top);
-  const baseRing = new THREE.Mesh(new THREE.RingGeometry(0.7, 0.85, 12), matBasic(0xffffff, { transparent: true, opacity: 0.18, side: THREE.DoubleSide }));
-  baseRing.rotation.x = -Math.PI / 2;
-  baseRing.position.y = 0.02;
-  group.add(baseRing);
+  const hull = matStandard(0x8fb8cc, { metalness: 0.32, roughness: 0.42 });
+  const panel = matStandard(0x31566b, { metalness: 0.42, roughness: 0.34 });
+  const glow = matStandard(0x70ead7, { emissive: 0x1f8b83, emissiveIntensity: 0.55, roughness: 0.36 });
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.96, 0.34, 10), panel);
+  base.position.y = 0.17; group.add(base);
+  const hullBody = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.82, 0.9, 10), hull);
+  hullBody.position.y = 0.7; group.add(hullBody);
+  const canopy = new THREE.Mesh(new THREE.SphereGeometry(0.68, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2), panel);
+  canopy.position.set(0, 1.15, 0.08); canopy.scale.set(1, 0.85, 1); group.add(canopy);
+  const door = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.66, 0.05), glow);
+  door.position.set(0, 0.67, 0.79); group.add(door);
+  for (let i = 0; i < 3; i++) { const fin = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.5, 0.65), hull); fin.position.set(Math.sin(i * Math.PI * 2 / 3) * .78, .32, Math.cos(i * Math.PI * 2 / 3) * .78); fin.rotation.y = i * Math.PI * 2 / 3; group.add(fin); }
+  const landingRing = new THREE.Mesh(new THREE.RingGeometry(0.95, 1.08, 16), matBasic(0x8af4df, { transparent: true, opacity: 0.28, side: THREE.DoubleSide }));
+  landingRing.rotation.x = -Math.PI / 2; landingRing.position.y = 0.018; group.add(landingRing);
   group.userData.visualKind = "prop/dropPod";
-  return applyAuthoredBounds(group, size, { width: 1.7, height: 1.8, depth: 1.7 });
+  return applyAuthoredBounds(group, size, { width: 2.1, height: 1.72, depth: 2.1 });
 }
 export function createResonatorVisual({ size } = {}) {
   const group = new THREE.Group();
-  const mat = matStandard(0x7ab8ff, { emissive: 0x1a3a5a, emissiveIntensity: 0.25 });
-  const base = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.3, 0.9), mat);
-  base.position.y = 0.15;
-  group.add(base);
-  const crystal = new THREE.Mesh(new THREE.OctahedronGeometry(0.45, 0), mat);
-  crystal.position.y = 0.75;
-  group.add(crystal);
+  const stone = matStandard(0x657d72, { roughness: 0.86 });
+  const brass = matStandard(0xd9b864, { metalness: 0.2, roughness: 0.46 });
+  const mat = matStandard(0x7fe6cf, { emissive: 0x1d786d, emissiveIntensity: 0.5, roughness: 0.35 });
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.94, 0.3, 8), stone); base.position.y = 0.15; group.add(base);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.54, 0.07, 6, 10), brass); ring.rotation.x = Math.PI / 2; ring.position.y = .48; group.add(ring);
+  const crystal = new THREE.Mesh(new THREE.OctahedronGeometry(0.42, 0), mat); crystal.position.y = 0.92; group.add(crystal);
+  for (const x of [-.58, .58]) { const prong = new THREE.Mesh(new THREE.CylinderGeometry(.07, .09, .78, 6), brass); prong.position.set(x, .55, 0); prong.rotation.z = x * -.38; group.add(prong); }
   group.userData.visualKind = "prop/resonator";
-  return applyAuthoredBounds(group, size, { width: 0.9, height: 1.2, depth: 0.9 });
+  return applyAuthoredBounds(group, size, { width: 1.9, height: 1.35, depth: 1.9 });
 }
 
 export function createPlatformVisual({ size = { w:3, height:1.25, h:3 } } = {}) {
@@ -489,7 +517,7 @@ export function createKillVolumeHelperVisual({ size = { width: 1, height: 1, dep
     new THREE.BoxGeometry(width, height, depth),
     matBasic(0xff2f3d, { transparent: true, opacity: 0.24, depthWrite: false, side: THREE.DoubleSide }),
   );
-  volume.position.y = height / 2;
+  volume.position.y = 0;
   group.add(volume);
   const edges = new THREE.LineSegments(
     new THREE.EdgesGeometry(volume.geometry),
@@ -588,9 +616,10 @@ export function createVisualAssetVisual(asset) {
   group.userData.visualKind = `asset/${asset.id}`;
   group.userData.visualAssetId = asset.id;
   for (const part of asset.parts ?? []) {
-    const geometry = getCachedAssetGeometry(part.shape);
+    const geometry = part.shape === 'mesh' ? getAuthoredMeshGeometry(part) : getCachedAssetGeometry(part.shape);
     // Cached material per color — asset parts share flat roughness 0.82/metalness 0.05
-    const material = getCachedStandardMaterial(part.color, "asset:0.82:0.05");
+    const style={flatShading:part.flatShading??true,roughness:part.roughness??.82,side:part.side??THREE.FrontSide};
+    const material = getCachedStandardMaterial(part.color, JSON.stringify(style), style);
     const mesh = new THREE.Mesh(geometry, material);
       mesh.name = `${asset.id}:${part.id}`;
       mesh.castShadow = true;
@@ -655,6 +684,7 @@ const BUILTIN_MAP = {
   "editor/parkour-checkpoint": createParkourCheckpointHelperVisual,
   "editor/parkour-end": createParkourEndHelperVisual,
   "editor/kill-volume": createKillVolumeHelperVisual,
+  "hazard/thornbed": createThornBedVisual,
   "editor/parkour-course-zone": createParkourCourseZoneHelperVisual,
   "traversal/jump-pad": createJumpPadBuiltinVisual,
   "parkour/start": createParkourMarkerBuiltinVisual,
@@ -704,6 +734,7 @@ function stableRecipeValue(value) {
 
 // Fast hashed recipe key — stable, deterministic, distinguishes asset edits without deep stringify each frame
 const _recipeKeyCache = new Map();
+const _immutableAssetHashes = new WeakMap();
 const _RECIPE_KEY_CACHE_LIMIT = 256;
 function hashStable(value){
   // Use hashString on sorted JSON for assetRecipe only; small fields stay inline
@@ -713,7 +744,8 @@ export function getVisualRecipeKey(visualRef, opts = {}) {
   if (visualRef?.kind === "asset") {
     const asset = findVisualAsset(opts.visualAssets, visualRef.id);
     // hash asset recipe if present — cache per asset content hash
-    const assetHash = asset ? hashStable(asset) : "missing";
+    let assetHash = asset ? _immutableAssetHashes.get(asset) : 'missing';
+    if(asset&&assetHash===undefined){assetHash=hashStable(asset);if(Object.isFrozen(asset))_immutableAssetHashes.set(asset,assetHash);}
     const small = `${visualRef.kind}:${visualRef.id}|a:${assetHash}|s:${JSON.stringify(opts.size ?? null)}|p:${opts.poiType ?? ""}|t:${opts.subtype ?? ""}|r:${JSON.stringify(opts.requires ?? null)}`;
     // tiny LRU for repeated calls within same draft generation
     if (_recipeKeyCache.has(small)) return _recipeKeyCache.get(small);

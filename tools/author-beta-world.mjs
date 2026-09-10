@@ -4,6 +4,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { getSurfaceHeight } from "../src/world/terrainSurfaceModel.js";
+import { CUSTOM_ENVIRONMENT_ASSET_IDS, createEnvironmentMeshVisual } from "../src/world/environmentMeshKit.js";
+import { CUSTOM_WILDKIN_ASSET_IDS, createWildkinMeshVisual } from "../src/world/wildkinMeshKit.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const WORLD_PATH = path.join(ROOT, "src/world/data/world.json");
@@ -57,6 +60,15 @@ function lootTable(id, displayName, rewards) {
   if (index === -1) world.lootTables.push(next); else world.lootTables[index] = next;
 }
 
+// Distinct field-drop silhouettes carry through from resource node to pickup,
+// inventory and costs whenever the runtime requests a drop visual asset.
+asset('asset_drop_wood', 'Split Frontier Logs', 'Resource Drops', [partR('log_a','cylinder',-.18,.3,0,.22,1.15,.22,'#855032',{z:Math.PI/2}),partR('log_b','cylinder',.2,.26,.08,.19,.9,.19,'#b87948',{z:Math.PI/2}),part('cut','cylinder',-.74,.3,0,.23,.04,.23,'#f2c17b',Math.PI/2)]);
+asset('asset_drop_stone', 'Pale Field Stone', 'Resource Drops', [part('body','icosahedron',0,.35,0,.78,.64,.68,'#a9b9b3'),part('facet','icosahedron',.26,.55,.3,.28,.22,.18,'#d8e3d5')]);
+asset('asset_drop_fiber', 'Gathered Fiber', 'Resource Drops', [partR('blade_a','cone',-.16,.36,0,.1,.72,.1,'#79c663',{z:-.35}),partR('blade_b','cone',.08,.42,0,.1,.84,.1,'#a5db74',{z:.18}),partR('blade_c','cone',.25,.3,0,.08,.62,.08,'#4e9b58',{z:.46})]);
+asset('asset_drop_berries', 'Sunberry Cluster', 'Resource Drops', [part('leaf','sphere',0,.3,0,.52,.1,.36,'#427b48'),part('berry_a','sphere',-.2,.5,.05,.25,.25,.25,'#e85d68'),part('berry_b','sphere',.2,.48,.04,.24,.24,.24,'#d63e57'),part('berry_c','sphere',0,.67,.08,.22,.22,.22,'#ff8e7c')]);
+asset('asset_drop_iron_ore', 'Iron Vein', 'Resource Drops', [part('rock','icosahedron',0,.42,0,.85,.72,.7,'#657989'),part('vein_a','box',-.18,.5,.55,.15,.48,.08,'#b7d7df',-.3),part('vein_b','box',.25,.44,.53,.12,.38,.07,'#91b7c9',.2)]);
+asset('asset_drop_crystal', 'Resonance Crystal', 'Resource Drops', [part('shard','cone',0,.62,0,.36,1.24,.36,'#63e5e7'),part('shard_l','cone',-.3,.4,.06,.19,.8,.19,'#9efff0',-.22),part('shard_r','cone',.3,.34,.05,.17,.68,.17,'#3fbcd2',.2)]);
+for (const [id, visualAssetId] of Object.entries({ wood:'asset_drop_wood', stone:'asset_drop_stone', fiber:'asset_drop_fiber', berries:'asset_drop_berries', iron_ore:'asset_drop_iron_ore', crystal_shard:'asset_drop_crystal' })) { const drop = world.resourceDrops.find((entry) => entry.id === id); if (drop) drop.visualAssetId = visualAssetId; }
 // New silhouettes: every recipe is deliberately assembled from the existing primitive vocabulary.
 asset("asset_verge_canopy", "Verdant Canopy", "Verdant Ecology", [part("trunk", "cylinder", 0, 1.5, 0, .42, 3, .42, "#65442b"), part("crown_a", "icosahedron", -.55, 3.1, 0, 1.5, 1.25, 1.3, "#356d45"), part("crown_b", "icosahedron", .62, 3.35, .1, 1.35, 1.5, 1.25, "#4f914f"), part("crown_top", "icosahedron", 0, 4.25, 0, 1.2, 1.1, 1.1, "#70ad55")], { role: "prop" }, coll(1.1, 3.2, 1.1, 1.6));
 asset("asset_mushroom_ring", "Mooncap Mushroom Ring", "Verdant Ecology", [part("stalk", "cylinder", 0, .35, 0, .13, .7, .13, "#d9c5a5"), part("cap", "sphere", 0, .75, 0, .62, .25, .62, "#9f75cf"), part("small_a", "sphere", .58, .28, .28, .32, .16, .32, "#ba8ee0"), part("small_b", "sphere", -.5, .2, -.25, .28, .14, .28, "#ba8ee0")]);
@@ -77,7 +89,7 @@ asset("asset_fen_lily", "Fen Lily Cluster", "Fen Ecology", [part("pad_a", "spher
 // Purpose-built return portal: a readable negative-space arch with a luminous
 // field behind it.  This keeps the arrival object legible from the portrait
 // camera without reusing the heavy ruined progression gate silhouette.
-asset("asset_frontier_portal", "Frontier Waygate", "Frontier Structures", [part("pillar_l", "box", -1.05, 1.05, 0, .38, 2.1, .52, "#57706b"), part("pillar_r", "box", 1.05, 1.05, 0, .38, 2.1, .52, "#57706b"), part("lintel", "box", 0, 2.18, 0, 2.5, .36, .58, "#79998b"), part("keystone", "icosahedron", 0, 2.55, 0, .42, .42, .42, "#e6c66c"), part("field", "box", 0, 1.14, -.3, 1.54, 1.68, .08, "#5ccfc3")]);
+asset("asset_frontier_portal", "Frontier Waygate", "Frontier Structures", [part("pillar_l", "box", -1.08, 1.05, 0, .38, 2.1, .52, "#456b68"), part("pillar_r", "box", 1.08, 1.05, 0, .38, 2.1, .52, "#456b68"), part("lintel", "box", 0, 2.18, 0, 2.55, .36, .58, "#739987"), part("keystone", "icosahedron", 0, 2.55, 0, .42, .42, .42, "#f1cc63"), part("crystal_l", "icosahedron", -.72, 1.25, -.22, .18, .46, .18, "#5ce5d2", .18), part("crystal_r", "icosahedron", .72, 1.25, -.22, .18, .46, .18, "#5ce5d2", -.18)]);
 asset("asset_trail_stones", "Mossy Trail Stones", "Verdant Ecology", [part("slab_a", "icosahedron", -.48, .09, .1, .55, .13, .42, "#7f906c", .2), part("slab_b", "icosahedron", .18, .07, -.12, .42, .1, .34, "#a0ab79", -.2), part("sprig", "sphere", .34, .15, .18, .16, .08, .14, "#7faf57")]);
 asset("asset_luminous_blossom", "Luminous Blossom", "Medicinal Flora", [part("stem", "cylinder", 0, .48, 0, .1, .96, .1, "#638e63"), part("petal_a", "icosahedron", -.28, .94, 0, .32, .18, .32, "#f4a9d7", .5), part("petal_b", "icosahedron", .28, .94, 0, .32, .18, .32, "#e7d074", -.5), part("core", "sphere", 0, 1.03, 0, .18, .18, .18, "#eaffb2")], { role: "harvestable", harvestable: { dropId: "wildflower", maxChunks: 3, respawnSeconds: 18, feedbackProfile: "fiber" } });
 const wildflowerDrop = world.resourceDrops.find((entry) => entry.id === "wildflower");
@@ -99,25 +111,25 @@ camp.props = camp.props.filter((entry) => !new Set(["prop_camp_sanctuary", "prop
 camp.groundPatches = camp.groundPatches.filter((entry) => !["patch_camp_gate_path", "patch_camp_plaza"].includes(entry.id));
 // First-launch composition: spawn at 0,0, gate at 0,-4.5. The pod is behind
 // the player and every persistent Camp interaction is visible within one camera view.
-camp.playerSpawn = { position: p(0, 0), facingYaw: Math.PI };
-world.camp.playerSpawn = { position: p(0, 0), facingYaw: Math.PI };
+camp.playerSpawn = { position: p(0, 2), facingYaw: Math.PI };
+world.camp.playerSpawn = { position: p(0, 2), facingYaw: Math.PI };
 const campGate = camp.portalGates.find((entry) => entry.id === "gate_camp_frontier");
-if (campGate) { campGate.pos = p(0, -4.5); campGate.visualAssetId = "asset_frontier_portal"; campGate.uniformScale = .92; }
+if (campGate) { campGate.pos = p(0, -6); campGate.visualAssetId = "asset_frontier_portal"; campGate.uniformScale = .92; }
 const campPod = camp.props.find((entry) => entry.id === "prop_camp_dropPod");
-if (campPod) campPod.pos = p(-2.5, 1.5);
+if (campPod) campPod.pos = p(-8, 5);
 const campResonator = camp.props.find((entry) => entry.id === "prop_camp_resonator");
-if (campResonator) campResonator.pos = p(2.5, 1.5);
+if (campResonator) campResonator.pos = p(8, 5);
 const campPoi = camp.pois.find((entry) => entry.id === "poi_camp_resonator");
-if (campPoi) campPoi.pos = p(2.5, 1.5);
+if (campPoi) campPoi.pos = p(2.8, -1.6);
 camp.groundPatches.push({ id: "patch_camp_gate_path", pos: p(0, -2.25, .018), size: { w: 6, h: .035, d: 10.5 }, color: "#bda96f", opacity: 1, visibleInPlay: true, collisionEnabled: false, rotY: 0 }, { id: "patch_camp_plaza", pos: p(0, 1.8, .016), size: { w: 10, h: .03, d: 5 }, color: "#967b52", opacity: 1, visibleInPlay: true, collisionEnabled: false, rotY: 0 });
-camp.props.push(prop("prop_camp_sanctuary", "asset_sanctuary_totem", -.5, 2.6, 1.05), prop("prop_camp_workshop", "asset_workshop_awning", 7.5, 5.5, 1.1), prop("prop_camp_bench", "asset_bench", 6.3, 3.3, 1, .4), prop("prop_camp_crate_a", "asset_wooden_crate", 9.4, 7, 1), prop("prop_camp_crate_b", "asset_wooden_crate", 6.7, 7, .8, .35), prop("prop_camp_lantern_a", "asset_path_lantern", -1.55, -1.7, 1), prop("prop_camp_lantern_b", "asset_path_lantern", 1.55, -1.7, 1), prop("prop_camp_lantern_c", "asset_path_lantern", 1.55, -3.7, .95), prop("prop_camp_pebbles", "asset_pebble_cluster", -3.8, -2.8, 1.25), prop("prop_camp_log", "asset_fallen_log", -5.5, 2.6, 1.1, .2), prop("prop_camp_tree", "asset_verge_canopy", -22, 17, 1.1, 0, true), prop("prop_camp_flower", "asset_cloudflower", -8, 3, 1.25));
+camp.props.push(prop("prop_camp_sanctuary", "asset_sanctuary_totem", -2.7, -1.6, .88), prop("prop_camp_workshop", "asset_workshop_awning", 2.8, -1.6, .88), prop("prop_camp_bench", "asset_bench", 6.3, 3.3, 1, .4), prop("prop_camp_crate_a", "asset_wooden_crate", 9.4, 7, 1), prop("prop_camp_crate_b", "asset_wooden_crate", 6.7, 7, .8, .35), prop("prop_camp_lantern_a", "asset_path_lantern", -1.55, -1.7, 1), prop("prop_camp_lantern_b", "asset_path_lantern", 1.55, -1.7, 1), prop("prop_camp_lantern_c", "asset_path_lantern", 1.55, -3.7, .95), prop("prop_camp_pebbles", "asset_pebble_cluster", -3.8, -2.8, 1.25), prop("prop_camp_log", "asset_fallen_log", -5.5, 2.6, 1.1, .2), prop("prop_camp_tree", "asset_verge_canopy", -22, 17, 1.1, 0, true), prop("prop_camp_flower", "asset_cloudflower", -8, 3, 1.25));
 
 const s1 = shell("section_1", "Verdant Verge", "#547b54");
 // The route is made from discrete stepping stones and framed ecology. Large
 // thin ground cards created horizon banding in the mobile camera, so the base
 // terrain remains continuous here.
-s1.entryPoints.push({ id: "entry_section_1", pos: p(0, 18), facingYaw: Math.PI });
-s1.portalGates.push({ id: "gate_section_1_camp_arrival", displayName: "Forest Edge", pos: p(0, 22), rotY: Math.PI, role: "campLink", campReturnEnabled: true, travelEnabled: false, state: "active", triggerRadius: 1.85, visualAssetId: "asset_frontier_portal", uniformScale: .76 }, gate("gate_section_1_to_2", "Shatterfen Gate", 0, -21, "section_2", "entry_section_2", "gate_section_2_to_1", 2, { wood: 4, stone: 3 }));
+s1.entryPoints.push({ id: "entry_section_1", pos: p(0, 16), facingYaw: Math.PI });
+s1.portalGates.push({ id: "gate_section_1_camp_arrival", displayName: "Forest Edge", pos: p(0, 18.5), rotY: Math.PI, role: "campLink", campReturnEnabled: true, travelEnabled: false, state: "active", triggerRadius: 1.85, visualAssetId: "asset_frontier_portal", uniformScale: .76 }, gate("gate_section_1_to_2", "Shatterfen Gate", 0, -21, "section_2", "entry_section_2", "gate_section_2_to_1", 2, { wood: 4, stone: 3 }));
 s1.majorWaypoints.push({ id: "wp_section_1", type: "majorWaypoint", pos: p(-1, 7), displayName: "Verdant Lookout", runSpawn: { position: p(0, 10), facingYaw: Math.PI } });
 s1.extractionBeacons.push({ id: "beacon_section_1", type: "extractionBeacon", pos: p(-16, 2), displayName: "Mosslight Beacon" });
 s1.resources.push(res("tree_section_1_01", "tree", -10, 14), res("rock_section_1_01", "rock", 9, 13), res("fiber_section_1_01", "fiber", -5, 5), res("tree_section_1_02", "tree", -17, 9), res("fiber_section_1_02", "fiber", 13, 4), res("rock_section_1_02", "rock", 14, -12));
@@ -160,7 +172,7 @@ s3.resources.push(res("tree_section_3_01", "tree", -12, 14, 3), res("rock_sectio
 s3.jumpPads.push({ id: "jump_pad_section_3", pos: p(9, -3, .35), rotY: Math.PI, triggerRadius: 1.3, powerPreset: "high", verticalLaunch: null, cooldown: 1, visualAssetId: "asset_frontier_launch_pad" }); s3.traversal.platforms.push({ id: "platform_s3_a", x: 9, y: 0, baseY: 0, z: -3, w: 3, h: 3, height: .35, rotY: 0 }, { id: "platform_s3_b", x: 9, y: 0, baseY: 0, z: -15, w: 4, h: 4, height: .35, rotY: 0 }); marker(s3, 9, 1, "parkour_start_section_3", "start", "course_section_3"); marker(s3, 9, -8, "parkour_checkpoint_section_3", "checkpoint", "course_section_3"); marker(s3, 9, -17, "parkour_end_section_3", "end", "course_section_3"); s3.parkourCourseZones.push({ id: "parkour_zone_section_3", courseId: "course_section_3", pos: p(9, -8, 2), size: { w: 8, h: 6, d: 22 } }); s3.killVolumes.push({ id: "kill_volume_section_3", courseId: "course_section_3", pos: p(9, -13, .6), size: { w: 3, h: 1.2, d: 5 } }); s3.lootChests.push(chest("chest_secret_section_3", "Cinder Cache", -17, -10, "loot_secret_section_1", true), chest("chest_parkour_section_3", "Spire Cache", 9, -17, "loot_parkour_section_1", false, "course_section_3", 86400), chest("chest_emberhorn_secret", "Emberhorn Den", -19, -16, "loot_secret_section_1", true)); s3.sectionProfile = { tier: 3, recommendedLevel: { min: 3, max: 4 }, resourceValueTarget: { min: 12, max: 25 }, wildkinCountTarget: { min: 3, max: 5 }, wildkinLevelTarget: { min: 3, max: 4 }, expected: { waypoint: 1, extractionBeacons: { min: 1, max: 1 }, secrets: { min: 2, max: 3 }, parkourCourses: { min: 1, max: 1 }, outboundPortals: { min: 1, max: 1 } } };
 // Emberfall — ash shrine at the waypoint, a collapsed ruin chamber beside the
 // launch route, then a cinder-gate forecourt with flanking ore and blooms.
-s3.props.push(prop("prop_s3_shrine_spire_l", "asset_ember_spire", -6.8, 7.1, 1.22, -.12, true), prop("prop_s3_shrine_spire_r", "asset_ember_spire", 6.9, 6.2, 1.15, .18, true), prop("prop_s3_shrine_bloom_l", "asset_ember_bloom", -3.7, 5.5, 1.65), prop("prop_s3_shrine_bloom_r", "asset_ember_bloom", 3.8, 4.5, 1.55), prop("prop_s3_shrine_ruin", "asset_ruin_arch", -5.8, 2.4, .86, .12, true), prop("prop_s3_shrine_ore", "asset_iron_ore_rock", 5.4, 2.1, 1.12), prop("prop_s3_chamber_arch_l", "asset_ruin_arch", -7.4, -7.3, .96, .2, true), prop("prop_s3_chamber_arch_r", "asset_ruin_arch", 7.3, -8.6, .88, -.25, true), prop("prop_s3_chamber_spire_l", "asset_ember_spire", -4.6, -11.1, 1.1, .2, true), prop("prop_s3_chamber_spire_r", "asset_ember_spire", 4.9, -10.4, 1.05, -.18, true), prop("prop_s3_chamber_bloom", "asset_ember_bloom", 3.4, -7.1, 1.55), prop("prop_s3_gate_spire_l", "asset_ember_spire", -6.1, -18.2, 1.18, .1, true), prop("prop_s3_gate_spire_r", "asset_ember_spire", 6.2, -18.7, 1.13, -.12, true), prop("prop_s3_gate_ore", "asset_iron_ore_rock", -4.1, -15.1, 1.13), prop("prop_s3_gate_bloom", "asset_ember_bloom", 3.8, -15.3, 1.55));
+s3.props.push(prop("prop_s3_shrine_spire_l", "asset_ember_spire", -6.8, 7.1, 1.22, -.12, true), prop("prop_s3_shrine_spire_r", "asset_ember_spire", 10.2, 7.5, 1.15, .18, false), prop("prop_s3_shrine_bloom_l", "asset_ember_bloom", -3.7, 5.5, 1.65), prop("prop_s3_shrine_bloom_r", "asset_ember_bloom", 3.8, 4.5, 1.55), prop("prop_s3_shrine_ruin", "asset_ruin_arch", -5.8, 2.4, .86, .12, true), prop("prop_s3_shrine_ore", "asset_iron_ore_rock", 5.4, 2.1, 1.12), prop("prop_s3_chamber_arch_l", "asset_ruin_arch", -7.4, -7.3, .96, .2, true), prop("prop_s3_chamber_arch_r", "asset_ruin_arch", 7.3, -8.6, .88, -.25, true), prop("prop_s3_chamber_spire_l", "asset_ember_spire", -4.6, -11.1, 1.1, .2, true), prop("prop_s3_chamber_spire_r", "asset_ember_spire", 4.9, -10.4, 1.05, -.18, true), prop("prop_s3_chamber_bloom", "asset_ember_bloom", 3.4, -7.1, 1.55), prop("prop_s3_gate_spire_l", "asset_ember_spire", -6.1, -18.2, 1.18, .1, true), prop("prop_s3_gate_spire_r", "asset_ember_spire", 6.2, -18.7, 1.13, -.12, true), prop("prop_s3_gate_ore", "asset_iron_ore_rock", -4.1, -15.1, 1.13), prop("prop_s3_gate_bloom", "asset_ember_bloom", 3.8, -15.3, 1.55));
 
 const s4 = laterSection("section_4", "Windscar Cliffs", "#71899a", 4, "gate_section_4_to_3", "Emberfall Return Gate", "gate_section_3_to_4", "section_3", { id: "section_5", name: "Heartwood Gate", level: 5, resources: { iron_ore: 6, crystal_shard: 5, stone: 8 } });
 s4.resources.push(res("tree_section_4_01", "tree", -13, 14, 4), res("rock_section_4_01", "rock", 12, 14, 4), res("fiber_section_4_01", "fiber", 13, 5, 4)); s4.props.push(prop("prop_s4_needle_a", "asset_wind_arch", -15, 11, 1.3, .3, true), prop("prop_s4_needle_b", "asset_wind_arch", 14, 7, 1.45, .8, true), prop("prop_s4_cloud_a", "asset_cloudflower", -8, 4, 1.5), prop("prop_s4_cloud_b", "asset_cloudflower", 8, -6, 1.4), prop("prop_s4_crystal", "asset_crystal", -15, -10, 1.3), prop("prop_s4_barrier", "asset_vault_barrier", -19, -15, 1.05, 1.57, true), wild("wildkin_skydancer_1", "asset_wildkin_skydancer", -8, 8), wild("wildkin_skydancer_2", "asset_wildkin_skydancer", 12, 7, .95), wild("wildkin_thorn_5", "asset_thornprowler", -10, -6, 1), wild("wildkin_cinder_3", "asset_cinderjaw", 10, -12, 1));
@@ -168,7 +180,7 @@ s4.props.push(prop("prop_s4_iron_a", "asset_iron_ore_rock", -5, 12, 1.15), prop(
 s4.jumpPads.push({ id: "jump_pad_section_4", pos: p(8, -3, .35), rotY: Math.PI, triggerRadius: 1.3, powerPreset: "high", verticalLaunch: null, cooldown: 1, visualAssetId: "asset_frontier_launch_pad" }); s4.traversal.platforms.push({ id: "platform_s4_a", x: 8, y: 0, baseY: 0, z: -3, w: 3, h: 3, height: .35, rotY: 0 }, { id: "platform_s4_b", x: 8, y: 0, baseY: 0, z: -15, w: 4, h: 4, height: .35, rotY: 0 }); marker(s4, 8, 1, "parkour_start_section_4", "start", "course_section_4"); marker(s4, 8, -8, "parkour_checkpoint_section_4", "checkpoint", "course_section_4"); marker(s4, 8, -17, "parkour_end_section_4", "end", "course_section_4"); s4.parkourCourseZones.push({ id: "parkour_zone_section_4", courseId: "course_section_4", pos: p(8, -8, 2), size: { w: 8, h: 6, d: 22 } }); s4.killVolumes.push({ id: "kill_volume_section_4", courseId: "course_section_4", pos: p(8, -13, .6), size: { w: 3, h: 1.2, d: 5 } }); s4.lootChests.push(chest("chest_secret_section_4", "Windworn Cache", -17, -10, "loot_secret_section_1", true), chest("chest_parkour_section_4", "Cloudstep Cache", 8, -17, "loot_parkour_section_1", false, "course_section_4", 86400), chest("chest_skydancer_secret", "Skydancer Eyrie", -19, -16, "loot_secret_section_1", true)); s4.sectionProfile = { tier: 4, recommendedLevel: { min: 4, max: 5 }, resourceValueTarget: { min: 12, max: 26 }, wildkinCountTarget: { min: 3, max: 5 }, wildkinLevelTarget: { min: 4, max: 5 }, expected: { waypoint: 1, extractionBeacons: { min: 1, max: 1 }, secrets: { min: 2, max: 3 }, parkourCourses: { min: 1, max: 1 }, outboundPortals: { min: 1, max: 1 } } };
 // Windscar — breezy waypoint shelf, a sideward cloudstep shelf around the
 // existing parkour course, and wind-carved gate spires in the distance.
-s4.props.push(prop("prop_s4_shelf_needle_l", "asset_wind_arch", -6.8, 7.1, 1.25, -.18, true), prop("prop_s4_shelf_needle_r", "asset_wind_arch", 6.9, 6.2, 1.17, .18, true), prop("prop_s4_shelf_flower_l", "asset_cloudflower", -3.6, 5.7, 1.65), prop("prop_s4_shelf_flower_r", "asset_cloudflower", 3.8, 4.6, 1.58), prop("prop_s4_shelf_crystal", "asset_crystal", -5.2, 2.5, 1.18), prop("prop_s4_shelf_stones", "asset_pebble_cluster", 4.8, 2.2, 1.7), prop("prop_s4_cloudstep_needle_l", "asset_wind_arch", -7.4, -7.5, 1.14, .2, true), prop("prop_s4_cloudstep_needle_r", "asset_wind_arch", 5.1, -9.3, 1.08, -.18, true), prop("prop_s4_cloudstep_flower_l", "asset_cloudflower", -4.1, -10.8, 1.6), prop("prop_s4_cloudstep_flower_r", "asset_cloudflower", 3.7, -7.2, 1.5), prop("prop_s4_cloudstep_crystal", "asset_crystal", -4.9, -6.2, 1.15), prop("prop_s4_gate_needle_l", "asset_wind_arch", -6.1, -18.2, 1.22, -.1, true), prop("prop_s4_gate_needle_r", "asset_wind_arch", 6.2, -18.7, 1.16, .14, true), prop("prop_s4_gate_flower_l", "asset_cloudflower", -3.8, -15.2, 1.6), prop("prop_s4_gate_flower_r", "asset_cloudflower", 3.9, -15.6, 1.55), prop("prop_s4_gate_iron", "asset_iron_ore_rock", 5.1, -14.2, 1.12));
+s4.props.push(prop("prop_s4_shelf_needle_l", "asset_wind_arch", -6.8, 7.1, 1.25, -.18, false), prop("prop_s4_shelf_needle_r", "asset_wind_arch", 6.9, 6.2, 1.17, .18, true), prop("prop_s4_shelf_flower_l", "asset_cloudflower", -3.6, 5.7, 1.65), prop("prop_s4_shelf_flower_r", "asset_cloudflower", 3.8, 4.6, 1.58), prop("prop_s4_shelf_crystal", "asset_crystal", -5.2, 2.5, 1.18), prop("prop_s4_shelf_stones", "asset_pebble_cluster", 4.8, 2.2, 1.7), prop("prop_s4_cloudstep_needle_l", "asset_wind_arch", -7.4, -7.5, 1.14, .2, true), prop("prop_s4_cloudstep_needle_r", "asset_wind_arch", 5.1, -9.3, 1.08, -.18, true), prop("prop_s4_cloudstep_flower_l", "asset_cloudflower", -4.1, -10.8, 1.6), prop("prop_s4_cloudstep_flower_r", "asset_cloudflower", 3.7, -7.2, 1.5), prop("prop_s4_cloudstep_crystal", "asset_crystal", -4.9, -6.2, 1.15), prop("prop_s4_gate_needle_l", "asset_wind_arch", -6.1, -18.2, 1.22, -.1, true), prop("prop_s4_gate_needle_r", "asset_wind_arch", 6.2, -18.7, 1.16, .14, true), prop("prop_s4_gate_flower_l", "asset_cloudflower", -3.8, -15.2, 1.6), prop("prop_s4_gate_flower_r", "asset_cloudflower", 3.9, -15.6, 1.55), prop("prop_s4_gate_iron", "asset_iron_ore_rock", 5.1, -14.2, 1.12));
 
 const s5 = laterSection("section_5", "Heartwood Vault", "#633e59", 5, "gate_section_5_to_4", "Windscar Return Gate", "gate_section_4_to_5", "section_4");
 s5.resources.push(res("tree_section_5_01", "tree", -13, 14, 5), res("rock_section_5_01", "rock", 13, 13, 5), res("fiber_section_5_01", "fiber", 14, 5, 5)); s5.props.push(prop("prop_s5_heartwood_a", "asset_heartwood_tree", -14, 12, 1.25, .1, true), prop("prop_s5_heartwood_b", "asset_heartwood_tree", 14, 7, 1.4, .6, true), prop("prop_s5_core_crystal", "asset_crystal", 0, -11, 1.6), prop("prop_s5_barrier", "asset_vault_barrier", -19, -14, 1.1, 1.57, true), wild("wildkin_guardian", "asset_heartwood_guardian", 0, -8, 1.15), wild("wildkin_cinder_4", "asset_cinderjaw", -11, -4, 1), wild("wildkin_thorn_6", "asset_thornprowler", 11, -5, 1));
@@ -211,6 +223,143 @@ for (const id of ["chest_secret_section_3", "chest_emberhorn_secret"]) setChestL
 for (const id of ["chest_secret_section_4", "chest_skydancer_secret"]) setChestLoot(s4, id, "loot_windscar_secret"); setChestLoot(s4, "chest_parkour_section_4", "loot_windscar_parkour");
 setChestLoot(s5, "chest_heartwood_core", "loot_heartwood_core");
 
+// Sunlit Wilds terrain is deliberately continuous. Routes and masks are rendered
+// by the shared terrain layer; no overlapping decal cards are authored here.
+// Coordinates stay local to each section so pockets retain a compact, readable
+// mobile composition while their silhouettes and water create real negative space.
+const surface = (seed, palette, routes, heights = [], water = [], grassDensity = .55) => ({ seed, palette, routes, heights, water, detail: { grassDensity } });
+const P = (grass, grassShade, path, pathEdge, rock, waterColor, waterFoam, accent) => ({ grass, grassShade, path, pathEdge, rock, water: waterColor, waterFoam, accent });
+camp.surface = surface(1103, P('#75b84e', '#3f7c48', '#d6a45a', '#f0cd82', '#b47a50', '#39bcd0', '#d9fbf1', '#f5d570'), [
+  { id: 'haven-walk', points: [{ x: -1, z: 7 }, { x: 0, z: 2 }, { x: 0, z: -6 }, { x: 0, z: -8 }], width: 2.0 },
+  { id: 'workshop-spur', points: [{ x: 0, z: 0 }, { x: 2.6, z: 0 }, { x: 2.8, z: -1.6 }], width: 1.45 },
+  { id: 'sanctuary-spur', points: [{x:0,z:0},{x:-2.7,z:0},{x:-2.7,z:-1.6}], width:1.45 },
+], [{ id: 'haven-berm-west', x: -15, z: 5, rx: 10, rz: 13, height: 1.8, plateau: .42 }, { id: 'haven-berm-east', x: 15, z: 4, rx: 11, rz: 14, height: 1.65, plateau: .42 }], [{ id: 'haven-pond', x: -13, z: -8, rx: 7, rz: 5, depth: .28 }], .72);
+s1.surface = surface(2101, P('#76b94f', '#3b7444', '#d9a856', '#efcf83', '#c88957', '#43bdd0', '#e3fbf4', '#f4d768'), [
+  { id: 'verge-main', points: [{ x: 0, z: 20 }, { x: -1, z: 14 }, { x: 2, z: 8 }, { x: -1, z: 2 }, { x: 1, z: -6 }, { x: 0, z: -20 }], width: 3.2 },
+  { id: 'verge-mossling', points: [{ x: -1, z: 9 }, { x: -7, z: 8 }, { x: -12, z: 5 }], width: 2.45 },
+  { id: 'verge-ore', points: [{ x: 1, z: 4 }, { x: 8, z: 4 }, { x: 12, z: 7 }], width: 2.7 },
+], [{ id: 'rootfall-rise', x: 0, z: -18, rx: 13, rz: 7, height: 1.8, plateau: .42 }, { id: 'lookout-knoll', x: -2, z: 5, rx: 9, rz: 7, height: .34, plateau: .35 }], [{ id: 'mosslight-creek', x: -12, z: -2, rx: 6.5, rz: 13, depth: .28 }, { id: 'fern-pool', x: 14, z: 13, rx: 5, rz: 5, depth: .2 }], .78);
+s2.surface = surface(3107, P('#5aa786', '#286d64', '#d1a56a', '#edd69c', '#9fa68f', '#38adc5', '#d6fff7', '#f4a4c7'), [
+  { id: 'fen-causeway', points: [{ x: 0, z: 20 }, { x: -2, z: 13 }, { x: 2, z: 7 }, { x: 5, z: 1 }, { x: 0, z: -7 }, { x: 0, z: -20 }], width: 3.1 },
+  { id: 'observatory-spur', points: [{ x: 3, z: 8 }, { x: 9, z: 7 }, { x: 13, z: 6 }], width: 3.0 },
+], [{ id: 'observatory-islet', x: 13, z: 6, rx: 7, rz: 8, height: .48, plateau: .46 }, { id: 'fen-gate-bank', x: 0, z: -18, rx: 11, rz: 6, height: .5, plateau: .45 }], [{ id: 'tideglass-pool', x: -11, z: 6, rx: 10, rz: 13, depth: .35 }, { id: 'drowned-pool', x: 11, z: -8, rx: 8, rz: 11, depth: .34 }], .68);
+s3.surface = surface(4109, P('#8d7350', '#58443e', '#d29b58', '#f0ce82', '#a76045', '#4e8a93', '#f7e4b2', '#ffb35d'), [
+  { id: 'ember-route', points: [{ x: 0, z: 20 }, { x: -3, z: 13 }, { x: 1, z: 7 }, { x: -2, z: 0 }, { x: 2, z: -8 }, { x: 0, z: -20 }], width: 3.1 },
+  { id: 'forge-spur', points: [{ x: 1, z: 7 }, { x: 7, z: 6 }, { x: 10, z: 3 }], width: 3.0 },
+], [{ id: 'forge-shelf-west', x: -11, z: 2, rx: 9, rz: 18, height: 1.9, plateau: .4 }, { id: 'forge-shelf-east', x: 12, z: -8, rx: 8, rz: 14, height: 2.1, plateau: .42 }, { id: 'ember-gate-rise', x: 0, z: -18, rx: 10, rz: 6, height: .8, plateau: .45 }], [], .46);
+s4.surface = surface(5113, P('#7db8a1', '#486b70', '#d4ae68', '#f0d890', '#a38770', '#4baec7', '#e6fcff', '#d9eaf7'), [
+  { id: 'wind-spine', points: [{ x: 0, z: 20 }, { x: 1, z: 12 }, { x: -2, z: 5 }, { x: 2, z: -4 }, { x: 0, z: -20 }], width: 3.1 },
+  { id: 'eyrie-spur', points: [{ x: -2, z: 5 }, { x: -9, z: 7 }, { x: -13, z: 9 }], width: 3.1 },
+], [{ id: 'west-shoulder', x: -13, z: 2, rx: 10, rz: 21, height: 2.25, plateau: .44 }, { id: 'east-shoulder', x: 13, z: -5, rx: 9, rz: 19, height: 1.9, plateau: .42 }, { id: 'wind-gate-terrace', x: 0, z: -18, rx: 11, rz: 6, height: .92, plateau: .45 }], [], .38);
+s5.surface = surface(6119, P('#7caa74', '#3d5e56', '#d1a76b', '#efd594', '#805d65', '#3aa9be', '#e1fff2', '#f0a6c4'), [
+  { id: 'vault-approach', points: [{ x: 0, z: 20 }, { x: 1, z: 12 }, { x: -1, z: 6 }, { x: 0, z: -2 }, { x: 0, z: -14 }], width: 3.2 },
+], [{ id: 'heartwood-rim-west', x: -12, z: -6, rx: 10, rz: 18, height: 2.0, plateau: .46 }, { id: 'heartwood-rim-east', x: 12, z: -6, rx: 10, rz: 18, height: 2.0, plateau: .46 }, { id: 'core-dais', x: 0, z: -15, rx: 8, rz: 6, height: .55, plateau: .5 }], [{ id: 'vault-reflection-pool', x: -16, z: 10, rx: 6, rz: 8, depth: .22 }], .52);
+
+const snapPosition = (section, value) => { if (value?.x !== undefined && value?.z !== undefined) value.y = Number(getSurfaceHeight(section.surface, value.x, value.z).toFixed(4)); };
+const snapSection = (section) => {
+  for (const item of [...section.props, ...section.resources, ...section.creatures, ...section.majorWaypoints, ...section.extractionBeacons, ...section.pois, ...section.entryPoints, ...section.portalGates, ...section.jumpPads, ...section.parkourStarts, ...section.parkourCheckpoints, ...section.parkourEnds, ...section.lootChests]) snapPosition(section, item.pos);
+  for (const waypoint of section.majorWaypoints) if (waypoint.runSpawn?.position) snapPosition(section, waypoint.runSpawn.position);
+  for (const item of [...section.parkourStarts, ...section.parkourCheckpoints]) snapPosition(section, item.respawnPosition);
+  for (const platform of section.traversal.platforms) platform.baseY = Number((getSurfaceHeight(section.surface, platform.x, platform.z) + (platform.baseY ?? 0)).toFixed(4));
+};
+camp.props = camp.props.filter((entry) => !entry.id.startsWith('prop_camp_grove_') && !entry.id.startsWith('prop_camp_fern_') && !entry.id.startsWith('prop_camp_blossom_') && entry.id !== 'prop_camp_log_stack');
+// Camp reads as a real inhabited sanctuary: its planted flanks frame the route
+// and keep the workshop/nest visible from the initial player position.
+camp.props.push(prop('prop_camp_grove_l_a','asset_verge_canopy',-4.6,-5.7,.95,.12,true),prop('prop_camp_grove_l_b','asset_verge_canopy',-5.5,2.3,.9,-.16,true),prop('prop_camp_grove_r_a','asset_verge_canopy',4.6,-5.7,.92,-.1,true),prop('prop_camp_grove_r_b','asset_verge_canopy',5.5,2.3,.9,.2,true),prop('prop_camp_fern_l','asset_mushroom_ring',-5.8,.9,1.25),prop('prop_camp_fern_r','asset_mushroom_ring',5.5,.8,1.25),prop('prop_camp_blossom_l','asset_luminous_blossom',-6.2,4.8,1.3),prop('prop_camp_blossom_r','asset_luminous_blossom',6.1,5.3,1.3),prop('prop_camp_log_stack','asset_fallen_log',7.2,2.3,.9,.18));
+s1.resources = s1.resources.filter((entry) => !entry.id.includes('_grove_')); s1.props = s1.props.filter((entry) => !entry.id.startsWith('prop_s1_safe_'));
+// First look: two safe, coherent harvest groves flank the route.  They teach
+// harvesting through visible fields while leaving the central path uncluttered.
+s1.resources.push(res('tree_section_1_grove_l_a', 'tree', -7.8, 15.2), res('tree_section_1_grove_l_b', 'tree', -10.2, 12.8), res('fiber_section_1_grove_l', 'fiber', -6.3, 13.2), res('tree_section_1_grove_r_a', 'tree', 7.6, 15.0), res('tree_section_1_grove_r_b', 'tree', 10.1, 12.6), res('fiber_section_1_grove_r', 'fiber', 6.2, 12.4));
+s1.props.push(prop('prop_s1_safe_grove_l_a', 'asset_verge_canopy', -9.7, 16.9, .82, .18, true), prop('prop_s1_safe_grove_l_b', 'asset_verge_canopy', -4.6, 11.8, .85, -.12, true), prop('prop_s1_safe_grove_r_a', 'asset_verge_canopy', 9.8, 16.6, .8, -.16, true), prop('prop_s1_safe_grove_r_b', 'asset_verge_canopy', 4.6, 11.8, .85, .14, true), prop('prop_s1_safe_pebbles_l', 'asset_pebble_cluster', -5.1, 15.4, 1.25), prop('prop_s1_safe_pebbles_r', 'asset_pebble_cluster', 5.0, 15.2, 1.25), prop('prop_s1_safe_moons_l', 'asset_mushroom_ring', -4.4, 12.2, 1.16), prop('prop_s1_safe_moons_r', 'asset_mushroom_ring', 4.2, 11.9, 1.16));
+const entryRoot=s5.props.find(p=>p.id==='prop_s5_arrival_roots');if(entryRoot){entryRoot.pos.x=-4.3;entryRoot.rotY=1.2;}
+// Keep launch gaps legible and free of unrelated models or hostile spawn sites.
+for (const [section,id,x,z] of [[s1,'prop_s1_log_b',15,-1],[s2,'wildkin_tidefin_2',17,1],[s4,'prop_s4_cloud_b',12,-1],[s4,'prop_s4_iron_b',12,-2],[s5,'wildkin_thorn_6',16,3]]) {
+  const item=section.props.find(entry=>entry.id===id);if(item){item.pos.x=x;item.pos.z=z;}
+}
+// Each late-game launch lane grades the continuous terrain into a shallow,
+// readable bench.  It removes the invisible step made when a thin platform
+// spans a hillside, while retaining the hill on either side of the course.
+const configureLateCourse = (section, x) => {
+  section.surface.routes.push({
+    id: `course-spine-${section.id}`,
+    points: [p(x, 1), p(x, -3), p(x, -9), p(x, -11)],
+    width: 3.6,
+    elevation: .15,
+    feather: 1.5,
+  });
+  const pad = section.jumpPads[0];
+  if (pad) { pad.pos = p(x, -3); pad.horizontalLaunch = 5.35; }
+  const [takeoff, landing] = section.traversal.platforms;
+  // snapSection adds the authored terrain height once after all route grading
+  // is present. Keep the source offset zero to avoid baking it twice.
+  if (takeoff) { takeoff.x = x; takeoff.z = -3; takeoff.height = .02; takeoff.baseY = 0; }
+  if (landing) { landing.x = x; landing.z = -9; landing.height = .02; landing.baseY = 0; }
+  const end = section.parkourEnds[0]; if (end) end.pos = p(x, -11);
+  const chest = section.lootChests.find((entry) => entry.courseId); if (chest) chest.pos = p(x, -11);
+  section.killVolumes = section.killVolumes.filter((entry) => entry.courseId !== `course_${section.id}`);
+};
+configureLateCourse(s2, 13);
+configureLateCourse(s3, 9);
+configureLateCourse(s4, 8);
+configureLateCourse(s5, 9);
+// Receive the player far enough inside each region for a complete portrait view.
+for (const section of [s2, s3, s4, s5]) {
+  section.entryPoints[0].pos.z = 16;
+  section.portalGates[0].pos.z = 18.5;
+  section.surface.routes[0].points[0].z = 18.5;
+}
+const landingTree = s5.props.find(entry => entry.id === 'prop_s5_arena_tree_r');
+if (landingTree) { landingTree.pos.x = 13.3; landingTree.collisionEnabled = false; }
+for (const section of [camp, s1, s2, s3, s4, s5]) snapSection(section);
+// Continuous terrain owns the visible/physical floor. Legacy box cards hid the
+// route and water masks as giant rectangles, so retain none of them in Sunlit Wilds.
+for (const section of [camp, s1, s2, s3, s4, s5]) section.groundPatches = [];
+// First launch course: low access lip stays within Rapier auto-step, then a
+// short directed launch reaches a broad landing (not the former 11u gap).
+const s1Pad = s1.jumpPads.find((entry) => entry.id === 'jump_pad_section_1');
+if (s1Pad) { s1Pad.pos = p(10, -3); s1Pad.horizontalLaunch = 5.35; }
+const s1Takeoff = s1.traversal.platforms.find((entry) => entry.id === 'platform_section_1_takeoff');
+if (s1Takeoff) { s1Takeoff.height = .02; s1Takeoff.baseY = getSurfaceHeight(s1.surface, s1Takeoff.x, s1Takeoff.z); }
+const s1Landing = s1.traversal.platforms.find((entry) => entry.id === 'platform_section_1_landing');
+if (s1Landing) { s1Landing.z = -9; s1Landing.height = .02; s1Landing.baseY = getSurfaceHeight(s1.surface, s1Landing.x, s1Landing.z); }
+// The destination apron is a safe reward space; this launch has no kill-volume under its landing.
+s1.killVolumes = s1.killVolumes.filter((entry) => entry.id !== 'kill_volume_section_1');
+for (const platform of s2.traversal.platforms) { platform.height = .02; platform.baseY = getSurfaceHeight(s2.surface, platform.x, platform.z); }
+const s1End = s1.parkourEnds.find((entry) => entry.id === 'parkour_end_section_1'); if (s1End) { s1End.pos = p(10, -11); }
+const s1Chest = s1.lootChests.find((entry) => entry.id === 'chest_parkour_section_1'); if (s1Chest) { s1Chest.pos = p(10, -11); }
+for (const item of [s1Pad, s1End, s1Chest]) if (item?.pos) snapPosition(s1, item.pos);
+// Bright-rimmed thorn beds occupy only the air gap; both platforms and the
+// checkpoint apron are safe. The same volume drives the visible bed and failure.
+for (const [section, x] of [[s1,10],[s2,13],[s3,9],[s4,8],[s5,9]]) {
+  section.killVolumes.push({id:'kill_volume_'+section.id, courseId:'course_'+section.id,
+    pos:p(x,-5.8,getSurfaceHeight(section.surface,x,-5.8)+.42),
+    size:{w:3.4,h:.84,d:1.8},rotY:0});
+}
+snapPosition(camp, camp.playerSpawn.position);
+snapPosition(camp, world.camp.playerSpawn.position);
+// Bake custom environment geometry into canonical recipe parts.  The normal
+// Visual Asset pipeline therefore continues to support author selection,
+// per-part transforms/colors, undo and JSON export; no id-specific runtime path.
+const meshRecipePart = (id, mesh) => {
+  const geometry = mesh.geometry; const position = geometry.getAttribute('position'); const q = (value, digits = 4) => Number(value.toFixed(digits));
+  const indices = geometry.index ? Array.from(geometry.index.array) : Array.from({ length: position.count }, (_, index) => index);
+  const color = mesh.material?.color ? `#${mesh.material.color.getHexString()}` : '#ffffff';
+  return { id, shape: 'mesh', geometry: { positions: Array.from(position.array, (value) => q(value)), indices }, position: { x: q(mesh.position.x), y: q(mesh.position.y), z: q(mesh.position.z) }, rotation: { x: q(mesh.rotation.x, 5), y: q(mesh.rotation.y, 5), z: q(mesh.rotation.z, 5) }, scale: { x: q(mesh.scale.x, 5), y: q(mesh.scale.y, 5), z: q(mesh.scale.z, 5) }, color, flatShading: Boolean(mesh.material?.flatShading), roughness: Number.isFinite(mesh.material?.roughness) ? q(mesh.material.roughness, 3) : undefined, side: mesh.material?.side };
+};
+for (const assetId of CUSTOM_ENVIRONMENT_ASSET_IDS) {
+  const target = world.visualAssets.find((entry) => entry.id === assetId); const visual = createEnvironmentMeshVisual(assetId);
+  if (!target || !visual) continue;
+  visual.updateMatrixWorld(true);
+  const meshes = []; visual.traverse((node) => { if (node.isMesh) meshes.push(node); });
+  target.parts = meshes.map((mesh, index) => meshRecipePart(`mesh_${index}`, mesh));
+}
+for (const assetId of CUSTOM_WILDKIN_ASSET_IDS) {
+  const target = world.visualAssets.find((entry) => entry.id === assetId); const visual = createWildkinMeshVisual(assetId);
+  if (!target || !visual) continue;
+  visual.updateMatrixWorld(true);
+  const meshes = []; visual.traverse((node) => { if (node.isMesh) meshes.push(node); });
+  target.parts = meshes.map((mesh, index) => meshRecipePart(`mesh_${index}`, mesh));
+}
 world.regions = [camp, s1, s2, s3, s4, s5];
-fs.writeFileSync(WORLD_PATH, JSON.stringify(world, null, 2) + "\n");
+fs.writeFileSync(WORLD_PATH, JSON.stringify(world) + "\n");
 console.log("Authored Early Access campaign: Frontier Haven + Verdant Verge, Shatterfen, Emberfall Ruins, Windscar Cliffs, Heartwood Vault.");

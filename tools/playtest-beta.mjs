@@ -62,7 +62,7 @@ try {
   await page.keyboard.press("e");
   await page.waitForTimeout(150);
   // Exact visible extract button, preserving production confirmation flow.
-  const extract = page.getByRole("button", { name: "EXTRACT", exact: true });
+  const extract = page.getByRole("button", { name: "Return to Camp", exact: true });
   if (await extract.isVisible()) await extract.click();
   else throw new Error(`Extraction unavailable: ${await page.locator('body').innerText()}`);
   await page.waitForTimeout(300);

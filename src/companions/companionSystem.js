@@ -3,6 +3,7 @@ import { COMPANIONS, COMPANION_BY_ID, identifyCompanion, SECRET_COMPANION } from
 import { canBond } from "./bondingLogic.js";
 import { createVisualAssetVisual } from "../world/visualFactory.js";
 import { createBondingPanel } from "../ui/bondingPanel.js";
+import { getSurfaceHeight } from "../world/terrainSurfaceModel.js";
 
 export function createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, isActive, getSectionId, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
   let pending = [], cooldown = 0, elapsed = 0;
@@ -13,7 +14,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     if (status === "success" && isActive() && creatures.secureBondTarget(target.state.id)) {
       pending.push(species.id);
       pulse(target.state.pos, new THREE.Color(species.color).getHex());
-      toast(`${species.name} bonded`, "Unsecured. Return to Camp to welcome it into your sanctuary.");
+      toast(`${species.name} bonded`, "Bring them home to secure your bond.");
     } else if (status === "failed") retryAt.set(target.state.id, elapsed + 6);
     creatures.setBondingTarget(null);
   } });
@@ -87,7 +88,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
       if (!playerController.getState().grounded && !openedSeal) return { ok: false, message: "Land before calling Skybound again." };
       playerController.launchFromJumpPad({ verticalLaunch: 8.8 });
     }
-    cooldown = species.cooldown;
+    cooldown = species.cooldown * (progress.getModifiers().abilityCooldownMultiplier ?? 1);
     onAbility(species.id, pos);
     pulse(pos, new THREE.Color(species.color).getHex());
     audio.playParkour?.("complete");
@@ -126,7 +127,8 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
       group.visible = !hidden;
       const angle = facing + Math.PI + (i - 0.5) * 0.75;
       const x = pos.x + Math.sin(angle) * (1.5 + i * 0.45), z = pos.z + Math.cos(angle) * (1.5 + i * 0.45);
-      const y = pos.y - 0.47 + Math.sin(elapsed * 3.5 + i) * 0.06 + (id === "skydancer" || id === "tidefin" ? 0.35 : 0);
+      const surface = registry.getSectionById(sectionId)?.surface;
+      const y = getSurfaceHeight(surface, x, z) + .025 + Math.sin(elapsed * 3.5 + i) * 0.025 + (id === "skydancer" ? .48 : 0);
       const alpha = group.position.distanceToSquared(pos) > 200 ? 1 : 1 - Math.exp(-dt * 5);
       group.position.x += (x - group.position.x) * alpha;
       group.position.z += (z - group.position.z) * alpha;

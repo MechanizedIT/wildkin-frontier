@@ -1,282 +1,35 @@
-// src/ui/frontierMap.js — top-right Map with inspect vs start-selection modes (Phase 4A)
-// One Map UI: inspect never travels; Camp travel mode uses the centralized
-// destination resolver for Forest Edge plus discovered Major Waypoints.
+import { getCampStartDestinations } from '../world/campTravel.js';
+import { iconMarkup } from './itemIcons.js';
 
-import { getPlayerLevelProgress } from "../progression/playerLevel.js";
-import { getCampStartDestinations } from "../world/campTravel.js";
-
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const BIOMES = ['backpack','mossling','tidefin','emberhorn','skydancer','wildflower'];
 export function createFrontierMap(opts = {}) {
-  const worldRegistry = opts.worldRegistry;
-  const frontierProgress = opts.frontierProgress;
-  const onStartSelected = opts.onStartSelected ?? (() => {});
-  const onClose = opts.onClose ?? (() => {});
-  const onOpen = opts.onOpen ?? (() => {});
-
-  const app = document.getElementById("app");
-  if (!app) return { openInspect(){}, openStartSelection(){}, close(){}, isOpen:()=>false, destroy(){}, setEnabled(){}};
-
-  // Create Map button (top-right)
-  let mapButton = document.getElementById("frontier-map-button");
-  if (!mapButton) {
-    mapButton = document.createElement("button");
-    mapButton.id = "frontier-map-button";
-    mapButton.type = "button";
-    mapButton.textContent = "MAP";
-    mapButton.setAttribute("aria-label", "Open Map");
-    mapButton.style.cssText = "position:absolute;right:max(10px, env(safe-area-inset-right));top:max(10px, env(safe-area-inset-top));z-index:8;background:rgba(14,20,32,0.88);color:#e6ebf5;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:7px 12px;font-size:12px;font-weight:800;letter-spacing:0.06em;backdrop-filter:blur(6px);cursor:pointer;pointer-events:auto;";
-    app.appendChild(mapButton);
+  const {worldRegistry,frontierProgress} = opts;
+  const app=document.getElementById('app');
+  if(!app)return {openInspect(){},openStartSelection(){},close(){},isOpen:()=>false,destroy(){},setEnabled(){}};
+  const mapButton=document.createElement('button');
+  mapButton.id='frontier-map-button';mapButton.type='button';mapButton.innerHTML=iconMarkup('map',{size:32});mapButton.setAttribute('aria-label','Open Map');
+  const overlay=document.createElement('div');overlay.id='frontier-map-overlay';overlay.className='frontier-overlay';overlay.style.display='none';
+  overlay.innerHTML='<section id="frontier-map-panel" class="frontier-card" role="dialog" aria-modal="true" aria-label="Frontier map"><header><h2>Frontier</h2><button class="frontier-close" aria-label="Close map">×</button></header><div class="frontier-map-content"></div></section>';
+  app.append(mapButton,overlay);
+  const content=overlay.querySelector('.frontier-map-content');
+  let mode=null,opened=false,enabled=true,previousFocus=null;
+  function buildList(){
+    const progress=frontierProgress?.getState()??{};
+    const regions=(worldRegistry.getAllRegions?.()??worldRegistry.data?.regions??[]).slice(0,6);
+    const known=new Set(['camp','section_1']);
+    for(const waypoint of worldRegistry.getAllWaypoints?.()??[])if(progress.unlockedMajorWaypointIds?.includes(waypoint.id))known.add(waypoint.regionId);
+    const destinations=getCampStartDestinations(worldRegistry,progress).map(d=>({...d,regionId:d.sectionId}));
+    content.innerHTML=`<div class="frontier-map-art"><svg viewBox="0 0 300 400" aria-hidden="true"><path d="M42 28Q13 90 39 151T35 281Q15 341 66 376L248 385Q299 328 276 275T283 160Q296 71 244 27Z" fill="#73baa0"/><path d="M73 49Q130 9 176 47T242 94L222 170Q275 217 228 261L245 350L154 375L59 332L81 253Q42 217 80 178Z" fill="#a8d59a"/><path d="M80 354C242 315 67 281 179 239S260 175 152 151S73 85 195 48" fill="none" stroke="#427f71" stroke-width="20" opacity=".25"/><path d="M80 350C242 311 67 277 179 235S260 171 152 147S73 81 195 44" fill="none" stroke="#f5d997" stroke-width="13" stroke-linecap="round"/><path d="M22 195Q80 149 77 105M259 270Q225 315 274 335" fill="none" stroke="#b2ebd4" stroke-width="7" stroke-linecap="round"/></svg>${regions.map((region,i)=>{const positions=[[27,87],[54,72],[60,58],[70,44],[40,26],[65,11]],p=positions[i],seen=known.has(region.id);return `<div class="frontier-map-stop ${seen?'known':'unknown'}" style="left:${p[0]}%;top:${p[1]}%">${seen?iconMarkup(BIOMES[i],{size:43}):'<i>?</i>'}<span>${esc(seen?(region.displayName??region.id):'Uncharted')}</span></div>`;}).join('')}</div><div class="frontier-destinations">${mode==='startSelection'?destinations.map((d,i)=>`<button data-destination="${i}" aria-label="Travel to ${esc(d.displayName)}">${iconMarkup(BIOMES[Math.max(1,regions.findIndex(r=>r.id===d.regionId))]??'map',{size:37})}<strong>${esc(d.displayName)}</strong><b>→</b></button>`).join(''):`<p class="frontier-map-caption">${progress.hasDepartedOnce?'Discover waypoints to open new starting points.':'Through the Camp gate. Into the wilds.'}</p>`}</div>`;
+    for(const button of content.querySelectorAll('[data-destination]'))button.addEventListener('click',()=>opts.onStartSelected?.(destinations[Number(button.dataset.destination)]));
+    overlay.querySelector('h2').textContent=mode==='startSelection'?'Set out':'Frontier';
   }
-
-  // Overlay
-  const overlay = document.createElement("div");
-  overlay.id = "frontier-map-overlay";
-  overlay.style.cssText = "position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(10,14,22,0.78);backdrop-filter:blur(4px);z-index:22;padding:max(18px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));pointer-events:auto;";
-  app.appendChild(overlay);
-
-  const panel = document.createElement("div");
-  panel.id = "frontier-map-panel";
-  panel.style.cssText = "background:rgba(14,20,32,0.96);border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 14px 12px;min-width:min(360px, 92vw);max-width:92vw;max-height:82vh;overflow:auto;color:#e6ebf5;box-shadow:0 8px 28px rgba(0,0,0,0.45);";
-  overlay.appendChild(panel);
-
-  const titleEl = document.createElement("div");
-  titleEl.style.cssText = "font-size:15px;font-weight:900;letter-spacing:0.06em;margin-bottom:6px;";
-  panel.appendChild(titleEl);
-
-  const subtitleEl = document.createElement("div");
-  subtitleEl.style.cssText = "font-size:12px;color:rgba(230,235,245,0.72);margin-bottom:10px;";
-  panel.appendChild(subtitleEl);
-
-  const listEl = document.createElement("div");
-  listEl.style.cssText = "display:flex;flex-direction:column;gap:8px;margin-bottom:12px;";
-  panel.appendChild(listEl);
-
-  const actionsEl = document.createElement("div");
-  actionsEl.style.cssText = "display:flex;gap:8px;justify-content:flex-end;";
-  panel.appendChild(actionsEl);
-
-  const closeBtn = document.createElement("button");
-  closeBtn.type = "button";
-  closeBtn.textContent = "CLOSE";
-  closeBtn.style.cssText = "appearance:none;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#e6ebf5;font-size:13px;font-weight:700;padding:8px 14px;border-radius:10px;cursor:pointer;";
-  actionsEl.appendChild(closeBtn);
-
-  let mode = null; // "inspect" | "startSelection"
-  let isOpen = false;
-  let enabled = true;
-
-  function setEnabled(v) {
-    enabled = !!v;
-    // visual disable but keep pointerEvents for layout? Just dim button
-    mapButton.style.opacity = enabled ? "1" : "0.45";
-    mapButton.style.pointerEvents = enabled ? "auto" : "none";
-  }
-
-  function hide() {
-    overlay.style.display = "none";
-    isOpen = false;
-    mode = null;
-    onClose();
-  }
-
-  function show() {
-    overlay.style.display = "flex";
-    isOpen = true;
-    onOpen(mode);
-  }
-
-  function buildList() {
-    listEl.innerHTML = "";
-    const prog = frontierProgress ? frontierProgress.getState() : { unlockedMajorWaypointIds: [], discoveredBeaconIds: [], hasDepartedOnce: false };
-    const regions = worldRegistry.getAllRegions?.() ?? worldRegistry.data?.regions ?? [];
-    const knownRegions = new Set(["camp"]);
-    for (const waypoint of worldRegistry.getAllWaypoints?.() ?? []) {
-      if (prog.unlockedMajorWaypointIds?.includes(waypoint.id) || waypoint.regionId === "camp") knownRegions.add(waypoint.regionId);
-    }
-    const graph = document.createElement("div");
-    graph.className = "frontier-graph";
-    graph.setAttribute("aria-label", "Frontier route graph");
-    const graphRegions = regions.slice(0, 6);
-    graph.innerHTML = `<div class="frontier-graph-line"></div>${graphRegions.map((region, index) => `<div class="frontier-graph-node ${knownRegions.has(region.id) ? "known" : "unknown"}" style="--node:${graphRegions.length > 1 ? 7 + index * 86 / (graphRegions.length - 1) : 50}%"><i>${region.id === "camp" ? "⌂" : knownRegions.has(region.id) ? "◆" : "?"}</i><span>${knownRegions.has(region.id) ? (region.displayName ?? region.id) : "Unknown"}</span></div>`).join("")}`;
-    if (regions.length) listEl.appendChild(graph);
-    const legend = document.createElement("div");
-    legend.className = "frontier-legend";
-    legend.textContent = "◆ Waypoint starts · ● Beacon secures · ▣ Gates travel";
-    if (regions.length) listEl.appendChild(legend);
-    // Separate camp gate waypoint vs frontier waypoints
-    const frontierWaypoints = worldRegistry.getAllWaypoints().filter(w => w.id !== "wp_camp_gate" && w.regionId !== "camp");
-    // For inspect fresh save: hide frontierWaypoints if not departed
-    const showFrontierWaypoints = !(mode === "inspect" && !prog.hasDepartedOnce);
-
-    const appendProgress = () => {
-      const level = getPlayerLevelProgress(prog.bankedXp ?? 0);
-      const bankRow = document.createElement("div");
-      bankRow.style.cssText = "font-size:11px;color:rgba(230,235,245,0.72);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:8px 10px;line-height:1.45;";
-      const resources = prog.bankedResources ?? {};
-      bankRow.textContent = `Level ${level.level} · ${level.bankedXp} / ${level.nextLevelXp} XP\nBanked — Wood ${resources.wood ?? 0} · Stone ${resources.stone ?? 0} · Fiber ${resources.fiber ?? 0}`;
-      bankRow.style.whiteSpace = "pre-line";
-      listEl.appendChild(bankRow);
-    };
-
-    if (mode === "startSelection") {
-      for (const destination of getCampStartDestinations(worldRegistry, prog)) {
-        const row = document.createElement("div");
-        row.style.cssText = "display:flex;align-items:center;gap:10px;background:rgba(79,195,247,0.14);border:1px solid rgba(79,195,247,0.35);border-radius:10px;padding:10px;cursor:pointer;";
-        const copy = document.createElement("div");
-        copy.style.cssText = "flex:1;min-width:0;";
-        const name = document.createElement("div");
-        name.textContent = destination.displayName;
-        name.style.cssText = "font-size:13px;font-weight:800;";
-        const description = document.createElement("div");
-        description.textContent = destination.description;
-        description.style.cssText = "font-size:11px;color:rgba(230,235,245,0.65);margin-top:2px;";
-        copy.append(name, description);
-        const action = document.createElement("span");
-        action.textContent = "TRAVEL";
-        action.style.cssText = "font-size:11px;font-weight:900;color:#4fc3f7;";
-        row.append(copy, action);
-        row.setAttribute("role", "button");
-        row.tabIndex = 0;
-        const select = () => onStartSelected(destination);
-        row.addEventListener("click", select);
-        row.addEventListener("keydown", (event) => {
-          if (event.key === "Enter" || event.key === " ") select();
-        });
-        listEl.appendChild(row);
-      }
-      appendProgress();
-      return;
-    }
-
-    // Gate row always
-    const gateRow = document.createElement("div");
-    gateRow.style.cssText = "display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:8px 10px;";
-    gateRow.innerHTML = `<span style="width:10px;height:10px;background:#c9b48a;border-radius:2px;flex-shrink:0"></span><span style="flex:1;font-size:13px;font-weight:700;">Frontier Gate</span>`;
-    listEl.appendChild(gateRow);
-
-    // Camp row
-    const camp = worldRegistry.getCamp();
-    if (camp) {
-      const campRow = document.createElement("div");
-      campRow.style.cssText = gateRow.style.cssText;
-      campRow.innerHTML = `<span style="width:10px;height:10px;background:#7bb26a;border-radius:50%;flex-shrink:0"></span><span style="flex:1;font-size:13px;font-weight:700;">Camp</span>`;
-      listEl.insertBefore(campRow, gateRow);
-    }
-
-    if (!showFrontierWaypoints) {
-      const unknown = document.createElement("div");
-      unknown.style.cssText = "font-size:12px;color:rgba(230,235,245,0.62);background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.12);border-radius:10px;padding:8px 10px;";
-      unknown.textContent = "Forest Edge is the known frontier entrance. Major Waypoints appear here after physical discovery.";
-      listEl.appendChild(unknown);
-      appendProgress();
-      return;
-    }
-
-    // Waypoints
-    const wpToShow = frontierWaypoints;
-    for (const wp of wpToShow) {
-      const unlocked = prog.unlockedMajorWaypointIds.includes(wp.id);
-      const label = worldRegistry.getAnchorDisplayName(wp);
-      const row = document.createElement("div");
-      const isStartMode = mode === "startSelection";
-      const selectable = isStartMode && unlocked;
-      row.style.cssText = selectable
-        ? "display:flex;align-items:center;gap:8px;background:rgba(79,195,247,0.14);border:1px solid rgba(79,195,247,0.35);border-radius:10px;padding:8px 10px;cursor:pointer;"
-        : unlocked
-          ? "display:flex;align-items:center;gap:8px;background:rgba(79,195,247,0.10);border:1px solid rgba(79,195,247,0.20);border-radius:10px;padding:8px 10px;"
-          : "display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:8px 10px;opacity:0.55;";
-      const iconColor = unlocked ? "#4fc3f7" : "#888";
-      const lockText = unlocked ? (selectable ? "TAP TO START" : "Unlocked") : "Locked";
-      row.innerHTML = `<span style="width:10px;height:10px;background:${iconColor};border-radius:2px;flex-shrink:0;transform:rotate(45deg)"></span><span style="flex:1;font-size:13px;font-weight:700;">${label}</span><span style="font-size:11px;font-weight:800;color:${selectable ? '#4fc3f7':'rgba(230,235,245,0.5)'}">${lockText}</span>`;
-      if (selectable) {
-        row.setAttribute("role", "button");
-        row.tabIndex = 0;
-        row.addEventListener("click", () => {
-          onStartSelected(wp.id);
-        });
-        row.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { onStartSelected(wp.id); }});
-      }
-      // In inspect mode, rows are non-interactive even if unlocked
-      if (mode === "inspect" && unlocked) {
-        // ensure no click
-        row.style.cursor = "default";
-      }
-      listEl.appendChild(row);
-    }
-
-    // Beacons (never selectable)
-    const beacons = worldRegistry.getAllBeacons();
-    const discovered = prog.discoveredBeaconIds;
-    for (const bc of beacons) {
-      const isDiscovered = discovered.includes(bc.id);
-      if (!isDiscovered) continue;
-      const label = worldRegistry.getAnchorDisplayName(bc);
-      const row = document.createElement("div");
-      row.style.cssText = "display:flex;align-items:center;gap:8px;background:rgba(255,112,67,0.10);border:1px solid rgba(255,112,67,0.18);border-radius:10px;padding:8px 10px;";
-      row.innerHTML = `<span style="width:10px;height:10px;background:#ff7043;border-radius:50%;flex-shrink:0"></span><span style="flex:1;font-size:13px;font-weight:700;">${label}</span><span style="font-size:11px;color:rgba(230,235,245,0.45)">Extraction only</span>`;
-      listEl.appendChild(row);
-    }
-    if (discovered.length === 0 && mode === "inspect" && prog.hasDepartedOnce) {
-      // no beacons yet
-    }
-
-    appendProgress();
-  }
-
-  function openInspect() {
-    if (!enabled) return false;
-    if (isOpen) return false;
-    mode = "inspect";
-    titleEl.textContent = "FRONTIER MAP";
-    subtitleEl.textContent = "Inspect your frontier progress. Tap CLOSE to return.";
-    buildList();
-    show();
-    return true;
-  }
-
-  function openStartSelection() {
-    if (isOpen) return false;
-    mode = "startSelection";
-    titleEl.textContent = "TRAVEL TO THE FRONTIER";
-    subtitleEl.textContent = "Choose the known entrance or a discovered Major Waypoint.";
-    buildList();
-    show();
-    return true;
-  }
-
-  function close() {
-    if (!isOpen) return false;
-    hide();
-    return true;
-  }
-
-  mapButton.addEventListener("click", () => {
-    if (!enabled) return;
-    if (isOpen && mode === "inspect") close();
-    else if (!isOpen) openInspect();
-  });
-  closeBtn.addEventListener("click", () => close());
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) close();
-  });
-  const onMapKey = (event) => {
-    if (isOpen && event.key === "Escape" && !event.defaultPrevented) {
-      event.preventDefault();
-      close();
-    }
-  };
-  window.addEventListener("keydown", onMapKey);
-
-  return {
-    openInspect,
-    openStartSelection,
-    close,
-    isOpen: () => isOpen,
-    getMode: () => mode,
-    isEnabled: () => enabled,
-    setEnabled,
-    element: overlay,
-    button: mapButton,
-    buildList,
-    destroy: () => { window.removeEventListener("keydown", onMapKey); overlay.remove(); },
-  };
+  function open(next){if(opened||(!enabled&&next==='inspect'))return false;mode=next;opened=true;previousFocus=document.activeElement;buildList();overlay.style.display='flex';opts.onOpen?.(mode);overlay.querySelector('button')?.focus();return true;}
+  function close(){if(!opened)return false;overlay.style.display='none';opened=false;mode=null;opts.onClose?.();previousFocus?.focus?.();return true;}
+  mapButton.addEventListener('click',()=>{if(enabled)opened?close():open('inspect');});
+  overlay.querySelector('.frontier-close').addEventListener('click',close);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+  function key(e){if(!opened)return;if(e.key==='Escape'&&!e.defaultPrevented){e.preventDefault();close();}if(e.key==='Tab'){const buttons=[...overlay.querySelectorAll('button')],first=buttons[0],last=buttons.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}}
+  window.addEventListener('keydown',key);
+  return {openInspect:()=>open('inspect'),openStartSelection:()=>open('startSelection'),close,isOpen:()=>opened,getMode:()=>mode,isEnabled:()=>enabled,setEnabled(v){enabled=!!v;mapButton.disabled=!enabled;},element:overlay,button:mapButton,buildList,destroy(){window.removeEventListener('keydown',key);overlay.remove();mapButton.remove();}};
 }

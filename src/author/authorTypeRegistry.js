@@ -344,7 +344,7 @@ function makePlatformDefinition() {
     transform: {
       read(found) {
         const o = found.obj;
-        const baseY = o.y ?? o.baseY ?? 0;
+        const baseY = o.baseY ?? o.y ?? 0;
         return {
           position: { x: o.x, y: baseY, z: o.z },
           rotationY: o.rotY ?? 0,
@@ -376,7 +376,7 @@ function makePlatformDefinition() {
     collision: {
       describe(found) {
         const o = found.obj;
-        const baseY = o.y ?? o.baseY ?? 0;
+        const baseY = o.baseY ?? o.y ?? 0;
         return describeBoxCollider({
           size: { width: o.w, height: o.height, depth: o.h },
           position: { x: o.x, y: baseY, z: o.z },
@@ -403,7 +403,7 @@ function makeObstacleDefinition() {
     transform: {
       read(found) {
         const o = found.obj;
-        const baseY = o.y ?? o.baseY ?? 0;
+        const baseY = o.baseY ?? o.y ?? 0;
         return {
           position: { x: o.x, y: baseY, z: o.z },
           rotationY: o.rotY ?? 0,
@@ -434,7 +434,7 @@ function makeObstacleDefinition() {
     collision: {
       describe(found) {
         const o = found.obj;
-        const baseY = o.y ?? o.baseY ?? 0;
+        const baseY = o.baseY ?? o.y ?? 0;
         return describeBoxCollider({
           size: { width: o.w, height: o.height, depth: o.h },
           position: { x: o.x, y: baseY, z: o.z },
@@ -1049,9 +1049,9 @@ const DEFINITIONS = [
   makeSectionObjectDefinition("parkourCourseZones", "parkourCourseZone", "editor/parkour-course-zone", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
   ], { sized: true, visualRole: "editorHelperOnly" }),
-  makeSectionObjectDefinition("killVolumes", "killVolume", "editor/kill-volume", [
+  makeSectionObjectDefinition("killVolumes", "killVolume", "hazard/thornbed", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
-  ], { sized: true, visualRole: "editorHelperOnly" }),
+  ], { sized: true, visualRole: "playerFacing" }),
   makeSectionObjectDefinition("lootChests", "lootChest", "poi/chest", [
     { key: "displayName", label: "Display Name", type: "text", path: "displayName" },
     { key: "lootTableId", label: "Loot Table", type: "text", path: "lootTableId" },

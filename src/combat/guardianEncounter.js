@@ -129,7 +129,7 @@ export function createGuardianEncounter({ scene, getGuardian, getPlayerState, pl
     const playerState = getPlayerState?.();
     const player = playerState?.pos ?? playerState;
     const nearGuardian = guardianState && horizontalDistance(guardianState.pos, player) <= 8;
-    const active = sectionId === GUARDIAN_ATTACK.sectionId && !paused && !hidden && guardianState && !guardianState.isDead && guardianState.aiState !== "RESPAWNING" && (guardianState.isAggroed || nearGuardian);
+    const active = sectionId === GUARDIAN_ATTACK.sectionId && !paused && !hidden && guardianState && !guardianState.isDead && guardianState.aiState !== "RESPAWNING" && nearGuardian;
     // A modal/section transition cancels a pending strike instead of letting an
     // invisible timer resolve while the player cannot move.
     if (!active) { reset(); return; }

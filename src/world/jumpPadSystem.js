@@ -36,6 +36,8 @@ export function getJumpPadTrajectorySignature(pad = {}) {
     pos: { x: pad.pos?.x ?? 0, y: pad.pos?.y ?? 0, z: pad.pos?.z ?? 0 },
     powerPreset: pad.powerPreset ?? "medium",
     verticalLaunch: pad.verticalLaunch ?? null,
+    horizontalLaunch: pad.horizontalLaunch ?? 0,
+    rotY: pad.rotY ?? 0,
   });
 }
 
@@ -77,7 +79,9 @@ export function createJumpPadSystem(worldRegistry, opts = {}) {
       if (inside.has(pad.id) || now() < (readyAt.get(pad.id) ?? 0)) continue;
       inside.add(pad.id);
       const verticalLaunch = resolveJumpPadVerticalLaunch(pad);
-      if (launchPlayer({ pad, verticalLaunch })) {
+      const horizontalLaunch = Math.max(0, Number(pad.horizontalLaunch) || 0);
+      const direction = getJumpPadDirection(pad.rotY ?? 0);
+      if (launchPlayer({ pad, verticalLaunch, horizontalLaunch, direction })) {
         readyAt.set(pad.id, now() + (pad.cooldown ?? 0.8) * 1000);
         launched = pad;
       }

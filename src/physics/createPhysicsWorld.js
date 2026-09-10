@@ -29,7 +29,14 @@ export function createPhysicsWorld(RAPIER, playground) {
 
   // Ground patches — authored playable surfaces (collision from same authored transform)
   // If no authored ground patches, fallback to legacy global ground for test compatibility
-  if (playground.groundPatches && playground.groundPatches.length > 0) {
+  if ((playground.groundPatches?.length ?? 0) > 0 || (playground.terrainSurfaces?.length ?? 0) > 0) {
+    for (const surface of playground.terrainSurfaces ?? []) {
+      const desc = RAPIER.ColliderDesc.trimesh(surface.vertices, surface.indices)
+        .setFriction(0.6).setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
+      const collider = world.createCollider(desc);
+      staticColliders.push(collider);
+      colliderSections.set(collider, surface.sectionId);
+    }
     for (const gp of playground.groundPatches) {
       if (gp.collisionEnabled === false) continue;
       const w = gp.w ?? gp.size?.w ?? 25;
