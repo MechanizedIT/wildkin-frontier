@@ -1,7 +1,9 @@
 # AGENTS.md — Operating Rules
 
+> **Current product direction (September 9, 2026):** Wildkin Frontier is an independent game. Chris authorized autonomous professional design/development through a locally playable beta candidate, including campaign composition and previously deferred systems. The old hackathon/phase gates are historical. Read the beta scope/status in `CURRENT_SLICE.md`; preserve explicit engineering ownership, tests and local Git discipline. Exact candidate balance/art choices remain provisional until playtested by Chris.
+
 1. Read `docs/CURRENT_SLICE.md` first. It is the only authoritative implementation scope for this session.
-2. Read `docs/GAME_DESIGN.md`, `docs/HACKATHON_REQUIREMENTS.md`, and relevant parts of `docs/ARCHITECTURE.md` before changing architecture or gameplay.
+2. Read `docs/GAME_DESIGN.md`, `docs/BETA_RELEASE_PLAN.md`, and relevant parts of `docs/ARCHITECTURE.md` before changing architecture or gameplay. `HACKATHON_REQUIREMENTS.md` is an archive, not current scope.
 3. Preserve existing working systems, but do not introduce **new features or future-phase behavior** outside the active slice. If a current slice requires touching an older system, make the smallest compatible change and preserve accepted behavior.
 4. Preserve hard constraints: single-player, portrait mobile, Three.js/HTML5, no runtime network requests, local vendored `vendor/three.module.js` + `vendor/rapier.js` with relative paths, `index.html` at ZIP root, 35 MB limit, first-party code readable/unminified in submission.
 5. Prefer vanilla HTML/CSS/JS + Three.js. No React, game engine, ECS, backend, CDN, or required bundler for dev. Physics/collision runtime is `@dimforge/rapier3d-compat@0.20.0` via vendored `vendor/rapier.js`; use it deliberately for approved collision, kinematic movement, and spatial queries. Do not add another physics engine.

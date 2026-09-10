@@ -5,9 +5,14 @@ export function resolveSuccessfulExtraction({ session, cargo, xp, bankRun } = {}
   if (!session?.isActive?.()) return { ok: false, reason: "inactive-run" };
   session.setCargo?.(cargo ?? {});
   session.setXp?.(xp ?? 0);
-  const snapshot = session.tryResolveExtract?.();
-  if (!snapshot) return { ok: false, reason: "already-resolved" };
+  // Bank against the active run snapshot first. A storage failure leaves the
+  // session active with its cargo intact so the player can retry or export.
+  const snapshot = session.snapshotRun?.();
+  if (!snapshot) return { ok: false, reason: "missing-run-snapshot" };
   const banked = bankRun?.(snapshot.cargo, snapshot.xp, snapshot.runId);
+  if (banked?.ok === false) return { ok: false, reason: banked.reason ?? "bank-failed", snapshot, banked };
+  const resolved = session.tryResolveExtract?.();
+  if (!resolved) return { ok: false, reason: "already-resolved", snapshot, banked };
   session.resetToCamp?.();
   return { ok: true, type: "extracted", snapshot, banked };
 }

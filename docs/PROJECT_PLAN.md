@@ -1,5 +1,7 @@
 # Wildkin Frontier — Game Design & Build Plan
 
+> **Historical roadmap, superseded for current delivery.** September 9, 2026: Chris retired the competition purpose and authorized autonomous end-to-end beta development, including level composition and previously deferred systems. `BETA_RELEASE_PLAN.md` and `CURRENT_SLICE.md` are the active plan; `GAME_DESIGN.md` records the current implementation choices. The phase gates and event requirements below are retained as project history, not active restrictions.
+
 ## Purpose
 
 This is the repository mirror of the living Google GDD for the Meta Horizon Creator Competition: Game Prototype project.

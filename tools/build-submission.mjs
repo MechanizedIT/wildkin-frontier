@@ -48,19 +48,11 @@ async function build() {
     fs.copyFileSync(path.join(ROOT, "THIRD_PARTY_NOTICES.md"), path.join(OUT, "THIRD_PARTY_NOTICES.md"));
   }
 
-  // 3. Read CSS (inlined readable — no minification)
-  const cssPath = path.join(ROOT, "styles", "game.css");
-  let cssInline = "";
-  if (fs.existsSync(cssPath)) {
-    const css = fs.readFileSync(cssPath, "utf-8");
-    cssInline = `<style>\n${css}\n</style>`;
-  }
-
   // 4. Bundle first-party ESM via esbuild module graph
   //    Robust: follows imports from src/main.js automatically; no hard-coded module list.
-  const entry = path.join(ROOT, "src", "main.js");
+  const entry = path.join(ROOT, "src", "boot.js");
   if (!fs.existsSync(entry)) {
-    console.error(`[build] missing entry: src/main.js`);
+    console.error(`[build] missing entry: src/boot.js`);
     process.exit(1);
   }
 
@@ -95,53 +87,14 @@ async function build() {
   // 5. Build submission index.html — first-party bundle inlined as a single module script
   //    Three.js stays external via importmap → ./vendor/three.module.js at runtime.
   //    Read current index.html for title/hud sync, but fallback to Phase 1 defaults.
-  const submissionHtml = `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-    <meta name="theme-color" content="#0e1420" />
-    <title>Wildkin Frontier — Phase 3.5B.2</title>
-    ${cssInline}
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "./vendor/three.module.js",
-          "rapier": "./vendor/rapier.js",
-          "@dimforge/rapier3d-compat": "./vendor/rapier.js"
-        }
-      }
-    </script>
-  </head>
-  <body>
-    <div id="app" aria-label="Game canvas container">
-      <canvas id="c" aria-label="3D scene"></canvas>
-      <div id="hud" aria-hidden="false">
-        <div class="hud-top">
-          <div class="badge">
-            <strong>WILDKIN FRONTIER — Phase 3.5B.2</strong>
-            <small>Transform Parity · Input Ownership · Hierarchy</small>
-          </div>
-          <div class="badge" style="text-align: right">
-            <strong style="font-size: 11px">Left: move · Right: Tap attack / Swipe dodge</strong>
-            <small>C=Sneak · Shift=Run · Space=dodge · F/Click=attack</small>
-          </div>
-        </div>
-        <div class="hud-bottom">
-          <div id="debug-label">Phase 3.5B.2 — 0.10.2 · starting…</div>
-          <div class="hud-hint">White ring = harvest · Orange ring = will hit · Tap: attack Swipe: dodge · Regions: see debug</div>
-        </div>
-      </div>
-    </div>
-    <script type="module">
-// Submission build — first-party bundle (readable, unminified) via esbuild
-// Entry: src/main.js  |  external: three → ./vendor/three.module.js, rapier → ./vendor/rapier.js
-${jsBundle}
-</script>
-  </body>
-</html>
-`;
-
+  // Development and packaged releases share exactly one HTML/UI shell.
+  const submissionHtml = fs.readFileSync(path.join(ROOT, "index.html"), "utf8")
+    .replace(/<link rel="stylesheet" href="\.\/(styles\/[^\"]+)"\s*\/>/g, (_tag, file) => {
+      const stylesheet = fs.readFileSync(path.join(ROOT, file), "utf8");
+      return `<style>\n${stylesheet}\n</style>`;
+    })
+    .replace(/<script type="module" src="\.\/src\/boot\.js"><\/script>/, () =>
+      `<script type="module">\n// Wildkin Frontier: readable first-party release bundle\n${jsBundle}\n</script>`);
   fs.writeFileSync(path.join(OUT, "index.html"), submissionHtml, "utf-8");
 
   const stats = fs.statSync(path.join(OUT, "index.html"));

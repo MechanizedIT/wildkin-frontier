@@ -592,7 +592,9 @@ export function createVisualAssetVisual(asset) {
     // Cached material per color — asset parts share flat roughness 0.82/metalness 0.05
     const material = getCachedStandardMaterial(part.color, "asset:0.82:0.05");
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = `${asset.id}:${part.id}`;
+      mesh.name = `${asset.id}:${part.id}`;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
     mesh.position.set(part.position.x, part.position.y, part.position.z);
     mesh.rotation.set(part.rotation.x, part.rotation.y, part.rotation.z, "XYZ");
     mesh.scale.set(part.scale.x, part.scale.y, part.scale.z);

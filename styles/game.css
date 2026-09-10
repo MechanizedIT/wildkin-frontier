@@ -34,6 +34,12 @@ html, body {
 }
 
 /* HUD — must not block canvas interaction */
+#boot-status { position:absolute; inset:0; z-index:2000; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; background:#102d2c; color:#f5e7c9; text-align:center; }
+#boot-status[hidden] { display:none; }
+#boot-status small { letter-spacing:.2em; font-size:10px; }
+#boot-status h1 { font-family:Georgia,serif; font-size:29px; font-weight:normal; }
+#boot-status p { max-width:340px; color:#b9d3c9; font-size:14px; line-height:1.7; }
+#boot-status button { padding:15px 22px; border:1px solid #e9bd72; background:#e9bd72; color:#18322b; border-radius:8px; font-weight:700; cursor:pointer; }
 #hud {
   position: absolute;
   inset: 0;

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import WORLD_DATA from "../src/world/data/world.js";
+import WORLD_DATA from "./fixtures/phase4b1ProofWorld.generated.js";
 import { createAuthorDraft, preparePersistedAuthorDraft } from "../src/author/authorDraft.js";
 import {
   SECTION_OBJECT_COLLECTIONS,

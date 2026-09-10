@@ -1,0 +1,23 @@
+.bond-overlay { position:absolute; inset:0; z-index:70; display:grid; place-items:center; padding:22px; background:rgba(4,17,22,.85); backdrop-filter:blur(8px); color:#e8f4ed; pointer-events:auto; }
+.bond-overlay[hidden] { display:none; }
+.bond-card { width:min(370px,100%); text-align:center; background:linear-gradient(155deg,#21413a,#112c30); border:1px solid #73967b; border-radius:24px; padding:28px 22px 22px; box-shadow:0 20px 80px #0008; }
+.bond-card .eyebrow { color:#b7c3a5; font-size:9px; letter-spacing:.17em; }
+.bond-card h2 { font-family:Georgia,serif; font-size:30px; font-weight:400; margin:14px 0 8px; }
+.bond-instructions { font-size:13px; line-height:1.55; color:#b6cdc2; }
+.bond-emblem { font-size:65px; line-height:100px; color:var(--bond-color); text-shadow:0 0 32px var(--bond-color); }
+.bond-track { position:relative; height:22px; border-radius:20px; background:#071c20; border:1px solid #617468; margin:12px 8px 22px; }
+.bond-window { position:absolute; left:54%; width:36%; height:100%; background:linear-gradient(90deg,#b18642,#f3d68a,#b18642); border-radius:10px; opacity:.85; }
+.bond-cursor { position:absolute; top:-5px; width:8px; height:30px; transform:translateX(-50%); border-radius:5px; background:white; box-shadow:0 0 12px #ffedba; }
+.bond-status { font-size:12px; min-height:36px; color:#e6cd94; line-height:1.5; }
+.bond-card button { display:block; width:100%; border:none; border-radius:12px; min-height:48px; cursor:pointer; }
+.bond-tap { font-size:16px; font-weight:800; background:#ebc77e; color:#20342b; box-shadow:0 4px 0 #91714a; }
+.bond-tap small { display:block; font-size:10px; opacity:.7; margin-top:4px; }
+.bond-tap:active { transform:translateY(2px); box-shadow:0 2px 0 #91714a; }
+.bond-cancel { background:transparent; color:#b4c7bb; margin-top:14px; }
+.bond-footnote { font-size:10px; line-height:1.5; color:#8ca79a; }
+.bond-overlay[data-feedback="hit"] .bond-emblem { color:#e6f5a5; }
+.bond-overlay[data-feedback="miss"] .bond-emblem { color:#e7a490; }
+#app:not(.dev-mode) .hud-top, #app:not(.dev-mode) .hud-bottom { display:none; }
+.author-active #beta-shell { display:none; }
+.reduced-motion *, .reduced-motion *::before, .reduced-motion *::after { animation:none!important; transition:none!important; }
+@media (max-height:680px) { .bond-card { padding:16px; } .bond-emblem { font-size:45px; line-height:62px; } }

@@ -45,6 +45,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     cfg,
     temperament,
     speciesTag,
+    visualAssetId: spawn.visualAsset?.id ?? null,
     homePos: { ...homePos },
     roamRadius,
     noticeRadius,
@@ -81,6 +82,8 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     steerHold: 0,
     steerAngle: null,
     lastDamagedByPlayer: false,
+    bondingHeld: false,
+    bondCaptured: false,
   };
 
   // Runtime and Author Edit share this deterministic visual recipe.
@@ -122,7 +125,8 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   focusRing.name = "focusRing";
   group.add(focusRing);
 
-  // DEBUG-ONLY temperament marker: floating letter A/T/D/S visible on phone for testing, no collision
+  // DEBUG-ONLY temperament marker. Normal play starts hidden; dev and Author
+  // sessions can explicitly expose it through CreatureSystem.
   const tempLetterMap = { AGGRESSIVE: "A", TERRITORIAL: "T", DEFENSIVE: "D", SKITTISH: "S" };
   const letter = tempLetterMap[temperament] ?? "?";
   // Color per temperament for readability
@@ -172,6 +176,30 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     group.add(mesh);
     temperamentMarker = mesh;
   }
+  const debugMarkersEnabled = (() => {
+    try {
+      // Node-only contract tests have no browser play mode. Keep their legacy
+      // marker fixture inspectable while normal browser play remains clean.
+      if (typeof window === "undefined") return true;
+      const query = new URLSearchParams(globalThis.location?.search ?? "");
+      return query.get("dev") === "1" || query.get("author") === "1";
+    } catch { return false; }
+  })();
+  if (temperamentMarker) temperamentMarker.visible = debugMarkersEnabled;
+
+  // A compact camera-facing health indicator appears only when combat makes it
+  // useful. Sprites keep the indicator readable from the fixed game camera.
+  const healthBar = new THREE.Group();
+  healthBar.name = "creatureHealthBar";
+  healthBar.position.set(0, 1.24, 0);
+  const healthBack = new THREE.Sprite(new THREE.SpriteMaterial({ color: 0x1a1010, transparent: true, opacity: 0.82, depthWrite: false }));
+  healthBack.scale.set(0.78, 0.075, 1);
+  const healthFill = new THREE.Sprite(new THREE.SpriteMaterial({ color: 0xff8053, transparent: true, opacity: 0.95, depthWrite: false }));
+  healthFill.scale.set(0.72, 0.045, 1);
+  healthBar.add(healthBack, healthFill);
+  healthBar.visible = false;
+  healthBar.raycast = () => {};
+  group.add(healthBar);
 
   // Health pips small? Use scaling visual? Keep hidden; handled by flash.
 
@@ -292,6 +320,10 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     if (focusRing.visible) {
       ringMat.opacity = 0.55 + Math.sin(performance.now() * 0.009) * 0.15;
     }
+    const healthRatio = Math.max(0, Math.min(1, state.health / Math.max(1, state.maxHealth)));
+    healthBar.visible = !state.bondCaptured && !state.isDead && (state.isAggroed || state.health < state.maxHealth);
+    healthFill.scale.x = Math.max(0.001, 0.72 * healthRatio);
+    healthFill.position.x = -0.36 * (1 - healthRatio);
     // Death shrink? Handled by system
   }
 
@@ -350,7 +382,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   }
 
   return {
-    group, state, get body() { return body; }, get collider() { return collider; }, set collider(v) { collider = v; }, controller, cfg, mainMesh, focusRing,
+    group, state, get body() { return body; }, get collider() { return collider; }, set collider(v) { collider = v; }, controller, cfg, mainMesh, focusRing, healthBar,
     setPosition, getPosition, move, setVisible, setVisualScaleMultiplier, updateVisual, showFocusRing, setTemperamentDebugVisible, applyKnockback, dispose, disableCollision, enableCollision,
     visibleInPlay, collisionEnabled, creatureScale,
     get pos() { return state.pos; },

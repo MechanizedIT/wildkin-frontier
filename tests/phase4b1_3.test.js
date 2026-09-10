@@ -10,7 +10,7 @@ import {
   normalizeAuthorWheelDelta,
   restoreAuthorCameraProjection,
 } from "../src/author/authorMode.js";
-import WORLD_DATA from "../src/world/data/world.js";
+import WORLD_DATA from "./fixtures/phase4b1ProofWorld.generated.js";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 

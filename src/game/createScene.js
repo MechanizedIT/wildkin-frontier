@@ -1,30 +1,23 @@
 import * as THREE from "three";
 import { createMovementPlayground } from "../world/createMovementPlayground.js";
 import { createPlayer } from "../player/createPlayer.js";
+import { initializeFrontierShadows } from "../presentation/frontierShadows.js";
 
 export function createScene(worldData = null) {
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x8ecae6);
-  scene.fog = new THREE.Fog(0x8ecae6, 18, 36);
-
-  const ambient = new THREE.AmbientLight(0xffffff, 0.85);
-  scene.add(ambient);
-
-  const dir = new THREE.DirectionalLight(0xffffff, 0.9);
-  dir.position.set(6, 12, 4);
-  scene.add(dir);
-
-  const hemi = new THREE.HemisphereLight(0xddeeff, 0x2a3a2a, 0.35);
-  hemi.position.set(0, 10, 0);
-  scene.add(hemi);
-
+  scene.background = new THREE.Color(0x1d5c58);
+  scene.fog = new THREE.FogExp2(0x1d5c58, 0.015);
+  scene.add(new THREE.HemisphereLight(0xe3f3e9, 0x426253, 1.38));
+  const sun = new THREE.DirectionalLight(0xffebc5, 1.62);
+  sun.position.set(-7, 13, 5);
+  scene.add(sun);
+  const fill = new THREE.DirectionalLight(0x58e6c9, 0.68);
+  fill.position.set(8, 5, -8);
+  scene.add(fill);
   const playground = createMovementPlayground(worldData);
   scene.add(playground.group);
-
   const player = createPlayer();
   scene.add(player);
-
-  const ground = playground.group;
-
-  return { scene, ground, player, playground };
+  const shadows = initializeFrontierShadows({ scene, sun, player, playground: playground.group });
+  return { scene, ground: playground.group, player, playground, shadows };
 }

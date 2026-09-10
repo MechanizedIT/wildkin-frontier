@@ -1,6 +1,6 @@
 # Hackathon Requirements & Guardrails
 
-> Hard constraints agents must not violate. Official source of truth: [Meta Horizon Creator Competition: Game Prototype on Devpost](https://mhcp-game-prototype.devpost.com/) — Devpost wins on conflicts.
+> **Historical archive.** The event has passed. Chris explicitly retired this competition scope on September 9, 2026 in favor of an independent released-game direction. These requirements and links explain older build scripts; they no longer determine product scope or authorize submission. Local assets, single-player portrait play and lightweight packaging remain useful chosen engineering properties of the current candidate.
 
 ## Hard Build Requirements
 

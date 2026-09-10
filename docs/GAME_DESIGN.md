@@ -1,6 +1,27 @@
-# Game Design — Repository Mirror (Stable Decisions)
+# Game Design — Wildkin Frontier
 
-> Concise mirror of the living Google GDD / `docs/PROJECT_PLAN.md`. Stable decisions belong here; unresolved mechanics are marked open. Do not invent unresolved mechanics.
+> Current product direction: independent single-player expedition game. On September 9, 2026, Chris authorized autonomous design and implementation of a playable beta candidate and superseded the former hackathon/phase/owner-only composition restrictions. The core vision below is retained. Historical references to competition cuts, Phase 4B limits, or unimplemented prototype systems do not describe the current 0.2 candidate.
+
+## Beta 0.2 implementation and provisional design
+
+The player can complete a Camp-to-Heartwood campaign across five expedition regions, collect four Wildkin, revisit four ability-sealed caches, craft medkits, buy fifteen upgrade tiers, repair gates, discover travel starts, and secure the Heartwood Core after defeating its Guardian. The campaign remains open for collection and upgrade completion after its ending.
+
+The following choices are implemented for this candidate under Chris's broad design authorization; their exact feel/balance has **not** been accepted by Chris:
+
+| System | Candidate behavior |
+| --- | --- |
+| Bonding | Approach an undamaged bondable Wildkin peacefully; answer three resonance timing echoes before three misses. Cancel safely. New bonds remain at risk until extraction. |
+| Companions | Mossling heals; Tidefin shields for three seconds; Emberhorn sends a damaging shockwave; Skydancer leaps upward. Choose one secured companion at Camp. Each opens a matching seal. |
+| Capacity | One unsecured bond initially; Wildkin Shelter tiers raise capacity to two, three, then four. Secured species cannot be captured repeatedly. |
+| Progression | Banked XP determines level; carried XP is lost on death. Five three-tier upgrade families use secured matter. Field milestones grant one-time secured rewards. |
+| Healing | Craft medkits at Camp from Fiber and Berries; Field Medicine increases their healing. Mossling provides a reusable healing option. |
+| Economy | Gate repair spends carried materials and persists immediately. Every required gate material has a renewable source in reachable regions. Camp upgrades spend banked matter. |
+| Finale | The Heartwood Guardian guards the Core. Amber rings warn before area impacts; at low health it chains strikes. The Core only completes the campaign when extracted. Losing it leaves it recoverable. |
+| Saving | Browser-local secured progress, validated export/restore at Camp. Unfinished expeditions are not resumed after reload. |
+
+Target expedition length remains 5–10 minutes; complete campaign duration and sustained physical-phone performance are unmeasured. Mounts, swimming/gliding, equipment/ranged player loadouts, expanded base building, and a larger narrative campaign remain future work. The authoring system supports new creatures and content; new bonded abilities require a deliberate catalog/runtime addition.
+
+See `BETA_RELEASE_PLAN.md`, `BETA_PLAYTEST_GUIDE.md`, and `BETA_CANDIDATE_REPORT.md` for current delivery scope and proof. The sections below preserve the foundational design and its historical rationale; candidate details above supersede older “open” or “later” wording for implemented systems.
 
 ## Working Concept
 

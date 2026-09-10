@@ -4,7 +4,7 @@ import path from "node:path";
 import { describe, it } from "node:test";
 import { AUTHOR_CAMERA_SYNC_POLICY } from "../src/author/authorMode.js";
 import { createSectionRuntime } from "../src/world/sectionRuntime.js";
-import WORLD_DATA from "../src/world/data/world.js";
+import WORLD_DATA from "./fixtures/phase4b1ProofWorld.generated.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 
 const ROOT = path.resolve(import.meta.dirname, "..");

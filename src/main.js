@@ -55,12 +55,14 @@ import {
 } from "./progression/matterAttractor.js";
 import { getPlayerLevel } from "./progression/playerLevel.js";
 import { createReturnToCampFlow, resolveSuccessfulExtraction } from "./session/runResolution.js";
+import { createBetaGame } from "./game/createBetaGame.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
-const VERSION = "Phase 4B.1.5 — 0.18.0";
+const VERSION = "Wildkin Frontier — Beta 0.2.0";
+let betaGame = null;
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -74,6 +76,8 @@ function getDevEnabled() {
 }
 const authorEnabled = getAuthorEnabled();
 const devEnabled = getDevEnabled();
+app.classList.toggle("dev-mode", devEnabled);
+app.classList.toggle("author-mode", authorEnabled);
 const canonicalWorldData = WORLD_DATA;
 let effectiveWorldData = canonicalWorldData;
 if (authorEnabled) {
@@ -92,7 +96,7 @@ if (authorEnabled) {
 const worldRegistry = createWorldRegistry(effectiveWorldData);
 const regionDepthMap = worldRegistry.getRegionDepthMap();
 
-const { scene, player, playground } = createScene(worldRegistry.data);
+const { scene, player, playground, shadows } = createScene(worldRegistry.data);
 
 function getAspect() {
   const w = app.clientWidth;
@@ -302,11 +306,13 @@ creatureSystem = createCreatureSystem(scene, physicsWorld, playground, {
   spawns: spawnsFromWorld,
   worldRegistry,
   onCreatureDamaged: (creature, amount) => {
+    betaGame?.onCreatureDamaged(creature, amount);
     gameAudio.playEnemyHit();
     const mockNode = { state: { position: { x: creature.state.pos.x, y: creature.state.pos.y, z: creature.state.pos.z } }, type: { impactEffectHeight: 0.45, resourceId: "generic" } };
     try { particleSystem.spawnBurst(mockNode, 4); } catch {}
   },
   onCreatureDied: (creature) => {
+    betaGame?.onCreatureDied(creature);
     expeditionSession.addKill();
     gameAudio.playEnemyDeath();
     const mockNode = { state: { position: { x: creature.state.pos.x, y: creature.state.pos.y, z: creature.state.pos.z } }, type: { impactEffectHeight: 0.5, resourceId: "generic" } };
@@ -357,7 +363,7 @@ let frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndi
 let returnToCampFlow = null;
 
 function isAnyBlockingModal() {
-  return (frontierMap && frontierMap.isOpen()) || (anchorPrompt && anchorPrompt.isVisible()) || (runResultCard && runResultCard.isVisible()) || (matterResonatorPanel && matterResonatorPanel.isVisible());
+  return betaGame?.isBlocking() || (frontierMap && frontierMap.isOpen()) || (anchorPrompt && anchorPrompt.isVisible()) || (runResultCard && runResultCard.isVisible()) || (matterResonatorPanel && matterResonatorPanel.isVisible());
 }
 
 function setGameplayInputBlocked(blocked) {
@@ -373,7 +379,7 @@ function refreshMapAvailability() {
   const anchorOpen = anchorPrompt.isVisible();
   const resultOpen = runResultCard.isVisible();
   const resonatorOpen = matterResonatorPanel?.isVisible?.() ?? false;
-  const shouldDisableMapButton = anchorOpen || resultOpen || resonatorOpen || (authorCtx && authorCtx.isEditMode && authorCtx.isEditMode());
+  const shouldDisableMapButton = betaGame?.isBlocking() || anchorOpen || resultOpen || resonatorOpen || (authorCtx && authorCtx.isEditMode && authorCtx.isEditMode());
   frontierMap.setEnabled(!shouldDisableMapButton);
 }
 
@@ -403,6 +409,7 @@ anchorPrompt = createAnchorPrompt({
     } else if (data.type === "campReturn") {
       const resolved = returnToCampFlow?.confirm();
       if (resolved?.ok) finalizeSuccessfulExtraction(resolved, data);
+      else handleExtractionFailure(resolved);
     } else {
       handleExtractionFlow(data);
     }
@@ -560,9 +567,13 @@ parkourSystem = createParkourSystem(worldRegistry, {
 lootSystem = createLootSystem(worldRegistry, {
   frontierProgress,
   getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
-  grantRewards: (rewards) => {
+  getPlayerPos: () => playerController.getState().pos,
+  checkAccess: (chest) => betaGame?.lootAccess(chest) ?? { ok: true },
+  transientChestIds: ["chest_heartwood_core"],
+  grantRewards: (rewards, chest) => {
     pickupSystem.grantInventory(rewards.resources);
     if (rewards.xp > 0) xpMoteSystem.setXp(xpMoteSystem.getXp() + rewards.xp);
+    betaGame?.onLoot(rewards, chest);
   },
   onCourseReward: (courseId) => parkourSystem.completeCourse(courseId),
 });
@@ -571,7 +582,7 @@ returnToCampFlow = createReturnToCampFlow({
   session: expeditionSession,
   getCargo: () => pickupSystem.getInventory(),
   getXp: () => xpMoteSystem.getXp(),
-  bankRun: (cargo, xp, runId) => frontierProgress.bankRun(cargo, xp, runId),
+  bankRun: (cargo, xp, runId) => frontierProgress.bankRun(cargo, xp, runId, betaGame?.getBankingExtras()),
 });
 
 // Contextual interaction (single owner)
@@ -579,7 +590,9 @@ let contextualInteraction = null;
 contextualInteraction = createContextualInteraction({
   onActivate: (info) => {
     if (isAnyBlockingModal()) return;
-    if (info.type === "portalGate") {
+    if (info.type === "bond") {
+      betaGame?.beginBond(info.id);
+    } else if (info.type === "portalGate") {
       if (info.action === "camp-start") {
         frontierMap.openStartSelection();
         refreshMapAvailability();
@@ -599,7 +612,8 @@ contextualInteraction = createContextualInteraction({
         portalGateSystem.activate(info.id);
       }
     } else if (info.type === "lootChest") {
-      lootSystem.open(info.id);
+      const opened = lootSystem.open(info.id);
+      if (!opened.ok && opened.detail) betaGame?.shell.toast("Ancient seal", opened.detail);
     } else if (info.type === "gate") {
       if (expeditionSession.isCamp()) {
         frontierMap.openStartSelection();
@@ -618,7 +632,7 @@ contextualInteraction = createContextualInteraction({
       refreshMapAvailability();
       syncInputBlock();
     } else if (info.type === "resonator" && expeditionSession.isCamp()) {
-      matterResonatorPanel.show();
+      if (betaGame) betaGame.openWorkshop(); else matterResonatorPanel.show();
       refreshMapAvailability();
       syncInputBlock();
     }
@@ -664,6 +678,7 @@ function syncInputBlock() {
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
   const modalBlocked = isAnyBlockingModal();
   const blocked = !!(authorSuppress || modalBlocked);
+  app.classList.toggle("gameplay-blocked", blocked);
   setGameplayInputBlocked(blocked);
   if (authorSuppress !== prevAuthorSuppress) {
     prevAuthorSuppress = authorSuppress;
@@ -673,6 +688,8 @@ function syncInputBlock() {
 
 // Shared transient world reset to Camp (extraction & death share this path where practical)
 function resetTransientWorldToCamp() {
+  betaGame?.reset();
+  lootSystem?.reset();
   if (pickupSystem.clear) { try { pickupSystem.clear(); } catch {} }
   pickupSystem.resetInventory();
   inventoryHud.update(pickupSystem.getInventory(), 0);
@@ -719,6 +736,9 @@ function resetTransientWorldToCamp() {
 
 function beginExpeditionAtTransform({ sectionId, startAnchorId, feetPosition, facingYaw = 0, suppressAnchorId = null }) {
   if (!expeditionSession.isCamp() || !worldRegistry.getSectionById(sectionId)) return false;
+  betaGame?.reset();
+  betaGame?.refreshModifiers();
+  lootSystem?.reset();
   // Clear old run state (transient)
   pickupSystem.resetInventory();
   inventoryHud.update(pickupSystem.getInventory(), 0);
@@ -817,16 +837,27 @@ function handleExtractionFlow(data) {
     session: expeditionSession,
     cargo,
     xp,
-    bankRun: (bankCargo, bankXp, runId) => frontierProgress.bankRun(bankCargo, bankXp, runId),
+    bankRun: (bankCargo, bankXp, runId) => frontierProgress.bankRun(bankCargo, bankXp, runId, betaGame?.getBankingExtras()),
   });
-  if (!resolved.ok) return;
+  if (!resolved.ok) { handleExtractionFailure(resolved); return; }
   finalizeSuccessfulExtraction(resolved, data);
+}
+
+function handleExtractionFailure(result) {
+  if (result?.reason === "storage-write-failed") {
+    betaGame?.shell.toast("Extraction could not be saved", "Your expedition is still active. Keep this tab open and retry after freeing browser storage.");
+  }
+  syncInputBlock();
+  refreshMapAvailability();
 }
 
 function finalizeSuccessfulExtraction(resolved, data) {
   const snap = resolved.snapshot;
+  const extra = betaGame?.onExtract(snap.runId) ?? {};
   const banked = frontierProgress.getState();
   pendingResultSnapshot = {
+    companions: extra.companions ?? [],
+    campaignCompleted: extra.campaignCompleted ?? false,
     cargo: { ...snap.cargo },
     xp: snap.xp,
     newWaypoints: [...snap.newWaypoints],
@@ -872,8 +903,9 @@ function handleDeathFlow(reason = "combat") {
   const snap = expeditionSession.tryResolveDeath(reason);
   if (!snap) return;
   const discoveries = expeditionSession.getRunDiscoveries();
+  const lostCompanions = betaGame?.companions.getPending().map(c => c.id) ?? [];
   // Death banks nothing, but discoveries (waypoints/beacons) already persisted via anchor system unlocks — they survive
-  pendingResultSnapshot = { cargo: { ...cargo }, xp, deathReason: snap.deathReason, newWaypoints: [...discoveries.newWaypoints], newBeacons: [...discoveries.newBeacons] };
+  pendingResultSnapshot = { cargo: { ...cargo }, xp, companions: lostCompanions, deathReason: snap.deathReason, newWaypoints: [...discoveries.newWaypoints], newBeacons: [...discoveries.newBeacons] };
   const banked = frontierProgress.getState();
   // Return/reset to Camp via shared path
   expeditionSession.resetToCamp();
@@ -919,6 +951,16 @@ if (authorEnabled) {
   if (authorMode.setSystems) authorMode.setSystems({ resourceSystem, creatureSystem, regionManager, worldRegistry });
   window.__author = { draftApi: authorCtx?.draftApi, ui: authorCtx?.ui, mode: authorMode };
 }
+
+betaGame = createBetaGame({
+  app, scene, camera, registry: worldRegistry, progress: frontierProgress, session: expeditionSession,
+  creatures: creatureSystem, playerController, playerCombat, pickupSystem, xpMoteSystem,
+  audio: gameAudio, activationToast, combatHud, authorEnabled,
+  getSectionId: () => sectionRuntime.getActiveSectionId(),
+  onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
+  isOtherBlocking: () => frontierMap.isOpen() || anchorPrompt.isVisible() || runResultCard.isVisible() || matterResonatorPanel.isVisible(),
+  openMap: () => frontierMap.openInspect(),
+});
 
 // Loop — single rAF drives all per-frame updates and rendering (thin main.js)
 const clock = new THREE.Clock();
@@ -970,6 +1012,7 @@ function tick() {
       const nearby = getNearbyResonatorInteraction(pPosForAnchor)
         ?? portalGateSystem.getNearbyInteraction(pPosForAnchor)
         ?? lootSystem.getNearbyInteraction(pPosForAnchor)
+        ?? betaGame?.getNearbyInteraction(pPosForAnchor)
         ?? frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession);
       if (contextualInteraction) contextualInteraction.setInteraction(nearby);
       // Pause AI while blocking already handled via isAnyBlockingModal guard
@@ -1008,7 +1051,7 @@ function tick() {
         for (const node of resourceHits) {
           resourceSystem.applyHit(
             node,
-            (n) => pickupSystem.spawnPickup(n),
+            (n) => { pickupSystem.spawnPickup(n); betaGame?.onHarvestDrop(n); },
             (n, cnt) => particleSystem.spawnBurst(n, cnt),
             (profile, isFinal) => {
               gameAudio.playHarvest(profile, isFinal);
@@ -1021,7 +1064,7 @@ function tick() {
           const dir = { x: creature.state.pos.x - pPos.x, z: creature.state.pos.z - pPos.z };
           const len = Math.hypot(dir.x, dir.z) || 1;
           const nDir = { x: dir.x / len, z: dir.z / len };
-          const damaged = creatureSystem.damageCreature(creature, COMBAT_CONFIG.baseDamage, pPos, nDir, "player");
+          const damaged = creatureSystem.damageCreature(creature, COMBAT_CONFIG.baseDamage * (betaGame?.getDamage() ?? 1), pPos, nDir, "player");
           if (damaged) combatSession.notifyAttack();
         }
         if (combatHits.length > 0) combatSession.notifyAttack();
@@ -1187,6 +1230,8 @@ function tick() {
     }
   }
 
+  betaGame?.update(dt, { paused: isAnyBlockingModal(), authorSuppress });
+  shadows.update(authorSuppress);
   if (authorSuppress && authorMode?.prepareRender) authorMode.prepareRender();
   renderer.render(scene, camera);
 }
@@ -1198,6 +1243,7 @@ window.__game = {
   scene, camera, renderer, player, playground, playerController, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
   worldRegistry, regionManager, sectionRuntime, portalGateSystem, jumpPadSystem, parkourSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
+  betaGame,
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),
   clearProgress: () => { frontierProgress.clear(); console.log("[frontierProgress] cleared"); },
   get autoHarvestEnabled() { return autoHarvestEnabled; },
@@ -1240,3 +1286,4 @@ window.__game = {
     };
   },
 };
+betaGame.showWelcome();

@@ -16,6 +16,10 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   let activeRegionSet = null; // null = all active (backwards compat)
   let worldRegistryRef = opts.worldRegistry ?? null;
 
+  function isLiveCreature(creature) {
+    return !!creature && !creature.state.isDead && creature.state.aiState !== "RESPAWNING" && !creature.state.bondCaptured;
+  }
+
   const callbacks = {
     onCreatureDamaged: opts.onCreatureDamaged ?? (() => {}),
     onCreatureDied: opts.onCreatureDied ?? (() => {}),
@@ -59,7 +63,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       } else if (!wasActive && isActive) {
         // Reactivating — restore without duplication, keep frozen state
         c.state._regionInactive = false;
-        if (c.state.aiState !== "RESPAWNING" && !c.state.isDead) {
+        if (c.state.aiState !== "RESPAWNING" && !c.state.isDead && !c.state.bondCaptured) {
           c.setVisible(true);
           if (c.enableCollision) c.enableCollision();
           // Keep WINDUP/LUNGE as is — will resume next update; no instant reset needed
@@ -76,7 +80,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
 
   function getActiveAliveCreatures() {
-    return getActiveCreatures().filter(c => !c.state.isDead && c.state.aiState !== "RESPAWNING");
+    return getActiveCreatures().filter(isLiveCreature);
   }
 
   function getActiveCreatureCount() { return getActiveCreatures().length; }
@@ -87,9 +91,9 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   let playerColliderRef = null;
   function setPlayerCollider(collider) { playerColliderRef = collider ?? null; }
 
-  function getAliveCount() { return creatures.filter(c => !c.state.isDead && c.state.aiState !== "RESPAWNING").length; }
+  function getAliveCount() { return creatures.filter(isLiveCreature).length; }
   function getAggroedNearby() {
-    return creatures.some(c => !c.state.isDead && c.state.isAggroed && distanceXZ(c.state.pos, playerPosRef) < COMBAT_CONFIG.attackRange + 2.5);
+    return creatures.some(c => isLiveCreature(c) && c.state.isAggroed && distanceXZ(c.state.pos, playerPosRef) < COMBAT_CONFIG.attackRange + 2.5);
   }
 
   function distanceXZ(a, b) { return Math.hypot(a.x - b.x, a.z - b.z); }
@@ -324,6 +328,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
 
   function damageCreature(creature, amount, sourcePos, knockbackDir, attacker = null) {
+    if (!creature || creature.state.bondCaptured || creature.state.bondingHeld) return false;
     if (creature.state.isDead) return false;
     if (creature.state.aiState === "RESPAWNING") return false;
     creature.state.health -= amount;
@@ -404,7 +409,11 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     if (creature.disableCollision) creature.disableCollision();
     // decide XP spawning elsewhere based on playerDamaged flag — pass flag via callback
     callbacks.onCreatureDied(creature);
-    creature.state.respawnRemaining = creature.state.cfg.respawnSeconds ?? 10;
+    // The Heartwood Guardian is a run-ending encounter. It remains defeated
+    // until the expedition reset, while ordinary creatures retain their normal
+    // ecology respawn behavior.
+    creature.state.noRespawnThisRun = creature.state.visualAssetId === "asset_heartwood_guardian";
+    creature.state.respawnRemaining = creature.state.noRespawnThisRun ? Infinity : (creature.state.cfg.respawnSeconds ?? 10);
     creature.state.aiState = "RESPAWNING";
     // hide after short death visual — keep visible for 0.25s then hide in update
     creature._deathVisibleTime = 0.25;
@@ -586,6 +595,18 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     elapsed += dt;
     for (const c of creatures) {
       const st = c.state;
+      // Bonding owns a short freeze without changing the creature's AI state;
+      // capture then removes it from the live world until the next run reset.
+      if (st.bondCaptured) {
+        c.setVisible(false);
+        c.showFocusRing(false);
+        continue;
+      }
+      if (st.bondingHeld) {
+        c.showFocusRing(false);
+        c.updateVisual(dt);
+        continue;
+      }
       // Inactive region — freeze all simulation (no AI, no timers, no respawn, no projectile emission)
       if (st._regionInactive || !isRegionActive(st.regionId)) {
         // Keep hidden; ensure focus ring off
@@ -1018,19 +1039,49 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     }
   }
 
-  function getCreatures() { return creatures; }
+  // Consumers such as targeting and projectile collision should never receive
+  // a creature that has been secured into a pending bond.
+  function getCreatures() { return creatures.filter((creature) => !creature.state.bondCaptured); }
   function getAliveCreatures() {
     // When region activation is active, only active-region creatures are considered alive for gameplay (targeting, focus rings)
     // Keep inactive out of targeting to prevent invisible attacks
-    const alive = creatures.filter(c => !c.state.isDead && c.state.aiState !== "RESPAWNING");
+    const alive = creatures.filter(isLiveCreature);
     if (activeRegionSet === null) return alive;
     return alive.filter(c => isRegionActive(c.state.regionId));
   }
-  function getAllAliveCreatures() { return creatures.filter(c => !c.state.isDead && c.state.aiState !== "RESPAWNING"); }
+  function getAllAliveCreatures() { return creatures.filter(isLiveCreature); }
+
+  function setBondingTarget(id = null) {
+    let found = null;
+    for (const creature of creatures) {
+      const shouldHold = id !== null && creature.state.id === id && isLiveCreature(creature);
+      creature.state.bondingHeld = shouldHold;
+      if (shouldHold) {
+        creature.showFocusRing(false);
+        found = creature;
+      }
+    }
+    return found;
+  }
+
+  function secureBondTarget(id) {
+    const creature = creatures.find((candidate) => candidate.state.id === id) ?? null;
+    if (!creature || !isLiveCreature(creature) || !creature.state.bondingHeld) return null;
+    creature.state.bondingHeld = false;
+    creature.state.bondCaptured = true;
+    creature.state.isAggroed = false;
+    creature.showFocusRing(false);
+    creature.setVisible(false);
+    creature.disableCollision?.();
+    return creature;
+  }
 
   function reset() {
     for (const c of creatures) {
       c.state.isDead = false;
+      c.state.noRespawnThisRun = false;
+      c.state.bondingHeld = false;
+      c.state.bondCaptured = false;
       c.state.health = c.state.cfg.health;
       c.state.aiState = "ROAM";
       c.state.aiTimer = 0;
@@ -1075,7 +1126,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
 
   function isAnyAggroedNearby() {
-    return creatures.some(c => !c.state.isDead && c.state.isAggroed && isRegionActive(c.state.regionId) && distanceXZ(c.state.pos, playerPosRef) < 7);
+    return creatures.some(c => isLiveCreature(c) && c.state.isAggroed && isRegionActive(c.state.regionId) && distanceXZ(c.state.pos, playerPosRef) < 7);
   }
   function isAnyAggroedNearbyActive() { return isAnyAggroedNearby(); }
 
@@ -1087,6 +1138,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     update, getCreatures, getAliveCreatures, getAllAliveCreatures, damageCreature, setPlayerPos, setPlayerState, setInvulnChecker, setPlayerCollider,
     getAliveCount, isAnyAggroedNearby, isAnyAggroedNearbyActive, reset, dispose, setTemperamentDebugVisible,
     setActiveRegions, getActiveCreatures, getActiveAliveCreatures, getActiveCreatureCount, isRegionActive,
+    setBondingTarget, secureBondTarget,
     getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null,
     setWorldRegistry: (wr) => { worldRegistryRef = wr; },
     _creatures: creatures,

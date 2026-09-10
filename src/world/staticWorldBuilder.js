@@ -13,6 +13,7 @@ import {
 } from "./visualFactory.js";
 import { describeVisualAssetCollider, getColliderCenter } from "./colliderDescriptor.js";
 import { resolveJumpPadVisual, resolveParkourMarkerVisual, resolvePortalGateVisual } from "./playerFacingVisuals.js";
+import { applyTerrainSurface } from "../presentation/terrainSurface.js";
 
 function parseColor(value, fallback) {
   if (value === undefined || value === null) return fallback;
@@ -288,6 +289,7 @@ export function createStaticWorld(worldData) {
       metadata: { groundPatchId: patch.id, visibleInPlay, collisionEnabled },
     });
     applyFactoryPresentation(root, patch, visibleInPlay, opacity);
+    applyTerrainSurface(root, { width: w, depth: d, position: pos });
 
     const cos = Math.abs(Math.cos(rotY)), sin = Math.abs(Math.sin(rotY));
     const hx = cos * w / 2 + sin * d / 2;
@@ -344,6 +346,7 @@ export function createStaticWorld(worldData) {
     const groundGeo = new THREE.BoxGeometry(26, 0.5, 24);
     const groundMat = new THREE.MeshStandardMaterial({ color: 0x7bb26a, flatShading: true, roughness: 0.95 });
     const ground = new THREE.Mesh(groundGeo, groundMat);
+    applyTerrainSurface(ground, { width: 26, depth: 24, position: { x: 0, z: 0 } });
     ground.position.set(0, -0.25, 0);
     ground.name = "legacy_ground";
     group.add(ground);

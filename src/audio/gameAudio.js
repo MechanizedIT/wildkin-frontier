@@ -2,8 +2,11 @@
 export function createGameAudio() {
   let ctx = null;
   let unlocked = false;
+  let muted = false;
+  let musicTime = 0, musicStep = 0;
 
   function ensure() {
+    if (muted) return null;
     if (ctx) return ctx;
     try {
       const AC = window.AudioContext || window.webkitAudioContext;
@@ -216,5 +219,20 @@ export function createGameAudio() {
     playParkour("complete");
   }
 
-  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, playHit, playHurt, playEnemyHit, playEnemyDeath, playProjectileFire, playProjectileHit, playXpCollect, playCombatWhoosh, playActivation, playParkour, playLevelUp, get context() { return ctx; } };
+  // Sparse original pentatonic field score. Driven by the game's only frame
+  // loop, silent before interaction, bounded to one small voice event per beat.
+  function updateAmbience(dt, { sectionId, paused = false } = {}) {
+    if (!unlocked || muted || paused) return;
+    musicTime += Math.min(dt, .1);
+    if (musicTime < 1.25) return;
+    musicTime -= 1.25;
+    const notes = [146.83, 220, 261.63, 329.63, 293.66, 220, 196, 261.63];
+    const transpose = sectionId === "section_3" ? .89 : sectionId === "section_4" ? 1.122 : sectionId === "section_5" ? .749 : 1;
+    const freq = notes[musicStep % notes.length] * transpose;
+    tone({ freq: freq * 2, duration: 1.35, type: "sine", gain: .022, filterFreq: 1200 });
+    if (musicStep % 4 === 0) tone({ freq: 73.42 * transpose, duration: 2.8, type: "sine", gain: .026, filterFreq: 500 });
+    musicStep++;
+  }
+
+  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, playHit, playHurt, playEnemyHit, playEnemyDeath, playProjectileFire, playProjectileHit, playXpCollect, playCombatWhoosh, playActivation, playParkour, playLevelUp, updateAmbience, setMuted(value) { muted = !!value; }, get context() { return ctx; } };
 }

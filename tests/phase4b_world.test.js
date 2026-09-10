@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { WORLD_DATA } from "../src/world/data/world.js";
+import { WORLD_DATA } from "./fixtures/phase4b1ProofWorld.generated.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { createFrontierProgress } from "../src/save/frontierProgress.js";

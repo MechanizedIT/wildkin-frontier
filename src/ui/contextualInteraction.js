@@ -6,6 +6,7 @@ export function createContextualInteraction(opts = {}) {
   const onActivate = opts.onActivate ?? (()=>{});
   let current = null; // {id, type, label}
   let buttonEl = null;
+  let presentationKey = "";
 
   if (app) {
     buttonEl = document.createElement("button");
@@ -24,6 +25,9 @@ export function createContextualInteraction(opts = {}) {
     // info: {id, type, label} or null
     current = info;
     if (!buttonEl) return;
+    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${info.detail ?? ""}` : "";
+    if (presentationKey === nextKey) return;
+    presentationKey = nextKey;
     if (!info) {
       buttonEl.style.display = "none";
       buttonEl.textContent = "";

@@ -87,6 +87,21 @@ export function createFrontierMap(opts = {}) {
   function buildList() {
     listEl.innerHTML = "";
     const prog = frontierProgress ? frontierProgress.getState() : { unlockedMajorWaypointIds: [], discoveredBeaconIds: [], hasDepartedOnce: false };
+    const regions = worldRegistry.getAllRegions?.() ?? worldRegistry.data?.regions ?? [];
+    const knownRegions = new Set(["camp"]);
+    for (const waypoint of worldRegistry.getAllWaypoints?.() ?? []) {
+      if (prog.unlockedMajorWaypointIds?.includes(waypoint.id) || waypoint.regionId === "camp") knownRegions.add(waypoint.regionId);
+    }
+    const graph = document.createElement("div");
+    graph.className = "frontier-graph";
+    graph.setAttribute("aria-label", "Frontier route graph");
+    const graphRegions = regions.slice(0, 6);
+    graph.innerHTML = `<div class="frontier-graph-line"></div>${graphRegions.map((region, index) => `<div class="frontier-graph-node ${knownRegions.has(region.id) ? "known" : "unknown"}" style="--node:${graphRegions.length > 1 ? 7 + index * 86 / (graphRegions.length - 1) : 50}%"><i>${region.id === "camp" ? "⌂" : knownRegions.has(region.id) ? "◆" : "?"}</i><span>${knownRegions.has(region.id) ? (region.displayName ?? region.id) : "Unknown"}</span></div>`).join("")}`;
+    if (regions.length) listEl.appendChild(graph);
+    const legend = document.createElement("div");
+    legend.className = "frontier-legend";
+    legend.textContent = "◆ Waypoint starts · ● Beacon secures · ▣ Gates travel";
+    if (regions.length) listEl.appendChild(legend);
     // Separate camp gate waypoint vs frontier waypoints
     const frontierWaypoints = worldRegistry.getAllWaypoints().filter(w => w.id !== "wp_camp_gate" && w.regionId !== "camp");
     // For inspect fresh save: hide frontierWaypoints if not departed
@@ -243,6 +258,13 @@ export function createFrontierMap(opts = {}) {
   overlay.addEventListener("click", (e) => {
     if (e.target === overlay) close();
   });
+  const onMapKey = (event) => {
+    if (isOpen && event.key === "Escape" && !event.defaultPrevented) {
+      event.preventDefault();
+      close();
+    }
+  };
+  window.addEventListener("keydown", onMapKey);
 
   return {
     openInspect,
@@ -255,6 +277,6 @@ export function createFrontierMap(opts = {}) {
     element: overlay,
     button: mapButton,
     buildList,
-    destroy: () => { overlay.remove(); },
+    destroy: () => { window.removeEventListener("keydown", onMapKey); overlay.remove(); },
   };
 }

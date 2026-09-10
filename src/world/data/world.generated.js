@@ -12,7 +12,7 @@ export const WORLD_DATA = {
       "position": {
         "x": 0,
         "y": 0,
-        "z": 12
+        "z": 0
       }
     },
     "pos": {
@@ -54,6 +54,111 @@ export const WORLD_DATA = {
         },
         {
           "amount": 12,
+          "type": "xp"
+        }
+      ]
+    },
+    {
+      "displayName": "Shatterfen Discovery",
+      "id": "loot_shatterfen_secret",
+      "rewards": [
+        {
+          "amount": 2,
+          "id": "iron_ore",
+          "type": "resource"
+        },
+        {
+          "amount": 50,
+          "type": "xp"
+        }
+      ]
+    },
+    {
+      "displayName": "Shatterfen Leap",
+      "id": "loot_shatterfen_parkour",
+      "rewards": [
+        {
+          "amount": 2,
+          "id": "crystal_shard",
+          "type": "resource"
+        },
+        {
+          "amount": 45,
+          "type": "xp"
+        }
+      ]
+    },
+    {
+      "displayName": "Emberfall Discovery",
+      "id": "loot_emberfall_secret",
+      "rewards": [
+        {
+          "amount": 3,
+          "id": "iron_ore",
+          "type": "resource"
+        },
+        {
+          "amount": 78,
+          "type": "xp"
+        }
+      ]
+    },
+    {
+      "displayName": "Emberfall Ascent",
+      "id": "loot_emberfall_parkour",
+      "rewards": [
+        {
+          "amount": 2,
+          "id": "crystal_shard",
+          "type": "resource"
+        },
+        {
+          "amount": 72,
+          "type": "xp"
+        }
+      ]
+    },
+    {
+      "displayName": "Windscar Discovery",
+      "id": "loot_windscar_secret",
+      "rewards": [
+        {
+          "amount": 3,
+          "id": "crystal_shard",
+          "type": "resource"
+        },
+        {
+          "amount": 118,
+          "type": "xp"
+        }
+      ]
+    },
+    {
+      "displayName": "Windscar Flight",
+      "id": "loot_windscar_parkour",
+      "rewards": [
+        {
+          "amount": 3,
+          "id": "iron_ore",
+          "type": "resource"
+        },
+        {
+          "amount": 112,
+          "type": "xp"
+        }
+      ]
+    },
+    {
+      "displayName": "Heartwood Core",
+      "id": "loot_heartwood_core",
+      "rewards": [
+        {
+          "amount": 6,
+          "id": "crystal_shard",
+          "type": "resource"
+        },
+        {
+          "amount": 250,
           "type": "xp"
         }
       ]
@@ -142,7 +247,7 @@ export const WORLD_DATA = {
         "minZ": -50
       },
       "creatures": [],
-      "displayName": "Camp",
+      "displayName": "Frontier Haven",
       "entryPoints": [
         {
           "facingYaw": 0,
@@ -177,6 +282,42 @@ export const WORLD_DATA = {
             "w": 100
           },
           "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "color": "#bda96f",
+          "id": "patch_camp_gate_path",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": 0.018,
+            "z": -2.25
+          },
+          "rotY": 0,
+          "size": {
+            "d": 10.5,
+            "h": 0.035,
+            "w": 6
+          },
+          "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "color": "#967b52",
+          "id": "patch_camp_plaza",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": 0.016,
+            "z": 1.8
+          },
+          "rotY": 0,
+          "size": {
+            "d": 5,
+            "h": 0.03,
+            "w": 10
+          },
+          "visibleInPlay": true
         }
       ],
       "id": "camp",
@@ -189,14 +330,22 @@ export const WORLD_DATA = {
       "parkourCourseZones": [],
       "parkourEnds": [],
       "parkourStarts": [],
+      "playerSpawn": {
+        "facingYaw": 3.141592653589793,
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
       "pockets": [],
       "pois": [
         {
           "id": "poi_camp_resonator",
           "pos": {
-            "x": 6,
+            "x": 2.5,
             "y": 0,
-            "z": 9
+            "z": 1.5
           },
           "requires": null,
           "type": "resonator"
@@ -210,14 +359,16 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": -8
+            "z": -4.5
           },
           "rotY": 3.141592653589793,
           "state": "active",
           "targetEntryId": "entry_section_1",
           "targetGateId": "gate_section_1_camp_arrival",
           "targetSectionId": "section_1",
-          "triggerRadius": 1.85
+          "triggerRadius": 1.85,
+          "uniformScale": 0.92,
+          "visualAssetId": "asset_frontier_portal"
         }
       ],
       "props": [
@@ -226,9 +377,9 @@ export const WORLD_DATA = {
           "id": "prop_camp_dropPod",
           "opacity": 1,
           "pos": {
-            "x": -6,
+            "x": -2.5,
             "y": 0,
-            "z": 9
+            "z": 1.5
           },
           "rotY": 0,
           "subtype": "visualAsset",
@@ -241,9 +392,9 @@ export const WORLD_DATA = {
           "id": "prop_camp_resonator",
           "opacity": 1,
           "pos": {
-            "x": 6,
+            "x": 2.5,
             "y": 0,
-            "z": 9
+            "z": 1.5
           },
           "rotY": 0,
           "size": {
@@ -289,6 +440,186 @@ export const WORLD_DATA = {
           },
           "subtype": "fence",
           "visibleInPlay": true
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_sanctuary",
+          "opacity": 1,
+          "pos": {
+            "x": -0.5,
+            "y": 0,
+            "z": 2.6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_sanctuary_totem"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_workshop",
+          "opacity": 1,
+          "pos": {
+            "x": 7.5,
+            "y": 0,
+            "z": 5.5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_workshop_awning"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_bench",
+          "opacity": 1,
+          "pos": {
+            "x": 6.3,
+            "y": 0,
+            "z": 3.3
+          },
+          "rotY": 0.4,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_bench"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_crate_a",
+          "opacity": 1,
+          "pos": {
+            "x": 9.4,
+            "y": 0,
+            "z": 7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wooden_crate"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_crate_b",
+          "opacity": 1,
+          "pos": {
+            "x": 6.7,
+            "y": 0,
+            "z": 7
+          },
+          "rotY": 0.35,
+          "subtype": "visualAsset",
+          "uniformScale": 0.8,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wooden_crate"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_lantern_a",
+          "opacity": 1,
+          "pos": {
+            "x": -1.55,
+            "y": 0,
+            "z": -1.7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_path_lantern"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_lantern_b",
+          "opacity": 1,
+          "pos": {
+            "x": 1.55,
+            "y": 0,
+            "z": -1.7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_path_lantern"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_lantern_c",
+          "opacity": 1,
+          "pos": {
+            "x": 1.55,
+            "y": 0,
+            "z": -3.7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.95,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_path_lantern"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_pebbles",
+          "opacity": 1,
+          "pos": {
+            "x": -3.8,
+            "y": 0,
+            "z": -2.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_log",
+          "opacity": 1,
+          "pos": {
+            "x": -5.5,
+            "y": 0,
+            "z": 2.6
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_camp_tree",
+          "opacity": 1,
+          "pos": {
+            "x": -22,
+            "y": 0,
+            "z": 17
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_flower",
+          "opacity": 1,
+          "pos": {
+            "x": -8,
+            "y": 0,
+            "z": 3
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
         }
       ],
       "resources": [],
@@ -309,9 +640,9 @@ export const WORLD_DATA = {
       "boundaryColliders": [
         {
           "collisionEnabled": true,
-          "color": "#445568",
+          "color": "#273447",
           "id": "boundary_section_1_north",
-          "opacity": 0.35,
+          "opacity": 0.22,
           "pos": {
             "x": 0,
             "y": 0,
@@ -327,9 +658,9 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "color": "#445568",
+          "color": "#273447",
           "id": "boundary_section_1_south",
-          "opacity": 0.35,
+          "opacity": 0.22,
           "pos": {
             "x": 0,
             "y": 0,
@@ -345,9 +676,9 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "color": "#445568",
+          "color": "#273447",
           "id": "boundary_section_1_west",
-          "opacity": 0.35,
+          "opacity": 0.22,
           "pos": {
             "x": -24.5,
             "y": 0,
@@ -363,9 +694,9 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "color": "#445568",
+          "color": "#273447",
           "id": "boundary_section_1_east",
-          "opacity": 0.35,
+          "opacity": 0.22,
           "pos": {
             "x": 24.5,
             "y": 0,
@@ -386,30 +717,8 @@ export const WORLD_DATA = {
         "minX": -25,
         "minZ": -25
       },
-      "creatures": [
-        {
-          "homePos": {
-            "x": -12,
-            "y": 0,
-            "z": -4
-          },
-          "id": "rusher_section_1_01",
-          "leashRadius": 7,
-          "level": 1,
-          "noticeRadius": 5.5,
-          "personalSpace": 1.9,
-          "pos": {
-            "x": -12,
-            "y": 0,
-            "z": -4
-          },
-          "roamRadius": 2.5,
-          "speciesTag": "fang",
-          "temperament": "TERRITORIAL",
-          "type": "rusher"
-        }
-      ],
-      "displayName": "Section 1 Proof",
+      "creatures": [],
+      "displayName": "Verdant Verge",
       "entryPoints": [
         {
           "facingYaw": 3.141592653589793,
@@ -417,30 +726,30 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 20
+            "z": 18
           }
         }
       ],
       "extractionBeacons": [
         {
-          "displayName": "Section 1 Beacon",
+          "displayName": "Mosslight Beacon",
           "id": "beacon_section_1",
           "pos": {
             "x": -16,
             "y": 0,
-            "z": 1
+            "z": 2
           },
           "type": "extractionBeacon"
         }
       ],
       "ground": {
-        "color": "#6f9b69",
+        "color": "#547b54",
         "type": "plain"
       },
       "groundPatches": [
         {
           "collisionEnabled": true,
-          "color": "#6f9b69",
+          "color": "#547b54",
           "id": "ground_section_1",
           "opacity": 1,
           "pos": {
@@ -463,7 +772,7 @@ export const WORLD_DATA = {
           "cooldown": 1,
           "id": "jump_pad_section_1",
           "pos": {
-            "x": 8,
+            "x": 10,
             "y": 0.35,
             "z": -3
           },
@@ -479,7 +788,7 @@ export const WORLD_DATA = {
           "courseId": "course_section_1",
           "id": "kill_volume_section_1",
           "pos": {
-            "x": 8,
+            "x": 10,
             "y": 0.6,
             "z": -12
           },
@@ -492,52 +801,67 @@ export const WORLD_DATA = {
       ],
       "lootChests": [
         {
-          "displayName": "Hidden Cache",
+          "displayName": "Rootbound Cache",
           "id": "chest_secret_section_1",
           "lootTableId": "loot_secret_section_1",
           "pos": {
             "x": -19,
             "y": 0,
-            "z": -13
+            "z": -10
           },
           "refillSeconds": null,
           "rotY": 0,
           "secret": true,
-          "triggerRadius": 1.45,
+          "triggerRadius": 1.4,
           "visualAssetId": "asset_chest"
         },
         {
           "courseId": "course_section_1",
-          "displayName": "Parkour Cache",
+          "displayName": "Canopy Cache",
           "id": "chest_parkour_section_1",
           "lootTableId": "loot_parkour_section_1",
           "pos": {
-            "x": 8,
-            "y": 0.35,
+            "x": 10,
+            "y": 0,
             "z": -16
           },
           "refillSeconds": 86400,
           "rotY": 0,
           "secret": false,
-          "triggerRadius": 1.45,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        },
+        {
+          "displayName": "Mossling Hollow",
+          "id": "chest_mossling_secret",
+          "lootTableId": "loot_secret_section_1",
+          "pos": {
+            "x": -18,
+            "y": 0,
+            "z": -15
+          },
+          "refillSeconds": null,
+          "rotY": 0,
+          "secret": true,
+          "triggerRadius": 1.4,
           "visualAssetId": "asset_chest"
         }
       ],
       "majorWaypoints": [
         {
-          "displayName": "Section 1 Waypoint",
+          "displayName": "Verdant Lookout",
           "id": "wp_section_1",
           "pos": {
-            "x": 0,
+            "x": -1,
             "y": 0,
-            "z": 9
+            "z": 7
           },
           "runSpawn": {
             "facingYaw": 3.141592653589793,
             "position": {
               "x": 0,
               "y": 0,
-              "z": 12
+              "z": 10
             }
           },
           "type": "majorWaypoint"
@@ -549,18 +873,18 @@ export const WORLD_DATA = {
           "courseId": "course_section_1",
           "id": "parkour_checkpoint_section_1",
           "pos": {
-            "x": 8,
-            "y": 0.35,
+            "x": 10,
+            "y": 0,
             "z": -8
           },
           "respawnFacingYaw": 3.141592653589793,
           "respawnPosition": {
-            "x": 8,
-            "y": 0.35,
+            "x": 10,
+            "y": 0,
             "z": -8
           },
-          "rotY": 3.141592653589793,
-          "triggerRadius": 1.8
+          "rotY": 0,
+          "triggerRadius": 1.6
         }
       ],
       "parkourCourseZones": [
@@ -568,7 +892,7 @@ export const WORLD_DATA = {
           "courseId": "course_section_1",
           "id": "parkour_zone_section_1_a",
           "pos": {
-            "x": 8,
+            "x": 10,
             "y": 2,
             "z": -7.5
           },
@@ -584,12 +908,12 @@ export const WORLD_DATA = {
           "courseId": "course_section_1",
           "id": "parkour_end_section_1",
           "pos": {
-            "x": 8,
+            "x": 10,
             "y": 0,
             "z": -16
           },
           "rotY": 0,
-          "triggerRadius": 1.8
+          "triggerRadius": 1.6
         }
       ],
       "parkourStarts": [
@@ -597,18 +921,18 @@ export const WORLD_DATA = {
           "courseId": "course_section_1",
           "id": "parkour_start_section_1",
           "pos": {
-            "x": 8,
+            "x": 10,
             "y": 0,
             "z": 1
           },
           "respawnFacingYaw": 3.141592653589793,
           "respawnPosition": {
-            "x": 8,
+            "x": 10,
             "y": 0,
             "z": 1
           },
-          "rotY": 3.141592653589793,
-          "triggerRadius": 1.8
+          "rotY": 0,
+          "triggerRadius": 1.6
         }
       ],
       "pockets": [],
@@ -621,17 +945,18 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 20
+            "z": 22
           },
           "role": "campLink",
           "rotY": 3.141592653589793,
           "state": "active",
           "travelEnabled": false,
-          "triggerRadius": 1.85
+          "triggerRadius": 1.85,
+          "uniformScale": 0.76,
+          "visualAssetId": "asset_frontier_portal"
         },
         {
-          "displayName": "Section 2 Gate",
-          "entryId": "entry_section_1",
+          "displayName": "Shatterfen Gate",
           "id": "gate_section_1_to_2",
           "pos": {
             "x": 0,
@@ -641,8 +966,8 @@ export const WORLD_DATA = {
           "requirements": {
             "minPlayerLevel": 2,
             "resources": {
-              "stone": 2,
-              "wood": 2
+              "stone": 3,
+              "wood": 4
             }
           },
           "rotY": 0,
@@ -651,24 +976,910 @@ export const WORLD_DATA = {
           "targetGateId": "gate_section_2_to_1",
           "targetSectionId": "section_2",
           "triggerRadius": 1.85,
+          "uniformScale": 0.72,
           "visualAssetId": "asset_ruin_arch"
         }
       ],
       "props": [
         {
+          "collisionEnabled": true,
+          "id": "prop_s1_canopy_a",
+          "opacity": 1,
+          "pos": {
+            "x": -18,
+            "y": 0,
+            "z": 16
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_canopy_b",
+          "opacity": 1,
+          "pos": {
+            "x": 16,
+            "y": 0,
+            "z": 15
+          },
+          "rotY": 0.6,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_canopy_c",
+          "opacity": 1,
+          "pos": {
+            "x": -19,
+            "y": 0,
+            "z": -4
+          },
+          "rotY": 1.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_canopy_d",
+          "opacity": 1,
+          "pos": {
+            "x": -11,
+            "y": 0,
+            "z": 18
+          },
+          "rotY": 0.8,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_canopy_e",
+          "opacity": 1,
+          "pos": {
+            "x": 11,
+            "y": 0,
+            "z": 17
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
           "collisionEnabled": false,
-          "id": "prop_section_1_marker",
+          "id": "prop_s1_mushrooms",
+          "opacity": 1,
+          "pos": {
+            "x": -13,
+            "y": 0,
+            "z": 4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_mushrooms_b",
+          "opacity": 1,
+          "pos": {
+            "x": 5,
+            "y": 0,
+            "z": 12
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_mushrooms_c",
+          "opacity": 1,
+          "pos": {
+            "x": -6,
+            "y": 0,
+            "z": -2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_log_a",
           "opacity": 1,
           "pos": {
             "x": -8,
+            "y": 0,
+            "z": 12
+          },
+          "rotY": 0.7,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_log_b",
+          "opacity": 1,
+          "pos": {
+            "x": 12,
+            "y": 0,
+            "z": -5
+          },
+          "rotY": -0.55,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_pebble_a",
+          "opacity": 1,
+          "pos": {
+            "x": 7,
+            "y": 0,
+            "z": 15
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_pebble_b",
+          "opacity": 1,
+          "pos": {
+            "x": -3,
+            "y": 0,
+            "z": 9
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_berry_a",
+          "opacity": 1,
+          "pos": {
+            "x": -7,
+            "y": 0,
+            "z": 14
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_berry_bush"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_berry_b",
+          "opacity": 1,
+          "pos": {
+            "x": 10,
             "y": 0,
             "z": 8
           },
           "rotY": 0,
           "subtype": "visualAsset",
-          "uniformScale": 0.8,
+          "uniformScale": 1.1,
           "visibleInPlay": true,
-          "visualAssetId": "asset_ruin_path"
+          "visualAssetId": "asset_berry_bush"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_moss_barrier",
+          "opacity": 1,
+          "pos": {
+            "x": -18,
+            "y": 0,
+            "z": -13
+          },
+          "rotY": 1.57,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_vault_barrier"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_ruin",
+          "opacity": 1,
+          "pos": {
+            "x": -13,
+            "y": 0,
+            "z": -10
+          },
+          "rotY": 0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_iron_a",
+          "opacity": 1,
+          "pos": {
+            "x": -10,
+            "y": 0,
+            "z": 10
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_iron_b",
+          "opacity": 1,
+          "pos": {
+            "x": 12,
+            "y": 0,
+            "z": 6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_blossom_a",
+          "opacity": 1,
+          "pos": {
+            "x": -4,
+            "y": 0,
+            "z": 12
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_luminous_blossom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_blossom_b",
+          "opacity": 1,
+          "pos": {
+            "x": 5,
+            "y": 0,
+            "z": 5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_luminous_blossom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_entry_fern_a",
+          "opacity": 1,
+          "pos": {
+            "x": -3.2,
+            "y": 0,
+            "z": 16.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_entry_fern_b",
+          "opacity": 1,
+          "pos": {
+            "x": 3.4,
+            "y": 0,
+            "z": 16.4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_entry_pebbles",
+          "opacity": 1,
+          "pos": {
+            "x": 1.5,
+            "y": 0,
+            "z": 15.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.6,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_entry_log",
+          "opacity": 1,
+          "pos": {
+            "x": -6.2,
+            "y": 0,
+            "z": 15.4
+          },
+          "rotY": 0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_entry_tree",
+          "opacity": 1,
+          "pos": {
+            "x": 6.8,
+            "y": 0,
+            "z": 15.7
+          },
+          "rotY": -0.25,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_entry_tree_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7.1,
+            "y": 0,
+            "z": 16.4
+          },
+          "rotY": 0.24,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_entry_stone",
+          "opacity": 1,
+          "pos": {
+            "x": 4.8,
+            "y": 0,
+            "z": 14.8
+          },
+          "rotY": -0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 0.95,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_entry_moons",
+          "opacity": 1,
+          "pos": {
+            "x": -4.4,
+            "y": 0,
+            "z": 14.1
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_trail_a",
+          "opacity": 1,
+          "pos": {
+            "x": -0.4,
+            "y": 0,
+            "z": 13.7
+          },
+          "rotY": 0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_trail_stones"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_trail_b",
+          "opacity": 1,
+          "pos": {
+            "x": 0.4,
+            "y": 0,
+            "z": 11.9
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_trail_stones"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_trail_c",
+          "opacity": 1,
+          "pos": {
+            "x": -0.2,
+            "y": 0,
+            "z": 10.1
+          },
+          "rotY": 0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_trail_stones"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_trail_d",
+          "opacity": 1,
+          "pos": {
+            "x": 0.5,
+            "y": 0,
+            "z": 8.3
+          },
+          "rotY": -0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_trail_stones"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_trail_e",
+          "opacity": 1,
+          "pos": {
+            "x": -0.3,
+            "y": 0,
+            "z": 6.5
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_trail_stones"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_mossling_1",
+          "opacity": 1,
+          "pos": {
+            "x": -7,
+            "y": 0,
+            "z": 8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wildkin_mossling"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_mossling_2",
+          "opacity": 1,
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": 10
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wildkin_mossling"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_thorn_1",
+          "opacity": 1,
+          "pos": {
+            "x": -12,
+            "y": 0,
+            "z": -6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_thornprowler"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_thorn_2",
+          "opacity": 1,
+          "pos": {
+            "x": 10,
+            "y": 0,
+            "z": -12
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.85,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_thornprowler"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_lookout_canopy_l",
+          "opacity": 1,
+          "pos": {
+            "x": -6.8,
+            "y": 0,
+            "z": 6.7
+          },
+          "rotY": 0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.18,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_lookout_canopy_r",
+          "opacity": 1,
+          "pos": {
+            "x": 6.6,
+            "y": 0,
+            "z": 5.7
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.12,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_lookout_log_l",
+          "opacity": 1,
+          "pos": {
+            "x": -4.1,
+            "y": 0,
+            "z": 5.1
+          },
+          "rotY": 0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 1.28,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_lookout_log_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4.6,
+            "y": 0,
+            "z": 4.2
+          },
+          "rotY": -0.42,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_lookout_moons_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.3,
+            "y": 0,
+            "z": 7.5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_lookout_moons_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.6,
+            "y": 0,
+            "z": 6.4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_lookout_berries",
+          "opacity": 1,
+          "pos": {
+            "x": -5.1,
+            "y": 0,
+            "z": 3.6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.22,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_berry_bush"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_lookout_blossom",
+          "opacity": 1,
+          "pos": {
+            "x": 4.8,
+            "y": 0,
+            "z": 3.1
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_luminous_blossom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_lookout_stones",
+          "opacity": 1,
+          "pos": {
+            "x": -3.2,
+            "y": 0,
+            "z": 3.1
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.65,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_deep_ruin_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7.5,
+            "y": 0,
+            "z": -7.8
+          },
+          "rotY": 0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_deep_ruin_r",
+          "opacity": 1,
+          "pos": {
+            "x": 7.2,
+            "y": 0,
+            "z": -9.1
+          },
+          "rotY": -0.35,
+          "subtype": "visualAsset",
+          "uniformScale": 0.92,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_deep_canopy_l",
+          "opacity": 1,
+          "pos": {
+            "x": -5.2,
+            "y": 0,
+            "z": -11.1
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_deep_canopy_r",
+          "opacity": 1,
+          "pos": {
+            "x": 5.4,
+            "y": 0,
+            "z": -12.4
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.12,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_deep_moons",
+          "opacity": 1,
+          "pos": {
+            "x": 3.3,
+            "y": 0,
+            "z": -7.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_deep_iron",
+          "opacity": 1,
+          "pos": {
+            "x": -4.4,
+            "y": 0,
+            "z": -8.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_gate_stones_l",
+          "opacity": 1,
+          "pos": {
+            "x": -5.8,
+            "y": 0,
+            "z": -18.2
+          },
+          "rotY": 0.22,
+          "subtype": "visualAsset",
+          "uniformScale": 1.08,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s1_gate_stones_r",
+          "opacity": 1,
+          "pos": {
+            "x": 5.8,
+            "y": 0,
+            "z": -18.6
+          },
+          "rotY": -0.22,
+          "subtype": "visualAsset",
+          "uniformScale": 1.03,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_gate_trail",
+          "opacity": 1,
+          "pos": {
+            "x": -0.3,
+            "y": 0,
+            "z": -15.8
+          },
+          "rotY": 0.08,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_trail_stones"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_route_grove_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.9,
+            "y": 0,
+            "z": -0.8
+          },
+          "rotY": 0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 0.95,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_route_grove_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4.1,
+            "y": 0,
+            "z": -2
+          },
+          "rotY": -0.16,
+          "subtype": "visualAsset",
+          "uniformScale": 0.92,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_route_moons_l",
+          "opacity": 1,
+          "pos": {
+            "x": -2.8,
+            "y": 0,
+            "z": -3.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.38,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_route_moons_r",
+          "opacity": 1,
+          "pos": {
+            "x": 2.9,
+            "y": 0,
+            "z": -4.6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s1_route_stones",
+          "opacity": 1,
+          "pos": {
+            "x": 0.2,
+            "y": 0,
+            "z": -4.9
+          },
+          "rotY": -0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_trail_stones"
         }
       ],
       "resources": [
@@ -684,12 +1895,12 @@ export const WORLD_DATA = {
         },
         {
           "id": "rock_section_1_01",
+          "level": 1,
           "pos": {
             "x": 9,
             "y": 0,
             "z": 13
           },
-          "tier": 1,
           "type": "rock"
         },
         {
@@ -697,6 +1908,3487 @@ export const WORLD_DATA = {
           "level": 1,
           "pos": {
             "x": -5,
+            "y": 0,
+            "z": 5
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "tree_section_1_02",
+          "level": 1,
+          "pos": {
+            "x": -17,
+            "y": 0,
+            "z": 9
+          },
+          "type": "tree"
+        },
+        {
+          "id": "fiber_section_1_02",
+          "level": 1,
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": 4
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "rock_section_1_02",
+          "level": 1,
+          "pos": {
+            "x": 14,
+            "y": 0,
+            "z": -12
+          },
+          "type": "rock"
+        }
+      ],
+      "sectionProfile": {
+        "expected": {
+          "extractionBeacons": {
+            "max": 1,
+            "min": 1
+          },
+          "outboundPortals": {
+            "max": 1,
+            "min": 1
+          },
+          "parkourCourses": {
+            "max": 1,
+            "min": 1
+          },
+          "secrets": {
+            "max": 3,
+            "min": 2
+          },
+          "waypoint": 1
+        },
+        "recommendedLevel": {
+          "max": 2,
+          "min": 1
+        },
+        "resourceValueTarget": {
+          "max": 20,
+          "min": 10
+        },
+        "tier": 1,
+        "wildkinCountTarget": {
+          "max": 5,
+          "min": 3
+        },
+        "wildkinLevelTarget": {
+          "max": 2,
+          "min": 1
+        }
+      },
+      "sectionType": "expedition",
+      "size": {
+        "depth": 50,
+        "width": 50
+      },
+      "traversal": {
+        "climbables": [],
+        "jumpTraversals": [],
+        "obstacles": [],
+        "platforms": [
+          {
+            "baseY": 0,
+            "h": 3,
+            "height": 0.35,
+            "id": "platform_section_1_takeoff",
+            "rotY": 0,
+            "w": 3,
+            "x": 10,
+            "y": 0,
+            "z": -3
+          },
+          {
+            "baseY": 0,
+            "h": 4,
+            "height": 0.35,
+            "id": "platform_section_1_landing",
+            "rotY": 0,
+            "w": 4,
+            "x": 10,
+            "y": 0,
+            "z": -14
+          }
+        ]
+      }
+    },
+    {
+      "boundaryColliders": [
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_2_north",
+          "opacity": 0.22,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": -24.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.5,
+            "h": 3,
+            "w": 49
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_2_south",
+          "opacity": 0.22,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 24.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.5,
+            "h": 3,
+            "w": 49
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_2_west",
+          "opacity": 0.22,
+          "pos": {
+            "x": -24.5,
+            "y": 0,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 49,
+            "h": 3,
+            "w": 0.5
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_2_east",
+          "opacity": 0.22,
+          "pos": {
+            "x": 24.5,
+            "y": 0,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 49,
+            "h": 3,
+            "w": 0.5
+          },
+          "visibleInPlay": false
+        }
+      ],
+      "bounds": {
+        "maxX": 25,
+        "maxZ": 25,
+        "minX": -25,
+        "minZ": -25
+      },
+      "creatures": [],
+      "displayName": "Shatterfen",
+      "entryPoints": [
+        {
+          "facingYaw": 3.141592653589793,
+          "id": "entry_section_2",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 18
+          }
+        }
+      ],
+      "extractionBeacons": [
+        {
+          "displayName": "Tideglass Beacon",
+          "id": "beacon_section_2",
+          "pos": {
+            "x": -18,
+            "y": 0,
+            "z": 3
+          },
+          "type": "extractionBeacon"
+        }
+      ],
+      "ground": {
+        "color": "#3d6871",
+        "type": "plain"
+      },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": "#3d6871",
+          "id": "ground_section_2",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.5,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 50,
+            "h": 0.5,
+            "w": 50
+          },
+          "visibleInPlay": true
+        }
+      ],
+      "id": "section_2",
+      "jumpPads": [
+        {
+          "cooldown": 1,
+          "id": "jump_pad_section_2",
+          "pos": {
+            "x": 13,
+            "y": 0.35,
+            "z": -3
+          },
+          "powerPreset": "high",
+          "rotY": 3.141592653589793,
+          "triggerRadius": 1.3,
+          "verticalLaunch": null,
+          "visualAssetId": "asset_frontier_launch_pad"
+        }
+      ],
+      "killVolumes": [
+        {
+          "courseId": "course_section_2",
+          "id": "kill_volume_section_2",
+          "pos": {
+            "x": 13,
+            "y": 0.6,
+            "z": -13
+          },
+          "size": {
+            "d": 5,
+            "h": 1.2,
+            "w": 3
+          }
+        }
+      ],
+      "lootChests": [
+        {
+          "displayName": "Sunken Cache",
+          "id": "chest_secret_section_2",
+          "lootTableId": "loot_shatterfen_secret",
+          "pos": {
+            "x": -17,
+            "y": 0,
+            "z": -11
+          },
+          "refillSeconds": null,
+          "rotY": 0,
+          "secret": true,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        },
+        {
+          "courseId": "course_section_2",
+          "displayName": "Fen Leap Cache",
+          "id": "chest_parkour_section_2",
+          "lootTableId": "loot_shatterfen_parkour",
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": -17
+          },
+          "refillSeconds": 86400,
+          "rotY": 0,
+          "secret": false,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        },
+        {
+          "displayName": "Tidefin Grotto",
+          "id": "chest_tidefin_secret",
+          "lootTableId": "loot_shatterfen_secret",
+          "pos": {
+            "x": -19,
+            "y": 0,
+            "z": -16
+          },
+          "refillSeconds": null,
+          "rotY": 0,
+          "secret": true,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        }
+      ],
+      "majorWaypoints": [
+        {
+          "displayName": "Fen Observatory",
+          "id": "wp_section_2",
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": 6
+          },
+          "runSpawn": {
+            "facingYaw": 3.141592653589793,
+            "position": {
+              "x": 12,
+              "y": 0,
+              "z": 9
+            }
+          },
+          "type": "majorWaypoint"
+        }
+      ],
+      "neighbors": [],
+      "parkourCheckpoints": [
+        {
+          "courseId": "course_section_2",
+          "id": "parkour_checkpoint_section_2",
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": -8
+          },
+          "respawnFacingYaw": 3.141592653589793,
+          "respawnPosition": {
+            "x": 13,
+            "y": 0,
+            "z": -8
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "parkourCourseZones": [
+        {
+          "courseId": "course_section_2",
+          "id": "parkour_zone_section_2",
+          "pos": {
+            "x": 13,
+            "y": 2,
+            "z": -8
+          },
+          "size": {
+            "d": 22,
+            "h": 6,
+            "w": 8
+          }
+        }
+      ],
+      "parkourEnds": [
+        {
+          "courseId": "course_section_2",
+          "id": "parkour_end_section_2",
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": -17
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "parkourStarts": [
+        {
+          "courseId": "course_section_2",
+          "id": "parkour_start_section_2",
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": 1
+          },
+          "respawnFacingYaw": 3.141592653589793,
+          "respawnPosition": {
+            "x": 13,
+            "y": 0,
+            "z": 1
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "pockets": [],
+      "pois": [],
+      "portalGates": [
+        {
+          "displayName": "Verdant Return Gate",
+          "id": "gate_section_2_to_1",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 22
+          },
+          "rotY": 3.141592653589793,
+          "state": "active",
+          "targetEntryId": "entry_section_1",
+          "targetGateId": "gate_section_1_to_2",
+          "targetSectionId": "section_1",
+          "triggerRadius": 1.85,
+          "uniformScale": 0.76,
+          "visualAssetId": "asset_frontier_portal"
+        },
+        {
+          "displayName": "Emberfall Gate",
+          "id": "gate_section_2_to_3",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": -21
+          },
+          "requirements": {
+            "minPlayerLevel": 3,
+            "resources": {
+              "iron_ore": 2,
+              "stone": 5,
+              "wood": 5
+            }
+          },
+          "rotY": 0,
+          "state": "ruined",
+          "targetEntryId": "entry_section_3",
+          "targetGateId": "gate_section_3_to_2",
+          "targetSectionId": "section_3",
+          "triggerRadius": 1.85,
+          "uniformScale": 0.72,
+          "visualAssetId": "asset_ruin_arch"
+        }
+      ],
+      "props": [
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_stone_a",
+          "opacity": 1,
+          "pos": {
+            "x": 14,
+            "y": 0,
+            "z": 14
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_stone_b",
+          "opacity": 1,
+          "pos": {
+            "x": -16,
+            "y": 0,
+            "z": -5
+          },
+          "rotY": 0.7,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_stone_c",
+          "opacity": 1,
+          "pos": {
+            "x": -12,
+            "y": 0,
+            "z": 16
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_reed_a",
+          "opacity": 1,
+          "pos": {
+            "x": -5,
+            "y": 0,
+            "z": 13
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_reed_b",
+          "opacity": 1,
+          "pos": {
+            "x": -14,
+            "y": 0,
+            "z": 9
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_reed_c",
+          "opacity": 1,
+          "pos": {
+            "x": -17,
+            "y": 0,
+            "z": 1
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_reed_d",
+          "opacity": 1,
+          "pos": {
+            "x": -6,
+            "y": 0,
+            "z": -12
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_lily_a",
+          "opacity": 1,
+          "pos": {
+            "x": -9,
+            "y": 0,
+            "z": 8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_lily_b",
+          "opacity": 1,
+          "pos": {
+            "x": -16,
+            "y": 0,
+            "z": -2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_lily_c",
+          "opacity": 1,
+          "pos": {
+            "x": 15,
+            "y": 0,
+            "z": -11
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_pebble_a",
+          "opacity": 1,
+          "pos": {
+            "x": 5,
+            "y": 0,
+            "z": 14
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_pebble_b",
+          "opacity": 1,
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": 2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_crystal_a",
+          "opacity": 1,
+          "pos": {
+            "x": 8,
+            "y": 0,
+            "z": -9
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_crystal_b",
+          "opacity": 1,
+          "pos": {
+            "x": -16,
+            "y": 0,
+            "z": -12
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_barrier",
+          "opacity": 1,
+          "pos": {
+            "x": -19,
+            "y": 0,
+            "z": -15
+          },
+          "rotY": 1.57,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_vault_barrier"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_iron_a",
+          "opacity": 1,
+          "pos": {
+            "x": 7,
+            "y": 0,
+            "z": 9
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_blossom_a",
+          "opacity": 1,
+          "pos": {
+            "x": -6,
+            "y": 0,
+            "z": 11
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_luminous_blossom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_blossom_b",
+          "opacity": 1,
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": -4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_luminous_blossom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_reed_a",
+          "opacity": 1,
+          "pos": {
+            "x": -3.8,
+            "y": 0,
+            "z": 16.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_reed_b",
+          "opacity": 1,
+          "pos": {
+            "x": 4.2,
+            "y": 0,
+            "z": 15.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_lily",
+          "opacity": 1,
+          "pos": {
+            "x": -1.4,
+            "y": 0,
+            "z": 14.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_stone",
+          "opacity": 1,
+          "pos": {
+            "x": 8.2,
+            "y": 0,
+            "z": 16.2
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 0.85,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_pebbles",
+          "opacity": 1,
+          "pos": {
+            "x": 1.6,
+            "y": 0,
+            "z": 15
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_reed_c",
+          "opacity": 1,
+          "pos": {
+            "x": -7.2,
+            "y": 0,
+            "z": 15.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_reed_d",
+          "opacity": 1,
+          "pos": {
+            "x": 7.1,
+            "y": 0,
+            "z": 14.6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_lily_b",
+          "opacity": 1,
+          "pos": {
+            "x": -4.8,
+            "y": 0,
+            "z": 13.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_lily_c",
+          "opacity": 1,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": 13.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_stone_b",
+          "opacity": 1,
+          "pos": {
+            "x": -8.4,
+            "y": 0,
+            "z": 14.2
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_entry_stone_c",
+          "opacity": 1,
+          "pos": {
+            "x": 6.3,
+            "y": 0,
+            "z": 12.7
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 0.95,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_tidefin_1",
+          "opacity": 1,
+          "pos": {
+            "x": -8,
+            "y": 0,
+            "z": 7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wildkin_tidefin"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_tidefin_2",
+          "opacity": 1,
+          "pos": {
+            "x": 12,
+            "y": 0,
+            "z": -4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wildkin_tidefin"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_thorn_3",
+          "opacity": 1,
+          "pos": {
+            "x": 5,
+            "y": 0,
+            "z": -13
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.95,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_thornprowler"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_thorn_4",
+          "opacity": 1,
+          "pos": {
+            "x": -12,
+            "y": 0,
+            "z": -7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_thornprowler"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_mid_reed_l",
+          "opacity": 1,
+          "pos": {
+            "x": -6.7,
+            "y": 0,
+            "z": 7.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_mid_reed_r",
+          "opacity": 1,
+          "pos": {
+            "x": 6.8,
+            "y": 0,
+            "z": 6.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.48,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_mid_lily_l",
+          "opacity": 1,
+          "pos": {
+            "x": -4.5,
+            "y": 0,
+            "z": 5.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.6,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_mid_lily_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4.7,
+            "y": 0,
+            "z": 4.7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_mid_stone_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7.4,
+            "y": 0,
+            "z": 3.7
+          },
+          "rotY": 0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_mid_stone_r",
+          "opacity": 1,
+          "pos": {
+            "x": 7.3,
+            "y": 0,
+            "z": 2.8
+          },
+          "rotY": -0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 0.94,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_mid_blossom",
+          "opacity": 1,
+          "pos": {
+            "x": -3.7,
+            "y": 0,
+            "z": 2.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_luminous_blossom"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_observatory_arch",
+          "opacity": 1,
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": 5.3
+          },
+          "rotY": 0.25,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_observatory_stone_l",
+          "opacity": 1,
+          "pos": {
+            "x": 10.6,
+            "y": 0,
+            "z": 6.2
+          },
+          "rotY": -0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_observatory_stone_r",
+          "opacity": 1,
+          "pos": {
+            "x": 15.4,
+            "y": 0,
+            "z": 6.1
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_observatory_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": 8.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_deep_reed_l",
+          "opacity": 1,
+          "pos": {
+            "x": -6.5,
+            "y": 0,
+            "z": -7.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_deep_reed_r",
+          "opacity": 1,
+          "pos": {
+            "x": 6.7,
+            "y": 0,
+            "z": -8.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_deep_lily_l",
+          "opacity": 1,
+          "pos": {
+            "x": -4.2,
+            "y": 0,
+            "z": -10.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_deep_lily_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4.1,
+            "y": 0,
+            "z": -11.3
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_deep_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": 5.6,
+            "y": 0,
+            "z": -6.3
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_gate_stone_l",
+          "opacity": 1,
+          "pos": {
+            "x": -5.8,
+            "y": 0,
+            "z": -18.3
+          },
+          "rotY": 0.25,
+          "subtype": "visualAsset",
+          "uniformScale": 1.12,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s2_gate_stone_r",
+          "opacity": 1,
+          "pos": {
+            "x": 5.9,
+            "y": 0,
+            "z": -18.8
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_route_reed_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.7,
+            "y": 0,
+            "z": -0.4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_route_reed_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": -1.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_route_lily_l",
+          "opacity": 1,
+          "pos": {
+            "x": -2.8,
+            "y": 0,
+            "z": -3.7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_route_lily_r",
+          "opacity": 1,
+          "pos": {
+            "x": 2.9,
+            "y": 0,
+            "z": -4.4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_route_stone_l",
+          "opacity": 1,
+          "pos": {
+            "x": -4.8,
+            "y": 0,
+            "z": -5.8
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 0.92,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s2_route_stone_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4.8,
+            "y": 0,
+            "z": -6.5
+          },
+          "rotY": -0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        }
+      ],
+      "resources": [
+        {
+          "id": "rock_section_2_01",
+          "level": 2,
+          "pos": {
+            "x": 12,
+            "y": 0,
+            "z": 14
+          },
+          "type": "rock"
+        },
+        {
+          "id": "fiber_section_2_01",
+          "level": 2,
+          "pos": {
+            "x": 15,
+            "y": 0,
+            "z": 9
+          },
+          "type": "fiber"
+        },
+        {
+          "id": "tree_section_2_01",
+          "level": 2,
+          "pos": {
+            "x": 18,
+            "y": 0,
+            "z": -4
+          },
+          "type": "tree"
+        },
+        {
+          "id": "rock_section_2_02",
+          "level": 2,
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": -13
+          },
+          "type": "rock"
+        }
+      ],
+      "sectionProfile": {
+        "expected": {
+          "extractionBeacons": {
+            "max": 1,
+            "min": 1
+          },
+          "outboundPortals": {
+            "max": 1,
+            "min": 1
+          },
+          "parkourCourses": {
+            "max": 1,
+            "min": 1
+          },
+          "secrets": {
+            "max": 3,
+            "min": 2
+          },
+          "waypoint": 1
+        },
+        "recommendedLevel": {
+          "max": 3,
+          "min": 2
+        },
+        "resourceValueTarget": {
+          "max": 24,
+          "min": 12
+        },
+        "tier": 2,
+        "wildkinCountTarget": {
+          "max": 5,
+          "min": 3
+        },
+        "wildkinLevelTarget": {
+          "max": 3,
+          "min": 2
+        }
+      },
+      "sectionType": "expedition",
+      "size": {
+        "depth": 50,
+        "width": 50
+      },
+      "traversal": {
+        "climbables": [],
+        "jumpTraversals": [],
+        "obstacles": [],
+        "platforms": [
+          {
+            "baseY": 0,
+            "h": 3,
+            "height": 0.35,
+            "id": "platform_s2_a",
+            "rotY": 0,
+            "w": 3,
+            "x": 13,
+            "y": 0,
+            "z": -3
+          },
+          {
+            "baseY": 0,
+            "h": 4,
+            "height": 0.35,
+            "id": "platform_s2_b",
+            "rotY": 0,
+            "w": 4,
+            "x": 13,
+            "y": 0,
+            "z": -15
+          }
+        ]
+      }
+    },
+    {
+      "boundaryColliders": [
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_3_north",
+          "opacity": 0.22,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": -24.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.5,
+            "h": 3,
+            "w": 49
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_3_south",
+          "opacity": 0.22,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 24.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.5,
+            "h": 3,
+            "w": 49
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_3_west",
+          "opacity": 0.22,
+          "pos": {
+            "x": -24.5,
+            "y": 0,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 49,
+            "h": 3,
+            "w": 0.5
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_3_east",
+          "opacity": 0.22,
+          "pos": {
+            "x": 24.5,
+            "y": 0,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 49,
+            "h": 3,
+            "w": 0.5
+          },
+          "visibleInPlay": false
+        }
+      ],
+      "bounds": {
+        "maxX": 25,
+        "maxZ": 25,
+        "minX": -25,
+        "minZ": -25
+      },
+      "creatures": [],
+      "displayName": "Emberfall Ruins",
+      "entryPoints": [
+        {
+          "facingYaw": 3.141592653589793,
+          "id": "entry_section_3",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 18
+          }
+        }
+      ],
+      "extractionBeacons": [
+        {
+          "displayName": "Emberfall Ruins Beacon",
+          "id": "beacon_section_3",
+          "pos": {
+            "x": -18,
+            "y": 0,
+            "z": 3
+          },
+          "type": "extractionBeacon"
+        }
+      ],
+      "ground": {
+        "color": "#74484a",
+        "type": "plain"
+      },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": "#74484a",
+          "id": "ground_section_3",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.5,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 50,
+            "h": 0.5,
+            "w": 50
+          },
+          "visibleInPlay": true
+        }
+      ],
+      "id": "section_3",
+      "jumpPads": [
+        {
+          "cooldown": 1,
+          "id": "jump_pad_section_3",
+          "pos": {
+            "x": 9,
+            "y": 0.35,
+            "z": -3
+          },
+          "powerPreset": "high",
+          "rotY": 3.141592653589793,
+          "triggerRadius": 1.3,
+          "verticalLaunch": null,
+          "visualAssetId": "asset_frontier_launch_pad"
+        }
+      ],
+      "killVolumes": [
+        {
+          "courseId": "course_section_3",
+          "id": "kill_volume_section_3",
+          "pos": {
+            "x": 9,
+            "y": 0.6,
+            "z": -13
+          },
+          "size": {
+            "d": 5,
+            "h": 1.2,
+            "w": 3
+          }
+        }
+      ],
+      "lootChests": [
+        {
+          "displayName": "Cinder Cache",
+          "id": "chest_secret_section_3",
+          "lootTableId": "loot_emberfall_secret",
+          "pos": {
+            "x": -17,
+            "y": 0,
+            "z": -10
+          },
+          "refillSeconds": null,
+          "rotY": 0,
+          "secret": true,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        },
+        {
+          "courseId": "course_section_3",
+          "displayName": "Spire Cache",
+          "id": "chest_parkour_section_3",
+          "lootTableId": "loot_emberfall_parkour",
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": -17
+          },
+          "refillSeconds": 86400,
+          "rotY": 0,
+          "secret": false,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        },
+        {
+          "displayName": "Emberhorn Den",
+          "id": "chest_emberhorn_secret",
+          "lootTableId": "loot_emberfall_secret",
+          "pos": {
+            "x": -19,
+            "y": 0,
+            "z": -16
+          },
+          "refillSeconds": null,
+          "rotY": 0,
+          "secret": true,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        }
+      ],
+      "majorWaypoints": [
+        {
+          "displayName": "Emberfall Ruins Waypoint",
+          "id": "wp_section_3",
+          "pos": {
+            "x": -1,
+            "y": 0,
+            "z": 7
+          },
+          "runSpawn": {
+            "facingYaw": 3.141592653589793,
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 10
+            }
+          },
+          "type": "majorWaypoint"
+        }
+      ],
+      "neighbors": [],
+      "parkourCheckpoints": [
+        {
+          "courseId": "course_section_3",
+          "id": "parkour_checkpoint_section_3",
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": -8
+          },
+          "respawnFacingYaw": 3.141592653589793,
+          "respawnPosition": {
+            "x": 9,
+            "y": 0,
+            "z": -8
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "parkourCourseZones": [
+        {
+          "courseId": "course_section_3",
+          "id": "parkour_zone_section_3",
+          "pos": {
+            "x": 9,
+            "y": 2,
+            "z": -8
+          },
+          "size": {
+            "d": 22,
+            "h": 6,
+            "w": 8
+          }
+        }
+      ],
+      "parkourEnds": [
+        {
+          "courseId": "course_section_3",
+          "id": "parkour_end_section_3",
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": -17
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "parkourStarts": [
+        {
+          "courseId": "course_section_3",
+          "id": "parkour_start_section_3",
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": 1
+          },
+          "respawnFacingYaw": 3.141592653589793,
+          "respawnPosition": {
+            "x": 9,
+            "y": 0,
+            "z": 1
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "pockets": [],
+      "pois": [],
+      "portalGates": [
+        {
+          "displayName": "Shatterfen Return Gate",
+          "id": "gate_section_3_to_2",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 22
+          },
+          "rotY": 3.141592653589793,
+          "state": "active",
+          "targetEntryId": "entry_section_2",
+          "targetGateId": "gate_section_2_to_3",
+          "targetSectionId": "section_2",
+          "triggerRadius": 1.85,
+          "uniformScale": 0.7,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "displayName": "Windscar Gate",
+          "id": "gate_section_3_to_4",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": -21
+          },
+          "requirements": {
+            "minPlayerLevel": 4,
+            "resources": {
+              "crystal_shard": 2,
+              "iron_ore": 4,
+              "stone": 7
+            }
+          },
+          "rotY": 0,
+          "state": "ruined",
+          "targetEntryId": "entry_section_4",
+          "targetGateId": "gate_section_4_to_3",
+          "targetSectionId": "section_4",
+          "triggerRadius": 1.85,
+          "uniformScale": 0.72,
+          "visualAssetId": "asset_ruin_arch"
+        }
+      ],
+      "props": [
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_spire_a",
+          "opacity": 1,
+          "pos": {
+            "x": -14,
+            "y": 0,
+            "z": 12
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_spire_b",
+          "opacity": 1,
+          "pos": {
+            "x": 15,
+            "y": 0,
+            "z": 7
+          },
+          "rotY": 0.7,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_bloom_a",
+          "opacity": 1,
+          "pos": {
+            "x": -9,
+            "y": 0,
+            "z": 4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_ore_a",
+          "opacity": 1,
+          "pos": {
+            "x": 10,
+            "y": 0,
+            "z": -10
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": -15,
+            "y": 0,
+            "z": -10
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_barrier",
+          "opacity": 1,
+          "pos": {
+            "x": -19,
+            "y": 0,
+            "z": -15
+          },
+          "rotY": 1.57,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_vault_barrier"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_emberhorn_1",
+          "opacity": 1,
+          "pos": {
+            "x": -8,
+            "y": 0,
+            "z": 8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wildkin_emberhorn"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_emberhorn_2",
+          "opacity": 1,
+          "pos": {
+            "x": 11,
+            "y": 0,
+            "z": 7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.95,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wildkin_emberhorn"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_cinder_1",
+          "opacity": 1,
+          "pos": {
+            "x": -10,
+            "y": 0,
+            "z": -6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cinderjaw"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_cinder_2",
+          "opacity": 1,
+          "pos": {
+            "x": 10,
+            "y": 0,
+            "z": -12
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cinderjaw"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_shrine_spire_l",
+          "opacity": 1,
+          "pos": {
+            "x": -6.8,
+            "y": 0,
+            "z": 7.1
+          },
+          "rotY": -0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 1.22,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_shrine_spire_r",
+          "opacity": 1,
+          "pos": {
+            "x": 6.9,
+            "y": 0,
+            "z": 6.2
+          },
+          "rotY": 0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_shrine_bloom_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.7,
+            "y": 0,
+            "z": 5.5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.65,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_shrine_bloom_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": 4.5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_shrine_ruin",
+          "opacity": 1,
+          "pos": {
+            "x": -5.8,
+            "y": 0,
+            "z": 2.4
+          },
+          "rotY": 0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 0.86,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_shrine_ore",
+          "opacity": 1,
+          "pos": {
+            "x": 5.4,
+            "y": 0,
+            "z": 2.1
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.12,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_chamber_arch_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7.4,
+            "y": 0,
+            "z": -7.3
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 0.96,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_chamber_arch_r",
+          "opacity": 1,
+          "pos": {
+            "x": 7.3,
+            "y": 0,
+            "z": -8.6
+          },
+          "rotY": -0.25,
+          "subtype": "visualAsset",
+          "uniformScale": 0.88,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_chamber_spire_l",
+          "opacity": 1,
+          "pos": {
+            "x": -4.6,
+            "y": 0,
+            "z": -11.1
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_chamber_spire_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4.9,
+            "y": 0,
+            "z": -10.4
+          },
+          "rotY": -0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_chamber_bloom",
+          "opacity": 1,
+          "pos": {
+            "x": 3.4,
+            "y": 0,
+            "z": -7.1
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_gate_spire_l",
+          "opacity": 1,
+          "pos": {
+            "x": -6.1,
+            "y": 0,
+            "z": -18.2
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.18,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_gate_spire_r",
+          "opacity": 1,
+          "pos": {
+            "x": 6.2,
+            "y": 0,
+            "z": -18.7
+          },
+          "rotY": -0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 1.13,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_gate_ore",
+          "opacity": 1,
+          "pos": {
+            "x": -4.1,
+            "y": 0,
+            "z": -15.1
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.13,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_gate_bloom",
+          "opacity": 1,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": -15.3
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_route_spire_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.9,
+            "y": 0,
+            "z": -0.5
+          },
+          "rotY": 0.14,
+          "subtype": "visualAsset",
+          "uniformScale": 0.98,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_route_spire_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4,
+            "y": 0,
+            "z": -1.5
+          },
+          "rotY": -0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 0.95,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_route_bloom_l",
+          "opacity": 1,
+          "pos": {
+            "x": -2.8,
+            "y": 0,
+            "z": -3.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.48,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_route_bloom_r",
+          "opacity": 1,
+          "pos": {
+            "x": 2.9,
+            "y": 0,
+            "z": -4.6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_route_ore",
+          "opacity": 1,
+          "pos": {
+            "x": 4.8,
+            "y": 0,
+            "z": -5.6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.06,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_bloom_b",
+          "opacity": 1,
+          "pos": {
+            "x": 6,
+            "y": 0,
+            "z": 13
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_bloom_c",
+          "opacity": 1,
+          "pos": {
+            "x": -5,
+            "y": 0,
+            "z": -8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_pebbles",
+          "opacity": 1,
+          "pos": {
+            "x": 5,
+            "y": 0,
+            "z": 8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_arrival_spire_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7.2,
+            "y": 0,
+            "z": 15.5
+          },
+          "rotY": -0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 1.22,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s3_arrival_spire_r",
+          "opacity": 1,
+          "pos": {
+            "x": 7.1,
+            "y": 0,
+            "z": 14.8
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.16,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_spire"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_arrival_bloom_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.3,
+            "y": 0,
+            "z": 15.1
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_arrival_bloom_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.7,
+            "y": 0,
+            "z": 14.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_ember_bloom"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_arrival_ore",
+          "opacity": 1,
+          "pos": {
+            "x": 5.1,
+            "y": 0,
+            "z": 12.5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s3_arrival_stones",
+          "opacity": 1,
+          "pos": {
+            "x": -1.2,
+            "y": 0,
+            "z": 13.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.6,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        }
+      ],
+      "resources": [
+        {
+          "id": "tree_section_3_01",
+          "level": 3,
+          "pos": {
+            "x": -12,
+            "y": 0,
+            "z": 14
+          },
+          "type": "tree"
+        },
+        {
+          "id": "rock_section_3_01",
+          "level": 3,
+          "pos": {
+            "x": 12,
+            "y": 0,
+            "z": 13
+          },
+          "type": "rock"
+        },
+        {
+          "id": "fiber_section_3_01",
+          "level": 3,
+          "pos": {
+            "x": 14,
+            "y": 0,
+            "z": 6
+          },
+          "type": "fiber"
+        }
+      ],
+      "sectionProfile": {
+        "expected": {
+          "extractionBeacons": {
+            "max": 1,
+            "min": 1
+          },
+          "outboundPortals": {
+            "max": 1,
+            "min": 1
+          },
+          "parkourCourses": {
+            "max": 1,
+            "min": 1
+          },
+          "secrets": {
+            "max": 3,
+            "min": 2
+          },
+          "waypoint": 1
+        },
+        "recommendedLevel": {
+          "max": 4,
+          "min": 3
+        },
+        "resourceValueTarget": {
+          "max": 25,
+          "min": 12
+        },
+        "tier": 3,
+        "wildkinCountTarget": {
+          "max": 5,
+          "min": 3
+        },
+        "wildkinLevelTarget": {
+          "max": 4,
+          "min": 3
+        }
+      },
+      "sectionType": "expedition",
+      "size": {
+        "depth": 50,
+        "width": 50
+      },
+      "traversal": {
+        "climbables": [],
+        "jumpTraversals": [],
+        "obstacles": [],
+        "platforms": [
+          {
+            "baseY": 0,
+            "h": 3,
+            "height": 0.35,
+            "id": "platform_s3_a",
+            "rotY": 0,
+            "w": 3,
+            "x": 9,
+            "y": 0,
+            "z": -3
+          },
+          {
+            "baseY": 0,
+            "h": 4,
+            "height": 0.35,
+            "id": "platform_s3_b",
+            "rotY": 0,
+            "w": 4,
+            "x": 9,
+            "y": 0,
+            "z": -15
+          }
+        ]
+      }
+    },
+    {
+      "boundaryColliders": [
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_4_north",
+          "opacity": 0.22,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": -24.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.5,
+            "h": 3,
+            "w": 49
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_4_south",
+          "opacity": 0.22,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 24.5
+          },
+          "rotY": 0,
+          "size": {
+            "d": 0.5,
+            "h": 3,
+            "w": 49
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_4_west",
+          "opacity": 0.22,
+          "pos": {
+            "x": -24.5,
+            "y": 0,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 49,
+            "h": 3,
+            "w": 0.5
+          },
+          "visibleInPlay": false
+        },
+        {
+          "collisionEnabled": true,
+          "color": "#273447",
+          "id": "boundary_section_4_east",
+          "opacity": 0.22,
+          "pos": {
+            "x": 24.5,
+            "y": 0,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 49,
+            "h": 3,
+            "w": 0.5
+          },
+          "visibleInPlay": false
+        }
+      ],
+      "bounds": {
+        "maxX": 25,
+        "maxZ": 25,
+        "minX": -25,
+        "minZ": -25
+      },
+      "creatures": [],
+      "displayName": "Windscar Cliffs",
+      "entryPoints": [
+        {
+          "facingYaw": 3.141592653589793,
+          "id": "entry_section_4",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 18
+          }
+        }
+      ],
+      "extractionBeacons": [
+        {
+          "displayName": "Windscar Cliffs Beacon",
+          "id": "beacon_section_4",
+          "pos": {
+            "x": -18,
+            "y": 0,
+            "z": 3
+          },
+          "type": "extractionBeacon"
+        }
+      ],
+      "ground": {
+        "color": "#71899a",
+        "type": "plain"
+      },
+      "groundPatches": [
+        {
+          "collisionEnabled": true,
+          "color": "#71899a",
+          "id": "ground_section_4",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": -0.5,
+            "z": 0
+          },
+          "rotY": 0,
+          "size": {
+            "d": 50,
+            "h": 0.5,
+            "w": 50
+          },
+          "visibleInPlay": true
+        }
+      ],
+      "id": "section_4",
+      "jumpPads": [
+        {
+          "cooldown": 1,
+          "id": "jump_pad_section_4",
+          "pos": {
+            "x": 8,
+            "y": 0.35,
+            "z": -3
+          },
+          "powerPreset": "high",
+          "rotY": 3.141592653589793,
+          "triggerRadius": 1.3,
+          "verticalLaunch": null,
+          "visualAssetId": "asset_frontier_launch_pad"
+        }
+      ],
+      "killVolumes": [
+        {
+          "courseId": "course_section_4",
+          "id": "kill_volume_section_4",
+          "pos": {
+            "x": 8,
+            "y": 0.6,
+            "z": -13
+          },
+          "size": {
+            "d": 5,
+            "h": 1.2,
+            "w": 3
+          }
+        }
+      ],
+      "lootChests": [
+        {
+          "displayName": "Windworn Cache",
+          "id": "chest_secret_section_4",
+          "lootTableId": "loot_windscar_secret",
+          "pos": {
+            "x": -17,
+            "y": 0,
+            "z": -10
+          },
+          "refillSeconds": null,
+          "rotY": 0,
+          "secret": true,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        },
+        {
+          "courseId": "course_section_4",
+          "displayName": "Cloudstep Cache",
+          "id": "chest_parkour_section_4",
+          "lootTableId": "loot_windscar_parkour",
+          "pos": {
+            "x": 8,
+            "y": 0,
+            "z": -17
+          },
+          "refillSeconds": 86400,
+          "rotY": 0,
+          "secret": false,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        },
+        {
+          "displayName": "Skydancer Eyrie",
+          "id": "chest_skydancer_secret",
+          "lootTableId": "loot_windscar_secret",
+          "pos": {
+            "x": -19,
+            "y": 0,
+            "z": -16
+          },
+          "refillSeconds": null,
+          "rotY": 0,
+          "secret": true,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        }
+      ],
+      "majorWaypoints": [
+        {
+          "displayName": "Windscar Cliffs Waypoint",
+          "id": "wp_section_4",
+          "pos": {
+            "x": -1,
+            "y": 0,
+            "z": 7
+          },
+          "runSpawn": {
+            "facingYaw": 3.141592653589793,
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 10
+            }
+          },
+          "type": "majorWaypoint"
+        }
+      ],
+      "neighbors": [],
+      "parkourCheckpoints": [
+        {
+          "courseId": "course_section_4",
+          "id": "parkour_checkpoint_section_4",
+          "pos": {
+            "x": 8,
+            "y": 0,
+            "z": -8
+          },
+          "respawnFacingYaw": 3.141592653589793,
+          "respawnPosition": {
+            "x": 8,
+            "y": 0,
+            "z": -8
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "parkourCourseZones": [
+        {
+          "courseId": "course_section_4",
+          "id": "parkour_zone_section_4",
+          "pos": {
+            "x": 8,
+            "y": 2,
+            "z": -8
+          },
+          "size": {
+            "d": 22,
+            "h": 6,
+            "w": 8
+          }
+        }
+      ],
+      "parkourEnds": [
+        {
+          "courseId": "course_section_4",
+          "id": "parkour_end_section_4",
+          "pos": {
+            "x": 8,
+            "y": 0,
+            "z": -17
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "parkourStarts": [
+        {
+          "courseId": "course_section_4",
+          "id": "parkour_start_section_4",
+          "pos": {
+            "x": 8,
+            "y": 0,
+            "z": 1
+          },
+          "respawnFacingYaw": 3.141592653589793,
+          "respawnPosition": {
+            "x": 8,
+            "y": 0,
+            "z": 1
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "pockets": [],
+      "pois": [],
+      "portalGates": [
+        {
+          "displayName": "Emberfall Return Gate",
+          "id": "gate_section_4_to_3",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 22
+          },
+          "rotY": 3.141592653589793,
+          "state": "active",
+          "targetEntryId": "entry_section_3",
+          "targetGateId": "gate_section_3_to_4",
+          "targetSectionId": "section_3",
+          "triggerRadius": 1.85,
+          "uniformScale": 0.7,
+          "visualAssetId": "asset_ruin_arch"
+        },
+        {
+          "displayName": "Heartwood Gate",
+          "id": "gate_section_4_to_5",
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": -21
+          },
+          "requirements": {
+            "minPlayerLevel": 5,
+            "resources": {
+              "crystal_shard": 5,
+              "iron_ore": 6,
+              "stone": 8
+            }
+          },
+          "rotY": 0,
+          "state": "ruined",
+          "targetEntryId": "entry_section_5",
+          "targetGateId": "gate_section_5_to_4",
+          "targetSectionId": "section_5",
+          "triggerRadius": 1.85,
+          "uniformScale": 0.72,
+          "visualAssetId": "asset_ruin_arch"
+        }
+      ],
+      "props": [
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_needle_a",
+          "opacity": 1,
+          "pos": {
+            "x": -15,
+            "y": 0,
+            "z": 11
+          },
+          "rotY": 0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_needle_b",
+          "opacity": 1,
+          "pos": {
+            "x": 14,
+            "y": 0,
+            "z": 7
+          },
+          "rotY": 0.8,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_cloud_a",
+          "opacity": 1,
+          "pos": {
+            "x": -8,
+            "y": 0,
+            "z": 4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_cloud_b",
+          "opacity": 1,
+          "pos": {
+            "x": 8,
+            "y": 0,
+            "z": -6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": -15,
+            "y": 0,
+            "z": -10
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_barrier",
+          "opacity": 1,
+          "pos": {
+            "x": -19,
+            "y": 0,
+            "z": -15
+          },
+          "rotY": 1.57,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_vault_barrier"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_skydancer_1",
+          "opacity": 1,
+          "pos": {
+            "x": -8,
+            "y": 0,
+            "z": 8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wildkin_skydancer"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_skydancer_2",
+          "opacity": 1,
+          "pos": {
+            "x": 12,
+            "y": 0,
+            "z": 7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 0.95,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wildkin_skydancer"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_thorn_5",
+          "opacity": 1,
+          "pos": {
+            "x": -10,
+            "y": 0,
+            "z": -6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_thornprowler"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_cinder_3",
+          "opacity": 1,
+          "pos": {
+            "x": 10,
+            "y": 0,
+            "z": -12
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cinderjaw"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_iron_a",
+          "opacity": 1,
+          "pos": {
+            "x": -5,
+            "y": 0,
+            "z": 12
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_iron_b",
+          "opacity": 1,
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": -5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_blossom",
+          "opacity": 1,
+          "pos": {
+            "x": 4,
+            "y": 0,
+            "z": 8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_luminous_blossom"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_shelf_needle_l",
+          "opacity": 1,
+          "pos": {
+            "x": -6.8,
+            "y": 0,
+            "z": 7.1
+          },
+          "rotY": -0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_shelf_needle_r",
+          "opacity": 1,
+          "pos": {
+            "x": 6.9,
+            "y": 0,
+            "z": 6.2
+          },
+          "rotY": 0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.17,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_shelf_flower_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.6,
+            "y": 0,
+            "z": 5.7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.65,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_shelf_flower_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": 4.6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.58,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_shelf_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": -5.2,
+            "y": 0,
+            "z": 2.5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.18,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_shelf_stones",
+          "opacity": 1,
+          "pos": {
+            "x": 4.8,
+            "y": 0,
+            "z": 2.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.7,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_cloudstep_needle_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7.4,
+            "y": 0,
+            "z": -7.5
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.14,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_cloudstep_needle_r",
+          "opacity": 1,
+          "pos": {
+            "x": 5.1,
+            "y": 0,
+            "z": -9.3
+          },
+          "rotY": -0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.08,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_cloudstep_flower_l",
+          "opacity": 1,
+          "pos": {
+            "x": -4.1,
+            "y": 0,
+            "z": -10.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.6,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_cloudstep_flower_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.7,
+            "y": 0,
+            "z": -7.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_cloudstep_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": -4.9,
+            "y": 0,
+            "z": -6.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_gate_needle_l",
+          "opacity": 1,
+          "pos": {
+            "x": -6.1,
+            "y": 0,
+            "z": -18.2
+          },
+          "rotY": -0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.22,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_gate_needle_r",
+          "opacity": 1,
+          "pos": {
+            "x": 6.2,
+            "y": 0,
+            "z": -18.7
+          },
+          "rotY": 0.14,
+          "subtype": "visualAsset",
+          "uniformScale": 1.16,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_gate_flower_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.8,
+            "y": 0,
+            "z": -15.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.6,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_gate_flower_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.9,
+            "y": 0,
+            "z": -15.6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_gate_iron",
+          "opacity": 1,
+          "pos": {
+            "x": 5.1,
+            "y": 0,
+            "z": -14.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.12,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_iron_ore_rock"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_route_needle_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.9,
+            "y": 0,
+            "z": -0.6
+          },
+          "rotY": 0.14,
+          "subtype": "visualAsset",
+          "uniformScale": 0.98,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_route_needle_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4,
+            "y": 0,
+            "z": -1.7
+          },
+          "rotY": -0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 0.94,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_route_flower_l",
+          "opacity": 1,
+          "pos": {
+            "x": -2.8,
+            "y": 0,
+            "z": -3.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_route_flower_r",
+          "opacity": 1,
+          "pos": {
+            "x": 2.9,
+            "y": 0,
+            "z": -4.7
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.52,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_route_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": 4.9,
+            "y": 0,
+            "z": -5.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_needle_c",
+          "opacity": 1,
+          "pos": {
+            "x": -12,
+            "y": 0,
+            "z": -10
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_cloud_c",
+          "opacity": 1,
+          "pos": {
+            "x": -5,
+            "y": 0,
+            "z": 13
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_pebbles",
+          "opacity": 1,
+          "pos": {
+            "x": 5,
+            "y": 0,
+            "z": 10
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_arrival_needle_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7.4,
+            "y": 0,
+            "z": 15.4
+          },
+          "rotY": -0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.24,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s4_arrival_needle_r",
+          "opacity": 1,
+          "pos": {
+            "x": 7,
+            "y": 0,
+            "z": 14.4
+          },
+          "rotY": 0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 1.17,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_wind_arch"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_arrival_flower_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.1,
+            "y": 0,
+            "z": 15.3
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.6,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_arrival_flower_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.4,
+            "y": 0,
+            "z": 13.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_arrival_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": 5.2,
+            "y": 0,
+            "z": 12.1
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.12,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s4_arrival_stones",
+          "opacity": 1,
+          "pos": {
+            "x": -1.1,
+            "y": 0,
+            "z": 12.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.65,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        }
+      ],
+      "resources": [
+        {
+          "id": "tree_section_4_01",
+          "level": 4,
+          "pos": {
+            "x": -13,
+            "y": 0,
+            "z": 14
+          },
+          "type": "tree"
+        },
+        {
+          "id": "rock_section_4_01",
+          "level": 4,
+          "pos": {
+            "x": 12,
+            "y": 0,
+            "z": 14
+          },
+          "type": "rock"
+        },
+        {
+          "id": "fiber_section_4_01",
+          "level": 4,
+          "pos": {
+            "x": 13,
             "y": 0,
             "z": 5
           },
@@ -718,27 +5410,27 @@ export const WORLD_DATA = {
             "min": 1
           },
           "secrets": {
-            "max": 1,
-            "min": 1
+            "max": 3,
+            "min": 2
           },
           "waypoint": 1
         },
         "recommendedLevel": {
-          "max": 3,
-          "min": 1
+          "max": 5,
+          "min": 4
         },
         "resourceValueTarget": {
-          "max": 8,
+          "max": 26,
+          "min": 12
+        },
+        "tier": 4,
+        "wildkinCountTarget": {
+          "max": 5,
           "min": 3
         },
-        "tier": 1,
-        "wildkinCountTarget": {
-          "max": 3,
-          "min": 1
-        },
         "wildkinLevelTarget": {
-          "max": 2,
-          "min": 1
+          "max": 5,
+          "min": 4
         }
       },
       "sectionType": "expedition",
@@ -749,25 +5441,13 @@ export const WORLD_DATA = {
       "traversal": {
         "climbables": [],
         "jumpTraversals": [],
-        "obstacles": [
-          {
-            "baseY": 0,
-            "h": 2,
-            "height": 2,
-            "id": "overlap_blocker_section_1",
-            "rotY": 0,
-            "w": 2,
-            "x": 12,
-            "y": 0,
-            "z": 8
-          }
-        ],
+        "obstacles": [],
         "platforms": [
           {
             "baseY": 0,
             "h": 3,
             "height": 0.35,
-            "id": "platform_section_1_takeoff",
+            "id": "platform_s4_a",
             "rotY": 0,
             "w": 3,
             "x": 8,
@@ -778,12 +5458,12 @@ export const WORLD_DATA = {
             "baseY": 0,
             "h": 4,
             "height": 0.35,
-            "id": "platform_section_1_landing",
+            "id": "platform_s4_b",
             "rotY": 0,
             "w": 4,
             "x": 8,
             "y": 0,
-            "z": -14
+            "z": -15
           }
         ]
       }
@@ -792,9 +5472,9 @@ export const WORLD_DATA = {
       "boundaryColliders": [
         {
           "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_2_north",
-          "opacity": 0.35,
+          "color": "#273447",
+          "id": "boundary_section_5_north",
+          "opacity": 0.22,
           "pos": {
             "x": 0,
             "y": 0,
@@ -810,9 +5490,9 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_2_south",
-          "opacity": 0.35,
+          "color": "#273447",
+          "id": "boundary_section_5_south",
+          "opacity": 0.22,
           "pos": {
             "x": 0,
             "y": 0,
@@ -828,9 +5508,9 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_2_west",
-          "opacity": 0.35,
+          "color": "#273447",
+          "id": "boundary_section_5_west",
+          "opacity": 0.22,
           "pos": {
             "x": -24.5,
             "y": 0,
@@ -846,9 +5526,9 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "color": "#445568",
-          "id": "boundary_section_2_east",
-          "opacity": 0.35,
+          "color": "#273447",
+          "id": "boundary_section_5_east",
+          "opacity": 0.22,
           "pos": {
             "x": 24.5,
             "y": 0,
@@ -869,52 +5549,40 @@ export const WORLD_DATA = {
         "minX": -25,
         "minZ": -25
       },
-      "creatures": [
-        {
-          "homePos": {
-            "x": -12,
-            "y": 0,
-            "z": -5
-          },
-          "hostileSpecies": [],
-          "id": "spitter_section_2_01",
-          "leashRadius": 7,
-          "level": 2,
-          "noticeRadius": 5,
-          "personalSpace": 2,
-          "pos": {
-            "x": -12,
-            "y": 0,
-            "z": -5
-          },
-          "roamRadius": 2,
-          "speciesTag": "spit",
-          "temperament": "DEFENSIVE",
-          "type": "spitter"
-        }
-      ],
-      "displayName": "Section 2 Proof",
+      "creatures": [],
+      "displayName": "Heartwood Vault",
       "entryPoints": [
         {
           "facingYaw": 3.141592653589793,
-          "id": "entry_section_2",
+          "id": "entry_section_5",
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 20
+            "z": 18
           }
         }
       ],
-      "extractionBeacons": [],
+      "extractionBeacons": [
+        {
+          "displayName": "Heartwood Vault Beacon",
+          "id": "beacon_section_5",
+          "pos": {
+            "x": -18,
+            "y": 0,
+            "z": 3
+          },
+          "type": "extractionBeacon"
+        }
+      ],
       "ground": {
-        "color": "#596a8e",
+        "color": "#633e59",
         "type": "plain"
       },
       "groundPatches": [
         {
           "collisionEnabled": true,
-          "color": "#596a8e",
-          "id": "ground_section_2",
+          "color": "#633e59",
+          "id": "ground_section_5",
           "opacity": 1,
           "pos": {
             "x": 0,
@@ -930,104 +5598,821 @@ export const WORLD_DATA = {
           "visibleInPlay": true
         }
       ],
-      "id": "section_2",
-      "jumpPads": [],
-      "killVolumes": [],
-      "lootChests": [],
-      "majorWaypoints": [
+      "id": "section_5",
+      "jumpPads": [
         {
-          "displayName": "Section 2 Waypoint",
-          "id": "wp_section_2",
+          "cooldown": 1,
+          "id": "jump_pad_section_5",
+          "pos": {
+            "x": 9,
+            "y": 0.35,
+            "z": -3
+          },
+          "powerPreset": "high",
+          "rotY": 3.141592653589793,
+          "triggerRadius": 1.3,
+          "verticalLaunch": null,
+          "visualAssetId": "asset_frontier_launch_pad"
+        }
+      ],
+      "killVolumes": [
+        {
+          "courseId": "course_section_5",
+          "id": "kill_volume_section_5",
+          "pos": {
+            "x": 9,
+            "y": 0.6,
+            "z": -13
+          },
+          "size": {
+            "d": 5,
+            "h": 1.2,
+            "w": 3
+          }
+        }
+      ],
+      "lootChests": [
+        {
+          "displayName": "Rootbound Cache",
+          "id": "chest_secret_section_5",
+          "lootTableId": "loot_secret_section_1",
+          "pos": {
+            "x": -17,
+            "y": 0,
+            "z": -10
+          },
+          "refillSeconds": null,
+          "rotY": 0,
+          "secret": true,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        },
+        {
+          "courseId": "course_section_5",
+          "displayName": "Vault Ascent Cache",
+          "id": "chest_parkour_section_5",
+          "lootTableId": "loot_parkour_section_1",
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": -17
+          },
+          "refillSeconds": 86400,
+          "rotY": 0,
+          "secret": false,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        },
+        {
+          "displayName": "Heartwood Core",
+          "id": "chest_heartwood_core",
+          "lootTableId": "loot_heartwood_core",
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 9
+            "z": -15
+          },
+          "refillSeconds": null,
+          "rotY": 0,
+          "secret": true,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
+        }
+      ],
+      "majorWaypoints": [
+        {
+          "displayName": "Heartwood Vault Waypoint",
+          "id": "wp_section_5",
+          "pos": {
+            "x": -1,
+            "y": 0,
+            "z": 7
           },
           "runSpawn": {
             "facingYaw": 3.141592653589793,
             "position": {
               "x": 0,
               "y": 0,
-              "z": 12
+              "z": 10
             }
           },
           "type": "majorWaypoint"
         }
       ],
       "neighbors": [],
-      "parkourCheckpoints": [],
-      "parkourCourseZones": [],
-      "parkourEnds": [],
-      "parkourStarts": [],
+      "parkourCheckpoints": [
+        {
+          "courseId": "course_section_5",
+          "id": "parkour_checkpoint_section_5",
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": -8
+          },
+          "respawnFacingYaw": 3.141592653589793,
+          "respawnPosition": {
+            "x": 9,
+            "y": 0,
+            "z": -8
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "parkourCourseZones": [
+        {
+          "courseId": "course_section_5",
+          "id": "parkour_zone_section_5",
+          "pos": {
+            "x": 9,
+            "y": 2,
+            "z": -8
+          },
+          "size": {
+            "d": 22,
+            "h": 6,
+            "w": 8
+          }
+        }
+      ],
+      "parkourEnds": [
+        {
+          "courseId": "course_section_5",
+          "id": "parkour_end_section_5",
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": -17
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
+      "parkourStarts": [
+        {
+          "courseId": "course_section_5",
+          "id": "parkour_start_section_5",
+          "pos": {
+            "x": 9,
+            "y": 0,
+            "z": 1
+          },
+          "respawnFacingYaw": 3.141592653589793,
+          "respawnPosition": {
+            "x": 9,
+            "y": 0,
+            "z": 1
+          },
+          "rotY": 0,
+          "triggerRadius": 1.6
+        }
+      ],
       "pockets": [],
       "pois": [],
       "portalGates": [
         {
-          "displayName": "Section 1 Return Gate",
-          "id": "gate_section_2_to_1",
+          "displayName": "Windscar Return Gate",
+          "id": "gate_section_5_to_4",
           "pos": {
             "x": 0,
             "y": 0,
-            "z": -21
+            "z": 22
           },
-          "rotY": 0,
+          "rotY": 3.141592653589793,
           "state": "active",
-          "targetEntryId": "entry_section_1",
-          "targetGateId": "gate_section_1_to_2",
-          "targetSectionId": "section_1",
+          "targetEntryId": "entry_section_4",
+          "targetGateId": "gate_section_4_to_5",
+          "targetSectionId": "section_4",
           "triggerRadius": 1.85,
+          "uniformScale": 0.7,
           "visualAssetId": "asset_ruin_arch"
         }
       ],
-      "props": [],
-      "resources": [
+      "props": [
         {
-          "id": "rock_section_2_01",
-          "level": 2,
+          "collisionEnabled": true,
+          "id": "prop_s5_heartwood_a",
+          "opacity": 1,
           "pos": {
-            "x": -9,
+            "x": -14,
+            "y": 0,
+            "z": 12
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_heartwood_b",
+          "opacity": 1,
+          "pos": {
+            "x": 14,
+            "y": 0,
+            "z": 7
+          },
+          "rotY": 0.6,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_core_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": -11
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.6,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_barrier",
+          "opacity": 1,
+          "pos": {
+            "x": -19,
+            "y": 0,
+            "z": -14
+          },
+          "rotY": 1.57,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_vault_barrier"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_guardian",
+          "opacity": 1,
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": -8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_guardian"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_cinder_4",
+          "opacity": 1,
+          "pos": {
+            "x": -11,
+            "y": 0,
+            "z": -4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cinderjaw"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "wildkin_thorn_6",
+          "opacity": 1,
+          "pos": {
+            "x": 11,
+            "y": 0,
+            "z": -5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_thornprowler"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_waypoint_tree_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7,
+            "y": 0,
+            "z": 7.1
+          },
+          "rotY": -0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_waypoint_tree_r",
+          "opacity": 1,
+          "pos": {
+            "x": 6.9,
+            "y": 0,
+            "z": 6
+          },
+          "rotY": 0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 1.14,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_waypoint_crystal_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.9,
+            "y": 0,
+            "z": 5.4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_waypoint_crystal_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": 4.5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_waypoint_root_l",
+          "opacity": 1,
+          "pos": {
+            "x": -4.6,
+            "y": 0,
+            "z": 2.4
+          },
+          "rotY": 0.25,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_waypoint_root_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4.8,
+            "y": 0,
+            "z": 2.1
+          },
+          "rotY": -0.25,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_waypoint_stones",
+          "opacity": 1,
+          "pos": {
+            "x": -1.2,
+            "y": 0,
+            "z": 2.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.8,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_arena_tree_l",
+          "opacity": 1,
+          "pos": {
+            "x": -8.3,
+            "y": 0,
+            "z": -7.5
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_arena_tree_r",
+          "opacity": 1,
+          "pos": {
+            "x": 8.2,
+            "y": 0,
+            "z": -8.5
+          },
+          "rotY": -0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.06,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_arena_crystal_l",
+          "opacity": 1,
+          "pos": {
+            "x": -5.1,
+            "y": 0,
+            "z": -10.4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_arena_crystal_r",
+          "opacity": 1,
+          "pos": {
+            "x": 5.2,
+            "y": 0,
+            "z": -10.9
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.26,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_core_tree_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7,
+            "y": 0,
+            "z": -15.3
+          },
+          "rotY": -0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.22,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_core_tree_r",
+          "opacity": 1,
+          "pos": {
+            "x": 7,
+            "y": 0,
+            "z": -15.5
+          },
+          "rotY": 0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 1.16,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_core_crystal_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.7,
+            "y": 0,
+            "z": -14
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.48,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_core_crystal_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": -14.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.42,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_core_roots_l",
+          "opacity": 1,
+          "pos": {
+            "x": -4.9,
+            "y": 0,
+            "z": -17.9
+          },
+          "rotY": 0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_core_roots_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4.8,
+            "y": 0,
+            "z": -17.7
+          },
+          "rotY": -0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_route_tree_l",
+          "opacity": 1,
+          "pos": {
+            "x": -4.8,
+            "y": 0,
+            "z": -0.7
+          },
+          "rotY": 0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 0.98,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_route_tree_r",
+          "opacity": 1,
+          "pos": {
+            "x": 4.9,
+            "y": 0,
+            "z": -1.8
+          },
+          "rotY": -0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 0.94,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_route_crystal_l",
+          "opacity": 1,
+          "pos": {
+            "x": -2.9,
+            "y": 0,
+            "z": -3.9
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_route_crystal_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3,
+            "y": 0,
+            "z": -4.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.27,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_route_roots",
+          "opacity": 1,
+          "pos": {
+            "x": 0.2,
+            "y": 0,
+            "z": -5.4
+          },
+          "rotY": 0.06,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_heartwood_c",
+          "opacity": 1,
+          "pos": {
+            "x": -12,
+            "y": 0,
+            "z": -4
+          },
+          "rotY": 0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_pebbles",
+          "opacity": 1,
+          "pos": {
+            "x": 5,
             "y": 0,
             "z": 11
           },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.4,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_arrival_tree_l",
+          "opacity": 1,
+          "pos": {
+            "x": -7.1,
+            "y": 0,
+            "z": 15.3
+          },
+          "rotY": -0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 1.14,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_s5_arrival_tree_r",
+          "opacity": 1,
+          "pos": {
+            "x": 7.2,
+            "y": 0,
+            "z": 14.6
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.08,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_heartwood_tree"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_arrival_crystal_l",
+          "opacity": 1,
+          "pos": {
+            "x": -3.5,
+            "y": 0,
+            "z": 14.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.32,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_arrival_crystal_r",
+          "opacity": 1,
+          "pos": {
+            "x": 3.7,
+            "y": 0,
+            "z": 13.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.28,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_crystal"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_arrival_roots",
+          "opacity": 1,
+          "pos": {
+            "x": -0.5,
+            "y": 0,
+            "z": 12.1
+          },
+          "rotY": 0.08,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_s5_arrival_stones",
+          "opacity": 1,
+          "pos": {
+            "x": 1.8,
+            "y": 0,
+            "z": 15.6
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.7,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        }
+      ],
+      "resources": [
+        {
+          "id": "tree_section_5_01",
+          "level": 5,
+          "pos": {
+            "x": -13,
+            "y": 0,
+            "z": 14
+          },
+          "type": "tree"
+        },
+        {
+          "id": "rock_section_5_01",
+          "level": 5,
+          "pos": {
+            "x": 13,
+            "y": 0,
+            "z": 13
+          },
           "type": "rock"
+        },
+        {
+          "id": "fiber_section_5_01",
+          "level": 5,
+          "pos": {
+            "x": 14,
+            "y": 0,
+            "z": 5
+          },
+          "type": "fiber"
         }
       ],
       "sectionProfile": {
         "expected": {
           "extractionBeacons": {
             "max": 1,
-            "min": 0
+            "min": 1
           },
           "outboundPortals": {
             "max": 0,
             "min": 0
           },
           "parkourCourses": {
-            "max": 0,
-            "min": 0
+            "max": 1,
+            "min": 1
           },
           "secrets": {
-            "max": 0,
-            "min": 0
+            "max": 3,
+            "min": 2
           },
           "waypoint": 1
         },
         "recommendedLevel": {
-          "max": 4,
-          "min": 2
+          "max": 6,
+          "min": 5
         },
         "resourceValueTarget": {
-          "max": 4,
-          "min": 1
+          "max": 24,
+          "min": 10
         },
-        "tier": 2,
+        "tier": 5,
         "wildkinCountTarget": {
-          "max": 2,
-          "min": 1
+          "max": 5,
+          "min": 3
         },
         "wildkinLevelTarget": {
-          "max": 3,
-          "min": 2
+          "max": 6,
+          "min": 5
         }
       },
       "sectionType": "expedition",
@@ -1038,20 +6423,31 @@ export const WORLD_DATA = {
       "traversal": {
         "climbables": [],
         "jumpTraversals": [],
-        "obstacles": [
+        "obstacles": [],
+        "platforms": [
           {
             "baseY": 0,
-            "h": 1.5,
-            "height": 1,
-            "id": "overlap_blocker_section_2",
-            "rotY": 1.5707963267948966,
-            "w": 5,
-            "x": 12,
+            "h": 3,
+            "height": 0.35,
+            "id": "platform_s5_a",
+            "rotY": 0,
+            "w": 3,
+            "x": 9,
             "y": 0,
-            "z": 8
+            "z": -3
+          },
+          {
+            "baseY": 0,
+            "h": 4,
+            "height": 0.35,
+            "id": "platform_s5_b",
+            "rotY": 0,
+            "w": 4,
+            "x": 9,
+            "y": 0,
+            "z": -15
           }
-        ],
-        "platforms": []
+        ]
       }
     }
   ],
@@ -1089,7 +6485,8 @@ export const WORLD_DATA = {
     {
       "color": "#f3a7d8",
       "displayName": "Wildflower",
-      "id": "wildflower"
+      "id": "wildflower",
+      "visualAssetId": "asset_luminous_blossom"
     }
   ],
   "version": "4B.1",
@@ -4784,6 +10181,3658 @@ export const WORLD_DATA = {
             "z": 0.24
           },
           "shape": "cone"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Verdant Ecology",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 1.6,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1.1,
+          "h": 3.2,
+          "w": 1.1
+        }
+      },
+      "displayName": "Verdant Canopy",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_verge_canopy",
+      "parts": [
+        {
+          "color": "#65442b",
+          "id": "trunk",
+          "position": {
+            "x": 0,
+            "y": 1.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 3,
+            "z": 0.42
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#356d45",
+          "id": "crown_a",
+          "position": {
+            "x": -0.55,
+            "y": 3.1,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.5,
+            "y": 1.25,
+            "z": 1.3
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#4f914f",
+          "id": "crown_b",
+          "position": {
+            "x": 0.62,
+            "y": 3.35,
+            "z": 0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.35,
+            "y": 1.5,
+            "z": 1.25
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#70ad55",
+          "id": "crown_top",
+          "position": {
+            "x": 0,
+            "y": 4.25,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.2,
+            "y": 1.1,
+            "z": 1.1
+          },
+          "shape": "icosahedron"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Verdant Ecology",
+      "collision": null,
+      "displayName": "Mooncap Mushroom Ring",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_mushroom_ring",
+      "parts": [
+        {
+          "color": "#d9c5a5",
+          "id": "stalk",
+          "position": {
+            "x": 0,
+            "y": 0.35,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 0.7,
+            "z": 0.13
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#9f75cf",
+          "id": "cap",
+          "position": {
+            "x": 0,
+            "y": 0.75,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.62,
+            "y": 0.25,
+            "z": 0.62
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#ba8ee0",
+          "id": "small_a",
+          "position": {
+            "x": 0.58,
+            "y": 0.28,
+            "z": 0.28
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.32,
+            "y": 0.16,
+            "z": 0.32
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#ba8ee0",
+          "id": "small_b",
+          "position": {
+            "x": -0.5,
+            "y": 0.2,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.14,
+            "z": 0.28
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Fen Ecology",
+      "collision": null,
+      "displayName": "Shatterfen Reed Cluster",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_fen_reed",
+      "parts": [
+        {
+          "color": "#8dbb86",
+          "id": "reed_a",
+          "position": {
+            "x": -0.28,
+            "y": 0.85,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.18,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.07,
+            "y": 1.7,
+            "z": 0.07
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#b5d78e",
+          "id": "reed_b",
+          "position": {
+            "x": 0.05,
+            "y": 1.05,
+            "z": 0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.16,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.06,
+            "y": 2.1,
+            "z": 0.06
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#759f7e",
+          "id": "reed_c",
+          "position": {
+            "x": 0.3,
+            "y": 0.72,
+            "z": -0.08
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.07,
+            "y": 1.45,
+            "z": 0.07
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#b8eefa",
+          "id": "flower",
+          "position": {
+            "x": 0.05,
+            "y": 2.05,
+            "z": 0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 0.2,
+            "z": 0.2
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Fen Ecology",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 1.15,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1,
+          "h": 2.3,
+          "w": 1.2
+        }
+      },
+      "displayName": "Shatterfen Standing Stone",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_fen_stone",
+      "parts": [
+        {
+          "color": "#4f6680",
+          "id": "stone",
+          "position": {
+            "x": 0,
+            "y": 1.15,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.15,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.75,
+            "y": 2.25,
+            "z": 0.6
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#7fd3dd",
+          "id": "vein",
+          "position": {
+            "x": 0,
+            "y": 1.2,
+            "z": 0.55
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.16,
+            "y": 1.5,
+            "z": 0.08
+          },
+          "shape": "box"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Ember Ecology",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 1.65,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1.3,
+          "h": 3.3,
+          "w": 1.3
+        }
+      },
+      "displayName": "Emberfall Spire",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_ember_spire",
+      "parts": [
+        {
+          "color": "#3f3035",
+          "id": "base",
+          "position": {
+            "x": 0,
+            "y": 0.45,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.2,
+            "y": 0.8,
+            "z": 1
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#8e4038",
+          "id": "spire",
+          "position": {
+            "x": 0,
+            "y": 1.9,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.72,
+            "y": 3.1,
+            "z": 0.72
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#ffb54a",
+          "id": "ember",
+          "position": {
+            "x": 0,
+            "y": 2.6,
+            "z": 0.42
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 0.28,
+            "z": 0.28
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Ember Ecology",
+      "collision": null,
+      "displayName": "Cinder Bloom",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_ember_bloom",
+      "parts": [
+        {
+          "color": "#5d4032",
+          "id": "stem",
+          "position": {
+            "x": 0,
+            "y": 0.45,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.12,
+            "y": 0.9,
+            "z": 0.12
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#ff714b",
+          "id": "petal_a",
+          "position": {
+            "x": -0.24,
+            "y": 0.98,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.4,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.32,
+            "y": 0.55,
+            "z": 0.32
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#f4a340",
+          "id": "petal_b",
+          "position": {
+            "x": 0.24,
+            "y": 0.98,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.4,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.32,
+            "y": 0.55,
+            "z": 0.32
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#ffe27a",
+          "id": "core",
+          "position": {
+            "x": 0,
+            "y": 1.08,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.22,
+            "y": 0.22,
+            "z": 0.22
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Cliff Ecology",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 2.2,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1.2,
+          "h": 4.4,
+          "w": 1.2
+        }
+      },
+      "displayName": "Windscar Stone Needle",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_wind_arch",
+      "parts": [
+        {
+          "color": "#667887",
+          "id": "shaft",
+          "position": {
+            "x": 0,
+            "y": 2.35,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.8,
+            "y": 4.4,
+            "z": 0.8
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#d1c48c",
+          "id": "band",
+          "position": {
+            "x": 0,
+            "y": 2.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.66,
+            "y": 0.12,
+            "z": 0.66
+          },
+          "shape": "cylinder"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Cliff Ecology",
+      "collision": null,
+      "displayName": "Cloudflower",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_cloudflower",
+      "parts": [
+        {
+          "color": "#76976b",
+          "id": "stem",
+          "position": {
+            "x": 0,
+            "y": 0.42,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.84,
+            "z": 0.09
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#d7edff",
+          "id": "petal_a",
+          "position": {
+            "x": 0.28,
+            "y": 0.88,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.36,
+            "y": 0.18,
+            "z": 0.36
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#d7edff",
+          "id": "petal_b",
+          "position": {
+            "x": -0.28,
+            "y": 0.88,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.36,
+            "y": 0.18,
+            "z": 0.36
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#f4da67",
+          "id": "core",
+          "position": {
+            "x": 0,
+            "y": 0.92,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.16,
+            "y": 0.16,
+            "z": 0.16
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Vault Ecology",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 2.25,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1.5,
+          "h": 4.5,
+          "w": 1.5
+        }
+      },
+      "displayName": "Heartwood Ancient",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_heartwood_tree",
+      "parts": [
+        {
+          "color": "#52323a",
+          "id": "trunk",
+          "position": {
+            "x": 0,
+            "y": 2.2,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.7,
+            "y": 4.4,
+            "z": 0.7
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#70434b",
+          "id": "root_l",
+          "position": {
+            "x": -0.8,
+            "y": 0.45,
+            "z": 0.15
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.92
+          },
+          "scale": {
+            "x": 0.45,
+            "y": 1.4,
+            "z": 0.45
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#70434b",
+          "id": "root_r",
+          "position": {
+            "x": 0.8,
+            "y": 0.45,
+            "z": -0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.92
+          },
+          "scale": {
+            "x": 0.45,
+            "y": 1.4,
+            "z": 0.45
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#b84e7a",
+          "id": "crown",
+          "position": {
+            "x": 0,
+            "y": 4.9,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.9,
+            "y": 1.5,
+            "z": 1.7
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#ffb1cb",
+          "id": "core",
+          "position": {
+            "x": 0,
+            "y": 3.3,
+            "z": 0.55
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.35,
+            "y": 0.35,
+            "z": 0.35
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Vault Structures",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 1.1,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 0.45,
+          "h": 2.2,
+          "w": 1.8
+        }
+      },
+      "displayName": "Resonant Barrier",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_vault_barrier",
+      "parts": [
+        {
+          "color": "#486378",
+          "id": "left",
+          "position": {
+            "x": -0.75,
+            "y": 1.1,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.25,
+            "y": 2.2,
+            "z": 0.35
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#486378",
+          "id": "right",
+          "position": {
+            "x": 0.75,
+            "y": 1.1,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.25,
+            "y": 2.2,
+            "z": 0.35
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#78dcea",
+          "id": "seal",
+          "position": {
+            "x": 0,
+            "y": 1.15,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.72,
+            "y": 0.95,
+            "z": 0.18
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#ecffff",
+          "id": "rune",
+          "position": {
+            "x": 0,
+            "y": 1.15,
+            "z": 0.22
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.44,
+            "y": 0.1,
+            "z": 0.1
+          },
+          "shape": "cylinder"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Camp",
+      "collision": null,
+      "displayName": "Wildkin Sanctuary Totem",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_sanctuary_totem",
+      "parts": [
+        {
+          "color": "#72503e",
+          "id": "post",
+          "position": {
+            "x": 0,
+            "y": 1.2,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 2.4,
+            "z": 0.28
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#83e0ba",
+          "id": "orb",
+          "position": {
+            "x": 0,
+            "y": 2.45,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.48,
+            "y": 0.48,
+            "z": 0.48
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#e5c472",
+          "id": "ring",
+          "position": {
+            "x": 0,
+            "y": 1.8,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.58,
+            "y": 0.1,
+            "z": 0.58
+          },
+          "shape": "cylinder"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Camp",
+      "collision": null,
+      "displayName": "Frontier Workshop Awning",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_workshop_awning",
+      "parts": [
+        {
+          "color": "#6f4a34",
+          "id": "post_l",
+          "position": {
+            "x": -0.9,
+            "y": 1.1,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.12,
+            "y": 2.2,
+            "z": 0.12
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#6f4a34",
+          "id": "post_r",
+          "position": {
+            "x": 0.9,
+            "y": 1.1,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.12,
+            "y": 2.2,
+            "z": 0.12
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#d6a45a",
+          "id": "roof",
+          "position": {
+            "x": 0,
+            "y": 2.3,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.3,
+            "y": 0.2,
+            "z": 1.4
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#ffdd7a",
+          "id": "lamp",
+          "position": {
+            "x": 0,
+            "y": 1.95,
+            "z": 0.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.18,
+            "z": 0.18
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Wildkin",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 0.45,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1,
+          "h": 0.9,
+          "w": 1
+        }
+      },
+      "displayName": "Mossling",
+      "gameplay": {
+        "role": "wildkin",
+        "wildkin": {
+          "archetype": "rusher",
+          "damage": 1,
+          "health": 6,
+          "hostileSpecies": [],
+          "leashRadius": 10,
+          "moveSpeed": 2.8,
+          "noticeRadius": 7,
+          "personalSpace": 2,
+          "respawnSeconds": 28,
+          "roamRadius": 4.5,
+          "speciesTag": "mossling",
+          "temperament": "SKITTISH"
+        }
+      },
+      "id": "asset_wildkin_mossling",
+      "parts": [
+        {
+          "color": "#78ae5d",
+          "id": "body",
+          "position": {
+            "x": 0,
+            "y": 0.56,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.74,
+            "y": 0.55,
+            "z": 0.62
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#b9d77a",
+          "id": "belly",
+          "position": {
+            "x": 0,
+            "y": 0.48,
+            "z": 0.48
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 0.3,
+            "z": 0.15
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#8fc86a",
+          "id": "head",
+          "position": {
+            "x": 0,
+            "y": 0.9,
+            "z": 0.28
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.48,
+            "y": 0.4,
+            "z": 0.4
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#d5e69a",
+          "id": "muzzle",
+          "position": {
+            "x": 0,
+            "y": 0.78,
+            "z": 0.63
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.24,
+            "y": 0.16,
+            "z": 0.15
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#23353a",
+          "id": "eye_l",
+          "position": {
+            "x": -0.18,
+            "y": 0.98,
+            "z": 0.61
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.075,
+            "y": 0.075,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#23353a",
+          "id": "eye_r",
+          "position": {
+            "x": 0.18,
+            "y": 0.98,
+            "z": 0.61
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.075,
+            "y": 0.075,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#d8c66e",
+          "id": "antler_l",
+          "position": {
+            "x": -0.38,
+            "y": 1.34,
+            "z": 0.16
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.62
+          },
+          "scale": {
+            "x": 0.11,
+            "y": 0.58,
+            "z": 0.11
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#d8c66e",
+          "id": "antler_r",
+          "position": {
+            "x": 0.38,
+            "y": 1.34,
+            "z": 0.16
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.62
+          },
+          "scale": {
+            "x": 0.11,
+            "y": 0.58,
+            "z": 0.11
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#b8dc69",
+          "id": "leaf_l",
+          "position": {
+            "x": -0.43,
+            "y": 1.22,
+            "z": -0.03
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.28
+          },
+          "scale": {
+            "x": 0.26,
+            "y": 0.12,
+            "z": 0.42
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#b8dc69",
+          "id": "leaf_r",
+          "position": {
+            "x": 0.43,
+            "y": 1.22,
+            "z": -0.03
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.28
+          },
+          "scale": {
+            "x": 0.26,
+            "y": 0.12,
+            "z": 0.42
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#547d47",
+          "id": "foot_l",
+          "position": {
+            "x": -0.38,
+            "y": 0.16,
+            "z": 0.06
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.22,
+            "y": 0.12,
+            "z": 0.24
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#547d47",
+          "id": "foot_r",
+          "position": {
+            "x": 0.38,
+            "y": 0.16,
+            "z": 0.06
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.22,
+            "y": 0.12,
+            "z": 0.24
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Wildkin",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 0.55,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 0.9,
+          "h": 1.1,
+          "w": 0.9
+        }
+      },
+      "displayName": "Tidefin",
+      "gameplay": {
+        "role": "wildkin",
+        "wildkin": {
+          "archetype": "spitter",
+          "damage": 1,
+          "health": 8,
+          "hostileSpecies": [],
+          "leashRadius": 10,
+          "moveSpeed": 2.2,
+          "noticeRadius": 7,
+          "personalSpace": 2,
+          "respawnSeconds": 28,
+          "roamRadius": 4.5,
+          "speciesTag": "tidefin",
+          "temperament": "DEFENSIVE"
+        }
+      },
+      "id": "asset_wildkin_tidefin",
+      "parts": [
+        {
+          "color": "#51a9be",
+          "id": "body",
+          "position": {
+            "x": 0,
+            "y": 0.62,
+            "z": 0
+          },
+          "rotation": {
+            "x": 1.5707963267948966,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.48,
+            "y": 0.95,
+            "z": 0.48
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#76c7cc",
+          "id": "belly",
+          "position": {
+            "x": 0,
+            "y": 0.52,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 0.28,
+            "z": 0.36
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#5ebbd0",
+          "id": "head",
+          "position": {
+            "x": 0,
+            "y": 0.68,
+            "z": 0.58
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.48,
+            "y": 0.38,
+            "z": 0.36
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#c9f4e5",
+          "id": "muzzle",
+          "position": {
+            "x": 0,
+            "y": 0.54,
+            "z": 0.88
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.25,
+            "y": 0.16,
+            "z": 0.12
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#17343b",
+          "id": "eye_l",
+          "position": {
+            "x": -0.2,
+            "y": 0.78,
+            "z": 0.84
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.075,
+            "y": 0.075,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#17343b",
+          "id": "eye_r",
+          "position": {
+            "x": 0.2,
+            "y": 0.78,
+            "z": 0.84
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.075,
+            "y": 0.075,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#a4ecdf",
+          "id": "dorsal",
+          "position": {
+            "x": 0,
+            "y": 1.12,
+            "z": -0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.26,
+            "y": 0.62,
+            "z": 0.26
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#86d8d4",
+          "id": "tail_l",
+          "position": {
+            "x": -0.38,
+            "y": 0.62,
+            "z": -0.78
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.82
+          },
+          "scale": {
+            "x": 0.23,
+            "y": 0.62,
+            "z": 0.23
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#86d8d4",
+          "id": "tail_r",
+          "position": {
+            "x": 0.38,
+            "y": 0.62,
+            "z": -0.78
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.82
+          },
+          "scale": {
+            "x": 0.23,
+            "y": 0.62,
+            "z": 0.23
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#79d8d4",
+          "id": "fin_l",
+          "position": {
+            "x": -0.6,
+            "y": 0.56,
+            "z": 0.18
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.28
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.1,
+            "z": 0.26
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#79d8d4",
+          "id": "fin_r",
+          "position": {
+            "x": 0.6,
+            "y": 0.56,
+            "z": 0.18
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.28
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.1,
+            "z": 0.26
+          },
+          "shape": "icosahedron"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Wildkin",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 0.55,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1,
+          "h": 1.1,
+          "w": 1.2
+        }
+      },
+      "displayName": "Emberhorn",
+      "gameplay": {
+        "role": "wildkin",
+        "wildkin": {
+          "archetype": "rusher",
+          "damage": 2,
+          "health": 12,
+          "hostileSpecies": [],
+          "leashRadius": 10,
+          "moveSpeed": 2.1,
+          "noticeRadius": 7,
+          "personalSpace": 2,
+          "respawnSeconds": 28,
+          "roamRadius": 4.5,
+          "speciesTag": "emberhorn",
+          "temperament": "TERRITORIAL"
+        }
+      },
+      "id": "asset_wildkin_emberhorn",
+      "parts": [
+        {
+          "color": "#b7603e",
+          "id": "body",
+          "position": {
+            "x": 0,
+            "y": 0.72,
+            "z": -0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.9,
+            "y": 0.62,
+            "z": 0.72
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#df8a4c",
+          "id": "belly",
+          "position": {
+            "x": 0,
+            "y": 0.55,
+            "z": 0.42
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 0.28,
+            "z": 0.16
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#cf7442",
+          "id": "head",
+          "position": {
+            "x": 0,
+            "y": 1.02,
+            "z": 0.56
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.58,
+            "y": 0.48,
+            "z": 0.46
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#6e3b34",
+          "id": "snout",
+          "position": {
+            "x": 0,
+            "y": 0.82,
+            "z": 0.95
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.22,
+            "z": 0.25
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#fff1a6",
+          "id": "eye_l",
+          "position": {
+            "x": -0.22,
+            "y": 1.13,
+            "z": 0.91
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 0.08,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#fff1a6",
+          "id": "eye_r",
+          "position": {
+            "x": 0.22,
+            "y": 1.13,
+            "z": 0.91
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 0.08,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#ffe08a",
+          "id": "horn_l",
+          "position": {
+            "x": -0.38,
+            "y": 1.48,
+            "z": 0.52
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.62
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 0.7,
+            "z": 0.13
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#ffe08a",
+          "id": "horn_r",
+          "position": {
+            "x": 0.38,
+            "y": 1.48,
+            "z": 0.52
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.62
+          },
+          "scale": {
+            "x": 0.13,
+            "y": 0.7,
+            "z": 0.13
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#7e3f36",
+          "id": "leg_fl",
+          "position": {
+            "x": -0.48,
+            "y": 0.33,
+            "z": 0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.42,
+            "z": 0.14
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#7e3f36",
+          "id": "leg_fr",
+          "position": {
+            "x": 0.48,
+            "y": 0.33,
+            "z": 0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.42,
+            "z": 0.14
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#7e3f36",
+          "id": "leg_bl",
+          "position": {
+            "x": -0.5,
+            "y": 0.33,
+            "z": -0.4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.42,
+            "z": 0.14
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#7e3f36",
+          "id": "leg_br",
+          "position": {
+            "x": 0.5,
+            "y": 0.33,
+            "z": -0.4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.42,
+            "z": 0.14
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#ffb247",
+          "id": "tail",
+          "position": {
+            "x": 0,
+            "y": 0.78,
+            "z": -0.86
+          },
+          "rotation": {
+            "x": -0.95,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.22,
+            "y": 0.65,
+            "z": 0.22
+          },
+          "shape": "cone"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Wildkin",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 0.45,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1,
+          "h": 0.9,
+          "w": 1
+        }
+      },
+      "displayName": "Skydancer",
+      "gameplay": {
+        "role": "wildkin",
+        "wildkin": {
+          "archetype": "spitter",
+          "damage": 1,
+          "health": 8,
+          "hostileSpecies": [],
+          "leashRadius": 10,
+          "moveSpeed": 3.2,
+          "noticeRadius": 7,
+          "personalSpace": 2,
+          "respawnSeconds": 28,
+          "roamRadius": 4.5,
+          "speciesTag": "skydancer",
+          "temperament": "SKITTISH"
+        }
+      },
+      "id": "asset_wildkin_skydancer",
+      "parts": [
+        {
+          "color": "#c3e6ee",
+          "id": "body",
+          "position": {
+            "x": 0,
+            "y": 0.72,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.48,
+            "y": 0.4,
+            "z": 0.58
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#d8f3f2",
+          "id": "head",
+          "position": {
+            "x": 0,
+            "y": 0.96,
+            "z": 0.36
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.32,
+            "y": 0.3,
+            "z": 0.3
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#f4da67",
+          "id": "beak",
+          "position": {
+            "x": 0,
+            "y": 0.9,
+            "z": 0.72
+          },
+          "rotation": {
+            "x": 1.5707963267948966,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.42,
+            "z": 0.14
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#243d54",
+          "id": "eye_l",
+          "position": {
+            "x": -0.13,
+            "y": 1.04,
+            "z": 0.58
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.065,
+            "y": 0.065,
+            "z": 0.05
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#243d54",
+          "id": "eye_r",
+          "position": {
+            "x": 0.13,
+            "y": 1.04,
+            "z": 0.58
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.065,
+            "y": 0.065,
+            "z": 0.05
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#92b9da",
+          "id": "wing_l",
+          "position": {
+            "x": -0.68,
+            "y": 0.77,
+            "z": -0.03
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.32
+          },
+          "scale": {
+            "x": 0.7,
+            "y": 0.12,
+            "z": 0.34
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#92b9da",
+          "id": "wing_r",
+          "position": {
+            "x": 0.68,
+            "y": 0.77,
+            "z": -0.03
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.32
+          },
+          "scale": {
+            "x": 0.7,
+            "y": 0.12,
+            "z": 0.34
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#7aa5cc",
+          "id": "feather_l",
+          "position": {
+            "x": -0.72,
+            "y": 0.58,
+            "z": -0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.9
+          },
+          "scale": {
+            "x": 0.15,
+            "y": 0.68,
+            "z": 0.15
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#7aa5cc",
+          "id": "feather_r",
+          "position": {
+            "x": 0.72,
+            "y": 0.58,
+            "z": -0.38
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.9
+          },
+          "scale": {
+            "x": 0.15,
+            "y": 0.68,
+            "z": 0.15
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#80b8d1",
+          "id": "tail_l",
+          "position": {
+            "x": -0.22,
+            "y": 0.66,
+            "z": -0.67
+          },
+          "rotation": {
+            "x": -0.8,
+            "y": 0,
+            "z": 0.22
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.58,
+            "z": 0.14
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#80b8d1",
+          "id": "tail_r",
+          "position": {
+            "x": 0.22,
+            "y": 0.66,
+            "z": -0.67
+          },
+          "rotation": {
+            "x": -0.8,
+            "y": 0,
+            "z": -0.22
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.58,
+            "z": 0.14
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#f1bf69",
+          "id": "foot_l",
+          "position": {
+            "x": -0.18,
+            "y": 0.3,
+            "z": 0.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.08,
+            "z": 0.12
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#f1bf69",
+          "id": "foot_r",
+          "position": {
+            "x": 0.18,
+            "y": 0.3,
+            "z": 0.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 0.08,
+            "z": 0.12
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Hostile Wildkin",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 0.55,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1.15,
+          "h": 1.1,
+          "w": 1.25
+        }
+      },
+      "displayName": "Thornprowler",
+      "gameplay": {
+        "role": "wildkin",
+        "wildkin": {
+          "archetype": "rusher",
+          "damage": 1,
+          "health": 7,
+          "hostileSpecies": [],
+          "leashRadius": 10,
+          "moveSpeed": 2.6,
+          "noticeRadius": 7,
+          "personalSpace": 2,
+          "respawnSeconds": 28,
+          "roamRadius": 4.5,
+          "speciesTag": "thornprowler",
+          "temperament": "AGGRESSIVE"
+        }
+      },
+      "id": "asset_thornprowler",
+      "parts": [
+        {
+          "color": "#445c39",
+          "id": "body",
+          "position": {
+            "x": 0,
+            "y": 0.65,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.65,
+            "y": 0.86,
+            "z": 0.65
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#526d40",
+          "id": "head",
+          "position": {
+            "x": 0,
+            "y": 0.85,
+            "z": 0.48
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.52,
+            "y": 0.4,
+            "z": 0.42
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#293c2c",
+          "id": "snout",
+          "position": {
+            "x": 0,
+            "y": 0.65,
+            "z": 0.83
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.26,
+            "y": 0.16,
+            "z": 0.13
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#ff9f61",
+          "id": "eye_l",
+          "position": {
+            "x": -0.18,
+            "y": 0.94,
+            "z": 0.8
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 0.08,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#ff9f61",
+          "id": "eye_r",
+          "position": {
+            "x": 0.18,
+            "y": 0.94,
+            "z": 0.8
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 0.08,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#b9c95c",
+          "id": "spike_l",
+          "position": {
+            "x": -0.47,
+            "y": 1.18,
+            "z": -0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.34
+          },
+          "scale": {
+            "x": 0.15,
+            "y": 0.72,
+            "z": 0.15
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#b9c95c",
+          "id": "spike_c",
+          "position": {
+            "x": 0,
+            "y": 1.3,
+            "z": -0.14
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.15,
+            "y": 0.8,
+            "z": 0.15
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#b9c95c",
+          "id": "spike_r",
+          "position": {
+            "x": 0.47,
+            "y": 1.18,
+            "z": -0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.34
+          },
+          "scale": {
+            "x": 0.15,
+            "y": 0.72,
+            "z": 0.15
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#30472f",
+          "id": "leg_l",
+          "position": {
+            "x": -0.42,
+            "y": 0.27,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.12,
+            "y": 0.38,
+            "z": 0.12
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#30472f",
+          "id": "leg_r",
+          "position": {
+            "x": 0.42,
+            "y": 0.27,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.12,
+            "y": 0.38,
+            "z": 0.12
+          },
+          "shape": "capsule"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Hostile Wildkin",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 0.6,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 1.2,
+          "h": 1.2,
+          "w": 1.4
+        }
+      },
+      "displayName": "Cinderjaw",
+      "gameplay": {
+        "role": "wildkin",
+        "wildkin": {
+          "archetype": "rusher",
+          "damage": 2,
+          "health": 16,
+          "hostileSpecies": [],
+          "leashRadius": 10,
+          "moveSpeed": 2.3,
+          "noticeRadius": 7,
+          "personalSpace": 2,
+          "respawnSeconds": 28,
+          "roamRadius": 4.5,
+          "speciesTag": "cinderjaw",
+          "temperament": "AGGRESSIVE"
+        }
+      },
+      "id": "asset_cinderjaw",
+      "parts": [
+        {
+          "color": "#532f36",
+          "id": "body",
+          "position": {
+            "x": 0,
+            "y": 0.76,
+            "z": -0.04
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.95,
+            "y": 0.7,
+            "z": 0.75
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#713a3c",
+          "id": "head",
+          "position": {
+            "x": 0,
+            "y": 0.9,
+            "z": 0.48
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.6,
+            "y": 0.48,
+            "z": 0.48
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#e97949",
+          "id": "jaw_lower",
+          "position": {
+            "x": 0,
+            "y": 0.55,
+            "z": 0.88
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.75,
+            "y": 0.18,
+            "z": 0.3
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#b74e3e",
+          "id": "jaw_upper",
+          "position": {
+            "x": 0,
+            "y": 0.78,
+            "z": 0.82
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.68,
+            "y": 0.16,
+            "z": 0.24
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#ffe27a",
+          "id": "eye_l",
+          "position": {
+            "x": -0.2,
+            "y": 1.02,
+            "z": 0.78
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.075,
+            "y": 0.075,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#ffe27a",
+          "id": "eye_r",
+          "position": {
+            "x": 0.2,
+            "y": 1.02,
+            "z": 0.78
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.075,
+            "y": 0.075,
+            "z": 0.06
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#ffb247",
+          "id": "flame_a",
+          "position": {
+            "x": -0.32,
+            "y": 1.43,
+            "z": -0.08
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.26
+          },
+          "scale": {
+            "x": 0.17,
+            "y": 0.72,
+            "z": 0.17
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#ff714b",
+          "id": "flame_b",
+          "position": {
+            "x": 0.32,
+            "y": 1.43,
+            "z": -0.08
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.26
+          },
+          "scale": {
+            "x": 0.17,
+            "y": 0.72,
+            "z": 0.17
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#402a30",
+          "id": "leg_l",
+          "position": {
+            "x": -0.48,
+            "y": 0.3,
+            "z": -0.18
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.4,
+            "z": 0.14
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#402a30",
+          "id": "leg_r",
+          "position": {
+            "x": 0.48,
+            "y": 0.3,
+            "z": -0.18
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.14,
+            "y": 0.4,
+            "z": 0.14
+          },
+          "shape": "capsule"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Hostile Wildkin",
+      "collision": {
+        "offset": {
+          "x": 0,
+          "y": 1.6,
+          "z": 0
+        },
+        "shape": "box",
+        "size": {
+          "d": 2,
+          "h": 3.2,
+          "w": 2
+        }
+      },
+      "displayName": "Heartwood Guardian",
+      "gameplay": {
+        "role": "wildkin",
+        "wildkin": {
+          "archetype": "spitter",
+          "damage": 2,
+          "health": 36,
+          "hostileSpecies": [],
+          "leashRadius": 10,
+          "moveSpeed": 1.5,
+          "noticeRadius": 7,
+          "personalSpace": 2,
+          "respawnSeconds": 28,
+          "roamRadius": 4.5,
+          "speciesTag": "heartwood_guardian",
+          "temperament": "AGGRESSIVE"
+        }
+      },
+      "id": "asset_heartwood_guardian",
+      "parts": [
+        {
+          "color": "#4c3040",
+          "id": "torso",
+          "position": {
+            "x": 0,
+            "y": 1.58,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.05,
+            "y": 2.8,
+            "z": 1.05
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#704654",
+          "id": "bark_chest",
+          "position": {
+            "x": 0,
+            "y": 1.8,
+            "z": 0.94
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.18,
+            "y": 0.72,
+            "z": 0.16
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#843c63",
+          "id": "head",
+          "position": {
+            "x": 0,
+            "y": 3.13,
+            "z": 0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.1,
+            "y": 0.82,
+            "z": 0.92
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#d8709b",
+          "id": "face",
+          "position": {
+            "x": 0,
+            "y": 3.08,
+            "z": 0.86
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.72,
+            "y": 0.48,
+            "z": 0.12
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#fff0a5",
+          "id": "eye_l",
+          "position": {
+            "x": -0.27,
+            "y": 3.2,
+            "z": 0.98
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.11,
+            "y": 0.11,
+            "z": 0.07
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#fff0a5",
+          "id": "eye_r",
+          "position": {
+            "x": 0.27,
+            "y": 3.2,
+            "z": 0.98
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.11,
+            "y": 0.11,
+            "z": 0.07
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#c34b78",
+          "id": "crown_l",
+          "position": {
+            "x": -0.58,
+            "y": 3.82,
+            "z": 0.04
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.52
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 1.15,
+            "z": 0.2
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#e46b9c",
+          "id": "crown_c",
+          "position": {
+            "x": 0,
+            "y": 4,
+            "z": 0.04
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.22,
+            "y": 1.3,
+            "z": 0.22
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#c34b78",
+          "id": "crown_r",
+          "position": {
+            "x": 0.58,
+            "y": 3.82,
+            "z": 0.04
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.52
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 1.15,
+            "z": 0.2
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#704654",
+          "id": "arm_l",
+          "position": {
+            "x": -1.28,
+            "y": 1.85,
+            "z": 0.03
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.78
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 1.45,
+            "z": 0.28
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#704654",
+          "id": "arm_r",
+          "position": {
+            "x": 1.28,
+            "y": 1.85,
+            "z": 0.03
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.78
+          },
+          "scale": {
+            "x": 0.28,
+            "y": 1.45,
+            "z": 0.28
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#b84e7a",
+          "id": "claw_l",
+          "position": {
+            "x": -1.75,
+            "y": 1.18,
+            "z": 0.2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.9
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 0.62,
+            "z": 0.2
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#b84e7a",
+          "id": "claw_r",
+          "position": {
+            "x": 1.75,
+            "y": 1.18,
+            "z": 0.2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.9
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 0.62,
+            "z": 0.2
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#3b2836",
+          "id": "leg_l",
+          "position": {
+            "x": -0.52,
+            "y": 0.48,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.33,
+            "y": 0.78,
+            "z": 0.33
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#3b2836",
+          "id": "leg_r",
+          "position": {
+            "x": 0.52,
+            "y": 0.48,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.33,
+            "y": 0.78,
+            "z": 0.33
+          },
+          "shape": "capsule"
+        },
+        {
+          "color": "#704654",
+          "id": "root_foot_l",
+          "position": {
+            "x": -0.72,
+            "y": 0.18,
+            "z": 0.22
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0.72
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.75,
+            "z": 0.3
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#704654",
+          "id": "root_foot_r",
+          "position": {
+            "x": 0.72,
+            "y": 0.18,
+            "z": 0.22
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": -0.72
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.75,
+            "z": 0.3
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#f4e38a",
+          "id": "core",
+          "position": {
+            "x": 0,
+            "y": 1.85,
+            "z": 1.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.34,
+            "y": 0.34,
+            "z": 0.18
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Camp",
+      "collision": null,
+      "displayName": "Frontier Path Lantern",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_path_lantern",
+      "parts": [
+        {
+          "color": "#594437",
+          "id": "post",
+          "position": {
+            "x": 0,
+            "y": 0.72,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 1.44,
+            "z": 0.08
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#d9b867",
+          "id": "cap",
+          "position": {
+            "x": 0,
+            "y": 1.46,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.3,
+            "y": 0.2,
+            "z": 0.3
+          },
+          "shape": "cone"
+        },
+        {
+          "color": "#ffe89a",
+          "id": "light",
+          "position": {
+            "x": 0,
+            "y": 1.18,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.22,
+            "y": 0.26,
+            "z": 0.22
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Ground Detail",
+      "collision": null,
+      "displayName": "Pebble Cluster",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_pebble_cluster",
+      "parts": [
+        {
+          "color": "#71807a",
+          "id": "stone_a",
+          "position": {
+            "x": -0.25,
+            "y": 0.1,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.38,
+            "y": 0.2,
+            "z": 0.28
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#9aa49a",
+          "id": "stone_b",
+          "position": {
+            "x": 0.22,
+            "y": 0.08,
+            "z": 0.16
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.2,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.27,
+            "y": 0.16,
+            "z": 0.25
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#596b68",
+          "id": "stone_c",
+          "position": {
+            "x": 0.08,
+            "y": 0.06,
+            "z": -0.28
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 0.12,
+            "z": 0.18
+          },
+          "shape": "icosahedron"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Verdant Ecology",
+      "collision": null,
+      "displayName": "Mossy Fallen Log",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_fallen_log",
+      "parts": [
+        {
+          "color": "#694631",
+          "id": "log",
+          "position": {
+            "x": 0,
+            "y": 0.34,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 1.5707963267948966
+          },
+          "scale": {
+            "x": 0.38,
+            "y": 2.6,
+            "z": 0.38
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#78a654",
+          "id": "moss",
+          "position": {
+            "x": 0,
+            "y": 0.57,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.1,
+            "y": 0.16,
+            "z": 0.45
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#d4b465",
+          "id": "cap",
+          "position": {
+            "x": -0.75,
+            "y": 0.57,
+            "z": 0.22
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.25,
+            "y": 0.12,
+            "z": 0.25
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Fen Ecology",
+      "collision": null,
+      "displayName": "Fen Lily Cluster",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_fen_lily",
+      "parts": [
+        {
+          "color": "#5c9b7d",
+          "id": "pad_a",
+          "position": {
+            "x": -0.25,
+            "y": 0.05,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.62,
+            "y": 0.06,
+            "z": 0.5
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#4b836e",
+          "id": "pad_b",
+          "position": {
+            "x": 0.3,
+            "y": 0.05,
+            "z": 0.15
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.05,
+            "z": 0.42
+          },
+          "shape": "sphere"
+        },
+        {
+          "color": "#f0b4d6",
+          "id": "flower",
+          "position": {
+            "x": 0,
+            "y": 0.33,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.22,
+            "y": 0.5,
+            "z": 0.22
+          },
+          "shape": "cone"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Frontier Structures",
+      "collision": null,
+      "displayName": "Frontier Waygate",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_frontier_portal",
+      "parts": [
+        {
+          "color": "#57706b",
+          "id": "pillar_l",
+          "position": {
+            "x": -1.05,
+            "y": 1.05,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.38,
+            "y": 2.1,
+            "z": 0.52
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#57706b",
+          "id": "pillar_r",
+          "position": {
+            "x": 1.05,
+            "y": 1.05,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.38,
+            "y": 2.1,
+            "z": 0.52
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#79998b",
+          "id": "lintel",
+          "position": {
+            "x": 0,
+            "y": 2.18,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.5,
+            "y": 0.36,
+            "z": 0.58
+          },
+          "shape": "box"
+        },
+        {
+          "color": "#e6c66c",
+          "id": "keystone",
+          "position": {
+            "x": 0,
+            "y": 2.55,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 0.42,
+            "z": 0.42
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#5ccfc3",
+          "id": "field",
+          "position": {
+            "x": 0,
+            "y": 1.14,
+            "z": -0.3
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.54,
+            "y": 1.68,
+            "z": 0.08
+          },
+          "shape": "box"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Verdant Ecology",
+      "collision": null,
+      "displayName": "Mossy Trail Stones",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_trail_stones",
+      "parts": [
+        {
+          "color": "#7f906c",
+          "id": "slab_a",
+          "position": {
+            "x": -0.48,
+            "y": 0.09,
+            "z": 0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.2,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 0.13,
+            "z": 0.42
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#a0ab79",
+          "id": "slab_b",
+          "position": {
+            "x": 0.18,
+            "y": 0.07,
+            "z": -0.12
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.2,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.42,
+            "y": 0.1,
+            "z": 0.34
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#7faf57",
+          "id": "sprig",
+          "position": {
+            "x": 0.34,
+            "y": 0.15,
+            "z": 0.18
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.16,
+            "y": 0.08,
+            "z": 0.14
+          },
+          "shape": "sphere"
+        }
+      ],
+      "version": 1
+    },
+    {
+      "category": "Medicinal Flora",
+      "collision": null,
+      "displayName": "Luminous Blossom",
+      "gameplay": {
+        "harvestable": {
+          "dropId": "wildflower",
+          "feedbackProfile": "fiber",
+          "maxChunks": 3,
+          "respawnSeconds": 18
+        },
+        "role": "harvestable"
+      },
+      "id": "asset_luminous_blossom",
+      "parts": [
+        {
+          "color": "#638e63",
+          "id": "stem",
+          "position": {
+            "x": 0,
+            "y": 0.48,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.1,
+            "y": 0.96,
+            "z": 0.1
+          },
+          "shape": "cylinder"
+        },
+        {
+          "color": "#f4a9d7",
+          "id": "petal_a",
+          "position": {
+            "x": -0.28,
+            "y": 0.94,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.32,
+            "y": 0.18,
+            "z": 0.32
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#e7d074",
+          "id": "petal_b",
+          "position": {
+            "x": 0.28,
+            "y": 0.94,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": -0.5,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.32,
+            "y": 0.18,
+            "z": 0.32
+          },
+          "shape": "icosahedron"
+        },
+        {
+          "color": "#eaffb2",
+          "id": "core",
+          "position": {
+            "x": 0,
+            "y": 1.03,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.18,
+            "y": 0.18,
+            "z": 0.18
+          },
+          "shape": "sphere"
         }
       ],
       "version": 1

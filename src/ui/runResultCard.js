@@ -40,7 +40,7 @@ export function createRunResultCard(opts = {}) {
   let visible = false;
 
   function show(data) {
-    // data: { type: "extracted"|"lost", snapshot: { cargo, xp, kills?, newWaypoints?, newBeacons? }, bankedResources, bankedXp, frontierProgress? }
+    // snapshot companions are run cargo: only extraction secures them; loss returns them to the frontier.
     const isExtract = data.type === "extracted";
     titleEl.textContent = isExtract ? "EXPEDITION COMPLETE" : "EXPEDITION LOST";
     titleEl.style.color = isExtract ? "#8fe08e" : "#ff6b6b";
@@ -48,6 +48,8 @@ export function createRunResultCard(opts = {}) {
     const xp = data.snapshot?.xp ?? data.xp ?? 0;
     const newWps = data.snapshot?.newWaypoints ?? data.newWaypoints ?? [];
     const newBcs = data.snapshot?.newBeacons ?? data.newBeacons ?? [];
+    const companions = data.snapshot?.companions ?? data.companions ?? [];
+    const campaignComplete = !!(data.snapshot?.campaignCompleted ?? data.campaignCompleted);
 
     let html = "";
     if (isExtract) html += `<div style="font-weight:800;margin-bottom:6px;">Recovered</div>`;
@@ -88,6 +90,15 @@ export function createRunResultCard(opts = {}) {
     } else if (!isExtract) {
     }
 
+    if (companions.length) {
+      const names = companions.map((companion) => escapeHtml(typeof companion === "string" ? companion.replaceAll("_", " ") : (companion.name ?? companion.id ?? "Wildkin"))).join(", ");
+      html += `<div style="margin-top:10px;font-weight:800;">Wildkin Bonds</div>`;
+      html += `<div style="color:${isExtract ? "#9fe8c5" : "#ffbc86"}">${isExtract ? `Secured at Camp: ${names}` : `Bond lost in the frontier: ${names}`}</div>`;
+    }
+    if (campaignComplete) {
+      html += `<div style="margin-top:12px;padding:10px;border:1px solid rgba(255,207,124,.38);border-radius:10px;color:#ffe0a5;font-weight:900;">FRONTIER STEWARD<br><span style="font-weight:500;color:#d5efe1">The opening frontier is restored. Continue exploring, strengthening bonds, and finding every signal.</span></div>`;
+    }
+
     bodyEl.innerHTML = html;
 
     if (isExtract && data.upgradeAvailable) {
@@ -104,6 +115,7 @@ export function createRunResultCard(opts = {}) {
       bankEl.textContent = "";
     }
 
+    btn.textContent = campaignComplete ? "CONTINUE EXPLORING" : "CONTINUE";
     overlay.style.display = "flex";
     visible = true;
   }

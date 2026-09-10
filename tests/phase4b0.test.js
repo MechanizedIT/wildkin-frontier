@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import * as THREE from "three";
-import { WORLD_DATA } from "../src/world/data/world.js";
+import { WORLD_DATA } from "./fixtures/phase4b1ProofWorld.generated.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createAuthorDraft } from "../src/author/authorDraft.js";
 import { createAuthorActions } from "../src/author/authorActions.js";

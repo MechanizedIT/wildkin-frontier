@@ -98,6 +98,19 @@ export function createPlayerCombat(opts) {
   function getHealth() { return health; }
   function getMaxHealth() { return maxHealth; }
 
+  function configure(config = {}) {
+    const requested = Number(config.maxHealth);
+    if (!Number.isFinite(requested)) return false;
+    const nextMax = Math.min(20, Math.max(1, Math.floor(requested)));
+    if (nextMax === maxHealth) return false;
+    // Preserve damage already taken when a persistent health bonus changes.
+    const deficit = Math.max(0, maxHealth - health);
+    maxHealth = nextMax;
+    health = Math.max(0, Math.min(maxHealth, maxHealth - deficit));
+    onHealthChanged(health, maxHealth);
+    return true;
+  }
+
   function isInvulnerable() {
     if (postHitInvuln > 0) return true;
     if (dodgeInvuln > 0) return true;
@@ -166,8 +179,18 @@ export function createPlayerCombat(opts) {
   }
 
   function heal(amount) {
-    health = Math.min(maxHealth, health + amount);
+    const value = Number(amount);
+    if (!Number.isFinite(value) || value <= 0 || isDead) return false;
+    health = Math.min(maxHealth, health + value);
     onHealthChanged(health, maxHealth);
+    return true;
+  }
+
+  function grantInvulnerability(seconds) {
+    const duration = Number(seconds);
+    if (!Number.isFinite(duration) || duration <= 0) return false;
+    postHitInvuln = Math.max(postHitInvuln, Math.min(5, duration));
+    return true;
   }
 
   function tryApplyAttackHits(playerPos, playerFacing) {
@@ -312,8 +335,7 @@ export function createPlayerCombat(opts) {
   }
 
   function reset() {
-    health = COMBAT_CONFIG.playerMaxHealth;
-    maxHealth = COMBAT_CONFIG.playerMaxHealth;
+    health = maxHealth;
     postHitInvuln = 0;
     dodgeInvuln = 0;
     recentAttackTime = -999;
@@ -356,8 +378,10 @@ export function createPlayerCombat(opts) {
     getAttackProgress,
     getHealth,
     getMaxHealth,
+    configure,
     takeDamage,
     heal,
+    grantInvulnerability,
     isInvulnerable,
     isDodgingInvuln,
     isDead: isPlayerDead,

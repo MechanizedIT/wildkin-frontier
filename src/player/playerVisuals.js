@@ -6,6 +6,9 @@ import * as THREE from "three";
 export function createPlayerVisuals(playerMesh) {
   let timeAcc = 0;
   let bobPhase = 0;
+  const leftLeg = playerMesh.getObjectByName("leftLeg");
+  const rightLeg = playerMesh.getObjectByName("rightLeg");
+  const leftArm = playerMesh.getObjectByName("leftArm");
 
   function sync(dt, state) {
     timeAcc += dt;
@@ -112,6 +115,14 @@ export function createPlayerVisuals(playerMesh) {
         playerMesh.position.y += bobOffset;
       }
     }
+
+    // Limb motion is visual-only. Keep the Field Tool's right-hand chain untouched.
+    const moving = mode === "WALK" || mode === "RUN" || mode === "SNEAK";
+    const stride = moving ? Math.sin(bobPhase) * (mode === "RUN" ? 0.54 : mode === "WALK" ? 0.34 : 0.18) : 0;
+    const limbBlend = 1 - Math.exp(-14 * dt);
+    if (leftLeg) leftLeg.rotation.x += (stride - leftLeg.rotation.x) * limbBlend;
+    if (rightLeg) rightLeg.rotation.x += (-stride - rightLeg.rotation.x) * limbBlend;
+    if (leftArm) leftArm.rotation.x += (-stride * 0.72 - leftArm.rotation.x) * limbBlend;
   }
 
   // For JUMP mode, caller may want lean facing etc but y is authoritative, so no bob

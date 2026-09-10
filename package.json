@@ -1,9 +1,9 @@
 {
   "name": "wildkin-frontier",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Wildkin Frontier (working title) — Phase 0 foundation (portrait Three.js, vendored, offline)",
+  "description": "Wildkin Frontier — single-player expedition adventure, local beta candidate",
   "scripts": {
     "dev": "node tools/serve.mjs",
     "serve": "node tools/serve.mjs",
@@ -13,16 +13,24 @@
     "validate": "node tools/validate-submission.mjs",
     "validate:submission": "node tools/validate-submission.mjs",
     "test": "node --test tests/**/*.test.js",
-    "verify": "node --test tests/**/*.test.js && node tools/check-world.mjs && node tools/build-submission.mjs && node tools/validate-submission.mjs",
+    "verify": "node --test tests/**/*.test.js && node tools/check-world.mjs && node tools/check-campaign.mjs && node tools/build-submission.mjs && node tools/validate-submission.mjs",
+    "test:browser": "node tools/playtest-beta.mjs",
+    "campaign:check": "node tools/check-campaign.mjs",
     "zip": "node tools/zip-submission.mjs",
     "world:generate": "node tools/generate-world.mjs",
-    "world:check": "node tools/check-world.mjs"
+    "world:check": "node tools/check-world.mjs",
+    "test:systems": "node tools/test-beta-systems.mjs",
+    "test:boundaries": "node tools/test-beta-boundaries.mjs",
+    "test:combat": "node tools/playtest-beta-combat.mjs",
+    "test:author": "node tools/playtest-beta-author.mjs",
+    "test:package": "node tools/test-beta-package.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.20.0",
     "three": "0.160.0"
   },
   "devDependencies": {
-    "esbuild": "^0.24.2"
+    "esbuild": "^0.28.2",
+    "playwright": "^1.62.1"
   }
 }

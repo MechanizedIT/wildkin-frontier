@@ -3,7 +3,7 @@ import { describe, it } from "node:test";
 import { getJumpPadTrajectorySignature, predictJumpPadTrajectory } from "../src/world/jumpPadSystem.js";
 import { createParkourSystem } from "../src/world/parkourSystem.js";
 import { repairPortalGateAtomic } from "../src/world/portalGateSystem.js";
-import WORLD_DATA from "../src/world/data/world.js";
+import WORLD_DATA from "./fixtures/phase4b1ProofWorld.generated.js";
 import { normalizeWorldData } from "../src/world/worldValidator.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { createSectionRuntime } from "../src/world/sectionRuntime.js";

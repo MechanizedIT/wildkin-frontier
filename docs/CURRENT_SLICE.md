@@ -1,129 +1,24 @@
-# Wildkin Frontier — Phase 4B.1.5: Movement Feel, Parkour & Progression Readability
+# Wildkin Frontier — Early Access Candidate
 
-**Status:** IMPLEMENTED / HUMAN ACCEPTANCE PENDING
-**Active slice:** Phase 4B.1.5  
-**Canonical spec:** docs/Specs/Phase_4B.1.5.md  
-**Base implementation:** 721ebe41de18305d6d5c0fd89e99be3c190455fe — Phase 4B.1.4 Author / Runtime Parity & Frontier Travel UX Closure
+**Status:** LOCAL BETA 0.2 CANDIDATE READY FOR OWNER PLAYTEST
+**Owner authorization:** September 9, 2026. Chris requested an end-to-end playable beta candidate, professional game design/development, full campaign depth and polish, authoring improvements, autonomous implementation/testing, and explicitly superseded previous slice/AGENTS restrictions. The Devpost event is historical and no longer sets product scope.
 
-Phase 4B.1.4 is substantially accepted from owner testing. The remaining framework blockers are movement/camera feel, parkour lifecycle/readability, persistent-vs-carried progression clarity, Jump Pad feel, truthful Portal visual parity, persistent Camp storage visibility, and one Asset Workbench camera-orientation helper.
+## Active objective
 
-Phase 4B.1.5 implementation is complete in the repository. Automated regressions, world generation/validation, packaging, and browser smoke evidence cover the framework contracts. Perceptual movement feel, real-play traversal readability, and the complete owner checklist below remain human acceptance work; Phase 4B.2 is not active.
+Deliver a coherent, locally playable beta candidate for owner playtesting. Preserve the central decision: **How far do I push before securing what I found?**
 
-## Goal
+See `docs/BETA_RELEASE_PLAN.md` for implementation and acceptance gates. Earlier phase specs document established behavior and regression evidence; they no longer forbid campaign design, companion/progression work, or agent-authored levels.
 
-Close only these issues before owner-authored Section 1 work begins:
+The candidate now includes the complete scoped campaign, companion/progression systems, revised presentation, backup restoration and Campaign Readiness authoring checks. `BETA_CANDIDATE_REPORT.md` records the verified scope and evidence; `BETA_PLAYTEST_GUIDE.md` provides player-facing checks. All 599 automated tests, world/campaign/build validation, ZIP generation and the documented browser routes pass. Physical-phone feel, full campaign pacing and owner acceptance remain human checks. Future iterations should preserve this playable candidate and address observed findings before claiming a public release.
 
-1. Smooth gameplay running camera using render interpolation while fixed-step Rapier remains authoritative.
-2. Make Portal Gate player-facing visuals resolve identically in Author and Play, including immediate repaired-state refresh.
-3. Make Parkour Start/Checkpoint/End visible in Play with clear visual/audio activation feedback.
-4. Add Parkour Course Zones so leaving the course clears stale checkpoint/safe-death protection.
-5. Show persistent Level and within-level XP progress continuously.
-6. Show unsecured carried XP in the upper-left run inventory; bank it only on successful extraction.
-7. Make ruined-gate UI distinguish banked XP from carried XP.
-8. Expand Matter Resonator into a clear persistent storage/progression view.
-9. Change Jump Pads to preserve incoming horizontal velocity and add vertical impulse.
-10. Add Low/Medium/High Jump Pad presets and truthful apex/airtime/carry-distance Author guidance.
-11. Add the level-editor-style origin/camera-orientation gizmo to Asset Workbench.
+## Product scope
 
-## Locked foundations
+- Camp plus five handcrafted, portal-connected expedition regions with distinct ecology, landmarks, harvest routes, optional traversal and secrets.
+- Four bondable Wildkin; interactive bonding, at-risk capture, extraction securing, active companion selection, useful abilities and revisit opportunities.
+- Meaningful persistent upgrade tiers, materials, healing crafting, journal/objectives, discovery and a campaign endpoint.
+- Cohesive alien frontier aesthetic, readable explorer/creature silhouettes, responsive low-chrome UI, onboarding, pause/settings and satisfying feedback.
+- Reliable save/load, extraction/death, travel, author/play/export, build and offline local operation.
 
-Do not reopen:
+## Delivery boundary
 
-- 100×100 Camp / 50×50 section grammar,
-- section-local coordinates,
-- explicit SectionRuntime and inactive-section isolation,
-- one first-party requestAnimationFrame loop,
-- fixed-step Rapier gameplay authority,
-- Camp destination selector / Forest Edge / discovered Waypoints,
-- Return-to-Camp extraction and banking,
-- banked XP as the only persistent Level authority,
-- atomic Portal repair,
-- loot persistence,
-- current level-editor camera and event-driven Author performance work,
-- owner-authored final Section 1 layout/pacing/content.
-
-## Key revised contracts
-
-### XP
-
-~~~text
-collect XP during expedition
-→ carried/unsecured XP shown with run inventory
-
-extract / return to Camp
-→ XP becomes banked persistent XP
-→ Level progress bar advances
-
-die
-→ carried XP lost
-~~~
-
-### Jump Pad
-
-~~~text
-enter pad
-→ preserve current horizontal velocity
-→ apply vertical launch power
-→ Low / Medium / High presets
-~~~
-
-Pad rotation no longer forces launch direction for the new canonical mode.
-
-### Parkour
-
-~~~text
-Start
-→ active course
-
-Checkpoint
-→ safe respawn point
-
-leave all matching Course Zones
-→ course resets
-→ checkpoint cleared
-→ normal death rules resume
-
-End
-→ course completes/clears
-~~~
-
-Start/Checkpoint/End are player-facing markers. Course Zones and Kill Volumes remain editor-only helpers.
-
-## Non-goals
-
-Do not:
-
-- start Phase 4B.2,
-- design the real Section 1,
-- add new sections,
-- rebalance the full economy,
-- build skill trees/crafting/inventory management,
-- redesign combat or Wildkin AI,
-- create final art,
-- build procedural/generic scripting systems.
-
-## Stop condition
-
-When the full Phase 4B.1.5 spec and production/browser gates pass, leave:
-
-~~~text
-Phase 4B.1.5 — IMPLEMENTED / HUMAN ACCEPTANCE PENDING
-~~~
-
-Then stop.
-
-## Owner human acceptance checklist
-
-1. Run and change direction for 20–30 seconds on the target phone. Confirm the player/camera are smooth without fixed-step jitter or excessive lag.
-2. Compare Camp, Section 1, and Section 2 gates in Edit and Play. Confirm the real models match, ruined state is truthful, and repair changes the gameplay model immediately.
-3. Enter Parkour Start and Checkpoint. Confirm the larger player-facing markers and visual/audio feedback are clear.
-4. Start a course, activate a checkpoint, leave the entire cyan Course Zone, then die elsewhere. Confirm the course/checkpoint reset and normal death rules resume.
-5. Confirm the top-center persistent Level and next-Level progress are immediately understandable.
-6. Collect XP during an expedition. Confirm it appears as unsecured XP in the upper-left, does not advance the persistent bar until extraction, is lost on death, and banks on extraction.
-7. Inspect a ruined gate and confirm persistent Level, banked XP, carried XP, and resource requirements are distinct.
-8. Open the Matter Resonator and confirm permanent resources, persistent Level/XP, and upgrade status are clear.
-9. Walk and run across Low/Medium/High Jump Pads. Confirm standing launches mostly vertically, running preserves horizontal momentum, and all three powers feel distinct.
-10. In Author, confirm Jump Pad guidance communicates apex, airtime, and walk/run carry distance without implying one fixed landing direction.
-11. In Asset Workbench, inspect small and large assets and confirm the origin/orbit/camera gizmo is understandable while zoom, pan, and orbit still feel good.
-
-Only after explicit owner acceptance should the project move to **Phase 4B.2 — Human-Authored Section 1 Vertical Slice**.
+Keep development local on main. No publication, store submission, paid services, or release approval is implied. Finish a candidate for Chris to test and report actual proof, remaining limitations, and human device checks honestly. A playable beta candidate is not a claim of a commercially released game.

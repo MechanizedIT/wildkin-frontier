@@ -1,6 +1,24 @@
-# Architecture — Wildkin Frontier (Phase 4B.1.5 Implemented — Human Acceptance Pending)
+# Architecture — Wildkin Frontier 0.2
 
-> Lightweight, explicit, human-editable, and optimized for repeated AI-assisted iteration. This document records the **implemented Phase 4B.1 foundation** after the stopped Phase 4B first pass. The section framework replaces the continuous-strip level assumption with portal-connected self-contained sections while preserving the accepted Author/Visual Asset contracts. Final section composition remains human-owned in Phase 4B.2.
+> Lightweight, explicit, human-editable Three.js + Rapier. The beta extends the existing section/authoring foundation rather than migrating engines. The owner authorized agent-led content/design on September 9, 2026; older phase/owner-only composition statements below are historical. New implementation is candidate work pending owner playtesting.
+
+## Beta ownership and lifecycle
+
+- `src/boot.js` supplies the visible startup/error/context-loss boundary and imports `main.js`. Both development and the readable packaged bundle use this entry and the same HTML/styles.
+- `src/main.js` wires one RAF/fixed physics loop and existing world systems. `src/game/createBetaGame.js` composes beta objectives, shell, companions, encounter and presentation callbacks; gameplay does not depend on `window.__game`.
+- `frontierProgress` owns persisted version-2 state, keyed upgrades, banked XP/matter, secured roster, active companion, discoveries, milestones, seals, Core and consumables. Additive normalization preserves older saves. Versioned backup import validates and writes before accepting the replacement.
+- `upgradeCatalog` owns costs and modifiers; `campaignProgress` owns pure milestone predicates/rewards. The save owner enforces predicates and affordability. No UI-only reward authority.
+- `companionSystem` owns transient newly bonded IDs, bonding target, cooldown and bounded visual followers. `bondingLogic` is rendering-free. Capture removes wildlife without granting combat XP. Companion utility/secret access checks the active section. Successful extraction banks pending bonds with cargo/XP/Core as one transaction; death clears them.
+- `lootSystem` owns per-run Core claims; the persistent Core claim is committed only by successful extraction. Ordinary one-time/repeatable loot follows the established save-backed claim contract.
+- `guardianEncounter` owns one authored boss hazard clock and two pooled telegraph rings. It uses the existing player damage/invulnerability path and is reset by run/section/modal boundaries.
+- Presentation modules own bounded terrain detail, atmosphere, contact shadows, floating combat text and companion effects. A single 1024px sun shadow pass supplies depth; static prop occlusion checks run at 10 Hz and clone only affected instance materials. They update through the existing loop, suppress editor overlays, and never decide gameplay outcomes.
+- `campaignReadiness` analyzes the current author draft or CLI world using the same economy/XP catalogs. It complements schema validation with cross-region checks; coarse reachability is explicitly an estimate.
+
+### Proof and content fixtures
+
+The shipped world is Camp plus five sections in `world.json`, with deterministic `world.generated.js`. The baseline authoring script reconstructs that particular authored campaign; it is not a runtime generator and must not overwrite later human edits without intent. Older phase tests use a frozen copy of their original proof world, while beta world/readiness tests cover the shipped campaign. This preserves historical contract assertions without forcing the game to keep three placeholder regions.
+
+Browser QA is split into normal-input first expedition, diagnostic boundary setups, actual-input Guardian combat, touch/menu/ability/save transfer checks, and author editing/export. These scripts label their evidence limits. Physical phone comfort, full campaign pacing and owner acceptance are still human checks.
 
 ## Permanent Goals
 

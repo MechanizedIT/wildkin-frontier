@@ -1,6 +1,7 @@
 // src/author/authorUI.js — desktop Author Mode panel (Phase 4A.2.2 registry-driven)
 import { resolveAuthorType, readNormalizedTransform } from "./authorTypeRegistry.js";
 import { createAuthorActions } from "./authorActions.js";
+import { analyzeCampaign } from "./campaignReadiness.js";
 
 // Step 3: thumbnail cache + canvas generator (2D top-down projection, no WebGL)
 const _thumbCache = new Map();
@@ -265,8 +266,10 @@ export function createAuthorUI(opts) {
     </details>
     <div style="display:flex;gap:6px;margin-bottom:6px">
       <button id="author-validate" style="flex:1;padding:6px;background:#2a2a1a;color:#ffea66;border:1px solid #6a5a2a;border-radius:6px">Validate</button>
+      <button id="author-campaign-readiness" style="flex:1;padding:6px;background:#1f2f45;color:#b8dcff;border:1px solid #3a6694;border-radius:6px">Campaign Readiness</button>
       <button id="author-export" style="flex:1;padding:6px;background:#1a3a2a;color:#aaffaa;border:1px solid #2a6a4a;border-radius:6px">Export</button>
     </div>
+    <pre id="author-campaign-report" style="display:none;white-space:pre-wrap;font:10px/1.4 ui-monospace,monospace;color:#b8dcff;background:#080d18;border:1px solid #29496c;border-radius:5px;padding:6px;margin:0 0 6px"></pre>
     <button id="author-reset" style="width:100%;padding:6px;background:#3a1a1a;color:#ffaaaa;border:1px solid #6a2a2a;border-radius:6px">Reset Draft From Repo</button>
     <div style="font-size:10px;color:#5a6a8a;margin-top:6px">World: right-drag pan · wheel zoom · Asset: camera-plane pan · fixed-pitch dolly · Esc cancels</div>
   `;
@@ -1367,6 +1370,16 @@ export function createAuthorUI(opts) {
     const v = draftApi.validate();
     if (v.ok) { statusEl.textContent = "✓ Valid — " + draftApi.getDraft().regions.length + " regions"; statusEl.style.color="#aaffaa"; if (onValidate) onValidate(true); }
     else { statusEl.textContent = "⚠ " + v.error; statusEl.style.color="#ffaaaa"; if (onValidate) onValidate(false, v.error); }
+  });
+  container.querySelector("#author-campaign-readiness").addEventListener("click", () => {
+    const report = analyzeCampaign(draftApi.getDraft());
+    const reportEl = container.querySelector("#author-campaign-report");
+    const route = report.sections.map((section) => `${section.id}: XP ${section.xp} · L${section.level} · renewable ${Object.entries(section.renewableResources).filter(([, amount]) => amount > 0).map(([id, amount]) => `${id}:${amount}`).join(" ")}${section.unreachable.length ? ` · unreachable ${section.unreachable.join(", ")}` : ""}`);
+    const findings = report.errors.length ? report.errors.map((error) => `ERROR: ${error}`) : ["READY: campaign route, gates, renewable resources, companions, and finale checks passed."];
+    reportEl.textContent = ["CAMPAIGN READINESS — CURRENT DRAFT", ...findings, "", ...route, "", ...report.warnings.map((warning) => `NOTE: ${warning}`)].join("\n");
+    reportEl.style.display = "block";
+    statusEl.textContent = report.errors.length ? `⚠ Campaign readiness found ${report.errors.length} issue${report.errors.length === 1 ? "" : "s"}` : "✓ Campaign readiness passed — coarse walkability remains an estimate";
+    statusEl.style.color = report.errors.length ? "#ffaaaa" : "#aaffaa";
   });
   container.querySelector("#author-export").addEventListener("click", () => {
     const v = draftApi.validate();
