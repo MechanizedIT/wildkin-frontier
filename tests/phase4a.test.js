@@ -36,7 +36,7 @@ describe("Phase 4A — persistent frontier progress", () => {
       const prog = createFrontierProgress({ worldRegistry: reg });
       prog.load();
       const s = prog.getState();
-      assert.equal(s.version, 2);
+      assert.equal(s.version, 3);
       assert.deepEqual(s.bankedResources, { wood:0, stone:0, fiber:0 });
       assert.equal(s.bankedXp, 0);
       assert.equal(s.hasDepartedOnce, false);
@@ -140,12 +140,16 @@ describe("Phase 4A — persistent frontier progress", () => {
       assert.ok(mock.getItem(normal.getStorageKey()) !== null);
     });
   });
-  it("bank operation adds exact resource/XP snapshot once", () => {
+  it("bank operation secures XP and return receipt without copying the pack", () => {
     withMockStorage(()=>{
       const reg = createWorldRegistry(WORLD_DATA);
       const prog = createFrontierProgress({ worldRegistry: reg });
       prog.load();
+      assert.equal(prog.collectResources({ wood:5, stone:2, fiber:1 }).ok, true);
+      const packBefore = prog.getInventoryState().pack;
       prog.bankRun({ wood:5, stone:2, fiber:1 }, 50);
+      assert.deepEqual(prog.getInventoryState().pack, packBefore);
+      assert.equal(prog.getInventoryState().totals.returned, 8);
       const s = prog.getState();
       assert.equal(s.bankedResources.wood, 5);
       assert.equal(s.bankedResources.stone, 2);
@@ -157,6 +161,7 @@ describe("Phase 4A — persistent frontier progress", () => {
       const reg = createWorldRegistry(WORLD_DATA);
       const prog = createFrontierProgress({ worldRegistry: reg });
       prog.load();
+      assert.equal(prog.collectResources({ wood:3, stone:1 }).ok, true);
       prog.bankRun({ wood:3, stone:1, fiber:0 }, 20);
       // second identical bank should be idempotent (same token)
       prog.bankRun({ wood:3, stone:1, fiber:0 }, 20);
@@ -218,7 +223,8 @@ describe("Phase 4A — expedition lifecycle", () => {
       sess.setXp(40);
       sess.addDiscoveryWaypoint(wpDeep?.id ?? reg.getInitialMajorWaypointId());
       const snap = sess.tryResolveExtract();
-      // bank
+      // Collection owns the pack; resolution only records its return.
+      assert.equal(prog.collectResources(snap.cargo).ok, true);
       prog.bankRun(snap.cargo, snap.xp);
       // reset to camp
       sess.resetToCamp();
@@ -374,7 +380,8 @@ describe("Phase 4A — anchor interaction guards", () => {
       sess.setXp(30);
       const snap = sess.tryResolveExtract();
       assert.ok(snap);
-      // Gate extraction banks same as beacon extraction
+      // Gate extraction secures the same existing pack as beacon extraction.
+      assert.equal(prog.collectResources(snap.cargo).ok, true);
       prog.bankRun(snap.cargo, snap.xp);
       assert.equal(prog.getBankedResources().wood, 4);
       assert.equal(prog.getBankedXp(), 30);
@@ -388,14 +395,15 @@ describe("Phase 4A — anchor interaction guards", () => {
 });
 
 describe("Phase 4A — cargo outcome", () => {
-  it("extraction banks run resources + XP and clears them", () => {
+  it("extraction keeps physical pack, secures XP and clears session summary", () => {
     withMockStorage(()=>{
       const reg = createWorldRegistry(WORLD_DATA);
       const prog = createFrontierProgress({ worldRegistry: reg });
       prog.load();
       const sess = createExpeditionSession({ initialStatus:"camp", regionDepthMap: reg.getRegionDepthMap() });
       sess.beginRun(reg.getInitialMajorWaypointId());
-      sess.setCargo({ wood:7, stone:3, fiber:2 });
+      assert.equal(prog.collectResources({ wood:7, stone:3, fiber:2 }).ok, true);
+      sess.setCargo(prog.getPackResourceCounts());
       sess.setXp(60);
       const snap = sess.tryResolveExtract();
       prog.bankRun(snap.cargo, snap.xp);

@@ -11,6 +11,7 @@ export const BASE_PIECES = Object.freeze([
   { id: 'fabricator', name: 'Matter fabricator', icon: '⚙', assetId: 'asset_matter_fabricator', size: [2.48,1.828,1.086], cost: { wood: 6, iron_ore: 6, crystal_shard: 2 }, description: 'Assembles medicine and reinforced field equipment.' },
   { id: 'resonance', name: 'Resonance bench', icon: '✧', assetId: 'asset_resonance_bench', size: [1.401,1.3,1.485], cost: { stone: 6, iron_ore: 3, crystal_shard: 4 }, description: 'Tunes calming equipment for sensitive Wildkin.' },
   { id: 'bed', name: 'Wildkin bed', icon: '◒', assetId: 'asset_bench', size: [1.9,.55,1.25], cost: { wood: 3, fiber: 5 }, description: 'A soft resting place for a companion.' },
+  { id: 'storage_crate', name: 'Storage crate', icon: '▣', assetId: 'asset_wooden_crate', size: [1.25,1.15,1.05], storageType:'crate', cost: { wood: 6, fiber: 2 }, description: '24 slots of physical storage. Place it beside your stations.' },
 ]);
 export const BASE_PIECE_BY_ID = Object.freeze(Object.fromEntries(BASE_PIECES.map(p => [p.id,p])));
 export const FIELD_RECIPES = Object.freeze([

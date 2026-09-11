@@ -3,6 +3,7 @@
 // Owns only transient run state, not persistent bank.
 
 import { makeEmptyResourceMap, normalizeResourceMap } from "../resources/resourceDropCatalog.js";
+import { normalizeActiveRun } from './activeRunState.js';
 
 function generateRunId() {
   try {
@@ -44,7 +45,7 @@ export function createExpeditionSession(opts = {}) {
   }
 
   function addXp(amount) { if (typeof amount === "number" && amount > 0) runXp += amount; }
-  function setXp(value) { runXp = Math.max(0, value | 0); }
+  function setXp(value) { runXp = Number.isFinite(value) ? Math.min(Number.MAX_SAFE_INTEGER, Math.max(0, Math.floor(value))) : 0; }
   function addKill() { kills += 1; }
   function setCargo(cargo) {
     if (!cargo) return;
@@ -86,6 +87,21 @@ export function createExpeditionSession(opts = {}) {
     runDiscoveries = { newWaypoints: [], newBeacons: [] };
     maxDepth = 0;
     runId = generateRunId();
+  }
+
+  function restoreActiveRun(record) {
+    const restored = normalizeActiveRun(record);
+    if (!restored.ok || !restored.run) return { ok: false, reason: restored.reason ?? 'missing-active-run' };
+    const run = restored.run;
+    status = 'active'; resolved = false; extractionOutcome = null;
+    runId = run.runId; startAnchorId = run.startAnchorId;
+    currentRegionId = run.sectionId; currentPocketId = null;
+    runXp = run.xp; kills = run.kills; maxDepth = run.maxDepth;
+    runDiscoveries = { newWaypoints: run.newWaypoints, newBeacons: run.newBeacons };
+    // Pack and pending bonds retain their inventory/companion owners. This is
+    // only the legacy nonspendable cargo view, refreshed by the caller.
+    unsecuredCargo = emptyCargo(); unsecuredWildkin = [];
+    return { ok: true, reason: null };
   }
 
   function reset(nextStartAnchorId = startAnchorId) {
@@ -191,6 +207,7 @@ export function createExpeditionSession(opts = {}) {
     incrementCargo,
     reset,
     resetToCamp,
+    restoreActiveRun,
     beginRun,
     onDeath,
     onExtract,

@@ -50,6 +50,20 @@ test('opaque scenery hides the anchor; faded scenery and the object itself do no
   wall.material.opacity=.25;assert.equal(anchor.isOccluded(camera,point,.1),false);
 });
 
+test('nested prop metadata cannot admit the selected storage body before its root exclusion', () => {
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera();camera.position.set(0,1,8);
+  const root=new THREE.Group(),nested=new THREE.Group();root.name='pod';nested.userData.propId='pod';root.add(nested);scene.add(root);
+  const body=new THREE.Mesh(new THREE.BoxGeometry(2,2,4),new THREE.MeshBasicMaterial());body.position.y=1;nested.add(body);
+  const wall=new THREE.Mesh(new THREE.BoxGeometry(3,3,.4),new THREE.MeshBasicMaterial());wall.position.set(0,1.5,4);wall.userData.propId='neighbor';wall.material.opacity=.25;scene.add(wall);scene.updateMatrixWorld(true);
+  const record={id:'pod',pos:{x:0,y:0,z:0}},anchor=createWorldInteractionAnchor({scene,registry:{data:{regions:[{props:[record]}]}}});
+  const point=anchor.getPoint({type:'storage',id:'pod'});
+  const ray=new THREE.Raycaster(camera.position,point.clone().sub(camera.position).normalize());
+  assert.ok(ray.intersectObject(body).length,'the chosen view really intersects the selected body');
+  assert.equal(anchor.isOccluded(camera,point,.1),false,'selected root wins over lower prop metadata');
+  wall.material.opacity=1;assert.equal(anchor.isOccluded(camera,point,.1),true,'independent solid scenery still blocks');
+  wall.visible=false;assert.equal(anchor.isOccluded(camera,point,.1),false,'hidden sibling does not block');
+});
+
 test('guide-blocked creature labels use body sides, recheck clamps, and preserve a 48px target', () => {
   const bounds={left:12,top:12,right:832,bottom:378}, size={width:140,height:48};
   const body={left:360,right:484,top:100,bottom:230}, guide={left:260,right:590,top:12,bottom:94};

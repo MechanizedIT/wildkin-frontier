@@ -21,7 +21,7 @@ export function createCraftingStations({app,camera,progress,getPlayerState,isCam
     const rect=app.getBoundingClientRect(),projected=projectInteractionPoint(point,camera,rect.width,rect.height,screenPoint);
     return {id:selectedId,name:piece.name,operating:entry.motion?.isOperating()??false,progress:motion?.progress??0,
       completedLabel:entry.completedLabel,screenPoint:projected??null,
-      recipes:STATION_RECIPE_IDS[entry.record.type].map(id=>{const recipe=getStationRecipe(id);return {...recipe,count:count(id,state),available:!paused&&canAfford(bank,recipe.cost)&&!entry.motion?.isOperating(),reason:canAfford(bank,recipe.cost)?'':'Gather and extract these materials.'};})};
+      recipes:STATION_RECIPE_IDS[entry.record.type].map(id=>{const recipe=getStationRecipe(id);return {...recipe,count:count(id,state),available:!paused&&canAfford(bank,recipe.cost)&&!entry.motion?.isOperating(),reason:canAfford(bank,recipe.cost)?'':'Bring these materials in your pack or selected nearby storage.'};})};
   }
   function craft(id){
     const reject=message=>{notify(message);return {ok:false,message};};
@@ -29,7 +29,7 @@ export function createCraftingStations({app,camera,progress,getPlayerState,isCam
     if(!entry||!isCamp()||paused||distance(entry)>REACH||!STATION_RECIPE_IDS[entry.record.type]?.includes(id))return reject('Stand beside the matching station.');
     if(entry.motion?.isOperating())return reject('This station is finishing its current item.');
     const result=id==='medkit'?progress.craftConsumable(id):progress.craftFieldSupply(id);
-    if(!result.crafted)return reject(result.reason==='storage-write-failed'?'Could not save. Your materials were kept.':result.reason==='supply-limit'?'Your supply pouch is full.':'Gather and extract the materials shown.');
+    if(!result.crafted)return reject(result.reason==='storage-write-failed'?'Could not save. Your materials were kept.':result.reason==='output-full'?'Make room in your backpack.':'Bring the materials in your pack or selected nearby storage.');
     disposeCraftOutput(entry.output);entry.output=createCraftOutputVisual(id);entry.output.visible=false;entry.completedLabel='';
     const anchor=entry.visual.getObjectByName('CraftOutputAnchor');
     if(anchor){

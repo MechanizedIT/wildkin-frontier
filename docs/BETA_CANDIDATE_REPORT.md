@@ -1,5 +1,7 @@
 # Wildkin Frontier 0.2 — local beta candidate
 
+> Historical September 9 report. This candidate was followed by the owner's alpha redesign request and substantial September 11 changes. Do not use its timing-modal, material-bank, inventory or save descriptions as current behavior. See `CURRENT_SLICE.md` and `OVERNIGHT_HANDOFF.md` for the current local checkpoint and its limits.
+
 **Prepared September 9, 2026.** This delivers a playable candidate for Chris's testing. It is not a public launch or a claim that the full long-term design is finished.
 
 ## What changed

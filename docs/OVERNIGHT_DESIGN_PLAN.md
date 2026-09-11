@@ -2,6 +2,16 @@
 
 Producer choices below are provisional implementations of Chris's explicit overnight scope. Read `OVERNIGHT_MANDATE.md` for all owner instructions and machine-stability limits. Review the actual game after each batch and revise this plan.
 
+## Current wrap-up status
+
+Physical inventory v3 is integrated: 16-slot backpack, 24-slot pod/crate containers, nearby selected craft source, drag/sort/split and accessible tap/keyboard operations. Old quantity counters migrate into physical storage with withdraw-only overflow; packed supplies alone drive equipment counts. Extraction preserves packed items and secures XP/bonds; a small saved expedition snapshot supports reload. Death provisionally keeps the backpack while losing carried XP/pending bonds. Exact capacity/balance remains unaccepted by Chris.
+
+Actual integrated inventory panel review passes 8.2; normal pod approach label discovery required a separate ancestry/occlusion follow-up. Root records its latest native closure. Creature-side callouts and companion-first result payoff have already passed their bounded reviews. Tall/spread canopy and earned Mossling/Tidefin journeys are accepted only within their recorded browser evidence; the new Tidefin V3 animation study is not shipping.
+
+Latest aggregate: 810 tests, world/campaign checks, build and ZIP pass at 42.53 MB unpacked / 20.25 MB ZIP. Final current-package native closure remains separate; no owner acceptance, physical-phone performance or full new-inventory campaign claim follows from aggregate tests.
+
+Next planned scope is the crashland proposal: larger wreck discoveries, parts/blueprints, distinct clearing/repair obstacles, defended adjoining Camp sectors and backpack upgrades. None is completed merely by the inventory cutover. The chronological updates below are retained as historical development evidence, including their old counts, rejected candidates and once-pending work.
+
 ## The connected loop
 
 Explore distinct alien habitats → identify useful growths/deposits → gather and craft suitable field gear → earn a species' trust or overcome its behavior → decide whether to extract → expand and arrange your camp → prepare for a different habitat. Building and taming should give gathering a purpose, while extraction keeps each expedition consequential.

@@ -18,7 +18,9 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
   let base;
   try{
     const registry=createWorldRegistry(WORLD_DATA),progress=createFrontierProgress({worldRegistry:registry,resourceDrops:WORLD_DATA.resourceDrops,isAuthorMode:true,inMemoryAuthor:true});
-    progress.bankRun({wood:100,stone:100,fiber:100},0,'test');
+    const supplies={wood:12,stone:8,fiber:2};
+    assert.deepEqual(progress.collectResources(supplies).added,supplies);
+    assert.equal(progress.getInventoryState().pack.length,16);
     assert.equal(progress.placeStructure({id:'build_door',type:'doorway',pos:{x:0,z:18},yaw:0}).placed,true);
     assert.equal(progress.placeStructure({id:'build_lantern',type:'lantern',pos:{x:4,z:18},yaw:0}).placed,true);
     let camp=true;const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera();

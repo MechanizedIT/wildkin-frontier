@@ -11,6 +11,7 @@ import { syncAuthorVisual } from "../src/author/authorPreview.js";
 import { createStaticWorld } from "../src/world/staticWorldBuilder.js";
 import { createWorldRegistry } from "../src/world/worldRegistry.js";
 import { createPickupSystem } from "../src/resources/pickupSystem.js";
+import { pickupInventoryFixture } from './helpers/pickupInventoryFixture.js';
 import { createRuntimeResourcePlacements } from "../src/resources/resourceSystem.js";
 import { createResourceNode, hideOneChunk, showAllChunks } from "../src/resources/createResourceNode.js";
 import { createVisualAssetResourceType } from "../src/resources/resourceConfig.js";
@@ -354,7 +355,8 @@ describe("Phase 4B.0 — production Author actions and preview reconciliation", 
     assert.equal(staticWorld.obstacles.some((entry) => entry.id === placed.id), false, "resource runtime must own its collider");
 
     const scene = new THREE.Scene();
-    const pickups = createPickupSystem(scene, null, null, null, { resourceDrops: exported.resourceDrops });
+    const progress = createFrontierProgress({ resourceDrops: exported.resourceDrops, inMemoryAuthor: true, isAuthorMode: true });progress.load();
+    const pickups = createPickupSystem(scene, null, null, null, { resourceDrops: exported.resourceDrops, inventory:{getResources:progress.getPackResourceCounts,collect:progress.collectResources,spend:progress.spendResources} });
     const pickup = pickups.spawnPickup({
       index: 0,
       regionId: "camp",
@@ -368,8 +370,6 @@ describe("Phase 4B.0 — production Author actions and preview reconciliation", 
     const session = createExpeditionSession({ resourceDrops: exported.resourceDrops });
     session.setCargo(pickups.getInventory());
     assert.equal(session.snapshotRun().cargo.moon_seed, 1);
-    const progress = createFrontierProgress({ resourceDrops: exported.resourceDrops, inMemoryAuthor: true, isAuthorMode: true });
-    progress.load();
     const banked = progress.bankRun(session.snapshotRun().cargo, 0, "custom-drop-proof");
     assert.ok(banked.added);
     assert.equal(progress.getBankedResources().moon_seed, 1);

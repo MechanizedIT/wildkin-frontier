@@ -11,12 +11,13 @@ test('map and marker return target excludes unknown and other-region anchors',()
  assert.equal(getKnownExtractionTarget(registry,progress,'camp',{x:0,z:0}),null);
  assert.equal(getKnownExtractionTarget(registry,progress,'empty',{x:0,z:0}),null);
 });
-test('recipe guidance separates missing, carried and spendable ingredients without mutating them',()=>{
- const cost={berries:2,fiber:1},bank={berries:1},cargo={fiber:6};
- assert.equal(ingredientGuidance(cost,'2 berries · 1 fiber',bank,cargo,false),'Find 1 Berries · Extract 1 Fiber');
- assert.equal(ingredientGuidance(cost,'2 berries · 1 fiber',bank,cargo,true),'Need 1 Berries + 1 Fiber');
- assert.equal(ingredientGuidance(cost,'2 berries · 1 fiber',{berries:2,fiber:1},cargo,true),'Ready: 2 berries · 1 fiber');
- assert.deepEqual(bank,{berries:1});assert.deepEqual(cargo,{fiber:6});
+test('recipe guidance counts available pack plus selected storage once, without a second cargo grant',()=>{
+ const cost={berries:2,fiber:1},available={berries:1,fiber:6},samePackCargo={berries:1,fiber:6};
+ assert.equal(ingredientGuidance(cost,'2 berries · 1 fiber',available,samePackCargo,false),'Need 1 Berries');
+ assert.equal(ingredientGuidance(cost,'2 berries · 1 fiber',available,samePackCargo,true),'Need 1 Berries');
+ assert.equal(ingredientGuidance(cost,'2 berries · 1 fiber',{berries:2,fiber:1},samePackCargo,true),'Ready: 2 berries · 1 fiber');
+ assert.equal(ingredientGuidance(cost,'2 berries · 1 fiber',{berries:2,fiber:1},samePackCargo,false),'Bring to Camp: 2 berries · 1 fiber');
+ assert.deepEqual(available,{berries:1,fiber:6});assert.deepEqual(samePackCargo,{berries:1,fiber:6});
 });
 
 test('edge guidance keeps long labels inside the viewport and clear of both thumb controls',()=>{

@@ -10,9 +10,9 @@ export function createFieldFoodUse({progress,playerCombat,isActive,onConsumed=()
     const health=playerCombat.getHealth(),max=playerCombat.getMaxHealth();
     if(health<=0)return {ok:false,message:'Recover at Camp before using field food.'};
     if(health>=max)return {ok:false,message:'Health is full. Your Trail ration is kept.'};
-    const result=progress.consumeFieldSupply(item.id);
-    if(!result.consumed)return {ok:false,message:result.reason==='storage-write-failed'?'Could not save. Your Trail ration was kept.':'No Trail rations. Craft at your Salvage bench: 2 Berries + 1 Fiber.'};
     const restored=Math.min(recipe.heal,max-health);
+    const result=progress.consumeFieldSupply(item.id,{health:health+restored});
+    if(!result.consumed)return {ok:false,message:result.reason==='storage-write-failed'?'Could not save. Your Trail ration was kept.':'No Trail rations. Craft at your Salvage bench: 2 Berries + 1 Fiber.'};
     playerCombat.heal(restored);onConsumed(restored);
     return {ok:true,message:`Trail ration eaten · +${restored} health.`};
   };

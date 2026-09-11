@@ -120,22 +120,17 @@ describe("Phase 4B.1 — level, gate repair, and upgrade persistence", () => {
     const { registry, progress } = makeProgress();
     progress.load();
     progress.bankRun({}, getXpForLevel(2), "level-two");
-    let cargo = { wood: 2, stone: 2 };
+    progress.collectResources({wood:2,stone:2});
     let travels = 0;
     const system = createPortalGateSystem(registry, {
       frontierProgress: progress,
       getActiveSectionId: () => "section_1",
       getPlayerLevel: () => getPlayerLevel(progress.getBankedXp()),
-      getCargo: () => ({ ...cargo }),
-      spendCargo: (_current, cost) => {
-        if (Object.entries(cost).some(([id, amount]) => cargo[id] < amount)) return false;
-        for (const [id, amount] of Object.entries(cost)) cargo[id] -= amount;
-        return true;
-      },
+      getCargo: () => progress.getPackResourceCounts(),
       onTravel: () => { travels += 1; return true; },
     });
     assert.deepEqual(system.activate("gate_section_1_to_2").spent, { wood: 2, stone: 2 });
-    assert.deepEqual(cargo, { wood: 0, stone: 0 });
+    assert.equal(progress.getPackResourceCounts().wood,0);assert.equal(progress.getPackResourceCounts().stone,0);
     assert.equal(progress.isPortalGateRepaired("gate_section_1_to_2"), true);
     const reloaded = makeProgress().progress;
     reloaded.load();

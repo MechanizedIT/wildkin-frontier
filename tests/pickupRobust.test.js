@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import * as THREE from "three";
 import { createPickupSystem } from "../src/resources/pickupSystem.js";
 import { RESOURCE_TYPES } from "../src/resources/resourceConfig.js";
+import { pickupInventoryFixture } from './helpers/pickupInventoryFixture.js';
 
 describe("Pickup robust collision", () => {
   it("launched uses radius-aware check and resting not overlapping", async () => {
@@ -19,7 +20,7 @@ describe("Pickup robust collision", () => {
     const desc = RAPIER.ColliderDesc.cuboid(1, 0.5, 1).setTranslation(0, 0.5, 0).setFriction(0.6);
     physicsWorld.world.createCollider(desc);
     physicsWorld.world.step();
-    const ps = createPickupSystem(scene, physicsWorld, playground, () => {});
+    const ps = createPickupSystem(scene, physicsWorld, playground, () => {}, { inventory: pickupInventoryFixture().inventory });
     // Use a rock node near box to attempt spawn
     const node = { type: RESOURCE_TYPES.tree, state: { position: { x: -2, y: 0, z: 0 } }, collider: null, index: 0 };
     // Manually create a pickup with intended path through box
@@ -49,7 +50,7 @@ describe("Pickup robust collision", () => {
     const RAPIER = await import("@dimforge/rapier3d-compat");
     await RAPIER.init();
     const physicsWorld = { world: new RAPIER.World({ x: 0, y: 0, z: 0 }), RAPIER };
-    const ps = createPickupSystem(scene, physicsWorld, playground, () => {});
+    const ps = createPickupSystem(scene, physicsWorld, playground, () => {}, { inventory: pickupInventoryFixture().inventory });
     const node = { type: RESOURCE_TYPES.rock, state: { position: { x: -2, y: 0, z: 0 } }, collider: null, index: 0 };
     const p = ps.spawnPickup(node);
     // Place pickup behind wall relative to player — distance 1.6 < 2.4 magnet radius, wall between at 0
@@ -75,7 +76,7 @@ describe("Pickup robust collision", () => {
     const RAPIER = await import("@dimforge/rapier3d-compat");
     await RAPIER.init();
     const physicsWorld = { world: new RAPIER.World({ x: 0, y: 0, z: 0 }), RAPIER };
-    const ps = createPickupSystem(scene, physicsWorld, playground, () => {});
+    const ps = createPickupSystem(scene, physicsWorld, playground, () => {}, { inventory: pickupInventoryFixture().inventory });
     const node = { type: RESOURCE_TYPES.rock, state: { position: { x: 0, y: 0, z: 0 } }, collider: null, index: 0 };
     const p = ps.spawnPickup(node);
     // Force into overlapping position (inside box)

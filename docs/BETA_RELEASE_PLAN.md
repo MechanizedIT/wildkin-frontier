@@ -4,7 +4,9 @@
 
 The September 9, 2026 owner request authorizes this campaign and replaces the prior framework-only slice. The engine remains vanilla Three.js + Rapier: it already supplies tested movement, collision, section isolation, harvesting, combat, extraction/banking and a capable primitive asset/level workshop. An engine migration would discard useful work without resolving the main deficits: content, progression, companion play, presentation and onboarding.
 
-Initial audit: clean main; **573 tests pass**. Camp and two proof sections exist, with only four placed resources, two creatures, two chests, a single upgrade and a parkour proof. There is no companion/bonding/crafting/objective campaign. Development and packaged HTML shells have drifted.
+**Current September 11 checkpoint:** v3 finite physical inventory and expedition resume are integrated. A 16-slot backpack and 24-slot pod/crate containers replace unlimited material storage; old counters migrate without discarding overflow, which can be withdrawn beside the pod. Actual inventory UI review passes 8.2. Aggregate 810 tests, world/campaign verification, build and ZIP pass at 42.53 MB unpacked / 20.25 MB ZIP; final current-package native acceptance is pending the root closeout receipt. Owner acceptance and physical-phone performance remain open.
+
+**Historical September9 initial audit:** clean main and 573 passing tests, with Camp/two proof sections, four placed resources, two creatures, two chests, one upgrade and a parkour proof. The absent campaign and shell drift described by that audit have since been addressed; these are not current missing-feature claims.
 
 ## Candidate scope and provisional design
 
@@ -18,7 +20,9 @@ This is a finite handcrafted adventure with repeatable expeditions, aiming at ro
 
 **Bonding (September 11 candidate):** use species-specific field actions: sneak toward Mossling and place berries, lure Tidefin into a dry-bank snare and release it, avoid Emberhorn's committed charge before tethering/offering food, and use two quiet chime perches for Skydancer. These replace the historical resonance timing modal. Existing movement, physical access and ordinary-input discoverability are active review gates. Carry a new bond unsecured until extraction; death loses it. Start with one pending slot, expandable through upgrades. A secured active companion supplies a visible follower, its ability and a matching revisit reward.
 
-**Progression (provisional):** banked XP remains level authority. Multi-tier Matter Attractor, Field Tool, Vitality, capture capacity and medicine offer deliberate resource spending. Healing is crafted from recovered materials. Resource carry remains unlimited. Upgrades and saved companions survive death; current cargo/XP/pending bonds do not.
+**Progression (provisional, September 11 cutover):** banked XP remains level authority. Multi-tier Matter Attractor, Field Tool, Vitality, capture capacity and medicine offer deliberate resource spending. Healing is crafted from recovered materials. Finite backpack stacks and nearby physical storage replace unlimited carry/bank materials. Death currently keeps the backpack while losing carried XP and pending bonds. Reload resumes the saved expedition; these exact survival balance choices remain provisional.
+
+**Next owner direction, not completed by this cutover:** colony/research wreckage, a Camp helper drone, discoverable blueprints/parts, unique natural/wreckage obstacles and defended adjoining Camp sections. Expansion should automatically extend improvised barricades as part of its cost. Backpack upgrades and the larger unlock economy remain planned. The Tidefin V3 animation study is not integrated; current gameplay retains its shipping model/animations.
 
 **Combat tuning (provisional):** the early Thornprowler deals 1 damage against a starting 5 health and has 7 health. Cinderjaw has 16 health and deals 2; the final Guardian has 36 health, 2-damage shots and 2-damage telegraphed hazards. Peaceful wildlife has 6–12 health and 1–2 damage when provoked. These replace the initial authored values that could one-shot a new player; timing and meaningful avoidance should supply difficulty rather than inflated health or surprise lethal hits.
 
@@ -37,7 +41,7 @@ This is a finite handcrafted adventure with repeatable expeditions, aiming at ro
 - Fresh save can discover how to move, harvest, interact and leave Camp; no debug chrome in normal play.
 - Campaign is physically navigable with reachable anchors, challenges and resources; progression does not softlock.
 - Bond success/failure/cancel, capacity, secure/loss, companion ability and gated reward behave consistently.
-- Purchases/crafting cannot overspend; rewards cannot duplicate; malformed/old saves normalize without destroying legitimate progress.
+- Purchases/crafting cannot overspend or bypass physical access/capacity; rewards cannot duplicate. Valid old saves migrate with retained overflow; malformed inventory imports reject without replacing the existing raw save.
 - Map/menu/bonding/pause correctly block movement and attacks; visibility/focus loss cannot leave input stuck.
 - Death/extraction/portal travel reset the appropriate transient state exactly once.
 - No uncaught browser errors, external runtime dependencies, unbounded entity growth or duplicated frame loops.

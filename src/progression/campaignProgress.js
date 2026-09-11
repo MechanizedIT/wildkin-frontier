@@ -2,8 +2,8 @@
 // no quest runtime or hidden mutable state is required to show guidance.
 
 export const CAMPAIGN_OBJECTIVES = Object.freeze([
-  { id: "first_harvest", chapter: 1, title: "Gather the Frontier", description: "Secure your first recovered matter.", rewards: { resources: { fiber: 2 }, xp: 10 }, when: (s) => total(s?.bankedResources) > 0 },
-  { id: "first_extract", chapter: 1, title: "Bring It Home", description: "Complete an expedition extraction.", rewards: { resources: { berries: 2 }, xp: 15 }, when: (s) => !!s?.hasDepartedOnce && total(s?.bankedResources) > 0 },
+  { id: "first_harvest", chapter: 1, title: "Gather the Frontier", description: "Gather your first alien materials.", rewards: { resources: { fiber: 2 }, xp: 10 }, when: (s) => (s?.inventory?.totals.gathered ?? 0) > 0 },
+  { id: "first_extract", chapter: 1, title: "Bring It Home", description: "Return from an expedition with supplies.", rewards: { resources: { berries: 2 }, xp: 15 }, when: (s) => !!s?.hasDepartedOnce && (s?.inventory?.totals.returned ?? 0) > 0 },
   { id: "first_upgrade", chapter: 2, title: "Resonance Online", description: "Synchronize a Resonator upgrade.", rewards: { resources: { wood: 3 }, xp: 20 }, when: (s) => Object.values(s?.upgrades ?? {}).some((level) => level > 0) },
   { id: "first_bond", chapter: 2, title: "A New Ally", description: "Secure a bonded Wildkin.", rewards: { resources: { wildflower: 3 }, xp: 25 }, when: (s) => (s?.securedCompanions?.length ?? 0) > 0 },
   { id: "first_repair", chapter: 3, title: "Open the Frontier", description: "Repair an outbound portal gate.", rewards: { resources: { iron_ore: 2 }, xp: 30 }, when: (s) => (s?.repairedPortalGateIds?.length ?? 0) > 0 },

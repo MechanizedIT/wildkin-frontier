@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const HEIGHT = { portalGate: 2.5, gate: 2.5, majorWaypoint: 1.8, extractionBeacon: 1.8, lootChest: 1, resonator: 1.5, campSanctuary: 1.4, bond: 1.2 };
+const HEIGHT = { portalGate: 2.5, gate: 2.5, majorWaypoint: 1.8, extractionBeacon: 1.8, lootChest: 1, resonator: 1.5, campSanctuary: 1.4, storage:1.2, bond: 1.2 };
 const projected = new THREE.Vector3();
 const boundsCorner = new THREE.Vector3();
 
@@ -86,13 +86,20 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
         if (bodyTop === null) box.setFromObject(root);
         if (bodyTop !== null || !box.isEmpty()) offset = (bodyTop ?? box.max.y) - (record?.pos?.y ?? root.position.y) + .18;
       }
+      // A locker is used at its door, below nearby overhead foliage. The pod's
+      // roof anchor was hidden by Camp canopy even while its front was visible.
+      if (info?.type === 'storage') offset = Math.min(offset, HEIGHT.storage);
       occluders = [];
       scene?.traverse(n => {
         if (!n.isMesh || n.userData?.authorId === info?.id) return;
+        let scenery = false;
         for (let parent = n; parent; parent = parent.parent) {
           if (parent === root || parent.userData?.creatureId) return;
-          if (parent.userData?.propId || parent.userData?.isGround || parent.name === 'player-base') { occluders.push(n); return; }
+          // Batched meshes can carry propId below the selected visual root.
+          // Finish exclusions before admitting any part as an occluder.
+          if (parent.userData?.propId || parent.userData?.isGround || parent.name === 'player-base') scenery = true;
         }
+        if (scenery) occluders.push(n);
       });
       timer = .1; blocked = false;
     }

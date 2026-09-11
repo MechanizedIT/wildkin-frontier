@@ -1,5 +1,7 @@
 # Sunlit Wilds redesign review
 
+> Historical redesign review: the findings and evidence below describe their original pass, not the latest implementation status. For September 11 finite physical inventory, expedition resume and accepted bounded art/UI changes, read `CURRENT_SLICE.md` and `OVERNIGHT_HANDOFF.md`. New Tidefin V3 animation remains a non-shipping study; older scores do not transfer to it.
+
 ## Why this pass exists
 
 The owner rejected the previous local candidate as pre-alpha quality. This pass redirects the project toward a readable, original mobile creature-exploration game: shaped terrain, coherent habitats, clear routes, recognizable resources, compact progression UI, and authored tools that can sustain further content. It does not claim beta quality, owner acceptance, physical-phone performance, publication, or release readiness.

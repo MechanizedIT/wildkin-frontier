@@ -28,7 +28,7 @@ export function createRuntimeResourcePlacements(resources = []) {
   });
 }
 
-export function createResourceSystem(scene, physicsWorld, placements) {
+export function createResourceSystem(scene, physicsWorld, placements, { hasPendingYield = () => false } = {}) {
   const nodes = [];
   let timeAcc = 0;
   let activeRegionSet = null; // null = all active (backwards compat for tests without region manager)
@@ -166,6 +166,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
   }
 
   function isHarvestableInRange(node, playerPos) {
+    if (hasPendingYield(node)) return false;
     if (node._regionInactive) return false;
     if (!isRegionActive(node.regionId)) return false;
     return isNodeInRange(node, playerPos);
@@ -207,6 +208,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
   }
 
   function applyHit(node, spawnPickup, spawnParticles, playSound) {
+    if (hasPendingYield(node)) return false;
     if (node._regionInactive || !isRegionActive(node.regionId)) return false;
     if (node.state.nodeState !== "READY") return false;
     if (node.state.remainingChunks <= 0) return false;
@@ -286,7 +288,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
 
   function resetDepleted() {
     for (const n of nodes) {
-      if (n.state.nodeState === 'RESPAWNING') {
+      if (n.state.nodeState === 'RESPAWNING' && !hasPendingYield(n)) {
         n.state.nodeState = 'READY';
         n.state.remainingChunks = n.type.maxChunks;
         n.state.respawnRemaining = 0;
@@ -384,6 +386,11 @@ export function createResourceSystem(scene, physicsWorld, placements) {
 
       // respawn timer — progress only while active (freeze when inactive)
       if (n.state.nodeState === "RESPAWNING") {
+        if (hasPendingYield(n)) {
+          n.haloMesh.visible = false;
+          n.respawnGroup.visible = false;
+          continue;
+        }
         n.state.respawnRemaining -= dt;
         const total = n.type.respawnSeconds;
         const progress = Math.max(0, Math.min(1, 1 - n.state.respawnRemaining / total));

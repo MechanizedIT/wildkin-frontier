@@ -77,8 +77,6 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
   const getBankedXp = opts.getBankedXp ?? (() => 0);
   const getCargo = opts.getCargo ?? (() => ({}));
   const getCarriedXp = opts.getCarriedXp ?? (() => 0);
-  const spendCargo = opts.spendCargo ?? (() => false);
-  const refundCargo = opts.refundCargo ?? (() => {});
   const onTravel = opts.onTravel ?? (() => false);
   const campGateId = worldRegistry.getFrontierGateId?.();
 
@@ -137,17 +135,10 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
     const status = getPortalRequirementStatus({ requirements: gate.requirements, playerLevel: getPlayerLevel(), cargo });
     if (!status.ok) return { ok: false, reason: status.levelMet ? "insufficient-resources" : "insufficient-level", status };
     if (frontierProgress?.isPortalGateRepaired?.(portalId)) return { ok: false, reason: "already-repaired" };
-    const result = repairPortalGateAtomic({
-      gateId: portalId,
-      requirements: gate.requirements,
-      playerLevel: getPlayerLevel(),
-      cargo,
-      spendCargo: (_snapshot, cost) => spendCargo(cargo, cost),
-      refundCargo,
-      commitRepair: (id) => frontierProgress?.repairPortalGate?.(id) === true,
-    });
-    if (!result.ok) return result;
-    return { ok: true, action: "repaired", gate, spent: result.spent };
+    const spent = gate.requirements?.resources ?? {};
+    // Cost and permanent passage flag belong to the same inventory save.
+    if (!frontierProgress?.repairPortalGate?.(portalId, spent)) return { ok: false, reason: 'commit-failed' };
+    return { ok: true, action: "repaired", gate, spent };
   }
 
   return { getNearbyInteraction, activate, repair, isGateActive, isCampLink };

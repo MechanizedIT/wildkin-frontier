@@ -29,7 +29,15 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     setIntent: (id, intent) => creatures.setFieldTamingIntent(id, intent),
     clearIntent: id => creatures.clearFieldTamingIntent(id),
     capture(id, species) {
-      creatures.setBondingTarget(id);
+      // This synchronous hold validates the same live membership required by
+      // secureBondTarget. No actor update runs between the save and removal.
+      if (!creatures.setBondingTarget(id)) return false;
+      const saved = progress.checkpointRun({ companions: [...pending, species.id] });
+      if (!saved.ok) {
+        creatures.setBondingTarget(null);
+        toast("Bond could not be saved", "Your Wildkin is still here. Try again.");
+        return { ok: false, reason: 'save-failed' };
+      }
       const target = creatures.secureBondTarget(id);
       creatures.setBondingTarget(null);
       if (!target) return false;
@@ -316,6 +324,30 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
       ward.crystal.position.y = 1.4 + Math.sin(elapsed * 2) * 0.1;
     }
   }
+  function reset() {
+    fieldTaming.clear(); pending = []; cooldown = 0; creatures.setBondingTarget(null);
+    // Hide previous bodies immediately; ordinary fixed updates recreate the
+    // required followers from the current section's formation anchor.
+    for (const follower of followers.values()) {
+      setFollowerVisible(follower, false);
+      follower.sectionId = null;
+      follower.lastSpeed = 0;
+      follower.commandedSpeed = 0;
+      follower.verticalVelocity = 0;
+      follower.grounded = false;
+    }
+  }
+  function restorePending(ids) {
+    if (!Array.isArray(ids) || ids.length > COMPANIONS.length
+      || Array.from(ids).some(id => typeof id !== 'string' || !Object.hasOwn(COMPANION_BY_ID, id))
+      || new Set(ids).size !== ids.length) return { ok: false, reason: 'invalid-run-companions' };
+    const secured = progress.getState().securedCompanions;
+    const next = ids.filter(id => !secured.includes(id));
+    if (next.length > progress.getModifiers().captureCapacity) return { ok: false, reason: 'bond-capacity' };
+    reset();
+    pending = next;
+    return { ok: true, companions: [...pending] };
+  }
   return {
     getNearbyInteraction, beginBond, useAbility, lootAccess, update, updateFixed,
     isBlocking: () => false,
@@ -337,20 +369,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
       return false;
     },
     resolveExtraction() { fieldTaming.clear(); const ids = [...pending]; pending = []; return ids; },
-    reset() {
-      fieldTaming.clear(); pending = []; cooldown = 0; creatures.setBondingTarget(null);
-      // A run transition may show a result card before the next fixed step.
-      // Remove the old-region body immediately; the next active fixed step
-      // respawns this same follower from the new section's formation anchor.
-      for (const follower of followers.values()) {
-        setFollowerVisible(follower, false);
-        follower.sectionId = null;
-        follower.lastSpeed = 0;
-        follower.commandedSpeed = 0;
-        follower.verticalVelocity = 0;
-        follower.grounded = false;
-      }
-    },
+    reset, restorePending,
     dispose() { fieldTaming.clear(); fieldVisual.clear(); for (const follower of followers.values()) { follower.group.userData.modelAnimator?.stop(); follower.physics?.dispose(); disposeExternalModelInstance(follower.group); follower.group.removeFromParent(); } followers.clear(); },
   };
 }

@@ -334,8 +334,8 @@ export function createPlayerCombat(opts) {
     }
   }
 
-  function reset() {
-    health = maxHealth;
+  function resetState(nextHealth) {
+    health = nextHealth;
     postHitInvuln = 0;
     dodgeInvuln = 0;
     recentAttackTime = -999;
@@ -353,6 +353,14 @@ export function createPlayerCombat(opts) {
     screenPulse = 0;
     elapsed = 0;
     onHealthChanged(health, maxHealth);
+  }
+
+  function reset() { resetState(maxHealth); }
+
+  function restoreHealth(value) {
+    if (!Number.isFinite(value) || value <= 0) return { ok: false, reason: 'invalid-run-health' };
+    resetState(Math.min(value, maxHealth));
+    return { ok: true, health, maxHealth };
   }
 
   function isCombatRecentlyActive() {
@@ -388,6 +396,7 @@ export function createPlayerCombat(opts) {
     isCombatRecentlyActive,
     getKnockback,
     reset,
+    restoreHealth,
     tryApplyAttackHits,
     getState: () => ({
       health, maxHealth, postHitInvuln, dodgeInvuln, attackActive, attackProgress, attackCooldown, impactFired, knockbackRemaining, isDead, recentAttackTime, recentDamageTime, elapsed, facingLocked,

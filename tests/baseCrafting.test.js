@@ -6,7 +6,7 @@ import { createFrontierProgress } from '../src/save/frontierProgress.js';
 import { normalizeBase,validatePlacement,getBuildBounds } from '../src/base/basePlacement.js';
 import { BASE_CONFIG } from '../src/base/baseCatalog.js';
 
-function withProgress(run){const original=global.localStorage,values=new Map();let failing=false;global.localStorage={getItem:k=>values.get(k)??null,setItem:(k,v)=>{if(failing)throw Error('full');values.set(k,v);}};try{const registry=createWorldRegistry(WORLD_DATA);const p=createFrontierProgress({worldRegistry:registry,resourceDrops:WORLD_DATA.resourceDrops});p.load();p.bankRun({wood:100,stone:100,fiber:100,berries:100,iron_ore:100,crystal_shard:100},0,'supplies');run(p,()=>{failing=true;},values,registry);}finally{global.localStorage=original;}}
+function withProgress(run){const original=global.localStorage,values=new Map();let failing=false;global.localStorage={getItem:k=>values.get(k)??null,setItem:(k,v)=>{if(failing)throw Error('full');values.set(k,v);}};try{const registry=createWorldRegistry(WORLD_DATA);const p=createFrontierProgress({worldRegistry:registry,resourceDrops:WORLD_DATA.resourceDrops});p.load();const supplies={wood:60,stone:40,fiber:30,berries:12,iron_ore:16,crystal_shard:8};const collected=p.collectResources(supplies);assert.equal(collected.ok,true);assert.deepEqual(collected.added,supplies);assert.deepEqual(collected.remaining,{});assert.equal(p.getInventoryState().pack.length,16);run(p,()=>{failing=true;},values,registry);}finally{global.localStorage=original;}}
 const piece=(id,type='foundation',x=0,z=18,yaw=0)=>({id:`build_${id}`,type,pos:{x,y:999,z},yaw});
 
 describe('Free Camp placement and field supplies',()=>{
@@ -18,13 +18,13 @@ describe('Free Camp placement and field supplies',()=>{
     assert.equal(validatePlacement(piece('b'),{structures:[piece('a')]}).reason,'structure-overlap');
     assert.equal(validatePlacement(piece('b','foundation',2.6,18),{structures:[piece('a')]}).ok,true);
   });
-  it('owns cost, grounding, ID idempotence and friendly refunds',()=>withProgress(p=>{
-    const bank=p.getBankedResources();assert.equal(p.placeStructure(piece('floor')).placed,true);
-    assert.equal(p.getBaseState().structures[0].pos.y,0);assert.equal(p.getBankedResources().wood,bank.wood-4);
+  it('owns physical pack cost, grounding, ID idempotence and friendly refunds',()=>withProgress(p=>{
+    const pack=p.getPackResourceCounts();assert.equal(p.placeStructure(piece('floor')).placed,true);
+    assert.equal(p.getBaseState().structures[0].pos.y,0);assert.equal(p.getPackResourceCounts().wood,pack.wood-4);
     assert.equal(p.placeStructure(piece('floor')).reason,'already-placed');
     assert.equal(p.placeStructure(piece('bad','wall',50,50)).placed,false);
-    assert.equal(p.removeStructure('build_floor').removed,true);assert.deepEqual(p.getBankedResources(),bank);
-    assert.equal(p.removeStructure('build_floor').removed,false);assert.deepEqual(p.getBankedResources(),bank);
+    assert.equal(p.removeStructure('build_floor').removed,true);assert.deepEqual(p.getPackResourceCounts(),pack);
+    assert.equal(p.removeStructure('build_floor').removed,false);assert.deepEqual(p.getPackResourceCounts(),pack);
   }));
   it('supports furniture and walls on floors, preserves support through reload, prevents orphaning',()=>withProgress(p=>{
     assert.equal(p.placeStructure(piece('floor')).placed,true);
@@ -50,7 +50,7 @@ describe('Free Camp placement and field supplies',()=>{
     assert.equal(getBuildBounds(p.getBaseState().tier).maxX,12);
   }));
   it('rolls back placement, removal, expansion, field recipes and existing medkit paths on storage failure',()=>withProgress((p,fail)=>{
-    p.placeStructure(piece('floor'));p.craftFieldSupply('berry_lure');p.craftConsumable('medkit');
+    assert.equal(p.placeStructure(piece('floor')).placed,true);assert.equal(p.craftFieldSupply('berry_lure').crafted,true);assert.equal(p.craftConsumable('medkit').crafted,true);
     const before=p.getState();fail();
     assert.equal(p.placeStructure(piece('other','lantern',4,18)).placed,false);
     assert.equal(p.removeStructure('build_floor').removed,false);assert.equal(p.expandBase().expanded,false);

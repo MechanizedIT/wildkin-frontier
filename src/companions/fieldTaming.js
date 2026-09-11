@@ -58,7 +58,9 @@ export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive
     const a = attempt, target = getTarget(a.id);
     const eligibility = canStart(target, a.species);
     if (!eligibility.ok) { fail(eligibility.reason); return false; }
-    if (!capture(a.id, a.species)) { fail("The Wildkin moved out of reach."); return false; }
+    const result = capture(a.id, a.species);
+    if (result?.reason === 'save-failed' && result.ok === false) return false;
+    if (!result || result.ok === false) { fail("The Wildkin moved out of reach."); return false; }
     clear(); return true;
   }
   function act() {
@@ -71,7 +73,9 @@ export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive
       if (!spend("reinforced_tether")) return false;
       a.stage = "offer"; a.stageTime = 0; setIntent(a.id, { hold: true });
     } else if (a.stage === "offer" && near) {
-      if (!canStart(target, a.species).ok || !spend("berry_lure")) return false;
+      if (!canStart(target, a.species).ok) return false;
+      if (!a.offerPaid && !spend("berry_lure")) return false;
+      a.offerPaid = true;
       return finish();
     } else if (a.stage === "call" && distance(player.pos, a.point) <= (a.perch > 0 ? 2.8 : 4.5) && distance(player.pos, target.state.pos) >= 2.5 && (player.speed ?? 0) < 0.35) {
       a.stage = "perch"; a.calm = 0; setIntent(a.id, { targetPos: a.point, speed: 1.3, stopDistance: 0.65 });

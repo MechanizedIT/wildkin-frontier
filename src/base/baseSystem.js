@@ -9,7 +9,8 @@ const REASONS={
   'outside-clearing':'Aim inside the marked clearing.', 'player-overlap':'Leave room around your feet.',
   'keep-path-clear':'Keep Camp objects and paths clear.', 'structure-overlap':'Another piece is in the way.',
   'uneven-ground':'Choose flatter ground.', 'wet-ground':'Choose dry ground.', 'structure-limit':'Your Camp has 64 pieces.',
-  'unaffordable':'Gather and extract the materials shown.', 'station-required':'Place the matching fabrication station first.',
+  'unaffordable':'Bring the materials in your pack or selected nearby storage.', 'station-required':'Place the matching fabrication station first.',
+  'output-full':'Make room in your backpack first.', 'storage-not-empty':'Empty this container before removing it.', 'out-of-reach':'Move beside your selected storage container.',
   'remove-supported-first':'Remove the pieces on this foundation first.', 'storage-write-failed':'Could not save. Your materials were kept.',
   'supply-limit':'Your supply pouch is full.', 'max-tier':'Your clearing is fully expanded.',
 };

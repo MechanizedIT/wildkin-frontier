@@ -17,6 +17,7 @@ import { createFieldFoodUse } from '../equipment/fieldFood.js';
 import { createBaseSystem } from '../base/baseSystem.js';
 import { createCacheMechanisms } from '../presentation/cacheMechanisms.js';
 import { createObservatoryMechanisms } from '../presentation/observatoryMechanisms.js';
+import { createPhysicalInventory } from '../inventory/physicalInventory.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -41,6 +42,7 @@ export function createBetaGame(deps) {
   const isCamp = () => session.isCamp();
   const getSectionId = () => deps.getSectionId();
   const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled,onVisualAdded:playerOcclusion.register,onVisualRemoving:playerOcclusion.unregister});
+  const physicalInventory = createPhysicalInventory({app,progress,registry,getPlayerState:()=>playerController.getState(),isCamp,canOpen:()=>!authorEnabled&&!deps.isOtherBlocking()&&!companions.isBlocking()&&!base.isBlocking(),onBlockingChanged,onChanged:()=>{pickupSystem.resetInventory();shell?.update();},onOpenJournal:()=>shell?.open('journal')});
   const equipment = createEquipmentSystem({
     progress, isCamp,
     cancelTool: () => onGameplayAction?.('equipmentCancel'),
@@ -133,7 +135,7 @@ export function createBetaGame(deps) {
       if (!isCamp()) return { ok: false, message: "Craft field supplies at Camp." };
       const r = progress.craftConsumable("medkit");
       if (r.crafted) audio.playPickup("fiber");
-      return { ok: r.crafted, message: r.crafted ? "Medkit packed." : "Need 3 fiber and 2 berries." };
+      return { ok: r.crafted, message: r.crafted ? "Medkit packed." : r.reason==='output-full'?'Make room in your backpack.':r.reason==='storage-write-failed'?'Could not save. Your materials were kept.':"Need 3 fiber and 2 berries in your pack or selected storage." };
     }
     if (type === "selectCompanion") {
       if (!isCamp()) return { ok: false, message: "Choose your companion at the Camp sanctuary." };
@@ -144,7 +146,8 @@ export function createBetaGame(deps) {
     if (type === "heal") {
       if (!session.isActive() || shell.isOpen()) return { ok: false, message: "Use field medicine during an expedition." };
       if (playerCombat.getHealth() >= playerCombat.getMaxHealth()) return { ok: false, message: "Health is full. Your medkit is saved for later." };
-      const r = progress.consumeConsumable("medkit");
+      const restoredHealth=Math.min(playerCombat.getMaxHealth(),playerCombat.getHealth()+progress.getModifiers().medkitHeal);
+      const r = progress.consumeConsumable("medkit",{health:restoredHealth});
       if (!r.consumed) return { ok: false, message: "Craft medkits at Camp: 3 Fiber + 2 Berries." };
       playerCombat.heal(progress.getModifiers().medkitHeal);
       pulse(playerController.getState().pos, 0x91e5a5); audio.playXpCollect();
@@ -172,7 +175,7 @@ export function createBetaGame(deps) {
     }
     if (type === "pause") { shell.open("settings"); return; }
   }
-  shell = createBetaShell({ app, getModel, onAction: action, onBlockingChanged, canOpen: () => !authorEnabled && !deps.isOtherBlocking() && !companions.isBlocking() && !base.isBlocking() });
+  shell = createBetaShell({ app, getModel, onAction: action, onBlockingChanged, openInventory:()=>{base.close();return physicalInventory.open();}, canOpen: () => !authorEnabled && !deps.isOtherBlocking() && !companions.isBlocking() && !base.isBlocking() && !physicalInventory.isOpen() });
   applySettings(); refreshModifiers();
   window.addEventListener("keydown", e => {
     if (e.repeat || authorEnabled || isBlocking() || deps.isOtherBlocking() || /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
@@ -185,14 +188,17 @@ export function createBetaGame(deps) {
   });
   document.addEventListener("visibilitychange", () => { if (document.hidden && !authorEnabled && !isBlocking() && !deps.isOtherBlocking()) shell.open("journal"); });
   window.addEventListener("frontier:graphics-interrupted", () => { if (!isBlocking() && !deps.isOtherBlocking()) shell.open("settings"); });
-  function isBlocking() { return shell.isOpen() || companions.isBlocking() || base.isBlocking(); }
+  function isBlocking() { return shell.isOpen() || companions.isBlocking() || base.isBlocking() || physicalInventory.isOpen(); }
   return {
-    isBlocking, getModel, companions, shell, base, equipment, refreshModifiers, refreshObjectives,
+    isBlocking, getModel, companions, shell, base, equipment, physicalInventory, refreshModifiers, refreshObjectives,
     showWelcome: () => { if (!authorEnabled) shell.showWelcome(); },
     openWorkshop: (id) => { if(!base.openStation(id))shell.open("workshop"); },
     openSanctuary: () => shell.open('wildkin'),
+    openStorage: id => {base.close();return physicalInventory.openObject(id);},
     getNearbyInteraction(pos){
       if(isCamp()){
+        const storage=physicalInventory.getNearbyInteraction(pos);
+        if(storage)return storage;
         const workbench=base.getNearbyInteraction(pos);
         if(workbench)return {...workbench,type:'resonator'};
         const sanctuary=registry.getSectionById('camp')?.props?.find(p=>p.id==='prop_camp_sanctuary');
@@ -216,8 +222,8 @@ export function createBetaGame(deps) {
       return access.ok === false ? access : cacheMechanisms.access(chest.id);
     },
     onLoot(rewards, chest) {
-      if (chest?.id === "chest_heartwood_core") corePending = true;
-      toast(chest?.displayName ?? "Recovered cache", chest?.id === "chest_heartwood_core" ? "Bring the Core home." : `+${rewards.xp} XP`);
+      if (chest?.id === "chest_heartwood_core" && !rewards.partial) corePending = true;
+      toast(chest?.displayName ?? "Recovered cache", rewards.partial ? 'Some supplies remain. Make room in your pack to collect them.' : chest?.id === "chest_heartwood_core" ? "Bring the Core home." : `+${rewards.xp} XP`);
       pulse(chest?.pos ?? playerController.getState().pos, 0xffd878); audio.playLevelUp();
     },
     onExtract(runId) {
@@ -227,6 +233,11 @@ export function createBetaGame(deps) {
       return { companions: secured, campaignCompleted: progress.getState().campaignCompleted };
     },
     getBankingExtras: () => ({ companions: companions.getPending().map(c => c.id), coreSecured: corePending }),
+    restoreRunExtras(run) {
+      const restored=companions.restorePending(run.companions);
+      if(!restored.ok)return restored;
+      corePending=run.corePending;return {ok:true};
+    },
     reset() { equipment.cancel(); equipment.sync(); base.close(); companions.reset(); cacheMechanisms.reset(); observatoryMechanisms.reset(); guardianEncounter.reset(); combatFeedback.reset(); abilityFx.reset(); playerOcclusion.reset(); corePending = false; guardianDefeated = false; harvestBonus = 0; },
     // Simulation ownership stays in the single fixed loop. The regular update
     // below only advances visual animation and DOM/presentation concerns.
@@ -235,6 +246,7 @@ export function createBetaGame(deps) {
       companions.updateFixed(dt, { sectionId: getSectionId(), paused, hidden: authorSuppress });
     },
     update(dt, { paused, authorSuppress } = {}) {
+      physicalInventory.update();
       const sectionId = getSectionId();
       const hidden = !!authorSuppress;
       base.update(dt,{hidden,paused,reducedMotion:settings.reducedMotion});

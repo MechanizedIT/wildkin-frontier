@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { RESOURCE_TYPES, HARVEST_CONFIG } from "../src/resources/resourceConfig.js";
 import { PICKUP_CONFIG } from "../src/resources/pickupSystem.js";
+import { pickupInventoryFixture } from './helpers/pickupInventoryFixture.js';
 import { SWING_CONFIG } from "../src/tools/fieldTool.js";
 import { createGameAudio } from "../src/audio/gameAudio.js";
 
@@ -55,7 +56,7 @@ describe("Phase 2.2 — pickup spawn clearance outside source collider", () => {
       index: 0,
     };
     const { createPickupSystem } = await import("../src/resources/pickupSystem.js");
-    const ps = createPickupSystem(scene, null, null, () => {});
+    const ps = createPickupSystem(scene, null, null, () => {}, { inventory: pickupInventoryFixture().inventory });
     const p = ps.spawnPickup(node);
     assert.equal(p.sourceCollider, mockCollider);
     assert.equal(p.sourceColliderHandle, 42);
@@ -68,7 +69,7 @@ describe("Phase 2.2 — pickup spawn clearance outside source collider", () => {
     const THREE = await import("three");
     const scene = new THREE.Scene();
     const { createPickupSystem } = await import("../src/resources/pickupSystem.js");
-    const ps = createPickupSystem(scene, null, null, () => {});
+    const ps = createPickupSystem(scene, null, null, () => {}, { inventory: pickupInventoryFixture().inventory });
     const node = { type: RESOURCE_TYPES.tree, state: { position: { x: 0, y: 0, z: 0 } }, collider: { handle: 7 }, index: 0 };
     const p = ps.spawnPickup(node);
     // Simulate magnetizing

@@ -1,5 +1,7 @@
 # Wildkin Frontier local asset pipeline
 
+**September11 producer handoff:** use `.agents/skills/wildkin-development/SKILL.md` to coordinate the existing Asset Forge/Dream Loop skills with gameplay, UI and save work; `WORKFLOW_RETROSPECTIVE.md` records what worked and failed. Current asset coverage and remaining families are summarized in `OVERNIGHT_HANDOFF.md`; source-level owners are in `CODE_MAP.md`. The unshipped Tidefin V3 action candidate and its exact preservation checks are retained under `.dream-loop/overnight-tidefin-animation/v3/`. Its geometry/UV/weights and Idle/Walk/Run are unchanged from V2; new Attack/Hurt still require independent action review and runtime calibration. TRELLIS remains off below unchanged safe-memory guards. Chris requested a pause for his playtest; prior all-night continuation text does not authorize a new session to resume automatically.
+
 
 
 Status, September 11: the local game now contains provisional Mossling V3, exact SHA256 `ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9`, at `assets/models/mossling-v3/model.glb`. Editable source and concise provenance are in `art/source/mossling-v3/`. Bounded pose and full-cycle sampled-frame review are positive; continuous-motion review and Chris's phone acceptance are still pending. Earlier PASS entries below are historical and do not override owner feedback or establish final acceptance. Explorer travel/cadence remain provisionally 35% slower together; the wider art pass remains open.

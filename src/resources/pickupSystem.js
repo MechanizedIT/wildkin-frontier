@@ -12,6 +12,8 @@ export const PICKUP_CONFIG = {
   restHeight: 0.26,
   collectionRadius: 0.52,
   spawnMargin: 0.14,
+  retentionRecallRadius: 6,
+  capacityRetrySeconds: 0.75,
   pickupRadius: { wood: 0.26, stone: 0.32, fiber: 0.28 },
 };
 
@@ -54,7 +56,11 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   const visualAssetMap = new Map(visualAssets.map((asset) => [asset.id, asset]));
   const pickups = [];
   const pool = [];
-  const inventory = makeEmptyResourceMap(resourceDrops);
+  // Pack quantities belong to the injected inventory owner. This map contains
+  // only unclaimed world yields: at most one record per finite resource node.
+  const inventoryAccess = opts.inventory;
+  const pendingYields = new Map();
+  let activeRegions = null, regionRegistry = null;
   let magnetRadius = HARVEST_CONFIG.pickupMagnetRadius;
   let magnetSpeed = HARVEST_CONFIG.pickupMagnetSpeed;
   let magnetAccel = HARVEST_CONFIG.pickupMagnetAccel;
@@ -312,16 +318,43 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     }
   }
 
+  function sourceIsActive(record) {
+    if (activeRegions === null) return true;
+    const regionId = record.node.regionId ?? record.node.state?.regionId
+      ?? regionRegistry?.getRegionForPosition?.(record.node.state.position);
+    return !regionId || activeRegions.has(regionId);
+  }
+
+  function retainPickup(pickup) {
+    releaseMesh(pickup);
+    const index = pickups.indexOf(pickup);
+    if (index >= 0) pickups.splice(index, 1);
+    if (pickup.yield.visual === pickup) pickup.yield.visual = null;
+    pickup.state = 'RETAINED';
+  }
+
+  function hasPendingYield(node) { return pendingYields.has(node); }
+
   function spawnPickup(node) {
+    let record = pendingYields.get(node);
+    if (!record) { record = { node, resources: {}, visual: null }; pendingYields.set(node, record); }
+    const id = node.type.resourceId;
+    record.resources[id] = (record.resources[id] ?? 0) + 1;
+    // A bonus from the same committed hit shares its source's one visual.
+    if (record.visual) return record.visual;
+    return sourceIsActive(record) ? materializeYield(record) : null;
+  }
+
+  function materializeYield(record) {
+    const node = record.node;
     if (pickups.length >= MAX_ACTIVE) {
       let idx = -1;
       for (let i = 0; i < pickups.length; i++) if (pickups[i].state === "RESTING") { idx = i; break; }
       if (idx === -1) idx = 0;
       const old = pickups[idx];
-      releaseMesh(old);
-      pickups.splice(idx, 1);
+      retainPickup(old);
     }
-    const resId = node.type.resourceId;
+    const resId = Object.keys(record.resources)[0];
     const mesh = acquireMesh(resId);
     const base = node.state.position;
     const type = node.type;
@@ -351,6 +384,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     };
     const pickup = {
       id: nextId++,
+      yield: record,
       mesh,
       resourceId: resId,
       pos: new THREE.Vector3(start.x, start.y, start.z),
@@ -364,21 +398,44 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
       sourceColliderHandle: node.collider?.handle ?? null,
       _popTime: 0,
       lastClearPos: new THREE.Vector3(start.x, start.y, start.z),
+      sourceRestPosition: new THREE.Vector3(start.x, getSurfaceY(start.x, start.z) + PICKUP_CONFIG.restHeight, start.z),
       _radius: pickupR,
     };
     pickups.push(pickup);
+    record.visual = pickup;
     return pickup;
   }
 
   function collectPickup(pickup, playSound) {
-    if (pickup.collected) return false;
+    const record = pickup.yield;
+    if (pickup.collected || pendingYields.get(record?.node) !== record || record.visual !== pickup || !sourceIsActive(record)) return false;
+    let result;
+    try { result = inventoryAccess?.collect?.({ ...record.resources }, { gathered: true }); }
+    catch { result = { ok: false, reason: 'storage-write-failed' }; }
+    let moved = 0;
+    if (result?.ok) {
+      for (const [id, count] of Object.entries(record.resources)) {
+        const accepted = Math.max(0, Math.min(count, Math.floor(Number(result.added?.[id]) || 0)));
+        if (!accepted) continue;
+        moved += accepted;
+        if (accepted === count) delete record.resources[id]; else record.resources[id] -= accepted;
+        onInventoryChanged?.(getInventory(), id);
+        playSound?.(id);
+      }
+    }
+    if (Object.keys(record.resources).length) {
+      const reason = result?.reason ?? (moved ? 'full' : 'inventory-unavailable');
+      if (record.lastReason !== reason) opts.onCollectionBlocked?.(reason);
+      record.lastReason = reason;
+      pickup.lastCollectionReason = reason;
+      pickup._retryRemaining = PICKUP_CONFIG.capacityRetrySeconds;
+      pickup.state = 'RESTING'; pickup.vel.set(0, 0, 0);
+      pickup.pos.copy(pickup.sourceRestPosition); pickup.mesh.position.copy(pickup.pos);
+      return false;
+    }
     pickup.collected = true;
     pickup.state = "COLLECTED";
-    const key = pickup.resourceId;
-    if (inventory[key] !== undefined) inventory[key] += 1;
-    else inventory[pickup.resourceId] = (inventory[pickup.resourceId] ?? 0) + 1;
-    if (onInventoryChanged) onInventoryChanged({ ...inventory }, pickup.resourceId);
-    if (playSound) playSound(pickup.resourceId);
+    pendingYields.delete(record.node); record.visual = null;
     pickup.mesh.visible = false;
     const idx = pickups.indexOf(pickup);
     if (idx !== -1) { releaseMesh(pickup); pickups.splice(idx, 1); }
@@ -421,11 +478,27 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     }
     const effectivePlayerCollider = explicitPlayerCollider ?? playerCollider;
 
+    // Distant visuals give their pool slots back; their finite source records
+    // remain available when approached again, rather than waiting for expiry.
+    for (let i = pickups.length - 1; i >= 0; i--) {
+      const p = pickups[i];
+      if (p.age > 1 && Math.hypot(p.pos.x-playerPos.x,p.pos.z-playerPos.z) > Math.max(PICKUP_CONFIG.retentionRecallRadius,magnetRadius) + 2) retainPickup(p);
+    }
+
+    // A visual can be culled without discarding its yield. Re-present retained
+    // sources only near the player, without evicting another active visual.
+    for (const record of pendingYields.values()) {
+      if (pickups.length >= MAX_ACTIVE) break;
+      const base = record.node.state.position;
+      if (!record.visual && sourceIsActive(record) && Math.hypot(base.x-playerPos.x,(base.y??0)-(playerPos.y??0),base.z-playerPos.z) <= PICKUP_CONFIG.retentionRecallRadius) materializeYield(record);
+    }
+
     for (let i = pickups.length - 1; i >= 0; i--) {
       const p = pickups[i];
       if (p.collected || p.state === "COLLECTED") { releaseMesh(p); pickups.splice(i, 1); continue; }
       p.age += dt;
-      if (p.age > STALE_SECONDS) { releaseMesh(p); pickups.splice(i, 1); continue; }
+      if (p.age > STALE_SECONDS) { retainPickup(p); continue; }
+      p._retryRemaining = Math.max(0, (p._retryRemaining ?? 0) - dt);
       if (p._popTime !== undefined) {
         p._popTime += dt;
         const dur = 0.18;
@@ -494,7 +567,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
         if (p.mesh.userData.glow) p.mesh.userData.glow.material.opacity = 0.12 + Math.sin(p.age * 4) * 0.06;
         const dx = playerPos.x - p.pos.x; const dz = playerPos.z - p.pos.z; const dy = (playerPos.y ?? 0.5) - p.pos.y;
         const dist = Math.hypot(dx, dz, dy * 0.5);
-        if (p.age > HARVEST_CONFIG.magnetDelayAfterSpawn && dist <= magnetRadius) {
+        if (p._retryRemaining === 0 && p.age > HARVEST_CONFIG.magnetDelayAfterSpawn && dist <= magnetRadius) {
           p.state = "MAGNETIZING";
         }
       }
@@ -517,31 +590,29 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     }
   }
 
-  function getInventory() { return { ...inventory }; }
+  function getInventory() { return { ...makeEmptyResourceMap(resourceDrops), ...inventoryAccess?.getResources?.() }; }
   function resetInventory() {
-    for (const key of Object.keys(inventory)) inventory[key] = 0;
-    if (onInventoryChanged) onInventoryChanged({ ...inventory }, null);
-  }
-  function grantInventory(rewards = {}) {
-    for (const [resourceId, amount] of Object.entries(rewards)) {
-      if (!Object.prototype.hasOwnProperty.call(inventory, resourceId)) continue;
-      const value = Math.max(0, Math.floor(Number(amount) || 0));
-      inventory[resourceId] += value;
-    }
-    if (onInventoryChanged) onInventoryChanged({ ...inventory }, null);
+    // Compatibility name for existing HUD refresh callers. Never clears pack.
+    onInventoryChanged?.(getInventory(), null);
     return getInventory();
   }
+  function grantInventory(rewards = {}) {
+    const result = inventoryAccess?.collect?.(rewards, { gathered: false })
+      ?? { ok: false, added: {}, remaining: { ...rewards }, reason: 'inventory-unavailable' };
+    onInventoryChanged?.(getInventory(), null);
+    return result;
+  }
   function spendInventory(cost = {}) {
-    const entries = Object.entries(cost);
-    if (entries.some(([resourceId, amount]) => !Object.prototype.hasOwnProperty.call(inventory, resourceId) || !Number.isInteger(amount) || amount <= 0 || inventory[resourceId] < amount)) return false;
-    for (const [resourceId, amount] of entries) inventory[resourceId] -= amount;
-    if (onInventoryChanged) onInventoryChanged({ ...inventory }, null);
+    const result = inventoryAccess?.spend?.(cost);
+    if (!result?.ok) return false;
+    onInventoryChanged?.(getInventory(), null);
     return true;
   }
   function getPickups() { return pickups; }
   function getCount() { return pickups.length; }
   function getPooledCount() { return pool.length; }
-  function getDebug() { return { active: pickups.length, pooled: pool.length }; }
+  function getDebug() { return { active: pickups.length, pooled: pool.length, pendingSources: pendingYields.size }; }
+  function getPendingYields() { return [...pendingYields.values()].map(r => ({ sourceId: r.node.id ?? r.node.index, regionId: r.node.regionId ?? r.node.state?.regionId ?? null, resources: { ...r.resources }, visible: !!r.visual })); }
 
   function setMagnetTuning(tuning = null) {
     const radius = tuning?.magnetRadius;
@@ -556,25 +627,23 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     return { magnetRadius, magnetSpeed, magnetAccel };
   }
 
-  function clear() {
-    for (const p of pickups) {
-      p.mesh.visible = false;
-      try { scene.remove(p.mesh); } catch {}
-      if (pool.length < 24) pool.push({ mesh: p.mesh, resourceId: p.resourceId });
-      else {
-        try { p.mesh.material.dispose?.(); } catch {}
-        try { p.mesh.userData.glow?.material.dispose?.(); } catch {}
-      }
-    }
-    pickups.length = 0;
+  function clear({ discardPending = false } = {}) {
+    for (const p of [...pickups]) retainPickup(p);
+    // Departure, extraction and death may explicitly abandon transient field
+    // yields with the ordinary resource-world reset. Literal reload rebuilds
+    // that world too. None of these presentation resets may clear the pack;
+    // region culling and ordinary clear() retain the source's pending yield.
+    if (discardPending) pendingYields.clear();
   }
   function _clearActive() { clear(); }
 
-  // Region culling: remove pickups whose origin region is now inactive (origin-based, deterministic)
+  // Region culling removes visuals, preserving one yield at each source.
   // Also fallback position-based if regionId missing
   function cullInactiveRegions(activeSet, worldRegistry = null) {
-    if (!activeSet) return 0;
-    const active = activeSet instanceof Set ? activeSet : new Set(activeSet);
+    activeRegions = activeSet ? new Set(activeSet) : null;
+    regionRegistry = worldRegistry ?? regionRegistry;
+    if (activeRegions === null) return 0;
+    const active = activeRegions;
     let culled = 0;
     for (let i = pickups.length - 1; i >= 0; i--) {
       const p = pickups[i];
@@ -586,8 +655,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
         isActive = active.has(region);
       }
       if (!isActive) {
-        releaseMesh(p);
-        pickups.splice(i, 1);
+        retainPickup(p);
         culled++;
       }
     }
@@ -596,5 +664,5 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
 
   function setActiveRegions(activeSet) { return cullInactiveRegions(activeSet); }
 
-  return { spawnPickup, collectPickup, update, getInventory, resetInventory, grantInventory, spendInventory, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, cullInactiveRegions, setActiveRegions, inventory, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, setMagnetTuning, getMagnetTuning, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
+  return { spawnPickup, collectPickup, update, getInventory, resetInventory, grantInventory, spendInventory, hasPendingYield, getPendingYields, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, cullInactiveRegions, setActiveRegions, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, setMagnetTuning, getMagnetTuning, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
 }

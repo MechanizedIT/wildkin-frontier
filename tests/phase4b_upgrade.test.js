@@ -48,7 +48,7 @@ describe("Phase 4B — Matter Attractor I persistence", () => {
     assert.equal(failed.reason, "unaffordable");
     assert.deepEqual(progress.getState(), before);
 
-    progress.bankRun({ wood: 13, fiber: 9, iron_ore: 6 }, 0, "upgrade-yield");
+    assert.equal(progress.collectResources({ wood: 13, fiber: 9, iron_ore: 6 }).ok, true);
     const bought = progress.purchaseMatterAttractorI(MATTER_ATTRACTOR_I.cost);
     assert.equal(bought.purchased, true);
     assert.equal(progress.hasMatterAttractorI(), true);
@@ -71,7 +71,7 @@ describe("Phase 4B — Matter Attractor I persistence", () => {
   it("remains owned when an expedition is lost because death never mutates frontier progress", () => withStorage(() => {
     const progress = createProgress();
     progress.load();
-    progress.bankRun({ wood: 8, fiber: 6, iron_ore: 4 }, 0, "buy-before-death");
+    assert.equal(progress.collectResources({ wood: 8, fiber: 6, iron_ore: 4 }).ok, true);
     progress.purchaseMatterAttractorI(MATTER_ATTRACTOR_I.cost);
     const beforeDeath = progress.getState();
     const afterReload = createProgress();

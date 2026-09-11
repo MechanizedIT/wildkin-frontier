@@ -61,17 +61,19 @@ export function createLootSystem(worldRegistry, opts = {}) {
     const table = worldRegistry.getLootTableById?.(chest.lootTableId);
     if (!table) return { ok: false, reason: "missing-loot-table" };
     if (!availabilityFor(chest).available) return { ok: false, reason: "unavailable" };
-    const claim = transientChestIds.has(chest.id) ? { claimed: true } : frontierProgress?.claimLootChest?.(chest.id, chest.refillSeconds, now());
-    if (!claim?.claimed) return { ok: false, reason: claim?.reason ?? "unavailable", readyAt: claim?.readyAt ?? null };
-    if (transientChestIds.has(chest.id)) transientClaims.add(chest.id);
-    const rewards = resolveLootTable(table, new Set((worldRegistry.data.resourceDrops ?? []).map((entry) => entry.id)));
-    grantRewards(rewards, chest);
-    if (chest.courseId) onCourseReward(chest.courseId, chest);
-    return { ok: true, rewards, chest, readyAt: claim.readyAt ?? null };
+    const offered = resolveLootTable(table, new Set((worldRegistry.data.resourceDrops ?? []).map((entry) => entry.id)));
+    const claim = frontierProgress?.claimLootRewards?.(chest.id, chest.refillSeconds, offered, now());
+    if (!claim?.ok) return { ok: false, reason: claim?.reason ?? "unavailable", readyAt: claim?.readyAt ?? null };
+    if (transientChestIds.has(chest.id) && !claim.partial) transientClaims.add(chest.id);
+    const rewards = claim.rewards;
+    grantRewards({ ...rewards, partial: !!claim.partial }, chest);
+    if (chest.courseId && !claim.partial) onCourseReward(chest.courseId, chest);
+    return { ok: true, rewards, chest, partial:!!claim.partial, readyAt: claim.readyAt ?? null };
   }
 
   return {
     getNearbyInteraction, open,
+    restoreTransientClaims(ids) { transientClaims.clear();for(const id of ids??[])if(transientChestIds.has(id))transientClaims.add(id); },
     getAvailability(id) { const chest = worldRegistry.getLootChestById?.(id); return chest ? availabilityFor(chest) : { available: false }; },
     reset: () => transientClaims.clear(),
   };

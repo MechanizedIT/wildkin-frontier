@@ -2,6 +2,8 @@
 
 Status: implementation and independent visual review in progress. This document records evidence, not owner playtest acceptance.
 
+**September11 handoff:** Chris has requested the overnight run stop for playtesting. `OVERNIGHT_HANDOFF.md` and `SESSION_START.md` now own the concise current entry point. The inventory target8.2, component8.1 and actual landscape/portrait panel8.2 pass; the final pod-label/navigation/package closure is recorded in the handoff. All three canopy variants and the earlier admitted families below remain shipped. Tidefin neutral V5 and animation V2 deformation pass their limited8.0 gates, but V2 action readability held7.0. An action-only V3 revision is frozen outside shipping at `.dream-loop/overnight-tidefin-animation/v3/README.md`, SHA5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f. Independent action review, continuous cadence and native integration are still pending. Do not restart the old model experiments or treat the current Tidefin prototype as this replacement.
+
 ## Latest September 11 family checkpoint
 
 Tall and broad canopies now pass independent model/native 8.0 for all 26 unchanged uses; exact packaged online/already-loaded offline evidence passes. Together with the previously admitted standard, all three canopy variants are reviewed. Later statements that tall/spread are pending are historical. Current library is 87 entries, 13 external-model entries. New Tidefin neutral reference 8.3 remains locked; model V1 held 5.2 and V2 is in progress outside shipping. See ALIEN_CANOPY_REVIEW.md. This does not admit all flora, remaining creature anatomy/motion or whole-world composition.

@@ -38,6 +38,8 @@ import { createJumpPadSystem } from "./world/jumpPadSystem.js";
 import { createParkourSystem } from "./world/parkourSystem.js";
 import { createLootSystem } from "./world/lootSystem.js";
 import { createExpeditionSession } from "./session/expeditionSession.js";
+import { createExpeditionPersistence } from './session/expeditionPersistence.js';
+import { findSupportedResumeFeet } from './session/resumePosition.js';
 import { createFrontierProgress } from "./save/frontierProgress.js";
 import { createFrontierAnchorSystem } from "./world/frontierAnchorSystem.js";
 import { createFrontierMap } from "./ui/frontierMap.js";
@@ -69,6 +71,7 @@ const debugLabel = document.getElementById("debug-label");
 
 const VERSION = "Wildkin Frontier — Beta 0.2.0";
 let betaGame = null;
+let resumeBlocked = false, deathSavePending = false, expeditionPersistence = null;
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
 
@@ -254,13 +257,16 @@ pickupSystem = createPickupSystem(scene, physicsWorld, playground, (inv, resId) 
   inventoryHud.update(inv, xpMoteSystem?.getXp?.() ?? 0);
   if (resId) inventoryHud.pulse(resId);
   expeditionSession.setCargo(inv);
-}, { resourceDrops, visualAssets: worldRegistry.data.visualAssets ?? [] });
+}, { resourceDrops, visualAssets: worldRegistry.data.visualAssets ?? [],
+  inventory:{getResources:()=>frontierProgress.getPackResourceCounts(),collect:(resources,options)=>frontierProgress.collectResources(resources,options),spend:cost=>frontierProgress.spendResources(cost)},
+  onCollectionBlocked:reason=>betaGame?.shell.toast(reason==='full'?'Backpack full':'Could not save',reason==='full'?'Make room in your pack. The material is still here.':'Your items were kept. Retry when browser storage is available.'),
+});
 pickupSystem.setPlayerCollider(characterPhysics.collider);
 pickupSystem.setMagnetTuning(getMatterAttractorPickupTuning(frontierProgress.hasMatterAttractorI()));
 inventoryHud.update(pickupSystem.getInventory());
 expeditionSession.setCargo(pickupSystem.getInventory());
 
-resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld);
+resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld, {hasPendingYield:node=>pickupSystem.hasPendingYield(node)});
 const fieldTool = createFieldTool(player, gameAudio, {
   onSwingStart: () => player.userData.externalPlayerModel?.playAction("attack"),
 });
@@ -383,7 +389,7 @@ let frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndi
 let returnToCampFlow = null;
 
 function isAnyBlockingModal() {
-  return betaGame?.isBlocking() || (frontierMap && frontierMap.isOpen()) || (anchorPrompt && anchorPrompt.isVisible()) || (runResultCard && runResultCard.isVisible()) || (matterResonatorPanel && matterResonatorPanel.isVisible());
+  return resumeBlocked || deathSavePending || betaGame?.isBlocking() || (frontierMap && frontierMap.isOpen()) || (anchorPrompt && anchorPrompt.isVisible()) || (runResultCard && runResultCard.isVisible()) || (matterResonatorPanel && matterResonatorPanel.isVisible());
 }
 
 function setGameplayInputBlocked(blocked) {
@@ -595,7 +601,7 @@ lootSystem = createLootSystem(worldRegistry, {
   checkAccess: (chest) => betaGame?.lootAccess(chest) ?? { ok: true },
   transientChestIds: ["chest_heartwood_core"],
   grantRewards: (rewards, chest) => {
-    pickupSystem.grantInventory(rewards.resources);
+    pickupSystem.resetInventory(); // Refresh the view; the atomic claim owns items.
     if (rewards.xp > 0) xpMoteSystem.setXp(xpMoteSystem.getXp() + rewards.xp);
     betaGame?.onLoot(rewards, chest);
   },
@@ -641,6 +647,8 @@ contextualInteraction = createContextualInteraction({
     } else if (info.type === "lootChest") {
       const opened = lootSystem.open(info.id);
       if (!opened.ok && opened.detail) betaGame?.shell.toast("Ancient seal", opened.detail);
+      else if(!opened.ok && opened.reason==='full')betaGame?.shell.toast('Backpack full','Make room, then collect the supplies still in this cache.');
+      else if(!opened.ok && opened.reason==='storage-write-failed')betaGame?.shell.toast('Could not save','The supplies remain in this cache.');
     } else if (info.type === "gate") {
       if (expeditionSession.isCamp()) {
         frontierMap.openStartSelection();
@@ -662,6 +670,8 @@ contextualInteraction = createContextualInteraction({
       if (betaGame) betaGame.openWorkshop(info.id); else matterResonatorPanel.show();
       refreshMapAvailability();
       syncInputBlock();
+    } else if (info.type === 'storage' && expeditionSession.isCamp()) {
+      betaGame?.openStorage(info.id);refreshMapAvailability();syncInputBlock();
     } else if (info.type === 'campSanctuary' && expeditionSession.isCamp()) {
       betaGame?.openSanctuary();refreshMapAvailability();syncInputBlock();
     }
@@ -719,7 +729,7 @@ function syncInputBlock() {
 function resetTransientWorldToCamp() {
   betaGame?.reset();
   lootSystem?.reset();
-  if (pickupSystem.clear) { try { pickupSystem.clear(); } catch {} }
+  if (pickupSystem.clear) { try { pickupSystem.clear({discardPending:true}); } catch {} }
   pickupSystem.resetInventory();
   inventoryHud.update(pickupSystem.getInventory(), 0);
   expeditionSession.setCargo(pickupSystem.getInventory());
@@ -760,7 +770,7 @@ function beginExpeditionAtTransform({ sectionId, startAnchorId, feetPosition, fa
   lastCarriedXp = 0;
   combatHud.updateXp(0);
   projectileSystem.reset();
-  if (pickupSystem.clear) { try { pickupSystem.clear(); } catch {} }
+  if (pickupSystem.clear) { try { pickupSystem.clear({discardPending:true}); } catch {} }
   // resources/creatures to baseline for new run
   creatureSystem.reset();
   resourceSystem.resetDepleted();
@@ -788,6 +798,7 @@ function beginExpeditionAtTransform({ sectionId, startAnchorId, feetPosition, fa
   matterResonatorPanel.hide();
   syncInputBlock();
   refreshMapAvailability();
+  expeditionPersistence?.checkpoint();
   return true;
 }
 
@@ -904,6 +915,12 @@ function handleDeathFlow(reason = "combat") {
   }
   const cargo = pickupSystem.getInventory();
   const xp = xpMoteSystem.getXp();
+  const saved=frontierProgress.endRunWithoutRewards(expeditionSession.getRunId());
+  if(!saved.ok){
+    if(!deathSavePending)betaGame?.shell.toast('Return could not be saved','Your items are safe. Retrying automatically when browser storage is available.');
+    deathSavePending=true;expeditionPersistence?.setPendingResolution(()=>handleDeathFlow(reason));syncInputBlock();return;
+  }
+  deathSavePending=false;expeditionPersistence?.setPendingResolution(null);
   const snap = expeditionSession.tryResolveDeath(reason);
   if (!snap) return;
   const discoveries = expeditionSession.getRunDiscoveries();
@@ -986,6 +1003,32 @@ let pendingAttackLatch = false;
 const fixedDt = RAPIER_CONFIG.fixedDt;
 const maxSubsteps = RAPIER_CONFIG.maxSubsteps;
 const maxDelta = RAPIER_CONFIG.maxDelta;
+
+const validateResumeFeet=feet=>findSupportedResumeFeet({feet,section:worldRegistry.getSectionById(sectionRuntime.getActiveSectionId()),killVolumes:worldRegistry.getKillVolumesForSection(sectionRuntime.getActiveSectionId()),characterPhysics,ignoreCollider:betaGame.companions.isFollowerCollider});
+const savedRun=frontierProgress.getActiveRun();
+let resumedFeet=null;
+if(savedRun && !authorEnabled){
+  const section=worldRegistry.getSectionById(savedRun.sectionId);
+  const activated=section && sectionRuntime.activate(savedRun.sectionId);
+  if(activated?.ok){
+    lastActiveIds=activated.activeIds;
+    const candidates=[savedRun.feet,...worldRegistry.getAllWaypoints().filter(w=>w.regionId===savedRun.sectionId&&frontierProgress.isUnlockedWaypoint(w.id)).map(w=>worldRegistry.getWaypointSpawnPosition(w.id)),...worldRegistry.getEntryPointsForSection(savedRun.sectionId).map(e=>e.pos)];
+    resumedFeet=candidates.map(validateResumeFeet).find(Boolean) ?? null;
+  }
+  if(resumedFeet){
+    const restoredSession=expeditionSession.restoreActiveRun({...savedRun,feet:resumedFeet});
+    const restoredExtras=betaGame.restoreRunExtras(savedRun);
+    if(restoredSession.ok && restoredExtras.ok){
+      const position=placePlayerAtFeetTransform(resumedFeet,savedRun.facingYaw);
+      betaGame.refreshModifiers();playerCombat.restoreHealth(savedRun.health);
+      xpMoteSystem.setXp(savedRun.xp);pickupSystem.resetInventory();
+      lootSystem.restoreTransientClaims(savedRun.corePending?['chest_heartwood_core']:[]);
+      frontierAnchorSystem.reset();frontierAnchorSystem.prime(position);
+      jumpPadSystem.reset();parkourSystem.reset();combatSession.reset();fieldTool.hardReset();
+    } else resumeBlocked=true;
+  } else resumeBlocked=true;
+}
+if(!authorEnabled && !resumeBlocked)expeditionPersistence=createExpeditionPersistence({progress:frontierProgress,session:expeditionSession,getPlayerState:()=>playerController.getState(),getHealth:()=>playerCombat.getHealth(),getXp:()=>xpMoteSystem.getXp(),getSectionId:()=>sectionRuntime.getActiveSectionId(),getExtras:()=>betaGame.getBankingExtras(),validateFeet:validateResumeFeet,capsuleExtent:RAPIER_CONFIG.capsuleHalfHeight+RAPIER_CONFIG.capsuleRadius,initialFeet:resumedFeet});
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · Rapier ${RAPIER.version ? RAPIER.version() : "0.20.0"} · starting…`;
 
@@ -1193,6 +1236,7 @@ function tick() {
   }
 
   const pState = playerController.getState();
+  if(!authorSuppress)expeditionPersistence?.update(dt,isAnyBlockingModal());
   playerController.prepareRender(fixedDt > 0 ? accumulator / fixedDt : 1);
   playerProjectedShadow.update({ hidden: authorSuppress });
   const moveDir = pState.speed > 0.1 ? { x: Math.sin(pState.facing), z: Math.cos(pState.facing) } : null;
@@ -1298,3 +1342,4 @@ window.__game = {
   },
 };
 betaGame.showWelcome();
+if(resumeBlocked)betaGame.shell.toast('Expedition could not resume','Your save and backpack were preserved. Use Settings to export or restore your save.');

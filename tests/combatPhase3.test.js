@@ -516,28 +516,24 @@ describe("Phase 3 — restart resets temporary state", () => {
     assert.equal(c.state.health, c.state.cfg.health);
     assert.equal(c.state.aiState, "ROAM");
   });
-  it("pickup inventory reset preserves auto harvest pref separately", async () => {
+  it("pickup refresh preserves authoritative pack and auto harvest preference separately", async () => {
     const THREE = await import("three");
     const scene = new THREE.Scene();
     const { createPickupSystem } = await import("../src/resources/pickupSystem.js");
-    const ps = createPickupSystem(scene, null, null, () => {});
-    // Simulate inventory
+    const { pickupInventoryFixture } = await import('./helpers/pickupInventoryFixture.js');
+    const fixture = pickupInventoryFixture();
+    const ps = createPickupSystem(scene, null, null, () => {}, { inventory: fixture.inventory });
     const mockNodeTree = { type: { resourceId: "wood" }, state: { position: { x: 0, y: 0, z: 0 } }, index: 0, collider: null };
     const mockNodeStone = { type: { resourceId: "stone" }, state: { position: { x: 1, y: 0, z: 0 } }, index: 1, collider: null };
-    // Use collectPickupPure via system? Just test resetInventory
-    ps.spawnPickup(mockNodeTree);
-    ps.spawnPickup(mockNodeStone);
-    // Actually inventory only increments on collect, not spawn. So test inventory reset
-    // We'll manually fill via internal inventory
-    ps.inventory.wood = 3;
-    ps.inventory.stone = 2;
+    ps.collectPickup(ps.spawnPickup(mockNodeTree));
+    ps.collectPickup(ps.spawnPickup(mockNodeStone));
     let autoPref = true;
     // Simulate combat suppression: harvestingAllowed false but pref remains true
     const harvestingAllowed = autoPref && false;
     assert.equal(harvestingAllowed, false);
     assert.equal(autoPref, true);
     ps.resetInventory();
-    assert.deepEqual(ps.getInventory(), { wood: 0, stone: 0, fiber: 0 });
+    assert.deepEqual(ps.getInventory(), { wood: 1, stone: 1, fiber: 0 });
     assert.equal(autoPref, true); // preserved
   });
 });

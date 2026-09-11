@@ -1,6 +1,6 @@
 # Wildkin Frontier — reference-led alpha redesign
 
-Date: 2026-09-09. Status: implementation plan; previous 0.2 candidate rejected by owner for visual/interaction quality. This is the active goal, superseding the old readiness claim.
+Date: 2026-09-09. Status: historical reference-led plan; previous 0.2 candidate was rejected by the owner for visual/interaction quality. Current scope and accepted September 11 work are in `CURRENT_SLICE.md`, `OVERNIGHT_DESIGN_PLAN.md` and `OVERNIGHT_HANDOFF.md`. This document preserves the original redesign rationale, not current inventory/save rules or the latest art admission status.
 
 ## What the owner is asking for
 

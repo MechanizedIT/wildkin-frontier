@@ -343,10 +343,14 @@ describe("Phase 4A.2 — persistence/session", ()=>{
       sess2.beginRun(reg.getInitialMajorWaypointId());
       const snap2=sess2.snapshotRun(); snap2.cargo={wood:3,stone:1,fiber:0}; snap2.xp=20;
       assert.notEqual(snap1.runId, snap2.runId);
+      assert.equal(prog.collectResources(snap1.cargo).ok, true);
       prog.bankRun(snap1.cargo, snap1.xp, snap1.runId);
+      assert.equal(prog.collectResources(snap2.cargo).ok, true);
       prog.bankRun(snap2.cargo, snap2.xp, snap2.runId);
       const s=prog.getState();
       assert.equal(s.bankedResources.wood,6);
+      assert.equal(s.bankedXp,40);
+      assert.equal(s.inventory.totals.returned,8);
     });
   });
   it("same runId cannot bank twice", ()=>{
@@ -357,10 +361,15 @@ describe("Phase 4A.2 — persistence/session", ()=>{
       const sess=createExpeditionSession({initialStatus:"camp", regionDepthMap:reg.getRegionDepthMap()});
       sess.beginRun(reg.getInitialMajorWaypointId());
       const snap=sess.snapshotRun(); snap.cargo={wood:2,stone:0,fiber:0}; snap.xp=10;
+      assert.equal(prog.collectResources(snap.cargo).ok, true);
       prog.bankRun(snap.cargo, snap.xp, snap.runId);
+      const afterFirst = prog.getState();
       prog.bankRun(snap.cargo, snap.xp, snap.runId);
+      assert.deepEqual(prog.getState(), afterFirst);
       const s=prog.getState();
       assert.equal(s.bankedResources.wood,2);
+      assert.equal(s.bankedXp,10);
+      assert.equal(s.inventory.totals.returned,2);
     });
   });
   it("beginRun resets maxDepth/temporary summary/resolution state", ()=>{

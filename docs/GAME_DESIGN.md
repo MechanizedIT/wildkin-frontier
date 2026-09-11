@@ -1,12 +1,14 @@
 # Game Design — Wildkin Frontier
 
-> Current product direction: independent single-player expedition game. On September 9, 2026, Chris authorized autonomous design and implementation of a playable beta candidate and superseded the former hackathon/phase/owner-only composition restrictions. The core vision below is retained. Historical references to competition cuts, Phase 4B limits, or unimplemented prototype systems do not describe the current 0.2 candidate.
+> Current product direction: independent single-player expedition game. On September 9, 2026, Chris authorized autonomous design and implementation of a playable beta candidate and superseded the former hackathon/phase/owner-only composition restrictions. The core vision below is retained. Historical references to competition cuts, Phase 4B limits or unimplemented prototype systems do not describe the current 0.3 alpha.
 
-## Beta 0.2 implementation and provisional design
+## Current alpha implementation and provisional design
 
-**September11 owner continuation (implementation pending):** area transitions should be unique clearing/repair problems grounded in local terrain and wreckage, including fallen alien growth, blocked ravines and cave rubble. Camp is an emergency fortified crash site. Expansion secures adjoining sections, with new perimeter barricades automatically built as part of each clearing/resource cost. This supersedes the generic gate/farm-fence presentation and abstract expansion-only intent; exact tasks, plot shapes and costs remain provisional in the crashland proposal.
+**September 11 physical inventory integration:** the development build now uses a 16-slot backpack and physical 24-slot pod/crate storage, with draggable/sortable stacks and tap/keyboard alternatives. Supplies in storage cannot be used through the toolbar; crafting spends the pack plus one explicitly selected container still within reach. Returning preserves the pack and secures XP/bonds rather than depositing material into an infinite bank. Reload resumes a small expedition snapshot. Death provisionally keeps the pack and loses carried XP/pending bonds; exact capacities and death balance are producer choices awaiting playtest. This replaces older unlimited-material, bank-spending and no-resume statements below. Pack upgrades and wreck/blueprint progression are subsequent work, not implemented by this first cutover.
 
-**September11 new owner direction (implementation pending):** the player's landing pod crashed after a colony/research ship or station incident. A Camp robot/drone, scattered supplies/crates/beacons/teleportation equipment and progressively larger wreck sites tie exploration to parts, blueprints, new equipment and crafting. The desired survival inventory has draggable/sortable items, finite upgradeable backpack capacity and physical Camp storage. This explicitly supersedes historical unlimited-carry/infinite-bank design statements. The current implementation table below remains useful runtime evidence while a coherent replacement is designed in `CRASHLAND_PROGRESSION_PROPOSAL.md`. Exact plot, capacities, blueprint costs and recovery rules are provisional until implemented and playtested.
+**September 11 owner continuation (implementation pending):** area transitions should be unique clearing/repair problems grounded in local terrain and wreckage, including fallen alien growth, blocked ravines and cave rubble. Camp is an emergency fortified crash site. Expansion secures adjoining sections, with new perimeter barricades automatically built as part of each clearing/resource cost. This supersedes the generic gate/farm-fence presentation and abstract expansion-only intent; exact tasks, plot shapes and costs remain provisional in the crashland proposal.
+
+**September 11 new owner direction (broader implementation pending):** the player's landing pod crashed after a colony/research ship or station incident. A Camp robot/drone, scattered supplies/crates/beacons/teleportation equipment and progressively larger wreck sites will tie exploration to parts, blueprints, new equipment and crafting. Draggable/sortable finite inventory and physical storage are now integrated; backpack upgrades, new narrative content and blueprint progression remain planned in `CRASHLAND_PROGRESSION_PROPOSAL.md`. Exact plot, capacities, blueprint costs and recovery rules remain provisional.
 
 The player can complete a Camp-to-Heartwood campaign across five expedition regions, collect four Wildkin, revisit four ability-sealed caches, craft medkits, buy fifteen upgrade tiers, repair gates, discover travel starts, and secure the Heartwood Core after defeating its Guardian. The campaign remains open for collection and upgrade completion after its ending.
 
@@ -17,17 +19,17 @@ The following choices are implemented for this candidate under Chris's broad des
 | Bonding | September 11 overnight revision: Mossling berry lure/space/feeding, Tidefin dry-bank snare/release, Emberhorn avoided charge/tether/food, Skydancer quiet chime/perches. These replace the universal timing modal; field attempts are under integrated mobile review. New bonds remain at risk until extraction. |
 | Companions | Mossling heals; Tidefin shields for three seconds; Emberhorn sends a damaging shockwave; Skydancer leaps upward. Choose one secured companion at Camp. Each opens a matching seal. |
 | Capacity | One unsecured bond initially; Wildkin Shelter tiers raise capacity to two, three, then four. Secured species cannot be captured repeatedly. |
-| Progression | Banked XP determines level; carried XP is lost on death. Five three-tier upgrade families use secured matter. Field milestones grant one-time secured rewards. |
+| Progression | Banked XP determines level; carried XP is lost on death. Five three-tier upgrade families spend available physical materials. Field milestones grant one-time rewards through inventory capacity rules. |
 | Healing | Craft medkits at Camp from Fiber and Berries; Field Medicine increases their healing. Mossling provides a reusable healing option. |
 | Camp building | Persistent free placement in an expandable clearing; floors, walls, doorway, fence, lantern, workbench and Wildkin bed. Rotate, cancel and remove/refund. Foundations support walls/furniture; routes/services stay clear. Initial art, recipes and dimensions are provisional. The bed's rest behavior remains unfinished. |
-| Field crafting | Secured resources make lures/snares at Salvage, medkits/tethers at Matter fabricator and chimes at Resonance. Basic Camp crafting remains available; advanced gear requires its matching placed station. Visible operating parts and seated products accompany one atomic inventory transaction. Equipment persists, while placed field attempts clear on travel/death. |
-| Economy | Gate repair spends carried materials and persists immediately. Every required gate material has a renewable source in reachable regions. Camp upgrades spend banked matter. |
+| Field crafting | Materials come from the pack plus one selected nearby physical storage container. Lures/snares remain available in the basic Camp menu; Salvage also makes supplies/rations, Matter makes medkits/tethers and Resonance makes chimes. Advanced gear requires its matching placed station. Visible operation accompanies one atomic transaction; crafted gear goes into the pack only when capacity permits. Transient field attempts clear when their world is rebuilt. |
+| Economy | Gate repair spends packed materials and persists immediately. Required ingredients have renewable reachable sources. Camp crafting/upgrades use accessible physical materials, not a remote bank; full storage cannot silently discard rewards. |
 | Finale | The Heartwood Guardian guards the Core. Amber rings warn before area impacts; at low health it chains strikes. The Core only completes the campaign when extracted. Losing it leaves it recoverable. |
-| Saving | Browser-local secured progress, validated export/restore at Camp. Unfinished expeditions are not resumed after reload. |
+| Saving | Browser-local v3 inventory/progression and a small active expedition snapshot; validated v1/v2/v3 import, atomic rollback, supported-position resume and idempotent run resolution. |
 
 Target expedition length remains 5–10 minutes; complete campaign duration and sustained physical-phone performance are unmeasured. Mounts, swimming/gliding, expanded combat loadouts and a larger narrative campaign remain future work. Chris explicitly authorized free base building and task-specific taming equipment on September 11; those are active work, with current status in OVERNIGHT_MANDATE.md. The authoring system supports new creatures and content; new bonded abilities require a deliberate catalog/runtime addition.
 
-See `BETA_RELEASE_PLAN.md`, `BETA_PLAYTEST_GUIDE.md`, and `BETA_CANDIDATE_REPORT.md` for current delivery scope and proof. The sections below preserve the foundational design and its historical rationale; candidate details above supersede older “open” or “later” wording for implemented systems.
+See `CURRENT_SLICE.md`, `BETA_RELEASE_PLAN.md` and `OVERNIGHT_PLAYTEST.md` for current scope and proof. Aggregate 810 tests/build/ZIP pass at 42.52 MB unpacked / 20.24 MB ZIP; final current-package native closure is separate. The new Tidefin V3 animation study is not shipping. `BETA_CANDIDATE_REPORT.md` and the foundational sections below preserve historical rationale; current details above supersede former competition limits, no-resume rules and older “open” wording.
 
 ## Working Concept
 
@@ -181,7 +183,7 @@ At-risk during a run:
 - newly bonded Wildkin,
 - run consumables / special finds.
 
-Prototype **resource inventory may remain unlimited**. Do not add a second inventory-pressure system before it proves useful.
+Historical prototype rule, superseded September 11: resources were unlimited. The current 16-slot backpack and physical containers are the single quantity owner; death provisionally preserves packed items while carried XP and pending bonds remain at risk.
 
 ## Wildkin Capture Capacity
 
@@ -486,7 +488,7 @@ On death:
 - show loss card listing unsecured value lost,
 - underlying permanent progression remains.
 
-Future survival progression may retain a percentage of resources on death, but never 100%; loss must continue to matter.
+September 11 supersedes the historical partial-resource-loss proposal: death currently keeps 100% of packed items and loses carried XP/pending bonds. This balance is provisional; do not infer a corpse, durability loss or recovery quest. Successful extraction keeps the pack, secures XP/bonds and does not automatically deposit materials into storage.
 
 ## Prototype Non-Goals Until Core Loop Is Strong
 
@@ -515,7 +517,7 @@ Future survival progression may retain a percentage of resources on death, but n
 - Always-accessible inspect map; the physical Camp gate opens travel selection with Forest Edge always available and physically discovered Major Waypoints added over time.
 - Portal Gates connect sections; Major Waypoints are discovered inside sections and unlock future starts; Extraction Beacons only extract.
 - Extraction Beacons, and Major Waypoints where explicitly allowed, offer **EXTRACT / KEEP GOING**; Portal Gates transition sections rather than bank runs.
-- Resource inventory may be unlimited in prototype.
+- Historical unlimited resource inventory is superseded by finite pack/stacks and nearby physical containers.
 - Wildkin unsecured capture capacity starts at 1 and may be upgraded later.
 - Prototype includes a final endpoint that should not be first-run reachable.
 - Earlier areas should contain gated revisitable POIs.

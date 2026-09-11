@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createBondingSession, canBond } from "../src/companions/bondingLogic.js";
 import { createLootSystem } from "../src/world/lootSystem.js";
+import { createFrontierProgress } from '../src/save/frontierProgress.js';
 
 test("bonding requires three deliberate valid echoes and ignores rapid repeat input", () => {
   const session = createBondingSession();
@@ -38,27 +39,27 @@ test("cancelled, failed and full bonds never become successful captures", () => 
   assert.equal(canBond({ speciesId: "mossling" }).ok, true);
 });
 
-test("core cannot bypass guardian and is recoverable after loss; persistent claim only on extraction", () => {
-  const chest = { id: "core", pos: { x: 0, y: 0, z: 0 }, sectionId: "vault", lootTableId: "coreLoot" };
-  let guardianDead = false, claims = 0, rewards = 0, permanentlyClaimed = false;
+test("core cannot bypass guardian; reacquiring a lost mission Core never duplicates its supplies or XP", () => {
+  const chest = { id: "chest_heartwood_core", pos: { x: 0, y: 0, z: 0 }, sectionId: "vault", lootTableId: "coreLoot" };
+  let guardianDead = false, rewards = 0;
+  const progress=createFrontierProgress({isAuthorMode:true,inMemoryAuthor:true});progress.load();
   const registry = { data: { resourceDrops: [] }, getLootChestsForSection: () => [chest], getLootChestById: () => chest, getLootTableById: () => ({ rewards: [{ type: "xp", amount: 250 }] }) };
   const loot = createLootSystem(registry, {
     getActiveSectionId: () => "vault", getPlayerPos: () => ({ x: 0, y: 0.5, z: 0 }),
-    checkAccess: () => ({ ok: guardianDead, reason: "Defeat Guardian" }), transientChestIds: ["core"],
-    frontierProgress: { getLootChestAvailability: () => ({ available: !permanentlyClaimed }), claimLootChest: () => { claims++; return { claimed: true }; } },
+    checkAccess: () => ({ ok: guardianDead, reason: "Defeat Guardian" }), transientChestIds: [chest.id],
+    frontierProgress: progress,
     grantRewards: r => { rewards += r.xp; },
   });
-  assert.equal(loot.open("core").ok, false);
-  assert.equal(loot.getAvailability("core").available, true);
+  assert.equal(loot.open(chest.id).ok, false);
+  assert.equal(loot.getAvailability(chest.id).available, true);
   guardianDead = true;
-  assert.equal(loot.open("core").ok, true);
-  assert.equal(loot.getAvailability("core").available, false, "presentation sees the transient run claim");
-  assert.equal(loot.open("core").ok, false);
-  assert.equal(claims, 0);
+  assert.equal(loot.open(chest.id).ok, true);
+  assert.equal(loot.getAvailability(chest.id).available, false, "presentation sees the transient run claim");
+  assert.equal(loot.open(chest.id).ok, false);
   assert.equal(rewards, 250);
-  loot.reset(); // expedition death discards cargo, allows retrieving the core again
-  assert.equal(loot.getAvailability("core").available, true);
-  assert.equal(loot.open("core").ok, true);
-  permanentlyClaimed = true; loot.reset();
-  assert.equal(loot.open("core").ok, false);
+  loot.reset(); // Death loses the unsecured mission Core; physical rewards stay claimed.
+  assert.equal(loot.getAvailability(chest.id).available, true);
+  assert.equal(loot.open(chest.id).ok, true);assert.equal(rewards,250);
+  progress.bankRun({},0,'core-return',{coreSecured:true});loot.reset();
+  assert.equal(loot.open(chest.id).ok, false);
 });

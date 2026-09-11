@@ -18,7 +18,7 @@ export function createAnchorPrompt(opts = {}) {
       summary.innerHTML=`<div class="anchor-requirements"><span class="${model.level.met?'met':'missing'}">${iconMarkup('xp',{size:32})}<b>Lv ${model.level.current} / ${model.level.required}</b></span>${model.resources.map(r=>`<span class="${r.met?'met':'missing'}">${iconMarkup(r.id,{size:38})}<b>${r.current} / ${r.required}</b></span>`).join('')}</div>${!model.level.met&&model.carriedXp?'<p>Bring your XP home to level up.</p>':''}`;
     }else{
       const items=Object.entries({...data.cargo,xp:data.xp??0}).filter(([,n])=>n>0);
-      summary.innerHTML=`<p>${data.isNew?'A new starting point unlocked.':'Secure your finds at Camp.'}</p><div class="reward-grid">${items.map(([id,n])=>`<div>${iconMarkup(id,{size:42})}<b>${n}</b></div>`).join('')}</div>`;
+      summary.innerHTML=`<p>${data.isNew?'A new starting point unlocked.':'Return with your backpack. Secure your XP and new bonds.'}</p><div class="reward-grid">${items.map(([id,n])=>`<div>${iconMarkup(id,{size:42})}<b>${n}</b></div>`).join('')}</div>`;
     }
     overlay.style.display='flex';visible=true;keepBtn.focus();
   }
