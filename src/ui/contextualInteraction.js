@@ -23,6 +23,7 @@ export function createContextualInteraction(opts = {}) {
   let pressedTarget = null;
   const protectedSelectors = '.beta-hud-actions,.beta-action-cluster,.beta-quick,.beta-field-guide,.beta-joystick-home,#combat-hud,#frontier-map-button,#auto-harvest-toggle,.beta-objective,.beta-toast,#activation-toast';
   let obstacles = [], layoutTimer = 1;
+  let bodyRectangle = null;
   const hide = () => { if (buttonEl) buttonEl.hidden = true; if (leaderEl) leaderEl.hidden = true; };
 
   if (app) {
@@ -55,7 +56,14 @@ export function createContextualInteraction(opts = {}) {
     // info: {id, type, label} or null
     current = info;
     if (!buttonEl) return;
-    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${info.detail ?? ""}|${!!info.disabled}` : "";
+    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}` : "";
+    // Countdown/accessibility detail can change without moving or rebuilding a
+    // held action. Only its visible label/identity/availability affects layout.
+    if (info) {
+      const title = info.detail ?? info.label, aria = info.detail ? `${info.label}. ${info.detail}` : info.label;
+      if (buttonEl.title !== title) buttonEl.title = title;
+      if (buttonEl.getAttribute('aria-label') !== aria) buttonEl.setAttribute('aria-label', aria);
+    }
     if (presentationKey === nextKey) return;
     presentationKey = nextKey;
     buttonEl.disabled = info?.disabled === true;
@@ -77,8 +85,6 @@ export function createContextualInteraction(opts = {}) {
       const actionLabel = info.label.split(' — ')[0];
       label.textContent = info.type === 'lootChest' ? ({ 'CHEST EMPTY': 'EMPTY', 'CHEST REFILLING': 'REFILLING' }[actionLabel] ?? actionLabel) : actionLabel;
       buttonEl.append(icon, label);
-      buttonEl.title = info.detail ?? info.label;
-      buttonEl.setAttribute("aria-label", info.detail ? `${info.label}. ${info.detail}` : info.label);
 
     }
   }
@@ -95,7 +101,13 @@ export function createContextualInteraction(opts = {}) {
     layoutTimer += dt;
     if (layoutTimer >= .1) {
       layoutTimer = 0;
-      obstacles = [...app.querySelectorAll(protectedSelectors)].filter(el => !el.hidden && el.getClientRects().length && getComputedStyle(el).display !== 'none' && Number(getComputedStyle(el).opacity) > .05).map(el => {
+      bodyRectangle = opts.anchor.getBodyRectangle?.(opts.camera, frame.width, frame.height) ?? null;
+      const selectors = current.type === 'bond' || current.type === 'companion' ? `${protectedSelectors},#frontier-indicators>div` : protectedSelectors;
+      obstacles = [...app.querySelectorAll(selectors)].filter(el => {
+        if (el.hidden || !el.getClientRects().length) return false;
+        const style = getComputedStyle(el);
+        return style.display !== 'none' && Number(style.opacity) > .05;
+      }).map(el => {
         const r = el.getBoundingClientRect();
         return { left: r.left - frame.left, right: r.right - frame.left, top: r.top - frame.top, bottom: r.bottom - frame.top };
       });
@@ -104,11 +116,14 @@ export function createContextualInteraction(opts = {}) {
     const playerPosition = opts.getPlayerPosition?.();
     const playerPoint = playerPosition && projectInteractionPoint(playerPosition, opts.camera, frame.width, frame.height);
     const protectedAreas = playerPoint ? [...obstacles, { left: playerPoint.x - 25, right: playerPoint.x + 25, top: playerPoint.y - 48, bottom: playerPoint.y + 25 }] : obstacles;
-    const position = placeInteractionLabel(point, size, { left: safe.left - frame.left, right: safe.right - frame.left, top: safe.top - frame.top, bottom: safe.bottom - frame.top }, protectedAreas);
+    if (opts.anchor.hasBodyEnvelope?.() && !bodyRectangle) { hide(); return; }
+    // Preserve a valid held target even if its body moves through a different
+    // placement candidate while the finger is down. Visibility still wins above.
+    if (pressedTarget?.id === current.id && pressedTarget?.type === current.type) return;
+    const position = placeInteractionLabel(point, size, { left: safe.left - frame.left, right: safe.right - frame.left, top: safe.top - frame.top, bottom: safe.bottom - frame.top }, protectedAreas, bodyRectangle);
     if (!position) { hide(); return; }
     // Hold the touch target under the finger until release; don't chase a
     // moving creature midway through the user's tap.
-    if (pressedTarget?.id === current.id && pressedTarget?.type === current.type) return;
     buttonEl.style.left = `${position.left}px`; buttonEl.style.top = `${position.top}px`;
     const dx = point.x - position.endX, dy = point.y - position.endY;
     leaderEl.style.left = `${position.endX}px`; leaderEl.style.top = `${position.endY}px`;

@@ -2,6 +2,8 @@
 
 September 11, 2026 · Independent design recommendation · **Not an implementation spec or accepted balance**
 
+**Subsequent producer/reviewer resolution:** the active implementation plan is `PHYSICAL_INVENTORY_PLAN.md`. It replaces this draft's reload-as-emergency-recovery recommendation with a small saved expedition snapshot and ordinary world rebuild, retains pending bonds/pack and cancels only unfinished paid attempts/projectiles. It also defers pinned slots, bulk matching transfers, manual dropping and generic unique-hardware reissue machinery from the first inventory slice. Treat the original options below as design history where the active plan differs.
+
 The next version should make the expedition a prepared trip from a recognizable crash site: pack for a destination, recover something useful from the wreck trail, bring it home, and turn that discovery into a new capability. Physical inventory and storage should support that loop before we expand the item catalog or build more regions.
 
 This proposal preserves the playable Camp and five-region campaign, ordinary movement/combat/taming, single-player offline operation, and the existing Three.js/Rapier architecture. The accompanying [source audit](../.dream-loop/crashland-design/source-audit.md) distinguishes implemented systems from proposed ones.

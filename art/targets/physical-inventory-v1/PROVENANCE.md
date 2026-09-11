@@ -1,0 +1,7 @@
+# Physical inventory — admitted V3 reference
+
+Independent composition fitness PASS8.2, exact SHA256 5ed2a670fa732ba308f6fb394fe144af1c2157f86e68329db92c781bb62c9f5e. See independent-review.md for the mandatory actual48px control, correct scrollbar and existing-icon provisions. This admits a reference direction; implementation/gameplay and physical-phone proof are pending. Earlier V1/V2 generated studies remain held under .dream-loop/inventory-target-v1 and inventory-target-v2.
+
+Root reference author; built-in OpenAI image_gen backend undisclosed. Original exec-9beb5456-6880-4285-938f-17e3316068db.png retained in default generated-images directory. New composition generated from actual current-inventory.png instead of editing the held four-row target again. Both panels now show three scrolling rows, freeing fixed header/footer space. No actual gameplay or CSS inventory implemented by this image.
+
+Review concerns: measure at844×390; visible buttons may still be just under48px although the containing footer is taller. The single-player modal can provide48px actual hit areas within that space, but code/native proof must establish them rather than infer them from the raster. A pictured hook on berry-lure artwork is not a new fishing/taming requirement; use the game's existing correct item icon and do not admit a hook as an unexplained object. Plus signs are empty-slot decoration, not purchased extra slots. Target-specific invented pictograms are not separately admitted replacement game assets.

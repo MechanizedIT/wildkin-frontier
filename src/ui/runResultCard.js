@@ -2,6 +2,15 @@ import { iconMarkup } from './itemIcons.js';
 import { bindDialogInput } from './dialogInput.js';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
+export function resultCompanionsMarkup(companions = [], secured = false) {
+  if (!companions.length) return '';
+  return `<div class="result-bonds">${companions.map(c => {
+    const id = typeof c === 'string' ? c : c.id;
+    const name = typeof c === 'string' ? c : c.name ?? id;
+    return `<div>${iconMarkup(id,{size:48})}<span><b>${esc(name)}</b><small>${secured?'Bond secured':'Wildkin returned to the wild'}</small></span></div>`;
+  }).join('')}</div>`;
+}
+
 export function createRunResultCard(opts = {}) {
   const app=document.getElementById('app');
   if(!app)return {show(){},hide(){},isVisible:()=>false,destroy(){}};
@@ -23,7 +32,7 @@ export function createRunResultCard(opts = {}) {
     overlay.querySelector('h2').textContent=complete?'Frontier restored':secured?'Home with your haul':'Back on your feet';
     overlay.querySelector('.result-emblem').innerHTML=iconMarkup(complete?'wildflower':secured?'backpack':'shield',{size:76});
     const items=Object.entries({...cargo,xp}).filter(([,n])=>n>0);
-    overlay.querySelector('.result-body').innerHTML=`<p>${secured?'Safely stored at Camp.':'Carried items lost. Your Camp is safe.'}</p><div class="reward-grid ${secured?'secured':'lost'}">${items.map(([id,n])=>`<div>${iconMarkup(id,{size:46})}<b>${secured?'+':''}${n}</b></div>`).join('')}</div>${companions.length?`<div class="result-bonds">${companions.map(c=>{const id=typeof c==='string'?c:c.id;return `<div>${iconMarkup(id,{size:56})}<b>${esc(typeof c==='string'?c:c.name??id)}</b></div>`;}).join('')}<p>${secured?'Bonds secured':'Wildkin returned to the wild'}</p></div>`:''}${waypoints.length+beacons.length?`<p class="result-progress">${iconMarkup('map',{size:26})} ${waypoints.length+beacons.length} new discoveries${secured?'':' kept'}</p>`:''}${complete?'<p class="result-milestone">Heartwood is alive again.</p>':''}${secured&&data.upgradeAvailable?'<p class="result-progress">Workshop upgrade available</p>':''}`;
+    body.innerHTML=`${resultCompanionsMarkup(companions,secured)}<p>${secured?'Safely stored at Camp.':'Carried items lost. Your Camp is safe.'}</p><div class="reward-grid ${secured?'secured':'lost'}">${items.map(([id,n])=>`<div>${iconMarkup(id,{size:46})}<b>${secured?'+':''}${n}</b></div>`).join('')}</div>${waypoints.length+beacons.length?`<p class="result-progress">${iconMarkup('map',{size:26})} ${waypoints.length+beacons.length} new discoveries${secured?'':' kept'}</p>`:''}${complete?'<p class="result-milestone">Heartwood is alive again.</p>':''}${secured&&data.upgradeAvailable?'<p class="result-progress">Workshop upgrade available</p>':''}`;
     btn.textContent=complete?'Keep exploring':'Continue';overlay.style.display='flex';visible=true;
     body.classList.remove('can-scroll');scrollHint.hidden=true;body.scrollTop=0;
     updateScrollHint();
