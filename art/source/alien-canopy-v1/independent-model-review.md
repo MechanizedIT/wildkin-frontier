@@ -1,0 +1,13 @@
+# Independent V3 canopy admission
+
+**Model PASS — 8.2/10. Native gameplay art PASS — 8.0/10.** This is bounded admission of the standard canopy replacement, not approval of the surrounding Verdant composition or every camera/instance.
+
+Independently verified the shipped GLB SHA256: `397c87e18036b86409f58fa7f80492e5172c8791c8f68c641a1650239d8380d1`. Personally inspected all five `model-v3` views and native `runtime-v3/04-trunk-stop.png`, `05-headroom.png`, `06-foreground-fade.png`, and `07-fade-restored.png`. Compared against the original `target-v1/target.png`, not the previous implementation as a replacement target. Read the focused native receipts. No new browser, model edit or source edit by this reviewer.
+
+The model now has visibly connected unequal forks, an upward fan, and longer folded paddle bodies with closed dark-green undersides. Open spaces between the branch tiers preserve the intended biological structure. The intact crown/root silhouette remains distinct from harvestable Sapwood and mineral resources. It is still simpler and sparser than the target: fewer overlapping blades, a relatively plain straight lower trunk and compact root collar. Those are residual fidelity limits, not admission blockers at mobile scale.
+
+In the actual game, 04 and 05 show warm bark and two useful fork windows without a camera or lighting change. The main leaf bodies read as separate tapered leaves instead of stacked rounded crown blocks. The underside shade remains strong, particularly beneath the rising fan, but no longer erases the supporting structure. Explorer scale, matte facets and grounded root fit the current game. The whole opaque tree is sufficiently visible in these two useful native frames to judge the composition; edge-cropped orbit frames are not required to carry that proof.
+
+The foreground frame keeps the Explorer recognizable through the tree. Receipts show both target batches at opacity 0.25 while the sibling remains 1; the opposite view restores both target batches to 1. The native trunk-stop and under-crown passages support retained collision/headroom behavior, and the receipt records zero page errors. The producer reports exact triangle clearance 2.665539 m outside the fixed footprint, 2.398985 m at 0.9 scale; this is consistent with the pictured passage, not independently remeasured here. Prior Author persistence proof remains prior evidence; V3 native replay is not a new Author replay.
+
+No additional canopy revision is required for this bounded admission. If revisited during broader art work, spend effort on a stronger lower-trunk twist and richer unequal fan overlap, while preserving current fork gaps and minimum-scale headroom. Do not darken the undersides back to near black.

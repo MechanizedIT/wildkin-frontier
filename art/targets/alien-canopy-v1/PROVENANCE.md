@@ -1,0 +1,7 @@
+# Intact alien canopy target
+
+Root-generated with the built-in OpenAI image tool; backend version undisclosed. The current actual standalone `asset_verge_canopy` and owner-approved blue-jacket Explorer sheet were referenced. Original image is retained in Codex generated_images/exec-68df13d2-df9f-4991-a3bf-c89720e4ef4a.png; this copy is the target, not an actual model.
+
+Prompt asked for one entire intact non-harvestable alien canopy tree, about4.4m high, crown3.7m wide/2.5m deep, grounded trunk/root inside1.08m, spreading limbs/foliage above2.2m. Slim tapering brown trunk with twisting bark ridge and supported forks; about twelve broad thick overlapping paddle leaves in unequal domed/lobed crowns, blunt folded green/jade/olive tops and blue-green undersides. Match substantial matte faceted Explorer style with restrained shading; no reflections, crystals, berries, flowers, glowing resource markers or exposed pale Sapwood grain. Mobile model below5k triangles, preferably2–3k, one color palette. Plain lightgray studio image, no annotations or human.
+
+Independent review must check branch/leaf connections and lower-canopy walk clearance. Do not copy apparent shadow holes or disconnected leaves into the mesh. This is the first standard canopy replacement only; tall/spread variants and biome composition retain separate review. Existing ID, role=prop, authored per-placement collision flags and transformations remain unchanged. Do not turn scenery into a harvestable.

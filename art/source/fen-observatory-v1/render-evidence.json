@@ -1,0 +1,103 @@
+{
+  "sha256": "91b2e30d4813ee8b67f3a122f84e6641bdf99b4eead74e9c84835ddf0a32ccee",
+  "engine": "Cycles CPU",
+  "threads": 4,
+  "samples": 24,
+  "resolution": [
+    512,
+    512
+  ],
+  "views": [
+    {
+      "name": "neutral-front",
+      "camera": [
+        0,
+        -7,
+        3.3
+      ],
+      "target": [
+        0,
+        0,
+        1.5
+      ],
+      "orthoScale": 4.25,
+      "localXDegrees": 0
+    },
+    {
+      "name": "neutral-three-quarter",
+      "camera": [
+        4,
+        -7,
+        4.0
+      ],
+      "target": [
+        0,
+        0,
+        1.5
+      ],
+      "orthoScale": 4.25,
+      "localXDegrees": 0
+    },
+    {
+      "name": "tilt-minus10",
+      "camera": [
+        4,
+        -7,
+        4.0
+      ],
+      "target": [
+        0,
+        0,
+        1.5
+      ],
+      "orthoScale": 4.25,
+      "localXDegrees": -10
+    },
+    {
+      "name": "tilt-plus10",
+      "camera": [
+        4,
+        -7,
+        4.0
+      ],
+      "target": [
+        0,
+        0,
+        1.5
+      ],
+      "orthoScale": 4.25,
+      "localXDegrees": 10
+    },
+    {
+      "name": "rear",
+      "camera": [
+        4,
+        7,
+        3.6
+      ],
+      "target": [
+        0,
+        0,
+        1.5
+      ],
+      "orthoScale": 4.25,
+      "localXDegrees": 0
+    },
+    {
+      "name": "underside",
+      "camera": [
+        3,
+        -6,
+        1.0
+      ],
+      "target": [
+        0,
+        0,
+        1.5
+      ],
+      "orthoScale": 4.25,
+      "localXDegrees": -10
+    }
+  ],
+  "review": "pending independent model review"
+}

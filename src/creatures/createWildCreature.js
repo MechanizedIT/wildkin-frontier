@@ -284,7 +284,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index, { shouldIg
       return { corrected: desired, grounded: true };
     }
     const before = collider.translation();
-    controller.computeColliderMovement(collider, desired, undefined, undefined, (candidate) => !colliderFilter(candidate));
+    controller.computeColliderMovement(collider, desired, physicsWorld.RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, undefined, (candidate) => !colliderFilter(candidate));
     const corrected = controller.computedMovement();
     const grounded = controller.computedGrounded();
     const next = { x: before.x + corrected.x, y: before.y + corrected.y, z: before.z + corrected.z };

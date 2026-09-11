@@ -1,0 +1,46 @@
+{
+  "sha256": "91b2e30d4813ee8b67f3a122f84e6641bdf99b4eead74e9c84835ddf0a32ccee",
+  "referenceSHA256": "0cd82420a80314a34ae6f56ff7fd9456c964a3930e38722f0589ef404ff41390",
+  "triangles": 1616,
+  "fileBytes": 111120,
+  "meshBatches": 3,
+  "materials": 1,
+  "palette": [
+    256,
+    256
+  ],
+  "dimensionsMeters": [
+    3.5999999046325684,
+    3.1510393619537354,
+    2.2167162895202637
+  ],
+  "baseY": 0.0,
+  "nodes": {
+    "ReceiverStructure": "fixed plinth/pylons/socket housing",
+    "ReceiverTiltPivot": {
+      "localAxis": "X",
+      "pivotGLTF": [
+        0,
+        1.98,
+        0
+      ],
+      "nodeRestRotationRadians": [
+        0,
+        0,
+        0
+      ],
+      "neutralTiltBackBakedDegrees": 18,
+      "runtimePlannedRangeDegrees": [
+        -8,
+        8
+      ],
+      "reviewExtremesDegrees": [
+        -10,
+        10
+      ],
+      "geometry": "all bowl/rim/spokes/core; no coordinate-filtered clearance exclusions",
+      "child": "ReceiverAxles: only two coaxial shafts, identity local transform, no independent motion"
+    }
+  },
+  "review": "Independent exact-model PASS8.1; see independent-review.md. Separate bounded actual-game art/pose PASS8.0 and Author visibility addendum: runtime-independent-review.md. Exact GLB unchanged."
+}

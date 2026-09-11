@@ -161,17 +161,17 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         const RAPIER = physicsWorld.RAPIER;
         const shape = new RAPIER.Ball(radius);
         const rot = { x: 0, y: 0, z: 0, w: 1 };
-        const to = { x: from.x + Math.cos(angle) * distance, y: from.y, z: from.z + Math.sin(angle) * distance };
+        const to = { x: from.x + Math.sin(angle) * distance, y: from.y, z: from.z + Math.cos(angle) * distance };
         const vel = { x: to.x - from.x, y: to.y - from.y, z: to.z - from.z };
         // Steering probe must NOT treat self or current actor target as wall; exclude self + target collider from world probe.
         // Preserve collision-resolved locomotion — this only affects steering direction choice.
         const exclude = new Set(creatures.filter(cc => cc.collider).map(cc => cc.collider));
         if (playerColliderRef) exclude.add(playerColliderRef);
-        const pred = exclude.size > 0 ? (collider) => {
-          if (companionColliderFilter(collider)) return false;
+        const pred = (collider) => {
+          if (collider.isSensor?.() || companionColliderFilter(collider)) return false;
           for (const ex of exclude) if (ex === collider || ex.handle === collider.handle) return false;
           return true;
-        } : null;
+        };
         const hit = physicsWorld.world.castShape(from, rot, vel, shape, 0, 1.0, true, undefined, undefined, undefined, undefined, pred);
         if (hit) {
           const toi = hit.timeOfImpact ?? hit.toi ?? 0;
@@ -182,7 +182,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     }
     // fallback AABB
     if (!playground) return false;
-    const to = { x: from.x + Math.cos(angle) * distance, y: from.y, z: from.z + Math.sin(angle) * distance };
+    const to = { x: from.x + Math.sin(angle) * distance, y: from.y, z: from.z + Math.cos(angle) * distance };
     const mid = { x: (from.x + to.x) * 0.5, y: from.y, z: (from.z + to.z) * 0.5 };
     for (const o of playground.obstacles ?? []) {
       const h = o.height ?? 1.0;
@@ -208,7 +208,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     const dz = targetPos.z - pos.z;
     const len = Math.hypot(dx, dz);
     if (len < 1e-5) return;
-    let desiredAngle = Math.atan2(dx, dz); // note: atan2(dx, dz) as used elsewhere? Consistent with facing = atan2(nx,nz)
+    let desiredAngle = Math.atan2(dx, dz); // Facing and probes both use +Z as zero.
     // steering hold
     if (st.steerHold > 0 && st.steerAngle !== null) {
       st.steerHold -= dt;
@@ -219,7 +219,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     const desiredDist = speed * dt;
     // try direct first
     const from = { x: pos.x, y: pos.y, z: pos.z };
-    const radius = st.cfg.capsuleRadius ?? 0.32;
+    const radius = creature.collider?.shape?.radius ?? (st.cfg.capsuleRadius ?? 0.32) * creature.creatureScale;
     const probeDist = STEERING_CONFIG.probeDistance;
     const directBlocked = probeBlocked(from, desiredAngle, probeDist, radius);
     if (!directBlocked) {

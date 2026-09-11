@@ -127,7 +127,9 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
       const nowInside = dist <= anchor.radius;
       const wasInside = !!anchor.inside;
 
-      if (wasInside && !nowInside) {
+      // Authored run spawns can already be outside the action radius. That
+      // satisfies departure too; otherwise the first return stays suppressed.
+      if (!nowInside && (wasInside || suppressedUntilExit.has(anchor.id))) {
         anchor.inside = false;
         if (anchor.cooldown) {
           anchor.cooldown = false;

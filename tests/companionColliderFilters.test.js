@@ -11,6 +11,7 @@ function mockPhysics() {
   const calls = [];
   const removedControllers = [];
   const RAPIER = {
+    QueryFilterFlags: { EXCLUDE_SENSORS: 8 },
     ActiveCollisionTypes: { ALL: 0xffff },
     RigidBodyDesc: {
       kinematicPositionBased() {
@@ -86,5 +87,24 @@ test("actual Rapier player travel passes a follower but stops at a static wall",
     follower.dispose();
   } finally {
     world.free();
+  }
+});
+
+test('player, wildkin and follower cross trigger volumes while solid walls still stop them', async () => {
+  await RAPIER.init();
+  for (const kind of ['player','wildkin','follower']) {
+    const world = new RAPIER.World({x:0,y:0,z:0});
+    let actor;
+    try {
+      const position = {x:0,y:1,z:0};
+      actor = kind === 'player' ? createCharacterPhysics(RAPIER,world,position)
+        : kind === 'follower' ? createCompanionPhysics({physicsWorld:{RAPIER,world},initialPosition:position})
+        : createWildCreature(new THREE.Scene(),{RAPIER,world},{id:'wild',type:'rusher',pos:{x:0,y:.5,z:0}},0);
+      world.createCollider(RAPIER.ColliderDesc.cuboid(.15,2,2).setTranslation(1,1,0).setSensor(true));
+      world.createCollider(RAPIER.ColliderDesc.cuboid(.15,2,2).setTranslation(3,1,0));
+      world.step();
+      assert.ok(actor.move({x:1.5,y:0,z:0}).corrected.x>1.45,`${kind} crosses the non-solid trigger`);
+      assert.ok(actor.move({x:2,y:0,z:0}).corrected.x<1.3,`${kind} still respects the solid wall`);
+    } finally { actor?.dispose?.(); world.free(); }
   }
 });

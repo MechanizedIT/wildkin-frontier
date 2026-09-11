@@ -2,6 +2,20 @@ import { getSurfaceHeight } from '../src/world/terrainSurfaceModel.js';
 
 // Reviewed mechanical discoveries retain existing secret/reward identities.
 export function registerDiscoveryAssets(world) {
+  const receiverId = 'asset_fen_observatory';
+  const receiver = { id: receiverId, displayName: 'Fen observatory receiver', category: 'Alien discoveries', version: 1,
+    parts: [], gameplay: { role: 'prop' },
+    // A non-traversable instrument: its entire supported footprint stays solid.
+    collision: { shape: 'box', offset: { x: 0, y: 1.58, z: 0 }, size: { w: 3.6, h: 3.16, d: 2.4 } },
+    model: { path: 'assets/models/fen-observatory-v1/model.glb', scale: 1, pivot: { x: 0, y: 0, z: 0 } } };
+  const receiverIndex = world.visualAssets.findIndex(a => a.id === receiverId);
+  if (receiverIndex < 0) world.visualAssets.push(receiver); else world.visualAssets[receiverIndex] = receiver;
+  const fen = world.regions.find(region => region.id === 'section_2');
+  const observatory = fen?.props?.find(prop => prop.id === 'prop_s2_observatory_arch');
+  if (observatory) Object.assign(observatory, { visualAssetId: receiverId, uniformScale: 1, rotY: 0,
+    // The old arch straddled the waypoint. Seat this solid model behind it,
+    // leaving the existing extraction/start approach clear and IDs untouched.
+    pos: { x: 23, y: getSurfaceHeight(fen.surface, 23, 4.8) - .04, z: 4.8 } });
   const id = 'asset_ember_forge_cache';
   const asset = { id, displayName: 'Ember forge vault', category: 'Alien discoveries', version: 1,
     parts: [], gameplay: { role: 'prop' },

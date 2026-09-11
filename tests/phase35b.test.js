@@ -29,6 +29,7 @@ function makePhysicsMock() {
       intersectionWithShape: () => null, castShape: () => null,
     },
     RAPIER: {
+      QueryFilterFlags: { EXCLUDE_SENSORS: 8 },
       ColliderDesc: { cuboid: () => ({ setTranslation: function(){return this;}, setFriction: function(){return this;}, setActiveCollisionTypes: function(){return this;}}), capsule: () => ({ setTranslation: function(){return this;}, setFriction: function(){return this;}, setActiveCollisionTypes: function(){return this;}}) },
       RigidBodyDesc: { kinematicPositionBased: () => ({ setTranslation: function(){return this;}}) },
       ActiveCollisionTypes: { ALL: 0xffffffff }, Ball: function(){},

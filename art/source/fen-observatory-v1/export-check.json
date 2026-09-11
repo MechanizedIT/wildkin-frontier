@@ -1,0 +1,67 @@
+{
+  "sha256": "91b2e30d4813ee8b67f3a122f84e6641bdf99b4eead74e9c84835ddf0a32ccee",
+  "pivotBlender": [
+    0.0,
+    0.0,
+    1.9800000190734863
+  ],
+  "nodeRestRotationRadians": [
+    0.0,
+    -0.0,
+    0.0
+  ],
+  "axis": "local X, identical horizontal X in glTF",
+  "neutralBakedTiltBackDegrees": 18,
+  "continuousSweep": {
+    "degrees": [
+      -10,
+      10
+    ],
+    "method": "All non-axle mesh vertices, endpoint and exact critical-angle minima",
+    "minimumMovingBodyHeight": 0.7894586038120621,
+    "maximumFixedHeightInsideBodyXSpan": 0.5799999833106995,
+    "verticalGap": 0.20945862050136266,
+    "lateralPylonGap": 0.06743419170379639
+  },
+  "poses": [
+    {
+      "localXDegrees": -10,
+      "lowestBowlSurface": 0.8701304197311401,
+      "plinthTop": 0.39,
+      "verticalPlinthGap": 0.4801304197311401,
+      "maximumNonAxleBodyAbsX": 1.1825658082962036,
+      "measuredPylonInnerAbsX": 1.25,
+      "bearingAxleContact": "Only ReceiverAxles child excluded; intentional coaxial bearing contact"
+    },
+    {
+      "localXDegrees": 0,
+      "lowestBowlSurface": 0.8120507001876831,
+      "plinthTop": 0.39,
+      "verticalPlinthGap": 0.4220507001876831,
+      "maximumNonAxleBodyAbsX": 1.1825658082962036,
+      "measuredPylonInnerAbsX": 1.25,
+      "bearingAxleContact": "Only ReceiverAxles child excluded; intentional coaxial bearing contact"
+    },
+    {
+      "localXDegrees": 10,
+      "lowestBowlSurface": 0.7894586324691772,
+      "plinthTop": 0.39,
+      "verticalPlinthGap": 0.39945863246917723,
+      "maximumNonAxleBodyAbsX": 1.1825658082962036,
+      "measuredPylonInnerAbsX": 1.25,
+      "bearingAxleContact": "Only ReceiverAxles child excluded; intentional coaxial bearing contact"
+    }
+  ],
+  "boundsBlender": {
+    "min": [
+      -1.7999999523162842,
+      -1.1167162656784058,
+      0.0
+    ],
+    "max": [
+      1.7999999523162842,
+      1.100000023841858,
+      3.1510393619537354
+    ]
+  }
+}

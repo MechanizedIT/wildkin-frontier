@@ -151,7 +151,8 @@
   .beta-panel header{background:linear-gradient(90deg,#123946,#176c75)!important;border-bottom:1px solid #65c8c0!important;box-shadow:none!important}
   .beta-panel header strong{color:#fff5df!important}.beta-close{border-color:#69c9c1!important;background:#102d3b!important;color:#fff5df!important;box-shadow:none!important}
   .beta-panel nav{background:#0a2430!important;box-shadow:none!important}.beta-panel nav button{border-color:#2d6874!important;background:#102d3b!important;color:#e8eddd!important;box-shadow:none!important}.beta-panel nav button.active{border-color:#ffc54d!important;background:#174454!important;color:#fff8e8!important;box-shadow:inset 0 -3px #ffc54d!important}
-  .beta-panel main{background:rgba(13,37,49,.96)!important;color:#fff5df!important}.beta-panel h2,.beta-panel h3,.frontier-card h2{color:#fff5df!important}.beta-panel p,.frontier-card p{color:#c8ddd5!important}.beta-kicker{color:#79d8ce!important}
+  /* Ivory frontier cards retain their dark text; these colors belong to the dark Journal. */
+  .beta-panel main{background:rgba(13,37,49,.96)!important;color:#fff5df!important}.beta-panel h2,.beta-panel h3{color:#fff5df!important}.beta-panel p{color:#c8ddd5!important}.beta-kicker{color:#79d8ce!important}
   .panel-title>span{background:#1b6e70!important;color:#e6fff3!important;clip-path:none!important;border:1px solid #6cd5c9!important}
   .segment{border:1px solid #3d7981!important;background:#0a2530!important;box-shadow:none!important;clip-path:none!important}.segment button{color:#b8d5d0!important}.segment button.active{background:#174454!important;color:#fff5df!important;box-shadow:inset 0 -3px #ffc54d!important}
   .item-slot{border-color:#397583!important;background:#0c2936!important;box-shadow:inset 0 0 0 1px #174554!important;clip-path:none!important}.item-slot.is-selected{border-color:#ffc54d!important;background:#174454!important;box-shadow:0 0 0 1px #ffc54d66!important}
@@ -273,3 +274,25 @@
 .contextual-action-leader{position:absolute;height:2px;background:#a5f3d8;box-shadow:0 1px 2px #071c26;transform-origin:0 50%;pointer-events:none;z-index:7}
 .contextual-action-leader::after{content:"";position:absolute;right:-3px;top:-2px;width:6px;height:6px;border-radius:50%;background:#d2ffe9}
 .contextual-action-safe-area{position:absolute;inset:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));visibility:hidden;pointer-events:none}
+
+/* Species selection and its instructions share the first landscape screen. */
+.wildkin-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.wildkin-heading h2{margin:0!important;font-size:20px!important}.wildkin-heading>span{font-size:12px;white-space:nowrap}
+.wildkin-panel .wildkin-list{gap:6px;margin:0 0 10px}
+.wildkin-panel .wildkin-chip{min-height:48px;padding:6px 8px;gap:7px;font-size:14px;text-align:left}
+.wildkin-panel .wildkin-chip .item-icon{flex:0 0 28px;width:28px!important;height:28px!important}
+.wildkin-panel .wildkin-chip>span{min-width:0;white-space:nowrap}.wildkin-panel .wildkin-chip>b{font-size:14px}
+.wildkin-panel .wildkin-detail{display:block;margin:0;padding:12px;min-width:0}
+.wildkin-detail__heading{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.wildkin-detail__heading>.item-icon{flex:0 0 38px;width:38px!important;height:38px!important}
+.wildkin-detail__heading .beta-kicker{margin:0!important;font-size:11px!important;line-height:1.2}.wildkin-detail__heading h3{margin:3px 0 0!important;font-size:19px!important}
+.wildkin-panel .wildkin-habitat{margin:0 0 10px!important;font-size:14px!important;line-height:1.35}
+.wildkin-taming{padding-top:8px;border-top:1px solid #729d91}.wildkin-taming>strong{font-size:14px}
+.wildkin-panel .wildkin-taming-guide{margin:4px 0 8px!important;font-size:14px!important;line-height:1.4}
+.wildkin-taming>small{display:block;font-size:12px;line-height:1.35}.wildkin-panel .wildkin-detail button{min-height:48px;margin-top:8px;font-size:14px}
+@media(orientation:landscape){
+  .wildkin-panel{display:grid;grid-template-columns:160px minmax(0,1fr);gap:8px 12px;align-items:start}
+  .wildkin-heading{grid-column:1/-1;margin:0}.wildkin-panel .wildkin-list{grid-template-columns:1fr;margin:0}
+  .wildkin-panel .wildkin-detail{padding:10px 12px}.wildkin-panel .wildkin-chip.is-selected{box-shadow:inset 3px 0 var(--wildkin)}
+}
+@media(orientation:portrait){.wildkin-panel .wildkin-list{grid-template-columns:repeat(2,minmax(0,1fr))}.wildkin-heading{align-items:start;flex-wrap:wrap}}

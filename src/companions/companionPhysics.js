@@ -51,7 +51,7 @@ export function createCompanionPhysics({ physicsWorld, initialPosition, shouldIg
     const filter = candidate => !shouldIgnoreCollider(candidate);
     // Rapier's final argument is the predicate. Existing/static world geometry
     // remains in the query; only party members are filtered out.
-    controller.computeColliderMovement(collider, desired, undefined, undefined, filter);
+    controller.computeColliderMovement(collider, desired, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, undefined, filter);
     const corrected = controller.computedMovement();
     const next = { x: before.x + corrected.x, y: before.y + corrected.y, z: before.z + corrected.z };
     body.setTranslation(next, true);

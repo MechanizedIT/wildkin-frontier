@@ -5,6 +5,7 @@ import { createFieldTaming } from "../src/companions/fieldTaming.js";
 import { COMPANION_BY_ID } from "../src/companions/companionCatalog.js";
 import { createCreatureSystem } from "../src/creatures/creatureSystem.js";
 import { canBond } from "../src/companions/bondingLogic.js";
+import {canNoticeQuietPlayer} from '../src/creatures/perception.js';
 
 function fixture(id, options = {}) {
   const species = COMPANION_BY_ID[id], supplies = { berry_lure: 3, woven_snare: 2, reinforced_tether: 2, calming_chime: 2 };
@@ -83,6 +84,22 @@ test("cancel, damage, travel and Author clear transient gear and restore wild AI
     f.taming.update(.02,{hidden:cause==="hidden"});
     assert.equal(f.taming.getState(),null,cause); assert.equal(f.supplies.berry_lure,2); assert.deepEqual(f.captured,[]);
     assert.equal(f.target.state.bondingHeld,false);
+  }
+});
+
+test('Mossling has a quiet offer window without extending other species or the final bond', () => {
+  const f=fixture('mossling'); f.player.pos.z=7.2;
+  const observer={pos:f.target.state.pos,facing:0};
+  assert.equal(canNoticeQuietPlayer({observer,player:{...f.player,mode:'SNEAK'},noticeRadius:8}),false);
+  assert.equal(canNoticeQuietPlayer({observer,player:{...f.player,mode:'WALK'},noticeRadius:8}),true);
+  assert.equal(f.begin(),true);
+  f.tick(8); assert.equal(f.taming.getState().stage,'ready');
+  assert.equal(f.taming.act(),false,'the final bond still requires a close approach');
+  const far=fixture('mossling'); far.player.pos.z=7.6;
+  assert.equal(far.begin(),false); assert.equal(far.supplies.berry_lure,3);
+  for(const id of ['tidefin','emberhorn','skydancer']) {
+    const other=fixture(id); other.player.pos.z=7.2;
+    assert.equal(other.begin(),false,`${id} keeps its existing offer range`);
   }
 });
 

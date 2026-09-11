@@ -8,4 +8,6 @@ Independent production proof used an isolated 844×390 browser, disclosed Camp m
 
 The existing berry icon and berry-on-leaf station product are reused provisionally. They currently resemble the lure; this is functional food production, not a new accepted food-art asset or eating animation. Actual earned-material pacing and physical-phone comfort remain for playtest.
 
+Independent packaged review also passes: native station craft/assignment, browser-offline Eat, held-input/Pack protection, full-health rejection and local reload retain the same stock/health ownership. The run made 32 same-origin requests, zero external attempts, zero requests during the offline segment and zero page errors. Its nine actual images and exact packaged-index hash are retained under `.dream-loop/overnight-trail-ration/packaged/`. This is feature proof with disclosed setup, not earned-resource pacing or disconnected app-shell loading.
+
 The preceding bed audit found that normal Camp return and expedition start already restore full health. No redundant player-sleep feature was added. The Wildkin bed remains decorative pending its own companion-rest/art work.

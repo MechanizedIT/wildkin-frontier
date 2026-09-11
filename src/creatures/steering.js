@@ -55,9 +55,9 @@ export function isMovementStalled({ desiredMag, correctedMag, threshold = 0.35 }
 // Helper to compute probe positions for testing (does not use Rapier, pure geometry)
 export function probePositionBlocked({ from, angle, distance, radius, isBlockedFn }) {
   const to = {
-    x: from.x + Math.cos(angle) * distance,
+    x: from.x + Math.sin(angle) * distance,
     y: from.y,
-    z: from.z + Math.sin(angle) * distance,
+    z: from.z + Math.cos(angle) * distance,
   };
   // In real game, use Rapier cast; here delegate to isBlockedFn(to)
   return isBlockedFn(to, from, radius);

@@ -1,17 +1,17 @@
 import * as THREE from "three";
 import { getSurfaceHeight, getWaterRadius } from "../world/terrainSurfaceModel.js";
 
-export function findFieldPlacement({ player, registry, sectionId, physicsWorld, ignoreCollider = () => false, secondPerch = false }) {
+export function findFieldPlacement({ player, target, registry, sectionId, physicsWorld, ignoreCollider = () => false, secondPerch = false }) {
   // Prefer directly ahead, then the nearest open patch in the forward arc.
   // Shoreline gear can land beside the player's aim without requiring them to
   // face away from the creature they are trying to attract.
   for (const offset of [0, .65, -.65, 1.25, -1.25, Math.PI / 2, -Math.PI / 2]) {
-    const point = candidatePlacement({ player: { ...player, facing: player.facing + offset }, registry, sectionId, physicsWorld, ignoreCollider, secondPerch });
+    const point = candidatePlacement({ player: { ...player, facing: player.facing + offset }, target, registry, sectionId, physicsWorld, ignoreCollider, secondPerch });
     if (point) return point;
   }
   return null;
 }
-function candidatePlacement({ player, registry, sectionId, physicsWorld, ignoreCollider, secondPerch }) {
+function candidatePlacement({ player, target, registry, sectionId, physicsWorld, ignoreCollider, secondPerch }) {
   const section = registry.getSectionById(sectionId), surface = section?.surface;
   const angle = player.facing + (secondPerch ? Math.PI / 2 : 0), reach = secondPerch ? 3.4 : 1.5;
   const point = { x: player.pos.x + Math.sin(angle) * reach, z: player.pos.z + Math.cos(angle) * reach };
@@ -21,11 +21,25 @@ function candidatePlacement({ player, registry, sectionId, physicsWorld, ignoreC
   if (Math.max(...heights) - Math.min(...heights) > 0.32) return null;
   const R = physicsWorld?.RAPIER, world = physicsWorld?.world;
   if (R?.Ball && world?.intersectionWithShape) {
-    const hit = world.intersectionWithShape({ x: point.x, y: point.y + .55, z: point.z }, { x: 0, y: 0, z: 0, w: 1 }, new R.Ball(.45), undefined, undefined, undefined, undefined, c => !ignoreCollider(c));
+    const hit = world.intersectionWithShape({ x: point.x, y: point.y + .55, z: point.z }, { x: 0, y: 0, z: 0, w: 1 }, new R.Ball(.45), R.QueryFilterFlags.EXCLUDE_SENSORS, undefined, undefined, undefined, c => !ignoreCollider(c));
     if (hit) return null;
     const from = { x: player.pos.x, y: player.pos.y, z: player.pos.z };
-    const hitPath = world.castShape(from, { x: 0, y: 0, z: 0, w: 1 }, { x: point.x - from.x, y: 0, z: point.z - from.z }, new R.Ball(.28), 0, 1, true, undefined, undefined, undefined, undefined, c => !ignoreCollider(c));
+    const hitPath = world.castShape(from, { x: 0, y: 0, z: 0, w: 1 }, { x: point.x - from.x, y: 0, z: point.z - from.z }, new R.Ball(.28), 0, 1, true, R.QueryFilterFlags.EXCLUDE_SENSORS, undefined, undefined, undefined, c => !ignoreCollider(c));
     if (hitPath) return null;
+    // A clear throwing point is not enough: wildlife must be able to reach it.
+    // Sweep its actual scaled capsule before spending gear, rather than leaving
+    // a paid attempt waiting behind a root, wall or other solid obstruction.
+    if (target?.state?.pos) {
+      const origin = target.collider?.translation() ?? target.state.pos;
+      const scale = target.group?.scale?.x ?? 1;
+      const shape = target.collider?.shape ?? new R.Capsule((target.state.cfg?.capsuleHalfHeight ?? .16) * scale, (target.state.cfg?.capsuleRadius ?? .3) * scale);
+      const start = { x: origin.x, y: origin.y + .03, z: origin.z };
+      const centerHeight = (shape.halfHeight ?? 0) + shape.radius;
+      const travel = { x: point.x - origin.x, y: point.y + centerHeight - origin.y, z: point.z - origin.z };
+      const blocked = world.castShape(start, target.collider?.rotation() ?? {x:0,y:0,z:0,w:1}, travel, shape, 0, 1, true, undefined, undefined, undefined, undefined,
+        collider => collider.handle !== target.collider?.handle && !collider.isSensor() && !ignoreCollider(collider));
+      if (blocked) return null;
+    }
   }
   return point;
 }

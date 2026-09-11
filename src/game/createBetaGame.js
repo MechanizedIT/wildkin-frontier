@@ -16,6 +16,7 @@ import { createTamingEquipmentUse } from '../equipment/tamingEquipment.js';
 import { createFieldFoodUse } from '../equipment/fieldFood.js';
 import { createBaseSystem } from '../base/baseSystem.js';
 import { createCacheMechanisms } from '../presentation/cacheMechanisms.js';
+import { createObservatoryMechanisms } from '../presentation/observatoryMechanisms.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -31,6 +32,7 @@ export function createBetaGame(deps) {
   const combatFeedback = createCombatFeedback({ app, camera: deps.camera, scene });
   const abilityFx = createCompanionAbilityFx({ scene });
   const cacheMechanisms = createCacheMechanisms({ registry, progress, getVisualRoot: deps.getLootVisualRoot, getAvailability: deps.getLootAvailability });
+  const observatoryMechanisms = createObservatoryMechanisms({ scene, registry, progress });
   const playerOcclusion = initializePlayerOcclusion({ scene, camera: deps.camera, getPlayerPosition: () => playerController.getState().pos });
   const guardianEncounter = createGuardianEncounter({ scene, getGuardian: () => creatures.getCreatures().find(c => c.state.id === "wildkin_guardian"), getPlayerState: () => playerController.getState(), playerCombat, audio, onPulse: ({ target }) => pulse(target, 0xffbd63), onWarning: text => toast("Heartwood Guardian", text) });
   const companions = createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
@@ -225,7 +227,7 @@ export function createBetaGame(deps) {
       return { companions: secured, campaignCompleted: progress.getState().campaignCompleted };
     },
     getBankingExtras: () => ({ companions: companions.getPending().map(c => c.id), coreSecured: corePending }),
-    reset() { equipment.cancel(); equipment.sync(); base.close(); companions.reset(); cacheMechanisms.reset(); guardianEncounter.reset(); combatFeedback.reset(); abilityFx.reset(); playerOcclusion.reset(); corePending = false; guardianDefeated = false; harvestBonus = 0; },
+    reset() { equipment.cancel(); equipment.sync(); base.close(); companions.reset(); cacheMechanisms.reset(); observatoryMechanisms.reset(); guardianEncounter.reset(); combatFeedback.reset(); abilityFx.reset(); playerOcclusion.reset(); corePending = false; guardianDefeated = false; harvestBonus = 0; },
     // Simulation ownership stays in the single fixed loop. The regular update
     // below only advances visual animation and DOM/presentation concerns.
     updateFixed(dt, { paused = false, authorSuppress = false } = {}) {
@@ -243,6 +245,7 @@ export function createBetaGame(deps) {
       audio.updateAmbience?.(dt, { sectionId, paused: paused || hidden });
       companions.update(dt, { sectionId, paused, hidden });
       cacheMechanisms.update(dt, { sectionId, paused, hidden, reducedMotion: settings.reducedMotion });
+      observatoryMechanisms.update(dt, { sectionId, paused, hidden, reducedMotion: settings.reducedMotion });
       if (!hidden) atmosphere.update(settings.reducedMotion ? 0 : dt, { playerPosition: playerController.getState().pos, sectionId });
       // Author's own isolation/lighting owner must remain authoritative.
       atmosphere.motes.visible = !hidden;

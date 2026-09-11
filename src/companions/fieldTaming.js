@@ -1,6 +1,9 @@
 // One expedition-local attempt. Supplies and secured ownership stay in progress;
 // creature locomotion stays in CreatureSystem and its Rapier controller.
-export const FIELD_TAMING_CONFIG = Object.freeze({ interactionRange: 6, approachRange: 2.5, retreatRange: 2.8, feedSeconds: 3, trapSeconds: 14, lifetime: 100, quietSpeed: 2.2 });
+export const FIELD_TAMING_CONFIG = Object.freeze({ interactionRange: 6, mosslingOfferRange: 7.5, approachRange: 2.5, retreatRange: 2.8, feedSeconds: 3, trapSeconds: 14, lifetime: 100, quietSpeed: 2.2 });
+// Leave a small quiet approach window outside the starter grazer's frontal
+// vision. Walking is still audible before this range; the final bond is close.
+export const getFieldTamingRange = speciesId => speciesId === 'mossling' ? FIELD_TAMING_CONFIG.mosslingOfferRange : FIELD_TAMING_CONFIG.interactionRange;
 const distance = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive, canStart, consume, placePoint, setIntent, clearIntent, capture, onMessage = () => {}, onVisual = () => {} }) {
   let attempt = null;
@@ -13,10 +16,10 @@ export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive
   }
   function instruction(a) {
     const map = {
-      lure: ["GIVE SPACE", "Step away from the berries and let Mossling feed."],
+      lure: a.hasSpace ? ["LET IT APPROACH", "Keep the patch clear while Mossling walks to the berries."] : ["GIVE SPACE", "Step away from the berries and let Mossling feed."],
       feed: ["LET IT FEED", "Stay back while Mossling eats; approach slowly when it trusts you."],
       ready: ["BOND", "Walk gently to your Wildkin and welcome it."],
-      snare: ["LURE TO SNARE", "Back away from the baited snare so Tidefin can investigate."],
+      snare: a.hasSpace ? ["LET IT APPROACH", "Keep the bank clear while Tidefin investigates the snare."] : ["LURE TO SNARE", "Back away from the baited snare so Tidefin can investigate."],
       trapped: ["RELEASE & BOND", "Walk to Tidefin and release the woven snare before it struggles free."],
       challenge: ["DODGE CHARGE", "Face Emberhorn, dodge its committed charge, then tether during recovery."],
       tether: ["USE TETHER", "Close in and use the reinforced tether before Emberhorn recovers."],
@@ -39,10 +42,10 @@ export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive
     const target = getTarget(id), player = getPlayer();
     const eligibility = canStart(target, species);
     if (!eligibility.ok) { onMessage("Cannot tame yet", eligibility.reason); return false; }
-    if (!target || distance(player.pos, target.state.pos) > FIELD_TAMING_CONFIG.interactionRange || Math.abs(player.pos.y - target.state.pos.y) > 2.2) return false;
+    if (!target || distance(player.pos, target.state.pos) > getFieldTamingRange(species?.id) || Math.abs(player.pos.y - target.state.pos.y) > 2.2) return false;
     if (!player.grounded) { onMessage("Find your footing", "Land on clear ground before preparing field gear."); return false; }
     const point = species.id === "emberhorn" ? { ...target.state.pos } : placePoint(player, target);
-    if (!point) { onMessage("Choose clear ground", "Turn toward an open, dry patch before placing field gear."); return false; }
+    if (!point) { onMessage("Choose clear ground", "Find an open, dry patch with a clear route from the Wildkin. Your gear is kept."); return false; }
     if (species.id !== "emberhorn" && !spend(species.taming.supply)) return false;
     attempt = { id, species, point, startHealth: target.state.health, sectionId: getSectionId(), stage: { mossling: "lure", tidefin: "snare", emberhorn: "challenge", skydancer: "call" }[species.id], age: 0, calm: 0, stageTime: 0, perch: 0, chargeSerial: target.state.dodgedChargeSerial ?? 0 };
     setIntent(id, species.id === "emberhorn" ? { challenge: true } : { hold: true });
@@ -85,6 +88,7 @@ export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive
     if (["ready", "trapped", "perch"].includes(a.stage) && !quiet && gap < 3.5) { fail("Rushing startled it. Prepare fresh gear and approach gently."); return; }
     if (a.stage === "lure" || a.stage === "feed" || a.stage === "snare") {
       const space = foodGap >= FIELD_TAMING_CONFIG.retreatRange && gap >= 2.2;
+      a.hasSpace = space;
       setIntent(a.id, space ? { targetPos: a.point, speed: a.stage === "snare" ? 1.35 : 0.85, stopDistance: 0.6 } : { hold: true });
       if (distance(target.state.pos, a.point) < 0.85 && space && quiet) {
         if (a.stage === "snare") { a.stage = "trapped"; a.stageTime = 0; setIntent(a.id, { hold: true }); }

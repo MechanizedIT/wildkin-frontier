@@ -70,7 +70,7 @@ export function createCharacterPhysics(RAPIER, world, initialPos, { shouldIgnore
   // Move by desired translation (world units), returns { corrected, grounded, numCollisions, collisions }
   function move(desired) {
     const before = collider.translation();
-    controller.computeColliderMovement(collider, desired, undefined, undefined, (candidate) => !colliderFilter(candidate));
+    controller.computeColliderMovement(collider, desired, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, undefined, (candidate) => !colliderFilter(candidate));
     const corrected = controller.computedMovement();
     const grounded = controller.computedGrounded();
 

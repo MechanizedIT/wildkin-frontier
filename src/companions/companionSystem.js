@@ -3,7 +3,7 @@ import { COMPANIONS, COMPANION_BY_ID, identifyCompanion, SECRET_COMPANION } from
 import { canBond } from "./bondingLogic.js";
 import { createVisualAssetVisual } from "../world/visualFactory.js";
 import { createVisualAnimationController, disposeExternalModelInstance } from "../assets/modelAssetRuntime.js";
-import { createFieldTaming } from "./fieldTaming.js";
+import { createFieldTaming, getFieldTamingRange } from "./fieldTaming.js";
 import { createFieldTamingVisual, findFieldPlacement } from "./fieldTamingVisual.js";
 import { getSurfaceHeight } from "../world/terrainSurfaceModel.js";
 import { createCompanionPhysics, COMPANION_PHYSICS_TUNING } from "./companionPhysics.js";
@@ -24,7 +24,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     getTarget: id => creatures.getActiveAliveCreatures().find(c => c.state.id === id),
     getSectionId, isActive, canStart: eligibility,
     consume: id => progress.consumeFieldSupply(id),
-    placePoint: (player, target, secondPerch) => findFieldPlacement({ player, registry, sectionId: getSectionId(), physicsWorld, secondPerch,
+    placePoint: (player, target, secondPerch) => findFieldPlacement({ player, target, registry, sectionId: getSectionId(), physicsWorld, secondPerch,
       ignoreCollider: candidate => candidate.handle === playerCollider?.handle || creatures.getCreatures().some(c => c.collider?.handle === candidate.handle) || [...followers.values()].some(c => c.physics?.collider?.handle === candidate.handle) }),
     setIntent: (id, intent) => creatures.setFieldTamingIntent(id, intent),
     clearIntent: id => creatures.clearFieldTamingIntent(id),
@@ -60,6 +60,9 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     if (!isActive()) return null;
     const active = fieldTaming.getState();
     if (active) {
+      // The persistent guide explains waiting. A second, non-actionable world
+      // button can cover the animal we want the player to watch eating/moving.
+      if (['lure', 'feed', 'snare', 'perch', 'challenge'].includes(active.stage)) return null;
       const target = creatures.getActiveAliveCreatures().find(c => c.state.id === active.id);
       if (target) return { type: "bond", id: active.id, species: COMPANION_BY_ID[active.speciesId], target, distance: Math.hypot(target.state.pos.x-pos.x,target.state.pos.z-pos.z), label: active.label.split(" · ")[0], detail: active.detail };
     }
@@ -70,7 +73,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
       if (!species) continue;
       const distance = Math.hypot(target.state.pos.x - pos.x, target.state.pos.z - pos.z);
       if (distance < 9) progress.discoverSpecies(species.id);
-      if (distance > 6 || Math.abs(target.state.pos.y - pos.y) > 2.2) continue;
+      if (distance > getFieldTamingRange(species.id) || Math.abs(target.state.pos.y - pos.y) > 2.2) continue;
       const eligible = eligibility(target, species);
       if (!eligible.ok && state.securedCompanions.includes(species.id)) continue;
       // An ineligible closer Wildkin must not hide another actionable target.

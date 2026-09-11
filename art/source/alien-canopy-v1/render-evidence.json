@@ -1,0 +1,83 @@
+{
+  "sourceSHA256": "397c87e18036b86409f58fa7f80492e5172c8791c8f68c641a1650239d8380d1",
+  "engine": "Cycles CPU",
+  "threads": 4,
+  "samples": 24,
+  "resolution": [
+    512,
+    512
+  ],
+  "views": [
+    {
+      "file": "front.png",
+      "cameraPosition": [
+        0,
+        -9,
+        4.0
+      ],
+      "target": [
+        0,
+        0,
+        2.2
+      ],
+      "orthoScale": 5.25
+    },
+    {
+      "file": "front3q.png",
+      "cameraPosition": [
+        6,
+        -9,
+        5
+      ],
+      "target": [
+        0,
+        0,
+        2.2
+      ],
+      "orthoScale": 5.25
+    },
+    {
+      "file": "rear.png",
+      "cameraPosition": [
+        0,
+        9,
+        4
+      ],
+      "target": [
+        0,
+        0,
+        2.2
+      ],
+      "orthoScale": 5.25
+    },
+    {
+      "file": "side.png",
+      "cameraPosition": [
+        9,
+        0,
+        4
+      ],
+      "target": [
+        0,
+        0,
+        2.2
+      ],
+      "orthoScale": 5.25
+    },
+    {
+      "file": "underside.png",
+      "cameraPosition": [
+        4,
+        -7,
+        1.0
+      ],
+      "target": [
+        0,
+        0,
+        2.7
+      ],
+      "orthoScale": 5.25
+    }
+  ],
+  "review": "Pending independent judgment"
+}

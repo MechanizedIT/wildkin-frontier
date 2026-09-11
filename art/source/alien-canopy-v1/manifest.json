@@ -1,0 +1,299 @@
+{
+  "assetId": "asset_verge_canopy",
+  "referenceSHA256": "7d719b1d32f65159d9b8e3d9f4d3dd8dfbc6d23625e9e43fe01f74e9f914b418",
+  "referenceReview": "level_design_review PREGEN PASS8.2; clearance provision honored",
+  "modelReview": "Independent model PASS8.2 and actual-game PASS8.0; exact397c87e candidate; see independent-model-review.md",
+  "sha256": "397c87e18036b86409f58fa7f80492e5172c8791c8f68c641a1650239d8380d1",
+  "fileBytes": 256348,
+  "triangles": 3788,
+  "sourceParts": 43,
+  "meshBatches": 2,
+  "materials": 1,
+  "palette": [
+    256,
+    256
+  ],
+  "dimensionsMeters": [
+    3.700000047683716,
+    4.400000095367432,
+    2.5
+  ],
+  "boundsBlender": {
+    "min": [
+      -1.8439195156097412,
+      -1.2157299518585205,
+      0.0
+    ],
+    "max": [
+      1.8560805320739746,
+      1.2842700481414795,
+      4.400000095367432
+    ]
+  },
+  "baseY": 0.0,
+  "minimumOutsideTrunkHeight": 2.665539026260376,
+  "minimumAtSmallestAuthoredScale": 2.3989851236343385,
+  "lowerFootprintLimit": 1.08,
+  "colliderUnchanged": {
+    "size": [
+      1.1,
+      3.2,
+      1.1
+    ],
+    "offset": [
+      0,
+      1.6,
+      0
+    ]
+  },
+  "front": "+Z glTF",
+  "leaves": 16,
+  "leafContacts": [
+    {
+      "leaf": 0,
+      "hub": 0,
+      "base": [
+        -0.800000011920929,
+        -0.029999999329447746,
+        3.0199999809265137
+      ],
+      "tip": [
+        -2.049999952316284,
+        -0.1599999964237213,
+        2.740000009536743
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 1,
+      "hub": 0,
+      "base": [
+        -0.800000011920929,
+        -0.029999999329447746,
+        3.0199999809265137
+      ],
+      "tip": [
+        -1.6799999475479126,
+        -0.8799999952316284,
+        2.9000000953674316
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 2,
+      "hub": 0,
+      "base": [
+        -0.800000011920929,
+        -0.029999999329447746,
+        3.0199999809265137
+      ],
+      "tip": [
+        -1.75,
+        0.9200000166893005,
+        2.990000009536743
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 3,
+      "hub": 0,
+      "base": [
+        -0.800000011920929,
+        -0.029999999329447746,
+        3.0199999809265137
+      ],
+      "tip": [
+        -0.699999988079071,
+        -1.0,
+        2.7699999809265137
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 4,
+      "hub": 1,
+      "base": [
+        0.800000011920929,
+        0.10000000149011612,
+        3.119999885559082
+      ],
+      "tip": [
+        2.049999952316284,
+        -0.4000000059604645,
+        2.799999952316284
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 5,
+      "hub": 1,
+      "base": [
+        0.800000011920929,
+        0.10000000149011612,
+        3.119999885559082
+      ],
+      "tip": [
+        1.7999999523162842,
+        0.8999999761581421,
+        2.9800000190734863
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 6,
+      "hub": 1,
+      "base": [
+        0.800000011920929,
+        0.10000000149011612,
+        3.119999885559082
+      ],
+      "tip": [
+        0.949999988079071,
+        -1.0399999618530273,
+        2.819999933242798
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 7,
+      "hub": 1,
+      "base": [
+        0.800000011920929,
+        0.10000000149011612,
+        3.119999885559082
+      ],
+      "tip": [
+        0.800000011920929,
+        0.9800000190734863,
+        3.0399999618530273
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 8,
+      "hub": 2,
+      "base": [
+        -0.3199999928474426,
+        0.15000000596046448,
+        3.6600000858306885
+      ],
+      "tip": [
+        -1.0499999523162842,
+        -0.30000001192092896,
+        3.6600000858306885
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 9,
+      "hub": 2,
+      "base": [
+        -0.3199999928474426,
+        0.15000000596046448,
+        3.6600000858306885
+      ],
+      "tip": [
+        -0.7799999713897705,
+        1.100000023841858,
+        3.799999952316284
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 10,
+      "hub": 2,
+      "base": [
+        -0.3199999928474426,
+        0.15000000596046448,
+        3.6600000858306885
+      ],
+      "tip": [
+        0.3499999940395355,
+        -0.550000011920929,
+        3.4000000953674316
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 11,
+      "hub": 3,
+      "base": [
+        0.23999999463558197,
+        0.25999999046325684,
+        4.0
+      ],
+      "tip": [
+        -0.15000000596046448,
+        -0.5199999809265137,
+        4.550000190734863
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 12,
+      "hub": 3,
+      "base": [
+        0.23999999463558197,
+        0.25999999046325684,
+        4.0
+      ],
+      "tip": [
+        0.7799999713897705,
+        0.9200000166893005,
+        4.050000190734863
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 13,
+      "hub": 3,
+      "base": [
+        0.23999999463558197,
+        0.25999999046325684,
+        4.0
+      ],
+      "tip": [
+        -0.47999998927116394,
+        0.6000000238418579,
+        4.550000190734863
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 14,
+      "hub": 0,
+      "base": [
+        -0.800000011920929,
+        -0.029999999329447746,
+        3.0199999809265137
+      ],
+      "tip": [
+        -1.75,
+        0.5199999809265137,
+        2.7899999618530273
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    },
+    {
+      "leaf": 15,
+      "hub": 1,
+      "base": [
+        0.800000011920929,
+        0.10000000149011612,
+        3.119999885559082
+      ],
+      "tip": [
+        1.8600000143051147,
+        0.23999999463558197,
+        2.8399999141693115
+      ],
+      "attachment": "closed blade base intersects fork hub; tapered socket continues into underside"
+    }
+  ],
+  "normalization": [
+    0.8987351164191635,
+    1.148048866221053,
+    0.8189202022642266
+  ],
+  "limits": "Only standard canopy modeled; tall/spread, collision, game/Author integration and all harvestables untouched"
+}

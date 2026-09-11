@@ -54,6 +54,10 @@ If changing canonical world data, update its authoring source and generated worl
 
 Check independent moving instances and disposal of one instance while another remains visible, state-triggered actions, correct forward orientation, feet placement, held tool attachment when relevant, and no shared-material damage from tint/fade. Review in the actual landscape game at a phone viewport and check console/resource failures. Ensure model URLs and embedded dependencies remain local in the packaged offline game.
 
+Check the asset's immediate play space as well as its own collider. The earned Mossling journey exposed a lure placed on the far side of an existing Sapwood root: the player could place it, but the creature could not reach it. Lure/snare/perch admission must preserve both player and creature access before consuming gear. A clear endpoint alone is insufficient. A scenery replacement also needs an actual foreground orbit with the Explorer visible and an unaffected neighboring copy; generic fade tests missed the rejected geology's opaque foreground mass.
+
+Distinguish model defects from locomotion defects. The same earned journey later found a correctly oriented Mossling immobile beside a root: its steering sweeps used swapped X/Z angles and an unscaled radius, while its actual controller used a smaller scaled capsule. Reproduce the observed pose/obstacle with the real collision runtime and check several approach directions before changing the mesh or gait. Probe direction, actor dimensions and non-solid sensor filtering must agree with actual movement. A null-physics taming test cannot establish obstacle navigation; an ordinary-input earned attempt must still close the repair.
+
 Run project-required `npm test`, `npm run verify` and `npm run zip` after integration, plus focused browser/Author checks appropriate to the shared path changed. Record counts and package size. Report real-device sustained performance and owner aesthetic acceptance as pending unless actually tested. Append the project build log and retain the exact evidence supporting each accepted package revision.
 
 ## Harvestable assemblies
