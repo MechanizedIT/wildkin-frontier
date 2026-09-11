@@ -21,3 +21,11 @@ Owner direction (September 11, 2026): machines, containers and ruins must visibl
 ## Admission evidence
 
 Record exact GLB hash, node names/pivots/axes/ranges, draw/triangle/texture budget, target image and independent judge. Capture two instances with only one active, operation → completion → idle, pause/travel/reset and ordinary native interaction at 844×390. A still render only admits the shape; actual runtime-cycle readability is a separate gate. Physical-phone performance remains owner/device evidence.
+
+## Lessons from the vault and field chest
+
+- A solid box beneath an opening lid is not a container: model a supported floor, four walls and an interior underside. Keep catches and keeper pads separate at the seam, including physical clearance in the closed state.
+- Inspect the actual exported pivots, not only the Blender scene. Empty transforms can export incorrectly even when the source viewport looks right. Fresh-import the final GLB for closed, released, halfway, open and rear views.
+- Review intermediate and final hardware poses. The field chest's catches first need to swing clear, then fold flush once the lid is high enough; leaving them released at full open made antenna-like protrusions. Reverse the same clearance-safe path on refill.
+- Derive each mechanism from the appropriate authoritative state. The vault reveals after its seal opens and blocks collection until its tray is ready. Ordinary lids animate after the existing claim and close when existing refill availability returns. Neither animation grants rewards, and a generic lid must not bypass a species seal.
+- Freeze each reviewed revision and its images under a distinct directory/hash. A small geometry correction still creates a new candidate that requires reinspection; a prior score cannot silently transfer to new bytes.

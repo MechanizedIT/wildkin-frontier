@@ -39,7 +39,7 @@ export function createLootSystem(worldRegistry, opts = {}) {
         type: "lootChest",
         label: access.ok === false ? access.label ?? "SEALED CACHE" : availability.available
           ? `OPEN — ${chest.displayName ?? "LOOT CHEST"}`
-          : chest.refillSeconds === undefined || chest.refillSeconds === null ? "CHEST EMPTY" : "CHEST REFILLING",
+          : `${chest.refillSeconds === undefined || chest.refillSeconds === null ? "CHEST EMPTY" : "CHEST REFILLING"} — ${chest.displayName ?? "Loot chest"}`,
         availability,
         detail: access.ok === false ? access.reason : undefined,
         disabled: access.busy === true,
@@ -70,5 +70,9 @@ export function createLootSystem(worldRegistry, opts = {}) {
     return { ok: true, rewards, chest, readyAt: claim.readyAt ?? null };
   }
 
-  return { getNearbyInteraction, open, reset: () => transientClaims.clear() };
+  return {
+    getNearbyInteraction, open,
+    getAvailability(id) { const chest = worldRegistry.getLootChestById?.(id); return chest ? availabilityFor(chest) : { available: false }; },
+    reset: () => transientClaims.clear(),
+  };
 }

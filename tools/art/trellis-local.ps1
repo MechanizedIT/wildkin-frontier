@@ -1,7 +1,7 @@
 param(
   [ValidateSet('Start', 'Status', 'Stop')][string]$Action = 'Status',
   [string]$InstallRoot = 'C:/Users/cwood/Tools/trellis2-stableprojectorz/code',
-  [ValidateSet('Full', 'Small512')][string]$Profile = 'Full'
+  [ValidateSet('Full', 'Small512')][string]$Profile = 'Small512'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -59,6 +59,12 @@ foreach ($required in @($pythonPath, $apiPath, $launcherPath, (Join-Path $Instal
 }
 if (Get-NetTCPConnection -LocalPort 7960 -State Listen -ErrorAction SilentlyContinue) {
   throw 'Port 7960 already has a listener; inspect it before starting another server.'
+}
+if ($Profile -eq 'Full') {
+  # The measured full startup left only ~1.7 GiB free. Keep the legacy 1024
+  # route explicit and reserve substantially more headroom before launching it.
+  $freeGiB = (Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1MB
+  if ($freeGiB -lt 24) { throw "Full profile requires 24 GiB free before startup; currently $([math]::Round($freeGiB,2)). No model process started." }
 }
 New-Item -ItemType Directory -Path $runDirectory -Force | Out-Null
 $env:PYTHONNOUSERSITE = '1'

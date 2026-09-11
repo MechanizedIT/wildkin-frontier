@@ -70,10 +70,14 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
       if (!species) continue;
       const distance = Math.hypot(target.state.pos.x - pos.x, target.state.pos.z - pos.z);
       if (distance < 9) progress.discoverSpecies(species.id);
-      if (distance > 6 || Math.abs(target.state.pos.y - pos.y) > 2.2 || (best && distance >= best.distance)) continue;
+      if (distance > 6 || Math.abs(target.state.pos.y - pos.y) > 2.2) continue;
       const eligible = eligibility(target, species);
       if (!eligible.ok && state.securedCompanions.includes(species.id)) continue;
-      best = { type: "bond", id: target.state.id, species, target, distance, label: species.taming.action, detail: eligible.ok ? species.taming.guide : eligible.reason };
+      // An ineligible closer Wildkin must not hide another actionable target.
+      if (best && !best.disabled && !eligible.ok) continue;
+      if (best && best.disabled === !eligible.ok && distance >= best.distance) continue;
+      const blockedLabel = target.state.playerDamaged ? 'WARY' : pending.includes(species.id) ? 'BONDED' : pending.length >= progress.getModifiers().captureCapacity ? 'BONDS FULL' : 'UNAVAILABLE';
+      best = { type: "bond", id: target.state.id, species, target, distance, disabled: !eligible.ok, label: eligible.ok ? species.taming.action : blockedLabel, detail: eligible.ok ? species.taming.guide : eligible.reason };
     }
     return best;
   }

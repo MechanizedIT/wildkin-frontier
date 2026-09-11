@@ -49,12 +49,15 @@ test("core cannot bypass guardian and is recoverable after loss; persistent clai
     grantRewards: r => { rewards += r.xp; },
   });
   assert.equal(loot.open("core").ok, false);
+  assert.equal(loot.getAvailability("core").available, true);
   guardianDead = true;
   assert.equal(loot.open("core").ok, true);
+  assert.equal(loot.getAvailability("core").available, false, "presentation sees the transient run claim");
   assert.equal(loot.open("core").ok, false);
   assert.equal(claims, 0);
   assert.equal(rewards, 250);
   loot.reset(); // expedition death discards cargo, allows retrieving the core again
+  assert.equal(loot.getAvailability("core").available, true);
   assert.equal(loot.open("core").ok, true);
   permanentlyClaimed = true; loot.reset();
   assert.equal(loot.open("core").ok, false);

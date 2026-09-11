@@ -1,0 +1,57 @@
+{
+  "sha256": "7733a50f5bd4bfc01671bc802e73fcb44a78a0068168c8c4ec269bf7aa30c16b",
+  "bytes": 108456,
+  "triangles": 1381,
+  "meshes": 6,
+  "materialCount": 1,
+  "textureSize": 256,
+  "referenceSHA256": "301371d951851c1590b47a0bc2f8869dec417b3d2e37224ecba7289ae7e7e668",
+  "interpretation": "One persistent common root/five fixed sockets; all stages hide only complete ribs and their fins. Teal fins broadened, flattened, blunted and attached, not crystal points. Reference full/depleted base mismatch explicitly not reproduced.",
+  "jointsGLTF": [
+    [
+      0,
+      0.465,
+      -0.09
+    ],
+    [
+      -0.2,
+      0.375,
+      -0.055
+    ],
+    [
+      0.2,
+      0.35,
+      -0.035
+    ],
+    [
+      -0.255,
+      0.29,
+      0.165
+    ],
+    [
+      0.245,
+      0.275,
+      0.175
+    ]
+  ],
+  "depletionOrder": [
+    4,
+    3,
+    2,
+    1,
+    0
+  ],
+  "review": "Independent level reviewer PASS8.1/10 exact7733a50f, all seven actual-GLB stage images; approved for native integration gate, not native/owner acceptance",
+  "dimensionsActual": [
+    1.8361902236938477,
+    1.9262243509292603,
+    0.9773799180984497
+  ],
+  "stumpDimensions": [
+    1.0831244587898254,
+    0.4652000069618225,
+    0.9773799180984497
+  ],
+  "builderSHA256": "fa79efc2c130c58ee0f6532c4329ccf8b48bd498711a01c1fce72e04064f09ea",
+  "sourceSHA256": "ff02c353a819e87105c6c3daa2cb050c8cdb65e4b6ab1b19b968b3e0e8f85f6e"
+}

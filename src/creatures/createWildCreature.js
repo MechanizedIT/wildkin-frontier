@@ -63,7 +63,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index, { shouldIg
     maxHealth: cfg.health,
     isDead: false,
     isAggroed: false,
-    aiState: "ROAM", // ROAM | ALERT | CHASE | REPOSITION | WINDUP | LUNGE | RECOVER | HURT | DEAD | RESPAWNING | WARN | FLEE | RETURN
+    aiState: "ROAM", // ROAM | ALERT | CHASE | REPOSITION | WINDUP | LUNGE | RECOVER | HURT | DEAD | RESPAWNING | WARN | STARTLED | FLEE | RETURN
     aiTimer: 0,
     facing: spawn.facingYaw ?? spawn.rotY ?? Math.random() * Math.PI * 2,
     vel: new THREE.Vector3(0, 0, 0),
@@ -77,6 +77,10 @@ export function createWildCreature(scene, physicsWorld, spawn, index, { shouldIg
     hasWarned: false,
     fleeTime: 0,
     fleeTargetId: null,
+    fleeThreatPos: null,
+    lastKnownPlayerPos: null,
+    startleLookPos: null,
+    startleCooldown: 0,
     retaliationTargetId: null,
     retaliationRemaining: 0,
     timeInsideNotice: 0,

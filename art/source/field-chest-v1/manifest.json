@@ -1,0 +1,62 @@
+{
+  "referenceSHA256": "b5338f6cf8a569a79f8eadfe483623adfadf5221a918601ccfd281d76d1c42fe",
+  "sha256": "36f19f19badbe2dd61b4fcd0c12363d8ee1473374d01b937a2530cd9336cbc41",
+  "bytes": 249784,
+  "triangles": 3436,
+  "meshes": 4,
+  "materials": 1,
+  "textureSize": 256,
+  "editableSource": "field-chest-editable.blend",
+  "review": "Independent UI reviewer PASS8.1/10 exact36f19f19, all eight actual-GLB phase images; bounded static/phase admission only, native runtime pending",
+  "motion": {
+    "ChestLidPivot": {
+      "positionGLTF": [
+        0,
+        0.783,
+        -0.416
+      ],
+      "axis": "local X",
+      "rangeRadians": [
+        0,
+        -1.7453292519943295
+      ]
+    },
+    "ChestLatchLeft": {
+      "axis": "local X",
+      "rangeRadians": [
+        0,
+        -0.8
+      ],
+      "positionGLTFLocal": [
+        -0.447,
+        0.124,
+        0.853
+      ]
+    },
+    "ChestLatchRight": {
+      "axis": "local X",
+      "rangeRadians": [
+        0,
+        -0.8
+      ],
+      "positionGLTFLocal": [
+        0.447,
+        0.124,
+        0.853
+      ]
+    },
+    "cycle": ".95s; lid=-100deg*s(clamp((amount-.2)/.8)); latch=-.8*s(clamp(amount/.2))*(1-s(clamp((amount-.7)/.3))); s(t)=t*t*(3-2*t)"
+  },
+  "dimensionsTarget": [
+    1.42,
+    1.02,
+    0.9
+  ],
+  "renderMethod": "fresh GLB import, Cycles CPU4threads16samples512px",
+  "dimensionsActual": [
+    1.4300000667572021,
+    1.0199999809265137,
+    0.9235806241631508
+  ],
+  "frozenRevision": "v2"
+}

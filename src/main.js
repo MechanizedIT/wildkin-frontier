@@ -61,6 +61,7 @@ import { getPlayerLevel } from "./progression/playerLevel.js";
 import { createReturnToCampFlow, resolveSuccessfulExtraction } from "./session/runResolution.js";
 import { createBetaGame } from "./game/createBetaGame.js";
 import { preloadVisualModels } from "./assets/modelAssetRuntime.js";
+import { SAPWOOD_VISUAL_ASSET } from "./resources/resourceConfig.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
@@ -100,6 +101,7 @@ if (authorEnabled) {
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading local models…`;
 await preloadVisualModels([
+  SAPWOOD_VISUAL_ASSET,
   ...(effectiveWorldData.visualAssets ?? []),
   ...(effectiveWorldData.playerVisual?.model ? [effectiveWorldData.playerVisual] : []),
 ]);
@@ -727,22 +729,7 @@ function resetTransientWorldToCamp() {
   expeditionSession.setXp(0);
   projectileSystem.reset();
   creatureSystem.reset();
-  for (const n of resourceSystem.nodes) {
-    if (n.state.nodeState === "RESPAWNING") {
-      n.state.nodeState = "READY";
-      n.state.remainingChunks = n.type.maxChunks;
-      n.state.respawnRemaining = 0;
-      for (const m of n.chunkMeshes) m.visible = true;
-      if (n.remnantMesh) n.remnantMesh.visible = false;
-      n.respawnGroup.visible = false;
-      if (n.type.solid && !n.collider && !n._regionInactive) {
-        n._pendingColliderRestore = true;
-      }
-    }
-    if (n._regionInactive) {
-      n.group.visible = false;
-    }
-  }
+  resourceSystem.resetDepleted();
   playerCombat.reset();
   combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
   combatSession.reset();
@@ -776,17 +763,7 @@ function beginExpeditionAtTransform({ sectionId, startAnchorId, feetPosition, fa
   if (pickupSystem.clear) { try { pickupSystem.clear(); } catch {} }
   // resources/creatures to baseline for new run
   creatureSystem.reset();
-  for (const n of resourceSystem.nodes) {
-    if (n.state.nodeState === "RESPAWNING") {
-      n.state.nodeState = "READY";
-      n.state.remainingChunks = n.type.maxChunks;
-      n.state.respawnRemaining = 0;
-      for (const m of n.chunkMeshes) m.visible = true;
-      if (n.remnantMesh) n.remnantMesh.visible = false;
-      n.respawnGroup.visible = false;
-      if (n.type.solid && !n.collider && !n._regionInactive) n._pendingColliderRestore = true;
-    }
-  }
+  resourceSystem.resetDepleted();
   playerCombat.reset();
   combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
   combatSession.reset();
@@ -987,6 +964,7 @@ betaGame = createBetaGame({
   getSectionId: () => sectionRuntime.getActiveSectionId(),
   onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
   getLootVisualRoot: (id) => playground.getLootVisualRoot(id),
+  getLootAvailability: (id) => lootSystem.getAvailability(id),
   onGameplayAction: (type) => {
     if (type === "fieldToolStart") { keyboardInput.triggerAttack(); keyboardInput.setFieldToolHeld(true); }
     else if (type === "equipmentCancel") { keyboardInput.setFieldToolHeld(false); keyboardInput.consumeAttack(); pendingAttackLatch = false; fieldTool.hardReset(); }

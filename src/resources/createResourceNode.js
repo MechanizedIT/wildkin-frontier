@@ -112,23 +112,48 @@ export function createResourceNode(typeId, position, index = 0, objectId = null,
   const visualRoot = createVisual(visualRef, visualOptions);
   visualRoot.name = "resourceReadyVisual";
   group.add(visualRoot);
-  const chunkMeshes = [];
+  // Resources own their feedback materials; GLB instances still share geometry
+  // and textures. A strike must never brighten every copy of the same plant.
+  const materials = new Map();
+  const meshParts = [], namedChunks = [];
   visualRoot.traverse((object) => {
+    if (/(?:_chunk_|_tuft_)\d+$/.test(object.name)) namedChunks.push(object);
     if (!object.isMesh) return;
-    if (visualAsset || object.name.includes("_chunk_") || object.name.includes("_tuft_")) chunkMeshes.push(object);
+    meshParts.push(object);
+    const clone = (material) => {
+      if (!materials.has(material)) {
+        const owned = material.clone();
+        owned.userData.externalModelInstanceMaterial = true;
+        delete owned.userData.isSharedAssetMaterial;
+        materials.set(material, owned);
+      }
+      return materials.get(material);
+    };
+    object.material = Array.isArray(object.material) ? object.material.map(clone) : clone(object.material);
   });
+  // Named assemblies disappear together; unnamed legacy assets distribute all
+  // their parts over the existing number of hits instead of vanishing at once.
+  const chunkMeshes = namedChunks.length ? namedChunks : visualAsset ? meshParts : [];
+  const feedbackMaterials = [...materials.values()].map(material => ({ material, emissive: material.emissive?.clone() }));
 
   const originalChunkTransforms = chunkMeshes.map((mesh) => ({
     pos: mesh.position.clone(),
     scale: mesh.scale.clone(),
     rot: mesh.rotation.clone(),
-    opacity: mesh.material?.opacity ?? 1,
-    transparent: mesh.material?.transparent ?? false,
   }));
   const visualRootBaseScale = visualRoot.scale.clone();
   const visualRootBaseRotation = visualRoot.rotation.clone();
 
-  const remnantMesh = createRemnant(typeId, type.feedbackProfile, remnantVisualAsset, visualAssets);
+  const embeddedRemnant = !remnantVisualAsset && visualRoot.getObjectByName('TreeStump');
+  let remnantMesh;
+  if (embeddedRemnant) {
+    group.updateMatrixWorld(true);
+    remnantMesh = embeddedRemnant.clone(true);
+    // Preserve the exact modeled cut joints, including any nested model fit.
+    const local = new THREE.Matrix4().copy(group.matrixWorld).invert().multiply(embeddedRemnant.matrixWorld);
+    local.decompose(remnantMesh.position, remnantMesh.quaternion, remnantMesh.scale);
+    remnantMesh.name = 'sapwoodRemnant';
+  } else remnantMesh = createRemnant(typeId, type.feedbackProfile, remnantVisualAsset, visualAssets);
   remnantMesh.visible = false;
   group.add(remnantMesh);
 
@@ -173,7 +198,7 @@ export function createResourceNode(typeId, position, index = 0, objectId = null,
   Object.assign(group.userData, {
     resourceState: state,
     resourceType: type,
-    chunkMeshes,
+    chunkMeshes, feedbackMaterials,
     remnantMesh,
     haloMesh,
     respawnGroup,
@@ -185,20 +210,23 @@ export function createResourceNode(typeId, position, index = 0, objectId = null,
   });
 
   return {
-    group, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks,
+    group, state, type, chunkMeshes, feedbackMaterials, remnantMesh, haloMesh, respawnGroup, ticks,
     mainVisual: visualRoot, visualRoot, originalChunkTransforms,
     visualRootBaseScale, visualRootBaseRotation,
   };
 }
 
-export function hideOneChunk(node) {
+export function hideOneChunk(node, visibleCount = node.chunkMeshes.filter(mesh => mesh.visible).length - 1) {
+  let remaining = node.chunkMeshes.filter(mesh => mesh.visible).length;
+  let removed = null;
   for (let i = node.chunkMeshes.length - 1; i >= 0; i--) {
-    if (node.chunkMeshes[i].visible) {
+    if (remaining > visibleCount && node.chunkMeshes[i].visible) {
       node.chunkMeshes[i].visible = false;
-      return node.chunkMeshes[i];
+      removed ??= node.chunkMeshes[i];
+      remaining -= 1;
     }
   }
-  return null;
+  return removed;
 }
 
 export function showAllChunks(node) {
@@ -211,13 +239,6 @@ export function showAllChunks(node) {
       mesh.position.copy(original.pos);
       mesh.scale.copy(original.scale);
       mesh.rotation.copy(original.rot);
-      if (mesh.material) {
-        mesh.material.transparent = original.transparent;
-        mesh.material.opacity = original.opacity;
-      }
-    } else if (mesh.material) {
-      mesh.material.transparent = false;
-      mesh.material.opacity = 1;
     }
   }
 }

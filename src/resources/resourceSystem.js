@@ -73,22 +73,20 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     transform.resourceType = p.resourceType ?? undefined;
     transform.visualAsset = p.visualAsset ?? undefined;
     transform.remnantVisualAsset = p.remnantVisualAsset ?? undefined;
-    const { group, state, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, visualRoot } = createResourceNode(p.type, p.pos, i, nodeId, transform);
+    const { group, state, chunkMeshes, feedbackMaterials, remnantMesh, haloMesh, respawnGroup, ticks, visualRoot } = createResourceNode(p.type, p.pos, i, nodeId, transform);
     state.regionId = regionId;
     group.userData.authorId = nodeId;
     group.userData.resourceId = nodeId;
     group.visible = p.visibleInPlay !== false;
     const opacity = p.opacity ?? 1;
     if (p.tint !== undefined || opacity < 1) {
-      visualRoot.traverse((object) => {
-        if (!object.isMesh || !object.material) return;
-        object.material = object.material.clone();
-        if (p.tint !== undefined && object.material.color) object.material.color.set(p.tint);
+      for (const { material } of feedbackMaterials) {
+        if (p.tint !== undefined && material.color) material.color.set(p.tint);
         if (opacity < 1) {
-          object.material.transparent = true;
-          object.material.opacity = opacity;
+          material.transparent = true;
+          material.opacity = opacity;
         }
-      });
+      }
     }
     // Make whole group pickable via raycast (propagate authorId to children for reliable selection)
     group.traverse((child) => { if (child.isMesh) { child.userData.authorId = nodeId; child.userData.resourceId = nodeId; } });
@@ -100,7 +98,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
       collider = createRuntimeCollider(p.type, state, type);
       physicsWorld.world.step();
     }
-    nodes.push({ group, visualRoot, state, type, chunkMeshes, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, _regionInactive: false, visibleInPlay: p.visibleInPlay !== false, collisionEnabled: p.collisionEnabled !== false });
+    nodes.push({ group, visualRoot, state, type, chunkMeshes, feedbackMaterials, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, _regionInactive: false, visibleInPlay: p.visibleInPlay !== false, collisionEnabled: p.collisionEnabled !== false });
   }
 
   function isRegionActive(regionId) {
@@ -214,7 +212,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     if (node.state.remainingChunks <= 0) return false;
     // Reduce chunk
     node.state.remainingChunks -= 1;
-    hideOneChunk(node);
+    hideOneChunk(node, Math.ceil(node.state.remainingChunks / node.state.maxChunks * node.chunkMeshes.length));
     node._wobbleTime = 0;
     node._wobbleAmount = node.type.id === "fiber" ? 0.18 : node.type.id === "stone" ? 0.12 : 0.15;
     node._flashTime = 0;
@@ -229,6 +227,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
       node.state.nodeState = "RESPAWNING";
       node.state.respawnRemaining = node.type.respawnSeconds;
       for (const m of node.chunkMeshes) m.visible = false;
+      node.visualRoot.visible = false;
       if (node.remnantMesh) node.remnantMesh.visible = true;
       // Respawn group visibility handled by proximity in update — but ensure ticks prepared
       node.respawnGroup.visible = false;
@@ -269,6 +268,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     node.state.remainingChunks = node.type.maxChunks;
     node.state.respawnRemaining = 0;
     showAllChunks(node);
+    node.visualRoot.visible = true;
     if (node.remnantMesh) node.remnantMesh.visible = false;
     node.respawnGroup.visible = false;
     for (const t of node.ticks) { t.material.opacity = 0; }
@@ -282,6 +282,28 @@ export function createResourceSystem(scene, physicsWorld, placements) {
       node._pendingColliderRestore = false;
     }
     node._respawnPop = 0;
+  }
+
+  function resetDepleted() {
+    for (const n of nodes) {
+      if (n.state.nodeState === 'RESPAWNING') {
+        n.state.nodeState = 'READY';
+        n.state.remainingChunks = n.type.maxChunks;
+        n.state.respawnRemaining = 0;
+        showAllChunks(n);
+        n.visualRoot.visible = true;
+        n.remnantMesh.visible = false;
+        n.respawnGroup.visible = false;
+        // Inactive nodes retain this intent until their region resumes. They
+        // may already have lost the collider through depletion, not culling.
+        if (n.collisionEnabled && n.type.solid && !n.collider) n._pendingColliderRestore = true;
+      }
+      n._wobbleTime = n._flashTime = n._respawnPop = undefined;
+      n.visualRoot.scale.copy(n.group.userData.visualRootBaseScale);
+      n.visualRoot.rotation.copy(n.group.userData.visualRootBaseRotation);
+      for (const { material, emissive } of n.feedbackMaterials) if (emissive) material.emissive.copy(emissive);
+      n.group.visible = !n._regionInactive && n.visibleInPlay;
+    }
   }
 
   function update(dt, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
@@ -304,11 +326,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
         continue;
       }
       // Ensure group visible when active (reactivated nodes may have been hidden)
-      if (!n.group.visible && n.state.nodeState === "READY") n.group.visible = true;
-      else if (!n.group.visible && n.state.nodeState === "RESPAWNING") {
-        // For respawning nodes, group stays visible if active — but hide handled above for inactive only
-        n.group.visible = true;
-      }
+      n.group.visible = n.visibleInPlay;
       // wobble animation
       if (n._wobbleTime !== undefined) {
         n._wobbleTime += dt;
@@ -334,9 +352,9 @@ export function createResourceSystem(scene, physicsWorld, placements) {
       if (n._flashTime !== undefined) {
         n._flashTime += dt;
         if (n._flashTime < 0.12) {
-          for (const m of n.chunkMeshes) if (m.visible) m.material.emissive?.set?.(0x333333);
+          for (const { material } of n.feedbackMaterials) material.emissive?.set?.(0x333333);
         } else {
-          for (const m of n.chunkMeshes) if (m.material.emissive) m.material.emissive.set(0x000000);
+          for (const { material, emissive } of n.feedbackMaterials) if (emissive) material.emissive.copy(emissive);
           n._flashTime = undefined;
         }
       }
@@ -426,5 +444,5 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     return nodes.filter(n => isRegionActive(n.regionId));
   }
 
-  return { nodes, getManualTargets, getEligibleNodes, getHaloTargets, isHarvestableInRange, canAutoHarvestNow, applyHit, update, getNodes, isRespawnVisible, setActiveRegions, isRegionActive, getActiveNodeCount, getActiveNodes, getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null };
+  return { nodes, getManualTargets, getEligibleNodes, getHaloTargets, isHarvestableInRange, canAutoHarvestNow, applyHit, update, resetDepleted, getNodes, isRespawnVisible, setActiveRegions, isRegionActive, getActiveNodeCount, getActiveNodes, getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null };
 }

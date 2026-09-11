@@ -1,4 +1,9 @@
 // src/resources/resourceConfig.js — Phase 2.1 centralized tuning + data-driven resource types
+export const SAPWOOD_VISUAL_ASSET = {
+  id: 'builtin_sapwood',
+  model: { path: 'assets/models/sapwood-v1/model.glb', scale: 1, pivot: { x: 0, y: 0, z: 0 } },
+};
+
 export const HARVEST_CONFIG = {
   harvestRadius: 1.65,
   // Large grounded nodes can be struck at their lower working surface.
@@ -33,7 +38,7 @@ export const HARVEST_CONFIG = {
 export const RESOURCE_TYPES = {
   tree: {
     id: "tree",
-    displayName: "Tree",
+    displayName: "Sapwood",
     resourceId: "wood",
     maxChunks: 5,
     respawnSeconds: 18,

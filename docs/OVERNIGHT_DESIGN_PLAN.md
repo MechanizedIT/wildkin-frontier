@@ -63,11 +63,11 @@ Existing 58 library assets plus runtime-only families remain the coverage list. 
 
 ## Immediate review backlog
 
-1. Fresh-save return loop: clarify that the blue Lookout also extracts; guide the first secure return and name starter recipe ingredients. Add a real renewable berry source and readable wood/stone cluster, then replay gather → extract → craft/build without grants.
+1. Fresh-save starter gather→extract→lure/Foundation loop now passes without grants/teleports; Sapwood clarifies wood and shared resource depletion/reset. Continue first-time species-taming and second-expedition pacing review rather than repeating that completed fixture.
 2. Foundry habitat V4 is5.8/10 HOLD despite sound traversal; replace the geometric staircase approach before another target-match attempt. Bright ore faces now read better. Extend successful composition to other sparse regions with independent reviews.
-3. Mossling V3 repairs the head/neck and moderate loaded poses while preserving the liked surface. Five clips and calibrated wild/follower motion have bounded native proof; continuous-motion and phone judgment remain open. Ember Forge Vault model/opening passes8.0 and runtime/offline checks; follow with other region-specific discoveries and ordinary moving lids.
+3. Mossling V3 repairs the head/neck and moderate loaded poses while preserving the liked surface. Five clips and calibrated wild/follower motion have bounded native proof; continuous-motion and phone judgment remain open. Ember Forge Vault passes8.0; fourteen ordinary field-chest uses now have reviewed moving lids/catches and native state proof. Follow with other region-specific discoveries, not duplicated chests/arches.
 4. Continue useful Camp/equipment progression: bed rest, powered tool, one clear ranged option and food. Existing building, three physical crafting stations and five-slot equipment foundation are playable; do not advertise pending tools through icons.
-5. Revisit encounter/social danger and taming discoverability. Four distinct physical attempts, loose physics followers and directional stealth have bounded native proof; full first-time campaign pacing remains unmeasured.
+5. Revisit encounter/social danger and taming discoverability. One nearby Mossling now briefly looks and flees when its partner is startled/struck; sneaking behind the pair keeps them calm, without alarm chaining. Four distinct physical attempts, loose physics followers and directional stealth have bounded native proof; aggressive pack danger, variable populations and first-time campaign pacing remain open.
 6. Keep reviewing actual mobile controls, active/inactive region costs and world boundaries. Current boundary art/fade seams and broader all-asset quality remain open; no whole-game polish claim.
 
 ## Rendering distance and loading — current decision

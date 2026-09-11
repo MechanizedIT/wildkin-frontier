@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "input": ".dream-loop/overnight-sapwood-model/v2/sapwood.glb",
+  "profile": "prop",
+  "limits": {
+    "max_triangles": 5000,
+    "max_vertices": 15000,
+    "max_materials": 2,
+    "max_bones": 0,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "7733a50f5bd4bfc01671bc802e73fcb44a78a0068168c8c4ec269bf7aa30c16b",
+  "textureSHA256": [
+    "5ed6e7e99052fe819ee95abdafc50d7862c4ccabb72015482c7db531af11e598"
+  ],
+  "counts": {
+    "triangles": 1381,
+    "vertices": 2866,
+    "materials": 1,
+    "bones": 0,
+    "animations": 0
+  },
+  "animations": [],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 256,
+      "height": 256,
+      "sha256": "5ed6e7e99052fe819ee95abdafc50d7862c4ccabb72015482c7db531af11e598",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

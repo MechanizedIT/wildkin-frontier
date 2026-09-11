@@ -74,7 +74,8 @@ export function createContextualInteraction(opts = {}) {
       icon.firstElementChild?.classList.add("contextual-action__icon");
       const label = document.createElement("span");
       label.className = "contextual-action__label";
-      label.textContent = info.label.split(' — ')[0];
+      const actionLabel = info.label.split(' — ')[0];
+      label.textContent = info.type === 'lootChest' ? ({ 'CHEST EMPTY': 'EMPTY', 'CHEST REFILLING': 'REFILLING' }[actionLabel] ?? actionLabel) : actionLabel;
       buttonEl.append(icon, label);
       buttonEl.title = info.detail ?? info.label;
       buttonEl.setAttribute("aria-label", info.detail ? `${info.label}. ${info.detail}` : info.label);

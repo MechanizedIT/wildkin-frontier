@@ -29,7 +29,7 @@ export function createBetaGame(deps) {
   const contactShadows = createContactShadows(scene, registry);
   const combatFeedback = createCombatFeedback({ app, camera: deps.camera, scene });
   const abilityFx = createCompanionAbilityFx({ scene });
-  const cacheMechanisms = createCacheMechanisms({ registry, progress, getVisualRoot: deps.getLootVisualRoot });
+  const cacheMechanisms = createCacheMechanisms({ registry, progress, getVisualRoot: deps.getLootVisualRoot, getAvailability: deps.getLootAvailability });
   const playerOcclusion = initializePlayerOcclusion({ scene, camera: deps.camera, getPlayerPosition: () => playerController.getState().pos });
   const guardianEncounter = createGuardianEncounter({ scene, getGuardian: () => creatures.getCreatures().find(c => c.state.id === "wildkin_guardian"), getPlayerState: () => playerController.getState(), playerCombat, audio, onPulse: ({ target }) => pulse(target, 0xffbd63), onWarning: text => toast("Heartwood Guardian", text) });
   const companions = createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });

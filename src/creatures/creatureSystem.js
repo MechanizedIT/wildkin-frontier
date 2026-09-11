@@ -6,6 +6,7 @@ import { CREATURE_SPAWNS } from "./creatureConfig.js";
 import { TEMPERAMENT, TEMPERAMENT_CONFIG, defensiveShouldRetaliate, skittishShouldFlee, territorialShouldWarn, territorialShouldAttack } from "./temperament.js";
 import { findNearestEligible, distanceXZ as distXZpercep, canTargetActor, canNoticeQuietPlayer, WILDLIFE_AWARENESS_CONFIG } from "./perception.js";
 import { chooseSteeringDirection, isMovementStalled, STEERING_CONFIG } from "./steering.js";
+import { SOCIAL_STARTLE_CONFIG, isLocalLivePeer, selectStartleRecipient, findPerceivedFleeThreat } from './socialStartle.js';
 
 export function createCreatureSystem(scene, physicsWorld, playground, opts = {}) {
   const creatures = [];
@@ -42,6 +43,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     // Ensure homePos already inside region (validation enforces)
     creatures.push(c);
   }
+  const creatureStates = creatures.map(c => c.state);
 
   function isRegionActive(regionId) {
     if (activeRegionSet === null) return true;
@@ -102,7 +104,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
 
   function getAliveCount() { return creatures.filter(isLiveCreature).length; }
   function getAggroedNearby() {
-    return creatures.some(c => isLiveCreature(c) && c.state.isAggroed && distanceXZ(c.state.pos, playerPosRef) < COMBAT_CONFIG.attackRange + 2.5);
+    return creatures.some(c => isLiveCreature(c) && isRegionActive(c.state.regionId) && c.state.isAggroed && distanceXZ(c.state.pos, playerPosRef) < COMBAT_CONFIG.attackRange + 2.5);
   }
 
   function distanceXZ(a, b) { return Math.hypot(a.x - b.x, a.z - b.z); }
@@ -146,6 +148,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       noticeRadius: radius, verticalTolerance: COMBAT_CONFIG.verticalTolerance + .4,
       lineOfSight: () => clearPlayerSight(creature) });
     st.playerNoticeRemaining = seen ? WILDLIFE_AWARENESS_CONFIG.memorySeconds : Math.max(0,(st.playerNoticeRemaining ?? 0)-dt);
+    if (seen) st.lastKnownPlayerPos = { ...playerPosRef };
     st.playerDetected = seen || st.playerNoticeRemaining > 0;
   }
 
@@ -403,6 +406,13 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     }
 
     creature.state.hurtTime = creature.state.cfg.hurtLock ?? 0.16;
+    if (creature.state.temperament === TEMPERAMENT.SKITTISH) {
+      const threat = sourcePos ?? attacker?.state?.pos ?? (attackerId === 'player' ? playerPosRef : null);
+      if (threat) {
+        creature.state.fleeThreatPos = { x: threat.x, y: threat.y ?? .5, z: threat.z };
+        broadcastStartle(creature, creature.state.fleeThreatPos);
+      }
+    }
     creature.state.aiState = "HURT";
     creature.state.aiTimer = 0;
     creature.restartVisualAnimation?.("hurt");
@@ -467,8 +477,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     }
     // also check safe distance from other creatures? small separation
     for (const other of creatures) {
-      if (other === creature) continue;
-      if (!isLiveCreature(other)) continue;
+      if (!isLocalLivePeer(creature.state, other.state, isRegionActive)) continue;
       if (distanceXZ(home, other.state.pos) < 0.9) {
         creature.state.respawnRemaining = 0.7;
         return false;
@@ -483,6 +492,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     creature.state.hasWarned = false;
     creature.state.warnTime = 0;
     creature.state.fleeTime = 0;
+    resetStartleMemory(creature.state);
     creature.state.retaliationTargetId = null;
     creature.state.retaliationRemaining = 0;
     creature.state.playerDamaged = false;
@@ -510,7 +520,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     const pos = st.pos;
     // aggressive may attack configured hostile species
     const hostile = st.hostileSpecies ?? [];
-    const candidates = creatures.filter(c => c !== attacker && isLiveCreature(c) && isRegionActive(c.state.regionId));
+    const candidates = creatures.filter(c => isLocalLivePeer(st, c.state, isRegionActive) && !c.state.bondingHeld);
     let best = null;
     let bestDist = Infinity;
     for (const cand of candidates) {
@@ -523,7 +533,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       if (st.temperament === TEMPERAMENT.AGGRESSIVE) {
         const species = cand.state.speciesTag;
         if (hostile.length > 0) eligible = hostile.includes(species);
-        else eligible = true; // fallback allow any
+        else eligible = species !== st.speciesTag; // default hostile fallback excludes its own species
       } else if (st.temperament === TEMPERAMENT.DEFENSIVE) {
         // only if retaliating against attacker
         if (st.retaliationTargetId && cand.state.id === st.retaliationTargetId && st.retaliationRemaining > 0) eligible = true;
@@ -616,22 +626,41 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     return null;
   }
 
-  function shouldFlee(creature) {
+  function resetStartleMemory(st) {
+    st.fleeThreatPos = null;
+    st.fleeTargetId = null;
+    st.lastKnownPlayerPos = null;
+    st.startleLookPos = null;
+    st.startleCooldown = 0;
+  }
+
+  function broadcastStartle(creature, threatPos) {
     const st = creature.state;
-    if (st.temperament !== TEMPERAMENT.SKITTISH) return false;
-    if (st.fleeTime > 0) return true;
-    // also if threat within notice (player or aggressive wildkin)
-    const playerDist = distanceXZ(st.pos, playerPosRef);
-    if (st.playerDetected !== false && playerDist <= st.noticeRadius + 1.0 && isVerticallyValidPos(st.pos, playerPosRef)) return true;
-    // check nearest aggressive wildkin near
-    for (const other of creatures) {
-      if (other === creature) continue;
-      if (!isLiveCreature(other)) continue;
-      if (other.state.temperament !== TEMPERAMENT.AGGRESSIVE) continue;
-      const d = distanceXZ(st.pos, other.state.pos);
-      if (d <= 4.5 && isVerticallyValidPos(st.pos, other.state.pos)) return true;
+    const recipient = selectStartleRecipient(st, creatureStates, {
+      isActive: isRegionActive, isTaming: id => fieldTamingIntents.has(id),
+      verticalTolerance: COMBAT_CONFIG.verticalTolerance + .4,
+    });
+    // A direct event gets one attempt; a relayed alarm never calls this method.
+    st.startleCooldown = SOCIAL_STARTLE_CONFIG.cooldownSeconds;
+    if (!recipient) return;
+    recipient.aiState = 'STARTLED'; recipient.aiTimer = 0;
+    recipient.startleLookPos = { ...st.pos };
+    recipient.fleeThreatPos = { ...threatPos };
+    recipient.fleeTargetId = null;
+    recipient.fleeTime = 0;
+    recipient.startleCooldown = SOCIAL_STARTLE_CONFIG.cooldownSeconds;
+  }
+
+  function updateFlee(creature, dt) {
+    const st = creature.state;
+    if (st.fleeThreatPos) moveAway(creature, st.fleeThreatPos, st.cfg.moveSpeed * getFleeFactor(st), dt);
+    // One clock for both rusher and spitter; awareness does not chase an unseen
+    // player's new position, and a relay only holds its last heard threat point.
+    st.fleeTime = Math.max(0, st.fleeTime - dt);
+    if (st.fleeTime <= 0 || !st.fleeThreatPos) {
+      st.aiState = distanceXZ(st.pos, st.homePos) > st.leashRadius * .8 ? 'RETURN' : 'ROAM';
+      st.aiTimer = 0; st.fleeThreatPos = null; st.fleeTargetId = null;
     }
-    return false;
   }
 
   function update(dt) {
@@ -695,10 +724,22 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       updatePlayerAwareness(c, dt);
 
       // timers
+      st.startleCooldown = Math.max(0, (st.startleCooldown ?? 0) - dt);
       if (st.retaliationRemaining > 0) st.retaliationRemaining = Math.max(0, st.retaliationRemaining - dt);
       else st.retaliationTargetId = null;
-      if (st.fleeTime > 0) st.fleeTime = Math.max(0, st.fleeTime - dt);
       if (st.warnTime !== undefined && st.hasWarned) st.warnTime += dt;
+
+      if (st.aiState === 'STARTLED') {
+        st.aiTimer += dt;
+        if (st.startleLookPos) st.facing = Math.atan2(st.startleLookPos.x-st.pos.x, st.startleLookPos.z-st.pos.z);
+        if (c.collider) c.move({ x: 0, y: -3 * dt, z: 0 });
+        c.updateVisual(dt);
+        if (st.aiTimer >= SOCIAL_STARTLE_CONFIG.lookSeconds) {
+          st.aiState = 'FLEE'; st.aiTimer = 0; st.startleLookPos = null;
+          st.fleeTime = TEMPERAMENT_CONFIG.SKITTISH.fleeDuration;
+        }
+        continue;
+      }
 
       // hurt lock
       if (st.aiState === "HURT") {
@@ -726,8 +767,16 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       }
 
       // skittish flee has priority
-      if (st.temperament === TEMPERAMENT.SKITTISH && shouldFlee(c)) {
-        if (st.aiState !== "FLEE") { st.aiState = "FLEE"; st.aiTimer = 0; if (st.fleeTime <= 0) st.fleeTime = TEMPERAMENT_CONFIG.SKITTISH.fleeDuration ?? 3.5; }
+      if (st.temperament === TEMPERAMENT.SKITTISH) {
+        const threat = findPerceivedFleeThreat(st, creatureStates, { isActive: isRegionActive, verticalTolerance: COMBAT_CONFIG.verticalTolerance + .4 });
+        if (threat) st.fleeThreatPos = threat.pos;
+        if (threat || st.fleeTime > 0) {
+          if (st.aiState !== 'FLEE') {
+            st.aiState = 'FLEE'; st.aiTimer = 0;
+            if (st.fleeTime <= 0) st.fleeTime = TEMPERAMENT_CONFIG.SKITTISH.fleeDuration;
+            if (threat && st.startleCooldown <= 0) broadcastStartle(c, threat.pos);
+          }
+        }
       }
 
       // territorial timeInsideNotice tracking
@@ -831,36 +880,9 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
           else { st.aiState = "ROAM"; st.hasWarned = false; st.warnTime = 0; st.isAggroed = false; }
         }
         break;
-      case "FLEE": {
-        // move away from nearest threat
-        let threatPos = playerPosRef;
-        let bestThreatDist = distanceXZ(st.pos, playerPosRef);
-        // check nearest aggressive
-        for (const other of creatures) {
-          if (other === c) continue;
-          if (!isLiveCreature(other)) continue;
-          if (other.state.temperament === TEMPERAMENT.AGGRESSIVE) {
-            const d = distanceXZ(st.pos, other.state.pos);
-            if (d < bestThreatDist) { bestThreatDist = d; threatPos = other.state.pos; }
-          }
-        }
-        // also wildkin attacker
-        if (st.fleeTargetId) {
-          const attacker = creatures.find(cc => cc.state.id === st.fleeTargetId);
-          if (attacker) threatPos = attacker.state.pos;
-        }
-        const fleeSpeed = cfg.moveSpeed * getFleeFactor(st);
-        moveAway(c, threatPos, fleeSpeed, dt);
-        st.fleeTime -= dt;
-        // if leash far, also return logic but flee priority
-        if (st.fleeTime <= 0) {
-          const homeD = distanceXZ(st.pos, st.homePos);
-          if (homeD > st.leashRadius * 0.8) st.aiState = "RETURN";
-          else st.aiState = "ROAM";
-          st.aiTimer = 0;
-        }
+      case "FLEE":
+        updateFlee(c, dt);
         break;
-      }
       case "RETURN":
         moveTowards(c, st.homePos, cfg.moveSpeed * 0.85, dt);
         if (distanceXZ(st.pos, st.homePos) < 1.2) { st.aiState = "ROAM"; st.aiTimer = 0; st.isAggroed = false; st.hasWarned = false; }
@@ -1017,25 +1039,9 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
           else { st.aiState = "ROAM"; st.hasWarned = false; }
         }
         break;
-      case "FLEE": {
-        let threatPos = playerPosRef;
-        let bestD = distanceXZ(st.pos, playerPosRef);
-        for (const other of creatures) {
-          if (other === c || !isLiveCreature(other)) continue;
-          if (other.state.temperament === TEMPERAMENT.AGGRESSIVE) {
-            const d = distanceXZ(st.pos, other.state.pos);
-            if (d < bestD) { bestD = d; threatPos = other.state.pos; }
-          }
-        }
-        const fleeSpeed = cfg.moveSpeed * getFleeFactor(st);
-        moveAway(c, threatPos, fleeSpeed, dt);
-        st.fleeTime -= dt;
-        if (st.fleeTime <= 0) {
-          if (distanceXZ(st.pos, st.homePos) > st.leashRadius * 0.8) st.aiState = "RETURN";
-          else st.aiState = "ROAM";
-        }
+      case "FLEE":
+        updateFlee(c, dt);
         break;
-      }
       case "RETURN":
         moveTowards(c, st.homePos, cfg.moveSpeed * 0.85, dt);
         if (distanceXZ(st.pos, st.homePos) < 1.2) { st.aiState = "ROAM"; st.aiTimer = 0; st.isAggroed = false; }
@@ -1121,6 +1127,10 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     const c = creatures.find(c => c.state.id === id);
     if (!isLiveCreature(c) || !isRegionActive(c.state.regionId) || c.state.playerDamaged || c.state.bondingHeld) return false;
     if (!intent || (!intent.hold && !intent.challenge && ![intent.targetPos?.x, intent.targetPos?.z].every(Number.isFinite))) return false;
+    if (!fieldTamingIntents.has(id)) {
+      resetStartleMemory(c.state);
+      c.state.fleeTime = 0;
+    }
     fieldTamingIntents.set(id, { ...intent, targetPos: intent.targetPos ? { ...intent.targetPos } : null });
     return true;
   }
@@ -1136,6 +1146,8 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       const shouldHold = id !== null && creature.state.id === id && isLiveCreature(creature);
       creature.state.bondingHeld = shouldHold;
       if (shouldHold) {
+        resetStartleMemory(creature.state);
+        creature.state.fleeTime = 0;
         creature.showFocusRing(false);
         found = creature;
       }
@@ -1190,6 +1202,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       c.state.hasWarned = false;
       c.state.warnTime = 0;
       c.state.fleeTime = 0;
+      resetStartleMemory(c.state);
       c.state.retaliationTargetId = null;
       c.state.retaliationRemaining = 0;
       c.state.playerDamaged = false;

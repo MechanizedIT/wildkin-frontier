@@ -199,7 +199,7 @@ describe("Phase 4B.1 — Jump Pad, parkour, and loot production systems", () => 
     const system = createLootSystem(registry, { frontierProgress: progress, getActiveSectionId: () => "section_1", now: () => now, grantRewards(value) { grants.push(value); } });
     assert.equal(system.open("chest_secret_section_1").ok, true);
     assert.equal(system.open("chest_secret_section_1").ok, false);
-    assert.equal(system.getNearbyInteraction(registry.getLootChestById("chest_secret_section_1").pos).label, "CHEST EMPTY");
+    assert.equal(system.getNearbyInteraction(registry.getLootChestById("chest_secret_section_1").pos).label, "CHEST EMPTY — Hidden Cache");
     assert.equal(system.open("chest_parkour_section_1").ok, true);
     assert.equal(system.open("chest_parkour_section_1").ok, false);
     now += registry.getLootChestById("chest_parkour_section_1").refillSeconds * 1000;

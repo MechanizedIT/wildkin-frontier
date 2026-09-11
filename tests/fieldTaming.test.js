@@ -10,7 +10,7 @@ function fixture(id, options = {}) {
   const species = COMPANION_BY_ID[id], supplies = { berry_lure: 3, woven_snare: 2, reinforced_tether: 2, calming_chime: 2 };
   const player = { pos: { x: 0, y: .5, z: -4 }, speed: 0, facing: 0, grounded: true, dodgeTime: 0 };
   let section = "field", active = true, damage = 0, captured = [];
-  const system = createCreatureSystem(new THREE.Scene(), null, null, { spawns: [{ id: "wild", type: "rusher", pos: { x: 0, y: 0, z: 0 }, temperament: id === "emberhorn" ? "TERRITORIAL" : "SKITTISH", regionId: "field", visualAsset: { id: species.assetId } }], onPlayerDamage() { damage++; return true; } });
+  const system = createCreatureSystem(new THREE.Scene(), null, null, { spawns: [{ id: "wild", type: "rusher", pos: { x: 0, y: 0, z: 0 }, temperament: id === "emberhorn" ? "TERRITORIAL" : id === "tidefin" ? "DEFENSIVE" : "SKITTISH", regionId: "field", visualAsset: { id: species.assetId } }], onPlayerDamage() { damage++; return true; } });
   const target = system.getCreatures()[0];
   system.setPlayerState(player); system.setPlayerPos(player.pos); system.setInvulnChecker(() => player.dodgeTime > 0);
   let pointCount = 0;
@@ -88,8 +88,8 @@ test("cancel, damage, travel and Author clear transient gear and restore wild AI
 
 test("captured wildlife leaves sibling predator targeting and damage paths until expedition reset", () => {
   const system = createCreatureSystem(new THREE.Scene(), null, null, { spawns: [
-    { id: "grazer", type: "rusher", pos: {x:0,y:0,z:0}, temperament: "SKITTISH" },
-    { id: "predator", type: "rusher", pos: {x:2,y:0,z:0}, temperament: "AGGRESSIVE" },
+    { id: "grazer", type: "rusher", speciesTag: "grazer", pos: {x:0,y:0,z:0}, temperament: "SKITTISH" },
+    { id: "predator", type: "rusher", speciesTag: "predator", pos: {x:2,y:0,z:0}, temperament: "AGGRESSIVE" },
   ] });
   system.setPlayerPos({x:50,y:.5,z:50});
   const [grazer,predator] = system.getCreatures();

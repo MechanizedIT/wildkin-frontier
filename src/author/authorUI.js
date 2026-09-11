@@ -1,5 +1,5 @@
 // src/author/authorUI.js — desktop Author Mode panel (Phase 4A.2.2 registry-driven)
-import { resolveAuthorType, readNormalizedTransform } from "./authorTypeRegistry.js";
+import { resolveAuthorType, readNormalizedTransform, getColliderDescriptor } from "./authorTypeRegistry.js";
 import { createAuthorActions } from "./authorActions.js";
 import { analyzeCampaign } from "./campaignReadiness.js";
 import { createLandscapeEditor } from './landscapeEditor.js';
@@ -1174,7 +1174,7 @@ export function createAuthorUI(opts) {
       const collEl = container.querySelector("#author-collision");
       const collRow = collEl.closest("label");
       collRow.style.display = caps.collisionControl ? "" : "none";
-      collEl.checked = obj.collisionEnabled !== false;
+      collEl.checked = getColliderDescriptor(found)?.enabled ?? (obj.collisionEnabled !== false);
       container.querySelector("#author-opacity").value = obj.opacity ?? 1;
       const tintVal = obj.color ?? obj.tint ?? "";
       let hex = "";

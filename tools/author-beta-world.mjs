@@ -16,6 +16,7 @@ import {composeOvernightHabitats} from './compose-overnight-habitats.mjs';
 import {normalizeCampaignHarvestCollision} from './normalize-harvest-collision.mjs';
 import {composeFoundryHabitat} from './compose-foundry-habitat.mjs';
 import {composeStarterRoute} from './compose-starter-route.mjs';
+import {composeSocialEncounters} from './compose-social-encounters.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const WORLD_PATH = path.join(ROOT, "src/world/data/world.json");
@@ -514,6 +515,7 @@ composeLandscapeArt(world);
 composeOvernightHabitats(world);
 composeFoundryHabitat(world);
 composeStarterRoute(world);
+composeSocialEncounters(world);
 registerStationAssets(world);
 registerDiscoveryAssets(world);
 registerCharacterAssets(world);

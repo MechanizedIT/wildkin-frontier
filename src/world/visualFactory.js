@@ -10,7 +10,8 @@ import { createFrontierPropMeshVisual } from './frontierPropMeshKit.js';
 import { createLandmarkMeshVisual } from './landmarkMeshKit.js';
 import { createWildkinMeshVisual } from './wildkinMeshKit.js';
 import { createThornBedVisual } from "./hazardVisual.js";
-import { createExternalModelVisual } from "../assets/modelAssetRuntime.js";
+import { createExternalModelVisual, getModelTemplate } from "../assets/modelAssetRuntime.js";
+import { SAPWOOD_VISUAL_ASSET } from "../resources/resourceConfig.js";
 
 // Simple deterministic RNG based on string seed
 function hashString(str) {
@@ -168,7 +169,15 @@ export function createObstacleVisual({size={}}={}) { return createMasonryPlatfor
 export function createLadderVisual({size={}}={}) { return createMasonryPlatform(size.width??size.w??1.9,size.height??2.4,size.depth??size.h??.5,{ladder:true}); }
 
 // Resource visuals — deterministic variation based on objectId
-export function createTreeVisual({objectId='tree_default'}={}) { return createHarvestTree(makeRng(objectId,'tree')); }
+export function createTreeVisual({objectId='tree_default'}={}) {
+  if (getModelTemplate(SAPWOOD_VISUAL_ASSET.model.path)) {
+    const root = createExternalModelVisual(SAPWOOD_VISUAL_ASSET);
+    root.userData.visualKind = 'resource/tree';
+    return root;
+  }
+  // Standalone recipe/test consumers can construct without browser preloading.
+  return createHarvestTree(makeRng(objectId,'tree'));
+}
 
 export function createRockVisual({objectId='rock_default'}={}) { return createHarvestRock(makeRng(objectId,'rock')); }
 

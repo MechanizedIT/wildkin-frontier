@@ -1,0 +1,7 @@
+# Split-rib sapwood target
+
+Root generated this target September 11, 2026 using the built-in OpenAI image tool; backend version undisclosed. Inputs: actual `before.png` render of the current built-in harvest tree and Chris's approved blue-jacket Explorer sheet. Original output remains under Codex generated images; `full-depleted-v1.png` is the project copy.
+
+Prompt: produce an achievable mobile 3D asset, two equal matching three-quarter panels showing full plant and depleted stump. Replace the Earth-like sphere-canopy sapling with biologically plausible alien sapwood around 1.8–2m tall: a squat rooted brown collar and exactly five independently attached woody curved ribs, brown/purple bark, broad pale fibrous inner faces, restrained teal leaf fins. Each woody rib and its leaves can disappear as one harvest unit while the others remain rooted. The matching low depleted collar has five cut sockets/stubs and no surviving tall branches or foliage. Matte broad faceting and minimal shading like the Explorer; clear wood identity, no glow/reflections/noisy bark, no cactus/crystals/tentacles/disconnected log bundle. Approximately1500–2500 triangles, compact upper spread, full object in frame, plain light neutral background, no text/UI/environment.
+
+Five named harvest chunks and a matching low stump are the intended implementation contract; image consistency and exact cut-joint mapping require an independent pre-production review. This is a proposed target, not yet an implemented or owner-accepted model.

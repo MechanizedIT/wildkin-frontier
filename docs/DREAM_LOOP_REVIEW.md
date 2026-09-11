@@ -10,6 +10,8 @@ Independent western Emberfall habitat V4 is **HOLD5.8/10**, below V2's6.1: truth
 
 The combined discovery/motion/starter batch passes 722 tests and package checks at 42.95 MB unpacked/20.00 MB ZIP. First-trip guidance passes a normal gather/extract/lure craft; the added renewable berry nook also passes ordinary gathering, extraction, lure craft and Foundation placement with read-only route guidance. The old 35 MB cap is retired; old cap statements below do not impose a current limit.
 
+The subsequent field-chest/Sapwood batch passes737 tests and package checks at43.05MB unpacked/20.05MB ZIP. Field chest exact model36f19f…cbc41 passes8.1 static and8.2 native opening readability across ordinary/persistent and transient claims. Sapwood exact model7733a5…30c16b passes8.1 static; actual five-hit depletion, matching stump, instance isolation and regrowth are proven in the browser. Rear resource readability is weaker than front and phone acceptance remains open. See `FIELD_CHEST_REVIEW.md` and `SAPWOOD_REVIEW.md`. Independent Shatterfen composition review isHOLD4.8; a new Verdant arrival rock shoulder is a target/implementation experiment, not accepted world art.
+
 ## Owner direction
 
 Chris's September 10 requests authorize blocky, high-contrast matte art with minimal shading and no reflections; readable mobile UI with spacious single icon containers; landscape presentation; a lower, fixed-pitch orbit camera controlled by dragging the right side; and movement relative to the camera's horizontal heading. Orbit alone must leave the idle player facing unchanged.
