@@ -4,6 +4,7 @@
 // only hurries when the player actually gets away.
 
 const TAU = Math.PI * 2;
+import { MOSSLING_MOTION } from "../creatures/mosslingMotion.js";
 
 export const COMPANION_FOLLOW_TUNING = Object.freeze({
   settleRadius: 2.65,
@@ -19,6 +20,17 @@ export const COMPANION_FOLLOW_TUNING = Object.freeze({
   formationDistance: 2.05,
   formationSpread: 0.86,
   forageDistance: 0.72,
+});
+
+export const MOSSLING_FOLLOW_TUNING = Object.freeze({
+  ...COMPANION_FOLLOW_TUNING,
+  strollSpeed: MOSSLING_MOTION.run * MOSSLING_MOTION.companionScale,
+  catchupSpeed: MOSSLING_MOTION.run * MOSSLING_MOTION.companionScale * MOSSLING_MOTION.catchupCadence,
+  recoverSpeed: MOSSLING_MOTION.run * MOSSLING_MOTION.companionScale * MOSSLING_MOTION.recoverCadence,
+  attentionSpeed: MOSSLING_MOTION.walk * MOSSLING_MOTION.companionScale,
+  nearSettleSpeed: MOSSLING_MOTION.walk * MOSSLING_MOTION.companionScale,
+  nearSettleRadius: 3.25,
+  settleTransitionDistance: 0.65,
 });
 
 function clamp(x, low, high) { return Math.max(low, Math.min(high, x)); }
@@ -84,14 +96,20 @@ export function deriveCompanionFollowIntent({ position, player, playerFacing = 0
 
   let target = settledPoint;
   let speed = 0;
-  if (mode === "STROLL") speed = tuning.strollSpeed;
+  if (mode === "STROLL") {
+    speed = tuning.strollSpeed;
+    if (tuning.nearSettleSpeed !== undefined) {
+      const blend = clamp((distance - tuning.nearSettleRadius) / tuning.settleTransitionDistance, 0, 1);
+      speed = tuning.nearSettleSpeed + (tuning.strollSpeed - tuning.nearSettleSpeed) * blend;
+    }
+  }
   else if (mode === "CATCHUP") speed = tuning.catchupSpeed;
   else if (mode === "RECOVER") speed = tuning.recoverSpeed;
   else if (mode === "ATTEND") {
     // One stable interest point reads as a brief sniff/look, rather than an
     // animal circling a continuously moving target.
     target = interestTarget ?? settledPoint;
-    speed = tuning.strollSpeed * 0.52;
+    speed = tuning.attentionSpeed ?? tuning.strollSpeed * 0.52;
   }
   if (mode === "STROLL" || mode === "CATCHUP" || mode === "RECOVER") target = anchor;
 

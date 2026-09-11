@@ -15,8 +15,8 @@ export function createActivationToast(scene, camera, audio) {
     if (!toastEl) return;
     const isWaypoint = type === "majorWaypoint";
     const title = isWaypoint ? `${displayName.toUpperCase()} ACTIVATED` : `${displayName.toUpperCase()} ONLINE`;
-    const subtitle = isWaypoint ? "New expedition start unlocked" : "Extraction available";
-    toastEl.innerHTML = `<div style="font-size:13px;font-weight:900;letter-spacing:0.06em;">${title}</div><div style="font-size:11px;font-weight:600;color:rgba(230,235,245,0.78);margin-top:2px;">${subtitle}</div>`;
+    const subtitle = isWaypoint ? "Extract here to secure your haul · New start unlocked" : "Extract here to secure your haul";
+    toastEl.innerHTML = `<div style="font-size:13px;font-weight:900;letter-spacing:0.06em;">${title}</div><div style="font-size:14px;font-weight:600;color:#e6ebf5;margin-top:2px;">${subtitle}</div>`;
     toastEl.style.opacity = "1";
     toastEl.style.transform = "translateX(-50%) translateY(0)";
     setTimeout(() => {

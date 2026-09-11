@@ -405,6 +405,8 @@ function refreshMapAvailability() {
 frontierMap = createFrontierMap({
   worldRegistry,
   frontierProgress,
+  getSession: () => expeditionSession,
+  getPlayerPos: () => playerController.getState().pos,
   onStartSelected: (destination) => {
     beginExpeditionDestination(destination);
   },
@@ -984,6 +986,7 @@ betaGame = createBetaGame({
   audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
   getSectionId: () => sectionRuntime.getActiveSectionId(),
   onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
+  getLootVisualRoot: (id) => playground.getLootVisualRoot(id),
   onGameplayAction: (type) => {
     if (type === "fieldToolStart") { keyboardInput.triggerAttack(); keyboardInput.setFieldToolHeld(true); }
     else if (type === "equipmentCancel") { keyboardInput.setFieldToolHeld(false); keyboardInput.consumeAttack(); pendingAttackLatch = false; fieldTool.hardReset(); }

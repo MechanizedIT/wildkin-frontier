@@ -2,6 +2,14 @@
 
 Status: implementation and independent visual review in progress. This document records evidence, not owner playtest acceptance.
 
+## September 11 overnight status
+
+The older family table and September10 scores below are historical. The approved Explorer and Mossling surfaces are now textured local GLBs; Explorer uses Mixamo clips with provisionally slower cadence. Mossling V3 has positive bounded pose/whole-cycle sampled-frame and native wild/follower reviews; continuous-motion and owner phone judgment remain open. Three articulated crafting stations have model gates8.3–8.4 and native operating proof. Ember Forge Vault V2 shape and opening readability pass8.0; its corrected replay rejects early/duplicate claims and passes pause, reduced motion, reload, Author and packaged offline checks. Full all-family art acceptance remains open.
+
+Independent western Emberfall habitat V4 is **HOLD5.8/10**, below V2's6.1: truthful irregular terrace collision did not solve the dominant geometric staircase appearance. Preserve this failure honestly and change the geological modeling approach; do not count route/support tests as visual admission. Bright ore-bearing faces and tapered decorative minerals improve resource distinction. Other regions still need equivalent composition review.
+
+The combined discovery/motion/starter batch passes 722 tests and package checks at 42.95 MB unpacked/20.00 MB ZIP. First-trip guidance passes a normal gather/extract/lure craft; the added renewable berry nook also passes ordinary gathering, extraction, lure craft and Foundation placement with read-only route guidance. The old 35 MB cap is retired; old cap statements below do not impose a current limit.
+
 ## Owner direction
 
 Chris's September 10 requests authorize blocky, high-contrast matte art with minimal shading and no reflections; readable mobile UI with spacious single icon containers; landscape presentation; a lower, fixed-pitch orbit camera controlled by dragging the right side; and movement relative to the camera's horizontal heading. Orbit alone must leave the idle player facing unchanged.

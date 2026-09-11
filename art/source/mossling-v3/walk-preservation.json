@@ -1,0 +1,8 @@
+{
+  "joints": 23,
+  "times": 121,
+  "comparedComponents": 27830,
+  "maxDifference": 0,
+  "pass": true,
+  "method": "Actual exported Walk local transforms, animation interpolation and fallback node defaults, quaternion sign aligned"
+}

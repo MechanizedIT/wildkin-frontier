@@ -14,6 +14,7 @@ import { SKILL_CATALOG, SKILL_BY_ID } from "../progression/skillCatalog.js";
 import { createEquipmentSystem } from '../equipment/equipmentSystem.js';
 import { createTamingEquipmentUse } from '../equipment/tamingEquipment.js';
 import { createBaseSystem } from '../base/baseSystem.js';
+import { createCacheMechanisms } from '../presentation/cacheMechanisms.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -28,9 +29,10 @@ export function createBetaGame(deps) {
   const contactShadows = createContactShadows(scene, registry);
   const combatFeedback = createCombatFeedback({ app, camera: deps.camera, scene });
   const abilityFx = createCompanionAbilityFx({ scene });
+  const cacheMechanisms = createCacheMechanisms({ registry, progress, getVisualRoot: deps.getLootVisualRoot });
   const playerOcclusion = initializePlayerOcclusion({ scene, camera: deps.camera, getPlayerPosition: () => playerController.getState().pos });
   const guardianEncounter = createGuardianEncounter({ scene, getGuardian: () => creatures.getCreatures().find(c => c.state.id === "wildkin_guardian"), getPlayerState: () => playerController.getState(), playerCombat, audio, onPulse: ({ target }) => pulse(target, 0xffbd63), onWarning: text => toast("Heartwood Guardian", text) });
-  const companions = createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
+  const companions = createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
   deps.characterPhysics?.setColliderFilter(companions.isFollowerCollider);
   creatures.setCompanionColliderFilter(companions.isFollowerCollider);
   const isCamp = () => session.isCamp();
@@ -74,8 +76,11 @@ export function createBetaGame(deps) {
     if (s.campaignCompleted) return { title: "Explore the wilds", description: "Discover every Wildkin and awaken the four seals." };
     if (corePending) return { title: "Bring the Core home", description: "Extract to secure the Heartwood Core." };
     if (companions.getPending().length) return { title: "Bring your Wildkin home", description: "Extract to secure your new bond." };
-    if (!s.hasDepartedOnce && isCamp()) return { title: "Through the gate", description: "Follow the path. Tap Travel at the glowing arch." };
-    if (session.isActive() && !s.completedObjectives.includes("first_extract")) return { title: "Gather & return", description: "Gather nearby. Extract at a blue Waypoint or amber Beacon." };
+    if (!s.hasDepartedOnce && isCamp()) return { title: "Tap Travel at the arch", description: "Follow the path. Tap Travel at the glowing arch." };
+    if (session.isActive() && !s.completedObjectives.includes("first_extract")) {
+      const carrying = Object.values(pickupSystem.getInventory()).some(count => count > 0);
+      return { title: carrying ? "Secure your haul" : "Gather nearby", description: carrying ? "Approach a blue Waypoint or amber Beacon and tap Extract to bring your haul home. Open Map for your nearest known return point." : "Gather nearby resources with your Omni-tool. Then return at a blue Waypoint or amber Beacon." };
+    }
     const next = getNextCampaignObjective(s);
     if (next?.id === "frontier_finale") return { title: "Find the Heartwood", description: "Repair the gates. Defeat the Guardian and extract with its Core." };
     return next ? { title: next.title, description: next.description } : { title: "Explore the frontier", description: "Follow the path toward the next ruined gate. Every discovered Waypoint opens a new start for future expeditions." };
@@ -203,7 +208,8 @@ export function createBetaGame(deps) {
     },
     lootAccess(chest) {
       if (chest.id === "chest_heartwood_core" && !guardianDefeated) return { ok: false, label: "HEARTWOOD SEALED", reason: "Defeat the Heartwood Guardian to quiet the seal." };
-      return companions.lootAccess(chest);
+      const access = companions.lootAccess(chest);
+      return access.ok === false ? access : cacheMechanisms.access(chest.id);
     },
     onLoot(rewards, chest) {
       if (chest?.id === "chest_heartwood_core") corePending = true;
@@ -217,7 +223,7 @@ export function createBetaGame(deps) {
       return { companions: secured, campaignCompleted: progress.getState().campaignCompleted };
     },
     getBankingExtras: () => ({ companions: companions.getPending().map(c => c.id), coreSecured: corePending }),
-    reset() { equipment.cancel(); equipment.sync(); base.close(); companions.reset(); guardianEncounter.reset(); combatFeedback.reset(); abilityFx.reset(); playerOcclusion.reset(); corePending = false; guardianDefeated = false; harvestBonus = 0; },
+    reset() { equipment.cancel(); equipment.sync(); base.close(); companions.reset(); cacheMechanisms.reset(); guardianEncounter.reset(); combatFeedback.reset(); abilityFx.reset(); playerOcclusion.reset(); corePending = false; guardianDefeated = false; harvestBonus = 0; },
     // Simulation ownership stays in the single fixed loop. The regular update
     // below only advances visual animation and DOM/presentation concerns.
     updateFixed(dt, { paused = false, authorSuppress = false } = {}) {
@@ -234,6 +240,7 @@ export function createBetaGame(deps) {
       guardianEncounter.update(dt, { sectionId, paused, hidden });
       audio.updateAmbience?.(dt, { sectionId, paused: paused || hidden });
       companions.update(dt, { sectionId, paused, hidden });
+      cacheMechanisms.update(dt, { sectionId, paused, hidden, reducedMotion: settings.reducedMotion });
       if (!hidden) atmosphere.update(settings.reducedMotion ? 0 : dt, { playerPosition: playerController.getState().pos, sectionId });
       // Author's own isolation/lighting owner must remain authoritative.
       atmosphere.motes.visible = !hidden;

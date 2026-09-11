@@ -637,6 +637,8 @@ export function normalizeWorldData(raw) {
       if (chest.refillSeconds !== undefined && chest.refillSeconds !== null && (!isNumber(chest.refillSeconds) || chest.refillSeconds <= 0)) throw new Error(`Loot Chest ${chest.id} refillSeconds must be positive or null`);
       chest.triggerRadius ??= 1.45;
       if (chest.visualAssetId !== undefined && !visualAssetIds.has(chest.visualAssetId)) throw new Error(`Loot Chest ${chest.id} unresolved Visual Asset ${chest.visualAssetId}`);
+      if (chest.collisionEnabled !== undefined && typeof chest.collisionEnabled !== 'boolean') throw new Error(`Loot Chest ${chest.id} collisionEnabled must be boolean`);
+      if (chest.uniformScale !== undefined && (!isNumber(chest.uniformScale) || chest.uniformScale <= 0)) throw new Error(`Loot Chest ${chest.id} uniformScale must be positive`);
     }
   }
 

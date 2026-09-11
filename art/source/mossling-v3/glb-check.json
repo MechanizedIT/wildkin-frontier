@@ -1,0 +1,69 @@
+{
+  "ok": true,
+  "input": ".dream-loop/overnight-mossling-anatomy-repair/v1/full-candidate/mossling-complete.glb",
+  "profile": "creature",
+  "limits": {
+    "max_triangles": 20000,
+    "max_vertices": 60000,
+    "max_materials": 2,
+    "max_bones": 48,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9",
+  "textureSHA256": [
+    "14d44a3a6e33a1af39aa8c01f42831018ada71e5f252ba57c77a345ce04ce7ad"
+  ],
+  "counts": {
+    "triangles": 19999,
+    "vertices": 23678,
+    "materials": 1,
+    "bones": 23,
+    "animations": 5
+  },
+  "animations": [
+    {
+      "name": "Attack",
+      "startSeconds": 0.0,
+      "durationSeconds": 0.699999988079071
+    },
+    {
+      "name": "Hurt",
+      "startSeconds": 0.0,
+      "durationSeconds": 0.44999998807907104
+    },
+    {
+      "name": "Idle",
+      "startSeconds": 0.0,
+      "durationSeconds": 2.4000000953674316
+    },
+    {
+      "name": "Run",
+      "startSeconds": 0.0,
+      "durationSeconds": 0.5
+    },
+    {
+      "name": "Walk",
+      "startSeconds": 0.0,
+      "durationSeconds": 0.75
+    }
+  ],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "14d44a3a6e33a1af39aa8c01f42831018ada71e5f252ba57c77a345ce04ce7ad",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

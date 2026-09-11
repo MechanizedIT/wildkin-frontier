@@ -47,7 +47,7 @@ export function createContextualInteraction(opts = {}) {
       e.stopPropagation();
       const sameTarget = !pressedTarget || (pressedTarget.id === current?.id && pressedTarget.type === current?.type);
       pressedTarget = null;
-      if (current && sameTarget) onActivate(current);
+      if (current && !current.disabled && sameTarget) onActivate(current);
     });
   }
 
@@ -55,9 +55,10 @@ export function createContextualInteraction(opts = {}) {
     // info: {id, type, label} or null
     current = info;
     if (!buttonEl) return;
-    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${info.detail ?? ""}` : "";
+    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${info.detail ?? ""}|${!!info.disabled}` : "";
     if (presentationKey === nextKey) return;
     presentationKey = nextKey;
+    buttonEl.disabled = info?.disabled === true;
     size = null; layoutTimer = 1; hide();
     if (!info) {
 
@@ -116,15 +117,15 @@ export function createContextualInteraction(opts = {}) {
   }
 
   function getCurrent() { return current; }
-  function isAvailable() { return !!current; }
+  function isAvailable() { return !!current && !current.disabled; }
   function activate() {
-    if (current) onActivate(current);
+    if (current && !current.disabled) onActivate(current);
   }
 
   // desktop E key handling — caller should call handleKey in global keydown
   function handleKey(e) {
     if (e.key.toLowerCase() !== "e") return false;
-    if (!current) return false;
+    if (!current || current.disabled) return false;
     // don't trigger if focused in input
     const tag = document.activeElement?.tagName?.toLowerCase();
     if (tag === "input" || tag === "textarea" || tag === "select" || document.activeElement?.isContentEditable) return false;

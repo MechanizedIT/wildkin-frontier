@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeGeneratedFile } from './write-generated-file.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -99,7 +100,7 @@ export default WORLD_DATA;
 
   // Ensure deterministic: sortedClone already sorts, but JSON.stringify preserves insertion order from sortedClone
   // Write generated file
-  fs.writeFileSync(GEN_PATH, jsContent, "utf-8");
+  writeGeneratedFile(GEN_PATH, jsContent);
   console.log(`[generate-world] wrote ${path.relative(ROOT, GEN_PATH)}`);
 
   // Ensure wrapper exists (thin re-export, not a mirror)

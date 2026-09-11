@@ -1,6 +1,18 @@
 # Character motion workflow correction
 
-## September 11 phone follow-up — current status
+## September 11 — current Mossling V3 provisional integration
+
+The local game now references `assets/models/mossling-v3/model.glb`, exact SHA256 `ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9`. This is a **provisional motion-review candidate, not final motion acceptance**. Its editable source, packed original texture, fitted rig, five clips and concise provenance are retained in `art/source/mossling-v3/`; raw studies remain intact.
+
+The repair preserves the liked render geometry and UVs. A separately fitted closed capsule proxy received Blender bone-heat weights; nearest-polygon interpolated transfer applied them to the original render mesh. Semantic flower attachments and a narrowly bounded head/neck core with a .075 m geodesic feather corrected cheek-to-foreleg leakage. No whole-body height mask was reapplied. Explicit hip/stifle/hock/paw chains and a short torso spine replace the earlier unsuitable limb assumptions.
+
+Measured CC0 Quaternius Wolf motion supplied adapted contact/rhythm references. Walk is preserved exactly; Run is a shallow .50 s bound at raw 1.9 m/s with maximum shoulder drop 2.408 cm. The model remains 19,999 triangles, 23 deform joints, one original 1024 texture and five clips. Bounded proxy/pose and complete-candidate exported-frame reviews were positive (approximately 8.2 and 8.1 respectively). An additional full twelve-phase Run side-sequence inspection found coherent chest/head/flower attachments; because its reviewer also authored the clips, it is documented as implementer inspection, not an independent admission.
+
+Actual canonical native evidence exercises follow, stop, orbit, both wild sizes wandering, fleeing and solid obstacle steering with zero page errors. Follow transitions Idle→Walk→Run and stop returns to Idle. Moss-only speeds at .7 scale are .455 m/s near settling, 1.33 travel, 1.995 catch-up and 2.261 recovery. Wild movement scales with instance size and preserves custom Author speeds. Sibling default speeds remain 1.45/4.15/6.2 m/s; 3.55/6.1 are follow radii, not speeds. The global animator is unchanged.
+
+Evidence index: `.dream-loop/overnight-mossling-anatomy-repair/v1/NATIVE-HANDOFF.md`; exact exported phase/video/contact records are under `full-candidate/actual-export-review/`, with canonical native captures in `native-game-v2` and corrected solid-obstacle evidence in `native-obstacle-v3`. Root positively reviewed selected native frames; gate-occluded follow 06 is excluded. **Continuous-motion review at normal speed, weight-transfer/transition judgment, combat timing and Chris's physical-phone gate remain pending.** Sampled frames, numerical contacts and packaging do not close them.
+
+## September 11 phone follow-up — earlier diagnosis
 
 Chris likes the revised models and Explorer animation, but finds all three
 player locomotion modes around 30–40% too fast. Ground speed and speed-linked
@@ -17,14 +29,14 @@ exact-hash audit identifies unclear footfalls, little weight transfer and a
 hovering/puppet-like faster gait. The new fixed-length IK experiment improves
 contact, and sole weights plus whole-component attachment weights fix distinct
 skinning errors. However, v3/v4 still fail independent visual review: v4 scores
-8.3 likeness, 6.9 walk, 6.4 run and 7.2 deformation. **No new Mossling model is
-admitted or substituted.** Numeric contact correctness is insufficient.
+8.3 likeness, 6.9 walk, 6.4 run and 7.2 deformation. Those experimental bakes were
+not admitted or substituted at that checkpoint. Numeric contact correctness is insufficient.
 
 [Quadruped research](QUADRUPED_RESEARCH.md) and Asset Forge's new quadruped
 reference preserve the gait/contact/anatomy process and the actual downloaded
 free Quaternius Fox/Husky/Wolf examples. Their pack-specific supplied license
-is CC0. They are reference material; no third-party motion or geometry has
-been integrated into the game. Rejected setup captures and wrong-old-model
+is CC0. At that earlier checkpoint they were reference material only; the current
+candidate above now adapts measured Wolf motion to Mossling's own fitted rig. Rejected setup captures and wrong-old-model
 audits are explicitly excluded from acceptance evidence.
 
 Chris then authorized adding Blender MCP and assessing img2threejs. Community
@@ -73,7 +85,7 @@ Evidence: `.dream-loop/workflow-proof/mossling-final-axis-audit/front.png` and `
 
 `tools/art/prepare-mixamo-character.py` prepared the unrigged bind-surface FBX without altering the shipping character. Trial input: `.dream-loop/workflow-proof/mixamo-explorer-trial/prepared-v1/explorer-rest.fbx`, 2,811,004 bytes, 23,958 vertices, embedded original 1024px color texture. Blender export/reimport preserved the mesh vertex count and textured material. Chris authorized the free upload and signed in; upload, automatic rigging and compatible animation downloads are complete. Retained inputs and the standalone rebuild command are in `art/source/explorer-v2/rig-profile.zip`.
 
-## Current delivery status
+## Earlier delivery status (Mossling motion superseded above)
 
 The neutral Mossling reference author rejected an upright V1 and another sideways-head V2. V3 uses a side profile with head, body and paw pairs aligned. Local TRELLIS generation, texture-aware reduction, fresh landmarks and a refined gait produced the admitted revision. A shared keyframing helper initially erased pelvis lift; the corrected neutral builder retains vertical motion while removing horizontal root drift. Reference and reviewed source packages remain separate from shipping GLBs.
 

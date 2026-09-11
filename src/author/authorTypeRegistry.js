@@ -934,6 +934,31 @@ function makeSectionObjectDefinition(collection, key, visualId, inspector = [], 
   };
 }
 
+function makeLootChestDefinition() {
+  const def = makeSectionObjectDefinition('lootChests', 'lootChest', 'poi/chest', [
+    { key: 'displayName', label: 'Display Name', type: 'text', path: 'displayName' },
+    { key: 'visualAssetId', label: 'World Model', type: 'visualAsset', path: 'visualAssetId' },
+    { key: 'lootTableId', label: 'Loot Table', type: 'text', path: 'lootTableId' },
+    { key: 'refillSeconds', label: 'Refill Seconds (blank = once)', type: 'number', path: 'refillSeconds' },
+    { key: 'courseId', label: 'Course ID', type: 'text', path: 'courseId' },
+    { key: 'collisionEnabled', label: 'Solid', type: 'boolean', path: 'collisionEnabled' },
+  ]);
+  def.sizeMode = 'uniform';
+  Object.assign(def.capabilities, { resize: true, sizeMode: 'uniform', collisionControl: true });
+  const read = def.transform.read, write = def.transform.write;
+  def.transform.read = found => ({ ...read(found), uniformScale: found.obj.uniformScale ?? 1, sizeMode: 'uniform' });
+  def.transform.write = (object, found, normalized) => {
+    write(object, found, normalized);
+    if (isFiniteNumber(normalized.uniformScale)) object.uniformScale = Math.max(.2, Math.min(5, normalized.uniformScale));
+  };
+  def.collision.describe = found => describeVisualAssetCollider({
+    collision: found.visualAssets?.find(a => a.id === found.obj.visualAssetId)?.collision,
+    position: found.obj.pos, uniformScale: found.obj.uniformScale ?? 1,
+    rotationY: found.obj.rotY ?? 0, enabled: found.obj.collisionEnabled === true,
+  });
+  return def;
+}
+
 function makeSpawnDefinitions() {
   const campSpawn = {
     key: "spawn:camp",
@@ -1052,12 +1077,7 @@ const DEFINITIONS = [
   makeSectionObjectDefinition("killVolumes", "killVolume", "hazard/thornbed", [
     { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
   ], { sized: true, visualRole: "playerFacing" }),
-  makeSectionObjectDefinition("lootChests", "lootChest", "poi/chest", [
-    { key: "displayName", label: "Display Name", type: "text", path: "displayName" },
-    { key: "lootTableId", label: "Loot Table", type: "text", path: "lootTableId" },
-    { key: "refillSeconds", label: "Refill Seconds (blank = once)", type: "number", path: "refillSeconds" },
-    { key: "courseId", label: "Course ID", type: "text", path: "courseId" },
-  ]),
+  makeLootChestDefinition(),
   makePoiDefinition("chest"),
   makePoiDefinition("barrier"),
   makeGenericPoiDefinition(),

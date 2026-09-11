@@ -2,7 +2,13 @@
 
 
 
-Status, September 11: Chris likes the revised models and Explorer animation shapes; player travel/cadence are provisionally 35% slower together. Mossling-v2 motion acceptance is reopened by his latest phone feedback. Contact-correct experimental bakes still fail independent visual review, so the live model remains v2. A researched quadruped recipe and free motion references are retained; the newly authorized Blender MCP live workbench passes real scene/screenshot/frame-edit protocol checks. img2threejs contributes useful offline rig-validation ideas, not a replacement runtime or automatic quadruped animator. The three-class pipeline remains supervised and anatomy-specific. See `MOTION_WORKFLOW_REVIEW.md`; earlier PASS entries below are historical and do not override current owner feedback. The wider asset pass remains open.
+Status, September 11: the local game now contains provisional Mossling V3, exact SHA256 `ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9`, at `assets/models/mossling-v3/model.glb`. Editable source and concise provenance are in `art/source/mossling-v3/`. Bounded pose and full-cycle sampled-frame review are positive; continuous-motion review and Chris's phone acceptance are still pending. Earlier PASS entries below are historical and do not override owner feedback or establish final acceptance. Explorer travel/cadence remain provisionally 35% slower together; the wider art pass remains open.
+
+The V3 repair uses a separate coarse closed anatomical proxy, Blender bone-heat weights and nearest-polygon interpolated transfer onto the unchanged liked render mesh. Semantic flower attachment and a localized head/neck constraint with geodesic nape feather prevent the prior cheek/foreleg weight leakage; no whole-body height mask is reused. The editable blend retains the proxy, fitted rig, final weights and all five clips, with the exact original 1024 PNG packed inside. There is no redundant render collection or raw generation master in the new source package.
+
+The shipped candidate has 19,999 triangles, 23,678 split vertices, 23 deform bones, one material and five clips. Measured CC0 Wolf contact/rhythm references were adapted to the fitted anatomy. Walk remains exactly preserved at raw .65 m/s; Run is raw 1.9 m/s. Moss-specific runtime calibration covers both wild instance sizes and the .7-scale companion without changing sibling speeds or globally clamping animation.
+
+Canonical native captures exercise follow/stop/orbit/wander/flee/solid-obstacle movement with zero page errors. Source receipts point to `.dream-loop/overnight-mossling-anatomy-repair/v1/NATIVE-HANDOFF.md` and the exact exported phase/contact/video records. Root's bounded pose/full-candidate frame reviews were positive; the implementer's additional twelve-phase Run sequence review is explicitly not author-independent admission. Natural cadence, weight transfer, continuous transitions, combat timing and physical-phone performance remain perceptual gates. See `MOTION_WORKFLOW_REVIEW.md` for current status and excluded failed review setups.
 
 
 
@@ -115,7 +121,7 @@ The game-asset-production skill's `game-dev` CLI is not exposed on PATH or in it
 The local-service helper’s Status command was tested. Automatic approval review blocked stopping/restarting the existing owned TRELLIS service without a reason beyond “blocked by policy”; Start/Stop lifecycle remains unverified. The existing service remains available, so this does not block asset work.
 
 
-## Admitted candidate budgets
+## Historical admitted candidate budgets
 
 | Model revision | Triangles | Runtime vertices | Material / color texture | Rig / clips | GLB bytes |
 | --- | ---: | ---: | --- | --- | ---: |

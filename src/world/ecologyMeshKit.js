@@ -1,7 +1,7 @@
 // Purpose-built visual library for the frontier ecology.  These are local-space
 // presentation meshes only: authored placement, collision and baking live elsewhere.
 import * as THREE from "three";
-import { makeMeshKit, facetedRings, leafBlade } from "./facetedMeshKit.js";
+import { makeMeshKit, facetedRings, leafBlade, chippedBox } from "./facetedMeshKit.js";
 
 export const CUSTOM_ECOLOGY_ASSET_IDS = Object.freeze(new Set([
   "asset_verge_canopy", "asset_verge_canopy_spread", "asset_verge_canopy_tall",
@@ -94,9 +94,19 @@ function fenLily() { const kit=makeMeshKit(); [[-.28,0,.65,.52],[.31,.16,.58,.46
 
 function fenStone() { const kit=makeMeshKit(); addRings(kit,"fen_monolith",[[0,.72,.54],[.32,.82,.63],[1.7,.5,.42],[2.76,.24,.2],[3.15,.05,.04]],C.stone,[0,0,0],[1,1,1],[0,.24,0],7); addRings(kit,"monolith_light_plane",[[0,.35,.035],[1.65,.25,.025],[2.75,.06,.012]],C.stoneLight,[.3,.06,.53],[1,1,1],[0,.24,0],5); kit.box("cyan_vertical_fissure",[.17,1.95,.035],C.crystal,[.11,1.36,.59],[0,.24,0],.018); kit.box("cyan_inner_fissure",[.06,1.7,.038],C.crystalLight,[.11,1.36,.612],[0,.24,0],.008); for(let i=0;i<5;i++){const a=i*1.26;lobe(kit,`monolith_foot_${i}`,[Math.cos(a)*.72,.12,Math.sin(a)*.6],[.26,.17,.22],i%2?C.stoneLight:C.stone,a);addLeaf(kit,`monolith_moss_${i}`,[Math.cos(a)*.65,.08,Math.sin(a)*.57],.35,.09,C.leafLight,a,-1.05);} return kit.group; }
 
-function oreRock() { const kit=makeMeshKit(); const chunks=[[-.26,.38,0,.72],[.3,.31,.08,.55],[.02,.25,-.42,.5]]; chunks.forEach(([x,y,z,s],i)=>{
-  lobe(kit,`rock_plane_${i}`,[x,y,z],[s,s*.68,s*.8],i?"#63717a":"#414d58",i*.5);
- }); [[-.39,.46,.42],[.36,.38,.43],[.04,.7,.28]].forEach(([x,y,z],i)=>lobe(kit,`embedded_ore_${i}`,[x,y,z],[.18,.1,.055],i?C.ore:C.oreLight,i)); return kit.group; }
+function oreRock() {
+  const kit=makeMeshKit();
+  // A dark, substantial outcrop with exposed pale iron faces. Keep the entire
+  // base inside its reviewed1.38×1.24m footprint; no decorative crystal tips.
+  addRings(kit,'ore_host_back',[[0,.48,.43],[.18,.54,.45],[.56,.43,.36],[.73,.22,.20]],'#414550',[-.12,0,-.09],[1,1,1],[0,.17,0],7);
+  addRings(kit,'ore_host_front',[[0,.29,.28],[.15,.34,.29],[.43,.27,.24],[.57,.12,.11]],'#59606a',[.28,0,.14],[1,1,1],[0,-.21,0],6);
+  addRings(kit,'ore_host_shard',[[0,.23,.20],[.12,.24,.23],[.31,.17,.17],[.42,.05,.05]],'#4b4d57',[-.35,0,.26],[1,1,1],[0,.3,0],5);
+  for(const [i,[x,y,z,w,h,d,ry,rz]] of [[-.21,.70,.10,.31,.22,.28,.24,.12],[.28,.54,.27,.29,.20,.25,-.25,-.18],[-.39,.31,.40,.23,.17,.18,.2,.15]].entries()){
+    kit.mesh(`exposed_iron_${i}`,chippedBox(w,h,d,i+2),i===1?'#c2cccf':'#e1e5dd',[x,y,z],[.08,ry,rz]);
+  }
+  kit.beam('iron_seam',[-.12,.52,.31],[-.23,.38,.36],.055,.035,'#a8b8ba');
+  return kit.group;
+}
 
 function crystal() { const kit=makeMeshKit(); addRings(kit,"crystal_base",[[0,.95,.74],[.26,1.04,.8],[.56,.68,.51],[.75,.16,.12]],"#344c67",[0,0,0],[1,1,1],[0,.2,0],7); [[0,0,0,.48,2.35],[.52,.06,.12,.3,1.58],[-.48,.04,.25,.27,1.28],[.22,.02,-.47,.23,1.1],[-.1,.04,-.5,.16,.78]].forEach(([x,y,z,r,h],i)=>{addRings(kit,`cyan_crystal_${i}`,[[0,r],[h*.72,r*.62],[h,.015]],i?C.crystal:C.crystalLight,[x,.42+y,z],[1,1,1],[0,i*.71+(i?-.24:0),i?-.24:0],6);}); for(let i=0;i<5;i++){const a=i*1.25;lobe(kit,`crystal_foot_${i}`,[Math.cos(a)*.86,.12,Math.sin(a)*.68],[.23,.14,.19],i%2?C.stone:C.stoneLight);} return kit.group; }
 

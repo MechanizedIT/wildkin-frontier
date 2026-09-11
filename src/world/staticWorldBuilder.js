@@ -51,6 +51,7 @@ export function createStaticWorld(worldData) {
   const boundaries = [];
   const sectionGroups = new Map();
   const portalVisualRoots = new Map();
+  const lootVisualRoots = new Map();
   let currentSectionId = null;
   let currentSectionGroup = group;
   let activeSectionId = null;
@@ -131,6 +132,19 @@ export function createStaticWorld(worldData) {
     });
   }
 
+  function addAssetObstacle(id, descriptor, metadata = {}) {
+    if (!descriptor.enabled || descriptor.shape !== 'box') return;
+    const center = getColliderCenter(descriptor);
+    const { width: w, height, depth: d } = descriptor.size;
+    const rotY = descriptor.rotationY;
+    const cos = Math.abs(Math.cos(rotY)), sin = Math.abs(Math.sin(rotY));
+    const hx = cos * w / 2 + sin * d / 2, hz = sin * w / 2 + cos * d / 2;
+    obstacles.push({ id, sectionId: currentSectionId, regionId: currentSectionId,
+      x: center.x, z: center.z, w, h: d, height, baseY: center.y - height / 2, rotY,
+      aabb: { minX: center.x - hx, maxX: center.x + hx, minZ: center.z - hz, maxZ: center.z + hz },
+      visibleInPlay: true, collisionEnabled: true, opacity: 1, ...metadata });
+  }
+
   function applyFactoryPresentation(root, prop, visibleInPlay, opacity) {
     root.visible = visibleInPlay;
     const tint = prop.color ?? prop.tint;
@@ -189,33 +203,7 @@ export function createStaticWorld(worldData) {
         rotationY,
         enabled: collisionEnabled,
       });
-      if (descriptor.enabled && descriptor.shape === "box") {
-        const center = getColliderCenter(descriptor);
-        const w = descriptor.size.width;
-        const height = descriptor.size.height;
-        const d = descriptor.size.depth;
-        const cos = Math.abs(Math.cos(rotationY));
-        const sin = Math.abs(Math.sin(rotationY));
-        const hx = cos * w / 2 + sin * d / 2;
-        const hz = sin * w / 2 + cos * d / 2;
-        obstacles.push({
-          id: prop.id,
-          sectionId: currentSectionId,
-          regionId: currentSectionId,
-          x: center.x,
-          z: center.z,
-          w,
-          h: d,
-          height,
-          baseY: center.y - height / 2,
-          rotY: rotationY,
-          aabb: { minX: center.x - hx, maxX: center.x + hx, minZ: center.z - hz, maxZ: center.z + hz },
-          visibleInPlay,
-          collisionEnabled,
-          opacity,
-          visualAssetId: prop.visualAssetId,
-        });
-      }
+      addAssetObstacle(prop.id, descriptor, { visibleInPlay, collisionEnabled, opacity, visualAssetId: prop.visualAssetId });
       return;
     }
     // Use canonical descriptor for rectangular statics where applicable
@@ -550,14 +538,19 @@ export function createStaticWorld(worldData) {
       }
     }
     for (const chest of region.lootChests ?? []) {
-      addFactoryVisual({
+      const root = addFactoryVisual({
         id: chest.id,
         visualRef: chest.visualAssetId ? { kind: "asset", id: chest.visualAssetId } : { kind: "builtin", id: "poi/chest" },
         position: chest.pos,
         rotationY: chest.rotY ?? 0,
         options: { visualAssets: worldData.visualAssets ?? [], uniformScale: chest.uniformScale ?? 1, sizeMode: "uniform" },
-        metadata: { lootChestId: chest.id, visibleInPlay: true, collisionEnabled: false },
+        metadata: { lootChestId: chest.id, visibleInPlay: true, collisionEnabled: chest.collisionEnabled === true },
       });
+      lootVisualRoots.set(chest.id, root);
+      const asset = worldData.visualAssets?.find(a => a.id === chest.visualAssetId);
+      addAssetObstacle(chest.id, describeVisualAssetCollider({ collision: asset?.collision,
+        uniformScale: chest.uniformScale ?? 1, position: chest.pos, rotationY: chest.rotY ?? 0,
+        enabled: chest.collisionEnabled === true }), { visualAssetId: chest.visualAssetId });
     }
     for (const hazard of region.killVolumes ?? []) {
       addFactoryVisual({
@@ -709,6 +702,7 @@ export function createStaticWorld(worldData) {
     sectionGroups,
     setActiveSection,
     refreshPortalGateVisual,
+    getLootVisualRoot: (id) => lootVisualRoots.get(id) ?? null,
     getActiveSectionId: () => activeSectionId,
     getGroundHeight,
     getCollisionObstaclesForHeight,

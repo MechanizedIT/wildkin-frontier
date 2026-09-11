@@ -42,6 +42,7 @@ export function createLootSystem(worldRegistry, opts = {}) {
           : chest.refillSeconds === undefined || chest.refillSeconds === null ? "CHEST EMPTY" : "CHEST REFILLING",
         availability,
         detail: access.ok === false ? access.reason : undefined,
+        disabled: access.busy === true,
         distance,
       };
     }

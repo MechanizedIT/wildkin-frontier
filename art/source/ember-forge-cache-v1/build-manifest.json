@@ -1,0 +1,83 @@
+{
+  "reference": "../../overnight-ember-cache-target/closed-open-v1.png",
+  "referenceSHA256": "3372e01994bb9f80ba4cc6eb9ee209070ca1691a4183bf56e9a12c6feccb4684",
+  "referenceReview": "root approved direction; generated Explorer size not used",
+  "method": "Blender hard-surface reconstruction; station palette/export pattern",
+  "modelReview": "Pending independent root judgment; no self-PASS or integration",
+  "sha256": "9a8fb95f2c3345587c64f2a071eb6a72ee9fc85e18a10e284355e88e26a2c110",
+  "fileBytes": 269292,
+  "triangles": 3600,
+  "materialCount": 1,
+  "textureSize": [
+    256,
+    256
+  ],
+  "runtimeMeshCount": 5,
+  "sourcePartCount": 86,
+  "dimensionsMeters": [
+    2.200000047683716,
+    1.600000023841858,
+    1.5170000195503235
+  ],
+  "front": "+Z glTF / -Y Blender",
+  "base": "Y0 glTF",
+  "clearOpeningMeters": {
+    "width": 1.01,
+    "height": 1.0
+  },
+  "doorPanelWidthMeters": 0.493,
+  "doorTravelMeters": 0.515,
+  "trayTravelMeters": 0.25,
+  "motionNodes": {
+    "CacheDoorLeft": {
+      "axis": "local X",
+      "delta": -0.515,
+      "restGLTF": [
+        -0.25,
+        0.775,
+        0.49
+      ]
+    },
+    "CacheDoorRight": {
+      "axis": "local X",
+      "delta": 0.515,
+      "restGLTF": [
+        0.25,
+        0.775,
+        0.49
+      ]
+    },
+    "CacheTray": {
+      "axis": "local Z",
+      "delta": 0.25,
+      "restGLTF": [
+        0,
+        0.338,
+        -0.05
+      ]
+    },
+    "CacheCore": {
+      "parent": "CacheTray",
+      "claimPresentation": "remove or hide whole core after reward"
+    }
+  },
+  "limits": "Static model and motion extremes require independent review. Root owns reward/collision/animation integration.",
+  "mechanicalClearance": {
+    "closedTrayToShutterMeters": 0.012000024318695068,
+    "pocketSweepExtentsBlender": {
+      "min": [
+        -1.033,
+        -0.674,
+        0.255
+      ],
+      "max": [
+        1.033,
+        -0.406,
+        1.303
+      ]
+    },
+    "doorGeometryConstant": true,
+    "fixedShellIdentical": true,
+    "coreSaddleContactHeight": 0.428
+  }
+}

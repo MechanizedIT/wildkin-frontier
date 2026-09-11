@@ -63,9 +63,9 @@ Existing 58 library assets plus runtime-only families remain the coverage list. 
 
 ## Immediate review backlog
 
-1. Foundry habitat v2 is6.1/10 HOLD; improve broad terrace composition, ore-bearing shapes and integrated ruin landing. Extend successful composition to the other sparse regions with independent reviews.
-2. Mossling proxy weighting now preserves moderate torso volume; finish localized head correction and judge a real-speed Walk cycle before further clips or admission.
-3. Build the generated Emberfall cache target as a genuinely opening mechanism linked to the existing Emberhorn seal and claim state. Follow with other region-specific discoveries and ordinary moving lids.
+1. Fresh-save return loop: clarify that the blue Lookout also extracts; guide the first secure return and name starter recipe ingredients. Add a real renewable berry source and readable wood/stone cluster, then replay gather → extract → craft/build without grants.
+2. Foundry habitat V4 is5.8/10 HOLD despite sound traversal; replace the geometric staircase approach before another target-match attempt. Bright ore faces now read better. Extend successful composition to other sparse regions with independent reviews.
+3. Mossling V3 repairs the head/neck and moderate loaded poses while preserving the liked surface. Five clips and calibrated wild/follower motion have bounded native proof; continuous-motion and phone judgment remain open. Ember Forge Vault model/opening passes8.0 and runtime/offline checks; follow with other region-specific discoveries and ordinary moving lids.
 4. Continue useful Camp/equipment progression: bed rest, powered tool, one clear ranged option and food. Existing building, three physical crafting stations and five-slot equipment foundation are playable; do not advertise pending tools through icons.
 5. Revisit encounter/social danger and taming discoverability. Four distinct physical attempts, loose physics followers and directional stealth have bounded native proof; full first-time campaign pacing remains unmeasured.
 6. Keep reviewing actual mobile controls, active/inactive region costs and world boundaries. Current boundary art/fade seams and broader all-asset quality remain open; no whole-game polish claim.

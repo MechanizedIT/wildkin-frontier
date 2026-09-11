@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { RUSHER_CONFIG, SPITTER_CONFIG } from "../combat/combatConfig.js";
 import { createVisual, getVisualRecipeKey, tagVisualRoot } from "../world/visualFactory.js";
 import { createVisualAnimationController, disposeExternalModelInstance } from "../assets/modelAssetRuntime.js";
+import { mosslingTravelSpeed } from "./mosslingMotion.js";
 
 function getConfig(type) {
   return type === "spitter" ? SPITTER_CONFIG : RUSHER_CONFIG;
@@ -20,6 +21,9 @@ export function createWildCreature(scene, physicsWorld, spawn, index, { shouldIg
     recipeKey: getVisualRecipeKey(visualRef, { objectId: spawn.id }),
   });
   const creatureScale = spawn.uniformScale ?? spawn.scale ?? 1;
+  if (spawn.visualAsset?.id === "asset_wildkin_mossling") {
+    cfg.moveSpeed = mosslingTravelSpeed(creatureScale * (spawn.visualAsset.model?.scale ?? 1), cfg.moveSpeed);
+  }
   const visibleInPlay = spawn.visibleInPlay !== false;
   const collisionEnabled = spawn.collisionEnabled !== false;
   group.name = spawn.id ?? `creature_${type}_${index}`;

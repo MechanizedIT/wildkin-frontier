@@ -1,0 +1,70 @@
+{
+  "revision": "mossling-v3",
+  "stableAssetId": "asset_wildkin_mossling",
+  "status": "provisional-native-review-continuous-motion-and-owner-phone-pending",
+  "modelPath": "assets/models/mossling-v3/model.glb",
+  "modelSHA256": "ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9",
+  "editableSource": "blend.blend",
+  "editableSourceSHA256": "20477b26c2d7a10597f307aee31122e4a16ac29e84df94069ea972a18a9c5eb7",
+  "packedTextureSHA256": "14d44a3a6e33a1af39aa8c01f42831018ada71e5f252ba57c77a345ce04ce7ad",
+  "packedTextureExactPayloadOffset": 2966384,
+  "counts": {
+    "triangles": 19999,
+    "vertices": 23678,
+    "bones": 23,
+    "materials": 1,
+    "textures": 1,
+    "textureSize": 1024,
+    "clips": 5
+  },
+  "rawStudy": ".dream-loop/overnight-mossling-anatomy-repair/v1",
+  "builderMode": "archival-helper-with-retained-study-dependencies",
+  "review": {
+    "rootBoundedPoseAndFrameReview": "positive",
+    "implementerFullRunSideSequence": "positive-bounded-only",
+    "continuousMotion": "pending",
+    "ownerPhone": "pending"
+  },
+  "files": {
+    "anatomy-fit.json": {
+      "bytes": 14032,
+      "sha256": "1221488d08df1a98d7af6a94d23e7130ceeb38bc6ac3af32f016c8a30642ada2"
+    },
+    "blend.blend": {
+      "bytes": 8266376,
+      "sha256": "20477b26c2d7a10597f307aee31122e4a16ac29e84df94069ea972a18a9c5eb7"
+    },
+    "builder.py": {
+      "bytes": 68261,
+      "sha256": "4ce12885fd9f31c64565f30856b669c5bed5ba8ad3f2b814ff279eded1d3776c"
+    },
+    "glb-check.json": {
+      "bytes": 1622,
+      "sha256": "acdbc8afb05f5e7bf4681c87d5cf2915658fb1512ecc03123ed16a5ed916f920"
+    },
+    "head-constraint.json": {
+      "bytes": 1064,
+      "sha256": "faf3ed81979f83c1414309a6ecb81e9133c1c1dfa3d2155b21d2e54c7b5c1f8c"
+    },
+    "motion-provenance.json": {
+      "bytes": 256406,
+      "sha256": "c42d7302f5e61f358fa5805915a03242174204f93de72baa2c7e90d7c510ad54"
+    },
+    "motion-reference-license.txt": {
+      "bytes": 364,
+      "sha256": "83d8959f9fc56353ed571fbe2dc52e4bcd64508e2399501cd45ac2ce3df0bf8c"
+    },
+    "motion-review.md": {
+      "bytes": 1780,
+      "sha256": "edde652ba91e5f1c01e1bf1b64bf12a417b37b395a0401c5c752e36195b7cb5b"
+    },
+    "README.md": {
+      "bytes": 4340,
+      "sha256": "dcabd0fe9dbf9fee7af0aec1b0dd2b9ca5b048a8bb55d16c1a693d5f5a766cfc"
+    },
+    "walk-preservation.json": {
+      "bytes": 240,
+      "sha256": "a1fe8a6a870cd2e42aad112588e582d0a2c99eb094dd551d037180a18b8c76d2"
+    }
+  }
+}

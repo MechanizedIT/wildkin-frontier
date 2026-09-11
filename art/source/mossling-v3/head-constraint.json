@@ -1,0 +1,29 @@
+{
+  "failed": false,
+  "method": "Head/neck-only semantic anatomical core with geodesic nape feather, after fitted proxy heat transfer",
+  "exactCorePredicate": "abs(x)<.34 and -.81<y and ((y<-.38 and .59<z<1.23) or (y<-.24 and .88<z<1.23)) in Blender meters",
+  "feather": "Smoothstep from full restriction at core to zero over .075m shortest surface-edge distance; disconnected components do not borrow distance",
+  "target": "Renormalize existing head/neck ratio; remove other bones only at core, interpolate in feather. Else retain proxy weights unchanged.",
+  "coreVertices": 2320,
+  "featherVertices": 420,
+  "outsideChanged": 0,
+  "coreLimbLeaks": 0,
+  "localizedWeights": {
+    "89": {
+      "neck": 0.6583863954309388,
+      "head": 0.3416136045690612
+    },
+    "90": {
+      "neck": 0.6583441447007896,
+      "head": 0.34165585529921033
+    },
+    "8311": {
+      "neck": 0.6540159751685539,
+      "head": 0.3459840248314461
+    },
+    "8319": {
+      "neck": 0.6472058822027169,
+      "head": 0.35279411779728315
+    }
+  }
+}

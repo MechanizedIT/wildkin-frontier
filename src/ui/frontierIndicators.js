@@ -20,7 +20,7 @@ export function createFrontierIndicators(opts = {}) {
     const isExtraction = type === "extraction";
     const bg = isExtraction ? "rgba(255,112,67,0.92)" : "rgba(79,195,247,0.92)";
     const shape = isExtraction ? "50%" : "3px";
-    el.style.cssText = `position:absolute;display:flex;align-items:center;gap:6px;background:${bg};color:#0e1420;font-size:11px;font-weight:800;padding:5px 7px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.35);white-space:nowrap;transform:translate(-50%,-50%);display:none;`;
+    el.style.cssText = `position:absolute;display:flex;align-items:center;gap:6px;background:${bg};color:#0e1420;font-size:13px;font-weight:800;padding:5px 7px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.35);white-space:nowrap;transform:translate(-50%,-50%);display:none;`;
     const icon = document.createElement("span");
     icon.style.cssText = `width:10px;height:10px;background:#fff;border-radius:${shape};flex-shrink:0;display:inline-block;`;
     if (!isExtraction) icon.style.transform = "rotate(45deg)";
@@ -39,23 +39,7 @@ export function createFrontierIndicators(opts = {}) {
   }
 
   function getBestExtractionTarget(playerPos) {
-    const activeSectionId = getSession()?.getCurrentRegionId?.() ?? null;
-    const gatePos = worldRegistry.getFrontierGatePos();
-    const beacons = worldRegistry.getAllBeacons().filter((entry) => entry.regionId === activeSectionId);
-    const waypoints = worldRegistry.getAllWaypoints().filter(w => w.id !== "wp_camp_gate" && w.regionId === activeSectionId);
-    const candidates = [];
-    if (gatePos && activeSectionId === "camp") candidates.push({ id: worldRegistry.getFrontierGateId(), pos: { x: gatePos.x, z: gatePos.z, y: 0.5 }, kind: "gate", dist: Math.hypot(playerPos.x - gatePos.x, playerPos.z - gatePos.z) });
-    for (const bc of beacons) {
-      if (frontierProgress && !frontierProgress.isDiscoveredBeacon?.(bc.id)) continue;
-      candidates.push({ id: bc.id, pos: { x: bc.pos.x, z: bc.pos.z, y: 0.5 }, kind: "beacon", dist: Math.hypot(playerPos.x - bc.pos.x, playerPos.z - bc.pos.z) });
-    }
-    for (const wp of waypoints) {
-      if (frontierProgress && !frontierProgress.isUnlockedWaypoint?.(wp.id)) continue;
-      candidates.push({ id: wp.id, pos: { x: wp.pos.x, z: wp.pos.z, y: 0.8 }, kind: "waypoint", dist: Math.hypot(playerPos.x - wp.pos.x, playerPos.z - wp.pos.z) });
-    }
-    if (candidates.length === 0) return null;
-    candidates.sort((a,b)=>a.dist-b.dist);
-    return candidates[0];
+    return getKnownExtractionTarget(worldRegistry, frontierProgress, getSession()?.getCurrentRegionId?.(), playerPos);
   }
 
   function getNextDeeperWaypoint(playerPos) {
@@ -124,7 +108,7 @@ export function createFrontierIndicators(opts = {}) {
       }
     } catch {}
     const isExtraction = type === "extraction";
-    node.label.textContent = name ? `${name} ${target.dist.toFixed(0)}m` : isExtraction ? `Extract ${target.dist.toFixed(0)}m` : `Waypoint ${target.dist.toFixed(0)}m`;
+    node.label.textContent = `${isExtraction ? "Extract · " : ""}${name ?? "Waypoint"} ${target.dist.toFixed(0)}m`;
   }
 
   function update(camera) {
@@ -198,4 +182,18 @@ export function projectTest(worldPos, camera) {
   const vec = new THREE.Vector3(worldPos.x, worldPos.y ?? 0.5, worldPos.z);
   vec.project(camera);
   return vec;
+}
+
+// One known return destination for both the field marker and map guidance.
+export function getKnownExtractionTarget(registry, progress, sectionId, playerPos) {
+  if (!registry || !sectionId || !playerPos || sectionId === 'camp') return null;
+  const candidates = [];
+  for (const [entries, kind, known] of [
+    [registry.getAllWaypoints(), 'waypoint', id => !progress || progress.isUnlockedWaypoint?.(id)],
+    [registry.getAllBeacons(), 'beacon', id => !progress || progress.isDiscoveredBeacon?.(id)],
+  ]) for (const anchor of entries) {
+    if ((anchor.sectionId ?? anchor.regionId) !== sectionId || !known(anchor.id) || anchor.id === 'wp_camp_gate') continue;
+    candidates.push({ id: anchor.id, kind, pos: { ...anchor.pos, y: (anchor.pos.y ?? 0) + (kind === 'waypoint' ? .8 : .5) }, dist: Math.hypot(playerPos.x - anchor.pos.x, playerPos.z - anchor.pos.z) });
+  }
+  return candidates.sort((a,b) => a.dist-b.dist)[0] ?? null;
 }

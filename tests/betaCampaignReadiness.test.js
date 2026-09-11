@@ -21,4 +21,12 @@ describe("Campaign readiness", () => {
     assert.ok(report.errors.some((error) => error.includes("Heartwood finale")));
     assert.equal(fifth.lootChests.length, originalCount);
   });
+
+  it("does not count starter gifts as a renewable source for taming supplies", () => {
+    const draft = structuredClone(WORLD_DATA);
+    const berryAssets = new Set(draft.visualAssets.filter(asset => asset.gameplay?.harvestable?.dropId === "berries").map(asset => asset.id));
+    const first = draft.regions.find(region => region.id === "section_1");
+    first.props = first.props.filter(prop => !berryAssets.has(prop.visualAssetId));
+    assert.ok(analyzeCampaign(draft).errors.some(error => error.includes("no renewable berries for the first Berry lure")));
+  });
 });

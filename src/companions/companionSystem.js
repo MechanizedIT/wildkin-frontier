@@ -7,9 +7,10 @@ import { createFieldTaming } from "./fieldTaming.js";
 import { createFieldTamingVisual, findFieldPlacement } from "./fieldTamingVisual.js";
 import { getSurfaceHeight } from "../world/terrainSurfaceModel.js";
 import { createCompanionPhysics, COMPANION_PHYSICS_TUNING } from "./companionPhysics.js";
-import { deriveCompanionFollowIntent, getCompanionFormationAnchor } from "./companionFollowIntent.js";
+import { deriveCompanionFollowIntent, getCompanionFormationAnchor, MOSSLING_FOLLOW_TUNING } from "./companionFollowIntent.js";
+import { MOSSLING_MOTION } from "../creatures/mosslingMotion.js";
 
-export function createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, isActive, getSectionId, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
+export function createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
   let pending = [], cooldown = 0, elapsed = 0, fixedElapsed = 0;
   const followers = new Map();
   const wardRoots = new Map();
@@ -44,7 +45,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
   });
   for (const species of COMPANIONS) {
     const chest = registry.getLootChestById(species.secret);
-    if (!chest) continue;
+    if (!chest || hasCacheMechanism(chest.id)) continue;
     const root = new THREE.Group();
     const ring = new THREE.Mesh(new THREE.TorusGeometry(0.9, 0.035, 6, 32), new THREE.MeshBasicMaterial({ color: species.color, transparent: true, opacity: 0.65 }));
     ring.rotation.x = Math.PI / 2;
@@ -90,7 +91,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     const chest = registry.getLootChestById(species.secret);
     if (chest && chest.sectionId === getSectionId() && Math.hypot(chest.pos.x - pos.x, chest.pos.z - pos.z) < 5.5 && !progress.getState().completedPoiIds.includes(chest.id)) {
       openedSeal = progress.completePoi(chest.id);
-      if (openedSeal) toast("Ancient seal awakened", `${species.name} has opened a path to the cache.`);
+      if (openedSeal) toast("Ancient seal awakened", hasCacheMechanism(chest.id) ? "The vault's mechanism is awakening." : `${species.name} has opened a path to the cache.`);
     }
     if (species.id === "mossling") {
       if (!openedSeal && playerCombat.getHealth() >= playerCombat.getMaxHealth()) return { ok: false, message: "Health is full. Bloom also awakens root seals." };
@@ -111,7 +112,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     onAbility(species.id, pos);
     pulse(pos, new THREE.Color(species.color).getHex());
     audio.playParkour?.("complete");
-    return { ok: true, message: openedSeal ? "The cache is now accessible." : `${species.name} · ${species.abilityName}` };
+    return { ok: true, message: openedSeal ? (hasCacheMechanism(chest.id) ? "The vault is opening." : "The cache is now accessible.") : `${species.name} · ${species.abilityName}` };
   }
   function lootAccess(chest) {
     const required = SECRET_COMPANION[chest.id];
@@ -190,6 +191,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     follower.sectionId = sectionId;
     follower.state = { mode: "SETTLE", attentionUntil: fixedElapsed + 0.8, lastSettledAt: fixedElapsed };
     follower.lastSpeed = 0;
+    follower.commandedSpeed = 0;
     follower.verticalVelocity = 0;
     follower.grounded = false;
     follower.blockedSeconds = 0;
@@ -213,7 +215,15 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     const dx = intent.target.x - current.x;
     const dz = intent.target.z - current.z;
     const distance = Math.hypot(dx, dz);
-    const step = distance < 0.015 || intent.speed <= 0 ? 0 : Math.min(distance, intent.speed * dt);
+    let travelSpeed = intent.speed;
+    if (follower.id === "mossling") {
+      const previous = follower.commandedSpeed ?? 0;
+      const change = MOSSLING_MOTION.acceleration * dt;
+      travelSpeed = previous + Math.max(-change, Math.min(change, intent.speed - previous));
+      if (distance < 0.015 || intent.speed <= 0) travelSpeed = 0;
+      follower.commandedSpeed = travelSpeed;
+    }
+    const step = distance < 0.015 || travelSpeed <= 0 ? 0 : Math.min(distance, travelSpeed * dt);
     // Continue a small downward controller move while settled. This lets
     // Rapier snap a companion onto lower ground instead of leaving it hovering
     // when no horizontal follow movement is currently needed.
@@ -274,6 +284,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
       const intent = deriveCompanionFollowIntent({
         position, player: player.pos, playerFacing: player.facing,
         slotIndex: i, slotCount: ids.length, elapsed: fixedElapsed, state: follower.state,
+        tuning: follower.id === "mossling" ? MOSSLING_FOLLOW_TUNING : undefined,
       });
       follower.state = intent.nextState;
       moveFollower(follower, intent, dt);
@@ -305,6 +316,11 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     getFieldTamingState: fieldTaming.getState,
     cancelTaming: fieldTaming.clear,
     getPending: () => pending.map(id => ({ ...COMPANION_BY_ID[id] })),
+    getFollowerDiagnostics: () => [...followers.values()].map(follower => ({
+      id: follower.id, mode: follower.state.mode, speed: follower.lastSpeed,
+      grounded: follower.grounded, steeringAroundObstacle: follower.blockedSeconds > 0,
+      position: follower.group.position.toArray(), visible: follower.group.visible,
+    })),
     getAbility: () => { const species = COMPANION_BY_ID[progress.getState().activeCompanionId]; return species ? { name: species.abilityName, ready: cooldown <= 0, cooldown } : null; },
     isFollowerCollider: (candidate) => {
       if (!candidate) return false;
@@ -323,6 +339,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
         setFollowerVisible(follower, false);
         follower.sectionId = null;
         follower.lastSpeed = 0;
+        follower.commandedSpeed = 0;
         follower.verticalVelocity = 0;
         follower.grounded = false;
       }

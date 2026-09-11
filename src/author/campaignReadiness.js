@@ -1,6 +1,7 @@
 // src/author/campaignReadiness.js — browser-safe campaign route/economy readiness estimate.
 import { CAMPAIGN_OBJECTIVES } from "../progression/campaignProgress.js";
 import { getPlayerLevel } from "../progression/playerLevel.js";
+import { BASE_PIECE_BY_ID, FIELD_RECIPE_BY_ID } from "../base/baseCatalog.js";
 
 const ROUTE = ["section_1", "section_2", "section_3", "section_4", "section_5"];
 const PLAYER_RADIUS = 0.36;
@@ -80,6 +81,14 @@ export function analyzeCampaign(world = {}) {
     const entry = section.entryPoints?.[0];
     if (!entry) { errors.push(`${id} has no arrival entry`); continue; }
     const availableAfterSection = { ...renewableReach }; add(availableAfterSection, renewable(section));
+    if (id === "section_1") {
+      // Starter gifts must not conceal a missing source for repeatable play.
+      for (const recipe of [FIELD_RECIPE_BY_ID.berry_lure, BASE_PIECE_BY_ID.foundation]) {
+        for (const resource of Object.keys(recipe.cost)) {
+          if (!(availableAfterSection[resource] > 0)) errors.push(`${id}: no renewable ${resource} for the first ${recipe.name}`);
+        }
+      }
+    }
     const xpAfterSection = earnedXp + sectionXp(section);
     const targets = [...(section.majorWaypoints ?? []), ...(section.extractionBeacons ?? []), ...(section.portalGates ?? []), ...(section.lootChests ?? [])];
     const unreachable = targets.filter((target) => !canReach(section, entry.pos, target.pos, assets)).map((target) => target.id);
