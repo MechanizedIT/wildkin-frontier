@@ -6,6 +6,8 @@ Updated September 11, 2026. **0.3.0-alpha.1 · local pre-alpha · owner playtest
 
 Chris asked to wrap up overnight development, provide a concise changelog, actual visuals, a fresh-game route and unfinished roadmap, update documents, and create an efficient code index and project workflow. Finish this playable checkpoint and stop autonomous expansion. Future sessions take his playtest notes or new request as scope; **do not restart the historical overnight mandate automatically**.
 
+**September11 backup follow-up:** after restarting his PC, Chris explicitly requested restarting the playtest server and pushing this work to the existing GitHub repository for recovery if the PC fails. This authorizes the current backup sync to origin/main; it does not resume game expansion or authorize a deployment. Preserve unfinished source candidates separately from admitted runtime assets.
+
 Read SESSION_START.md, OVERNIGHT_HANDOFF.md and CODE_MAP.md next. Use `.agents/skills/wildkin-development/SKILL.md` for production and WORKFLOW_RETROSPECTIVE.md for lessons. This file owns current scope; Git/source own actual implementation. Previous full chronology is preserved in CURRENT_SLICE_HISTORY_2026-09-11.md and must not override this handoff.
 
 ## Current playable systems
