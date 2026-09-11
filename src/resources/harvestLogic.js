@@ -14,10 +14,37 @@ export function distance3D(a, b) {
   return Math.hypot(dx, dy, dz);
 }
 
-function getInteractionPoint(node) {
+function usesSurfaceStrike(node) {
+  const half = node.type.colliderHalfExtents;
+  return node.collisionEnabled !== false && node.type.solid && node.type.colliderShape === 'cuboid' && half
+    && Math.max(half.x, half.z) * (node.state.uniformScale ?? 1) > HARVEST_CONFIG.surfaceStrikeMinHalfExtent;
+}
+
+export function getHarvestReach(node) {
+  return usesSurfaceStrike(node) ? HARVEST_CONFIG.surfaceStrikeRadius : HARVEST_CONFIG.harvestRadius;
+}
+
+export function getHarvestInteractionPoint(node, playerPos = null, out = {}) {
   const base = node.state.position;
-  const h = (node.type.interactionHeight ?? node.type.colliderCenterY ?? 0.5) * (node.state.uniformScale ?? 1);
-  return { x: base.x, y: (base.y ?? 0) + h, z: base.z };
+  const scale = node.state.uniformScale ?? 1;
+  const scaledHeight = (node.type.interactionHeight ?? node.type.colliderCenterY ?? 0.5) * scale;
+  out.x = base.x; out.y = (base.y ?? 0) + Math.min(scaledHeight, HARVEST_CONFIG.maxStrikeHeight); out.z = base.z;
+  const half = node.type.colliderHalfExtents;
+  // Large grounded boxes are struck at their reachable lower surface. Small
+  // nodes keep their established center reach; non-solid Author props do too.
+  if (playerPos && usesSurfaceStrike(node)) {
+    const offset = node.type.colliderOffset ?? {y:node.type.colliderCenterY ?? 0};
+    const yaw = node.state.rotationY ?? 0, c = Math.cos(yaw), s = Math.sin(yaw);
+    const cx = base.x + ((offset.x ?? 0) * c + (offset.z ?? 0) * s) * scale;
+    const cz = base.z + (-(offset.x ?? 0) * s + (offset.z ?? 0) * c) * scale;
+    const dx = playerPos.x - cx, dz = playerPos.z - cz;
+    const x = Math.max(-half.x * scale, Math.min(half.x * scale, dx * c - dz * s));
+    const z = Math.max(-half.z * scale, Math.min(half.z * scale, dx * s + dz * c));
+    out.x = cx + x * c + z * s; out.z = cz - x * s + z * c;
+    const bottom = (base.y ?? 0) + ((offset.y ?? 0) - half.y) * scale;
+    out.y = Math.max(bottom, Math.min(bottom + half.y * scale * 2, out.y));
+  }
+  return out;
 }
 
 function getPlayerEffectivePos(playerPos) {
@@ -32,10 +59,10 @@ export function isNodeReady(node) {
 export function isHarvestableInRange(node, playerPos) {
   if (node.state.nodeState !== "READY") return false;
   if (node.state.remainingChunks <= 0) return false;
-  const interact = getInteractionPoint(node);
+  const interact = getHarvestInteractionPoint(node, playerPos);
   const pEff = getPlayerEffectivePos(playerPos);
   const d = distance3D(interact, pEff);
-  return d <= HARVEST_CONFIG.harvestRadius;
+  return d <= getHarvestReach(node);
 }
 
 export function canAutoHarvestNow(node, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
@@ -58,10 +85,10 @@ export function selectTargets(nodes, playerPos, playerMode, playerSpeed = 0, aut
   for (const n of nodes) {
     if (n.state.nodeState !== "READY") continue;
     if (n.state.remainingChunks <= 0) continue;
-    const interact = getInteractionPoint(n);
+    const interact = getHarvestInteractionPoint(n, playerPos);
     const pEff = getPlayerEffectivePos(playerPos);
     const d = distance3D(interact, pEff);
-    if (d <= HARVEST_CONFIG.harvestRadius) eligible.push({ node: n, dist: d });
+    if (d <= getHarvestReach(n)) eligible.push({ node: n, dist: d });
   }
   eligible.sort((a, b) => a.dist - b.dist);
   return eligible.slice(0, HARVEST_CONFIG.maxTargetsPerSwing).map(r => r.node);
@@ -81,8 +108,7 @@ export function shouldShowHalo(node, playerPos, playerMode, playerSpeed = 0, aut
 
 export function isRespawnIndicatorVisible(node, playerPos) {
   const base = node.state.position;
-  // use interaction point? Use base + small height for fairness — use node base Y + interactionHeight/2
-  const nodeY = (base.y ?? 0) + (node.type.interactionHeight ?? 0.5) * (node.state.uniformScale ?? 1) * 0.5;
+  const nodeY = ((base.y ?? 0) + getHarvestInteractionPoint(node).y) * 0.5;
   const pY = playerPos.y ?? 0.5;
   const dx = base.x - playerPos.x;
   const dy = nodeY - pY;
@@ -127,9 +153,11 @@ export function isPlayerInsideColliderVolume(playerPos, node) {
     z: node.type.colliderHalfExtents.z * scale,
   };
   const baseY = node.state.position.y ?? 0;
-  const cy = baseY + node.type.colliderCenterY * scale;
-  const cx = node.state.position.x;
-  const cz = node.state.position.z;
+  const offset = node.type.colliderOffset ?? { x: 0, y: node.type.colliderCenterY ?? 0, z: 0 };
+  const angle = node.state.rotationY ?? 0;
+  const cy = baseY + (offset.y ?? 0) * scale;
+  const cx = node.state.position.x + ((offset.x ?? 0) * Math.cos(angle) + (offset.z ?? 0) * Math.sin(angle)) * scale;
+  const cz = node.state.position.z + (-(offset.x ?? 0) * Math.sin(angle) + (offset.z ?? 0) * Math.cos(angle)) * scale;
   // Player capsule center
   const px = playerPos.x;
   const py = playerPos.y ?? 0.5;
@@ -140,7 +168,7 @@ export function isPlayerInsideColliderVolume(playerPos, node) {
   // Check overlap: distance from player center to cuboid center <= halfExtents + radius (xz) and y within half+radius+halfHeight?
   // For y, capsule extends pr+ph above/below center: total half = pr+ph? Actually capsule halfHeight 0.20 + radius 0.32 = 0.52 total half.
   const totalHalfY = ph + pr; // 0.52
-  const yaw = -(node.state.rotationY ?? 0);
+  const yaw = node.state.rotationY ?? 0;
   const worldDx = px - cx;
   const worldDz = pz - cz;
   const dx = Math.abs(worldDx * Math.cos(yaw) - worldDz * Math.sin(yaw));

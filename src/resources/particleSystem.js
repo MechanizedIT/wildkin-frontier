@@ -1,5 +1,6 @@
 // src/resources/particleSystem.js — pooled particles with shared geometries/materials
 import * as THREE from "three";
+import { getHarvestInteractionPoint } from "./harvestLogic.js";
 
 const SHARED = {
   geo: null,
@@ -53,9 +54,11 @@ export function createParticleSystem(scene) {
     else p.mesh.material.dispose?.();
   }
 
-  function spawnBurst(node, count = 6) {
-    const base = node.state.position;
-    const baseY = (base.y ?? 0) + (node.type.impactEffectHeight ?? 0.45);
+  function spawnBurst(node, count = 6, playerPos = null) {
+    const base = node.type.interactionHeight != null
+      ? getHarvestInteractionPoint(node, playerPos)
+      : { ...node.state.position, y: (node.state.position.y ?? 0) + (node.type.impactEffectHeight ?? 0.45) };
+    const baseY = base.y;
     const resId = node.type.resourceId;
     const colorKey = resId === "wood" ? "wood" : resId === "stone" ? "stone" : resId === "fiber" ? "fiber" : "generic";
     for (let i = 0; i < count; i++) {

@@ -43,7 +43,9 @@ export function createAutoHarvestToggle(initial = true) {
     if (notify && onChange) onChange(enabled);
   }
 
-  btn.addEventListener("click", () => setEnabled(!enabled));
+  // render replaces icon descendants; stop bubbling before the container tests
+  // containment of the now-detached original click target.
+  btn.addEventListener("click", (e) => { e.stopPropagation(); setEnabled(!enabled); });
   btn.addEventListener("touchstart", (e) => { e.preventDefault(); setEnabled(!enabled); }, { passive: false });
   // also container click for larger touch target
   container.addEventListener("click", (e) => { if (!btn.contains(e.target)) setEnabled(!enabled); });

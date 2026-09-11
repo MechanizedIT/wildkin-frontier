@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "input": "C:/Users/cwood/Documents/mobile-rpg/.dream-loop/overnight-resonance-model/v1/refined/resonance-bench.glb",
+  "profile": "prop",
+  "limits": {
+    "max_triangles": 5000,
+    "max_vertices": 15000,
+    "max_materials": 2,
+    "max_bones": 0,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "b778a84417ee76f83cf19df43848a5bc22468a86a06f8a1ba0fc32f7c95296e5",
+  "textureSHA256": [
+    "f0b544f1527b207ef6d5adac78cce88bef65ea06439427ca06f7968ffd70ecb2"
+  ],
+  "counts": {
+    "triangles": 4486,
+    "vertices": 8908,
+    "materials": 1,
+    "bones": 0,
+    "animations": 0
+  },
+  "animations": [],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 256,
+      "height": 256,
+      "sha256": "f0b544f1527b207ef6d5adac78cce88bef65ea06439427ca06f7968ffd70ecb2",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

@@ -180,7 +180,7 @@ export function createBetaGame(deps) {
   return {
     isBlocking, getModel, companions, shell, base, equipment, refreshModifiers, refreshObjectives,
     showWelcome: () => { if (!authorEnabled) shell.showWelcome(); },
-    openWorkshop: () => shell.open("workshop"),
+    openWorkshop: (id) => { if(!base.openStation(id))shell.open("workshop"); },
     openSanctuary: () => shell.open('wildkin'),
     getNearbyInteraction(pos){
       if(isCamp()){
@@ -227,7 +227,7 @@ export function createBetaGame(deps) {
     update(dt, { paused, authorSuppress } = {}) {
       const sectionId = getSectionId();
       const hidden = !!authorSuppress;
-      base.update(dt,{hidden});
+      base.update(dt,{hidden,paused,reducedMotion:settings.reducedMotion});
       combatFeedback.update(dt, { hidden: paused || hidden });
       playerOcclusion.update(dt, { hidden: paused || hidden });
       abilityFx.update(paused ? 0 : dt, { playerPosition: playerController.getState().pos, hidden: paused || hidden, reducedMotion: settings.reducedMotion });

@@ -34,10 +34,15 @@ describe('Free Camp placement and field supplies',()=>{
     assert.equal(p.removeStructure('build_floor').reason,'remove-supported-first');
     assert.equal(p.removeStructure('build_wall').removed,true);assert.equal(p.removeStructure('build_floor').removed,true);
   }));
-  it('charges expansions once per tier and requires a real workbench for advanced gear',()=>withProgress(p=>{
-    assert.equal(p.craftFieldSupply('calming_chime').reason,'workbench-required');
+  it('charges expansions once per tier and requires the matching station for advanced gear',()=>withProgress(p=>{
+    assert.equal(p.craftFieldSupply('calming_chime').reason,'station-required');
     assert.equal(p.placeStructure(piece('bench','workbench',0,18)).placed,true);
+    assert.equal(p.craftFieldSupply('calming_chime').reason,'station-required');
+    assert.equal(p.placeStructure(piece('resonance','resonance',3,18)).placed,true);
     assert.equal(p.craftFieldSupply('calming_chime').crafted,true);
+    assert.equal(p.craftFieldSupply('reinforced_tether').reason,'station-required');
+    assert.equal(p.placeStructure(piece('fabricator','fabricator',-3,18)).placed,true);
+    assert.equal(p.craftFieldSupply('reinforced_tether').crafted,true);
     assert.equal(p.craftFieldSupply('berry_lure').crafted,true);
     assert.equal(p.getFieldSupplies().berry_lure,1);assert.equal(p.consumeFieldSupply('berry_lure').consumed,true);
     assert.equal(p.consumeFieldSupply('berry_lure').reason,'empty');

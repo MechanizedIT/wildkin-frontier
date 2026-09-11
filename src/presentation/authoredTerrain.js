@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {getSurfaceHeight,getPathDistance,getWaterRadius,smoothstep} from '../world/terrainSurfaceModel.js';
-import {addMeadowDetails} from './meadowDetails.js';
+import {addMeadowDetails,createGroundcoverGeometry} from './meadowDetails.js';
 import {createGroundFoliageGeometry} from './groundFoliage.js';
 import {addGeneratedTerrainPaint} from './terrainPaint.js';
 
@@ -84,7 +84,9 @@ function addMeadow(group,surface,bounds,palette,profile={}){
   const foliagePalette=profile.foliage?{...palette,grass:profile.foliage}:palette;
   const mat=new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.DoubleSide,toneMapped:false});
   for(let variant=0;variant<2;variant++){
-    const budget=Math.ceil(count/2),grass=new THREE.InstancedMesh(createGroundFoliageGeometry(foliagePalette,profile.sedge?'sedge':variant===1),mat,budget);
+    const cover=surface.detail?.groundcover;
+    const geometry=cover&&cover!=='cushion'?createGroundcoverGeometry(cover,variant):createGroundFoliageGeometry(foliagePalette,profile.sedge?'sedge':variant===1);
+    const budget=Math.ceil(count/2),grass=new THREE.InstancedMesh(geometry,mat,budget);
     grass.name=variant?'meadow_ferns':'meadow_grass';const dummy=new THREE.Object3D();let n=0;
     for(let i=variant;i<count*10&&n<budget;i+=2){
       let x=lerp(bounds.minX+.8,bounds.maxX-.8,hash(i,17,surface.seed)),z=lerp(bounds.minZ+.8,bounds.maxZ-.8,hash(i,63,surface.seed));

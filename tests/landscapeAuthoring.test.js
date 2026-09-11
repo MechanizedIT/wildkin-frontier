@@ -17,4 +17,10 @@ test('landscape edits retain ground offsets across objects, platforms and all sp
 test('invalid terrain cannot partially rebase a draft',()=>{
   const world={regions:[{id:'s1',props:[{pos:pos(.3)}]}]};const before=structuredClone(world);
   assert.throws(()=>replaceRegionLandscape(world,'s1',{...landscape,detail:{grassDensity:NaN}}));assert.deepEqual(world,before);
+  assert.throws(()=>replaceRegionLandscape(world,'s1',{...landscape,detail:{groundcover:'unknown'}}));assert.deepEqual(world,before);
+});
+test('biome groundcover survives an Author landscape edit and JSON export',()=>{
+  const world={regions:[{id:'s1',props:[]}]};
+  replaceRegionLandscape(world,'s1',{...landscape,detail:{groundcover:'mineral',grassDensity:.44}});
+  assert.deepEqual(JSON.parse(JSON.stringify(world)).regions[0].surface.detail,{groundcover:'mineral',grassDensity:.44});
 });

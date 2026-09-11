@@ -1,0 +1,34 @@
+{
+  "method": "Reviewed-reference hard-surface reconstruction; no image-to-3D run",
+  "reference": "../../overnight-crafting-target/stations-v1.png",
+  "referenceReviewer": "root; author crafting_targets",
+  "modelReview": "Pending independent root review; no admission claimed",
+  "sha256": "a10713602f3ad98b0679e6f5a786d029ee5ee96081a21c94d37f6bb3575a9f54",
+  "fileBytes": 224684,
+  "editableSource": "salvage-bench-editable.blend",
+  "front": "+Z glTF / -Y Blender",
+  "units": "meters; grounded at Y=0 glTF",
+  "outputMount": "CraftOutputAnchor; clear front assembly pad; no fused output",
+  "materialCount": 1,
+  "textureSize": [
+    256,
+    256
+  ],
+  "sourcePartCount": 84,
+  "triangles": 3108,
+  "runtimeMeshCount": 2,
+  "motionNodes": {
+    "SalvageViseJaw": {
+      "restPositionGLTF": [
+        -0.397,
+        0.938,
+        -0.169
+      ],
+      "axis": "local X translation",
+      "deltaRangeMeters": [
+        -0.07,
+        0
+      ]
+    }
+  }
+}

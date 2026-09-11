@@ -8,6 +8,10 @@ import { getSurfaceHeight } from "../src/world/terrainSurfaceModel.js";
 import { meshRecipePart } from './mesh-recipe.mjs';
 import {VISUAL_KIT_BUILDERS} from './visual-kit-registry.mjs';
 import {composeLandscapeArt} from './compose-landscape-art.mjs';
+import {registerStationAssets} from './register-station-assets.mjs';
+import {composeOvernightHabitats} from './compose-overnight-habitats.mjs';
+import {normalizeCampaignHarvestCollision} from './normalize-harvest-collision.mjs';
+import {composeFoundryHabitat} from './compose-foundry-habitat.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const WORLD_PATH = path.join(ROOT, "src/world/data/world.json");
@@ -501,6 +505,11 @@ for (const [assetId,build] of VISUAL_KIT_BUILDERS) {
   target.parts = meshes.map((mesh, index) => meshRecipePart(`mesh_${index}`, mesh));
 }
 world.regions = [camp, s1, s2, s3, s4, s5];
+for(const [section,groundcover] of [[camp,'cushion'],[s1,'cushion'],[s2,'fan'],[s3,'mineral'],[s4,'fan'],[s5,'spore']])section.surface.detail.groundcover=groundcover;
 composeLandscapeArt(world);
+composeOvernightHabitats(world);
+composeFoundryHabitat(world);
+registerStationAssets(world);
+normalizeCampaignHarvestCollision(world);
 fs.writeFileSync(WORLD_PATH, JSON.stringify(world) + "\n");
 console.log("Authored Early Access campaign: Frontier Haven + Verdant Verge, Shatterfen, Emberfall Ruins, Windscar Cliffs, Heartwood Vault.");

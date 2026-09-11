@@ -1,0 +1,47 @@
+{
+  "method": "Reviewed reference hard-surface reconstruction; no image-to-3D run",
+  "reference": "../../overnight-crafting-target/stations-v1.png",
+  "referenceReviewer": "root; reference author crafting_targets",
+  "modelReview": "Pending independent root visual judgment; no admission claimed",
+  "sha256": "fa5c48fcac7285f204aff4214b7f98721ecf45d25cac514556bcfa3afc4e7f20",
+  "fileBytes": 302096,
+  "editableSource": "matter-fabricator-editable.blend",
+  "front": "+Z in glTF, -Y in Blender",
+  "units": "meters; grounded at Y=0 in glTF",
+  "outputMount": "CraftOutputAnchor; separate empty at tray height, no fused tool",
+  "materialCount": 1,
+  "textureSize": [
+    256,
+    256
+  ],
+  "sourcePartCount": 97,
+  "triangles": 4076,
+  "runtimeMeshCount": 3,
+  "motionNodes": {
+    "FabricatorCarriage": {
+      "axis": "local X",
+      "deltaRangeMeters": [
+        -0.1,
+        0.04
+      ],
+      "restPositionGLTF": [
+        0.37,
+        1.48,
+        -0.015
+      ]
+    },
+    "FabricatorNozzle": {
+      "parent": "FabricatorCarriage",
+      "axis": "local Y (glTF)",
+      "deltaRangeMeters": [
+        -0.25,
+        0
+      ],
+      "restPositionGLTF": [
+        0,
+        -0.191,
+        0
+      ]
+    }
+  }
+}

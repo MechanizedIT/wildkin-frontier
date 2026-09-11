@@ -77,7 +77,7 @@ function wall(){ const k=makeMeshKit();
 function doorway(){ const k=makeMeshKit();
   for(const x of [-.92,.92]){for(let row=0;row<4;row++)k.box('door_stone_upright',[.40,.42,.48],row%2?warmStone:paleStone,[x,.21+row*.40,0],[0,row*.05,0],.055);k.box('door_iron_shoe',[.52,.20,.56],darkStone,[x,.10,0],[],.06);}
   for(let i=0;i<3;i++)k.box('heavy_lintel_course',[.67,.30,.55],i%2?warmStone:paleStone,[(i-1)*.67,1.80,0],[],.055);
-  timber(k,'left_door_brace',[-.76,.34,.30],[-.25,1.54,.30],.14,.10,C.woodDark);timber(k,'right_door_brace',[.76,.34,.30],[.25,1.54,.30],.14,.10,C.woodDark);
+  for(const x of [-.92,.92])timber(k,'door_post_strap',[x,.34,.30],[x,1.54,.30],.14,.10,C.woodDark);
   for(const x of [-.92,.92])k.bolt('doorway_bolt',[x,1.44,.31],.045,ironLight);return k.group; }
 function gear(){const k=makeMeshKit(), tooth=new THREE.BoxGeometry(.24,.15,.32); k.mesh('gear_ring',new THREE.TorusGeometry(.43,.14,5,10),iron,[0,.08,0],[Math.PI/2,0,0]);for(let i=0;i<10;i++){const a=i*Math.PI/5,m=k.mesh('gear_tooth',tooth,i%2?iron:ironLight,[Math.sin(a)*.56,.08,Math.cos(a)*.56],[0,-a,0]);m.rotation.x=Math.PI/2;}k.mesh('gear_hub',new THREE.CylinderGeometry(.19,.19,.19,8),C.gold,[0,.08,0]);k.mesh('gear_hole',new THREE.CylinderGeometry(.075,.075,.205,6),'#263541',[0,.08,0]);return k.group;}
 function pickaxe(){const k=makeMeshKit();

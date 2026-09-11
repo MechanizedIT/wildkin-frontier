@@ -1,0 +1,50 @@
+{
+  "method": "Reviewed reference hard-surface reconstruction; no image-to-3D run",
+  "reference": "../../overnight-crafting-target/stations-v1.png",
+  "referenceReviewer": "root; author crafting_targets",
+  "modelReview": "Pending independent root review; no admission claimed",
+  "sha256": "b778a84417ee76f83cf19df43848a5bc22468a86a06f8a1ba0fc32f7c95296e5",
+  "fileBytes": 317580,
+  "editableSource": "resonance-bench-editable.blend",
+  "front": "+Z glTF / -Y Blender",
+  "units": "meters; grounded at Y=0 glTF",
+  "outputMount": "CraftOutputAnchor; separate empty. Central seated crystal is integral reactor.",
+  "materialCount": 1,
+  "textureSize": [
+    256,
+    256
+  ],
+  "sourcePartCount": 125,
+  "triangles": 4486,
+  "runtimeMeshCount": 3,
+  "motionNodes": {
+    "ResonanceRotor": {
+      "restPositionGLTF": [
+        0,
+        0.559,
+        0
+      ],
+      "axis": "local Y rotation",
+      "rangeRadians": [
+        0,
+        6.283185307179586
+      ]
+    },
+    "ResonanceCrystal": {
+      "restPositionGLTF": [
+        0,
+        0.647,
+        0
+      ],
+      "axis": "local Y rotation/lift",
+      "rotationRangeRadians": [
+        0,
+        6.283185307179586
+      ],
+      "liftDeltaRangeMeters": [
+        0,
+        0.055
+      ]
+    }
+  }
+}

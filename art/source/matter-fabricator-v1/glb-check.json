@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "input": "C:/Users/cwood/Documents/mobile-rpg/.dream-loop/overnight-fabricator-model/v2/connected/matter-fabricator.glb",
+  "profile": "prop",
+  "limits": {
+    "max_triangles": 5000,
+    "max_vertices": 15000,
+    "max_materials": 2,
+    "max_bones": 0,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "fa5c48fcac7285f204aff4214b7f98721ecf45d25cac514556bcfa3afc4e7f20",
+  "textureSHA256": [
+    "cb580209ab856cfe86fe47f63bdcf7c94409fcc8ebd1bb0ee1e4ef7d815d39c2"
+  ],
+  "counts": {
+    "triangles": 4076,
+    "vertices": 8500,
+    "materials": 1,
+    "bones": 0,
+    "animations": 0
+  },
+  "animations": [],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 256,
+      "height": 256,
+      "sha256": "cb580209ab856cfe86fe47f63bdcf7c94409fcc8ebd1bb0ee1e4ef7d815d39c2",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

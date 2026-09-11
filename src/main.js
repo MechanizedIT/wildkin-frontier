@@ -655,7 +655,7 @@ contextualInteraction = createContextualInteraction({
       refreshMapAvailability();
       syncInputBlock();
     } else if (info.type === "resonator" && expeditionSession.isCamp()) {
-      if (betaGame) betaGame.openWorkshop(); else matterResonatorPanel.show();
+      if (betaGame) betaGame.openWorkshop(info.id); else matterResonatorPanel.show();
       refreshMapAvailability();
       syncInputBlock();
     } else if (info.type === 'campSanctuary' && expeditionSession.isCamp()) {
@@ -1053,7 +1053,7 @@ function tick() {
         field:betaGame?.getNearbyInteraction(pPosForAnchor),
         activeTamingId:betaGame?.companions.getFieldTamingState?.()?.id,
       });
-      if (contextualInteraction) contextualInteraction.setInteraction(nearby);
+      if (contextualInteraction) contextualInteraction.setInteraction(betaGame?.base.isStationOpen() ? null : nearby);
       // Pause AI while blocking already handled via isAnyBlockingModal guard
       const pStBefore = playerController.getState();
       const isAggroNearby = creatureSystem.isAnyAggroedNearby();
@@ -1073,25 +1073,13 @@ function tick() {
       const fieldCanAttack = equipmentInput.toolAllowed && !blocked && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE") && expeditionSession.isActive();
       const effectiveAttackRequested = equipmentInput.toolAllowed && pendingAttackLatch && !blocked;
       const effectiveAttackHeld = !!intent.attackHeld && fieldCanAttack;
-      const getManualHarvestTargets = () => {
-        const pPos = pStBefore.pos;
-        const res = [];
-        for (const n of resourceSystem.nodes) {
-          if (resourceSystem.isHarvestableInRange(n, pPos)) res.push(n);
-        }
-        res.sort((a, b) => {
-          const da = Math.hypot(a.state.position.x - pPos.x, a.state.position.y - pPos.y, a.state.position.z - pPos.z);
-          const db = Math.hypot(b.state.position.x - pPos.x, b.state.position.y - pPos.y, b.state.position.z - pPos.z);
-          return da - db;
-        });
-        return res.slice(0, 4);
-      };
+      const getManualHarvestTargets = () => resourceSystem.getManualTargets(pStBefore.pos);
       const handleUnifiedImpact = ({ resourceHits, combatHits }) => {
         for (const node of resourceHits) {
           resourceSystem.applyHit(
             node,
             (n) => { pickupSystem.spawnPickup(n); betaGame?.onHarvestDrop(n); },
-            (n, cnt) => particleSystem.spawnBurst(n, cnt),
+            (n, cnt) => particleSystem.spawnBurst(n, cnt, pStBefore.pos),
             (profile, isFinal) => {
               gameAudio.playHarvest(profile, isFinal);
               if (isFinal) gameAudio.playDeplete();
@@ -1274,7 +1262,7 @@ function tick() {
   betaGame?.update(dt, { paused: isAnyBlockingModal(), authorSuppress });
   shadows.update(authorSuppress);
   if (authorSuppress && authorMode?.prepareRender) authorMode.prepareRender();
-  contextualInteraction?.update(dt, { hidden: authorSuppress || isAnyBlockingModal() });
+  contextualInteraction?.update(dt, { hidden: authorSuppress || isAnyBlockingModal() || betaGame?.base.isStationOpen() });
   renderer.render(scene, camera);
 }
 

@@ -40,6 +40,7 @@ export function validateSurface(surface,label='surface') {
   const finite=(n,min,max)=>typeof n==='number'&&Number.isFinite(n)&&n>=min&&n<=max;
   if(surface.seed!==undefined&&!finite(surface.seed,0,2147483647))throw Error(`${label} invalid seed`);
   if(surface.detail?.grassDensity!==undefined&&!finite(surface.detail.grassDensity,0,2))throw Error(`${label} invalid grass density`);
+  if(surface.detail?.groundcover!==undefined&&!['cushion','mineral','fan','spore'].includes(surface.detail.groundcover))throw Error(`${label} invalid groundcover`);
   for(const key of ['heights','water','routes'])if(!Array.isArray(surface[key]??[])||(surface[key]?.length??0)>40)throw Error(`${label}.${key} invalid`);
   for(const shape of [...surface.heights??[],...surface.water??[]])if(!finite(shape.x,-200,200)||!finite(shape.z,-200,200)||!finite(shape.rx,1,100)||!finite(shape.rz,1,100))throw Error(`${label} has invalid landform`);
   for(const h of surface.heights??[])if(!finite(h.height,0,5)||!finite(h.plateau??.4,0,.8))throw Error(`${label} invalid height`);

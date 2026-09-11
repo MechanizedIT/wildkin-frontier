@@ -17,7 +17,7 @@ The owner subsequently named Satisfactory as a motion reference. [Coffee Stain's
 2. Equip a construction tool/blueprint from the bottom bar. Walk to the Camp clearing, choose a model card, aim its actual translucent silhouette on the ground, rotate and place. Materials and placement commit atomically; cancel spends nothing.
 3. Place a **Salvage bench** for lures, basic snares and simple field supplies. Its visible jaws, cloth spool and tray communicate assembly.
 4. Progress to a **Matter fabricator** using secured iron/crystal. It produces powered harvesting/combat tools and medical supplies. A compact printer cradle visibly presents a selected item and a short assembly sequence; no unattended real-time queue needed.
-5. A **Resonance workbench** specializes in Wildkin chimes/tethers and later species gear. Reuse discovered companion/region progression for gating, not arbitrary levels plus duplicate currency.
+5. A **Resonance workbench** specializes in Wildkin chimes and later resonance gear; the reinforced tether currently belongs to the Matter fabricator. Reuse discovered companion/region progression for gating, not arbitrary levels plus duplicate currency.
 6. Tap an owned item in inventory, choose a bar slot, return to the world and use it. Build pieces, medicine/food and taming gear invoke their existing authoritative actions. The selected tool is visible in the Explorer's hand; the primary action icon/label reflects that item.
 
 ## First implementation boundary
@@ -28,6 +28,10 @@ The owner subsequently named Satisfactory as a motion reference. [Coffee Stain's
 - A powered cutter should improve harvesting with distinct visible silhouette/feedback. One ranged prototype can reuse the existing projectile owner and collision queries if it can complete aim/fire/hit/cooldown and movement/menu/reset paths cleanly. Do not ship icons advertising unimplemented weapons.
 - Crafting occurs beside the appropriate actual placed station. Show a small visual recipe selection and material icons, station output preview and a brief visible assembly. Keep the world visible; avoid an all-purpose pause menu.
 - Existing field recipes and basic Camp services continue to function during migration. Required species taming cannot become progression-deadlocked by a new station recipe.
-- Bed rest and doorway visual/collider alignment are unfinished in the current foundation and must be corrected during this same building pass.
+- Bed rest is unfinished. Doorway's obstructive diagonal visual braces have become upright post straps, keeping the visible opening consistent with its existing post/lintel collision.
 
 Generate a new actual-landscape target for the toolbar/station view before final UI/art admission, then separate implementation and independent review. Verify a complete gather/secure → build station → craft → assign → use → reload path with native inputs. Recipe tests protect spending/ownership; actual images and play prove clarity.
+
+## Implemented station checkpoint
+
+The three physically animated stations and compact in-world recipe panels are integrated. Native crafting, two-instance isolation, pause/resume, product seating, counts, reload and separate Author reset pass the bounded 844×390 review. Model sources include useful movable assemblies and pivots. See `ANIMATED_STATIONS_REVIEW.md`. Powered harvesting/ranged weapons, food, bed rest and moving discovery ruins remain next work, rather than features implied by the generated reference.

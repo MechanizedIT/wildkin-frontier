@@ -3,12 +3,13 @@ import { BASE_CONFIG, BASE_EXPANSIONS, BASE_PIECES, BASE_PIECE_BY_ID, FIELD_RECI
 import { getBuildBounds, getCampReserved, validatePlacement } from './basePlacement.js';
 import { getSurfaceHeight } from '../world/terrainSurfaceModel.js';
 import { createBasePieceVisual } from './basePieceVisual.js';
+import { createCraftingStations } from './craftingStations.js';
 
 const REASONS={
   'outside-clearing':'Aim inside the marked clearing.', 'player-overlap':'Leave room around your feet.',
   'keep-path-clear':'Keep Camp objects and paths clear.', 'structure-overlap':'Another piece is in the way.',
   'uneven-ground':'Choose flatter ground.', 'wet-ground':'Choose dry ground.', 'structure-limit':'Your Camp has 64 pieces.',
-  'unaffordable':'Gather and extract the materials shown.', 'workbench-required':'Place a field workbench first.',
+  'unaffordable':'Gather and extract the materials shown.', 'station-required':'Place the matching fabrication station first.',
   'remove-supported-first':'Remove the pieces on this foundation first.', 'storage-write-failed':'Could not save. Your materials were kept.',
   'supply-limit':'Your supply pouch is full.', 'max-tier':'Your clearing is fully expanded.',
 };
@@ -64,9 +65,13 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
     return {visual,colliders,record,ownsResources:visual.userData.ownsBaseResources};
   }
   function removeInstance(instance){root.remove(instance.visual);for(const collider of instance.colliders)world?.removeCollider(collider,true);if(instance.ownsResources)instance.visual.traverse(n=>{n.geometry?.dispose();if(n.material)for(const m of [].concat(n.material))m.dispose();});/* Library geometry/materials are shared factory caches. */}
+  const stations=createCraftingStations({app,camera,progress,getPlayerState,isCamp:campActive,onBlockingChanged,notify:message=>toast('Crafting',message)});
   function sync(){
     const base=progress.getBaseState(),next=JSON.stringify(base);if(next===signature)return;signature=next;
-    for(const instance of instances.values())removeInstance(instance);instances.clear();for(const record of base.structures)instances.set(record.id,createInstance(record));
+    const records=new Map(base.structures.map(record=>[record.id,record]));
+    for(const [id,instance]of instances)if(JSON.stringify(records.get(id))!==JSON.stringify(instance.record)){removeInstance(instance);instances.delete(id);}
+    for(const record of base.structures)if(!instances.has(record.id))instances.set(record.id,createInstance(record));
+    stations.sync(instances);
     const b=getBuildBounds(base.tier),points=[[b.minX,b.minZ],[b.maxX,b.minZ],[b.maxX,b.maxZ],[b.minX,b.maxZ]].map(([x,z])=>new THREE.Vector3(x,getSurfaceHeight(surface,x,z)+.08,z));
     clearing.geometry.dispose();clearing.geometry=new THREE.BufferGeometry().setFromPoints(points);if(active)refreshPreview();
   }
@@ -81,9 +86,9 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
     if(!campActive())return {ok:false,message:'Build at Camp after extracting.'};if(!BASE_PIECE_BY_ID[pieceType])return {ok:false,message:'Unknown building piece.'};
     const pos=getPlayerState().pos,b=getBuildBounds(progress.getBaseState().tier);
     if(pos.x<b.minX-3||pos.x>b.maxX+3||pos.z<b.minZ-3||pos.z>b.maxZ+3)return {ok:false,message:'Walk to the open clearing south of Camp, beyond the drop pod, then open Build.'};
-    type=pieceType;yaw=0;showPreviewModel(BASE_PIECE_BY_ID[type]);target={x:pos.x+2.5,y:pos.y,z:pos.z};active=true;panel.hidden=false;preview.visible=true;clearing.visible=true;app.classList.add('base-building');onBlockingChanged();refreshPreview();return {ok:true};
+    stations.close();type=pieceType;yaw=0;showPreviewModel(BASE_PIECE_BY_ID[type]);target={x:pos.x+2.5,y:pos.y,z:pos.z};active=true;panel.hidden=false;preview.visible=true;clearing.visible=true;app.classList.add('base-building');onBlockingChanged();refreshPreview();return {ok:true};
   }
-  function close(){if(!active)return;active=false;pointer=null;panel.hidden=true;preview.visible=false;app.classList.remove('base-building');onBlockingChanged();}
+  function close(){stations.close();if(!active)return;active=false;pointer=null;panel.hidden=true;preview.visible=false;app.classList.remove('base-building');onBlockingChanged();}
   function place(){
     if(!active||!isCamp())return;refreshPreview();if(!candidate?.ok)return;
     const id=`build_${globalThis.crypto?.randomUUID?.()??`${Date.now()}_${Math.random().toString(36).slice(2,8)}`}`;
@@ -94,22 +99,22 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
     const base=progress.getBaseState(),bank=progress.getBankedResources(),supplies=progress.getFieldSupplies(),hasWorkbench=base.structures.some(p=>p.type==='workbench');
     return {tier:base.tier,maxStructures:BASE_CONFIG.maxStructures,bounds:getBuildBounds(base.tier),structures:base.structures.map(p=>({...p,name:BASE_PIECE_BY_ID[p.type].name,icon:BASE_PIECE_BY_ID[p.type].icon})),fieldSupplies:supplies,hasWorkbench,
       pieces:BASE_PIECES.map(p=>({...p,costLabel:formatCost(p.cost),affordable:canAfford(bank,p.cost),action:'beginBuild'})),
-      recipes:FIELD_RECIPES.map(r=>({...r,count:supplies[r.id],costLabel:formatCost(r.cost),affordable:canAfford(bank,r.cost),locked:r.workbench&&!hasWorkbench,action:'craftFieldSupply'})),
+      recipes:FIELD_RECIPES.map(r=>({...r,count:supplies[r.id],costLabel:formatCost(r.cost),affordable:canAfford(bank,r.cost),stationName:r.station?BASE_PIECE_BY_ID[r.station].name:null,locked:!!r.station,action:'craftFieldSupply'})),
       nextExpansion:BASE_EXPANSIONS[base.tier]?{cost:BASE_EXPANSIONS[base.tier],costLabel:formatCost(BASE_EXPANSIONS[base.tier]),affordable:canAfford(bank,BASE_EXPANSIONS[base.tier])}:null};
   }
   function onAction(action,payload){
     if(!campActive())return {ok:false,message:'Return to Camp first.'};if(action==='beginBuild')return open(payload);
     let result,ok,message;
-    if(action==='craftFieldSupply'){result=progress.craftFieldSupply(payload);ok=result.crafted;message='Field supply packed.';}
+    if(action==='craftFieldSupply'){const recipe=FIELD_RECIPES.find(r=>r.id===payload);if(recipe?.station)return {ok:false,message:`Use your ${BASE_PIECE_BY_ID[recipe.station].name.toLowerCase()} beside the machine.`};result=progress.craftFieldSupply(payload);ok=result.crafted;message='Field supply packed.';}
     else if(action==='expandBase'){result=progress.expandBase();ok=result.expanded;message='Your clearing is larger.';}
     else if(action==='removeStructure'){result=progress.removeStructure(payload);ok=result.removed;message='Piece removed. Materials returned.';}
     else return null;
     if(ok)sync();return {ok,message:ok?message:REASONS[result.reason]??'Unable to complete that action.'};
   }
-  sync();return {open,close,isBlocking:()=>active,getModel,onAction,
-    update(dt,{hidden=false}={}){suppressed=hidden;const camp=campActive();root.visible=camp;clearing.visible=camp;edgeMaterial.opacity=active?.85:.38;if(lastCamp!==camp){lastCamp=camp;for(const instance of instances.values())for(const collider of instance.colliders)collider.setEnabled(camp);if(!camp)close();}poll+=dt;if(poll>.3){poll=0;sync();if(active)refreshPreview();}},
-    getNearbyInteraction(pos){if(!isCamp())return null;for(const instance of instances.values())if(instance.record.type==='workbench'&&Math.hypot(pos.x-instance.record.pos.x,pos.z-instance.record.pos.z)<2.4)return {type:'campWorkbench',id:instance.record.id,label:'Craft'};return null;},
+  sync();return {open,close,isBlocking:()=>active,getModel,onAction,openStation:stations.open,isStationOpen:stations.isOpen,
+    update(dt,{hidden=false,paused=false,reducedMotion=false}={}){suppressed=hidden;const camp=campActive();root.visible=camp;clearing.visible=camp;edgeMaterial.opacity=active?.85:.38;if(lastCamp!==camp){lastCamp=camp;for(const instance of instances.values())for(const collider of instance.colliders)collider.setEnabled(camp);if(!camp)close();}poll+=dt;if(poll>.3){poll=0;sync();if(active)refreshPreview();}stations.update(dt,{hidden,paused,reducedMotion});},
+    getNearbyInteraction:stations.getNearbyInteraction,
     getRestPosition:()=>{const bed=progress.getBaseState().structures.find(p=>p.type==='bed');return bed?{...bed.pos}:null;},
-    dispose(){close();window.removeEventListener('keydown',keydown);document.removeEventListener('visibilitychange',loseFocus);window.removeEventListener('blur',close);for(const instance of instances.values())removeInstance(instance);instances.clear();root.removeFromParent();clearPreviewModel();preview.removeFromParent();clearing.removeFromParent();previewMaterial.dispose();clearing.geometry.dispose();edgeMaterial.dispose();panel.remove();},
+    dispose(){close();stations.dispose();window.removeEventListener('keydown',keydown);document.removeEventListener('visibilitychange',loseFocus);window.removeEventListener('blur',close);for(const instance of instances.values())removeInstance(instance);instances.clear();root.removeFromParent();clearPreviewModel();preview.removeFromParent();clearing.removeFromParent();previewMaterial.dispose();clearing.geometry.dispose();edgeMaterial.dispose();panel.remove();},
   };
 }

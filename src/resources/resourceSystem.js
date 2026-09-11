@@ -2,7 +2,7 @@
 import * as THREE from "three";
 import { RESOURCE_TYPES, HARVEST_CONFIG, createVisualAssetResourceType, isHarvestCompatibleMode } from "./resourceConfig.js";
 import { createResourceNode, hideOneChunk, showAllChunks } from "./createResourceNode.js";
-import { isPlayerInsideColliderVolume, distance3D } from "./harvestLogic.js";
+import { isPlayerInsideColliderVolume, distance3D, getHarvestInteractionPoint, isHarvestableInRange as isNodeInRange, isRespawnIndicatorVisible } from "./harvestLogic.js";
 import { describeResourceCollider, describeVisualAssetCollider, getColliderCenter, getColliderHalfExtents } from "../world/colliderDescriptor.js";
 
 export function createRuntimeResourcePlacements(resources = []) {
@@ -159,12 +159,6 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     }
   }
 
-  function getInteractionPoint(node) {
-    const base = node.state.position;
-    const h = (node.type.interactionHeight ?? node.type.colliderCenterY ?? 0.5) * (node.state.uniformScale ?? 1);
-    return { x: base.x, y: (base.y ?? 0) + h, z: base.z };
-  }
-
   function getEffectivePlayerPos(playerPos) {
     return { x: playerPos.x, y: playerPos.y ?? 0.5, z: playerPos.z };
   }
@@ -176,12 +170,7 @@ export function createResourceSystem(scene, physicsWorld, placements) {
   function isHarvestableInRange(node, playerPos) {
     if (node._regionInactive) return false;
     if (!isRegionActive(node.regionId)) return false;
-    if (node.state.nodeState !== "READY") return false;
-    if (node.state.remainingChunks <= 0) return false;
-    const interact = getInteractionPoint(node);
-    const pEff = getEffectivePlayerPos(playerPos);
-    const d = distance3D(interact, pEff);
-    return d <= HARVEST_CONFIG.harvestRadius;
+    return isNodeInRange(node, playerPos);
   }
 
   function canAutoHarvestNow(node, playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
@@ -196,16 +185,14 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     if (!autoHarvestEnabled) return [];
     if (!isHarvestCompatibleMode(playerMode)) return [];
     if (!isSpeedAllowed(playerSpeed)) return [];
+    return getManualTargets(playerPos);
+  }
+
+  function getManualTargets(playerPos) {
     const pEff = getEffectivePlayerPos(playerPos);
     const res = [];
     for (const n of nodes) {
-      if (n._regionInactive) continue;
-      if (!isRegionActive(n.regionId)) continue;
-      if (n.state.nodeState !== "READY") continue;
-      if (n.state.remainingChunks <= 0) continue;
-      const interact = getInteractionPoint(n);
-      const d = distance3D(interact, pEff);
-      if (d <= HARVEST_CONFIG.harvestRadius) res.push({ node: n, dist: d });
+      if (isHarvestableInRange(n, playerPos)) res.push({ node: n, dist: distance3D(getHarvestInteractionPoint(n, playerPos), pEff) });
     }
     res.sort((a, b) => a.dist - b.dist);
     return res.slice(0, HARVEST_CONFIG.maxTargetsPerSwing).map(r => r.node);
@@ -214,33 +201,15 @@ export function createResourceSystem(scene, physicsWorld, placements) {
   // Halo visibility: harvestable in range (READY + 3D range) while Auto ON, independent of speed/mode
   function getHaloTargets(playerPos, playerMode, playerSpeed = 0, autoHarvestEnabled = true) {
     if (!autoHarvestEnabled) return [];
-    const res = [];
-    for (const n of nodes) {
-      if (n._regionInactive) continue;
-      if (!isRegionActive(n.regionId)) continue;
-      if (isHarvestableInRange(n, playerPos)) res.push(n);
-    }
-    // sort nearest first but cap same as eligibility for visual consistency
-    res.sort((a, b) => {
-      const da = distance3D(getInteractionPoint(a), getEffectivePlayerPos(playerPos));
-      const db = distance3D(getInteractionPoint(b), getEffectivePlayerPos(playerPos));
-      return da - db;
-    });
-    return res.slice(0, HARVEST_CONFIG.maxTargetsPerSwing);
+    return getManualTargets(playerPos);
   }
 
   function isRespawnVisible(node, playerPos) {
-    const base = node.state.position;
-    const nodeY = (base.y ?? 0) + (node.type.interactionHeight ?? 0.5) * (node.state.uniformScale ?? 1) * 0.5;
-    const pY = playerPos.y ?? 0.5;
-    const dx = base.x - playerPos.x;
-    const dy = nodeY - pY;
-    const dz = base.z - playerPos.z;
-    const d = Math.hypot(dx, dy, dz);
-    return d <= (HARVEST_CONFIG.respawnIndicatorRadius ?? 4.0);
+    return isRespawnIndicatorVisible(node, playerPos);
   }
 
   function applyHit(node, spawnPickup, spawnParticles, playSound) {
+    if (node._regionInactive || !isRegionActive(node.regionId)) return false;
     if (node.state.nodeState !== "READY") return false;
     if (node.state.remainingChunks <= 0) return false;
     // Reduce chunk
@@ -457,5 +426,5 @@ export function createResourceSystem(scene, physicsWorld, placements) {
     return nodes.filter(n => isRegionActive(n.regionId));
   }
 
-  return { nodes, getEligibleNodes, getHaloTargets, isHarvestableInRange, canAutoHarvestNow, applyHit, update, getNodes, isRespawnVisible, setActiveRegions, isRegionActive, getActiveNodeCount, getActiveNodes, getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null };
+  return { nodes, getManualTargets, getEligibleNodes, getHaloTargets, isHarvestableInRange, canAutoHarvestNow, applyHit, update, getNodes, isRespawnVisible, setActiveRegions, isRegionActive, getActiveNodeCount, getActiveNodes, getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null };
 }

@@ -12,7 +12,7 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
   // Warm Rapier's first-step runtime before installing a tiny DOM-only stub.
   const world=new RAPIER.World({x:0,y:0,z:0});world.step();
   const oldWindow=global.window,oldDocument=global.document;
-  const element=()=>({hidden:false,classList:{add(){},remove(){}},addEventListener(){},removeEventListener(){},append(){},remove(){},querySelector(){return element();}});
+  const element=()=>({hidden:false,classList:{add(){},remove(){}},setAttribute(){},addEventListener(){},removeEventListener(){},append(){},remove(){},querySelector(){return element();}});
   global.window={addEventListener(){},removeEventListener(){}};global.document={createElement:element,addEventListener(){},removeEventListener(){}};
   let base;
   try{

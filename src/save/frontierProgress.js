@@ -610,7 +610,7 @@ export function createFrontierProgress(opts = {}) {
   function craftFieldSupply(id) {
     const recipe=FIELD_RECIPE_BY_ID[id];
     if(!recipe)return {crafted:false,reason:'unknown-recipe'};
-    if(recipe.workbench&&!state.base.structures.some(p=>p.type==='workbench'))return {crafted:false,reason:'workbench-required'};
+    if(recipe.station&&!state.base.structures.some(p=>p.type===recipe.station))return {crafted:false,reason:'station-required',station:recipe.station};
     if(state.fieldSupplies[id]>=BASE_CONFIG.maxSupply)return {crafted:false,reason:'supply-limit'};
     if(!canAfford(state.bankedResources,recipe.cost))return {crafted:false,reason:'unaffordable'};
     const rollback=snapshotForBankRollback();spendBanked(recipe.cost);state.fieldSupplies[id]++;

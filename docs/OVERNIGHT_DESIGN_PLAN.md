@@ -63,12 +63,12 @@ Existing 58 library assets plus runtime-only families remain the coverage list. 
 
 ## Immediate review backlog
 
-1. Finish/review expanded Verdant and Shatterfen actual traversal; preserve actionable pathways.
-2. Correct companion follow hysteresis, gravity/descent, obstacle steering and collider lifecycle before calling it independent.
-3. Clear HUD overlap/icon/target-size defects identified by root; review new captures.
-4. Implement Camp construction/crafting foundation with persistent placement and actual phone interaction.
-5. Implement varied taming using the field crafting contract, then test an ordinary attempt for each species.
-6. Continue asset work in bounded resource-safe batches; expand remaining regions and re-review the complete game.
+1. Foundry habitat v2 is6.1/10 HOLD; improve broad terrace composition, ore-bearing shapes and integrated ruin landing. Extend successful composition to the other sparse regions with independent reviews.
+2. Mossling proxy weighting now preserves moderate torso volume; finish localized head correction and judge a real-speed Walk cycle before further clips or admission.
+3. Build the generated Emberfall cache target as a genuinely opening mechanism linked to the existing Emberhorn seal and claim state. Follow with other region-specific discoveries and ordinary moving lids.
+4. Continue useful Camp/equipment progression: bed rest, powered tool, one clear ranged option and food. Existing building, three physical crafting stations and five-slot equipment foundation are playable; do not advertise pending tools through icons.
+5. Revisit encounter/social danger and taming discoverability. Four distinct physical attempts, loose physics followers and directional stealth have bounded native proof; full first-time campaign pacing remains unmeasured.
+6. Keep reviewing actual mobile controls, active/inactive region costs and world boundaries. Current boundary art/fade seams and broader all-asset quality remain open; no whole-game polish claim.
 
 ## Rendering distance and loading — current decision
 

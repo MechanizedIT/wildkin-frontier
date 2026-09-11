@@ -1,6 +1,11 @@
 // src/resources/resourceConfig.js — Phase 2.1 centralized tuning + data-driven resource types
 export const HARVEST_CONFIG = {
   harvestRadius: 1.65,
+  // Large grounded nodes can be struck at their lower working surface.
+  // This cap is applied after scale; authored base elevation remains intact.
+  maxStrikeHeight: 0.85,
+  surfaceStrikeMinHalfExtent: 0.85,
+  surfaceStrikeRadius: 1.05,
   maxTargetsPerSwing: 4,
   swingInterval: 0.52,
   impactNormalizedTime: 0.52,

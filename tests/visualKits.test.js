@@ -3,16 +3,30 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import * as THREE from 'three';
 import {VISUAL_KIT_BUILDERS} from '../tools/visual-kit-registry.mjs';
+import {FOUNDRY_HABITAT_ASSET_IDS} from '../tools/compose-foundry-habitat.mjs';
 import {facetedRings,chippedBox} from '../src/world/facetedMeshKit.js';
-import {createVisual,applyVisualTransform} from '../src/world/visualFactory.js';
+import {createVisual,applyVisualTransform,createVisualAssetVisual} from '../src/world/visualFactory.js';
 import {createResourceNode,hideOneChunk,showAllChunks} from '../src/resources/createResourceNode.js';
 import {createPlayer} from '../src/player/createPlayer.js';
 import {createFieldTool} from '../src/tools/fieldTool.js';
 
-test('maintained mesh kits cover every Author asset and have finite noncollapsed source transforms',()=>{
+test('every Author asset has a maintained mesh kit or a local model, and kit transforms stay finite',()=>{
   const world=JSON.parse(fs.readFileSync(new URL('../src/world/data/world.json',import.meta.url),'utf8'));
-  assert.deepEqual([...VISUAL_KIT_BUILDERS.keys()].sort(),world.visualAssets.map(a=>a.id).sort());
-  for(const[id,build]of VISUAL_KIT_BUILDERS){const root=build(id);assert.ok(root,id);root.updateMatrixWorld(true);let count=0;
+  assert.deepEqual([...VISUAL_KIT_BUILDERS.keys()].sort(),world.visualAssets.filter(a=>VISUAL_KIT_BUILDERS.has(a.id)).map(a=>a.id).sort());
+  const builders=new Map(VISUAL_KIT_BUILDERS);
+  for(const id of FOUNDRY_HABITAT_ASSET_IDS){
+    const asset=world.visualAssets.find(a=>a.id===id);
+    assert.ok(asset?.parts?.length,`${id} maintained composer recipe`);
+    builders.set(id,()=>createVisualAssetVisual(asset));
+  }
+  for(const asset of world.visualAssets){
+    if(builders.has(asset.id))continue;
+    assert.match(asset.model?.path??'',/^assets\/models\/[^.][\w/-]*\.glb$/,`${asset.id} must have a local model when no primitive kit exists`);
+    const bytes=fs.readFileSync(new URL(`../${asset.model.path}`,import.meta.url));
+    assert.equal(bytes.readUInt32LE(0),0x46546c67,`${asset.id} GLB header`);
+    assert.equal(bytes.readUInt32LE(8),bytes.length,`${asset.id} complete GLB`);
+  }
+  for(const[id,build]of builders){const root=build(id);assert.ok(root,id);root.updateMatrixWorld(true);let count=0;
     root.traverse(node=>{if(!node.isMesh)return;count++;assert.ok(node.matrixWorld.elements.every(Number.isFinite),`${id}/${node.name} matrix`);assert.ok(Math.abs(node.matrixWorld.determinant())>1e-9,`${id}/${node.name} must not disappear from a zero scale`);assert.ok(node.geometry.attributes.position.array.every(Number.isFinite),`${id}/${node.name} geometry`);});assert.ok(count>0,id);
   }
 });
