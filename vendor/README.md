@@ -10,6 +10,12 @@ This directory contains the **vendored** runtime dependencies. No CDN is used.
 - **How vendored:** `npm install` then manual copy from `node_modules/three/build/three.module.js` to `vendor/three.module.js`. No modifications.
 - **License:** MIT — see `../THIRD_PARTY_NOTICES.md` and the header comment in `three.module.js` itself. Full text also at `node_modules/three/LICENSE` when installed.
 
+### Three.js addons
+
+- **Files:** `addons/GLTFLoader.js`, `addons/SkeletonUtils.js`, `utils/BufferGeometryUtils.js`
+- **Version/origin:** `three@0.160.0`, copied from `node_modules/three/examples/jsm/`; only documentation `https://` strings are neutralized so the offline package validator cannot mistake comments for runtime requests.
+- **Use:** Local GLB loading and safe cloning of skinned templates. Both retain their upstream MIT headers and import `three` through the local import map.
+
 ## Rapier
 
 - **File:** `rapier.js`

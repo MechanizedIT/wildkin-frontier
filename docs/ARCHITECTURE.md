@@ -41,7 +41,7 @@ Browser QA is split into normal-input first expedition, diagnostic boundary setu
 - esbuild only for readable/unminified submission packaging
 - One `requestAnimationFrame` loop in `src/main.js`
 - Fixed gameplay/physics timestep 1/60 with bounded catch-up
-- Root `index.html`, local runtime references, offline-safe ZIP <35 MB
+- Root `index.html`, local runtime references and offline-safe ZIP. Report size; the former 35 MB hackathon cap was explicitly retired by Chris on September 10, 2026.
 
 # Current Accepted Foundation
 
@@ -69,7 +69,7 @@ Accepted current systems:
 - `?dev=1` dev-only `RESET PLAYER SAVE` (clears `wildkin.frontierProgress` only),
 - desktop Author Mode with categorized palette, Ground/Boundaries hierarchy, Display Name + presentation controls, Edit proxy for hidden colliders, live tint/opacity preview, deterministic export/reset,
 - visual ↔ Rapier parity for supported solids including ground/boundary with rotation/opacity/tint,
-- single rAF/fixed 1/60, offline/portrait/<35 MB.
+- single rAF/fixed 1/60 and offline operation; portrait and package-size restrictions here are historical (current owner direction is landscape-first with no 35 MB cap).
 
 # Phase 4B.1 Architectural Direction
 
@@ -1069,7 +1069,7 @@ Submission requirements remain:
 - readable/unminified first-party source in packaged build,
 - root `index.html`,
 - portrait-safe layout,
-- <35 MB.
+- Package size reported for loading/performance awareness; the old 35 MB hackathon cap is retired.
 
 # Architecture Red Flags
 

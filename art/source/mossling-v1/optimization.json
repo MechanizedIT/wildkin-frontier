@@ -1,0 +1,43 @@
+{
+  "tool": "optimize-textured-glb.py",
+  "python": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "source_glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\trellis-test\\mossling-1024-seed1234\\raw.glb",
+  "source_glb_sha256": "e3e947f515740952a37297359d6f83967fae78899c290f72db5f05ede6339885",
+  "base_color_png": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\optimization\\pymeshlab-textured-review-pending-20260910\\interchange\\base-color-source.png",
+  "base_color_png_sha256": "33bed0cfa6a2b96091f6686db547907a4d6a1fd8ca5c85cb77b4686c52a556d4",
+  "algorithm": "PyMeshLab meshing_decimation_quadric_edge_collapse_with_texture",
+  "visual_review": {
+    "status": "independent review complete; suitable as a rigging input, pending deformation and in-game acceptance",
+    "evidence": "Both targets imported and rendered at matched source bounds/yaw 90 in front, three-quarter and rear views at 512 and 128 pixels. 20k retains slightly cleaner facial, flower and leaf contour detail; no seam opening or texture projection damage was visible in those static renders."
+  },
+  "targets": [
+    {
+      "source_vertices": 51417,
+      "source_faces": 59017,
+      "pymeshlab_preexport_vertices": 4445,
+      "pymeshlab_preexport_triangles": 10000,
+      "target": 10000,
+      "glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\optimization\\pymeshlab-textured-review-pending-20260910\\mossling-textured-10000.glb",
+      "embedded_base_color_png_sha256": "33bed0cfa6a2b96091f6686db547907a4d6a1fd8ca5c85cb77b4686c52a556d4",
+      "glb_sha256": "ebd4fbe3d5dc4a35d6d1402f1c6771b19e07b471601028faebd37f2751677af2",
+      "bytes": 2369936,
+      "reimport_mesh_objects": 1,
+      "reimport_vertices": 14020,
+      "reimport_triangles": 9999
+    },
+    {
+      "source_vertices": 51417,
+      "source_faces": 59017,
+      "pymeshlab_preexport_vertices": 9441,
+      "pymeshlab_preexport_triangles": 20000,
+      "target": 20000,
+      "glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\optimization\\pymeshlab-textured-review-pending-20260910\\mossling-textured-20000.glb",
+      "embedded_base_color_png_sha256": "33bed0cfa6a2b96091f6686db547907a4d6a1fd8ca5c85cb77b4686c52a556d4",
+      "glb_sha256": "ddac3b55aede9791ceafa8be5173aff5a27d6785dad49b10222c12ac1c6956b9",
+      "bytes": 2751184,
+      "reimport_mesh_objects": 1,
+      "reimport_vertices": 24059,
+      "reimport_triangles": 19999
+    }
+  ]
+}

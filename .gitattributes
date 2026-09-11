@@ -1,0 +1,3 @@
+# Source receipts hash exact bytes; never convert archived evidence on checkout.
+art/source/** -text whitespace=cr-at-eol
+assets/models/** -text

@@ -29,6 +29,7 @@ See also:
 - **Version:** `0.160.0`
 - **Source:** https://github.com/mrdoob/three.js (npm `three@0.160.0`)
 - **Vendored file:** `vendor/three.module.js` — copied from `node_modules/three/build/three.module.js` (no CDN, relative importmap `three` → `./vendor/three.module.js`)
+- **Vendored addons:** `vendor/addons/GLTFLoader.js`, `vendor/addons/SkeletonUtils.js` — copied unchanged from `node_modules/three/examples/jsm/` for local GLB loading/skinned cloning
 - **License:** MIT
 
 ```

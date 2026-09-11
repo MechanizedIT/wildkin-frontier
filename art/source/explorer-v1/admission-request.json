@@ -1,0 +1,127 @@
+{
+  "assetId": "explorer-v1",
+  "profile": "player",
+  "model": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/model.glb",
+  "scale": 1,
+  "pivot": {
+    "x": 0,
+    "y": -0.52,
+    "z": 0
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "sneak": "Sneak",
+    "jump": "Jump",
+    "fall": "Fall",
+    "dodge": "Dodge",
+    "climb": "Climb",
+    "mantle": "Mantle",
+    "attack": "Attack",
+    "hurt": "Hurt"
+  },
+  "locomotion": {
+    "sneak": 1.6,
+    "walk": 3.3,
+    "run": 6
+  },
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "texture_pipeline",
+      "sha256": "109038b64d779a7a75054ef358850ee61f2e256f4a02d7c0d0b74096117163f2"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "mossling_deformation_judge",
+      "sha256": "7900868f831c723b60edb15b8321d4818754223db11ef80e6766c91b9b214104"
+    },
+    "motion": {
+      "status": "pass",
+      "reviewer": "mossling_deformation_judge",
+      "sha256": "7900868f831c723b60edb15b8321d4818754223db11ef80e6766c91b9b214104"
+    }
+  },
+  "sourceFiles": [
+    {
+      "role": "reference",
+      "path": ".dream-loop/workflow-proof/references/explorer-v3.png"
+    },
+    {
+      "role": "raw",
+      "path": ".dream-loop/workflow-proof/generation/explorer-1024-seed1234/raw.glb"
+    },
+    {
+      "role": "generation",
+      "path": ".dream-loop/workflow-proof/generation/explorer-1024-seed1234/trial.json"
+    },
+    {
+      "role": "optimization",
+      "path": ".dream-loop/workflow-proof/optimization/explorer-20k-v1/manifest.json"
+    },
+    {
+      "role": "blend",
+      "path": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/explorer-rig.blend"
+    },
+    {
+      "role": "rig-profile",
+      "path": "tools/art/rigs/explorer.json"
+    },
+    {
+      "role": "rig-report",
+      "path": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/rig-report.json"
+    },
+    {
+      "role": "builder",
+      "path": "tools/art/rig-humanoid.py"
+    },
+    {
+      "role": "reference-prompt",
+      "path": ".dream-loop/workflow-proof/references/explorer_reference_v3_prompt.txt"
+    },
+    {
+      "role": "reference-review",
+      "path": ".dream-loop/workflow-proof/references/v3-reference-review.md"
+    },
+    {
+      "role": "model-review",
+      "path": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/model-review.md"
+    },
+    {
+      "role": "motion-review",
+      "path": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/motion-review.md"
+    },
+    {
+      "role": "review-front",
+      "path": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/idle-peak.png"
+    },
+    {
+      "role": "review-motion",
+      "path": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/run-cycle-side.mp4"
+    }
+  ],
+  "provenance": {
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "sourceReferences": [
+      "Owner-approved brown-haired blue-jacket explorer sheet"
+    ],
+    "modelRoute": "Local TRELLIS1024; PyMeshLab texture-aware20k; originalgeometrypreserved withfitted16boneBlenderhumanoidrigand11clips",
+    "handAnchor": {
+      "bone": "RightHand",
+      "position": {
+        "x": -0.012,
+        "y": -0.018,
+        "z": 0.035
+      },
+      "rotation": {
+        "x": 0.18,
+        "y": -0.18,
+        "z": -0.35
+      }
+    },
+    "runtimeProof": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/actual-game-review/report.json",
+    "ownerAcceptance": "Style and player identity owner directed; exact animated revision remains candidate"
+  }
+}

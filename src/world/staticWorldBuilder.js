@@ -3,6 +3,7 @@
 // One source: world.json -> normalized -> worldRegistry -> this builder.
 
 import * as THREE from "three";
+import { disposeExternalModelInstance } from "../assets/modelAssetRuntime.js";
 import { MOVEMENT_CONFIG } from "../game/config.js";
 import { normalizeStaticDescriptor } from "./staticDescriptor.js";
 import {
@@ -120,6 +121,7 @@ export function createStaticWorld(worldData) {
   }
 
   function disposeFactoryRoot(root) {
+    if (disposeExternalModelInstance(root)) return;
     root?.traverse((object) => {
       if (object.geometry && !object.geometry.userData?.isSharedAssetGeometry) object.geometry.dispose?.();
       const materials = Array.isArray(object.material) ? object.material : object.material ? [object.material] : [];
@@ -134,6 +136,7 @@ export function createStaticWorld(worldData) {
       if (!object.isMesh || !object.material) return;
       if (tint === undefined && opacity >= 1) return;
       object.material = object.material.clone();
+      if (root.userData.externalModelInstance) object.material.userData = { ...object.material.userData, externalModelInstanceMaterial: true };
       if (tint !== undefined && object.material.color) {
         object.material.color.setHex(parseColor(tint, object.material.color.getHex()));
       }

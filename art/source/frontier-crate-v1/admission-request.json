@@ -1,0 +1,84 @@
+{
+  "assetId": "frontier-crate-v1",
+  "profile": "prop",
+  "model": ".dream-loop/workflow-proof/crate-refinement/normalized-v2/crate.glb",
+  "scale": 1,
+  "pivot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "texture_pipeline",
+      "sha256": "499aff00a962da53cb4a1eb22739272f5bb1e5c4eeb295f8c25e618270cec84e"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "external_model_runtime",
+      "sha256": "2cd92189a18c86129298dc45fe1ebbf5e9137cb0c43fbdf03197a55ba09e1d0c"
+    }
+  },
+  "sourceFiles": [
+    {
+      "role": "reference",
+      "path": ".dream-loop/workflow-proof/references/crate-v3.png"
+    },
+    {
+      "role": "raw",
+      "path": ".dream-loop/workflow-proof/generation/crate-512-seed1234/raw.glb"
+    },
+    {
+      "role": "generation",
+      "path": ".dream-loop/workflow-proof/generation/crate-512-seed1234/trial.json"
+    },
+    {
+      "role": "optimization",
+      "path": ".dream-loop/workflow-proof/independent-replay/crate/REPLAY_REPORT.md"
+    },
+    {
+      "role": "normalization",
+      "path": ".dream-loop/workflow-proof/crate-refinement/normalized-v2/manifest.json"
+    },
+    {
+      "role": "blend",
+      "path": ".dream-loop/workflow-proof/crate-refinement/source-v2/crate-editable.blend"
+    },
+    {
+      "role": "builder",
+      "path": "tools/art/build-frontier-crate.py"
+    },
+    {
+      "role": "reference-prompt",
+      "path": ".dream-loop/workflow-proof/references/crate_reference_v3_prompt.txt"
+    },
+    {
+      "role": "reference-review",
+      "path": ".dream-loop/workflow-proof/references/v3-reference-review.md"
+    },
+    {
+      "role": "model-review",
+      "path": ".dream-loop/workflow-proof/crate-refinement/normalized-v2/independent-review.md"
+    },
+    {
+      "role": "review-front",
+      "path": ".dream-loop/workflow-proof/crate-refinement/normalized-v2/review/front.png"
+    },
+    {
+      "role": "review-rear",
+      "path": ".dream-loop/workflow-proof/crate-refinement/normalized-v2/review/rear.png"
+    }
+  ],
+  "provenance": {
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "prompt": "Precise background replacement ONLY. Keep this exact wooden crate, all its geometry, colors, corner guards, X-braces, bolts, camera angle and shape unchanged. Replace the entire checkerboard surrounding it with completely plain solid pure white (#FFFFFF). No checkerboard anywhere, no transparency, no floor line, no ground shadow, no colored outline/halo. One isolated crate on a perfectly uniform white background, with generous whitespace margin. Do not restore the removed gold tab. No other edits.",
+    "sourceReferences": [
+      "Owner-approved all-model explorer style sheet",
+      "Project outpost-board crate"
+    ],
+    "modelRoute": "Local TRELLIS 512 raw master; automatic reduction rejected for damaged braces; editable Blender reconstruction from reviewed target; final guard bolts and matte palette refinement",
+    "ownerAcceptance": "Pending for exact crate; style and workflow scope owner-authorized"
+  }
+}

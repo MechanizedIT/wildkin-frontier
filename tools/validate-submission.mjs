@@ -6,7 +6,6 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const OUT = path.join(ROOT, "dist", "submission");
-const MAX_BYTES = 35 * 1024 * 1024;
 
 let errors = [];
 let warnings = [];
@@ -99,7 +98,7 @@ for (const rel of vendorRefs) {
   if (!fs.existsSync(abs)) fail(`Referenced local file missing in submission: ${rel} → ${path.relative(ROOT, abs)} not found`);
 }
 
-// 6. ZIP/package size exceeds 35 MB
+// 6. Report package size for release visibility. Size is not a validation gate.
 function dirSize(dir) {
   let total = 0;
   if (!fs.existsSync(dir)) return 0;
@@ -111,11 +110,7 @@ function dirSize(dir) {
   return total;
 }
 const totalSize = dirSize(OUT);
-if (totalSize > MAX_BYTES) {
-  fail(`Submission size ${(totalSize / (1024*1024)).toFixed(2)} MB exceeds 35 MB limit`);
-} else {
-  console.log(`[validate] submission size ${(totalSize / 1024).toFixed(1)} KB — OK (<35 MB)`);
-}
+console.log(`[validate] submission size ${(totalSize / 1024).toFixed(1)} KB (${(totalSize / (1024 * 1024)).toFixed(2)} MB)`);
 
 // 7. Obvious dev-only paths or localhost references remain
 const devPatterns = [

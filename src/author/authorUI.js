@@ -144,15 +144,17 @@ export function createAuthorUI(opts) {
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px"><button id="author-camera-left" title="Orbit camera left ([)">↶ Left [</button><button id="author-camera-reset" title="Reset camera view (0)">Reset 0</button><button id="author-camera-right" title="Orbit camera right (])">Right ] ↷</button></div>
           <div style="font-size:9px;color:#7890ad;margin-top:4px">Right-drag pans · Alt+right or middle free-orbits (inverted) · wheel zooms · orb+cross is orbit point</div>
         </div>
-        <div style="font-size:11px;font-weight:700;margin-bottom:3px">Add Part</div>
-        <div id="author-asset-add-parts" style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
-          <button data-asset-shape="box">+ Box</button><button data-asset-shape="cylinder">+ Cylinder</button>
-          <button data-asset-shape="cone">+ Cone</button><button data-asset-shape="sphere">+ Sphere</button>
-          <button data-asset-shape="capsule">+ Capsule</button><button data-asset-shape="icosahedron">+ Icosahedron</button>
-        </div>
-        <div style="font-size:9px;color:#7890ad;margin-top:6px">Part order — harvestables remove parts from the bottom upward</div>
-        <div id="author-asset-parts" style="display:flex;flex-direction:column;gap:3px;margin:4px 0;max-height:190px;overflow-y:auto"></div>
-        <div id="author-asset-part-form" style="display:none;border-top:1px solid #1e2a4a;padding-top:5px">
+        <div id="author-asset-external-model-note" style="display:none;font-size:11px;color:#b9cbe0;background:#101b2c;border:1px solid #263b58;border-radius:5px;padding:6px;margin:6px 0">Edit this model in Blender. Placement and collision remain editable here.</div>
+        <div id="author-asset-primitive-editor">
+          <div style="font-size:11px;font-weight:700;margin-bottom:3px">Add Part</div>
+          <div id="author-asset-add-parts" style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+            <button data-asset-shape="box">+ Box</button><button data-asset-shape="cylinder">+ Cylinder</button>
+            <button data-asset-shape="cone">+ Cone</button><button data-asset-shape="sphere">+ Sphere</button>
+            <button data-asset-shape="capsule">+ Capsule</button><button data-asset-shape="icosahedron">+ Icosahedron</button>
+          </div>
+          <div style="font-size:9px;color:#7890ad;margin-top:6px">Part order — harvestables remove parts from the bottom upward</div>
+          <div id="author-asset-parts" style="display:flex;flex-direction:column;gap:3px;margin:4px 0;max-height:190px;overflow-y:auto"></div>
+          <div id="author-asset-part-form" style="display:none;border-top:1px solid #1e2a4a;padding-top:5px">
           <label style="display:block">Shape <input id="author-part-shape" readonly style="width:100%;opacity:.75"></label>
           <div style="font-size:11px;margin-top:4px">Position X / Y / Z</div><div class="author-vec3"><input id="author-part-px" type="number" step="0.1" title="Position X"><input id="author-part-py" type="number" step="0.1" title="Position Y"><input id="author-part-pz" type="number" step="0.1" title="Position Z"></div>
           <div style="font-size:11px;margin-top:4px">Rotation X / Y / Z °</div><div class="author-vec3"><input id="author-part-rx" type="number" step="5" title="Rotation X"><input id="author-part-ry" type="number" step="5" title="Rotation Y"><input id="author-part-rz" type="number" step="5" title="Rotation Z"></div>
@@ -160,6 +162,7 @@ export function createAuthorUI(opts) {
           <label style="display:block;margin-top:4px">Color <input id="author-part-color" type="color" style="width:100%;height:25px"></label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px"><button id="author-part-rotate-left">Q · Rotate −15°</button><button id="author-part-rotate-right">E · Rotate +15°</button><button id="author-part-down">C · Lower 0.2</button><button id="author-part-up">Space · Raise 0.2</button></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px"><button id="author-part-order-up">Move earlier ↑</button><button id="author-part-order-down">Move later ↓</button><button id="author-part-duplicate">Duplicate</button><button id="author-part-delete" style="color:#ffaaaa">Delete</button></div>
+          </div>
         </div>
         <div style="border-top:1px solid #1e2a4a;margin-top:7px;padding-top:5px">
           <strong style="font-size:11px">Collision</strong>
@@ -196,7 +199,7 @@ export function createAuthorUI(opts) {
           </div>
         </div>
         <button id="author-asset-delete" style="width:100%;margin-top:7px;color:#ffaaaa">Delete Asset</button>
-        <div style="font-size:10px;color:#7f98ba;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:5px">Select a part, then use drag/WASD for local X/Z · Space/C for Y · Q/E for rotation · [/] camera · Esc exits. Clicking the canvas restores shortcut focus.</div>
+        <div id="author-asset-part-help" style="font-size:10px;color:#7f98ba;margin-top:6px;border-top:1px solid #1e2a4a;padding-top:5px">Select a part, then use drag/WASD for local X/Z · Space/C for Y · Q/E for rotation · [/] camera · Esc exits. Clicking the canvas restores shortcut focus.</div>
       </div>
     </details>
     <details id="sec-selected" open style="margin-bottom:8px">
@@ -407,6 +410,11 @@ export function createAuthorUI(opts) {
     container.querySelector("#author-asset-name").value = asset.displayName;
     container.querySelector("#author-asset-category").value = asset.category ?? "Uncategorized";
     container.querySelector("#author-asset-id").textContent = asset.id;
+    const isExternalModel = !!asset.model;
+    container.querySelector("#author-asset-external-model-note").style.display = isExternalModel ? "" : "none";
+    container.querySelector("#author-asset-primitive-editor").style.display = isExternalModel ? "none" : "";
+    container.querySelector("#author-asset-part-help").style.display = isExternalModel ? "none" : "";
+    if (isExternalModel) selectedAssetPartId = null;
     if (!asset.parts.some((part) => part.id === selectedAssetPartId)) selectedAssetPartId = asset.parts[0]?.id ?? null;
     const partsHost = container.querySelector("#author-asset-parts");
     partsHost.innerHTML = "";

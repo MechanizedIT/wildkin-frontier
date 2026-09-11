@@ -1,0 +1,427 @@
+{
+  "profile": "explorer-trellis-direct-humanoid-v1",
+  "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\optimization\\explorer-20k-v1\\explorer-textured-20000.glb",
+  "input_sha256": "f6da28dce4d262f8c35de2a887c5ea61e8e1693d7cc233e003815de396cf6d71",
+  "height_meters": 1.28,
+  "source_face_axis": "-Y",
+  "runtime_forward": "+Z",
+  "feet": "Y=0 after glTF export",
+  "weights": {
+    "component_count": 36,
+    "largest_component_vertices": 19343,
+    "rigid_component_max_vertices": 1000,
+    "rigid_vertices": 4364,
+    "max_influences": 4,
+    "zero_weight_vertices": 0,
+    "weight_sum_min": 0.9999998612329364,
+    "weight_sum_max": 1.0000001713633537,
+    "rigid_distal_hand_vertices": {
+      "RightHand": 1105,
+      "LeftHand": 1070
+    }
+  },
+  "bones": [
+    "Hips",
+    "Spine",
+    "Chest",
+    "Head",
+    "RightUpperArm",
+    "RightForeArm",
+    "RightHand",
+    "LeftUpperArm",
+    "LeftForeArm",
+    "LeftHand",
+    "RightUpperLeg",
+    "RightLowerLeg",
+    "RightFoot",
+    "LeftUpperLeg",
+    "LeftLowerLeg",
+    "LeftFoot"
+  ],
+  "clips": {
+    "Idle": [
+      1.0,
+      25.0
+    ],
+    "Sneak": [
+      1.0,
+      16.0
+    ],
+    "Walk": [
+      1.0,
+      13.5
+    ],
+    "Run": [
+      1.0,
+      13.0
+    ],
+    "Jump": [
+      1.0,
+      18.0
+    ],
+    "Fall": [
+      1.0,
+      25.0
+    ],
+    "Dodge": [
+      1.0,
+      12.0
+    ],
+    "Climb": [
+      1.0,
+      25.0
+    ],
+    "Mantle": [
+      1.0,
+      16.0
+    ],
+    "Attack": [
+      1.0,
+      20.0
+    ],
+    "Hurt": [
+      1.0,
+      12.0
+    ]
+  },
+  "locomotion": {
+    "sneak": {
+      "authored_speed_mps": 1.6,
+      "cycle_seconds": 0.6,
+      "support_seconds_per_foot": 0.24,
+      "style": "grounded crouch; feet are analytically planted during stance"
+    },
+    "walk": {
+      "authored_speed_mps": 3.3,
+      "cycle_seconds": 0.5,
+      "support_seconds_per_foot": 0.16,
+      "style": "light jog with brief flight; feet are analytically planted during stance"
+    },
+    "run": {
+      "authored_speed_mps": 6.0,
+      "cycle_seconds": 0.48,
+      "support_seconds_per_foot": 0.08,
+      "style": "cartoon sprint with brief support and flight; 0.48 m planted travel per contact"
+    }
+  },
+  "gait_measurements": {
+    "sneak": {
+      "cycle_seconds": 0.6,
+      "support_seconds_per_foot": 0.24,
+      "contacts": {
+        "Right": {
+          "stance_tail_blender_yz": [
+            [
+              0.173541,
+              0.112231
+            ],
+            [
+              -0.204629,
+              0.114688
+            ]
+          ],
+          "local_y_travel_m": -0.37817,
+          "expected_controller_travel_m": 0.384,
+          "sole_height_error_m": 0.114688
+        },
+        "Left": {
+          "stance_tail_blender_yz": [
+            [
+              0.173541,
+              0.112231
+            ],
+            [
+              -0.185747,
+              0.123706
+            ]
+          ],
+          "local_y_travel_m": -0.359288,
+          "expected_controller_travel_m": 0.384,
+          "sole_height_error_m": 0.123706
+        }
+      }
+    },
+    "walk": {
+      "cycle_seconds": 0.5,
+      "support_seconds_per_foot": 0.16,
+      "contacts": {
+        "Right": {
+          "stance_tail_blender_yz": [
+            [
+              0.237639,
+              0.106593
+            ],
+            [
+              -0.271919,
+              0.120032
+            ]
+          ],
+          "local_y_travel_m": -0.509558,
+          "expected_controller_travel_m": 0.528,
+          "sole_height_error_m": 0.120032
+        },
+        "Left": {
+          "stance_tail_blender_yz": [
+            [
+              0.237639,
+              0.106593
+            ],
+            [
+              -0.257658,
+              0.122854
+            ]
+          ],
+          "local_y_travel_m": -0.495297,
+          "expected_controller_travel_m": 0.528,
+          "sole_height_error_m": 0.122854
+        }
+      }
+    },
+    "run": {
+      "cycle_seconds": 0.48,
+      "support_seconds_per_foot": 0.08,
+      "contacts": {
+        "Right": {
+          "stance_tail_blender_yz": [
+            [
+              0.220158,
+              0.111717
+            ],
+            [
+              -0.239914,
+              0.127466
+            ]
+          ],
+          "local_y_travel_m": -0.460072,
+          "expected_controller_travel_m": 0.48,
+          "sole_height_error_m": 0.127466
+        },
+        "Left": {
+          "stance_tail_blender_yz": [
+            [
+              0.220158,
+              0.111717
+            ],
+            [
+              -0.19711,
+              0.1271
+            ]
+          ],
+          "local_y_travel_m": -0.417268,
+          "expected_controller_travel_m": 0.48,
+          "sole_height_error_m": 0.1271
+        }
+      }
+    }
+  },
+  "materials": [
+    {
+      "name": "Explorer Matte Base Color",
+      "base_color_images": [
+        {
+          "name": "base-color",
+          "size": [
+            1024,
+            1024
+          ]
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    "idle-peak.png",
+    "walk-peak.png",
+    "run-peak.png",
+    "sneak-peak.png",
+    "jump-peak.png",
+    "fall-peak.png",
+    "dodge-peak.png",
+    "climb-peak.png",
+    "mantle-peak.png",
+    "attack-peak.png",
+    "hurt-peak.png"
+  ],
+  "locomotion_footage": [
+    "sneak-cycle-front.mp4",
+    "sneak-cycle-side.mp4",
+    "sneak-cycle-three-quarter.mp4",
+    "walk-cycle-front.mp4",
+    "walk-cycle-side.mp4",
+    "walk-cycle-three-quarter.mp4",
+    "run-cycle-front.mp4",
+    "run-cycle-side.mp4",
+    "run-cycle-three-quarter.mp4"
+  ],
+  "hand_deformation_evidence": [
+    "attack-hands-front.png",
+    "attack-hands-side.png",
+    "run-hands-three-quarter.png"
+  ],
+  "editable": "explorer-rig.blend",
+  "glb": {
+    "file": "model.glb",
+    "sha256": "7900868f831c723b60edb15b8321d4818754223db11ef80e6766c91b9b214104",
+    "bytes": 3278000
+  },
+  "roundtrip": {
+    "bones": [
+      "Hips",
+      "Spine",
+      "Chest",
+      "Head",
+      "RightUpperArm",
+      "RightForeArm",
+      "RightHand",
+      "LeftUpperArm",
+      "LeftForeArm",
+      "LeftHand",
+      "RightUpperLeg",
+      "RightLowerLeg",
+      "RightFoot",
+      "LeftUpperLeg",
+      "LeftLowerLeg",
+      "LeftFoot"
+    ],
+    "missing_expected_bones": [],
+    "actions": [
+      {
+        "name": "Attack",
+        "frame_range": [
+          0.0,
+          18.239999771118164
+        ]
+      },
+      {
+        "name": "Climb",
+        "frame_range": [
+          0.0,
+          23.03999900817871
+        ]
+      },
+      {
+        "name": "Dodge",
+        "frame_range": [
+          0.0,
+          10.559999465942383
+        ]
+      },
+      {
+        "name": "Fall",
+        "frame_range": [
+          0.0,
+          23.03999900817871
+        ]
+      },
+      {
+        "name": "Hurt",
+        "frame_range": [
+          0.0,
+          10.559999465942383
+        ]
+      },
+      {
+        "name": "Idle",
+        "frame_range": [
+          0.0,
+          23.03999900817871
+        ]
+      },
+      {
+        "name": "Jump",
+        "frame_range": [
+          0.0,
+          16.31999969482422
+        ]
+      },
+      {
+        "name": "Mantle",
+        "frame_range": [
+          0.0,
+          14.40000057220459
+        ]
+      },
+      {
+        "name": "Run",
+        "frame_range": [
+          0.0,
+          11.519999504089355
+        ]
+      },
+      {
+        "name": "Sneak",
+        "frame_range": [
+          0.0,
+          14.40000057220459
+        ]
+      },
+      {
+        "name": "Walk",
+        "frame_range": [
+          0.0,
+          11.519999504089355
+        ]
+      }
+    ],
+    "max_influences": 4,
+    "zero_weight_vertices": 0,
+    "weight_sum_min": 0.9999999250285327,
+    "weight_sum_max": 1.0000001043081284,
+    "blender_import_auxiliary_meshes": [
+      "Icosphere"
+    ],
+    "bounds": {
+      "min": [
+        -0.41099900007247925,
+        -0.1982584297657013,
+        5.5466763626554894e-08
+      ],
+      "max": [
+        0.4108079969882965,
+        0.19517384469509125,
+        1.279999852180481
+      ]
+    },
+    "glb_structure": {
+      "skin_count": 1,
+      "joint_weight_accessors": [
+        {
+          "attribute": "JOINTS_0",
+          "type": "VEC4",
+          "count": 23958
+        },
+        {
+          "attribute": "WEIGHTS_0",
+          "type": "VEC4",
+          "count": 23958
+        }
+      ]
+    }
+  },
+  "runtime_descriptor_candidate": {
+    "path": "assets/models/explorer/model.glb",
+    "scale": 1,
+    "pivot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "clips": {
+      "idle": "Idle",
+      "walk": "Walk",
+      "run": "Run",
+      "sneak": "Sneak",
+      "jump": "Jump",
+      "fall": "Fall",
+      "dodge": "Dodge",
+      "climb": "Climb",
+      "mantle": "Mantle",
+      "attack": "Attack",
+      "hurt": "Hurt"
+    },
+    "locomotion": {
+      "sneak": 1.6,
+      "walk": 3.3,
+      "run": 6.0
+    }
+  }
+}

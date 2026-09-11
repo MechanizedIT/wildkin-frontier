@@ -1,0 +1,157 @@
+{
+  "assetId": "frontier-crate-v1",
+  "profile": "prop",
+  "createdUtc": "2026-09-11T01:47:13.284240+00:00",
+  "model": {
+    "path": "assets/models/frontier-crate-v1/model.glb",
+    "scale": 1,
+    "pivot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "modelSHA256": "2cd92189a18c86129298dc45fe1ebbf5e9137cb0c43fbdf03197a55ba09e1d0c",
+  "modelBytes": 120012,
+  "sources": [
+    {
+      "role": "reference",
+      "path": "art/source/frontier-crate-v1/reference.png",
+      "bytes": 1206607,
+      "sha256": "499aff00a962da53cb4a1eb22739272f5bb1e5c4eeb295f8c25e618270cec84e"
+    },
+    {
+      "role": "raw",
+      "path": "art/source/frontier-crate-v1/raw.glb",
+      "bytes": 4090272,
+      "sha256": "0a957ddae58fe28264f6a02b3c563447b32e5d3fb3679091b1a24f225ccbb527"
+    },
+    {
+      "role": "generation",
+      "path": "art/source/frontier-crate-v1/generation.json",
+      "bytes": 8564,
+      "sha256": "36beac2ee33bbf3a491e2cdb8b66ec77d63c8802099289b34bc73fc6650a1d62"
+    },
+    {
+      "role": "optimization",
+      "path": "art/source/frontier-crate-v1/optimization.md",
+      "bytes": 4453,
+      "sha256": "a85ae17a50388ccbe326eb7a0af9e654df345b38f97a9341799a6f246298876b"
+    },
+    {
+      "role": "normalization",
+      "path": "art/source/frontier-crate-v1/normalization.json",
+      "bytes": 1088,
+      "sha256": "96009a11c8fc2e0be5bb349821fc9c189b63f79bda9908bedeb423dac9165257"
+    },
+    {
+      "role": "blend",
+      "path": "art/source/frontier-crate-v1/blend.blend",
+      "bytes": 673402,
+      "sha256": "2abaa18027205365bfe32245ed5141011c6c43e28af97817862c6446ce991467"
+    },
+    {
+      "role": "builder",
+      "path": "art/source/frontier-crate-v1/builder.py",
+      "bytes": 5159,
+      "sha256": "5f5bddaaa378e9940b15875015217f8e75dc0ac08285fc2f24e9f17b4b97c423"
+    },
+    {
+      "role": "reference-prompt",
+      "path": "art/source/frontier-crate-v1/reference-prompt.txt",
+      "bytes": 503,
+      "sha256": "3da64b9395a7e60d14393f82efdcaee6691c9ff0efabc010a601f44ccb844073"
+    },
+    {
+      "role": "reference-review",
+      "path": "art/source/frontier-crate-v1/reference-review.md",
+      "bytes": 1414,
+      "sha256": "0638453db6fe1ad3acef450a787a8b9a6a76e34e3f0f8392b021da3441a26ca1"
+    },
+    {
+      "role": "model-review",
+      "path": "art/source/frontier-crate-v1/model-review.md",
+      "bytes": 974,
+      "sha256": "d45dd74705c744dda52a2e966811093f9f90af560af9040669165feed6c09297"
+    },
+    {
+      "role": "review-front",
+      "path": "art/source/frontier-crate-v1/review-front.png",
+      "bytes": 301521,
+      "sha256": "dd716a850815ff1c8228e95b0c7fe59f6f0997d219547d83ec7232f1fa808092"
+    },
+    {
+      "role": "review-rear",
+      "path": "art/source/frontier-crate-v1/review-rear.png",
+      "bytes": 297595,
+      "sha256": "b4945dccdb6f7dacd43f29e1c4c22726fac02b4c4d6b5b8446f149a4a582a141"
+    }
+  ],
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "texture_pipeline",
+      "sha256": "499aff00a962da53cb4a1eb22739272f5bb1e5c4eeb295f8c25e618270cec84e"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "external_model_runtime",
+      "sha256": "2cd92189a18c86129298dc45fe1ebbf5e9137cb0c43fbdf03197a55ba09e1d0c"
+    }
+  },
+  "provenance": {
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "prompt": "Precise background replacement ONLY. Keep this exact wooden crate, all its geometry, colors, corner guards, X-braces, bolts, camera angle and shape unchanged. Replace the entire checkerboard surrounding it with completely plain solid pure white (#FFFFFF). No checkerboard anywhere, no transparency, no floor line, no ground shadow, no colored outline/halo. One isolated crate on a perfectly uniform white background, with generous whitespace margin. Do not restore the removed gold tab. No other edits.",
+    "sourceReferences": [
+      "Owner-approved all-model explorer style sheet",
+      "Project outpost-board crate"
+    ],
+    "modelRoute": "Local TRELLIS 512 raw master; automatic reduction rejected for damaged braces; editable Blender reconstruction from reviewed target; final guard bolts and matte palette refinement",
+    "ownerAcceptance": "Pending for exact crate; style and workflow scope owner-authorized"
+  },
+  "admission": {
+    "ok": true,
+    "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\crate-refinement\\normalized-v2\\crate.glb",
+    "profile": "prop",
+    "limits": {
+      "max_triangles": 5000,
+      "max_vertices": 15000,
+      "max_materials": 2,
+      "max_bones": 0,
+      "max_texture": 1024
+    },
+    "sourceSHA256": "2cd92189a18c86129298dc45fe1ebbf5e9137cb0c43fbdf03197a55ba09e1d0c",
+    "textureSHA256": [
+      "21b2660d332902c9aadc2408a8115f03623b3f1cfd043a817271c0e228c1964a"
+    ],
+    "counts": {
+      "triangles": 1552,
+      "vertices": 3264,
+      "materials": 1,
+      "bones": 0,
+      "animations": 0
+    },
+    "animations": [],
+    "textures": [
+      {
+        "mimeType": "image/png",
+        "width": 256,
+        "height": 256,
+        "sha256": "21b2660d332902c9aadc2408a8115f03623b3f1cfd043a817271c0e228c1964a",
+        "roles": [
+          "baseColor"
+        ]
+      }
+    ],
+    "textureRoles": [
+      {
+        "texture": 0,
+        "role": "baseColor"
+      }
+    ],
+    "failures": [],
+    "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+  },
+  "note": "Admission does not establish physical-phone performance or owner art acceptance."
+}

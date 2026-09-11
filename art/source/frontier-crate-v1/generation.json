@@ -1,0 +1,316 @@
+{
+  "elapsed_seconds": 183.859,
+  "endpoint": "http://127.0.0.1:7960/",
+  "finished_utc": "2026-09-11T00:41:50.478362+00:00",
+  "generation_http_status": 200,
+  "generation_response": {
+    "message": "Generation complete",
+    "model_url": "/download/model",
+    "progress": 100,
+    "status": "COMPLETE"
+  },
+  "gpu_samples": [
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 59, 16, 1400, 8192, 18.03"
+      ],
+      "utc": "2026-09-11T00:38:46.551988+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 59, 100, 3219, 8192, 20.73"
+      ],
+      "utc": "2026-09-11T00:38:51.652628+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 60, 10, 5684, 8192, 25.22"
+      ],
+      "utc": "2026-09-11T00:38:56.755989+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 61, 4, 1245, 8192, 40.23"
+      ],
+      "utc": "2026-09-11T00:39:01.857794+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 59, 29, 2173, 8192, 19.15"
+      ],
+      "utc": "2026-09-11T00:39:06.960493+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 61, 100, 3868, 8192, 28.97"
+      ],
+      "utc": "2026-09-11T00:39:12.058370+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 68, 100, 3863, 8192, 94.64"
+      ],
+      "utc": "2026-09-11T00:39:17.151116+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 71, 100, 3880, 8192, 94.78"
+      ],
+      "utc": "2026-09-11T00:39:22.271365+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 73, 100, 3862, 8192, 94.58"
+      ],
+      "utc": "2026-09-11T00:39:27.377316+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 67, 9, 2536, 8192, 28.73"
+      ],
+      "utc": "2026-09-11T00:39:32.486845+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 66, 94, 4437, 8192, 23.93"
+      ],
+      "utc": "2026-09-11T00:39:37.581545+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 74, 94, 4423, 8192, 94.11"
+      ],
+      "utc": "2026-09-11T00:39:42.686603+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 77, 94, 4421, 8192, 94.39"
+      ],
+      "utc": "2026-09-11T00:39:47.792463+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 78, 97, 4438, 8192, 94.50"
+      ],
+      "utc": "2026-09-11T00:39:52.887144+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 80, 96, 4420, 8192, 94.18"
+      ],
+      "utc": "2026-09-11T00:39:57.987986+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 82, 93, 4421, 8192, 94.38"
+      ],
+      "utc": "2026-09-11T00:40:03.080192+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 83, 94, 4423, 8192, 94.38"
+      ],
+      "utc": "2026-09-11T00:40:08.171474+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 84, 95, 4433, 8192, 94.31"
+      ],
+      "utc": "2026-09-11T00:40:13.270071+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 85, 95, 4423, 8192, 94.19"
+      ],
+      "utc": "2026-09-11T00:40:18.371631+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 86, 93, 4420, 8192, 94.46"
+      ],
+      "utc": "2026-09-11T00:40:23.486136+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 83, 3, 4421, 8192, 49.52"
+      ],
+      "utc": "2026-09-11T00:40:28.583390+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 78, 10, 4423, 8192, 24.26"
+      ],
+      "utc": "2026-09-11T00:40:33.678202+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 76, 26, 4435, 8192, 21.27"
+      ],
+      "utc": "2026-09-11T00:40:38.786691+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 74, 15, 4434, 8192, 21.28"
+      ],
+      "utc": "2026-09-11T00:40:43.896232+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 73, 18, 4423, 8192, 21.06"
+      ],
+      "utc": "2026-09-11T00:40:49.011923+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 82, 94, 4422, 8192, 94.15"
+      ],
+      "utc": "2026-09-11T00:40:54.135479+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 84, 96, 4421, 8192, 94.31"
+      ],
+      "utc": "2026-09-11T00:40:59.241492+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 85, 94, 4421, 8192, 94.50"
+      ],
+      "utc": "2026-09-11T00:41:04.336911+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 87, 96, 4423, 8192, 94.45"
+      ],
+      "utc": "2026-09-11T00:41:09.443235+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 86, 96, 4435, 8192, 86.16"
+      ],
+      "utc": "2026-09-11T00:41:14.549368+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 83, 7, 1360, 8192, 48.51"
+      ],
+      "utc": "2026-09-11T00:41:19.657429+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 86, 63, 1402, 8192, 83.31"
+      ],
+      "utc": "2026-09-11T00:41:24.753362+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 87, 79, 2312, 8192, 79.02"
+      ],
+      "utc": "2026-09-11T00:41:29.856665+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 86, 38, 2428, 8192, 70.53"
+      ],
+      "utc": "2026-09-11T00:41:34.964658+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 84, 100, 2143, 8192, 38.50"
+      ],
+      "utc": "2026-09-11T00:41:40.104484+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 85, 3, 2645, 8192, 54.39"
+      ],
+      "utc": "2026-09-11T00:41:45.214213+00:00"
+    },
+    {
+      "returncode": 0,
+      "rows": [
+        "NVIDIA GeForce RTX 3070 Laptop GPU, 82, 6, 1153, 8192, 35.74"
+      ],
+      "utc": "2026-09-11T00:41:50.312330+00:00"
+    }
+  ],
+  "input": {
+    "bytes": 1206607,
+    "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\references\\crate-v3.png",
+    "sha256": "499aff00a962da53cb4a1eb22739272f5bb1e5c4eeb295f8c25e618270cec84e"
+  },
+  "outcome": "succeeded",
+  "parameters": {
+    "apply_texture": "true",
+    "decimation_target_faces": 60000,
+    "guidance_scale": "7.5",
+    "mesh_simplify": "60",
+    "num_inference_steps": "12",
+    "output_format": "glb",
+    "resolution": "512",
+    "seed": "1234",
+    "tex_guidance_strength": "1.0",
+    "tex_rescale_t": "3.0",
+    "texture_size": "1024"
+  },
+  "ping_before": {
+    "busy": false,
+    "message": "Trellis2 API is operational",
+    "status": "running"
+  },
+  "raw_glb": {
+    "bytes": 4090272,
+    "path": "raw.glb",
+    "sha256": "0a957ddae58fe28264f6a02b3c563447b32e5d3fb3679091b1a24f225ccbb527"
+  },
+  "runner": "tools/art/test-trellis-local.py",
+  "started_utc": "2026-09-11T00:38:46.320756+00:00",
+  "status_after": {
+    "busy": false,
+    "message": "Generation complete",
+    "progress": 100,
+    "status": "COMPLETE"
+  },
+  "status_before": {
+    "busy": false,
+    "message": "Generation complete",
+    "progress": 100,
+    "status": "COMPLETE"
+  }
+}

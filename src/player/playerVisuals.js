@@ -4,6 +4,7 @@
 import * as THREE from "three";
 
 export function createPlayerVisuals(playerMesh) {
+  const externalModel = playerMesh.userData?.externalPlayerModel;
   let timeAcc = 0;
   let bobPhase = 0;
   const leftLeg = playerMesh.getObjectByName("leftLeg");
@@ -11,6 +12,10 @@ export function createPlayerVisuals(playerMesh) {
   const leftArm = playerMesh.getObjectByName("leftArm");
 
   function sync(dt, state) {
+    if (externalModel) {
+      externalModel.update(dt, state.mode, state.speed);
+      return;
+    }
     timeAcc += dt;
     const mode = state.mode;
     let bobFreq = 0;

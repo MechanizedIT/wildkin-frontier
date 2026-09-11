@@ -26,12 +26,20 @@ export const COMBAT_SWING_CONFIG = {
   rollStrike: 0.14,
 };
 
-export function createFieldTool(playerGroup, gameAudio = null) {
+export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = null } = {}) {
   const handAnchor = new THREE.Group();
   handAnchor.name = "rightHandAnchor";
-  // Anatomical right = -X when forward is +Z (player faces +Z). Mirrored from prior +X assumption.
-  handAnchor.position.set(-0.26, 0.38, 0.08);
-  playerGroup.add(handAnchor);
+  const externalHand = playerGroup.userData?.externalPlayerModel;
+  const handConfig = externalHand?.handAnchor;
+  if (externalHand?.handBone) {
+    externalHand.handBone.add(handAnchor);
+    handAnchor.position.set(handConfig.position?.x ?? 0, handConfig.position?.y ?? 0, handConfig.position?.z ?? 0);
+    handAnchor.rotation.set(handConfig.rotation?.x ?? 0, handConfig.rotation?.y ?? 0, handConfig.rotation?.z ?? 0);
+  } else {
+    // Anatomical right = -X when forward is +Z (player faces +Z).
+    handAnchor.position.set(-0.37, 0.27, 0.06);
+    playerGroup.add(handAnchor);
+  }
 
   const shoulderWorld = new THREE.Vector3(-0.18, 0.58, 0.02);
   const shoulderLocal = shoulderWorld.clone().sub(handAnchor.position);
@@ -57,6 +65,13 @@ export function createFieldTool(playerGroup, gameAudio = null) {
   grip.position.set(0, -0.02, 0.02);
   grip.rotation.x = Math.PI / 2;
   handAnchor.add(grip);
+  // The rig already supplies an arm and hand. Keep the tool/swing hierarchy
+  // while suppressing only the procedural helper geometry.
+  if (externalHand) {
+    armMesh.visible = false;
+    handMesh.visible = false;
+    grip.visible = false;
+  }
 
   const swingPivot = new THREE.Group();
   swingPivot.name = "fieldToolSwingPivot";
@@ -170,6 +185,7 @@ export function createFieldTool(playerGroup, gameAudio = null) {
     trailGroup.visible = true;
     history.length = 0;
     arcMat.opacity = 0;
+    try { onSwingStart?.({ profile }); } catch {}
     // Combat brighter trail
     if (profile === "combat") {
       arcMat.color.set(0xffb86a);

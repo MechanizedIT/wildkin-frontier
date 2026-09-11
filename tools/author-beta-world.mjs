@@ -23,6 +23,10 @@ const coll = (w, h, d, y = h / 2) => ({ shape: "box", offset: { x: 0, y, z: 0 },
 function asset(id, name, category, parts, gameplay, collision) {
   const next = recipe(id, name, category, parts, gameplay, collision);
   const existing = world.visualAssets.findIndex((entry) => entry.id === id);
+  if (existing !== -1 && world.visualAssets[existing].model) {
+    next.model = world.visualAssets[existing].model;
+    next.parts = [];
+  }
   if (existing === -1) world.visualAssets.push(next);
   else world.visualAssets[existing] = next;
 }
@@ -348,14 +352,14 @@ const meshRecipePart = (id, mesh) => {
 };
 for (const assetId of CUSTOM_ENVIRONMENT_ASSET_IDS) {
   const target = world.visualAssets.find((entry) => entry.id === assetId); const visual = createEnvironmentMeshVisual(assetId);
-  if (!target || !visual) continue;
+  if (!target || target.model || !visual) continue;
   visual.updateMatrixWorld(true);
   const meshes = []; visual.traverse((node) => { if (node.isMesh) meshes.push(node); });
   target.parts = meshes.map((mesh, index) => meshRecipePart(`mesh_${index}`, mesh));
 }
 for (const assetId of CUSTOM_WILDKIN_ASSET_IDS) {
   const target = world.visualAssets.find((entry) => entry.id === assetId); const visual = createWildkinMeshVisual(assetId);
-  if (!target || !visual) continue;
+  if (!target || target.model || !visual) continue;
   visual.updateMatrixWorld(true);
   const meshes = []; visual.traverse((node) => { if (node.isMesh) meshes.push(node); });
   target.parts = meshes.map((mesh, index) => meshRecipePart(`mesh_${index}`, mesh));

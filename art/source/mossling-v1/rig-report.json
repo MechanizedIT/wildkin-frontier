@@ -1,0 +1,221 @@
+{
+  "tool": "tools/art/rig-character.py",
+  "profile": {
+    "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\tools\\art\\rigs\\mossling.json",
+    "name": "mossling-trellis-direct-rig-v3-grounded-walk-and-run"
+  },
+  "input": {
+    "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\optimization\\pymeshlab-textured-review-pending-20260910\\mossling-textured-20000.glb",
+    "sha256": "ddac3b55aede9791ceafa8be5173aff5a27d6785dad49b10222c12ac1c6956b9",
+    "raw_bounds": {
+      "min": [
+        -0.34587210416793823,
+        -0.5013665556907654,
+        -0.48315855860710144
+      ],
+      "max": [
+        0.3485008180141449,
+        0.500820517539978,
+        0.4820963442325592
+      ]
+    }
+  },
+  "normalization": {
+    "source_face_axis": "+X",
+    "blender_rotation_z_degrees": -90,
+    "glTF_up": "+Y",
+    "runtime_forward": "+Z",
+    "scale": 1.2431949285828523,
+    "ground": "source minimum Z is transformed to Blender Z=0 before glTF Y-up export",
+    "chosen_height_meters": 1.2,
+    "normalized_blender_bounds": {
+      "min": [
+        -0.6232963800430298,
+        -0.4332544505596161,
+        0.0
+      ],
+      "max": [
+        0.6226175427436829,
+        0.42998647689819336,
+        1.2000000476837158
+      ]
+    }
+  },
+  "materials": [
+    {
+      "name": "Mossling Matte Base Color",
+      "base_color_images": [
+        {
+          "name": "base-color",
+          "size": [
+            1024,
+            1024
+          ]
+        }
+      ]
+    }
+  ],
+  "weights_before_export": {
+    "component_count": 37,
+    "largest_component_vertices": 23006,
+    "rigid_component_max_vertices": 360,
+    "rigid_vertices": 1053,
+    "max_influences": 4,
+    "zero_weight_vertices": 0,
+    "weight_sum_min": 0.9999998658895493,
+    "weight_sum_max": 1.0000001676380634
+  },
+  "clips": {
+    "Idle": [
+      1,
+      25
+    ],
+    "Walk": [
+      1,
+      13
+    ],
+    "Run": [
+      1,
+      11
+    ],
+    "Attack": [
+      1,
+      18
+    ],
+    "Hurt": [
+      1,
+      12
+    ]
+  },
+  "editable_blend": "mossling-rig.blend",
+  "export_glb": {
+    "path": "model.glb",
+    "sha256": "c4b78ac7135cfdf75b5abc1576154047e9d6409ed9f53fef41bf336e3c7e2156",
+    "bytes": 3320648
+  },
+  "review_renders": [
+    "idle.png",
+    "walk-contact-a.png",
+    "walk-contact-b.png",
+    "run-gather.png",
+    "run-flight.png",
+    "run-fore-contact.png",
+    "attack-peak.png",
+    "hurt-peak.png"
+  ],
+  "roundtrip": {
+    "bones": [
+      "root",
+      "spine",
+      "neck",
+      "head",
+      "tail_01",
+      "tail_02",
+      "tail_03",
+      "front_upper.L",
+      "front_lower.L",
+      "front_paw.L",
+      "front_upper.R",
+      "front_lower.R",
+      "front_paw.R",
+      "rear_upper.L",
+      "rear_lower.L",
+      "rear_paw.L",
+      "rear_upper.R",
+      "rear_lower.R",
+      "rear_paw.R"
+    ],
+    "missing_expected_bones": [],
+    "actions": [
+      {
+        "name": "Attack",
+        "frame_range": [
+          0.0,
+          17.0
+        ]
+      },
+      {
+        "name": "Hurt",
+        "frame_range": [
+          0.0,
+          11.0
+        ]
+      },
+      {
+        "name": "Idle",
+        "frame_range": [
+          0.0,
+          24.0
+        ]
+      },
+      {
+        "name": "Run",
+        "frame_range": [
+          0.0,
+          10.0
+        ]
+      },
+      {
+        "name": "Walk",
+        "frame_range": [
+          0.0,
+          12.0
+        ]
+      }
+    ],
+    "max_influences": 4,
+    "zero_weight_vertices": 0,
+    "weight_sum_min": 0.999999875202775,
+    "weight_sum_max": 1.0000001192092896,
+    "blender_import_auxiliary_meshes": [
+      "Icosphere"
+    ],
+    "bounds": {
+      "min": [
+        -0.6232963800430298,
+        -0.4332543909549713,
+        -8.479734248112436e-09
+      ],
+      "max": [
+        0.6226175427436829,
+        0.4299888610839844,
+        1.2000000476837158
+      ]
+    },
+    "glb_structure": {
+      "skin_count": 1,
+      "joint_weight_accessors": [
+        {
+          "attribute": "JOINTS_0",
+          "type": "VEC4",
+          "count": 24305
+        },
+        {
+          "attribute": "WEIGHTS_0",
+          "type": "VEC4",
+          "count": 24305
+        }
+      ]
+    }
+  },
+  "runtime_descriptor_candidate": {
+    "path": "assets/models/mossling/model.glb",
+    "scale": 1,
+    "pivot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "clips": {
+      "idle": "Idle",
+      "walk": "Walk",
+      "run": "Run",
+      "attack": "Attack",
+      "hurt": "Hurt"
+    },
+    "locomotion": {
+      "walk": 0.98,
+      "run": 4.0
+    }
+  }
+}

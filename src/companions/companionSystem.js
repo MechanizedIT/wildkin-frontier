@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { COMPANIONS, COMPANION_BY_ID, identifyCompanion, SECRET_COMPANION } from "./companionCatalog.js";
 import { canBond } from "./bondingLogic.js";
 import { createVisualAssetVisual } from "../world/visualFactory.js";
+import { createVisualAnimationController, disposeExternalModelInstance } from "../assets/modelAssetRuntime.js";
 import { createBondingPanel } from "../ui/bondingPanel.js";
 import { getSurfaceHeight } from "../world/terrainSurfaceModel.js";
 
@@ -121,6 +122,7 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
         group = createVisualAssetVisual(asset);
         group.name = `companion_${id}`; group.userData.betaPresentation = true;
         group.scale.setScalar(0.7);
+        group.userData.modelAnimator = createVisualAnimationController(group);
         scene.add(group); followers.set(id, group);
         group.position.set(pos.x, pos.y - 0.5, pos.z);
       }
@@ -128,12 +130,22 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
       const angle = facing + Math.PI + (i - 0.5) * 0.75;
       const x = pos.x + Math.sin(angle) * (1.5 + i * 0.45), z = pos.z + Math.cos(angle) * (1.5 + i * 0.45);
       const surface = registry.getSectionById(sectionId)?.surface;
-      const y = getSurfaceHeight(surface, x, z) + .025 + Math.sin(elapsed * 3.5 + i) * 0.025 + (id === "skydancer" ? .48 : 0);
+      const animated = !!group.userData.modelAnimator;
+      const y = getSurfaceHeight(surface, x, z) + .025 + (animated ? 0 : Math.sin(elapsed * 3.5 + i) * 0.025) + (id === "skydancer" ? .48 : 0);
       const alpha = group.position.distanceToSquared(pos) > 200 ? 1 : 1 - Math.exp(-dt * 5);
+      const wasX = group.position.x, wasZ = group.position.z;
       group.position.x += (x - group.position.x) * alpha;
       group.position.z += (z - group.position.z) * alpha;
       group.position.y += (y - group.position.y) * alpha;
       group.rotation.y = facing;
+      const moved = Math.hypot(group.position.x - wasX, group.position.z - wasZ);
+      const moving = dt > 0 && moved / dt > 0.025;
+      if (animated && moving && alpha < 1) group.rotation.y = Math.atan2(group.position.x - wasX, group.position.z - wasZ);
+      const speed = alpha < 1 && dt > 0 ? moved / dt : 0;
+      const animator = group.userData.modelAnimator;
+      animator?.play(moving ? animator.getLocomotionState(speed) : "idle");
+      animator?.setLocomotionSpeed(speed);
+      group.userData.modelAnimator?.update(dt);
     }
     for (const [id, ward] of wardRoots) {
       ward.root.visible = !hidden && ward.chest.sectionId === sectionId && !s.completedPoiIds.includes(ward.chest.id);
@@ -149,5 +161,6 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     getAbility: () => { const species = COMPANION_BY_ID[progress.getState().activeCompanionId]; return species ? { name: species.abilityName, ready: cooldown <= 0, cooldown } : null; },
     resolveExtraction() { const ids = [...pending]; pending = []; return ids; },
     reset() { panel.cancel(); pending = []; cooldown = 0; retryAt.clear(); creatures.setBondingTarget(null); },
+    dispose() { for (const group of followers.values()) { group.userData.modelAnimator?.stop(); disposeExternalModelInstance(group); group.removeFromParent(); } followers.clear(); },
   };
 }

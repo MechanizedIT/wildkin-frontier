@@ -57,6 +57,7 @@ import {
 import { getPlayerLevel } from "./progression/playerLevel.js";
 import { createReturnToCampFlow, resolveSuccessfulExtraction } from "./session/runResolution.js";
 import { createBetaGame } from "./game/createBetaGame.js";
+import { preloadVisualModels } from "./assets/modelAssetRuntime.js";
 
 const canvas = document.getElementById("c");
 const app = document.getElementById("app");
@@ -93,6 +94,12 @@ if (authorEnabled) {
     }
   } catch {}
 }
+
+if (debugLabel) debugLabel.textContent = `${VERSION} · loading local models…`;
+await preloadVisualModels([
+  ...(effectiveWorldData.visualAssets ?? []),
+  ...(effectiveWorldData.playerVisual?.model ? [effectiveWorldData.playerVisual] : []),
+]);
 
 const worldRegistry = createWorldRegistry(effectiveWorldData);
 const regionDepthMap = worldRegistry.getRegionDepthMap();
@@ -248,7 +255,9 @@ inventoryHud.update(pickupSystem.getInventory());
 expeditionSession.setCargo(pickupSystem.getInventory());
 
 resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld);
-const fieldTool = createFieldTool(player, gameAudio);
+const fieldTool = createFieldTool(player, gameAudio, {
+  onSwingStart: () => player.userData.externalPlayerModel?.playAction("attack"),
+});
 
 const combatHud = createCombatHud();
 combatHud.updateProgress(frontierProgress.getBankedXp());
@@ -279,7 +288,11 @@ const playerCombat = createPlayerCombat({
   getPlayerState: () => playerController.getState(),
   getCreatures: () => creatureSystem.getCreatures(),
   onHealthChanged: (h, mh) => combatHud.updateHealth(h, mh),
-  onDamageFeedback: () => combatHud.pulseDamage(),
+  onDamageFeedback: () => {
+    player.userData.externalPlayerModel?.playAction("hurt");
+    combatHud.pulseDamage();
+  },
+
   onDeath: () => {
     if (expeditionSession.isResolved?.()) return;
     if (parkourSystem?.handleFatalFailure("damage")) return;

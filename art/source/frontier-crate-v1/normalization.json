@@ -1,0 +1,24 @@
+{
+  "tool": "normalize-static-glb.py",
+  "source_glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\crate-refinement\\source-v2\\crate-handbuilt.glb",
+  "source_sha256": "1bf791d430fa14d4943f76ac0925374e220d0238da6c5d7a46d8b1598851da98",
+  "output_glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\crate-refinement\\normalized-v2\\crate.glb",
+  "output_sha256": "2cd92189a18c86129298dc45fe1ebbf5e9137cb0c43fbdf03197a55ba09e1d0c",
+  "base_color_png_sha256": "21b2660d332902c9aadc2408a8115f03623b3f1cfd043a817271c0e228c1964a",
+  "target_coordinate_system": "Y-up, Z-forward (glTF export)",
+  "target_height": 1.1,
+  "yaw_degrees": 0.0,
+  "normalization": "min vertical bound placed at Y=0 via Blender Z before glTF axis conversion",
+  "facts": {
+    "source_bounds_blender_z": [
+      -0.04000002145767212,
+      1.1399999856948853
+    ],
+    "height": 1.1,
+    "yaw_degrees": 0.0,
+    "preexport_triangles": 1552,
+    "reimport_mesh_objects": 1,
+    "reimport_vertices": 3264,
+    "reimport_triangles": 1552
+  }
+}

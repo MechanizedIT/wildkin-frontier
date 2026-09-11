@@ -1,0 +1,260 @@
+{
+  "assetId": "explorer-v1",
+  "profile": "player",
+  "createdUtc": "2026-09-11T02:03:17.801884+00:00",
+  "model": {
+    "path": "assets/models/explorer-v1/model.glb",
+    "scale": 1,
+    "pivot": {
+      "x": 0,
+      "y": -0.52,
+      "z": 0
+    },
+    "clips": {
+      "idle": "Idle",
+      "walk": "Walk",
+      "run": "Run",
+      "sneak": "Sneak",
+      "jump": "Jump",
+      "fall": "Fall",
+      "dodge": "Dodge",
+      "climb": "Climb",
+      "mantle": "Mantle",
+      "attack": "Attack",
+      "hurt": "Hurt"
+    },
+    "locomotion": {
+      "sneak": 1.6,
+      "walk": 3.3,
+      "run": 6
+    }
+  },
+  "modelSHA256": "7900868f831c723b60edb15b8321d4818754223db11ef80e6766c91b9b214104",
+  "modelBytes": 3278000,
+  "sources": [
+    {
+      "role": "reference",
+      "path": "art/source/explorer-v1/reference.png",
+      "bytes": 1272066,
+      "sha256": "109038b64d779a7a75054ef358850ee61f2e256f4a02d7c0d0b74096117163f2"
+    },
+    {
+      "role": "raw",
+      "path": "art/source/explorer-v1/raw.glb",
+      "bytes": 4600828,
+      "sha256": "dfc1aef87253bc0d577b57c7fd03523ed6b7078e285786b9cf283ed6e65fb77e"
+    },
+    {
+      "role": "generation",
+      "path": "art/source/explorer-v1/generation.json",
+      "bytes": 8918,
+      "sha256": "021a2c64352d9091dc1ba1651621a38e2a59cb5ffc2a0d6d99199ad979d57c0f"
+    },
+    {
+      "role": "optimization",
+      "path": "art/source/explorer-v1/optimization.json",
+      "bytes": 2238,
+      "sha256": "833dea55612eeea647532291226a011689ec7d4aa6c562ae2e8f94374161bab4"
+    },
+    {
+      "role": "blend",
+      "path": "art/source/explorer-v1/blend.blend",
+      "bytes": 6033602,
+      "sha256": "74fb8bf213c2589b039899e09c1517648ee4a9013bd39604a2a480b1e128150c"
+    },
+    {
+      "role": "rig-profile",
+      "path": "art/source/explorer-v1/rig-profile.json",
+      "bytes": 2711,
+      "sha256": "a1d67dd71db465399e1af0f7d2584fe330df6a8b6b5ea6e3e3767e4d0e319009"
+    },
+    {
+      "role": "rig-report",
+      "path": "art/source/explorer-v1/rig-report.json",
+      "bytes": 9330,
+      "sha256": "9c3d1b926499a08750e99368ba2e2e2930e57f3d058ec83164ddf93570a64d6f"
+    },
+    {
+      "role": "builder",
+      "path": "art/source/explorer-v1/builder.py",
+      "bytes": 22521,
+      "sha256": "6c1b8cf3aec0621c3153a03d918ce6a416bae307271df08cf1131e3b8c0069bb"
+    },
+    {
+      "role": "reference-prompt",
+      "path": "art/source/explorer-v1/reference-prompt.txt",
+      "bytes": 652,
+      "sha256": "2dc19ade2904d70054bcba75a790c12e916b1625553fffcdc101ad8fbb6ed4ef"
+    },
+    {
+      "role": "reference-review",
+      "path": "art/source/explorer-v1/reference-review.md",
+      "bytes": 1414,
+      "sha256": "0638453db6fe1ad3acef450a787a8b9a6a76e34e3f0f8392b021da3441a26ca1"
+    },
+    {
+      "role": "model-review",
+      "path": "art/source/explorer-v1/model-review.md",
+      "bytes": 1659,
+      "sha256": "63215b1afcd9ce76dc0f0c880e7bcb801eab52fe3fecd87144acbc4b361648f0"
+    },
+    {
+      "role": "motion-review",
+      "path": "art/source/explorer-v1/motion-review.md",
+      "bytes": 1567,
+      "sha256": "6ec02917314037911def8f8a8b65044c68098499f6656a33c702f0dc675a22f0"
+    },
+    {
+      "role": "review-front",
+      "path": "art/source/explorer-v1/review-front.png",
+      "bytes": 248611,
+      "sha256": "34203623637426d3f45a8a676b43f2c422c32ff63dca857ccc5896da1f3c76f3"
+    },
+    {
+      "role": "review-motion",
+      "path": "art/source/explorer-v1/review-motion.mp4",
+      "bytes": 20606,
+      "sha256": "321dd4983b5ee9cab68bdf7fadaf766bc5bc4f89bc8b805b9fd03b8e29f3600a"
+    }
+  ],
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "texture_pipeline",
+      "sha256": "109038b64d779a7a75054ef358850ee61f2e256f4a02d7c0d0b74096117163f2"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "mossling_deformation_judge",
+      "sha256": "7900868f831c723b60edb15b8321d4818754223db11ef80e6766c91b9b214104"
+    },
+    "motion": {
+      "status": "pass",
+      "reviewer": "mossling_deformation_judge",
+      "sha256": "7900868f831c723b60edb15b8321d4818754223db11ef80e6766c91b9b214104"
+    }
+  },
+  "provenance": {
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "sourceReferences": [
+      "Owner-approved brown-haired blue-jacket explorer sheet"
+    ],
+    "modelRoute": "Local TRELLIS1024; PyMeshLab texture-aware20k; originalgeometrypreserved withfitted16boneBlenderhumanoidrigand11clips",
+    "handAnchor": {
+      "bone": "RightHand",
+      "position": {
+        "x": -0.012,
+        "y": -0.018,
+        "z": 0.035
+      },
+      "rotation": {
+        "x": 0.18,
+        "y": -0.18,
+        "z": -0.35
+      }
+    },
+    "runtimeProof": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/actual-game-review/report.json",
+    "ownerAcceptance": "Style and player identity owner directed; exact animated revision remains candidate"
+  },
+  "admission": {
+    "ok": true,
+    "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\rigging\\explorer-20k-v9\\model.glb",
+    "profile": "player",
+    "limits": {
+      "max_triangles": 20000,
+      "max_vertices": 60000,
+      "max_materials": 2,
+      "max_bones": 48,
+      "max_texture": 1024
+    },
+    "sourceSHA256": "7900868f831c723b60edb15b8321d4818754223db11ef80e6766c91b9b214104",
+    "textureSHA256": [
+      "616c55ea8da89d737971ad66a8bcaef9abf0cc50c543a31283e1f636f0cbdd4d"
+    ],
+    "counts": {
+      "triangles": 19998,
+      "vertices": 23958,
+      "materials": 1,
+      "bones": 16,
+      "animations": 11
+    },
+    "animations": [
+      {
+        "name": "Attack",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.7599999904632568
+      },
+      {
+        "name": "Climb",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.9599999785423279
+      },
+      {
+        "name": "Dodge",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.4399999976158142
+      },
+      {
+        "name": "Fall",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.9599999785423279
+      },
+      {
+        "name": "Hurt",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.4399999976158142
+      },
+      {
+        "name": "Idle",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.9599999785423279
+      },
+      {
+        "name": "Jump",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.6800000071525574
+      },
+      {
+        "name": "Mantle",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.6000000238418579
+      },
+      {
+        "name": "Run",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.47999998927116394
+      },
+      {
+        "name": "Sneak",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.6000000238418579
+      },
+      {
+        "name": "Walk",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.47999998927116394
+      }
+    ],
+    "textures": [
+      {
+        "mimeType": "image/png",
+        "width": 1024,
+        "height": 1024,
+        "sha256": "616c55ea8da89d737971ad66a8bcaef9abf0cc50c543a31283e1f636f0cbdd4d",
+        "roles": [
+          "baseColor"
+        ]
+      }
+    ],
+    "textureRoles": [
+      {
+        "texture": 0,
+        "role": "baseColor"
+      }
+    ],
+    "failures": [],
+    "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+  },
+  "note": "Admission does not establish physical-phone performance or owner art acceptance."
+}

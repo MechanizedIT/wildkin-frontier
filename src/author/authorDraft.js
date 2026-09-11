@@ -510,6 +510,7 @@ export function createAuthorDraft(repoData) {
     const res = transact((candidate) => {
       const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
       if (!asset) throw new Error("Visual Asset not found");
+      if (asset.model) throw new Error("External model assets are read-only in the primitive editor");
       partId = nextAvailableId(asset.parts, shape);
       asset.parts.push({
         id: partId,
@@ -526,6 +527,7 @@ export function createAuthorDraft(repoData) {
   function updateAssetPart(assetId, partId, patch) {
     return transact((candidate) => {
       const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      if (asset?.model) throw new Error("External model assets are read-only in the primitive editor");
       const part = asset?.parts.find((entry) => entry.id === partId);
       if (!part) throw new Error("Visual Asset part not found");
       if (patch.shape !== undefined && patch.shape !== part.shape) throw new Error("Visual Asset part shape is read-only");
@@ -540,6 +542,7 @@ export function createAuthorDraft(repoData) {
     let newPartId = null;
     const res = transact((candidate) => {
       const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
+      if (asset?.model) throw new Error("External model assets are read-only in the primitive editor");
       const part = asset?.parts.find((entry) => entry.id === partId);
       if (!part) throw new Error("Visual Asset part not found");
       newPartId = nextAvailableId(asset.parts, `${part.id}_copy`);
@@ -556,6 +559,7 @@ export function createAuthorDraft(repoData) {
     return transact((candidate) => {
       const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
       if (!asset) throw new Error("Visual Asset not found");
+      if (asset.model) throw new Error("External model assets are read-only in the primitive editor");
       const index = asset.parts.findIndex((entry) => entry.id === partId);
       if (index < 0) throw new Error("Visual Asset part not found");
       asset.parts.splice(index, 1);
@@ -566,6 +570,7 @@ export function createAuthorDraft(repoData) {
     return transact((candidate) => {
       const asset = (candidate.visualAssets ?? []).find((entry) => entry.id === assetId);
       if (!asset) throw new Error("Visual Asset not found");
+      if (asset.model) throw new Error("External model assets are read-only in the primitive editor");
       const index = asset.parts.findIndex((entry) => entry.id === partId);
       if (index < 0) throw new Error("Visual Asset part not found");
       const nextIndex = Math.max(0, Math.min(asset.parts.length - 1, index + direction));

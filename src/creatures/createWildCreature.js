@@ -2,6 +2,7 @@
 import * as THREE from "three";
 import { RUSHER_CONFIG, SPITTER_CONFIG } from "../combat/combatConfig.js";
 import { createVisual, getVisualRecipeKey, tagVisualRoot } from "../world/visualFactory.js";
+import { createVisualAnimationController, disposeExternalModelInstance } from "../assets/modelAssetRuntime.js";
 
 function getConfig(type) {
   return type === "spitter" ? SPITTER_CONFIG : RUSHER_CONFIG;
@@ -91,6 +92,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     objectId: group.userData.authorId,
     visualAssets: spawn.visualAsset ? [spawn.visualAsset] : undefined,
   });
+  const usesExternalModel = !!spawn.visualAsset?.model;
   const opacity = spawn.opacity ?? 1;
   const tint = spawn.color ?? spawn.tint;
   if (tint !== undefined || opacity < 1) {
@@ -99,6 +101,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
       const materials = Array.isArray(object.material) ? object.material : [object.material];
       const styled = materials.map((material) => {
         const next = material.clone();
+        if (usesExternalModel) next.userData = { ...next.userData, externalModelInstanceMaterial: true };
         if (tint !== undefined && next.color) next.color.set(tint);
         if (opacity < 1) {
           next.transparent = true;
@@ -110,6 +113,10 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     });
   }
   group.add(visualRoot);
+  const modelAnimator = createVisualAnimationController(visualRoot);
+  let lastModelAnimationState = null;
+  let lastModelPositionX = group.position.x;
+  let lastModelPositionZ = group.position.z;
   const mainMesh = visualRoot.getObjectByName(type === "rusher" ? "rusherBody" : "spitterBody")
     ?? visualRoot.getObjectByProperty("isMesh", true);
   const headMesh = visualRoot.getObjectByName(type === "rusher" ? "" : "spitterSack");
@@ -289,7 +296,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     // Facing
     group.rotation.y = state.facing;
     // AI visual feedback
-    if (state.aiState === "WINDUP") {
+    if (!usesExternalModel && state.aiState === "WINDUP") {
       const pulse = Math.sin(state.aiTimer * 12) * 0.18 + 1;
       if (mainMesh && mainMeshBaseScale) mainMesh.scale.set(
         mainMeshBaseScale.x * pulse,
@@ -297,14 +304,14 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
         mainMeshBaseScale.z * pulse,
       );
       // warning color
-      if (mainMesh && mainMesh.material && mainMesh.material.color) {
+      if (!usesExternalModel && mainMesh && mainMesh.material && mainMesh.material.color) {
         // lerp to warning? Keep simple: emissive pulse
         mainMesh.material.emissive?.setHex?.(0x550000);
       }
     } else {
-      if (mainMesh) {
+      if (!usesExternalModel && mainMesh) {
         mainMesh.scale.lerp(mainMeshBaseScale, dt * 8);
-        if (mainMesh.material && mainMesh.material.emissive) mainMesh.material.emissive.setHex(0x000000);
+        if (!usesExternalModel && mainMesh.material && mainMesh.material.emissive) mainMesh.material.emissive.setHex(0x000000);
       }
     }
     if (state.aiState === "HURT") {
@@ -324,6 +331,19 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     healthBar.visible = !state.bondCaptured && !state.isDead && (state.isAggroed || state.health < state.maxHealth);
     healthFill.scale.x = Math.max(0.001, 0.72 * healthRatio);
     healthFill.position.x = -0.36 * (1 - healthRatio);
+    if (modelAnimator) {
+      const distance = Math.hypot(group.position.x - lastModelPositionX, group.position.z - lastModelPositionZ);
+      const speed = dt > 0 ? distance / dt : 0;
+      lastModelPositionX = group.position.x;
+      lastModelPositionZ = group.position.z;
+      const moving = speed > 0.025 && speed < Math.max(10, (cfg.moveSpeed ?? 3) * 4);
+      const stateClip = state.aiState === "HURT" ? "hurt" : (state.aiState === "WINDUP" || state.aiState === "LUNGE") ? "attack" : moving ? modelAnimator.getLocomotionState(speed) : "idle";
+      const entered = stateClip !== lastModelAnimationState;
+      modelAnimator.play(stateClip, { restart: entered && (stateClip === "attack" || stateClip === "hurt") });
+      lastModelAnimationState = stateClip;
+      modelAnimator.setLocomotionSpeed(speed);
+      modelAnimator.update(dt);
+    }
     // Death shrink? Handled by system
   }
 
@@ -335,6 +355,11 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
 
   function setTemperamentDebugVisible(v) {
     if (temperamentMarker) temperamentMarker.visible = !!v;
+  }
+
+  function restartVisualAnimation(stateName) {
+    modelAnimator?.play(stateName, { restart: true });
+    lastModelAnimationState = stateName;
   }
 
   function applyKnockback(dir, dist, duration) {
@@ -372,6 +397,8 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   }
 
   function dispose() {
+    modelAnimator?.stop();
+    disposeExternalModelInstance(visualRoot);
     if (group.parent) group.parent.remove(group);
     if (collider && physicsWorld && physicsWorld.world) {
       try { physicsWorld.world.removeCollider(collider, true); } catch {}
@@ -383,7 +410,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
 
   return {
     group, state, get body() { return body; }, get collider() { return collider; }, set collider(v) { collider = v; }, controller, cfg, mainMesh, focusRing, healthBar,
-    setPosition, getPosition, move, setVisible, setVisualScaleMultiplier, updateVisual, showFocusRing, setTemperamentDebugVisible, applyKnockback, dispose, disableCollision, enableCollision,
+    setPosition, getPosition, move, setVisible, setVisualScaleMultiplier, updateVisual, showFocusRing, setTemperamentDebugVisible, restartVisualAnimation, applyKnockback, dispose, disableCollision, enableCollision,
     visibleInPlay, collisionEnabled, creatureScale,
     get pos() { return state.pos; },
     get id() { return state.id; },

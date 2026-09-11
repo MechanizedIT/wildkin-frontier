@@ -1,0 +1,45 @@
+{
+  "profile": "mossling-trellis-direct-rig-v3-grounded-walk-and-run",
+  "description": "Mossling-only direct deform profile for the retained TRELLIS.2 mesh family. It is intentionally not a generic creature auto-rigger.",
+  "source_axes": {
+    "up": "+Z",
+    "face": "+X",
+    "runtime_forward": "+Z",
+    "blender_rotation_z_degrees": -90
+  },
+  "runtime_height_meters": 1.2,
+  "weighting": {
+    "max_influences": 4,
+    "rigid_component_max_vertices": 360,
+    "soft_radius": 0.18,
+    "rigid_foliage": "Small disconnected generated shells are assigned to one nearest deform bone; body and limb surfaces blend across at most four nearby bones."
+  },
+  "bones": [
+    { "name": "root", "head": [-0.04, 0.0, -0.36], "tail": [-0.04, 0.0, -0.17] },
+    { "name": "spine", "parent": "root", "head": [-0.04, 0.0, -0.17], "tail": [0.03, 0.0, 0.04] },
+    { "name": "neck", "parent": "spine", "head": [0.03, 0.0, 0.04], "tail": [0.15, 0.0, 0.17] },
+    { "name": "head", "parent": "neck", "head": [0.15, 0.0, 0.17], "tail": [0.31, 0.0, 0.17] },
+    { "name": "tail_01", "parent": "spine", "head": [-0.10, 0.02, -0.02], "tail": [-0.16, 0.11, 0.13] },
+    { "name": "tail_02", "parent": "tail_01", "head": [-0.16, 0.11, 0.13], "tail": [-0.21, 0.20, 0.28] },
+    { "name": "tail_03", "parent": "tail_02", "head": [-0.21, 0.20, 0.28], "tail": [-0.25, 0.27, 0.40] },
+    { "name": "front_upper.L", "parent": "spine", "head": [0.09, 0.20, -0.01], "tail": [0.11, 0.20, -0.22] },
+    { "name": "front_lower.L", "parent": "front_upper.L", "head": [0.11, 0.20, -0.22], "tail": [0.12, 0.20, -0.42] },
+    { "name": "front_paw.L", "parent": "front_lower.L", "head": [0.12, 0.20, -0.42], "tail": [0.19, 0.20, -0.46] },
+    { "name": "front_upper.R", "parent": "spine", "head": [0.09, -0.20, -0.01], "tail": [0.11, -0.20, -0.22] },
+    { "name": "front_lower.R", "parent": "front_upper.R", "head": [0.11, -0.20, -0.22], "tail": [0.12, -0.20, -0.42] },
+    { "name": "front_paw.R", "parent": "front_lower.R", "head": [0.12, -0.20, -0.42], "tail": [0.19, -0.20, -0.46] },
+    { "name": "rear_upper.L", "parent": "spine", "head": [-0.12, 0.20, -0.03], "tail": [-0.14, 0.20, -0.23] },
+    { "name": "rear_lower.L", "parent": "rear_upper.L", "head": [-0.14, 0.20, -0.23], "tail": [-0.10, 0.20, -0.42] },
+    { "name": "rear_paw.L", "parent": "rear_lower.L", "head": [-0.10, 0.20, -0.42], "tail": [-0.03, 0.20, -0.46] },
+    { "name": "rear_upper.R", "parent": "spine", "head": [-0.12, -0.20, -0.03], "tail": [-0.14, -0.20, -0.23] },
+    { "name": "rear_lower.R", "parent": "rear_upper.R", "head": [-0.14, -0.20, -0.23], "tail": [-0.10, -0.20, -0.42] },
+    { "name": "rear_paw.R", "parent": "rear_lower.R", "head": [-0.10, -0.20, -0.42], "tail": [-0.03, -0.20, -0.46] }
+  ],
+  "clips": {
+    "Idle": { "frames": [1, 25], "fps": 24 },
+    "Walk": { "frames": [1, 13], "fps": 24, "authored_stride_meters": 0.49, "authored_speed_meters_per_second": 0.98, "note": "In-place diagonal gait authored for the game wander pace; paws sweep backward during stance to cancel root travel." },
+    "Run": { "frames": [1, 11], "fps": 24, "authored_stride_meters": 1.67, "authored_speed_meters_per_second": 4.0, "note": "Bounding flee gait with brief flight phases and short fore/rear support windows; select at fast creature movement instead of accelerating Walk." },
+    "Attack": { "frames": [1, 18], "fps": 24 },
+    "Hurt": { "frames": [1, 12], "fps": 24 }
+  }
+}

@@ -5,6 +5,7 @@
 // - deterministic for same objectId/data
 
 import * as THREE from "three";
+import { createExternalModelVisual } from "../assets/modelAssetRuntime.js";
 import { createThornBedVisual } from "./hazardVisual.js";
 
 // Simple deterministic RNG based on string seed
@@ -612,6 +613,13 @@ export function findVisualAsset(visualAssets, assetId) {
 
 export function createVisualAssetVisual(asset) {
   if (!asset) throw new Error("Visual Asset recipe is required");
+  if (asset.model) {
+    const model = createExternalModelVisual(asset);
+    model.userData.visualKind = `asset/${asset.id}`;
+    model.userData.visualAssetId = asset.id;
+    return model;
+  }
+
   const group = new THREE.Group();
   group.userData.visualKind = `asset/${asset.id}`;
   group.userData.visualAssetId = asset.id;

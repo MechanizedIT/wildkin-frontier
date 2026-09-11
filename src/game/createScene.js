@@ -16,7 +16,7 @@ export function createScene(worldData = null) {
   scene.add(fill);
   const playground = createMovementPlayground(worldData);
   scene.add(playground.group);
-  const player = createPlayer();
+  const player = createPlayer(worldData?.playerVisual ?? null);
   scene.add(player);
   const shadows = initializeFrontierShadows({ scene, sun, player, playground: playground.group });
   return { scene, ground: playground.group, player, playground, shadows };

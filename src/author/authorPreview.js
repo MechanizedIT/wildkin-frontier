@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { disposeExternalModelInstance } from "../assets/modelAssetRuntime.js";
 import {
   applyVisualTransform,
   createVisual,
@@ -53,6 +54,7 @@ function addEditorHelperLabel(root, found, normalized) {
 }
 
 export function disposeObject3D(root) {
+  if (disposeExternalModelInstance(root)) return;
   root.traverse((object) => {
     const geo = object.geometry;
     const isShared = geo?.userData?.isSharedAssetGeometry;

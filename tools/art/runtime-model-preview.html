@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>Wildkin model runtime fixture</title>
+<style>html,body{margin:0;background:#9db7bd}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"../../vendor/three.module.js"}}</script>
+<script type="module">
+import * as THREE from "three";
+import { preloadVisualModels, createVisualAnimationController, disposeExternalModelInstance, getModelTemplate } from "../../src/assets/modelAssetRuntime.js";
+import { createVisualAssetVisual } from "../../src/world/visualFactory.js";
+import { createAuthorVisual } from "../../src/author/authorPreview.js";
+import { createWildCreature } from "../../src/creatures/createWildCreature.js";
+const model = new URLSearchParams(location.search).get("model") ?? ".dream-loop/workflow-proof/rigging/mossling-20k-v4/model.glb";
+const asset = { id:"asset_fixture_mossling", displayName:"Mossling Runtime Fixture", category:"Wildkin", version:1, parts:[], model:{path:model,scale:1,pivot:{x:0,y:0,z:0},clips:{idle:"Idle",walk:"Walk",attack:"Attack",hurt:"Hurt"}}, collision:null, gameplay:{role:"wildkin",wildkin:{archetype:"rusher",temperament:"SKITTISH",health:4,moveSpeed:1,damage:0,respawnSeconds:8,roamRadius:2,noticeRadius:3,personalSpace:1,leashRadius:5,speciesTag:"mossling",hostileSpecies:[]}} };
+const scene=new THREE.Scene(),renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;document.body.append(renderer.domElement);scene.add(new THREE.HemisphereLight(0xffffff,0x557077,2));const light=new THREE.DirectionalLight(0xfff7df,2.5);light.position.set(3,7,4);light.castShadow=true;scene.add(light);
+const camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,.1,100);camera.position.set(4,2.8,7);camera.lookAt(0,1,0);const floor=new THREE.Mesh(new THREE.PlaneGeometry(30,30),new THREE.MeshLambertMaterial({color:0x779b70}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+await preloadVisualModels([asset],{baseUrl:new URL("../../",import.meta.url)});
+const creatureA=createWildCreature(scene,null,{id:"runtime_mossling_a",type:"rusher",pos:{x:-1.25,y:0,z:0},visualAsset:asset,tint:"#a4e693",opacity:.72},0);
+const creatureB=createWildCreature(scene,null,{id:"runtime_mossling_b",type:"rusher",pos:{x:1.25,y:0,z:0},visualAsset:asset},1);
+const author=createAuthorVisual({collection:"props",obj:{id:"author_mossling",subtype:"visualAsset",visualAssetId:asset.id,pos:{x:0,y:0,z:-2},rotY:0,uniformScale:.72,visibleInPlay:true,collisionEnabled:false},visualAssets:[asset]},"author");scene.add(author);
+const sourceMaterial=getModelTemplate(model).scene.getObjectByProperty("isMesh",true).material;
+const cloneMaterial=creatureA.group.getObjectByProperty("isMesh",true).material;
+const animatorA=creatureA.group.children[0].userData.modelAnimationController; animatorA.play("walk");
+const animatorB=creatureB.group.children[0].userData.modelAnimationController; animatorB.play("idle");
+let frame=0;function loop(){animatorA.update(1/60);animatorB.update(1/60);renderer.render(scene,camera);if(++frame<12)requestAnimationFrame(loop);else { const skinA=creatureA.group.getObjectByProperty("isSkinnedMesh",true),skinB=creatureB.group.getObjectByProperty("isSkinnedMesh",true); const before=renderer.info.memory; disposeExternalModelInstance(creatureA.group.children[0]); window.runtimeReport={model,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,memory:before},independentSkeletons:skinA.skeleton!==skinB.skeleton,templateMaterialUntinted:sourceMaterial.color.getHexString(),tintMaterialOwned:cloneMaterial!==sourceMaterial&&cloneMaterial.userData.externalModelInstanceMaterial===true,authorParity:author.userData.visualRef?.id===asset.id&&author.userData.externalModelInstance===true,animation:{a:animatorA.activeState,b:animatorB.activeState},disposedOneInstance:creatureA.group.children[0].children.length===0};window.ready=true; }}requestAnimationFrame(loop);
+</script>

@@ -1,0 +1,98 @@
+{
+  "assetId": "mossling-v1",
+  "profile": "creature",
+  "model": ".dream-loop/workflow-proof/rigging/mossling-20k-v7/model.glb",
+  "scale": 1,
+  "pivot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hurt": "Hurt"
+  },
+  "locomotion": {
+    "walk": 0.98,
+    "run": 4
+  },
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "external_model_runtime",
+      "sha256": "f54d4d5f2dd87156ef4e51c56c61775fec1b7bf455845d1713c164dfdcbda3ed"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "external_model_runtime",
+      "sha256": "c4b78ac7135cfdf75b5abc1576154047e9d6409ed9f53fef41bf336e3c7e2156"
+    },
+    "motion": {
+      "status": "pass",
+      "reviewer": "external_model_runtime",
+      "sha256": "c4b78ac7135cfdf75b5abc1576154047e9d6409ed9f53fef41bf336e3c7e2156"
+    }
+  },
+  "sourceFiles": [
+    {
+      "role": "reference",
+      "path": ".dream-loop/all3d-targets/mossling-image3d-input.png"
+    },
+    {
+      "role": "raw",
+      "path": ".dream-loop/trellis-test/mossling-1024-seed1234/raw.glb"
+    },
+    {
+      "role": "generation",
+      "path": ".dream-loop/trellis-test/mossling-1024-seed1234/trial.json"
+    },
+    {
+      "role": "optimization",
+      "path": ".dream-loop/workflow-proof/optimization/pymeshlab-textured-review-pending-20260910/manifest.json"
+    },
+    {
+      "role": "blend",
+      "path": ".dream-loop/workflow-proof/rigging/mossling-20k-v7/mossling-rig.blend"
+    },
+    {
+      "role": "rig-profile",
+      "path": "tools/art/rigs/mossling.json"
+    },
+    {
+      "role": "rig-report",
+      "path": ".dream-loop/workflow-proof/rigging/mossling-20k-v7/rig-report.json"
+    },
+    {
+      "role": "builder",
+      "path": "tools/art/rig-character.py"
+    },
+    {
+      "role": "reference-review",
+      "path": ".dream-loop/workflow-proof/rigging/mossling-20k-v7/reference-review.md"
+    },
+    {
+      "role": "model-review",
+      "path": ".dream-loop/workflow-proof/rigging/mossling-20k-v7/model-review.md"
+    },
+    {
+      "role": "motion-review",
+      "path": ".dream-loop/workflow-proof/rigging/mossling-20k-v7/motion-review.md"
+    },
+    {
+      "role": "review-front",
+      "path": ".dream-loop/workflow-proof/rigging/mossling-20k-v7/idle.png"
+    }
+  ],
+  "provenance": {
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "sourceReferences": [
+      "Retained Mossling image-to-3D input; user liked the local 1024 generated result"
+    ],
+    "modelRoute": "Local TRELLIS 1024 master; texture-aware PyMeshLab 20k reduction; fitted Blender19bone rig with five zero-based in-place clips",
+    "ownerAcceptance": "Positive owner feedback on raw local-generation look; exact animated revision remains candidate"
+  }
+}

@@ -369,6 +369,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     creature.state.hurtTime = creature.state.cfg.hurtLock ?? 0.16;
     creature.state.aiState = "HURT";
     creature.state.aiTimer = 0;
+    creature.restartVisualAnimation?.("hurt");
     callbacks.onCreatureDamaged(creature, amount);
 
     if (knockbackDir) {

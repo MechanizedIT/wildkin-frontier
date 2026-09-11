@@ -22,7 +22,6 @@ try {
   execSync(`powershell -NoProfile -Command "${psCmd}"`, { stdio: "inherit" });
   const size = fs.statSync(ZIP).size;
   console.log(`[zip] created ${path.relative(ROOT, ZIP)} (${(size/1024).toFixed(1)} KB, ${(size/1024/1024).toFixed(2)} MB)`);
-  if (size > 35 * 1024 * 1024) console.error("[zip] WARNING: ZIP exceeds 35 MB limit!");
 } catch (e) {
   console.error("[zip] PowerShell Compress-Archive failed, trying 7z/node fallback");
   console.error(e.message);

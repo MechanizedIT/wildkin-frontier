@@ -86,3 +86,7 @@ From a second terminal in the game repository, run `C:/Python310/python.exe tool
 ## Project verification
 
 During setup, `npm test` and `npm run verify` pass with 636 tests. The validated submission directory is 25,001.7 KB, and `npm run zip` produces 7,448.3 KB. Trial/inspection/derivation helpers compile successfully. The raw and final experimental GLBs import successfully in Blender; successful import and reduced file size do not establish acceptable visual quality. No generated mesh was integrated into the game, and no new runtime dependency was introduced.
+
+## Subsequent production workflow
+
+The historical rejection results above remain valid for those exact derivatives. The active follow-up in `LOCAL_ASSET_PIPELINE.md` now records texture-aware reduction that preserves the 1024 Mossling color texture, separate walk/run rigging, a humanoid proof, an independently replayed static-prop fallback and the installed project asset-forge skill. Consult that ledger for current production readiness.

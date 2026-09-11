@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wildkin Asset Forge"
+  short_description: "Local 3D assets, rigs and game admission for Wildkin Frontier"
+  default_prompt: "Use $wildkin-asset-forge to produce and validate this Wildkin Frontier asset from its approved reference."

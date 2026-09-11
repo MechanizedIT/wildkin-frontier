@@ -1,0 +1,32 @@
+{
+  "profile": "explorer-trellis-direct-humanoid-v1",
+  "description": "Explorer-specific TRELLIS humanoid profile. Landmark coordinates are fitted to the baked imported mesh; do not reuse for other characters.",
+  "source_axes": { "up": "+Z", "face": "-Y", "runtime_forward": "+Z", "blender_rotation_z_degrees": 0 },
+  "runtime_height_meters": 1.28,
+  "locomotion": {
+    "sneak": { "authored_speed_mps": 1.6, "cycle_seconds": 0.60, "support_seconds_per_foot": 0.24, "style": "grounded crouch; feet are analytically planted during stance" },
+    "walk": { "authored_speed_mps": 3.3, "cycle_seconds": 0.50, "support_seconds_per_foot": 0.16, "style": "light jog with brief flight; feet are analytically planted during stance" },
+    "run": { "authored_speed_mps": 6.0, "cycle_seconds": 0.48, "support_seconds_per_foot": 0.08, "style": "cartoon sprint with brief support and flight; 0.48 m planted travel per contact" }
+  },
+  "runtime_locomotion": { "sneak": 1.6, "walk": 3.3, "run": 6.0 },
+  "weighting": { "max_influences": 4, "rigid_component_max_vertices": 1000, "soft_radius": 0.15 },
+  "bones": [
+    {"name":"Hips","head":[0,0,-0.13],"tail":[0,0,0.07]},
+    {"name":"Spine","parent":"Hips","head":[0,0,0.07],"tail":[0,0,0.20]},
+    {"name":"Chest","parent":"Spine","head":[0,0,0.20],"tail":[0,0,0.32]},
+    {"name":"Head","parent":"Chest","head":[0,0,0.32],"tail":[0,-0.02,0.47]},
+    {"name":"RightUpperArm","parent":"Chest","head":[-0.10,-0.095,0.22],"tail":[-0.19,-0.105,0.07]},
+    {"name":"RightForeArm","parent":"RightUpperArm","head":[-0.19,-0.105,0.07],"tail":[-0.2575,-0.1052,-0.0871]},
+    {"name":"RightHand","parent":"RightForeArm","head":[-0.2575,-0.1052,-0.0871],"tail":[-0.307,-0.105,-0.087]},
+    {"name":"LeftUpperArm","parent":"Chest","head":[0.10,-0.095,0.22],"tail":[0.19,-0.105,0.07]},
+    {"name":"LeftForeArm","parent":"LeftUpperArm","head":[0.19,-0.105,0.07],"tail":[0.2575,-0.1052,-0.0871]},
+    {"name":"LeftHand","parent":"LeftForeArm","head":[0.2575,-0.1052,-0.0871],"tail":[0.307,-0.105,-0.087]},
+    {"name":"RightUpperLeg","parent":"Hips","head":[-0.09,0,-0.12],"tail":[-0.10,0,-0.30]},
+    {"name":"RightLowerLeg","parent":"RightUpperLeg","head":[-0.10,0,-0.30],"tail":[-0.11,0,-0.43]},
+    {"name":"RightFoot","parent":"RightLowerLeg","head":[-0.11,0,-0.43],"tail":[-0.11,-0.10,-0.50]},
+    {"name":"LeftUpperLeg","parent":"Hips","head":[0.09,0,-0.12],"tail":[0.10,0,-0.30]},
+    {"name":"LeftLowerLeg","parent":"LeftUpperLeg","head":[0.10,0,-0.30],"tail":[0.11,0,-0.43]},
+    {"name":"LeftFoot","parent":"LeftLowerLeg","head":[0.11,0,-0.43],"tail":[0.11,-0.10,-0.50]}
+  ],
+  "clips": ["Idle","Walk","Run","Sneak","Jump","Fall","Dodge","Climb","Mantle","Attack","Hurt"]
+}

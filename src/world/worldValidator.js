@@ -13,6 +13,15 @@ const SUPPORTED_VISUAL_ASSET_SHAPES = new Set(["box", "cylinder", "cone", "spher
 const SUPPORTED_VISUAL_ASSET_ROLES = new Set(["prop", "harvestable", "wildkin"]);
 const SUPPORTED_FEEDBACK_PROFILES = new Set(["wood", "stone", "fiber"]);
 const SUPPORTED_PORTAL_STATES = new Set(["active", "ruined"]);
+const PLAYER_MODEL_CLIP_STATES = ["idle", "walk", "run", "sneak", "jump", "fall", "dodge", "climb", "mantle", "attack", "hurt"];
+const LOCAL_MODEL_PATH = /^assets\/models\/[a-z][a-z0-9_-]*\/model\.glb$/;
+function validateModelLocomotion(model) {
+  if (model.locomotion === undefined) return;
+  if (!model.locomotion || typeof model.locomotion !== "object" || Array.isArray(model.locomotion)) throw new Error("model locomotion must map clips to authored meters per second");
+  for (const [state, speed] of Object.entries(model.locomotion)) {
+    if (!["walk", "run", "sneak"].includes(state) || !isNumber(speed) || speed <= 0 || !model.clips?.[state]) throw new Error("model locomotion requires a mapped movement clip and positive finite authored speed");
+  }
+}
 // Allow generic POI types beyond known — but if requires.type is companionAbility/materialRepair we validate.
 
 function isNumber(v) { return typeof v === "number" && Number.isFinite(v); }
@@ -44,6 +53,29 @@ function validateBounds(bounds, label) {
 
 function isInsideBounds(pos, bounds) {
   return pos.x >= bounds.minX && pos.x <= bounds.maxX && pos.z >= bounds.minZ && pos.z <= bounds.maxZ;
+}
+
+function validatePlayerVisual(playerVisual) {
+  if (!playerVisual || typeof playerVisual !== "object") throw new Error("playerVisual must be an object");
+  if (typeof playerVisual.id !== "string" || !/^[a-z][a-z0-9_]*$/.test(playerVisual.id)) throw new Error("playerVisual id must use lowercase letters, numbers, and underscores");
+  const model = playerVisual.model;
+  if (!model || typeof model !== "object") throw new Error("playerVisual model required");
+  if (typeof model.path !== "string" || !LOCAL_MODEL_PATH.test(model.path)) throw new Error("playerVisual model path must use a local assets/models/<revision>/model.glb package");
+  if (!isNumber(model.scale) || model.scale <= 0 || model.scale > 100) throw new Error("playerVisual model scale must be positive finite");
+  validatePos(model.pivot, "playerVisual model pivot");
+  for (const axis of ["x", "y", "z"]) if (!isNumber(model.pivot[axis])) throw new Error(`playerVisual model pivot.${axis} must be finite`);
+  if (!model.clips || typeof model.clips !== "object") throw new Error("playerVisual model clips required");
+  for (const state of PLAYER_MODEL_CLIP_STATES) {
+    if (typeof model.clips[state] !== "string" || !model.clips[state].trim()) throw new Error(`playerVisual model clip ${state} required`);
+  }
+  const hand = playerVisual.handAnchor;
+  validateModelLocomotion(model);
+  if (!hand || typeof hand !== "object" || typeof hand.bone !== "string" || !hand.bone.trim()) throw new Error("playerVisual handAnchor bone required");
+  validatePos(hand.position, "playerVisual handAnchor position");
+  validatePos(hand.rotation, "playerVisual handAnchor rotation");
+  for (const axis of ["x", "y", "z"]) {
+    if (!isNumber(hand.position[axis]) || !isNumber(hand.rotation[axis])) throw new Error(`playerVisual handAnchor ${axis} must be finite`);
+  }
 }
 
 function isInsideCourseZone(pos, zone) {
@@ -104,6 +136,24 @@ export function normalizeWorldData(raw) {
     if (asset.category === undefined) asset.category = "Uncategorized";
     if (typeof asset.category !== "string" || !asset.category.trim()) throw new Error(`Visual Asset ${asset.id} category required`);
     if (asset.version !== 1) throw new Error(`Visual Asset ${asset.id} unsupported version ${asset.version}`);
+    if (asset.model !== undefined) {
+      const model = asset.model;
+      if (!model || typeof model !== "object") throw new Error(`Visual Asset ${asset.id} model must be an object`);
+      if (typeof model.path !== "string" || !LOCAL_MODEL_PATH.test(model.path)) throw new Error(`Visual Asset ${asset.id} model path must use a local assets/models/<revision>/model.glb package`);
+      if (model.scale !== undefined && (!isNumber(model.scale) || model.scale <= 0 || model.scale > 100)) throw new Error(`Visual Asset ${asset.id} model scale must be positive finite`);
+      if (model.pivot !== undefined) {
+        validatePos(model.pivot, `Visual Asset ${asset.id} model pivot`);
+        for (const axis of ["x", "y", "z"]) if (!isNumber(model.pivot[axis])) throw new Error(`Visual Asset ${asset.id} model pivot.${axis} must be finite`);
+      }
+      if (model.clips !== undefined) {
+        if (!model.clips || typeof model.clips !== "object") throw new Error(`Visual Asset ${asset.id} model clips must be an object`);
+        for (const [state, name] of Object.entries(model.clips)) {
+          if (!['idle', 'walk', 'run', 'attack', 'hurt'].includes(state) || typeof name !== 'string' || !name.trim()) throw new Error(`Visual Asset ${asset.id} model clip ${state} must use idle/walk/run/attack/hurt and a non-empty name`);
+        }
+      }
+      validateModelLocomotion(model);
+    }
+    if (asset.parts === undefined && asset.model) asset.parts = [];
     if (!Array.isArray(asset.parts)) throw new Error(`Visual Asset ${asset.id} parts must be an array`);
     const partIds = new Set();
     for (const part of asset.parts) {
@@ -173,6 +223,7 @@ export function normalizeWorldData(raw) {
       }
     }
   }
+  if (data.playerVisual !== undefined) validatePlayerVisual(data.playerVisual);
   for (const drop of data.resourceDrops) {
     if (drop.visualAssetId && !visualAssetIds.has(drop.visualAssetId)) throw new Error(`resource drop ${drop.id} unresolved Visual Asset ${drop.visualAssetId}`);
   }
