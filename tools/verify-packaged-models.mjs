@@ -2,8 +2,15 @@ import { chromium } from 'playwright';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
 const base = process.env.GAME_URL ?? 'http://localhost:8081/';
-const out = '.dream-loop/workflow-proof/packaged-models';
+const out = process.env.OUTPUT_DIR ?? '.dream-loop/workflow-proof/packaged-models';
 const sourceWorld = JSON.parse(await readFile('src/world/data/world.json', 'utf8'));
+const expected = {
+  player: sourceWorld.playerVisual.model.path,
+  hand: sourceWorld.playerVisual.handAnchor.bone,
+  playerClips: Object.keys(sourceWorld.playerVisual.model.clips).length,
+  mossling: sourceWorld.visualAssets.find(asset => asset.id === 'asset_wildkin_mossling').model.path,
+  crate: sourceWorld.visualAssets.find(asset => asset.id === 'asset_wooden_crate').model.path,
+};
 const sourceCollision = sourceWorld.visualAssets.find(asset => asset.id === 'asset_wooden_crate')?.collision ?? null;
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ headless: true, channel: 'msedge' });
@@ -19,15 +26,15 @@ try {
   await page.goto(base, { waitUntil: 'networkidle' });
   await page.locator('[data-action="start"]').click();
   await page.waitForFunction(() => !!window.__game?.player?.userData?.externalPlayerModel, null, { timeout: 30000 });
-  const camp = await page.evaluate(() => {
+  const camp = await page.evaluate(expected => {
     const g = window.__game, result = { player: null, crates: [], collision: null };
     const player = g.player.userData.externalPlayerModel;
     result.player = { path: player.model.userData.externalModelPath, clipCount: player.model.userData.modelAnimationClips.length, handBone: player.handBone?.name ?? null, handAnchor: player.handAnchor ?? null };
-    g.scene.traverse(n => { if (n.userData?.externalModelInstance && n.userData.externalModelPath === 'assets/models/frontier-crate-v1/model.glb') result.crates.push({ name: n.parent?.name, path: n.userData.externalModelPath }); });
+    g.scene.traverse(n => { if (n.userData?.externalModelInstance && n.userData.externalModelPath === expected.crate) result.crates.push({ name: n.parent?.name, path: n.userData.externalModelPath }); });
     const asset = g.authorMode?.draftApi?.findVisualAssetById?.('asset_wooden_crate') ?? null;
     result.collision = asset?.collision ?? { offset: { x: 0, y: .5, z: 0 }, size: { w: 1.08, h: 1, d: 1.08 }, shape: 'box' };
     return result;
-  });
+  }, expected);
   await page.evaluate(() => window.__game.beginExpeditionFromDefaultEntry());
   await page.waitForFunction(() => window.__game.creatureSystem.getActiveAliveCreatures().some(c => c.state.id === 'wildkin_mossling_1'), null, { timeout: 30000 });
   const expedition = await page.evaluate(() => {
@@ -61,6 +68,7 @@ try {
   const glbRequests = [...new Set(requests.filter(url => url.endsWith('.glb')).map(url => new URL(url).pathname))];
   const collisionMatchesSource = ['w', 'h', 'd'].every(axis => camp.collision?.size?.[axis] === sourceCollision?.size?.[axis]) && ['x', 'y', 'z'].every(axis => camp.collision?.offset?.[axis] === sourceCollision?.offset?.[axis]) && camp.collision?.shape === sourceCollision?.shape;
   const report = { base, viewport: '844x390', diagnosticSetup: 'Mossling AI/player placement was adjusted only in transient browser runtime to show ROAM and FLEE; no save or world source was changed.', camp, sourceCollision, collisionMatchesSource, expedition: { roam, flee }, requestCountBeforeOffline, glbRequests, remoteRequests, errors, failed, offline: { afterOffline, newRequests: requests.slice(requestCountBeforeOffline) }, pass: false };
-  report.pass = camp.player.path === 'assets/models/explorer-v1/model.glb' && camp.player.clipCount === 11 && camp.player.handBone === 'RightHand' && camp.crates.length === 2 && collisionMatchesSource && roam.path === 'assets/models/mossling-v1/model.glb' && roam.active === 'walk' && flee.path === 'assets/models/mossling-v1/model.glb' && flee.active === 'run' && flee.skeletonIndependent && flee.companionPath === 'assets/models/mossling-v1/model.glb' && flee.companionIndependent && glbRequests.includes('/assets/models/frontier-crate-v1/model.glb') && glbRequests.includes('/assets/models/mossling-v1/model.glb') && glbRequests.includes('/assets/models/explorer-v1/model.glb') && remoteRequests.length === 0 && errors.length === 0 && failed.length === 0 && report.offline.newRequests.length === 0 && beforeMove.some((v,i)=>Math.abs(v-afterOffline.playerPosition[i])>.001);
+  report.expected = expected;
+  report.pass = camp.player.path === expected.player && camp.player.clipCount === expected.playerClips && camp.player.handBone === expected.hand && camp.crates.length === 2 && collisionMatchesSource && roam.path === expected.mossling && roam.active === 'walk' && flee.path === expected.mossling && flee.active === 'run' && flee.skeletonIndependent && flee.companionPath === expected.mossling && flee.companionIndependent && [expected.crate, expected.mossling, expected.player].every(model => glbRequests.includes('/' + model)) && remoteRequests.length === 0 && errors.length === 0 && failed.length === 0 && report.offline.newRequests.length === 0 && beforeMove.some((v,i)=>Math.abs(v-afterOffline.playerPosition[i])>.001);
   await writeFile(`${out}/report.json`, JSON.stringify(report, null, 2)); console.log(JSON.stringify(report, null, 2)); if (!report.pass) process.exitCode=1;
 } finally { await browser.close(); }

@@ -1,0 +1,208 @@
+{
+  "assetId": "mossling-v2",
+  "profile": "creature",
+  "createdUtc": "2026-09-11T04:02:03.266329+00:00",
+  "model": {
+    "path": "assets/models/mossling-v2/model.glb",
+    "scale": 1,
+    "pivot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "clips": {
+      "idle": "Idle",
+      "walk": "Walk",
+      "run": "Run",
+      "attack": "Attack",
+      "hurt": "Hurt"
+    },
+    "locomotion": {
+      "walk": 0.98,
+      "run": 4.0
+    }
+  },
+  "modelSHA256": "f8043f46ef7d871a82a31a1271f9ea6feda145109a495f2e2a6a2846d7e58736",
+  "modelBytes": 3321420,
+  "sources": [
+    {
+      "role": "reference",
+      "path": "art/source/mossling-v2/reference.png",
+      "bytes": 1269104,
+      "sha256": "8922d5012bea0d339f8413bf1f31975632372bc380cf8cdb2772ef92a631435d"
+    },
+    {
+      "role": "raw",
+      "path": "art/source/mossling-v2/raw.glb",
+      "bytes": 4953960,
+      "sha256": "b5808f375639f811c53018ad9ad2b84f04c3190123fc794fd139d36089261b6c"
+    },
+    {
+      "role": "generation",
+      "path": "art/source/mossling-v2/generation.json",
+      "bytes": 12885,
+      "sha256": "078bf41731103192f89ee6cc9223c65e83742e6c85a5c09a0873a1f1ec352463"
+    },
+    {
+      "role": "optimization",
+      "path": "art/source/mossling-v2/optimization.json",
+      "bytes": 2316,
+      "sha256": "d22e0c6eb111e88b18c653b3e207d28e4ccb5f6fb36216de1d1070d5188835f9"
+    },
+    {
+      "role": "blend",
+      "path": "art/source/mossling-v2/blend.blend",
+      "bytes": 6136853,
+      "sha256": "1c1f17fd2079def010c44b3cd7fbbe6b6311a73a5d2518f087e2133b98e37168"
+    },
+    {
+      "role": "rig-profile",
+      "path": "art/source/mossling-v2/rig-profile.json",
+      "bytes": 3129,
+      "sha256": "1420fc273567dfdb2660736e92ab9dcc2acfffc4a3a5922316c4710ccde9900e"
+    },
+    {
+      "role": "rig-report",
+      "path": "art/source/mossling-v2/rig-report.json",
+      "bytes": 8346,
+      "sha256": "bedb57acfb5074aeaba2318353a521841f71f77b74b3c9c68f8dab20e0aacb42"
+    },
+    {
+      "role": "builder",
+      "path": "art/source/mossling-v2/builder.py",
+      "bytes": 13130,
+      "sha256": "d1046881e0501aa8625e4dd19ef80a14f01a26acb5a93bcde218d03bdac629f8"
+    },
+    {
+      "role": "reference-review",
+      "path": "art/source/mossling-v2/reference-review.md",
+      "bytes": 1277,
+      "sha256": "185ff551743257ac4137be28ce4291dd4a8242e710d1ebe6300828fdc386ebca"
+    },
+    {
+      "role": "review-front",
+      "path": "art/source/mossling-v2/review-front.png",
+      "bytes": 180934,
+      "sha256": "ff3e43b5510df72ba856e86b8514eb2cf4ce9ee380eee5c60607082201d4be13"
+    },
+    {
+      "role": "model-review",
+      "path": "art/source/mossling-v2/model-review.md",
+      "bytes": 4283,
+      "sha256": "f980126580cab58a272a9ead1d20111b5959b734998f17200fbeaf3595bf55ae"
+    },
+    {
+      "role": "motion-review",
+      "path": "art/source/mossling-v2/motion-review.md",
+      "bytes": 4283,
+      "sha256": "f980126580cab58a272a9ead1d20111b5959b734998f17200fbeaf3595bf55ae"
+    },
+    {
+      "role": "reference-prompt",
+      "path": "art/source/mossling-v2/reference-prompt.md",
+      "bytes": 3753,
+      "sha256": "912709a570b9d91c74fe16a3caac497459cd453413a51bdef7fd7df74a38d831"
+    },
+    {
+      "role": "review-motion",
+      "path": "art/source/mossling-v2/review-motion.png",
+      "bytes": 100961,
+      "sha256": "364e9e16c0c19c1df08a270d7f07abbb10f5a86758e1e224e5a387923db1b643"
+    }
+  ],
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "parent Codex + independent anatomy reviewer",
+      "sha256": "8922d5012bea0d339f8413bf1f31975632372bc380cf8cdb2772ef92a631435d"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "/root/neutral_mossling_anatomy_judge",
+      "sha256": "f8043f46ef7d871a82a31a1271f9ea6feda145109a495f2e2a6a2846d7e58736"
+    },
+    "motion": {
+      "status": "pass",
+      "reviewer": "/root/neutral_mossling_anatomy_judge",
+      "sha256": "f8043f46ef7d871a82a31a1271f9ea6feda145109a495f2e2a6a2846d7e58736"
+    }
+  },
+  "provenance": {
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "generationRoute": "approved neutral reference \u2192 local loopback TRELLIS.2 1024 master \u2192 texture-aware PyMeshLab 20k reduction \u2192 local Blender direct rig",
+    "geometryRefinement": "v3 uses the exact mossling-neutral-v2 rig profile plus rig-neutral-mossling.py with MOSS_NEUTRAL_SCULPT=v2: local source-space torso/haunch lengthening and muzzle taper only; original UVs, topology, material and limb lengths are retained.",
+    "sourceAxes": "reviewed source head, torso, tail and paw travel direction -Y; Blender -Y exports as game +Z.",
+    "rejectedPreviousRevision": "mossling-v1 animation is superseded by direct phone feedback and its independent motion FAIL; it must not be reused."
+  },
+  "admission": {
+    "ok": true,
+    "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\mossling-neutral-generation-v1\\rig-20k-v3\\model.glb",
+    "profile": "creature",
+    "limits": {
+      "max_triangles": 20000,
+      "max_vertices": 60000,
+      "max_materials": 2,
+      "max_bones": 48,
+      "max_texture": 1024
+    },
+    "sourceSHA256": "f8043f46ef7d871a82a31a1271f9ea6feda145109a495f2e2a6a2846d7e58736",
+    "textureSHA256": [
+      "14d44a3a6e33a1af39aa8c01f42831018ada71e5f252ba57c77a345ce04ce7ad"
+    ],
+    "counts": {
+      "triangles": 19999,
+      "vertices": 24026,
+      "materials": 1,
+      "bones": 19,
+      "animations": 5
+    },
+    "animations": [
+      {
+        "name": "Attack",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.7083333134651184
+      },
+      {
+        "name": "Hurt",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.4583333432674408
+      },
+      {
+        "name": "Idle",
+        "startSeconds": 0.0,
+        "durationSeconds": 1.0
+      },
+      {
+        "name": "Run",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.4166666567325592
+      },
+      {
+        "name": "Walk",
+        "startSeconds": 0.0,
+        "durationSeconds": 0.5
+      }
+    ],
+    "textures": [
+      {
+        "mimeType": "image/png",
+        "width": 1024,
+        "height": 1024,
+        "sha256": "14d44a3a6e33a1af39aa8c01f42831018ada71e5f252ba57c77a345ce04ce7ad",
+        "roles": [
+          "baseColor"
+        ]
+      }
+    ],
+    "textureRoles": [
+      {
+        "texture": 0,
+        "role": "baseColor"
+      }
+    ],
+    "failures": [],
+    "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+  },
+  "note": "Admission does not establish physical-phone performance or owner art acceptance."
+}

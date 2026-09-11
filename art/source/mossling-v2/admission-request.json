@@ -1,0 +1,105 @@
+{
+  "assetId": "mossling-v2",
+  "profile": "creature",
+  "model": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/rig-20k-v3/model.glb",
+  "scale": 1,
+  "pivot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack",
+    "hurt": "Hurt"
+  },
+  "locomotion": {
+    "walk": 0.98,
+    "run": 4.0
+  },
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "parent Codex + independent anatomy reviewer",
+      "sha256": "8922d5012bea0d339f8413bf1f31975632372bc380cf8cdb2772ef92a631435d"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "/root/neutral_mossling_anatomy_judge",
+      "sha256": "f8043f46ef7d871a82a31a1271f9ea6feda145109a495f2e2a6a2846d7e58736"
+    },
+    "motion": {
+      "status": "pass",
+      "reviewer": "/root/neutral_mossling_anatomy_judge",
+      "sha256": "f8043f46ef7d871a82a31a1271f9ea6feda145109a495f2e2a6a2846d7e58736"
+    }
+  },
+  "sourceFiles": [
+    {
+      "role": "reference",
+      "path": "art/targets/mossling-neutral-v3/reference.png"
+    },
+    {
+      "role": "raw",
+      "path": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/raw.glb"
+    },
+    {
+      "role": "generation",
+      "path": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/trial.json"
+    },
+    {
+      "role": "optimization",
+      "path": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/reduction-20k/manifest.json"
+    },
+    {
+      "role": "blend",
+      "path": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/rig-20k-v3/mossling-rig.blend"
+    },
+    {
+      "role": "rig-profile",
+      "path": "tools/art/rigs/mossling-neutral-v2.json"
+    },
+    {
+      "role": "rig-report",
+      "path": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/rig-20k-v3/rig-report.json"
+    },
+    {
+      "role": "builder",
+      "path": "tools/art/rig-neutral-mossling.py"
+    },
+    {
+      "role": "reference-review",
+      "path": "art/targets/mossling-neutral-v3/reference-review.md"
+    },
+    {
+      "role": "review-front",
+      "path": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/rig-20k-v3/idle.png"
+    },
+    {
+      "path": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/rig-20k-v3/independent-review.md",
+      "role": "model-review"
+    },
+    {
+      "path": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/rig-20k-v3/independent-review.md",
+      "role": "motion-review"
+    },
+    {
+      "path": "art/targets/mossling-neutral-v3/generation.md",
+      "role": "reference-prompt"
+    },
+    {
+      "path": ".dream-loop/workflow-proof/mossling-neutral-generation-v1/rig-20k-v3/runtime-motion-v4/run-side-contact-sheet.png",
+      "role": "review-motion"
+    }
+  ],
+  "provenance": {
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "generationRoute": "approved neutral reference \u2192 local loopback TRELLIS.2 1024 master \u2192 texture-aware PyMeshLab 20k reduction \u2192 local Blender direct rig",
+    "geometryRefinement": "v3 uses the exact mossling-neutral-v2 rig profile plus rig-neutral-mossling.py with MOSS_NEUTRAL_SCULPT=v2: local source-space torso/haunch lengthening and muzzle taper only; original UVs, topology, material and limb lengths are retained.",
+    "sourceAxes": "reviewed source head, torso, tail and paw travel direction -Y; Blender -Y exports as game +Z.",
+    "rejectedPreviousRevision": "mossling-v1 animation is superseded by direct phone feedback and its independent motion FAIL; it must not be reused."
+  }
+}

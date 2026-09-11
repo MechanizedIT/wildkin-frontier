@@ -5,6 +5,7 @@ import { chromium } from "playwright";
 import assert from "node:assert/strict";
 import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { normalizeWorldData } from '../src/world/worldValidator.js';
 
 const base = process.env.GAME_URL ?? "http://localhost:8080/";
 const modelPath = process.env.MODEL_PATH ?? ".dream-loop/workflow-proof/rigging/explorer-20k-v9/model.glb";
@@ -13,7 +14,7 @@ const output = process.env.OUTPUT_DIR ?? ".dream-loop/workflow-proof/rigging/exp
 await mkdir(output, { recursive: true });
 const videoDir = path.join(output, "video"); await mkdir(videoDir, { recursive: true });
 
-const descriptor = {
+const descriptor = process.env.DESCRIPTOR_PATH ? JSON.parse(await readFile(process.env.DESCRIPTOR_PATH, 'utf8')) : {
   id: "player_explorer",
   model: { path: "assets/models/explorer-candidate/model.glb", scale: 1, pivot: { x: 0, y: -.52, z: 0 },
     clips: { idle: "Idle", walk: "Walk", run: "Run", sneak: "Sneak", jump: "Jump", fall: "Fall", dodge: "Dodge", climb: "Climb", mantle: "Mantle", attack: "Attack", hurt: "Hurt" },
@@ -21,6 +22,8 @@ const descriptor = {
   // Fitted after the actual-game camera pass; this is local to RightHand.
   handAnchor: { bone: "RightHand", position: { x: -.012, y: -.018, z: .035 }, rotation: { x: .18, y: -.18, z: -.35 } },
 };
+descriptor.model.path = "assets/models/explorer-candidate/model.glb";
+normalizeWorldData({ ...JSON.parse(await readFile('src/world/data/world.json', 'utf8')), playerVisual: descriptor });
 const candidateModule = `
 import ORIGINAL, { WORLD_DATA as ORIGINAL_WORLD_DATA } from "./world.generated.js";
 const WORLD_DATA = structuredClone(ORIGINAL_WORLD_DATA);
@@ -84,12 +87,12 @@ try {
         for (const key of keys.reverse()) await page.keyboard.up(key);
         await page.waitForTimeout(120);
       }
-      await page.keyboard.press("KeyF"); await page.waitForTimeout(170);
+      await page.keyboard.press("KeyF", { delay: 80 }); await page.waitForTimeout(170);
       const attack = await inspect(page); await framePlayer(page); await capture(page, `${view.id}-attack-tool.png`);
       await page.waitForTimeout(650); const afterAttack = await inspect(page);
-      await page.keyboard.press("Space"); await page.waitForTimeout(100); await capture(page, `${view.id}-jump.png`);
+      await page.keyboard.press("Space", { delay: 80 }); await page.waitForTimeout(100); await capture(page, `${view.id}-dodge.png`);
       // These snapshots verify every imported clip can be selected.  They are
-      // diagnostic-only; only movement/attack/jump above use ordinary input.
+      // diagnostic-only; only movement/attack/dodge above use ordinary input.
       const diagnostics = await page.evaluate(() => {
         const controller = window.__game.player.userData.externalPlayerModel.model.userData.modelAnimationController;
         const states = ["idle", "walk", "run", "sneak", "jump", "fall", "dodge", "climb", "mantle", "attack", "hurt"];
@@ -105,7 +108,7 @@ try {
       assert.ok(diagnostics.every(item => item.state === item.selected), "one or more diagnostic clips could not select");
       assert.equal(errors.length, 0, errors.join("\n"));
       report.views[view.id] = { viewport: `${view.viewport.width}x${view.viewport.height}`, initial, attack, afterAttack, diagnostics,
-        frames: ["idle", "walk", "run", "sneak", "attack-tool", "jump", "diagnostic-hurt"].map(name => `${view.id}-${name}.png`) };
+        frames: ["idle", "walk", "run", "sneak", "attack-tool", "dodge", "diagnostic-hurt"].map(name => `${view.id}-${name}.png`) };
     } catch (error) { report.errors.push(`${view.id}: ${error.stack ?? error.message}`); await capture(page, `${view.id}-failure.png`).catch(() => {}); }
     finally {
       const video = page.video(); await page.close();

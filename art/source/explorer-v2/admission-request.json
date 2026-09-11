@@ -1,0 +1,189 @@
+{
+  "assetId": "explorer-v2",
+  "profile": "player",
+  "model": ".dream-loop/workflow-proof/mixamo-explorer-trial/candidates/explorer-auto-skin-full-motion-v2/model.glb",
+  "scale": 1,
+  "pivot": {
+    "x": 0,
+    "y": -0.52,
+    "z": 0
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "sneak": "Sneak",
+    "jump": "Jump",
+    "fall": "Fall",
+    "dodge": "Dodge",
+    "climb": "Climb",
+    "mantle": "Mantle",
+    "attack": "Attack",
+    "hurt": "Hurt"
+  },
+  "locomotion": {
+    "sneak": 1.32719,
+    "walk": 2.636013,
+    "run": 3.376671
+  },
+  "sourceFiles": [
+    {
+      "role": "reference",
+      "path": "art/source/explorer-v1/reference.png"
+    },
+    {
+      "role": "raw",
+      "path": "art/source/explorer-v1/raw.glb"
+    },
+    {
+      "role": "generation",
+      "path": "art/source/explorer-v1/generation.json"
+    },
+    {
+      "role": "optimization",
+      "path": "art/source/explorer-v1/optimization.json"
+    },
+    {
+      "role": "reference-review",
+      "path": "art/source/explorer-v1/reference-review.md"
+    },
+    {
+      "role": "model-review",
+      "path": ".dream-loop/workflow-proof/mixamo-explorer-trial/candidates/explorer-auto-skin-full-motion-v2/independent-review.md"
+    },
+    {
+      "role": "blend",
+      "path": ".dream-loop/workflow-proof/mixamo-explorer-trial/candidates/explorer-auto-skin-full-motion-v2/explorer-mixamo-auto-locomotion.blend"
+    },
+    {
+      "role": "rig-profile",
+      "path": ".dream-loop/workflow-proof/mixamo-explorer-trial/candidates/explorer-auto-skin-full-motion-v2/repro-bundle-v1.zip"
+    },
+    {
+      "role": "rig-report",
+      "path": ".dream-loop/workflow-proof/mixamo-explorer-trial/candidates/explorer-auto-skin-full-motion-v2/retarget-report.json"
+    },
+    {
+      "role": "motion-review",
+      "path": ".dream-loop/workflow-proof/mixamo-explorer-trial/candidates/explorer-auto-skin-full-motion-v2/independent-review.md"
+    },
+    {
+      "role": "builder",
+      "path": "tools/art/retarget-mixamo.py"
+    },
+    {
+      "role": "reference-prompt",
+      "path": "art/source/explorer-v1/reference-prompt.txt"
+    },
+    {
+      "role": "review-motion",
+      "path": ".dream-loop/workflow-proof/mixamo-explorer-trial/candidates/explorer-auto-skin-full-motion-v2/motion-evidence-v2.zip"
+    }
+  ],
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "texture_pipeline",
+      "sha256": "109038b64d779a7a75054ef358850ee61f2e256f4a02d7c0d0b74096117163f2"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "/root/neutral_mossling_anatomy_judge",
+      "sha256": "8b266042d39e55eda223c3974b6d2f6af46b724938629969ada29420fdcefdf4"
+    },
+    "motion": {
+      "status": "pass",
+      "reviewer": "/root/neutral_mossling_anatomy_judge",
+      "sha256": "8b266042d39e55eda223c3974b6d2f6af46b724938629969ada29420fdcefdf4"
+    }
+  },
+  "provenance": {
+    "status": "Independent exact-export target, full-cycle, actual-travel and tool/action review passed; owner phone acceptance pending.",
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "referenceProvenance": {
+      "imageTool": "OpenAI built-in image_gen",
+      "imageModel": "undisclosed",
+      "sourceReferences": [
+        "Owner-approved brown-haired blue-jacket explorer sheet"
+      ],
+      "modelRoute": "Local TRELLIS1024; PyMeshLab texture-aware20k; originalgeometrypreserved withfitted16boneBlenderhumanoidrigand11clips",
+      "handAnchor": {
+        "bone": "RightHand",
+        "position": {
+          "x": -0.012,
+          "y": -0.018,
+          "z": 0.035
+        },
+        "rotation": {
+          "x": 0.18,
+          "y": -0.18,
+          "z": -0.35
+        }
+      },
+      "runtimeProof": ".dream-loop/workflow-proof/rigging/explorer-20k-v9/actual-game-review/report.json",
+      "ownerAcceptance": "Style and player identity owner directed; exact animated revision remains candidate"
+    },
+    "animationSource": "Free Adobe Mixamo, owner-approved upload of original Explorer; automatic No Fingers 25-bone skin and same-rig clips.",
+    "modelTextureSHA256": "616c55ea8da89d737971ad66a8bcaef9abf0cc50c543a31283e1f636f0cbdd4d",
+    "playerVisual": {
+      "id": "player_explorer",
+      "model": {
+        "path": "assets/models/explorer-v2/model.glb",
+        "scale": 1,
+        "pivot": {
+          "x": 0,
+          "y": -0.52,
+          "z": 0
+        },
+        "clips": {
+          "idle": "Idle",
+          "walk": "Walk",
+          "run": "Run",
+          "sneak": "Sneak",
+          "jump": "Jump",
+          "fall": "Fall",
+          "dodge": "Dodge",
+          "climb": "Climb",
+          "mantle": "Mantle",
+          "attack": "Attack",
+          "hurt": "Hurt"
+        },
+        "locomotion": {
+          "sneak": 1.32719,
+          "walk": 2.636013,
+          "run": 3.376671
+        }
+      },
+      "handAnchor": {
+        "bone": "mixamorigRightHand",
+        "position": {
+          "x": 0.012,
+          "y": 0.04,
+          "z": 0.024
+        },
+        "rotation": {
+          "x": -0.8661903264802714,
+          "y": 1.161241346014395,
+          "z": -1.660731938785389
+        }
+      }
+    },
+    "handAnchor": {
+      "bone": "mixamorigRightHand",
+      "position": {
+        "x": 0.012,
+        "y": 0.04,
+        "z": 0.024
+      },
+      "rotation": {
+        "x": -0.8661903264802714,
+        "y": 1.161241346014395,
+        "z": -1.660731938785389
+      }
+    },
+    "reproduction": "Extract rig-profile.zip outside assets, run rebuild.ps1 with a fresh output directory. Archive includes exact inputs, standalone builder, texture, crop settings and hashes.",
+    "visualEvidence": "review-motion.zip contains exact GLB full-cycle render evidence, ordinary gameplay attack/dodge/jump/travel, phone/desktop checks and fitted descriptor.",
+    "gameplayContract": "Speeds 1.6/3.3/6 m/s, existing state timing, collision capsule, stable player ID and save state unchanged."
+  }
+}

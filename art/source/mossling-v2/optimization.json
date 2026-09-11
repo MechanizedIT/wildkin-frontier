@@ -1,0 +1,47 @@
+{
+  "tool": "optimize-textured-glb.py",
+  "asset_name": "mossling-neutral",
+  "python": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "source_glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\mossling-neutral-generation-v1\\raw.glb",
+  "source_glb_sha256": "b5808f375639f811c53018ad9ad2b84f04c3190123fc794fd139d36089261b6c",
+  "base_color_png": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\mossling-neutral-generation-v1\\reduction-20k\\interchange\\base-color-source.png",
+  "base_color_png_sha256": "14d44a3a6e33a1af39aa8c01f42831018ada71e5f252ba57c77a345ce04ce7ad",
+  "algorithm": "PyMeshLab meshing_decimation_quadric_edge_collapse_with_texture",
+  "pymeshlab_version": "2025.7.post1",
+  "filter_parameters": {
+    "targetperc": 0.0,
+    "qualitythr": 0.3,
+    "extratcoordw": 1.0,
+    "preserveboundary": false,
+    "boundaryweight": 1.0,
+    "optimalplacement": true,
+    "preservenormal": false,
+    "planarquadric": false,
+    "selected": false
+  },
+  "merge_position_seams": {
+    "enabled": true,
+    "threshold_percent_of_bbox": 0.0001,
+    "guidance": "The seam weld is an experimentally proved Mossling setting only. Pass --merge-position-seams explicitly for a new asset after validating its texture and topology; it is not a universal default."
+  },
+  "visual_review": {
+    "status": "pending",
+    "required": "Determine the actual source front, then inspect matching three-view renders at large and 128-pixel sizes before accepting a runtime derivative."
+  },
+  "targets": [
+    {
+      "source_vertices": 49976,
+      "source_faces": 58997,
+      "pymeshlab_preexport_vertices": 9215,
+      "pymeshlab_preexport_triangles": 19999,
+      "target": 20000,
+      "glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\mossling-neutral-generation-v1\\reduction-20k\\mossling-neutral-textured-20000.glb",
+      "embedded_base_color_png_sha256": "14d44a3a6e33a1af39aa8c01f42831018ada71e5f252ba57c77a345ce04ce7ad",
+      "glb_sha256": "b2a2d159dca7fa0024affaab44e5ed17ee13b9ca036d96206e2c0899714dc4a0",
+      "bytes": 2753020,
+      "reimport_mesh_objects": 1,
+      "reimport_vertices": 23528,
+      "reimport_triangles": 19999
+    }
+  ]
+}

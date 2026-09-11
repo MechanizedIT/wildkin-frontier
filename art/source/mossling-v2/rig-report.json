@@ -1,0 +1,298 @@
+{
+  "tool": "tools/art/rig-neutral-mossling.py",
+  "profile": {
+    "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\tools\\art\\rigs\\mossling-neutral-v2.json",
+    "name": "mossling-neutral-v2-local-torso-haunch-snout-refinement"
+  },
+  "input": {
+    "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\mossling-neutral-generation-v1\\reduction-20k\\mossling-neutral-textured-20000.glb",
+    "sha256": "b2a2d159dca7fa0024affaab44e5ed17ee13b9ca036d96206e2c0899714dc4a0",
+    "raw_bounds": {
+      "min": [
+        -0.2571392357349396,
+        -0.5000172257423401,
+        -0.4184083044528961
+      ],
+      "max": [
+        0.2558189928531647,
+        0.5013017654418945,
+        0.4152888357639313
+      ]
+    }
+  },
+  "normalization": {
+    "source_face_axis": "-Y",
+    "blender_rotation_z_degrees": 0,
+    "glTF_up": "+Y",
+    "runtime_forward": "+Z",
+    "scale": 1.4393716160378154,
+    "ground": "source minimum Z is transformed to Blender Z=0 before glTF Y-up export",
+    "chosen_height_meters": 1.2,
+    "normalized_blender_bounds": {
+      "min": [
+        -0.3701189160346985,
+        -0.7844785451889038,
+        0.0
+      ],
+      "max": [
+        0.3685538172721863,
+        0.7215595245361328,
+        1.2000000476837158
+      ]
+    }
+  },
+  "materials": [
+    {
+      "name": "Mossling Neutral Matte Base Color",
+      "base_color_images": [
+        {
+          "name": "base-color",
+          "size": [
+            1024,
+            1024
+          ]
+        }
+      ]
+    }
+  ],
+  "weights_before_export": {
+    "component_count": 32,
+    "largest_component_vertices": 19272,
+    "rigid_component_max_vertices": 300,
+    "rigid_vertices": 2790,
+    "max_influences": 4,
+    "zero_weight_vertices": 0,
+    "weight_sum_min": 0.9999998599923856,
+    "weight_sum_max": 1.000000175088644
+  },
+  "clips": {
+    "Idle": [
+      1,
+      25
+    ],
+    "Walk": [
+      1,
+      13
+    ],
+    "Run": [
+      1,
+      11
+    ],
+    "Attack": [
+      1,
+      18
+    ],
+    "Hurt": [
+      1,
+      12
+    ]
+  },
+  "editable_blend": "mossling-rig.blend",
+  "export_glb": {
+    "path": "model.glb",
+    "sha256": "f8043f46ef7d871a82a31a1271f9ea6feda145109a495f2e2a6a2846d7e58736",
+    "bytes": 3321420
+  },
+  "review_renders": [
+    "idle.png",
+    "attack-peak.png",
+    "hurt-peak.png",
+    "motion-frames\\walk-front-01.png",
+    "motion-frames\\walk-front-02.png",
+    "motion-frames\\walk-front-03.png",
+    "motion-frames\\walk-front-04.png",
+    "motion-frames\\walk-front-05.png",
+    "motion-frames\\walk-front-06.png",
+    "motion-frames\\walk-front-07.png",
+    "motion-frames\\walk-front-08.png",
+    "motion-frames\\walk-front-09.png",
+    "motion-frames\\walk-front-10.png",
+    "motion-frames\\walk-front-11.png",
+    "motion-frames\\walk-front-12.png",
+    "motion-frames\\walk-front-13.png",
+    "motion-frames\\walk-three-quarter-01.png",
+    "motion-frames\\walk-three-quarter-02.png",
+    "motion-frames\\walk-three-quarter-03.png",
+    "motion-frames\\walk-three-quarter-04.png",
+    "motion-frames\\walk-three-quarter-05.png",
+    "motion-frames\\walk-three-quarter-06.png",
+    "motion-frames\\walk-three-quarter-07.png",
+    "motion-frames\\walk-three-quarter-08.png",
+    "motion-frames\\walk-three-quarter-09.png",
+    "motion-frames\\walk-three-quarter-10.png",
+    "motion-frames\\walk-three-quarter-11.png",
+    "motion-frames\\walk-three-quarter-12.png",
+    "motion-frames\\walk-three-quarter-13.png",
+    "motion-frames\\walk-side-01.png",
+    "motion-frames\\walk-side-02.png",
+    "motion-frames\\walk-side-03.png",
+    "motion-frames\\walk-side-04.png",
+    "motion-frames\\walk-side-05.png",
+    "motion-frames\\walk-side-06.png",
+    "motion-frames\\walk-side-07.png",
+    "motion-frames\\walk-side-08.png",
+    "motion-frames\\walk-side-09.png",
+    "motion-frames\\walk-side-10.png",
+    "motion-frames\\walk-side-11.png",
+    "motion-frames\\walk-side-12.png",
+    "motion-frames\\walk-side-13.png",
+    "motion-frames\\run-front-01.png",
+    "motion-frames\\run-front-02.png",
+    "motion-frames\\run-front-03.png",
+    "motion-frames\\run-front-04.png",
+    "motion-frames\\run-front-05.png",
+    "motion-frames\\run-front-06.png",
+    "motion-frames\\run-front-07.png",
+    "motion-frames\\run-front-08.png",
+    "motion-frames\\run-front-09.png",
+    "motion-frames\\run-front-10.png",
+    "motion-frames\\run-front-11.png",
+    "motion-frames\\run-three-quarter-01.png",
+    "motion-frames\\run-three-quarter-02.png",
+    "motion-frames\\run-three-quarter-03.png",
+    "motion-frames\\run-three-quarter-04.png",
+    "motion-frames\\run-three-quarter-05.png",
+    "motion-frames\\run-three-quarter-06.png",
+    "motion-frames\\run-three-quarter-07.png",
+    "motion-frames\\run-three-quarter-08.png",
+    "motion-frames\\run-three-quarter-09.png",
+    "motion-frames\\run-three-quarter-10.png",
+    "motion-frames\\run-three-quarter-11.png",
+    "motion-frames\\run-side-01.png",
+    "motion-frames\\run-side-02.png",
+    "motion-frames\\run-side-03.png",
+    "motion-frames\\run-side-04.png",
+    "motion-frames\\run-side-05.png",
+    "motion-frames\\run-side-06.png",
+    "motion-frames\\run-side-07.png",
+    "motion-frames\\run-side-08.png",
+    "motion-frames\\run-side-09.png",
+    "motion-frames\\run-side-10.png",
+    "motion-frames\\run-side-11.png"
+  ],
+  "roundtrip": {
+    "bones": [
+      "root",
+      "spine",
+      "neck",
+      "head",
+      "front_upper.L",
+      "front_lower.L",
+      "front_paw.L",
+      "front_upper.R",
+      "front_lower.R",
+      "front_paw.R",
+      "tail_01",
+      "tail_02",
+      "tail_03",
+      "rear_upper.L",
+      "rear_lower.L",
+      "rear_paw.L",
+      "rear_upper.R",
+      "rear_lower.R",
+      "rear_paw.R"
+    ],
+    "missing_expected_bones": [],
+    "actions": [
+      {
+        "name": "Attack",
+        "frame_range": [
+          0.0,
+          17.0
+        ]
+      },
+      {
+        "name": "Hurt",
+        "frame_range": [
+          0.0,
+          11.0
+        ]
+      },
+      {
+        "name": "Idle",
+        "frame_range": [
+          0.0,
+          24.0
+        ]
+      },
+      {
+        "name": "Run",
+        "frame_range": [
+          0.0,
+          10.0
+        ]
+      },
+      {
+        "name": "Walk",
+        "frame_range": [
+          0.0,
+          12.0
+        ]
+      }
+    ],
+    "max_influences": 4,
+    "zero_weight_vertices": 0,
+    "weight_sum_min": 0.9999998509883881,
+    "weight_sum_max": 1.0000001192092896,
+    "blender_import_auxiliary_meshes": [
+      "Icosphere"
+    ],
+    "bounds": {
+      "min": [
+        -0.3701188862323761,
+        -0.7844786047935486,
+        -8.498783188315429e-08
+      ],
+      "max": [
+        0.36855384707450867,
+        0.7215595841407776,
+        1.1999999284744263
+      ]
+    },
+    "glb_structure": {
+      "skin_count": 1,
+      "joint_weight_accessors": [
+        {
+          "attribute": "JOINTS_0",
+          "type": "VEC4",
+          "count": 24026
+        },
+        {
+          "attribute": "WEIGHTS_0",
+          "type": "VEC4",
+          "count": 24026
+        }
+      ]
+    }
+  },
+  "runtime_descriptor_candidate": {
+    "path": "assets/models/mossling/model.glb",
+    "scale": 1,
+    "pivot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "clips": {
+      "idle": "Idle",
+      "walk": "Walk",
+      "run": "Run",
+      "attack": "Attack",
+      "hurt": "Hurt"
+    },
+    "locomotion": {
+      "walk": 0.98,
+      "run": 4.0
+    }
+  },
+  "neutral_anatomy_gate": {
+    "source_axes": "head, torso, tail and all paw pairs were independently reviewed as source -Y before normalization; Blender -Y exports as game +Z.",
+    "old_profile_reused": false,
+    "motion_rendering": "All Walk (1-13) and Run (1-11) frames rendered from front, three-quarter and side views in motion-frames/."
+  },
+  "geometry_refinement": {
+    "enabled": true,
+    "method": "local source-space torso/haunch lengthening and muzzle taper; vertex positions only, with original UVs/topology/material retained",
+    "limb_global_stretch": false
+  }
+}

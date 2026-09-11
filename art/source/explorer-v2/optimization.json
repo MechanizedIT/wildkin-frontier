@@ -1,0 +1,47 @@
+{
+  "tool": "optimize-textured-glb.py",
+  "asset_name": "explorer",
+  "python": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "source_glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\generation\\explorer-1024-seed1234\\raw.glb",
+  "source_glb_sha256": "dfc1aef87253bc0d577b57c7fd03523ed6b7078e285786b9cf283ed6e65fb77e",
+  "base_color_png": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\optimization\\explorer-20k-v1\\interchange\\base-color-source.png",
+  "base_color_png_sha256": "616c55ea8da89d737971ad66a8bcaef9abf0cc50c543a31283e1f636f0cbdd4d",
+  "algorithm": "PyMeshLab meshing_decimation_quadric_edge_collapse_with_texture",
+  "pymeshlab_version": "2025.7.post1",
+  "filter_parameters": {
+    "targetperc": 0.0,
+    "qualitythr": 0.3,
+    "extratcoordw": 1.0,
+    "preserveboundary": false,
+    "boundaryweight": 1.0,
+    "optimalplacement": true,
+    "preservenormal": false,
+    "planarquadric": false,
+    "selected": false
+  },
+  "merge_position_seams": {
+    "enabled": true,
+    "threshold_percent_of_bbox": 0.0001,
+    "guidance": "The seam weld is an experimentally proved Mossling setting only. Pass --merge-position-seams explicitly for a new asset after validating its texture and topology; it is not a universal default."
+  },
+  "visual_review": {
+    "status": "pending",
+    "required": "Inspect matched yaw-90 three-view renders at large and 128-pixel sizes before accepting a runtime derivative."
+  },
+  "targets": [
+    {
+      "source_vertices": 49013,
+      "source_faces": 58132,
+      "pymeshlab_preexport_vertices": 9779,
+      "pymeshlab_preexport_triangles": 19998,
+      "target": 20000,
+      "glb": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\optimization\\explorer-20k-v1\\explorer-textured-20000.glb",
+      "embedded_base_color_png_sha256": "616c55ea8da89d737971ad66a8bcaef9abf0cc50c543a31283e1f636f0cbdd4d",
+      "glb_sha256": "f6da28dce4d262f8c35de2a887c5ea61e8e1693d7cc233e003815de396cf6d71",
+      "bytes": 2677556,
+      "reimport_mesh_objects": 1,
+      "reimport_vertices": 23707,
+      "reimport_triangles": 19998
+    }
+  ]
+}

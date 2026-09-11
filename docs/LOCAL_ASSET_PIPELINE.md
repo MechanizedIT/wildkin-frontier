@@ -2,7 +2,7 @@
 
 
 
-Status: local generation, packaging and runtime integration proved with three candidate classes; **character anatomy/motion acceptance reopened by the owner's physical-phone test**, September 10, 2026. Historical PASS entries below do not override the sideways Mossling and stiff/wide-striding Explorer observed in play. See `MOTION_WORKFLOW_REVIEW.md` for the corrected findings and workflow.
+Status: the phone-reported character defects have produced reviewed replacement revisions, `mossling-v2` and `explorer-v2`, now integrated for another phone test. The neutral creature passed 8.1/10 likeness and wild/companion travel; the same-skeleton Mixamo player passed 8.4/10 likeness, all eleven exported clips, ordinary travel, tool grip and real attack/dodge/jump-pad transitions. The three-class pipeline remains supervised and anatomy-specific. Owner phone acceptance and the broader asset pass remain pending. See `MOTION_WORKFLOW_REVIEW.md` for current evidence; V1 PASS entries below are historical and do not override owner feedback.
 
 
 
@@ -38,7 +38,7 @@ Real-device sustained performance and subjective owner acceptance remain distinc
 
 
 
-The owner-liked 1024 Mossling is the creature master. Previous ordinary-decimation and fresh-UV-bake derivatives are rejected diagnostics, recorded in `TRELLIS_LOCAL_TRIAL.md`. PyMeshLab's texture-aware filter in an isolated tool environment preserves Mossling's static appearance at 19,999 triangles and retains the exact original 1024 PNG. The same initial settings visibly damage the crate at 2,497 and 4,997 triangles; those copies are rejected despite passing structural checks. A valid GLB, a lower polygon count or an unchanged texture hash does not override visible loss of eyes, flowers, silhouette or intended facets.
+The original owner-liked Mossling establishes style, but its mismatched head/body pose is not a valid rigging master. V2 uses the reviewed neutral V3 reference, a fresh 1024 local generation and fresh anatomy landmarks. PyMeshLab's texture-aware filter preserves its appearance at 19,999 triangles with the original generated 1024 PNG. Previous ordinary-decimation and fresh-UV-bake derivatives are rejected diagnostics, recorded in `TRELLIS_LOCAL_TRIAL.md`. The same initial reduction settings visibly damage the crate at 2,497 and 4,997 triangles; those copies are rejected despite passing structural checks. A valid GLB, a lower polygon count or an unchanged texture hash does not override visible loss of eyes, flowers, silhouette or intended facets.
 
 
 
@@ -50,7 +50,7 @@ The existing Author asset library remains the owner of stable references, placem
 
 
 
-## Proof ledger
+## Historical first-admission ledger
 
 
 
@@ -68,7 +68,7 @@ The existing Author asset library remains the owner of stable references, placem
 
 
 
-The source skill is `.agents/skills/wildkin-asset-forge/SKILL.md`, discoverable through a directory junction at `C:/Users/cwood/.codex/skills/wildkin-asset-forge`. Its metadata validator passes; this does not establish workflow reliability. The independent replay and character deformation/game checks have completed. These prove a repeatable supervised process for the three tested classes, not automatic rigging of arbitrary anatomy.
+The source skill is `.agents/skills/wildkin-asset-forge/SKILL.md`, discoverable through a directory junction at `C:/Users/cwood/.codex/skills/wildkin-asset-forge`. Its metadata validator passes; this does not establish visual quality. The independent static replay proved that route; the owner's later phone feedback rejected the V1 character motion. Current character sources are `art/source/mossling-v2/` (neutral generation, fitted 19-bone/five-clip rig) and `art/source/explorer-v2/` (25-bone/eleven-clip Mixamo skin). Both retain their original 1K textures. The Explorer's `rig-profile.zip` contains a self-contained rebuild recipe and exact FBX/texture inputs. These are class-specific supervised recipes, not automatic rigging of arbitrary anatomy.
 
 
 

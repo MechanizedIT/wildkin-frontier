@@ -1,0 +1,173 @@
+{
+  "tool": "retarget-mixamo.py",
+  "mode": "mixamo-auto-skin-same-rig-action-merge",
+  "status": "candidate only; independent full-motion and game integration review required",
+  "input_explorer": {
+    "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\assets\\models\\explorer-v1\\model.glb",
+    "sha256": "7900868f831c723b60edb15b8321d4818754223db11ef80e6766c91b9b214104"
+  },
+  "output": {
+    "glb": "model.glb",
+    "sha256": "8b266042d39e55eda223c3974b6d2f6af46b724938629969ada29420fdcefdf4",
+    "bytes": 3554064,
+    "blend": "explorer-mixamo-auto-locomotion.blend"
+  },
+  "skeleton": {
+    "bones": [
+      "mixamorig:Hips",
+      "mixamorig:Spine",
+      "mixamorig:Spine1",
+      "mixamorig:Spine2",
+      "mixamorig:Neck",
+      "mixamorig:Head",
+      "mixamorig:HeadTop_End",
+      "mixamorig:LeftShoulder",
+      "mixamorig:LeftArm",
+      "mixamorig:LeftForeArm",
+      "mixamorig:LeftHand",
+      "mixamorig:RightShoulder",
+      "mixamorig:RightArm",
+      "mixamorig:RightForeArm",
+      "mixamorig:RightHand",
+      "mixamorig:LeftUpLeg",
+      "mixamorig:LeftLeg",
+      "mixamorig:LeftFoot",
+      "mixamorig:LeftToeBase",
+      "mixamorig:LeftToe_End",
+      "mixamorig:RightUpLeg",
+      "mixamorig:RightLeg",
+      "mixamorig:RightFoot",
+      "mixamorig:RightToeBase",
+      "mixamorig:RightToe_End"
+    ],
+    "count": 25,
+    "right_hand": "mixamorig:RightHand"
+  },
+  "clips": {
+    "Walk": {
+      "source": "Standard Run.fbx",
+      "sha256": "ae3769b3ceb5362ae809a84be420864c7b218834a36349243e6e944bb95c9560",
+      "root_translation": "horizontal held at bind-relative baseline; vertical hips retained"
+    },
+    "Run": {
+      "source": "Fast-Run-travel.fbx",
+      "sha256": "f0f1daab1d396437e2e555530ff96c44fec7ff729dc97b4bba6d2b3cadd4614c",
+      "root_translation": "horizontal held at bind-relative baseline; vertical hips retained"
+    },
+    "Idle": {
+      "source": "Breathing-Idle.fbx",
+      "sha256": "6098c15040667d2d859c3c4ce16b8b6e15a9bff762652160a2636ef37c46b3be",
+      "root_translation": "horizontal held at bind-relative baseline; vertical hips retained"
+    },
+    "Sneak": {
+      "source": "Sneaking-Forward.fbx",
+      "sha256": "c872a3738fdacdf9ba92b8dd0110f51fc7d12d4651356975dba63a4e3d584bda",
+      "root_translation": "horizontal held at bind-relative baseline; vertical hips retained"
+    },
+    "Jump": {
+      "source": "jumping up.fbx",
+      "sha256": "5197fa7f4362d8935ef87e223377bc6d2de3ec2d818885e613334ece6156a133",
+      "root_translation": "all hips translation held at bind-relative baseline; game physics owns root trajectory",
+      "crop": {
+        "source_frames": [
+          1,
+          8
+        ],
+        "output_duration_seconds": 0.23333333333333334
+      }
+    },
+    "Fall": {
+      "source": "falling idle.fbx",
+      "sha256": "c5da1d0bfbdfd7dcc358ad7db252d72e6e7323b9e09fde1544bd8000dd1d7279",
+      "root_translation": "all hips translation held at bind-relative baseline; game physics owns root trajectory"
+    },
+    "Dodge": {
+      "source": "falling to roll.fbx",
+      "sha256": "d1868887db7a59f67a976cabde950d2fa98ac0116172f3e32ca5a197bc73beb0",
+      "root_translation": "all hips translation held at bind-relative baseline; game physics owns root trajectory",
+      "crop": {
+        "source_frames": [
+          16,
+          43
+        ],
+        "output_duration_seconds": 0.23333333333333334
+      }
+    },
+    "Climb": {
+      "source": "Climbing-Up-Wall.fbx",
+      "sha256": "2137bfc29dd378c1c034227c981b910db9975e0021a0083e980327f23873059f",
+      "root_translation": "all hips translation held at bind-relative baseline; game physics owns root trajectory"
+    },
+    "Mantle": {
+      "source": "Braced-Hang-To-Crouch.fbx",
+      "sha256": "8edde1b5c607b4a59bbd9775af742897221c2448abd7f9fb8c9fea4b5ed8c993",
+      "root_translation": "all hips translation held at bind-relative baseline; game physics owns root trajectory",
+      "crop": {
+        "source_frames": [
+          1,
+          35
+        ],
+        "output_duration_seconds": 0.26666666666666666
+      }
+    },
+    "Attack": {
+      "source": "Stable-Sword-Outward-Slash.fbx",
+      "sha256": "258fe5862358918808c475d296dd7ea6a506f609c9a86ba8181d81e5f91512c6",
+      "root_translation": "all hips translation held at bind-relative baseline; game physics owns root trajectory",
+      "crop": {
+        "source_frames": [
+          1,
+          62
+        ],
+        "output_duration_seconds": 0.4666666666666667
+      }
+    },
+    "Hurt": {
+      "source": "Standing-React-Small-From-Front.fbx",
+      "sha256": "be1569fae278768d107bf5733c6b52cdcdba7d531a4e3e7c64a4ec6810661e3e",
+      "root_translation": "all hips translation held at bind-relative baseline; game physics owns root trajectory",
+      "crop": {
+        "source_frames": [
+          1,
+          37
+        ],
+        "output_duration_seconds": 0.3333333333333333
+      }
+    }
+  },
+  "materials": [
+    {
+      "material": "Explorer Matte Base Color",
+      "images": [
+        "ExplorerOriginalBaseColor"
+      ]
+    }
+  ],
+  "original_texture": {
+    "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\workflow-proof\\mixamo-explorer-trial\\prepared-v1\\texture-0.png",
+    "sha256": "616c55ea8da89d737971ad66a8bcaef9abf0cc50c543a31283e1f636f0cbdd4d"
+  },
+  "sample_images": [
+    "walk-phase-00.png",
+    "walk-phase-01.png",
+    "walk-phase-02.png",
+    "walk-phase-03.png",
+    "walk-phase-04.png",
+    "walk-phase-05.png",
+    "walk-phase-06.png",
+    "walk-phase-07.png",
+    "run-phase-00.png",
+    "run-phase-01.png",
+    "run-phase-02.png",
+    "run-phase-03.png",
+    "run-phase-04.png",
+    "run-phase-05.png",
+    "run-phase-06.png",
+    "run-phase-07.png",
+    "run-phase-08.png"
+  ],
+  "legacy_action_transfer": {
+    "enabled": false
+  },
+  "runtime_note": "The runtime hand anchor must map to mixamorig:RightHand if this candidate is admitted. Each direct Mixamo action remains subject to state-timing and game-motion review. Legacy actions, when present, are separately experimental."
+}

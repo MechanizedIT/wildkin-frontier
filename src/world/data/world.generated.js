@@ -166,16 +166,16 @@ export const WORLD_DATA = {
   ],
   "playerVisual": {
     "handAnchor": {
-      "bone": "RightHand",
+      "bone": "mixamorigRightHand",
       "position": {
-        "x": -0.012,
-        "y": -0.018,
-        "z": 0.035
+        "x": 0.012,
+        "y": 0.04,
+        "z": 0.024
       },
       "rotation": {
-        "x": 0.18,
-        "y": -0.18,
-        "z": -0.35
+        "x": -0.8661903264802714,
+        "y": 1.161241346014395,
+        "z": -1.660731938785389
       }
     },
     "id": "player_explorer",
@@ -194,11 +194,11 @@ export const WORLD_DATA = {
         "walk": "Walk"
       },
       "locomotion": {
-        "run": 6,
-        "sneak": 1.6,
-        "walk": 3.3
+        "run": 3.376671,
+        "sneak": 1.32719,
+        "walk": 2.636013
       },
-      "path": "assets/models/explorer-v1/model.glb",
+      "path": "assets/models/explorer-v2/model.glb",
       "pivot": {
         "x": 0,
         "y": -0.52,
@@ -26121,7 +26121,7 @@ export const WORLD_DATA = {
           "run": 4,
           "walk": 0.98
         },
-        "path": "assets/models/mossling-v1/model.glb",
+        "path": "assets/models/mossling-v2/model.glb",
         "pivot": {
           "x": 0,
           "y": 0,
