@@ -2,6 +2,8 @@
 
 **September 11 handoff: Chris is playtesting the overnight checkpoint. Await his notes or a new task; do not restart overnight autonomous production merely because an older mandate says “continue.”** This is a local pre-alpha, not a published release. Exact art/balance choices remain provisional.
 
+After a fresh clone or machine replacement, read [RECOVERY.md](RECOVERY.md). The September11 GitHub backup also retains the unshipped Tidefin candidate and the locally installed Asset Forge workflow; ignored study folders are not required to recover those snapshots.
+
 ## Read the minimum first
 
 1. Read the current user request and repository `AGENTS.md`, then the newest status at the top of [CURRENT_SLICE.md](CURRENT_SLICE.md). The full old chronology is archived separately; do not load it unless history matters.

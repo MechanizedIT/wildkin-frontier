@@ -1,0 +1,49 @@
+{
+  "ok": true,
+  "input": ".dream-loop/overnight-tidefin-rig/v2/tidefin-rig.glb",
+  "profile": "creature",
+  "limits": {
+    "max_triangles": 20000,
+    "max_vertices": 60000,
+    "max_materials": 2,
+    "max_bones": 48,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "6463770dbe289bf48ab2610dd0ada9b7f00858f4c7fd7366b344f344f83e7669",
+  "textureSHA256": [
+    "902567d1aa421d2628aa8012a758c7bf93e7d403ad1cd6b1e6a41c568041504c"
+  ],
+  "counts": {
+    "triangles": 7832,
+    "vertices": 15108,
+    "materials": 1,
+    "bones": 19,
+    "animations": 1
+  },
+  "animations": [
+    {
+      "name": "DiagnosticPoses",
+      "startSeconds": 0.0,
+      "durationSeconds": 4.0
+    }
+  ],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 256,
+      "height": 256,
+      "sha256": "902567d1aa421d2628aa8012a758c7bf93e7d403ad1cd6b1e6a41c568041504c",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

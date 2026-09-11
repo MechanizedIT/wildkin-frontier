@@ -1,0 +1,29 @@
+{
+  "sha256": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+  "clips": {
+    "Walk": {
+      "settings": {
+        "seconds": 0.75,
+        "speed": 0.9,
+        "duty": 0.56
+      },
+      "maximumStanceDrift": 0.005809919834137034,
+      "maximumPlantedAbsY": 0.003420610213652253,
+      "minimumSoleY": -0.00015788516611792147,
+      "maximumStanceDriftXZ": 0.0058099316998019915,
+      "maximumStanceLateralRange": 3.0100345611572266e-05
+    },
+    "Run": {
+      "settings": {
+        "seconds": 0.5,
+        "speed": 3,
+        "duty": 0.25
+      },
+      "maximumStanceDrift": 0.014331686496734442,
+      "maximumPlantedAbsY": 0.004533539526164532,
+      "minimumSoleY": -0.0012315709609538317,
+      "maximumStanceDriftXZ": 0.014331701854145446,
+      "maximumStanceLateralRange": 0.0003287792205810547
+    }
+  }
+}

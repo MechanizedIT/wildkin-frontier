@@ -1,0 +1,13 @@
+# Tidefin rig V2 - local cheek support repair
+
+Independent deformation review PENDING; no full cycle, rig shipping or runtime admission. Exact export SHA256 `6463770dbe289bf48ab2610dd0ada9b7f00858f4c7fd7366b344f344f83e7669`. Approved neutral surface remains V5 SHA `51e456355acb7155cfbe1e8bee210a4acccafd4ca295741bccb0c650c429d66d`.
+
+V1 root inspection measured upper-forelimb influence at all50 sampled cheek root points, up to100%. The repair uses the actual embedded cheek root triangle surfaces to define a local body support patch, full correction within65mm and a smooth feather ending140mm away. Its target is90%Head/10%Chest. Exactly280 of3,528 body vertices changed; `weight-parity.json` confirms no changes outside the declared patch within1e-6. Every changed vertex, coordinate, distance, blend and before/after weights is recorded in `cheek-support-weights.json`; `local-weight-map.html` overlays the actual selected near-side points on the neutral render.
+
+Embedded cheek vertices receive interpolated repaired body weights; outer vertices blend75%toward Head, retaining a chiefly head-driven plate. Maximum residual forelimb influence on a cheek vertex is3.075%. Eyes stay rigid Head-owned. Existing crest/paw/body weighting beyond the patch is preserved. All original mesh corner positions and UVs remain unchanged. No geometry, thickness, neutral silhouette, palette or bone fit changes.
+
+The exact same five source/export keys repeat: neutral; two opposite planted ±20cm fore/aft stances with25mm true gameY root drop;18cm reach with55mm lifted diagonal pair;12degree head yaw and10/6degree tail bend. Fixed-length targets have zero clamping. Actual fresh-import GLB skin checks confirm planted soles atY0 and lifted pairY.055 within floating-point tolerance. Game+Z forward maps Blender-Y, vertical gameY maps BlenderZ. These are constant diagnostic keys, not walking cadence, toe-roll or full-cycle acceptance.
+
+Ten fresh-GLB renders are included, same lights/cameras, CPU4threads512square20samples. Implementer's actual review: prior loaded/toe-off hanging white hook and broad blue interruption are gone; opposite stance retains attachment and body/hips remain substantial. Head-turn front has a tiny dark mark on the far plate worth independent inspection; do not hide that residual or infer a pass from metrics. Neutral silhouette remains intact. All owned processes finished exit0. No browser/GPU inference/usage reset used.
+
+Structural checker PASS:7,832triangles,19deformbones,one256atlas/material and one4second DiagnosticPoses animation. Fitting source retains separate small part objects; draw-batch optimization is deferred until the deformation gate passes. Earlier V1 evidence remains intact and excluded from this exact candidate.

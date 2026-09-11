@@ -1,0 +1,384 @@
+{
+  "created": "2026-09-11",
+  "purpose": "Unshipped candidate/source recovery; no runtime admission",
+  "entries": [
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/actual-export-contact.json",
+      "backup": "art/source/tidefin-candidate-v3/candidate/actual-export-contact.json",
+      "bytes": 549047,
+      "sha256": "ee82e949d9c5a8a287ac014a970641f8533f9f4deeff9bac270e3b7738b4c45f"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Attack-front3q-0.000.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Attack-front3q-0.000.png",
+      "bytes": 231835,
+      "sha256": "f15adbd2158667fb871ea013b2c720fe02a664e83e09aa96c35e092ecad6eed3"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Attack-front3q-0.200.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Attack-front3q-0.200.png",
+      "bytes": 232231,
+      "sha256": "80cec0a29a092bd892fe8f3c988616592b5d529539e746d33e13484206d5f885"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Attack-front3q-0.430.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Attack-front3q-0.430.png",
+      "bytes": 231359,
+      "sha256": "f2ca7cbeac7d7060a4026bc9185e7057a854501085569e162a42ed46e681e67a"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Attack-front3q-0.700.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Attack-front3q-0.700.png",
+      "bytes": 231721,
+      "sha256": "af1260241b8afcd5fbfb4b2d0724885b89a15e44a031cec87407d74a5956a0c8"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Attack-side-0.200.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Attack-side-0.200.png",
+      "bytes": 228412,
+      "sha256": "47f845b947aeed4005b03ade270d1dd84241798da8c8ab0a98421f9602c23c6b"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Attack-side-0.430.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Attack-side-0.430.png",
+      "bytes": 228261,
+      "sha256": "42d3d5a0bfea76ca144e39a72562c90eaf90599c99b870e3d4a8e1923fb1562e"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/builder.py",
+      "backup": "art/source/tidefin-candidate-v3/candidate/builder.py",
+      "bytes": 32347,
+      "sha256": "5f33515adf613d6c45706f01cadd0949ae45b861065c71d7e323ab5a21d5d5e7"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/check-export.py",
+      "backup": "art/source/tidefin-candidate-v3/candidate/check-export.py",
+      "bytes": 2623,
+      "sha256": "acfe3956e2146accd156dead71b62e492be7da7123683467dd6f3849a622759d"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/check-preservation.py",
+      "backup": "art/source/tidefin-candidate-v3/candidate/check-preservation.py",
+      "bytes": 1640,
+      "sha256": "c7d337a32f1aaf7e590d4961eafe8d2044649c6d1a291c49edc24af41a68ad59"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/cheek-weight-closure.json",
+      "backup": "art/source/tidefin-candidate-v3/candidate/cheek-weight-closure.json",
+      "bytes": 16211,
+      "sha256": "90748efeb364dc54f24edc67f3035e1c6ea6fdc0d2d26783d124bfa67379b257"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/contact-summary.json",
+      "backup": "art/source/tidefin-candidate-v3/candidate/contact-summary.json",
+      "bytes": 872,
+      "sha256": "17a192b292b9042e223499b64f7929785dc7c60bc16d9d2ae97ea21f89511a15"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/evidence-hashes.json",
+      "backup": "art/source/tidefin-candidate-v3/candidate/evidence-hashes.json",
+      "bytes": 3642,
+      "sha256": "e1eba05ec9af868d2f31092d5f4019c35006ea422774bbcaa05ab7a288fe6cd6"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/glb-check.json",
+      "backup": "art/source/tidefin-candidate-v3/candidate/glb-check.json",
+      "bytes": 1551,
+      "sha256": "b38b61bddbee162ac7df4194474091f9d5bc2606d374319af0a3f42f64437774"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Hurt-front3q-0.150.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Hurt-front3q-0.150.png",
+      "bytes": 231739,
+      "sha256": "cf0ca4b603d2f689f0b176945e4af2efe588089c38380a5e294ac357d7166ac9"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Hurt-front3q-0.400.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Hurt-front3q-0.400.png",
+      "bytes": 231588,
+      "sha256": "89d30022e7202f3dc096ace3ca999d1f13ea9e97eb68125528ad72eb6267ce06"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Hurt-front3q-0.800.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Hurt-front3q-0.800.png",
+      "bytes": 231515,
+      "sha256": "659fd04a5fc2549e36d6f791a63ac3ed548e18577fca801f6c6a990da6f0db17"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/Hurt-opposite-0.150.png",
+      "backup": "art/source/tidefin-candidate-v3/candidate/Hurt-opposite-0.150.png",
+      "bytes": 245659,
+      "sha256": "6005e6fc5cba7e64979e425ec98c3eb92bf20de59333bf42561f41f0129f06ea"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/loop-check.json",
+      "backup": "art/source/tidefin-candidate-v3/candidate/loop-check.json",
+      "bytes": 1536,
+      "sha256": "1ad157fbf8e2d1e843afb7e06db6609fa1ab28f1e6a5f05291fe47488319deb1"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/motion-provenance.json",
+      "backup": "art/source/tidefin-candidate-v3/candidate/motion-provenance.json",
+      "bytes": 563079,
+      "sha256": "70ca7756d6a11300587cc6c9aa23f7120db45a471ec8f1f0a26b2488dc8b12fb"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/preservation.json",
+      "backup": "art/source/tidefin-candidate-v3/candidate/preservation.json",
+      "bytes": 520,
+      "sha256": "c6c857a8486aa7d7b782b8a2d88e1ee8335aaed3fb02c0d18ef2b45dd0b529e9"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/README.md",
+      "backup": "art/source/tidefin-candidate-v3/candidate/README.md",
+      "bytes": 3419,
+      "sha256": "1d128f1195d165eb9dbacbc512497561342fda27d3de43a59d32d1af2a002877"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/render-evidence.json",
+      "backup": "art/source/tidefin-candidate-v3/candidate/render-evidence.json",
+      "bytes": 2141,
+      "sha256": "618d432823e7e9a751b1519266128deaf36246f43d34c658601cf7d0a45f3ad5"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/tidefin-motion-editable.blend",
+      "backup": "art/source/tidefin-candidate-v3/candidate/tidefin-motion-editable.blend",
+      "bytes": 6200283,
+      "sha256": "2ce884da94b92d9b2e2d06009c0ffe8a0f5d945e9ceee5d1473329c8bb7b7b11"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v3/tidefin-motion.glb",
+      "backup": "art/source/tidefin-candidate-v3/candidate/tidefin-motion.glb",
+      "bytes": 997072,
+      "sha256": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/tidefin-editable.blend",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/tidefin-editable.blend",
+      "bytes": 841401,
+      "sha256": "cce8fef3fd78f178c63a49344deb439901b5f479605d41547fbad1f3324fde35"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/tidefin.glb",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/tidefin.glb",
+      "bytes": 534796,
+      "sha256": "51e456355acb7155cfbe1e8bee210a4acccafd4ca295741bccb0c650c429d66d"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/anatomy.json",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/anatomy.json",
+      "bytes": 3519,
+      "sha256": "d48c830c3f6ece59ce7e4fdf76d4f73d86d4438bd0c94a812a98ec84fb6a755d"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/tidefin-palette.png",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/tidefin-palette.png",
+      "bytes": 1969,
+      "sha256": "902567d1aa421d2628aa8012a758c7bf93e7d403ad1cd6b1e6a41c568041504c"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/builder.py",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/builder.py",
+      "bytes": 17745,
+      "sha256": "bfe4e98643a4c4ad1e1acfeb4f1f46375a40415213a2c1d6312a2964b1542a10"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/README.md",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/README.md",
+      "bytes": 1918,
+      "sha256": "aea05b451d746d148e56617e8a38fb3c3bec89cc1bfc3eb47511687054463afe"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/independent-review.md",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/independent-review.md",
+      "bytes": 3043,
+      "sha256": "496f166f57fca46ab86cf1f175ee08dfd534249afdc295cb53b361ff1343b793"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/front3q.png",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/front3q.png",
+      "bytes": 231438,
+      "sha256": "db667085455a1b65720f37147bb76c180b848fe02f4a9784c24ae3ebcef721c1"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/side.png",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/side.png",
+      "bytes": 227376,
+      "sha256": "65968fb4d62c0fa6dc04fc67d74f86b8c651ad8ef2b85130814e42a88ea31351"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/manifest.json",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/manifest.json",
+      "bytes": 1033,
+      "sha256": "122a2a6ddf6337d93099312d0bff5e0ae36fa5209bf65242047548add80cfb41"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-model/model-v5/final/glb-check.json",
+      "backup": "art/source/tidefin-candidate-v3/inputs/neutral-v5/glb-check.json",
+      "bytes": 1065,
+      "sha256": "428a40dc06d0bc2fdd7c6c0ec2bf935832d0abfb598fa1946c34b501d0261ab0"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/rig-editable.blend",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/rig-editable.blend",
+      "bytes": 1116721,
+      "sha256": "b5a9deb915eede213ad9f9702ef2346b565a457beba441ee702c4fae926a9ebe"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/tidefin-rig.glb",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/tidefin-rig.glb",
+      "bytes": 867484,
+      "sha256": "6463770dbe289bf48ab2610dd0ada9b7f00858f4c7fd7366b344f344f83e7669"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/builder.py",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/builder.py",
+      "bytes": 16414,
+      "sha256": "5a45dc0e92577fd29b45457cc01845199508d118205b4316ab66ce2d3666fc3b"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/README.md",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/README.md",
+      "bytes": 2766,
+      "sha256": "6c46b8f9d3a0d94aec931afd607cba8ae8416250bfdc932fc9215f6e825feb49"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/independent-review.md",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/independent-review.md",
+      "bytes": 3094,
+      "sha256": "53e0c08e85a690c09d2dc524943098c1162b1a8c91c3a35b4c460d6d0904afab"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/report.json",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/report.json",
+      "bytes": 82497,
+      "sha256": "343ae26515cfe441c9d5ad3328778252e9d28e82cc4c80a0d40a76cb8b826475"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/cheek-support-weights.json",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/cheek-support-weights.json",
+      "bytes": 133258,
+      "sha256": "4a79424797608d267efac7f38ab75009aa9bd2339fe4c5d21ea3c734582f115c"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/Neutral-front3q.png",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/Neutral-front3q.png",
+      "bytes": 231543,
+      "sha256": "9649ed109e7230076e303e45ae23c4f16da135bb3f7192fcaaebf216756a3d4f"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/weight-parity.json",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/weight-parity.json",
+      "bytes": 184,
+      "sha256": "d2cc18489625a947526458ca12deeed557eb52e60c1354f7791704ec41b8c8b8"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-rig/v2/glb-check.json",
+      "backup": "art/source/tidefin-candidate-v3/inputs/rig-v2/glb-check.json",
+      "bytes": 1166,
+      "sha256": "26836fbdd8947fd8389adb29c9427d483a9e60a95878438f2faa42a6cfdbc9cd"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v2/README.md",
+      "backup": "art/source/tidefin-candidate-v3/inputs/animation-v2-review/README.md",
+      "bytes": 5620,
+      "sha256": "f6367baa3e48e4dd834aa37b2e60c0c5dc712d4701e3d12849794a2fbfc8f441"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v2/independent-review.md",
+      "backup": "art/source/tidefin-candidate-v3/inputs/animation-v2-review/independent-review.md",
+      "bytes": 7413,
+      "sha256": "1d4ab382bc7260b1b283942e3fdc1409b6b0138e8734da3f4b917df3be95c33d"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v2/donor-license.txt",
+      "backup": "art/source/tidefin-candidate-v3/inputs/animation-v2-review/donor-license.txt",
+      "bytes": 364,
+      "sha256": "83d8959f9fc56353ed571fbe2dc52e4bcd64508e2399501cd45ac2ce3df0bf8c"
+    },
+    {
+      "source": ".dream-loop/overnight-tidefin-animation/v2/tidefin-motion.glb",
+      "backup": "art/source/tidefin-candidate-v3/inputs/animation-v2-review/tidefin-motion.glb",
+      "bytes": 996932,
+      "sha256": "2aaeaec0b5bddaf1edc3169c8efa06d5353a910a3621ee6f0be1c913ebac661d"
+    },
+    {
+      "source": ".dream-loop/overnight-mossling-anatomy-repair/v1/walk-donor/donor-walk-samples.json",
+      "backup": "art/source/tidefin-candidate-v3/inputs/donor-walk/donor-walk-samples.json",
+      "bytes": 380417,
+      "sha256": "80bb204418177d53adc2ed82a5579efc44457ee1b9882201163243dc9e0e512e"
+    },
+    {
+      "source": ".dream-loop/overnight-mossling-anatomy-repair/v1/full-donor/donor-gallop-samples.json",
+      "backup": "art/source/tidefin-candidate-v3/inputs/donor-run/donor-gallop-samples.json",
+      "bytes": 386888,
+      "sha256": "f55a79c9baa484022bd06332b5581311db4971706d5bf777080d0c67842fa2ef"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\agents\\openai.yaml",
+      "backup": "tools/skill-backups/wildkin-asset-forge/agents/openai.yaml",
+      "bytes": 260,
+      "sha256": "85ee85550b34b3409785983f83d855bae48e7ceed426ff07bd82292e1b603795"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\references\\admission.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/references/admission.md",
+      "bytes": 8645,
+      "sha256": "221c4b9580c1f5ae9196e5fd32cc424c77e7a9fa2da081dd1a7787a81ce9431c"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\references\\anatomy-and-export.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/references/anatomy-and-export.md",
+      "bytes": 10067,
+      "sha256": "4ab29083b2add938e07b4b599ff93471777004370a7279753adc36691276c877"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\references\\blender-mcp.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/references/blender-mcp.md",
+      "bytes": 4614,
+      "sha256": "5064eb880cb2a6be1531ff0f3b0e06c3001ee8ede55236f9b5c9c009b9848c7e"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\references\\dream-loop-production.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/references/dream-loop-production.md",
+      "bytes": 4154,
+      "sha256": "7a8ec97124cd7927195e638e55245a810572da6e9efda61429bd1fe894b06816"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\references\\local-tools.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/references/local-tools.md",
+      "bytes": 9290,
+      "sha256": "bb6ba8accb503aa8a2d7a8550ba68743eb18f0981bee736f2d02988918a86c61"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\references\\mechanical-props.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/references/mechanical-props.md",
+      "bytes": 5190,
+      "sha256": "ec7051bc79c24f545c8813acf61389c5b8ae6d6b26be7f0a58f8ed9a5788deb6"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\references\\mixamo.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/references/mixamo.md",
+      "bytes": 6571,
+      "sha256": "2dbc7523e2bc2322b425941470d13e540b67ce0142a6010e934c610a004bbd51"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\references\\quadruped-motion.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/references/quadruped-motion.md",
+      "bytes": 12476,
+      "sha256": "f457f84f2b3f027fa9e92fd02dec8eecbef44fe36fcf9c31133ec575d8b7ff65"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\references\\rigging.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/references/rigging.md",
+      "bytes": 14526,
+      "sha256": "9061aa59e42ea621de8345b2d2208d17dad7d806f4f9077e9138aa02240da53d"
+    },
+    {
+      "source": "C:\\Users\\cwood\\.codex\\skills\\wildkin-asset-forge\\SKILL.md",
+      "backup": "tools/skill-backups/wildkin-asset-forge/SKILL.md",
+      "bytes": 7719,
+      "sha256": "0f0c5cd6c0e8fd2636aeeaf0cc8e515135320e6ea956b6089e90a763b13cd7f0"
+    }
+  ]
+}

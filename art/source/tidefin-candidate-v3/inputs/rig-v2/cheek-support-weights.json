@@ -1,0 +1,5587 @@
+[
+  {
+    "vertex": 312,
+    "pointGame": [
+      0.5126796960830688,
+      0.9700000882148743,
+      0.3778637647628784
+    ],
+    "rootSurfaceDistance": 0.06817096471786499,
+    "blend": 0.9947884784127667,
+    "before": {
+      "LeftForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.005211521587233259,
+      "Head": 0.89530963057149,
+      "Chest": 0.09947884784127668
+    }
+  },
+  {
+    "vertex": 313,
+    "pointGame": [
+      0.4952106475830078,
+      1.0735275745391846,
+      0.3778637647628784
+    ],
+    "rootSurfaceDistance": 0.0667998418211937,
+    "blend": 0.998299944401725,
+    "before": {
+      "LeftForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0017000555982750187,
+      "Head": 0.8984699499615525,
+      "Chest": 0.0998299944401725
+    }
+  },
+  {
+    "vertex": 323,
+    "pointGame": [
+      -0.4952106475830078,
+      1.0735275745391846,
+      0.3778637647628784
+    ],
+    "rootSurfaceDistance": 0.0667169839143753,
+    "blend": 0.9984517116600824,
+    "before": {
+      "RightForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0015482883399176028,
+      "Head": 0.8986065404940742,
+      "Chest": 0.09984517116600825
+    }
+  },
+  {
+    "vertex": 324,
+    "pointGame": [
+      -0.5126796960830688,
+      0.9700000882148743,
+      0.3778637647628784
+    ],
+    "rootSurfaceDistance": 0.06819989532232285,
+    "blend": 0.994694353308927,
+    "before": {
+      "RightForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.005305646691073029,
+      "Head": 0.8952249179780343,
+      "Chest": 0.0994694353308927
+    }
+  },
+  {
+    "vertex": 325,
+    "pointGame": [
+      -0.4952106475830078,
+      0.8664723634719849,
+      0.3778637647628784
+    ],
+    "rootSurfaceDistance": 0.11995748430490494,
+    "blend": 0.17607299136066532,
+    "before": {
+      "RightForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.8239270086393347,
+      "Head": 0.15846569222459878,
+      "Chest": 0.017607299136066533
+    }
+  },
+  {
+    "vertex": 335,
+    "pointGame": [
+      0.4952106475830078,
+      0.8664723634719849,
+      0.3778637647628784
+    ],
+    "rootSurfaceDistance": 0.11999432742595673,
+    "blend": 0.1754961596847899,
+    "before": {
+      "LeftForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.8245038403152101,
+      "Head": 0.15794654371631092,
+      "Chest": 0.017549615968478992
+    }
+  },
+  {
+    "vertex": 336,
+    "pointGame": [
+      0.4981699287891388,
+      1.0299999713897705,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.01566530391573906,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.6128552556037903,
+      "Head": 0.3038540184497833,
+      "Chest": 0.0832907184958458
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 337,
+    "pointGame": [
+      0.48119521141052246,
+      1.1283512115478516,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.06934327632188797,
+    "blend": 0.9903275910747523,
+    "before": {
+      "LeftForeUpper": 0.4832921624183655,
+      "Head": 0.3795671761035919,
+      "Chest": 0.1371406614780426
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.004674599425277649,
+      "Head": 0.8949661609091525,
+      "Chest": 0.10035923966556982
+    }
+  },
+  {
+    "vertex": 347,
+    "pointGame": [
+      -0.48119521141052246,
+      1.1283512115478516,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.0693434476852417,
+    "blend": 0.9903268431387996,
+    "before": {
+      "RightForeUpper": 0.47352612018585205,
+      "Head": 0.38119855523109436,
+      "Chest": 0.14527533948421478
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.004580492438433383,
+      "Head": 0.894981552244933,
+      "Chest": 0.10043795546077491
+    }
+  },
+  {
+    "vertex": 348,
+    "pointGame": [
+      -0.4981699287891388,
+      1.0299999713897705,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.015766050666570663,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.5836523771286011,
+      "Head": 0.3239424526691437,
+      "Chest": 0.09240518510341644
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 349,
+    "pointGame": [
+      -0.48119521141052246,
+      0.9316487908363342,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.002173755317926407,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.6514877080917358,
+      "Head": 0.29499492049217224,
+      "Chest": 0.05351734906435013
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 350,
+    "pointGame": [
+      -0.43142783641815186,
+      0.8399999737739563,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.03863253444433212,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.7161190509796143,
+      "Head": 0.2325211465358734,
+      "Chest": 0.05135980620980263
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 351,
+    "pointGame": [
+      -0.3522593677043915,
+      0.7612994313240051,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.07856232672929764,
+    "blend": 0.9137267211775638,
+    "before": {
+      "RightForeUpper": 0.5651257038116455,
+      "Head": 0.29263657331466675,
+      "Chest": 0.11818691343069077,
+      "Spine": 0.02405082806944847
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.04875524741466758,
+      "Head": 0.847600765743026,
+      "Chest": 0.1015690446533255,
+      "Spine": 0.0020749437959460023
+    }
+  },
+  {
+    "vertex": 352,
+    "pointGame": [
+      -0.2490849643945694,
+      0.7009103298187256,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.11460798233747482,
+    "blend": 0.2662554970516326,
+    "before": {
+      "Head": 0.33435359597206116,
+      "RightForeUpper": 0.3179960548877716,
+      "Chest": 0.27974918484687805,
+      "Spine": 0.06790114939212799
+    },
+    "afterUnnormalized": {
+      "Head": 0.4849600604319886,
+      "RightForeUpper": 0.2333278572331697,
+      "Chest": 0.23188997629084673,
+      "Spine": 0.04982209511034979
+    }
+  },
+  {
+    "vertex": 356,
+    "pointGame": [
+      0.2490849643945694,
+      0.7009103298187256,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.11461395770311356,
+    "blend": 0.26614845466795567,
+    "before": {
+      "Head": 0.33052149415016174,
+      "LeftForeUpper": 0.325415700674057,
+      "Chest": 0.2776443362236023,
+      "Spine": 0.06641845405101776
+    },
+    "afterUnnormalized": {
+      "Head": 0.48208731844871255,
+      "LeftForeUpper": 0.2388068148149667,
+      "Chest": 0.2303645706571758,
+      "Spine": 0.048741285143904765
+    }
+  },
+  {
+    "vertex": 357,
+    "pointGame": [
+      0.3522593677043915,
+      0.7612994313240051,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.07857340574264526,
+    "blend": 0.9135953876244207,
+    "before": {
+      "LeftForeUpper": 0.5842888951301575,
+      "Head": 0.28212490677833557,
+      "Chest": 0.11473073810338974,
+      "Spine": 0.01885547861456871
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.05048525549907675,
+      "Head": 0.8466127420736572,
+      "Chest": 0.10127280371582957,
+      "Spine": 0.0016292003208478341
+    }
+  },
+  {
+    "vertex": 358,
+    "pointGame": [
+      0.43142783641815186,
+      0.8399999737739563,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.03864402696490288,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.7479075789451599,
+      "Head": 0.21394547820091248,
+      "Chest": 0.03814692422747612
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 359,
+    "pointGame": [
+      0.48119521141052246,
+      0.9316487908363342,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.002407529391348362,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.6859321594238281,
+      "Head": 0.26688259840011597,
+      "Chest": 0.047185249626636505
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 360,
+    "pointGame": [
+      0.48366013169288635,
+      1.059999942779541,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.019496751949191093,
+    "blend": 1,
+    "before": {
+      "Head": 0.6532723307609558,
+      "LeftForeUpper": 0.2788270115852356,
+      "Chest": 0.06790066510438919
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 361,
+    "pointGame": [
+      0.4671798050403595,
+      1.155763030052185,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.05579926073551178,
+    "blend": 1,
+    "before": {
+      "Head": 0.6923443675041199,
+      "LeftForeUpper": 0.21778549253940582,
+      "Chest": 0.0898701399564743
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 371,
+    "pointGame": [
+      -0.4671798050403595,
+      1.155763030052185,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.05579926073551178,
+    "blend": 1,
+    "before": {
+      "Head": 0.696490466594696,
+      "RightForeUpper": 0.209573894739151,
+      "Chest": 0.09393566101789474
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 372,
+    "pointGame": [
+      -0.48366013169288635,
+      1.059999942779541,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.01949482224881649,
+    "blend": 1,
+    "before": {
+      "Head": 0.6616529226303101,
+      "RightForeUpper": 0.26596036553382874,
+      "Chest": 0.07238674908876419
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 373,
+    "pointGame": [
+      -0.4671798050403595,
+      0.9642369747161865,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.019328648224473,
+    "blend": 1,
+    "before": {
+      "Head": 0.6421903371810913,
+      "RightForeUpper": 0.2989490330219269,
+      "Chest": 0.058860618621110916
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 374,
+    "pointGame": [
+      -0.4188619554042816,
+      0.875,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.017365146428346634,
+    "blend": 1,
+    "before": {
+      "Head": 0.6432091593742371,
+      "RightForeUpper": 0.2989097237586975,
+      "Chest": 0.05788113921880722
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 375,
+    "pointGame": [
+      -0.341999351978302,
+      0.7983704805374146,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.014679624699056149,
+    "blend": 1,
+    "before": {
+      "Head": 0.6732642650604248,
+      "RightForeUpper": 0.25156912207603455,
+      "Chest": 0.07516661286354065
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 376,
+    "pointGame": [
+      -0.24183006584644318,
+      0.7395706176757812,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.015187837183475494,
+    "blend": 1,
+    "before": {
+      "Head": 0.7235854864120483,
+      "RightForeUpper": 0.16709494590759277,
+      "Chest": 0.1093195453286171
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 377,
+    "pointGame": [
+      -0.1251804530620575,
+      0.7026074528694153,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.13296830654144287,
+    "blend": 0.024722252498847543,
+    "before": {
+      "Head": 0.758863627910614,
+      "Chest": 0.1417868584394455,
+      "RightForeUpper": 0.09104655683040619,
+      "Spine": 0.008302964270114899
+    },
+    "afterUnnormalized": {
+      "Head": 0.7623528369381791,
+      "Chest": 0.1407537931739719,
+      "RightForeUpper": 0.08879568086329422,
+      "Spine": 0.00809769629094021
+    }
+  },
+  {
+    "vertex": 379,
+    "pointGame": [
+      0.1251804530620575,
+      0.7026074528694153,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.13281823694705963,
+    "blend": 0.025752057334160722,
+    "before": {
+      "Head": 0.75723797082901,
+      "Chest": 0.1418263465166092,
+      "LeftForeUpper": 0.0931963250041008,
+      "Spine": 0.0077393618412315845
+    },
+    "afterUnnormalized": {
+      "Head": 0.7609143867893625,
+      "Chest": 0.140749232043035,
+      "LeftForeUpper": 0.09079632789926212,
+      "Spine": 0.007540057351366373
+    }
+  },
+  {
+    "vertex": 380,
+    "pointGame": [
+      0.24183006584644318,
+      0.7395706176757812,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.015021431259810925,
+    "blend": 1,
+    "before": {
+      "Head": 0.7197252511978149,
+      "LeftForeUpper": 0.17167699337005615,
+      "Chest": 0.1085977777838707
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 381,
+    "pointGame": [
+      0.341999351978302,
+      0.7983704805374146,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.01476831454783678,
+    "blend": 1,
+    "before": {
+      "Head": 0.6661015152931213,
+      "LeftForeUpper": 0.2611222565174103,
+      "Chest": 0.07277625054121017
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 382,
+    "pointGame": [
+      0.4188619554042816,
+      0.875,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.017398584634065628,
+    "blend": 1,
+    "before": {
+      "Head": 0.6331050992012024,
+      "LeftForeUpper": 0.3126017153263092,
+      "Chest": 0.05429321527481079
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 383,
+    "pointGame": [
+      0.4671798050403595,
+      0.9642369747161865,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.01936284452676773,
+    "blend": 1,
+    "before": {
+      "Head": 0.6323927044868469,
+      "LeftForeUpper": 0.312824547290802,
+      "Chest": 0.054782766848802567
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 384,
+    "pointGame": [
+      0.4449673295021057,
+      1.0449999570846558,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.023033471778035164,
+    "blend": 1,
+    "before": {
+      "Head": 0.8213932514190674,
+      "LeftForeUpper": 0.1410703808069229,
+      "Chest": 0.03753635287284851
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 385,
+    "pointGame": [
+      0.4298054575920105,
+      1.1278220415115356,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.08167757093906403,
+    "blend": 0.8736489153026528,
+    "before": {
+      "Head": 0.8289591073989868,
+      "LeftForeUpper": 0.11966913193464279,
+      "Chest": 0.051371775567531586
+    },
+    "afterUnnormalized": {
+      "Head": 0.8910239061619942,
+      "LeftForeUpper": 0.015120324624732073,
+      "Chest": 0.09385577109605157
+    }
+  },
+  {
+    "vertex": 395,
+    "pointGame": [
+      -0.4298054575920105,
+      1.1278220415115356,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.08169392496347427,
+    "blend": 0.8734226007503292,
+    "before": {
+      "Head": 0.8316903710365295,
+      "RightForeUpper": 0.11509202420711517,
+      "Chest": 0.05321761220693588
+    },
+    "afterUnnormalized": {
+      "Head": 0.891353544822094,
+      "RightForeUpper": 0.014568049098516797,
+      "Chest": 0.09407840702246441
+    }
+  },
+  {
+    "vertex": 396,
+    "pointGame": [
+      -0.4449673295021057,
+      1.0449999570846558,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.022545482963323593,
+    "blend": 1,
+    "before": {
+      "Head": 0.8239458799362183,
+      "RightForeUpper": 0.13494369387626648,
+      "Chest": 0.04111040011048317
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 397,
+    "pointGame": [
+      -0.4298054575920105,
+      0.9621779322624207,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.021251894533634186,
+    "blend": 1,
+    "before": {
+      "Head": 0.824776828289032,
+      "RightForeUpper": 0.14377661049365997,
+      "Chest": 0.031446583569049835
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 398,
+    "pointGame": [
+      -0.3853530287742615,
+      0.8849999904632568,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.020835377275943756,
+    "blend": 1,
+    "before": {
+      "Head": 0.834677517414093,
+      "RightForeUpper": 0.1364634782075882,
+      "Chest": 0.028858985751867294
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 399,
+    "pointGame": [
+      -0.3146394193172455,
+      0.8187258243560791,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.016488123685121536,
+    "blend": 1,
+    "before": {
+      "Head": 0.8532539010047913,
+      "RightForeUpper": 0.11224967986345291,
+      "Chest": 0.03449639678001404
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 400,
+    "pointGame": [
+      -0.22248366475105286,
+      0.7678718566894531,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.04812527075409889,
+    "blend": 1,
+    "before": {
+      "Head": 0.8750501871109009,
+      "RightForeUpper": 0.07822684943675995,
+      "Chest": 0.04672297090291977
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 404,
+    "pointGame": [
+      0.22248366475105286,
+      0.7678718566894531,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.04800841957330704,
+    "blend": 1,
+    "before": {
+      "Head": 0.8738155364990234,
+      "LeftForeUpper": 0.08051401376724243,
+      "Chest": 0.04567047581076622
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 405,
+    "pointGame": [
+      0.3146394193172455,
+      0.8187258243560791,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.016034813597798347,
+    "blend": 1,
+    "before": {
+      "Head": 0.8510156869888306,
+      "LeftForeUpper": 0.11682623624801636,
+      "Chest": 0.03215808421373367
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 406,
+    "pointGame": [
+      0.3853530287742615,
+      0.8849999904632568,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.020139072090387344,
+    "blend": 1,
+    "before": {
+      "Head": 0.8313689827919006,
+      "LeftForeUpper": 0.1429787278175354,
+      "Chest": 0.025652268901467323
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 407,
+    "pointGame": [
+      0.4298054575920105,
+      0.9621779322624207,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.02167566493153572,
+    "blend": 1,
+    "before": {
+      "Head": 0.8214350938796997,
+      "LeftForeUpper": 0.1506602168083191,
+      "Chest": 0.027904657647013664
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 408,
+    "pointGame": [
+      0.3482353091239929,
+      1.0355000495910645,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.09435394406318665,
+    "blend": 0.6603584742009768,
+    "before": {
+      "Head": 0.9433413743972778,
+      "LeftForeUpper": 0.056658633053302765
+    },
+    "afterUnnormalized": {
+      "Head": 0.9147205305305182,
+      "LeftForeUpper": 0.019243624579910718,
+      "Chest": 0.06603584742009769
+    }
+  },
+  {
+    "vertex": 409,
+    "pointGame": [
+      0.31341177225112915,
+      1.0983999967575073,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.13855920732021332,
+    "blend": 0.0010929587253187792,
+    "before": {
+      "Head": 0.9594048857688904,
+      "LeftForeUpper": 0.04059508442878723
+    },
+    "afterUnnormalized": {
+      "Head": 0.9593399586806628,
+      "LeftForeUpper": 0.04055071567705574,
+      "Chest": 0.00010929587253187793
+    }
+  },
+  {
+    "vertex": 419,
+    "pointGame": [
+      -0.31341177225112915,
+      1.0983999967575073,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.13956651091575623,
+    "blend": 9.983398068737749e-05,
+    "before": {
+      "Head": 0.9631730318069458,
+      "RightForeUpper": 0.036826957017183304
+    },
+    "afterUnnormalized": {
+      "Head": 0.9631667249917085,
+      "RightForeUpper": 0.036823280435467676,
+      "Chest": 9.98339806873775e-06
+    }
+  },
+  {
+    "vertex": 420,
+    "pointGame": [
+      -0.3482353091239929,
+      1.0355000495910645,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.0951211079955101,
+    "blend": 0.6456731704115906,
+    "before": {
+      "Head": 0.9459795355796814,
+      "RightForeUpper": 0.054020460695028305
+    },
+    "afterUnnormalized": {
+      "Head": 0.916291783067896,
+      "RightForeUpper": 0.019140898570974663,
+      "Chest": 0.06456731704115906
+    }
+  },
+  {
+    "vertex": 421,
+    "pointGame": [
+      -0.2994823455810547,
+      0.9589999914169312,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.10179301351308823,
+    "blend": 0.5141380544885534,
+    "before": {
+      "Head": 0.9547420144081116,
+      "RightForeUpper": 0.04525797441601753
+    },
+    "afterUnnormalized": {
+      "Head": 0.9265970616215408,
+      "RightForeUpper": 0.021989127499673553,
+      "Chest": 0.05141380544885535
+    }
+  },
+  {
+    "vertex": 422,
+    "pointGame": [
+      -0.25072941184043884,
+      0.8824999928474426,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.1304398775100708,
+    "blend": 0.044602249845136915,
+    "before": {
+      "Head": 0.9690311551094055,
+      "RightForeUpper": 0.030968865379691124
+    },
+    "afterUnnormalized": {
+      "Head": 0.9659522102821174,
+      "RightForeUpper": 0.029587584308605728,
+      "Chest": 0.0044602249845136915
+    }
+  },
+  {
+    "vertex": 430,
+    "pointGame": [
+      0.25072941184043884,
+      0.8824999928474426,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.13097256422042847,
+    "blend": 0.03997608247123456,
+    "before": {
+      "Head": 0.9667661786079407,
+      "LeftForeUpper": 0.03323384001851082
+    },
+    "afterUnnormalized": {
+      "Head": 0.9640971283456206,
+      "LeftForeUpper": 0.03190528128909501,
+      "Chest": 0.003997608247123456
+    }
+  },
+  {
+    "vertex": 431,
+    "pointGame": [
+      0.2994823455810547,
+      0.9589999914169312,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.10161030292510986,
+    "blend": 0.5177906028339617,
+    "before": {
+      "Head": 0.9513054490089417,
+      "LeftForeUpper": 0.04869452118873596
+    },
+    "afterUnnormalized": {
+      "Head": 0.9247399696379346,
+      "LeftForeUpper": 0.023480955707709247,
+      "Chest": 0.051779060283396176
+    }
+  },
+  {
+    "vertex": 699,
+    "pointGame": [
+      0.5707189440727234,
+      0.9300000071525574,
+      0.3579762279987335
+    ],
+    "rootSurfaceDistance": 0.11931367963552475,
+    "blend": 0.1862602111651831,
+    "before": {
+      "LeftForeUpper": 0.9927994012832642,
+      "Head": 0.007200582884252071
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.807880375155576,
+      "Head": 0.17349359084438365,
+      "Chest": 0.018626021116518312
+    }
+  },
+  {
+    "vertex": 700,
+    "pointGame": [
+      0.549983561038971,
+      0.9300000071525574,
+      0.4524421691894531
+    ],
+    "rootSurfaceDistance": 0.044111207127571106,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9507285356521606,
+      "Head": 0.04927149415016174
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 701,
+    "pointGame": [
+      0.4933333396911621,
+      0.9300000071525574,
+      0.5215960144996643
+    ],
+    "rootSurfaceDistance": 0.002428618725389242,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9051998853683472,
+      "Head": 0.09480009973049164
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 702,
+    "pointGame": [
+      0.41594773530960083,
+      0.9300000071525574,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.061282649636268616,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.884314239025116,
+      "Head": 0.11568578332662582
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 703,
+    "pointGame": [
+      0.33856210112571716,
+      0.9300000071525574,
+      0.5215960144996643
+    ],
+    "rootSurfaceDistance": 0.1288851797580719,
+    "blend": 0.059378000309999276,
+    "before": {
+      "LeftForeUpper": 0.9335805177688599,
+      "Head": 0.06641945987939835
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.8781463734953712,
+      "Head": 0.1159158054490888,
+      "Chest": 0.005937800030999928
+    }
+  },
+  {
+    "vertex": 711,
+    "pointGame": [
+      0.6916339993476868,
+      0.7900000214576721,
+      0.3530043065547943
+    ],
+    "rootSurfaceDistance": 0.11126483976840973,
+    "blend": 0.32789531683715645,
+    "before": {
+      "LeftForeUpper": 0.9689571857452393,
+      "LeftForeLower": 0.031042831018567085
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.6512406623236646,
+      "LeftForeLower": 0.020864032106211725,
+      "Head": 0.2951057851534408,
+      "Chest": 0.03278953168371564
+    }
+  },
+  {
+    "vertex": 712,
+    "pointGame": [
+      0.6624748110771179,
+      0.7900000214576721,
+      0.47730159759521484
+    ],
+    "rootSurfaceDistance": 0.03078293800354004,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9681939482688904,
+      "LeftForeLower": 0.031806036829948425
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 713,
+    "pointGame": [
+      0.5828104615211487,
+      0.7900000214576721,
+      0.5682935118675232
+    ],
+    "rootSurfaceDistance": 0.02048882097005844,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9683203101158142,
+      "LeftForeLower": 0.03167969733476639
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 714,
+    "pointGame": [
+      0.473986953496933,
+      0.7900000214576721,
+      0.6015989184379578
+    ],
+    "rootSurfaceDistance": 0.011541862040758133,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9781283140182495,
+      "LeftForeLower": 0.015793191269040108,
+      "Head": 0.006078491918742657
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 715,
+    "pointGame": [
+      0.3651634156703949,
+      0.7900000214576721,
+      0.5682935118675232
+    ],
+    "rootSurfaceDistance": 0.06703521311283112,
+    "blend": 0.9978308486833771,
+    "before": {
+      "LeftForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.002169151316622875,
+      "Head": 0.8980477638150395,
+      "Chest": 0.09978308486833772
+    }
+  },
+  {
+    "vertex": 811,
+    "pointGame": [
+      -0.33856210112571716,
+      0.9300000071525574,
+      0.5215960144996643
+    ],
+    "rootSurfaceDistance": 0.12887705862522125,
+    "blend": 0.05946003880090114,
+    "before": {
+      "RightForeUpper": 0.9330675601959229,
+      "Head": 0.06693243980407715
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.8775873268628112,
+      "Head": 0.11646666925709877,
+      "Chest": 0.005946003880090114
+    }
+  },
+  {
+    "vertex": 812,
+    "pointGame": [
+      -0.41594773530960083,
+      0.9300000071525574,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.06094887852668762,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.8826513886451721,
+      "Head": 0.11734858900308609
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 813,
+    "pointGame": [
+      -0.4933333396911621,
+      0.9300000071525574,
+      0.5215960144996643
+    ],
+    "rootSurfaceDistance": 0.0022235100623220205,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.8947627544403076,
+      "Head": 0.10127272456884384,
+      "Chest": 0.0039645032957196236
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 814,
+    "pointGame": [
+      -0.549983561038971,
+      0.9300000071525574,
+      0.4524421691894531
+    ],
+    "rootSurfaceDistance": 0.04413700848817825,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9405249953269958,
+      "Head": 0.05947498977184296
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 815,
+    "pointGame": [
+      -0.5707189440727234,
+      0.9300000071525574,
+      0.3579762279987335
+    ],
+    "rootSurfaceDistance": 0.11995907872915268,
+    "blend": 0.17604801440790696,
+    "before": {
+      "RightForeUpper": 0.9969440698623657,
+      "Head": 0.00305590289644897
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.8214340458873586,
+      "Head": 0.16096113022642203,
+      "Chest": 0.017604801440790695
+    }
+  },
+  {
+    "vertex": 823,
+    "pointGame": [
+      -0.3651634156703949,
+      0.7900000214576721,
+      0.5682935118675232
+    ],
+    "rootSurfaceDistance": 0.06702437996864319,
+    "blend": 0.9978536689135387,
+    "before": {
+      "RightForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0021463310864613394,
+      "Head": 0.8980683020221848,
+      "Chest": 0.09978536689135387
+    }
+  },
+  {
+    "vertex": 824,
+    "pointGame": [
+      -0.473986953496933,
+      0.7900000214576721,
+      0.6015989184379578
+    ],
+    "rootSurfaceDistance": 0.011530508287250996,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9760913848876953,
+      "RightForeLower": 0.012892665341496468,
+      "Head": 0.011015930213034153
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "RightForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 825,
+    "pointGame": [
+      -0.5828104615211487,
+      0.7900000214576721,
+      0.5682935118675232
+    ],
+    "rootSurfaceDistance": 0.02051902748644352,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9732011556625366,
+      "RightForeLower": 0.026798831298947334
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "RightForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 826,
+    "pointGame": [
+      -0.6624748110771179,
+      0.7900000214576721,
+      0.47730159759521484
+    ],
+    "rootSurfaceDistance": 0.030846111476421356,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9746090769767761,
+      "RightForeLower": 0.02539089508354664
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "RightForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 827,
+    "pointGame": [
+      -0.6916339993476868,
+      0.7900000214576721,
+      0.3530043065547943
+    ],
+    "rootSurfaceDistance": 0.11129756271839142,
+    "blend": 0.32727674410350693,
+    "before": {
+      "RightForeUpper": 0.9749733805656433,
+      "RightForeLower": 0.025026623159646988
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.6558872669865302,
+      "RightForeLower": 0.016835991416052302,
+      "Head": 0.29454906969315625,
+      "Chest": 0.032727674410350696
+    }
+  },
+  {
+    "vertex": 1543,
+    "pointGame": [
+      -0.4377107322216034,
+      0.8049999475479126,
+      0.4623859226703644
+    ],
+    "rootSurfaceDistance": 0.10997097939252853,
+    "blend": 0.3525572853817874,
+    "before": {
+      "RightForeUpper": 0.8775261044502258,
+      "Head": 0.10192668437957764,
+      "Chest": 0.020547231659293175
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.5681478832135994,
+      "Head": 0.3832932460703562,
+      "Chest": 0.048558883981560795
+    }
+  },
+  {
+    "vertex": 1545,
+    "pointGame": [
+      -0.3918435871601105,
+      0.8006497025489807,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.08145889639854431,
+    "blend": 0.8766597653124231,
+    "before": {
+      "RightForeUpper": 0.6704159379005432,
+      "Head": 0.25528961420059204,
+      "Chest": 0.07429447025060654
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.08268925911894501,
+      "Head": 0.8204812697099828,
+      "Chest": 0.09682947392794132
+    }
+  },
+  {
+    "vertex": 1547,
+    "pointGame": [
+      -0.30067217350006104,
+      0.731104850769043,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.09372670948505402,
+    "blend": 0.6722644560255081,
+    "before": {
+      "RightForeUpper": 0.43799889087677,
+      "Head": 0.323930561542511,
+      "Chest": 0.18410351872444153,
+      "Spine": 0.05396702513098717
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.14354780476172233,
+      "Head": 0.7112015692200548,
+      "Chest": 0.1275637124593237,
+      "Spine": 0.017686912337989153
+    }
+  },
+  {
+    "vertex": 1549,
+    "pointGame": [
+      -0.1890104115009308,
+      0.6819292306900024,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.13838855922222137,
+    "blend": 0.0013650911304667935,
+    "before": {
+      "Chest": 0.3571406304836273,
+      "Head": 0.34627658128738403,
+      "RightForeUpper": 0.21843604743480682,
+      "Spine": 0.07814672589302063
+    },
+    "afterUnnormalized": {
+      "Chest": 0.35678961008967147,
+      "Head": 0.34703246421500034,
+      "RightForeUpper": 0.21813786232387936,
+      "Spine": 0.07804004849062905
+    }
+  },
+  {
+    "vertex": 1555,
+    "pointGame": [
+      0.1890104115009308,
+      0.6819292306900024,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.13839682936668396,
+    "blend": 0.0013512161668600919,
+    "before": {
+      "Chest": 0.3562037944793701,
+      "Head": 0.34364765882492065,
+      "LeftForeUpper": 0.22347554564476013,
+      "Spine": 0.0766729936003685
+    },
+    "afterUnnormalized": {
+      "Chest": 0.3558576077702587,
+      "Head": 0.3443994111027869,
+      "LeftForeUpper": 0.22317358187458705,
+      "Spine": 0.07656939181185413
+    }
+  },
+  {
+    "vertex": 1557,
+    "pointGame": [
+      0.30067217350006104,
+      0.731104850769043,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.09373514354228973,
+    "blend": 0.6721049987143327,
+    "before": {
+      "LeftForeUpper": 0.44852232933044434,
+      "Head": 0.3169260323047638,
+      "Chest": 0.18256790935993195,
+      "Spine": 0.051983755081892014
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.14706822975245654,
+      "Head": 0.7088129606129314,
+      "Chest": 0.12707360474572976,
+      "Spine": 0.017045213439410796
+    }
+  },
+  {
+    "vertex": 1558,
+    "pointGame": [
+      0.4377107322216034,
+      0.8049999475479126,
+      0.4623859226703644
+    ],
+    "rootSurfaceDistance": 0.1099904328584671,
+    "blend": 0.3521836988765015,
+    "before": {
+      "LeftForeUpper": 0.9329232573509216,
+      "Head": 0.06707677245140076
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.6043628938091598,
+      "Head": 0.3604187556096204,
+      "Chest": 0.035218369887650154
+    }
+  },
+  {
+    "vertex": 1559,
+    "pointGame": [
+      0.3918435871601105,
+      0.8006497025489807,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.08147086948156357,
+    "blend": 0.8764956501952237,
+    "before": {
+      "LeftForeUpper": 0.691382646560669,
+      "Head": 0.24000751972198486,
+      "Chest": 0.06860984861850739
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.08538876422978088,
+      "Head": 0.8184880578472221,
+      "Chest": 0.09612317976335526
+    }
+  },
+  {
+    "vertex": 1560,
+    "pointGame": [
+      0.4909150302410126,
+      1.0449999570846558,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.01818971522152424,
+    "blend": 1,
+    "before": {
+      "Head": 0.4843501150608063,
+      "LeftForeUpper": 0.4366651177406311,
+      "Chest": 0.07898478209972382
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1561,
+    "pointGame": [
+      0.48968255519866943,
+      1.079175591468811,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.02276342734694481,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.5657703876495361,
+      "Head": 0.33055540919303894,
+      "Chest": 0.10367419570684433
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1562,
+    "pointGame": [
+      0.4741875231266022,
+      1.142057180404663,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.0617203414440155,
+    "blend": 1,
+    "before": {
+      "Head": 0.5600987672805786,
+      "LeftForeUpper": 0.3254489302635193,
+      "Chest": 0.1144523099064827
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1563,
+    "pointGame": [
+      0.4754199683666229,
+      1.1078815460205078,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.012930885888636112,
+    "blend": 1,
+    "before": {
+      "Head": 0.6733532547950745,
+      "LeftForeUpper": 0.2488294541835785,
+      "Chest": 0.07781731337308884
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1564,
+    "pointGame": [
+      0.45631152391433716,
+      1.1741756200790405,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.11598560959100723,
+    "blend": 0.24191454798572207,
+    "before": {
+      "Head": 0.42505696415901184,
+      "LeftForeUpper": 0.3911522626876831,
+      "Chest": 0.18379075825214386
+    },
+    "afterUnnormalized": {
+      "Head": 0.5399525939934511,
+      "LeftForeUpper": 0.2965268398659998,
+      "Chest": 0.16352055484419556
+    }
+  },
+  {
+    "vertex": 1566,
+    "pointGame": [
+      0.44302088022232056,
+      1.2003815174102783,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.10279575735330582,
+    "blend": 0.49408497557973435,
+    "before": {
+      "Head": 0.71303790807724,
+      "LeftForeUpper": 0.18401999771595,
+      "Chest": 0.10294209420681
+    },
+    "afterUnnormalized": {
+      "Head": 0.8054130686992329,
+      "LeftForeUpper": 0.09309848163828209,
+      "Chest": 0.10148844966248502
+    }
+  },
+  {
+    "vertex": 1583,
+    "pointGame": [
+      -0.45631152391433716,
+      1.1741756200790405,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.11598613113164902,
+    "blend": 0.24190546617794548,
+    "before": {
+      "Head": 0.42536449432373047,
+      "RightForeUpper": 0.38273942470550537,
+      "Chest": 0.19189608097076416
+    },
+    "afterUnnormalized": {
+      "Head": 0.5401814175889533,
+      "RightForeUpper": 0.2901526657474414,
+      "Chest": 0.16966591666360523
+    }
+  },
+  {
+    "vertex": 1584,
+    "pointGame": [
+      -0.4741875231266022,
+      1.142057180404663,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.06172020360827446,
+    "blend": 1,
+    "before": {
+      "Head": 0.5660788416862488,
+      "RightForeUpper": 0.31302767992019653,
+      "Chest": 0.1208934560418129
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1585,
+    "pointGame": [
+      -0.44302088022232056,
+      1.2003815174102783,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.10279575735330582,
+    "blend": 0.49408497557973435,
+    "before": {
+      "Head": 0.7157745361328125,
+      "RightForeUpper": 0.17790205776691437,
+      "Chest": 0.10632340610027313
+    },
+    "afterUnnormalized": {
+      "Head": 0.806797569948797,
+      "RightForeUpper": 0.090003323899564,
+      "Chest": 0.10319910615163895
+    }
+  },
+  {
+    "vertex": 1586,
+    "pointGame": [
+      -0.48968255519866943,
+      1.079175591468811,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.02278316579759121,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.5291793942451477,
+      "Head": 0.35287177562713623,
+      "Chest": 0.11794885247945786
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1587,
+    "pointGame": [
+      -0.4909150302410126,
+      1.0449999570846558,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.01818634569644928,
+    "blend": 1,
+    "before": {
+      "Head": 0.4956287443637848,
+      "RightForeUpper": 0.4189571738243103,
+      "Chest": 0.0854140967130661
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1588,
+    "pointGame": [
+      -0.4754199683666229,
+      1.1078815460205078,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.012930885888636112,
+    "blend": 1,
+    "before": {
+      "Head": 0.6794532537460327,
+      "RightForeUpper": 0.23824065923690796,
+      "Chest": 0.08230607211589813
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1589,
+    "pointGame": [
+      -0.48968255519866943,
+      0.9808244109153748,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.006351178511977196,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.6346710920333862,
+      "Head": 0.2995123863220215,
+      "Chest": 0.06581653654575348
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1590,
+    "pointGame": [
+      -0.4741875231266022,
+      0.947942852973938,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.017432382330298424,
+    "blend": 1,
+    "before": {
+      "Head": 0.46880555152893066,
+      "RightForeUpper": 0.4661688804626465,
+      "Chest": 0.06502559036016464
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1591,
+    "pointGame": [
+      -0.4754199683666229,
+      1.0121184587478638,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.012726808898150921,
+    "blend": 1,
+    "before": {
+      "Head": 0.6504846811294556,
+      "RightForeUpper": 0.2852526307106018,
+      "Chest": 0.06426271796226501
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1592,
+    "pointGame": [
+      -0.45631152391433716,
+      0.8858243823051453,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.024897925555706024,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.6885362863540649,
+      "Head": 0.26475438475608826,
+      "Chest": 0.0467093251645565
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1593,
+    "pointGame": [
+      -0.42514491081237793,
+      0.8574999570846558,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.0135157136246562,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.4775383174419403,
+      "Head": 0.45644015073776245,
+      "Chest": 0.06602153927087784
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1594,
+    "pointGame": [
+      -0.44302088022232056,
+      0.9196184873580933,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.010937057435512543,
+    "blend": 1,
+    "before": {
+      "Head": 0.6411660313606262,
+      "RightForeUpper": 0.3024881184101105,
+      "Chest": 0.0563458614051342
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1595,
+    "pointGame": [
+      -0.34712934494018555,
+      0.7798349857330322,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.020500345155596733,
+    "blend": 1,
+    "before": {
+      "Head": 0.49600669741630554,
+      "RightForeUpper": 0.3969123363494873,
+      "Chest": 0.10323525965213776,
+      "Spine": 0.003845706582069397
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1,
+      "Spine": 0.0
+    }
+  },
+  {
+    "vertex": 1596,
+    "pointGame": [
+      -0.380430668592453,
+      0.8366852402687073,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.009725225158035755,
+    "blend": 1,
+    "before": {
+      "Head": 0.6558129787445068,
+      "RightForeUpper": 0.28012993931770325,
+      "Chest": 0.06405709683895111
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1597,
+    "pointGame": [
+      -0.2454575151205063,
+      0.7202404737472534,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.032592110335826874,
+    "blend": 1,
+    "before": {
+      "Head": 0.5571465492248535,
+      "RightForeUpper": 0.23772940039634705,
+      "Chest": 0.17366652190685272,
+      "Spine": 0.031457528471946716
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1,
+      "Spine": 0.0
+    }
+  },
+  {
+    "vertex": 1598,
+    "pointGame": [
+      -0.2919147312641144,
+      0.7689705491065979,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.009778538718819618,
+    "blend": 1,
+    "before": {
+      "Head": 0.7001174688339233,
+      "RightForeUpper": 0.20923464000225067,
+      "Chest": 0.0906478613615036
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1599,
+    "pointGame": [
+      -0.12705816328525543,
+      0.6827778220176697,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.13336342573165894,
+    "blend": 0.022104467990958138,
+    "before": {
+      "Head": 0.5883991122245789,
+      "Chest": 0.24104897677898407,
+      "RightForeUpper": 0.12027710676193237,
+      "Spine": 0.0502747967839241
+    },
+    "afterUnnormalized": {
+      "Head": 0.5952868840743648,
+      "Chest": 0.23793116418661564,
+      "RightForeUpper": 0.1176184453054682,
+      "Spine": 0.04916349914766193
+    }
+  },
+  {
+    "vertex": 1600,
+    "pointGame": [
+      -0.18350526690483093,
+      0.7210890054702759,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.07300083339214325,
+    "blend": 0.9682875725936226,
+    "before": {
+      "Head": 0.7442114353179932,
+      "Chest": 0.12680624425411224,
+      "RightForeUpper": 0.12484605610370636,
+      "Spine": 0.004136264324188232
+    },
+    "afterUnnormalized": {
+      "Head": 0.8950595664517782,
+      "Chest": 0.10085009107494616,
+      "RightForeUpper": 0.0039591714911613035,
+      "Spine": 0.00013117098211440784
+    }
+  },
+  {
+    "vertex": 1603,
+    "pointGame": [
+      0.12705816328525543,
+      0.6827778220176697,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.13338132202625275,
+    "blend": 0.02198913084128081,
+    "before": {
+      "Head": 0.5867724418640137,
+      "Chest": 0.2408088743686676,
+      "LeftForeUpper": 0.12325569242238998,
+      "Spine": 0.04916299507021904
+    },
+    "afterUnnormalized": {
+      "Head": 0.5936600436229608,
+      "Chest": 0.2377126096065615,
+      "LeftForeUpper": 0.12054540687478138,
+      "Spine": 0.04808194353907075
+    }
+  },
+  {
+    "vertex": 1605,
+    "pointGame": [
+      0.2454575151205063,
+      0.7202404737472534,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.03259661793708801,
+    "blend": 1,
+    "before": {
+      "Head": 0.5533307790756226,
+      "LeftForeUpper": 0.2442401796579361,
+      "Chest": 0.17289553582668304,
+      "Spine": 0.029533518478274345
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1,
+      "Spine": 0.0
+    }
+  },
+  {
+    "vertex": 1606,
+    "pointGame": [
+      0.18350526690483093,
+      0.7210890054702759,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.07279881089925766,
+    "blend": 0.9698105918158212,
+    "before": {
+      "Head": 0.742213785648346,
+      "LeftForeUpper": 0.1280013769865036,
+      "Chest": 0.12654130160808563,
+      "Spine": 0.00324350968003273
+    },
+    "afterUnnormalized": {
+      "Head": 0.8952365275691017,
+      "LeftForeUpper": 0.0038642858179825093,
+      "Chest": 0.1008012661879859,
+      "Spine": 9.79196376798433e-05
+    }
+  },
+  {
+    "vertex": 1607,
+    "pointGame": [
+      0.34712934494018555,
+      0.7798349857330322,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.020507678389549255,
+    "blend": 1,
+    "before": {
+      "Head": 0.4883863925933838,
+      "LeftForeUpper": 0.4111151397228241,
+      "Chest": 0.10008227825164795,
+      "Spine": 0.0004161814576946199
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1,
+      "Spine": 0.0
+    }
+  },
+  {
+    "vertex": 1608,
+    "pointGame": [
+      0.2919147312641144,
+      0.7689705491065979,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.009914537891745567,
+    "blend": 1,
+    "before": {
+      "Head": 0.6951116919517517,
+      "LeftForeUpper": 0.21592657268047333,
+      "Chest": 0.08896173536777496
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1609,
+    "pointGame": [
+      0.42514491081237793,
+      0.8574999570846558,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.013516124337911606,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.4975394904613495,
+      "Head": 0.44143781065940857,
+      "Chest": 0.06102270260453224
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1610,
+    "pointGame": [
+      0.380430668592453,
+      0.8366852402687073,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.00973839033395052,
+    "blend": 1,
+    "before": {
+      "Head": 0.6470093727111816,
+      "LeftForeUpper": 0.2920771539211273,
+      "Chest": 0.060913462191820145
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1611,
+    "pointGame": [
+      0.45631152391433716,
+      0.8858243823051453,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.024912932887673378,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.7162637710571289,
+      "Head": 0.24667638540267944,
+      "Chest": 0.037059810012578964
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1612,
+    "pointGame": [
+      0.4741875231266022,
+      0.947942852973938,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.017452221363782883,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.4865325391292572,
+      "Head": 0.45360851287841797,
+      "Chest": 0.05985896661877632
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1613,
+    "pointGame": [
+      0.44302088022232056,
+      0.9196184873580933,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.010995103977620602,
+    "blend": 1,
+    "before": {
+      "Head": 0.6312246322631836,
+      "LeftForeUpper": 0.31623685359954834,
+      "Chest": 0.05253850668668747
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1614,
+    "pointGame": [
+      0.48968255519866943,
+      0.9808244109153748,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.006068317219614983,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.6641289591789246,
+      "Head": 0.2766455113887787,
+      "Chest": 0.05922554433345795
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1615,
+    "pointGame": [
+      0.4754199683666229,
+      1.0121184587478638,
+      0.715952455997467
+    ],
+    "rootSurfaceDistance": 0.012730716727674007,
+    "blend": 1,
+    "before": {
+      "Head": 0.6413264274597168,
+      "LeftForeUpper": 0.29875439405441284,
+      "Chest": 0.059919197112321854
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1616,
+    "pointGame": [
+      0.4643137454986572,
+      1.0525000095367432,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.014552989974617958,
+    "blend": 1,
+    "before": {
+      "Head": 0.7470197677612305,
+      "LeftForeUpper": 0.1980343610048294,
+      "Chest": 0.05494585260748863
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1617,
+    "pointGame": [
+      0.4484926164150238,
+      1.1417925357818604,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.06659170240163803,
+    "blend": 0.9986679087128827,
+    "before": {
+      "Head": 0.7693337202072144,
+      "LeftForeUpper": 0.16265200078487396,
+      "Chest": 0.06801427155733109
+    },
+    "afterUnnormalized": {
+      "Head": 0.899825940587168,
+      "LeftForeUpper": 0.0002166673130777284,
+      "Chest": 0.09995739208982943
+    }
+  },
+  {
+    "vertex": 1618,
+    "pointGame": [
+      0.4373863935470581,
+      1.0864109992980957,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.04411507770419121,
+    "blend": 1,
+    "before": {
+      "Head": 0.8256014585494995,
+      "LeftForeUpper": 0.13040730357170105,
+      "Chest": 0.04399123787879944
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1620,
+    "pointGame": [
+      0.407579243183136,
+      1.16641104221344,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.12156780064105988,
+    "blend": 0.1515100751469323,
+    "before": {
+      "Head": 0.8394357562065125,
+      "LeftForeUpper": 0.10532601177692413,
+      "Chest": 0.0552382618188858
+    },
+    "afterUnnormalized": {
+      "Head": 0.8486118493348809,
+      "LeftForeUpper": 0.08936805981767569,
+      "Chest": 0.06202011613441373
+    }
+  },
+  {
+    "vertex": 1637,
+    "pointGame": [
+      -0.4484926164150238,
+      1.1417925357818604,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.06658951938152313,
+    "blend": 0.9986715339862295,
+    "before": {
+      "Head": 0.7729648351669312,
+      "RightForeUpper": 0.15627996623516083,
+      "Chest": 0.07075520604848862
+    },
+    "afterUnnormalized": {
+      "Head": 0.8998312381009655,
+      "RightForeUpper": 0.00020761262377660578,
+      "Chest": 0.0999611492851557
+    }
+  },
+  {
+    "vertex": 1638,
+    "pointGame": [
+      -0.407579243183136,
+      1.16641104221344,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.12160846590995789,
+    "blend": 0.15090749580132348,
+    "before": {
+      "Head": 0.8416420817375183,
+      "RightForeUpper": 0.10144516825675964,
+      "Chest": 0.05691272392868996
+    },
+    "afterUnnormalized": {
+      "Head": 0.8504487290426878,
+      "RightForeUpper": 0.08613633195398814,
+      "Chest": 0.06341491686151164
+    }
+  },
+  {
+    "vertex": 1639,
+    "pointGame": [
+      -0.4643137454986572,
+      1.0525000095367432,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.014582804404199123,
+    "blend": 1,
+    "before": {
+      "Head": 0.752651035785675,
+      "RightForeUpper": 0.18946556746959686,
+      "Chest": 0.0578833743929863
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1640,
+    "pointGame": [
+      -0.4373863935470581,
+      1.0864109992980957,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.044056568294763565,
+    "blend": 1,
+    "before": {
+      "Head": 0.8274790644645691,
+      "RightForeUpper": 0.12493015825748444,
+      "Chest": 0.04759078472852707
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1641,
+    "pointGame": [
+      -0.4484926164150238,
+      0.963207483291626,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.014279495924711227,
+    "blend": 1,
+    "before": {
+      "Head": 0.7443520426750183,
+      "RightForeUpper": 0.2066812366247177,
+      "Chest": 0.04896673560142517
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1642,
+    "pointGame": [
+      -0.4373863935470581,
+      1.0035889148712158,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.02009494975209236,
+    "blend": 1,
+    "before": {
+      "Head": 0.8249478340148926,
+      "RightForeUpper": 0.14002357423305511,
+      "Chest": 0.035028595477342606
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1643,
+    "pointGame": [
+      -0.40210750699043274,
+      0.8799999952316284,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.014615985564887524,
+    "blend": 1,
+    "before": {
+      "Head": 0.7516841292381287,
+      "RightForeUpper": 0.2011212557554245,
+      "Chest": 0.04719459265470505
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1644,
+    "pointGame": [
+      -0.407579243183136,
+      0.9235889911651611,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.019355809316039085,
+    "blend": 1,
+    "before": {
+      "Head": 0.8301341533660889,
+      "RightForeUpper": 0.14112456142902374,
+      "Chest": 0.028741272166371346
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1645,
+    "pointGame": [
+      -0.32831940054893494,
+      0.8085481524467468,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.015457462519407272,
+    "blend": 1,
+    "before": {
+      "Head": 0.7751563787460327,
+      "RightForeUpper": 0.16740378737449646,
+      "Chest": 0.05743986368179321
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1646,
+    "pointGame": [
+      -0.3499962091445923,
+      0.851862907409668,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.014591459184885025,
+    "blend": 1,
+    "before": {
+      "Head": 0.8444783687591553,
+      "RightForeUpper": 0.12520451843738556,
+      "Chest": 0.030317097902297974
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1647,
+    "pointGame": [
+      -0.2321568727493286,
+      0.7537212371826172,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.03162384405732155,
+    "blend": 1,
+    "before": {
+      "Head": 0.8115212321281433,
+      "RightForeUpper": 0.11494477093219757,
+      "Chest": 0.07353399693965912
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1648,
+    "pointGame": [
+      -0.26856154203414917,
+      0.7932988405227661,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.006758332718163729,
+    "blend": 1,
+    "before": {
+      "Head": 0.8651300668716431,
+      "RightForeUpper": 0.09502297639846802,
+      "Chest": 0.03984692692756653
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1650,
+    "pointGame": [
+      -0.16882485151290894,
+      0.7518877983093262,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.10205332189798355,
+    "blend": 0.5089331395369452,
+    "before": {
+      "Head": 0.8873009085655212,
+      "RightForeUpper": 0.06085216626524925,
+      "Chest": 0.05184691771864891
+    },
+    "afterUnnormalized": {
+      "Head": 0.8937638970385373,
+      "RightForeUpper": 0.029882482240251765,
+      "Chest": 0.07635361706247777
+    }
+  },
+  {
+    "vertex": 1655,
+    "pointGame": [
+      0.2321568727493286,
+      0.7537212371826172,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.031276483088731766,
+    "blend": 1,
+    "before": {
+      "Head": 0.8087599277496338,
+      "LeftForeUpper": 0.11841391026973724,
+      "Chest": 0.07282615453004837
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1656,
+    "pointGame": [
+      0.16882485151290894,
+      0.7518877983093262,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.10188864171504974,
+    "blend": 0.5122260824367489,
+    "before": {
+      "Head": 0.8861555457115173,
+      "LeftForeUpper": 0.062334924936294556,
+      "Chest": 0.05150950700044632
+    },
+    "afterUnnormalized": {
+      "Head": 0.8932470362951814,
+      "LeftForeUpper": 0.030405350537187584,
+      "Chest": 0.0763476022650343
+    }
+  },
+  {
+    "vertex": 1657,
+    "pointGame": [
+      0.32831940054893494,
+      0.8085481524467468,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.015607520006597042,
+    "blend": 1,
+    "before": {
+      "Head": 0.7703588008880615,
+      "LeftForeUpper": 0.17381712794303894,
+      "Chest": 0.05582405999302864
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1658,
+    "pointGame": [
+      0.26856154203414917,
+      0.7932988405227661,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.006761135533452034,
+    "blend": 1,
+    "before": {
+      "Head": 0.8635397553443909,
+      "LeftForeUpper": 0.09831402450799942,
+      "Chest": 0.0381462462246418
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1659,
+    "pointGame": [
+      0.40210750699043274,
+      0.8799999952316284,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.014674525707960129,
+    "blend": 1,
+    "before": {
+      "Head": 0.7468871474266052,
+      "LeftForeUpper": 0.2104846090078354,
+      "Chest": 0.042628224939107895
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1660,
+    "pointGame": [
+      0.3499962091445923,
+      0.851862907409668,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.013549182564020157,
+    "blend": 1,
+    "before": {
+      "Head": 0.8416754603385925,
+      "LeftForeUpper": 0.13084813952445984,
+      "Chest": 0.02747643180191517
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1661,
+    "pointGame": [
+      0.4484926164150238,
+      0.963207483291626,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.014320258051156998,
+    "blend": 1,
+    "before": {
+      "Head": 0.7397029995918274,
+      "LeftForeUpper": 0.21668359637260437,
+      "Chest": 0.043613407760858536
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1662,
+    "pointGame": [
+      0.407579243183136,
+      0.9235889911651611,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.019599558785557747,
+    "blend": 1,
+    "before": {
+      "Head": 0.8267868757247925,
+      "LeftForeUpper": 0.14788594841957092,
+      "Chest": 0.025327157229185104
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1663,
+    "pointGame": [
+      0.4373863935470581,
+      1.0035889148712158,
+      0.8551653623580933
+    ],
+    "rootSurfaceDistance": 0.020611990243196487,
+    "blend": 1,
+    "before": {
+      "Head": 0.8219993710517883,
+      "LeftForeUpper": 0.14655546844005585,
+      "Chest": 0.031445134431123734
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1664,
+    "pointGame": [
+      0.3966013491153717,
+      1.0402500629425049,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.031493425369262695,
+    "blend": 1,
+    "before": {
+      "Head": 0.8922388553619385,
+      "LeftForeUpper": 0.09256558120250702,
+      "Chest": 0.015195543877780437
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1665,
+    "pointGame": [
+      0.3716086149215698,
+      1.1131110191345215,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.09881673008203506,
+    "blend": 0.573428508296177,
+    "before": {
+      "Head": 0.900722086429596,
+      "LeftForeUpper": 0.07737613469362259,
+      "Chest": 0.021901795640587807
+    },
+    "afterUnnormalized": {
+      "Head": 0.9003080214854119,
+      "LeftForeUpper": 0.03300645319853452,
+      "Chest": 0.06668553246701553
+    }
+  },
+  {
+    "vertex": 1666,
+    "pointGame": [
+      0.33082354068756104,
+      1.0669500827789307,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.1129530742764473,
+    "blend": 0.29635326328216954,
+    "before": {
+      "Head": 0.9491415619850159,
+      "LeftForeUpper": 0.050858449190855026
+    },
+    "afterUnnormalized": {
+      "Head": 0.9345782997279735,
+      "LeftForeUpper": 0.035786381807674725,
+      "Chest": 0.029635326328216957
+    }
+  },
+  {
+    "vertex": 1685,
+    "pointGame": [
+      -0.3716086149215698,
+      1.1131110191345215,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.09918501228094101,
+    "blend": 0.566127054524576,
+    "before": {
+      "Head": 0.9017670750617981,
+      "RightForeUpper": 0.07401891052722931,
+      "Chest": 0.024214016273617744
+    },
+    "afterUnnormalized": {
+      "Head": 0.9007666860619385,
+      "RightForeUpper": 0.03211480273133085,
+      "Chest": 0.06711851201488199
+    }
+  },
+  {
+    "vertex": 1687,
+    "pointGame": [
+      -0.3966013491153717,
+      1.0402500629425049,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.030895953997969627,
+    "blend": 1,
+    "before": {
+      "Head": 0.8939797878265381,
+      "RightForeUpper": 0.08844592422246933,
+      "Chest": 0.017574304714798927
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1688,
+    "pointGame": [
+      -0.33082354068756104,
+      1.0669500827789307,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.11389096826314926,
+    "blend": 0.2791875704192505,
+    "before": {
+      "Head": 0.9535016417503357,
+      "RightForeUpper": 0.046498361974954605
+    },
+    "afterUnnormalized": {
+      "Head": 0.9385646483766183,
+      "RightForeUpper": 0.033516597266692164,
+      "Chest": 0.027918757041925053
+    }
+  },
+  {
+    "vertex": 1689,
+    "pointGame": [
+      -0.3646439015865326,
+      0.9605889320373535,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.014929194003343582,
+    "blend": 1,
+    "before": {
+      "Head": 0.9035516977310181,
+      "RightForeUpper": 0.0876091867685318,
+      "Chest": 0.008839089423418045
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1690,
+    "pointGame": [
+      -0.3238588273525238,
+      0.9972500801086426,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.09988605976104736,
+    "blend": 0.5521941340754987,
+    "before": {
+      "Head": 0.9486154913902283,
+      "RightForeUpper": 0.05138452351093292
+    },
+    "afterUnnormalized": {
+      "Head": 0.9217703022193463,
+      "RightForeUpper": 0.023010291045931216,
+      "Chest": 0.05521941340754987
+    }
+  },
+  {
+    "vertex": 1691,
+    "pointGame": [
+      -0.31804120540618896,
+      0.8837499618530273,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.03534191846847534,
+    "blend": 1,
+    "before": {
+      "Head": 0.9144022464752197,
+      "RightForeUpper": 0.07919838279485703,
+      "Chest": 0.006399368867278099
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1692,
+    "pointGame": [
+      -0.27510586380958557,
+      0.9207500219345093,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.11005367338657379,
+    "blend": 0.3509697789996081,
+    "before": {
+      "Head": 0.9617279171943665,
+      "RightForeUpper": 0.038272082805633545
+    },
+    "afterUnnormalized": {
+      "Head": 0.9400632837385536,
+      "RightForeUpper": 0.02483973836148564,
+      "Chest": 0.03509697789996081
+    }
+  },
+  {
+    "vertex": 1693,
+    "pointGame": [
+      -0.25830793380737305,
+      0.8123629093170166,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.06933009624481201,
+    "blend": 0.9903850341121101,
+    "before": {
+      "Head": 0.925788938999176,
+      "RightForeUpper": 0.0641191378235817,
+      "Chest": 0.010091925971210003
+    },
+    "afterUnnormalized": {
+      "Head": 0.9002479597687619,
+      "RightForeUpper": 0.0006165033229346493,
+      "Chest": 0.0991355369351673
+    }
+  },
+  {
+    "vertex": 1695,
+    "pointGame": [
+      -0.1785673201084137,
+      0.7784359455108643,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.11345388740301132,
+    "blend": 0.28715315540408637,
+    "before": {
+      "Head": 0.9488760232925415,
+      "RightForeUpper": 0.03788686543703079,
+      "Chest": 0.013237093575298786
+    },
+    "afterUnnormalized": {
+      "Head": 0.9348411189804846,
+      "RightForeUpper": 0.02700753247841738,
+      "Chest": 0.03815133592718122
+    }
+  },
+  {
+    "vertex": 1703,
+    "pointGame": [
+      0.1785673201084137,
+      0.7784359455108643,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.11336967349052429,
+    "blend": 0.28869482538801655,
+    "before": {
+      "Head": 0.9469491243362427,
+      "LeftForeUpper": 0.040486130863428116,
+      "Chest": 0.012564729899168015
+    },
+    "afterUnnormalized": {
+      "Head": 0.9333951550838707,
+      "LeftForeUpper": 0.028797994383174347,
+      "Chest": 0.03780683993368177
+    }
+  },
+  {
+    "vertex": 1705,
+    "pointGame": [
+      0.25830793380737305,
+      0.8123629093170166,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.06957683712244034,
+    "blend": 0.9892825421367198,
+    "before": {
+      "Head": 0.9249442219734192,
+      "LeftForeUpper": 0.06580928713083267,
+      "Chest": 0.00924651324748993
+    },
+    "afterUnnormalized": {
+      "Head": 0.9002673386479324,
+      "LeftForeUpper": 0.0007053082618372041,
+      "Chest": 0.09902735332978423
+    }
+  },
+  {
+    "vertex": 1707,
+    "pointGame": [
+      0.31804120540618896,
+      0.8837499618530273,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.0358581580221653,
+    "blend": 1,
+    "before": {
+      "Head": 0.9128257036209106,
+      "LeftForeUpper": 0.08225290477275848,
+      "Chest": 0.00492140045389533
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1709,
+    "pointGame": [
+      0.3646439015865326,
+      0.9605889320373535,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.014933321624994278,
+    "blend": 1,
+    "before": {
+      "Head": 0.901799201965332,
+      "LeftForeUpper": 0.09152433276176453,
+      "Chest": 0.0066764457151293755
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 1710,
+    "pointGame": [
+      0.27510586380958557,
+      0.9207500219345093,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.11000443994998932,
+    "blend": 0.3519147550633569,
+    "before": {
+      "Head": 0.9588843584060669,
+      "LeftForeUpper": 0.0411156602203846
+    },
+    "afterUnnormalized": {
+      "Head": 0.9381620838405329,
+      "LeftForeUpper": 0.026646452724659746,
+      "Chest": 0.03519147550633569
+    }
+  },
+  {
+    "vertex": 1711,
+    "pointGame": [
+      0.3238588273525238,
+      0.9972500801086426,
+      0.9943783283233643
+    ],
+    "rootSurfaceDistance": 0.0989271029829979,
+    "blend": 0.571241714446182,
+    "before": {
+      "Head": 0.9464572668075562,
+      "LeftForeUpper": 0.05354274809360504
+    },
+    "afterUnnormalized": {
+      "Head": 0.919918938067924,
+      "LeftForeUpper": 0.022956896876454056,
+      "Chest": 0.057124171444618205
+    }
+  },
+  {
+    "vertex": 2245,
+    "pointGame": [
+      0.5073563456535339,
+      1.0499999523162842,
+      0.3679199814796448
+    ],
+    "rootSurfaceDistance": 0.06016388535499573,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.8227636218070984,
+      "Head": 0.08699993789196014,
+      "Chest": 0.07407744228839874,
+      "Spine": 0.016159024089574814
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1,
+      "Spine": 0.0
+    }
+  },
+  {
+    "vertex": 2247,
+    "pointGame": [
+      0.490705668926239,
+      1.0750000476837158,
+      0.49967512488365173
+    ],
+    "rootSurfaceDistance": 0.02935246378183365,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.6764543056488037,
+      "Head": 0.2292107492685318,
+      "Chest": 0.0943349227309227
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2248,
+    "pointGame": [
+      0.5603512525558472,
+      0.9300000071525574,
+      0.4052092134952545
+    ],
+    "rootSurfaceDistance": 0.07882319390773773,
+    "blend": 0.9106122326449893,
+    "before": {
+      "LeftForeUpper": 0.9747698903083801,
+      "Head": 0.02523011714220047
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.08713250417955483,
+      "Head": 0.821806273221937,
+      "Chest": 0.09106122326449893
+    }
+  },
+  {
+    "vertex": 2249,
+    "pointGame": [
+      0.4872642755508423,
+      1.0291756391525269,
+      0.5342521071434021
+    ],
+    "rootSurfaceDistance": 0.002658289857208729,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.6864496469497681,
+      "Head": 0.24232056736946106,
+      "Chest": 0.07122981548309326
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2250,
+    "pointGame": [
+      0.5216584205627441,
+      0.9300000071525574,
+      0.4870190918445587
+    ],
+    "rootSurfaceDistance": 0.009785247035324574,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9267498850822449,
+      "Head": 0.07325011491775513
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2251,
+    "pointGame": [
+      0.4570588171482086,
+      0.9800000786781311,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.022449277341365814,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.749692440032959,
+      "Head": 0.20693936944007874,
+      "Chest": 0.04336821660399437
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2252,
+    "pointGame": [
+      0.45464053750038147,
+      0.9300000071525574,
+      0.5342521071434021
+    ],
+    "rootSurfaceDistance": 0.03185559809207916,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.884703516960144,
+      "Head": 0.11529649794101715
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2253,
+    "pointGame": [
+      0.409878671169281,
+      0.9308243989944458,
+      0.5342521071434021
+    ],
+    "rootSurfaceDistance": 0.07207538932561874,
+    "blend": 0.9749799083929236,
+    "before": {
+      "LeftForeUpper": 0.8527432680130005,
+      "Head": 0.14467808604240417,
+      "Chest": 0.0025786657352000475
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.021335714683002983,
+      "Head": 0.8811017765199487,
+      "Chest": 0.0975625092922111
+    }
+  },
+  {
+    "vertex": 2254,
+    "pointGame": [
+      0.3772549033164978,
+      0.9300000071525574,
+      0.5342521071434021
+    ],
+    "rootSurfaceDistance": 0.09699644893407822,
+    "blend": 0.6092807518436232,
+    "before": {
+      "LeftForeUpper": 0.899948000907898,
+      "Head": 0.10005201399326324
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.3516270062945682,
+      "Head": 0.58744492434324,
+      "Chest": 0.06092807518436232
+    }
+  },
+  {
+    "vertex": 2255,
+    "pointGame": [
+      0.3566698729991913,
+      0.8849999904632568,
+      0.49967512488365173
+    ],
+    "rootSurfaceDistance": 0.11633618921041489,
+    "blend": 0.23583349881141358,
+    "before": {
+      "LeftForeUpper": 0.8909372687339783,
+      "Head": 0.10906275361776352
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.6808244154269596,
+      "Head": 0.29559225177235143,
+      "Chest": 0.023583349881141358
+    }
+  },
+  {
+    "vertex": 2269,
+    "pointGame": [
+      0.6311764717102051,
+      0.8600000143051147,
+      0.3554902672767639
+    ],
+    "rootSurfaceDistance": 0.10948199778795242,
+    "blend": 0.3619736050097448,
+    "before": {
+      "LeftForeUpper": 0.9962933659553528,
+      "LeftForeLower": 0.0037066477816551924
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.6356614646332007,
+      "LeftForeLower": 0.0023649391216280886,
+      "Head": 0.3257762445087703,
+      "Chest": 0.03619736050097448
+    }
+  },
+  {
+    "vertex": 2271,
+    "pointGame": [
+      0.6062291860580444,
+      0.8600000143051147,
+      0.464871883392334
+    ],
+    "rootSurfaceDistance": 0.012721975333988667,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9940173029899597,
+      "Head": 0.005396021995693445,
+      "LeftForeLower": 0.0005866783321835101
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "LeftForeLower": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2272,
+    "pointGame": [
+      0.6770543456077576,
+      0.7900000214576721,
+      0.4151529371738434
+    ],
+    "rootSurfaceDistance": 0.05202570930123329,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9693487286567688,
+      "LeftForeLower": 0.030651262030005455
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2273,
+    "pointGame": [
+      0.538071870803833,
+      0.8600000143051147,
+      0.5449448227882385
+    ],
+    "rootSurfaceDistance": 0.02739873342216015,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9717230200767517,
+      "Head": 0.02827695570886135
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2274,
+    "pointGame": [
+      0.6226426362991333,
+      0.7900000214576721,
+      0.5227975249290466
+    ],
+    "rootSurfaceDistance": 0.01894974894821644,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9705514311790466,
+      "LeftForeLower": 0.029448559507727623
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2275,
+    "pointGame": [
+      0.4449673295021057,
+      0.8600000143051147,
+      0.574253499507904
+    ],
+    "rootSurfaceDistance": 0.0034301590640097857,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9471082091331482,
+      "Head": 0.052891768515110016
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2276,
+    "pointGame": [
+      0.5283986926078796,
+      0.7900000214576721,
+      0.5849461555480957
+    ],
+    "rootSurfaceDistance": 0.00042644646600820124,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9732944965362549,
+      "LeftForeLower": 0.025199085474014282,
+      "Head": 0.00150639982894063
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2277,
+    "pointGame": [
+      0.35186272859573364,
+      0.8600000143051147,
+      0.5449448227882385
+    ],
+    "rootSurfaceDistance": 0.08695706725120544,
+    "blend": 0.793057625914672,
+    "before": {
+      "LeftForeUpper": 0.9774232506752014,
+      "Head": 0.022576751187443733
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.20227028798092486,
+      "Head": 0.7184239498130682,
+      "Chest": 0.07930576259146721
+    }
+  },
+  {
+    "vertex": 2278,
+    "pointGame": [
+      0.41957518458366394,
+      0.7900000214576721,
+      0.5849461555480957
+    ],
+    "rootSurfaceDistance": 0.03926361724734306,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9927082657814026,
+      "Head": 0.004175510723143816,
+      "LeftForeLower": 0.003116197418421507
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "LeftForeLower": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2280,
+    "pointGame": [
+      0.3253312110900879,
+      0.7900000214576721,
+      0.5227975249290466
+    ],
+    "rootSurfaceDistance": 0.11682265996932983,
+    "blend": 0.22747571439622402,
+    "before": {
+      "LeftForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.772524285603776,
+      "Head": 0.20472814295660163,
+      "Chest": 0.022747571439622402
+    }
+  },
+  {
+    "vertex": 2295,
+    "pointGame": [
+      0.6769846081733704,
+      0.7050000429153442,
+      0.45865702629089355
+    ],
+    "rootSurfaceDistance": 0.10422170162200928,
+    "blend": 0.4655901622391935,
+    "before": {
+      "LeftForeUpper": 0.9290979504585266,
+      "LeftForeLower": 0.0709020346403122
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.49651908496843905,
+      "LeftForeLower": 0.037890744829040326,
+      "Head": 0.41903114601527414,
+      "Chest": 0.04655901622391935
+    }
+  },
+  {
+    "vertex": 2297,
+    "pointGame": [
+      0.5973202586174011,
+      0.7050000429153442,
+      0.5487390160560608
+    ],
+    "rootSurfaceDistance": 0.06758823990821838,
+    "blend": 0.9965094052855457,
+    "before": {
+      "LeftForeUpper": 0.9327329993247986,
+      "LeftForeLower": 0.06726699322462082
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.003255792877440288,
+      "LeftForeLower": 0.0002348018110070975,
+      "Head": 0.8968584647569912,
+      "Chest": 0.09965094052855457
+    }
+  },
+  {
+    "vertex": 2299,
+    "pointGame": [
+      0.4884967505931854,
+      0.7050000429153442,
+      0.5817113518714905
+    ],
+    "rootSurfaceDistance": 0.055324867367744446,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9457007050514221,
+      "LeftForeLower": 0.05429929867386818
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2301,
+    "pointGame": [
+      0.37967318296432495,
+      0.7050000429153442,
+      0.5487390160560608
+    ],
+    "rootSurfaceDistance": 0.0817025899887085,
+    "blend": 0.873302625966062,
+    "before": {
+      "LeftForeUpper": 0.9765099287033081,
+      "LeftForeLower": 0.023490091785788536
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.12372124368477715,
+      "LeftForeLower": 0.0029761329450755845,
+      "Head": 0.7859723633694559,
+      "Chest": 0.0873302625966062
+    }
+  },
+  {
+    "vertex": 2467,
+    "pointGame": [
+      -0.3566698729991913,
+      0.8849999904632568,
+      0.49967512488365173
+    ],
+    "rootSurfaceDistance": 0.11632882803678513,
+    "blend": 0.23596069064747982,
+    "before": {
+      "RightForeUpper": 0.9033104777336121,
+      "Head": 0.09668954461812973
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.690164713538484,
+      "Head": 0.2862392344743774,
+      "Chest": 0.023596069064747982
+    }
+  },
+  {
+    "vertex": 2469,
+    "pointGame": [
+      -0.409878671169281,
+      0.9308243989944458,
+      0.5342521071434021
+    ],
+    "rootSurfaceDistance": 0.07168486714363098,
+    "blend": 0.9775828938706245,
+    "before": {
+      "RightForeUpper": 0.8343229293823242,
+      "Head": 0.15465408563613892,
+      "Chest": 0.011023006401956081
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.01870310565413505,
+      "Head": 0.8832915015346089,
+      "Chest": 0.09800539329143988
+    }
+  },
+  {
+    "vertex": 2471,
+    "pointGame": [
+      -0.4570588171482086,
+      0.9800000786781311,
+      0.5469080805778503
+    ],
+    "rootSurfaceDistance": 0.022362301126122475,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.730245053768158,
+      "Head": 0.2182600349187851,
+      "Chest": 0.05149492993950844
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2472,
+    "pointGame": [
+      -0.3772549033164978,
+      0.9300000071525574,
+      0.5342521071434021
+    ],
+    "rootSurfaceDistance": 0.09699007123708725,
+    "blend": 0.6094055552272574,
+    "before": {
+      "RightForeUpper": 0.8952882289886475,
+      "Head": 0.10471174865961075
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.3496946087133928,
+      "Head": 0.5893648270334153,
+      "Chest": 0.06094055552272574
+    }
+  },
+  {
+    "vertex": 2473,
+    "pointGame": [
+      -0.4872642755508423,
+      1.0291756391525269,
+      0.5342521071434021
+    ],
+    "rootSurfaceDistance": 0.0027969530783593655,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.6790696382522583,
+      "Head": 0.2433435171842575,
+      "Chest": 0.07758684456348419
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2474,
+    "pointGame": [
+      -0.45464053750038147,
+      0.9300000071525574,
+      0.5342521071434021
+    ],
+    "rootSurfaceDistance": 0.03158615157008171,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.881440281867981,
+      "Head": 0.11577586829662323,
+      "Chest": 0.002783827017992735
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2475,
+    "pointGame": [
+      -0.490705668926239,
+      1.0750000476837158,
+      0.49967512488365173
+    ],
+    "rootSurfaceDistance": 0.02935381978750229,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.6664345860481262,
+      "Head": 0.2349690943956375,
+      "Chest": 0.09859630465507507
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2476,
+    "pointGame": [
+      -0.5216584205627441,
+      0.9300000071525574,
+      0.4870190918445587
+    ],
+    "rootSurfaceDistance": 0.010090040042996407,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9174754619598389,
+      "Head": 0.08047311007976532,
+      "Chest": 0.00205142330378294
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2477,
+    "pointGame": [
+      -0.5073563456535339,
+      1.0499999523162842,
+      0.3679199814796448
+    ],
+    "rootSurfaceDistance": 0.06018395721912384,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.8194183707237244,
+      "Head": 0.08842998743057251,
+      "Chest": 0.07454271614551544,
+      "Spine": 0.01760890893638134
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1,
+      "Spine": 0.0
+    }
+  },
+  {
+    "vertex": 2478,
+    "pointGame": [
+      -0.5603512525558472,
+      0.9300000071525574,
+      0.4052092134952545
+    ],
+    "rootSurfaceDistance": 0.0796215832233429,
+    "blend": 0.9007976540830116,
+    "before": {
+      "RightForeUpper": 0.9738972187042236,
+      "Head": 0.02610279805958271
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0966128887774893,
+      "Head": 0.8133073474772186,
+      "Chest": 0.09007976540830116
+    }
+  },
+  {
+    "vertex": 2493,
+    "pointGame": [
+      -0.35186272859573364,
+      0.8600000143051147,
+      0.5449448227882385
+    ],
+    "rootSurfaceDistance": 0.08694685995578766,
+    "blend": 0.7932266781151035,
+    "before": {
+      "RightForeUpper": 0.977774441242218,
+      "Head": 0.02222558856010437
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.20217766926980196,
+      "Head": 0.7184996690810129,
+      "Chest": 0.07932266781151036
+    }
+  },
+  {
+    "vertex": 2494,
+    "pointGame": [
+      -0.3253312110900879,
+      0.7900000214576721,
+      0.5227975249290466
+    ],
+    "rootSurfaceDistance": 0.11681202054023743,
+    "blend": 0.22765748521337398,
+    "before": {
+      "RightForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.7723425147866261,
+      "Head": 0.20489173669203659,
+      "Chest": 0.0227657485213374
+    }
+  },
+  {
+    "vertex": 2495,
+    "pointGame": [
+      -0.4449673295021057,
+      0.8600000143051147,
+      0.574253499507904
+    ],
+    "rootSurfaceDistance": 0.003418998559936881,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.94454026222229,
+      "Head": 0.05545974150300026
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2496,
+    "pointGame": [
+      -0.41957518458366394,
+      0.7900000214576721,
+      0.5849461555480957
+    ],
+    "rootSurfaceDistance": 0.039252541959285736,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9916040301322937,
+      "Head": 0.007505377754569054,
+      "RightForeLower": 0.0008905995637178421
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "RightForeLower": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2497,
+    "pointGame": [
+      -0.538071870803833,
+      0.8600000143051147,
+      0.5449448227882385
+    ],
+    "rootSurfaceDistance": 0.027425434440374374,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9649842977523804,
+      "Head": 0.03501572087407112
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2498,
+    "pointGame": [
+      -0.5283986926078796,
+      0.7900000214576721,
+      0.5849461555480957
+    ],
+    "rootSurfaceDistance": 0.0004506156546995044,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9725158214569092,
+      "RightForeLower": 0.021462824195623398,
+      "Head": 0.0060213785618543625
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "RightForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2499,
+    "pointGame": [
+      -0.6062291860580444,
+      0.8600000143051147,
+      0.464871883392334
+    ],
+    "rootSurfaceDistance": 0.012773128226399422,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9912620186805725,
+      "Head": 0.008737972006201744
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2500,
+    "pointGame": [
+      -0.6226426362991333,
+      0.7900000214576721,
+      0.5227975249290466
+    ],
+    "rootSurfaceDistance": 0.019002456218004227,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9757169485092163,
+      "RightForeLower": 0.024283045902848244
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "RightForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2501,
+    "pointGame": [
+      -0.6311764717102051,
+      0.8600000143051147,
+      0.3554902672767639
+    ],
+    "rootSurfaceDistance": 0.10948493331670761,
+    "blend": 0.3619169305191324,
+    "before": {
+      "RightForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.6380830694808677,
+      "Head": 0.32572523746721915,
+      "Chest": 0.03619169305191324
+    }
+  },
+  {
+    "vertex": 2502,
+    "pointGame": [
+      -0.6770543456077576,
+      0.7900000214576721,
+      0.4151529371738434
+    ],
+    "rootSurfaceDistance": 0.05207425728440285,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9758724570274353,
+      "RightForeLower": 0.02412756346166134
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "RightForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2517,
+    "pointGame": [
+      -0.37967318296432495,
+      0.7050000429153442,
+      0.5487390160560608
+    ],
+    "rootSurfaceDistance": 0.08169524371623993,
+    "blend": 0.8734043443416173,
+    "before": {
+      "RightForeUpper": 0.9784806370735168,
+      "RightForeLower": 0.02151935175061226
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.12387139779935388,
+      "RightForeLower": 0.0027242564442121245,
+      "Head": 0.7860639099074556,
+      "Chest": 0.08734043443416173
+    }
+  },
+  {
+    "vertex": 2519,
+    "pointGame": [
+      -0.4884967505931854,
+      0.7050000429153442,
+      0.5817113518714905
+    ],
+    "rootSurfaceDistance": 0.055328480899333954,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9473434090614319,
+      "RightForeLower": 0.052656564861536026
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "RightForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2521,
+    "pointGame": [
+      -0.5973202586174011,
+      0.7050000429153442,
+      0.5487390160560608
+    ],
+    "rootSurfaceDistance": 0.06760315597057343,
+    "blend": 0.996469535845933,
+    "before": {
+      "RightForeUpper": 0.9365468621253967,
+      "RightForeLower": 0.06345315277576447
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0033064451253376347,
+      "RightForeLower": 0.00022401908133737292,
+      "Head": 0.8968225822613397,
+      "Chest": 0.0996469535845933
+    }
+  },
+  {
+    "vertex": 2523,
+    "pointGame": [
+      -0.6769846081733704,
+      0.7050000429153442,
+      0.45865702629089355
+    ],
+    "rootSurfaceDistance": 0.104250967502594,
+    "blend": 0.4650060995189426,
+    "before": {
+      "RightForeUpper": 0.935814619064331,
+      "RightForeLower": 0.06418540328741074
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.5006551131804213,
+      "RightForeLower": 0.03433879925868155,
+      "Head": 0.41850548956704836,
+      "Chest": 0.04650060995189426
+    }
+  },
+  {
+    "vertex": 2745,
+    "pointGame": [
+      -0.6915642023086548,
+      0.7050000429153442,
+      0.3971298336982727
+    ],
+    "rootSurfaceDistance": 0.12380248308181763,
+    "blend": 0.11977897026728146,
+    "before": {
+      "RightForeUpper": 0.9371386766433716,
+      "RightForeLower": 0.06286130100488663
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.8248891709573857,
+      "RightForeLower": 0.05533183910085968,
+      "Head": 0.10780107324055331,
+      "Chest": 0.011977897026728147
+    }
+  },
+  {
+    "vertex": 2746,
+    "pointGame": [
+      -0.6371524333953857,
+      0.7050000429153442,
+      0.5036979913711548
+    ],
+    "rootSurfaceDistance": 0.08564396947622299,
+    "blend": 0.814416100524757,
+    "before": {
+      "RightForeUpper": 0.9354673624038696,
+      "RightForeLower": 0.06453263759613037
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.17360768094673046,
+      "RightForeLower": 0.011976218528512547,
+      "Head": 0.7329744904722814,
+      "Chest": 0.0814416100524757
+    }
+  },
+  {
+    "vertex": 2747,
+    "pointGame": [
+      -0.5429084897041321,
+      0.7050000429153442,
+      0.5652251839637756
+    ],
+    "rootSurfaceDistance": 0.06094004958868027,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.940192461013794,
+      "RightForeLower": 0.05980750918388367
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "RightForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2748,
+    "pointGame": [
+      -0.4340849816799164,
+      0.7050000429153442,
+      0.5652251839637756
+    ],
+    "rootSurfaceDistance": 0.061847247183322906,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9607462882995605,
+      "RightForeLower": 0.03925372287631035
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "RightForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2749,
+    "pointGame": [
+      -0.3398410379886627,
+      0.7050000429153442,
+      0.5036979913711548
+    ],
+    "rootSurfaceDistance": 0.12994073331356049,
+    "blend": 0.04914185298934752,
+    "before": {
+      "RightForeUpper": 0.9873998761177063,
+      "RightForeLower": 0.012600102461874485
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.93887721656383,
+      "RightForeLower": 0.011980910079042334,
+      "Head": 0.04422766769041277,
+      "Chest": 0.0049141852989347526
+    }
+  },
+  {
+    "vertex": 2757,
+    "pointGame": [
+      -0.6187028288841248,
+      0.8600000143051147,
+      0.41018107533454895
+    ],
+    "rootSurfaceDistance": 0.05806699022650719,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2758,
+    "pointGame": [
+      -0.5721505284309387,
+      0.8600000143051147,
+      0.5049083232879639
+    ],
+    "rootSurfaceDistance": 0.01655588485300541,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.978137195110321,
+      "Head": 0.021862788125872612
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2759,
+    "pointGame": [
+      -0.49151962995529175,
+      0.8600000143051147,
+      0.5595991611480713
+    ],
+    "rootSurfaceDistance": 0.012003189884126186,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.948691725730896,
+      "Head": 0.051308274269104004
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2760,
+    "pointGame": [
+      -0.39841505885124207,
+      0.8600000143051147,
+      0.5595991611480713
+    ],
+    "rootSurfaceDistance": 0.041961196810007095,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.9515011310577393,
+      "Head": 0.048498883843421936
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2761,
+    "pointGame": [
+      -0.3177841305732727,
+      0.8600000143051147,
+      0.5049083232879639
+    ],
+    "rootSurfaceDistance": 0.1380249559879303,
+    "blend": 0.0020439022040707974,
+    "before": {
+      "RightForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.9979560977959292,
+      "Head": 0.0018395119836637176,
+      "Chest": 0.00020439022040707975
+    }
+  },
+  {
+    "vertex": 2768,
+    "pointGame": [
+      -0.49592360854148865,
+      1.0366073846817017,
+      0.2995564639568329
+    ],
+    "rootSurfaceDistance": 0.12392628937959671,
+    "blend": 0.11810654113885465,
+    "before": {
+      "RightForeUpper": 0.8162447810173035,
+      "Chest": 0.07208847999572754,
+      "Spine": 0.05614848807454109,
+      "Head": 0.055518247187137604
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.7198409332087079,
+      "Chest": 0.0753850130813601,
+      "Spine": 0.049516984357880815,
+      "Head": 0.15525706606674203
+    }
+  },
+  {
+    "vertex": 2769,
+    "pointGame": [
+      -0.4990309774875641,
+      1.0625,
+      0.43379756808280945
+    ],
+    "rootSurfaceDistance": 0.033652517944574356,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.7670451402664185,
+      "Head": 0.14708185195922852,
+      "Chest": 0.08587298542261124
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2770,
+    "pointGame": [
+      -0.48898497223854065,
+      1.0520877838134766,
+      0.5169636607170105
+    ],
+    "rootSurfaceDistance": 0.00289925211109221,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.6737317442893982,
+      "Head": 0.23948265612125397,
+      "Chest": 0.08678556978702545
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2771,
+    "pointGame": [
+      -0.47216153144836426,
+      1.0045877695083618,
+      0.5405800938606262
+    ],
+    "rootSurfaceDistance": 0.009571537375450134,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.6882928013801575,
+      "Head": 0.24482722580432892,
+      "Chest": 0.0668799877166748
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2772,
+    "pointGame": [
+      -0.4334687292575836,
+      0.9554121494293213,
+      0.5405800938606262
+    ],
+    "rootSurfaceDistance": 0.04805679991841316,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.7975876927375793,
+      "Head": 0.1770152896642685,
+      "Chest": 0.025397052988409996
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2773,
+    "pointGame": [
+      -0.38327425718307495,
+      0.9079121947288513,
+      0.5169636607170105
+    ],
+    "rootSurfaceDistance": 0.09502393007278442,
+    "blend": 0.64754048158501,
+    "before": {
+      "RightForeUpper": 0.866981029510498,
+      "Head": 0.13167375326156616,
+      "Chest": 0.0013452315470203757
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.3055757161362024,
+      "Head": 0.6291961010889748,
+      "Chest": 0.06522818782172045
+    }
+  },
+  {
+    "vertex": 2856,
+    "pointGame": [
+      0.3398410379886627,
+      0.7050000429153442,
+      0.5036979913711548
+    ],
+    "rootSurfaceDistance": 0.12994951009750366,
+    "blend": 0.04906034011332012,
+    "before": {
+      "LeftForeUpper": 0.9866883754730225,
+      "LeftForeLower": 0.01331162266433239
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.9382811081864566,
+      "LeftForeLower": 0.012658549928960061,
+      "Head": 0.04415430610198811,
+      "Chest": 0.004906034011332012
+    }
+  },
+  {
+    "vertex": 2857,
+    "pointGame": [
+      0.4340849816799164,
+      0.7050000429153442,
+      0.5652251839637756
+    ],
+    "rootSurfaceDistance": 0.061851318925619125,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9586658477783203,
+      "LeftForeLower": 0.04133416712284088
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2858,
+    "pointGame": [
+      0.5429084897041321,
+      0.7050000429153442,
+      0.5652251839637756
+    ],
+    "rootSurfaceDistance": 0.060935672372579575,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.937645673751831,
+      "LeftForeLower": 0.062354352325201035
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2859,
+    "pointGame": [
+      0.6371524333953857,
+      0.7050000429153442,
+      0.5036979913711548
+    ],
+    "rootSurfaceDistance": 0.0856207013130188,
+    "blend": 0.8147873096220835,
+    "before": {
+      "LeftForeUpper": 0.9298601150512695,
+      "LeftForeLower": 0.07013988494873047
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.17222189358376463,
+      "LeftForeLower": 0.012990796794151905,
+      "Head": 0.7333085786598751,
+      "Chest": 0.08147873096220835
+    }
+  },
+  {
+    "vertex": 2860,
+    "pointGame": [
+      0.6915642023086548,
+      0.7050000429153442,
+      0.3971298336982727
+    ],
+    "rootSurfaceDistance": 0.12377311289310455,
+    "blend": 0.12017708052177226,
+    "before": {
+      "LeftForeUpper": 0.9308556914329529,
+      "LeftForeLower": 0.06914431601762772
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.818988172049465,
+      "LeftForeLower": 0.0608347539839544,
+      "Head": 0.10815937246959503,
+      "Chest": 0.012017708052177226
+    }
+  },
+  {
+    "vertex": 2868,
+    "pointGame": [
+      0.3177841305732727,
+      0.8600000143051147,
+      0.5049083232879639
+    ],
+    "rootSurfaceDistance": 0.1380343735218048,
+    "blend": 0.002024629437472192,
+    "before": {
+      "LeftForeUpper": 1.0
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.9979753705625278,
+      "Head": 0.001822166493724973,
+      "Chest": 0.00020246294374721922
+    }
+  },
+  {
+    "vertex": 2869,
+    "pointGame": [
+      0.39841505885124207,
+      0.8600000143051147,
+      0.5595991611480713
+    ],
+    "rootSurfaceDistance": 0.04196888953447342,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9560141563415527,
+      "Head": 0.04398586228489876
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2870,
+    "pointGame": [
+      0.49151962995529175,
+      0.8600000143051147,
+      0.5595991611480713
+    ],
+    "rootSurfaceDistance": 0.01198435015976429,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9553356766700745,
+      "Head": 0.04466430842876434
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2871,
+    "pointGame": [
+      0.5721505284309387,
+      0.8600000143051147,
+      0.5049083232879639
+    ],
+    "rootSurfaceDistance": 0.01651862822473049,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.984387218952179,
+      "Head": 0.015612789429724216
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2872,
+    "pointGame": [
+      0.6187028288841248,
+      0.8600000143051147,
+      0.41018107533454895
+    ],
+    "rootSurfaceDistance": 0.05805865675210953,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.9982573986053467,
+      "LeftForeLower": 0.0017426250269636512
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "LeftForeLower": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2880,
+    "pointGame": [
+      0.38327425718307495,
+      0.9079121947288513,
+      0.5169636607170105
+    ],
+    "rootSurfaceDistance": 0.09503249078989029,
+    "blend": 0.6473760643938902,
+    "before": {
+      "LeftForeUpper": 0.8702368140220642,
+      "Head": 0.1297631859779358
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.30686633026978255,
+      "Head": 0.6283960632908285,
+      "Chest": 0.06473760643938901
+    }
+  },
+  {
+    "vertex": 2881,
+    "pointGame": [
+      0.4334687292575836,
+      0.9554121494293213,
+      0.5405800938606262
+    ],
+    "rootSurfaceDistance": 0.04850795120000839,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.8069853782653809,
+      "Head": 0.17244142293930054,
+      "Chest": 0.0205732099711895
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2882,
+    "pointGame": [
+      0.47216153144836426,
+      1.0045877695083618,
+      0.5405800938606262
+    ],
+    "rootSurfaceDistance": 0.009688427671790123,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.7102529406547546,
+      "Head": 0.22916282713413239,
+      "Chest": 0.060584258288145065
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2883,
+    "pointGame": [
+      0.48898497223854065,
+      1.0520877838134766,
+      0.5169636607170105
+    ],
+    "rootSurfaceDistance": 0.0028793076053261757,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.6809584498405457,
+      "Head": 0.23807461559772491,
+      "Chest": 0.08096693456172943
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2884,
+    "pointGame": [
+      0.4990309774875641,
+      1.0625,
+      0.43379756808280945
+    ],
+    "rootSurfaceDistance": 0.03369072824716568,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.7739550471305847,
+      "Head": 0.14271998405456543,
+      "Chest": 0.08332496136426926
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 2885,
+    "pointGame": [
+      0.4999312162399292,
+      1.0308384895324707,
+      0.2995564639568329
+    ],
+    "rootSurfaceDistance": 0.12331666797399521,
+    "blend": 0.1264307912163509,
+    "before": {
+      "LeftForeUpper": 0.8245819211006165,
+      "Chest": 0.06915506720542908,
+      "Spine": 0.0532730408012867,
+      "Head": 0.05298998951911926
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.7203293763931669,
+      "Chest": 0.07305481646366184,
+      "Spine": 0.046537688102279075,
+      "Head": 0.16007813531238668
+    }
+  },
+  {
+    "vertex": 3152,
+    "pointGame": [
+      0.38062262535095215,
+      1.0004194974899292,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.014946824871003628,
+    "blend": 1,
+    "before": {
+      "Head": 0.8977575898170471,
+      "LeftForeUpper": 0.09241525828838348,
+      "Chest": 0.009827147237956524
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3153,
+    "pointGame": [
+      0.341342568397522,
+      0.9221695065498352,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.015710383653640747,
+    "blend": 1,
+    "before": {
+      "Head": 0.9080643057823181,
+      "LeftForeUpper": 0.08726496994495392,
+      "Chest": 0.0046707456931471825
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3154,
+    "pointGame": [
+      0.2881745994091034,
+      0.848056435585022,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.05674636363983154,
+    "blend": 1,
+    "before": {
+      "Head": 0.9196479916572571,
+      "LeftForeUpper": 0.07419439405202866,
+      "Chest": 0.006157591473311186
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3155,
+    "pointGame": [
+      0.21843762695789337,
+      0.7953994274139404,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.08653747290372849,
+    "blend": 0.7999685832419104,
+    "before": {
+      "Head": 0.9339016675949097,
+      "LeftForeUpper": 0.05542875453829765,
+      "Chest": 0.010669583454728127
+    },
+    "afterUnnormalized": {
+      "Head": 0.9067813985994716,
+      "LeftForeUpper": 0.011087492299432065,
+      "Chest": 0.082131110218859
+    }
+  },
+  {
+    "vertex": 3160,
+    "pointGame": [
+      -0.21843762695789337,
+      0.7953994274139404,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.086595319211483,
+    "blend": 0.7990205249465936,
+    "before": {
+      "Head": 0.9346891045570374,
+      "RightForeUpper": 0.0539400540292263,
+      "Chest": 0.011370823718607426
+    },
+    "afterUnnormalized": {
+      "Head": 0.9069717980239461,
+      "RightForeUpper": 0.010840843743146282,
+      "Chest": 0.08218735467654992
+    }
+  },
+  {
+    "vertex": 3161,
+    "pointGame": [
+      -0.2881745994091034,
+      0.848056435585022,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.05598258227109909,
+    "blend": 1,
+    "before": {
+      "Head": 0.9208097457885742,
+      "RightForeUpper": 0.07185813039541245,
+      "Chest": 0.0073321047239005566
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3162,
+    "pointGame": [
+      -0.341342568397522,
+      0.9221695065498352,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.015730373561382294,
+    "blend": 1,
+    "before": {
+      "Head": 0.9097009301185608,
+      "RightForeUpper": 0.0837693139910698,
+      "Chest": 0.006529734469950199
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3163,
+    "pointGame": [
+      -0.38062262535095215,
+      1.0004194974899292,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.014940252527594566,
+    "blend": 1,
+    "before": {
+      "Head": 0.8994826674461365,
+      "RightForeUpper": 0.08837976306676865,
+      "Chest": 0.01213758997619152
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3164,
+    "pointGame": [
+      -0.38410499691963196,
+      1.0766805410385132,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.06293896585702896,
+    "blend": 1,
+    "before": {
+      "Head": 0.8986549973487854,
+      "RightForeUpper": 0.0810781940817833,
+      "Chest": 0.020266784355044365
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3165,
+    "pointGame": [
+      -0.3517896234989166,
+      1.1481304168701172,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.1372106820344925,
+    "blend": 0.00404660830511409,
+    "before": {
+      "Head": 0.9066740274429321,
+      "RightForeUpper": 0.06555304676294327,
+      "Chest": 0.027772923931479454
+    },
+    "afterUnnormalized": {
+      "Head": 0.906647020268053,
+      "RightForeUpper": 0.06528777925948681,
+      "Chest": 0.02806519861735244
+    }
+  },
+  {
+    "vertex": 3174,
+    "pointGame": [
+      0.3517896234989166,
+      1.1481304168701172,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.136699840426445,
+    "blend": 0.005638168996546956,
+    "before": {
+      "Head": 0.9059851765632629,
+      "LeftForeUpper": 0.06832509487867355,
+      "Chest": 0.025689713656902313
+    },
+    "afterUnnormalized": {
+      "Head": 0.905951431126325,
+      "LeftForeUpper": 0.06793986644704249,
+      "Chest": 0.02610868760948649
+    }
+  },
+  {
+    "vertex": 3175,
+    "pointGame": [
+      0.38410499691963196,
+      1.0766805410385132,
+      0.9247718453407288
+    ],
+    "rootSurfaceDistance": 0.06276900321245193,
+    "blend": 1,
+    "before": {
+      "Head": 0.8972846865653992,
+      "LeftForeUpper": 0.08478137105703354,
+      "Chest": 0.017933934926986694
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3176,
+    "pointGame": [
+      0.4564031958580017,
+      1.0078537464141846,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.011820251122117043,
+    "blend": 1,
+    "before": {
+      "Head": 0.741757869720459,
+      "LeftForeUpper": 0.20867158472537994,
+      "Chest": 0.049570538103580475
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3177,
+    "pointGame": [
+      0.42530006170272827,
+      0.9216037392616272,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.009947258047759533,
+    "blend": 1,
+    "before": {
+      "Head": 0.7430872917175293,
+      "LeftForeUpper": 0.21615104377269745,
+      "Chest": 0.04076163470745087
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3178,
+    "pointGame": [
+      0.36521345376968384,
+      0.8442740440368652,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.00932360626757145,
+    "blend": 1,
+    "before": {
+      "Head": 0.7567120790481567,
+      "LeftForeUpper": 0.1942715346813202,
+      "Chest": 0.049016378819942474
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3179,
+    "pointGame": [
+      0.2802381217479706,
+      0.7811347246170044,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.008571632206439972,
+    "blend": 1,
+    "before": {
+      "Head": 0.7904669642448425,
+      "LeftForeUpper": 0.14590875804424286,
+      "Chest": 0.06362426280975342
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3180,
+    "pointGame": [
+      0.17616504430770874,
+      0.736488401889801,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.08747656643390656,
+    "blend": 0.7843935667012014,
+    "before": {
+      "Head": 0.8281761407852173,
+      "LeftForeUpper": 0.09063651412725449,
+      "Chest": 0.08118734508752823
+    },
+    "afterUnnormalized": {
+      "Head": 0.8845143138889456,
+      "LeftForeUpper": 0.01954181553761351,
+      "Chest": 0.09594387057344084
+    }
+  },
+  {
+    "vertex": 3183,
+    "pointGame": [
+      -0.17616504430770874,
+      0.736488401889801,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.08792133629322052,
+    "blend": 0.7768840330243757,
+    "before": {
+      "Head": 0.8301472067832947,
+      "RightForeUpper": 0.0882280096411705,
+      "Chest": 0.08162478357553482
+    },
+    "afterUnnormalized": {
+      "Head": 0.8844147264955065,
+      "RightForeUpper": 0.01968507768542446,
+      "Chest": 0.09590019581906908
+    }
+  },
+  {
+    "vertex": 3184,
+    "pointGame": [
+      -0.2802381217479706,
+      0.7811347246170044,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.00835293997079134,
+    "blend": 1,
+    "before": {
+      "Head": 0.7941566109657288,
+      "RightForeUpper": 0.14103297889232635,
+      "Chest": 0.0648103877902031
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3185,
+    "pointGame": [
+      -0.36521345376968384,
+      0.8442740440368652,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.009259246289730072,
+    "blend": 1,
+    "before": {
+      "Head": 0.7617988586425781,
+      "RightForeUpper": 0.18628044426441193,
+      "Chest": 0.051920730620622635
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3186,
+    "pointGame": [
+      -0.42530006170272827,
+      0.9216037392616272,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.009896122850477695,
+    "blend": 1,
+    "before": {
+      "Head": 0.747948169708252,
+      "RightForeUpper": 0.20631003379821777,
+      "Chest": 0.045741818845272064
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3187,
+    "pointGame": [
+      -0.4564031958580017,
+      1.0078537464141846,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.011816290207207203,
+    "blend": 1,
+    "before": {
+      "Head": 0.7476045489311218,
+      "RightForeUpper": 0.19950290024280548,
+      "Chest": 0.0528925396502018
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3188,
+    "pointGame": [
+      -0.4564031958580017,
+      1.0971462726593018,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.025700729340314865,
+    "blend": 1,
+    "before": {
+      "Head": 0.7630143165588379,
+      "RightForeUpper": 0.17330317199230194,
+      "Chest": 0.06368252635002136
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3189,
+    "pointGame": [
+      -0.42530006170272827,
+      1.183396339416504,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.10943261533975601,
+    "blend": 0.36292725825856786,
+    "before": {
+      "Head": 0.786746084690094,
+      "RightForeUpper": 0.1354648619890213,
+      "Chest": 0.0777890682220459
+    },
+    "afterUnnormalized": {
+      "Head": 0.8278490176605662,
+      "RightForeUpper": 0.08630097103697051,
+      "Chest": 0.08585002079558687
+    }
+  },
+  {
+    "vertex": 3198,
+    "pointGame": [
+      0.42530006170272827,
+      1.183396339416504,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.10943751782178879,
+    "blend": 0.3628325620132703,
+    "before": {
+      "Head": 0.7841109037399292,
+      "LeftForeUpper": 0.14047960937023163,
+      "Chest": 0.07540950179100037
+    },
+    "afterUnnormalized": {
+      "Head": 0.8261592414453732,
+      "LeftForeUpper": 0.08950903279180708,
+      "Chest": 0.08433173525735443
+    }
+  },
+  {
+    "vertex": 3199,
+    "pointGame": [
+      0.4564031958580017,
+      1.0971462726593018,
+      0.7855589389801025
+    ],
+    "rootSurfaceDistance": 0.025695979595184326,
+    "blend": 1,
+    "before": {
+      "Head": 0.7583962082862854,
+      "LeftForeUpper": 0.18079577386379242,
+      "Chest": 0.06080802157521248
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3200,
+    "pointGame": [
+      0.4825512766838074,
+      0.9964714646339417,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.012760861776769161,
+    "blend": 1,
+    "before": {
+      "Head": 0.4667113721370697,
+      "LeftForeUpper": 0.46606141328811646,
+      "Chest": 0.06722720712423325
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3201,
+    "pointGame": [
+      0.44966620206832886,
+      0.9027214050292969,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.010282720439136028,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.4965510964393616,
+      "Head": 0.446118026971817,
+      "Chest": 0.05733088403940201
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3202,
+    "pointGame": [
+      0.38613712787628174,
+      0.818667471408844,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.031275421380996704,
+    "blend": 1,
+    "before": {
+      "LeftForeUpper": 0.4664517045021057,
+      "Head": 0.4583325982093811,
+      "Chest": 0.07521569728851318
+    },
+    "afterUnnormalized": {
+      "LeftForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3203,
+    "pointGame": [
+      0.2962934374809265,
+      0.750037670135498,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.016426512971520424,
+    "blend": 1,
+    "before": {
+      "Head": 0.5301323533058167,
+      "LeftForeUpper": 0.3225712180137634,
+      "Chest": 0.13209888339042664,
+      "Spine": 0.015197571367025375
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1,
+      "Spine": 0.0
+    }
+  },
+  {
+    "vertex": 3204,
+    "pointGame": [
+      0.18625783920288086,
+      0.7015091180801392,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.07479250431060791,
+    "blend": 0.953308708350376,
+    "before": {
+      "Head": 0.5739647746086121,
+      "Chest": 0.21043278276920319,
+      "LeftForeUpper": 0.17502884566783905,
+      "Spine": 0.04057362675666809
+    },
+    "afterUnnormalized": {
+      "Head": 0.8847769942031999,
+      "Chest": 0.10515624926795646,
+      "LeftForeUpper": 0.00817232288017411,
+      "Spine": 0.0018944350401785795
+    }
+  },
+  {
+    "vertex": 3207,
+    "pointGame": [
+      -0.18625783920288086,
+      0.7015091180801392,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.07477645576000214,
+    "blend": 0.9534543521412269,
+    "before": {
+      "Head": 0.5763581395149231,
+      "Chest": 0.2108333259820938,
+      "RightForeUpper": 0.1706618070602417,
+      "Spine": 0.042146723717451096
+    },
+    "afterUnnormalized": {
+      "Head": 0.8849358799295035,
+      "Chest": 0.10515880896217916,
+      "RightForeUpper": 0.007943564374367893,
+      "Spine": 0.0019617465605534803
+    }
+  },
+  {
+    "vertex": 3208,
+    "pointGame": [
+      -0.2962934374809265,
+      0.750037670135498,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.01641852781176567,
+    "blend": 1,
+    "before": {
+      "Head": 0.5355690717697144,
+      "RightForeUpper": 0.31260284781455994,
+      "Chest": 0.1340613067150116,
+      "Spine": 0.017766792327165604
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1,
+      "Spine": 0.0
+    }
+  },
+  {
+    "vertex": 3209,
+    "pointGame": [
+      -0.38613712787628174,
+      0.818667471408844,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.03126998245716095,
+    "blend": 1,
+    "before": {
+      "Head": 0.47064149379730225,
+      "RightForeUpper": 0.4496336579322815,
+      "Chest": 0.07972484827041626
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3210,
+    "pointGame": [
+      -0.44966620206832886,
+      0.9027214050292969,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.010275733657181263,
+    "blend": 1,
+    "before": {
+      "RightForeUpper": 0.47694823145866394,
+      "Head": 0.4609430134296417,
+      "Chest": 0.06210875138640404
+    },
+    "afterUnnormalized": {
+      "RightForeUpper": 0.0,
+      "Head": 0.9,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3211,
+    "pointGame": [
+      -0.4825512766838074,
+      0.9964714646339417,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.012760492041707039,
+    "blend": 1,
+    "before": {
+      "Head": 0.4810108542442322,
+      "RightForeUpper": 0.44567450881004333,
+      "Chest": 0.0733146071434021
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3212,
+    "pointGame": [
+      -0.4825512766838074,
+      1.0935285091400146,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.017374392598867416,
+    "blend": 1,
+    "before": {
+      "Head": 0.5351255536079407,
+      "RightForeUpper": 0.36352065205574036,
+      "Chest": 0.10135378688573837
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "RightForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  },
+  {
+    "vertex": 3213,
+    "pointGame": [
+      -0.44966620206832886,
+      1.1872785091400146,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.10760381817817688,
+    "blend": 0.3985539139146238,
+    "before": {
+      "Head": 0.5964064002037048,
+      "RightForeUpper": 0.25943484902381897,
+      "Chest": 0.144158735871315
+    },
+    "afterUnnormalized": {
+      "Head": 0.7174048176419482,
+      "RightForeUpper": 0.1560360745395264,
+      "Chest": 0.1265590988562803
+    }
+  },
+  {
+    "vertex": 3222,
+    "pointGame": [
+      0.44966620206832886,
+      1.1872785091400146,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.10760367661714554,
+    "blend": 0.3985566926920099,
+    "before": {
+      "Head": 0.5929464101791382,
+      "LeftForeUpper": 0.26847878098487854,
+      "Chest": 0.13857479393482208
+    },
+    "afterUnnormalized": {
+      "Head": 0.71532467341735,
+      "LeftForeUpper": 0.16147476597756288,
+      "Chest": 0.1232005516428836
+    }
+  },
+  {
+    "vertex": 3223,
+    "pointGame": [
+      0.4825512766838074,
+      1.0935285091400146,
+      0.6314302086830139
+    ],
+    "rootSurfaceDistance": 0.017375314608216286,
+    "blend": 1,
+    "before": {
+      "Head": 0.5246345400810242,
+      "LeftForeUpper": 0.38108518719673157,
+      "Chest": 0.09428026527166367
+    },
+    "afterUnnormalized": {
+      "Head": 0.9,
+      "LeftForeUpper": 0.0,
+      "Chest": 0.1
+    }
+  }
+]

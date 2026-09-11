@@ -1,0 +1,51 @@
+{
+  "sha256": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+  "method": "Actual GLB track endpoints and root joint ranges. Nondeform source Root is exported into Pelvis; ranges exclude its nonzero rest translation.",
+  "clips": {
+    "Attack": {
+      "maximumTrackEndpointDelta": 0,
+      "exportedRootJoint": "Pelvis",
+      "translationRangeMeters": {
+        "X": 1.1368683772161603e-13,
+        "Y": 0.013999998569488525,
+        "Z": 0.062000006437301636
+      }
+    },
+    "Hurt": {
+      "maximumTrackEndpointDelta": 0,
+      "exportedRootJoint": "Pelvis",
+      "translationRangeMeters": {
+        "X": 1.1368683772161603e-13,
+        "Y": 0.009999990463256836,
+        "Z": 0.025000005960464478
+      }
+    },
+    "Idle": {
+      "maximumTrackEndpointDelta": 8.940696716308594e-08,
+      "exportedRootJoint": "Pelvis",
+      "translationRangeMeters": {
+        "X": 1.7053025658242404e-13,
+        "Y": 0.004999995231628418,
+        "Z": 0.0
+      }
+    },
+    "Run": {
+      "maximumTrackEndpointDelta": 1.679110290808694e-07,
+      "exportedRootJoint": "Pelvis",
+      "translationRangeMeters": {
+        "X": 5.684341886080802e-14,
+        "Y": 0.003956317901611328,
+        "Z": 0.0
+      }
+    },
+    "Walk": {
+      "maximumTrackEndpointDelta": 1.7881393432617188e-07,
+      "exportedRootJoint": "Pelvis",
+      "translationRangeMeters": {
+        "X": 1.1368683772161603e-13,
+        "Y": 0.003995120525360107,
+        "Z": 0.0
+      }
+    }
+  }
+}

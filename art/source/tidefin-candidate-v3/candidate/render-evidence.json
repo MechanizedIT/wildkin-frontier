@@ -1,0 +1,91 @@
+{
+  "sha256": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+  "views": [
+    {
+      "clip": "Attack",
+      "view": "front3q",
+      "phase": 0,
+      "file": "Attack-front3q-0.000.png",
+      "resolution": 512,
+      "samples": 20
+    },
+    {
+      "clip": "Attack",
+      "view": "front3q",
+      "phase": 0.2,
+      "file": "Attack-front3q-0.200.png",
+      "resolution": 512,
+      "samples": 20
+    },
+    {
+      "clip": "Attack",
+      "view": "front3q",
+      "phase": 0.43,
+      "file": "Attack-front3q-0.430.png",
+      "resolution": 512,
+      "samples": 20
+    },
+    {
+      "clip": "Attack",
+      "view": "front3q",
+      "phase": 0.7,
+      "file": "Attack-front3q-0.700.png",
+      "resolution": 512,
+      "samples": 20
+    },
+    {
+      "clip": "Attack",
+      "view": "side",
+      "phase": 0.2,
+      "file": "Attack-side-0.200.png",
+      "resolution": 512,
+      "samples": 20
+    },
+    {
+      "clip": "Attack",
+      "view": "side",
+      "phase": 0.43,
+      "file": "Attack-side-0.430.png",
+      "resolution": 512,
+      "samples": 20
+    },
+    {
+      "clip": "Hurt",
+      "view": "front3q",
+      "phase": 0.15,
+      "file": "Hurt-front3q-0.150.png",
+      "resolution": 512,
+      "samples": 20
+    },
+    {
+      "clip": "Hurt",
+      "view": "front3q",
+      "phase": 0.4,
+      "file": "Hurt-front3q-0.400.png",
+      "resolution": 512,
+      "samples": 20
+    },
+    {
+      "clip": "Hurt",
+      "view": "front3q",
+      "phase": 0.8,
+      "file": "Hurt-front3q-0.800.png",
+      "resolution": 512,
+      "samples": 20
+    },
+    {
+      "clip": "Hurt",
+      "view": "opposite",
+      "phase": 0.15,
+      "file": "Hurt-opposite-0.150.png",
+      "resolution": 512,
+      "samples": 20
+    }
+  ],
+  "threads": 4,
+  "cycleResolution": 384,
+  "cycleSamples": 12,
+  "headCheckResolution": 512,
+  "headCheckSamples": 20,
+  "actionReview": "All ten current views are 512px/20 samples; legacy cycleResolution/cycleSamples fields describe the full-cycle mode, not this action-only run."
+}

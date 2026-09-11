@@ -1,0 +1,122 @@
+[
+  {
+    "file": "actual-export-contact.json",
+    "bytes": 549047,
+    "sha256": "ee82e949d9c5a8a287ac014a970641f8533f9f4deeff9bac270e3b7738b4c45f"
+  },
+  {
+    "file": "Attack-front3q-0.000.png",
+    "bytes": 231835,
+    "sha256": "f15adbd2158667fb871ea013b2c720fe02a664e83e09aa96c35e092ecad6eed3"
+  },
+  {
+    "file": "Attack-front3q-0.200.png",
+    "bytes": 232231,
+    "sha256": "80cec0a29a092bd892fe8f3c988616592b5d529539e746d33e13484206d5f885"
+  },
+  {
+    "file": "Attack-front3q-0.430.png",
+    "bytes": 231359,
+    "sha256": "f2ca7cbeac7d7060a4026bc9185e7057a854501085569e162a42ed46e681e67a"
+  },
+  {
+    "file": "Attack-front3q-0.700.png",
+    "bytes": 231721,
+    "sha256": "af1260241b8afcd5fbfb4b2d0724885b89a15e44a031cec87407d74a5956a0c8"
+  },
+  {
+    "file": "Attack-side-0.200.png",
+    "bytes": 228412,
+    "sha256": "47f845b947aeed4005b03ade270d1dd84241798da8c8ab0a98421f9602c23c6b"
+  },
+  {
+    "file": "Attack-side-0.430.png",
+    "bytes": 228261,
+    "sha256": "42d3d5a0bfea76ca144e39a72562c90eaf90599c99b870e3d4a8e1923fb1562e"
+  },
+  {
+    "file": "builder.py",
+    "bytes": 32347,
+    "sha256": "5f33515adf613d6c45706f01cadd0949ae45b861065c71d7e323ab5a21d5d5e7"
+  },
+  {
+    "file": "check-export.py",
+    "bytes": 2623,
+    "sha256": "acfe3956e2146accd156dead71b62e492be7da7123683467dd6f3849a622759d"
+  },
+  {
+    "file": "check-preservation.py",
+    "bytes": 1640,
+    "sha256": "c7d337a32f1aaf7e590d4961eafe8d2044649c6d1a291c49edc24af41a68ad59"
+  },
+  {
+    "file": "cheek-weight-closure.json",
+    "bytes": 16211,
+    "sha256": "90748efeb364dc54f24edc67f3035e1c6ea6fdc0d2d26783d124bfa67379b257"
+  },
+  {
+    "file": "contact-summary.json",
+    "bytes": 872,
+    "sha256": "17a192b292b9042e223499b64f7929785dc7c60bc16d9d2ae97ea21f89511a15"
+  },
+  {
+    "file": "glb-check.json",
+    "bytes": 1551,
+    "sha256": "b38b61bddbee162ac7df4194474091f9d5bc2606d374319af0a3f42f64437774"
+  },
+  {
+    "file": "Hurt-front3q-0.150.png",
+    "bytes": 231739,
+    "sha256": "cf0ca4b603d2f689f0b176945e4af2efe588089c38380a5e294ac357d7166ac9"
+  },
+  {
+    "file": "Hurt-front3q-0.400.png",
+    "bytes": 231588,
+    "sha256": "89d30022e7202f3dc096ace3ca999d1f13ea9e97eb68125528ad72eb6267ce06"
+  },
+  {
+    "file": "Hurt-front3q-0.800.png",
+    "bytes": 231515,
+    "sha256": "659fd04a5fc2549e36d6f791a63ac3ed548e18577fca801f6c6a990da6f0db17"
+  },
+  {
+    "file": "Hurt-opposite-0.150.png",
+    "bytes": 245659,
+    "sha256": "6005e6fc5cba7e64979e425ec98c3eb92bf20de59333bf42561f41f0129f06ea"
+  },
+  {
+    "file": "loop-check.json",
+    "bytes": 1536,
+    "sha256": "1ad157fbf8e2d1e843afb7e06db6609fa1ab28f1e6a5f05291fe47488319deb1"
+  },
+  {
+    "file": "motion-provenance.json",
+    "bytes": 563079,
+    "sha256": "70ca7756d6a11300587cc6c9aa23f7120db45a471ec8f1f0a26b2488dc8b12fb"
+  },
+  {
+    "file": "preservation.json",
+    "bytes": 520,
+    "sha256": "c6c857a8486aa7d7b782b8a2d88e1ee8335aaed3fb02c0d18ef2b45dd0b529e9"
+  },
+  {
+    "file": "README.md",
+    "bytes": 3419,
+    "sha256": "1d128f1195d165eb9dbacbc512497561342fda27d3de43a59d32d1af2a002877"
+  },
+  {
+    "file": "render-evidence.json",
+    "bytes": 2141,
+    "sha256": "618d432823e7e9a751b1519266128deaf36246f43d34c658601cf7d0a45f3ad5"
+  },
+  {
+    "file": "tidefin-motion-editable.blend",
+    "bytes": 6200283,
+    "sha256": "2ce884da94b92d9b2e2d06009c0ffe8a0f5d945e9ceee5d1473329c8bb7b7b11"
+  },
+  {
+    "file": "tidefin-motion.glb",
+    "bytes": 997072,
+    "sha256": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f"
+  }
+]

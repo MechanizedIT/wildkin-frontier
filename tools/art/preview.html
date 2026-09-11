@@ -1,0 +1,38 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Wildkin Frontier — model review</title>
+<style>html,body{margin:0;background:#d3d5d6}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"../../vendor/three.module.js"}}</script>
+<script type="module">
+// Local art-review surface; excluded from the portable game build.
+import * as T from 'three';
+import {VISUAL_KIT_BUILDERS} from '../visual-kit-registry.mjs';
+import {createPlayer} from '../../src/player/createPlayer.js';
+import {createFieldTool} from '../../src/tools/fieldTool.js';
+import {createMosslingPreview} from '../../src/world/models/createMosslingPreview.js';
+const q=new URLSearchParams(location.search),id=q.get('id')??'player';
+const scene=new T.Scene();scene.background=new T.Color('#d3d5d6');
+const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
+renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=T.SRGBColorSpace;
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.VSMShadowMap;
+document.body.append(renderer.domElement);
+scene.add(new T.HemisphereLight('#ffffff','#7e8590',1.8));
+const key=new T.DirectionalLight('#fffaf1',2.7);key.position.set(-3,9,5);key.castShadow=true;
+key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-3;key.shadow.camera.right=3;key.shadow.camera.top=3;key.shadow.camera.bottom=-3;key.shadow.normalBias=.015;key.shadow.radius=5;key.shadow.blurSamples=12;scene.add(key);
+const fill=new T.DirectionalLight('#d9e6ff',.7);fill.position.set(4,3,-4);scene.add(fill);
+let root=id==='player'?createPlayer():id==='mossling-blender'?createMosslingPreview():VISUAL_KIT_BUILDERS.get(id)?.(id);
+if(!root)throw Error('Unknown model '+id);
+root.position.set(0,0,0);root.rotation.y=q.has('rear')?Math.PI-.35:-.22;
+if(q.has('tool'))createFieldTool(root);
+scene.add(root);root.updateMatrixWorld(true);
+const bounds=new T.Box3();root.traverse(o=>{if(!o.isMesh)return;for(let p=o;p;p=p.parent)if(!p.visible)return;bounds.union(new T.Box3().setFromObject(o));});
+const size=bounds.getSize(new T.Vector3()),center=bounds.getCenter(new T.Vector3());root.position.sub(new T.Vector3(center.x,bounds.min.y,center.z));
+const aspect=innerWidth/innerHeight,span=Math.max(size.y,size.x/aspect,size.z*.7)*1.16;
+const camera=new T.OrthographicCamera(-span*aspect/2,span*aspect/2,span/2,-span/2,.01,100);
+camera.position.set(2,size.y*.5+1.0,6);camera.lookAt(0,size.y*.5,0);
+const floor=new T.Mesh(new T.PlaneGeometry(100,100),new T.MeshStandardMaterial({color:'#b8babe',roughness:1,metalness:0}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;floor.position.y=-.008;scene.add(floor);
+renderer.render(scene,camera);window.ready=true;
+window.report={id,size:size.toArray(),triangles:renderer.info.render.triangles,calls:renderer.info.render.calls};
+</script>

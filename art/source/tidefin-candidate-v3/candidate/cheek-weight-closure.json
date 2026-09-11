@@ -1,0 +1,668 @@
+[
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 25,
+    "pairedRootVertex": 0,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 26,
+    "pairedRootVertex": 1,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 27,
+    "pairedRootVertex": 2,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000409781933
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 28,
+    "pairedRootVertex": 3,
+    "before": {
+      "Head": 0.9633411765098572,
+      "Chest": 0.023680221289396286,
+      "RightForeUpper": 0.012978598475456238
+    },
+    "after": {
+      "Head": 0.8740118145942688,
+      "Chest": 0.09704046696424484,
+      "RightForeUpper": 0.028947750106453896
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 29,
+    "pairedRootVertex": 4,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 30,
+    "pairedRootVertex": 5,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 31,
+    "pairedRootVertex": 6,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02499999850988388
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 32,
+    "pairedRootVertex": 7,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 33,
+    "pairedRootVertex": 8,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 34,
+    "pairedRootVertex": 9,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000223517418
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 35,
+    "pairedRootVertex": 10,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 36,
+    "pairedRootVertex": 11,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 37,
+    "pairedRootVertex": 12,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 38,
+    "pairedRootVertex": 13,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000223517418
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 39,
+    "pairedRootVertex": 14,
+    "before": {
+      "Head": 0.9719440937042236,
+      "Chest": 0.024650312960147858,
+      "RightForeUpper": 0.0034055865835398436
+    },
+    "after": {
+      "Head": 0.8925953507423401,
+      "Chest": 0.09915268421173096,
+      "RightForeUpper": 0.00825198832899332
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 40,
+    "pairedRootVertex": 15,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 41,
+    "pairedRootVertex": 16,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02499999850988388
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 42,
+    "pairedRootVertex": 17,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02499999850988388
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 43,
+    "pairedRootVertex": 18,
+    "before": {
+      "Head": 0.9704903364181519,
+      "Chest": 0.024498922750353813,
+      "RightForeUpper": 0.004687528591603041,
+      "RightForeLower": 0.00032324122730642557
+    },
+    "after": {
+      "Head": 0.899286687374115,
+      "Chest": 0.09992075711488724,
+      "RightForeUpper": 0.0007422770140692592,
+      "RightForeLower": 5.029093154007569e-05
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 44,
+    "pairedRootVertex": 19,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 45,
+    "pairedRootVertex": 20,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 46,
+    "pairedRootVertex": 21,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 47,
+    "pairedRootVertex": 22,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000223517418
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 48,
+    "pairedRootVertex": 23,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Right broad shallow split cheek plate",
+    "outerVertex": 49,
+    "pairedRootVertex": 24,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02499999850988388
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 25,
+    "pairedRootVertex": 0,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 26,
+    "pairedRootVertex": 1,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000223517418
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 27,
+    "pairedRootVertex": 2,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 28,
+    "pairedRootVertex": 3,
+    "before": {
+      "Head": 0.9666337966918945,
+      "Chest": 0.02404751442372799,
+      "LeftForeUpper": 0.009318702854216099
+    },
+    "after": {
+      "Head": 0.8723919987678528,
+      "Chest": 0.0968654453754425,
+      "LeftForeUpper": 0.03074256330728531
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 29,
+    "pairedRootVertex": 4,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02499999850988388
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 30,
+    "pairedRootVertex": 5,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 31,
+    "pairedRootVertex": 6,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000223517418
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 32,
+    "pairedRootVertex": 7,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000223517418
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 33,
+    "pairedRootVertex": 8,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000223517418
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 34,
+    "pairedRootVertex": 9,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000223517418
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 35,
+    "pairedRootVertex": 10,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02499999850988388
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 36,
+    "pairedRootVertex": 11,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 37,
+    "pairedRootVertex": 12,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 38,
+    "pairedRootVertex": 13,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 39,
+    "pairedRootVertex": 14,
+    "before": {
+      "Head": 0.9731442928314209,
+      "Chest": 0.024787859991192818,
+      "LeftForeUpper": 0.0020678776782006025
+    },
+    "after": {
+      "Head": 0.8917673826217651,
+      "Chest": 0.09905887395143509,
+      "LeftForeUpper": 0.009173743426799774
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 40,
+    "pairedRootVertex": 15,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 41,
+    "pairedRootVertex": 16,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000894069672
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 42,
+    "pairedRootVertex": 17,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000223517418
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 43,
+    "pairedRootVertex": 18,
+    "before": {
+      "Head": 0.9705067276954651,
+      "Chest": 0.024500751867890358,
+      "LeftForeUpper": 0.004642640706151724,
+      "LeftForeLower": 0.0003498691658023745
+    },
+    "after": {
+      "Head": 0.8992938995361328,
+      "Chest": 0.09992154687643051,
+      "LeftForeUpper": 0.000731768028344959,
+      "LeftForeLower": 5.277376840240322e-05
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 44,
+    "pairedRootVertex": 19,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000409781933
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 45,
+    "pairedRootVertex": 20,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 46,
+    "pairedRootVertex": 21,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02499999850988388
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 47,
+    "pairedRootVertex": 22,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02499999850988388
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.09999999403953552
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 48,
+    "pairedRootVertex": 23,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02499999850988388
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  },
+  {
+    "object": "Left broad shallow split cheek plate",
+    "outerVertex": 49,
+    "pairedRootVertex": 24,
+    "before": {
+      "Head": 0.9750000238418579,
+      "Chest": 0.02500000037252903
+    },
+    "after": {
+      "Head": 0.8999999761581421,
+      "Chest": 0.10000000149011612
+    }
+  }
+]

@@ -1,0 +1,41 @@
+{
+  "assetId": "asset_wildkin_tidefin",
+  "sourceMethod": "Procedural Blender authored closed loops; not image-to-3D",
+  "referenceSHA256": "d2931db2212729592cf54d90e40b7a16fd7dff4282c9ee6ed0b386aa04b559de",
+  "referenceReview": "Independent PREGEN PASS8.3",
+  "modelReview": "Pending independent neutral shape gate",
+  "sha256": "51e456355acb7155cfbe1e8bee210a4acccafd4ca295741bccb0c650c429d66d",
+  "fileBytes": 534796,
+  "triangles": 7832,
+  "batches": 2,
+  "materials": 1,
+  "texture": [
+    256,
+    256
+  ],
+  "dimensionsGameMeters": [
+    1.4800000190734863,
+    1.5499999523162842,
+    2.7700001001358032
+  ],
+  "boundsBlender": {
+    "min": [
+      -0.7400000095367432,
+      -1.1988822221755981,
+      0.0
+    ],
+    "max": [
+      0.7400000095367432,
+      1.571117877960205,
+      1.5499999523162842
+    ]
+  },
+  "scaleApplied": [
+    0.9673202795263106,
+    0.9943783418300646,
+    1.0000000307636887
+  ],
+  "anatomy": "anatomy.json",
+  "runtimeEdits": false,
+  "rigging": "none"
+}

@@ -48,6 +48,8 @@ Remaining art includes other Wildkin and enemies, broader resource/scenery famil
 
 **The replacement Tidefin is not shipped.** Its neutral mesh and limited deformation studies passed their narrow gates. The new full animation still needs action/motion review and runtime cadence integration. A revised Attack/Hurt candidate is preserved for later review; it does not inherit admission from the neutral model.
 
+After the September11 PC restart, the playable checkpoint was pushed to the existing GitHub repository. The unfinished Tidefin and custom asset workflow also have tracked recovery copies; see [RECOVERY.md](RECOVERY.md). This backup changes no playable content.
+
 ## Equipment and crafting: present versus next
 
 | Present in the game | Planned or incomplete |

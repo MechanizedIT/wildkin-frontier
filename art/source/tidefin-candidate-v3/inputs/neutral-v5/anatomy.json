@@ -1,0 +1,151 @@
+{
+  "forward": "+Z game/glTF",
+  "headSpineAligned": true,
+  "bilateralPairAxis": "X",
+  "feetY": 0,
+  "landmarksGameMeters": {
+    "pelvis": [
+      0.0,
+      0.800000024610951,
+      -0.44747025382352906
+    ],
+    "chest": [
+      0.0,
+      0.880000027072046,
+      0.19887566836601292
+    ],
+    "neck": [
+      0.0,
+      1.0300000316865994,
+      0.5469080880065356
+    ],
+    "head": [
+      0.0,
+      1.06000003260951,
+      0.7159524061176464
+    ],
+    "tailBase": [
+      0.0,
+      0.7900000243033141,
+      -0.8054464568823524
+    ],
+    "LeftHindHip": [
+      0.3869281118105243,
+      0.800000024610951,
+      -0.44747025382352906
+    ],
+    "LeftHindStifle": [
+      0.5126797481489447,
+      0.42000001292074923,
+      -0.3629480947679736
+    ],
+    "LeftHindHock": [
+      0.5030065453536815,
+      0.18000000553746395,
+      -0.5170767377516335
+    ],
+    "LeftHindPaw": [
+      0.5030065453536815,
+      0.0,
+      -0.4723297123692807
+    ],
+    "RightHindHip": [
+      -0.3869281118105243,
+      0.800000024610951,
+      -0.44747025382352906
+    ],
+    "RightHindStifle": [
+      -0.5126797481489447,
+      0.42000001292074923,
+      -0.3629480947679736
+    ],
+    "RightHindHock": [
+      -0.5030065453536815,
+      0.18000000553746395,
+      -0.5170767377516335
+    ],
+    "RightHindPaw": [
+      -0.5030065453536815,
+      0.0,
+      -0.4723297123692807
+    ],
+    "LeftForeShoulder": [
+      0.3869281118105243,
+      0.8500000261491354,
+      0.37786376989542453
+    ],
+    "LeftForeElbow": [
+      0.5126797481489447,
+      0.4600000141512968,
+      0.33808863622222196
+    ],
+    "LeftForeWrist": [
+      0.5030065453536815,
+      0.19000000584510085,
+      0.477301604078431
+    ],
+    "LeftForePaw": [
+      0.5030065453536815,
+      0.0,
+      0.5319924128790846
+    ],
+    "RightForeShoulder": [
+      -0.3869281118105243,
+      0.8500000261491354,
+      0.37786376989542453
+    ],
+    "RightForeElbow": [
+      -0.5126797481489447,
+      0.4600000141512968,
+      0.33808863622222196
+    ],
+    "RightForeWrist": [
+      -0.5030065453536815,
+      0.19000000584510085,
+      0.477301604078431
+    ],
+    "RightForePaw": [
+      -0.5030065453536815,
+      0.0,
+      0.5319924128790846
+    ]
+  },
+  "soleCenters": [
+    {
+      "name": "LeftHind",
+      "center": [
+        0.5030065453536815,
+        0,
+        -0.4723297123692807
+      ]
+    },
+    {
+      "name": "RightHind",
+      "center": [
+        -0.5030065453536815,
+        0,
+        -0.4723297123692807
+      ]
+    },
+    {
+      "name": "LeftFore",
+      "center": [
+        0.5030065453536815,
+        0,
+        0.5319924128790846
+      ]
+    },
+    {
+      "name": "RightFore",
+      "center": [
+        -0.5030065453536815,
+        0,
+        0.5319924128790846
+      ]
+    }
+  ],
+  "limbConstruction": "Four actual torso boundary openings continued through explicit shoulder/haunch, lower leg and single broad paw loops; same closed mesh. Source rings linearly refined once without smoothing.",
+  "crest": "Single closed root strip with three peaks; roots overlap dorsal body by40mm before normalization.",
+  "head": "Same continuous axial surface as chest/pelvis/tail; no independent yaw. Paired socket/cheek details static and unrigged.",
+  "limitations": "Neutral geometry only. Joint landmarks provisional; no weights, bind matrices or animation acceptance."
+}

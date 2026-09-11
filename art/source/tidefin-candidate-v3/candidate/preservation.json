@@ -1,0 +1,15 @@
+{
+  "sourceV2SHA256": "2aaeaec0b5bddaf1edc3169c8efa06d5353a910a3621ee6f0be1c913ebac661d",
+  "candidateV3SHA256": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+  "meshAttributesIndicesExact": true,
+  "clipsExact": {
+    "Idle": true,
+    "Walk": true,
+    "Run": true
+  },
+  "changedClips": {
+    "Attack": true,
+    "Hurt": true
+  },
+  "method": "Exact decoded exported mesh attributes/indices including skin weights; exact keyed animation inputs/outputs/interpolation by bone name"
+}

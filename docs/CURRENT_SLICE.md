@@ -8,6 +8,8 @@ Chris asked to wrap up overnight development, provide a concise changelog, actua
 
 **September11 backup follow-up:** after restarting his PC, Chris explicitly requested restarting the playtest server and pushing this work to the existing GitHub repository for recovery if the PC fails. This authorizes the current backup sync to origin/main; it does not resume game expansion or authorize a deployment. Preserve unfinished source candidates separately from admitted runtime assets.
 
+The finished-game checkpoint is backed up in origin/main at `98f93e1`. The additional source recovery bundle preserves the unshipped Tidefin candidate and custom asset workflow; see [RECOVERY.md](RECOVERY.md). Backup-only validation uses server reachability, manifest hash checks and remote HEAD confirmation; no gameplay changes require repeating the prior aggregate suite.
+
 Read SESSION_START.md, OVERNIGHT_HANDOFF.md and CODE_MAP.md next. Use `.agents/skills/wildkin-development/SKILL.md` for production and WORKFLOW_RETROSPECTIVE.md for lessons. This file owns current scope; Git/source own actual implementation. Previous full chronology is preserved in CURRENT_SLICE_HISTORY_2026-09-11.md and must not override this handoff.
 
 ## Current playable systems
