@@ -12,6 +12,8 @@ The game contract remains glTF Y-up, feet at Y=0 and ordinary travel forward at 
 
 ## Existing quadruped helper — motion acceptance reopened
 
+For a reusable neutral-pose, contact-authoring and exported-motion review procedure, read [quadruped-motion.md](quadruped-motion.md). The analytic fixed-length IK Mossling candidate described there is experimental pending exact exported-GLB contact, ordinary AI travel and independent Dream Loop review; it is not a general Rigify or automatic-rigging recipe.
+
 The project has a Mossling-specific direct-deformation profile at `tools/art/rigs/mossling.json` and Blender helper `tools/art/rig-character.py`:
 
 The original source/profile is **not a production quadruped template**. The owner's phone test exposed a sideways head/body relationship that earlier reviewers missed. Retain the helper for its texture/export mechanics, but fit fresh anatomical landmarks after correcting or regenerating the neutral source. Do not reuse its front/rear leg coordinates for the corrected mesh.

@@ -94,7 +94,7 @@ describe("jump — validity gating", () => {
     const pg = makeMockPlayground();
     const worldDir = { x: 1, z: 0 };
     const pos = { x: -3.70, z: -1.2, y: 0.36 };
-    const sneakSpeed = MOVEMENT_CONFIG.sneakSpeed; // 1.6 < 2.2 threshold
+    const sneakSpeed = MOVEMENT_CONFIG.sneakSpeed; // below the configured takeoff threshold
     const hit = checkJumpTrigger(worldDir, pos, sneakSpeed, 0.30, pg.jumpTraversals[0], MOVEMENT_CONFIG);
     assert.equal(hit, null);
   });
@@ -103,9 +103,15 @@ describe("jump — validity gating", () => {
     const worldDir = { x: 1, z: 0 };
     const pos = { x: -3.70, z: -1.2, y: 0.36 };
     const walkSpeed = MOVEMENT_CONFIG.walkSpeed;
-    const hit = checkJumpTrigger(worldDir, pos, walkSpeed, 0.55, pg.jumpTraversals[0], MOVEMENT_CONFIG);
-    // walk speed 3.3 * 0.967 ≈ 3.19 reachable to platB region, should succeed
-    assert.ok(hit !== null, "walk should trigger reachable gap");
+    // This legacy unassisted jump uses actual ground momentum. Keep the
+    // landing within walking reach as tuning changes, unlike launch pads
+    // whose authored impulse is independent of the player's ground speed.
+    const walkReach = computeJumpDistance(walkSpeed, computeAirTime(MOVEMENT_CONFIG.jumpInitialVerticalVelocity, MOVEMENT_CONFIG.jumpGravity));
+    const shortGap = { ...pg.jumpTraversals[0], landingRegion: { ...pg.jumpTraversals[0].landingRegion, minX: pos.x + walkReach * .85 } };
+    const hit = checkJumpTrigger(worldDir, pos, walkSpeed, 0.55, shortGap, MOVEMENT_CONFIG);
+    assert.ok(hit !== null, "walk should trigger a gap within its actual momentum reach");
+    const beyondReach = { ...shortGap, landingRegion: { ...shortGap.landingRegion, minX: pos.x + walkReach + 1 } };
+    assert.equal(checkJumpTrigger(worldDir, pos, walkSpeed, 0.55, beyondReach, MOVEMENT_CONFIG), null, "slower walking must not snap across an unreachable gap");
   });
   it("run triggers farther jump", () => {
     const pg = makeMockPlayground();

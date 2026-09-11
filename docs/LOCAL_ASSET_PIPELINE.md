@@ -2,7 +2,7 @@
 
 
 
-Status: the phone-reported character defects have produced reviewed replacement revisions, `mossling-v2` and `explorer-v2`, now integrated for another phone test. The neutral creature passed 8.1/10 likeness and wild/companion travel; the same-skeleton Mixamo player passed 8.4/10 likeness, all eleven exported clips, ordinary travel, tool grip and real attack/dodge/jump-pad transitions. The three-class pipeline remains supervised and anatomy-specific. Owner phone acceptance and the broader asset pass remain pending. See `MOTION_WORKFLOW_REVIEW.md` for current evidence; V1 PASS entries below are historical and do not override owner feedback.
+Status, September 11: Chris likes the revised models and Explorer animation shapes; player travel/cadence are provisionally 35% slower together. Mossling-v2 motion acceptance is reopened by his latest phone feedback. Contact-correct experimental bakes still fail independent visual review, so the live model remains v2. A researched quadruped recipe and free motion references are retained; the newly authorized Blender MCP live workbench passes real scene/screenshot/frame-edit protocol checks. img2threejs contributes useful offline rig-validation ideas, not a replacement runtime or automatic quadruped animator. The three-class pipeline remains supervised and anatomy-specific. See `MOTION_WORKFLOW_REVIEW.md`; earlier PASS entries below are historical and do not override current owner feedback. The wider asset pass remains open.
 
 
 

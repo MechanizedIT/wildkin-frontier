@@ -45,7 +45,7 @@ describe("airborne control config", () => {
   });
   it("airMinSpeedCap is walkSpeed", () => {
     assert.equal(MOVEMENT_CONFIG.airMinSpeedCap, MOVEMENT_CONFIG.walkSpeed);
-    assert.ok(MOVEMENT_CONFIG.walkSpeed >= 3.0 && MOVEMENT_CONFIG.walkSpeed <= 4.0);
+    assert.ok(MOVEMENT_CONFIG.walkSpeed > MOVEMENT_CONFIG.jumpMinTakeoffSpeed, "walking can still trigger authored jumps after speed tuning");
   });
   it("air control is constant/config-driven", () => {
     const cfg = MOVEMENT_CONFIG;

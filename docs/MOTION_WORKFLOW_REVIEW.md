@@ -1,5 +1,50 @@
 # Character motion workflow correction
 
+## September 11 phone follow-up — current status
+
+Chris likes the revised models and Explorer animation, but finds all three
+player locomotion modes around 30–40% too fast. Ground speed and speed-linked
+cadence now use a provisional 0.65 multiplier: sneak 1.04, walk 2.145 and run
+3.9 m/s. The existing native clip rates remain truthful. A clarification was
+offered about cadence versus travel; applying both is an agent interpretation,
+not an additional accepted owner decision. Walking still triggers authored
+jumps after scaling the takeoff threshold, and the falling-control minimum
+stays equal to walking speed. Ordinary-input review measured a 35% decrease
+in each mode and passed attack, dodge and first-pad jump entry/exit.
+
+Mossling-v2 appearance is liked, but its motion approval is reopened. A fresh
+exact-hash audit identifies unclear footfalls, little weight transfer and a
+hovering/puppet-like faster gait. The new fixed-length IK experiment improves
+contact, and sole weights plus whole-component attachment weights fix distinct
+skinning errors. However, v3/v4 still fail independent visual review: v4 scores
+8.3 likeness, 6.9 walk, 6.4 run and 7.2 deformation. **No new Mossling model is
+admitted or substituted.** Numeric contact correctness is insufficient.
+
+[Quadruped research](QUADRUPED_RESEARCH.md) and Asset Forge's new quadruped
+reference preserve the gait/contact/anatomy process and the actual downloaded
+free Quaternius Fox/Husky/Wolf examples. Their pack-specific supplied license
+is CC0. They are reference material; no third-party motion or geometry has
+been integrated into the game. Rejected setup captures and wrong-old-model
+audits are explicitly excluded from acceptance evidence.
+
+Chris then authorized adding Blender MCP and assessing img2threejs. Community
+Blender MCP 1.9.1 is installed in an isolated Python environment and registered
+globally in Codex. Blender 4.5.3 runs a local workbench on 127.0.0.1:9876;
+real MCP stdio scene inspection, viewport captures and frame edit/restore pass.
+Telemetry and external generation integrations are disabled. The current
+task may require tool-list refresh before the named MCP tools are exposed;
+configuration and independent protocol verification are distinct claims.
+
+img2threejs's own-GLB rig reader passed both shipping characters. Its anatomy,
+skin-order and deformation evidence rules are useful; its procedural
+TypeScript reconstruction and custom-JSON geodesic binder do not solve the
+current Blender locomotion problem. The main skill is not installed wholesale.
+Use the live workbench for compact loaded body poses, coherent foliage
+attachment and motion-reference comparison, then export and independently
+review before ordinary wild/companion travel. The wider asset pass remains open.
+
+## Earlier replacement checkpoint
+
 September 10, 2026. Chris tested the local build on his phone, liked the model appearance, and reported a constantly sideways Mossling head/sideways running plus a stiff, wide-striding Explorer. This is a failure of the previous character acceptance process, not a reason to abandon the approved visual style. The current outcomes below supersede the initial investigation status.
 
 **Explorer repair admitted:** The approved free Mixamo trial uploaded the original Explorer bind surface, completed a 25-bone No Fingers rig, and supplied compatible motion for all eleven existing states. The exact export `8b266042d39e55eda223c3974b6d2f6af46b724938629969ada29420fdcefdf4` passed independent likeness at 8.4/10, full exported cycles, ordinary travel, corrected tool grip and active-game attack/dodge/jump-pad transitions. It is live as `explorer-v2`: 19,998 triangles, 25 bones, eleven clips and the exact original 1024 PNG. Native clip speeds calibrate animation cadence while gameplay remains 1.6/3.3/6 m/s. No paid service was used. Owner phone acceptance remains pending.

@@ -2,6 +2,10 @@
 // All feel-affecting constants live here for playtest iteration.
 // See src/physics/physicsConfig.js for Rapier controller constants (mirrored here for discovery).
 
+// September 11 phone tuning: slower ground travel also slows the speed-linked
+// animation cadence. Keep dodge, climb and authored jump-pad impulses separate.
+export const PLAYER_LOCOMOTION_SPEED_SCALE = 0.65;
+
 export const MOVEMENT_CONFIG = {
   // Joystick band thresholds (normalized 0..1)
   deadzone: 0.16,
@@ -9,9 +13,9 @@ export const MOVEMENT_CONFIG = {
   walkThreshold: 0.70,
 
   // Band speeds (world units / sec)
-  sneakSpeed: 1.6,
-  walkSpeed: 3.3,
-  runSpeed: 6.0,
+  sneakSpeed: 1.6 * PLAYER_LOCOMOTION_SPEED_SCALE,
+  walkSpeed: 3.3 * PLAYER_LOCOMOTION_SPEED_SCALE,
+  runSpeed: 6.0 * PLAYER_LOCOMOTION_SPEED_SCALE,
 
   // Acceleration model
   acceleration: 28,
@@ -33,7 +37,7 @@ export const MOVEMENT_CONFIG = {
   jumpAirControlFactor: 0.28,
   jumpAirMaxSpeed: 7.2,
   // validity gating
-  jumpMinTakeoffSpeed: 2.2,
+  jumpMinTakeoffSpeed: 2.2 * PLAYER_LOCOMOTION_SPEED_SCALE,
   jumpTriggerRadius: 1.45,
   jumpDirectionDotThreshold: 0.35,
   jumpMaxLandingCorrection: 1.4,
@@ -70,7 +74,7 @@ export const MOVEMENT_CONFIG = {
   // Grounded bands ignored in air; direction only with constant accel/decel and frozen cap.
   airAcceleration: 10,
   airDeceleration: 5,
-  airMinSpeedCap: 3.3, // == walkSpeed, ensures falling from standstill still steerable
+  airMinSpeedCap: 3.3 * PLAYER_LOCOMOTION_SPEED_SCALE, // == walkSpeed, keeps falling steerable
 
   // World bounds
   // Crescent Basin's authored retreat route extends north-to-south from Camp to Threshold Rise.
