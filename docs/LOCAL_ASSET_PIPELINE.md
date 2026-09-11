@@ -2,7 +2,7 @@
 
 
 
-Status: workflow proved with three reviewed, integrated asset classes and an independent replay, September 10, 2026.
+Status: local generation, packaging and runtime integration proved with three candidate classes; **character anatomy/motion acceptance reopened by the owner's physical-phone test**, September 10, 2026. Historical PASS entries below do not override the sideways Mossling and stiff/wide-striding Explorer observed in play. See `MOTION_WORKFLOW_REVIEW.md` for the corrected findings and workflow.
 
 
 

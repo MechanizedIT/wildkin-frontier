@@ -377,7 +377,8 @@ describe("Phase 4A.2.1 — rAF single owner", ()=>{
         }
       }
     }
-    walk(ROOT);
+    // Archived review checkouts under .dream-loop are evidence, not runtime.
+    walk(path.join(ROOT, "src"));
     let totalLoops=0;
     for(const f of allSrc){
       const txt=fs.readFileSync(f,"utf-8");
