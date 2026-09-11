@@ -5,6 +5,8 @@
 
 ## Active objective
 
+**Mixamo trial approved:** Chris explicitly approved the free Explorer upload/rigging/jog/run trial. Permission is no longer pending. The browser is at Adobe sign-in, requiring the owner to finish authentication; continue the approved trial afterward without another upload-approval request. See `MOTION_WORKFLOW_REVIEW.md` for current status.
+
 **Latest physical-phone feedback — animation acceptance reopened:** Chris likes the new model appearance but reports a sideways-headed/sideways-running Mossling and a stiff, wide-striding Explorer. Direct model views confirm the Mossling head and torso/paw axes disagree; the humanoid gait script lacks pelvis/chest rotation and drives large strides on short legs. Earlier animation PASS reports are superseded by this observation, while the local generation/texture/package/runtime work remains useful. Refine Asset Forge with Dream Loop, neutral-pose anatomy review and ordinary-input motion evidence before scaling character production. Mixamo is a proposed free humanoid trial, pending owner authorization/sign-in; no external upload or new animation is implied. Current investigation and next actions are in `MOTION_WORKFLOW_REVIEW.md`.
 
 **Latest owner correction — no hackathon size cap:** Chris explicitly confirmed the old 35 MB limit belonged to the retired Devpost project and no longer applies. Remove that hard gate from build/ZIP tooling and asset-workflow guidance. Continue measuring actual size and mobile rendering/loading costs; historical phase documents and older size-check results do not reinstate the cap.

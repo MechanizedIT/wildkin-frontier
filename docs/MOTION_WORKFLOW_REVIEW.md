@@ -2,6 +2,8 @@
 
 September 10, 2026. Chris tested the local build on his phone, liked the model appearance, and reported a constantly sideways Mossling head/sideways running plus a stiff, wide-striding Explorer. This is a failure of the previous character acceptance process, not a reason to abandon the approved visual style. No replacement character is admitted by this investigation.
 
+**Latest trial status:** Chris explicitly approved the prepared Explorer's free Mixamo upload/rigging/jog/run trial after the approval prompt was not visible. This supersedes the pending-permission text in the earlier preparation record below; do not request the same approval again. Mixamo opened successfully after one reload and is now at Adobe's password sign-in screen. The browser tab is retained for the owner to finish sign-in. No credentials were accessed and no character has been uploaded yet. Once signed in, continue the already-authorized trial; no paid services are authorized.
+
 ## Findings
 
 **Mossling:** the exact shipping GLB's +Z view shows the face toward the camera but the long torso/flank running across the view, with forefeet on one side and hindfeet/tail on the other. The +X view shows the rear end. The face and body axes disagree by roughly a quarter turn. The first audit incorrectly equated face-forward with whole-animal-forward; explicit head/torso/paw comparison corrected that conclusion. The profile's front/rear limb coordinates assume one shared axis, so the attractive static model was not a sound input for this rig. A global yaw adjustment would merely swap which part faces incorrectly. Correct the rest surface or regenerate from a neutral reference and fit fresh landmarks; do not treat the old profile as a reusable animal rig.
