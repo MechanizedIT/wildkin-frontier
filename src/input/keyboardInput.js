@@ -17,18 +17,13 @@ export function shouldHandleGameplayKeyboardEvent(event, enabled = true, activeE
 
 export function createKeyboardInput(moveCfg, appElement = null) {
   let enabled = true;
+  function clearState() {
+    pressed.clear(); spacePressed = false; spaceConsumed = false; attackPending = false; attackConsumed = false;
+    mouseAttackPending = false; mouseDown = false; isFDown = false; externalAttackHeld = false; externalDodgePending = false;
+  }
   function setEnabled(v) {
     enabled = !!v;
-    if (!enabled) {
-      pressed.clear();
-      spacePressed = false;
-      spaceConsumed = false;
-      attackPending = false;
-      attackConsumed = false;
-      mouseAttackPending = false;
-      mouseDown = false;
-      isFDown = false;
-    }
+    if (!enabled) clearState();
   }
   function isEnabled() { return enabled; }
   const pressed = new Set();
@@ -41,6 +36,8 @@ export function createKeyboardInput(moveCfg, appElement = null) {
   let mouseDownTime = 0;
   let fDownTime = 0;
   let isFDown = false;
+  let externalAttackHeld = false;
+  let externalDodgePending = false;
 
   function requestAttack() {
     if (!attackConsumed) {
@@ -48,6 +45,8 @@ export function createKeyboardInput(moveCfg, appElement = null) {
       attackConsumed = true;
     }
   }
+  function requestDodge() { externalDodgePending = true; }
+  function setFieldToolHeld(value) { externalAttackHeld = !!value; }
 
   function onKeyDown(e) {
     if (!shouldHandleGameplayKeyboardEvent(e, enabled)) return;
@@ -86,6 +85,8 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     if (e.button !== 0) return;
     if (e.target.closest && e.target.closest("button, a")) return;
     if (e.pointerType && e.pointerType !== "mouse") return;
+    const rect = appElement?.getBoundingClientRect?.();
+    if (rect && e.clientX - rect.left >= rect.width * .5) return;
     mouseAttackPending = true;
     mouseDown = true;
     mouseDownTime = performance.now();
@@ -100,6 +101,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
 
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
+  window.addEventListener("blur", clearState);
   window.addEventListener("pointerup", onMouseUp);
   window.addEventListener("mouseup", onMouseUp);
   const clickTarget = appElement ?? (typeof document !== "undefined" ? document : null);
@@ -141,7 +143,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     }
 
     let dodgeRequested = false;
-    if (spacePressed && !spaceConsumed && len >= 0) {
+    if ((spacePressed && !spaceConsumed && len >= 0) || externalDodgePending) {
       dodgeRequested = true;
       spaceConsumed = true;
     }
@@ -157,6 +159,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     const now = performance.now();
     if (mouseDown && now - mouseDownTime >= (GESTURE_CONFIG.holdThresholdMs ?? 220)) attackHeld = true;
     if (isFDown && now - fDownTime >= (GESTURE_CONFIG.holdThresholdMs ?? 220)) attackHeld = true;
+    if (externalAttackHeld) attackHeld = true;
 
     return {
       moveX: nx,
@@ -175,6 +178,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     if (spacePressed && spaceConsumed) {
       // keep consumed until release
     }
+    externalDodgePending = false;
   }
 
   function consumeAttack() {
@@ -190,6 +194,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
   function destroy() {
     window.removeEventListener("keydown", onKeyDown);
     window.removeEventListener("keyup", onKeyUp);
+    window.removeEventListener("blur", clearState);
     window.removeEventListener("pointerup", onMouseUp);
     window.removeEventListener("mouseup", onMouseUp);
     const t = appElement ?? (typeof document !== "undefined" ? document : null);
@@ -204,5 +209,5 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     }
   }
 
-  return { getIntent, consumeDodge, consumeAttack, resetDodge, triggerAttack: requestAttack, destroy, _pressed: pressed, setEnabled, isEnabled, get _attackPending() { return attackPending || mouseAttackPending; } };
+  return { getIntent, consumeDodge, consumeAttack, resetDodge, triggerAttack: requestAttack, requestDodge, setFieldToolHeld, isAttackDown: () => isFDown || mouseDown || externalAttackHeld, destroy, _pressed: pressed, setEnabled, isEnabled, get _attackPending() { return attackPending || mouseAttackPending; } };
 }

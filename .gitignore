@@ -4,4 +4,6 @@ dist/
 .DS_Store
 Thumbs.db
 .env
+.dream-loop/
+*.blend1
 __pycache__/

@@ -4,7 +4,7 @@ import { createWildCreature } from "./createWildCreature.js";
 import { RUSHER_CONFIG, SPITTER_CONFIG, COMBAT_CONFIG } from "../combat/combatConfig.js";
 import { CREATURE_SPAWNS } from "./creatureConfig.js";
 import { TEMPERAMENT, TEMPERAMENT_CONFIG, defensiveShouldRetaliate, skittishShouldFlee, territorialShouldWarn, territorialShouldAttack } from "./temperament.js";
-import { findNearestEligible, distanceXZ as distXZpercep, canTargetActor } from "./perception.js";
+import { findNearestEligible, distanceXZ as distXZpercep, canTargetActor, canNoticeQuietPlayer, WILDLIFE_AWARENESS_CONFIG } from "./perception.js";
 import { chooseSteeringDirection, isMovementStalled, STEERING_CONFIG } from "./steering.js";
 
 export function createCreatureSystem(scene, physicsWorld, playground, opts = {}) {
@@ -15,6 +15,8 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   let elapsed = 0;
   let activeRegionSet = null; // null = all active (backwards compat)
   let worldRegistryRef = opts.worldRegistry ?? null;
+  const fieldTamingIntents = new Map();
+  let companionColliderFilter = opts.shouldIgnoreCollider ?? (() => false);
 
   function isLiveCreature(creature) {
     return !!creature && !creature.state.isDead && creature.state.aiState !== "RESPAWNING" && !creature.state.bondCaptured;
@@ -31,7 +33,9 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   const spawnsSource = opts.spawns ?? (worldRegistryRef ? worldRegistryRef.getAllCreatures() : null) ?? CREATURE_SPAWNS;
   for (let i = 0; i < spawnsSource.length; i++) {
     const spawn = spawnsSource[i];
-    const c = createWildCreature(scene, physicsWorld, spawn, i);
+    const c = createWildCreature(scene, physicsWorld, spawn, i, {
+      shouldIgnoreCollider: (candidate) => companionColliderFilter(candidate),
+    });
     // Attach regionId for activation
     c.state.regionId = spawn.regionId ?? spawn.region ?? null;
     c.regionId = c.state.regionId;
@@ -53,6 +57,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       const wasActive = prevSet === null ? true : (c.state.regionId ? prevSet.has(c.state.regionId) : true);
       const isActive = isRegionActive(c.state.regionId);
       if (wasActive && !isActive) {
+        clearFieldTamingIntent(c.state.id);
         // Deactivating — hide, disable collision, freeze AI timers (no reset, timer stays for reactivation)
         c.state._regionInactive = true;
         c.setVisible(false);
@@ -88,6 +93,10 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   function setPlayerPos(pos) { playerPosRef = pos; }
   function setPlayerState(st) { playerStateRef = st; }
   function setInvulnChecker(fn) { isPlayerInvuln = fn; }
+  function setCompanionColliderFilter(next) {
+    companionColliderFilter = typeof next === "function" ? next : () => false;
+    for (const creature of creatures) creature.setColliderFilter(companionColliderFilter);
+  }
   let playerColliderRef = null;
   function setPlayerCollider(collider) { playerColliderRef = collider ?? null; }
 
@@ -114,6 +123,32 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     return dy <= COMBAT_CONFIG.verticalTolerance + 0.4;
   }
 
+  function clearPlayerSight(creature) {
+    const world = physicsWorld?.world, RAPIER = physicsWorld?.RAPIER;
+    if (!world || !RAPIER?.Ray) return true;
+    const origin = creature.state.pos, target = playerPosRef;
+    const dx = target.x - origin.x, dy = (target.y ?? .5) - origin.y, dz = target.z - origin.z;
+    const length = Math.hypot(dx, dy, dz);
+    if (length < .01) return true;
+    const ray = new RAPIER.Ray({x:origin.x,y:origin.y+.2,z:origin.z},{x:dx/length,y:dy/length,z:dz/length});
+    return !world.castRay(ray, length, true, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS,
+      undefined, creature.collider, undefined, collider => {
+        if (playerColliderRef?.handle === collider.handle || companionColliderFilter(collider)) return false;
+        return !creatures.some(other => other.collider?.handle === collider.handle);
+      });
+  }
+
+  function updatePlayerAwareness(creature, dt) {
+    const st = creature.state;
+    const radius = st.noticeRadius + (st.temperament === TEMPERAMENT.SKITTISH ? 1 : 0);
+    const seen = canNoticeQuietPlayer({ observer: st,
+      player: playerStateRef ? {pos:playerPosRef,mode:playerStateRef.mode,speed:playerStateRef.speed} : {pos:playerPosRef},
+      noticeRadius: radius, verticalTolerance: COMBAT_CONFIG.verticalTolerance + .4,
+      lineOfSight: () => clearPlayerSight(creature) });
+    st.playerNoticeRemaining = seen ? WILDLIFE_AWARENESS_CONFIG.memorySeconds : Math.max(0,(st.playerNoticeRemaining ?? 0)-dt);
+    st.playerDetected = seen || st.playerNoticeRemaining > 0;
+  }
+
   // --- movement helpers with steering ---
 
   function probeBlocked(from, angle, distance, radius) {
@@ -130,6 +165,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         const exclude = new Set(creatures.filter(cc => cc.collider).map(cc => cc.collider));
         if (playerColliderRef) exclude.add(playerColliderRef);
         const pred = exclude.size > 0 ? (collider) => {
+          if (companionColliderFilter(collider)) return false;
           for (const ex of exclude) if (ex === collider || ex.handle === collider.handle) return false;
           return true;
         } : null;
@@ -235,7 +271,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     let sepX = 0, sepZ = 0, count = 0;
     for (const other of creatures) {
       if (other === creature) continue;
-      if (other.state.isDead || other.state.aiState === "RESPAWNING") continue;
+      if (!isLiveCreature(other)) continue;
       const dx = st.pos.x - other.state.pos.x;
       const dz = st.pos.z - other.state.pos.z;
       const d2 = dx * dx + dz * dz;
@@ -312,7 +348,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
 
   function dealDamageToWildkin(attacker, target, sourcePos) {
-    if (!target || target.state.isDead || target.state.aiState === "RESPAWNING") return false;
+    if (!isLiveCreature(target)) return false;
     // owner exclusion already handled
     const dmg = attacker.state.cfg.damage ?? 1;
     const isPlayerAttacker = attacker === "player" || attacker.actorType === "player";
@@ -432,7 +468,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     // also check safe distance from other creatures? small separation
     for (const other of creatures) {
       if (other === creature) continue;
-      if (other.state.isDead || other.state.aiState === "RESPAWNING") continue;
+      if (!isLiveCreature(other)) continue;
       if (distanceXZ(home, other.state.pos) < 0.9) {
         creature.state.respawnRemaining = 0.7;
         return false;
@@ -450,6 +486,8 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     creature.state.retaliationTargetId = null;
     creature.state.retaliationRemaining = 0;
     creature.state.playerDamaged = false;
+    creature.state.playerDetected = false;
+    creature.state.playerNoticeRemaining = 0;
     creature.state.lastAttackerId = null;
     creature.state.facing = Math.random() * Math.PI * 2;
     creature.state.steerHold = 0;
@@ -472,7 +510,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     const pos = st.pos;
     // aggressive may attack configured hostile species
     const hostile = st.hostileSpecies ?? [];
-    const candidates = creatures.filter(c => c !== attacker && !c.state.isDead && c.state.aiState !== "RESPAWNING");
+    const candidates = creatures.filter(c => c !== attacker && isLiveCreature(c) && isRegionActive(c.state.regionId));
     let best = null;
     let bestDist = Infinity;
     for (const cand of candidates) {
@@ -502,10 +540,14 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   function selectPlayerOrWildkinTarget(creature) {
     const st = creature.state;
     const pos = st.pos;
+    // An explicit field challenge provokes a real, collision-resolved attack.
+    if (fieldTamingIntents.get(st.id)?.challenge && isVerticallyValidPos(st.pos, playerPosRef) && distanceXZ(st.pos, playerPosRef) < 12) {
+      return { targetPos: playerPosRef, isPlayer: true, targetCreature: null, dist: distanceXZ(st.pos, playerPosRef) };
+    }
     // choose between player and wildkin targets based on temperament
     let playerCandidate = null;
     let playerDist = distanceXZ(pos, playerPosRef);
-    const playerVertOk = isVerticallyValidPos(pos, playerPosRef);
+    const playerVertOk = isVerticallyValidPos(pos, playerPosRef) && st.playerDetected !== false;
     const wildkinSel = selectWildkinTarget(creature);
 
     // decide per temperament
@@ -580,11 +622,11 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     if (st.fleeTime > 0) return true;
     // also if threat within notice (player or aggressive wildkin)
     const playerDist = distanceXZ(st.pos, playerPosRef);
-    if (playerDist <= st.noticeRadius + 1.0 && isVerticallyValidPos(st.pos, playerPosRef)) return true;
+    if (st.playerDetected !== false && playerDist <= st.noticeRadius + 1.0 && isVerticallyValidPos(st.pos, playerPosRef)) return true;
     // check nearest aggressive wildkin near
     for (const other of creatures) {
       if (other === creature) continue;
-      if (other.state.isDead || other.state.aiState === "RESPAWNING") continue;
+      if (!isLiveCreature(other)) continue;
       if (other.state.temperament !== TEMPERAMENT.AGGRESSIVE) continue;
       const d = distanceXZ(st.pos, other.state.pos);
       if (d <= 4.5 && isVerticallyValidPos(st.pos, other.state.pos)) return true;
@@ -634,7 +676,23 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         }
         continue;
       }
-      if (st.isDead) continue;
+      if (st.isDead) { clearFieldTamingIntent(st.id); continue; }
+      st.fieldTamingRecoveryRemaining = Math.max(0, (st.fieldTamingRecoveryRemaining ?? 0) - dt);
+      const fieldIntent = fieldTamingIntents.get(st.id);
+      if (fieldIntent && (st.playerDamaged || st.aiState === "HURT")) clearFieldTamingIntent(st.id);
+      else if (fieldIntent && !fieldIntent.challenge) {
+        st.aiState = "ROAM"; st.isAggroed = false;
+        if (!fieldIntent.hold && fieldIntent.targetPos && distanceXZ(st.pos, fieldIntent.targetPos) > (fieldIntent.stopDistance ?? .6)) {
+          moveTowards(c, fieldIntent.targetPos, Math.min(2, fieldIntent.speed ?? 1), dt);
+        }
+        // The same character controller supplies terrain grounding while
+        // feeding, caught in a snare, or considering a chime perch.
+        if (c.collider) c.move({ x: 0, y: -3 * dt, z: 0 });
+        c.updateVisual(dt);
+        continue;
+      }
+
+      updatePlayerAwareness(c, dt);
 
       // timers
       if (st.retaliationRemaining > 0) st.retaliationRemaining = Math.max(0, st.retaliationRemaining - dt);
@@ -675,10 +733,10 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       // territorial timeInsideNotice tracking
       if (st.temperament === TEMPERAMENT.TERRITORIAL) {
         const d = distanceXZ(st.pos, playerPosRef);
-        if (d <= st.noticeRadius && isVerticallyValidPos(st.pos, playerPosRef)) st.timeInsideNotice = (st.timeInsideNotice ?? 0) + dt;
+        if (st.playerDetected && d <= st.noticeRadius && isVerticallyValidPos(st.pos, playerPosRef)) st.timeInsideNotice = (st.timeInsideNotice ?? 0) + dt;
         else st.timeInsideNotice = 0;
         // warn handling
-        if (distanceXZ(st.pos, playerPosRef) <= st.noticeRadius && isVerticallyValidPos(st.pos, playerPosRef)) {
+        if (st.playerDetected && distanceXZ(st.pos, playerPosRef) <= st.noticeRadius && isVerticallyValidPos(st.pos, playerPosRef)) {
           if (!st.hasWarned && territorialShouldWarn({ dist: d, noticeRadius: st.noticeRadius, personalSpace: st.personalSpaceRadius, timeInsideNotice: st.timeInsideNotice, temperament: st.temperament })) {
             st.aiState = "WARN";
             st.aiTimer = 0;
@@ -780,7 +838,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         // check nearest aggressive
         for (const other of creatures) {
           if (other === c) continue;
-          if (other.state.isDead || other.state.aiState === "RESPAWNING") continue;
+          if (!isLiveCreature(other)) continue;
           if (other.state.temperament === TEMPERAMENT.AGGRESSIVE) {
             const d = distanceXZ(st.pos, other.state.pos);
             if (d < bestThreatDist) { bestThreatDist = d; threatPos = other.state.pos; }
@@ -857,12 +915,15 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
             st.targetLungeDir = { x: dx / len, z: dz / len, targetCreature, isPlayerTarget };
           }
           st._lungeHit = false;
+          st._lungeDamagedPlayer = false;
+          st._lungeWasDodged = false;
           st._lungeTargetCreature = targetCreature;
           st._lungeIsPlayer = isPlayerTarget;
         }
         break;
       case "LUNGE":
         st.aiTimer += dt;
+        if (st._lungeIsPlayer && (playerStateRef?.dodgeTime > 0 || playerStateRef?.mode === "DODGE")) st._lungeWasDodged = true;
         {
           const dir = st.targetLungeDir;
           if (dir) {
@@ -875,7 +936,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
               const curDist = distanceXZ(st.pos, playerPosRef);
               const vertOk = isVerticallyValid(c);
               if (curDist <= cfg.attackRange + 0.2 && vertOk && st.aiTimer > cfg.lungeDuration * 0.35) {
-                if (!isPlayerInvuln()) dealDamageToPlayer(c, st.pos);
+                if (!isPlayerInvuln()) st._lungeDamagedPlayer = !!dealDamageToPlayer(c, st.pos);
                 st._lungeHit = true;
               }
             } else if (st._lungeTargetCreature) {
@@ -896,6 +957,10 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
             }
           }
           if (st.aiTimer >= cfg.lungeDuration) {
+            if (fieldTamingIntents.get(st.id)?.challenge && st._lungeIsPlayer && st._lungeWasDodged && !st._lungeDamagedPlayer) {
+              st.dodgedChargeSerial = (st.dodgedChargeSerial ?? 0) + 1;
+              st.fieldTamingRecoveryRemaining = 4;
+            }
             st.aiState = "RECOVER";
             st.aiTimer = 0;
             st.targetLungeDir = null;
@@ -906,7 +971,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         break;
       case "RECOVER":
         st.aiTimer += dt;
-        if (st.aiTimer >= cfg.recover) {
+        if (st.aiTimer >= cfg.recover && !(st.fieldTamingRecoveryRemaining > 0)) {
           // decide next
           if (hasTarget && distToTarget <= cfg.attackRange + 0.5) { st.aiState = "WINDUP"; st.aiTimer = 0; }
           else if (hasTarget) { st.aiState = "CHASE"; st.aiTimer = 0; }
@@ -956,7 +1021,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
         let threatPos = playerPosRef;
         let bestD = distanceXZ(st.pos, playerPosRef);
         for (const other of creatures) {
-          if (other === c) continue;
+          if (other === c || !isLiveCreature(other)) continue;
           if (other.state.temperament === TEMPERAMENT.AGGRESSIVE) {
             const d = distanceXZ(st.pos, other.state.pos);
             if (d < bestD) { bestD = d; threatPos = other.state.pos; }
@@ -1052,6 +1117,19 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
   function getAllAliveCreatures() { return creatures.filter(isLiveCreature); }
 
+  function setFieldTamingIntent(id, intent) {
+    const c = creatures.find(c => c.state.id === id);
+    if (!isLiveCreature(c) || !isRegionActive(c.state.regionId) || c.state.playerDamaged || c.state.bondingHeld) return false;
+    if (!intent || (!intent.hold && !intent.challenge && ![intent.targetPos?.x, intent.targetPos?.z].every(Number.isFinite))) return false;
+    fieldTamingIntents.set(id, { ...intent, targetPos: intent.targetPos ? { ...intent.targetPos } : null });
+    return true;
+  }
+  function clearFieldTamingIntent(id) {
+    fieldTamingIntents.delete(id);
+    const c = creatures.find(c => c.state.id === id);
+    if (c) c.state.fieldTamingRecoveryRemaining = 0;
+  }
+
   function setBondingTarget(id = null) {
     let found = null;
     for (const creature of creatures) {
@@ -1070,6 +1148,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     if (!creature || !isLiveCreature(creature) || !creature.state.bondingHeld) return null;
     creature.state.bondingHeld = false;
     creature.state.bondCaptured = true;
+    clearFieldTamingIntent(id);
     creature.state.isAggroed = false;
     creature.showFocusRing(false);
     creature.setVisible(false);
@@ -1078,9 +1157,12 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
 
   function reset() {
+    fieldTamingIntents.clear();
     for (const c of creatures) {
       c.state.isDead = false;
       c.state.noRespawnThisRun = false;
+      c.state.fieldTamingRecoveryRemaining = 0;
+      c.state.dodgedChargeSerial = 0;
       c.state.bondingHeld = false;
       c.state.bondCaptured = false;
       c.state.health = c.state.cfg.health;
@@ -1111,6 +1193,8 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
       c.state.retaliationTargetId = null;
       c.state.retaliationRemaining = 0;
       c.state.playerDamaged = false;
+      c.state.playerDetected = false;
+      c.state.playerNoticeRemaining = 0;
       c.state.lastAttackerId = null;
       c.state.steerHold = 0;
       c.state.steerAngle = null;
@@ -1122,6 +1206,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
 
   function dispose() {
+    fieldTamingIntents.clear();
     for (const c of creatures) c.dispose();
     creatures.length = 0;
   }
@@ -1136,10 +1221,10 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
 
   return {
-    update, getCreatures, getAliveCreatures, getAllAliveCreatures, damageCreature, setPlayerPos, setPlayerState, setInvulnChecker, setPlayerCollider,
+    update, getCreatures, getAliveCreatures, getAllAliveCreatures, damageCreature, setPlayerPos, setPlayerState, setInvulnChecker, setPlayerCollider, setCompanionColliderFilter,
     getAliveCount, isAnyAggroedNearby, isAnyAggroedNearbyActive, reset, dispose, setTemperamentDebugVisible,
     setActiveRegions, getActiveCreatures, getActiveAliveCreatures, getActiveCreatureCount, isRegionActive,
-    setBondingTarget, secureBondTarget,
+    setBondingTarget, secureBondTarget, setFieldTamingIntent, clearFieldTamingIntent,
     getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null,
     setWorldRegistry: (wr) => { worldRegistryRef = wr; },
     _creatures: creatures,

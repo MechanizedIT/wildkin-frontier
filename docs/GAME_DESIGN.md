@@ -10,16 +10,18 @@ The following choices are implemented for this candidate under Chris's broad des
 
 | System | Candidate behavior |
 | --- | --- |
-| Bonding | Approach an undamaged bondable Wildkin peacefully; answer three resonance timing echoes before three misses. Cancel safely. New bonds remain at risk until extraction. |
+| Bonding | September 11 overnight revision: Mossling berry lure/space/feeding, Tidefin dry-bank snare/release, Emberhorn avoided charge/tether/food, Skydancer quiet chime/perches. These replace the universal timing modal; field attempts are under integrated mobile review. New bonds remain at risk until extraction. |
 | Companions | Mossling heals; Tidefin shields for three seconds; Emberhorn sends a damaging shockwave; Skydancer leaps upward. Choose one secured companion at Camp. Each opens a matching seal. |
 | Capacity | One unsecured bond initially; Wildkin Shelter tiers raise capacity to two, three, then four. Secured species cannot be captured repeatedly. |
 | Progression | Banked XP determines level; carried XP is lost on death. Five three-tier upgrade families use secured matter. Field milestones grant one-time secured rewards. |
 | Healing | Craft medkits at Camp from Fiber and Berries; Field Medicine increases their healing. Mossling provides a reusable healing option. |
+| Camp building | Persistent free placement in an expandable clearing; floors, walls, doorway, fence, lantern, workbench and Wildkin bed. Rotate, cancel and remove/refund. Foundations support walls/furniture; routes/services stay clear. Initial art, recipes and dimensions are provisional. The bed's rest behavior remains unfinished. |
+| Field crafting | Secured resources make berry lures, woven snares, calming chimes and reinforced tethers; advanced gear requires a placed workbench. Equipment persists, while placed field attempts clear on travel/death. |
 | Economy | Gate repair spends carried materials and persists immediately. Every required gate material has a renewable source in reachable regions. Camp upgrades spend banked matter. |
 | Finale | The Heartwood Guardian guards the Core. Amber rings warn before area impacts; at low health it chains strikes. The Core only completes the campaign when extracted. Losing it leaves it recoverable. |
 | Saving | Browser-local secured progress, validated export/restore at Camp. Unfinished expeditions are not resumed after reload. |
 
-Target expedition length remains 5–10 minutes; complete campaign duration and sustained physical-phone performance are unmeasured. Mounts, swimming/gliding, equipment/ranged player loadouts, expanded base building, and a larger narrative campaign remain future work. The authoring system supports new creatures and content; new bonded abilities require a deliberate catalog/runtime addition.
+Target expedition length remains 5–10 minutes; complete campaign duration and sustained physical-phone performance are unmeasured. Mounts, swimming/gliding, expanded combat loadouts and a larger narrative campaign remain future work. Chris explicitly authorized free base building and task-specific taming equipment on September 11; those are active work, with current status in OVERNIGHT_MANDATE.md. The authoring system supports new creatures and content; new bonded abilities require a deliberate catalog/runtime addition.
 
 See `BETA_RELEASE_PLAN.md`, `BETA_PLAYTEST_GUIDE.md`, and `BETA_CANDIDATE_REPORT.md` for current delivery scope and proof. The sections below preserve the foundational design and its historical rationale; candidate details above supersede older “open” or “later” wording for implemented systems.
 
@@ -27,7 +29,7 @@ See `BETA_RELEASE_PLAN.md`, `BETA_PLAYTEST_GUIDE.md`, and `BETA_CANDIDATE_REPORT
 
 - **Title:** Wildkin Frontier
 - **Genre:** Survival & Resource Management
-- **Format:** Single-player, portrait mobile web game (Three.js/HTML5)
+- **Format:** Single-player, landscape-first mobile web game (Three.js/HTML5), explicitly changed by Chris on September 10, 2026. Keep a usable portrait fallback.
 - **Camera:** Fixed high third-person / near top-down
 - **Target session:** roughly 5–10 minutes for one meaningful expedition
 

@@ -9,6 +9,29 @@ export function distanceXZ(a, b) {
   return Math.hypot(a.x - b.x, a.z - b.z);
 }
 
+export const WILDLIFE_AWARENESS_CONFIG = Object.freeze({
+  quietHearingRadius: 1.15,
+  quietVisionScale: .85,
+  visionHalfAngle: Math.PI / 3,
+  memorySeconds: 1.8,
+});
+
+// Ordinary movement is audible around an animal. Sneaking and standing still
+// require close hearing or a clear frontal view. A renderer is not needed.
+export function canNoticeQuietPlayer({ observer, player, noticeRadius, verticalTolerance = 2, lineOfSight = () => true }) {
+  if (!observer?.pos || !player?.pos) return false;
+  const dx = player.pos.x - observer.pos.x, dz = player.pos.z - observer.pos.z;
+  const distance = Math.hypot(dx, dz);
+  if (distance > noticeRadius || Math.abs((player.pos.y ?? .5) - (observer.pos.y ?? .5)) > verticalTolerance) return false;
+  const quiet = player.mode === 'SNEAK' || (player.mode === 'IDLE' && (player.speed ?? 0) < .1);
+  if (!quiet) return true;
+  if (distance <= WILDLIFE_AWARENESS_CONFIG.quietHearingRadius) return true;
+  if (distance > noticeRadius * WILDLIFE_AWARENESS_CONFIG.quietVisionScale) return false;
+  const facing = observer.facing ?? 0;
+  const dot = (Math.sin(facing) * dx + Math.cos(facing) * dz) / distance;
+  return dot >= Math.cos(WILDLIFE_AWARENESS_CONFIG.visionHalfAngle) && lineOfSight();
+}
+
 export function isAliveActor(actor) {
   if (!actor) return false;
   if (actor.alive === false) return false;

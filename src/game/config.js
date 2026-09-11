@@ -84,9 +84,8 @@ export const MOVEMENT_CONFIG = {
 export const CAMERA_CONFIG_FOLLOW = {
   followLerp: 5.0,
   lookAtLerp: 6.0,
-  lookAheadRun: 1.1,
-  lookAheadLerp: 2.2,
-  lookAheadMax: 1.6,
+  // The fixed focal height/framing lives with the base camera configuration.
+  yawSensitivity: 0.008,
 };
 
 export const INPUT_CONFIG = {

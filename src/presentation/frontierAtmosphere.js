@@ -6,7 +6,7 @@ const PALETTES = {
   section_2: { fog: 0x224b66, mote: 0x7fd6ff },
   section_3: { fog: 0x756051, mote: 0xffa967 },
   section_4: { fog: 0x646c8e, mote: 0xd8b8ff },
-  section_5: { fog: 0x253e49, mote: 0xf7d17d },
+  section_5: { fog: 0x3c3d70, mote: 0x67dce9 },
   default: { fog: 0x215c56, mote: 0x82efcb },
 };
 

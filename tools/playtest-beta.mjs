@@ -9,7 +9,7 @@ const baseURL = process.env.GAME_URL ?? "http://localhost:8080/";
 const out = "dist/qa";
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ headless: true, channel: "msedge" });
-const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+const page = await browser.newPage({ viewport: { width: 844, height: 390 } });
 const errors = [];
 const report = [];
 page.on("pageerror", e => errors.push(e.stack));
@@ -83,8 +83,11 @@ try {
   });
   await capture("bonding-phone");
   for (let i = 0; i < 3; i++) {
-    await page.waitForFunction(index => { const s = window.__game.betaGame.companions.getBondState(); return s && s.successes === index && Math.abs(s.phase - s.target) < .05; }, i);
-    await page.locator(".bond-tap").click();
+    // Focus once before the timing window. Native Enter avoids Playwright's
+    // animated-element click stability wait delaying an otherwise correct hit.
+    await page.locator(".bond-tap").focus();
+    await page.waitForFunction(index => { const s = window.__game.betaGame.companions.getBondState(); return s && s.successes === index && s.phase > s.target-.035 && s.phase < s.target+.01; }, i);
+    await page.keyboard.press('Enter');
     await page.waitForTimeout(370);
   }
   await page.waitForTimeout(1200);

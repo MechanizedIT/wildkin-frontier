@@ -10,6 +10,12 @@ page.on("pageerror", error => errors.push(error.stack));
 fs.mkdirSync("dist/qa", { recursive: true });
 const url = process.env.GAME_URL ?? "http://localhost:8080/";
 const screenshot = name => page.screenshot({ path: `dist/qa/${name}.png` });
+async function openShellTab(tab) {
+  const direct = page.locator('.beta-panel nav [data-tab="'+tab+'"]').first();
+  if (await direct.isVisible()) { await direct.click(); return; }
+  await page.locator('.beta-panel nav [data-tab="more"]').click();
+  await page.locator('.beta-panel main [data-tab="'+tab+'"]').click();
+}
 try {
   await page.goto(url);
   await page.locator('[data-action="start"]').click();
@@ -17,7 +23,7 @@ try {
   const before = await page.evaluate(() => ({ ...window.__game.playerController.getState().pos }));
   await page.keyboard.down("w"); await page.waitForTimeout(250); await page.keyboard.up("w");
   assert.deepEqual(await page.evaluate(() => ({ ...window.__game.playerController.getState().pos })), before);
-  await page.locator('[data-tab="settings"]').click();
+  await openShellTab("settings");
   await page.locator('input[data-action="mute"]').uncheck();
   assert.equal(await page.evaluate(() => window.__game.betaGame.getModel().settings.muted), true);
   await page.locator('input[data-action="mute"]').check();
@@ -100,7 +106,7 @@ try {
   }
   // Export a real backup via UI, prove invalid restore is non-mutating, restore
   // a valid backup through the native chooser and explicit confirmation.
-  await page.keyboard.press("j"); await page.locator('[data-tab="settings"]').click();
+  await page.keyboard.press("j"); await openShellTab("settings");
   const downloadPromise = page.waitForEvent("download");
   await page.locator('[data-action="exportSave"]').click();
   const download = await downloadPromise, backupPath = "dist/qa/frontier-backup.json";
@@ -121,7 +127,7 @@ try {
   checks.push("Native export/download + invalid import rejection + confirmed valid restore/reload");
   for(const width of [320,390,430,1024]) {
     await page.setViewportSize({width,height:844});
-    await page.keyboard.press("j"); await page.locator('[data-tab="workshop"]').click();
+    await page.keyboard.press("j"); await openShellTab("workshop");
     await page.waitForTimeout(100);
     const bounds=await page.locator('.beta-panel').boundingBox();
     assert.ok(bounds.x >= 0 && bounds.x+bounds.width <= width+1);

@@ -48,3 +48,53 @@ Supplied source leads:
 - https://www.facebook.com/groups/3dartistsb/posts/7661216990582945/
 
 Requested outcome: focused independent research that improves the project's rigging/animation workflow and skill, with actual verified Blender steps rather than blindly adopting the generated summary.
+
+## Reuse open-source tools — owner follow-up
+
+> Also, don't try to recreate te wheel if it exists out there as a free opensource library or something that will help and works with three.js and our current stack
+
+## Natural world edges — owner follow-up
+
+> Another thought before bed, don't let world/level/zone just end like it currently does or at least last I tested it, the player should be blocked by trees, cliffa, other obstacles and shouldn't see a world vorder, know what I mean?
+
+## Independent level design and living-world review — owner follow-up
+
+> Also, not sure if u are doing tgis, vut have a subagent review independeltly levels/zones, as a pro game level designer, does the layout of this level make sense, is it too flat, is there enough variety, is it big enough, where would be goood places to put harvestables or wildkin spawns, are assets overlapping like a wildkin spawns in a tree or a harvestable and obstacle are overlapped, etc, because currently there are a lot of places that this happens, and if you think the level is big enough, it probably needs to be bigger so that future updates can add more paths, ruins, things to explore and do in a level, there should just be straight paths everywhere, maybe break them up a little, not be so geometric, be overgrown in places, maybe have some gravel here or there, some streams or rivers, the world should feel more real and natural and alive, wildkins should sometimes spawn in pairs or several and not be hard set, there should be more dangers in the world like pitfalls, or swarms of wildkins when u hit one it agrros several, or a heard that runs away, or flying creatures, bugs, etc just some thoughts
+
+Interpretation of the straight-path sentence follows its surrounding request: break up straight/geometric routes into natural, varied, sometimes overgrown paths. Exact zone sizes and encounter designs remain delegated provisional choices. Independent review should inspect actual visual/collision placement and playable space, not only coordinates or passing schema checks.
+
+## Sneaking and wildlife awareness — owner follow-up
+
+> Also, take advantage of sneakinng mechanic, maybe some animals won't botice a player that sneaks unless right in front of their view
+
+## Distinct alien ruins and interactive discoveries — owner follow-up
+
+> Also, don't place the same arch ruin asset everywhere, come up with alien ruins, maybe the 'hidden chest' is a ruin that can be uncovered with a wildkin skill or needs rebuilt with resources
+
+## World-anchored action buttons — owner follow-up
+
+> Also, make buttons in the world, like the travel button or extract should pop up over the actual object (world to screen coords? Idk how three.js works with ui?)
+
+## Additional owner steering — immersive crafting and equipable toolbar
+
+> If you get to crafting or building tonight, try to make things visual and immersive and less menus and ui, try to find games that have good immersive and visual crafting, there should be progression to it somehow, bot just one crafting ststion for everythiing and should be on theme as this is more scifi and futuristic, so the player might start with anl crude axe like omnitool for harvesting and fighting but we should have more tools for harvesting and fighting, maybe ranged weapons, powered harvest tools, maybe a minecraft style toolbar at the bottom and an inventory that lets you equip the slots with usables like tools, medkits, food, taming items, building items
+
+This is direct owner direction. Exact station/tool recipes and progression are provisional implementation choices, not accepted balance.
+
+## Additional owner steering — one existing usage reset at exhaustion
+
+> Last thing, going to bed now, if my usage gets low, I have a usage reset you may use to keep working id it gets to zero
+
+Direct owner authorization for one existing reset credit if the usage limit reaches zero. No purchase or early redemption is implied.
+
+## Additional owner steering — physical machinery and discovery animation
+
+> Also bote that machines and chests and ruins and things should animate, so for eample if a crafting station is doing something it should animate, games like satisfactory do a great job with this (see for reference)
+
+Direct owner direction: purposeful motion must communicate operating, opening and activating states. Retain separate movable model parts and correct pivots; judge actual in-game cycles, not only an indicator or a named clip.
+
+> So you might need to split models up in blender or generate parts, idk
+
+> So some parts move
+
+Confirmed interpretation: keep a fixed body with separate movable assemblies, using bounded Blender separation or generated replacement parts where appropriate.

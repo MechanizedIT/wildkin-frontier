@@ -31,8 +31,14 @@ try{
   await page.keyboard.down("d");await page.waitForTimeout(500);await page.keyboard.up("d");
   assert.ok(await page.evaluate(x=>window.__game.playerController.getState().pos.x>x+.8,pos.x));
   await page.keyboard.press("b");
+  async function openShellTab(tab) {
+    const direct = page.locator('.beta-panel nav [data-tab="'+tab+'"]').first();
+    if (await direct.isVisible()) { await direct.click(); return; }
+    await page.locator('.beta-panel nav [data-tab="more"]').click();
+    await page.locator('.beta-panel main [data-tab="'+tab+'"]').click();
+  }
   for (const tab of ['inventory','skills','wildkin','settings']) {
-    await page.locator('.beta-panel nav [data-tab="'+tab+'"]').click();
+    await openShellTab(tab);
     assert.ok(await page.locator('.beta-panel').isVisible());
   }
   await page.screenshot({path:"dist/qa/package-offline-settings.png"});

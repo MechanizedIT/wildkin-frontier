@@ -13,6 +13,8 @@ acceptance reopened by the owner.
 
 Read [rigging.md](rigging.md), [admission.md](admission.md) and the project’s `docs/QUADRUPED_RESEARCH.md` first.
 
+For the later authored Wolf transfer's torso/flower rejection and the next three-pose fitting study, read `docs/RIGGING_RESEARCH.md` and [anatomy-and-export.md](anatomy-and-export.md). Keep the useful donor rhythm, but do not repeat full gait bakes until the loaded torso and attachment silhouette pass.
+
 ## Neutral anatomy gate
 
 1. Render actual orthographic front, both sides and rear views before placing bones. Confirm separately that head, chest/spine, tail, forepaws and hindpaws all point along one travel axis. A three-quarter beauty render, a profile label or a skeleton hierarchy is not proof.

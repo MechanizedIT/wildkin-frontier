@@ -34,11 +34,18 @@ function makeProgress() {
 }
 
 describe("Phase 4B.1 — section activation boundary", () => {
-  it("accepts overlapping local bounds and rejects nonstandard section dimensions", () => {
+  it("accepts bounded authored expedition envelopes and rejects oversized bounds", () => {
     assert.doesNotThrow(() => normalizeWorldData(WORLD_DATA));
+    const expanded = structuredClone(WORLD_DATA);
+    const expandedSection = expanded.regions.find((entry) => entry.id === "section_1");
+    expandedSection.size = { width: 80, depth: 80 };
+    expandedSection.bounds = { minX: -40, maxX: 40, minZ: -40, maxZ: 40 };
+    assert.doesNotThrow(() => normalizeWorldData(expanded));
     const invalid = structuredClone(WORLD_DATA);
-    invalid.regions.find((entry) => entry.id === "section_1").size.width = 60;
-    assert.throws(() => normalizeWorldData(invalid), /size must match local bounds|50x50/);
+    invalid.regions.find((entry) => entry.id === "section_1").size.width = 161;
+    invalid.regions.find((entry) => entry.id === "section_1").size.depth = 161;
+    invalid.regions.find((entry) => entry.id === "section_1").bounds = { minX: -80.5, maxX: 80.5, minZ: -80.5, maxZ: 80.5 };
+    assert.throws(() => normalizeWorldData(invalid), /50\.\.160 units/);
   });
 
   it("hides inactive roots and disables colliders through the production SectionRuntime", () => {

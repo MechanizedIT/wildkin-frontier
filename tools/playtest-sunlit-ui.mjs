@@ -14,6 +14,16 @@ for(const [width,height,label] of [[390,844,'390'],[320,568,'320']]){
  await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>window.__game?.frontierMap);
  await checkpoint(page,`${label}-welcome`);
  await page.locator('[data-action=start]').click();await page.waitForTimeout(200);
+ if(label==='390'){
+  const fieldTool=page.locator('.beta-field-tool');
+  await page.evaluate(()=>Object.defineProperty(document.querySelector('.beta-field-tool'),'setPointerCapture',{configurable:true,value:()=>{throw new DOMException('capture unavailable')}}));
+  await fieldTool.dispatchEvent('pointerdown',{pointerId:771,pointerType:'touch',bubbles:true});
+  const heldBeforeRelease=await page.evaluate(()=>window.__game.keyboardInput.getIntent().attackHeld);
+  await page.evaluate(()=>window.dispatchEvent(new PointerEvent('pointerup',{pointerId:771,pointerType:'touch',bubbles:true})));
+  const heldAfterOutsideRelease=await page.evaluate(()=>window.__game.keyboardInput.getIntent().attackHeld);
+  if(!heldBeforeRelease||heldAfterOutsideRelease)throw new Error('Field Tool must release when capture fails and pointerup occurs outside its button');
+  report.push('390 Field Tool capture-failure outside release=true');
+ }
  await page.getByRole('button',{name:'Open Map'}).click();await checkpoint(page,`${label}-map-inspect`);
  await page.keyboard.press('Escape');await page.waitForTimeout(100);report.push(`${label} map Escape closed=${await page.evaluate(()=>!window.__game.frontierMap.isOpen())}`);
  await page.evaluate(()=>window.__game.frontierMap.openStartSelection());await checkpoint(page,`${label}-map-travel`);
@@ -27,7 +37,7 @@ for(const [width,height,label] of [[390,844,'390'],[320,568,'320']]){
  await page.locator('.anchor-keep').click();
  await page.keyboard.press('b');await page.waitForTimeout(100);await checkpoint(page,`${label}-backpack`);await page.keyboard.press('Escape');
  await page.keyboard.press('k');await page.waitForTimeout(100);await checkpoint(page,`${label}-skills`);await page.keyboard.press('Escape');
- await page.locator('.beta-hud-button[data-tab="inventory"]').click();await page.waitForTimeout(60);await page.locator('[data-tab="wildkin"]').click();await checkpoint(page,`${label}-roster`);await page.keyboard.press('Escape');
+ await page.locator('.beta-hud-button[data-tab="inventory"]').click();await page.waitForTimeout(60);const wildkinTab=page.locator('.beta-panel nav [data-tab="wildkin"]');if(await wildkinTab.isVisible())await wildkinTab.click();else{await page.locator('.beta-panel nav [data-tab="more"]').click();await page.locator('.more-panel [data-tab="wildkin"]').click();}await checkpoint(page,`${label}-roster`);await page.keyboard.press('Escape');
  report.push(`${label} JS errors: ${errors.length?errors.join(' | '):'none'}`);
  await page.close();
 }

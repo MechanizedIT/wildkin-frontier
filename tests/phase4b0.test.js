@@ -388,7 +388,8 @@ describe("Phase 4B.0 — Drop Pod/runtime proof", () => {
     const runtime = createStaticWorld(WORLD_DATA);
     const root = runtime.group.getObjectByName(campDropPod.id);
     assert.equal(root.userData.visualRef.kind, "asset");
-    assert.equal(root.children.length, asset.parts.length);
+    assert.ok(root.children.length <= asset.parts.length, "runtime rendering never expands the editable recipe");
+    if (root.userData.staticPropBatch) assert.ok(root.children.length < asset.parts.length, "a mesh-only recipe groups same-material parts");
     const obstacle = runtime.obstacles.find((entry) => entry.id === campDropPod.id);
     assert.ok(obstacle);
     assert.equal(obstacle.w, asset.collision.size.w);

@@ -18,7 +18,9 @@ try {
     g.betaGame.refreshModifiers(); g.playerCombat.reset();
   });
   await page.keyboard.press("j");
-  await page.locator('[data-tab="workshop"]').click();
+  const workshopTab = page.locator('.beta-panel nav [data-tab="workshop"]');
+  if (await workshopTab.isVisible()) await workshopTab.click();
+  else { await page.locator('.beta-panel nav [data-tab="more"]').click(); await page.locator('.more-panel [data-tab="workshop"]').click(); }
   await page.screenshot({ path: "dist/qa/workshop-phone.png" });
   // The current Workshop is the Camp-only panel; retain the behavior check
   // while using its shipped selector instead of the retired beta-shell class.

@@ -1,54 +1,48 @@
 import * as THREE from "three";
 
 export function createCameraFollow(camera, target, cfg, baseCameraCfg) {
-  const offset = new THREE.Vector3(cfg.offsetX ?? 0, cfg.offsetY ?? baseCameraCfg.height, cfg.offsetZ ?? baseCameraCfg.distance);
-  // For lookAt tracking, we keep a separate smoothed lookAt point slightly ahead when running
-  const smoothedLookAt = new THREE.Vector3(target.position.x, 0, target.position.z);
-  const smoothedPos = new THREE.Vector3().copy(camera.position);
-  const desiredPos = new THREE.Vector3();
-  const lookAtTarget = new THREE.Vector3();
+  const horizontalDistance = cfg.horizontalDistance ?? baseCameraCfg.horizontalDistance ?? baseCameraCfg.distance;
+  const height = cfg.offsetY ?? baseCameraCfg.height;
+  const focusHeight = cfg.focusHeight ?? baseCameraCfg.focusHeight ?? 0;
+  const verticalOffset = height - focusHeight;
+  const smoothedCenter = new THREE.Vector3(target.position.x, target.position.y + focusHeight, target.position.z);
+  const desiredCenter = new THREE.Vector3();
+  let yaw = 0;
 
-  let lookAheadX = 0;
-  let lookAheadZ = 0;
+  function setDesiredCenter() {
+    desiredCenter.set(target.position.x, target.position.y + focusHeight, target.position.z);
+  }
+  // Rotate a rigid offset around one smoothed follow center. Smoothing a camera
+  // position around an orbit would cut across the circle and break fixed pitch.
+  function applyCamera() {
+    camera.position.set(
+      smoothedCenter.x + Math.sin(yaw) * horizontalDistance,
+      smoothedCenter.y + verticalOffset,
+      smoothedCenter.z + Math.cos(yaw) * horizontalDistance,
+    );
+    camera.lookAt(smoothedCenter);
+  }
 
   function update(dt, speed, moveDir) {
-    // Desired camera position = target + offset
-    desiredPos.set(target.position.x + offset.x, offset.y, target.position.z + offset.z);
-
-    // Look-ahead when running
-    const isRunning = speed > 5.0;
-    const targetAheadX = isRunning && moveDir ? moveDir.x * (cfg.lookAheadRun ?? 1.1) : 0;
-    const targetAheadZ = isRunning && moveDir ? moveDir.z * (cfg.lookAheadRun ?? 1.1) : 0;
-    const lerpA = Math.min(1, (cfg.lookAheadLerp ?? 2.2) * dt);
-    lookAheadX += (targetAheadX - lookAheadX) * lerpA;
-    lookAheadZ += (targetAheadZ - lookAheadZ) * lerpA;
-    // clamp
-    const maxAhead = cfg.lookAheadMax ?? 1.6;
-    const aheadLen = Math.hypot(lookAheadX, lookAheadZ);
-    if (aheadLen > maxAhead) {
-      lookAheadX = (lookAheadX / aheadLen) * maxAhead;
-      lookAheadZ = (lookAheadZ / aheadLen) * maxAhead;
-    }
-
-    lookAtTarget.set(target.position.x + lookAheadX, 0, target.position.z + lookAheadZ);
-
-    // Smooth both pos and lookAt
-    const posLerp = 1 - Math.exp(-(cfg.followLerp ?? 5) * dt);
-    const lookLerp = 1 - Math.exp(-(cfg.lookAtLerp ?? 6) * dt);
-
-    smoothedPos.lerp(desiredPos, posLerp);
-    smoothedLookAt.lerp(lookAtTarget, lookLerp);
-
-    camera.position.copy(smoothedPos);
-    camera.lookAt(smoothedLookAt.x, smoothedLookAt.y, smoothedLookAt.z);
+    setDesiredCenter();
+    const centerLerp = 1 - Math.exp(-(cfg.followLerp ?? 5) * dt);
+    smoothedCenter.lerp(desiredCenter, centerLerp);
+    applyCamera();
   }
 
   function snap() {
-    smoothedPos.set(target.position.x + offset.x, offset.y, target.position.z + offset.z);
-    smoothedLookAt.set(target.position.x, 0, target.position.z);
-    camera.position.copy(smoothedPos);
-    camera.lookAt(smoothedLookAt.x, smoothedLookAt.y, smoothedLookAt.z);
+    setDesiredCenter();
+    smoothedCenter.copy(desiredCenter);
+    applyCamera();
   }
 
-  return { update, snap };
+  // Called before player physics. It makes camera-relative movement use the
+  // exact yaw the player sees this frame, without jumping the follow center.
+  function prepareForInput() {
+    applyCamera();
+  }
+  function orbitBy(delta) { yaw += Number.isFinite(delta) ? delta : 0; }
+  function getYaw() { return yaw; }
+
+  return { update, snap, prepareForInput, orbitBy, getYaw, _debug: () => ({ yaw, horizontalDistance, height, center: smoothedCenter.toArray() }) };
 }

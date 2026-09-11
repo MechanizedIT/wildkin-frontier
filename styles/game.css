@@ -18,7 +18,7 @@ html, body {
   position: relative;
   width: 100%;
   height: 100dvh;
-  max-width: 520px;
+  max-width: none;
   margin: 0 auto;
   background: #0e1420;
   overflow: hidden;
@@ -133,11 +133,4 @@ html, body {
 
 .joy-ring {
   box-sizing: border-box;
-}
-
-/* ensure portrait remains primary — landscape on phone just letterboxes */
-@media (orientation: landscape) and (max-height: 500px) {
-  #app {
-    max-width: 420px;
-  }
 }

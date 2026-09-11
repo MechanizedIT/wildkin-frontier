@@ -214,8 +214,8 @@ describe("Phase 4A.2.2 — Ladder proof", ()=>{
     const visual = syncAuthorVisual(scene, found);
     const sig = getVisualSignature(visual);
     // Real ladder has wall Box + rungs Box + cylinder marker, not just single Box
-    assert.ok(sig.includes("BoxGeometry"), "ladder should have BoxGeometry");
-    assert.ok(sig.includes("CylinderGeometry"), "ladder should have CylinderGeometry marker");
+    assert.ok(visual.getObjectByName('ladder_wall')?.isMesh, "ladder should show its full climb wall");
+    assert.ok(visual.getObjectByName('ladder_rung_0')?.isMesh, "ladder should show attached climbing rungs");
     // Ensure not just single placeholder Box 0.5
     assert.ok(!sig.endsWith("BoxGeometry") || sig.split(",").length > 1, "ladder should have multiple geometries, not single placeholder");
     // Also check that draft object has dependent fields (not just box)
@@ -236,8 +236,8 @@ describe("Phase 4A.2.2 — Tree proof", ()=>{
     const scene = new THREE.Scene();
     const visual = syncAuthorVisual(scene, found);
     const sig = getVisualSignature(visual);
-    assert.ok(sig.includes("CylinderGeometry"), "Tree should have CylinderGeometry trunk");
-    assert.ok(sig.includes("ConeGeometry"), "Tree should have ConeGeometry foliage");
+    assert.ok(visual.getObjectByName('tree_trunk')?.isMesh, "Tree should have its faceted trunk");
+    for(let i=0;i<5;i++)assert.ok(visual.getObjectByName(`tree_chunk_${i}`)?.isMesh, "Tree should preserve every removable harvest crown");
     assert.ok(!sig.includes("BoxGeometry") || sig.split("BoxGeometry").length -1 < 2, "Tree should not be placeholder Box");
     // Check that runtime and Edit use same deterministic construction: createVisual twice with same id gives same signature and same rotation variation
     const visual2 = createVisual(visualRef, { objectId: res.id });
@@ -270,11 +270,11 @@ describe("Phase 4A.2.2 — Tree proof", ()=>{
     const v1 = createVisual({kind:"builtin",id:"resource/tree"}, {objectId:"tree_abc"});
     const v2 = createVisual({kind:"builtin",id:"resource/tree"}, {objectId:"tree_xyz"});
     // Rotations differ
-    const rots1 = []; v1.traverse(o=>{ if(o.isMesh && o.geometry?.type==="ConeGeometry") rots1.push(o.rotation.y); });
-    const rots2 = []; v2.traverse(o=>{ if(o.isMesh && o.geometry?.type==="ConeGeometry") rots2.push(o.rotation.y); });
+    const rots1 = []; v1.traverse(o=>{ if(o.isMesh && o.name.startsWith("tree_chunk_")) rots1.push(o.rotation.y); });
+    const rots2 = []; v2.traverse(o=>{ if(o.isMesh && o.name.startsWith("tree_chunk_")) rots2.push(o.rotation.y); });
     assert.notDeepEqual(rots1, rots2, "different IDs should have different variation");
     const v1b = createVisual({kind:"builtin",id:"resource/tree"}, {objectId:"tree_abc"});
-    const rots1b = []; v1b.traverse(o=>{ if(o.isMesh && o.geometry?.type==="ConeGeometry") rots1b.push(o.rotation.y); });
+    const rots1b = []; v1b.traverse(o=>{ if(o.isMesh && o.name.startsWith("tree_chunk_")) rots1b.push(o.rotation.y); });
     assert.deepEqual(rots1, rots1b, "same ID should give same variation");
   });
 });

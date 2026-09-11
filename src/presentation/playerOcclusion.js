@@ -7,7 +7,7 @@ export function initializePlayerOcclusion({ scene, camera, getPlayerPosition } =
   const roots = [];
   const meshToRoot = new Map();
   scene.traverse((object) => {
-    if (!object.userData?.propId || !object.userData?.visualAssetId) return;
+    if (!object.userData?.naturalBoundary && (!object.userData?.propId || !object.userData?.visualAssetId)) return;
     const entry = { root: object, meshes: [], faded: false, materialStates: [] };
     object.traverse((child) => { if (child.isMesh) { entry.meshes.push(child); meshToRoot.set(child, entry); } });
     if (entry.meshes.length) roots.push(entry);

@@ -274,7 +274,11 @@ export function normalizeWorldData(raw) {
       throw new Error(`section ${region.id} size must match local bounds`);
     }
     if (region.sectionType === "camp" && (region.size.width !== 100 || region.size.depth !== 100)) throw new Error("Camp section must be 100x100");
-    if (region.sectionType === "expedition" && (region.size.width !== 50 || region.size.depth !== 50)) throw new Error(`standard expedition section ${region.id} must be 50x50`);
+    // Expedition islands range from compact encounters to deliberately authored
+    // larger exploration envelopes. Rectangular ridges remain bounded for mobile.
+    if (region.sectionType === "expedition" && (
+      region.size.width < 50 || region.size.width > 160 || region.size.depth < 50 || region.size.depth > 160
+    )) throw new Error(`expedition section ${region.id} must be 50..160 units per axis`);
     if (region.sectionProfile === undefined) region.sectionProfile = null;
     if (!Array.isArray(region.neighbors)) throw new Error(`region ${region.id} neighbors must be array`);
     // check neighbor refs valid and no self, no duplicate

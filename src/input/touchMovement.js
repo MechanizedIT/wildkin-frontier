@@ -1,19 +1,22 @@
-// src/input/touchMovement.js — floating joystick + right-swipe dodge + tap/hold/swipe Field Tool
+// src/input/touchMovement.js — floating joystick only. The empty right half is
+// reserved for camera orbit; Field Tool and Dodge arrive through explicit UI.
 import { classifyMovementBand } from "../movement/movementBands.js";
-import { classifyDodgeGesture } from "./inputController.js";
-import { GESTURE_CONFIG } from "./gesture.js";
 
 export function createTouchMovement(appElement, moveCfg, inputCfg) {
   const maxRadius = inputCfg.joystickMaxRadius ?? 68;
   let enabled = true;
+  function clearActive() {
+    if (hasActive) {
+      const id = activeId;
+      hasActive = false; activeId = null; band = "idle"; magnitude = 0; nx = 0; ny = 0;
+      hideVisuals(); try { appElement.releasePointerCapture(id); } catch {}
+    }
+    swipe.active = false; swipe.id = null; swipe.holdEstablished = false;
+    attackHeld = false; dodgePending = false; attackPending = false;
+  }
   function setEnabled(v) {
     enabled = !!v;
-    if (!enabled) {
-      if (hasActive) { hasActive = false; activeId = null; band = "idle"; magnitude = 0; nx = 0; ny = 0; hideVisuals(); try { appElement.releasePointerCapture(activeId); } catch {} }
-      if (swipe.active) { swipe.active = false; swipe.id = null; swipe.holdEstablished = false; attackHeld = false; }
-      dodgePending = false; attackPending = false;
-      hasActive = false;
-    }
+    if (!enabled) clearActive();
   }
   function isEnabled() { return enabled; }
 
@@ -152,20 +155,8 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     const rect = appElement.getBoundingClientRect();
     const id = e.pointerId;
 
-    // Action starts on right side (dodge/swipe or tap/hold)
-    if (isInActionArea(e.clientX) && !swipe.active) {
-      swipe.active = true;
-      swipe.id = id;
-      swipe.sx = e.clientX;
-      swipe.sy = e.clientY;
-      swipe.lastX = e.clientX;
-      swipe.lastY = e.clientY;
-      swipe.st = performance.now();
-      swipe.maxDist = 0;
-      swipe.holdEstablished = false;
-      try { appElement.setPointerCapture(id); } catch {}
-      return;
-    }
+    // The camera-orbit adapter owns every empty right-half pointer.
+    if (isInActionArea(e.clientX)) return;
 
     // Joystick starts in movement area and not already active
     if (hasActive) return;
@@ -206,30 +197,6 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       moveVisuals(visX - rect.left, visY - rect.top);
       if (e.cancelable) e.preventDefault();
     }
-    if (e.pointerId === swipe.id && swipe.active) {
-      swipe.lastX = e.clientX;
-      swipe.lastY = e.clientY;
-      const dx = e.clientX - swipe.sx;
-      const dy = e.clientY - swipe.sy;
-      const dist = Math.hypot(dx, dy);
-      if (dist > swipe.maxDist) swipe.maxDist = dist;
-      const dur = performance.now() - swipe.st;
-      // Once hold clearly established, tiny later drift should not become dodge
-      if (swipe.holdEstablished) {
-        // ignore dodge reinterpretation
-        return;
-      }
-      // Check hold threshold
-      if (dur >= (GESTURE_CONFIG.holdThresholdMs ?? 220) && dist < (GESTURE_CONFIG.holdLockDrift ?? 12) + 20) {
-        // Not a swipe — establish hold
-        // But ensure not already qualifying as dodge before hold
-        const vel = dur > 0 ? dist / dur : 0;
-        if (!classifyDodgeGesture(dist, dur, vel, inputCfg)) {
-          swipe.holdEstablished = true;
-          attackHeld = true;
-        }
-      }
-    }
   }
 
   function handleUp(e) {
@@ -250,44 +217,6 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       nx = 0;
       ny = 0;
       hideVisuals();
-      try { appElement.releasePointerCapture(e.pointerId); } catch {}
-    }
-    if (e.pointerId === swipe.id && swipe.active) {
-      const dx = e.clientX - swipe.sx;
-      const dy = e.clientY - swipe.sy;
-      const dist = Math.hypot(dx, dy);
-      const dur = performance.now() - swipe.st;
-      const vel = dur > 0 ? dist / dur : 0;
-
-      // Swipe takes precedence and must never also attack
-      const isDodge = !swipe.holdEstablished && classifyDodgeGesture(dist, dur, vel, inputCfg);
-      if (isDodge) {
-        const len = Math.hypot(dx, dy);
-        dodgeX = len > 0 ? dx / len : 0;
-        dodgeY = len > 0 ? dy / len : 0;
-        dodgePending = true;
-        // clear hold if any
-        attackHeld = false;
-        attackPending = false;
-      } else if (swipe.holdEstablished) {
-        // Hold was established during move: release immediately clears held attack, no tap
-        attackHeld = false;
-        // do not queue attacks after release — leave attackPending false
-      } else {
-        // Not dodge and not hold -> quick tap if within hold threshold
-        if (dur < (GESTURE_CONFIG.holdThresholdMs ?? 220)) {
-          const isButton = e.target.closest && e.target.closest("button, a");
-          if (!isButton) attackPending = true;
-        } else {
-          // Hold release without prior establishment but duration >= threshold and drift small -> treat as hold release, no tap
-          // If dist is larger but not dodge, still not attack (avoid accidental)
-          attackHeld = false;
-        }
-      }
-      swipe.active = false;
-      swipe.id = null;
-      swipe.holdEstablished = false;
-      swipe.maxDist = 0;
       try { appElement.releasePointerCapture(e.pointerId); } catch {}
     }
   }
@@ -315,23 +244,12 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   appElement.addEventListener("pointermove", handleMove, { passive: false });
   appElement.addEventListener("pointerup", handleUp, { passive: false });
   appElement.addEventListener("pointercancel", handleUp, { passive: false });
+  const onVisibilityChange = () => { if (globalThis.document?.hidden) clearActive(); };
+  globalThis.window?.addEventListener?.("blur", clearActive);
+  globalThis.document?.addEventListener?.("visibilitychange", onVisibilityChange);
 
   function getIntent() {
     if (!enabled) return { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, dodgeX: 0, dodgeY: 0, attackRequested: false, attackHeld: false };
-    // Update hold while pointer still down (polling)
-    if (swipe.active && !swipe.holdEstablished) {
-      const dur = performance.now() - swipe.st;
-      const dx = swipe.lastX - swipe.sx;
-      const dy = swipe.lastY - swipe.sy;
-      const dist = Math.hypot(dx, dy);
-      if (dur >= (GESTURE_CONFIG.holdThresholdMs ?? 220) && dist < 28) {
-        const vel = dur > 0 ? dist / dur : 0;
-        if (!classifyDodgeGesture(dist, dur, vel, inputCfg)) {
-          swipe.holdEstablished = true;
-          attackHeld = true;
-        }
-      }
-    }
     const base = {
       dodgeRequested: dodgePending,
       dodgeX,
@@ -368,24 +286,12 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     // not used directly; hold clears on pointer up
   }
 
-  // For testing: simulate gesture directly without DOM
+  // Legacy test seam: gameplay gestures no longer claim right-side input.
   function simulateGesture(dist, dur, vel) {
-    if (classifyDodgeGesture(dist, dur, vel, inputCfg)) {
-      dodgePending = true;
-      return "dodge";
-    } else {
-      attackPending = true;
-      return "attack";
-    }
+    return "orbit";
   }
   function simulateHold(durationMs) {
-    if (durationMs >= (GESTURE_CONFIG.holdThresholdMs ?? 220)) {
-      attackHeld = true;
-      swipe.holdEstablished = true;
-      return "hold";
-    }
-    attackPending = true;
-    return "attack";
+    return "orbit";
   }
 
   function destroy() {
@@ -393,7 +299,9 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     appElement.removeEventListener("pointermove", handleMove);
     appElement.removeEventListener("pointerup", handleUp);
     appElement.removeEventListener("pointercancel", handleUp);
+    globalThis.window?.removeEventListener?.("blur", clearActive);
+    globalThis.document?.removeEventListener?.("visibilitychange", onVisibilityChange);
   }
 
-  return { getIntent, consumeDodge, consumeAttack, simulateGesture, simulateHold, destroy, setEnabled, isEnabled, _debug: () => ({ hasActive, nx, ny, magnitude, band, dodgePending, attackPending, attackHeld, swipe, enabled }) };
+  return { getIntent, consumeDodge, consumeAttack, simulateGesture, simulateHold, destroy, clear: clearActive, setEnabled, isEnabled, _debug: () => ({ hasActive, nx, ny, magnitude, band, dodgePending, attackPending, attackHeld, swipe, enabled }) };
 }

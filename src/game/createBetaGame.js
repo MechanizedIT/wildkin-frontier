@@ -11,10 +11,13 @@ import { createCombatFeedback } from "../presentation/combatFeedback.js";
 import { createCompanionAbilityFx } from "../presentation/companionAbilityFx.js";
 import { initializePlayerOcclusion } from "../presentation/playerOcclusion.js";
 import { SKILL_CATALOG, SKILL_BY_ID } from "../progression/skillCatalog.js";
+import { createEquipmentSystem } from '../equipment/equipmentSystem.js';
+import { createTamingEquipmentUse } from '../equipment/tamingEquipment.js';
+import { createBaseSystem } from '../base/baseSystem.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
-  const { app, scene, registry, progress, session, creatures, playerController, playerCombat, pickupSystem, xpMoteSystem, audio, activationToast, combatHud, onBlockingChanged, openMap, authorEnabled } = deps;
+  const { app, scene, registry, progress, session, creatures, playerController, playerCombat, pickupSystem, xpMoteSystem, audio, activationToast, combatHud, onBlockingChanged, onGameplayAction, openMap, authorEnabled } = deps;
   let shell = null, corePending = false, guardianDefeated = false, objectiveTimer = 0, lastSection = null, sectionIntro = 0;
   let harvestBonus = 0, warnedStorage = false;
   let settings = { muted: false, reducedMotion: globalThis.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false };
@@ -27,9 +30,22 @@ export function createBetaGame(deps) {
   const abilityFx = createCompanionAbilityFx({ scene });
   const playerOcclusion = initializePlayerOcclusion({ scene, camera: deps.camera, getPlayerPosition: () => playerController.getState().pos });
   const guardianEncounter = createGuardianEncounter({ scene, getGuardian: () => creatures.getCreatures().find(c => c.state.id === "wildkin_guardian"), getPlayerState: () => playerController.getState(), playerCombat, audio, onPulse: ({ target }) => pulse(target, 0xffbd63), onWarning: text => toast("Heartwood Guardian", text) });
-  const companions = createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), onBlockingChanged, toast, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
+  const companions = createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
+  deps.characterPhysics?.setColliderFilter(companions.isFollowerCollider);
+  creatures.setCompanionColliderFilter(companions.isFollowerCollider);
   const isCamp = () => session.isCamp();
   const getSectionId = () => deps.getSectionId();
+  const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled});
+  const equipment = createEquipmentSystem({
+    progress, isCamp,
+    cancelTool: () => onGameplayAction?.('equipmentCancel'),
+    setToolEquipped: equipped => { deps.fieldTool?.setEquipped(equipped); app.classList.toggle('non-tool-equipped', !equipped); },
+    canUse: () => !authorEnabled && !isBlocking() && !deps.isOtherBlocking(),
+    heal: () => action('heal'),
+    openBuild: () => ({ ok: shell.openBuildCatalog() }),
+    notify: (message, ok) => toast(ok ? 'Equipment' : 'Not yet', message),
+    beginTaming: createTamingEquipmentUse({ companions, progress, creatures, getPlayerPosition: () => playerController.getState().pos }),
+  });
   function applySettings() {
     app.classList.toggle("reduced-motion", settings.reducedMotion);
     audio.setMuted?.(settings.muted);
@@ -73,10 +89,25 @@ export function createBetaGame(deps) {
       companions: COMPANIONS.map(c => ({ ...c, secured: s.securedCompanions.includes(c.id), active: s.activeCompanionId === c.id, discovered: s.discoveredSpecies.includes(c.id), pending: pending.some(p => p.id === c.id) })),
       pendingCompanions: pending, captureCapacity: progress.getModifiers().captureCapacity, objective: objectiveModel(), medkits: s.craftedConsumables.medkit ?? 0,
       ability: companions.getAbility(), settings, campaignComplete: s.campaignCompleted,
+      base: base.getModel(), fieldTaming: companions.getFieldTamingState?.() ?? null,
       objectives: deriveCampaignProgress(s).map(({id,title,completed}) => ({id,title,completed})) };
   }
   function action(type, payload) {
     if (type === "start") { audio.unlock(); return; }
+    if (type === 'selectQuickSlot') return equipment.select(payload);
+    if (type === 'assignQuickSlot') return equipment.assign(payload.slot, payload.id);
+    if (type === "cancelTaming") { companions.cancelTaming?.(); return; }
+    if (['beginBuild','craftFieldSupply','removeStructure','expandBase'].includes(type)) {
+      const result=base.onAction(type,payload);
+      if(type==='beginBuild'&&result?.ok)shell.close();
+      return result;
+    }
+    // These are deliberately fire-and-forget input bridges. They must not
+    // create a shell result/toast or force a HUD rerender while held.
+    if (type === "fieldToolStart" || type === "fieldToolEnd" || type === "dodge") {
+      onGameplayAction?.(type);
+      return;
+    }
     if (type === "purchaseSkill") {
       const r = progress.purchaseSkill(payload);
       if (r.purchased) { refreshModifiers(); audio.playLevelUp(); pulse(playerController.getState().pos,0xffcf65); }
@@ -132,11 +163,12 @@ export function createBetaGame(deps) {
     }
     if (type === "pause") { shell.open("settings"); return; }
   }
-  shell = createBetaShell({ app, getModel, onAction: action, onBlockingChanged, canOpen: () => !authorEnabled && !deps.isOtherBlocking() && !companions.isBlocking() });
+  shell = createBetaShell({ app, getModel, onAction: action, onBlockingChanged, canOpen: () => !authorEnabled && !deps.isOtherBlocking() && !companions.isBlocking() && !base.isBlocking() });
   applySettings(); refreshModifiers();
   window.addEventListener("keydown", e => {
     if (e.repeat || authorEnabled || isBlocking() || deps.isOtherBlocking() || /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
     const key = e.key.toLowerCase();
+    if (/^[1-5]$/.test(key)) { e.preventDefault(); const r=equipment.select(Number(key)-1); if(r.message)toast('Equipment',r.message); shell.update(); }
     if (key === "j" || key === "b") { e.preventDefault(); shell.open('inventory'); }
     if (key === "k") { e.preventDefault(); shell.open('skills'); }
     if (key === "m") { e.preventDefault(); openMap(); }
@@ -144,14 +176,16 @@ export function createBetaGame(deps) {
   });
   document.addEventListener("visibilitychange", () => { if (document.hidden && !authorEnabled && !isBlocking() && !deps.isOtherBlocking()) shell.open("journal"); });
   window.addEventListener("frontier:graphics-interrupted", () => { if (!isBlocking() && !deps.isOtherBlocking()) shell.open("settings"); });
-  function isBlocking() { return shell.isOpen() || companions.isBlocking(); }
+  function isBlocking() { return shell.isOpen() || companions.isBlocking() || base.isBlocking(); }
   return {
-    isBlocking, getModel, companions, shell, refreshModifiers, refreshObjectives,
+    isBlocking, getModel, companions, shell, base, equipment, refreshModifiers, refreshObjectives,
     showWelcome: () => { if (!authorEnabled) shell.showWelcome(); },
     openWorkshop: () => shell.open("workshop"),
     openSanctuary: () => shell.open('wildkin'),
     getNearbyInteraction(pos){
       if(isCamp()){
+        const workbench=base.getNearbyInteraction(pos);
+        if(workbench)return {...workbench,type:'resonator'};
         const sanctuary=registry.getSectionById('camp')?.props?.find(p=>p.id==='prop_camp_sanctuary');
         if(sanctuary&&Math.hypot(pos.x-sanctuary.pos.x,pos.z-sanctuary.pos.z)<2)return {type:'campSanctuary',id:sanctuary.id,label:'Wildkin'};
       }
@@ -183,10 +217,17 @@ export function createBetaGame(deps) {
       return { companions: secured, campaignCompleted: progress.getState().campaignCompleted };
     },
     getBankingExtras: () => ({ companions: companions.getPending().map(c => c.id), coreSecured: corePending }),
-    reset() { companions.reset(); guardianEncounter.reset(); combatFeedback.reset(); abilityFx.reset(); playerOcclusion.reset(); corePending = false; guardianDefeated = false; harvestBonus = 0; },
+    reset() { equipment.cancel(); equipment.sync(); base.close(); companions.reset(); guardianEncounter.reset(); combatFeedback.reset(); abilityFx.reset(); playerOcclusion.reset(); corePending = false; guardianDefeated = false; harvestBonus = 0; },
+    // Simulation ownership stays in the single fixed loop. The regular update
+    // below only advances visual animation and DOM/presentation concerns.
+    updateFixed(dt, { paused = false, authorSuppress = false } = {}) {
+      base.update(0,{hidden:authorSuppress});
+      companions.updateFixed(dt, { sectionId: getSectionId(), paused, hidden: authorSuppress });
+    },
     update(dt, { paused, authorSuppress } = {}) {
       const sectionId = getSectionId();
       const hidden = !!authorSuppress;
+      base.update(dt,{hidden});
       combatFeedback.update(dt, { hidden: paused || hidden });
       playerOcclusion.update(dt, { hidden: paused || hidden });
       abilityFx.update(paused ? 0 : dt, { playerPosition: playerController.getState().pos, hidden: paused || hidden, reducedMotion: settings.reducedMotion });

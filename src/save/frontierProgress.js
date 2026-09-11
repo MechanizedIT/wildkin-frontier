@@ -7,6 +7,9 @@ import { CONSUMABLE_CATALOG, getUpgradeDefinition, getUpgradeModifiers, getUpgra
 import { getCampaignObjective } from "../progression/campaignProgress.js";
 import { getPlayerLevel } from "../progression/playerLevel.js";
 import { getAvailableSkillPoints, getSkillPurchaseReason, normalizeSkillUnlocks, mergeSkillModifiers } from "../progression/skillCatalog.js";
+import { BASE_CONFIG, BASE_EXPANSIONS, BASE_PIECE_BY_ID, FIELD_RECIPE_BY_ID, canAfford } from '../base/baseCatalog.js';
+import { cloneBase, getCampReserved, normalizeBase, normalizeFieldSupplies, validatePlacement } from '../base/basePlacement.js';
+import { QUICK_SLOT_COUNT, EQUIPMENT_BY_ID, normalizeLoadout, cloneLoadout, getEquipmentCount } from '../equipment/equipmentCatalog.js';
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
@@ -73,6 +76,9 @@ function defaultState(initialWaypointId, resourceDrops) {
     completedPoiIds: [],
     campaignCompleted: false,
     craftedConsumables: { medkit: 0 },
+    fieldSupplies: normalizeFieldSupplies(null),
+    base: { tier: 0, structures: [] },
+    loadout: normalizeLoadout(null),
     securedCompanionRunIds: [],
   };
 }
@@ -169,6 +175,9 @@ export function createFrontierProgress(opts = {}) {
     out.completedPoiIds = normalizeIdArray(raw.completedPoiIds);
     out.campaignCompleted = !!raw.campaignCompleted;
     out.craftedConsumables = normalizeConsumables(raw.craftedConsumables);
+    out.fieldSupplies = normalizeFieldSupplies(raw.fieldSupplies);
+    out.base = normalizeBase(raw.base, baseEnvironment());
+    out.loadout = normalizeLoadout(raw.loadout);
     out.securedCompanionRunIds = normalizeIdArray(raw.securedCompanionRunIds).slice(-20);
     if (out.bankedXp < 0) out.bankedXp = 0;
     if (out.unlockedMajorWaypointIds.length === 0 && initialWaypointId) out.unlockedMajorWaypointIds = [initialWaypointId];
@@ -217,6 +226,9 @@ export function createFrontierProgress(opts = {}) {
       completedObjectives: [...state.completedObjectives],
       completedPoiIds: [...state.completedPoiIds],
       craftedConsumables: { ...state.craftedConsumables },
+      fieldSupplies: { ...state.fieldSupplies },
+      base: cloneBase(state.base),
+      loadout: cloneLoadout(state.loadout),
       securedCompanionRunIds: [...state.securedCompanionRunIds],
       bankedRunIds: [...bankedRunIds].slice(-20),
     };
@@ -312,6 +324,9 @@ export function createFrontierProgress(opts = {}) {
       completedPoiIds: [...state.completedPoiIds],
       campaignCompleted: !!state.campaignCompleted,
       craftedConsumables: { ...state.craftedConsumables },
+      fieldSupplies: { ...state.fieldSupplies },
+      base: cloneBase(state.base),
+      loadout: cloneLoadout(state.loadout),
     };
   }
 
@@ -369,6 +384,8 @@ export function createFrontierProgress(opts = {}) {
         repairedPortalGateIds: [...state.repairedPortalGateIds], claimedLootChestIds: [...state.claimedLootChestIds], lootChestReadyAt: { ...state.lootChestReadyAt },
         securedCompanions: [...state.securedCompanions], discoveredSpecies: [...state.discoveredSpecies], completedObjectives: [...state.completedObjectives],
         completedPoiIds: [...state.completedPoiIds], craftedConsumables: { ...state.craftedConsumables }, securedCompanionRunIds: [...state.securedCompanionRunIds],
+        fieldSupplies: { ...state.fieldSupplies }, base: cloneBase(state.base),
+        loadout: cloneLoadout(state.loadout),
       },
       bankedRunIds: new Set(bankedRunIds), lastBankToken,
     };
@@ -549,20 +566,85 @@ export function createFrontierProgress(opts = {}) {
     const recipe = CONSUMABLE_CATALOG[id];
     if (!recipe) return { crafted: false, reason: "unknown-consumable", state: getState() };
     for (const [resourceId, amount] of Object.entries(recipe.cost)) if ((state.bankedResources[resourceId] ?? 0) < amount) return { crafted: false, reason: "unaffordable", state: getState() };
+    const rollback = snapshotForBankRollback();
     const nextResources = { ...state.bankedResources };
     for (const [resourceId, amount] of Object.entries(recipe.cost)) nextResources[resourceId] -= amount;
     state.bankedResources = nextResources;
     state.craftedConsumables = { ...state.craftedConsumables, [id]: (state.craftedConsumables[id] ?? 0) + 1 };
-    save();
+    const write = commitBank(rollback, {});
+    if (!write.ok) return { crafted: false, reason: write.reason, state: getState() };
     return { crafted: true, state: getState() };
   }
 
   function consumeConsumable(id) {
     if (!CONSUMABLE_CATALOG[id]) return { consumed: false, reason: "unknown-consumable", state: getState() };
     if ((state.craftedConsumables[id] ?? 0) <= 0) return { consumed: false, reason: "empty", state: getState() };
+    const rollback = snapshotForBankRollback();
     state.craftedConsumables = { ...state.craftedConsumables, [id]: state.craftedConsumables[id] - 1 };
-    save();
+    const write = commitBank(rollback, {});
+    if (!write.ok) return { consumed: false, reason: write.reason, state: getState() };
     return { consumed: true, state: getState() };
+  }
+
+  function baseEnvironment() { return { reserved: getCampReserved(worldRegistry), surface: worldRegistry?.getSectionById?.('camp')?.surface ?? null }; }
+  function getBaseState() { return cloneBase(state.base); }
+  function getFieldSupplies() { return { ...state.fieldSupplies }; }
+  function getLoadout() { return cloneLoadout(state.loadout); }
+  function assignQuickSlot(slot, itemId) {
+    if(!Number.isInteger(slot)||slot<0||slot>=QUICK_SLOT_COUNT)return {ok:false,reason:'invalid-slot'};
+    if(itemId!==null&&(!EQUIPMENT_BY_ID[itemId]||getEquipmentCount(itemId,state)<=0))return {ok:false,reason:'item-unavailable'};
+    const rollback=snapshotForBankRollback(), slots=state.loadout.slots;
+    const previous=itemId===null?-1:slots.indexOf(itemId);
+    if(previous>=0&&previous!==slot)slots[previous]=slots[slot];
+    slots[slot]=itemId;
+    if(!slots[state.loadout.selected])state.loadout.selected=Math.max(0,slots.findIndex(Boolean));
+    const write=commitBank(rollback,{});return {ok:write.ok,reason:write.reason,loadout:getLoadout()};
+  }
+  function selectQuickSlot(slot) {
+    if(!Number.isInteger(slot)||slot<0||slot>=QUICK_SLOT_COUNT||!state.loadout.slots[slot])return {ok:false,reason:'empty-slot'};
+    if(state.loadout.selected===slot)return {ok:true,loadout:getLoadout()};
+    const rollback=snapshotForBankRollback();state.loadout.selected=slot;
+    const write=commitBank(rollback,{});return {ok:write.ok,reason:write.reason,loadout:getLoadout()};
+  }
+  function spendBanked(cost) { for (const [id,amount] of Object.entries(cost)) state.bankedResources[id] -= amount; }
+  function craftFieldSupply(id) {
+    const recipe=FIELD_RECIPE_BY_ID[id];
+    if(!recipe)return {crafted:false,reason:'unknown-recipe'};
+    if(recipe.workbench&&!state.base.structures.some(p=>p.type==='workbench'))return {crafted:false,reason:'workbench-required'};
+    if(state.fieldSupplies[id]>=BASE_CONFIG.maxSupply)return {crafted:false,reason:'supply-limit'};
+    if(!canAfford(state.bankedResources,recipe.cost))return {crafted:false,reason:'unaffordable'};
+    const rollback=snapshotForBankRollback();spendBanked(recipe.cost);state.fieldSupplies[id]++;
+    const write=commitBank(rollback,{});return {crafted:write.ok,reason:write.reason,state:getState()};
+  }
+  function consumeFieldSupply(id) {
+    if(!FIELD_RECIPE_BY_ID[id])return {consumed:false,reason:'unknown-recipe'};
+    if(!(state.fieldSupplies[id]>0))return {consumed:false,reason:'empty'};
+    const rollback=snapshotForBankRollback();state.fieldSupplies[id]--;
+    const write=commitBank(rollback,{});return {consumed:write.ok,reason:write.reason,state:getState()};
+  }
+  function placeStructure(record,{playerPosition=null}={}) {
+    if(typeof record?.id!=='string'||!/^build_[a-zA-Z0-9_-]{1,80}$/.test(record.id))return {placed:false,reason:'invalid-id'};
+    if(state.base.structures.some(p=>p.id===record.id))return {placed:false,reason:'already-placed'};
+    const result=validatePlacement(record,{...baseEnvironment(),...state.base,playerPosition});
+    if(!result.ok)return {placed:false,reason:result.reason};
+    const piece=BASE_PIECE_BY_ID[record.type];
+    if(!canAfford(state.bankedResources,piece.cost))return {placed:false,reason:'unaffordable'};
+    const rollback=snapshotForBankRollback();spendBanked(piece.cost);
+    state.base.structures.push({id:record.id,type:record.type,pos:result.pos,yaw:((record.yaw%(Math.PI*2))+Math.PI*2)%(Math.PI*2),supportId:result.supportId});
+    const write=commitBank(rollback,{});return {placed:write.ok,reason:write.reason,state:getState()};
+  }
+  function removeStructure(id) {
+    const piece=state.base.structures.find(p=>p.id===id);if(!piece)return {removed:false,reason:'unknown-structure'};
+    if(state.base.structures.some(p=>p.supportId===id))return {removed:false,reason:'remove-supported-first'};
+    const rollback=snapshotForBankRollback();state.base.structures=state.base.structures.filter(p=>p.id!==id);
+    for(const [resource,amount] of Object.entries(BASE_PIECE_BY_ID[piece.type].cost))state.bankedResources[resource]=(state.bankedResources[resource]??0)+amount;
+    const write=commitBank(rollback,{});return {removed:write.ok,reason:write.reason,state:getState()};
+  }
+  function expandBase() {
+    const cost=BASE_EXPANSIONS[state.base.tier];if(!cost)return {expanded:false,reason:'max-tier'};
+    if(!canAfford(state.bankedResources,cost))return {expanded:false,reason:'unaffordable'};
+    const rollback=snapshotForBankRollback();spendBanked(cost);state.base.tier++;
+    const write=commitBank(rollback,{});return {expanded:write.ok,reason:write.reason,state:getState()};
   }
 
   // For idempotent run resolution helper: generic resolve token
@@ -643,6 +725,8 @@ export function createFrontierProgress(opts = {}) {
     completePoi,
     craftConsumable,
     consumeConsumable,
+    getBaseState, getFieldSupplies, craftFieldSupply, consumeFieldSupply, placeStructure, removeStructure, expandBase,
+    getLoadout, assignQuickSlot, selectQuickSlot,
     tryResolve,
     getBankedResources,
     getBankedXp,

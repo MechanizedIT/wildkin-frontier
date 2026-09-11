@@ -49,12 +49,28 @@ function record(label, snapshot) {
   writeReport();
 }
 async function walkTo(target, label, tolerance = 1.2, maxSeconds = 16, allowCamp = false) {
-  for (let step = 0; step < maxSeconds * 5; step++) {
+  const beganAt = Date.now();
+  const initial = await state();
+  // This is a physical input replay, so its budget is wall-clock time rather
+  // than an assumed number of 130ms key bursts. The player-facing walk speed
+  // was intentionally reduced; a long authored leg must not be mistaken for
+  // an obstruction merely because the old loop lasted only 10.4 seconds.
+  const initialDistance = Math.hypot(target.x - initial.pos.x, target.z - initial.pos.z);
+  const conservativeSpeed = Math.max(1.6, initial.speed || 0);
+  const budgetMs = Math.ceil(Math.max(maxSeconds, initialDistance / conservativeSpeed + 4) * 1000);
+  let bestDistance = initialDistance;
+  let lastProgressAt = beganAt;
+  while (Date.now() - beganAt < budgetMs) {
     const current = await state();
     if (current.status !== "active" && !(allowCamp && current.status === "camp")) throw new Error(`${label}: expedition interrupted (${current.status})`);
     const dx = target.x - current.pos.x;
     const dz = target.z - current.pos.z;
-    if (Math.hypot(dx, dz) <= tolerance) {
+    const distance = Math.hypot(dx, dz);
+    if (distance < bestDistance - 0.05) {
+      bestDistance = distance;
+      lastProgressAt = Date.now();
+    }
+    if (distance <= tolerance) {
       record(label, current);
       return current;
     }
@@ -63,7 +79,13 @@ async function walkTo(target, label, tolerance = 1.2, maxSeconds = 16, allowCamp
     if (Math.abs(dz) > tolerance * 0.4) keys.push(dz > 0 ? "s" : "w");
     await hold(keys, 130);
   }
-  throw new Error(`${label}: cannot reach ${JSON.stringify(target)} from ${JSON.stringify((await state()).pos)}`);
+  const final = await state();
+  report.routeFailure = {
+    label, target, final: final.pos, elapsedMs: Date.now() - beganAt, budgetMs,
+    initialDistance, bestDistance, stalledForMs: Date.now() - lastProgressAt,
+  };
+  writeReport();
+  throw new Error(`${label}: cannot reach ${JSON.stringify(target)} from ${JSON.stringify(final.pos)} after ${report.routeFailure.elapsedMs}ms (best remaining ${bestDistance.toFixed(2)}m)`);
 }
 
 async function walkToOrLaunch(target, label, tolerance = 1.2, maxSeconds = 16) {
@@ -224,8 +246,8 @@ try {
       portalGates: region.portalGates, majorWaypoints: region.majorWaypoints,
     })));
   let regions = allRegions;
-  if (requestedSection > 1) {
-    // Explicit seeded start only for a bounded later-region route run. Movement from
+  if (requestedSection > 0) {
+    // Explicit seeded start only for a bounded region route run. Movement from
     // the entry through every route point remains physical keyboard input.
     await page.evaluate((section) => {
       window.__game.resetTransientWorldToCamp();

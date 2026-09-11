@@ -8,6 +8,7 @@ import { createPlayerController } from "./player/playerController.js";
 import { createCameraFollow } from "./camera/cameraFollow.js";
 import { createTouchMovement } from "./input/touchMovement.js";
 import { createKeyboardInput } from "./input/keyboardInput.js";
+import { createGameCameraOrbit } from "./input/gameCameraOrbit.js";
 import { mergeIntents as mergeIntentsPure } from "./input/inputController.js";
 import { MOVEMENT_CONFIG, CAMERA_CONFIG_FOLLOW, INPUT_CONFIG, RAPIER_CONFIG } from "./game/config.js";
 import { createPhysicsWorld } from "./physics/createPhysicsWorld.js";
@@ -16,6 +17,7 @@ import { createPhysicsDebug } from "./physics/physicsDebug.js";
 import { createResourceSystem, createRuntimeResourcePlacements } from "./resources/resourceSystem.js";
 import { createPickupSystem } from "./resources/pickupSystem.js";
 import { createFieldTool } from "./tools/fieldTool.js";
+import { chooseNearbyInteraction } from './game/interactionPriority.js';
 import { createGameAudio } from "./audio/gameAudio.js";
 import { createRunInventoryHud } from "./ui/runInventoryHud.js";
 import { createParticleSystem } from "./resources/particleSystem.js";
@@ -44,6 +46,7 @@ import { createRunResultCard } from "./ui/runResultCard.js";
 import { createFrontierIndicators } from "./ui/frontierIndicators.js";
 import { createAuthorMode } from "./author/authorMode.js";
 import { preparePersistedAuthorDraft } from "./author/authorDraft.js";
+import { createWorldInteractionAnchor } from "./ui/worldInteractionAnchor.js";
 import { createContextualInteraction } from "./ui/contextualInteraction.js";
 import { createActivationToast } from "./ui/activationToast.js";
 import { createMatterResonatorPanel } from "./ui/matterResonatorPanel.js";
@@ -202,6 +205,7 @@ playerController.snapRenderPose();
 
 const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG);
 cameraFollow.snap();
+const cameraOrbit = createGameCameraOrbit(app, cameraFollow, CAMERA_CONFIG_FOLLOW);
 
 function placePlayerAtFeetTransform(feetPosition, facingYaw = 0) {
   const position = {
@@ -292,7 +296,6 @@ const playerCombat = createPlayerCombat({
     player.userData.externalPlayerModel?.playAction("hurt");
     combatHud.pulseDamage();
   },
-
   onDeath: () => {
     if (expeditionSession.isResolved?.()) return;
     if (parkourSystem?.handleFatalFailure("damage")) return;
@@ -384,6 +387,7 @@ function isAnyBlockingModal() {
 function setGameplayInputBlocked(blocked) {
   touchMovement.setEnabled(!blocked);
   if (keyboardInput.setEnabled) keyboardInput.setEnabled(!blocked);
+  cameraOrbit?.setEnabled(!blocked);
 }
 
 function refreshMapAvailability() {
@@ -604,6 +608,9 @@ returnToCampFlow = createReturnToCampFlow({
 // Contextual interaction (single owner)
 let contextualInteraction = null;
 contextualInteraction = createContextualInteraction({
+  camera,
+  getPlayerPosition: () => player.position,
+  anchor: createWorldInteractionAnchor({ scene, registry: worldRegistry, creatures: creatureSystem, getBase: () => betaGame?.base }),
   onActivate: (info) => {
     if (isAnyBlockingModal()) return;
     if (info.type === "bond") {
@@ -973,9 +980,16 @@ if (authorEnabled) {
 betaGame = createBetaGame({
   app, scene, camera, registry: worldRegistry, progress: frontierProgress, session: expeditionSession,
   creatures: creatureSystem, playerController, playerCombat, pickupSystem, xpMoteSystem,
-  audio: gameAudio, activationToast, combatHud, authorEnabled,
+  physicsWorld, characterPhysics, playerCollider: characterPhysics.collider,
+  audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
   getSectionId: () => sectionRuntime.getActiveSectionId(),
   onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
+  onGameplayAction: (type) => {
+    if (type === "fieldToolStart") { keyboardInput.triggerAttack(); keyboardInput.setFieldToolHeld(true); }
+    else if (type === "equipmentCancel") { keyboardInput.setFieldToolHeld(false); keyboardInput.consumeAttack(); pendingAttackLatch = false; fieldTool.hardReset(); }
+    else if (type === "fieldToolEnd") keyboardInput.setFieldToolHeld(false);
+    else if (type === "dodge") keyboardInput.requestDodge();
+  },
   isOtherBlocking: () => frontierMap.isOpen() || anchorPrompt.isVisible() || runResultCard.isVisible() || matterResonatorPanel.isVisible(),
   openMap: () => frontierMap.openInspect(),
 });
@@ -1010,6 +1024,8 @@ function tick() {
   }
   // Also keep indicators updated outside fixed step (visual)
   if (frontierIndicators && !authorSuppress) frontierIndicators.update(camera);
+  // Apply this frame's orbit yaw before camera-relative movement enters physics.
+  if (!authorSuppress && !isAnyBlockingModal()) cameraFollow.prepareForInput();
   const touchIntent = touchMovement.getIntent();
   const kbIntent = keyboardInput.getIntent();
   const intent = mergeIntentsPure(touchIntent, kbIntent);
@@ -1020,6 +1036,8 @@ function tick() {
   let wasAttackRequested = pendingAttackLatch;
 
   const blocked = isAnyBlockingModal() || !!authorSuppress;
+  const equipmentInput = betaGame?.equipment.routeInput({ requested: pendingAttackLatch, held: intent.attackHeld, down: keyboardInput.isAttackDown() || intent.attackHeld, blocked }) ?? { toolAllowed: true };
+  if (equipmentInput.handled) { pendingAttackLatch = false; wasAttackRequested = false; keyboardInput.consumeAttack(); }
   const effectiveIntent = blocked ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
 
   let substeps = 0;
@@ -1027,18 +1045,21 @@ function tick() {
     if (!expeditionSession.isResolved?.() && !authorSuppress && !isAnyBlockingModal()) {
       const pPosForAnchor = playerController.getState().pos;
       frontierAnchorSystem.update(pPosForAnchor);
-      const nearby = getNearbyResonatorInteraction(pPosForAnchor)
-        ?? portalGateSystem.getNearbyInteraction(pPosForAnchor)
-        ?? lootSystem.getNearbyInteraction(pPosForAnchor)
-        ?? betaGame?.getNearbyInteraction(pPosForAnchor)
-        ?? frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession);
+      const nearby = chooseNearbyInteraction({
+        camp:getNearbyResonatorInteraction(pPosForAnchor),
+        gate:portalGateSystem.getNearbyInteraction(pPosForAnchor),
+        loot:lootSystem.getNearbyInteraction(pPosForAnchor),
+        frontier:frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession),
+        field:betaGame?.getNearbyInteraction(pPosForAnchor),
+        activeTamingId:betaGame?.companions.getFieldTamingState?.()?.id,
+      });
       if (contextualInteraction) contextualInteraction.setInteraction(nearby);
       // Pause AI while blocking already handled via isAnyBlockingModal guard
       const pStBefore = playerController.getState();
       const isAggroNearby = creatureSystem.isAnyAggroedNearby();
       combatSession.update(fixedDt, isAggroNearby);
       const combatEngaged = combatSession.isEngaged();
-      const harvestingAllowed = autoHarvestEnabled && !blocked && expeditionSession.isActive();
+      const harvestingAllowed = equipmentInput.toolAllowed && autoHarvestEnabled && !blocked && expeditionSession.isActive();
 
       const pPosForCombat = pStBefore.pos;
       const pFacingForCombat = pStBefore.facing;
@@ -1049,8 +1070,8 @@ function tick() {
         return hits.map(h => alive.find(a => a.state.id === h.id)).filter(Boolean);
       };
 
-      const fieldCanAttack = !blocked && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE") && expeditionSession.isActive();
-      const effectiveAttackRequested = pendingAttackLatch && !blocked;
+      const fieldCanAttack = equipmentInput.toolAllowed && !blocked && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE") && expeditionSession.isActive();
+      const effectiveAttackRequested = equipmentInput.toolAllowed && pendingAttackLatch && !blocked;
       const effectiveAttackHeld = !!intent.attackHeld && fieldCanAttack;
       const getManualHarvestTargets = () => {
         const pPos = pStBefore.pos;
@@ -1142,6 +1163,7 @@ function tick() {
       creatureSystem.setPlayerPos(pPosFixed);
       creatureSystem.setPlayerState(pStateFixed);
       creatureSystem.update(fixedDt);
+      betaGame?.updateFixed(fixedDt, { authorSuppress: false });
 
       projectileSystem.setPlayerPos(pPosFixed);
       projectileSystem.setPlayerState(pStateFixed);
@@ -1252,6 +1274,7 @@ function tick() {
   betaGame?.update(dt, { paused: isAnyBlockingModal(), authorSuppress });
   shadows.update(authorSuppress);
   if (authorSuppress && authorMode?.prepareRender) authorMode.prepareRender();
+  contextualInteraction?.update(dt, { hidden: authorSuppress || isAnyBlockingModal() });
   renderer.render(scene, camera);
 }
 
@@ -1259,7 +1282,7 @@ tick();
 
 // Debug globals — gameplay code must not rely on window.__game
 window.__game = {
-  scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
+  scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, cameraFollow, cameraOrbit, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
   worldRegistry, regionManager, sectionRuntime, portalGateSystem, jumpPadSystem, parkourSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   betaGame,

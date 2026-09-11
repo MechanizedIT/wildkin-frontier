@@ -16,7 +16,9 @@ import { describeVisualAssetCollider, getColliderCenter } from "./colliderDescri
 import { resolveJumpPadVisual, resolveParkourMarkerVisual, resolvePortalGateVisual } from "./playerFacingVisuals.js";
 import { applyTerrainSurface } from "../presentation/terrainSurface.js";
 import { createAuthoredTerrain } from "../presentation/authoredTerrain.js";
+import { createNaturalBoundary } from "../presentation/naturalBoundary.js";
 import { getSurfaceHeight } from "./terrainSurfaceModel.js";
+import { mergeStaticPropVisual } from "./staticPropBatches.js";
 
 function parseColor(value, fallback) {
   if (value === undefined || value === null) return fallback;
@@ -61,7 +63,7 @@ export function createStaticWorld(worldData) {
   const forestMat = new THREE.MeshStandardMaterial({ color: 0x2d4a2e, flatShading: true });
   const waterMatBase = new THREE.MeshStandardMaterial({ color: 0x4a90a8, flatShading: true, transparent: true, opacity: 0.55 });
   const islandMat = new THREE.MeshStandardMaterial({ color: 0xc2b280, flatShading: true });
-  const dropPodMat = new THREE.MeshStandardMaterial({ color: 0xd0d0d0, flatShading: true, metalness: 0.3 });
+  const dropPodMat = new THREE.MeshStandardMaterial({ color: 0xd0d0d0, flatShading: true, metalness: 0, roughness: 1 });
   const resonatorMat = new THREE.MeshStandardMaterial({ color: 0x7ab8ff, flatShading: true, emissive: 0x1a3a5a, emissiveIntensity: 0.25 });
   const waypointMat = new THREE.MeshStandardMaterial({ color: 0x4fc3f7, flatShading: true, emissive: 0x0a2a3a, emissiveIntensity: 0.2 });
   const beaconMat = new THREE.MeshStandardMaterial({ color: 0xff7043, flatShading: true, emissive: 0x442200, emissiveIntensity: 0.2 });
@@ -176,6 +178,10 @@ export function createStaticWorld(worldData) {
         },
       });
       applyFactoryPresentation(root, prop, visibleInPlay, opacity);
+      // Keep the author-tagged root and its independently cloneable materials
+      // for presentation systems, while reducing the baked kit's leaf draws.
+      // Dynamic roles returned above deliberately do not enter this path.
+      if (!root.userData.externalModelInstance) mergeStaticPropVisual(root);
       const descriptor = describeVisualAssetCollider({
         collision: asset.collision,
         uniformScale: scale,
@@ -385,6 +391,9 @@ export function createStaticWorld(worldData) {
       const terrain = createAuthoredTerrain(region);
       currentSectionGroup.add(terrain.group);
       terrainSurfaces.push(terrain);
+      const naturalBoundary = createNaturalBoundary(region);
+      currentSectionGroup.add(naturalBoundary.group);
+      terrainSurfaces.push(naturalBoundary);
     }
     for (const gp of region.groundPatches ?? []) {
       // A region's continuous surface replaces its former flat base only.

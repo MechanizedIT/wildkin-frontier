@@ -4,6 +4,8 @@ import { HARVEST_CONFIG, isHarvestCompatibleMode } from "../resources/resourceCo
 import { COMBAT_CONFIG } from "../combat/combatConfig.js";
 
 export const SWING_CONFIG = {
+  idlePitch: 0.76,
+  visualScale: 0.72,
   yawWindup: -1.25, // front-right (character right = -X when +Z forward) -> negative yaw gives -X
   yawFollow: 1.25, // front-left (+X) -> positive yaw
   totalYawSweep: 2.50,
@@ -41,26 +43,26 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
     playerGroup.add(handAnchor);
   }
 
-  const shoulderWorld = new THREE.Vector3(-0.18, 0.58, 0.02);
+  const shoulderWorld = new THREE.Vector3(-0.23, 0.65, 0.02);
   const shoulderLocal = shoulderWorld.clone().sub(handAnchor.position);
   const handLocal = new THREE.Vector3(0, 0, 0);
   const armVec = new THREE.Vector3().subVectors(handLocal, shoulderLocal);
   const armLen = armVec.length();
   const armGeo = new THREE.CylinderGeometry(0.042, 0.032, armLen, 6);
-  const armMat = new THREE.MeshStandardMaterial({ color: 0xdcb574, roughness:.8 });
+  const armMat = new THREE.MeshStandardMaterial({ color: 0x426b87, roughness:.94, metalness:0, flatShading:true });
   const armMesh = new THREE.Mesh(armGeo, armMat);
   armMesh.position.copy(shoulderLocal).add(handLocal).multiplyScalar(0.5);
   armMesh.lookAt(handLocal);
   armMesh.rotateX(Math.PI / 2);
   handAnchor.add(armMesh);
 
-  const handGeo = new THREE.SphereGeometry(0.055, 6, 6);
-  const handMat = new THREE.MeshStandardMaterial({ color: 0xd8c4a0, flatShading: true });
+  const handGeo = new THREE.DodecahedronGeometry(0.06, 0);
+  const handMat = new THREE.MeshStandardMaterial({ color: 0x263039, roughness:.95, metalness:0, flatShading: true });
   const handMesh = new THREE.Mesh(handGeo, handMat);
   handAnchor.add(handMesh);
 
   const gripGeo = new THREE.TorusGeometry(0.038, 0.009, 6, 10);
-  const gripMat = new THREE.MeshStandardMaterial({ color: 0x3a3f4a });
+  const gripMat = new THREE.MeshStandardMaterial({ color: 0x3a3f4a, roughness:.95, metalness:0, flatShading:true });
   const grip = new THREE.Mesh(gripGeo, gripMat);
   grip.position.set(0, -0.02, 0.02);
   grip.rotation.x = Math.PI / 2;
@@ -75,6 +77,7 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
 
   const swingPivot = new THREE.Group();
   swingPivot.name = "fieldToolSwingPivot";
+  swingPivot.rotation.set(SWING_CONFIG.idlePitch, -.62, .04);
   handAnchor.add(swingPivot);
 
   const toolMount = new THREE.Group();
@@ -84,35 +87,39 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
 
   const toolGroup = new THREE.Group();
   toolGroup.name = "fieldTool";
+  toolGroup.scale.setScalar(SWING_CONFIG.visualScale);
 
-  const handleGeo = new THREE.CylinderGeometry(0.075, 0.090, 0.78, 7);
-  const handleMat = new THREE.MeshStandardMaterial({ color: 0x9d5930, roughness:.82 });
+  const handleGeo = new THREE.CylinderGeometry(0.038, 0.047, 0.70, 7);
+  const handleMat = new THREE.MeshStandardMaterial({ color: 0x81502f, roughness:.94, metalness:0, flatShading:true });
   const handle = new THREE.Mesh(handleGeo, handleMat);
   handle.rotation.x = Math.PI / 2;
-  handle.position.set(0, 0.02, 0.39);
+  handle.position.set(0, 0, 0.30);
   toolGroup.add(handle);
+  // Two broad binding rings make the wooden grip and steel socket read as
+  // assembled expedition equipment at phone scale.
+  for (const z of [.05, .15]) {
+    const wrap = new THREE.Mesh(new THREE.TorusGeometry(.043, .009, 5, 8), gripMat);
+    wrap.position.set(0, 0, z); toolGroup.add(wrap);
+  }
+  const headMat = new THREE.MeshStandardMaterial({ color: 0x91a9ae, roughness:.94, metalness:0, flatShading:true });
+  const socket = new THREE.Mesh(new THREE.CylinderGeometry(.077, .067, .15, 6), headMat);
+  socket.rotation.x = Math.PI / 2; socket.position.set(0, 0, .60); toolGroup.add(socket);
 
   const blade = new THREE.Shape();
-  blade.moveTo(-.16,-.08);blade.lineTo(.12,-.22);blade.quadraticCurveTo(.29,0,.12,.22);blade.lineTo(-.16,.08);blade.closePath();
-  const headGeo = new THREE.ExtrudeGeometry(blade,{depth:.12,bevelEnabled:true,bevelSegments:1,bevelSize:.025,bevelThickness:.025,curveSegments:6});headGeo.translate(0,0,-.06);
-  const headMat = new THREE.MeshStandardMaterial({ color: 0xcde9e7, roughness:.38,metalness:.25 });
+  blade.moveTo(-.10,-.055);blade.lineTo(.045,-.055);blade.lineTo(.24,-.15);blade.lineTo(.285,-.055);blade.lineTo(.29,.045);blade.lineTo(.25,.16);blade.lineTo(.04,.07);blade.lineTo(-.10,.07);blade.closePath();
+  const headGeo = new THREE.ExtrudeGeometry(blade,{depth:.050,bevelEnabled:true,bevelSegments:1,bevelSize:.018,bevelThickness:.012,curveSegments:1});headGeo.translate(0,0,-.025);
   const head = new THREE.Mesh(headGeo, headMat);
-  head.position.set(0, 0.08, 0.88);
-  head.rotation.z = 0.16;
-  head.rotation.x = 0.12;
+  head.position.set(0, 0, 0.62);
+  head.rotation.x = Math.PI / 2;
   toolGroup.add(head);
 
-  const wedgeGeo = new THREE.CylinderGeometry(0.085, 0.165, 0.30, 5);
-  const wedgeMat = new THREE.MeshStandardMaterial({ color: 0xffc66b, roughness:.5,metalness:.18 });
-  const wedge = new THREE.Mesh(wedgeGeo, wedgeMat);
-  wedge.position.set(0, 0.10, 1.06);
-  wedge.rotation.z = Math.PI / 2;
-  toolGroup.add(wedge);
+  const pin = new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,.11,6),new THREE.MeshStandardMaterial({color:0xd49d52,roughness:1,metalness:0,flatShading:true}));
+  pin.position.set(0,0,.60);toolGroup.add(pin);
 
   const glowGeo = new THREE.SphereGeometry(0.10, 7, 7);
   const glowMat = new THREE.MeshBasicMaterial({ color: 0x7ec8ff, transparent: true, opacity: 0.0 });
   const glow = new THREE.Mesh(glowGeo, glowMat);
-  glow.position.set(0, 0.08, 0.88);
+  glow.position.set(.20, 0, .62);
   toolGroup.add(glow);
 
   toolGroup.position.set(0, 0, 0);
@@ -249,7 +256,15 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
 
   // New unified update — supports both harvest and combat with priority
   // Signature supports legacy (old 6-arg harvest) and new object opts
+  let equipped = true;
+  function setEquipped(value) {
+    const next = !!value;
+    if (equipped !== next) hardReset();
+    equipped = next; toolGroup.visible = next;
+    if (!next) trailGroup.visible = false;
+  }
   function update(dt, playerPos, playerState, getTargetsOrOpts, onImpactMaybe, autoHarvestEnabledArg) {
+    if (!equipped) return;
     // Detect which signature is used
     let getHarvestTargets = null;
     let onHarvestImpact = null;
@@ -354,7 +369,7 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
         if (sharedCooldown > 0 || combatCooldown > 0) {
           // Not ready for any swing — idle, keep pendingTap for later combat
           idlePulse += dt * 1.2;
-          swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, -0.14 + Math.sin(idlePulse) * 0.03, dt * 6);
+          swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, SWING_CONFIG.idlePitch + Math.sin(idlePulse) * 0.03, dt * 6);
           swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, -0.62 + Math.cos(idlePulse * 0.7) * 0.02, dt * 6);
           swingPivot.rotation.z = THREE.MathUtils.lerp(swingPivot.rotation.z, 0.04 + Math.cos(idlePulse * 0.7) * 0.015, dt * 6);
           glow.material.opacity = Math.max(0, glow.material.opacity - dt * 1.5);
@@ -387,7 +402,7 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
         if (!hasTargets) {
           cooldown = 0;
           idlePulse += dt * 1.2;
-          swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, -0.14 + Math.sin(idlePulse) * 0.03, dt * 6);
+          swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, SWING_CONFIG.idlePitch + Math.sin(idlePulse) * 0.03, dt * 6);
           swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, -0.62 + Math.cos(idlePulse * 0.7) * 0.02, dt * 6);
           swingPivot.rotation.z = THREE.MathUtils.lerp(swingPivot.rotation.z, 0.04 + Math.cos(idlePulse * 0.7) * 0.015, dt * 6);
           glow.material.opacity = Math.max(0, glow.material.opacity - dt * 1.5);
@@ -413,7 +428,7 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
           swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, -0.62, dt * 4);
         } else {
           idlePulse += dt * 1.2;
-          swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, -0.14 + Math.sin(idlePulse) * 0.03, dt * 6);
+          swingPivot.rotation.x = THREE.MathUtils.lerp(swingPivot.rotation.x, SWING_CONFIG.idlePitch + Math.sin(idlePulse) * 0.03, dt * 6);
           swingPivot.rotation.y = THREE.MathUtils.lerp(swingPivot.rotation.y, -0.62 + Math.cos(idlePulse * 0.7) * 0.02, dt * 6);
           swingPivot.rotation.z = THREE.MathUtils.lerp(swingPivot.rotation.z, 0.04 + Math.cos(idlePulse * 0.7) * 0.015, dt * 6);
         }
@@ -439,7 +454,7 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
       // Combat: slightly more aggressive, faster windup portion 0.18, strike 0.40, recover 0.42 similar but tuned
       if (swingProgress < 0.18) {
         const t = swingProgress / 0.18;
-        pitch = THREE.MathUtils.lerp(-0.14, cfg.pitchWindup, t);
+        pitch = THREE.MathUtils.lerp(SWING_CONFIG.idlePitch, cfg.pitchWindup, t);
         yaw = THREE.MathUtils.lerp(idleYaw, cfg.yawWindup, t);
         roll = THREE.MathUtils.lerp(0.04, cfg.rollWindup, t);
       } else if (swingProgress < 0.58) {
@@ -451,14 +466,14 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
       } else {
         const t = (swingProgress - 0.58) / 0.42;
         const eased = t * (2 - t);
-        pitch = THREE.MathUtils.lerp(cfg.pitchStrike, -0.14, eased);
+        pitch = THREE.MathUtils.lerp(cfg.pitchStrike, SWING_CONFIG.idlePitch, eased);
         yaw = THREE.MathUtils.lerp(cfg.yawFollow, idleYaw, eased);
         roll = THREE.MathUtils.lerp(cfg.rollStrike, 0.04, eased);
       }
     } else {
       if (swingProgress < 0.18) {
         const t = swingProgress / 0.18;
-        pitch = THREE.MathUtils.lerp(-0.14, SWING_CONFIG.pitchWindup, t);
+        pitch = THREE.MathUtils.lerp(SWING_CONFIG.idlePitch, SWING_CONFIG.pitchWindup, t);
         yaw = THREE.MathUtils.lerp(idleYaw, SWING_CONFIG.yawWindup, t);
         roll = THREE.MathUtils.lerp(0.04, SWING_CONFIG.rollWindup, t);
       } else if (swingProgress < 0.58) {
@@ -470,7 +485,7 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
       } else {
         const t = (swingProgress - 0.58) / 0.42;
         const eased = t * (2 - t);
-        pitch = THREE.MathUtils.lerp(SWING_CONFIG.pitchStrike, -0.14, eased);
+        pitch = THREE.MathUtils.lerp(SWING_CONFIG.pitchStrike, SWING_CONFIG.idlePitch, eased);
         yaw = THREE.MathUtils.lerp(SWING_CONFIG.yawFollow, idleYaw, eased);
         roll = THREE.MathUtils.lerp(SWING_CONFIG.rollStrike, 0.04, eased);
       }
@@ -593,7 +608,7 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
 
   function dispose() {
     handAnchor.remove(swingPivot);
-    playerGroup.remove(handAnchor);
+    handAnchor.removeFromParent();
     playerGroup.remove(trailGroup);
   }
 
@@ -634,7 +649,7 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
 
   return {
     handAnchor, swingPivot, pivot: swingPivot, toolMount, toolGroup, head, glow, trailGroup, arcMesh, afterimages,
-    update, resetSwing, hardReset, requestHarvestSwing, requestCombatSwing, isBusy, getActiveProfile, getSwingProgress, isReadyForSwing,
+    update, setEquipped, resetSwing, hardReset, requestHarvestSwing, requestCombatSwing, isBusy, getActiveProfile, getSwingProgress, isReadyForSwing,
     get pendingTap() { return pendingTap; }, get sharedCooldown() { return sharedCooldown; }, get combatCooldownState() { return combatCooldown; },
     diagnoseHandedness,
     get isSwinging() { return isSwinging; },

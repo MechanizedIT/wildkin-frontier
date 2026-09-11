@@ -26,3 +26,8 @@ test('authored mesh parts retain transforms and real fitted bounds',()=>{
   assert.equal(visual.children[0].userData.assetPartId,'piece');assert.equal(bounds.size.w,4);assert.equal(bounds.size.h,3);
   asset.parts[0].position.y=5;assert.equal(computeVisualAssetBounds(asset).offset.y,6.5);
 });
+test('edited focal asset ids still render their serialized authored parts',()=>{
+  const asset={id:'asset_frontier_portal',parts:[{id:'author_override',shape:'box',position:{x:3,y:2,z:1},rotation:{x:0,y:0,z:0},scale:{x:2,y:4,z:1},color:'#abcdef'}]};
+  const visual=createVisualAssetVisual(asset),part=visual.children[0];
+  assert.equal(part.userData.assetPartId,'author_override');assert.deepEqual(part.position.toArray(),[3,2,1]);assert.equal(part.material.color.getHexString(),'abcdef');
+});

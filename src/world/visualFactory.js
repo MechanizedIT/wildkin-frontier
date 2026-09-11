@@ -5,8 +5,12 @@
 // - deterministic for same objectId/data
 
 import * as THREE from "three";
-import { createExternalModelVisual } from "../assets/modelAssetRuntime.js";
+import { createHarvestTree, createHarvestRock, createHarvestFiber, createOutpostFence, createNavigationPillar, createExtractionBeacon, createCrystalResonator, createMasonryPlatform, createTrailMarker } from './runtimePropMeshKit.js';
+import { createFrontierPropMeshVisual } from './frontierPropMeshKit.js';
+import { createLandmarkMeshVisual } from './landmarkMeshKit.js';
+import { createWildkinMeshVisual } from './wildkinMeshKit.js';
 import { createThornBedVisual } from "./hazardVisual.js";
+import { createExternalModelVisual } from "../assets/modelAssetRuntime.js";
 
 // Simple deterministic RNG based on string seed
 function hashString(str) {
@@ -32,7 +36,7 @@ function makeRng(objectId, salt = "") {
 
 // Helpers to create shared materials (cloned per visual if needed)
 function matStandard(color, opts = {}) {
-  return new THREE.MeshStandardMaterial({ color, flatShading: true, ...opts });
+  return new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.92, metalness: 0, ...opts });
 }
 function matBasic(color, opts = {}) {
   return new THREE.MeshBasicMaterial({ color, ...opts });
@@ -81,7 +85,7 @@ function getAuthoredMeshGeometry(part) {
 function getCachedStandardMaterial(color, optsKey = "", options = {}) {
   const key = `${String(color)}::${optsKey}`;
   if(_matCache.has(key)) return _matCache.get(key);
-  const mat = new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.82, metalness: 0.05, ...options });
+  const mat = new THREE.MeshStandardMaterial({ color, flatShading: true, roughness: 0.92, metalness: 0, ...options });
   mat.userData = mat.userData || {};
   mat.userData.isSharedAssetMaterial = true;
   // optsKey is hash of opts; for asset parts opts is constant, so cache hit
@@ -107,23 +111,10 @@ export function createBoxVisual({ size = { w: 1, h: 1, d: 1 }, color = 0x9aa0a6 
   return group;
 }
 
-export function createFenceVisual({ size } = {}) {
-  return createBoxVisual({ size, color: 0x8b7a5a });
-}
-export function createGateVisual({ size } = {}) {
-  const group = new THREE.Group();
-  const stone = matStandard(0x54736f, { roughness: 0.88 });
-  const trim = matStandard(0xe2bd67, { roughness: 0.64, metalness: 0.12 });
-  for (const x of [-0.9, 0.9]) {
-    const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.34, 1.9, 0.45), stone);
-    pillar.position.set(x, 0.95, 0); group.add(pillar);
-    const cap = new THREE.Mesh(new THREE.IcosahedronGeometry(0.28, 0), trim);
-    cap.position.set(x, 2.02, 0); group.add(cap);
-  }
-  const lintel = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.28, 0.5), stone);
-  lintel.position.set(0, 1.92, 0); group.add(lintel);
-  group.userData.visualKind = "prop/gate";
-  return applyAuthoredBounds(group, size, { width: 2.2, height: 2.25, depth: 0.5 });
+export function createFenceVisual({size}={}) { return createOutpostFence(size); }
+export function createGateVisual({size}={}) {
+  const group=createFrontierPropMeshVisual('asset_frontier_portal_outpost');
+  group.userData.visualKind='prop/gate';return fitBuiltinModel(group,size,{width:2.2,height:2.25,depth:.5});
 }
 export function createForestBoundaryVisual({ size } = {}) {
   return createBoxVisual({ size, color: 0x2d4a2e });
@@ -145,6 +136,11 @@ export function createWaterVisual({ size } = {}) {
 export function createIslandVisual({ size } = {}) {
   return createBoxVisual({ size, color: 0xc2b280 });
 }
+function fitBuiltinModel(group,size,nativeSize) {
+  group.updateMatrixWorld(true);const bounds=new THREE.Box3().setFromObject(group),extent=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
+  const wrapper=new THREE.Group();wrapper.userData={...group.userData};group.position.sub(new THREE.Vector3(center.x,bounds.min.y,center.z));wrapper.add(group);
+  return applyAuthoredBounds(wrapper,size??nativeSize,{width:extent.x,height:extent.y,depth:extent.z});
+}
 function applyAuthoredBounds(group, size, nativeSize) {
   if (!size) return group;
   const width = size.width ?? size.w ?? nativeSize.width;
@@ -155,297 +151,46 @@ function applyAuthoredBounds(group, size, nativeSize) {
     height / nativeSize.height,
     depth / nativeSize.depth,
   );
-  return group;
+  // Authored root placement is applied later. Keep this geometry fit below it
+  // so placement does not overwrite the constructor's dimensional transform.
+  const root=new THREE.Group();root.userData={...group.userData};root.add(group);return root;
 }
 
-export function createDropPodVisual({ size } = {}) {
-  const group = new THREE.Group();
-  const hull = matStandard(0x8fb8cc, { metalness: 0.32, roughness: 0.42 });
-  const panel = matStandard(0x31566b, { metalness: 0.42, roughness: 0.34 });
-  const glow = matStandard(0x70ead7, { emissive: 0x1f8b83, emissiveIntensity: 0.55, roughness: 0.36 });
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.96, 0.34, 10), panel);
-  base.position.y = 0.17; group.add(base);
-  const hullBody = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.82, 0.9, 10), hull);
-  hullBody.position.y = 0.7; group.add(hullBody);
-  const canopy = new THREE.Mesh(new THREE.SphereGeometry(0.68, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2), panel);
-  canopy.position.set(0, 1.15, 0.08); canopy.scale.set(1, 0.85, 1); group.add(canopy);
-  const door = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.66, 0.05), glow);
-  door.position.set(0, 0.67, 0.79); group.add(door);
-  for (let i = 0; i < 3; i++) { const fin = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.5, 0.65), hull); fin.position.set(Math.sin(i * Math.PI * 2 / 3) * .78, .32, Math.cos(i * Math.PI * 2 / 3) * .78); fin.rotation.y = i * Math.PI * 2 / 3; group.add(fin); }
-  const landingRing = new THREE.Mesh(new THREE.RingGeometry(0.95, 1.08, 16), matBasic(0x8af4df, { transparent: true, opacity: 0.28, side: THREE.DoubleSide }));
-  landingRing.rotation.x = -Math.PI / 2; landingRing.position.y = 0.018; group.add(landingRing);
-  group.userData.visualKind = "prop/dropPod";
-  return applyAuthoredBounds(group, size, { width: 2.1, height: 1.72, depth: 2.1 });
+export function createDropPodVisual({size}={}) {
+  const group=createFrontierPropMeshVisual('asset_drop_pod');
+  group.userData.visualKind='prop/dropPod';return fitBuiltinModel(group,size,{width:2.1,height:1.72,depth:2.1});
 }
-export function createResonatorVisual({ size } = {}) {
-  const group = new THREE.Group();
-  const stone = matStandard(0x657d72, { roughness: 0.86 });
-  const brass = matStandard(0xd9b864, { metalness: 0.2, roughness: 0.46 });
-  const mat = matStandard(0x7fe6cf, { emissive: 0x1d786d, emissiveIntensity: 0.5, roughness: 0.35 });
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.94, 0.3, 8), stone); base.position.y = 0.15; group.add(base);
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.54, 0.07, 6, 10), brass); ring.rotation.x = Math.PI / 2; ring.position.y = .48; group.add(ring);
-  const crystal = new THREE.Mesh(new THREE.OctahedronGeometry(0.42, 0), mat); crystal.position.y = 0.92; group.add(crystal);
-  for (const x of [-.58, .58]) { const prong = new THREE.Mesh(new THREE.CylinderGeometry(.07, .09, .78, 6), brass); prong.position.set(x, .55, 0); prong.rotation.z = x * -.38; group.add(prong); }
-  group.userData.visualKind = "prop/resonator";
-  return applyAuthoredBounds(group, size, { width: 1.9, height: 1.35, depth: 1.9 });
-}
+export function createResonatorVisual({size}={}) { return applyAuthoredBounds(createCrystalResonator(),size,{width:1.9,height:1.35,depth:1.9}); }
 
-export function createPlatformVisual({ size = { w:3, height:1.25, h:3 } } = {}) {
-  const w = size?.w ?? size?.width ?? 3;
-  const h = size?.h ?? size?.depth ?? 3; // h is depth in platform spec
-  const height = size?.height ?? 1.25;
-  const geo = new THREE.BoxGeometry(w, height, h);
-  const mesh = new THREE.Mesh(geo, matStandard(0x8d7a5a));
-  mesh.position.set(0, height / 2 - 0.02, 0);
-  mesh.name = "visual_platform";
-  const g = new THREE.Group();
-  g.add(mesh);
-  if (height <= 1.5) {
-    const step = new THREE.Mesh(
-      new THREE.BoxGeometry(1.0, 0.04, 0.6),
-      matStandard(0xc9b48a),
-    );
-    step.position.set(0, 0.04, h / 2 + 0.7);
-    step.name = "platform_step";
-    g.add(step);
-  }
-  g.userData.visualKind = "traversal/platform";
-  return g;
-}
-export function createObstacleVisual({ size = { w:1.8, height:1.0, h:1.8 } } = {}) {
-  const w = size?.w ?? size?.width ?? 1.8;
-  // platform obstacle uses h as depth, height as vertical
-  const d = size?.h ?? size?.depth ?? 1.8;
-  const height = size?.height ?? 1.0;
-  const geo = new THREE.BoxGeometry(w, height, d);
-  const mesh = new THREE.Mesh(geo, matStandard(0x9aa0a6));
-  mesh.position.set(0, height / 2 - 0.02, 0);
-  mesh.name = "visual_obstacle";
-  const g = new THREE.Group();
-  g.add(mesh);
-  g.userData.visualKind = "traversal/obstacle";
-  return g;
-}
+export function createPlatformVisual({size={}}={}) { return createMasonryPlatform(size.w??size.width??3,size.height??1.25,size.h??size.depth??3); }
+export function createObstacleVisual({size={}}={}) { return createMasonryPlatform(size.w??size.width??1.8,size.height??1,size.h??size.depth??1.8,{obstacle:true}); }
 
-export function createLadderVisual({ size = { width:1.9, height:2.4, depth:0.5 } } = {}) {
-  const w = size?.width ?? size?.w ?? 1.9;
-  const hDepth = size?.depth ?? size?.h ?? 0.5;
-  const height = size?.height ?? 2.4;
-  const group = new THREE.Group();
-  const wallMat = matStandard(0xb89a5a, { emissive: 0x332200, emissiveIntensity: 0.12 });
-  const wall = new THREE.Mesh(new THREE.BoxGeometry(w, height, hDepth), wallMat);
-  wall.position.set(0, height / 2 - 0.02, 0);
-  wall.name = "ladder_wall";
-  group.add(wall);
-  const rungCount = Math.max(2, Math.round(height / 0.48));
-  for (let i = 0; i < rungCount; i++) {
-    const rung = new THREE.Mesh(new THREE.BoxGeometry(Math.min(w, 1.4), 0.06, 0.09), matStandard(0x6b4a2b));
-    const y = ((i + 1) / (rungCount + 1)) * height;
-    // rung slightly in front of wall
-    rung.position.set(0, y, hDepth / 2 + 0.12);
-    rung.name = `ladder_rung_${i}`;
-    group.add(rung);
-  }
-  const marker = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.45, 6), matStandard(0xfff3b0));
-  marker.position.set(0, height + 0.25, 0);
-  group.add(marker);
-  group.userData.visualKind = "traversal/ladder";
-  return group;
-}
+export function createLadderVisual({size={}}={}) { return createMasonryPlatform(size.width??size.w??1.9,size.height??2.4,size.depth??size.h??.5,{ladder:true}); }
 
 // Resource visuals — deterministic variation based on objectId
-export function createTreeVisual({ objectId = "tree_default" } = {}) {
-  const rng = makeRng(objectId, "tree");
-  const group = new THREE.Group();
-  const trunkGeo = new THREE.CylinderGeometry(0.38, 0.46, 0.52, 8);
-  const trunkMat = matStandard(0x6b4a2b);
-  const trunk = new THREE.Mesh(trunkGeo, trunkMat);
-  trunk.position.y = 0.26;
-  trunk.name = "tree_trunk";
-  group.add(trunk);
-  const foliageMat = matStandard(0x2f7d32);
-  const foliageMat2 = matStandard(0x3a9a3a);
-  const blobPos = [
-    { x: 0, y: 0.78, z: 0, s: 0.92, mat: foliageMat },
-    { x: 0.68, y: 0.62, z: 0.38, s: 0.66, mat: foliageMat2 },
-    { x: -0.66, y: 0.58, z: 0.40, s: 0.64, mat: foliageMat },
-    { x: 0.42, y: 0.70, z: -0.52, s: 0.58, mat: foliageMat2 },
-    { x: -0.40, y: 0.52, z: -0.42, s: 0.56, mat: foliageMat },
-  ];
-  for (let i = 0; i < 5; i++) {
-    const cfg = blobPos[i];
-    const g = new THREE.ConeGeometry(cfg.s, 1.10, 7);
-    const m = new THREE.Mesh(g, cfg.mat);
-    m.position.set(cfg.x, cfg.y, cfg.z);
-    m.name = `tree_chunk_${i}`;
-    m.rotation.y = (rng() * 0.4 - 0.2);
-    group.add(m);
-  }
-  // stump remnant hidden but included for completeness (not visible in READY)
-  // We keep group deterministic; variation only in rotations above.
-  group.userData.visualKind = "resource/tree";
-  return group;
+export function createTreeVisual({objectId='tree_default'}={}) { return createHarvestTree(makeRng(objectId,'tree')); }
+
+export function createRockVisual({objectId='rock_default'}={}) { return createHarvestRock(makeRng(objectId,'rock')); }
+
+export function createFiberVisual() { return createHarvestFiber(); }
+
+export function createRusherVisual() {
+  const group=createWildkinMeshVisual('asset_thornprowler');group.userData.visualKind='creature/rusher';return fitBuiltinModel(group,null,{width:.88,height:.86,depth:1.25});
 }
 
-export function createRockVisual({ objectId = "rock_default" } = {}) {
-  const rng = makeRng(objectId, "rock");
-  const group = new THREE.Group();
-  const rockMat = matStandard(0x8d8d8d);
-  const rockMat2 = matStandard(0xa8a8a8);
-  const darkRock = matStandard(0x6e6e6e);
-  const lobes = [
-    { x: 0, y: 0.52, z: 0, s: 0.58, mat: rockMat },
-    { x: 0.46, y: 0.46, z: 0.26, s: 0.44, mat: rockMat2 },
-    { x: -0.43, y: 0.40, z: 0.30, s: 0.41, mat: darkRock },
-    { x: 0.20, y: 0.62, z: -0.36, s: 0.37, mat: rockMat },
-  ];
-  for (let i = 0; i < lobes.length; i++) {
-    const cfg = lobes[i];
-    const g = new THREE.DodecahedronGeometry(cfg.s, 0);
-    const m = new THREE.Mesh(g, cfg.mat);
-    m.position.set(cfg.x, cfg.y, cfg.z);
-    m.rotation.set(rng() * 0.6, rng() * 0.6, rng() * 0.6);
-    m.name = `rock_chunk_${i}`;
-    group.add(m);
-  }
-  group.userData.visualKind = "resource/rock";
-  return group;
+export function createSpitterVisual() {
+  const group=createWildkinMeshVisual('asset_wildkin_tidefin');group.userData.visualKind='creature/spitter';return fitBuiltinModel(group,null,{width:.8,height:1,depth:1.1});
 }
 
-export function createFiberVisual({ objectId = "fiber_default" } = {}) {
-  // fiber variation is subtle; still deterministic but we can keep fixed positions (no random)
-  const group = new THREE.Group();
-  const bushMat = matStandard(0x6abf69);
-  const bushMat2 = matStandard(0x4a9a4a);
-  const tufts = [
-    { x: 0, y: 0.42, z: 0, s: 0.45 },
-    { x: 0.35, y: 0.36, z: 0.19, s: 0.35 },
-    { x: -0.32, y: 0.38, z: 0.22, s: 0.38 },
-  ];
-  for (let i = 0; i < tufts.length; i++) {
-    const cfg = tufts[i];
-    const g = new THREE.SphereGeometry(cfg.s, 7, 5);
-    g.scale(1, 0.65, 1);
-    const mat = i % 2 === 0 ? bushMat : bushMat2;
-    const m = new THREE.Mesh(g, mat);
-    m.position.set(cfg.x, cfg.y, cfg.z);
-    m.name = `fiber_tuft_${i}`;
-    group.add(m);
-  }
-  group.userData.visualKind = "resource/fiber";
-  return group;
-}
+export function createWaypointVisual() { return createNavigationPillar(); }
 
-export function createRusherVisual({ objectId = "rusher_default" } = {}) {
-  const group = new THREE.Group();
-  const bodyGeo = new THREE.BoxGeometry(0.72, 0.42, 0.86);
-  const bodyMat = matStandard(0xe14b2a);
-  const body = new THREE.Mesh(bodyGeo, bodyMat);
-  body.position.y = 0.36;
-  body.name = "rusherBody";
-  group.add(body);
-  const headGeo = new THREE.ConeGeometry(0.22, 0.38, 6);
-  const headMat = matStandard(0xff8a4a);
-  const head = new THREE.Mesh(headGeo, headMat);
-  head.rotation.x = Math.PI / 2;
-  head.position.set(0, 0.42, 0.52);
-  group.add(head);
-  const eyeGeo = new THREE.SphereGeometry(0.06, 5, 5);
-  const eyeMat = matStandard(0xffffff);
-  const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
-  eyeL.position.set(0.18, 0.48, 0.42);
-  group.add(eyeL);
-  const eyeR = eyeL.clone();
-  eyeR.position.set(-0.18, 0.48, 0.42);
-  group.add(eyeR);
-  const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.42, 12), matBasic(0x000000, { transparent: true, opacity: 0.18 }));
-  shadow.rotation.x = -Math.PI / 2;
-  shadow.position.y = 0.02;
-  shadow.name = "shadow";
-  group.add(shadow);
-  group.userData.visualKind = "creature/rusher";
-  return group;
-}
+export function createBeaconVisual() { return createExtractionBeacon(); }
 
-export function createSpitterVisual({ objectId = "spitter_default" } = {}) {
-  const group = new THREE.Group();
-  const bodyGeo = new THREE.CylinderGeometry(0.28, 0.34, 0.62, 7);
-  const bodyMat = matStandard(0x7a4de8);
-  const body = new THREE.Mesh(bodyGeo, bodyMat);
-  body.position.y = 0.42;
-  body.name = "spitterBody";
-  group.add(body);
-  const sackGeo = new THREE.SphereGeometry(0.22, 7, 6);
-  sackGeo.scale(1, 0.75, 1.2);
-  const sackMat = matStandard(0x4ad4d4, { emissive: 0x0a4444, emissiveIntensity: 0.2 });
-  const sack = new THREE.Mesh(sackGeo, sackMat);
-  sack.position.set(0, 0.38, 0.38);
-  sack.name = "spitterSack";
-  group.add(sack);
-  const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.42, 12), matBasic(0x000000, { transparent: true, opacity: 0.18 }));
-  shadow.rotation.x = -Math.PI / 2;
-  shadow.position.y = 0.02;
-  group.add(shadow);
-  group.userData.visualKind = "creature/spitter";
-  return group;
-}
-
-export function createWaypointVisual({ objectId = "waypoint_default" } = {}) {
-  const group = new THREE.Group();
-  const waypointMat = matStandard(0x4fc3f7, { emissive: 0x0a2a3a, emissiveIntensity: 0.2 });
-  const h = 1.6;
-  const geo = new THREE.CylinderGeometry(0.25, 0.32, h, 8);
-  const mesh = new THREE.Mesh(geo, waypointMat);
-  mesh.position.y = h / 2;
-  mesh.name = "waypoint_cyl";
-  group.add(mesh);
-  const ring = new THREE.Mesh(new THREE.RingGeometry(0.45, 0.55, 14), matBasic(0x4fc3f7, { transparent: true, opacity: 0.45, side: THREE.DoubleSide }));
-  ring.rotation.x = -Math.PI / 2;
-  ring.position.y = 0.06;
-  group.add(ring);
-  const top = new THREE.Mesh(new THREE.SphereGeometry(0.18, 8, 8), matBasic(0xaeeaff));
-  top.position.set(0, h + 0.18, 0);
-  group.add(top);
-  group.userData.visualKind = "anchor/waypoint";
-  return group;
-}
-
-export function createBeaconVisual({ objectId = "beacon_default" } = {}) {
-  const group = new THREE.Group();
-  const beaconMat = matStandard(0xff7043, { emissive: 0x442200, emissiveIntensity: 0.2 });
-  const h = 1.2;
-  const geo = new THREE.BoxGeometry(0.5, h, 0.5);
-  const mesh = new THREE.Mesh(geo, beaconMat);
-  mesh.position.y = h / 2;
-  group.add(mesh);
-  const ring = new THREE.Mesh(new THREE.RingGeometry(0.35, 0.42, 12), matBasic(0xff7043, { transparent: true, opacity: 0.4, side: THREE.DoubleSide }));
-  ring.rotation.x = -Math.PI / 2;
-  ring.position.y = 0.05;
-  group.add(ring);
-  group.userData.visualKind = "anchor/beacon";
-  return group;
-}
-
-export function createPoiVisual({ poiType = "chest", objectId = "poi_default", requires = null } = {}) {
-  const group = new THREE.Group();
-  let mat = matStandard(0xffd54f, { emissive: 0x332200, emissiveIntensity: 0.12 });
-  let h = 0.6;
-  if (poiType === "barrier") { mat = matStandard(0x777777); h = 1.0; }
-  const geo = new THREE.BoxGeometry(0.7, h, 0.7);
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.y = h / 2;
-  group.add(mesh);
-  if (requires) {
-    const lock = new THREE.Mesh(
-      new THREE.SphereGeometry(0.18, 6, 6),
-      matBasic(0xff4444, { transparent: true, opacity: 0.75 }),
-    );
-    lock.position.set(0, h + 0.35, 0);
-    lock.name = "poi_lock";
-    group.add(lock);
-  }
-  group.userData.visualKind = `poi/${poiType}`;
-  return group;
+export function createPoiVisual({poiType='chest',requires=null}={}) {
+  const model=poiType==='barrier'?createLandmarkMeshVisual('asset_vault_barrier'):createFrontierPropMeshVisual('asset_chest');
+  const group=fitBuiltinModel(model,null,{width:.8,height:poiType==='barrier'?1.25:.65,depth:.8});
+  if(requires){const lock=new THREE.Mesh(new THREE.OctahedronGeometry(.13),matBasic(0xffc267));lock.name='poi_lock';lock.position.set(0,(poiType==='barrier'?1.45:.85)/group.scale.y,0);group.add(lock);}
+  group.userData.visualKind=`poi/${poiType}`;return group;
 }
 
 export function createSpawnMarkerVisual({ color = 0x7ab8ff } = {}) {
@@ -547,7 +292,7 @@ function createJumpPadBuiltinVisual(opts = {}) {
   const radius = Math.max(0.65, Number(opts.triggerRadius) || 1.1);
   const group = new THREE.Group();
   const color = opts.powerPreset === "low" ? 0x69d98a : opts.powerPreset === "high" ? 0xff8a5b : 0x6de5ef;
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.0, 0.22, 20), new THREE.MeshStandardMaterial({ color: 0x263746, metalness: 0.35, roughness: 0.55 }));
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.0, 0.22, 20), matStandard(0x263746, { roughness: 0.92 }));
   base.position.y = 0.11;
   group.add(base);
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.5, 0.78, 24), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.78, side: THREE.DoubleSide }));
@@ -561,26 +306,9 @@ function createJumpPadBuiltinVisual(opts = {}) {
   return group;
 }
 
-function createParkourMarkerBuiltinVisual(opts = {}) {
-  const kind = opts.markerKind ?? "start";
-  const color = kind === "checkpoint" ? 0x5ba7ff : kind === "end" ? 0xffd45b : 0x59f0c8;
-  const radius = Math.max(0.5, Number(opts.triggerRadius) || 1.8);
-  const group = new THREE.Group();
-  const mat = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.22, roughness: 0.55 });
-  const left = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.14, 1.5, 10), mat);
-  left.position.set(-0.68, 0.75, 0);
-  const right = left.clone();
-  right.position.x = 0.68;
-  const top = new THREE.Mesh(new THREE.TorusGeometry(0.68, 0.09, 8, 24, Math.PI), mat);
-  top.rotation.z = Math.PI;
-  top.position.y = 1.45;
-  group.add(left, right, top);
-  const trigger = new THREE.Mesh(new THREE.RingGeometry(Math.max(0.05, radius - 0.045), radius, 36), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.35, side: THREE.DoubleSide }));
-  trigger.rotation.x = -Math.PI / 2;
-  trigger.position.y = 0.035;
-  trigger.userData.parkourTriggerRing = true;
-  group.add(trigger);
-  group.userData.parkourMarkerKind = kind;
+function createParkourMarkerBuiltinVisual(opts={}) {
+  const group=createTrailMarker({...opts,markerKind:opts.markerKind??'start'});
+  group.getObjectByName('parkour_marker_ring').userData.parkourTriggerRing=true;
   return group;
 }
 
@@ -619,14 +347,13 @@ export function createVisualAssetVisual(asset) {
     model.userData.visualAssetId = asset.id;
     return model;
   }
-
   const group = new THREE.Group();
   group.userData.visualKind = `asset/${asset.id}`;
   group.userData.visualAssetId = asset.id;
   for (const part of asset.parts ?? []) {
     const geometry = part.shape === 'mesh' ? getAuthoredMeshGeometry(part) : getCachedAssetGeometry(part.shape);
-    // Cached material per color — asset parts share flat roughness 0.82/metalness 0.05
-    const style={flatShading:part.flatShading??true,roughness:part.roughness??.82,side:part.side??THREE.FrontSide};
+    // Asset recipes stay matte by default; parts retain authored roughness and side.
+    const style={flatShading:part.flatShading??true,roughness:part.roughness??.92,metalness:0,side:part.side??THREE.FrontSide};
     const material = getCachedStandardMaterial(part.color, JSON.stringify(style), style);
     const mesh = new THREE.Mesh(geometry, material);
       mesh.name = `${asset.id}:${part.id}`;

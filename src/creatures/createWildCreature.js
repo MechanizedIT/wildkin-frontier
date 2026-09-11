@@ -8,7 +8,7 @@ function getConfig(type) {
   return type === "spitter" ? SPITTER_CONFIG : RUSHER_CONFIG;
 }
 
-export function createWildCreature(scene, physicsWorld, spawn, index) {
+export function createWildCreature(scene, physicsWorld, spawn, index, { shouldIgnoreCollider = () => false } = {}) {
   const type = spawn.type;
   const cfg = { ...getConfig(type), ...(spawn.configOverrides ?? {}) };
   const visualRef = spawn.visualAsset
@@ -214,6 +214,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   let body = null;
   let collider = null;
   let controller = null;
+  let colliderFilter = shouldIgnoreCollider;
   if (collisionEnabled && physicsWorld && physicsWorld.RAPIER) {
     const RAPIER = physicsWorld.RAPIER;
     const world = physicsWorld.world;
@@ -275,7 +276,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
       return { corrected: desired, grounded: true };
     }
     const before = collider.translation();
-    controller.computeColliderMovement(collider, desired);
+    controller.computeColliderMovement(collider, desired, undefined, undefined, (candidate) => !colliderFilter(candidate));
     const corrected = controller.computedMovement();
     const grounded = controller.computedGrounded();
     const next = { x: before.x + corrected.x, y: before.y + corrected.y, z: before.z + corrected.z };
@@ -287,6 +288,10 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
   }
 
   function setVisible(v) { group.visible = !!v && visibleInPlay; }
+
+  function setColliderFilter(next) {
+    colliderFilter = typeof next === "function" ? next : () => false;
+  }
 
   function setVisualScaleMultiplier(x = 1, y = x, z = x) {
     group.scale.set(creatureScale * x, creatureScale * y, creatureScale * z);
@@ -400,6 +405,10 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
     modelAnimator?.stop();
     disposeExternalModelInstance(visualRoot);
     if (group.parent) group.parent.remove(group);
+    if (controller && physicsWorld && physicsWorld.world) {
+      try { physicsWorld.world.removeCharacterController(controller); } catch {}
+      controller = null;
+    }
     if (collider && physicsWorld && physicsWorld.world) {
       try { physicsWorld.world.removeCollider(collider, true); } catch {}
     }
@@ -410,7 +419,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index) {
 
   return {
     group, state, get body() { return body; }, get collider() { return collider; }, set collider(v) { collider = v; }, controller, cfg, mainMesh, focusRing, healthBar,
-    setPosition, getPosition, move, setVisible, setVisualScaleMultiplier, updateVisual, showFocusRing, setTemperamentDebugVisible, restartVisualAnimation, applyKnockback, dispose, disableCollision, enableCollision,
+    setPosition, getPosition, move, setVisible, setColliderFilter, setVisualScaleMultiplier, updateVisual, showFocusRing, setTemperamentDebugVisible, restartVisualAnimation, applyKnockback, dispose, disableCollision, enableCollision,
     visibleInPlay, collisionEnabled, creatureScale,
     get pos() { return state.pos; },
     get id() { return state.id; },

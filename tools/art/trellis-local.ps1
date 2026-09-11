@@ -1,6 +1,7 @@
 param(
   [ValidateSet('Start', 'Status', 'Stop')][string]$Action = 'Status',
-  [string]$InstallRoot = 'C:/Users/cwood/Tools/trellis2-stableprojectorz/code'
+  [string]$InstallRoot = 'C:/Users/cwood/Tools/trellis2-stableprojectorz/code',
+  [ValidateSet('Full', 'Small512')][string]$Profile = 'Full'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -9,6 +10,7 @@ $runDirectory = Join-Path $projectRoot '.dream-loop/local-trellis'
 $receiptPath = Join-Path $runDirectory 'server.json'
 $pythonPath = Join-Path $InstallRoot 'venv/Scripts/python.exe'
 $apiPath = Join-Path $InstallRoot 'api_spz/main_api.py'
+$launcherPath = if ($Profile -eq 'Small512') { Join-Path $PSScriptRoot 'trellis-small-profile.py' } else { $apiPath }
 $endpoint = 'http://127.0.0.1:7960'
 
 function Read-LocalStatus {
@@ -31,7 +33,8 @@ if ($Action -eq 'Stop') {
   $receipt = Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json
   $running = Get-CimInstance Win32_Process -Filter "ProcessId=$($receipt.processId)"
   if ($running) {
-    if (!$running.CommandLine.Contains($receipt.apiPath) -or !$running.CommandLine.Contains('--port 7960')) {
+    $recordedLauncher = if ($receipt.launcherPath) { $receipt.launcherPath } else { $receipt.apiPath }
+    if (!$running.CommandLine -or !$running.CommandLine.Contains($recordedLauncher) -or !$running.CommandLine.Contains('--port 7960')) {
       throw 'Process identity no longer matches the recorded local TRELLIS launch.'
     }
     Stop-Process -Id $receipt.processId
@@ -45,12 +48,13 @@ if ($existing.ready) { $existing | ConvertTo-Json -Depth 8; exit 0 }
 if (Test-Path -LiteralPath $receiptPath) {
   $receipt = Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json
   $recordedProcess = Get-CimInstance Win32_Process -Filter "ProcessId=$($receipt.processId)"
-  if ($recordedProcess -and $recordedProcess.CommandLine.Contains($receipt.apiPath)) {
+  $recordedLauncher = if ($receipt.launcherPath) { $receipt.launcherPath } else { $receipt.apiPath }
+  if ($recordedProcess -and $recordedProcess.CommandLine -and $recordedProcess.CommandLine.Contains($recordedLauncher)) {
     @{ ready = $false; processId = $receipt.processId; detail = 'Recorded process is still loading; inspect logs instead of starting a duplicate.' } | ConvertTo-Json
     exit 0
   }
 }
-foreach ($required in @($pythonPath, $apiPath, (Join-Path $InstallRoot 'models'))) {
+foreach ($required in @($pythonPath, $apiPath, $launcherPath, (Join-Path $InstallRoot 'models'))) {
   if (!(Test-Path -LiteralPath $required)) { throw "Required installed TRELLIS path missing: $required" }
 }
 if (Get-NetTCPConnection -LocalPort 7960 -State Listen -ErrorAction SilentlyContinue) {
@@ -68,8 +72,10 @@ $env:HF_HUB_DISABLE_TELEMETRY = '1'
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 $stdout = Join-Path $runDirectory "$stamp.stdout.log"
 $stderr = Join-Path $runDirectory "$stamp.stderr.log"
-$arguments = '-u "' + $apiPath + '" --host 127.0.0.1 --port 7960'
+$arguments = '-u "' + $launcherPath + '"'
+if ($Profile -eq 'Small512') { $arguments += ' --install-root "' + $InstallRoot + '"' }
+$arguments += ' --host 127.0.0.1 --port 7960'
 $process = Start-Process -FilePath $pythonPath -ArgumentList $arguments -WorkingDirectory $InstallRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdout -RedirectStandardError $stderr
-$result = @{ processId = $process.Id; pythonPath = $pythonPath; apiPath = $apiPath; endpoint = $endpoint; startedUtc = [DateTime]::UtcNow.ToString('o'); stdout = $stdout; stderr = $stderr }
+$result = @{ processId = $process.Id; pythonPath = $pythonPath; apiPath = $apiPath; launcherPath = $launcherPath; profile = $Profile; endpoint = $endpoint; startedUtc = [DateTime]::UtcNow.ToString('o'); stdout = $stdout; stderr = $stderr }
 $result | ConvertTo-Json | Set-Content -LiteralPath $receiptPath -Encoding utf8
 $result | ConvertTo-Json

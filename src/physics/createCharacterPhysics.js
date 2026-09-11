@@ -3,7 +3,7 @@
 
 import { RAPIER_PHYSICS_CONFIG } from "./physicsConfig.js";
 
-export function createCharacterPhysics(RAPIER, world, initialPos) {
+export function createCharacterPhysics(RAPIER, world, initialPos, { shouldIgnoreCollider = () => false } = {}) {
   const cfg = RAPIER_PHYSICS_CONFIG;
 
   // Kinematic position-based body — deliberately controlled, not simulated.
@@ -21,6 +21,7 @@ export function createCharacterPhysics(RAPIER, world, initialPos) {
 
   // KinematicCharacterController — Rapier's recommended character movement solver
   const controller = world.createCharacterController(cfg.controllerOffset);
+  let colliderFilter = shouldIgnoreCollider;
   controller.setSlideEnabled(true);
   controller.setMaxSlopeClimbAngle(cfg.maxSlopeClimbAngle);
   controller.setMinSlopeSlideAngle(cfg.minSlopeSlideAngle);
@@ -69,7 +70,7 @@ export function createCharacterPhysics(RAPIER, world, initialPos) {
   // Move by desired translation (world units), returns { corrected, grounded, numCollisions, collisions }
   function move(desired) {
     const before = collider.translation();
-    controller.computeColliderMovement(collider, desired);
+    controller.computeColliderMovement(collider, desired, undefined, undefined, (candidate) => !colliderFilter(candidate));
     const corrected = controller.computedMovement();
     const grounded = controller.computedGrounded();
 
@@ -93,6 +94,10 @@ export function createCharacterPhysics(RAPIER, world, initialPos) {
       beforePos: before,
       desired,
     };
+  }
+
+  function setColliderFilter(next) {
+    colliderFilter = typeof next === "function" ? next : () => false;
   }
 
   // Optional shape query for mantle clearance: check if capsule at target would intersect world.
@@ -140,6 +145,7 @@ export function createCharacterPhysics(RAPIER, world, initialPos) {
     getPosition,
     setPosition,
     move,
+    setColliderFilter,
     isCapsuleAtPositionClear,
   };
 }

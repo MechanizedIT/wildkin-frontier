@@ -2,6 +2,8 @@
 
 Image-to-3D output is a surface, not a rigged game character. Inspect the actual orthographic front, both sides and rear for anatomy, joined limbs, hidden holes and separate equipment/foliage. Keep the approved silhouette and original UV/color texture through repairs. For a reference-driven production pass, first read [dream-loop-production.md](dream-loop-production.md).
 
+For manual anatomical landmark fitting, Rigify versus a custom deform rig, semantic foliage ownership and Blender 4.5 evaluated baking/Action slots, read [anatomy-and-export.md](anatomy-and-export.md). The historical locomotion numbers below are provenance for earlier helpers, not current tuning: read repository config and owner steering before deriving playback speed.
+
 ## Establish source orientation before a rig
 
 Fit a rig only after reviewing a neutral source pose. A humanoid needs a relaxed A- or T-pose with limbs distinct; a quadruped needs a relaxed, four-paw stance with distinct feet/paws and a readable head-to-spine line. Render the actual mesh in front, side and rear orthographic views before authoring bones or clips.

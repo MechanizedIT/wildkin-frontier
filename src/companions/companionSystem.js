@@ -3,22 +3,45 @@ import { COMPANIONS, COMPANION_BY_ID, identifyCompanion, SECRET_COMPANION } from
 import { canBond } from "./bondingLogic.js";
 import { createVisualAssetVisual } from "../world/visualFactory.js";
 import { createVisualAnimationController, disposeExternalModelInstance } from "../assets/modelAssetRuntime.js";
-import { createBondingPanel } from "../ui/bondingPanel.js";
+import { createFieldTaming } from "./fieldTaming.js";
+import { createFieldTamingVisual, findFieldPlacement } from "./fieldTamingVisual.js";
 import { getSurfaceHeight } from "../world/terrainSurfaceModel.js";
+import { createCompanionPhysics, COMPANION_PHYSICS_TUNING } from "./companionPhysics.js";
+import { deriveCompanionFollowIntent, getCompanionFormationAnchor } from "./companionFollowIntent.js";
 
-export function createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, isActive, getSectionId, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
-  let pending = [], cooldown = 0, elapsed = 0;
+export function createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, isActive, getSectionId, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
+  let pending = [], cooldown = 0, elapsed = 0, fixedElapsed = 0;
   const followers = new Map();
   const wardRoots = new Map();
-  const retryAt = new Map();
-  const panel = createBondingPanel({ app, onBlockingChanged, audio, onFinished({ status, species, target }) {
-    if (status === "success" && isActive() && creatures.secureBondTarget(target.state.id)) {
+  const fieldVisual = createFieldTamingVisual(scene);
+  function eligibility(target, species) {
+    const state = progress.getState();
+    return canBond({ speciesId: species?.id, secured: state.securedCompanions, pending, capacity: progress.getModifiers().captureCapacity, damaged: target?.state.playerDamaged, active: isActive() });
+  }
+  const fieldTaming = createFieldTaming({
+    getPlayer: playerController.getState,
+    getTarget: id => creatures.getActiveAliveCreatures().find(c => c.state.id === id),
+    getSectionId, isActive, canStart: eligibility,
+    consume: id => progress.consumeFieldSupply(id),
+    placePoint: (player, target, secondPerch) => findFieldPlacement({ player, registry, sectionId: getSectionId(), physicsWorld, secondPerch,
+      ignoreCollider: candidate => candidate.handle === playerCollider?.handle || creatures.getCreatures().some(c => c.collider?.handle === candidate.handle) || [...followers.values()].some(c => c.physics?.collider?.handle === candidate.handle) }),
+    setIntent: (id, intent) => creatures.setFieldTamingIntent(id, intent),
+    clearIntent: id => creatures.clearFieldTamingIntent(id),
+    capture(id, species) {
+      creatures.setBondingTarget(id);
+      const target = creatures.secureBondTarget(id);
+      creatures.setBondingTarget(null);
+      if (!target) return false;
       pending.push(species.id);
       pulse(target.state.pos, new THREE.Color(species.color).getHex());
       toast(`${species.name} bonded`, "Bring them home to secure your bond.");
-    } else if (status === "failed") retryAt.set(target.state.id, elapsed + 6);
-    creatures.setBondingTarget(null);
-  } });
+      return true;
+    },
+    onMessage: toast, onVisual(state) {
+      if (state?.speciesId === "emberhorn") state.point.y = getSurfaceHeight(registry.getSectionById(getSectionId())?.surface, state.point.x, state.point.z);
+      fieldVisual.update(state);
+    },
+  });
   for (const species of COMPANIONS) {
     const chest = registry.getLootChestById(species.secret);
     if (!chest) continue;
@@ -34,36 +57,31 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
   }
   function getNearbyInteraction(pos) {
     if (!isActive()) return null;
+    const active = fieldTaming.getState();
+    if (active) {
+      const target = creatures.getActiveAliveCreatures().find(c => c.state.id === active.id);
+      if (target) return { type: "bond", id: active.id, species: COMPANION_BY_ID[active.speciesId], target, distance: Math.hypot(target.state.pos.x-pos.x,target.state.pos.z-pos.z), label: active.label.split(" · ")[0], detail: active.detail };
+    }
     const state = progress.getState();
     let best = null;
     for (const target of creatures.getActiveAliveCreatures()) {
       const species = identifyCompanion(target);
       if (!species) continue;
       const distance = Math.hypot(target.state.pos.x - pos.x, target.state.pos.z - pos.z);
-      if (distance < 7) progress.discoverSpecies(species.id);
-      if (distance > 4.2 || Math.abs(target.state.pos.y - pos.y) > 2.2 || (best && distance >= best.distance)) continue;
-      const eligibility = canBond({ speciesId: species.id, secured: state.securedCompanions, pending, capacity: progress.getModifiers().captureCapacity, damaged: target.state.playerDamaged });
-      if (!eligibility.ok && state.securedCompanions.includes(species.id)) continue;
-      best = { type: "bond", id: target.state.id, species, target, distance, label: `BOND · ${species.name}`, detail: eligibility.ok ? "Approach peacefully · match three resonance echoes" : eligibility.reason };
+      if (distance < 9) progress.discoverSpecies(species.id);
+      if (distance > 6 || Math.abs(target.state.pos.y - pos.y) > 2.2 || (best && distance >= best.distance)) continue;
+      const eligible = eligibility(target, species);
+      if (!eligible.ok && state.securedCompanions.includes(species.id)) continue;
+      best = { type: "bond", id: target.state.id, species, target, distance, label: species.taming.action, detail: eligible.ok ? species.taming.guide : eligible.reason };
     }
     return best;
   }
   function beginBond(id) {
     const target = creatures.getActiveAliveCreatures().find(c => c.state.id === id);
-    const species = identifyCompanion(target);
-    const state = progress.getState();
-    const eligibility = canBond({ speciesId: species?.id, secured: state.securedCompanions, pending, capacity: progress.getModifiers().captureCapacity, damaged: target?.state.playerDamaged, active: isActive() });
-    if (!eligibility.ok) { toast("Cannot bond yet", eligibility.reason); return false; }
-    const pos = playerController.getState().pos;
-    if (Math.hypot(target.state.pos.x - pos.x, target.state.pos.z - pos.z) > 4.5 || Math.abs(target.state.pos.y - pos.y) > 2.2) return false;
-    if ((retryAt.get(id) ?? 0) > elapsed) { toast("Give it a moment", "Its resonance will settle in a few seconds."); return false; }
-    const danger = creatures.getActiveAliveCreatures().some(c => c !== target && c.state.isAggroed && Math.hypot(c.state.pos.x - pos.x, c.state.pos.z - pos.z) < 6);
-    if (danger) { toast("Find a calm moment", "Nearby threats are interrupting the resonance."); return false; }
-    creatures.setBondingTarget(id);
-    return panel.open(species, target);
+    return fieldTaming.begin(id, identifyCompanion(target));
   }
   function useAbility() {
-    if (!isActive() || panel.isOpen()) return { ok: false, message: "Companion abilities are available on expeditions." };
+    if (!isActive()) return { ok: false, message: "Companion abilities are available on expeditions." };
     const species = COMPANION_BY_ID[progress.getState().activeCompanionId];
     if (!species) return { ok: false, message: "Secure a bonded Wildkin, then select it at Camp." };
     if (cooldown > 0) return { ok: false, message: `${species.abilityName} is ready in ${Math.ceil(cooldown)}s.` };
@@ -101,51 +119,178 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     const species = COMPANION_BY_ID[required];
     return { ok: false, label: `${species.name.toUpperCase()} SEAL`, reason: `Bring a secured ${species.name} and use ${species.abilityName} near this cache.` };
   }
-  function update(dt, { sectionId, paused = false, hidden = false } = {}) {
-    elapsed += dt;
-    panel.update(dt);
-    if (!paused) cooldown = Math.max(0, cooldown - dt);
+  function desiredIds() {
     const s = progress.getState();
-    const active = s.activeCompanionId;
-    const ids = [...new Set([active, ...pending].filter(Boolean))];
-    const pos = playerController.getState().pos;
-    const facing = playerController.getState().facing;
-    for (const [id, group] of followers) {
-      if (!ids.includes(id)) group.visible = false;
+    return [...new Set([s.activeCompanionId, ...pending].filter(Boolean))];
+  }
+  function getSpawnPosition(playerPos, sectionId) {
+    const surface = registry.getSectionById(sectionId)?.surface;
+    const feetY = getSurfaceHeight(surface, playerPos.x, playerPos.z) + COMPANION_PHYSICS_TUNING.footClearance;
+    return { x: playerPos.x, y: feetY + COMPANION_PHYSICS_TUNING.halfHeight + COMPANION_PHYSICS_TUNING.radius, z: playerPos.z };
+  }
+  function setFollowerVisible(follower, visible) {
+    follower.group.visible = !!visible;
+    if (follower.physics?.enabled !== !!visible) follower.physics.setEnabled(!!visible);
+  }
+  function ensureFollower(id, player, sectionId, slotIndex, slotCount) {
+    let follower = followers.get(id);
+    if (follower) return follower;
+    const species = COMPANION_BY_ID[id];
+    const asset = registry.data.visualAssets.find(a => a.id === species?.assetId);
+    if (!asset) return null;
+    const group = createVisualAssetVisual(asset);
+    group.name = `companion_${id}`;
+    group.userData.betaPresentation = true;
+    group.scale.setScalar(0.7);
+    group.userData.modelAnimator = createVisualAnimationController(group);
+    scene.add(group);
+    const startAnchor = getCompanionFormationAnchor(player.pos, player.facing, slotIndex, slotCount);
+    const start = getSpawnPosition(startAnchor, sectionId);
+    const physics = createCompanionPhysics({
+      physicsWorld,
+      initialPosition: start,
+      // The party is intentionally ghosted to each other. World terrain,
+      // props and boundary collision remain active in the character query.
+      shouldIgnoreCollider: (candidate) => {
+        if (!candidate) return false;
+        if (playerCollider && candidate.handle === playerCollider.handle) return true;
+        for (const other of followers.values()) {
+          if (other.physics?.collider?.handle === candidate.handle) return true;
+        }
+        for (const wildkin of creatures.getCreatures()) {
+          if (wildkin.collider?.handle === candidate.handle) return true;
+        }
+        return false;
+      },
+    });
+    follower = {
+      id, group, physics, sectionId,
+      state: { mode: "SETTLE", attentionUntil: 0, lastSettledAt: fixedElapsed },
+      facing: player.facing,
+      visualYOffset: id === "skydancer" ? 0.48 : 0,
+      lastSpeed: 0,
+      verticalVelocity: 0,
+      grounded: false,
+      blockedSeconds: 0,
+      steerSide: id.charCodeAt(0) % 2 ? 1 : -1,
+    };
+    followers.set(id, follower);
+    syncFollowerVisual(follower);
+    return follower;
+  }
+  function syncFollowerVisual(follower) {
+    const p = follower.physics?.getPosition() ?? follower.group.position;
+    const footOffset = COMPANION_PHYSICS_TUNING.halfHeight + COMPANION_PHYSICS_TUNING.radius;
+    follower.group.position.set(p.x, p.y - footOffset + follower.visualYOffset, p.z);
+    follower.group.rotation.y = follower.facing;
+  }
+  function respawnFollower(follower, playerPos, sectionId) {
+    const start = getSpawnPosition(playerPos, sectionId);
+    follower.physics?.setPosition(start);
+    follower.sectionId = sectionId;
+    follower.state = { mode: "SETTLE", attentionUntil: fixedElapsed + 0.8, lastSettledAt: fixedElapsed };
+    follower.lastSpeed = 0;
+    follower.verticalVelocity = 0;
+    follower.grounded = false;
+    follower.blockedSeconds = 0;
+    syncFollowerVisual(follower);
+  }
+  function normalizeAngle(angle) {
+    let value = angle;
+    while (value > Math.PI) value -= Math.PI * 2;
+    while (value < -Math.PI) value += Math.PI * 2;
+    return value;
+  }
+  function turnToward(current, target, maxDelta) {
+    return current + Math.max(-maxDelta, Math.min(maxDelta, normalizeAngle(target - current)));
+  }
+  function moveFollower(follower, intent, dt) {
+    if (intent.shouldTeleport) {
+      respawnFollower(follower, intent.anchor, follower.sectionId);
+      return;
+    }
+    const current = follower.physics?.getPosition() ?? follower.group.position;
+    const dx = intent.target.x - current.x;
+    const dz = intent.target.z - current.z;
+    const distance = Math.hypot(dx, dz);
+    const step = distance < 0.015 || intent.speed <= 0 ? 0 : Math.min(distance, intent.speed * dt);
+    // Continue a small downward controller move while settled. This lets
+    // Rapier snap a companion onto lower ground instead of leaving it hovering
+    // when no horizontal follow movement is currently needed.
+    follower.verticalVelocity = Math.max(-12, (follower.verticalVelocity ?? 0) - 15 * dt);
+    let desired = {
+      x: step > 0 ? dx / distance * step : 0,
+      y: (follower.grounded ? -0.08 : follower.verticalVelocity) * dt,
+      z: step > 0 ? dz / distance * step : 0,
+    };
+    // Persist a tangent choice for a short beat. Alternating a side every
+    // fixed step makes a character jitter against a corner; keeping it lets
+    // the companion actually round a tree or ruin before reassessing.
+    if (follower.blockedSeconds > 0 && step > 0) {
+      desired = { x: -desired.z * follower.steerSide, y: desired.y, z: desired.x * follower.steerSide };
+    }
+    let result = follower.physics?.move(desired) ?? { corrected: desired };
+    let moved = Math.hypot(result.corrected.x, result.corrected.z);
+    // A short, stable sidestep makes a companion route around a tree or cliff
+    // instead of facing it forever. This is steering, not a navmesh.
+    if (moved < step * 0.32 && step > 0.01 && follower.blockedSeconds <= 0) {
+      follower.blockedSeconds = 0.7;
+      const steer = { x: -desired.z * follower.steerSide, y: 0, z: desired.x * follower.steerSide };
+      result = follower.physics?.move(steer) ?? { corrected: steer };
+      moved = Math.hypot(result.corrected.x, result.corrected.z);
+    }
+    if (follower.blockedSeconds > 0) {
+      follower.blockedSeconds -= dt;
+      if (moved < step * 0.2 && follower.blockedSeconds <= 0) follower.steerSide *= -1;
+    }
+    follower.grounded = !!result.grounded;
+    if (follower.grounded && follower.verticalVelocity < 0) follower.verticalVelocity = 0;
+    if (moved > 0.002) {
+      const desiredFacing = Math.atan2(result.corrected.x, result.corrected.z);
+      follower.facing = turnToward(follower.facing, desiredFacing, 7.5 * dt);
+    }
+    follower.lastSpeed = moved / Math.max(dt, 1e-4);
+  }
+  function updateFixed(dt, { sectionId, paused = false, hidden = false } = {}) {
+    if (hidden || !isActive()) fieldTaming.clear();
+    if (paused) return;
+    fieldTaming.update(dt, { hidden });
+    fixedElapsed += dt;
+    cooldown = Math.max(0, cooldown - dt);
+    const ids = desiredIds();
+    const player = playerController.getState();
+    for (const [id, follower] of followers) {
+      if (!ids.includes(id) || hidden) setFollowerVisible(follower, false);
     }
     for (let i = 0; i < ids.length; i++) {
-      const id = ids[i], species = COMPANION_BY_ID[id];
-      let group = followers.get(id);
-      if (!group) {
-        const asset = registry.data.visualAssets.find(a => a.id === species.assetId);
-        if (!asset) continue;
-        group = createVisualAssetVisual(asset);
-        group.name = `companion_${id}`; group.userData.betaPresentation = true;
-        group.scale.setScalar(0.7);
-        group.userData.modelAnimator = createVisualAnimationController(group);
-        scene.add(group); followers.set(id, group);
-        group.position.set(pos.x, pos.y - 0.5, pos.z);
+      const follower = ensureFollower(ids[i], player, sectionId, i, ids.length);
+      if (!follower || hidden) continue;
+      if (follower.sectionId !== sectionId) {
+        const arrivalAnchor = getCompanionFormationAnchor(player.pos, player.facing, i, ids.length);
+        respawnFollower(follower, arrivalAnchor, sectionId);
       }
-      group.visible = !hidden;
-      const angle = facing + Math.PI + (i - 0.5) * 0.75;
-      const x = pos.x + Math.sin(angle) * (1.5 + i * 0.45), z = pos.z + Math.cos(angle) * (1.5 + i * 0.45);
-      const surface = registry.getSectionById(sectionId)?.surface;
-      const animated = !!group.userData.modelAnimator;
-      const y = getSurfaceHeight(surface, x, z) + .025 + (animated ? 0 : Math.sin(elapsed * 3.5 + i) * 0.025) + (id === "skydancer" ? .48 : 0);
-      const alpha = group.position.distanceToSquared(pos) > 200 ? 1 : 1 - Math.exp(-dt * 5);
-      const wasX = group.position.x, wasZ = group.position.z;
-      group.position.x += (x - group.position.x) * alpha;
-      group.position.z += (z - group.position.z) * alpha;
-      group.position.y += (y - group.position.y) * alpha;
-      group.rotation.y = facing;
-      const moved = Math.hypot(group.position.x - wasX, group.position.z - wasZ);
-      const moving = dt > 0 && moved / dt > 0.025;
-      if (animated && moving && alpha < 1) group.rotation.y = Math.atan2(group.position.x - wasX, group.position.z - wasZ);
-      const speed = alpha < 1 && dt > 0 ? moved / dt : 0;
-      const animator = group.userData.modelAnimator;
-      animator?.play(moving ? animator.getLocomotionState(speed) : "idle");
-      animator?.setLocomotionSpeed(speed);
-      group.userData.modelAnimator?.update(dt);
+      setFollowerVisible(follower, true);
+      const position = follower.physics?.getPosition() ?? follower.group.position;
+      const intent = deriveCompanionFollowIntent({
+        position, player: player.pos, playerFacing: player.facing,
+        slotIndex: i, slotCount: ids.length, elapsed: fixedElapsed, state: follower.state,
+      });
+      follower.state = intent.nextState;
+      moveFollower(follower, intent, dt);
+      syncFollowerVisual(follower);
+    }
+  }
+  function update(dt, { sectionId, paused = false, hidden = false } = {}) {
+    elapsed += dt;
+    if (hidden) fieldTaming.clear();
+    const s = progress.getState();
+    for (const follower of followers.values()) {
+      if (hidden) setFollowerVisible(follower, false);
+      const animator = follower.group.userData.modelAnimator;
+      const moving = follower.lastSpeed > 0.045;
+      animator?.play(moving ? animator.getLocomotionState(follower.lastSpeed) : "idle");
+      animator?.setLocomotionSpeed(follower.lastSpeed);
+      animator?.update(paused ? 0 : dt);
     }
     for (const [id, ward] of wardRoots) {
       ward.root.visible = !hidden && ward.chest.sectionId === sectionId && !s.completedPoiIds.includes(ward.chest.id);
@@ -154,13 +299,34 @@ export function createCompanionSystem({ app, scene, registry, progress, creature
     }
   }
   return {
-    getNearbyInteraction, beginBond, useAbility, lootAccess, update,
-    isBlocking: () => panel.isOpen(),
-    getBondState: panel.getState,
+    getNearbyInteraction, beginBond, useAbility, lootAccess, update, updateFixed,
+    isBlocking: () => false,
+    getBondState: fieldTaming.getState,
+    getFieldTamingState: fieldTaming.getState,
+    cancelTaming: fieldTaming.clear,
     getPending: () => pending.map(id => ({ ...COMPANION_BY_ID[id] })),
     getAbility: () => { const species = COMPANION_BY_ID[progress.getState().activeCompanionId]; return species ? { name: species.abilityName, ready: cooldown <= 0, cooldown } : null; },
-    resolveExtraction() { const ids = [...pending]; pending = []; return ids; },
-    reset() { panel.cancel(); pending = []; cooldown = 0; retryAt.clear(); creatures.setBondingTarget(null); },
-    dispose() { for (const group of followers.values()) { group.userData.modelAnimator?.stop(); disposeExternalModelInstance(group); group.removeFromParent(); } followers.clear(); },
+    isFollowerCollider: (candidate) => {
+      if (!candidate) return false;
+      for (const follower of followers.values()) {
+        if (follower.physics?.collider?.handle === candidate.handle) return true;
+      }
+      return false;
+    },
+    resolveExtraction() { fieldTaming.clear(); const ids = [...pending]; pending = []; return ids; },
+    reset() {
+      fieldTaming.clear(); pending = []; cooldown = 0; creatures.setBondingTarget(null);
+      // A run transition may show a result card before the next fixed step.
+      // Remove the old-region body immediately; the next active fixed step
+      // respawns this same follower from the new section's formation anchor.
+      for (const follower of followers.values()) {
+        setFollowerVisible(follower, false);
+        follower.sectionId = null;
+        follower.lastSpeed = 0;
+        follower.verticalVelocity = 0;
+        follower.grounded = false;
+      }
+    },
+    dispose() { fieldTaming.clear(); fieldVisual.clear(); for (const follower of followers.values()) { follower.group.userData.modelAnimator?.stop(); follower.physics?.dispose(); disposeExternalModelInstance(follower.group); follower.group.removeFromParent(); } followers.clear(); },
   };
 }
