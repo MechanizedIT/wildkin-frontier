@@ -1,0 +1,247 @@
+{
+  "assetId": "asset_verge_canopy_spread",
+  "referenceSHA256": "a6d129b58325c192fe640eb195818a2957427a776c8d88d35bc5170fecae2332",
+  "referenceReview": "level_design_review PREGEN PASS8.2; high elbows/undersides set from actual clearance",
+  "modelReview": {
+    "status": "pass",
+    "score": 8,
+    "reviewer": "/root/level_design_review",
+    "sha256": "d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3",
+    "evidence": "model-review.md"
+  },
+  "sha256": "d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3",
+  "fileBytes": 211172,
+  "triangles": 3100,
+  "sourceParts": 35,
+  "meshBatches": 2,
+  "materials": 1,
+  "palette": [
+    256,
+    256
+  ],
+  "dimensionsMeters": [
+    5.549999952316284,
+    3.819999933242798,
+    3.649999976158142
+  ],
+  "boundsBlender": {
+    "min": [
+      -2.8763601779937744,
+      -1.814470887184143,
+      0
+    ],
+    "max": [
+      2.6736397743225098,
+      1.835529088973999,
+      3.819999933242798
+    ]
+  },
+  "baseY": 0,
+  "minimumOutsideTrunkHeight": 2.775345802307129,
+  "minimumAtSmallestAuthoredScale": 2.497811222076416,
+  "lowerFootprintLimit": 1.08,
+  "colliderUnchanged": null,
+  "front": "+Z glTF",
+  "leaves": 12,
+  "leafContacts": [
+    {
+      "leaf": 0,
+      "hub": 0,
+      "base": [
+        -0.998445987701416,
+        -0.040601249784231186,
+        2.959239959716797
+      ],
+      "tip": [
+        -2.8499999046325684,
+        -0.05000000074505806,
+        3.259999990463257
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 1,
+      "hub": 0,
+      "base": [
+        -0.9785208702087402,
+        -0.10806897282600403,
+        2.9477622509002686
+      ],
+      "tip": [
+        -2.5299999713897705,
+        -1.1799999475479126,
+        3.069999933242798
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 2,
+      "hub": 0,
+      "base": [
+        -0.9776480197906494,
+        0.015798863023519516,
+        2.981849193572998
+      ],
+      "tip": [
+        -2.4200000762939453,
+        0.8399999737739563,
+        3.5999999046325684
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 3,
+      "hub": 0,
+      "base": [
+        -0.9057215452194214,
+        -0.03714204579591751,
+        3.057176113128662
+      ],
+      "tip": [
+        -1.059999942779541,
+        -0.019999999552965164,
+        3.759999990463257
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 4,
+      "hub": 1,
+      "base": [
+        0.9396432638168335,
+        -0.08130757510662079,
+        2.9691531658172607
+      ],
+      "tip": [
+        2.6500000953674316,
+        -0.10000000149011612,
+        3.0999999046325684
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 5,
+      "hub": 1,
+      "base": [
+        0.9088523983955383,
+        -0.16062529385089874,
+        2.9621939659118652
+      ],
+      "tip": [
+        2.440000057220459,
+        -1.5499999523162842,
+        3
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 6,
+      "hub": 1,
+      "base": [
+        0.911067008972168,
+        -0.026255521923303604,
+        3.016730308532715
+      ],
+      "tip": [
+        2.0399999618530273,
+        0.6399999856948853,
+        3.7200000286102295
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 7,
+      "hub": 1,
+      "base": [
+        0.7619462609291077,
+        -0.17091436684131622,
+        3.0125770568847656
+      ],
+      "tip": [
+        0.28999999165534973,
+        -0.9100000262260437,
+        3.440000057220459
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 8,
+      "hub": 2,
+      "base": [
+        0.018359340727329254,
+        0.6884233951568604,
+        3.3356101512908936
+      ],
+      "tip": [
+        -1.149999976158142,
+        1.3600000143051147,
+        3.630000114440918
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 9,
+      "hub": 2,
+      "base": [
+        0.20932796597480774,
+        0.7063348293304443,
+        3.334362030029297
+      ],
+      "tip": [
+        1.2200000286102295,
+        1.5700000524520874,
+        3.609999895095825
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 10,
+      "hub": 2,
+      "base": [
+        0.07919591665267944,
+        0.724809467792511,
+        3.371206045150757
+      ],
+      "tip": [
+        -0.2199999988079071,
+        1.4199999570846558,
+        3.819999933242798
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    },
+    {
+      "leaf": 11,
+      "hub": 2,
+      "base": [
+        0.23952987790107727,
+        0.6194532513618469,
+        3.308828115463257
+      ],
+      "tip": [
+        1.1399999856948853,
+        0.5400000214576721,
+        3.299999952316284
+      ],
+      "attachment": "individual tapered petiole overlaps fork hub and closed blade underside"
+    }
+  ],
+  "normalization": [
+    1.0085687578082299,
+    1.1549329877961563,
+    0.8908102254323916
+  ],
+  "limits": "Spread visual candidate only; all8placements/scales/nullcollision unchanged. Standard/tall/harvestables/runtime/world untouched.",
+  "generationReceipt": "generation.json is the unchanged historical build receipt before model review.",
+  "nativeReview": {
+    "status": "pass",
+    "score": 8,
+    "reviewer": "/root/level_design_review",
+    "evidence": "native/independent-review.md",
+    "limitations": "Arrival cropped/gate-obstructed views excluded; reverse crown remains shallow/darker. Physical phone pending."
+  },
+  "packageReview": {
+    "status": "pass",
+    "evidence": "package-review.md",
+    "scope": "Exact-model online and already-loaded offline; no physical phone claim."
+  }
+}

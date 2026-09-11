@@ -1,0 +1,3095 @@
+{
+  "checks": [
+    {
+      "step": "01-camp-frame",
+      "player": {
+        "x": 0,
+        "y": 0.5219969153404236,
+        "z": 13.5
+      },
+      "camera": {
+        "position": [
+          0,
+          5.521997129379606,
+          20.05
+        ],
+        "quaternion": [
+          -0.2760121431200348,
+          0,
+          0,
+          0.961154148329125
+        ],
+        "fov": 52
+      },
+      "trees": {
+        "prop_camp_frame_tall": {
+          "position": [
+            6.7,
+            0.5296781156556952,
+            6.8
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              5.078656667459305,
+              0.5296781156556952,
+              5.4887269365422355
+            ],
+            "max": [
+              8.314100561179227,
+              6.109677943994319,
+              7.978108162336633
+            ]
+          }
+        },
+        "prop_camp_frame_r": {
+          "position": [
+            5.4,
+            0.08898301390125832,
+            8
+          ],
+          "scale": [
+            0.93,
+            0.93,
+            0.93
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              3.784013507652036,
+              0.08898301390125832,
+              6.753701167691848
+            ],
+            "max": [
+              6.99752967187023,
+              5.854982836517836,
+              9.109733295614486
+            ]
+          }
+        },
+        "prop_camp_frame_spread": {
+          "position": [
+            -6.7,
+            0.2978920013673112,
+            7.4
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "bc092fae-6861-464f-8bbc-bcbf33866e3c",
+              "geometry": "9cf4681f-cce5-4026-8b8c-40f874772abc"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -9.488253377385988,
+              0.265222001544337,
+              5.212610794407837
+            ],
+            "max": [
+              -3.9907523620866936,
+              3.702411964631777,
+              9.337211561789198
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_r": {
+          "position": [
+            8,
+            0,
+            31
+          ],
+          "scale": [
+            1.04,
+            1.04,
+            1.04
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              6.158188259559446,
+              0,
+              29.544355942274226
+            ],
+            "max": [
+              9.827295474000827,
+              6.447999801635742,
+              32.302222391291004
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_l": {
+          "position": [
+            -8,
+            0,
+            33
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "65184070-68f5-4120-be6c-6d3d390f43e9",
+              "geometry": "b32e4d50-03ed-44fb-9c56-4c592f4ffcd7"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -11.156582576615222,
+              -0.038114999793469904,
+              30.601037496938584
+            ],
+            "max": [
+              -4.917922994321307,
+              3.9719399571418763,
+              35.10208671663101
+            ]
+          }
+        },
+        "prop_s1_ore_tree": {
+          "position": [
+            30,
+            0.6412,
+            15
+          ],
+          "scale": [
+            1.08,
+            1.08,
+            1.08
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              28.00814654310607,
+              0.6412,
+              13.403844070466231
+            ],
+            "max": [
+              31.924509824981758,
+              7.337199794006349,
+              16.450981078872182
+            ]
+          }
+        },
+        "prop_s1_lookout_tree_r": {
+          "position": [
+            1,
+            0.1773,
+            8
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "d36f222c-aff6-47f6-891d-beb420662916"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "9ff67ec4-2156-479e-8412-104a0309cc7a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -1.10513523570844,
+              0.1773,
+              6.377328982858525
+            ],
+            "max": [
+              3.128515549321975,
+              4.7973001001358035,
+              9.553420214582623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "02-minimum-scale-headroom",
+      "player": {
+        "x": 7.433736801147461,
+        "y": 1.3953125476837158,
+        "z": 6.090099334716797
+      },
+      "camera": {
+        "position": [
+          7.4346128905083875,
+          6.392966924216711,
+          12.675171285062273
+        ],
+        "quaternion": [
+          -0.27601214312003486,
+          0,
+          0,
+          0.961154148329125
+        ],
+        "fov": 52
+      },
+      "trees": {
+        "prop_camp_frame_tall": {
+          "position": [
+            6.7,
+            0.5296781156556952,
+            6.8
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              5.078656667459305,
+              0.5296781156556952,
+              5.4887269365422355
+            ],
+            "max": [
+              8.314100561179227,
+              6.109677943994319,
+              7.978108162336633
+            ]
+          }
+        },
+        "prop_camp_frame_r": {
+          "position": [
+            5.4,
+            0.08898301390125832,
+            8
+          ],
+          "scale": [
+            0.93,
+            0.93,
+            0.93
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              3.784013507652036,
+              0.08898301390125832,
+              6.753701167691848
+            ],
+            "max": [
+              6.99752967187023,
+              5.854982836517836,
+              9.109733295614486
+            ]
+          }
+        },
+        "prop_camp_frame_spread": {
+          "position": [
+            -6.7,
+            0.2978920013673112,
+            7.4
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "bc092fae-6861-464f-8bbc-bcbf33866e3c",
+              "geometry": "9cf4681f-cce5-4026-8b8c-40f874772abc"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -9.488253377385988,
+              0.265222001544337,
+              5.212610794407837
+            ],
+            "max": [
+              -3.9907523620866936,
+              3.702411964631777,
+              9.337211561789198
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_r": {
+          "position": [
+            8,
+            0,
+            31
+          ],
+          "scale": [
+            1.04,
+            1.04,
+            1.04
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              6.158188259559446,
+              0,
+              29.544355942274226
+            ],
+            "max": [
+              9.827295474000827,
+              6.447999801635742,
+              32.302222391291004
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_l": {
+          "position": [
+            -8,
+            0,
+            33
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "65184070-68f5-4120-be6c-6d3d390f43e9",
+              "geometry": "b32e4d50-03ed-44fb-9c56-4c592f4ffcd7"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -11.156582576615222,
+              -0.038114999793469904,
+              30.601037496938584
+            ],
+            "max": [
+              -4.917922994321307,
+              3.9719399571418763,
+              35.10208671663101
+            ]
+          }
+        },
+        "prop_s1_ore_tree": {
+          "position": [
+            30,
+            0.6412,
+            15
+          ],
+          "scale": [
+            1.08,
+            1.08,
+            1.08
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              28.00814654310607,
+              0.6412,
+              13.403844070466231
+            ],
+            "max": [
+              31.924509824981758,
+              7.337199794006349,
+              16.450981078872182
+            ]
+          }
+        },
+        "prop_s1_lookout_tree_r": {
+          "position": [
+            1,
+            0.1773,
+            8
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "d36f222c-aff6-47f6-891d-beb420662916"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "9ff67ec4-2156-479e-8412-104a0309cc7a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -1.10513523570844,
+              0.1773,
+              6.377328982858525
+            ],
+            "max": [
+              3.128515549321975,
+              4.7973001001358035,
+              9.553420214582623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "03-minimum-scale-opposite",
+      "player": {
+        "x": 7.433736801147461,
+        "y": 1.3953125476837158,
+        "z": 6.090099334716797
+      },
+      "camera": {
+        "position": [
+          9.359427162948588,
+          6.395308757909223,
+          -0.17037289821654245
+        ],
+        "quaternion": [
+          -0.04102939835819326,
+          0.9504755008356364,
+          0.27294558362442745,
+          0.14287623721785134
+        ],
+        "fov": 52
+      },
+      "trees": {
+        "prop_camp_frame_tall": {
+          "position": [
+            6.7,
+            0.5296781156556952,
+            6.8
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9c810ae8-754b-4e6c-9f07-07d5a4230224",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9f06fd9e-70e9-42e8-9a26-8b991eb741e7",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              5.078656667459305,
+              0.5296781156556952,
+              5.4887269365422355
+            ],
+            "max": [
+              8.314100561179227,
+              6.109677943994319,
+              7.978108162336633
+            ]
+          }
+        },
+        "prop_camp_frame_r": {
+          "position": [
+            5.4,
+            0.08898301390125832,
+            8
+          ],
+          "scale": [
+            0.93,
+            0.93,
+            0.93
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "1255b68a-a57f-4a52-99a7-7146cbb944a4",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "5184a858-d656-4c5a-a137-54e65834a51f",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              3.784013507652036,
+              0.08898301390125832,
+              6.753701167691848
+            ],
+            "max": [
+              6.99752967187023,
+              5.854982836517836,
+              9.109733295614486
+            ]
+          }
+        },
+        "prop_camp_frame_spread": {
+          "position": [
+            -6.7,
+            0.2978920013673112,
+            7.4
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "bc092fae-6861-464f-8bbc-bcbf33866e3c",
+              "geometry": "9cf4681f-cce5-4026-8b8c-40f874772abc"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -9.488253377385988,
+              0.265222001544337,
+              5.212610794407837
+            ],
+            "max": [
+              -3.9907523620866936,
+              3.702411964631777,
+              9.337211561789198
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_r": {
+          "position": [
+            8,
+            0,
+            31
+          ],
+          "scale": [
+            1.04,
+            1.04,
+            1.04
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              6.158188259559446,
+              0,
+              29.544355942274226
+            ],
+            "max": [
+              9.827295474000827,
+              6.447999801635742,
+              32.302222391291004
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_l": {
+          "position": [
+            -8,
+            0,
+            33
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "65184070-68f5-4120-be6c-6d3d390f43e9",
+              "geometry": "b32e4d50-03ed-44fb-9c56-4c592f4ffcd7"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -11.156582576615222,
+              -0.038114999793469904,
+              30.601037496938584
+            ],
+            "max": [
+              -4.917922994321307,
+              3.9719399571418763,
+              35.10208671663101
+            ]
+          }
+        },
+        "prop_s1_ore_tree": {
+          "position": [
+            30,
+            0.6412,
+            15
+          ],
+          "scale": [
+            1.08,
+            1.08,
+            1.08
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              28.00814654310607,
+              0.6412,
+              13.403844070466231
+            ],
+            "max": [
+              31.924509824981758,
+              7.337199794006349,
+              16.450981078872182
+            ]
+          }
+        },
+        "prop_s1_lookout_tree_r": {
+          "position": [
+            1,
+            0.1773,
+            8
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "d36f222c-aff6-47f6-891d-beb420662916"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "9ff67ec4-2156-479e-8412-104a0309cc7a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -1.10513523570844,
+              0.1773,
+              6.377328982858525
+            ],
+            "max": [
+              3.128515549321975,
+              4.7973001001358035,
+              9.553420214582623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "04-arrival",
+      "player": {
+        "x": 2,
+        "y": 0.5219643115997314,
+        "z": 35.16046142578125
+      },
+      "camera": {
+        "position": [
+          2,
+          5.521968944102182,
+          41.73108797080232
+        ],
+        "quaternion": [
+          -0.27601214312003497,
+          0,
+          0,
+          0.9611541483291248
+        ],
+        "fov": 52
+      },
+      "trees": {
+        "prop_camp_frame_tall": {
+          "position": [
+            6.7,
+            0.5296781156556952,
+            6.8
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9c810ae8-754b-4e6c-9f07-07d5a4230224",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9f06fd9e-70e9-42e8-9a26-8b991eb741e7",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              5.078656667459305,
+              0.5296781156556952,
+              5.4887269365422355
+            ],
+            "max": [
+              8.314100561179227,
+              6.109677943994319,
+              7.978108162336633
+            ]
+          }
+        },
+        "prop_camp_frame_r": {
+          "position": [
+            5.4,
+            0.08898301390125832,
+            8
+          ],
+          "scale": [
+            0.93,
+            0.93,
+            0.93
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "1255b68a-a57f-4a52-99a7-7146cbb944a4",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "5184a858-d656-4c5a-a137-54e65834a51f",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              3.784013507652036,
+              0.08898301390125832,
+              6.753701167691848
+            ],
+            "max": [
+              6.99752967187023,
+              5.854982836517836,
+              9.109733295614486
+            ]
+          }
+        },
+        "prop_camp_frame_spread": {
+          "position": [
+            -6.7,
+            0.2978920013673112,
+            7.4
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "bc092fae-6861-464f-8bbc-bcbf33866e3c",
+              "geometry": "9cf4681f-cce5-4026-8b8c-40f874772abc"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -9.488253377385988,
+              0.265222001544337,
+              5.212610794407837
+            ],
+            "max": [
+              -3.9907523620866936,
+              3.702411964631777,
+              9.337211561789198
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_r": {
+          "position": [
+            8,
+            0,
+            31
+          ],
+          "scale": [
+            1.04,
+            1.04,
+            1.04
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              6.158188259559446,
+              0,
+              29.544355942274226
+            ],
+            "max": [
+              9.827295474000827,
+              6.447999801635742,
+              32.302222391291004
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_l": {
+          "position": [
+            -8,
+            0,
+            33
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "65184070-68f5-4120-be6c-6d3d390f43e9",
+              "geometry": "b32e4d50-03ed-44fb-9c56-4c592f4ffcd7"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -11.156582576615222,
+              -0.038114999793469904,
+              30.601037496938584
+            ],
+            "max": [
+              -4.917922994321307,
+              3.9719399571418763,
+              35.10208671663101
+            ]
+          }
+        },
+        "prop_s1_ore_tree": {
+          "position": [
+            30,
+            0.6412,
+            15
+          ],
+          "scale": [
+            1.08,
+            1.08,
+            1.08
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              28.00814654310607,
+              0.6412,
+              13.403844070466231
+            ],
+            "max": [
+              31.924509824981758,
+              7.337199794006349,
+              16.450981078872182
+            ]
+          }
+        },
+        "prop_s1_lookout_tree_r": {
+          "position": [
+            1,
+            0.1773,
+            8
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "d36f222c-aff6-47f6-891d-beb420662916"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "9ff67ec4-2156-479e-8412-104a0309cc7a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -1.10513523570844,
+              0.1773,
+              6.377328982858525
+            ],
+            "max": [
+              3.128515549321975,
+              4.7973001001358035,
+              9.553420214582623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "05-arrival-opposite",
+      "player": {
+        "x": 2,
+        "y": 0.5219643115997314,
+        "z": 35.16046142578125
+      },
+      "camera": {
+        "position": [
+          3.925688946321979,
+          5.5219643333766895,
+          28.900029491287
+        ],
+        "quaternion": [
+          -0.04102939835819326,
+          0.9504755008356364,
+          0.27294558362442733,
+          0.14287623721785137
+        ],
+        "fov": 52
+      },
+      "trees": {
+        "prop_camp_frame_tall": {
+          "position": [
+            6.7,
+            0.5296781156556952,
+            6.8
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9c810ae8-754b-4e6c-9f07-07d5a4230224",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9f06fd9e-70e9-42e8-9a26-8b991eb741e7",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              5.078656667459305,
+              0.5296781156556952,
+              5.4887269365422355
+            ],
+            "max": [
+              8.314100561179227,
+              6.109677943994319,
+              7.978108162336633
+            ]
+          }
+        },
+        "prop_camp_frame_r": {
+          "position": [
+            5.4,
+            0.08898301390125832,
+            8
+          ],
+          "scale": [
+            0.93,
+            0.93,
+            0.93
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "1255b68a-a57f-4a52-99a7-7146cbb944a4",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "5184a858-d656-4c5a-a137-54e65834a51f",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              3.784013507652036,
+              0.08898301390125832,
+              6.753701167691848
+            ],
+            "max": [
+              6.99752967187023,
+              5.854982836517836,
+              9.109733295614486
+            ]
+          }
+        },
+        "prop_camp_frame_spread": {
+          "position": [
+            -6.7,
+            0.2978920013673112,
+            7.4
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "bc092fae-6861-464f-8bbc-bcbf33866e3c",
+              "geometry": "9cf4681f-cce5-4026-8b8c-40f874772abc"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -9.488253377385988,
+              0.265222001544337,
+              5.212610794407837
+            ],
+            "max": [
+              -3.9907523620866936,
+              3.702411964631777,
+              9.337211561789198
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_r": {
+          "position": [
+            8,
+            0,
+            31
+          ],
+          "scale": [
+            1.04,
+            1.04,
+            1.04
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              6.158188259559446,
+              0,
+              29.544355942274226
+            ],
+            "max": [
+              9.827295474000827,
+              6.447999801635742,
+              32.302222391291004
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_l": {
+          "position": [
+            -8,
+            0,
+            33
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "65184070-68f5-4120-be6c-6d3d390f43e9",
+              "geometry": "b32e4d50-03ed-44fb-9c56-4c592f4ffcd7"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -11.156582576615222,
+              -0.038114999793469904,
+              30.601037496938584
+            ],
+            "max": [
+              -4.917922994321307,
+              3.9719399571418763,
+              35.10208671663101
+            ]
+          }
+        },
+        "prop_s1_ore_tree": {
+          "position": [
+            30,
+            0.6412,
+            15
+          ],
+          "scale": [
+            1.08,
+            1.08,
+            1.08
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              28.00814654310607,
+              0.6412,
+              13.403844070466231
+            ],
+            "max": [
+              31.924509824981758,
+              7.337199794006349,
+              16.450981078872182
+            ]
+          }
+        },
+        "prop_s1_lookout_tree_r": {
+          "position": [
+            1,
+            0.1773,
+            8
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "d36f222c-aff6-47f6-891d-beb420662916"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "9ff67ec4-2156-479e-8412-104a0309cc7a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -1.10513523570844,
+              0.1773,
+              6.377328982858525
+            ],
+            "max": [
+              3.128515549321975,
+              4.7973001001358035,
+              9.553420214582623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "06-ore-context",
+      "player": {
+        "x": 27.207962036132812,
+        "y": 0.9403384327888489,
+        "z": 18.939294815063477
+      },
+      "camera": {
+        "position": [
+          27.207447175406873,
+          5.947378207186226,
+          25.512610289608055
+        ],
+        "quaternion": [
+          -0.2760121431200348,
+          0,
+          0,
+          0.961154148329125
+        ],
+        "fov": 52
+      },
+      "trees": {
+        "prop_camp_frame_tall": {
+          "position": [
+            6.7,
+            0.5296781156556952,
+            6.8
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9c810ae8-754b-4e6c-9f07-07d5a4230224",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9f06fd9e-70e9-42e8-9a26-8b991eb741e7",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              5.078656667459305,
+              0.5296781156556952,
+              5.4887269365422355
+            ],
+            "max": [
+              8.314100561179227,
+              6.109677943994319,
+              7.978108162336633
+            ]
+          }
+        },
+        "prop_camp_frame_r": {
+          "position": [
+            5.4,
+            0.08898301390125832,
+            8
+          ],
+          "scale": [
+            0.93,
+            0.93,
+            0.93
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "1255b68a-a57f-4a52-99a7-7146cbb944a4",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "5184a858-d656-4c5a-a137-54e65834a51f",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              3.784013507652036,
+              0.08898301390125832,
+              6.753701167691848
+            ],
+            "max": [
+              6.99752967187023,
+              5.854982836517836,
+              9.109733295614486
+            ]
+          }
+        },
+        "prop_camp_frame_spread": {
+          "position": [
+            -6.7,
+            0.2978920013673112,
+            7.4
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "bc092fae-6861-464f-8bbc-bcbf33866e3c",
+              "geometry": "9cf4681f-cce5-4026-8b8c-40f874772abc"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -9.488253377385988,
+              0.265222001544337,
+              5.212610794407837
+            ],
+            "max": [
+              -3.9907523620866936,
+              3.702411964631777,
+              9.337211561789198
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_r": {
+          "position": [
+            8,
+            0,
+            31
+          ],
+          "scale": [
+            1.04,
+            1.04,
+            1.04
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              6.158188259559446,
+              0,
+              29.544355942274226
+            ],
+            "max": [
+              9.827295474000827,
+              6.447999801635742,
+              32.302222391291004
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_l": {
+          "position": [
+            -8,
+            0,
+            33
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "65184070-68f5-4120-be6c-6d3d390f43e9",
+              "geometry": "b32e4d50-03ed-44fb-9c56-4c592f4ffcd7"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -11.156582576615222,
+              -0.038114999793469904,
+              30.601037496938584
+            ],
+            "max": [
+              -4.917922994321307,
+              3.9719399571418763,
+              35.10208671663101
+            ]
+          }
+        },
+        "prop_s1_ore_tree": {
+          "position": [
+            30,
+            0.6412,
+            15
+          ],
+          "scale": [
+            1.08,
+            1.08,
+            1.08
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              28.00814654310607,
+              0.6412,
+              13.403844070466231
+            ],
+            "max": [
+              31.924509824981758,
+              7.337199794006349,
+              16.450981078872182
+            ]
+          }
+        },
+        "prop_s1_lookout_tree_r": {
+          "position": [
+            1,
+            0.1773,
+            8
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "d36f222c-aff6-47f6-891d-beb420662916"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "9ff67ec4-2156-479e-8412-104a0309cc7a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -1.10513523570844,
+              0.1773,
+              6.377328982858525
+            ],
+            "max": [
+              3.128515549321975,
+              4.7973001001358035,
+              9.553420214582623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "07-tall-foreground-fade",
+      "player": {
+        "x": 30,
+        "y": 1.5962494611740112,
+        "z": 12.160778045654297
+      },
+      "camera": {
+        "position": [
+          30,
+          6.600844149535934,
+          18.69884540949739
+        ],
+        "quaternion": [
+          -0.27601214312003486,
+          0,
+          0,
+          0.9611541483291248
+        ],
+        "fov": 52
+      },
+      "trees": {
+        "prop_camp_frame_tall": {
+          "position": [
+            6.7,
+            0.5296781156556952,
+            6.8
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9c810ae8-754b-4e6c-9f07-07d5a4230224",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9f06fd9e-70e9-42e8-9a26-8b991eb741e7",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              5.078656667459305,
+              0.5296781156556952,
+              5.4887269365422355
+            ],
+            "max": [
+              8.314100561179227,
+              6.109677943994319,
+              7.978108162336633
+            ]
+          }
+        },
+        "prop_camp_frame_r": {
+          "position": [
+            5.4,
+            0.08898301390125832,
+            8
+          ],
+          "scale": [
+            0.93,
+            0.93,
+            0.93
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "1255b68a-a57f-4a52-99a7-7146cbb944a4",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "5184a858-d656-4c5a-a137-54e65834a51f",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              3.784013507652036,
+              0.08898301390125832,
+              6.753701167691848
+            ],
+            "max": [
+              6.99752967187023,
+              5.854982836517836,
+              9.109733295614486
+            ]
+          }
+        },
+        "prop_camp_frame_spread": {
+          "position": [
+            -6.7,
+            0.2978920013673112,
+            7.4
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "bc092fae-6861-464f-8bbc-bcbf33866e3c",
+              "geometry": "9cf4681f-cce5-4026-8b8c-40f874772abc"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -9.488253377385988,
+              0.265222001544337,
+              5.212610794407837
+            ],
+            "max": [
+              -3.9907523620866936,
+              3.702411964631777,
+              9.337211561789198
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_r": {
+          "position": [
+            8,
+            0,
+            31
+          ],
+          "scale": [
+            1.04,
+            1.04,
+            1.04
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              6.158188259559446,
+              0,
+              29.544355942274226
+            ],
+            "max": [
+              9.827295474000827,
+              6.447999801635742,
+              32.302222391291004
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_l": {
+          "position": [
+            -8,
+            0,
+            33
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "65184070-68f5-4120-be6c-6d3d390f43e9",
+              "geometry": "b32e4d50-03ed-44fb-9c56-4c592f4ffcd7"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -11.156582576615222,
+              -0.038114999793469904,
+              30.601037496938584
+            ],
+            "max": [
+              -4.917922994321307,
+              3.9719399571418763,
+              35.10208671663101
+            ]
+          }
+        },
+        "prop_s1_ore_tree": {
+          "position": [
+            30,
+            0.6412,
+            15
+          ],
+          "scale": [
+            1.08,
+            1.08,
+            1.08
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 0.25,
+              "material": "3ee8aa32-bc9a-4099-ad95-ba877c97958c",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 0.25,
+              "material": "614e384e-e1f1-4b83-b158-42f69965376e",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              28.00814654310607,
+              0.6412,
+              13.403844070466231
+            ],
+            "max": [
+              31.924509824981758,
+              7.337199794006349,
+              16.450981078872182
+            ]
+          }
+        },
+        "prop_s1_lookout_tree_r": {
+          "position": [
+            1,
+            0.1773,
+            8
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "d36f222c-aff6-47f6-891d-beb420662916"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "9ff67ec4-2156-479e-8412-104a0309cc7a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -1.10513523570844,
+              0.1773,
+              6.377328982858525
+            ],
+            "max": [
+              3.128515549321975,
+              4.7973001001358035,
+              9.553420214582623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "08-tall-restored",
+      "player": {
+        "x": 30,
+        "y": 1.5962494611740112,
+        "z": 12.160778045654297
+      },
+      "camera": {
+        "position": [
+          31.92568894632198,
+          6.59626668263282,
+          5.90020442271619
+        ],
+        "quaternion": [
+          -0.041029398358193275,
+          0.9504755008356364,
+          0.27294558362442733,
+          0.14287623721785142
+        ],
+        "fov": 52
+      },
+      "trees": {
+        "prop_camp_frame_tall": {
+          "position": [
+            6.7,
+            0.5296781156556952,
+            6.8
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9c810ae8-754b-4e6c-9f07-07d5a4230224",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9f06fd9e-70e9-42e8-9a26-8b991eb741e7",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              5.078656667459305,
+              0.5296781156556952,
+              5.4887269365422355
+            ],
+            "max": [
+              8.314100561179227,
+              6.109677943994319,
+              7.978108162336633
+            ]
+          }
+        },
+        "prop_camp_frame_r": {
+          "position": [
+            5.4,
+            0.08898301390125832,
+            8
+          ],
+          "scale": [
+            0.93,
+            0.93,
+            0.93
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "1255b68a-a57f-4a52-99a7-7146cbb944a4",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "5184a858-d656-4c5a-a137-54e65834a51f",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              3.784013507652036,
+              0.08898301390125832,
+              6.753701167691848
+            ],
+            "max": [
+              6.99752967187023,
+              5.854982836517836,
+              9.109733295614486
+            ]
+          }
+        },
+        "prop_camp_frame_spread": {
+          "position": [
+            -6.7,
+            0.2978920013673112,
+            7.4
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "bc092fae-6861-464f-8bbc-bcbf33866e3c",
+              "geometry": "9cf4681f-cce5-4026-8b8c-40f874772abc"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -9.488253377385988,
+              0.265222001544337,
+              5.212610794407837
+            ],
+            "max": [
+              -3.9907523620866936,
+              3.702411964631777,
+              9.337211561789198
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_r": {
+          "position": [
+            8,
+            0,
+            31
+          ],
+          "scale": [
+            1.04,
+            1.04,
+            1.04
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "9dd35bbd-91c9-4392-84ff-aaa56a28e7ce",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              6.158188259559446,
+              0,
+              29.544355942274226
+            ],
+            "max": [
+              9.827295474000827,
+              6.447999801635742,
+              32.302222391291004
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_l": {
+          "position": [
+            -8,
+            0,
+            33
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "static_prop_material_batch",
+              "opacity": 1,
+              "material": "65184070-68f5-4120-be6c-6d3d390f43e9",
+              "geometry": "b32e4d50-03ed-44fb-9c56-4c592f4ffcd7"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -11.156582576615222,
+              -0.038114999793469904,
+              30.601037496938584
+            ],
+            "max": [
+              -4.917922994321307,
+              3.9719399571418763,
+              35.10208671663101
+            ]
+          }
+        },
+        "prop_s1_ore_tree": {
+          "position": [
+            30,
+            0.6412,
+            15
+          ],
+          "scale": [
+            1.08,
+            1.08,
+            1.08
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "3ee8aa32-bc9a-4099-ad95-ba877c97958c",
+              "geometry": "fb6ac097-6c25-4e03-ba37-3ded34a89d9f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "614e384e-e1f1-4b83-b158-42f69965376e",
+              "geometry": "50d53ff4-9399-4b51-9788-f2f1aff8f1da"
+            }
+          ],
+          "bounds": {
+            "min": [
+              28.00814654310607,
+              0.6412,
+              13.403844070466231
+            ],
+            "max": [
+              31.924509824981758,
+              7.337199794006349,
+              16.450981078872182
+            ]
+          }
+        },
+        "prop_s1_lookout_tree_r": {
+          "position": [
+            1,
+            0.1773,
+            8
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "d36f222c-aff6-47f6-891d-beb420662916"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "6fe1b2fe-5af3-49d2-a3a4-f57b3879af13",
+              "geometry": "9ff67ec4-2156-479e-8412-104a0309cc7a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -1.10513523570844,
+              0.1773,
+              6.377328982858525
+            ],
+            "max": [
+              3.128515549321975,
+              4.7973001001358035,
+              9.553420214582623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "Author exact local model and unchanged null collider",
+      "record": {
+        "collisionEnabled": false,
+        "id": "prop_camp_frame_tall",
+        "opacity": 1,
+        "pos": {
+          "x": 6.7,
+          "y": 0.5296781156556952,
+          "z": 6.8
+        },
+        "rotY": -0.18,
+        "subtype": "visualAsset",
+        "uniformScale": 0.9,
+        "visibleInPlay": true,
+        "visualAssetId": "asset_verge_canopy_tall"
+      },
+      "asset": {
+        "id": "asset_verge_canopy_tall",
+        "collision": null,
+        "model": {
+          "path": "assets/models/alien-canopy-tall-v1/model.glb",
+          "pivot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": 1
+        },
+        "parts": 0
+      },
+      "descriptor": {
+        "shape": "none",
+        "enabled": false,
+        "editProxy": {
+          "visibleWhenHidden": false
+        }
+      }
+    },
+    {
+      "step": "09-author-isolated-model",
+      "player": {
+        "x": 0,
+        "y": 0.521996259689331,
+        "z": 2
+      },
+      "camera": {
+        "position": [
+          13.639999580383298,
+          11.159999656677247,
+          16.11999950408935
+        ],
+        "quaternion": [
+          -0.1761259119538507,
+          0.33785278418717735,
+          0.06451630439210906,
+          0.922319253741882
+        ],
+        "fov": 52
+      },
+      "trees": {
+        "prop_camp_frame_tall": {
+          "position": [
+            6.7,
+            0.5296781156556952,
+            6.8
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "98603aa7-9a94-4bdc-8914-df5ff10e3fb5",
+              "geometry": "ee5449a6-5db7-41ef-b0ec-e2d06e9971d0"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "98603aa7-9a94-4bdc-8914-df5ff10e3fb5",
+              "geometry": "a7ea3966-15af-454d-b971-3e2be300cc6a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              5.078656667459305,
+              0.5296781156556952,
+              5.4887269365422355
+            ],
+            "max": [
+              8.314100561179227,
+              6.109677943994319,
+              7.978108162336633
+            ]
+          }
+        },
+        "prop_camp_frame_r": {
+          "position": [
+            5.4,
+            0.08898301390125832,
+            8
+          ],
+          "scale": [
+            0.93,
+            0.93,
+            0.93
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "98603aa7-9a94-4bdc-8914-df5ff10e3fb5",
+              "geometry": "ee5449a6-5db7-41ef-b0ec-e2d06e9971d0"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "98603aa7-9a94-4bdc-8914-df5ff10e3fb5",
+              "geometry": "a7ea3966-15af-454d-b971-3e2be300cc6a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              3.784013507652036,
+              0.08898301390125832,
+              6.753701167691848
+            ],
+            "max": [
+              6.99752967187023,
+              5.854982836517836,
+              9.109733295614486
+            ]
+          }
+        },
+        "prop_camp_frame_spread": {
+          "position": [
+            -6.7,
+            0.2978920013673112,
+            7.4
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "meshes": [
+            {
+              "name": "asset_verge_canopy_spread:mesh_0",
+              "opacity": 1,
+              "material": "63c9178a-b715-4e4c-9647-cb33943e17c3",
+              "geometry": "129272ea-5a0f-4caa-a0b4-e2c9afe97985"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_1",
+              "opacity": 1,
+              "material": "4ce53607-ea44-4695-b549-29ecca50b5c8",
+              "geometry": "926a84d7-d66f-4a18-8c12-e0fa096df9ec"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_2",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "d1ae8f44-c672-4a23-a47d-a976d8dcacb3"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_3",
+              "opacity": 1,
+              "material": "4ce53607-ea44-4695-b549-29ecca50b5c8",
+              "geometry": "0665cb3d-cbfa-4701-b2c6-753fcb20d9d7"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_4",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "561d2fd5-6454-495b-9033-dca2b3986951"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_5",
+              "opacity": 1,
+              "material": "4ce53607-ea44-4695-b549-29ecca50b5c8",
+              "geometry": "7a931068-586c-47a1-9536-4e78c8b654a9"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_6",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "ddedd2f3-3b0b-4819-83f6-a6541859869e"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_7",
+              "opacity": 1,
+              "material": "4ce53607-ea44-4695-b549-29ecca50b5c8",
+              "geometry": "fec877c5-2b9a-4b7e-bc8c-b2360ba1b343"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_8",
+              "opacity": 1,
+              "material": "63c9178a-b715-4e4c-9647-cb33943e17c3",
+              "geometry": "644af490-f62e-4ea7-9d70-d547d6484316"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_9",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "315c1f60-64b8-497d-b99b-360aedd8ad36"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_10",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "0aefc3e9-84bd-44b9-b664-4f4db39c9c55"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_11",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "0696cb76-9d2f-434a-9901-ecd61bb9785b"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_12",
+              "opacity": 1,
+              "material": "63c9178a-b715-4e4c-9647-cb33943e17c3",
+              "geometry": "96175cbd-2d63-48e3-b7e5-2d5182b5ce06"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_13",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "c97d3cc4-b34c-4c65-bbf8-e28225a3a7c7"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_14",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "5a10e641-8506-4346-854b-d151c7909448"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_15",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "d217d7e3-6a38-423d-9f89-1e4707ace24f"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_16",
+              "opacity": 1,
+              "material": "63c9178a-b715-4e4c-9647-cb33943e17c3",
+              "geometry": "f4bf29d5-901c-43d8-80ec-eafa6ec5b0db"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_17",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "48a8923b-e709-436c-8910-3a24595c37ab"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_18",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "96b1aa27-32de-458b-85fa-6e32d567756e"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_19",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "cd2e7cad-1f0e-43b5-bb79-a7ee2d579d49"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_20",
+              "opacity": 1,
+              "material": "528a554d-1922-4840-839b-ba4af657d5f4",
+              "geometry": "867e69ab-89b4-4ee7-8d5b-2cf87c2b2dcc"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_21",
+              "opacity": 1,
+              "material": "e45c153a-aea6-4678-8835-52ecb23f42ab",
+              "geometry": "f982d798-725a-4abb-8085-0d9b6849a194"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_22",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "a552229a-6a9f-4fbb-916e-c8b6ea8931b8"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_23",
+              "opacity": 1,
+              "material": "528a554d-1922-4840-839b-ba4af657d5f4",
+              "geometry": "7f186766-d562-47ab-bf3c-350581647fe8"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_24",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "65f62f25-9cde-4e54-9da0-9de41e8e2842"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_25",
+              "opacity": 1,
+              "material": "247b9a05-7582-45ca-ab29-1ab6b942a2a8",
+              "geometry": "0019a335-0f8b-48ac-aaf8-e8f6d1ba71d2"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_26",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "e42464db-1f73-429d-a32d-3b1424be7ae6"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_27",
+              "opacity": 1,
+              "material": "1edcb291-51e5-49b9-af87-6338711bf026",
+              "geometry": "a1e461e8-636f-4803-b9c6-0cc9bfecd077"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_28",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "44f2fdcd-cbe3-4a9e-8d9c-2de554782911"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_29",
+              "opacity": 1,
+              "material": "eeb9fd4d-f855-477e-9a3f-d93b72744dc9",
+              "geometry": "333d7438-9d96-464d-ad48-945f6e906804"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_30",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "9eb1d8f9-72cb-435f-95f3-a895c463a2cf"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_31",
+              "opacity": 1,
+              "material": "47a92690-7c4f-4918-9d22-cfa3eebbf945",
+              "geometry": "086af829-2c88-4c69-a067-103c37abecbb"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_32",
+              "opacity": 1,
+              "material": "cd17ecca-2c5c-4f71-9e84-81ccca2fd621",
+              "geometry": "9714ef2b-078b-47f5-9294-8d8d7a246812"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_33",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "9ab2ae5e-cf63-4db5-b04a-43a8689df1da"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_34",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "533aab22-cebb-4998-ba78-ae9bb3ff23dd"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_35",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "b2010bdf-dc32-42ca-8eb9-e3049e9229ea"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_36",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "d296774f-a69f-432d-9666-5536ff1425b2"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_37",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "8e64571b-c401-49c0-b776-39def200d37d"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_38",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "b45d8b41-7554-4342-bc31-aea28dbe9e9f"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_39",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "acecf278-1026-4d72-acdc-dd618f42932a"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_40",
+              "opacity": 1,
+              "material": "605f17ba-9cb9-457d-b2ae-86f32f9d6687",
+              "geometry": "1c760a4e-41d4-4d84-8a20-e7341d992e91"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_41",
+              "opacity": 1,
+              "material": "605f17ba-9cb9-457d-b2ae-86f32f9d6687",
+              "geometry": "d7ebd6de-6a69-4d94-a1cf-051a9eeed617"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_42",
+              "opacity": 1,
+              "material": "605f17ba-9cb9-457d-b2ae-86f32f9d6687",
+              "geometry": "2679f45c-5de4-4137-9d27-447666069eef"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -9.255763745656747,
+              0.2652220013243959,
+              5.556374417504323
+            ],
+            "max": [
+              -4.0112154044548145,
+              3.702412001109819,
+              8.873669472248688
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_r": {
+          "position": [
+            8,
+            0,
+            31
+          ],
+          "scale": [
+            1.04,
+            1.04,
+            1.04
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "98603aa7-9a94-4bdc-8914-df5ff10e3fb5",
+              "geometry": "ee5449a6-5db7-41ef-b0ec-e2d06e9971d0"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "98603aa7-9a94-4bdc-8914-df5ff10e3fb5",
+              "geometry": "a7ea3966-15af-454d-b971-3e2be300cc6a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              6.158188259559446,
+              0,
+              29.544355942274226
+            ],
+            "max": [
+              9.827295474000827,
+              6.447999801635742,
+              32.302222391291004
+            ]
+          }
+        },
+        "prop_s1_arrival_tree_l": {
+          "position": [
+            -8,
+            0,
+            33
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "asset_verge_canopy_spread:mesh_0",
+              "opacity": 1,
+              "material": "63c9178a-b715-4e4c-9647-cb33943e17c3",
+              "geometry": "129272ea-5a0f-4caa-a0b4-e2c9afe97985"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_1",
+              "opacity": 1,
+              "material": "4ce53607-ea44-4695-b549-29ecca50b5c8",
+              "geometry": "926a84d7-d66f-4a18-8c12-e0fa096df9ec"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_2",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "d1ae8f44-c672-4a23-a47d-a976d8dcacb3"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_3",
+              "opacity": 1,
+              "material": "4ce53607-ea44-4695-b549-29ecca50b5c8",
+              "geometry": "0665cb3d-cbfa-4701-b2c6-753fcb20d9d7"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_4",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "561d2fd5-6454-495b-9033-dca2b3986951"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_5",
+              "opacity": 1,
+              "material": "4ce53607-ea44-4695-b549-29ecca50b5c8",
+              "geometry": "7a931068-586c-47a1-9536-4e78c8b654a9"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_6",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "ddedd2f3-3b0b-4819-83f6-a6541859869e"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_7",
+              "opacity": 1,
+              "material": "4ce53607-ea44-4695-b549-29ecca50b5c8",
+              "geometry": "fec877c5-2b9a-4b7e-bc8c-b2360ba1b343"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_8",
+              "opacity": 1,
+              "material": "63c9178a-b715-4e4c-9647-cb33943e17c3",
+              "geometry": "644af490-f62e-4ea7-9d70-d547d6484316"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_9",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "315c1f60-64b8-497d-b99b-360aedd8ad36"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_10",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "0aefc3e9-84bd-44b9-b664-4f4db39c9c55"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_11",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "0696cb76-9d2f-434a-9901-ecd61bb9785b"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_12",
+              "opacity": 1,
+              "material": "63c9178a-b715-4e4c-9647-cb33943e17c3",
+              "geometry": "96175cbd-2d63-48e3-b7e5-2d5182b5ce06"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_13",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "c97d3cc4-b34c-4c65-bbf8-e28225a3a7c7"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_14",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "5a10e641-8506-4346-854b-d151c7909448"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_15",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "d217d7e3-6a38-423d-9f89-1e4707ace24f"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_16",
+              "opacity": 1,
+              "material": "63c9178a-b715-4e4c-9647-cb33943e17c3",
+              "geometry": "f4bf29d5-901c-43d8-80ec-eafa6ec5b0db"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_17",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "48a8923b-e709-436c-8910-3a24595c37ab"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_18",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "96b1aa27-32de-458b-85fa-6e32d567756e"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_19",
+              "opacity": 1,
+              "material": "299a36d3-7222-4dd1-b5d6-f5023807ed2f",
+              "geometry": "cd2e7cad-1f0e-43b5-bb79-a7ee2d579d49"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_20",
+              "opacity": 1,
+              "material": "528a554d-1922-4840-839b-ba4af657d5f4",
+              "geometry": "867e69ab-89b4-4ee7-8d5b-2cf87c2b2dcc"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_21",
+              "opacity": 1,
+              "material": "e45c153a-aea6-4678-8835-52ecb23f42ab",
+              "geometry": "f982d798-725a-4abb-8085-0d9b6849a194"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_22",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "a552229a-6a9f-4fbb-916e-c8b6ea8931b8"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_23",
+              "opacity": 1,
+              "material": "528a554d-1922-4840-839b-ba4af657d5f4",
+              "geometry": "7f186766-d562-47ab-bf3c-350581647fe8"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_24",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "65f62f25-9cde-4e54-9da0-9de41e8e2842"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_25",
+              "opacity": 1,
+              "material": "247b9a05-7582-45ca-ab29-1ab6b942a2a8",
+              "geometry": "0019a335-0f8b-48ac-aaf8-e8f6d1ba71d2"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_26",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "e42464db-1f73-429d-a32d-3b1424be7ae6"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_27",
+              "opacity": 1,
+              "material": "1edcb291-51e5-49b9-af87-6338711bf026",
+              "geometry": "a1e461e8-636f-4803-b9c6-0cc9bfecd077"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_28",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "44f2fdcd-cbe3-4a9e-8d9c-2de554782911"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_29",
+              "opacity": 1,
+              "material": "eeb9fd4d-f855-477e-9a3f-d93b72744dc9",
+              "geometry": "333d7438-9d96-464d-ad48-945f6e906804"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_30",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "9eb1d8f9-72cb-435f-95f3-a895c463a2cf"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_31",
+              "opacity": 1,
+              "material": "47a92690-7c4f-4918-9d22-cfa3eebbf945",
+              "geometry": "086af829-2c88-4c69-a067-103c37abecbb"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_32",
+              "opacity": 1,
+              "material": "cd17ecca-2c5c-4f71-9e84-81ccca2fd621",
+              "geometry": "9714ef2b-078b-47f5-9294-8d8d7a246812"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_33",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "9ab2ae5e-cf63-4db5-b04a-43a8689df1da"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_34",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "533aab22-cebb-4998-ba78-ae9bb3ff23dd"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_35",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "b2010bdf-dc32-42ca-8eb9-e3049e9229ea"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_36",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "d296774f-a69f-432d-9666-5536ff1425b2"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_37",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "8e64571b-c401-49c0-b776-39def200d37d"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_38",
+              "opacity": 1,
+              "material": "c6170de4-1794-4fd2-af8e-64359b95a14e",
+              "geometry": "b45d8b41-7554-4342-bc31-aea28dbe9e9f"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_39",
+              "opacity": 1,
+              "material": "4e00d0e8-56b1-401d-98b2-535aa7a0a765",
+              "geometry": "acecf278-1026-4d72-acdc-dd618f42932a"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_40",
+              "opacity": 1,
+              "material": "605f17ba-9cb9-457d-b2ae-86f32f9d6687",
+              "geometry": "1c760a4e-41d4-4d84-8a20-e7341d992e91"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_41",
+              "opacity": 1,
+              "material": "605f17ba-9cb9-457d-b2ae-86f32f9d6687",
+              "geometry": "d7ebd6de-6a69-4d94-a1cf-051a9eeed617"
+            },
+            {
+              "name": "asset_verge_canopy_spread:mesh_42",
+              "opacity": 1,
+              "material": "605f17ba-9cb9-457d-b2ae-86f32f9d6687",
+              "geometry": "2679f45c-5de4-4137-9d27-447666069eef"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -10.975213153782956,
+              -0.038115000050067904,
+              30.869213778140534
+            ],
+            "max": [
+              -4.933886575039459,
+              3.9719399996995923,
+              34.709029685784145
+            ]
+          }
+        },
+        "prop_s1_ore_tree": {
+          "position": [
+            30,
+            0.6412,
+            15
+          ],
+          "scale": [
+            1.08,
+            1.08,
+            1.08
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "98603aa7-9a94-4bdc-8914-df5ff10e3fb5",
+              "geometry": "ee5449a6-5db7-41ef-b0ec-e2d06e9971d0"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "98603aa7-9a94-4bdc-8914-df5ff10e3fb5",
+              "geometry": "a7ea3966-15af-454d-b971-3e2be300cc6a"
+            }
+          ],
+          "bounds": {
+            "min": [
+              28.00814654310607,
+              0.6412,
+              13.403844070466231
+            ],
+            "max": [
+              31.924509824981758,
+              7.337199794006349,
+              16.450981078872182
+            ]
+          }
+        },
+        "prop_s1_lookout_tree_r": {
+          "position": [
+            1,
+            0.1773,
+            8
+          ],
+          "scale": [
+            1.05,
+            1.05,
+            1.05
+          ],
+          "meshes": [
+            {
+              "name": "CanopyStructure",
+              "opacity": 1,
+              "material": "0382ffb9-50a8-4284-9f03-25cf98501274",
+              "geometry": "29b17438-f556-4da2-b13a-d27c2a43d85f"
+            },
+            {
+              "name": "CanopyLeaves",
+              "opacity": 1,
+              "material": "0382ffb9-50a8-4284-9f03-25cf98501274",
+              "geometry": "091ac60b-c79d-4005-ac3d-e7fecfdb0a1d"
+            }
+          ],
+          "bounds": {
+            "min": [
+              -1.10513523570844,
+              0.1773,
+              6.377328982858525
+            ],
+            "max": [
+              3.128515549321975,
+              4.7973001001358035,
+              9.553420214582623
+            ]
+          }
+        }
+      }
+    },
+    {
+      "step": "literal Author reload retains local model, existing scale/yaw/flags and null collision",
+      "record": {
+        "collisionEnabled": false,
+        "id": "prop_camp_frame_tall",
+        "opacity": 1,
+        "pos": {
+          "x": 6.7,
+          "y": 0.5296781156556952,
+          "z": 6.8
+        },
+        "rotY": -0.18,
+        "subtype": "visualAsset",
+        "uniformScale": 0.9,
+        "visibleInPlay": true,
+        "visualAssetId": "asset_verge_canopy_tall"
+      },
+      "asset": {
+        "id": "asset_verge_canopy_tall",
+        "collision": null,
+        "model": {
+          "path": "assets/models/alien-canopy-tall-v1/model.glb",
+          "pivot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": 1
+        },
+        "parts": 0
+      },
+      "descriptor": {
+        "shape": "none",
+        "enabled": false,
+        "editProxy": {
+          "visibleWhenHidden": false
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "hashes": [
+    "2ae3611a270ad6ae424367e46a128492bba391666a274dbd95fa4b744b8d82ba",
+    "2ae3611a270ad6ae424367e46a128492bba391666a274dbd95fa4b744b8d82ba",
+    "2ae3611a270ad6ae424367e46a128492bba391666a274dbd95fa4b744b8d82ba"
+  ],
+  "disclosure": "Disclosed Camp/Verdant waypoint and grounded position fixtures; movement/right-drag orbit and Author focus/Edit/export/reload are native input. No placement, scale, camera pitch, lighting, collision or material override. Tall remains non-solid, so movement is visual headroom proof rather than new physical trunk collision. No complete campaign or physical-phone performance claim."
+}

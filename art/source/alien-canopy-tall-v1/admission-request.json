@@ -1,0 +1,87 @@
+{
+  "assetId": "alien-canopy-tall-v1",
+  "profile": "prop",
+  "model": ".dream-loop/overnight-canopy-variants/tall-model-v2/tall-canopy.glb",
+  "scale": 1,
+  "pivot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "/root/level_design_review",
+      "score": 8.5,
+      "sha256": "97997484cf600f4ef180d2e1e9a8daa67f3cacbe71d8a12b17e9922986eadd65"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "/root/level_design_review",
+      "score": 8.0,
+      "sha256": "2ae3611a270ad6ae424367e46a128492bba391666a274dbd95fa4b744b8d82ba"
+    }
+  },
+  "sourceFiles": [
+    {
+      "role": "reference",
+      "path": ".dream-loop/overnight-canopy-variants/tall-target-v1/target.png"
+    },
+    {
+      "role": "raw",
+      "path": ".dream-loop/overnight-canopy-variants/tall-model-v2/tall-canopy.glb"
+    },
+    {
+      "role": "blend",
+      "path": ".dream-loop/overnight-canopy-variants/tall-model-v2/tall-canopy-editable.blend"
+    },
+    {
+      "role": "builder",
+      "path": ".dream-loop/overnight-canopy-variants/tall-model-v2/builder.py"
+    },
+    {
+      "role": "generation",
+      "path": ".dream-loop/overnight-canopy-variants/tall-model-v2/manifest.json"
+    },
+    {
+      "role": "optimization",
+      "path": ".dream-loop/overnight-canopy-variants/tall-model-v2/glb-check.json"
+    },
+    {
+      "role": "normalization",
+      "path": ".dream-loop/overnight-canopy-variants/tall-model-v2/export-clearance.json"
+    },
+    {
+      "role": "reference-prompt",
+      "path": ".dream-loop/overnight-canopy-variants/tall-target-v1/prompt.txt"
+    },
+    {
+      "role": "reference-review",
+      "path": ".dream-loop/overnight-canopy-variants/tall-target-v1/independent-reference-review.md"
+    },
+    {
+      "role": "model-review",
+      "path": ".dream-loop/overnight-canopy-variants/tall-model-v2/independent-review.md"
+    },
+    {
+      "role": "review-front",
+      "path": ".dream-loop/overnight-canopy-variants/tall-model-v2/front3q.png"
+    },
+    {
+      "role": "review-rear",
+      "path": ".dream-loop/overnight-canopy-variants/tall-model-v2/rear.png"
+    }
+  ],
+  "provenance": {
+    "referenceAuthor": "/root",
+    "modelImplementer": "/root/fabricator_model",
+    "independentReviewer": "/root/level_design_review",
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "modelMethod": "Bounded Blender 4.5 hard-surface reconstruction, closed paddle geometry reused from admitted standard canopy; no image-to-3D model generation",
+    "sourceStudy": ".dream-loop/overnight-canopy-variants/tall-model-v2",
+    "referenceStudy": ".dream-loop/overnight-canopy-variants/tall-target-v1",
+    "nativeGate": "Pending; studio model PASS8.0 authorizes this candidate for native review only",
+    "limitations": "Lime-olive folds are brighter than the locked reference; inspect in existing native lighting without global lighting compensation. Keep existing 18 placements/scales and collision:null."
+  }
+}

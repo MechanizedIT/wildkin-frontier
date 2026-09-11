@@ -21,5 +21,9 @@ export const FIELD_RECIPES = Object.freeze([
   { id:'reinforced_tether', name:'Reinforced tether', icon:'∞', cost:{fiber:4,iron_ore:2}, station:'fabricator', workbench:true, description:'Emberhorn: dodge its charge, tether during recovery.' },
 ]);
 export const FIELD_RECIPE_BY_ID = Object.freeze(Object.fromEntries(FIELD_RECIPES.map(r=>[r.id,r])));
+export function getFieldCraftLocation(id) {
+  const station = BASE_PIECE_BY_ID[FIELD_RECIPE_BY_ID[id]?.station];
+  return station ? `Camp → ${station.name}` : 'Camp → Work → Craft';
+}
 export function canAfford(resources,cost) { return Object.entries(cost).every(([id,n])=>(resources[id]??0)>=n); }
 export function formatCost(cost) { return Object.entries(cost).map(([id,n])=>`${n} ${id.replaceAll('_',' ')}`).join(' · '); }

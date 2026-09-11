@@ -10,7 +10,7 @@ import {canNoticeQuietPlayer} from '../src/creatures/perception.js';
 function fixture(id, options = {}) {
   const species = COMPANION_BY_ID[id], supplies = { berry_lure: 3, woven_snare: 2, reinforced_tether: 2, calming_chime: 2 };
   const player = { pos: { x: 0, y: .5, z: -4 }, speed: 0, facing: 0, grounded: true, dodgeTime: 0 };
-  let section = "field", active = true, damage = 0, captured = [];
+  let section = "field", active = true, damage = 0, captured = [], messages = [];
   const system = createCreatureSystem(new THREE.Scene(), null, null, { spawns: [{ id: "wild", type: "rusher", pos: { x: 0, y: 0, z: 0 }, temperament: id === "emberhorn" ? "TERRITORIAL" : id === "tidefin" ? "DEFENSIVE" : "SKITTISH", regionId: "field", visualAsset: { id: species.assetId } }], onPlayerDamage() { damage++; return true; } });
   const target = system.getCreatures()[0];
   system.setPlayerState(player); system.setPlayerPos(player.pos); system.setInvulnChecker(() => player.dodgeTime > 0);
@@ -20,10 +20,11 @@ function fixture(id, options = {}) {
     consume(id) { if (options.storageFail) return { consumed: false, reason: "storage" }; if (!supplies[id]) return { consumed: false, reason: "empty" }; supplies[id]--; return { consumed: true }; },
     placePoint: () => options.blocked ? null : ({ x: pointCount++ ? 3 : 0, y: 0, z: -2 }),
     setIntent: system.setFieldTamingIntent, clearIntent: system.clearFieldTamingIntent,
+    onMessage: (title, detail) => messages.push({title, detail}),
     capture(id, s) { system.setBondingTarget(id); if (!system.secureBondTarget(id)) return false; captured.push(s.id); return true; },
   });
   function tick(seconds) { for (let t=0;t<seconds;t+=1/60) { system.update(1/60); taming.update(1/60); } }
-  return { taming, system, target, player, supplies, captured, tick, begin: () => taming.begin("wild", species), damage: () => damage, travel: () => { section = "other"; }, leave: () => { active = false; } };
+  return { taming, system, target, player, supplies, captured, messages, tick, begin: () => taming.begin("wild", species), damage: () => damage, travel: () => { section = "other"; }, leave: () => { active = false; } };
 }
 
 test("gear placement validates terrain and storage before spending or holding wildlife", () => {
@@ -45,7 +46,12 @@ test("Mossling physically reaches berries before trust; approaching gently captu
 
 test("Tidefin's real snare can expire; a new attempt costs fresh gear and can release to bond", () => {
   const f = fixture("tidefin"); f.begin(); f.player.pos.z=-6; f.tick(4);
-  assert.equal(f.taming.getState().stage, "trapped"); f.tick(15); assert.equal(f.taming.getState(), null); assert.deepEqual(f.captured, []);
+  assert.equal(f.taming.getState().stage, "trapped");
+  const remaining = Number(f.taming.getState().detail.match(/(\d+)s before/)[1]);
+  assert.ok(remaining > 0 && remaining <= 14);
+  f.tick(2);
+  assert.equal(Number(f.taming.getState().detail.match(/(\d+)s before/)[1]), remaining - 2, 'guide counts down the actual attempt clock');
+  f.tick(13); assert.equal(f.taming.getState(), null); assert.deepEqual(f.captured, []);
   f.player.pos.x=f.target.state.pos.x; f.player.pos.z=f.target.state.pos.z-4;
   assert.equal(f.begin(), true); assert.equal(f.supplies.woven_snare, 0); f.player.pos.z=-7; f.tick(8);
   assert.equal(f.taming.getState().stage, "trapped"); f.player.pos={...f.target.state.pos,z:f.target.state.pos.z-1.8};
@@ -85,6 +91,24 @@ test("cancel, damage, travel and Author clear transient gear and restore wild AI
     assert.equal(f.taming.getState(),null,cause); assert.equal(f.supplies.berry_lure,2); assert.deepEqual(f.captured,[]);
     assert.equal(f.target.state.bondingHeld,false);
   }
+});
+
+test('an outside attack interrupts taming without falsely locking trust or refunding used gear', () => {
+  const f = fixture('tidefin');
+  assert.equal(f.begin(), true);
+  f.system.damageCreature(f.target, 1, {x:2,y:0,z:0}, null, {state:{id:'predator'}});
+  f.taming.update(.02);
+  assert.equal(f.taming.getState(), null);
+  assert.equal(f.target.state.playerDamaged, false);
+  assert.match(f.messages.at(-1).detail, /nearby threat.*Clear the danger/);
+  assert.equal(f.supplies.woven_snare, 1, 'the interrupted snare remains spent');
+  assert.deepEqual(f.captured, []);
+  assert.equal(f.begin(), true, 'fresh gear can retry on the same living animal after outside damage');
+  assert.equal(f.supplies.woven_snare, 0);
+  f.system.damageCreature(f.target, 1, {x:2,y:0,z:0}, null, 'player');
+  f.taming.update(.02);
+  assert.match(f.messages.at(-1).detail, /Your attack broke its trust/);
+  assert.equal(f.begin(), false, 'player damage still requires another expedition');
 });
 
 test('Mossling has a quiet offer window without extending other species or the final bond', () => {

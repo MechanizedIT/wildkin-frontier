@@ -4,6 +4,10 @@
 
 ## Beta 0.2 implementation and provisional design
 
+**September11 owner continuation (implementation pending):** area transitions should be unique clearing/repair problems grounded in local terrain and wreckage, including fallen alien growth, blocked ravines and cave rubble. Camp is an emergency fortified crash site. Expansion secures adjoining sections, with new perimeter barricades automatically built as part of each clearing/resource cost. This supersedes the generic gate/farm-fence presentation and abstract expansion-only intent; exact tasks, plot shapes and costs remain provisional in the crashland proposal.
+
+**September11 new owner direction (implementation pending):** the player's landing pod crashed after a colony/research ship or station incident. A Camp robot/drone, scattered supplies/crates/beacons/teleportation equipment and progressively larger wreck sites tie exploration to parts, blueprints, new equipment and crafting. The desired survival inventory has draggable/sortable items, finite upgradeable backpack capacity and physical Camp storage. This explicitly supersedes historical unlimited-carry/infinite-bank design statements. The current implementation table below remains useful runtime evidence while a coherent replacement is designed in `CRASHLAND_PROGRESSION_PROPOSAL.md`. Exact plot, capacities, blueprint costs and recovery rules are provisional until implemented and playtested.
+
 The player can complete a Camp-to-Heartwood campaign across five expedition regions, collect four Wildkin, revisit four ability-sealed caches, craft medkits, buy fifteen upgrade tiers, repair gates, discover travel starts, and secure the Heartwood Core after defeating its Guardian. The campaign remains open for collection and upgrade completion after its ending.
 
 The following choices are implemented for this candidate under Chris's broad design authorization; their exact feel/balance has **not** been accepted by Chris:

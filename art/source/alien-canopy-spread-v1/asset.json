@@ -1,0 +1,175 @@
+{
+  "assetId": "alien-canopy-spread-v1",
+  "profile": "prop",
+  "createdUtc": "2026-09-11T16:37:17.983889+00:00",
+  "model": {
+    "path": "assets/models/alien-canopy-spread-v1/model.glb",
+    "scale": 1,
+    "pivot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "modelSHA256": "d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3",
+  "modelBytes": 211172,
+  "sources": [
+    {
+      "role": "reference",
+      "path": "art/source/alien-canopy-spread-v1/reference.png",
+      "bytes": 1347804,
+      "sha256": "a6d129b58325c192fe640eb195818a2957427a776c8d88d35bc5170fecae2332"
+    },
+    {
+      "role": "raw",
+      "path": "art/source/alien-canopy-spread-v1/raw.glb",
+      "bytes": 211172,
+      "sha256": "d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3"
+    },
+    {
+      "role": "blend",
+      "path": "art/source/alien-canopy-spread-v1/blend.blend",
+      "bytes": 715337,
+      "sha256": "f1bf2d5c8d878711fa82d7f4a68c928a8d2eb7a011aa444866c110d1fb9ec6d2"
+    },
+    {
+      "role": "builder",
+      "path": "art/source/alien-canopy-spread-v1/builder.py",
+      "bytes": 15147,
+      "sha256": "f1ef3bac9cdc10f3d003263e7309b98ef69fd6212448d50d187b121d33eefc31"
+    },
+    {
+      "role": "generation",
+      "path": "art/source/alien-canopy-spread-v1/generation.json",
+      "bytes": 5811,
+      "sha256": "e102aa1c32f05c02803253329d4105c562a086a04f1e3eaf598e1551f1a1a226"
+    },
+    {
+      "role": "optimization",
+      "path": "art/source/alien-canopy-spread-v1/optimization.json",
+      "bytes": 1067,
+      "sha256": "44bb7b7947fe4545ed130bca825ad6f771f48db4312656ea5756613a97e30415"
+    },
+    {
+      "role": "normalization",
+      "path": "art/source/alien-canopy-spread-v1/normalization.json",
+      "bytes": 480,
+      "sha256": "1cd6073b5949e02911648f1e336bf404c3e9ce02be8f178c391370a57f6e0d5f"
+    },
+    {
+      "role": "reference-prompt",
+      "path": "art/source/alien-canopy-spread-v1/reference-prompt.txt",
+      "bytes": 1778,
+      "sha256": "cb31403ec3fdfb745e4bf6c6cd068652797614ddf781b369b9880fba2cdfb939"
+    },
+    {
+      "role": "reference-review",
+      "path": "art/source/alien-canopy-spread-v1/reference-review.md",
+      "bytes": 3366,
+      "sha256": "626cdc58549905e7a73dee49eab40094f2f2ceb55713e27cbc7d21b0f0fe9a22"
+    },
+    {
+      "role": "model-review",
+      "path": "art/source/alien-canopy-spread-v1/model-review.md",
+      "bytes": 3057,
+      "sha256": "2b5bdbe39b0f2739880e6ea4d9874d4296e419713adefbaafa94d138ab8e3c26"
+    },
+    {
+      "role": "review-front",
+      "path": "art/source/alien-canopy-spread-v1/review-front.png",
+      "bytes": 296372,
+      "sha256": "f7602f8b1347e2738bdba2edd6e0c552bc58c44dfb5e95f55793e5b2f8bd9424"
+    },
+    {
+      "role": "review-rear",
+      "path": "art/source/alien-canopy-spread-v1/review-rear.png",
+      "bytes": 288241,
+      "sha256": "9644dbcea86ed8eb12e1311ee74149efd2d619898abc1845f7411749ffa2f7c7"
+    }
+  ],
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "/root/level_design_review",
+      "score": 8.2,
+      "sha256": "a6d129b58325c192fe640eb195818a2957427a776c8d88d35bc5170fecae2332"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "/root/level_design_review",
+      "score": 8,
+      "sha256": "d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3"
+    },
+    "native": {
+      "status": "pass",
+      "score": 8,
+      "reviewer": "/root/level_design_review",
+      "evidence": "native/independent-review.md",
+      "limitations": "Arrival cropped/gate-obstructed views excluded; reverse crown remains shallow/darker. Physical phone pending."
+    },
+    "package": {
+      "status": "pass",
+      "evidence": "package-review.md",
+      "scope": "Exact-model online and already-loaded offline; no physical phone claim."
+    }
+  },
+  "provenance": {
+    "referenceAuthor": "/root",
+    "modelImplementer": "/root/fabricator_model",
+    "independentReviewer": "/root/level_design_review",
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "modelMethod": "Bounded Blender4.5 reconstruction using closed folded-paddle construction from admitted siblings, with separately authored broad fans and convex belly revision. No heavy modifiers or image-to-3D.",
+    "sourceStudy": ".dream-loop/overnight-canopy-variants/spread-model-v2",
+    "referenceStudy": ".dream-loop/overnight-canopy-variants/spread-target-v2",
+    "nativeGate": "PASS8.0 with disclosed framing limits; see native/independent-review.md",
+    "limitations": "Rear crown is still shallow/dark but has distinct convex blade bellies. Check native reverse view and broad foreground fade without global lighting changes. Preserve all8placements/scales and collision:null."
+  },
+  "admission": {
+    "ok": true,
+    "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\overnight-canopy-variants\\spread-model-v2\\spread-canopy.glb",
+    "profile": "prop",
+    "limits": {
+      "max_triangles": 5000,
+      "max_vertices": 15000,
+      "max_materials": 2,
+      "max_bones": 0,
+      "max_texture": 1024
+    },
+    "sourceSHA256": "d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3",
+    "textureSHA256": [
+      "3b9a7ab9b82e7c2de16a9f498c03dea238ab4c757ef14c385595afe1474eaddb"
+    ],
+    "counts": {
+      "triangles": 3100,
+      "vertices": 5884,
+      "materials": 1,
+      "bones": 0,
+      "animations": 0
+    },
+    "animations": [],
+    "textures": [
+      {
+        "mimeType": "image/png",
+        "width": 256,
+        "height": 256,
+        "sha256": "3b9a7ab9b82e7c2de16a9f498c03dea238ab4c757ef14c385595afe1474eaddb",
+        "roles": [
+          "baseColor"
+        ]
+      }
+    ],
+    "textureRoles": [
+      {
+        "texture": 0,
+        "role": "baseColor"
+      }
+    ],
+    "failures": [],
+    "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+  },
+  "note": "Admission does not establish physical-phone performance or owner art acceptance.",
+  "stableVisualAssetId": "asset_verge_canopy_spread",
+  "collisionContract": null,
+  "placementContract": "Eight authored placement transforms/flags/scales0.9-1.5 unchanged"
+}

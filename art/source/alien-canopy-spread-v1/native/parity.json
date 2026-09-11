@@ -1,0 +1,137 @@
+{
+  "base": "immediately before spread registration; includes prior tall and TidefinA relocation",
+  "allOtherWorldFieldsIdentical": true,
+  "uses": [
+    {
+      "region": "camp",
+      "id": "prop_camp_background_1",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_spread",
+      "pos": {
+        "x": -12,
+        "y": 2.199048012534462,
+        "z": -19
+      },
+      "rotY": 0.57,
+      "uniformScale": 1.4,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_background_4",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_spread",
+      "pos": {
+        "x": 4,
+        "y": 4.2,
+        "z": -23
+      },
+      "rotY": 2.28,
+      "uniformScale": 1.4,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_background_7",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_spread",
+      "pos": {
+        "x": 20,
+        "y": 0.9704989399511406,
+        "z": -21
+      },
+      "rotY": 3.9899999999999998,
+      "uniformScale": 1.4,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_background_10",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_spread",
+      "pos": {
+        "x": -8,
+        "y": -0.147604754893802,
+        "z": -10
+      },
+      "rotY": 5.699999999999999,
+      "uniformScale": 1.2,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_background_13",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_spread",
+      "pos": {
+        "x": 8,
+        "y": 0,
+        "z": -9
+      },
+      "rotY": 7.409999999999999,
+      "uniformScale": 1.5,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_frame_l",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_spread",
+      "pos": {
+        "x": -5.1,
+        "y": 0,
+        "z": 9
+      },
+      "rotY": 0.1,
+      "uniformScale": 0.9,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_frame_spread",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_spread",
+      "pos": {
+        "x": -6.7,
+        "y": 0.2978920013673112,
+        "z": 7.4
+      },
+      "rotY": 0.18,
+      "uniformScale": 0.9,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "section_1",
+      "id": "prop_s1_arrival_tree_l",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_spread",
+      "pos": {
+        "x": -8,
+        "y": 0,
+        "z": 33
+      },
+      "rotY": 0.12,
+      "uniformScale": 1.05,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    }
+  ],
+  "collision": null,
+  "sha": "d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3",
+  "native": "pending"
+}

@@ -1,0 +1,19 @@
+{
+  "sourceSHA256": "2ae3611a270ad6ae424367e46a128492bba391666a274dbd95fa4b744b8d82ba",
+  "boundsBlender": {
+    "min": [
+      -1.642203450202942,
+      -1.0379351377487183,
+      0.0
+    ],
+    "max": [
+      1.607796549797058,
+      1.1820648908615112,
+      6.199999809265137
+    ]
+  },
+  "minimumSurfaceOutside1_08mFootprint": 2.6948513984680176,
+  "minimumAtScale0_9": 2.425366258621216,
+  "requiredMinimumUnscaled": 2.45,
+  "requiredMinimumWorld": 2.2
+}

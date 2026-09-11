@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "input": ".dream-loop/overnight-canopy-variants/tall-model-v2/tall-canopy.glb",
+  "profile": "prop",
+  "limits": {
+    "max_triangles": 5000,
+    "max_vertices": 15000,
+    "max_materials": 2,
+    "max_bones": 0,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "2ae3611a270ad6ae424367e46a128492bba391666a274dbd95fa4b744b8d82ba",
+  "textureSHA256": [
+    "5c5ed13d45f736177871055fd51b2fe45cd2b4492f285a40920e419b44541c50"
+  ],
+  "counts": {
+    "triangles": 3612,
+    "vertices": 6860,
+    "materials": 1,
+    "bones": 0,
+    "animations": 0
+  },
+  "animations": [],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 256,
+      "height": 256,
+      "sha256": "5c5ed13d45f736177871055fd51b2fe45cd2b4492f285a40920e419b44541c50",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

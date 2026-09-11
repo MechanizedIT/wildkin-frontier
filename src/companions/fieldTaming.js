@@ -1,5 +1,6 @@
 // One expedition-local attempt. Supplies and secured ownership stay in progress;
 // creature locomotion stays in CreatureSystem and its Rapier controller.
+import { getFieldCraftLocation } from '../base/baseCatalog.js';
 export const FIELD_TAMING_CONFIG = Object.freeze({ interactionRange: 6, mosslingOfferRange: 7.5, approachRange: 2.5, retreatRange: 2.8, feedSeconds: 3, trapSeconds: 14, lifetime: 100, quietSpeed: 2.2 });
 // Leave a small quiet approach window outside the starter grazer's frontal
 // vision. Walking is still audible before this range; the final bond is close.
@@ -15,15 +16,16 @@ export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive
     return { id: a.id, speciesId: a.species.id, stage: a.stage, point: { ...a.point }, perch: a.perch, progress: Math.min(1, a.calm / FIELD_TAMING_CONFIG.feedSeconds), ...instruction(a) };
   }
   function instruction(a) {
+    const remaining = Math.max(0, Math.ceil(FIELD_TAMING_CONFIG.trapSeconds - a.stageTime));
     const map = {
       lure: a.hasSpace ? ["LET IT APPROACH", "Keep the patch clear while Mossling walks to the berries."] : ["GIVE SPACE", "Step away from the berries and let Mossling feed."],
       feed: ["LET IT FEED", "Stay back while Mossling eats; approach slowly when it trusts you."],
       ready: ["BOND", "Walk gently to your Wildkin and welcome it."],
       snare: a.hasSpace ? ["LET IT APPROACH", "Keep the bank clear while Tidefin investigates the snare."] : ["LURE TO SNARE", "Back away from the baited snare so Tidefin can investigate."],
-      trapped: ["RELEASE & BOND", "Walk to Tidefin and release the woven snare before it struggles free."],
+      trapped: ["RELEASE & BOND", `Walk gently to Tidefin and release it. ${remaining}s before it escapes.`],
       challenge: ["DODGE CHARGE", "Face Emberhorn, dodge its committed charge, then tether during recovery."],
       tether: ["USE TETHER", "Close in and use the reinforced tether before Emberhorn recovers."],
-      offer: ["OFFER BERRIES", "Offer a berry lure to the tethered Emberhorn."],
+      offer: ["OFFER BERRIES", `Offer a berry lure to Emberhorn. ${remaining}s before it escapes.`],
       call: ["RING CHIME", `Walk quietly to the violet perch, keep your distance, then call (${a.perch + 1}/2).`],
       perch: ["FOLLOW QUIETLY", "Give Skydancer room to settle on the violet perch."],
     };
@@ -33,7 +35,7 @@ export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive
   function spend(id) {
     const result = consume(id);
     if (result?.consumed) return true;
-    onMessage("Field gear needed", result?.reason === "empty" ? "Craft the required gear at your Camp workbench." : "The gear could not be saved. Try again.");
+    onMessage("Field gear needed", result?.reason === "empty" ? `Craft this gear at ${getFieldCraftLocation(id)}.` : "The gear could not be saved. Try again.");
     return false;
   }
   function begin(id, species) {
@@ -80,7 +82,9 @@ export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive
     if (!attempt) return;
     const a = attempt, target = getTarget(a.id), player = getPlayer();
     if (hidden || !isActive() || a.sectionId !== getSectionId()) { clear(); return; }
-    if (!target || target.state.playerDamaged || target.state.isDead || target.state.health < a.startHealth) { fail("The Wildkin's trust was broken. Try again on another expedition."); return; }
+    if (!target || target.state.isDead) { fail("The Wildkin was lost. Find another and prepare fresh gear."); return; }
+    if (target.state.playerDamaged) { fail("Your attack broke its trust. Try again on another expedition."); return; }
+    if (target.state.health < a.startHealth) { fail("A nearby threat interrupted taming. Clear the danger, then prepare fresh gear."); return; }
     a.age += dt; a.stageTime += dt;
     if (a.species.id === "emberhorn") a.point = { ...target.state.pos };
     if (a.age > FIELD_TAMING_CONFIG.lifetime || distance(player.pos, target.state.pos) > 18) { fail("You left the taming attempt behind."); return; }

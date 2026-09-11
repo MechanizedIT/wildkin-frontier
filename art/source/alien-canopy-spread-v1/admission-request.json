@@ -1,0 +1,87 @@
+{
+  "assetId": "alien-canopy-spread-v1",
+  "profile": "prop",
+  "model": ".dream-loop/overnight-canopy-variants/spread-model-v2/spread-canopy.glb",
+  "scale": 1,
+  "pivot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "/root/level_design_review",
+      "score": 8.2,
+      "sha256": "a6d129b58325c192fe640eb195818a2957427a776c8d88d35bc5170fecae2332"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "/root/level_design_review",
+      "score": 8.0,
+      "sha256": "d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3"
+    }
+  },
+  "sourceFiles": [
+    {
+      "role": "reference",
+      "path": ".dream-loop/overnight-canopy-variants/spread-target-v2/target.png"
+    },
+    {
+      "role": "raw",
+      "path": ".dream-loop/overnight-canopy-variants/spread-model-v2/spread-canopy.glb"
+    },
+    {
+      "role": "blend",
+      "path": ".dream-loop/overnight-canopy-variants/spread-model-v2/spread-canopy-editable.blend"
+    },
+    {
+      "role": "builder",
+      "path": ".dream-loop/overnight-canopy-variants/spread-model-v2/builder.py"
+    },
+    {
+      "role": "generation",
+      "path": ".dream-loop/overnight-canopy-variants/spread-model-v2/manifest.json"
+    },
+    {
+      "role": "optimization",
+      "path": ".dream-loop/overnight-canopy-variants/spread-model-v2/glb-check.json"
+    },
+    {
+      "role": "normalization",
+      "path": ".dream-loop/overnight-canopy-variants/spread-model-v2/export-clearance.json"
+    },
+    {
+      "role": "reference-prompt",
+      "path": ".dream-loop/overnight-canopy-variants/spread-target-v2/prompt.txt"
+    },
+    {
+      "role": "reference-review",
+      "path": ".dream-loop/overnight-canopy-variants/spread-target-v2/independent-reference-review.md"
+    },
+    {
+      "role": "model-review",
+      "path": ".dream-loop/overnight-canopy-variants/spread-model-v2/independent-review.md"
+    },
+    {
+      "role": "review-front",
+      "path": ".dream-loop/overnight-canopy-variants/spread-model-v2/front3q.png"
+    },
+    {
+      "role": "review-rear",
+      "path": ".dream-loop/overnight-canopy-variants/spread-model-v2/rear.png"
+    }
+  ],
+  "provenance": {
+    "referenceAuthor": "/root",
+    "modelImplementer": "/root/fabricator_model",
+    "independentReviewer": "/root/level_design_review",
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "modelMethod": "Bounded Blender4.5 reconstruction using closed folded-paddle construction from admitted siblings, with separately authored broad fans and convex belly revision. No heavy modifiers or image-to-3D.",
+    "sourceStudy": ".dream-loop/overnight-canopy-variants/spread-model-v2",
+    "referenceStudy": ".dream-loop/overnight-canopy-variants/spread-target-v2",
+    "nativeGate": "Pending; studio model PASS8.0 authorizes this candidate for native review only",
+    "limitations": "Rear crown is still shallow/dark but has distinct convex blade bellies. Check native reverse view and broad foreground fade without global lighting changes. Preserve all8placements/scales and collision:null."
+  }
+}

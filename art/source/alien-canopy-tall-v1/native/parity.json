@@ -1,0 +1,306 @@
+{
+  "base": "8693e556cbd1a5550b36671fdffd61e1e8ed9170",
+  "hash": "2ae3611a270ad6ae424367e46a128492bba391666a274dbd95fa4b744b8d82ba",
+  "allRegionDataUnchanged": true,
+  "allOtherAssetsUnchanged": true,
+  "collision": null,
+  "uses": [
+    {
+      "region": "camp",
+      "id": "prop_camp_background_0",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": -17,
+        "y": 0.7715851150000611,
+        "z": -18
+      },
+      "rotY": 0,
+      "uniformScale": 1.5,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_background_3",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": -2,
+        "y": 4.2,
+        "z": -23
+      },
+      "rotY": 1.71,
+      "uniformScale": 1.55,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_background_6",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 15,
+        "y": 1.1409624663217164,
+        "z": -18
+      },
+      "rotY": 3.42,
+      "uniformScale": 1.45,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_background_9",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 24,
+        "y": 0,
+        "z": -12
+      },
+      "rotY": 5.13,
+      "uniformScale": 1.5,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_background_12",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 4.5,
+        "y": 0,
+        "z": -12
+      },
+      "rotY": 6.84,
+      "uniformScale": 1.3,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_background_15",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 12,
+        "y": 0.5948394553728967,
+        "z": -6
+      },
+      "rotY": 8.549999999999999,
+      "uniformScale": 1.25,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_frame_r",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 5.4,
+        "y": 0.08898301390125832,
+        "z": 8
+      },
+      "rotY": -0.1,
+      "uniformScale": 0.93,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "camp",
+      "id": "prop_camp_frame_tall",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 6.7,
+        "y": 0.5296781156556952,
+        "z": 6.8
+      },
+      "rotY": -0.18,
+      "uniformScale": 0.9,
+      "visibleInPlay": true,
+      "collisionEnabled": false,
+      "opacity": 1
+    },
+    {
+      "region": "section_1",
+      "id": "prop_s1_arrival_tree_r",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 8,
+        "y": 0,
+        "z": 31
+      },
+      "rotY": -0.14,
+      "uniformScale": 1.04,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    },
+    {
+      "region": "section_1",
+      "id": "prop_s1_ore_tree",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 30,
+        "y": 0.6412,
+        "z": 15
+      },
+      "rotY": 0.2,
+      "uniformScale": 1.08,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    },
+    {
+      "region": "section_1",
+      "id": "prop_s1_edge_south_l_a",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": -31,
+        "y": 0,
+        "z": 36
+      },
+      "rotY": 0.12,
+      "uniformScale": 1.32,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    },
+    {
+      "region": "section_1",
+      "id": "prop_s1_edge_south_r_b",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 31,
+        "y": 0,
+        "z": 35.5
+      },
+      "rotY": -0.15,
+      "uniformScale": 1.28,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    },
+    {
+      "region": "section_1",
+      "id": "prop_s1_edge_creek_a",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": -36,
+        "y": 0,
+        "z": 27
+      },
+      "rotY": 0.18,
+      "uniformScale": 1.26,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    },
+    {
+      "region": "section_1",
+      "id": "prop_s1_edge_shelf_b",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 35,
+        "y": 0,
+        "z": 12
+      },
+      "rotY": 0.12,
+      "uniformScale": 1.3,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    },
+    {
+      "region": "section_2",
+      "id": "prop_s2_edge_south_l_b",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": -20,
+        "y": 0,
+        "z": 35
+      },
+      "rotY": -0.12,
+      "uniformScale": 1.24,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    },
+    {
+      "region": "section_2",
+      "id": "prop_s2_edge_south_r_a",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 21,
+        "y": 0,
+        "z": 35
+      },
+      "rotY": 0.14,
+      "uniformScale": 1.28,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    },
+    {
+      "region": "section_2",
+      "id": "prop_s2_edge_basin_b",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": -35,
+        "y": 0,
+        "z": 12
+      },
+      "rotY": 0.12,
+      "uniformScale": 1.26,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    },
+    {
+      "region": "section_2",
+      "id": "prop_s2_edge_observatory_a",
+      "subtype": "visualAsset",
+      "visualAssetId": "asset_verge_canopy_tall",
+      "pos": {
+        "x": 36,
+        "y": 0,
+        "z": 25
+      },
+      "rotY": -0.12,
+      "uniformScale": 1.28,
+      "visibleInPlay": true,
+      "collisionEnabled": true,
+      "opacity": 1
+    }
+  ],
+  "model": {
+    "path": "assets/models/alien-canopy-tall-v1/model.glb",
+    "scale": 1,
+    "pivot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  }
+}

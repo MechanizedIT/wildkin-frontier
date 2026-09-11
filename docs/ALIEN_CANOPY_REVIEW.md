@@ -1,6 +1,24 @@
-# Standard alien canopy — September 11 candidate
+# Alien canopy family — September 11 candidate
 
-The standard decorative canopy now has a Blender model with folded paddle leaves, unequal connected forks and warm faceted bark. It replaces nineteen existing Camp, Verdant and Shatterfen instances through the same asset ID. The separate tall and spreading variants remain unchanged; harvestable Sapwood retains its visibly different removable ribs and stump.
+The standard decorative canopy now has a Blender model with folded paddle leaves, unequal connected forks and warm faceted bark. It replaces nineteen existing Camp, Verdant and Shatterfen instances through the same asset ID. The tall sibling has subsequently passed the bounded model/native gates below; the spreading sibling is still under production. Harvestable Sapwood retains its visibly different removable ribs and stump.
+
+## Tall sibling — bounded native gate
+
+The separate tall canopy replaces eighteen existing Camp8/Verdant6/Shatterfen4 uses with three vertically staggered folded fans and a longer turning trunk. V1 was held6.7 for short oval rosettes and weak upper leader. Exact V2 GLB `2ae3611a270ad6ae424367e46a128492bba391666a274dbd95fa4b744b8d82ba` passes independent model8.0 and native8.0. It is245,472bytes,3,612triangles,two batches,one256px palette,3.25×6.2×2.22m. Its actual exported surface outside1.08m compact trunk footprint clears2.694851m (2.425366m at minimum.9scale).
+
+All eighteen placement transforms, flags, region records and sibling models are unchanged. Tall collision remains explicitly null; its clear walk-under view is visual proof, not a new physical trunk blocker. Native844×390 Camp/arrival/ore movement, independent.25fade/restoration and Author exact-local-model export/reload pass with zero runtime errors. Warm bark and olive folds remain readable in existing lighting. The fixed gameplay camera crops the high leader on flat ground; exact five-view model evidence and native full-tree Author zoom establish the complete shape, without changing the camera, terrain or model scale to force a view. Dense paired Camp foliage and this framing limit remain disclosed.
+
+Source/target/shipping package: `art/source/alien-canopy-tall-v1/`, `art/targets/alien-canopy-tall-v1/`, `assets/models/alien-canopy-tall-v1/`. Actual native evidence and independent review: `.dream-loop/overnight-canopy-variants/tall-runtime-v2/`. Final aggregate and exact-model online/already-loaded-offline package review pass; no physical-phone or whole-world acceptance is implied.
+
+## Broad sibling — model and native admitted
+
+Reference V1 held 7.4 for low forks/short wedges; V2 a6d129b58325c192fe640eb195818a2957427a776c8d88d35bc5170fecae2332 passes 8.2. Model V1 held 7.4 for thin blade profiles; V2 gives each closed paddle convex thickness and unequal fan planes. Exact GLB d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3 passes model/native 8.0: 3,100 triangles, 5,884 vertices, two batches, one 256px palette, 211,172 bytes. Actual surface outside the 1.08 m trunk footprint clears 2.580727 m, or 2.322654 m at minimum 0.9 scale, inside the unchanged 5.55×3.82×3.65 m envelope.
+
+All eight transforms/flags and null collision remain unchanged. Actual Camp forward/reverse and restored Verdant views show distinct folded olive fans and clear Explorer headroom. Foreground fade is isolated to the target at 0.25, then restored to 1 while standard/tall siblings stay opaque. Arrival views with a cropped crown/gate obstruction are context only, not full-shape proof. Author exact descriptor/export/reload pass. Rear crown remains shallow/darker than the target but readable.
+
+Source/target/shipping: art/source/alien-canopy-spread-v1/, art/targets/alien-canopy-spread-v1/, assets/models/alien-canopy-spread-v1/. Native evidence: .dream-loop/overnight-canopy-variants/spread-runtime-v2/. Combined exact-model package proof and independent review: .dream-loop/overnight-canopy-tidefin-package/. 760 tests/build/ZIP pass; 42.44 MB unpacked / 20.22 MB ZIP. Two model batches replace each old one-batch baked recipe: this is a real per-instance draw increase, not a draw-call saving. Physical-phone performance remains open.
+
+## Standard sibling — retained admission
 
 The original target combines the actual game canopy with Chris's approved Explorer style reference. Two prior implementations were held for platter-like or crowded rounded crowns and dark, unreadable forks. V3 keeps the target and corrects its leaf geometry, branch gaps and local palette. Independent review passes the exact final model at8.2/10 and actual gameplay appearance at8.0/10. Sparse fan overlap and the simple lower trunk remain fidelity limits, not claims that all flora or level composition is finished.
 
