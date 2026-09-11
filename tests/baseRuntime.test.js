@@ -6,6 +6,7 @@ import WORLD_DATA from '../src/world/data/world.js';
 import { createWorldRegistry } from '../src/world/worldRegistry.js';
 import { createFrontierProgress } from '../src/save/frontierProgress.js';
 import { createBaseSystem } from '../src/base/baseSystem.js';
+import { initializePlayerOcclusion } from '../src/presentation/playerOcclusion.js';
 
 test('Camp runtime preserves doorway opening and owns collider travel/removal/disposal lifecycle',async()=>{
   await RAPIER.init();
@@ -20,8 +21,11 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
     progress.bankRun({wood:100,stone:100,fiber:100},0,'test');
     assert.equal(progress.placeStructure({id:'build_door',type:'doorway',pos:{x:0,z:18},yaw:0}).placed,true);
     assert.equal(progress.placeStructure({id:'build_lantern',type:'lantern',pos:{x:4,z:18},yaw:0}).placed,true);
-    let camp=true;const scene=new THREE.Scene();base=createBaseSystem({app:element(),scene,camera:new THREE.PerspectiveCamera(),progress,registry,physicsWorld:{world,RAPIER},getPlayerState:()=>({pos:{x:0,y:0,z:14}}),isCamp:()=>camp});
+    let camp=true;const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera();
+    const occlusion=initializePlayerOcclusion({scene,camera,getPlayerPosition:()=>({x:0,y:0,z:14})});
+    base=createBaseSystem({app:element(),scene,camera,progress,registry,physicsWorld:{world,RAPIER},getPlayerState:()=>({pos:{x:0,y:0,z:14}}),isCamp:()=>camp,onVisualAdded:occlusion.register,onVisualRemoving:occlusion.unregister});
     base.update(.4);world.step();
+    assert.equal(occlusion.candidateCount,2,'saved construction registers after visibility system initialization');
     assert.equal(world.colliders.len(),4);
     assert.equal(world.castRay(new RAPIER.Ray({x:0,y:1,z:16},{x:0,y:0,z:1}),4,true),null,'The doorway center is physically open');
     assert.ok(world.castRay(new RAPIER.Ray({x:1.09,y:1,z:16},{x:0,y:0,z:1}),4,true),'The visible doorway post is solid');
@@ -32,6 +36,8 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
     base.update(0,{hidden:true});assert.deepEqual(enabled(),[false,false,false,false]);assert.equal(scene.getObjectByName('player-base').visible,false,'Author mode hides all player construction');
     base.update(0,{hidden:false});assert.deepEqual(enabled(),[true,true,true,true]);
     assert.equal(base.onAction('removeStructure','build_door').ok,true);assert.equal(world.colliders.len(),1);
+    assert.equal(occlusion.candidateCount,1,'removal releases the same presentation root');
     base.dispose();base=null;assert.equal(world.colliders.len(),0);assert.equal(scene.children.length,0);
+    assert.equal(occlusion.candidateCount,0);occlusion.dispose();
   }finally{try{base?.dispose();world.free();}catch{}global.window=oldWindow;global.document=oldDocument;}
 });

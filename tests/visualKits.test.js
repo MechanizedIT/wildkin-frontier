@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import * as THREE from 'three';
 import {VISUAL_KIT_BUILDERS} from '../tools/visual-kit-registry.mjs';
 import {FOUNDRY_HABITAT_ASSET_IDS} from '../tools/compose-foundry-habitat.mjs';
+import {FEN_BANK_RECIPE_ASSET_IDS} from '../tools/compose-shatterfen-bank.mjs';
 import {facetedRings,chippedBox} from '../src/world/facetedMeshKit.js';
 import {createVisual,applyVisualTransform,createVisualAssetVisual} from '../src/world/visualFactory.js';
 import {createResourceNode,hideOneChunk,showAllChunks} from '../src/resources/createResourceNode.js';
@@ -14,7 +15,7 @@ test('every Author asset has a maintained mesh kit or a local model, and kit tra
   const world=JSON.parse(fs.readFileSync(new URL('../src/world/data/world.json',import.meta.url),'utf8'));
   assert.deepEqual([...VISUAL_KIT_BUILDERS.keys()].sort(),world.visualAssets.filter(a=>VISUAL_KIT_BUILDERS.has(a.id)).map(a=>a.id).sort());
   const builders=new Map(VISUAL_KIT_BUILDERS);
-  for(const id of FOUNDRY_HABITAT_ASSET_IDS){
+  for(const id of [...FOUNDRY_HABITAT_ASSET_IDS,...FEN_BANK_RECIPE_ASSET_IDS]){
     const asset=world.visualAssets.find(a=>a.id===id);
     assert.ok(asset?.parts?.length,`${id} maintained composer recipe`);
     builders.set(id,()=>createVisualAssetVisual(asset));

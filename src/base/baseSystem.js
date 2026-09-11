@@ -13,7 +13,7 @@ const REASONS={
   'remove-supported-first':'Remove the pieces on this foundation first.', 'storage-write-failed':'Could not save. Your materials were kept.',
   'supply-limit':'Your supply pouch is full.', 'max-tier':'Your clearing is fully expanded.',
 };
-export function createBaseSystem({app,scene,camera,progress,registry,physicsWorld,getPlayerState,isCamp,onBlockingChanged=()=>{},toast=()=>{},initialHidden=false}){
+export function createBaseSystem({app,scene,camera,progress,registry,physicsWorld,getPlayerState,isCamp,onBlockingChanged=()=>{},toast=()=>{},initialHidden=false,onVisualAdded=()=>{},onVisualRemoving=()=>{}}){
   const root=new THREE.Group();root.name='player-base';scene.add(root);
   const surface=registry.getSectionById('camp')?.surface??null,reserved=getCampReserved(registry);
   const instances=new Map(),world=physicsWorld?.world,RAPIER=physicsWorld?.RAPIER;
@@ -62,9 +62,10 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
     // A real doorway has two posts and a lintel, never an invisible full wall.
     const boxes=record.type==='doorway'?[[.42,2.25,.3,-1.09,1.125,0],[.42,2.25,.3,1.09,1.125,0],[1.76,.3,.3,0,2.1,0]]:[[...piece.size,0,piece.size[1]/2,0]];
     if(world&&RAPIER)for(const [w,h,d,x,y,z]of boxes){const c=Math.cos(record.yaw),s=Math.sin(record.yaw),desc=RAPIER.ColliderDesc.cuboid(w/2,h/2,d/2).setTranslation(record.pos.x+x*c+z*s,record.pos.y+y,record.pos.z-x*s+z*c).setRotation({x:0,y:Math.sin(record.yaw/2),z:0,w:Math.cos(record.yaw/2)}).setFriction(.6).setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);const collider=world.createCollider(desc);collider.setEnabled(campActive());colliders.push(collider);}
+    onVisualAdded(visual);
     return {visual,colliders,record,ownsResources:visual.userData.ownsBaseResources};
   }
-  function removeInstance(instance){root.remove(instance.visual);for(const collider of instance.colliders)world?.removeCollider(collider,true);if(instance.ownsResources)instance.visual.traverse(n=>{n.geometry?.dispose();if(n.material)for(const m of [].concat(n.material))m.dispose();});/* Library geometry/materials are shared factory caches. */}
+  function removeInstance(instance){onVisualRemoving(instance.visual);root.remove(instance.visual);for(const collider of instance.colliders)world?.removeCollider(collider,true);if(instance.ownsResources)instance.visual.traverse(n=>{n.geometry?.dispose();if(n.material)for(const m of [].concat(n.material))m.dispose();});/* Library geometry/materials are shared factory caches. */}
   const stations=createCraftingStations({app,camera,progress,getPlayerState,isCamp:campActive,onBlockingChanged,notify:message=>toast('Crafting',message)});
   function sync(){
     const base=progress.getBaseState(),next=JSON.stringify(base);if(next===signature)return;signature=next;

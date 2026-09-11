@@ -6,7 +6,7 @@ import {
   getVisualRecipeKey,
   tagVisualRoot,
 } from "../world/visualFactory.js";
-import { getColliderCenter } from "../world/colliderDescriptor.js";
+import { describeVisualAssetCollider, getColliderCenter } from "../world/colliderDescriptor.js";
 import {
   getAuthorVisualRef,
   getAuthorVisualRole,
@@ -132,12 +132,23 @@ export function findEditProxies(scene, id) {
 }
 
 export function applyColliderProxyTransform(proxy, descriptor) {
-  if (!descriptor || descriptor.shape !== "box") return proxy;
-  const { width, height, depth } = descriptor.size;
-  const params = proxy.geometry?.parameters;
-  if (!params || Math.abs(params.width - width) > 1e-6 || Math.abs(params.height - height) > 1e-6 || Math.abs(params.depth - depth) > 1e-6) {
-    proxy.geometry?.dispose?.();
-    proxy.geometry = new THREE.BoxGeometry(width, height, depth);
+  if (!descriptor || !['box', 'convexHull'].includes(descriptor.shape)) return proxy;
+  if (descriptor.shape === 'convexHull') {
+    const key = JSON.stringify([descriptor.vertices, descriptor.indices]);
+    if (proxy.geometry?.userData?.colliderKey !== key) {
+      proxy.geometry?.dispose?.();
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(descriptor.vertices, 3));
+      geometry.setIndex(descriptor.indices);geometry.computeBoundingSphere();
+      geometry.userData.colliderKey = key;proxy.geometry = geometry;
+    }
+  } else {
+    const { width, height, depth } = descriptor.size;
+    const params = proxy.geometry?.parameters;
+    if (!params || Math.abs(params.width - width) > 1e-6 || Math.abs(params.height - height) > 1e-6 || Math.abs(params.depth - depth) > 1e-6) {
+      proxy.geometry?.dispose?.();
+      proxy.geometry = new THREE.BoxGeometry(width, height, depth);
+    }
   }
   const center = getColliderCenter(descriptor);
   proxy.position.set(center.x, center.y, center.z);
@@ -151,7 +162,7 @@ export function syncEditProxy(scene, found, isEdit) {
   const visibleInPlay = found.obj.visibleInPlay !== false;
   const wanted = !!(
     descriptor?.enabled &&
-    descriptor.shape === "box" &&
+    ['box', 'convexHull'].includes(descriptor.shape) &&
     descriptor.editProxy?.visibleWhenHidden &&
     !visibleInPlay
   );
@@ -188,6 +199,13 @@ export function syncEditProxy(scene, found, isEdit) {
 export function previewColliderDescriptor(found, normalized) {
   const descriptor = getColliderDescriptor(found);
   if (!descriptor || !normalized) return descriptor;
+  const asset = found.visualAssets?.find(entry=>entry.id===found.obj.visualAssetId);
+  if (asset?.collision && ['box','convexHull'].includes(descriptor.shape)) {
+    return describeVisualAssetCollider({collision:asset.collision, enabled:descriptor.enabled,
+      position:normalized.position ?? descriptor.position,
+      rotationY:normalized.rotationY ?? descriptor.rotationY,
+      uniformScale:normalized.uniformScale ?? found.obj.uniformScale ?? 1});
+  }
   return {
     ...descriptor,
     position: { ...normalized.position },

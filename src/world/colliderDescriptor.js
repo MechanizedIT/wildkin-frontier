@@ -4,6 +4,7 @@
 // Do not turn detailed visuals into mesh colliders.
 
 import { RESOURCE_TYPES } from "../resources/resourceConfig.js";
+import { getCollisionBounds } from './convexCollider.js';
 
 export function describeBoxCollider({ size, position, rotationY = 0, enabled = true, visibleWhenHidden = true } = {}) {
   const w = size.width ?? size.w ?? 1;
@@ -69,20 +70,24 @@ export function describeResourceCollider({ typeId, uniformScale = 1, position, r
 }
 
 export function describeVisualAssetCollider({ collision, uniformScale = 1, position, rotationY = 0, enabled = true } = {}) {
-  if (!collision || collision.shape !== "box" || !enabled) {
+  if (!collision || !['box', 'convexHull'].includes(collision.shape) || !enabled) {
     return { shape: "none", enabled: false, editProxy: { visibleWhenHidden: false } };
   }
+  const bounds = getCollisionBounds(collision);
+  const hull = collision.shape === 'convexHull';
+  const localCenter = hull ? [bounds.offset.x-collision.offset.x, bounds.offset.y-collision.offset.y, bounds.offset.z-collision.offset.z] : null;
   return {
-    shape: "box",
+    shape: collision.shape,
+    ...(hull ? {vertices: collision.vertices.map((v,i)=>(v-localCenter[i%3])*uniformScale), indices: [...collision.indices]} : {}),
     size: {
-      width: collision.size.w * uniformScale,
-      height: collision.size.h * uniformScale,
-      depth: collision.size.d * uniformScale,
+      width: bounds.size.w * uniformScale,
+      height: bounds.size.h * uniformScale,
+      depth: bounds.size.d * uniformScale,
     },
     offset: {
-      x: collision.offset.x * uniformScale,
-      y: collision.offset.y * uniformScale,
-      z: collision.offset.z * uniformScale,
+      x: bounds.offset.x * uniformScale,
+      y: bounds.offset.y * uniformScale,
+      z: bounds.offset.z * uniformScale,
     },
     position: { ...position },
     rotationY,

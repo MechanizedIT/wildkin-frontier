@@ -1,5 +1,6 @@
 import { BASE_CONFIG, BASE_PIECE_BY_ID, FIELD_RECIPES } from './baseCatalog.js';
 import { getSurfaceHeight, getWaterRadius } from '../world/terrainSurfaceModel.js';
+import { describeVisualAssetCollider, getColliderCenter } from '../world/colliderDescriptor.js';
 
 export function getBuildBounds(tier=0) {
   const half=BASE_CONFIG.halfSizes[Math.max(0,Math.min(2,Math.floor(tier)||0))], c=BASE_CONFIG.center;
@@ -27,7 +28,13 @@ function circleOverlaps(record,point,radius) {
 }
 export function getCampReserved(registry) {
   const camp=registry?.getSectionById?.('camp'); if(!camp)return [];
-  const items=[...(camp.props??[]).map(p=>{const collision=registry.data?.visualAssets?.find(a=>a.id===p.visualAssetId)?.collision,size=collision?.size??p.size;return {pos:p.pos,radius:/workshop|sanctuary|resonator|dropPod/.test(p.id)?2.4:Math.max(.8,size?Math.hypot(size.w??1,size.d??1)*(p.uniformScale??1)/2:(p.uniformScale??1)*1.3)};}),
+  const items=[...(camp.props??[]).map(p=>{
+    const collision=registry.data?.visualAssets?.find(a=>a.id===p.visualAssetId)?.collision;
+    const descriptor=collision?describeVisualAssetCollider({collision,position:p.pos,uniformScale:p.uniformScale??1,rotationY:p.rotY??0}):null;
+    const size=descriptor?.size, pos=descriptor?getColliderCenter(descriptor):p.pos;
+    const radius=size?Math.hypot(size.width,size.depth)/2:p.size?Math.hypot(p.size.w??1,p.size.d??1)*(p.uniformScale??1)/2:(p.uniformScale??1)*1.3;
+    return {pos,radius:/workshop|sanctuary|resonator|dropPod/.test(p.id)?2.4:Math.max(.8,radius)};
+  }),
     ...(camp.portalGates??[]).map(p=>({pos:p.pos,radius:(p.triggerRadius??2)+1.5})),...(camp.entryPoints??[]).map(p=>({pos:p.pos,radius:2})),...(camp.pois??[]).map(p=>({pos:p.pos,radius:2}))];
   const spawn=registry.getCampSpawnPosition?.()??registry.getCamp?.()?.playerSpawn?.position??{x:0,z:2};
   items.push({pos:spawn,radius:2});

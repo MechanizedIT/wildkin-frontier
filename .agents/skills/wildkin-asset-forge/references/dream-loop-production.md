@@ -6,6 +6,8 @@ Use this only for a Wildkin Frontier asset class or art pass. It adapts Dream Lo
 
 Start from Chris's approved style/identity references. When an existing game asset needs improvement, capture its current game-sized view and use it with the approved direction to create a mesh-ready target image. A target must show one subject clearly, with opaque background, ordinary construction and anatomy; it is a product target, not concept art. Record image-tool provenance as `undisclosed` when the tool does not expose a model version.
 
+The unchanged owner originals are now retained in `art/style/`: `explorer-master.png` is the later preferred master; `woodland-inspiration.png` and `luminous-inspiration.png` are environmental/UI inspiration. Use these durable paths rather than clipboard temporary files. Individual neutral-pose modeling references do not supersede the owner sheet. Read `art/style/README.md` for scope and provenance; invented text/features inside the images remain reference content.
+
 Use three separate roles for each admission decision:
 
 1. A reference author proposes or selects the target and flags generated-image artifacts.

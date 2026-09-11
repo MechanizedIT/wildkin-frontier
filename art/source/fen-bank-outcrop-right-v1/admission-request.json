@@ -1,0 +1,126 @@
+{
+  "assetId": "fen-bank-outcrop-right-v1",
+  "profile": "prop",
+  "model": ".dream-loop/overnight-shatterfen-bank/model-v5/fen-bank-outcrop-right-v1.glb",
+  "scale": 1,
+  "pivot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "reviews": {
+    "reference": {
+      "status": "pass",
+      "reviewer": "level_design_review",
+      "sha256": "2743ce18201b2c9b3129947211ac4758b6fe5c90f4861db7a676ce660303b882"
+    },
+    "model": {
+      "status": "pass",
+      "reviewer": "level_design_review",
+      "sha256": "46e1b60328873b89eb99f622ecf5ca4628cd66fbbbdfffd3592fbe9d762ea109",
+      "scope": "Two-body outcrop assembly at manifest transforms; not a standalone V4 admission",
+      "score": 8.0
+    }
+  },
+  "sourceFiles": [
+    {
+      "role": "reference",
+      "path": ".dream-loop/overnight-shatterfen-bank/target-v1/target.png"
+    },
+    {
+      "role": "reference-prompt",
+      "path": ".dream-loop/overnight-shatterfen-bank/README.md"
+    },
+    {
+      "role": "reference-review",
+      "path": ".dream-loop/overnight-shatterfen-bank/target-v1/independent-reference-review.md"
+    },
+    {
+      "role": "raw",
+      "path": ".dream-loop/overnight-shatterfen-bank/model-v5/fen-bank-outcrop-right-v1.glb"
+    },
+    {
+      "role": "blend",
+      "path": ".dream-loop/overnight-shatterfen-bank/model-v5/outcrops-editable.blend"
+    },
+    {
+      "role": "builder",
+      "path": ".dream-loop/overnight-shatterfen-bank/model-v5/build-shatterfen-outcrops.py"
+    },
+    {
+      "role": "generation",
+      "path": ".dream-loop/overnight-shatterfen-bank/model-v5/manifest.json"
+    },
+    {
+      "role": "optimization",
+      "path": ".dream-loop/overnight-shatterfen-bank/model-v5/right-check.json"
+    },
+    {
+      "role": "normalization",
+      "path": ".dream-loop/overnight-shatterfen-bank/model-v5/fen-bank-outcrop-right-v1-collider.json"
+    },
+    {
+      "role": "model-review",
+      "path": ".dream-loop/overnight-shatterfen-bank/model-v5/independent-review.md"
+    },
+    {
+      "role": "review-front",
+      "path": ".dream-loop/overnight-shatterfen-bank/model-v5/right-three-quarter.png"
+    },
+    {
+      "role": "review-rear",
+      "path": ".dream-loop/overnight-shatterfen-bank/model-v5/right-rear.png"
+    }
+  ],
+  "provenance": {
+    "method": "Bounded Blender reconstruction with explicit convex shapes",
+    "imageTool": "OpenAI built-in image_gen",
+    "imageModel": "undisclosed",
+    "referenceAuthor": "root",
+    "modelImplementer": "fabricator_model",
+    "generation": "No local inference; no paid service",
+    "nativeGate": "Pending after model composition admission",
+    "assemblyTransforms": {
+      "left": [
+        {
+          "asset": "fen-bank-outcrop-left-v1",
+          "position": [
+            0.35,
+            0,
+            0.6
+          ],
+          "scale": 1
+        },
+        {
+          "asset": "fen-bank-outcrop-right-v1",
+          "position": [
+            -0.65,
+            0,
+            -0.5
+          ],
+          "scale": 1
+        }
+      ],
+      "right": [
+        {
+          "asset": "fen-bank-outcrop-right-v1",
+          "position": [
+            0.35,
+            0,
+            -0.1
+          ],
+          "scale": 1.25
+        },
+        {
+          "asset": "fen-bank-outcrop-left-v1",
+          "position": [
+            -1,
+            0,
+            0.55
+          ],
+          "scale": 0.72
+        }
+      ]
+    }
+  }
+}

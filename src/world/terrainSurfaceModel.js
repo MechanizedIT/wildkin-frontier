@@ -47,6 +47,8 @@ export function validateSurface(surface,label='surface') {
   for(const w of surface.water??[])if(!finite(w.depth??.35,0,2))throw Error(`${label} invalid water depth`);
   for(const r of surface.routes??[])if(!finite(r.width,1,18)||!Array.isArray(r.points)||r.points.length<2||r.points.length>100||r.points.some(p=>!finite(p.x,-200,200)||!finite(p.z,-200,200)))throw Error(`${label} invalid path`);
   for(const r of surface.routes??[])if((r.elevation!==undefined&&!finite(r.elevation,-1,5))||(r.feather!==undefined&&!finite(r.feather,.2,5)))throw Error(`${label} invalid path grading`);
+  for(const r of surface.routes??[])if(r.style!==undefined&&r.style!=='gravel')throw Error(`${label} invalid path style`);
+  for(const r of surface.routes??[])if(r.scatter!==undefined&&typeof r.scatter!=='boolean')throw Error(`${label} invalid path scatter flag`);
   for(const c of Object.values(surface.palette??{}))if(typeof c!=='string'||!/^#[\da-f]{6}$/i.test(c))throw Error(`${label} invalid palette color`);
   return surface;
 }

@@ -1,0 +1,689 @@
+{
+  "referenceSHA256": "2743ce18201b2c9b3129947211ac4758b6fe5c90f4861db7a676ce660303b882",
+  "review": "PENDING independent exact-export model review and native collision/composition",
+  "productionInterpretation": "Two component meshes (lowledge and highshoulder), each closed convex, form two unequal overlapping TWO-PROP assemblies. Each prop uses its exact local convex hull. One subdued edge-following moss patch per component. Parent-approved assembly admission unit; standalone V4 was HOLD6.5. No resource/terrain/runtime changes.",
+  "totalTriangles": 648,
+  "assets": [
+    {
+      "dimensionsGLTF": [
+        3.3,
+        0.85,
+        2.8
+      ],
+      "closedVolumeM3": 3.890046992882975,
+      "nonManifoldEdges": 0,
+      "hullAreaM2": 19.8581532984972,
+      "visualAreaM2": 19.858153523877263,
+      "triangles": 324,
+      "vertices": 164,
+      "recommendedBox": {
+        "size": {
+          "x": 3.3,
+          "y": 0.85,
+          "z": 2.8
+        },
+        "offset": {
+          "x": 0,
+          "y": 0.425,
+          "z": 0
+        }
+      },
+      "collisionHullPointsGLTF": [
+        [
+          -1.32,
+          0.0,
+          1.4
+        ],
+        [
+          1.056,
+          0.0,
+          1.4
+        ],
+        [
+          1.65,
+          0.0,
+          0.812
+        ],
+        [
+          1.65,
+          0.0,
+          -0.616
+        ],
+        [
+          0.924,
+          0.0,
+          -1.4
+        ],
+        [
+          -1.056,
+          0.0,
+          -1.4
+        ],
+        [
+          -1.65,
+          0.0,
+          -0.812
+        ],
+        [
+          -1.65,
+          0.0,
+          0.84
+        ],
+        [
+          -1.419,
+          0.289,
+          0.98
+        ],
+        [
+          1.155,
+          0.2295,
+          1.092
+        ],
+        [
+          1.485,
+          0.3315,
+          0.364
+        ],
+        [
+          1.386,
+          0.425,
+          -0.756
+        ],
+        [
+          -1.419,
+          0.425,
+          -0.84
+        ],
+        [
+          -0.957,
+          0.646,
+          0.644
+        ],
+        [
+          0.726,
+          0.3995,
+          0.756
+        ],
+        [
+          1.056,
+          0.5525,
+          -0.196
+        ],
+        [
+          0.396,
+          0.714,
+          -0.868
+        ],
+        [
+          -0.891,
+          0.85,
+          -0.84
+        ],
+        [
+          -1.221,
+          0.7565,
+          -0.392
+        ],
+        [
+          -0.396,
+          0.799,
+          -0.308
+        ]
+      ],
+      "collisionHullFaces": [
+        [
+          16,
+          11,
+          4
+        ],
+        [
+          11,
+          3,
+          4
+        ],
+        [
+          3,
+          2,
+          1
+        ],
+        [
+          3,
+          1,
+          0
+        ],
+        [
+          3,
+          0,
+          7
+        ],
+        [
+          3,
+          7,
+          6
+        ],
+        [
+          3,
+          6,
+          5
+        ],
+        [
+          3,
+          5,
+          4
+        ],
+        [
+          5,
+          17,
+          4
+        ],
+        [
+          17,
+          16,
+          4
+        ],
+        [
+          15,
+          11,
+          16
+        ],
+        [
+          17,
+          19,
+          16
+        ],
+        [
+          19,
+          15,
+          16
+        ],
+        [
+          10,
+          3,
+          11
+        ],
+        [
+          15,
+          10,
+          11
+        ],
+        [
+          10,
+          2,
+          3
+        ],
+        [
+          6,
+          12,
+          5
+        ],
+        [
+          12,
+          17,
+          5
+        ],
+        [
+          12,
+          18,
+          17
+        ],
+        [
+          18,
+          13,
+          17
+        ],
+        [
+          13,
+          19,
+          17
+        ],
+        [
+          19,
+          14,
+          15
+        ],
+        [
+          14,
+          10,
+          15
+        ],
+        [
+          13,
+          14,
+          19
+        ],
+        [
+          14,
+          9,
+          10
+        ],
+        [
+          9,
+          2,
+          10
+        ],
+        [
+          9,
+          1,
+          2
+        ],
+        [
+          7,
+          12,
+          6
+        ],
+        [
+          7,
+          18,
+          12
+        ],
+        [
+          7,
+          8,
+          18
+        ],
+        [
+          8,
+          13,
+          18
+        ],
+        [
+          8,
+          0,
+          13
+        ],
+        [
+          0,
+          1,
+          13
+        ],
+        [
+          1,
+          9,
+          13
+        ],
+        [
+          9,
+          14,
+          13
+        ],
+        [
+          0,
+          8,
+          7
+        ]
+      ],
+      "collisionHullPointCount": 20,
+      "boxStatus": "Bounds only, not an acceptable shape collider for this stronger V2 silhouette",
+      "baseY": 0,
+      "burial": "Integrator samples minimum terrain across footprint and buries the complete base slightly below it.",
+      "name": "fen-bank-outcrop-left-v1",
+      "sha256": "88042856133aacefb65c281eb3b3e4da8664878e44f2deef7534ec4cd68338e4",
+      "bytes": 17368,
+      "materialCount": 1,
+      "textureSize": 256,
+      "meshes": 1
+    },
+    {
+      "dimensionsGLTF": [
+        2.6,
+        1.6,
+        2.5
+      ],
+      "closedVolumeM3": 5.001186673013962,
+      "nonManifoldEdges": 0,
+      "hullAreaM2": 17.73039749264717,
+      "visualAreaM2": 17.730397175997496,
+      "triangles": 324,
+      "vertices": 164,
+      "recommendedBox": {
+        "size": {
+          "x": 2.6,
+          "y": 1.6,
+          "z": 2.5
+        },
+        "offset": {
+          "x": 0,
+          "y": 0.8,
+          "z": 0
+        }
+      },
+      "collisionHullPointsGLTF": [
+        [
+          -0.858,
+          0.0,
+          1.25
+        ],
+        [
+          0.832,
+          0.0,
+          1.25
+        ],
+        [
+          1.3,
+          0.0,
+          0.575
+        ],
+        [
+          1.3,
+          0.0,
+          -0.475
+        ],
+        [
+          0.78,
+          0.0,
+          -1.25
+        ],
+        [
+          -0.754,
+          0.0,
+          -1.25
+        ],
+        [
+          -1.3,
+          0.0,
+          -0.5
+        ],
+        [
+          -1.3,
+          0.0,
+          0.575
+        ],
+        [
+          -0.962,
+          0.64,
+          0.825
+        ],
+        [
+          0.962,
+          0.768,
+          0.825
+        ],
+        [
+          1.144,
+          0.8,
+          -0.3
+        ],
+        [
+          -1.092,
+          0.704,
+          -0.325
+        ],
+        [
+          -0.598,
+          0.624,
+          -1.05
+        ],
+        [
+          -0.702,
+          1.232,
+          0.35
+        ],
+        [
+          0.572,
+          1.28,
+          0.575
+        ],
+        [
+          0.754,
+          1.488,
+          -0.25
+        ],
+        [
+          0.312,
+          1.6,
+          -0.575
+        ],
+        [
+          -0.442,
+          1.376,
+          -0.6
+        ],
+        [
+          -0.884,
+          1.088,
+          -0.075
+        ],
+        [
+          0.052,
+          1.376,
+          0.325
+        ]
+      ],
+      "collisionHullFaces": [
+        [
+          16,
+          15,
+          4
+        ],
+        [
+          15,
+          10,
+          4
+        ],
+        [
+          10,
+          3,
+          4
+        ],
+        [
+          3,
+          2,
+          1
+        ],
+        [
+          3,
+          1,
+          0
+        ],
+        [
+          3,
+          0,
+          7
+        ],
+        [
+          3,
+          7,
+          6
+        ],
+        [
+          3,
+          6,
+          5
+        ],
+        [
+          3,
+          5,
+          4
+        ],
+        [
+          5,
+          12,
+          4
+        ],
+        [
+          12,
+          16,
+          4
+        ],
+        [
+          19,
+          14,
+          16
+        ],
+        [
+          14,
+          15,
+          16
+        ],
+        [
+          12,
+          17,
+          16
+        ],
+        [
+          17,
+          13,
+          16
+        ],
+        [
+          13,
+          19,
+          16
+        ],
+        [
+          14,
+          9,
+          15
+        ],
+        [
+          9,
+          10,
+          15
+        ],
+        [
+          9,
+          2,
+          10
+        ],
+        [
+          2,
+          3,
+          10
+        ],
+        [
+          6,
+          11,
+          5
+        ],
+        [
+          11,
+          12,
+          5
+        ],
+        [
+          11,
+          17,
+          12
+        ],
+        [
+          13,
+          14,
+          19
+        ],
+        [
+          13,
+          8,
+          14
+        ],
+        [
+          8,
+          0,
+          14
+        ],
+        [
+          0,
+          1,
+          14
+        ],
+        [
+          1,
+          9,
+          14
+        ],
+        [
+          11,
+          18,
+          17
+        ],
+        [
+          18,
+          13,
+          17
+        ],
+        [
+          18,
+          8,
+          13
+        ],
+        [
+          1,
+          2,
+          9
+        ],
+        [
+          7,
+          11,
+          6
+        ],
+        [
+          7,
+          18,
+          11
+        ],
+        [
+          18,
+          7,
+          8
+        ],
+        [
+          7,
+          0,
+          8
+        ]
+      ],
+      "collisionHullPointCount": 20,
+      "boxStatus": "Bounds only, not an acceptable shape collider for this stronger V2 silhouette",
+      "baseY": 0,
+      "burial": "Integrator samples minimum terrain across footprint and buries the complete base slightly below it.",
+      "name": "fen-bank-outcrop-right-v1",
+      "sha256": "46e1b60328873b89eb99f622ecf5ca4628cd66fbbbdfffd3592fbe9d762ea109",
+      "bytes": 16928,
+      "materialCount": 1,
+      "textureSize": 256,
+      "meshes": 1
+    }
+  ],
+  "assemblies": {
+    "left": [
+      {
+        "asset": "fen-bank-outcrop-left-v1",
+        "position": [
+          0.35,
+          0,
+          0.6
+        ],
+        "scale": 1
+      },
+      {
+        "asset": "fen-bank-outcrop-right-v1",
+        "position": [
+          -0.65,
+          0,
+          -0.5
+        ],
+        "scale": 1
+      }
+    ],
+    "right": [
+      {
+        "asset": "fen-bank-outcrop-right-v1",
+        "position": [
+          0.35,
+          0,
+          -0.1
+        ],
+        "scale": 1.25
+      },
+      {
+        "asset": "fen-bank-outcrop-left-v1",
+        "position": [
+          -1,
+          0,
+          0.55
+        ],
+        "scale": 0.72
+      }
+    ]
+  },
+  "fourPlacedPropsTriangles": 1296
+}

@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "input": ".dream-loop/overnight-shatterfen-bank/model-v5/fen-bank-outcrop-right-v1.glb",
+  "profile": "prop",
+  "limits": {
+    "max_triangles": 5000,
+    "max_vertices": 15000,
+    "max_materials": 2,
+    "max_bones": 0,
+    "max_texture": 1024
+  },
+  "sourceSHA256": "46e1b60328873b89eb99f622ecf5ca4628cd66fbbbdfffd3592fbe9d762ea109",
+  "textureSHA256": [
+    "3cd78b60f2cee2a3a571e826280706d9fa939c51340b23a9e762d4d8a440ce5a"
+  ],
+  "counts": {
+    "triangles": 324,
+    "vertices": 356,
+    "materials": 1,
+    "bones": 0,
+    "animations": 0
+  },
+  "animations": [],
+  "textures": [
+    {
+      "mimeType": "image/png",
+      "width": 256,
+      "height": 256,
+      "sha256": "3cd78b60f2cee2a3a571e826280706d9fa939c51340b23a9e762d4d8a440ce5a",
+      "roles": [
+        "baseColor"
+      ]
+    }
+  ],
+  "textureRoles": [
+    {
+      "texture": 0,
+      "role": "baseColor"
+    }
+  ],
+  "failures": [],
+  "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate."
+}

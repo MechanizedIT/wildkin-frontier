@@ -1,0 +1,12 @@
+{
+  "source": "Actual current canonical Tidefin rendered by existing asset gallery, studio camera, no game motion claim.",
+  "metric": {
+    "id": "asset_wildkin_tidefin",
+    "name": "Tidefin",
+    "family": "Wildkin",
+    "meshes": 29,
+    "materials": 8,
+    "triangles": 1512,
+    "error": null
+  }
+}

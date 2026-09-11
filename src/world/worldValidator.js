@@ -3,6 +3,7 @@
 
 import { DEFAULT_RESOURCE_DROPS } from "../resources/resourceDropCatalog.js";
 import { validateSurface, getSurfaceHeight } from "./terrainSurfaceModel.js";
+import { validateConvexCollider } from './convexCollider.js';
 
 const SUPPORTED_RESOURCE_TYPES = new Set(["tree", "rock", "fiber"]);
 const SUPPORTED_CREATURE_TYPES = new Set(["rusher", "spitter"]);
@@ -181,12 +182,17 @@ export function normalizeWorldData(raw) {
     }
     if (asset.collision !== null && asset.collision !== undefined) {
       const collision = asset.collision;
-      if (collision.shape !== "box") throw new Error(`Visual Asset ${asset.id} collision shape must be box`);
+      if (!['box', 'convexHull'].includes(collision.shape)) throw new Error(`Visual Asset ${asset.id} collision shape must be box or convexHull`);
       validatePos(collision.offset, `Visual Asset ${asset.id} collision offset`);
       for (const axis of ["x", "y", "z"]) if (!isNumber(collision.offset[axis])) throw new Error(`Visual Asset ${asset.id} collision offset.${axis} must be finite`);
-      if (!collision.size || typeof collision.size !== "object") throw new Error(`Visual Asset ${asset.id} collision size required`);
-      for (const key of ["w", "h", "d"]) {
-        if (!isNumber(collision.size[key]) || collision.size[key] <= 0) throw new Error(`Visual Asset ${asset.id} collision size.${key} must be positive finite`);
+      if (collision.shape === 'convexHull') {
+        if ((asset.gameplay?.role ?? 'prop') !== 'prop') throw new Error(`Visual Asset ${asset.id} convexHull requires fixed prop role`);
+        validateConvexCollider(collision, `Visual Asset ${asset.id} collision`);
+      } else {
+        if (!collision.size || typeof collision.size !== "object") throw new Error(`Visual Asset ${asset.id} collision size required`);
+        for (const key of ["w", "h", "d"]) {
+          if (!isNumber(collision.size[key]) || collision.size[key] <= 0) throw new Error(`Visual Asset ${asset.id} collision size.${key} must be positive finite`);
+        }
       }
     }
     if (asset.gameplay === undefined) asset.gameplay = { role: "prop" };

@@ -3,6 +3,7 @@ import {getSurfaceHeight,getPathDistance,getWaterRadius,smoothstep} from '../wor
 import {addMeadowDetails,createGroundcoverGeometry} from './meadowDetails.js';
 import {createGroundFoliageGeometry} from './groundFoliage.js';
 import {addGeneratedTerrainPaint} from './terrainPaint.js';
+import {paintGravelRoute} from './gravelRoutePaint.js';
 
 const DEFAULTS={grass:'#60b97c',grassShade:'#3b936c',path:'#e8bd78',pathEdge:'#a5b569',rock:'#b78365',water:'#239bb3',waterFoam:'#b7f5e7',accent:'#f3cc72'};
 const MEADOW_PROFILES={camp:{density:.75},section_1:{density:.49},section_2:{density:.28,sedge:true},section_3:{density:.4},section_4:{density:.45},section_5:{density:.55,foliage:'#199ab5'}};
@@ -47,7 +48,8 @@ export function createAuthoredTerrain(region){
       const low=document.createElement('canvas');low.width=low.height=resolution;low.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(pixels),resolution,resolution),0,0);
       const canvas=document.createElement('canvas');canvas.width=canvas.height=2048;const ctx=canvas.getContext('2d');ctx.drawImage(low,0,0,2048,2048);
       ctx.save();ctx.scale(2048/width,2048/depth);ctx.translate(-bounds.minX,-bounds.minZ);ctx.lineCap='round';ctx.lineJoin='round';
-      for(const outer of [true,false])for(const route of surface.routes??[]){ctx.strokeStyle=outer?palette.pathEdge:palette.path;ctx.lineWidth=route.width+(outer?.2:0);ctx.beginPath();route.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.z):ctx.moveTo(p.x,p.z));ctx.stroke();}
+      for(const outer of [true,false])for(const route of surface.routes??[]){if(route.style==='gravel')continue;ctx.strokeStyle=outer?palette.pathEdge:palette.path;ctx.lineWidth=route.width+(outer?.2:0);ctx.beginPath();route.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.z):ctx.moveTo(p.x,p.z));ctx.stroke();}
+      for(const route of surface.routes??[])if(route.style==='gravel')paintGravelRoute(ctx,route);
       ctx.restore();
       texture=new THREE.CanvasTexture(canvas);
       addGeneratedTerrainPaint(texture,canvas,bounds);
@@ -74,8 +76,10 @@ function addWater(group,pond,palette){
 }
 
 function addMeadow(group,surface,bounds,palette,profile={}){
+  const scatterRoutes=(surface.routes??[]).filter(route=>route.scatter!==false);
+  const scatterSurface=scatterRoutes.length===(surface.routes??[]).length?surface:{...surface,routes:scatterRoutes};
   const segments=[];
-  for(const route of surface.routes??[])for(let i=1;i<route.points.length;i++){
+  for(const route of scatterRoutes)for(let i=1;i<route.points.length;i++){
     const a=route.points[i-1],b=route.points[i],length=Math.hypot(b.x-a.x,b.z-a.z);
     if(length>.01)segments.push({a,b,length,width:route.width});
   }
@@ -87,8 +91,8 @@ function addMeadow(group,surface,bounds,palette,profile={}){
     const cover=surface.detail?.groundcover;
     const geometry=cover&&cover!=='cushion'?createGroundcoverGeometry(cover,variant):createGroundFoliageGeometry(foliagePalette,profile.sedge?'sedge':variant===1);
     const budget=Math.ceil(count/2),grass=new THREE.InstancedMesh(geometry,mat,budget);
-    grass.name=variant?'meadow_ferns':'meadow_grass';const dummy=new THREE.Object3D();let n=0;
-    for(let i=variant;i<count*10&&n<budget;i+=2){
+    grass.name=variant?'meadow_ferns':'meadow_grass';const dummy=new THREE.Object3D();let n=0,accepted=0;
+    for(let i=variant;i<count*10&&accepted<budget;i+=2){
       let x=lerp(bounds.minX+.8,bounds.maxX-.8,hash(i,17,surface.seed)),z=lerp(bounds.minZ+.8,bounds.maxZ-.8,hash(i,63,surface.seed));
       if(segments.length&&i%5!==0){
         const segment=segments[Math.floor(hash(i,211,surface.seed)*segments.length)];
@@ -96,9 +100,13 @@ function addMeadow(group,surface,bounds,palette,profile={}){
         x=lerp(segment.a.x,segment.b.x,t)-(segment.b.z-segment.a.z)/segment.length*offset;
         z=lerp(segment.a.z,segment.b.z,t)+(segment.b.x-segment.a.x)/segment.length*offset;
       }
-      const routeDistance=getPathDistance(surface,x,z);
+      const routeDistance=getPathDistance(scatterSurface,x,z);
       if(x<bounds.minX+.4||x>bounds.maxX-.4||z<bounds.minZ+.4||z>bounds.maxZ-.4||routeDistance<.3||getWaterRadius(surface,x,z)<1.13||noise(x*.4,z*.4,61)<.38)continue;
       if(routeDistance>3.2&&hash(i,129)>.28)continue;
+      // A local paint apron may remove a nearby tuft, but must not refill that
+      // slot elsewhere and silently change distant meadow composition.
+      accepted++;
+      if(scatterSurface!==surface&&getPathDistance(surface,x,z)<.3)continue;
       const scale=.46+hash(i,82)*.5;dummy.position.set(x,getSurfaceHeight(surface,x,z),z);dummy.rotation.y=hash(i,3)*Math.PI*2;dummy.scale.setScalar(scale);dummy.updateMatrix();grass.setMatrixAt(n++,dummy.matrix);
     }
     grass.count=n;grass.instanceMatrix.needsUpdate=true;group.add(grass);

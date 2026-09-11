@@ -133,13 +133,14 @@ export function createStaticWorld(worldData) {
   }
 
   function addAssetObstacle(id, descriptor, metadata = {}) {
-    if (!descriptor.enabled || descriptor.shape !== 'box') return;
+    if (!descriptor.enabled || !['box', 'convexHull'].includes(descriptor.shape)) return;
     const center = getColliderCenter(descriptor);
     const { width: w, height, depth: d } = descriptor.size;
     const rotY = descriptor.rotationY;
     const cos = Math.abs(Math.cos(rotY)), sin = Math.abs(Math.sin(rotY));
     const hx = cos * w / 2 + sin * d / 2, hz = sin * w / 2 + cos * d / 2;
     obstacles.push({ id, sectionId: currentSectionId, regionId: currentSectionId,
+      ...(descriptor.shape === 'convexHull' ? {collider: descriptor} : {}),
       x: center.x, z: center.z, w, h: d, height, baseY: center.y - height / 2, rotY,
       aabb: { minX: center.x - hx, maxX: center.x + hx, minZ: center.z - hz, maxZ: center.z + hz },
       visibleInPlay: true, collisionEnabled: true, opacity: 1, ...metadata });

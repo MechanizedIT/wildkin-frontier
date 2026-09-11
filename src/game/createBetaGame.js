@@ -40,7 +40,7 @@ export function createBetaGame(deps) {
   creatures.setCompanionColliderFilter(companions.isFollowerCollider);
   const isCamp = () => session.isCamp();
   const getSectionId = () => deps.getSectionId();
-  const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled});
+  const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled,onVisualAdded:playerOcclusion.register,onVisualRemoving:playerOcclusion.unregister});
   const equipment = createEquipmentSystem({
     progress, isCamp,
     cancelTool: () => onGameplayAction?.('equipmentCancel'),

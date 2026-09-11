@@ -19,6 +19,7 @@ import {composeFoundryHabitat} from './compose-foundry-habitat.mjs';
 import {composeStarterRoute} from './compose-starter-route.mjs';
 import {composeSocialEncounters} from './compose-social-encounters.mjs';
 import {composeShatterfenClearance} from './compose-shatterfen-clearance.mjs';
+import {composeShatterfenBank} from './compose-shatterfen-bank.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const WORLD_PATH = path.join(ROOT, "src/world/data/world.json");
@@ -521,6 +522,7 @@ composeSocialEncounters(world);
 registerStationAssets(world);
 registerDiscoveryAssets(world);
 composeShatterfenClearance(world);
+composeShatterfenBank(world);
 registerCharacterAssets(world);
 registerEcologyAssets(world);
 normalizeCampaignHarvestCollision(world);

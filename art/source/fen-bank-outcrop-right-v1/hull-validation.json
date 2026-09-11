@@ -1,0 +1,38 @@
+[
+  {
+    "name": "fen-bank-outcrop-left-v1",
+    "valid": true,
+    "points": 20,
+    "triangles": 36,
+    "bounds": {
+      "size": {
+        "w": 3.3,
+        "h": 0.85,
+        "d": 2.8
+      },
+      "offset": {
+        "x": 0,
+        "y": 0.425,
+        "z": 0
+      }
+    }
+  },
+  {
+    "name": "fen-bank-outcrop-right-v1",
+    "valid": true,
+    "points": 20,
+    "triangles": 36,
+    "bounds": {
+      "size": {
+        "w": 2.6,
+        "h": 1.6,
+        "d": 2.5
+      },
+      "offset": {
+        "x": 0,
+        "y": 0.8,
+        "z": 0
+      }
+    }
+  }
+]

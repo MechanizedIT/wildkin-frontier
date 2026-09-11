@@ -1,0 +1,42 @@
+{
+  "left": [
+    {
+      "asset": "fen-bank-outcrop-left-v1",
+      "position": [
+        0.35,
+        0,
+        0.6
+      ],
+      "scale": 1
+    },
+    {
+      "asset": "fen-bank-outcrop-right-v1",
+      "position": [
+        -0.65,
+        0,
+        -0.5
+      ],
+      "scale": 1
+    }
+  ],
+  "right": [
+    {
+      "asset": "fen-bank-outcrop-right-v1",
+      "position": [
+        0.35,
+        0,
+        -0.1
+      ],
+      "scale": 1.25
+    },
+    {
+      "asset": "fen-bank-outcrop-left-v1",
+      "position": [
+        -1,
+        0,
+        0.55
+      ],
+      "scale": 0.72
+    }
+  ]
+}

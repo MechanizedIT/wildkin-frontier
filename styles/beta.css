@@ -296,3 +296,14 @@
   .wildkin-panel .wildkin-detail{padding:10px 12px}.wildkin-panel .wildkin-chip.is-selected{box-shadow:inset 3px 0 var(--wildkin)}
 }
 @media(orientation:portrait){.wildkin-panel .wildkin-list{grid-template-columns:repeat(2,minmax(0,1fr))}.wildkin-heading{align-items:start;flex-wrap:wrap}}
+
+/* Keep the result identity and exit visible while large hauls scroll between them. */
+.result-card{display:flex;flex-direction:column;overflow:hidden}
+.result-heading{display:flex;align-items:center;justify-content:center;gap:14px;flex:0 0 auto}
+.result-emblem{flex:0 0 56px}.result-emblem>.item-icon{width:56px!important;height:56px!important}
+.result-heading h2{min-width:0;text-align:left}
+.result-body{min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.result-body.can-scroll{border-block:1px solid #dac799;padding:8px 0;margin-top:8px;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:#60797c #eee0c1}
+.result-body.can-scroll::-webkit-scrollbar{width:8px}.result-body.can-scroll::-webkit-scrollbar-track{background:#eee0c1}.result-body.can-scroll::-webkit-scrollbar-thumb{background:#60797c;border-radius:4px}
+.result-scroll-hint{flex:0 0 auto;padding-top:5px;color:#435b64;font-size:12px;font-weight:800;line-height:1.2}
+.result-continue{flex:0 0 auto;align-self:center}

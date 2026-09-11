@@ -2,6 +2,7 @@
 import { CAMPAIGN_OBJECTIVES } from "../progression/campaignProgress.js";
 import { getPlayerLevel } from "../progression/playerLevel.js";
 import { BASE_PIECE_BY_ID, FIELD_RECIPE_BY_ID } from "../base/baseCatalog.js";
+import { describeVisualAssetCollider, getColliderCenter } from '../world/colliderDescriptor.js';
 
 const ROUTE = ["section_1", "section_2", "section_3", "section_4", "section_5"];
 const PLAYER_RADIUS = 0.36;
@@ -20,7 +21,10 @@ function staticBlockers(section, assets) {
     if (prop.subtype !== "visualAsset" || prop.collisionEnabled === false) continue;
     const asset = assets.get(prop.visualAssetId);
     if (!asset?.collision || asset.gameplay?.role !== "prop") continue;
-    blockers.push({ id: prop.id, x: prop.pos.x, z: prop.pos.z, w: asset.collision.size.w * (prop.uniformScale ?? 1), d: asset.collision.size.d * (prop.uniformScale ?? 1), r: prop.rotY ?? 0 });
+    // Readiness is conservative; the actual controller follows the convex faces.
+    const descriptor = describeVisualAssetCollider({collision:asset.collision, position:prop.pos, uniformScale:prop.uniformScale ?? 1, rotationY:prop.rotY ?? 0});
+    const center = getColliderCenter(descriptor);
+    blockers.push({id:prop.id, x:center.x, z:center.z, w:descriptor.size.width, d:descriptor.size.depth, r:prop.rotY ?? 0});
   }
   for (const obstacle of section.traversal?.obstacles ?? []) blockers.push({ id: obstacle.id, x: obstacle.x, z: obstacle.z, w: obstacle.w, d: obstacle.h, r: obstacle.rotY ?? 0 });
   return blockers;

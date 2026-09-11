@@ -61,6 +61,19 @@ export function createPhysicsWorld(RAPIER, playground) {
     if (o.isGround) continue;
     // Skip if boundary marker already handled via boundaries array
     if (o.isBoundary) continue;
+    if (o.collisionEnabled === false) continue;
+    if (o.collider?.shape === 'convexHull') {
+      const shape = o.collider;
+      const desc = RAPIER.ColliderDesc.convexMesh(new Float32Array(shape.vertices), new Uint32Array(shape.indices));
+      if (!desc) throw new Error(`Invalid convex prop collider: ${o.id}`);
+      desc.setTranslation(o.x, o.baseY + o.height/2, o.z)
+        .setFriction(0.6).setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
+      const half = (o.rotY ?? 0)/2;
+      desc.setRotation({x:0,y:Math.sin(half),z:0,w:Math.cos(half)});
+      const collider = world.createCollider(desc);
+      staticColliders.push(collider);colliderSections.set(collider, o.sectionId ?? o.regionId ?? null);
+      continue;
+    }
     const hx = o.w / 2;
     const hz = o.h / 2;
     const hy = (o.height ?? 0.9) / 2;

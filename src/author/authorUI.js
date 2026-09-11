@@ -166,7 +166,8 @@ export function createAuthorUI(opts) {
         </div>
         <div style="border-top:1px solid #1e2a4a;margin-top:7px;padding-top:5px">
           <strong style="font-size:11px">Collision</strong>
-          <select id="author-asset-collision" style="width:100%;margin-top:3px"><option value="none">None</option><option value="box">Box</option></select>
+          <select id="author-asset-collision" style="width:100%;margin-top:3px"><option value="none">None</option><option value="box">Box</option><option value="convexHull" disabled>Authored convex hull</option></select>
+          <div id="author-asset-hull-note" style="display:none;font-size:11px;margin-top:5px">Hull points are retained from the model source. Place, scale and rotate normally.</div>
           <div id="author-asset-collision-fields" style="display:none">
             <div style="font-size:11px;margin-top:4px">Size W / H / D</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-col-w" type="number" min="0.01" step="0.1"><input id="author-col-h" type="number" min="0.01" step="0.1"><input id="author-col-d" type="number" min="0.01" step="0.1"></div>
             <div style="font-size:11px;margin-top:4px">Offset X / Y / Z</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><input id="author-col-x" type="number" step="0.1"><input id="author-col-y" type="number" step="0.1"><input id="author-col-z" type="number" step="0.1"></div>
@@ -447,9 +448,11 @@ export function createAuthorUI(opts) {
       container.querySelector("#author-part-color").value = part.color;
     }
     const collision = asset.collision;
-    container.querySelector("#author-asset-collision").value = collision ? "box" : "none";
-    container.querySelector("#author-asset-collision-fields").style.display = collision ? "" : "none";
-    if (collision) {
+    container.querySelector("#author-asset-collision").value = collision?.shape ?? "none";
+    container.querySelector("#author-asset-collision-fields").style.display = collision?.shape === 'box' ? "" : "none";
+    container.querySelector("#author-asset-hull-note").style.display = collision?.shape === 'convexHull' ? '' : 'none';
+    container.querySelector("#author-asset-fit").textContent = collision?.shape === 'convexHull' ? 'Replace hull with fitted box' : 'Fit To Visual Bounds';
+    if (collision?.shape === 'box') {
       for (const [id, value] of [
         ["author-col-w", collision.size.w], ["author-col-h", collision.size.h], ["author-col-d", collision.size.d],
         ["author-col-x", collision.offset.x], ["author-col-y", collision.offset.y], ["author-col-z", collision.offset.z],
@@ -716,6 +719,7 @@ export function createAuthorUI(opts) {
   container.querySelector("#author-part-rotate-right").addEventListener("click", () => rotateSelectedPartY(15 * Math.PI / 180));
   function commitAssetCollision() {
     const mode = container.querySelector("#author-asset-collision").value;
+    if (mode === 'convexHull') return;
     if (mode === "none") return assetActionResult(actions.updateAssetCollision(editingAssetId, null), "Collision disabled");
     const number = (id) => Number(container.querySelector(`#${id}`).value);
     const collision = {
