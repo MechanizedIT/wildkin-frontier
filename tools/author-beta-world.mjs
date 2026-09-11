@@ -17,6 +17,7 @@ import {normalizeCampaignHarvestCollision} from './normalize-harvest-collision.m
 import {composeFoundryHabitat} from './compose-foundry-habitat.mjs';
 import {composeStarterRoute} from './compose-starter-route.mjs';
 import {composeSocialEncounters} from './compose-social-encounters.mjs';
+import {composeShatterfenClearance} from './compose-shatterfen-clearance.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const WORLD_PATH = path.join(ROOT, "src/world/data/world.json");
@@ -518,6 +519,7 @@ composeStarterRoute(world);
 composeSocialEncounters(world);
 registerStationAssets(world);
 registerDiscoveryAssets(world);
+composeShatterfenClearance(world);
 registerCharacterAssets(world);
 normalizeCampaignHarvestCollision(world);
 writeGeneratedFile(WORLD_PATH, JSON.stringify(world) + "\n");

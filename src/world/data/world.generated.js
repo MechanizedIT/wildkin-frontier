@@ -2885,9 +2885,9 @@ export const WORLD_DATA = {
           "id": "prop_s2_arrival_reed_r",
           "opacity": 1,
           "pos": {
-            "x": 8,
+            "x": 12,
             "y": 0,
-            "z": 29
+            "z": 31
           },
           "rotY": 0,
           "subtype": "visualAsset",
@@ -3095,9 +3095,9 @@ export const WORLD_DATA = {
           "id": "prop_s2_observatory_crystal",
           "opacity": 1,
           "pos": {
-            "x": 23,
-            "y": 0.642,
-            "z": 13
+            "x": 29,
+            "y": 0,
+            "z": 18
           },
           "rotY": 0,
           "subtype": "visualAsset",
@@ -3352,7 +3352,7 @@ export const WORLD_DATA = {
           "pos": {
             "x": -35,
             "y": 0,
-            "z": 6
+            "z": 12
           },
           "rotY": 0.12,
           "subtype": "visualAsset",

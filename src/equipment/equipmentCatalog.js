@@ -3,6 +3,7 @@ export const QUICK_SLOT_COUNT = 5;
 export const EQUIPMENT_CATALOG = Object.freeze([
   { id:'omni_tool', name:'Omni-tool', icon:'axe', kind:'tool', actionLabel:'Attack', description:'Harvest resources and defend yourself.' },
   { id:'medkit', name:'Field medkit', icon:'medkit', kind:'consumable', actionLabel:'Heal', description:'Restore health. Selecting does not consume it.' },
+  { id:'trail_ration', name:'Trail ration', icon:'berries', kind:'food', actionLabel:'Eat', description:'Restore 1 health during an expedition. Kept if health is full.' },
   { id:'berry_lure', name:'Berry lure', icon:'berries', kind:'taming', species:'mossling', actionLabel:'Place lure', description:'Approach a Mossling and leave it space to feed.' },
   { id:'woven_snare', name:'Woven snare', icon:'fiber', kind:'taming', species:'tidefin', actionLabel:'Lay snare', description:'Bait a dry bank near a Tidefin.' },
   { id:'calming_chime', name:'Calming chime', icon:'crystal_shard', kind:'taming', species:'skydancer', actionLabel:'Call', description:'Invite a Skydancer to a quiet perch.' },

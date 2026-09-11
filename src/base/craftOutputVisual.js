@@ -12,7 +12,7 @@ export function createCraftOutputVisual(id) {
     box(.3,.04,.07,0xa7d7d1,0,.33);
     for(const x of [-.105,0,.105])box(.027,.22-Math.abs(x)*.45,.025,0xa7d7d1,x,.19);
     part(new THREE.OctahedronGeometry(.075),0xb48be6,0,.15,.04);
-  }else if(id==='berry_lure'){
+  }else if(id==='berry_lure'||id==='trail_ration'){
     box(.3,.028,.25,0x638b52,0,.02);
     for(const [x,z]of [[-.075,0],[.075,0],[0,.07]])part(new THREE.IcosahedronGeometry(.08,0),0xd6527b,x,.09,z);
   }else{

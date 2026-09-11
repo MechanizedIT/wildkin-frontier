@@ -13,6 +13,7 @@ import { initializePlayerOcclusion } from "../presentation/playerOcclusion.js";
 import { SKILL_CATALOG, SKILL_BY_ID } from "../progression/skillCatalog.js";
 import { createEquipmentSystem } from '../equipment/equipmentSystem.js';
 import { createTamingEquipmentUse } from '../equipment/tamingEquipment.js';
+import { createFieldFoodUse } from '../equipment/fieldFood.js';
 import { createBaseSystem } from '../base/baseSystem.js';
 import { createCacheMechanisms } from '../presentation/cacheMechanisms.js';
 
@@ -44,6 +45,7 @@ export function createBetaGame(deps) {
     setToolEquipped: equipped => { deps.fieldTool?.setEquipped(equipped); app.classList.toggle('non-tool-equipped', !equipped); },
     canUse: () => !authorEnabled && !isBlocking() && !deps.isOtherBlocking(),
     heal: () => action('heal'),
+    eat: createFieldFoodUse({progress,playerCombat,isActive:()=>session.isActive(),onConsumed:()=>{pulse(playerController.getState().pos,0x91e5a5);audio.playXpCollect();}}),
     openBuild: () => ({ ok: shell.openBuildCatalog() }),
     notify: (message, ok) => toast(ok ? 'Equipment' : 'Not yet', message),
     beginTaming: createTamingEquipmentUse({ companions, progress, creatures, getPlayerPosition: () => playerController.getState().pos }),

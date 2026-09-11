@@ -1,6 +1,6 @@
 # Physical fabrication — September 11 candidate
 
-Three freely placed Camp stations now use reviewed articulated Blender models. Salvage assembles berry lures and woven snares; Matter fabricator makes medkits and reinforced tethers; Resonance makes calming chimes. These recipe assignments and costs are provisional. Existing basic Camp crafting remains available. Powered tools, ranged weapons and food are still pending.
+Three freely placed Camp stations now use reviewed articulated Blender models. Salvage assembles berry lures, woven snares and Trail rations; Matter fabricator makes medkits and reinforced tethers; Resonance makes calming chimes. These recipe assignments and costs are provisional. Existing basic Camp crafting remains available. Powered tools and ranged weapons are still pending. The later ration craft/equip/use proof is recorded in `FIELD_FOOD_REVIEW.md`.
 
 The actual mechanism moves for a short 2.2-second operation: vise closure, carriage/nozzle travel, or rotor/core rotation. A completed product appears on the machine. Materials and packed output commit atomically once at Craft; the finish animation never grants a second item. Travel/reload clears transient presentation while preserving packed inventory. No unattended queue or duplicate item store was added.
 

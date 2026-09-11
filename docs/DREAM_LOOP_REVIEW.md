@@ -26,7 +26,13 @@ Evidence lives under ignored `.dream-loop/`: immutable baseline captures, genera
 
 ## Complete asset coverage
 
-The inventory contains 58 editable library assets, including 14 currently unplaced assets available in Author. Coverage must include all of them, plus the runtime visual families below.
+The current canonical world contains **83 library entries**. Seven use external GLBs: Mossling, crate, field chest, Ember vault and the three player-placeable stations. Explorer and builtin Sapwood are additional runtime model paths outside that count. Seventeen entries have no authored placement reference, but several are used by free construction or equipment; absence from the authored map does not mean unused. This inventory supersedes the original 58-entry snapshot.
+
+The most repeated remaining recipe families are Fen stone (30 authored references), standard canopy (19), tall canopy (18), Cloudflower (14), ruin arch (13), wind arch (13), Heartwood tree (13), Ember spire (12), Ember bloom (11), pebbles (11) and fallen log (10). Standard canopy is the current external-model pilot; its first candidate remains HOLD 6.4 outside shipping. Preserve tall/spread collision contracts separately. This frequency ranking helps choose work; it does not replace judging each model or discovering runtime-only uses.
+
+Verdant arrival geology V1–V4 failed its target gate and was restored to the preceding playable boundary. V4's closed masses added depth but retained stair-like joins and regressed foreground player visibility. The retained study records measured half/full-extent confusion and the need for actual native occlusion proof. Three smaller Shatterfen placement corrections independently pass route/harvest review, while whole-region art remains HOLD 4.8. Trail ration is functional with reused food imagery; it has no separate food-art admission yet.
+
+The following original family table remains historical coverage context; the September 11 model-specific reports above supersede its scores and implementation descriptions.
 
 | Family | Coverage | Status |
 | --- | --- | --- |
