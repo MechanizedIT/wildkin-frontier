@@ -9,7 +9,7 @@
 
 ## Current result
 
-Living Frontier now has streamed terrain/forage/wildlife, a personal atlas, individual Mosslings, physical nursery/garden care and ordinary pairing/young growth. M1 adds portrait-primary camera, fixed stick, compact HUD/tool belt and reachable world actions. R2 scored9.0;1,092tests plus verify/build/validation/ZIP PASS;44.05MB/20.52MB. See `art/reviews/living-frontier-m1/receipt.md`. Chris prioritized mobile/casual-first and portrait; `MOBILE_IDENTITY.md` records Honeycomb findings. **Next F2C improves sparse northbound habitat scenery using admitted assets and bounded residency. Continue the active goal until Chris asks to stop.** Richer geography, climbing/swimming, modular anatomy/eyes, guided research, alternate reproduction and DNA sharing remain unfinished.
+Living Frontier now has streamed terrain/forage/wildlife, a personal atlas, individual Mosslings, physical nursery/garden care and ordinary pairing/young growth. M1 adds portrait-primary camera, fixed stick, compact HUD/tool belt and reachable world actions. F2C adds bounded habitat scenery, merged low plants, solid trunks/stones and existing canopy fade. R3 selected6.1HOLD, functional improvement with sparse/uniform art debt;1,102tests plus verify/build/validation/ZIP PASS;44.07MB/20.52MB. See `art/reviews/living-frontier-f2c/receipt.md`. Chris prioritized mobile/casual-first and portrait; `MOBILE_IDENTITY.md` records Honeycomb findings. **Next F5B adds slow physical cliff climbing, beginning at the existing terrace. Continue the active goal until Chris asks to stop.** Richer geography, swimming, modular anatomy/eyes, guided research, alternate reproduction and DNA sharing remain unfinished.
 
 ## Inherited restart checkpoint
 

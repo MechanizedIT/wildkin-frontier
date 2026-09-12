@@ -1,0 +1,49 @@
+{
+  "external": [],
+  "grounded": true,
+  "phase": "post-native-jump-and-literal-reload",
+  "pos": {
+    "x": 7.000002384185791,
+    "y": 2.398590087890625,
+    "z": -74.99998474121094
+  },
+  "scenery": {
+    "canopyCount": 12,
+    "colliderCount": 13,
+    "groundTuftCount": 20,
+    "lowCount": 14,
+    "lowDrawCount": 1,
+    "lowTriangleCount": 16278,
+    "residentCount": 26,
+    "residentIds": [
+      "f2c:s:0:-2:stage-fen-1",
+      "f2c:s:0:-2:stage-fen-2",
+      "f2c:s:0:-2:stage-fen-3",
+      "f2c:s:0:-2:stage-fen-4",
+      "f2c:s:0:-2:stage-fen-5",
+      "f2c:s:0:-2:stage-fen-6",
+      "f2c:s:0:-2:stage-fen-7",
+      "f2c:s:0:-2:stage-fen-8",
+      "f2c:s:0:-2:stage-tree-west-1",
+      "f2c:s:0:-2:stage-tree-west-2",
+      "f2c:s:0:-3:stage-tree-north",
+      "f2c:s:-1:-2:seed-1",
+      "f2c:s:-1:-2:seed-10",
+      "f2c:s:-1:-2:seed-3",
+      "f2c:s:-1:-2:seed-4",
+      "f2c:s:-1:-2:seed-8",
+      "f2c:s:-1:-2:seed-9",
+      "f2c:s:0:-3:seed-17",
+      "f2c:s:-2:-2:seed-0",
+      "f2c:s:0:-4:seed-1",
+      "f2c:s:2:-2:seed-0",
+      "f2c:s:-1:-4:seed-0",
+      "f2c:s:-2:-1:seed-0",
+      "f2c:s:-2:-3:seed-3",
+      "f2c:s:1:-4:seed-1",
+      "f2c:s:1:0:seed-0"
+    ],
+    "stoneSolidCount": 1,
+    "surfaceCount": 13
+  }
+}

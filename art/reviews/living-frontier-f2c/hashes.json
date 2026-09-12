@@ -1,0 +1,120 @@
+{
+  "checkpoint": "F2C habitat scenery",
+  "hashes": [
+    {
+      "path": "src/world/frontierScenery.js",
+      "sha256": "01aee9de980d7c75f7536b639a0c6adfdb8452575e6edce42e917b365949cf94",
+      "bytes": 10345
+    },
+    {
+      "path": "src/world/frontierSceneryVisual.js",
+      "sha256": "0ae8db83f050449962407247e0d7082591c8a5040aa357db81c346e3145d2963",
+      "bytes": 8346
+    },
+    {
+      "path": "src/world/frontierSceneryRuntime.js",
+      "sha256": "3cb69b97a2783111f186661b8cafa4db86db2cb34b30b178c087dda0ccae8390",
+      "bytes": 2776
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "6c36ebbbbb11b57e5b46b822e19f7f16f94788462bb29c5d814f2037bbc72da8",
+      "bytes": 67800
+    },
+    {
+      "path": "src/game/createBetaGame.js",
+      "sha256": "a5ac6447a1dc118f97d08646a5b52eabf095bf6e231427400db4536c7c2bb633",
+      "bytes": 28661
+    },
+    {
+      "path": "tests/frontierScenery.test.js",
+      "sha256": "8cc98c07b356ca01647d543f128b719c9933e39762e4ddfd1a3664116bf25161",
+      "bytes": 6402
+    },
+    {
+      "path": "tests/frontierSceneryVisual.test.js",
+      "sha256": "990c3243af838588995fcc3db56adb4b5192e98aa703ff64d00523437d382f8c",
+      "bytes": 6903
+    },
+    {
+      "path": "tests/frontierSceneryRuntime.test.js",
+      "sha256": "c886b9fc0645c5b296d979b1d4bd31e9418bd4217711b74055ee04c21a7779b6",
+      "bytes": 3990
+    },
+    {
+      "path": "dist/submission/index.html",
+      "sha256": "4c3788efe054f4bc7afe27a0a338ad95f6a05e25c9e50b828b6ff63f6197ae0d",
+      "bytes": 16008721
+    },
+    {
+      "path": "dist/submission.zip",
+      "sha256": "7dac016064183369a9ca921eff163bf2b7f2f6898815bb35de499c9ede733cab",
+      "bytes": 21520173
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/baseline-overhead.png",
+      "sha256": "864a0b5fdaf12e28cb01b794fb69c85ec706f217e20420cdcae70e8147429c08",
+      "bytes": 375607
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/baseline-portrait.png",
+      "sha256": "71dc0bcd648cd10c56fb18336ef4b7ec1c1e54158e2fcdf222803db0ca5ef6a7",
+      "bytes": 200518
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/lifecycle-evidence.json",
+      "sha256": "e5add274941c202834bebcbafc592f50f56450f76f9e71149be0e5ee225c5c99",
+      "bytes": 5221
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/package-evidence.json",
+      "sha256": "e3394da83e4f45363a42416f602e6f9cbc8c77fb7397c0d0c220ccdc4fec7474",
+      "bytes": 1245
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/package-landscape.png",
+      "sha256": "48d4072428b243841a00727b059270d91ad3dffe1518bb03b8cd8b384a9e90bb",
+      "bytes": 290075
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/package-portrait.png",
+      "sha256": "dac20f06c9c5443870c9c13a2a2bb89e09501f6955c984d5328ff6cd3648e495",
+      "bytes": 286537
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/r1-portrait.png",
+      "sha256": "35ef50c1d270fce3756a97a5f4c154fb6efd2a17e11aef274be01926f11734cf",
+      "bytes": 231913
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/r2-portrait.png",
+      "sha256": "2254b6040648e240b4252ccad571290bb32738ba9ece60bc87c44502038a5be8",
+      "bytes": 270667
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/r3-portrait.png",
+      "sha256": "003f1963dadae2a4e19dc2752b8108ab45222378c740c277c0df2003b226dd37",
+      "bytes": 285087
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/receipt.md",
+      "sha256": "2b180377e422248f3d910c130c955753d779bf03b0d94963aa7e33dc7e238b3e",
+      "bytes": 6614
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/route-r3-evidence.json",
+      "sha256": "3448b3b7d638a0dfcbb18e338fd96e1f169bba835bc4e8ab42a3e65983b80de4",
+      "bytes": 13442
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/target.png",
+      "sha256": "965bd103dcbe6e059f1c1b865bb234ac8024d5560c4c9a68f6a31bcf8c171b14",
+      "bytes": 1511595
+    },
+    {
+      "path": "art/reviews/living-frontier-f2c/trunk-r1-evidence.json",
+      "sha256": "fff833c67c98a2863e197ef95ddc19f94b8333fb57224e8ecad2f21d079457d5",
+      "bytes": 243
+    }
+  ]
+}

@@ -243,6 +243,8 @@ export function createBetaGame(deps) {
   function isBlocking() { return shell.isOpen() || companions.isBlocking() || base.isBlocking() || physicalInventory.isOpen(); }
   return {
     isBlocking, getModel, companions, shell, base, equipment, physicalInventory, rootfall, refreshModifiers, refreshObjectives,
+    registerWorldOccluder: visual => playerOcclusion.register(visual),
+    unregisterWorldOccluder: visual => playerOcclusion.unregister(visual),
     showWelcome: () => { if (!authorEnabled) shell.showWelcome(); },
     openWorkshop: (id) => { if(!base.openStation(id))shell.open("workshop"); },
     openSanctuary: () => shell.open('wildkin'),

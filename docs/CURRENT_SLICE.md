@@ -1,10 +1,10 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: F2C habitat scenery and northbound route.**
+Updated September 12, 2026. **Active goal-mode development: F5B slow physical cliff climbing.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
-**Latest owner steering after waking:** mobile/casual first, portrait playable with simple intuitive controls. F7A and M1 portrait controls/camera/HUD are now complete; F2C scenery is next. This replaces the earlier PC/web-first/landscape-first priority; danger and longer exploration remain. Competitive findings and proposed identity: `MOBILE_IDENTITY.md`.
+**Latest owner steering after waking:** mobile/casual first, portrait playable with simple intuitive controls. F7A, M1 portrait controls/camera/HUD and F2C scenery foundations are complete; slow climbing is next. This replaces the earlier PC/web-first/landscape-first priority; danger and longer exploration remain. Competitive findings and proposed identity: `MOBILE_IDENTITY.md`.
 
 ## Completed foundation: F1 terrain and recipe foundations
 
@@ -107,19 +107,30 @@ F7A selected R2 at8.5/10 after R1's7.8HOLD. Native Pair/failure/retry, natural12
 
 M1 selects R2 at9.0/10 after R1's8.8. Portrait now uses a stable42° camera, fixed left stick, compact status/map and tool/Pack controls, a real selectable tool belt, and a reachable contextual primary with a world cue. Disabled nursery/garden status leaves ordinary tool actions available. Visible candidates fall through blocked/offscreen priority targets; an eight-entry cache bounds target geometry and10Hz LOS checks. Feed/Plant/equip/Build/Atlas/Auto Harvest/Jump and portable landscape/portrait Feed passed.1,092/1,092 tests and verify/build/validation/ZIP PASS;44.05MB unpacked/20.52MB ZIP. Exact proof and fixture limits: `art/reviews/living-frontier-m1/receipt.md`.
 
-## Selected next slice: F2C habitat scenery and northbound route
+## Completed foundation: F2C habitat scenery and northbound route
 
 - Improve the sparse generated landscape now that the creature-life loop and portrait controls are usable. Existing terrain already provides habitat blends, but every chunk uses the same low groundcover; make the northbound route into visibly distinct Verge and Fen surroundings with a coherent transition.
 - Reuse admitted canopy, reed, lily, stone and mushroom assets in a small deterministic scenery recipe. Frame the existing forage, Mosslings and terrace with recognizable scenery. This is scenery/route readability, not a new terrain-height system, water simulation, secret reward or expanded save schema.
 - Keep one chunk lifecycle and shared terrain sampling. Start with a deliberate budget of up to18 nearby props plus one silhouette per outer resident chunk, maximum34 live props; measure actual draws/triangles and reduce if needed. No new dependency or model generation is required merely to add variety.
 - Keep Camp, forage access, creature clearing, terrace slope and fall-gap paths clear. Decorations that visually imply a solid obstacle need deliberate placement or an existing collision path; do not scatter intangible tree trunks across walking routes.
+- F2C implementation uses compact solid trunk/stone surfaces through the existing terrain-collider lifecycle, plus the existing player-foliage fade owner. Small authored plant meshes are merged into one vertex-color draw. Terrain height and saved ecology remain unchanged; no new dependency is needed.
 - Capture actual portrait route baseline and a feasible target before production. Separate recipe/render worker ownership and independent visual judge, about three passes. Root owns integration, a physical Camp→Mossling→terrace route check, budget/disposal proof, aggregate and portable checkpoint. Continue the active goal afterward.
 
-Streamed terrain and ecology; personal atlas; individual modular Wildkin; slow climbing, swimming and falling risk; immersive Camp building/crafting/food/habitats; field genetics, breeding, growth, cloning and DNA recipe exchange. Rules remain producer choices to validate in play. Mobile/casual first with portrait priority and landscape/desktop support; offline Three.js/Rapier and local main remain. No backwards compatibility requirement. See LIVING_FRONTIER_PLAN for sequence and evidence gates.
+F2C selects R3 at6.1/10 HOLD after4.5/5.4; strongest usable of three passes, below the art target. Existing trees, damp plants, mushrooms and stones now frame the northbound route. Seeded placement borrows terrain residency; nearby low meshes/ground tufts merge into one draw, trunks/stones use compact solid surfaces, and canopies reuse player fade. At the inspected route26props/13surfaces/20tufts were resident. Continuous real-input-listener steering reached all seven Camp-approach→clearings→terrace waypoints with health5 unchanged; full retirement/return and portable Jump/reload passed.1,102/1,102 tests and verify/build/validation/ZIP PASS;44.07MB unpacked/20.52MB ZIP. Exact evidence: `art/reviews/living-frontier-f2c/receipt.md`. Sparse ground, shallow canopy depth and uniform terrain remain visual debt; no physical-phone performance claim.
+
+## Selected next slice: F5B slow physical cliff climbing
+
+- Add a deliberate, slow climb at suitable natural rock/terrain faces, starting with the existing three-metre terrace. Keep the safe slope as an alternative. Reuse player CLIMB/MANTLE/FALL states, the one fixed loop and Rapier movement; do not teleport through a face or blocked exit.
+- One bounded probe identifies a nearby stable face, a reachable walkable lip and a clear capsule exit. Classify approved terrain/rock surfaces explicitly; exclude creatures, sensors, boundary walls and decorative tree trunks. Retirement invalidates an attached surface safely.
+- Use a short contextual Climb action in portrait and the existing keyboard interaction path. Up/down movement should be understandable, neutral input should hold, and cancel/drop should return to existing fall tracking and health consequences. Keep ordinary Jump separate. No stamina meter or new save schema is required for this first integration.
+- Audit the existing player rig/clips before production and provide an actual climbing pose/motion. Capture a repeatable face-on/side baseline and feasible target. Up to three visual passes; upright sliding alone is not accepted climbing motion.
+- Close shared authored-climb/mantle exit, cancellation and reset behavior wherever the same contract changes. Prove valid/invalid faces, blocked exits, drop/landing, retired colliders, camera orbit, portrait input, section/Author/modal/resume resets and native/package traversal. Root owns integration and final checkpoint; give separate workers explicit physics/probe versus pose ownership.
+
+Broader direction remains streamed terrain/ecology, personal atlas, individual modular Wildkin, swimming, immersive Camp food/habitats, field genetics, alternate reproduction, cloning and DNA exchange. Rules remain provisional producer choices to validate in play. Mobile/casual first with portrait priority and landscape/desktop support; offline Three.js/Rapier and local main remain. No backwards compatibility requirement. See LIVING_FRONTIER_PLAN for sequence and evidence gates.
 
 ## Last verified playable checkpoint
 
-Current checkpoint: `art/reviews/living-frontier-m1/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
+Current checkpoint: `art/reviews/living-frontier-f2c/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
 
 Initial working tree includes unrelated Verdant composer/test changes and untracked art/tool experiments. Preserve them; stage only owned files. Emberfall ravine and Tidefin V3 remain unshipped candidates with documented defects; they are not the current slice.
 
