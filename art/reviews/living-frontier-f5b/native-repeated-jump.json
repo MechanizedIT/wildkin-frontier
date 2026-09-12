@@ -1,0 +1,1932 @@
+[
+  {
+    "health": 5,
+    "samples": [
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.00013732910156,
+          "y": 5.342889785766602,
+          "z": -123.22320556640624
+        },
+        "speed": 0.9333333333333332,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.00043869018555,
+          "y": 5.346613883972168,
+          "z": -123.2773895263672
+        },
+        "speed": 1.8666666666666667,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.00082778930664,
+          "y": 5.351480484008789,
+          "z": -123.34855651855467
+        },
+        "speed": 2.145,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.001224517822266,
+          "y": 5.356444358825684,
+          "z": -123.41971588134766
+        },
+        "speed": 2.145,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.00162124633789,
+          "y": 5.361336708068848,
+          "z": -123.49088287353516
+        },
+        "speed": 2.145,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00162124633789,
+          "y": 5.544670104980469,
+          "z": -123.56238555908205
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 5.3999999999999995
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00162124633789,
+          "y": 5.714670181274414,
+          "z": -123.6338882446289
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.999999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.001670837402344,
+          "y": 5.871974468231201,
+          "z": -123.68146514892578
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.599999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00181579589844,
+          "y": 6.017101764678955,
+          "z": -123.68537139892578
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.199999999999998
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.0019645690918,
+          "y": 6.148898601531982,
+          "z": -123.6888427734375
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.799999999999998
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00234603881836,
+          "y": 6.26734733581543,
+          "z": -123.69204711914062
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.3999999999999977
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.003475189208984,
+          "y": 6.372507095336914,
+          "z": -123.69483947753906
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 2.9999999999999973
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00578308105469,
+          "y": 6.5428466796875,
+          "z": -123.69939422607422
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 2.1999999999999966
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00594711303711,
+          "y": 6.608016490936279,
+          "z": -123.70110321044922
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 1.7999999999999967
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.006099700927734,
+          "y": 6.659905910491943,
+          "z": -123.70256042480467
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 1.3999999999999968
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00625228881836,
+          "y": 6.698456287384033,
+          "z": -123.70354461669922
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.9999999999999968
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.006404876708984,
+          "y": 6.723735332489014,
+          "z": -123.70421600341795
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.599999999999997
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00658416748047,
+          "y": 6.735693454742432,
+          "z": -123.7045440673828
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.19999999999999696
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00674057006836,
+          "y": 6.729685306549072,
+          "z": -123.7044677734375
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -0.20000000000000304
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.006900787353516,
+          "y": 6.7072529792785645,
+          "z": -123.7038803100586
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -0.6000000000000031
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00706100463867,
+          "y": 6.676427364349365,
+          "z": -123.7030029296875
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -1.000000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00722885131836,
+          "y": 6.629655361175537,
+          "z": -123.70165252685548
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -1.400000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.007389068603516,
+          "y": 6.567340850830078,
+          "z": -123.70011901855467
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -1.800000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.0081787109375,
+          "y": 6.496328353881836,
+          "z": -123.6982192993164
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -2.2000000000000033
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.008338928222656,
+          "y": 6.4109368324279785,
+          "z": -123.69590759277344
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -2.6000000000000036
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00849914550781,
+          "y": 6.309176921844482,
+          "z": -123.69328308105467
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.000000000000004
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00865936279297,
+          "y": 6.196161270141602,
+          "z": -123.69021606445312
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.4000000000000044
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00883102416992,
+          "y": 6.068695545196533,
+          "z": -123.68688201904295
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.8000000000000047
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00899887084961,
+          "y": 5.928088188171387,
+          "z": -123.68314361572266
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.200000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.0091667175293,
+          "y": 5.772816181182861,
+          "z": -123.67900848388672
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.600000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.009334564208984,
+          "y": 5.603728771209717,
+          "z": -123.67452239990234
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -5.000000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.009098052978516,
+          "y": 5.4671759605407715,
+          "z": -123.67070770263672
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 5.6
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00924301147461,
+          "y": 5.645604610443115,
+          "z": -123.6754150390625
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 5.199999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00939178466797,
+          "y": 5.8107476234436035,
+          "z": -123.67998504638672
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.799999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00953674316406,
+          "y": 5.962543964385986,
+          "z": -123.68390655517578
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.399999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.009681701660156,
+          "y": 6.101020812988281,
+          "z": -123.6876449584961
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.9999999999999982
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.00983428955078,
+          "y": 6.22618293762207,
+          "z": -123.69100952148438
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.599999999999998
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.009986877441406,
+          "y": 6.337952136993408,
+          "z": -123.69379425048828
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.1999999999999975
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01013946533203,
+          "y": 6.436428070068359,
+          "z": -123.69654846191406
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 2.799999999999997
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01030731201172,
+          "y": 6.521553039550781,
+          "z": -123.69721221923828
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 2.399999999999997
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.010459899902344,
+          "y": 6.593362331390381,
+          "z": -123.70023345947266
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 1.999999999999997
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01061248779297,
+          "y": 6.651881694793701,
+          "z": -123.70233154296876
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 1.5999999999999968
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.010765075683594,
+          "y": 6.697086811065674,
+          "z": -123.7035140991211
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 1.1999999999999968
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01091766357422,
+          "y": 6.728992462158203,
+          "z": -123.70436096191406
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.7999999999999969
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.011070251464844,
+          "y": 6.747583389282227,
+          "z": -123.7048568725586
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.39999999999999697
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01123046875,
+          "y": 6.751871109008789,
+          "z": -123.70497131347656
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.0531133177191805e-15
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.011390686035156,
+          "y": 6.736944675445557,
+          "z": -123.70466613769533
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -0.4000000000000031
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01155090332031,
+          "y": 6.7079997062683105,
+          "z": -123.70391082763672
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -0.8000000000000032
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01171112060547,
+          "y": 6.667272567749023,
+          "z": -123.70281982421876
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -1.200000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.011871337890625,
+          "y": 6.613079071044922,
+          "z": -123.70133972167967
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -1.600000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01344299316406,
+          "y": 6.547970294952393,
+          "z": -123.69976043701172
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -2.000000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01361083984375,
+          "y": 6.473196029663086,
+          "z": -123.6977310180664
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -2.4000000000000035
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01393127441406,
+          "y": 6.271478652954102,
+          "z": -123.69229125976562
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.200000000000004
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01409149169922,
+          "y": 6.149358749389648,
+          "z": -123.68904113769533
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.6000000000000045
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.014259338378906,
+          "y": 6.0137505531311035,
+          "z": -123.68544006347656
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.000000000000004
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.014427185058594,
+          "y": 5.868529319763184,
+          "z": -123.68148803710938
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.400000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01459503173828,
+          "y": 5.700230598449707,
+          "z": -123.67708587646484
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.800000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01476287841797,
+          "y": 5.527915954589844,
+          "z": -123.67242431640624
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -5.2000000000000055
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "IDLE",
+        "pos": {
+          "x": 32.01493835449219,
+          "y": 5.372488498687744,
+          "z": -123.66751861572266
+        },
+        "speed": 1.9734,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01508331298828,
+          "y": 5.557569980621338,
+          "z": -123.67310333251952
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 5.3999999999999995
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.015228271484375,
+          "y": 5.729345798492432,
+          "z": -123.67774200439452
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.999999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01539611816406,
+          "y": 5.8877716064453125,
+          "z": -123.68194580078124
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.599999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.015560150146484,
+          "y": 6.032912254333496,
+          "z": -123.68327331542967
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.199999999999998
+      }
+    ],
+    "state": {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": false,
+      "mode": "JUMP",
+      "pos": {
+        "x": 32.015560150146484,
+        "y": 6.032912254333496,
+        "z": -123.68327331542967
+      },
+      "speed": 2.145,
+      "traversalMode": "JUMP",
+      "verticalVelocity": 4.199999999999998
+    }
+  },
+  {
+    "health": 5,
+    "samples": [
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.01671600341797,
+          "y": 5.372418403625488,
+          "z": -123.66826629638672
+        },
+        "speed": 0.9333333333333332,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.01699447631836,
+          "y": 5.372429370880127,
+          "z": -123.66826629638672
+        },
+        "speed": 2.145,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.017154693603516,
+          "y": 5.372435092926025,
+          "z": -123.66826629638672
+        },
+        "speed": 2.145,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.01731491088867,
+          "y": 5.372440814971924,
+          "z": -123.66826629638672
+        },
+        "speed": 2.145,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "WALK",
+        "pos": {
+          "x": 32.01747512817383,
+          "y": 5.372446537017822,
+          "z": -123.66826629638672
+        },
+        "speed": 2.145,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01762008666992,
+          "y": 5.557547569274902,
+          "z": -123.67310333251952
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 5.3999999999999995
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.017765045166016,
+          "y": 5.729300498962402,
+          "z": -123.67772674560548
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.999999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.017913818359375,
+          "y": 5.887799263000488,
+          "z": -123.68065643310548
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.599999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01805877685547,
+          "y": 6.032889366149902,
+          "z": -123.68584442138672
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.199999999999998
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.018211364746094,
+          "y": 6.164730072021484,
+          "z": -123.68936157226562
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.799999999999998
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01836395263672,
+          "y": 6.283238887786865,
+          "z": -123.6912841796875
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.3999999999999977
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01851272583008,
+          "y": 6.388369083404541,
+          "z": -123.69524383544922
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 2.9999999999999973
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01866149902344,
+          "y": 6.480201721191406,
+          "z": -123.69769287109376
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 2.599999999999997
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01881408691406,
+          "y": 6.5587158203125,
+          "z": -123.69977569580078
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 2.1999999999999966
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01896667480469,
+          "y": 6.62391471862793,
+          "z": -123.70159912109376
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 1.7999999999999967
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01911926269531,
+          "y": 6.675783157348633,
+          "z": -123.70294952392578
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 1.3999999999999968
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.0192756652832,
+          "y": 6.714352607727051,
+          "z": -123.70401763916016
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.9999999999999968
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01942825317383,
+          "y": 6.739602565765381,
+          "z": -123.70446014404295
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.599999999999997
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01958084106445,
+          "y": 6.751551151275635,
+          "z": -123.70499420166016
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.19999999999999696
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.01974105834961,
+          "y": 6.745456695556641,
+          "z": -123.70491790771484
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -0.20000000000000304
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.019901275634766,
+          "y": 6.723378658294678,
+          "z": -123.70433807373048
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -0.6000000000000031
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02022171020508,
+          "y": 6.635704517364502,
+          "z": -123.7020034790039
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -1.400000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.020381927490234,
+          "y": 6.57633638381958,
+          "z": -123.70042419433594
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -1.800000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.020538330078125,
+          "y": 6.503005504608154,
+          "z": -123.69847869873048
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -2.2000000000000033
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02069091796875,
+          "y": 6.417151927947998,
+          "z": -123.6961898803711
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -2.6000000000000036
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.020851135253906,
+          "y": 6.315320014953613,
+          "z": -123.69347381591795
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.000000000000004
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.020999908447266,
+          "y": 6.207293510437012,
+          "z": -123.69066619873048
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.4000000000000044
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02116394042969,
+          "y": 6.0807342529296875,
+          "z": -123.6872329711914
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.8000000000000047
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.021331787109375,
+          "y": 5.907495975494385,
+          "z": -123.68263244628906
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.200000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02149963378906,
+          "y": 5.752583980560303,
+          "z": -123.67849731445312
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.600000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02166748046875,
+          "y": 5.584080696105957,
+          "z": -123.67401123046876
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -5.000000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02183532714844,
+          "y": 5.405122756958008,
+          "z": -123.6691436767578
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -5.400000000000006
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02118682861328,
+          "y": 5.4661784172058105,
+          "z": -123.6707534790039
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 5.6
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.021331787109375,
+          "y": 5.644635200500488,
+          "z": -123.67550659179688
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 5.199999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02147674560547,
+          "y": 5.809742450714111,
+          "z": -123.67984771728516
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.799999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02162551879883,
+          "y": 5.961533069610596,
+          "z": -123.68389892578124
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.399999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02177429199219,
+          "y": 6.100003719329834,
+          "z": -123.68753051757812
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.9999999999999982
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02192687988281,
+          "y": 6.225132465362549,
+          "z": -123.69088745117188
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.599999999999998
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02210235595703,
+          "y": 6.336979866027832,
+          "z": -123.6939697265625
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 3.1999999999999975
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.022254943847656,
+          "y": 6.435522079467773,
+          "z": -123.69659423828124
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 2.799999999999997
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02241134643555,
+          "y": 6.520686149597168,
+          "z": -123.69810485839844
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 2.399999999999997
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.0227165222168,
+          "y": 6.651045322418213,
+          "z": -123.70189666748048
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 1.5999999999999968
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02286911010742,
+          "y": 6.696255207061768,
+          "z": -123.70330810546876
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 1.1999999999999968
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02302169799805,
+          "y": 6.728177547454834,
+          "z": -123.70438385009766
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.7999999999999969
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02317810058594,
+          "y": 6.746742248535156,
+          "z": -123.70486450195312
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 0.39999999999999697
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02333068847656,
+          "y": 6.7510271072387695,
+          "z": -123.7050323486328
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.0531133177191805e-15
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02349090576172,
+          "y": 6.735661506652832,
+          "z": -123.70467376708984
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -0.4000000000000031
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.023651123046875,
+          "y": 6.706454753875732,
+          "z": -123.7039031982422
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -0.8000000000000032
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02381134033203,
+          "y": 6.664260387420654,
+          "z": -123.7027816772461
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -1.200000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02397155761719,
+          "y": 6.609045028686523,
+          "z": -123.70130157470705
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -1.600000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.024131774902344,
+          "y": 6.538445949554443,
+          "z": -123.69921112060548
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -2.000000000000003
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.024288177490234,
+          "y": 6.456677436828613,
+          "z": -123.69729614257812
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -2.4000000000000035
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02443313598633,
+          "y": 6.368689060211182,
+          "z": -123.6950225830078
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -2.800000000000004
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.024593353271484,
+          "y": 6.264157295227051,
+          "z": -123.69212341308594
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.200000000000004
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02475357055664,
+          "y": 6.141948223114014,
+          "z": -123.68887329101562
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -3.6000000000000045
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02492141723633,
+          "y": 6.006466865539551,
+          "z": -123.68526458740234
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.000000000000004
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02508544921875,
+          "y": 5.861138820648193,
+          "z": -123.68138885498048
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.400000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02525329589844,
+          "y": 5.698684215545654,
+          "z": -123.67707824707033
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -4.800000000000005
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.025421142578125,
+          "y": 5.523562908172607,
+          "z": -123.6724090576172
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": -5.2000000000000055
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "IDLE",
+        "pos": {
+          "x": 32.0251350402832,
+          "y": 5.371689796447754,
+          "z": -123.66780090332033
+        },
+        "speed": 1.9734,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02528381347656,
+          "y": 5.556832790374756,
+          "z": -123.67176055908205
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 5.3999999999999995
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02557373046875,
+          "y": 5.887071132659912,
+          "z": -123.68193817138672
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.599999999999999
+      },
+      {
+        "climbVelocity": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "mode": "JUMP",
+        "pos": {
+          "x": 32.02572250366211,
+          "y": 6.032161712646484,
+          "z": -123.68582916259766
+        },
+        "speed": 2.145,
+        "traversalMode": "JUMP",
+        "verticalVelocity": 4.199999999999998
+      }
+    ],
+    "state": {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": false,
+      "mode": "JUMP",
+      "pos": {
+        "x": 32.02572250366211,
+        "y": 6.032161712646484,
+        "z": -123.68582916259766
+      },
+      "speed": 2.145,
+      "traversalMode": "JUMP",
+      "verticalVelocity": 4.199999999999998
+    }
+  }
+]

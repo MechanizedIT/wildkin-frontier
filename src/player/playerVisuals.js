@@ -13,7 +13,8 @@ export function createPlayerVisuals(playerMesh) {
 
   function sync(dt, state) {
     if (externalModel) {
-      externalModel.update(dt, state.mode, state.speed);
+      externalModel.update(dt, state.mode, state.speed, { mantleDuration:state.mantleDuration,
+        mantleProgress:state.mantleProgress, mantleLiftFraction:state.mantleLiftFraction });
       return;
     }
     timeAcc += dt;

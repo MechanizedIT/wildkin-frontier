@@ -1,0 +1,244 @@
+{
+  "end": {
+    "climbVelocity": 0,
+    "dodgeCooldown": 0,
+    "facing": 3.141592653589793,
+    "grounded": true,
+    "mode": "WALK",
+    "pos": {
+      "x": 24.257320404052734,
+      "y": 8.82863712310791,
+      "z": -125.72077941894533
+    },
+    "speed": 2.145,
+    "traversalMode": "IDLE",
+    "verticalVelocity": 0
+  },
+  "health": 5,
+  "samples": [
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.1505069732666,
+        "y": 7.364867687225342,
+        "z": -121.93635559082033
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.15797996520996,
+        "y": 7.468445301055908,
+        "z": -122.17780303955078
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.167417526245117,
+        "y": 7.597833633422852,
+        "z": -122.4795150756836
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.174962997436523,
+        "y": 7.701254844665527,
+        "z": -122.72093963623048
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.184406280517575,
+        "y": 7.830623149871826,
+        "z": -123.02264404296876
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.191972732543945,
+        "y": 7.934224605560303,
+        "z": -123.26400756835938
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.201379776000977,
+        "y": 8.063602447509766,
+        "z": -123.56574249267578
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.208913803100582,
+        "y": 8.16703987121582,
+        "z": -123.80716705322266
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.217458724975582,
+        "y": 8.284192085266113,
+        "z": -124.11962127685548
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.224098205566406,
+        "y": 8.371217727661133,
+        "z": -124.37552642822266
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.23200035095215,
+        "y": 8.480108261108398,
+        "z": -124.69580078125
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.23833274841309,
+        "y": 8.567246437072754,
+        "z": -124.95205688476562
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.246240615844727,
+        "y": 8.676136016845703,
+        "z": -125.27237701416016
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "health": 5,
+      "mode": "WALK",
+      "pos": {
+        "x": 24.252574920654297,
+        "y": 8.763330459594727,
+        "z": -125.52859497070312
+      },
+      "speed": 2.145,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    }
+  ]
+}

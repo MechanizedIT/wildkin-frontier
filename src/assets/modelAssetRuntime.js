@@ -130,7 +130,7 @@ export function createVisualAnimationController(root) {
   let active = null;
   let activeState = null;
   let disposed = false;
-  function play(state, { fadeSeconds = 0.14, restart = false } = {}) {
+  function play(state, { fadeSeconds = 0.14, restart = false, immediate = false } = {}) {
     const next = actions.get(state) ?? actions.get("idle") ?? null;
     if (!next) return;
     const oneShot = ["attack", "hurt", "jump", "dodge", "mantle"].includes(state);
@@ -138,7 +138,10 @@ export function createVisualAnimationController(root) {
     next.clampWhenFinished = oneShot;
     if (next === active && !restart) return;
     next.reset().setEffectiveWeight(1).setEffectiveTimeScale(1).play();
-    if (active && active !== next) active.crossFadeTo(next, fadeSeconds, false);
+    if (active && active !== next) {
+      if (immediate) active.stop();
+      else active.crossFadeTo(next, fadeSeconds, false);
+    }
     active = next;
     activeState = state;
   }
@@ -151,12 +154,17 @@ export function createVisualAnimationController(root) {
       const scale = Math.abs(worldScale.x * root.userData.modelScale);
       return speed > authoredSpeeds.walk * scale * 1.6 ? "run" : "walk";
     },
-    setLocomotionSpeed(speed) {
+    setLocomotionSpeed(speed, { allowReverse = false } = {}) {
       const authored = authoredSpeeds[activeState];
       if (!active || !(authored > 0) || !Number.isFinite(speed)) return;
       root.getWorldScale(worldScale);
       const scale = Math.abs(worldScale.x * root.userData.modelScale);
-      active.setEffectiveTimeScale(scale > 0.001 ? Math.max(0, speed) / (authored * scale) : 0);
+      const signedSpeed = allowReverse ? speed : Math.max(0, speed);
+      active.setEffectiveTimeScale(scale > 0.001 ? signedSpeed / (authored * scale) : 0);
+    },
+    setPlaybackRate(rate) {
+      if (!active || !Number.isFinite(rate)) return;
+      active.setEffectiveTimeScale(rate);
     },
     update(dt) { mixer.update(dt); },
     stop() { mixer.stopAllAction(); },

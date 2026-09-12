@@ -44,7 +44,7 @@ function surfaceBox({ id, x, y, z, yaw, scale, size }) {
     vertices.set([worldX, y, worldZ], index * 3);
     vertices.set([worldX, top, worldZ], (index + 4) * 3);
   }
-  return { id, sectionId: 'camp', origin: { x: 0, z: 0 }, vertices, indices: new Uint32Array(BOX_INDICES) };
+  return { id, sectionId: 'camp', traversalSurface: 'scenery', origin: { x: 0, z: 0 }, vertices, indices: new Uint32Array(BOX_INDICES) };
 }
 
 function authoredPartGeometry(part) {

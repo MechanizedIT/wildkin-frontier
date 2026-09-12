@@ -1,0 +1,575 @@
+{
+  "samples": [
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 77.90000000596046,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 0.8558829625447585,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.368222236633301,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 163.30000001192093,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 0.9517153104146312,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.483221054077148,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 219.4000000059605,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 0.9836594263712556,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.521553993225098,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 281.70000000298023,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.0475476582845045,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.598219871520996,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 362.800000011921,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.143380006154378,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.713218688964844,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 428.70000000298023,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.207268238067627,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.789884567260742,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 496.20000000298023,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.271156469980876,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.866550445556641,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 563.2000000029802,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.335044701894125,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.943216323852539,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 639.3000000119209,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.398932933807374,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.0198822021484375,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 702.4000000059605,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.462821165720623,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.096548080444336,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 780.7000000029802,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.526709397633872,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.173213958740234,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 842.1000000089407,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.590597629547121,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.249879837036133,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 930.5,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.6864299774169944,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.3648786544799805,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 984.1000000089408,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.718374093373619,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.40321159362793,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 1.1499881744384766,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 1064.7000000029802,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "phase": 1.8142064412434924,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.518210411071777,
+        "z": -123.63794708251952
+      },
+      "rate": 0.9583234786987304,
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 1130.4000000059605,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "MANTLE",
+      "phase": 1.846150557200117,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.619091510772705,
+        "z": -123.63794708251952
+      },
+      "rate": 0,
+      "speed": 0,
+      "traversalMode": "MANTLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 1196.800000011921,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "MANTLE",
+      "phase": 1.846150557200117,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.792617797851563,
+        "z": -123.63794708251952
+      },
+      "rate": 0,
+      "speed": 0,
+      "traversalMode": "MANTLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 1262.800000011921,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "MANTLE",
+      "phase": 1.846150557200117,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 7.966144561767578,
+        "z": -123.63794708251952
+      },
+      "rate": 0,
+      "speed": 0,
+      "traversalMode": "MANTLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 1339.6000000089407,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "MANTLE",
+      "phase": 1.846150557200117,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 8.139670372009277,
+        "z": -123.63794708251952
+      },
+      "rate": 0,
+      "speed": 0,
+      "traversalMode": "MANTLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 1404,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "MANTLE",
+      "phase": 1.846150557200117,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 8.313197135925293,
+        "z": -123.63794708251952
+      },
+      "rate": 0,
+      "speed": 0,
+      "traversalMode": "MANTLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "climb",
+      "dodgeCooldown": 0,
+      "elapsed": 1472.800000011921,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "MANTLE",
+      "phase": 1.846150557200117,
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 8.486723899841309,
+        "z": -123.63794708251952
+      },
+      "rate": 0,
+      "speed": 0,
+      "traversalMode": "MANTLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "mantle",
+      "dodgeCooldown": 0,
+      "elapsed": 1544,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "MANTLE",
+      "phase": 0.06077873061525177,
+      "pos": {
+        "x": 32.00065612792969,
+        "y": 8.492086410522461,
+        "z": -123.79066467285156
+      },
+      "rate": 0.9116809592287766,
+      "speed": 0,
+      "traversalMode": "MANTLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "mantle",
+      "dodgeCooldown": 0,
+      "elapsed": 1621.1000000089407,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "MANTLE",
+      "phase": 0.12155746123050352,
+      "pos": {
+        "x": 32.00046920776367,
+        "y": 8.476131439208984,
+        "z": -123.9627456665039
+      },
+      "rate": 0.9116809592287766,
+      "speed": 0,
+      "traversalMode": "MANTLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "mantle",
+      "dodgeCooldown": 0,
+      "elapsed": 1683.9000000059605,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "MANTLE",
+      "phase": 0.18233619184575525,
+      "pos": {
+        "x": 32.000282287597656,
+        "y": 8.460177421569824,
+        "z": -124.13482666015624
+      },
+      "rate": 0.9116809592287766,
+      "speed": 0,
+      "traversalMode": "MANTLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "idle",
+      "dodgeCooldown": 0,
+      "elapsed": 1764,
+      "facing": -3.1394014556700447,
+      "grounded": true,
+      "mode": "IDLE",
+      "phase": 0.016666666666666666,
+      "pos": {
+        "x": 32.00000762939453,
+        "y": 8.423179626464844,
+        "z": -124.39293670654295
+      },
+      "rate": 1,
+      "speed": 0,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "idle",
+      "dodgeCooldown": 0,
+      "elapsed": 1828.6000000089407,
+      "facing": -3.1394014556700447,
+      "grounded": true,
+      "mode": "IDLE",
+      "phase": 0.08333333333333333,
+      "pos": {
+        "x": 32.00000762939453,
+        "y": 8.423104286193848,
+        "z": -124.39293670654295
+      },
+      "rate": 1,
+      "speed": 0,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "idle",
+      "dodgeCooldown": 0,
+      "elapsed": 1894.70000000298,
+      "facing": -3.1394014556700447,
+      "grounded": true,
+      "mode": "IDLE",
+      "phase": 0.15,
+      "pos": {
+        "x": 32.00000762939453,
+        "y": 8.423104286193848,
+        "z": -124.39293670654295
+      },
+      "rate": 1,
+      "speed": 0,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "idle",
+      "dodgeCooldown": 0,
+      "elapsed": 1962.300000011921,
+      "facing": -3.1394014556700447,
+      "grounded": true,
+      "mode": "IDLE",
+      "phase": 0.21666666666666665,
+      "pos": {
+        "x": 32.00000762939453,
+        "y": 8.423104286193848,
+        "z": -124.39293670654295
+      },
+      "rate": 1,
+      "speed": 0,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "idle",
+      "dodgeCooldown": 0,
+      "elapsed": 2039.6000000089407,
+      "facing": -3.1394014556700447,
+      "grounded": true,
+      "mode": "IDLE",
+      "phase": 0.2833333333333333,
+      "pos": {
+        "x": 32.00000762939453,
+        "y": 8.423104286193848,
+        "z": -124.39293670654295
+      },
+      "rate": 1,
+      "speed": 0,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    {
+      "climbVelocity": 0,
+      "clip": "idle",
+      "dodgeCooldown": 0,
+      "elapsed": 2105.20000000298,
+      "facing": -3.1394014556700447,
+      "grounded": true,
+      "mode": "IDLE",
+      "phase": 0.35,
+      "pos": {
+        "x": 32.00000762939453,
+        "y": 8.423104286193848,
+        "z": -124.39293670654295
+      },
+      "rate": 1,
+      "speed": 0,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    }
+  ],
+  "health": 5
+}

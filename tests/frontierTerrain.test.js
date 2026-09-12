@@ -143,3 +143,20 @@ test('Rapier walks the ramp grounded, then a south-lip step becomes airborne and
   assert.ok(landedFeet !== null, 'the character lands in the lower clearing');
   assert.ok(startFeet - landedFeet > 2.6 && startFeet - landedFeet < 3.8, `actual drop was ${(startFeet - landedFeet).toFixed(2)}m`);
 });
+
+test('center support keeps a real Rapier 40 degree incline walkable', t => {
+  const world = new RAPIER.World({ x: 0, y: 0, z: 0 });
+  t.after(() => world.free());
+  const angle = -40 * Math.PI / 180;
+  world.createCollider(RAPIER.ColliderDesc.cuboid(4, .1, 4).setRotation({
+    x: 0, y: 0, z: Math.sin(angle / 2), w: Math.cos(angle / 2),
+  }));
+  world.step();
+  const character = createCharacterPhysics(RAPIER, world, { x: 0, y: 1, z: 0 });
+  let groundedSteps = 0;
+  for (let i = 0; i < 60; i++) {
+    if (character.move({ x: .01, y: -.08, z: 0 }).grounded) groundedSteps++;
+  }
+  assert.ok(groundedSteps > 50, `40 degree incline remains supported for ${groundedSteps}/60 steps`);
+  assert.equal(character.hasGroundSupport(), true);
+});

@@ -141,3 +141,8 @@ Native harnesses must use current canonical objects and physically clear startin
 - Build image targets from the real admitted kit as well as the baseline. An empty ground screenshot let the mockup invent layered leaves and dense grass absent from the available assets. Retain honest below-target scores after the bounded pass budget.
 - Prism collision faces need outward winding; size/height checks alone cannot detect inward faces. Verify normals before native solid-contact proof, then check retirement/return counts across the complete mesh/collider/fade/LOS lifecycle.
 - Audit shipped animation clips before asset production. Explorer already has Climb/Mantle/Fall; the remaining natural-climb problem is physical control, phase/rate, pausing and gameplay contact evidence.
+
+### September12 — physical climbing and grounded truth
+- Rapier's raw `computedGrounded` can treat a tall wall or the shelf behind a capsule as support. In the real terrace fixture, repeated Jump edges reproduced a wall ratchet above the ledge. Grounded movement now requires a central slope-aware sole hit: flat support within5cm, with capsule-rise allowance through45°. Keep the real repeated-wall-jump regression; it distinguishes ordinary repeated jumps from the contextual Climb action.
+- A stale full-height fall test exposed the same false support and must retain its lower-floor, exact-once impact requirement. Do not weaken a physical landing assertion to accept a cliff normal or invented grounded state.
+- Staged Climb/Mantle/Fall clip metadata and the R3 pose improved readability, but palm placement, boot contact and the mantle weight transfer remain an art hold. Sampled stills can validate poses; never describe unwatched video as accepted continuous motion.

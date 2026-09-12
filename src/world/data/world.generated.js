@@ -205,6 +205,7 @@ export const WORLD_DATA = {
         "walk": "Walk"
       },
       "locomotion": {
+        "climb": 1.2,
         "run": 3.376671,
         "sneak": 1.32719,
         "walk": 2.636013

@@ -198,13 +198,28 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
       button.textContent=attempt?'×':'Notes';
     }
   }
+  let climbing = false;
+  const jumpButton = hud.querySelector('.beta-jump'), dodgeButton = hud.querySelector('.beta-dodge');
+  function setClimbing(value) {
+    const next = !!value;
+    if (next === climbing) return;
+    climbing = next;
+    root.classList.toggle('is-climbing', next);
+    hud.querySelector('.beta-action-cluster').style.setProperty('pointer-events', next ? 'none' : '', 'important');
+    jumpButton.disabled = next; dodgeButton.disabled = next;
+    jumpButton.style.visibility = next ? 'hidden' : '';
+    dodgeButton.style.visibility = next ? 'hidden' : '';
+    fieldToolButton.disabled = next || contextualVisible;
+    fieldToolButton.style.visibility = next ? 'hidden' : '';
+    if (next) endFieldTool();
+  }
   function setContextualVisible(value) {
     const next = !!value;
     if (next === contextualVisible) return;
     contextualVisible = next;
     root.classList.toggle('contextual-primary-active', next);
-    fieldToolButton.disabled = next;
+    fieldToolButton.disabled = next || climbing;
     if (next) { suppressOpeningClick = true; endFieldTool(); }
   }
-  return { update, open, openBuildCatalog, close, isOpen, getState: () => ({ open: opened, welcome, tab: activeTab }), showWelcome, toast, setContextualVisible, destroy() { fullscreen.destroy(); clearTimeout(toastTimer); endFieldTool(); window.removeEventListener("pointerup", onWindowPointerEnd); window.removeEventListener("pointercancel", onWindowPointerEnd); window.removeEventListener("blur", endFieldTool); window.removeEventListener("resize", onResize); document.removeEventListener("visibilitychange", onVisibilityChange); window.removeEventListener("keydown", keydown); root.remove(); } };
+  return { update, open, openBuildCatalog, close, isOpen, getState: () => ({ open: opened, welcome, tab: activeTab }), showWelcome, toast, setContextualVisible, setClimbing, destroy() { fullscreen.destroy(); clearTimeout(toastTimer); endFieldTool(); window.removeEventListener("pointerup", onWindowPointerEnd); window.removeEventListener("pointercancel", onWindowPointerEnd); window.removeEventListener("blur", endFieldTool); window.removeEventListener("resize", onResize); document.removeEventListener("visibilitychange", onVisibilityChange); window.removeEventListener("keydown", keydown); root.remove(); } };
 }

@@ -9,7 +9,9 @@
 
 ## Current result
 
-Living Frontier now has streamed terrain/forage/wildlife, a personal atlas, individual Mosslings, physical nursery/garden care and ordinary pairing/young growth. M1 adds portrait-primary camera, fixed stick, compact HUD/tool belt and reachable world actions. F2C adds bounded habitat scenery, merged low plants, solid trunks/stones and existing canopy fade. R3 selected6.1HOLD, functional improvement with sparse/uniform art debt;1,102tests plus verify/build/validation/ZIP PASS;44.07MB/20.52MB. See `art/reviews/living-frontier-f2c/receipt.md`. Chris prioritized mobile/casual-first and portrait; `MOBILE_IDENTITY.md` records Honeycomb findings. **Next F5B adds slow physical cliff climbing, beginning at the existing terrace. Continue the active goal until Chris asks to stop.** Richer geography, swimming, modular anatomy/eyes, guided research, alternate reproduction and DNA sharing remain unfinished.
+Living Frontier has streamed terrain/forage/wildlife, personal atlas, individual Mosslings, physical nursery/garden care, pairing/young, portrait-first controls and bounded habitat scenery. F5B now adds slow natural-face climbing, holding/descent/release and collision-resolved mantle. Chris's repeated-wall-jump bug is reproduced/fixed through real floor support; falls under knockback also count correctly.1,123tests plus verify/build/validate/ZIP PASS;44.09MB/20.53MB. Approach UI8.7PASS; R3 staging improved, but hand/boot/mantle art remains HOLD. See `art/reviews/living-frontier-f5b/receipt.md`.
+
+**Next: run F7B field research/optional tone-guided pairing alongside F2D fuller habitat vegetation.** Chris explicitly wants faster visible progress and independent concurrent jobs. Four active agents total including root are available. Read exact ownership and scope in CURRENT_SLICE; preserve ordinary pairing and bounded scenery. Mobile/casual-first portrait remains primary; do not resume older landscape/PC priority. Continue the goal until Chris asks to stop.
 
 ## Inherited restart checkpoint
 

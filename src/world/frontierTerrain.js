@@ -142,6 +142,6 @@ export function createFrontierChunk(cx, cz, options = {}) {
   }
   let minY = Infinity, maxY = -Infinity;
   for (let i = 1; i < vertices.length; i += 3) { minY = Math.min(minY, vertices[i]); maxY = Math.max(maxY, vertices[i]); }
-  return { id: chunkKey(cx, cz), origin, vertices, indices, normals, colors,
+  return { id: chunkKey(cx, cz), traversalSurface: 'terrain', origin, vertices, indices, normals, colors,
     bounds: { min: { x: 0, y: minY, z: 0 }, max: { x: config.chunkSize, y: maxY, z: config.chunkSize } } };
 }

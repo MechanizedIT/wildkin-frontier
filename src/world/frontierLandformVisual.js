@@ -38,6 +38,7 @@ function transformedHull(asset, spec, baseY, id) {
   }
   return {
     id,
+    traversalSurface: 'rock',
     sectionId: 'camp',
     origin: { ...TERRACE_CHUNK.origin },
     vertices,

@@ -21,7 +21,7 @@ function validateModelLocomotion(model) {
   if (model.locomotion === undefined) return;
   if (!model.locomotion || typeof model.locomotion !== "object" || Array.isArray(model.locomotion)) throw new Error("model locomotion must map clips to authored meters per second");
   for (const [state, speed] of Object.entries(model.locomotion)) {
-    if (!["walk", "run", "sneak"].includes(state) || !isNumber(speed) || speed <= 0 || !model.clips?.[state]) throw new Error("model locomotion requires a mapped movement clip and positive finite authored speed");
+    if (!["walk", "run", "sneak", "climb"].includes(state) || !isNumber(speed) || speed <= 0 || !model.clips?.[state]) throw new Error("model locomotion requires a mapped movement clip and positive finite authored speed");
   }
 }
 // Allow generic POI types beyond known — but if requires.type is companionAbility/materialRepair we validate.

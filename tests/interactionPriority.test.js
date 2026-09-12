@@ -13,3 +13,11 @@ test('an occluded or offscreen priority target does not suppress a visible reach
   assert.equal(chooseNearbyInteraction({camp,gate,field,isVisible:info=>info.id==='nursery'}),field);
   assert.equal(chooseNearbyInteraction({camp,gate,field,isVisible:()=>false}),null);
 });
+
+test('climb entry respects visible Camp priorities while letting go always stays available',()=>{
+  const camp={id:'camp',type:'resonator'},climb={id:'wall',type:'cliffClimb',action:'climb'};
+  assert.equal(chooseNearbyInteraction({camp,climb}),camp);
+  assert.equal(chooseNearbyInteraction({climb,isVisible:()=>false}),null);
+  const drop={...climb,action:'drop'};
+  assert.equal(chooseNearbyInteraction({camp,climb:drop,isVisible:()=>false}),drop);
+});

@@ -11,7 +11,11 @@ import { WORLD_DATA } from "../src/world/data/world.js";
 const states = ["idle", "walk", "run", "sneak", "jump", "fall", "dodge", "climb", "mantle", "attack", "hurt"];
 const descriptor = {
   id: "player_explorer_fixture",
-  model: { path: "assets/models/player_explorer_fixture/model.glb", scale: 1, pivot: { x: 0, y: 0, z: 0 }, clips: Object.fromEntries(states.map((state) => [state, state[0].toUpperCase() + state.slice(1)])) },
+  model: {
+    path: "assets/models/player_explorer_fixture/model.glb", scale: 1, pivot: { x: 0, y: 0, z: 0 },
+    clips: Object.fromEntries(states.map((state) => [state, state[0].toUpperCase() + state.slice(1)])),
+    locomotion: { walk: 3.3, run: 6, sneak: 1.6, climb: 1.2 },
+  },
   handAnchor: { bone: "RightHand", position: { x: 0.01, y: 0.02, z: 0.03 }, rotation: { x: 0, y: 0.2, z: 0 } },
 };
 
@@ -63,5 +67,39 @@ describe("opt-in external player visual", () => {
     assert.doesNotThrow(() => normalizeWorldData(world));
     delete world.playerVisual.model.clips.hurt;
     assert.throws(() => normalizeWorldData(world), /clip hurt required/);
+  });
+
+  it("uses the physical climb speed without restarting a held grip, and traversal immediately replaces actions", () => {
+    registerModelTemplateForTests(descriptor.model.path, template());
+    const player = createPlayer(descriptor);
+    const adapter = player.userData.externalPlayerModel;
+
+    adapter.playAction("attack");
+    adapter.update(0.05, "CLIMB", 1.2);
+    assert.equal(adapter.animator.activeState, "climb", "entering a wall pose replaces an attack immediately");
+    assert.equal(adapter.animator.active.getEffectiveTimeScale(), 1);
+    const climbingTime = adapter.animator.active.time;
+
+    adapter.update(0.1, "CLIMB", 0);
+    assert.equal(adapter.animator.active.getEffectiveTimeScale(), 0, "neutral input holds the current grip pose");
+    assert.equal(adapter.animator.active.time, climbingTime, "a held grip does not advance or restart its clip");
+    adapter.update(0.05, "CLIMB", 0.6);
+    assert.equal(adapter.animator.active.getEffectiveTimeScale(), 0.5, "climb cadence follows real vertical speed");
+    assert.ok(adapter.animator.active.time > climbingTime, "resuming retains and advances the same clip phase");
+
+    adapter.update(0, "CLIMB", -0.9);
+    assert.equal(adapter.animator.active.getEffectiveTimeScale(), -0.75, "descending reuses the authored climb loop in reverse");
+
+    const heldClimbPhase = adapter.animator.active.time;
+    adapter.playAction("hurt");
+    adapter.update(0, "MANTLE", 1.1, { mantleDuration: 0.4, mantleProgress: 0.2, mantleLiftFraction: 0.55 });
+    assert.equal(adapter.animator.activeState, "climb", "the lift keeps the wall-facing climb pose while immediately replacing hurt");
+    assert.equal(adapter.animator.active.getEffectiveTimeScale(), 0, "the retained climb phase holds through the physical lift");
+    assert.equal(adapter.animator.active.time, heldClimbPhase, "the lift uses the last real climb phase rather than restarting upright");
+    adapter.update(0, "MANTLE", 1.1, { mantleDuration: 0.4, mantleProgress: 0.55, mantleLiftFraction: 0.55 });
+    assert.equal(adapter.animator.activeState, "mantle", "the actual mantle begins when the body clears the lip");
+    assert.ok(Math.abs(adapter.animator.active.getEffectiveTimeScale() - 0.2 / (0.4 * 0.45)) < 1e-9, "the authored mantle completes over only the post-lift travel");
+    adapter.update(0.01, "WALK", 3.3);
+    assert.equal(adapter.animator.activeState, "walk", "ordinary locomotion still resumes after traversal");
   });
 });

@@ -86,6 +86,36 @@ test("a direct harmful fall produces one receipt", () => {
   assert.equal(controller.consumeLandingImpact(), null);
 });
 
+test("sustained knockback off a ledge tracks the full fall and lands once", () => {
+  const { controller, physics } = createController({ positionY: 4, groundY: 4 });
+  physics.setGroundY(0);
+  const knockback = { knockback: { remaining: 1, dir: { x: 1, z: 0 }, speed: 2 } };
+
+  controller.update(1 / 60, idle, knockback);
+  assert.equal(controller.state.mode, "FALL", "losing support during the hit begins a real fall");
+  for (let i = 0; i < 240 && !controller.state.grounded; i++) controller.update(1 / 60, idle, knockback);
+
+  assert.equal(controller.state.pos.y, 0);
+  assert.equal(controller.state.mode, "IDLE");
+  assert.equal(controller.consumeLandingImpact()?.damage, 1);
+  controller.update(1 / 60, idle, knockback);
+  assert.equal(controller.consumeLandingImpact(), null, "continued knockback cannot duplicate the landing");
+});
+
+test("knockback landing during an existing jump preserves its airborne peak", () => {
+  const { controller, physics } = createController({ positionY: 8, groundY: 8 });
+  controller.update(1 / 60, { ...idle, jumpRequested: true });
+  physics.setGroundY(0);
+  const knockback = { knockback: { remaining: 1, dir: { x: 0, z: 1 }, speed: 1 } };
+  for (let i = 0; i < 360 && !controller.state.grounded; i++) controller.update(1 / 60, idle, knockback);
+
+  assert.equal(controller.state.pos.y, 0);
+  assert.equal(controller.state.mode, "IDLE");
+  assert.ok(controller.consumeLandingImpact().dropMeters > 8, "the hit does not restart tracking below the jump apex");
+  controller.update(1 / 60, idle, knockback);
+  assert.equal(controller.consumeLandingImpact(), null);
+});
+
 test("resetting an in-progress fall prevents a phantom impact after teleport", () => {
   const { controller, physics } = createController({ positionY: 5 });
   controller.state.mode = "FALL";

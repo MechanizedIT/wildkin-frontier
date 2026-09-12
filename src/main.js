@@ -27,6 +27,7 @@ import { createAutoHarvestToggle } from "./ui/autoHarvestToggle.js";
 import { COMBAT_CONFIG } from "./combat/combatConfig.js";
 import { getAttackTargets } from "./combat/combatTargeting.js";
 import { createPlayerCombat } from "./combat/playerCombat.js";
+import { createClimbProbe } from './movement/climbProbe.js';
 import { createCreatureSystem } from "./creatures/creatureSystem.js";
 import { createProjectileSystem } from "./combat/projectileSystem.js";
 import { createXpMoteSystem } from "./combat/xpMoteSystem.js";
@@ -221,7 +222,8 @@ const sectionRuntime = createSectionRuntime({
 const touchMovement = createTouchMovement(app, MOVEMENT_CONFIG, INPUT_CONFIG);
 const keyboardInput = createKeyboardInput(MOVEMENT_CONFIG, app);
 
-const playerController = createPlayerController(player, playground, camera, MOVEMENT_CONFIG, characterPhysics);
+const climbProbe = createClimbProbe({ characterPhysics, physicsWorld });
+const playerController = createPlayerController(player, playground, camera, MOVEMENT_CONFIG, characterPhysics, { climbProbe });
 player.position.set(startPos.x, startPos.y, startPos.z);
 playerController.state.facing = campStartFacing;
 playerController.snapRenderPose();
@@ -348,7 +350,7 @@ const playerCombat = createPlayerCombat({
   getCreatures: () => creatureSystem.getCreatures(),
   onHealthChanged: (h, mh) => combatHud.updateHealth(h, mh),
   onDamageFeedback: () => {
-    player.userData.externalPlayerModel?.playAction("hurt");
+    if (!playerController.isClimbing()) player.userData.externalPlayerModel?.playAction("hurt");
     combatHud.pulseDamage();
   },
   onDeath: () => {
@@ -655,7 +657,14 @@ contextualInteraction = createContextualInteraction({
   anchor: createWorldInteractionAnchor({ scene, registry: worldRegistry, creatures: creatureSystem, getBase: () => betaGame?.base }),
   onActivate: (info) => {
     if (isAnyBlockingModal()) return;
-    if (info.type === "bond") {
+    if (info.type === 'cliffClimb') {
+      if (info.action === 'drop' || !fieldTool.isSwinging) {
+        if (playerController.activateClimb(info)) {
+          fieldTool.hardReset(); betaGame?.equipment.cancel();
+          pendingAttackLatch = false; keyboardInput.consumeAttack();
+        }
+      }
+    } else if (info.type === "bond") {
       betaGame?.beginBond(info.id);
     } else if (info.type === 'rootfall') {
       betaGame?.rootfall.activate();
@@ -754,7 +763,7 @@ function syncInputBlock() {
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
   const modalBlocked = isAnyBlockingModal();
   const blocked = !!(authorSuppress || modalBlocked);
-  if (blocked) movementAudio.reset(playerController.getState());
+  if (blocked) { movementAudio.reset(playerController.getState()); playerController.cancelClimb(); }
   app.classList.toggle("gameplay-blocked", blocked);
   setGameplayInputBlocked(blocked);
   if (authorSuppress !== prevAuthorSuppress) {
@@ -1097,11 +1106,12 @@ function tick() {
   const blocked = isAnyBlockingModal() || !!authorSuppress;
   if (blocked) {
     movementAudio.reset(playerController.getState());
+    playerController.cancelClimb();
     playerController.cancelPendingJump();
     touchMovement.consumeJump?.();
     keyboardInput.consumeJump?.();
   }
-  const equipmentInput = betaGame?.equipment.routeInput({ requested: pendingAttackLatch, held: intent.attackHeld, down: keyboardInput.isAttackDown() || intent.attackHeld, blocked }) ?? { toolAllowed: true };
+  const equipmentInput = betaGame?.equipment.routeInput({ requested: pendingAttackLatch, held: intent.attackHeld, down: keyboardInput.isAttackDown() || intent.attackHeld, blocked: blocked || playerController.isClimbing() }) ?? { toolAllowed: true };
   if (equipmentInput.handled) { pendingAttackLatch = false; wasAttackRequested = false; keyboardInput.consumeAttack(); }
   const effectiveIntent = blocked ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", jumpRequested: false, dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
 
@@ -1112,6 +1122,7 @@ function tick() {
       const pPosForAnchor = playerController.getState().pos;
       frontierAnchorSystem.update(pPosForAnchor);
       const nearby = chooseNearbyInteraction({
+        climb:playerController.getClimbInteraction(fixedDt,{allowed:!fieldTool.isSwinging}),
         camp:getNearbyResonatorInteraction(pPosForAnchor),
         gate:getNearbyPortalGateInteraction(pPosForAnchor),
         loot:lootSystem.getNearbyInteraction(pPosForAnchor),
@@ -1293,6 +1304,7 @@ function tick() {
   }
 
   const pState = playerController.getState();
+  betaGame?.shell.setClimbing?.(playerController.isClimbing());
   if(!authorSuppress)expeditionPersistence?.update(dt,isAnyBlockingModal());
   playerController.prepareRender(fixedDt > 0 ? accumulator / fixedDt : 1);
   playerProjectedShadow.update({ hidden: authorSuppress });

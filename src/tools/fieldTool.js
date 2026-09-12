@@ -264,6 +264,9 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
     if (!next) trailGroup.visible = false;
   }
   function update(dt, playerPos, playerState, getTargetsOrOpts, onImpactMaybe, autoHarvestEnabledArg) {
+    const climbing = playerState?.mode === 'CLIMB' || playerState?.mode === 'MANTLE';
+    toolGroup.visible = equipped && !climbing;
+    if (climbing) { if (isSwinging) hardReset(); trailGroup.visible = false; return; }
     if (!equipped) return;
     // Detect which signature is used
     let getHarvestTargets = null;

@@ -6,6 +6,7 @@ import { iconMarkup } from "./itemIcons.js";
 import { createContextualGesture } from './contextualGesture.js';
 
 const interactionIcon = (info) => {
+  if (info?.type === 'cliffClimb') return 'climb';
   if (["portalGate", "gate", "majorWaypoint", "extractionBeacon"].includes(info?.type)) return "map";
   if (info?.type === "lootChest") return "backpack";
   if (info?.type === 'campYard') return 'shield';
@@ -149,8 +150,10 @@ export function createContextualInteraction(opts = {}) {
     const anchor = opts.anchor?.getPoint(current);
     if (!anchor) { hide(); return; }
     const frame = app.getBoundingClientRect();
-    const point = projectInteractionPoint(anchor, opts.camera, frame.width, frame.height);
-    if (!point || opts.anchor.isOccluded(opts.camera, anchor, dt)) { hide(); return; }
+    const pinned = current.type === 'cliffClimb' && current.action === 'drop';
+    const point = projectInteractionPoint(anchor, opts.camera, frame.width, frame.height)
+      ?? (pinned ? {x:frame.width*.5,y:frame.height*.55} : null);
+    if (!point || (!pinned && opts.anchor.isOccluded(opts.camera, anchor, dt))) { hide(); return; }
     buttonEl.hidden = false;
     secondaryEl.hidden = !current.secondary;
     const portrait = frame.width < frame.height;
@@ -160,7 +163,7 @@ export function createContextualInteraction(opts = {}) {
     if (portrait) {
       // Fixed thumb controls share the existing transaction owner. The small
       // world marker identifies the live target without laying a panel over it.
-      markerEl.hidden = statusOnly; leaderEl.hidden = true;
+      markerEl.hidden = statusOnly || pinned; leaderEl.hidden = true;
       markerEl.style.left = `${point.x}px`; markerEl.style.top = `${point.y}px`;
       buttonEl.style.left = ''; buttonEl.style.top = '';
       if (statusOnly) {
@@ -172,6 +175,15 @@ export function createContextualInteraction(opts = {}) {
       return;
     }
     markerEl.hidden = true;
+    // Let Go is a player-state control. A large cliff's body envelope must
+    // never hide the only release action when the phone turns sideways.
+    if (pinned) {
+      leaderEl.hidden = true;
+      buttonEl.style.left = `${Math.max(8, frame.width - buttonEl.offsetWidth - 18)}px`;
+      buttonEl.style.top = `${Math.max(8, frame.height - buttonEl.offsetHeight - 20)}px`;
+      size = null; lastPlacement = null;
+      return;
+    }
     if (!size) size = { width: Math.max(buttonEl.offsetWidth, current.secondary ? secondaryEl.offsetWidth : 0), height: buttonEl.offsetHeight + (current.secondary ? secondaryEl.offsetHeight + 5 : 0) };
     layoutTimer += dt;
     // This only projects eight cached corners; moving body bounds must track

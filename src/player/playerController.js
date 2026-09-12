@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { getBandSpeed, classifyMovementBand } from "../movement/movementBands.js";
-import { createTraversalController, computeMantleEndpoints } from "../movement/traversalController.js";
+import { createTraversalController } from "../movement/traversalController.js";
 import { createPlayerVisuals } from "./playerVisuals.js";
+import { createClimbingController, CLIMBING_CONFIG } from '../movement/climbingController.js';
 import { calculateFallImpact } from "./fallImpact.js";
 
 // Phase 1.2 — Rapier KinematicCharacterController migration.
@@ -31,7 +32,7 @@ export function resolveJumpPadLaunchVelocity(horizontalVelocity = {}, verticalLa
   };
 }
 
-export function createPlayerController(playerMesh, playground, camera, moveCfg, characterPhysics) {
+export function createPlayerController(playerMesh, playground, camera, moveCfg, characterPhysics, { climbProbe = null } = {}) {
   const state = {
     mode: "IDLE",
     pos: new THREE.Vector3().copy(playerMesh.position),
@@ -53,6 +54,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     fallHVel: null,
     climbable: null,
     climbTime: 0,
+    climbVelocity: 0,
     mantleData: null,
   };
   let moveSpeedMultiplier = 1;
@@ -72,6 +74,9 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   const renderedPose = { position: state.pos.clone(), facing: state.facing };
   let airbornePeakFeetY = null;
   let pendingLandingImpact = null;
+  const climbing = characterPhysics ? createClimbingController({ state, characterPhysics, probe:climbProbe,
+    playground, syncPosition:syncPosFromPhysics, beginAirborneTracking, cancelAirborneTracking,
+    resetTraversal:()=>traversal.reset() }) : null;
 
   function syncPosFromPhysics() {
     if (!characterPhysics) return;
@@ -185,6 +190,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       : null;
     const launchVelocity = resolveJumpPadLaunchVelocity(horizontal, verticalLaunch, authoredHorizontal);
     const horizontalSpeed = Math.hypot(launchVelocity.x, launchVelocity.z);
+    climbing?.reset();
     traversal.reset();
     state.mode = "JUMP";
     state.jumpData = {
@@ -220,8 +226,9 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   }
 
   function resetJumpState() {
+    climbing?.reset();
     cancelPendingJump();
-    if (state.mode === "JUMP" || state.mode === "FALL") state.mode = "IDLE";
+    if (["JUMP","FALL","CLIMB","MANTLE"].includes(state.mode)) state.mode = "IDLE";
     state.jumpData = null;
     state.fallHVel = null;
     state.airCap = 0;
@@ -278,7 +285,10 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     // traversal debug mode override if needed
     const travMode = traversal.getState().mode;
     if (travMode !== "IDLE" && state.mode === "IDLE") visualMode = travMode;
-    visuals.sync(dt, { mode: visualMode, speed: state.speed });
+    visuals.sync(dt, { mode: visualMode, speed: visualMode === "CLIMB" ? state.climbVelocity : state.speed,
+      mantleDuration:state.mantleData?.duration,
+      mantleProgress:state.mantleData ? state.mantleData.time/state.mantleData.duration : undefined,
+      mantleLiftFraction:CLIMBING_CONFIG.mantleLiftFraction });
   }
 
   function prepareRender(alpha) {
@@ -361,12 +371,33 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
 
     // Phase 3: handle knockback if provided via combatOpts
     if (combatOpts && combatOpts.knockback && combatOpts.knockback.remaining > 0) {
+      const wasGrounded = state.grounded;
+      const preMoveFeetY = getFeetY();
+      climbing?.detach();
       const kb = combatOpts.knockback;
+      if (!state.grounded) state.verticalVelocity += (moveCfg.gravity ?? -12) * fixedDt;
       const desired = { x: kb.dir.x * kb.speed * fixedDt, y: (state.verticalVelocity * fixedDt), z: kb.dir.z * kb.speed * fixedDt };
       const res = characterPhysics.move(desired);
       syncPosFromPhysics();
       state.grounded = res.grounded;
-      if (state.grounded && state.verticalVelocity < 0) state.verticalVelocity = 0;
+      if (wasGrounded && !res.grounded) {
+        state.mode = "FALL";
+        state.jumpData = null;
+        state.fallHVel = { x: kb.dir.x * kb.speed, z: kb.dir.z * kb.speed };
+        state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, kb.speed);
+        beginAirborneTracking(preMoveFeetY);
+      } else if (!res.grounded && (state.mode === "JUMP" || state.mode === "FALL")) {
+        updateAirbornePeak();
+      }
+      if (res.grounded && (state.mode === "JUMP" || state.mode === "FALL")) {
+        recordLandingImpact();
+        state.mode = "IDLE";
+        state.jumpData = null;
+        state.fallHVel = null;
+        state.airCap = 0;
+        state.verticalVelocity = 0;
+        traversal.reset();
+      } else if (state.grounded && state.verticalVelocity < 0) state.verticalVelocity = 0;
       // During knockback, facing may stay as is, speed reflects knockback
       state.speed = kb.speed;
       state.vel.set(kb.dir.x * kb.speed, 0, kb.dir.z * kb.speed);
@@ -377,6 +408,8 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     if (state.dodgeCooldown > 0) state.dodgeCooldown = Math.max(0, state.dodgeCooldown - fixedDt);
     const worldDir = intentToWorldDir(intent);
     updateJumpRequestWindow(fixedDt, intent);
+
+    if (climbing?.update(fixedDt, intent)) { syncMesh(fixedDt); return; }
 
     const canStartOrdinaryJump = state.mode !== "JUMP" && state.mode !== "DODGE" && state.mode !== "CLIMB" && state.mode !== "MANTLE";
     if (canStartOrdinaryJump && state.jumpBufferRemaining > 0 && (state.grounded || state.coyoteRemaining > 0)) {
@@ -402,8 +435,12 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       if (res.grounded && state.verticalVelocity <= 0.1) {
         landed = true;
       }
-      // timeout fallback (prevents infinite air if grounded never reported)
-      if (jd.time > jd.airTime + 0.75) landed = true;
+      // A long arc can become an ordinary fall, never an invented landing.
+      if (!landed && jd.time > jd.airTime + 0.75) {
+        state.mode = 'FALL'; state.fallHVel = { ...jd.hVel };
+        state.jumpData = null; state.grounded = false;
+        syncMesh(fixedDt); return;
+      }
 
       if (landed) {
         if (res.grounded) recordLandingImpact();
@@ -447,145 +484,6 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       return;
     }
 
-    // --- CLIMB active ---
-    if (state.mode === "CLIMB" && state.climbable) {
-      const climb = state.climbable;
-      const approach = climb.approachDir;
-      const forwardDot = worldDir ? worldDir.x * approach.x + worldDir.z * approach.z : 0;
-      const mag = intent ? intent.moveMagnitude : 0;
-      let climbInput = 0;
-      if (mag > 0.12) {
-        climbInput = forwardDot * mag;
-        if (Math.abs(forwardDot) < 0.28) climbInput *= 0.35;
-      }
-      // No input = pause (not falling)
-      if (Math.abs(climbInput) < 1e-4) {
-        state.speed = 0;
-        state.verticalVelocity = 0;
-        // Keep anchored
-        const anchorX = climb.x - approach.x * 0.35;
-        const anchorZ = climb.z - approach.z * 0.35;
-        const snap = { x: anchorX - state.pos.x, y: 0, z: anchorZ - state.pos.z };
-        // small snap only
-        if (Math.hypot(snap.x, snap.z) > 0.02) {
-          characterPhysics.move({ x: snap.x * 0.5, y: 0, z: snap.z * 0.5 });
-          syncPosFromPhysics();
-        }
-        state.facing = Math.atan2(approach.x, approach.z);
-        syncMesh(fixedDt);
-        return;
-      }
-      const speed = climbInput >= 0 ? (moveCfg.climbSpeedUp ?? 1.9) : (moveCfg.climbSpeedDown ?? 1.7);
-      const dy = climbInput * speed * fixedDt;
-      const anchorX = climb.x - approach.x * 0.35;
-      const anchorZ = climb.z - approach.z * 0.35;
-      const dx = anchorX - state.pos.x;
-      const dz = anchorZ - state.pos.z;
-      const desired = { x: dx, y: dy, z: dz };
-      // limit snap speed
-      const maxSnap = 5 * fixedDt;
-      if (Math.abs(desired.x) > maxSnap) desired.x = Math.sign(desired.x) * maxSnap;
-      if (Math.abs(desired.z) > maxSnap) desired.z = Math.sign(desired.z) * maxSnap;
-      state.verticalVelocity = 0;
-      characterPhysics.move(desired);
-      syncPosFromPhysics();
-      state.speed = Math.abs(climbInput * speed);
-      state.facing = Math.atan2(approach.x, approach.z);
-      state.climbTime += fixedDt;
-
-      const capsuleH = characterPhysics.cfg.capsuleTotalHeight;
-      const half = capsuleH / 2;
-      const bottomY = half + 0.02;
-      const topY = climb.topY + half;
-      if (state.pos.y >= topY - 0.08 && climbInput > 0.05) {
-        // start mantle
-        state.pos.y = topY;
-        characterPhysics.setPosition({ x: state.pos.x, y: state.pos.y, z: state.pos.z });
-        syncPosFromPhysics();
-        const endpoints = computeMantleEndpoints(climb, { x: state.pos.x, y: state.pos.y, z: state.pos.z }, moveCfg);
-        state.mantleData = {
-          start: endpoints.start,
-          end: endpoints.end,
-          time: 0,
-          duration: moveCfg.mantleDuration ?? 0.28,
-          climbable: climb,
-        };
-        traversal.reset();
-        state.mode = "MANTLE";
-        state.climbable = null;
-        cancelAirborneTracking();
-        syncMesh(fixedDt);
-        return;
-      }
-      if (state.pos.y <= bottomY + 0.05 && climbInput < -0.08) {
-        state.mode = "IDLE";
-        state.climbable = null;
-        state.climbTime = 0;
-        state.verticalVelocity = 0;
-        // push away from wall
-        const push = { x: -approach.x * 0.5, y: 0, z: -approach.z * 0.5 };
-        characterPhysics.move(push);
-        syncPosFromPhysics();
-        traversal.reset();
-        syncMesh(fixedDt);
-        return;
-      }
-      // clamp
-      if (state.pos.y < bottomY) {
-        const c = bottomY - state.pos.y;
-        characterPhysics.move({ x: 0, y: c, z: 0 });
-        syncPosFromPhysics();
-      }
-      if (state.pos.y > topY) {
-        const c = topY - state.pos.y;
-        characterPhysics.move({ x: 0, y: c, z: 0 });
-        syncPosFromPhysics();
-      }
-      syncMesh(fixedDt);
-      return;
-    }
-
-    // --- MANTLE active ---
-    if (state.mode === "MANTLE" && state.mantleData) {
-      const md = state.mantleData;
-      md.time += fixedDt;
-      const t = Math.min(1, md.time / md.duration);
-      const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      const arc = Math.sin(Math.PI * t) * 0.22;
-      const target = {
-        x: md.start.x + (md.end.x - md.start.x) * eased,
-        y: md.start.y + (md.end.y - md.start.y) * eased + arc,
-        z: md.start.z + (md.end.z - md.start.z) * eased,
-      };
-      const desired = { x: target.x - state.pos.x, y: target.y - state.pos.y, z: target.z - state.pos.z };
-      // Mantle should be collision-aware; controller will slide/stop if blocked
-      if (characterPhysics.isCapsuleAtPositionClear && !characterPhysics.isCapsuleAtPositionClear(target)) {
-        // If target blocked, try without arc
-        desired.y -= arc;
-      }
-      characterPhysics.move(desired);
-      syncPosFromPhysics();
-      state.speed = 1.1;
-      if (md.climbable) {
-        const a = md.climbable.approachDir;
-        state.facing = Math.atan2(a.x, a.z);
-      }
-      if (t >= 1) {
-        // ensure final pos
-        const final = { x: md.end.x - state.pos.x, y: md.end.y - state.pos.y, z: md.end.z - state.pos.z };
-        characterPhysics.move(final);
-        syncPosFromPhysics();
-        state.mode = "IDLE";
-        state.mantleData = null;
-        state.verticalVelocity = 0;
-        state.grounded = true;
-        cancelAirborneTracking();
-        traversal.reset();
-      }
-      syncMesh(fixedDt);
-      return;
-    }
-
     // --- DODGE active ---
     if (state.mode === "DODGE") {
       state.dodgeTime -= fixedDt;
@@ -623,44 +521,11 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       }
     }
 
-    // --- Climb entries ---
+    // Authored entrances share physical movement, exit checks and fall resets.
     const climbBottom = traversal.tryStartClimbBottom(worldDir, state.pos, intent.moveMagnitude);
-    if (climbBottom) {
-      cancelAirborneTracking();
-      state.mode = "CLIMB";
-      state.climbable = climbBottom;
-      state.climbTime = 0;
-      state.verticalVelocity = 0;
-      const approach = climbBottom.approachDir;
-      const targetX = climbBottom.x - approach.x * 0.35;
-      const targetZ = climbBottom.z - approach.z * 0.35;
-      const snap = { x: targetX - state.pos.x, y: 0, z: targetZ - state.pos.z };
-      characterPhysics.move(snap);
-      syncPosFromPhysics();
-      state.facing = Math.atan2(approach.x, approach.z);
-      traversal.reset(); // we manage climb ourselves, keep traversal idle
-      state.climbable = climbBottom;
-      syncMesh(fixedDt);
-      return;
-    }
-    const climbTop = traversal.tryStartClimbTop(worldDir, state.pos, intent.moveMagnitude, state.pos.y);
-    if (climbTop) {
-      cancelAirborneTracking();
-      state.mode = "CLIMB";
-      state.climbable = climbTop;
-      state.climbTime = 0;
-      state.verticalVelocity = 0;
-      const approach = climbTop.approachDir;
-      const targetX = climbTop.x - approach.x * 0.35;
-      const targetZ = climbTop.z - approach.z * 0.35;
-      const snap = { x: targetX - state.pos.x, y: 0, z: targetZ - state.pos.z };
-      characterPhysics.move(snap);
-      syncPosFromPhysics();
-      state.facing = Math.atan2(approach.x, approach.z);
-      traversal.reset();
-      state.climbable = climbTop;
-      syncMesh(fixedDt);
-      return;
+    const climbTop = climbBottom ? null : traversal.tryStartClimbTop(worldDir, state.pos, intent.moveMagnitude, state.pos.y);
+    if ((climbBottom || climbTop) && climbing?.startAuthored(climbBottom || climbTop)) {
+      syncMesh(fixedDt); return;
     }
 
     // --- Jump (authored) — preserves actual horizontal velocity and uses shared air model ---
@@ -825,9 +690,13 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       traversalMode: state.mode === "JUMP" || state.mode === "FALL" || state.mode === "CLIMB" || state.mode === "MANTLE" ? state.mode : trav.mode,
       grounded: state.grounded,
       verticalVelocity: state.verticalVelocity,
+      climbVelocity: state.climbVelocity,
     };
   }
 
   snapRenderPose();
-  return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad, cancelPendingJump, resetJumpState, consumeLandingImpact, setMoveSpeedMultiplier };
+  return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad, cancelPendingJump, resetJumpState, consumeLandingImpact, setMoveSpeedMultiplier,
+    getClimbInteraction:(dt,options)=>climbing?.interaction(dt,options)??null,
+    activateClimb:info=>info?.action==='drop'?climbing?.detach():climbing?.startNatural(info?.candidate),
+    cancelClimb:()=>climbing?.detach(), isClimbing:()=>climbing?.isActive()??false };
 }

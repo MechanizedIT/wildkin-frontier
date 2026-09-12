@@ -15,6 +15,9 @@ export function createPhysicsWorld(RAPIER, playground) {
   // runtime construction. Harvest nodes stay out so foliage fading remains
   // visual-only and companions/creatures remain query-filtered kinematics.
   const cameraColliders = new Set();
+  // Natural traversal is narrower than ordinary collision: terrain and
+  // explicitly classified rock faces only.
+  const traversalColliders = new Set();
   const colliderSections = new Map();
   const objectColliders = new Map();
   const disabledObjects = new Set();
@@ -25,9 +28,10 @@ export function createPhysicsWorld(RAPIER, playground) {
   let activeSectionId = null;
   let sectionSelectionMade = false;
 
-  function registerCollider(collider, sectionId, objectId, { cameraSolid = true } = {}) {
+  function registerCollider(collider, sectionId, objectId, { cameraSolid = true, traversalSolid = false } = {}) {
     staticColliders.push(collider);
     if (cameraSolid) cameraColliders.add(collider);
+    if (traversalSolid) traversalColliders.add(collider);
     colliderSections.set(collider, sectionId);
     if (objectId == null) return;
     if (!objectColliders.has(objectId)) objectColliders.set(objectId, []);
@@ -40,6 +44,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     const staticIndex = staticColliders.indexOf(collider);
     if (staticIndex >= 0) staticColliders.splice(staticIndex, 1);
     cameraColliders.delete(collider);
+    traversalColliders.delete(collider);
     const objectId = colliderObjects.get(collider);
     colliderObjects.delete(collider);
     colliderSections.delete(collider);
@@ -58,7 +63,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     return true;
   }
 
-  function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0, sectionId = null, objectId = null, { cameraSolid = true } = {}) {
+  function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0, sectionId = null, objectId = null, { cameraSolid = true, traversalSolid = false } = {}) {
     const desc = RAPIER.ColliderDesc.cuboid(hx, hy, hz)
       .setTranslation(tx, ty, tz)
       .setFriction(0.6)
@@ -68,7 +73,7 @@ export function createPhysicsWorld(RAPIER, playground) {
       desc.setRotation({ x: 0, y: Math.sin(half), z: 0, w: Math.cos(half) });
     }
     const c = world.createCollider(desc);
-    registerCollider(c, sectionId, objectId, { cameraSolid });
+    registerCollider(c, sectionId, objectId, { cameraSolid, traversalSolid });
     return c;
   }
 
@@ -79,7 +84,7 @@ export function createPhysicsWorld(RAPIER, playground) {
       const desc = RAPIER.ColliderDesc.trimesh(surface.vertices, surface.indices)
         .setFriction(0.6).setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
       const collider = world.createCollider(desc);
-      registerCollider(collider, surface.sectionId ?? null, surface.id);
+      registerCollider(collider, surface.sectionId ?? null, surface.id, { traversalSolid: true });
     }
     for (const gp of playground.groundPatches) {
       if (gp.collisionEnabled === false) continue;
@@ -115,7 +120,10 @@ export function createPhysicsWorld(RAPIER, playground) {
       const half = (o.rotY ?? 0)/2;
       desc.setRotation({x:0,y:Math.sin(half),z:0,w:Math.cos(half)});
       const collider = world.createCollider(desc);
-      registerCollider(collider, o.sectionId ?? o.regionId ?? null, o.id, { cameraSolid: !CAMERA_FADE_ASSET_IDS.has(o.visualAssetId) });
+      registerCollider(collider, o.sectionId ?? o.regionId ?? null, o.id, {
+        cameraSolid: !CAMERA_FADE_ASSET_IDS.has(o.visualAssetId),
+        traversalSolid: o.traversalSurface === 'rock',
+      });
       continue;
     }
     const hx = o.w / 2;
@@ -126,7 +134,10 @@ export function createPhysicsWorld(RAPIER, playground) {
     const rotY = o.rotY ?? 0;
     // Respect collisionEnabled flag if present
     if (o.collisionEnabled === false) continue;
-    addCuboid(hx, hy, hz, o.x, ty, o.z, rotY, o.sectionId ?? o.regionId ?? null, o.id, { cameraSolid: !CAMERA_FADE_ASSET_IDS.has(o.visualAssetId) });
+    addCuboid(hx, hy, hz, o.x, ty, o.z, rotY, o.sectionId ?? o.regionId ?? null, o.id, {
+      cameraSolid: !CAMERA_FADE_ASSET_IDS.has(o.visualAssetId),
+      traversalSolid: o.traversalSurface === 'rock',
+    });
   }
 
   // Platforms — respect baseY/rotY
@@ -223,7 +234,8 @@ export function createPhysicsWorld(RAPIER, playground) {
         .setFriction(0.6)
         .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
       const collider = world.createCollider(desc);
-      registerCollider(collider, surface.sectionId ?? null, id);
+      const traversalSolid = surface.traversalSurface === 'terrain' || surface.traversalSurface === 'rock';
+      registerCollider(collider, surface.sectionId ?? null, id, { traversalSolid });
       terrainSurfaceColliders.set(id, collider);
       collider.setEnabled(isColliderEnabled(collider));
       added++;
@@ -239,5 +251,14 @@ export function createPhysicsWorld(RAPIER, playground) {
   }
   function unregisterCameraCollider(collider) { cameraColliders.delete(collider); }
 
-  return { world, staticColliders, cameraColliders, colliderSections, registerCameraCollider, unregisterCameraCollider, setActiveSection, setStaticObjectEnabled, updateTerrainSurfaces, getActiveSectionId: () => activeSectionId, RAPIER };
+  function isTraversalColliderActive(collider) {
+    return !!collider && traversalColliders.has(collider)
+      && (typeof collider.isEnabled !== 'function' || collider.isEnabled());
+  }
+
+  function getColliderSurfaceId(collider) {
+    return colliderObjects.get(collider) ?? null;
+  }
+
+  return { world, staticColliders, cameraColliders, traversalColliders, colliderSections, registerCameraCollider, unregisterCameraCollider, isTraversalColliderActive, getColliderSurfaceId, setActiveSection, setStaticObjectEnabled, updateTerrainSurfaces, getActiveSectionId: () => activeSectionId, RAPIER };
 }

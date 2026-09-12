@@ -24,7 +24,7 @@ export function projectInteractionBounds(box, matrixWorld, camera, width, height
 export function resolveInteractionRecord(info, { registry, creatures, getBase } = {}) {
   if (!info) return null;
   if (info.type === 'rootfall') return info.anchorPos?{pos:info.anchorPos}:null;
-  if (['wildkinBed','berryGarden'].includes(info.type)) return info.anchorPos ? { pos: info.anchorPos } : null;
+  if (['wildkinBed','berryGarden','cliffClimb'].includes(info.type)) return info.anchorPos ? { pos: info.anchorPos } : null;
   if (info.type === 'campYard') { const pos=getBase?.()?.getCampYardAnchor();return pos?{pos}:null; }
   if (info.type === 'bond' || info.type === 'companion') {
     const creature = info.target ?? creatures?.getCreatures().find(c => c.state.id === info.id);
@@ -65,7 +65,7 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
     return attached;
   };
   const keyFor = info => `${info?.type}|${info?.id}`;
-  const syntheticRecord = info => ['rootfall','wildkinBed','berryGarden','campYard'].includes(info?.type);
+  const syntheticRecord = info => ['rootfall','wildkinBed','berryGarden','campYard','cliffClimb'].includes(info?.type);
   function advanceClock(dt = 0) {
     const now = globalThis.performance?.now?.() ?? Date.now();
     if (Number.isFinite(dt) && dt > 0) explicitClock += dt;
@@ -98,7 +98,7 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
           }
         }
       }
-      entry.offset = ['rootfall','wildkinBed','berryGarden'].includes(info?.type)?0:HEIGHT[info?.type] ?? 1.3;
+      entry.offset = ['rootfall','wildkinBed','berryGarden','cliffClimb'].includes(info?.type)?0:HEIGHT[info?.type] ?? 1.3;
       if (root && !['wildkinBed','berryGarden'].includes(info?.type)) {
         root.updateWorldMatrix(true, true);
         if (bodyTop === null) box.setFromObject(root);

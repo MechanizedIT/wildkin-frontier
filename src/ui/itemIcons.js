@@ -10,6 +10,7 @@ export function iconMarkup(id, {size=40,className='',label=''}={}) {
   if(id==='more')return `<svg ${common}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.2" fill="currentColor"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/><circle cx="19" cy="12" r="2.2" fill="currentColor"/></svg>`;
   // These UI actions are not inventory resources, so keeping them as tiny
   // native vectors avoids ambiguous reuse of the backpack/skills atlas tiles.
+  if(id==='climb')return `<svg ${common}" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 12V5a1.4 1.4 0 0 1 2.8 0v5-7a1.4 1.4 0 0 1 2.8 0v7-6a1.4 1.4 0 0 1 2.8 0v7-4a1.4 1.4 0 0 1 2.8 0v8c0 4-2.1 7-6 7-2.5 0-4.2-1.3-5.5-3.2L3 14a1.5 1.5 0 0 1 2.4-1.8L7 14z" fill="currentColor"/></svg>`;
   if(id==='medkit')return `<svg ${common}" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="15" rx="3" fill="currentColor"/><path d="M8 5V3.5h8V5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10.1 8.2h3.8v2.1H16v3.7h-2.1v2.1h-3.8V14H8v-3.7h2.1z" fill="#e9585d"/></svg>`;
   if(id==='settings')return `<svg ${common}" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.1 2h3.8l.7 2.4 2.2.9 2.2-1.1 2.7 2.7-1.1 2.2.9 2.2 2.4.7v3.8l-2.4.7-.9 2.2 1.1 2.2-2.7 2.7-2.2-1.1-2.2.9-.7 2.4h-3.8l-.7-2.4-2.2-.9-2.2 1.1-2.7-2.7 1.1-2.2-.9-2.2L.8 13.9v-3.8l2.4-.7.9-2.2-1.1-2.2 2.7-2.7 2.2 1.1 2.2-.9z" fill="currentColor"/><circle cx="12" cy="12" r="3.2" fill="#102d3b"/></svg>`;
   const portrait=['mossling','tidefin','emberhorn','skydancer'].indexOf(id);

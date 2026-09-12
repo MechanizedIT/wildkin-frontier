@@ -1,0 +1,18 @@
+{
+  "health": 5,
+  "state": {
+    "climbVelocity": 0,
+    "dodgeCooldown": 0,
+    "facing": 0.0021911979197487058,
+    "grounded": true,
+    "mode": "IDLE",
+    "pos": {
+      "x": 32.001808166503906,
+      "y": 5.368955612182617,
+      "z": -123.60172271728516
+    },
+    "speed": 0,
+    "traversalMode": "IDLE",
+    "verticalVelocity": 0
+  }
+}

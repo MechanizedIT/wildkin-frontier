@@ -1,0 +1,128 @@
+[
+  {
+    "health": 5,
+    "label": "attached",
+    "phase": 0.025335947672526043,
+    "rate": 0,
+    "state": {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 5.371565818786621,
+        "z": -123.63794708251952
+      },
+      "speed": 0,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    }
+  },
+  {
+    "health": 5,
+    "label": "up",
+    "phase": 0.9836594263712556,
+    "rate": 0.9583234786987304,
+    "state": {
+      "climbVelocity": 1.1499881744384766,
+      "dodgeCooldown": 0,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.521553993225098,
+        "z": -123.63794708251952
+      },
+      "speed": 1.1499881744384766,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    }
+  },
+  {
+    "health": 5,
+    "label": "hold-start",
+    "phase": 0.9836594263712556,
+    "rate": 0,
+    "state": {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.521553993225098,
+        "z": -123.63794708251952
+      },
+      "speed": 0,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    }
+  },
+  {
+    "health": 5,
+    "label": "hold-end",
+    "phase": 0.9836594263712556,
+    "rate": 0,
+    "state": {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.521553993225098,
+        "z": -123.63794708251952
+      },
+      "speed": 0,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    }
+  },
+  {
+    "health": 5,
+    "label": "down",
+    "phase": 0.6836620966593406,
+    "rate": -0.7499933242797852,
+    "state": {
+      "climbVelocity": -0.8999919891357422,
+      "dodgeCooldown": 0,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.161557197570801,
+        "z": -123.63794708251952
+      },
+      "speed": 0.8999919891357422,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    }
+  },
+  {
+    "health": 5,
+    "label": "down-held",
+    "phase": 0.6836620966593406,
+    "rate": 0,
+    "state": {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": -3.1394014556700447,
+      "grounded": false,
+      "mode": "CLIMB",
+      "pos": {
+        "x": 32.00082015991211,
+        "y": 6.161557197570801,
+        "z": -123.63794708251952
+      },
+      "speed": 0,
+      "traversalMode": "CLIMB",
+      "verticalVelocity": 0
+    }
+  }
+]
