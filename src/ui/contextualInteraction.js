@@ -9,6 +9,7 @@ const interactionIcon = (info) => {
   if (info?.type === "lootChest") return "backpack";
   if (info?.type === 'campYard') return 'shield';
   if (info?.type === 'rootfall') return 'axe';
+  if (info?.type === 'berryGarden') return 'berries';
   if (["campSanctuary", "companion", "bond", "wildkinBed"].includes(info?.type)) return "paw";
   return "axe";
 };
@@ -72,7 +73,7 @@ export function createContextualInteraction(opts = {}) {
     if(current?.id!==info?.id || current?.type!==info?.type)lastPlacement=null;
     current = info;
     if (!buttonEl) return;
-    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}|${info.nourishment}|${info.secondary?.label}` : "";
+    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}|${info.nourishment}|${info.secondary?.label}|${info.bonus}|${JSON.stringify(info.cost ?? info.reward ?? null)}` : "";
     // Countdown/accessibility detail can change without moving or rebuilding a
     // held action. Only its visible label/identity/availability affects layout.
     if (info) {
@@ -83,7 +84,7 @@ export function createContextualInteraction(opts = {}) {
     if (presentationKey === nextKey) return;
     presentationKey = nextKey;
     buttonEl.disabled = info?.disabled === true;
-    buttonEl.classList.toggle('nursery-action', info?.type === 'wildkinBed' && info.nourishment !== null);
+    buttonEl.classList.toggle('nursery-action', (info?.type === 'wildkinBed' && info.nourishment !== null) || !!info?.bonus);
     secondaryEl.textContent = info?.secondary?.label ?? '';
     size = null; layoutTimer = 1; hide();
     if (!info) {
@@ -103,9 +104,9 @@ export function createContextualInteraction(opts = {}) {
       const actionLabel = info.label.split(' — ')[0];
       label.textContent = info.type === 'lootChest' ? ({ 'CHEST EMPTY': 'EMPTY', 'CHEST REFILLING': 'REFILLING' }[actionLabel] ?? actionLabel) : actionLabel;
       buttonEl.append(icon, label);
-      if (['campYard','rootfall','wildkinBed'].includes(info.type) && info.cost) {
+      if (['campYard','rootfall','wildkinBed','berryGarden'].includes(info.type) && (info.cost || info.reward)) {
         const costs=document.createElement('small');costs.className='contextual-action__cost';
-        for(const [id,count] of Object.entries(info.cost)) {
+        for(const [id,count] of Object.entries(info.cost || info.reward)) {
           const item=document.createElement('span');
           item.append(document.createRange().createContextualFragment(iconMarkup(id,{size:20,label:id})),document.createTextNode(String(count)));
           costs.append(item);
@@ -116,6 +117,9 @@ export function createContextualInteraction(opts = {}) {
         const dots = document.createElement('small'); dots.className = 'contextual-action__nourishment'; dots.setAttribute('aria-hidden','true');
         for (let i=0;i<3;i++) { const dot=document.createElement('i'); dot.className=i<info.nourishment?'filled':''; dots.append(dot); }
         label.append(dots);
+      }
+      if (info.bonus) {
+        const bonus=document.createElement('small');bonus.className='contextual-action__bonus';bonus.textContent=info.bonus;label.append(bonus);
       }
 
     }

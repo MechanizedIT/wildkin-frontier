@@ -22,6 +22,7 @@ import { createFrontierAtlasState, cloneFrontierAtlasState, normalizeFrontierAtl
 import { MAX_CAPTURED_WILDKIN_SOURCES, MAX_OWNED_WILDKIN, MAX_PENDING_WILDKIN, WILDKIN_INDIVIDUAL_VERSION, cloneWildkinIndividual, normalizeWildkinIndividual, normalizeWildkinIndividuals, projectWildkinSpecies } from '../creatures/wildkinIndividual.js';
 import { createWildkinGenome } from '../creatures/wildkinGenome.js';
 import { CAMP_CARE_MAX_NOURISHMENT, CAMP_CARE_VERSION, cloneCampCare, readCampCare } from '../companions/campCareState.js';
+import { CAMP_CROP_GROWTH_SECONDS, CAMP_CROP_MAX_ADVANCE_SECONDS, CAMP_CROP_VERSION, cloneCampCrop, getCampCropStage, readCampCrop } from '../base/campGardenState.js';
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
@@ -94,6 +95,7 @@ function defaultState(initialWaypointId, resourceDrops) {
     campaignCompleted: false,
     base: { tier: 0, layout: createCampLayout(), structures: [] },
     campCare: null,
+    campCrop: null,
     loadout: normalizeLoadout(null),
     securedCompanionRunIds: [],
     ecology: createFrontierEcologyState(),
@@ -221,6 +223,9 @@ export function createFrontierProgress(opts = {}) {
     const campCare = readCampCare(raw.campCare, { structures: out.base.structures, ownedWildkin: out.ownedWildkin });
     if (!campCare.ok) throw new Error(campCare.reason);
     out.campCare = campCare.care;
+    const campCrop = readCampCrop(raw.campCrop, { structures: out.base.structures });
+    if (!campCrop.ok) throw new Error(campCrop.reason);
+    out.campCrop = campCrop.crop;
     if (raw.version >= 3 && raw.lootRemainders) {
       if (typeof raw.lootRemainders !== 'object' || Array.isArray(raw.lootRemainders) || Object.keys(raw.lootRemainders).length > MAX_PERSISTED_LIST_ENTRIES) throw new Error('invalid-loot-remainders');
       for (const [id, entry] of Object.entries(raw.lootRemainders)) {
@@ -303,6 +308,7 @@ export function createFrontierProgress(opts = {}) {
       completedPoiIds: [...state.completedPoiIds],
       base: cloneBase(state.base),
       campCare: cloneCampCare(state.campCare),
+      campCrop: cloneCampCrop(state.campCrop),
       loadout: cloneLoadout(state.loadout),
       ecology: cloneFrontierEcologyState(state.ecology),
       atlas: cloneFrontierAtlasState(state.atlas),
@@ -586,6 +592,7 @@ export function createFrontierProgress(opts = {}) {
       ...getPackEquipment(state.inventory, itemCatalog),
       base: cloneBase(state.base),
       campCare: cloneCampCare(state.campCare),
+      campCrop: cloneCampCrop(state.campCrop),
       loadout: cloneLoadout(state.loadout),
       ecology: cloneFrontierEcologyState(state.ecology),
       atlas: cloneFrontierAtlasState(state.atlas),
@@ -659,6 +666,7 @@ export function createFrontierProgress(opts = {}) {
         completedPoiIds: [...state.completedPoiIds], securedCompanionRunIds: [...state.securedCompanionRunIds],
         base: cloneBase(state.base),
         campCare: cloneCampCare(state.campCare),
+        campCrop: cloneCampCrop(state.campCrop),
         loadout: cloneLoadout(state.loadout),
       },
       bankedRunIds: new Set(bankedRunIds), lastBankToken,
@@ -870,6 +878,57 @@ export function createFrontierProgress(opts = {}) {
   function baseEnvironment() { return { reserved: getCampReserved(worldRegistry), surface: worldRegistry?.getSectionById?.('camp')?.surface ?? null }; }
   function getBaseState() { return cloneBase(state.base); }
   function getCampCare() { return cloneCampCare(state.campCare); }
+  function getCampCrop() { return cloneCampCrop(state.campCrop); }
+  function findGardenPlot(plotId) { return state.base.structures.find(record => record.id === plotId && record.type === 'berry_garden') ?? null; }
+  function getCampCropHarvest() {
+    if (!state.campCrop) return null;
+    const plot = findGardenPlot(state.campCrop.plotId);
+    const bed = state.campCare ? findCareBed(state.campCare.bedId) : null;
+    const caredMossling = state.campCare?.nourishment === CAMP_CARE_MAX_NOURISHMENT
+      ? findCareWildkin(state.campCare.wildkinId) : null;
+    const bloomTended = !!(plot && bed && caredMossling
+      && Math.hypot(plot.pos.x - bed.pos.x, plot.pos.z - bed.pos.z) <= 6);
+    return { yield: bloomTended ? 4 : 3, bloomTended };
+  }
+  function plantCampCrop(plotId) {
+    if (!findGardenPlot(plotId)) return { ok: false, reason: 'unknown-plot', crop: getCampCrop() };
+    if (state.campCrop) return { ok: false, reason: 'crop-planted', crop: getCampCrop() };
+    const exchange = prepareExchange({ berries: 1 }, {}, null);
+    if (!exchange.ok) return { ok: false, reason: 'empty', crop: null };
+    const rollback = snapshotForBankRollback();
+    state.inventory = exchange.inventory;
+    state.campCrop = { version: CAMP_CROP_VERSION, plotId, growthSeconds: 0 };
+    const write = commitBank(rollback, { crop: getCampCrop() });
+    return write.ok ? write : { ok: false, reason: write.reason, crop: getCampCrop() };
+  }
+  function advanceCampCrop(seconds) {
+    if (!Number.isFinite(seconds) || seconds <= 0 || seconds > CAMP_CROP_MAX_ADVANCE_SECONDS) return { ok: false, reason: 'invalid-growth', crop: getCampCrop() };
+    if (!state.campCrop) return { ok: false, reason: 'empty-plot', crop: null };
+    if (!findGardenPlot(state.campCrop.plotId)) return { ok: false, reason: 'missing-plot', crop: getCampCrop() };
+    if (state.campCrop.growthSeconds >= CAMP_CROP_GROWTH_SECONDS) return { ok: true, changed: false, reason: 'ready', crop: getCampCrop(), stageTransition: false, ready: true };
+    const previousStage = getCampCropStage(state.campCrop);
+    const rollback = snapshotForBankRollback();
+    const growthSeconds = Math.min(CAMP_CROP_GROWTH_SECONDS, Math.round((state.campCrop.growthSeconds + seconds) * 1000) / 1000);
+    state.campCrop = { ...state.campCrop, growthSeconds };
+    const stageTransition = getCampCropStage(state.campCrop) !== previousStage;
+    const ready = growthSeconds === CAMP_CROP_GROWTH_SECONDS;
+    const write = commitBank(rollback, { changed: true, crop: getCampCrop(), stageTransition, ready });
+    return write.ok ? write : { ok: false, reason: write.reason, crop: getCampCrop() };
+  }
+  function harvestCampCrop(plotId) {
+    if (!state.campCrop) return { ok: false, reason: 'empty-plot', crop: null };
+    if (state.campCrop.plotId !== plotId) return { ok: false, reason: 'wrong-plot', crop: getCampCrop() };
+    if (!findGardenPlot(plotId)) return { ok: false, reason: 'missing-plot', crop: getCampCrop() };
+    if (state.campCrop.growthSeconds < CAMP_CROP_GROWTH_SECONDS) return { ok: false, reason: 'growing', crop: getCampCrop() };
+    const harvest = getCampCropHarvest();
+    const exchange = prepareExchange({}, { berries: harvest.yield }, null);
+    if (!exchange.ok) return { ok: false, reason: exchange.reason, crop: getCampCrop() };
+    const rollback = snapshotForBankRollback();
+    state.inventory = exchange.inventory;
+    state.campCrop = null;
+    const write = commitBank(rollback, { crop: null, ...harvest });
+    return write.ok ? write : { ok: false, reason: write.reason, crop: getCampCrop() };
+  }
   function findCareBed(bedId) { return state.base.structures.find(record => record.id === bedId && record.type === 'bed') ?? null; }
   function findCareWildkin(wildkinId) { return state.ownedWildkin.find(record => record.id === wildkinId && record.speciesId === 'mossling') ?? null; }
   function assignCampWildkin(wildkinId, bedId) {
@@ -962,6 +1021,7 @@ export function createFrontierProgress(opts = {}) {
   function removeStructure(id) {
     const piece=state.base.structures.find(p=>p.id===id);if(!piece)return {removed:false,reason:'unknown-structure'};
     if(state.campCare?.bedId===id)return {removed:false,reason:'bed-occupied'};
+    if(state.campCrop?.plotId===id)return {removed:false,reason:'crop-planted'};
     if(state.base.structures.some(p=>p.supportId===id))return {removed:false,reason:'remove-supported-first'};
     const container=state.inventory.containers.find(c=>c.id===id);
     if(container?.slots.some(Boolean))return {removed:false,reason:'storage-not-empty'};
@@ -1115,7 +1175,7 @@ export function createFrontierProgress(opts = {}) {
     isPoiCompleted: id => state.completedPoiIds.includes(id),
     craftConsumable,
     consumeConsumable,
-    getBaseState, getCampCare, assignCampWildkin, releaseCampWildkin, feedCampWildkin, getFieldSupplies, craftFieldSupply, fitFieldPack, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,
+    getBaseState, getCampCare, assignCampWildkin, releaseCampWildkin, feedCampWildkin, getCampCrop, getCampCropHarvest, plantCampCrop, advanceCampCrop, harvestCampCrop, getFieldSupplies, craftFieldSupply, fitFieldPack, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,
     getLoadout, assignQuickSlot, selectQuickSlot,
     tryResolve,
     getBankedResources,

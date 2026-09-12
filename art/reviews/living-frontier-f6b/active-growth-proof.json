@@ -1,0 +1,9 @@
+{
+  "fixture": "native E planted one berry; ordinary active gameplay elapsed",
+  "observedElapsedSeconds": 94.2926,
+  "growthSeconds": 90,
+  "berriesAfterPlant": 0,
+  "yield": 4,
+  "bloomTended": true,
+  "plotId": "build_4e99cd8f-acbf-45c9-9169-90821c9ddf0c"
+}

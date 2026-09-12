@@ -283,6 +283,7 @@
 #contextual-action-button.nursery-action{height:56px}
 .nursery-action .contextual-action__label{display:grid;grid-template-columns:auto auto;gap:2px 8px;align-items:center}
 .nursery-action .contextual-action__nourishment{grid-column:1/-1}
+.contextual-action__bonus{grid-column:1/-1;text-align:center;color:#a9efb5;font-size:11px}
 .contextual-action-leader{position:absolute;height:2px;background:#a5f3d8;box-shadow:0 1px 2px #071c26;transform-origin:0 50%;pointer-events:none;z-index:7}
 .contextual-action-leader::after{content:"";position:absolute;right:-3px;top:-2px;width:6px;height:6px;border-radius:50%;background:#d2ffe9}
 .contextual-action-safe-area{position:absolute;inset:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));visibility:hidden;pointer-events:none}

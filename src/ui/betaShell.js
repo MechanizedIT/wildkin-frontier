@@ -108,7 +108,7 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
     const ingredients=(recipe)=>`<p class="base-ingredients">${esc(ingredientGuidance(recipe.cost,recipe.costLabel,bank,model.cargo,model.isCamp))}</p>`;
     const nav=`<div class="base-tabs" aria-label="Camp workshop pages">${[['build','Build'],['craft','Craft'],['upgrades','Upgrades']].map(([id,name])=>`<button data-workshop-tab="${id}" class="${workshopTab===id?'active':''}">${name}</button>`).join('')}</div>`;
     if(workshopTab==='upgrades')return nav+upgradesWorkshop(model);
-    const pieceIcons={foundation:'stone',wall:'wood',doorway:'wood',fence:'wood',lantern:'crystal_shard',workbench:'axe',fabricator:'iron_ore',resonance:'crystal_shard',bed:'paw'};
+    const pieceIcons={foundation:'stone',wall:'wood',doorway:'wood',fence:'wood',lantern:'crystal_shard',workbench:'axe',fabricator:'iron_ore',resonance:'crystal_shard',bed:'paw',berry_garden:'berries'};
     const fieldIcons={trail_ration:'berries',berry_lure:'berries',woven_snare:'fiber',calming_chime:'crystal_shard',reinforced_tether:'iron_ore'};
     let content='';
     if(workshopTab==='build'){

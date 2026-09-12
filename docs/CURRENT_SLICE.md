@@ -1,6 +1,6 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: Living Frontier F6B physical food garden.**
+Updated September 12, 2026. **Active goal-mode development: Living Frontier F7A physical pairing and young.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
@@ -76,18 +76,28 @@ R1/R2/R3 visual scores1.5/~3/~4.5; R3 is selected functional groundwork, not tar
 
 F6A selected R3 at8.7/10 after8.0/8.4. A physical moss bed, visible bowl, Settle/Feed/Release actions and one exact owned Mossling are integrated. Native failure/retry, reload, mobile controls, outing/return and packaged interactions passed.1,064/1,064 at the behavior checkpoint; final geometry focused/base/build/validation/ZIP also passed.43.98MB unpacked/20.49MB ZIP. Nourishment is presently visual status only. Exact evidence and limitations:`art/reviews/living-frontier-f6a/receipt.md`.
 
-## Selected next slice: F6B physical food garden
+## Completed foundation: F6B physical food garden
 
 - Add a small Berry Garden construction piece and one planted crop record under the existing save owner. Plant one raw backpack berry, visibly grow through three stages over90seconds of active play, then harvest3berries. Growth continues during outings; paused, hidden, Author and offline time do not advance it. No absence penalty.
 - A fully nourished assigned Mossling within6m of the plot adds one Bloom-tended berry at harvest. Calculate this from authoritative bed/plot/individual/care state inside the harvest transaction. This gives the nursery an immediate use; no new autonomous animal simulation.
 - Plant/harvest exchange inventory and crop in one rollback-safe commit. Full inventory and failed writes leave the ripe crop available. Save growth in bounded5second quanta, never per frame; at most one unsaved quantum may be lost. One planted crop initially; an occupied plot cannot be removed.
 - Reuse base placement, footprint validation, world action and the single fixed update. Root owns integration/target/review/docs; workers own explicitly separate save/rules or garden geometry/base routing. Capture real Camp baseline and target before visual production; up to three reviewed passes.
 
+F6B selected R2 at8.6/10 PASS after R1's7.7. Native planting, natural growth, failed-harvest rollback/reload/retry, backpack pause, active outing/return and phone-sized harvest passed. The portable build planted and advanced the same crop. Actual garden costs8draws/2,112triangles.1,070/1,070 tests and verify/build/validation/ZIP PASS;44.01MB unpacked/20.51MB ZIP. Receipt: `art/reviews/living-frontier-f6b/receipt.md`.
+
+## Selected next slice: F7A physical pairing and young
+
+- Use one nourished bed and two distinct owned adult Mosslings of opposite sex. The settled individual and selected follower are the chosen parents. Basic pairing has no research gate. Add strict canonical sex and optional lineage to individual records and concise symbols to the existing roster; no new management dashboard or anatomy claim.
+- Commit one exact offspring genome, identity, sex and parent/generation links once when pairing starts. Consume the existing full nourishment, reserve the bed and one roster slot atomically. Save failure retains readiness and the same sequence for a deterministic retry. Include that reserved slot in capture and banking capacity rules. The parent records remain owned.
+- Show one small young Mossling at the physical bed through the existing companion visual owner, using the current Idle and body-tone expression. Grow for120seconds of active play in5second checkpoints; no offline/paused/Author advance or absence debt. The young body has no active collider. Restore adult scale before ordinary following. This is a provisional scaled young model, subject to actual visual review, not a new juvenile anatomy/animation claim.
+- At maturity, a nearby Welcome action atomically adds the exact child to owned, clears the growth record and settles it at that bed with empty nourishment. Keep active selection unchanged. Reserved/occupied beds cannot be removed. Prevent duplicate welcome and preserve ready offspring after a failed save.
+- Root owns composition, world actions, visual target/review, docs and final checkpoint. Separate workers may own canonical identity/breeding/save, companion young representation, or existing roster metadata. Read actual state first; one writer per file. Up to three visual passes. Guided trait research and alternate reproduction follow after this complete ordinary pairing loop.
+
 Streamed terrain and ecology; personal atlas; individual modular Wildkin; slow climbing, swimming and falling risk; immersive Camp building/crafting/food/habitats; field genetics, breeding, growth, cloning and DNA recipe exchange. Rules remain producer choices to validate in play. PC/web first with mobile viability; offline Three.js/Rapier and local main remain. No backwards compatibility requirement. See LIVING_FRONTIER_PLAN for sequence and evidence gates.
 
 ## Last verified playable checkpoint
 
-Current checkpoint: `art/reviews/living-frontier-f6a/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
+Current checkpoint: `art/reviews/living-frontier-f6b/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
 
 Initial working tree includes unrelated Verdant composer/test changes and untracked art/tool experiments. Preserve them; stage only owned files. Emberfall ravine and Tidefin V3 remain unshipped candidates with documented defects; they are not the current slice.
 

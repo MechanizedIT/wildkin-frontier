@@ -117,3 +117,7 @@ Native harnesses must use current canonical objects and physically clear startin
 - Compare decorative heights against the actual supporting surface: a bowl rim at.545m was hidden inside a moss top at.55m. Raise the bowl visibly; keep the collider/footrest contract explicit.
 - Prefer the normal save import owner for cross-origin diagnostic fixtures. Replacing localStorage while an old run is active can be overwritten by its existing save lifecycle during navigation.
 - Clear device-metrics emulation before changing orientation/DPR. Verify CSS dimensions and reframe an offscreen world subject; do not mistake a stale compositor capture or offscreen anchor for a layout defect.
+
+### September 12 — garden foliage and rendered cost
+- Inspect the local geometry axis before rotating repeated foliage: the leaf blade grows along+Y, so upright/edge-on blades read as thin flower stems. Staggered outward radial tiers produced a fuller shrub in one meaningful second pass.
+- Count visible triangles times InstancedMesh.count, not unique geometry or hidden objects. A temporary real-factory thumbnail renderer supplies actual WebGL calls/triangles and keeps catalog pictures consistent with changed physical models. Dispose its resources and context; menus still use static PNGs.

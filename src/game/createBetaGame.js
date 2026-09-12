@@ -25,6 +25,7 @@ import { createRootfallPassage } from '../world/rootfallPassage.js';
 import { createRootfallPresentation } from '../presentation/rootfallPresentation.js';
 import { createCampCareInteraction } from '../companions/campCareInteraction.js';
 import { FRONTIER_TERRAIN_CONFIG } from '../world/frontierTerrain.js';
+import { createCampGarden } from '../base/campGarden.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -65,6 +66,9 @@ export function createBetaGame(deps) {
   const campCare = createCampCareInteraction({ progress, getBed: base.getWildkinBed, canCare: canCareAtCamp,
     getPlayerPosition: () => playerController.getState().pos, notify: toast,
     onChanged: bed => { pickupSystem.resetInventory(); shell?.update(); pulse(bed.anchorPos, 0x91e5a5); audio.playXpCollect(); } });
+  const campGarden = createCampGarden({ progress, getGarden: base.getBerryGarden, canGarden: canCareAtCamp,
+    getPlayerPosition: () => playerController.getState().pos, notify: toast,
+    onChanged: plot => { pickupSystem.resetInventory(); shell?.update(); pulse(plot.anchorPos, 0x91e5a5); audio.playPickup('berries'); } });
   const physicalInventory = createPhysicalInventory({app,progress,registry,getPlayerState:()=>playerController.getState(),isCamp,canOpen:()=>!authorEnabled&&!deps.isOtherBlocking()&&!companions.isBlocking()&&!base.isBlocking(),onBlockingChanged,onChanged:()=>{pickupSystem.resetInventory();shell?.update();},onOpenJournal:()=>shell?.open('journal')});
   const equipment = createEquipmentSystem({
     progress, isCamp,
@@ -239,7 +243,9 @@ export function createBetaGame(deps) {
         const storage=physicalInventory.getNearbyInteraction(pos);
         if(storage)return storage;
         const workbench=base.getNearbyInteraction(pos);
-        if(workbench)return workbench.type === 'wildkinBed' ? campCare.describe(workbench) : {...workbench,type:workbench.type==='campYard'?'campYard':'resonator'};
+        if(workbench)return workbench.type === 'wildkinBed' ? campCare.describe(workbench)
+          : workbench.type === 'berryGarden' ? campGarden.describe(workbench)
+            : {...workbench,type:workbench.type==='campYard'?'campYard':'resonator'};
         const sanctuary=registry.getSectionById('camp')?.props?.find(p=>p.id==='prop_camp_sanctuary');
         if(sanctuary&&Math.hypot(pos.x-sanctuary.pos.x,pos.z-sanctuary.pos.z)<2)return {type:'campSanctuary',id:sanctuary.id,label:'Wildkin'};
       }
@@ -251,6 +257,7 @@ export function createBetaGame(deps) {
     afterHarvestHit(node){campClearing.afterHit(node);rootfall.afterHit(node);},
     activateCampYard() { const result=base.onAction('expandBase');if(result?.message)toast('Camp work yard',result.message);shell.update();return result; },
     activateCampCare: info => campCare.activate(info),
+    activateCampGarden: info => campGarden.activate(info),
     getDamage: () => progress.getModifiers().fieldToolDamageMultiplier,
     onCreatureDamaged: (creature, amount) => combatFeedback.showDamage(creature.state.pos, amount),
     onHarvestDrop(node) {
@@ -287,6 +294,7 @@ export function createBetaGame(deps) {
     // Simulation ownership stays in the single fixed loop. The regular update
     // below only advances visual animation and DOM/presentation concerns.
     updateFixed(dt, { paused = false, authorSuppress = false } = {}) {
+      campGarden.update(dt, { active: !paused && !authorSuppress && !isBlocking() && !deps.isOtherBlocking() && !document.hidden && (session.isCamp() || session.isActive()) });
       campClearing.update(dt,{hidden:authorSuppress});
       rootfallPresentation.update(rootfall.update(dt,{hidden:authorSuppress}));
       base.update(0,{hidden:authorSuppress});
