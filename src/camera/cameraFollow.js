@@ -8,6 +8,9 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg) {
   const smoothedCenter = new THREE.Vector3(target.position.x, target.position.y + focusHeight, target.position.z);
   const desiredCenter = new THREE.Vector3();
   let yaw = 0;
+  let zoom = 1;
+  const minZoom = cfg.minZoom ?? .72;
+  const maxZoom = cfg.maxZoom ?? 1.3;
 
   function setDesiredCenter() {
     desiredCenter.set(target.position.x, target.position.y + focusHeight, target.position.z);
@@ -15,10 +18,11 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg) {
   // Rotate a rigid offset around one smoothed follow center. Smoothing a camera
   // position around an orbit would cut across the circle and break fixed pitch.
   function applyCamera() {
+    const distanceScale = zoom * (camera.aspect > 1 ? (cfg.landscapeZoom ?? 1) : 1);
     camera.position.set(
-      smoothedCenter.x + Math.sin(yaw) * horizontalDistance,
-      smoothedCenter.y + verticalOffset,
-      smoothedCenter.z + Math.cos(yaw) * horizontalDistance,
+      smoothedCenter.x + Math.sin(yaw) * horizontalDistance * distanceScale,
+      smoothedCenter.y + verticalOffset * distanceScale,
+      smoothedCenter.z + Math.cos(yaw) * horizontalDistance * distanceScale,
     );
     camera.lookAt(smoothedCenter);
   }
@@ -43,6 +47,9 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg) {
   }
   function orbitBy(delta) { yaw += Number.isFinite(delta) ? delta : 0; }
   function getYaw() { return yaw; }
+  function setZoom(value) { if (Number.isFinite(value)) zoom = Math.max(minZoom, Math.min(maxZoom, value)); }
+  function zoomByFactor(factor) { if (Number.isFinite(factor) && factor > 0) setZoom(zoom * factor); }
+  function getZoom() { return zoom; }
 
-  return { update, snap, prepareForInput, orbitBy, getYaw, _debug: () => ({ yaw, horizontalDistance, height, center: smoothedCenter.toArray() }) };
+  return { update, snap, prepareForInput, orbitBy, getYaw, setZoom, zoomByFactor, getZoom, _debug: () => ({ yaw, zoom, horizontalDistance, height, center: smoothedCenter.toArray() }) };
 }

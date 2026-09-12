@@ -15,8 +15,10 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     attackHeld = false; dodgePending = false; attackPending = false;
   }
   function setEnabled(v) {
+    if(enabled===!!v)return;
     enabled = !!v;
-    if (!enabled) clearActive();
+    if (!enabled) { clearActive(); hideVisuals(); }
+    else showRestVisuals();
   }
   function isEnabled() { return enabled; }
 
@@ -64,8 +66,8 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       originEl.style.width = maxRadius * 2 + "px";
       originEl.style.height = maxRadius * 2 + "px";
       originEl.style.borderRadius = "50%";
-      originEl.style.border = "1px solid rgba(255,255,255,0.18)";
-      originEl.style.background = "rgba(255,255,255,0.06)";
+      originEl.style.border = "2px solid rgba(173,226,208,0.72)";
+      originEl.style.background = "rgba(9,37,45,0.28)";
       originEl.style.transform = "translate(-50%, -50%)";
       originEl.style.pointerEvents = "none";
       containerEl.appendChild(originEl);
@@ -107,6 +109,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   function showVisuals(x, y) {
     ensureVisuals();
     containerEl.style.display = "block";
+    containerEl.style.opacity = "1";
     originEl.style.left = x + "px";
     originEl.style.top = y + "px";
     stickEl.style.left = x + "px";
@@ -121,6 +124,14 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
 
   function hideVisuals() {
     if (containerEl) containerEl.style.display = "none";
+  }
+  // One real joystick owns both its resting cue and the active touch graphic.
+  // It follows the touch origin rather than leaving a second painted stick.
+  function showRestVisuals() {
+    if(!enabled||hasActive||!globalThis.window?.matchMedia?.('(any-pointer: coarse)').matches)return;
+    const rect=appElement.getBoundingClientRect();
+    showVisuals(Math.min(94,rect.width*.23),Math.max(maxRadius+12,rect.height-(rect.width>rect.height?88:170)));
+    containerEl.style.opacity='.48';
   }
 
   function isInMovementArea(clientX, clientY) {
@@ -149,7 +160,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     if (e.pointerType === "mouse") return;
     if (e.pointerType === "pen") { /* allow pen as touch */ }
     if (e.button !== undefined && e.button !== 0) return;
-    const targetIsButton = e.target.closest && e.target.closest("button, a");
+    const targetIsButton = e.target.closest && e.target.closest("button,a,input,select,textarea,[data-ui-control]");
     if (targetIsButton) return;
 
     const rect = appElement.getBoundingClientRect();
@@ -218,6 +229,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       ny = 0;
       hideVisuals();
       try { appElement.releasePointerCapture(e.pointerId); } catch {}
+      showRestVisuals();
     }
   }
 
@@ -244,9 +256,14 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   appElement.addEventListener("pointermove", handleMove, { passive: false });
   appElement.addEventListener("pointerup", handleUp, { passive: false });
   appElement.addEventListener("pointercancel", handleUp, { passive: false });
+  const onLostCapture = event => { if(event.pointerId===activeId){clearActive();showRestVisuals();} };
+  appElement.addEventListener('lostpointercapture',onLostCapture);
   const onVisibilityChange = () => { if (globalThis.document?.hidden) clearActive(); };
+  const onResize = () => { clearActive(); showRestVisuals(); };
   globalThis.window?.addEventListener?.("blur", clearActive);
   globalThis.document?.addEventListener?.("visibilitychange", onVisibilityChange);
+  globalThis.window?.addEventListener?.("resize", onResize);
+  showRestVisuals();
 
   function getIntent() {
     if (!enabled) return { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, dodgeX: 0, dodgeY: 0, attackRequested: false, attackHeld: false };
@@ -299,8 +316,10 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     appElement.removeEventListener("pointermove", handleMove);
     appElement.removeEventListener("pointerup", handleUp);
     appElement.removeEventListener("pointercancel", handleUp);
+    appElement.removeEventListener('lostpointercapture',onLostCapture);
     globalThis.window?.removeEventListener?.("blur", clearActive);
     globalThis.document?.removeEventListener?.("visibilitychange", onVisibilityChange);
+    globalThis.window?.removeEventListener?.("resize", onResize);
   }
 
   return { getIntent, consumeDodge, consumeAttack, simulateGesture, simulateHold, destroy, clear: clearActive, setEnabled, isEnabled, _debug: () => ({ hasActive, nx, ny, magnitude, band, dodgePending, attackPending, attackHeld, swipe, enabled }) };

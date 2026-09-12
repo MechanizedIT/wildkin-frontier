@@ -21,9 +21,10 @@ export function createContextualInteraction(opts = {}) {
   let safeEl = null;
   let size = null;
   let pressedTarget = null;
-  const protectedSelectors = '.beta-hud-actions,.beta-action-cluster,.beta-quick,.beta-field-guide,.beta-joystick-home,#combat-hud,#frontier-map-button,#auto-harvest-toggle,.beta-objective,.beta-toast,#activation-toast';
+  const protectedSelectors = '.beta-hud-actions,.beta-action-cluster,.beta-quick,.beta-field-guide,#joystick-origin,.viewport-fullscreen,#combat-hud,#frontier-map-button,#auto-harvest-toggle,.beta-objective,.beta-toast,#activation-toast';
   let obstacles = [], layoutTimer = 1;
   let bodyRectangle = null;
+  let lastPlacement = null;
   const hide = () => { if (buttonEl) buttonEl.hidden = true; if (leaderEl) leaderEl.hidden = true; };
 
   if (app) {
@@ -54,6 +55,7 @@ export function createContextualInteraction(opts = {}) {
 
   function setInteraction(info) {
     // info: {id, type, label} or null
+    if(current?.id!==info?.id || current?.type!==info?.type)lastPlacement=null;
     current = info;
     if (!buttonEl) return;
     const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}` : "";
@@ -99,9 +101,11 @@ export function createContextualInteraction(opts = {}) {
     buttonEl.hidden = false;
     if (!size) size = { width: buttonEl.offsetWidth, height: buttonEl.offsetHeight };
     layoutTimer += dt;
+    // This only projects eight cached corners; moving body bounds must track
+    // the same frame as the anchor, independently of throttled DOM layout.
+    bodyRectangle = opts.anchor.getBodyRectangle?.(opts.camera, frame.width, frame.height) ?? null;
     if (layoutTimer >= .1) {
       layoutTimer = 0;
-      bodyRectangle = opts.anchor.getBodyRectangle?.(opts.camera, frame.width, frame.height) ?? null;
       const selectors = current.type === 'bond' || current.type === 'companion' ? `${protectedSelectors},#frontier-indicators>div` : protectedSelectors;
       obstacles = [...app.querySelectorAll(selectors)].filter(el => {
         if (el.hidden || !el.getClientRects().length) return false;
@@ -120,8 +124,10 @@ export function createContextualInteraction(opts = {}) {
     // Preserve a valid held target even if its body moves through a different
     // placement candidate while the finger is down. Visibility still wins above.
     if (pressedTarget?.id === current.id && pressedTarget?.type === current.type) return;
-    const position = placeInteractionLabel(point, size, { left: safe.left - frame.left, right: safe.right - frame.left, top: safe.top - frame.top, bottom: safe.bottom - frame.top }, protectedAreas, bodyRectangle);
+    const preferred = lastPlacement ? {left:lastPlacement.left+point.x-lastPlacement.anchorX,top:lastPlacement.top+point.y-lastPlacement.anchorY} : null;
+    const position = placeInteractionLabel(point, size, { left: safe.left - frame.left, right: safe.right - frame.left, top: safe.top - frame.top, bottom: safe.bottom - frame.top }, protectedAreas, bodyRectangle, preferred);
     if (!position) { hide(); return; }
+    lastPlacement={left:position.left,top:position.top,anchorX:point.x,anchorY:point.y};
     // Hold the touch target under the finger until release; don't chase a
     // moving creature midway through the user's tap.
     buttonEl.style.left = `${position.left}px`; buttonEl.style.top = `${position.top}px`;

@@ -14,6 +14,7 @@ import { createInventoryState, cloneInventory, readInventoryState, migrateLegacy
 import { createInventoryActions } from '../inventory/inventoryActions.js';
 import { addStack, countItems, craftStacks } from '../inventory/slotOperations.js';
 import { normalizeActiveRun, cloneActiveRun } from '../session/activeRunState.js';
+import { OBSERVATION_CATALOG, normalizeObservationClues } from '../companions/observationCatalog.js';
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
@@ -66,6 +67,7 @@ function defaultState(initialWaypointId, resourceDrops) {
     securedCompanions: [],
     activeCompanionId: null,
     discoveredSpecies: [],
+    observationClues: {},
     completedObjectives: [],
     completedPoiIds: [],
     campaignCompleted: false,
@@ -162,6 +164,8 @@ export function createFrontierProgress(opts = {}) {
     out.securedCompanions = normalizeSpeciesArray(raw.securedCompanions);
     out.activeCompanionId = out.securedCompanions.includes(raw.activeCompanionId) ? raw.activeCompanionId : null;
     out.discoveredSpecies = normalizeSpeciesArray(raw.discoveredSpecies);
+    out.observationClues = normalizeObservationClues(raw.observationClues);
+    out.discoveredSpecies = [...new Set([...out.discoveredSpecies, ...Object.keys(out.observationClues)])];
     out.completedObjectives = normalizeIdArray(raw.completedObjectives);
     out.completedPoiIds = normalizeIdArray(raw.completedPoiIds);
     out.campaignCompleted = !!raw.campaignCompleted;
@@ -237,6 +241,7 @@ export function createFrontierProgress(opts = {}) {
       upgrades: { ...state.upgrades },
       securedCompanions: [...state.securedCompanions],
       discoveredSpecies: [...state.discoveredSpecies],
+      observationClues: { ...state.observationClues },
       completedObjectives: [...state.completedObjectives],
       completedPoiIds: [...state.completedPoiIds],
       base: cloneBase(state.base),
@@ -418,6 +423,7 @@ export function createFrontierProgress(opts = {}) {
       securedCompanions: [...state.securedCompanions],
       activeCompanionId: state.activeCompanionId,
       discoveredSpecies: [...state.discoveredSpecies],
+      observationClues: { ...state.observationClues },
       completedObjectives: [...state.completedObjectives],
       completedPoiIds: [...state.completedPoiIds],
       campaignCompleted: !!state.campaignCompleted,
@@ -482,6 +488,7 @@ export function createFrontierProgress(opts = {}) {
         repairedPortalGateIds: [...state.repairedPortalGateIds], claimedLootChestIds: [...state.claimedLootChestIds], lootChestReadyAt: { ...state.lootChestReadyAt },
         lootRemainders: structuredClone(state.lootRemainders),
         securedCompanions: [...state.securedCompanions], discoveredSpecies: [...state.discoveredSpecies], completedObjectives: [...state.completedObjectives],
+        observationClues: { ...state.observationClues },
         completedPoiIds: [...state.completedPoiIds], securedCompanionRunIds: [...state.securedCompanionRunIds],
         base: cloneBase(state.base),
         loadout: cloneLoadout(state.loadout),
@@ -625,9 +632,20 @@ export function createFrontierProgress(opts = {}) {
 
   function discoverSpecies(id) {
     if (!COMPANION_SPECIES.has(id) || state.discoveredSpecies.includes(id)) return false;
+    const rollback = snapshotForBankRollback();
     state.discoveredSpecies.push(id);
-    save();
-    return true;
+    return commitBank(rollback, {}).ok;
+  }
+
+  function earnObservationClue(id, stage) {
+    if (!Object.hasOwn(OBSERVATION_CATALOG, id) || !Number.isInteger(stage) || stage < 1 || stage > 2) return { ok: false, reason: 'invalid-observation-clue' };
+    const previous = state.observationClues[id] ?? 0;
+    if (stage <= previous) return { ok: true, added: false };
+    if (stage !== previous + 1) return { ok: false, reason: 'observation-stage-order' };
+    const rollback = snapshotForBankRollback();
+    state.observationClues[id] = stage;
+    if (!state.discoveredSpecies.includes(id)) state.discoveredSpecies.push(id);
+    return commitBank(rollback, { added: true });
   }
 
   function completeObjective(id) {
@@ -860,6 +878,7 @@ export function createFrontierProgress(opts = {}) {
     secureCompanions,
     selectCompanion,
     discoverSpecies,
+    earnObservationClue,
     completeObjective,
     completePoi,
     craftConsumable,

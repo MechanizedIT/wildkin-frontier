@@ -32,7 +32,7 @@ export function createFrontierIndicators(opts = {}) {
   }
   const extractionNode = makeEl("extraction");
   const waypointNode = makeEl("waypoint");
-  const protectedSelectors = '.beta-hud-actions,.equipment-selected-name,#hud-stack,.run-inventory-hud__item,.beta-action-cluster,.beta-quick,.beta-field-guide,.beta-joystick-home,#combat-hud,#frontier-map-button,#auto-harvest-toggle,.beta-objective,.beta-toast,#activation-toast';
+  const protectedSelectors = '.beta-hud-actions,.equipment-selected-name,#hud-stack,.run-inventory-hud__item,.beta-action-cluster,.beta-quick,.beta-field-guide,#joystick-origin,.viewport-fullscreen,#combat-hud,#frontier-map-button,#auto-harvest-toggle,.beta-objective,.beta-toast,#activation-toast';
   let obstacles = [], layoutAt = -Infinity, layoutVersion = 0, frameRect = null, viewportKey = '';
   function hideNode(node) { node.requested = false; node.el.style.display = 'none'; }
   function placeNode(node, desired, rect, reserve = null) {

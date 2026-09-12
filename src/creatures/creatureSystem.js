@@ -7,6 +7,7 @@ import { TEMPERAMENT, TEMPERAMENT_CONFIG, defensiveShouldRetaliate, skittishShou
 import { findNearestEligible, distanceXZ as distXZpercep, canTargetActor, canNoticeQuietPlayer, WILDLIFE_AWARENESS_CONFIG } from "./perception.js";
 import { chooseSteeringDirection, isMovementStalled, STEERING_CONFIG } from "./steering.js";
 import { SOCIAL_STARTLE_CONFIG, isLocalLivePeer, selectStartleRecipient, findPerceivedFleeThreat } from './socialStartle.js';
+import { createSightSegment } from './sightRay.js';
 
 export function createCreatureSystem(scene, physicsWorld, playground, opts = {}) {
   const creatures = [];
@@ -125,19 +126,28 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     return dy <= COMBAT_CONFIG.verticalTolerance + 0.4;
   }
 
-  function clearPlayerSight(creature) {
+  function clearSightSegment(creature, origin, target) {
     const world = physicsWorld?.world, RAPIER = physicsWorld?.RAPIER;
     if (!world || !RAPIER?.Ray) return true;
-    const origin = creature.state.pos, target = playerPosRef;
-    const dx = target.x - origin.x, dy = (target.y ?? .5) - origin.y, dz = target.z - origin.z;
-    const length = Math.hypot(dx, dy, dz);
-    if (length < .01) return true;
-    const ray = new RAPIER.Ray({x:origin.x,y:origin.y+.2,z:origin.z},{x:dx/length,y:dy/length,z:dz/length});
-    return !world.castRay(ray, length, true, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS,
+    const segment = createSightSegment(origin, target);
+    if (segment.length < .01) return true;
+    const ray = new RAPIER.Ray(segment.origin, segment.direction);
+    return !world.castRay(ray, segment.length, true, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS,
       undefined, creature.collider, undefined, collider => {
         if (playerColliderRef?.handle === collider.handle || companionColliderFilter(collider)) return false;
         return !creatures.some(other => other.collider?.handle === collider.handle);
       });
+  }
+
+  function clearPlayerSight(creature) {
+    const p = creature.state.pos;
+    return clearSightSegment(creature, { x: p.x, y: p.y + .2, z: p.z }, { x: playerPosRef.x, y: playerPosRef.y ?? .5, z: playerPosRef.z });
+  }
+
+  function hasClearSightToCreature(creature, origin) {
+    if (!isLiveCreature(creature) || !isRegionActive(creature.state.regionId)) return false;
+    const p = creature.state.pos;
+    return clearSightSegment(creature, origin, { x: p.x, y: p.y + .2, z: p.z });
   }
 
   function updatePlayerAwareness(creature, dt) {
@@ -1237,7 +1247,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     update, getCreatures, getAliveCreatures, getAllAliveCreatures, damageCreature, setPlayerPos, setPlayerState, setInvulnChecker, setPlayerCollider, setCompanionColliderFilter,
     getAliveCount, isAnyAggroedNearby, isAnyAggroedNearbyActive, reset, dispose, setTemperamentDebugVisible,
     setActiveRegions, getActiveCreatures, getActiveAliveCreatures, getActiveCreatureCount, isRegionActive,
-    setBondingTarget, secureBondTarget, setFieldTamingIntent, clearFieldTamingIntent,
+    setBondingTarget, secureBondTarget, setFieldTamingIntent, clearFieldTamingIntent, hasClearSightToCreature,
     getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null,
     setWorldRegistry: (wr) => { worldRegistryRef = wr; },
     _creatures: creatures,

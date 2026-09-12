@@ -1,10 +1,14 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 11, 2026. **0.3.0-alpha.1 · local pre-alpha · owner playtest handoff.**
+Updated September 11, 2026. **0.3.0-alpha.1 · local pre-alpha · second overnight development run active.**
 
 ## Current request and entry points
 
-Chris asked to wrap up overnight development, provide a concise changelog, actual visuals, a fresh-game route and unfinished roadmap, update documents, and create an efficient code index and project workflow. Finish this playable checkpoint and stop autonomous expansion. Future sessions take his playtest notes or new request as scope; **do not restart the historical overnight mandate automatically**.
+Chris explicitly resumed autonomous overnight development after his phone playtest on September11. Continue until he says stop: implement, independently review and refine complete playable slices; when the prioritized plan is complete, audit the game and plan another useful pass. The earlier playtest pause is superseded by this new request. See **OVERNIGHT_RUN_2.md** for the full current brief, priorities, professional review roles and rolling status.
+
+**Active first slice:** phone inventory square slots and lifted drag preview; rounded UI; fullscreen entry with honest platform fallback; usable portrait and landscape layouts, real moving joystick affordance, bounded camera zoom with multi-touch ownership; reproduce/fix the intermittent first-tree harvest; replace fleeting creature inspection hints with a persistent, stealth-aware observation/journal loop. Prioritize owner-reported defects before broad new content. Subsequent authorized slices cover the crashland/blueprint/tool progression, defended adjoining Camp expansion, flexible hotbar/equipment, world/art/animation and audio polish. Exact balance and design proposals remain provisional.
+
+**22:00 candidate checkpoint:** the first-slice changes are integrated;842tests, world/campaign checks, portable build/validation and ZIP pass. Native touch inventory/fullscreen/pinch, quiet observation → Journal → reload and continuous tree depletion pass their stated fixtures. Moving creature-label native review is closing separately; whole-campaign and physical-phone acceptance remain open. Chris explicitly corrected harvesting: uncollected drops must never block further hits. The old pickup-dependent gate and attempted recall workaround are removed across resource families. Next bounded work is [SURVEY_RECOVERY_SLICE.md](SURVEY_RECOVERY_SLICE.md), beginning with the independently reviewed Camp target; its new barricade models/layout are candidates, not shipped content.
 
 **September11 backup follow-up:** after restarting his PC, Chris explicitly requested restarting the playtest server and pushing this work to the existing GitHub repository for recovery if the PC fails. This authorizes the current backup sync to origin/main; it does not resume game expansion or authorize a deployment. Preserve unfinished source candidates separately from admitted runtime assets.
 
@@ -14,9 +18,10 @@ Read SESSION_START.md, OVERNIGHT_HANDOFF.md and CODE_MAP.md next. Use `.agents/s
 
 ## Current playable systems
 
-- Landscape-first mobile/web, fixed-pitch right-drag camera orbit, camera-relative movement, explicit attack/dodge and five equipment shortcuts. Offline vanilla Three.js/Rapier with one frame loop.
+- Landscape-first mobile/web, fixed-pitch right-drag camera orbit, bounded right-side pinch/wheel zoom, closer default landscape framing, browser fullscreen control, actual touch-origin joystick, camera-relative movement, explicit attack/dodge and five equipment shortcuts. Offline vanilla Three.js/Rapier with one frame loop.
 - Camp plus five larger authored regions; renewable gathering, combat, discovered return points, persistent repaired routes, ability caches and a Guardian/Core finale. Whole-world layout and campaign pacing still need playtest.
 - Four taming approaches: Mossling lure/feeding, Tidefin dry-bank snare/release, Emberhorn dodge/tether/food and Skydancer quiet perches/chime. Pending bonds remain at risk until extraction. Companions use loose intent and their own world-colliding kinematic bodies; stealth and bounded social startle are active.
+- Quiet, visible, unobstructed observation earns two persistent Journal notes per species at provisional species-specific timings. Existing wildlife detection interrupts study. Basic taming remains available without earning notes; completed species yield to unfinished studies. Square pack cells, lifted touch preview, scroll cues and rounded frames address phone feedback.
 - Free Camp construction with validation/rotation/removal, three articulated stations, field medicine/rations and taming supplies. Current clearing expansion remains the older tiered area; automatic defended sectors are not implemented.
 - Physical inventory v3: 16-slot pack, 24-slot pod/crate storage, drag/tap/split/swap/sort, finite legacy overflow, pack-only equipment counts and capacity-safe transactions. Materials stay in the pack on return. Costs use the pack plus one explicitly selected nearby container. Pack → Journal exposes Gear/Work/Skills/Wildkin/Settings.
 - Persistent expedition snapshot: run identity, supported position, health, XP, pending bonds and Core possession. Ordinary actors rebuild on reload; unfinished tame attempts clear. Import/pagehide and failed-death-save retries preserve ownership.
@@ -28,7 +33,7 @@ The approved blue-jacket Explorer is the master style: substantial faceted forms
 
 **Replacement Tidefin is not shipped.** Neutral/deformation gates pass; V2 action readability held. Action-only V3 is frozen at `.dream-loop/overnight-tidefin-animation/v3/README.md`, awaiting independent action review, continuous motion and species-specific native cadence integration. Do not restart rendering merely to resume. TRELLIS remains off below unchanged safe memory guards.
 
-Current aggregate: **810 tests**, world/campaign synchronization/readiness and portable build/validation pass. Final package/native proof and sizes are recorded in OVERNIGHT_HANDOFF.md and BUILD_LOG.md. Fresh native gathering → literal expedition reload → Lookout return passes; UI/storage transactions have separate native fixture evidence. These are not physical-phone performance or complete campaign acceptance.
+Current aggregate: **842 tests**, world/campaign synchronization/readiness and portable build/validation pass; **42.56MB unpacked /20.26MB ZIP**. Current build index SHA256 `b84e9ae48f0d831fcf5f69912136ddab8ed5d43bd561f23e368d3bacf89a8369`. First-run handoff proof remains historical. New native diagnostics and independent reviews cover the changed phone, observation and harvesting paths; they do not establish complete campaign acceptance or physical-phone performance. See BUILD_LOG for exact evidence boundaries.
 
 ## Accepted next direction, not completed content
 

@@ -86,6 +86,11 @@ export const CAMERA_CONFIG_FOLLOW = {
   lookAtLerp: 6.0,
   // The fixed focal height/framing lives with the base camera configuration.
   yawSensitivity: 0.008,
+  // More readable character size in short phone/browser landscape viewports.
+  landscapeZoom: .85,
+  minZoom: .72,
+  maxZoom: 1.3,
+  wheelZoomSensitivity: .0015,
 };
 
 export const INPUT_CONFIG = {

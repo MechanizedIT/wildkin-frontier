@@ -29,14 +29,16 @@ test('pool cap, expiry and region cull retain source yields; explicit run abando
  ps.clear({discardPending:true});assert.equal(ps.getDebug().pendingSources,0);assert.equal(ps.getInventory().fiber,1);assert(ps.getPooledCount()<=24);
 });
 
-test('all harvest entry paths and regrowth pause for pending yield, including inactive reset and solid siblings',async()=>{
+test('all harvest entry paths continue with pending drops; only regrowth waits, including inactive reset and solid siblings',async()=>{
  await RAPIER.init();const world=new RAPIER.World({x:0,y:0,z:0});
  try{const f=pickupInventoryFixture(),ps=createPickupSystem(new THREE.Scene(),null,null,null,{inventory:f.inventory});
  const rs=createResourceSystem(new THREE.Scene(),{world,RAPIER},['tree','rock','fiber'].map((type,i)=>({id:type,type,regionId:'A',pos:{x:i*5,y:0,z:0}})),{hasPendingYield:ps.hasPendingYield});
  for(const n of rs.nodes){const pos={...n.state.position,y:.5};assert.equal(rs.applyHit(n,node=>{ps.spawnPickup(node);ps.spawnPickup(node)}),true);const remaining=n.state.remainingChunks;
- assert.equal(rs.applyHit(n,ps.spawnPickup),false);assert.equal(n.state.remainingChunks,remaining);assert.equal(rs.isHarvestableInRange(n,pos),false);assert.equal(rs.canAutoHarvestNow(n,pos,'IDLE'),false);assert.equal(rs.getManualTargets(pos).includes(n),false);assert.equal(rs.getHaloTargets(pos,'IDLE').includes(n),false);
- assert.equal(ps.collectPickup(ps.getPickups().find(p=>p.nodeIndex===n.index)),true);
- while(n.state.remainingChunks>0){assert.equal(rs.applyHit(n,ps.spawnPickup),true);if(n.state.remainingChunks>0)ps.collectPickup(ps.getPickups().find(p=>p.nodeIndex===n.index));}
+ assert.equal(rs.isHarvestableInRange(n,pos),true);assert.equal(rs.canAutoHarvestNow(n,pos,'IDLE'),true);assert.equal(rs.getManualTargets(pos).includes(n),true);assert.equal(rs.getHaloTargets(pos,'IDLE').includes(n),true);
+ assert.equal(rs.applyHit(n,ps.spawnPickup),true);assert.equal(n.state.remainingChunks,remaining-1);
+ while(n.state.remainingChunks>0)assert.equal(rs.applyHit(n,ps.spawnPickup),true);
+ assert.deepEqual(ps.getPendingYields().find(p=>p.sourceId===n.id).resources,{[n.type.resourceId]:n.type.maxChunks+1});
+ assert.equal(rs.applyHit(n,ps.spawnPickup),false);assert.equal(rs.getManualTargets(pos).includes(n),false);
  const timer=n.state.respawnRemaining;rs.update(timer+1,{x:50,y:.5,z:50},'IDLE');assert.equal(n.state.nodeState,'RESPAWNING');assert.equal(n.state.respawnRemaining,timer);rs.setActiveRegions(['B']);rs.resetDepleted();assert.equal(n.state.nodeState,'RESPAWNING');rs.setActiveRegions(['A']);
  ps.collectPickup(ps.getPickups().find(p=>p.nodeIndex===n.index));rs.update(timer+1,{x:50,y:.5,z:50},'IDLE');assert.equal(n.state.nodeState,'READY');assert.equal(n.state.remainingChunks,n.type.maxChunks);if(n.type.solid)assert(n.collider);
  }

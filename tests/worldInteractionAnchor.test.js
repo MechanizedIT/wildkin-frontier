@@ -23,6 +23,21 @@ test('label retains a connection at screen edges and avoids controls, or hides w
   assert.ok(avoided.top>=101);
   assert.equal(placeInteractionLabel({x:422,y:190},size,bounds,[bounds]),null);
 });
+
+test('a moving label retains its valid side when preferred space opens, but never crosses body or HUD',()=>{
+  const bounds={left:12,top:12,right:832,bottom:378},size={width:140,height:48};
+  const body={left:360,right:484,top:100,bottom:230},point={x:422,y:100};
+  const first=placeInteractionLabel(point,size,bounds,[{left:260,right:590,top:12,bottom:94}],body);
+  assert.equal(first.left,502);
+  const movedBody={left:361,right:485,top:101,bottom:231};
+  const preferred={left:first.left+1,top:first.top+1};
+  const moved=placeInteractionLabel({x:423,y:101},size,bounds,[],movedBody,preferred);
+  assert.equal(moved.left,preferred.left);assert.equal(moved.top,preferred.top,'no jump back above on a one-pixel move');
+  const blocked=placeInteractionLabel({x:423,y:101},size,bounds,[{left:490,right:700,top:80,bottom:250}],movedBody,preferred);
+  assert.ok(blocked);assert.notEqual(blocked.left,preferred.left,'new obstruction wins over continuity');
+  const overlap=placeInteractionLabel(point,size,bounds,[],body,{left:360,top:130});
+  assert.notEqual(overlap.top,130,'preferred placement cannot sit on animal');
+});
 test('all authored families and placed workbenches resolve the same selected ID', () => {
   const authored={id:'chosen',pos:{x:1,y:0,z:2}};
   for(const [type,getter] of Object.entries({portalGate:'getPortalGateById',gate:'getPortalGateById',majorWaypoint:'getWaypointById',extractionBeacon:'getBeaconById',lootChest:'getLootChestById'})) {

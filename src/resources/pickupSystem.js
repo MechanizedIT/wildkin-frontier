@@ -340,7 +340,8 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     if (!record) { record = { node, resources: {}, visual: null }; pendingYields.set(node, record); }
     const id = node.type.resourceId;
     record.resources[id] = (record.resources[id] ?? 0) + 1;
-    // A bonus from the same committed hit shares its source's one visual.
+    // Every hit and bonus shares its source's one visual. Collection never
+    // gates further hits; the resource owner bounds this record at regrowth.
     if (record.visual) return record.visual;
     return sourceIsActive(record) ? materializeYield(record) : null;
   }

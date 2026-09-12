@@ -10,6 +10,23 @@ const MESSAGES = {
   'invalid-count': 'Choose a valid amount from this stack.', 'invalid-destination': 'Choose an available slot.',
 };
 
+const INVENTORY_DRAG = { size:64, touchGap:24, edge:8, mouseOffset:12, holdMs:320, slop:8 };
+
+export function inventoryDragPosition(x, y, touch, viewport) {
+  if (!touch) return { x:x+INVENTORY_DRAG.mouseOffset, y:y+INVENTORY_DRAG.mouseOffset };
+  const { size, touchGap, edge } = INVENTORY_DRAG;
+  const left=(viewport.left??0)+edge, top=(viewport.top??0)+edge;
+  return {
+    x:Math.max(left,Math.min(x-size/2,(viewport.left??0)+viewport.width-size-edge)),
+    y:Math.max(top,Math.min(y-size-touchGap,(viewport.top??0)+viewport.height-size-edge)),
+  };
+}
+
+export function inventoryScrollHint(scrollTop, clientHeight, scrollHeight) {
+  if (clientHeight <= 0 || scrollHeight <= clientHeight + 1) return '';
+  return scrollTop + clientHeight >= scrollHeight - 1 ? '↑ Scroll back to earlier slots' : 'Swipe / scroll for more ↓';
+}
+
 export function inventoryKeyboardIndex(index, key, length) {
   const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -4, ArrowDown: 4 }[key];
   if (key === 'Home') return 0;
@@ -54,6 +71,7 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
   const splitEl = overlay.querySelector('.ip-split'), ghost = overlay.querySelector('.ip-drag-ghost');
   const control = id => overlay.querySelector(`[data-ip="${id}"]`);
   const views = new Map();
+  const resizeObserver = new ResizeObserver(updateScrollHints);
   let opened = false, storageId = null, model = null, selection = null, activeId = 'backpack', signature = '';
   let splitCount = null, gesture = null, holdTimer = null, suppressClick = false, restoreFocus = null;
   const containers = () => [model?.pack, model?.storage].filter(Boolean);
@@ -64,6 +82,13 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
     return EQUIPMENT_BY_ID[stack.id] ? equipmentIcon(stack.id,size) : iconMarkup(model.catalog?.[stack.id]?.icon ?? stack.id,{size});
   }
   function say(message) { status.textContent = message; }
+  function updateScrollHints() {
+    for (const view of views.values()) {
+      const text=inventoryScrollHint(view.grid.scrollTop,view.grid.clientHeight,view.grid.scrollHeight);
+      if(view.hint.textContent!==text)view.hint.textContent=text;
+      view.hint.hidden=!text;
+    }
+  }
   function cancelDrag() {
     clearTimeout(holdTimer); holdTimer = null;
     if (gesture?.button.hasPointerCapture?.(gesture.pointerId)) gesture.button.releasePointerCapture(gesture.pointerId);
@@ -96,6 +121,7 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
     control('sort').disabled = !!container(activeId)?.withdrawOnly;
     control('sort').title = container(activeId)?.withdrawOnly ? 'Legacy supplies cannot be sorted.' : `Merge and sort ${container(activeId)?.label ?? 'Backpack'}`;
     for (const [id,key] of [[model?.pack?.id,'show-pack'],[model?.storage?.id,'show-storage']]) control(key).setAttribute('aria-pressed',String(id === activeId));
+    updateScrollHints();
   }
   function update() {
     if (!opened) return;
@@ -112,16 +138,17 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
       else { splitCount = Math.min(splitCount, selectedStack().count - 1); renderQuantity(); }
     }
     if (gesture && (container(gesture.id)?.slots[gesture.index]?.id !== gesture.itemId || container(gesture.id)?.slots[gesture.index]?.count !== gesture.count)) cancelDrag();
-    for (const [id,view] of views) if (!container(id)) { view.section.remove(); views.delete(id); }
+    for (const [id,view] of views) if (!container(id)) { resizeObserver.unobserve(view.grid);view.section.remove(); views.delete(id); }
     for (const c of containers()) {
       let view = views.get(c.id);
       if (!view) {
         const section = document.createElement('section');section.className='ip-container';
-        section.innerHTML=`<h3><span></span><b></b></h3><div class="ip-slots" role="group"></div>`;
-        containersEl.append(section);view={section,grid:section.querySelector('.ip-slots'),buttons:[]};views.set(c.id,view);
+        section.innerHTML=`<h3><span class="ip-container-title"><span class="ip-container-name"></span><small class="ip-scroll-hint" hidden></small></span><b></b></h3><div class="ip-slots" role="group"></div>`;
+        containersEl.append(section);view={section,grid:section.querySelector('.ip-slots'),hint:section.querySelector('.ip-scroll-hint'),buttons:[]};views.set(c.id,view);
+        view.grid.addEventListener('scroll',updateScrollHints,{passive:true});resizeObserver.observe(view.grid);
       }
-      view.section.querySelector('h3 span').textContent=c.label;
-      view.section.querySelector('h3 b').textContent=c.withdrawOnly?`${c.slots.filter(Boolean).length} item types`:`${c.slots.filter(Boolean).length} / ${c.slots.length}`;
+      view.section.querySelector('.ip-container-name').textContent=c.label;
+      view.section.querySelector('h3 b').textContent=c.withdrawOnly?`${c.slots.filter(Boolean).length} types`:`${c.slots.filter(Boolean).length} / ${c.slots.length}`;
       view.grid.setAttribute('aria-label',`${c.label} slots`);
       while(view.buttons.length>c.slots.length)view.buttons.pop().remove();
       while(view.buttons.length<c.slots.length){const b=document.createElement('button');b.type='button';b.className='ip-slot';b.dataset.container=c.id;b.dataset.index=view.buttons.length;view.grid.append(b);view.buttons.push(b);}
@@ -172,7 +199,7 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
     storageId=id;opened=true;overlay.hidden=false;signature='';selection=null;activeId='backpack';splitEl.hidden=true;splitCount=null;suppressClick=false;
     update();if(!opened)return;
     const initial=model.storage?.withdrawOnly?model.storage:model.pack;
-    select(initial.id,initial.slots.findIndex(Boolean));for(const view of views.values())view.grid.scrollTop=0;
+    select(initial.id,initial.slots.findIndex(Boolean));for(const view of views.values())view.grid.scrollTop=0;updateScrollHints();
     say(initial.withdrawOnly?'Take supplies into available backpack space. Deposits are unavailable.':'Tap an item, then an empty slot. Drag to swap.');control('close').focus({preventScroll:true});onBlockingChanged(true);
   }
   function close(){if(!opened)return;cancelDrag();opened=false;overlay.hidden=true;splitEl.hidden=true;selection=null;splitCount=null;onBlockingChanged(false);restoreFocus?.focus?.({preventScroll:true});}
@@ -195,21 +222,26 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
   function startDrag(){
     if(!gesture)return;gesture.active=true;select(gesture.id,gesture.index);overlay.classList.add('is-dragging');
     ghost.innerHTML=`${itemIcon({id:gesture.itemId},48)}<b>${gesture.count}</b>`;ghost.hidden=false;
-    gesture.button.setPointerCapture?.(gesture.pointerId);ghost.style.transform=`translate(${gesture.x+12}px,${gesture.y+12}px)`;
+    gesture.button.setPointerCapture?.(gesture.pointerId);positionGhost();
+  }
+  function positionGhost(){
+    const viewport=window.visualViewport;
+    const position=inventoryDragPosition(gesture.x,gesture.y,gesture.touch,{left:viewport?.offsetLeft??0,top:viewport?.offsetTop??0,width:viewport?.width??window.innerWidth,height:viewport?.height??window.innerHeight});
+    ghost.style.transform=`translate(${position.x}px,${position.y}px)`;
   }
   function pointerDown(event){
     event.stopPropagation();suppressClick=false;const b=event.target.closest('.ip-slot');if(!b||event.button!==0||!splitEl.hidden)return;
     const id=b.dataset.container,index=Number(b.dataset.index),stack=container(id)?.slots[index];if(!stack)return;
     if(container(id).withdrawOnly)return;
     suppressClick=false;gesture={id,index,itemId:stack.id,count:stack.count,button:b,pointerId:event.pointerId,touch:event.pointerType==='touch',x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,active:false};
-    if(gesture.touch)holdTimer=setTimeout(startDrag,320);
+    if(gesture.touch)holdTimer=setTimeout(startDrag,INVENTORY_DRAG.holdMs);
   }
   function pointerMove(event){
     if(!gesture||gesture.pointerId!==event.pointerId)return;
     gesture.x=event.clientX;gesture.y=event.clientY;
     const distance=Math.hypot(event.clientX-gesture.startX,event.clientY-gesture.startY);
-    if(!gesture.active&&distance>8){if(gesture.touch){cancelDrag();return;}startDrag();}
-    if(gesture?.active){event.preventDefault();ghost.style.transform=`translate(${event.clientX+12}px,${event.clientY+12}px)`;}
+    if(!gesture.active&&distance>INVENTORY_DRAG.slop){if(gesture.touch){cancelDrag();return;}startDrag();}
+    if(gesture?.active){event.preventDefault();positionGhost();}
   }
   function pointerUp(event){
     event.stopPropagation();if(!gesture||gesture.pointerId!==event.pointerId)return;
@@ -236,5 +268,5 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
   overlay.addEventListener('click',click);overlay.addEventListener('pointerdown',pointerDown);overlay.addEventListener('pointermove',pointerMove);overlay.addEventListener('pointerup',pointerUp);overlay.addEventListener('pointercancel',cancelPointer);overlay.addEventListener('touchmove',touchMove,{passive:false});
   const outsidePointerUp=event=>{if(gesture&&!overlay.contains(event.target))pointerUp(event);};
   window.addEventListener('keydown',keyDown,true);window.addEventListener('blur',cancelPointer);window.addEventListener('pointerup',outsidePointerUp);
-  return {open,close,isOpen:()=>opened,update,element:overlay,destroy(){close();window.removeEventListener('keydown',keyDown,true);window.removeEventListener('blur',cancelPointer);window.removeEventListener('pointerup',outsidePointerUp);cancelDrag();overlay.remove();}};
+  return {open,close,isOpen:()=>opened,update,element:overlay,destroy(){close();resizeObserver.disconnect();window.removeEventListener('keydown',keyDown,true);window.removeEventListener('blur',cancelPointer);window.removeEventListener('pointerup',outsidePointerUp);cancelDrag();overlay.remove();}};
 }

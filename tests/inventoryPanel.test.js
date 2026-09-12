@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { inventorySplitPayload, inventoryKeyboardIndex, inventoryTransferReason } from '../src/ui/inventoryPanel.js';
+import { inventorySplitPayload, inventoryKeyboardIndex, inventoryTransferReason, inventoryDragPosition, inventoryScrollHint } from '../src/ui/inventoryPanel.js';
 import { createInventoryActions } from '../src/inventory/inventoryActions.js';
 import { createInventoryState } from '../src/inventory/inventoryState.js';
 import { createItemCatalog } from '../src/inventory/itemCatalog.js';
@@ -27,6 +27,27 @@ test('keyboard navigation retains four-column moves and clamps upgraded containe
   assert.equal(inventoryKeyboardIndex(35,'ArrowDown',36),35);
   assert.equal(inventoryKeyboardIndex(35,'Home',36),0);
   assert.equal(inventoryKeyboardIndex(0,'End',36),35);
+});
+
+test('touch drag preview is centered above the finger and stays inside the visible viewport', () => {
+  const viewport={width:844,height:300};
+  assert.deepEqual(inventoryDragPosition(300,200,true,viewport),{x:268,y:112});
+  assert.deepEqual(inventoryDragPosition(0,0,true,viewport),{x:8,y:8});
+  assert.deepEqual(inventoryDragPosition(844,400,true,viewport),{x:772,y:228});
+  assert.deepEqual(inventoryDragPosition(0,0,true,{left:15,top:25,width:390,height:600}),{x:23,y:33});
+  assert.deepEqual(inventoryDragPosition(850,650,true,{left:15,top:25,width:390,height:600}),{x:333,y:553});
+});
+
+test('mouse preview keeps the existing cursor offset', () => {
+  assert.deepEqual(inventoryDragPosition(300,200,false,{width:844,height:300}),{x:312,y:212});
+});
+
+test('scroll guidance appears only for overflow and points back at the end', () => {
+  assert.equal(inventoryScrollHint(0,70,300),'Swipe / scroll for more ↓');
+  assert.equal(inventoryScrollHint(100,70,300),'Swipe / scroll for more ↓');
+  assert.equal(inventoryScrollHint(230,70,300),'↑ Scroll back to earlier slots');
+  assert.equal(inventoryScrollHint(0,300,300),'');
+  assert.equal(inventoryScrollHint(0,0,300),'');
 });
 
 test('withdraw-only supplies admit explicit taking but reject deposits, rearrangement and split',()=>{

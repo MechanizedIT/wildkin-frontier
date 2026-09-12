@@ -124,11 +124,12 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
   return { getPoint, getBodyRectangle, hasBodyEnvelope: () => !bodyBox.isEmpty(), isOccluded };
 }
 
-export function placeInteractionLabel(point, size, bounds, obstacles = [], body = null) {
+export function placeInteractionLabel(point, size, bounds, obstacles = [], body = null, preferred = null) {
   const gap = 18, { width, height } = size;
   const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
   if (width > bounds.right - bounds.left || height > bounds.bottom - bounds.top) return null;
   const candidates = [
+    ...(preferred ? [[preferred.left,preferred.top]] : []),
     [point.x - width / 2, point.y - height - gap],
     ...(body ? [
       [body.right + gap, (body.top + body.bottom - height) / 2], [body.left - width - gap, (body.top + body.bottom - height) / 2],

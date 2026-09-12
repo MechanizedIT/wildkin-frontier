@@ -166,7 +166,6 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
   }
 
   function isHarvestableInRange(node, playerPos) {
-    if (hasPendingYield(node)) return false;
     if (node._regionInactive) return false;
     if (!isRegionActive(node.regionId)) return false;
     return isNodeInRange(node, playerPos);
@@ -208,7 +207,6 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
   }
 
   function applyHit(node, spawnPickup, spawnParticles, playSound) {
-    if (hasPendingYield(node)) return false;
     if (node._regionInactive || !isRegionActive(node.regionId)) return false;
     if (node.state.nodeState !== "READY") return false;
     if (node.state.remainingChunks <= 0) return false;
@@ -384,7 +382,10 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
         }
       }
 
-      // respawn timer — progress only while active (freeze when inactive)
+      // A node always finishes its current harvest, even with uncollected drops.
+      // Only regrowth waits for collection, bounding the retained source yield
+      // to one finite harvest cycle (including its configured hit bonuses).
+      // Progress only while active (freeze when inactive).
       if (n.state.nodeState === "RESPAWNING") {
         if (hasPendingYield(n)) {
           n.haloMesh.visible = false;

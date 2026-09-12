@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { createCompanionSystem } from "../companions/companionSystem.js";
 import { COMPANIONS } from "../companions/companionCatalog.js";
+import { getObservationJournal } from '../companions/observationCatalog.js';
 import { createBetaShell } from "../ui/betaShell.js";
 import { deriveCampaignProgress, getNextCampaignObjective } from "../progression/campaignProgress.js";
 import { getPlayerLevel } from "../progression/playerLevel.js";
@@ -36,7 +37,7 @@ export function createBetaGame(deps) {
   const observatoryMechanisms = createObservatoryMechanisms({ scene, registry, progress });
   const playerOcclusion = initializePlayerOcclusion({ scene, camera: deps.camera, getPlayerPosition: () => playerController.getState().pos });
   const guardianEncounter = createGuardianEncounter({ scene, getGuardian: () => creatures.getCreatures().find(c => c.state.id === "wildkin_guardian"), getPlayerState: () => playerController.getState(), playerCombat, audio, onPulse: ({ target }) => pulse(target, 0xffbd63), onWarning: text => toast("Heartwood Guardian", text) });
-  const companions = createCompanionSystem({ app, scene, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
+  const companions = createCompanionSystem({ app, scene, camera: deps.camera, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), getRunId: () => session.getRunId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
   deps.characterPhysics?.setColliderFilter(companions.isFollowerCollider);
   creatures.setCompanionColliderFilter(companions.isFollowerCollider);
   const isCamp = () => session.isCamp();
@@ -97,10 +98,11 @@ export function createBetaGame(deps) {
     return { isCamp: isCamp(), regionName: registry.getSectionById(getSectionId())?.displayName ?? registry.getSectionById(getSectionId())?.name ?? "Camp",
       bankedXp: s.bankedXp, playerLevel: getPlayerLevel(s.bankedXp), health: playerCombat.getHealth(), maxHealth: playerCombat.getMaxHealth(), cargo: pickupSystem.getInventory(), carriedXp: xpMoteSystem.getXp(), progress: s,
       skills: {nodes:SKILL_CATALOG,unlocked:s.skillUnlocks,points:s.skillPointsAvailable,level:getPlayerLevel(s.bankedXp)},
-      companions: COMPANIONS.map(c => ({ ...c, secured: s.securedCompanions.includes(c.id), active: s.activeCompanionId === c.id, discovered: s.discoveredSpecies.includes(c.id), pending: pending.some(p => p.id === c.id) })),
+      companions: COMPANIONS.map(c => ({ ...c, secured: s.securedCompanions.includes(c.id), active: s.activeCompanionId === c.id, discovered: s.discoveredSpecies.includes(c.id), pending: pending.some(p => p.id === c.id), journalEntries: getObservationJournal(c.id, s), observedStages: s.observationClues[c.id] ?? 0 })),
       pendingCompanions: pending, captureCapacity: progress.getModifiers().captureCapacity, objective: objectiveModel(), medkits: s.craftedConsumables.medkit ?? 0,
       ability: companions.getAbility(), settings, campaignComplete: s.campaignCompleted,
       base: base.getModel(), fieldTaming: companions.getFieldTamingState?.() ?? null,
+      observation: companions.getObservationState(),
       objectives: deriveCampaignProgress(s).map(({id,title,completed}) => ({id,title,completed})) };
   }
   function action(type, payload) {
@@ -243,7 +245,7 @@ export function createBetaGame(deps) {
     // below only advances visual animation and DOM/presentation concerns.
     updateFixed(dt, { paused = false, authorSuppress = false } = {}) {
       base.update(0,{hidden:authorSuppress});
-      companions.updateFixed(dt, { sectionId: getSectionId(), paused, hidden: authorSuppress });
+      companions.updateFixed(dt, { sectionId: getSectionId(), paused: paused || isBlocking() || deps.isOtherBlocking() || document.hidden, hidden: authorSuppress });
     },
     update(dt, { paused, authorSuppress } = {}) {
       physicalInventory.update();

@@ -36,11 +36,56 @@ function setup() {
   globalThis.window = windowTarget;
   globalThis.document = documentTarget;
   const app = appTarget();
-  const camera = { yaw: 0, orbitBy(delta) { this.yaw += delta; }, getYaw() { return this.yaw; } };
+  const camera = { yaw: 0, zoom:1, zoomByFactor(factor){this.zoom*=factor;}, orbitBy(delta) { this.yaw += delta; }, getYaw() { return this.yaw; } };
   return { app, camera, windowTarget, documentTarget };
 }
 
 describe("landscape input adapters", () => {
+  it('losing the owned joystick capture clears movement while unrelated capture loss does not',()=>{
+    const {app}=setup(),touch=createTouchMovement(app,MOVEMENT_CONFIG,INPUT_CONFIG);
+    app.dispatch('pointerdown',{pointerType:'touch',pointerId:1,clientX:100,clientY:300});
+    app.dispatch('pointermove',{pointerType:'touch',pointerId:1,clientX:150,clientY:300});
+    app.dispatch('lostpointercapture',{pointerId:2});assert.ok(touch.getIntent().moveMagnitude>.5);
+    app.dispatch('lostpointercapture',{pointerId:1});assert.equal(touch.getIntent().moveMagnitude,0);
+  });
+  it('viewport resize abandons pinch coordinates and ignores old fingers until fresh touch down',()=>{
+    const {app,camera,windowTarget}=setup(),orbit=createGameCameraOrbit(app,camera);
+    for(const [id,x]of [[1,550],[2,650]])app.dispatch('pointerdown',{pointerType:'touch',pointerId:id,clientX:x,clientY:200});
+    assert.equal(orbit._debug().pinch,true);windowTarget.dispatch('resize');
+    app.dispatch('pointermove',{pointerType:'touch',pointerId:2,clientX:325,clientY:320});
+    assert.equal(camera.zoom,1);assert.equal(camera.yaw,0);assert.equal(orbit._debug().pointerId,null);
+  });
+  it('two right-side touches zoom without stealing a live left joystick or rotating during pinch',()=>{
+    const {app,camera}=setup();
+    const touch=createTouchMovement(app,MOVEMENT_CONFIG,INPUT_CONFIG);
+    const orbit=createGameCameraOrbit(app,camera,{yawSensitivity:.01});
+    const down=(id,x,y)=>app.dispatch('pointerdown',{pointerType:'touch',pointerId:id,button:0,clientX:x,clientY:y});
+    const move=(id,x,y)=>app.dispatch('pointermove',{pointerType:'touch',pointerId:id,clientX:x,clientY:y});
+    down(1,100,300);move(1,150,300);const magnitude=touch.getIntent().moveMagnitude;
+    down(2,550,160);down(3,650,160);move(3,750,160);
+    assert.equal(camera.zoom,.5);assert.equal(camera.yaw,0);assert.equal(touch.getIntent().moveMagnitude,magnitude);
+    // A remaining finger resumes orbit from its current position, no jump.
+    app.dispatch('pointerup',{pointerType:'touch',pointerId:2});move(3,760,160);
+    assert.equal(camera.yaw,-.1);assert.equal(orbit._debug().pinch,false);
+    orbit.setEnabled(false);move(3,780,160);assert.equal(camera.yaw,-.1);
+  });
+  it('UI touches and left-to-right joystick crossing never become pinch fingers',()=>{
+    const {app,camera}=setup();createTouchMovement(app,MOVEMENT_CONFIG,INPUT_CONFIG);
+    const orbit=createGameCameraOrbit(app,camera,{yawSensitivity:.01});
+    app.dispatch('pointerdown',{pointerType:'touch',pointerId:1,clientX:100,clientY:300});
+    app.dispatch('pointermove',{pointerType:'touch',pointerId:1,clientX:600,clientY:300});
+    app.dispatch('pointerdown',{pointerType:'touch',pointerId:2,clientX:600,clientY:200});
+    app.dispatch('pointerdown',{pointerType:'touch',pointerId:3,clientX:700,clientY:200,target:{closest:()=>({})}});
+    app.dispatch('pointermove',{pointerType:'touch',pointerId:2,clientX:620,clientY:200});
+    assert.equal(camera.zoom,1);assert.equal(camera.yaw,-.2);assert.equal(orbit._debug().pinch,false);
+  });
+  it('wheel zoom ignores UI, left controls and disabled camera input',()=>{
+    const {app,camera}=setup(),orbit=createGameCameraOrbit(app,camera);
+    const wheel=extra=>app.dispatch('wheel',{clientX:600,clientY:150,deltaY:100,deltaMode:0,...extra});
+    wheel({clientX:100});wheel({target:{closest:()=>({})}});assert.equal(camera.zoom,1);
+    wheel({});assert.ok(camera.zoom>1);const zoom=camera.zoom;
+    orbit.setEnabled(false);wheel({});assert.equal(camera.zoom,zoom);
+  });
   it("ignores right pointers while disabled by a modal or Author mode", () => {
     const { app, camera } = setup();
     const touch = createTouchMovement(app, MOVEMENT_CONFIG, INPUT_CONFIG);

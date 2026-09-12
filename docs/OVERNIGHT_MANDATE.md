@@ -1,5 +1,7 @@
 # Overnight producer mandate — September 11, 2026
 
+**Evening resumption:** Chris has now explicitly resumed autonomous overnight work after his phone playtest. The current brief and feedback are in **OVERNIGHT_RUN_2.md**; CURRENT_SLICE.md owns the bounded active batch. The wrap-up notice below records the earlier pause and is superseded by this later request.
+
 The owner's verbatim requests are preserved in `OVERNIGHT_OWNER_REQUESTS.md`. The evolving concrete design/backlog is in `OVERNIGHT_DESIGN_PLAN.md`.
 
 ## Read at every resumed turn and batch review

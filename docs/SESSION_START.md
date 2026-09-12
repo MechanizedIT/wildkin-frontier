@@ -1,6 +1,6 @@
 # Start the next Wildkin Frontier session
 
-**September 11 handoff: Chris is playtesting the overnight checkpoint. Await his notes or a new task; do not restart overnight autonomous production merely because an older mandate says “continue.”** This is a local pre-alpha, not a published release. Exact art/balance choices remain provisional.
+**September 11 evening: Chris completed a short phone playtest and explicitly resumed overnight goal-mode production until he says stop.** Read CURRENT_SLICE.md and OVERNIGHT_RUN_2.md first; the earlier handoff pause is historical. This is a local pre-alpha, not a published release. Exact art/balance choices remain provisional.
 
 After a fresh clone or machine replacement, read [RECOVERY.md](RECOVERY.md). The September11 GitHub backup also retains the unshipped Tidefin candidate and the locally installed Asset Forge workflow; ignored study folders are not required to recover those snapshots.
 
@@ -13,6 +13,8 @@ After a fresh clone or machine replacement, read [RECOVERY.md](RECOVERY.md). The
 5. For inventory/save work, read [PHYSICAL_INVENTORY_PLAN.md](PHYSICAL_INVENTORY_PLAN.md). Read design/architecture sections only when the task changes those contracts. Query the local brain only when owner intent/history is relevant; repository evidence owns current implementation.
 
 ## Snapshot to verify, not silently upgrade
+
+- September11 evening phone candidate:842tests/build/validation/ZIP pass at42.56MB unpacked/20.26MB ZIP. Square inventory/lifted drag, rounded frames, fullscreen/right-side zoom/real joystick, quiet persistent observation notes and continuous harvesting are integrated. The pickup-dependent next-hit gate was explicitly rejected by Chris. Read OVERNIGHT_RUN_2 rolling status and latest BUILD_LOG before relying on the older handoff below. Camp target is independently reviewed; barricade/layout work is underway, not admitted content.
 
 - Physical inventory is integrated: finite pack, physical pod/crate storage, drag/tap/split/sort, selected nearby crafting source, capacity-safe transactions, v3 migration and an active-expedition reload snapshot. Saved quantities belong to frontier progress; old counters are derived views.
 - Parent's wrap-up checkpoint reports **810 tests** and build/validation/ZIP success, about **42.53 MB unpacked / 20.25 MB ZIP**. Native/package closure passed; see the handoff for exact fixtures and limitations. Counts and bytes are historical evidence, not a reason to rerun everything on session start.

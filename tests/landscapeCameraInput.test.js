@@ -5,6 +5,22 @@ import { CAMERA_CONFIG, createCamera } from "../src/game/createCamera.js";
 import { createCameraFollow } from "../src/camera/cameraFollow.js";
 
 describe("landscape camera orbit", () => {
+  it('zooms within bounds without changing pitch, heading or the player and retains zoom across resize',()=>{
+    const target=new THREE.Group(),camera=createCamera(16/9);
+    const follow=createCameraFollow(camera,target,{landscapeZoom:.85,minZoom:.72,maxZoom:1.3},CAMERA_CONFIG);
+    follow.orbitBy(.7);follow.snap();
+    const direction=camera.getWorldDirection(new THREE.Vector3()),before=target.matrix.clone();
+    follow.zoomByFactor(.5);follow.prepareForInput();
+    assert.equal(follow.getZoom(),.72);
+    let center=new THREE.Vector3().fromArray(follow._debug().center);
+    assert.ok(Math.abs(camera.position.distanceTo(center)-CAMERA_CONFIG.distance*.85*.72)<1e-8);
+    assert.ok(camera.getWorldDirection(new THREE.Vector3()).distanceTo(direction)<1e-8);
+    follow.zoomByFactor(10);follow.snap();assert.equal(follow.getZoom(),1.3);
+    follow.zoomByFactor(NaN);follow.setZoom(Infinity);assert.equal(follow.getZoom(),1.3);
+    camera.aspect=9/16;follow.prepareForInput();
+    assert.ok(Math.abs(camera.position.distanceTo(center)-CAMERA_CONFIG.distance*1.3)<1e-8);
+    assert.equal(follow.getYaw(),.7);assert.deepEqual(target.matrix.elements,before.elements);
+  });
   it("keeps the requested fixed pitch while following terrain height at every cardinal yaw", () => {
     const target = new THREE.Group();
     target.position.set(4, 2, -3);

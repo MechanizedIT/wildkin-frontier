@@ -131,6 +131,8 @@ function resize() {
 }
 resize();
 window.addEventListener("resize", resize);
+window.visualViewport?.addEventListener("resize", resize);
+document.addEventListener("fullscreenchange", resize);
 window.addEventListener("orientationchange", () => {
   setTimeout(resize, 200);
 });
