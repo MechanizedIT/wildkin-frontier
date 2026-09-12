@@ -4,6 +4,7 @@ import { RUSHER_CONFIG, SPITTER_CONFIG } from "../combat/combatConfig.js";
 import { createVisual, getVisualRecipeKey, tagVisualRoot } from "../world/visualFactory.js";
 import { createVisualAnimationController, disposeExternalModelInstance } from "../assets/modelAssetRuntime.js";
 import { mosslingTravelSpeed } from "./mosslingMotion.js";
+import { applyWildkinAppearance } from './wildkinAppearance.js';
 
 function getConfig(type) {
   return type === "spitter" ? SPITTER_CONFIG : RUSHER_CONFIG;
@@ -129,6 +130,7 @@ export function createWildCreature(scene, physicsWorld, spawn, index, { shouldIg
       object.material = Array.isArray(object.material) ? styled : styled[0];
     });
   }
+  if (state.genome) applyWildkinAppearance(visualRoot, state.genome);
   group.add(visualRoot);
   const modelAnimator = createVisualAnimationController(visualRoot);
   let lastModelAnimationState = null;

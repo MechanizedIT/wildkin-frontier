@@ -1,6 +1,6 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: Living Frontier F4 visible individual variation.**
+Updated September 12, 2026. **Active goal-mode development: Living Frontier F6A physical nursery and care.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
@@ -48,7 +48,7 @@ Root owns shared integration and final checkpoint; workers own explicitly assign
 
 F2B now carries exact individual records through native lure/bond, failed-save retry, literal reload, physical Camp banking, separate same-species roster selection and death. Generated source residency is bounded to four, with captured history preventing duplicates. The first two Mosslings retain ordinary movement within a tighter initial clearing. Selected R3 scored 8.1/10 after 6.9/7.8; exact evidence and validation are in `art/reviews/living-frontier-f2b/receipt.md`. Appearance genes remain data only.
 
-## Selected next slice: F4 visible individual variation
+## F4 checkpoint: body-tone variation; eye overlays held
 
 - Make two captured Mosslings visibly distinguishable using one shared expression path for wild creatures and owned followers, with independent material ownership and complete disposal. Preserve the current rig/clips and identity transactions.
 - First candidate uses restrained whole-body tone plus separately head-bound eye geometry/material in a small editable Mossling revision. The current body texture combines coat, foliage and flowers: call this body tone, not isolated coat color. Do not infer semantic masks by texture thresholding. Evaluate the eye overlays for attachment, occlusion and all existing clips before shipping.
@@ -56,13 +56,29 @@ F2B now carries exact individual records through native lure/bond, failed-save r
 - Capture actual baseline and a realistic target; use separate asset implementer and visual judge, at most three visual rounds. Prove wild/follower material isolation, capture/reload expression parity, animation attachment and disposal. Reuse the current physical roster; expose only traits that are actually visible.
 - Root owns shared integration and scope. One worker owns the isolated editable asset candidate; another may own pure expression/material tests. No source asset is replaced before visual/runtime proof. Continue the long-running goal after this slice.
 
+Selected result is the unchanged V3 body with a restrained whole-body tone shared by generated wildlife and owned followers. Eye overlays failed anatomical placement in three reviewed static results and are not shipped; eye/size/marking/crest/tail genes stay data only. Independent review found the lichen/clay fallback subtly distinguishable and usable provisionally; the original eye target remains unmet. Materials are independent and disposed safely, saved clay appearance matches the packaged wild recipe, and the existing rig/clips remain unchanged. Exact evidence: `art/reviews/living-frontier-f4/receipt.md`.
+
 ## Broader authorized direction
+
+### F5A checkpoint: rocky terrace and grounded falling risk
+
+One three-metre shelf in chunk0,-3 now has a four-metre clear left slope, sharp front/right lips, six reused Verdant rock models with matching colliders, and shared terrain sampling. The controller emits one landing event; playerCombat owns damage/feedback/death. Drops up to2.4m and ordinary jumps are safe; larger falls cost1–4 health. Resets clear tracking. Live keyboard-handler fixtures climbed and crossed the shelf with unchanged health, then stepped off, became airborne and lost one health; literal reload retained the supported lower position and health. Arbitrary cliff climbing/swimming remain subsequent work.
+
+R1/R2/R3 visual scores1.5/~3/~4.5; R3 is selected functional groundwork, not target visual admission. Flat wall/stone repetition and sparse geography remain debt. Shared F4/F5A checkpoint:1,057/1,057 tests, verify/build/validation/ZIP PASS;43.95MB unpacked/20.49MB ZIP. Exact proof and fixture limits:`art/reviews/living-frontier-f5a/receipt.md`. The portable build contains all six final rock instances and the same3.02m sampled drop.
+
+## Selected next slice: F6A physical nursery and care
+
+- Reuse Camp construction and one existing Wildkin bed as a physical nursery anchor. Settle one owned Mossling there, feed berries through a nearby world action, and show its care visibly. Keep one companion visual owner and individual identity; avoid a second creature inventory.
+- Add one bounded, versioned care assignment under frontierProgress. Validate the live bed and owned individual. Spend raw berries and advance nourishment in one rollback-safe transaction. No missed-day decay, old-age death or real-time care debt.
+- Start with one assignment and three nourishment steps. This is settling/feeding groundwork, not implemented breeding or a complete habitat simulation. A food garden, habitat suitability and guided inheritance follow as separate small integrations.
+- Keep the physical bed/action reachable and placement-safe. Release an assignment before removing its bed. Reuse the selected companion for assignment, with short in-world feedback; avoid a new management dashboard.
+- Root owns shared integration, visual target/review and scope. Workers may own explicitly separate care/save, base interaction or resting-visual files. Capture current Camp/bed baseline and a feasible target, with about three visual passes. Prove assign/feed/save failure/reload/release and preserve expedition following.
 
 Streamed terrain and ecology; personal atlas; individual modular Wildkin; slow climbing, swimming and falling risk; immersive Camp building/crafting/food/habitats; field genetics, breeding, growth, cloning and DNA recipe exchange. Rules remain producer choices to validate in play. PC/web first with mobile viability; offline Three.js/Rapier and local main remain. No backwards compatibility requirement. See LIVING_FRONTIER_PLAN for sequence and evidence gates.
 
 ## Last verified playable checkpoint
 
-Current checkpoint: `art/reviews/living-frontier-f2b/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipt for integrated verification.
+Current checkpoint: `art/reviews/living-frontier-f4/receipt.md` and `art/reviews/living-frontier-f5a/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
 
 Initial working tree includes unrelated Verdant composer/test changes and untracked art/tool experiments. Preserve them; stage only owned files. Emberfall ravine and Tidefin V3 remain unshipped candidates with documented defects; they are not the current slice.
 

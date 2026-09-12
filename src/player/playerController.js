@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { getBandSpeed, classifyMovementBand } from "../movement/movementBands.js";
 import { createTraversalController, computeMantleEndpoints } from "../movement/traversalController.js";
 import { createPlayerVisuals } from "./playerVisuals.js";
+import { calculateFallImpact } from "./fallImpact.js";
 
 // Phase 1.2 — Rapier KinematicCharacterController migration.
 // Wildkin owns intent/speeds/accel/facing/dodge/jump/climb. Rapier owns collision/slide/grounding.
@@ -69,6 +70,8 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   const previousPhysicsPose = { position: state.pos.clone(), facing: state.facing };
   const currentPhysicsPose = { position: state.pos.clone(), facing: state.facing };
   const renderedPose = { position: state.pos.clone(), facing: state.facing };
+  let airbornePeakFeetY = null;
+  let pendingLandingImpact = null;
 
   function syncPosFromPhysics() {
     if (!characterPhysics) return;
@@ -76,6 +79,38 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.pos.set(p.x, p.y, p.z);
   }
   if (characterPhysics) syncPosFromPhysics();
+
+  function getFeetY() {
+    const totalHeight = Number(characterPhysics?.cfg?.capsuleTotalHeight) || 0;
+    return state.pos.y - totalHeight / 2;
+  }
+
+  function beginAirborneTracking(feetY = getFeetY()) {
+    if (!Number.isFinite(feetY)) return;
+    if (airbornePeakFeetY === null) airbornePeakFeetY = feetY;
+    else airbornePeakFeetY = Math.max(airbornePeakFeetY, feetY);
+  }
+
+  function updateAirbornePeak() {
+    beginAirborneTracking(getFeetY());
+  }
+
+  function cancelAirborneTracking() {
+    airbornePeakFeetY = null;
+  }
+
+  function recordLandingImpact() {
+    if (airbornePeakFeetY === null) return;
+    const impact = calculateFallImpact(airbornePeakFeetY, getFeetY());
+    airbornePeakFeetY = null;
+    if (impact && pendingLandingImpact === null) pendingLandingImpact = impact;
+  }
+
+  function consumeLandingImpact() {
+    const impact = pendingLandingImpact;
+    pendingLandingImpact = null;
+    return impact;
+  }
 
   function getCameraBasis() {
     camera.getWorldDirection(tmpDir);
@@ -174,6 +209,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.coyoteRemaining = 0;
     state.climbable = null;
     state.mantleData = null;
+    beginAirborneTracking();
     return true;
   }
 
@@ -190,6 +226,8 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.fallHVel = null;
     state.airCap = 0;
     state.verticalVelocity = 0;
+    cancelAirborneTracking();
+    pendingLandingImpact = null;
   }
 
   function updateJumpRequestWindow(dt, intent) {
@@ -223,6 +261,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.fallHVel = null;
     state.jumpBufferRemaining = 0;
     state.coyoteRemaining = 0;
+    beginAirborneTracking();
     return true;
   }
 
@@ -352,6 +391,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       if (!jd.lockHorizontal) applyAirborneHorizontalControl(fixedDt, worldDir, jd.hVel);
       state.verticalVelocity -= (moveCfg.jumpGravity ?? 12) * fixedDt;
       const res = rapierMove(jd.hVel.x, jd.hVel.z, state.verticalVelocity, fixedDt);
+      updateAirbornePeak();
       const hvLen = Math.hypot(jd.hVel.x, jd.hVel.z);
       if (hvLen > 0.1) state.facing = Math.atan2(jd.hVel.x, jd.hVel.z);
       state.speed = hvLen;
@@ -366,6 +406,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       if (jd.time > jd.airTime + 0.75) landed = true;
 
       if (landed) {
+        if (res.grounded) recordLandingImpact();
         state.mode = "IDLE";
         state.jumpData = null;
         state.airCap = 0;
@@ -381,18 +422,21 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
 
     // --- FALL active (ordinary ledge fall, shares same air model as JUMP) ---
     if (state.mode === "FALL") {
+      beginAirborneTracking();
       // airborne horizontal control with frozen cap
       if (!state.fallHVel) state.fallHVel = { x: state.vel.x, z: state.vel.z };
       applyAirborneHorizontalControl(fixedDt, worldDir, state.fallHVel);
       state.verticalVelocity += (moveCfg.gravity ?? -12) * fixedDt;
       const hvLenBefore = Math.hypot(state.fallHVel.x, state.fallHVel.z);
       const res = rapierMove(state.fallHVel.x, state.fallHVel.z, state.verticalVelocity, fixedDt);
+      updateAirbornePeak();
       const hvLen = Math.hypot(state.fallHVel.x, state.fallHVel.z);
       if (hvLen > 0.1) state.facing = Math.atan2(state.fallHVel.x, state.fallHVel.z);
       state.speed = hvLen;
       // keep vel in sync for landing carry
       state.vel.set(state.fallHVel.x, 0, state.fallHVel.z);
       if (res.grounded) {
+        recordLandingImpact();
         state.mode = "IDLE";
         state.fallHVel = null;
         state.airCap = 0;
@@ -469,6 +513,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
         traversal.reset();
         state.mode = "MANTLE";
         state.climbable = null;
+        cancelAirborneTracking();
         syncMesh(fixedDt);
         return;
       }
@@ -534,6 +579,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
         state.mantleData = null;
         state.verticalVelocity = 0;
         state.grounded = true;
+        cancelAirborneTracking();
         traversal.reset();
       }
       syncMesh(fixedDt);
@@ -580,6 +626,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     // --- Climb entries ---
     const climbBottom = traversal.tryStartClimbBottom(worldDir, state.pos, intent.moveMagnitude);
     if (climbBottom) {
+      cancelAirborneTracking();
       state.mode = "CLIMB";
       state.climbable = climbBottom;
       state.climbTime = 0;
@@ -598,6 +645,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     }
     const climbTop = traversal.tryStartClimbTop(worldDir, state.pos, intent.moveMagnitude, state.pos.y);
     if (climbTop) {
+      cancelAirborneTracking();
       state.mode = "CLIMB";
       state.climbable = climbTop;
       state.climbTime = 0;
@@ -636,6 +684,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       };
       state.verticalVelocity = moveCfg.jumpInitialVerticalVelocity ?? 5.8;
       state.grounded = false;
+      beginAirborneTracking();
       // keep horizontal vel for shared air model — jumpData.hVel already reflects initialSpeed/direction
       state.vel.set(state.jumpData.hVel.x, 0, state.jumpData.hVel.z);
       if (travState.jumpDirection) state.facing = Math.atan2(travState.jumpDirection.x, travState.jumpDirection.z);
@@ -649,6 +698,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     // --- Normal movement (grounded only) ---
     // If we are airborne without an active JUMP, treat as FALL (walk-off). This handles the first frame after leaving ground.
     if (!state.grounded && state.mode !== "JUMP") {
+      beginAirborneTracking();
       // Preserve horizontal velocity at the moment of leaving ground; do not boost via bands
       const preSpeedAir = state.speed;
       state.mode = "FALL";
@@ -679,7 +729,9 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       state.speed = hvLenAir;
       state.vel.set(state.fallHVel.x, 0, state.fallHVel.z);
       rapierMove(state.fallHVel.x, state.fallHVel.z, state.verticalVelocity, fixedDt);
+      updateAirbornePeak();
       if (state.grounded) {
+        recordLandingImpact();
         state.mode = "IDLE";
         state.fallHVel = null;
         state.airCap = 0;
@@ -689,6 +741,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       return;
     }
     const wasGrounded = state.grounded;
+    const preMoveFeetY = getFeetY();
     const preSpeed = state.speed;
     // Phase 3: cap locomotion during attack to 60-70% of normal current band speed, no sprint skating
     let effectiveTargetSpeed = targetSpeed;
@@ -749,6 +802,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
 
     // Transition to FALL if we just left ground without authored JUMP (walk/fall off ledge)
     if (!state.grounded && wasGrounded && state.mode !== "JUMP") {
+      beginAirborneTracking(preMoveFeetY);
       state.mode = "FALL";
       // Preserve actual horizontal velocity at takeoff, cap at max(walkSpeed, preSpeed)
       state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, preSpeed);
@@ -775,5 +829,5 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   }
 
   snapRenderPose();
-  return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad, cancelPendingJump, resetJumpState, setMoveSpeedMultiplier };
+  return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad, cancelPendingJump, resetJumpState, consumeLandingImpact, setMoveSpeedMultiplier };
 }

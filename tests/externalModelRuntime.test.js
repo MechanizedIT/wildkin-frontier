@@ -20,6 +20,7 @@ function createSkinnedTemplate() {
   const colorMap = new THREE.DataTexture(new Uint8Array([128, 200, 150, 255]), 1, 1, THREE.RGBAFormat);
   const metallicMap = new THREE.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1, THREE.RGBAFormat);
   const material = new THREE.MeshStandardMaterial({ color: 0x88cc99, map: colorMap, metalness: 0.8, metalnessMap: metallicMap, roughness: 0.1, roughnessMap: metallicMap });
+  material.name = 'wildkin_body';
   const mesh = new THREE.SkinnedMesh(geometry, material); mesh.name = "fixtureSkin";
   const rootBone = new THREE.Bone(); rootBone.name = "root";
   const tipBone = new THREE.Bone(); tipBone.name = "tip"; tipBone.position.y = 1;
@@ -61,6 +62,7 @@ describe("external local GLB Visual Assets", () => {
     assert.equal(calls, 1);
     const mesh = getModelTemplate(asset.model.path).scene.getObjectByName("fixtureSkin");
     assert.equal(mesh.material.type, "MeshLambertMaterial");
+    assert.equal(mesh.material.name, 'wildkin_body');
     assert.equal(mesh.material.map.colorSpace, THREE.SRGBColorSpace);
     assert.equal("metalnessMap" in mesh.material, false);
     assert.equal("roughnessMap" in mesh.material, false);

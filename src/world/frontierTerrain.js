@@ -1,4 +1,5 @@
 // Deterministic, dependency-free terrain foundation for the streamed frontier.
+import { ROCKY_TERRACE, sampleFrontierLandform } from './frontierLandform.js';
 
 export const FRONTIER_TERRAIN_CONFIG = Object.freeze({
   chunkSize: 50,
@@ -64,7 +65,9 @@ export function sampleFrontier(x, z, options = {}) {
   const seed = finite(options.seed, config.defaultSeed) | 0;
   const terrain = globalHeight(x, z, seed);
   const camp = campSample(x, z, options);
-  const height = camp === null ? terrain : camp.edge * (1 - camp.t) + terrain * camp.t;
+  const baseHeight = camp === null ? terrain : camp.edge * (1 - camp.t) + terrain * camp.t;
+  const landform = sampleFrontierLandform(x, z);
+  const height = baseHeight + landform.heightOffset;
   const wetNoise = valueNoise(x + 180, z - 220, seed ^ 0x51ed270b, 80);
   const lowland = clamp((8.0 - height) / 4.5, 0, 1);
   const wetland = clamp(wetNoise * 0.65 + lowland * 0.55, 0, 1);
@@ -80,6 +83,12 @@ export function sampleFrontier(x, z, options = {}) {
       green = color[1] * (1 - camp.t) + green * camp.t;
       blue = color[2] * (1 - camp.t) + blue * camp.t;
     }
+  }
+  if (landform.colorRGB) {
+    const t = landform.colorBlend;
+    red += (landform.colorRGB[0] - red) * t;
+    green += (landform.colorRGB[1] - green) * t;
+    blue += (landform.colorRGB[2] - blue) * t;
   }
   return {
     // Camp authoring owns its exact finite height, including deliberate raised or sunk values.
@@ -100,23 +109,31 @@ export function createFrontierChunk(cx, cz, options = {}) {
   cx = Math.trunc(cx); cz = Math.trunc(cz);
   const n = config.segments, step = config.chunkSize / n;
   const origin = { x: cx * config.chunkSize, z: cz * config.chunkSize };
-  const count = (n + 1) * (n + 1), vertices = new Float32Array(count * 3);
+  const regularAxis = Array.from({ length: n + 1 }, (_, i) => i * step);
+  const mergeAxis = (axis, breaks, worldOrigin) => Array.from(new Set([
+    ...axis, ...breaks.map(value => value - worldOrigin).filter(value => value > 0 && value < config.chunkSize),
+  ])).sort((a, b) => a - b);
+  const special = cx === ROCKY_TERRACE.chunk.cx && cz === ROCKY_TERRACE.chunk.cz;
+  const xs = special ? mergeAxis(regularAxis, ROCKY_TERRACE.xBreaks, origin.x) : regularAxis;
+  const zs = special ? mergeAxis(regularAxis, ROCKY_TERRACE.zBreaks, origin.z) : regularAxis;
+  const nxCount = xs.length, nzCount = zs.length;
+  const count = nxCount * nzCount, vertices = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
-  for (let iz = 0; iz <= n; iz++) for (let ix = 0; ix <= n; ix++) {
-    const i = iz * (n + 1) + ix, x = origin.x + ix * step, z = origin.z + iz * step;
+  for (let iz = 0; iz < nzCount; iz++) for (let ix = 0; ix < nxCount; ix++) {
+    const i = iz * nxCount + ix, x = origin.x + xs[ix], z = origin.z + zs[iz];
     const sample = sampleFrontier(x, z, options);
-    vertices[i * 3] = ix * step; vertices[i * 3 + 1] = sample.height; vertices[i * 3 + 2] = iz * step;
+    vertices[i * 3] = xs[ix]; vertices[i * 3 + 1] = sample.height; vertices[i * 3 + 2] = zs[iz];
     colors.set(sample.groundColorRGB, i * 3);
   }
-  const indices = new Uint32Array(n * n * 6);
+  const indices = new Uint32Array((nxCount - 1) * (nzCount - 1) * 6);
   let cursor = 0;
-  for (let iz = 0; iz < n; iz++) for (let ix = 0; ix < n; ix++) {
-    const a = iz * (n + 1) + ix, b = a + 1, c = a + n + 1, d = c + 1;
+  for (let iz = 0; iz < nzCount - 1; iz++) for (let ix = 0; ix < nxCount - 1; ix++) {
+    const a = iz * nxCount + ix, b = a + 1, c = a + nxCount, d = c + 1;
     indices.set([a, c, b, b, c, d], cursor); cursor += 6;
   }
   const normals = new Float32Array(count * 3);
-  for (let iz = 0; iz <= n; iz++) for (let ix = 0; ix <= n; ix++) {
-    const i = iz * (n + 1) + ix, wx = origin.x + ix * step, wz = origin.z + iz * step;
+  for (let iz = 0; iz < nzCount; iz++) for (let ix = 0; ix < nxCount; ix++) {
+    const i = iz * nxCount + ix, wx = origin.x + xs[ix], wz = origin.z + zs[iz];
     // Sample in world space so an edge vertex has the same gradient in either chunk.
     const l = sampleFrontier(wx - step, wz, options).height, r = sampleFrontier(wx + step, wz, options).height;
     const d = sampleFrontier(wx, wz - step, options).height, u = sampleFrontier(wx, wz + step, options).height;

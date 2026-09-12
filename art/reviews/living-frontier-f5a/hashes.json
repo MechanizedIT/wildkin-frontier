@@ -1,0 +1,58 @@
+[
+  {
+    "path": "src/world/frontierTerrain.js",
+    "sha256": "54ad02eea73d0fa52410ce2e3a05aa433f6d51ff901febbbc2dac86f3363fb3a"
+  },
+  {
+    "path": "src/world/frontierLandform.js",
+    "sha256": "d6106aa4611168df3d083d89f9c1867fd08aeed769da86439c0986d8378aed5a"
+  },
+  {
+    "path": "src/world/frontierLandformVisual.js",
+    "sha256": "26e6f7b0331e388f53764a76d3de71b7fed2e2965c28ff7b63a8660a55131e2b"
+  },
+  {
+    "path": "src/world/frontierChunkRuntime.js",
+    "sha256": "9d8ede78d2e741a1064d86bad71cc22459b0b5ca8b79efe1ae888bba77b6e920"
+  },
+  {
+    "path": "src/player/playerController.js",
+    "sha256": "2ea3c4991882844ea31cad825b146bf8e8abbf0701471d318328fc6c282f9ca7"
+  },
+  {
+    "path": "src/player/fallImpact.js",
+    "sha256": "da4d0bb7c1b0043a344c3d75191863dacece5355ffaf1021b0c1c1312632472a"
+  },
+  {
+    "path": "src/main.js",
+    "sha256": "4caa83c16de6bee12492e31bb996bcfac9c4b7876b39be534ef5eab73d3a8012"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f5a\\baseline.png",
+    "sha256": "c614abe66d1485b4f7e84210f1a4b9c3e6c23ca3ddc3740a7e020833eea27620"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f5a\\drop-landed.png",
+    "sha256": "b89f30e8cd18c958210cd2b5ecabf8b8d0d13dd4b94e7c88cb324b2b9b77b8ce"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f5a\\route-top.png",
+    "sha256": "641d33070ced6988c8119815b86bc69257ff110f7a8e47c9cffa1b442f973cbd"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f5a\\runtime-r1.png",
+    "sha256": "9772a3d6abae18c23fc1d46775479ab710b926c01387560529e0e085c80182a8"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f5a\\runtime-r2.png",
+    "sha256": "02ac453a336339b4d7dd4ac7b9a73212d26c154026a23430c830bb3cd7c36f67"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f5a\\runtime-r3.png",
+    "sha256": "5e2c36828c6b07e0d1392d4e5b0ee0141de4c5e52435c0c5bca5a336c9689ad6"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f5a\\target.png",
+    "sha256": "5483132a2e4793f77c87cf9a1a0d21d8daa90356160b640ba3a53e66484b16a5"
+  }
+]

@@ -9,6 +9,10 @@
 
 ## Current result
 
+Living Frontier F1/F2A/F3/F2B foundations are followed by shared Mossling body tone and one streamed rocky terrace with fall damage. Eye overlays remain rejected; generalized climbing/swimming, nursery/garden and breeding remain unfinished. Current checkpoint:1,057 tests plus verify/build/validation/ZIP PASS;43.95MB unpacked/20.49MB ZIP. F5A visual R3 is selected functional groundwork at4.5/10, not target admission. See the F4/F5A receipts linked from CURRENT_SLICE. **Next: F6A physical nursery and feeding, continuing the active goal until Chris asks to stop.**
+
+## Inherited restart checkpoint
+
 The game has the camera pitch/terrain collision pass, selected Shatterfen V3 and Backpack shortcut editing. Aggregate **966/966**, world/campaign, build/validation and ZIP pass;43.84MB unpacked /20.46MB ZIP. Native and packaged camera checks pass their disclosed fixtures. Physical-phone comfort/performance remains open. Exact evidence: art/reviews/gameplay-camera-v1/checkpoint.json.
 
 The next unintegrated candidate is Emberfall. Its image target passes8.1, but its standalone terrain test has one failing west-descent/foundry merge. Do not treat it as shipped or rerun expensive art generation. Read docs/EMBERFALL_CANDIDATE_HANDOFF.md before editing it. The opt-in test's .candidate.mjs suffix keeps the normal suite honest and passing while retaining a reproducible failure.

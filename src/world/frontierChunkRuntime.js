@@ -3,6 +3,7 @@ import { createGroundFoliageGeometry } from '../presentation/groundFoliage.js';
 import { createBakedGroundTexture } from '../presentation/terrainPaint.js';
 import { createTerrainColorSampler } from '../presentation/authoredTerrain.js';
 import { getSurfaceHeight } from './terrainSurfaceModel.js';
+import { createFrontierLandformVisual } from './frontierLandformVisual.js';
 import {
   FRONTIER_TERRAIN_CONFIG,
   chunkKey,
@@ -15,6 +16,32 @@ const RADIUS = 2;
 const HYSTERESIS = 8;
 const FOLIAGE_COUNT = 96;
 
+// Cliff faces use their height for stone shading. XZ ground UVs collapse to a
+// narrow strip on a vertical face and otherwise stretch grass into a wall.
+function separateCliffFaces(geometry, chunk) {
+  const ground = [], cliff = [], v = chunk.vertices;
+  for (let i = 0; i < chunk.indices.length; i += 3) {
+    const ids = [chunk.indices[i], chunk.indices[i + 1], chunk.indices[i + 2]];
+    const [a, b, c] = ids.map(id => id * 3);
+    const ax = v[b] - v[a], ay = v[b + 1] - v[a + 1], az = v[b + 2] - v[a + 2];
+    const bx = v[c] - v[a], by = v[c + 1] - v[a + 1], bz = v[c + 2] - v[a + 2];
+    const nx = ay * bz - az * by, ny = az * bx - ax * bz, nz = ax * by - ay * bx;
+    const steep = Math.abs(ny) / (Math.hypot(nx, ny, nz) || 1) < .38;
+    (steep ? cliff : ground).push(...ids);
+  }
+  if (!cliff.length) return null;
+  const colors = geometry.getAttribute('color');
+  for (const id of new Set(cliff)) {
+    const y = v[id * 3 + 1], x = v[id * 3], z = v[id * 3 + 2];
+    const shade = .24 + .055 * Math.sin(y * 6.5 + x * .65) + .025 * Math.sin(z * 3 + x * 4);
+    colors.setXYZ(id, shade * 1.06, shade * 1.04, shade * .94);
+  }
+  geometry.setIndex(new THREE.BufferAttribute(new Uint32Array([...ground, ...cliff]), 1));
+  geometry.addGroup(0, ground.length, 0);
+  geometry.addGroup(ground.length, cliff.length, 1);
+  return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1, metalness: 0, flatShading: true });
+}
+
 function hash(x, z, seed) {
   let value = Math.imul(x | 0, 374761393) ^ Math.imul(z | 0, 668265263) ^ seed;
   value = Math.imul(value ^ (value >>> 13), 1274126177);
@@ -24,11 +51,17 @@ function hash(x, z, seed) {
 function addFoliage(group, chunk, geometry, material, terrainOptions) {
   const grass = new THREE.InstancedMesh(geometry, material, FOLIAGE_COUNT);
   const dummy = new THREE.Object3D();
+  const shelfFronds = chunk.id === '0,-3' ? [
+    [28.5,-125],[30,-125],[35.5,-125],[38.5,-125],[41,-125],
+    [27,-121.8],[29,-121.8],[37,-121.8],[40.5,-121.8],
+    [28,-135],[40.5,-138],[28,-143],[38,-143],
+  ] : [];
   for (let index = 0; index < FOLIAGE_COUNT; index++) {
-    const x = hash(index, chunk.origin.z, 17) * FRONTIER_TERRAIN_CONFIG.chunkSize;
-    const z = hash(index, chunk.origin.x, 61) * FRONTIER_TERRAIN_CONFIG.chunkSize;
+    const frond = shelfFronds[index];
+    const x = frond ? frond[0] - chunk.origin.x : hash(index, chunk.origin.z, 17) * FRONTIER_TERRAIN_CONFIG.chunkSize;
+    const z = frond ? frond[1] - chunk.origin.z : hash(index, chunk.origin.x, 61) * FRONTIER_TERRAIN_CONFIG.chunkSize;
     const worldX = chunk.origin.x + x, worldZ = chunk.origin.z + z;
-    const scale = .38 + hash(index, chunk.origin.x + chunk.origin.z, 83) * .38;
+    const scale = (frond ? 1.12 : .38) + hash(index, chunk.origin.x + chunk.origin.z, 83) * .38;
     dummy.position.set(x, sampleFrontier(worldX, worldZ, terrainOptions).height, z);
     dummy.rotation.y = hash(index, chunk.origin.z, 29) * Math.PI * 2;
     dummy.scale.setScalar(scale);
@@ -42,7 +75,7 @@ function addFoliage(group, chunk, geometry, material, terrainOptions) {
 }
 
 /** Owns only the bounded procedural terrain beyond the Camp landmark. */
-export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface } = {}) {
+export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, visualAssets = [] } = {}) {
   const root = new THREE.Group();
   root.name = 'frontier_chunks';
   parent?.add(root);
@@ -91,17 +124,20 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface }
       phase: { x: chunk.origin.x - FRONTIER_TERRAIN_CONFIG.campBounds.minX, z: chunk.origin.z - FRONTIER_TERRAIN_CONFIG.campBounds.minZ },
     });
     const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 1, metalness: 0, flatShading: true });
-    const mesh = new THREE.Mesh(geometry, material);
+    const stoneMaterial = separateCliffFaces(geometry, chunk);
+    const mesh = new THREE.Mesh(geometry, stoneMaterial ? [material, stoneMaterial] : material);
     mesh.name = 'frontier_ground'; mesh.receiveShadow = true; mesh.userData.isGround = true;
     group.add(mesh);
     const foliage = addFoliage(group, chunk, foliageGeometry, foliageMaterial, terrainOptions);
+    const landform = createFrontierLandformVisual({ cx, cz, visualAssets, getHeight });
+    group.add(landform.group);
     root.add(group);
-    return { chunk, group, geometry, foliage, texture, material };
+    return { chunk, group, geometry, foliage, texture, material, stoneMaterial, landform };
   }
 
   function clearResidents() {
     if (!residents.size && center === null) return;
-    const remove = [...residents.keys()];
+    const remove = [...residents.values()].flatMap(resident => [resident.chunk.id, ...resident.landform.terrainSurfaces.map(surface => surface.id)]);
     if (remove.length) physicsWorld?.updateTerrainSurfaces({ remove });
     for (const resident of residents.values()) {
       root.remove(resident.group);
@@ -109,6 +145,8 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface }
       resident.foliage.dispose();
       resident.texture?.dispose();
       resident.material.dispose();
+      resident.stoneMaterial?.dispose();
+      resident.landform.dispose();
     }
     residents.clear(); center = null; refreshResidencySnapshot();
   }
@@ -138,11 +176,12 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface }
     const add = [];
     for (const { cx, cz } of wanted.values()) if (!residents.has(chunkKey(cx, cz))) {
       const resident = createResident(cx, cz);
-      residents.set(resident.chunk.id, resident); add.push({ ...resident.chunk, sectionId: 'camp' });
+      residents.set(resident.chunk.id, resident); add.push({ ...resident.chunk, sectionId: 'camp' }, ...resident.landform.terrainSurfaces);
     }
     const remove = [];
     for (const [id, resident] of residents) if (!wanted.has(id)) {
-      remove.push(id); root.remove(resident.group); resident.geometry.dispose(); resident.foliage.dispose(); resident.texture?.dispose(); resident.material.dispose(); residents.delete(id);
+      remove.push(id, ...resident.landform.terrainSurfaces.map(surface => surface.id));
+      root.remove(resident.group); resident.geometry.dispose(); resident.foliage.dispose(); resident.texture?.dispose(); resident.material.dispose(); resident.stoneMaterial?.dispose(); resident.landform.dispose(); residents.delete(id);
     }
     // The physics owner refreshes broadphase once for this complete lifecycle.
     if (add.length || remove.length) physicsWorld?.updateTerrainSurfaces({ add, remove });

@@ -1,0 +1,50 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Wildkin appearance and clip review</title>
+<style>
+html,body{margin:0;background:#b8babe;font:14px system-ui;color:#eff8ed}canvas{display:block}nav{position:fixed;left:12px;top:12px;display:flex;gap:6px;flex-wrap:wrap;max-width:90vw}button{background:#153e46;color:inherit;border:1px solid #8ba9a5;padding:9px 14px;border-radius:8px;min-height:40px}button[aria-pressed=true]{border-color:#ffd268;background:#376663}#note{position:fixed;left:14px;bottom:12px;background:#153e46;padding:8px 12px;border-radius:8px;pointer-events:none}
+</style>
+<nav aria-label="Material and in-place clip fixture">
+  <button data-clip="idle">Idle</button><button data-clip="walk">Walk</button><button data-clip="run">Run</button><button data-clip="attack">Attack</button><button data-clip="hurt">Hurt</button>
+  <button id="pause">Pause</button><button id="front">Front</button><button id="three-quarter">Three-quarter</button><button id="dispose">Remove left</button>
+</nav>
+<div id="note">Loading local candidate…</div>
+<script type="importmap">{"imports":{"three":"../../vendor/three.module.js"}}</script>
+<script type="module">
+// Review-only surface, excluded from the portable game. One loop; this shows
+// in-place attachment/material behavior, not earned travel or gait contact.
+import * as THREE from 'three';
+import { preloadVisualModels, createExternalModelVisual, createVisualAnimationController, disposeExternalModelInstance, getModelTemplate } from '../../src/assets/modelAssetRuntime.js';
+import { applyWildkinAppearance } from '../../src/creatures/wildkinAppearance.js';
+import { createWildkinGenome } from '../../src/creatures/wildkinGenome.js';
+const query=new URLSearchParams(location.search),model=query.get('model');
+if(!model)throw new Error('A local model query is required');
+const asset={model:{path:model,scale:1,pivot:{x:0,y:0,z:0},clips:{idle:'Idle',walk:'Walk',run:'Run',attack:'Attack',hurt:'Hurt'}}};
+await preloadVisualModels([asset],{baseUrl:new URL('../../',import.meta.url)});
+const scene=new THREE.Scene();scene.background=new THREE.Color('#b8babe');
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;document.body.append(renderer.domElement);
+scene.add(new THREE.HemisphereLight('#ffffff','#71777c',1.8));
+const key=new THREE.DirectionalLight('#fffaf1',2.4);key.position.set(-3,7,5);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.normalBias=.018;scene.add(key);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(100,100),new THREE.MeshLambertMaterial({color:'#b8babe'}));floor.rotation.x=-Math.PI/2;floor.position.y=-.006;floor.receiveShadow=true;scene.add(floor);
+const camera=new THREE.PerspectiveCamera(38,innerWidth/innerHeight,.01,100);
+const source=createWildkinGenome('appearance-review','fen');
+const genomes=[{...source,baseColor:'lichen',eyeColor:'teal'},{...source,baseColor:'clay',eyeColor:'violet'}];
+const subjects=genomes.map((genome,index)=>{const root=createExternalModelVisual(asset);root.position.x=index?1.05:-1.05;scene.add(root);const expression=applyWildkinAppearance(root,genome);if(!expression.ok)throw new Error(expression.reason);return{root,genome,expression,animator:createVisualAnimationController(root),disposed:false};});
+let paused=false,clip='idle';
+function setView(front){camera.position.set(front?0:2.8,1.7,front?6.2:5.4);camera.lookAt(0,.68,0);}
+function setClip(name){clip=name;for(const subject of subjects)if(!subject.disposed)subject.animator?.play(name,{restart:true,fadeSeconds:0});for(const button of document.querySelectorAll('[data-clip]'))button.setAttribute('aria-pressed',String(button.dataset.clip===name));}
+for(const button of document.querySelectorAll('[data-clip]'))button.onclick=()=>setClip(button.dataset.clip);
+document.querySelector('#pause').onclick=()=>{paused=!paused;document.querySelector('#pause').textContent=paused?'Play':'Pause';};
+document.querySelector('#front').onclick=()=>setView(true);document.querySelector('#three-quarter').onclick=()=>setView(false);
+document.querySelector('#dispose').onclick=()=>{const subject=subjects[0];if(!subject.disposed){subject.animator?.dispose();disposeExternalModelInstance(subject.root);subject.disposed=true;}document.querySelector('#dispose').disabled=true;};
+window.addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();});
+const materials=root=>{const result=[];root.traverse(node=>{for(const material of [].concat(node.material??[]))result.push({name:material.name,color:material.color?.getHexString(),owned:!!material.userData?.externalModelInstanceMaterial,vertexColors:material.vertexColors});});return result;};
+window.__appearanceReview={scene,camera,renderer,subjects,setClip,setView,getReport:()=>({model,clip,paused,subjects:subjects.map(s=>({genome:s.genome,expression:s.expression,disposed:s.disposed,materials:materials(s.root)})),templateMaterials:materials(getModelTemplate(model).scene),render:{...renderer.info.render},memory:{...renderer.info.memory}})};
+document.querySelector('#note').textContent=subjects[0].expression.expressedTraits.includes('eyeColor')
+  ? 'Left: lichen / teal · Right: clay / violet · In-place clip and material review'
+  : 'Left: lichen body tone · Right: clay body tone · Eyes unchanged · In-place clip review';
+setView(false);setClip('idle');const clock=new THREE.Clock();
+function frame(){const dt=Math.min(clock.getDelta(),.05);for(const subject of subjects)if(!subject.disposed)subject.animator?.update(paused?0:dt);renderer.render(scene,camera);requestAnimationFrame(frame);}requestAnimationFrame(frame);
+</script>

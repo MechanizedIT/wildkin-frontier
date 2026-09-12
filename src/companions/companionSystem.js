@@ -12,6 +12,7 @@ import { MOSSLING_MOTION } from "../creatures/mosslingMotion.js";
 import { createCreatureObservation } from './creatureObservation.js';
 import { createWildkinGenome, normalizeWildkinGenome } from '../creatures/wildkinGenome.js';
 import { cloneWildkinIndividual, MAX_PENDING_WILDKIN, normalizeWildkinIndividual } from '../creatures/wildkinIndividual.js';
+import { applyWildkinAppearance } from '../creatures/wildkinAppearance.js';
 
 export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
   let pending = [], cooldown = 0, elapsed = 0, fixedElapsed = 0;
@@ -228,6 +229,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     const asset = registry.data.visualAssets.find(a => a.id === species?.assetId);
     if (!asset) return null;
     const group = createVisualAssetVisual(asset);
+    if (record.genome) applyWildkinAppearance(group, record.genome);
     group.name = `companion_${record.id}`;
     group.userData.betaPresentation = true;
     group.scale.setScalar(0.7);

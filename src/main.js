@@ -149,6 +149,7 @@ const frontierChunks = createFrontierChunkRuntime({
   parent: playground.group,
   physicsWorld,
   campSurface: worldRegistry.getSectionById('camp')?.surface,
+  visualAssets: worldRegistry.data.visualAssets,
 });
 playground.setTerrainHeightProvider('camp', frontierChunks.getHeight);
 function resolveSpawnCapsuleCenter(feetY){
@@ -1188,6 +1189,8 @@ function tick() {
       };
 
       playerController.update(fixedDt, effectiveIntent, combatOpts);
+      const landingImpact = playerController.consumeLandingImpact();
+      if (landingImpact) playerCombat.takeDamage(landingImpact.damage, null);
       movementStepped = true;
       effectiveIntent.jumpRequested = false;
 

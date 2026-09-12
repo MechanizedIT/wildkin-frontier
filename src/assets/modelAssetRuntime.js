@@ -33,6 +33,9 @@ function normalizeTemplateMaterials(scene) {
         vertexColors: material.vertexColors ?? false,
         flatShading: true,
       });
+      // Named material channels are part of the runtime asset contract. F4's
+      // per-instance Mossling expression resolves body and iris by these names.
+      next.name = material.name;
       if (next.map) next.map.colorSpace = THREE.SRGBColorSpace;
       if (next.emissiveMap) next.emissiveMap.colorSpace = THREE.SRGBColorSpace;
       next.userData = { ...next.userData, sharedExternalModelMaterial: true };
@@ -171,15 +174,17 @@ export function createVisualAnimationController(root) {
 export function disposeExternalModelInstance(root) {
   if (!root?.userData?.externalModelInstance) return false;
   root.userData.modelAnimationController?.dispose?.();
+  const ownedMaterials = new Set();
   root.traverse((object) => {
     const materials = Array.isArray(object.material) ? object.material : object.material ? [object.material] : [];
     for (const material of materials) {
-      if (material.userData?.externalModelInstanceMaterial) material.dispose?.();
+      if (material.userData?.externalModelInstanceMaterial) ownedMaterials.add(material);
     }
     if (!object.isSkinnedMesh || !object.skeleton?.boneTexture) return;
     object.skeleton.boneTexture.dispose?.();
     object.skeleton.boneTexture = null;
   });
+  for (const material of ownedMaterials) material.dispose?.();
   root.removeFromParent();
   root.clear();
   return true;

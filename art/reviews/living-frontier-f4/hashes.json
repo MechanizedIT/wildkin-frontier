@@ -1,0 +1,50 @@
+[
+  {
+    "path": "src/creatures/wildkinAppearance.js",
+    "sha256": "ea77e154f4cf47dd59eef961db5a8b238fe851b3911b9cb41c89e4f48b930622"
+  },
+  {
+    "path": "src/creatures/createWildCreature.js",
+    "sha256": "81f7390c6605a46cc357fbd903e96e35dce6be947b3f302206281a76aae97f29"
+  },
+  {
+    "path": "src/companions/companionSystem.js",
+    "sha256": "462172bfa37a4d8498ef78ab0a59227596e0962d70bd4104d680dcf8ec6951c3"
+  },
+  {
+    "path": "src/assets/modelAssetRuntime.js",
+    "sha256": "a80008459a9975972a33a5f44ccf4e7e79d8961206dd349524f13422091a2c58"
+  },
+  {
+    "path": "assets/models/mossling-v3/model.glb",
+    "sha256": "ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f4\\baseline.png",
+    "sha256": "58fb9f8a7e0aac6e4a18d35ca760334b9611e5e12a7ba2fb987317e4bf88c3c4"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f4\\body-tone-r1.png",
+    "sha256": "20c6b13a419d223db6456d77f7880e5c37b755c151a8d13bab4349804b61f89b"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f4\\packaged-wild.png",
+    "sha256": "c1becc0d3ec0551fea42d75359976b98075258472235fe5b2848a563afc3f4ae"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f4\\rejected-v3.png",
+    "sha256": "dc43b96bf5e62a100f9c5834e717e153997b7f52584666ec0cc29dc8731d6c6c"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f4\\rejected-v5.png",
+    "sha256": "b319f79603325317c04a9b463a3bd7eae1d1fcc955d5b747bec21f52edf052c2"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f4\\rejected-v8.png",
+    "sha256": "4b7e59fe151de1a6845a31d12ce7733453c36c21bed109d9bcefbc95974fbd6c"
+  },
+  {
+    "path": "art\\reviews\\living-frontier-f4\\target.png",
+    "sha256": "e40162711946a587c8bf40435e9ad792885f4cec1689745ce0c3f1ad1d87b856"
+  }
+]
