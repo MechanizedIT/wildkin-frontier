@@ -4,19 +4,23 @@ import { canBond } from "./bondingLogic.js";
 import { createVisualAssetVisual } from "../world/visualFactory.js";
 import { createVisualAnimationController, disposeExternalModelInstance } from "../assets/modelAssetRuntime.js";
 import { createFieldTaming, getFieldTamingRange } from "./fieldTaming.js";
-import { createFieldTamingVisual, findFieldPlacement } from "./fieldTamingVisual.js";
+import { createFieldTamingVisual, createObservationMarker, findFieldPlacement } from "./fieldTamingVisual.js";
 import { getSurfaceHeight } from "../world/terrainSurfaceModel.js";
 import { createCompanionPhysics, COMPANION_PHYSICS_TUNING } from "./companionPhysics.js";
 import { deriveCompanionFollowIntent, getCompanionFormationAnchor, MOSSLING_FOLLOW_TUNING } from "./companionFollowIntent.js";
 import { MOSSLING_MOTION } from "../creatures/mosslingMotion.js";
 import { createCreatureObservation } from './creatureObservation.js';
+import { createWildkinGenome, normalizeWildkinGenome } from '../creatures/wildkinGenome.js';
+import { cloneWildkinIndividual, MAX_PENDING_WILDKIN, normalizeWildkinIndividual } from '../creatures/wildkinIndividual.js';
 
-export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
+export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
   let pending = [], cooldown = 0, elapsed = 0, fixedElapsed = 0;
   let interactionTargetId = null;
   const followers = new Map();
+  const candidateRecords = new Map();
   const wardRoots = new Map();
   const fieldVisual = createFieldTamingVisual(scene);
+  const observationMarker = createObservationMarker(scene);
   const observationPoint = new THREE.Vector3();
   const observation = createCreatureObservation({
     getPlayer: playerController.getState, getCreatures: creatures.getActiveAliveCreatures,
@@ -31,16 +35,55 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     hasSight: target => creatures.hasClearSightToCreature(target, playerController.getState().pos),
     onClue: (species, stage) => toast(`${species.name} · field note ${stage}/2`, 'Saved in Journal → Wildkin.'),
   });
+  function getOriginId(target) {
+    return target?.state?.originId ?? target?.state?.sourceId ?? target?.state?.id ?? null;
+  }
+  function stableHash(value) {
+    let hash = 2166136261;
+    for (const char of String(value)) { hash ^= char.charCodeAt(0); hash = Math.imul(hash, 16777619); }
+    return (hash >>> 0).toString(36);
+  }
+  function ensureCandidateRecord(target, species) {
+    const originId = getOriginId(target);
+    if (!originId || !species) return null;
+    const cached = candidateRecords.get(originId);
+    if (cached) return cached;
+    const acquiredRunId = String(getRunId() ?? 'run_unknown');
+    let genome = null;
+    if (species.id === 'mossling') {
+      try { genome = target.state.genome == null
+        ? createWildkinGenome(`${acquiredRunId}:${originId}`)
+        : normalizeWildkinGenome(target.state.genome); }
+      catch { return null; }
+    }
+    const record = normalizeWildkinIndividual({ version: 1,
+      id: `wildkin_${stableHash(`${acquiredRunId}:${originId}`)}`,
+      speciesId: species.id, originId, acquiredRunId, genome });
+    if (!record) return null;
+    candidateRecords.set(originId, record);
+    return record;
+  }
+  function getOwnedRecords() {
+    if (progress.getOwnedWildkin) return progress.getOwnedWildkin();
+    return (progress.getState().securedCompanions ?? []).map(speciesId => ({ id: speciesId, speciesId, originId: speciesId }));
+  }
+  function getActiveRecord() {
+    if (progress.getActiveWildkin) return progress.getActiveWildkin();
+    const speciesId = progress.getState().activeCompanionId;
+    return speciesId ? { id: speciesId, speciesId, originId: speciesId } : null;
+  }
   function eligibility(target, species) {
-    const state = progress.getState();
-    return canBond({ speciesId: species?.id, secured: state.securedCompanions, pending, capacity: progress.getModifiers().captureCapacity, damaged: target?.state.playerDamaged, active: isActive() });
+    const originId = getOriginId(target);
+    return canBond({ speciesId: species?.id, originId, sourceCaptured: originId ? !!progress.isWildkinSourceCaptured?.(originId) : false,
+      secured: getOwnedRecords(), pending, capacity: progress.getModifiers().captureCapacity,
+      damaged: target?.state.playerDamaged, active: isActive() });
   }
   const fieldTaming = createFieldTaming({
     getPlayer: playerController.getState,
     getTarget: id => creatures.getActiveAliveCreatures().find(c => c.state.id === id),
     getSectionId, isActive, canStart: eligibility,
     consume: id => progress.consumeFieldSupply(id),
-    placePoint: (player, target, secondPerch) => findFieldPlacement({ player, target, registry, sectionId: getSectionId(), physicsWorld, secondPerch,
+    placePoint: (player, target, secondPerch) => findFieldPlacement({ player, target, registry, sectionId: getSectionId(), physicsWorld, getTerrainHeight, secondPerch,
       ignoreCollider: candidate => candidate.handle === playerCollider?.handle || creatures.getCreatures().some(c => c.collider?.handle === candidate.handle) || [...followers.values()].some(c => c.physics?.collider?.handle === candidate.handle) }),
     setIntent: (id, intent) => creatures.setFieldTamingIntent(id, intent),
     clearIntent: id => creatures.clearFieldTamingIntent(id),
@@ -48,7 +91,13 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       // This synchronous hold validates the same live membership required by
       // secureBondTarget. No actor update runs between the save and removal.
       if (!creatures.setBondingTarget(id)) return false;
-      const saved = progress.checkpointRun({ companions: [...pending, species.id] });
+      const liveTarget = creatures.getActiveAliveCreatures().find(candidate => candidate.state.id === id);
+      const record = ensureCandidateRecord(liveTarget, species);
+      if (!record) { creatures.setBondingTarget(null); return false; }
+      const nextPending = [...pending, record];
+      const saved = progress.commitWildkinCapture
+        ? progress.commitWildkinCapture(record, nextPending)
+        : progress.checkpointRun({ companions: nextPending.map(candidate => candidate.speciesId) });
       if (!saved.ok) {
         creatures.setBondingTarget(null);
         toast("Bond could not be saved", "Your Wildkin is still here. Try again.");
@@ -57,13 +106,16 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       const target = creatures.secureBondTarget(id);
       creatures.setBondingTarget(null);
       if (!target) return false;
-      pending.push(species.id);
+      pending = nextPending;
       pulse(target.state.pos, new THREE.Color(species.color).getHex());
       toast(`${species.name} bonded`, "Bring them home to secure your bond.");
       return true;
     },
     onMessage: toast, onVisual(state) {
-      if (state?.speciesId === "emberhorn") state.point.y = getSurfaceHeight(registry.getSectionById(getSectionId())?.surface, state.point.x, state.point.z);
+      if (state?.speciesId === "emberhorn") {
+        const generated = getTerrainHeight?.(state.point.x, state.point.z);
+        state.point.y = Number.isFinite(generated) ? generated : getSurfaceHeight(registry.getSectionById(getSectionId())?.surface, state.point.x, state.point.z);
+      }
       fieldVisual.update(state);
     },
   });
@@ -90,7 +142,6 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       const target = creatures.getActiveAliveCreatures().find(c => c.state.id === active.id);
       if (target) return { type: "bond", id: active.id, species: COMPANION_BY_ID[active.speciesId], target, distance: Math.hypot(target.state.pos.x-pos.x,target.state.pos.z-pos.z), label: active.label.split(" · ")[0], detail: active.detail };
     }
-    const state = progress.getState();
     let best = null, previous = null;
     for (const target of creatures.getActiveAliveCreatures()) {
       const species = identifyCompanion(target);
@@ -98,8 +149,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       const distance = Math.hypot(target.state.pos.x - pos.x, target.state.pos.z - pos.z);
       if (distance > getFieldTamingRange(species.id) || Math.abs(target.state.pos.y - pos.y) > 2.2) continue;
       const eligible = eligibility(target, species);
-      if (!eligible.ok && state.securedCompanions.includes(species.id)) continue;
-      const blockedLabel = target.state.playerDamaged ? 'WARY' : pending.includes(species.id) ? 'BONDED' : pending.length >= progress.getModifiers().captureCapacity ? 'BONDS FULL' : 'UNAVAILABLE';
+      if (!eligible.ok && progress.isWildkinSourceCaptured?.(getOriginId(target))) continue;
+      const blockedLabel = target.state.playerDamaged ? 'WARY' : pending.some(record => record.originId === getOriginId(target)) ? 'BONDED' : pending.length >= progress.getModifiers().captureCapacity ? 'BONDS FULL' : 'UNAVAILABLE';
       const candidate = { type: "bond", id: target.state.id, species, target, distance, disabled: !eligible.ok, label: eligible.ok ? species.taming.action : blockedLabel, detail: eligible.ok ? species.taming.guide : eligible.reason };
       if (target.state.id === interactionTargetId) previous = candidate;
       // An ineligible closer Wildkin must not hide another actionable target.
@@ -117,7 +168,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
   }
   function useAbility() {
     if (!isActive()) return { ok: false, message: "Companion abilities are available on expeditions." };
-    const species = COMPANION_BY_ID[progress.getState().activeCompanionId];
+    const active = getActiveRecord();
+    const species = COMPANION_BY_ID[active?.speciesId];
     if (!species) return { ok: false, message: "Secure a bonded Wildkin, then select it at Camp." };
     if (cooldown > 0) return { ok: false, message: `${species.abilityName} is ready in ${Math.ceil(cooldown)}s.` };
     const pos = playerController.getState().pos;
@@ -144,7 +196,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       playerController.launchFromJumpPad({ verticalLaunch: 8.8 });
     }
     cooldown = species.cooldown * (progress.getModifiers().abilityCooldownMultiplier ?? 1);
-    onAbility(species.id, pos);
+    onAbility(species.id, pos, active?.id ?? null);
     pulse(pos, new THREE.Color(species.color).getHex());
     audio.playParkour?.("complete");
     return { ok: true, message: openedSeal ? (hasCacheMechanism(chest.id) ? "The vault is opening." : "The cache is now accessible.") : `${species.name} · ${species.abilityName}` };
@@ -155,27 +207,28 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     const species = COMPANION_BY_ID[required];
     return { ok: false, label: `${species.name.toUpperCase()} SEAL`, reason: `Bring a secured ${species.name} and use ${species.abilityName} near this cache.` };
   }
-  function desiredIds() {
-    const s = progress.getState();
-    return [...new Set([s.activeCompanionId, ...pending].filter(Boolean))];
+  function desiredRecords() {
+    const records = [getActiveRecord(), ...pending].filter(Boolean);
+    return [...new Map(records.map(record => [record.id, record])).values()];
   }
   function getSpawnPosition(playerPos, sectionId) {
     const surface = registry.getSectionById(sectionId)?.surface;
-    const feetY = getSurfaceHeight(surface, playerPos.x, playerPos.z) + COMPANION_PHYSICS_TUNING.footClearance;
+    const sampled = getTerrainHeight?.(playerPos.x, playerPos.z);
+    const feetY = (Number.isFinite(sampled) ? sampled : getSurfaceHeight(surface, playerPos.x, playerPos.z)) + COMPANION_PHYSICS_TUNING.footClearance;
     return { x: playerPos.x, y: feetY + COMPANION_PHYSICS_TUNING.halfHeight + COMPANION_PHYSICS_TUNING.radius, z: playerPos.z };
   }
   function setFollowerVisible(follower, visible) {
     follower.group.visible = !!visible;
-    if (follower.physics?.enabled !== !!visible) follower.physics.setEnabled(!!visible);
+    if (follower.physics && follower.physics.enabled !== !!visible) follower.physics.setEnabled(!!visible);
   }
-  function ensureFollower(id, player, sectionId, slotIndex, slotCount) {
-    let follower = followers.get(id);
+  function ensureFollower(record, player, sectionId, slotIndex, slotCount) {
+    let follower = followers.get(record.id);
     if (follower) return follower;
-    const species = COMPANION_BY_ID[id];
+    const species = COMPANION_BY_ID[record.speciesId];
     const asset = registry.data.visualAssets.find(a => a.id === species?.assetId);
     if (!asset) return null;
     const group = createVisualAssetVisual(asset);
-    group.name = `companion_${id}`;
+    group.name = `companion_${record.id}`;
     group.userData.betaPresentation = true;
     group.scale.setScalar(0.7);
     group.userData.modelAnimator = createVisualAnimationController(group);
@@ -200,17 +253,17 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       },
     });
     follower = {
-      id, group, physics, sectionId,
+      id: record.id, speciesId: record.speciesId, group, physics, sectionId,
       state: { mode: "SETTLE", attentionUntil: 0, lastSettledAt: fixedElapsed },
       facing: player.facing,
-      visualYOffset: id === "skydancer" ? 0.48 : 0,
+      visualYOffset: record.speciesId === "skydancer" ? 0.48 : 0,
       lastSpeed: 0,
       verticalVelocity: 0,
       grounded: false,
       blockedSeconds: 0,
-      steerSide: id.charCodeAt(0) % 2 ? 1 : -1,
+      steerSide: record.id.charCodeAt(0) % 2 ? 1 : -1,
     };
-    followers.set(id, follower);
+    followers.set(record.id, follower);
     syncFollowerVisual(follower);
     return follower;
   }
@@ -251,7 +304,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     const dz = intent.target.z - current.z;
     const distance = Math.hypot(dx, dz);
     let travelSpeed = intent.speed;
-    if (follower.id === "mossling") {
+    if (follower.speciesId === "mossling") {
       const previous = follower.commandedSpeed ?? 0;
       const change = MOSSLING_MOTION.acceleration * dt;
       travelSpeed = previous + Math.max(-change, Math.min(change, intent.speed - previous));
@@ -303,13 +356,14 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     fieldTaming.update(dt, { hidden });
     fixedElapsed += dt;
     cooldown = Math.max(0, cooldown - dt);
-    const ids = desiredIds();
+    const records = desiredRecords();
+    const ids = records.map(record => record.id);
     const player = playerController.getState();
     for (const [id, follower] of followers) {
       if (!ids.includes(id) || hidden) setFollowerVisible(follower, false);
     }
-    for (let i = 0; i < ids.length; i++) {
-      const follower = ensureFollower(ids[i], player, sectionId, i, ids.length);
+    for (let i = 0; i < records.length; i++) {
+      const follower = ensureFollower(records[i], player, sectionId, i, records.length);
       if (!follower || hidden) continue;
       if (follower.sectionId !== sectionId) {
         const arrivalAnchor = getCompanionFormationAnchor(player.pos, player.facing, i, ids.length);
@@ -319,8 +373,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       const position = follower.physics?.getPosition() ?? follower.group.position;
       const intent = deriveCompanionFollowIntent({
         position, player: player.pos, playerFacing: player.facing,
-        slotIndex: i, slotCount: ids.length, elapsed: fixedElapsed, state: follower.state,
-        tuning: follower.id === "mossling" ? MOSSLING_FOLLOW_TUNING : undefined,
+        slotIndex: i, slotCount: records.length, elapsed: fixedElapsed, state: follower.state,
+        tuning: follower.speciesId === "mossling" ? MOSSLING_FOLLOW_TUNING : undefined,
       });
       follower.state = intent.nextState;
       moveFollower(follower, intent, dt);
@@ -331,6 +385,11 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     elapsed += dt;
     if (hidden) { fieldTaming.clear(); observation.reset(); interactionTargetId = null; }
     const s = progress.getState();
+    const observationModel = observation.getModel();
+    const observationTarget = observationModel
+      ? creatures.getActiveAliveCreatures().find(creature => creature.state.id === observationModel.id)
+      : null;
+    observationMarker.update(observationModel, observationTarget, camera, { hidden, taming: !!fieldTaming.getState() });
     for (const follower of followers.values()) {
       if (hidden) setFollowerVisible(follower, false);
       const animator = follower.group.userData.modelAnimator;
@@ -347,8 +406,9 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
   }
   function reset() {
     observation.reset();
+    observationMarker.clear();
     interactionTargetId = null;
-    fieldTaming.clear(); pending = []; cooldown = 0; creatures.setBondingTarget(null);
+    fieldTaming.clear(); pending = []; candidateRecords.clear(); cooldown = 0; creatures.setBondingTarget(null);
     // Hide previous bodies immediately; ordinary fixed updates recreate the
     // required followers from the current section's formation anchor.
     for (const follower of followers.values()) {
@@ -360,16 +420,21 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       follower.grounded = false;
     }
   }
-  function restorePending(ids) {
-    if (!Array.isArray(ids) || ids.length > COMPANIONS.length
-      || Array.from(ids).some(id => typeof id !== 'string' || !Object.hasOwn(COMPANION_BY_ID, id))
-      || new Set(ids).size !== ids.length) return { ok: false, reason: 'invalid-run-companions' };
-    const secured = progress.getState().securedCompanions;
-    const next = ids.filter(id => !secured.includes(id));
+  function restorePending(records) {
+    if (!Array.isArray(records) || records.length > MAX_PENDING_WILDKIN
+      || Object.keys(records).length !== records.length) return { ok: false, reason: 'invalid-run-companions' };
+    const normalized = records.map(normalizeWildkinIndividual);
+    if (normalized.some(record => !record)
+      || new Set(normalized.map(record => record.id)).size !== normalized.length
+      || new Set(normalized.map(record => record.originId)).size !== normalized.length) return { ok: false, reason: 'invalid-run-companions' };
+    const owned = getOwnedRecords();
+    const ownedIds = new Set(owned.map(record => record.id));
+    const ownedOrigins = new Set(owned.map(record => record.originId));
+    const next = normalized.filter(record => !ownedIds.has(record.id) && !ownedOrigins.has(record.originId));
     if (next.length > progress.getModifiers().captureCapacity) return { ok: false, reason: 'bond-capacity' };
     reset();
     pending = next;
-    return { ok: true, companions: [...pending] };
+    return { ok: true, companions: pending.map(cloneWildkinIndividual) };
   }
   return {
     getNearbyInteraction, beginBond, useAbility, lootAccess, update, updateFixed,
@@ -378,13 +443,13 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     getFieldTamingState: fieldTaming.getState,
     getObservationState: observation.getModel,
     cancelTaming: fieldTaming.clear,
-    getPending: () => pending.map(id => ({ ...COMPANION_BY_ID[id] })),
+    getPending: () => pending.map(cloneWildkinIndividual),
     getFollowerDiagnostics: () => [...followers.values()].map(follower => ({
-      id: follower.id, mode: follower.state.mode, speed: follower.lastSpeed,
+      id: follower.id, speciesId: follower.speciesId, mode: follower.state.mode, speed: follower.lastSpeed,
       grounded: follower.grounded, steeringAroundObstacle: follower.blockedSeconds > 0,
       position: follower.group.position.toArray(), visible: follower.group.visible,
     })),
-    getAbility: () => { const species = COMPANION_BY_ID[progress.getState().activeCompanionId]; return species ? { name: species.abilityName, ready: cooldown <= 0, cooldown } : null; },
+    getAbility: () => { const active = getActiveRecord(); const species = COMPANION_BY_ID[active?.speciesId]; return species ? { individualId: active.id, speciesId: species.id, name: species.abilityName, ready: cooldown <= 0, cooldown } : null; },
     isFollowerCollider: (candidate) => {
       if (!candidate) return false;
       for (const follower of followers.values()) {
@@ -392,8 +457,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       }
       return false;
     },
-    resolveExtraction() { observation.reset(); fieldTaming.clear(); const ids = [...pending]; pending = []; return ids; },
+    resolveExtraction() { observation.reset(); fieldTaming.clear(); const records = pending.map(cloneWildkinIndividual); pending = []; return records; },
     reset, restorePending,
-    dispose() { fieldTaming.clear(); fieldVisual.clear(); for (const follower of followers.values()) { follower.group.userData.modelAnimator?.stop(); follower.physics?.dispose(); disposeExternalModelInstance(follower.group); follower.group.removeFromParent(); } followers.clear(); },
+    dispose() { fieldTaming.clear(); fieldVisual.clear(); observationMarker.dispose(); for (const follower of followers.values()) { follower.group.userData.modelAnimator?.stop(); follower.physics?.dispose(); disposeExternalModelInstance(follower.group); follower.group.removeFromParent(); } followers.clear(); },
   };
 }

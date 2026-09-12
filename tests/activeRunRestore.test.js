@@ -8,10 +8,15 @@ import { createCompanionSystem } from '../src/companions/companionSystem.js';
 import { createCreatureSystem } from '../src/creatures/creatureSystem.js';
 import { createFieldTaming } from '../src/companions/fieldTaming.js';
 import { COMPANION_BY_ID } from '../src/companions/companionCatalog.js';
+import { createWildkinGenome } from '../src/creatures/wildkinGenome.js';
 
+const wildkin = (id, speciesId = 'tidefin', originId = `f1:w:0:0:${id}`, acquiredRunId = 'same-run-123') => ({
+  version: 1, id, speciesId, originId, acquiredRunId,
+  genome: speciesId === 'mossling' ? createWildkinGenome(originId) : null,
+});
 const record = () => ({ runId: 'same-run-123', startAnchorId: 'camp_gate', sectionId: 'section_2',
   feet: { x: -27, y: 1.4, z: 9 }, facingYaw: -1.25, health: 3.5, xp: 3_000_000_001,
-  companions: ['tidefin'], corePending: true, kills: 8, maxDepth: 2,
+  companions: [wildkin('wildkin_tidefin')], corePending: true, kills: 8, maxDepth: 2,
   frontierDeparted: false,
   newWaypoints: ['wp_section_2'], newBeacons: ['beacon_2'] });
 
@@ -20,7 +25,7 @@ test('active run validation clones only the run contract, never a second invento
   const result = normalizeActiveRun(raw);
   assert.equal(result.ok, true);
   assert.deepEqual(result.run, record());
-  raw.feet.x = 100; raw.companions.push('mossling'); raw.newWaypoints.push('other');
+  raw.feet.x = 100; raw.companions.push(wildkin('wildkin_mossling', 'mossling')); raw.newWaypoints.push('other');
   assert.deepEqual(result.run, record());
   const copy = cloneActiveRun(result.run);
   copy.newBeacons.push('another'); copy.feet.y = 50;
@@ -35,7 +40,7 @@ test('malformed run identity, values and companion/discovery lists reject rather
     { feet: { x: 0, y: NaN, z: 0 } }, { feet: { x: 1_000_001, y: 0, z: 0 } },
     { facingYaw: Infinity }, { health: 0 }, { health: 21 }, { health: '3' },
     { xp: -1 }, { xp: Number.MAX_SAFE_INTEGER + 1 }, { kills: .5 }, { maxDepth: -1 },
-    { companions: ['constructor'] }, { companions: ['mossling', 'mossling'] }, { frontierDeparted: 'yes' },
+    { companions: ['constructor'] }, { companions: [wildkin('wildkin_tidefin'), wildkin('wildkin_tidefin')] }, { frontierDeparted: 'yes' },
     { companions: new Array(1) }, { corePending: 1 },
     { newWaypoints: ['same', 'same'] }, { newBeacons: new Array(1) },
   ]) {
@@ -103,34 +108,40 @@ function companionFixture() {
     pos: { x: 0, y: 0, z: 0 }, regionId: 'field', temperament: 'DEFENSIVE', visualAsset: { id: species.assetId } }] });
   const target = creatures.getCreatures()[0];
   creatures.setPlayerState(player); creatures.setPlayerPos(player.pos);
-  let secured = [], capacity = 2, saveOk = false, spent = 0;
+  let owned = [], capacity = 2, saveOk = false, spent = 0;
+  const capturedSources = new Map();
   const saves = [], messages = [], pulses = [];
-  const progress = { getState: () => ({ securedCompanions: secured, activeCompanionId: null, completedPoiIds: [] }),
+  const progress = { getState: () => ({ securedCompanions: owned.map(record => record.speciesId), activeCompanionId: null, completedPoiIds: [] }),
+    getOwnedWildkin: () => owned.map(record => ({ ...record, genome: record.genome ? { ...record.genome } : null })),
+    isWildkinSourceCaptured: originId => capturedSources.has(originId),
     getModifiers: () => ({ captureCapacity: capacity }),
     consumeFieldSupply: () => { spent++; return { consumed: true }; },
-    checkpointRun: patch => {
+    commitWildkinCapture: (record, pendingRecords) => {
       assert.equal(target.state.bondCaptured, false, 'save happens before wild removal');
-      saves.push(patch); return { ok: saveOk, reason: saveOk ? null : 'storage' };
+      saves.push({ record, pendingRecords });
+      if (!saveOk) return { ok: false, reason: 'storage' };
+      capturedSources.set(record.originId, record.id);
+      return { ok: true, reason: null };
     } };
   const system = createCompanionSystem({ scene, registry: { getLootChestById: () => null, getSectionById: () => null },
     progress, creatures, playerController: { getState: () => player },
-    isActive: () => true, getSectionId: () => 'field', toast: (...args) => messages.push(args),
+    isActive: () => true, getSectionId: () => 'field', getRunId: () => 'capture_run', toast: (...args) => messages.push(args),
     pulse: (...args) => pulses.push(args) });
   return { system, target, creatures, player, saves, messages, pulses,
-    setSecured: ids => { secured = ids; }, setCapacity: n => { capacity = n; },
+    setOwned: records => { owned = records; }, setCapacity: n => { capacity = n; },
     allowSave: () => { saveOk = true; }, spent: () => spent };
 }
 
-test('pending restore has one owner, filters secured species, rejects invalid/capacity atomically', () => {
-  const f = companionFixture(); f.setSecured(['mossling']);
-  const ids = ['mossling', 'tidefin'];
-  assert.deepEqual(f.system.restorePending(ids), { ok: true, companions: ['tidefin'] });
-  ids[1] = 'skydancer';
-  assert.deepEqual(f.system.getPending().map(s => s.id), ['tidefin']);
+test('pending restore has one owner, filters owned identities, rejects invalid/capacity atomically', () => {
+  const f = companionFixture(); f.setOwned([wildkin('wildkin_owned_moss', 'mossling', 'f1:w:0:0:owned', 'old_run')]);
+  const records = [wildkin('wildkin_owned_moss', 'mossling', 'f1:w:0:0:owned', 'old_run'), wildkin('wildkin_pending_tide', 'tidefin', 'f1:w:0:0:pending', 'capture_run')];
+  assert.deepEqual(f.system.restorePending(records), { ok: true, companions: [records[1]] });
+  records[1].id = 'mutated';
+  assert.deepEqual(f.system.getPending().map(s => s.id), ['wildkin_pending_tide']);
   f.setCapacity(1);
-  for (const invalid of [['constructor'], ['tidefin', 'tidefin'], new Array(1), ['tidefin', 'emberhorn']]) {
-    assert.equal(f.system.restorePending(invalid).ok, false);
-    assert.deepEqual(f.system.getPending().map(s => s.id), ['tidefin']);
+  for (const invalid of [[{ id: 'missing-fields' }], [wildkin('wildkin_duplicate'), wildkin('wildkin_duplicate')], new Array(1), [wildkin('wildkin_extra_a'), wildkin('wildkin_extra_b')]]) {
+    assert.equal(f.system.restorePending(invalid).ok, false, JSON.stringify(invalid));
+    assert.deepEqual(f.system.getPending().map(s => s.id), ['wildkin_pending_tide']);
   }
   assert.equal(f.spent(), 0); assert.equal(f.saves.length, 0); assert.equal(f.messages.length, 0);
   f.system.reset(); assert.deepEqual(f.system.getPending(), []);
@@ -150,15 +161,17 @@ test('actual companion capture saves before removal; failed save preserves paid 
   assert.equal(f.messages.at(-1)[0], 'Bond could not be saved');
   f.allowSave(); assert.equal(f.system.beginBond('wild'), true);
   assert.equal(f.spent(), 1); assert.equal(f.target.state.bondCaptured, true);
-  assert.deepEqual(f.system.getPending().map(s => s.id), ['tidefin']);
+  assert.deepEqual(f.system.getPending().map(s => s.speciesId), ['tidefin']);
   assert.equal(f.system.getFieldTamingState(), null);
-  assert.deepEqual(f.saves, [{ companions: ['tidefin'] }, { companions: ['tidefin'] }]);
+  assert.equal(f.saves.length, 2);
+  assert.equal(f.saves[0].record.id, f.saves[1].record.id, 'retry keeps the original individual identity');
+  assert.deepEqual(f.saves.map(save => save.pendingRecords.map(record => record.id)), [[f.saves[0].record.id], [f.saves[0].record.id]]);
 });
 
 test('restoring bonds clears unfinished paid taming without a refund, capture or checkpoint', () => {
   const f = companionFixture(); f.system.beginBond('wild');
   assert.notEqual(f.system.getFieldTamingState(), null);
-  assert.equal(f.system.restorePending(['mossling']).ok, true);
+  assert.equal(f.system.restorePending([wildkin('wildkin_restored_moss', 'mossling', 'f1:w:0:0:restored', 'capture_run')]).ok, true);
   assert.equal(f.system.getFieldTamingState(), null); assert.equal(f.spent(), 1);
   assert.equal(f.saves.length, 0); assert.equal(f.target.state.bondCaptured, false);
 });

@@ -56,6 +56,9 @@ export function createWildCreature(scene, physicsWorld, spawn, index, { shouldIg
     noticeRadius,
     personalSpaceRadius: personalSpace,
     leashRadius,
+    // Some staged residents use a tighter flee boundary than their ordinary
+    // return leash. Authored wildlife keeps its existing behavior.
+    fleeLeashRadius: spawn.fleeLeashRadius ?? null,
     hostileSpecies: [...hostileSpecies],
     pos: new THREE.Vector3(basePos.x, basePos.y + 0.5, basePos.z), // capsule center approx
     baseY: basePos.y,
@@ -93,6 +96,12 @@ export function createWildCreature(scene, physicsWorld, spawn, index, { shouldIg
     lastDamagedByPlayer: false,
     bondingHeld: false,
     bondCaptured: false,
+    // Generated frontier residents carry a stable source identity separately
+    // from any acquired individual identity created by the capture owner.
+    originId: spawn.originId ?? null,
+    genome: spawn.genome ?? null,
+    generatedChunkId: spawn.generatedChunkId ?? null,
+    isGeneratedResident: spawn.isGeneratedResident === true,
   };
 
   // Runtime and Author Edit share this deterministic visual recipe.

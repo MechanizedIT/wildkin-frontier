@@ -20,10 +20,18 @@ export function createBondingSession(config = BONDING_CONFIG) {
   };
 }
 
-export function canBond({ speciesId, secured = [], pending = [], capacity = 1, damaged = false, active = true }) {
+export function canBond({ speciesId, originId = null, sourceCaptured = false, secured = [], pending = [], capacity = 1, damaged = false, active = true }) {
   if (!active || !speciesId) return { ok: false, reason: "unavailable" };
   if (damaged) return { ok: false, reason: "Give it space. Return on a new expedition to earn its trust." };
-  if (secured.includes(speciesId) || pending.includes(speciesId)) return { ok: false, reason: "This species is already part of your sanctuary." };
+  const recordOrigin = record => record && typeof record === 'object' ? record.originId : null;
+  if (sourceCaptured || (originId && [...secured, ...pending].some(record => recordOrigin(record) === originId))) {
+    return { ok: false, reason: "This Wildkin is already part of your sanctuary." };
+  }
+  // String lists are supported only for small isolated callers that do not yet
+  // have an individual origin. Real capture and save paths pass records.
+  if (!originId && (secured.includes(speciesId) || pending.includes(speciesId))) {
+    return { ok: false, reason: "This Wildkin is already part of your sanctuary." };
+  }
   if (pending.length >= capacity) return { ok: false, reason: "Bond capacity full. Extract to secure your new companions." };
   return { ok: true };
 }

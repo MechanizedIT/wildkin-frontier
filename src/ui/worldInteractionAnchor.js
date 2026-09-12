@@ -60,7 +60,7 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
       key = nextKey; record = resolveInteractionRecord(info, { registry, creatures, getBase });
       root = info?.type==='rootfall'?null:record?.creature?.group ?? scene?.getObjectByName(info?.id) ?? null;
       bodyRoot = null; bodyBox.makeEmpty();
-      let bodyTop = null;
+      let bodyTop = null, bodyLocalTop = null;
       if (record?.creature && root) {
         // The visual is the direct group child containing mainMesh. Focus rings,
         // health bars and taming effects are siblings, not part of this envelope.
@@ -77,6 +77,7 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
             bodyBox.union(partBox);
           });
           if (!bodyBox.isEmpty()) {
+            bodyLocalTop = bodyBox.max.y;
             bodyTop = box.copy(bodyBox).applyMatrix4(root.matrixWorld).max.y;
             bodyBox.expandByScalar(.12);
           }
@@ -86,7 +87,19 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
       if (root) {
         root.updateWorldMatrix(true, true);
         if (bodyTop === null) box.setFromObject(root);
-        if (bodyTop !== null || !box.isEmpty()) offset = (bodyTop ?? box.max.y) - (record?.pos?.y ?? root.position.y) + .18;
+        if (bodyTop !== null && record?.creature) {
+          // A generated actor can be actionable before its first controller
+          // update syncs the rendered root from spawn base Y to capsule feet.
+          // Root-local body height is stable across that creation-order gap.
+          const cfg = record.creature.state?.cfg;
+          const radius = cfg?.capsuleRadius, halfHeight = cfg?.capsuleHalfHeight;
+          if (Number.isFinite(radius) && Number.isFinite(halfHeight)) {
+            const worldScale = root.getWorldScale(new THREE.Vector3());
+            const bodyHeight = bodyLocalTop * Math.abs(worldScale.y);
+            const centerToFeet = (radius + halfHeight) * Math.abs(worldScale.y);
+            offset = bodyHeight - centerToFeet + .18;
+          } else offset = bodyTop - (record?.pos?.y ?? root.position.y) + .18;
+        } else if (!box.isEmpty()) offset = box.max.y - (record?.pos?.y ?? root.position.y) + .18;
       }
       // A locker is used at its door, below nearby overhead foliage. The pod's
       // roof anchor was hidden by Camp canopy even while its front was visible.

@@ -47,7 +47,7 @@ The illustrated research is retained outside the repo at `C:/Users/cwood/Documen
 | F8 Archive and exchange | Grow a new individual from an archived or imported recipe | Version/trait validation, clone provenance, committed resources, no reroll/duplicate rewards; unverified import label |
 | F9 Expand and refine | More landforms, secrets, admitted families, crafting, animation and atmosphere | Improve the weakest source of variety; long travel/storage/phone evidence; no unbounded active state |
 
-F1, F2A forage and F3 outings/atlas are complete as foundations; current scope is F2B individual wildlife. The deterministic genome helper remains preparation for visible F4 expression; a helper alone is not a playable creature feature. Small complete integrations take priority over stockpiling disconnected modules. Reorder adjacent slices when dependencies or player feedback justify it; record the reason in CURRENT_SLICE.
+F1, F2A forage, F3 outings/atlas and F2B individual wildlife are complete as foundations; current scope is F4 visible individual variation. Exact genomes now travel with captured/owned animals; appearance remains inherited until the shared expression path is admitted. Small complete integrations take priority over stockpiling disconnected modules. Reorder adjacent slices when dependencies or player feedback justify it; record the reason in CURRENT_SLICE.
 
 ## Runtime ownership and scaling
 

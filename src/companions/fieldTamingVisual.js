@@ -1,23 +1,27 @@
 import * as THREE from "three";
 import { getSurfaceHeight, getWaterRadius } from "../world/terrainSurfaceModel.js";
 
-export function findFieldPlacement({ player, target, registry, sectionId, physicsWorld, ignoreCollider = () => false, secondPerch = false }) {
+export function findFieldPlacement({ player, target, registry, sectionId, physicsWorld, getTerrainHeight = null, ignoreCollider = () => false, secondPerch = false }) {
   // Prefer directly ahead, then the nearest open patch in the forward arc.
   // Shoreline gear can land beside the player's aim without requiring them to
   // face away from the creature they are trying to attract.
   for (const offset of [0, .65, -.65, 1.25, -1.25, Math.PI / 2, -Math.PI / 2]) {
-    const point = candidatePlacement({ player: { ...player, facing: player.facing + offset }, target, registry, sectionId, physicsWorld, ignoreCollider, secondPerch });
+    const point = candidatePlacement({ player: { ...player, facing: player.facing + offset }, target, registry, sectionId, physicsWorld, getTerrainHeight, ignoreCollider, secondPerch });
     if (point) return point;
   }
   return null;
 }
-function candidatePlacement({ player, target, registry, sectionId, physicsWorld, ignoreCollider, secondPerch }) {
+function candidatePlacement({ player, target, registry, sectionId, physicsWorld, getTerrainHeight, ignoreCollider, secondPerch }) {
   const section = registry.getSectionById(sectionId), surface = section?.surface;
+  const sampleHeight = (x, z) => {
+    const generated = getTerrainHeight?.(x, z);
+    return Number.isFinite(generated) ? generated : getSurfaceHeight(surface, x, z);
+  };
   const angle = player.facing + (secondPerch ? Math.PI / 2 : 0), reach = secondPerch ? 3.4 : 1.5;
   const point = { x: player.pos.x + Math.sin(angle) * reach, z: player.pos.z + Math.cos(angle) * reach };
-  point.y = getSurfaceHeight(surface, point.x, point.z);
+  point.y = sampleHeight(point.x, point.z);
   if (getWaterRadius(surface, point.x, point.z) < 1.15 || Math.abs(point.y - (player.pos.y - 0.6)) > 1.2) return null;
-  const heights = [[0, 0], [.55, 0], [-.55, 0], [0, .55], [0, -.55]].map(([x,z]) => getSurfaceHeight(surface, point.x + x, point.z + z));
+  const heights = [[0, 0], [.55, 0], [-.55, 0], [0, .55], [0, -.55]].map(([x,z]) => sampleHeight(point.x + x, point.z + z));
   if (Math.max(...heights) - Math.min(...heights) > 0.32) return null;
   const R = physicsWorld?.RAPIER, world = physicsWorld?.world;
   if (R?.Ball && world?.intersectionWithShape) {
@@ -76,4 +80,59 @@ export function createFieldTamingVisual(scene) {
     root.position.set(state.point.x, state.point.y + .03, state.point.z);
   }
   return { update, clear };
+}
+
+// One compact subject marker driven by companionSystem's existing update.
+// The HUD owns instructions; this only anchors that progress to the animal.
+export function createObservationMarker(scene) {
+  const root = new THREE.Group();
+  root.name = 'observationMarker';
+  root.userData.betaPresentation = true;
+  root.visible = false;
+
+  const backMaterial = new THREE.MeshBasicMaterial({ color: 0x071b20, transparent: true, opacity: .72,
+    depthWrite: false, depthTest: false, side: THREE.DoubleSide });
+  const progressMaterial = new THREE.MeshBasicMaterial({ color: 0x79f1d0, transparent: true, opacity: .98,
+    depthWrite: false, depthTest: false, side: THREE.DoubleSide });
+  const backGeometry = new THREE.TorusGeometry(.27, .035, 6, 40);
+  const progressGeometry = new THREE.TorusGeometry(.27, .035, 6, 40);
+  const back = new THREE.Mesh(backGeometry, backMaterial);
+  const progress = new THREE.Mesh(progressGeometry, progressMaterial);
+  back.renderOrder = 40; progress.renderOrder = 41;
+  root.add(back, progress);
+
+  const stemGeometry = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(0, -.42, 0), new THREE.Vector3(0, -.29, 0),
+  ]);
+  const stemMaterial = new THREE.LineBasicMaterial({ color: 0x79f1d0, transparent: true, opacity: .8,
+    depthWrite: false, depthTest: false });
+  const stem = new THREE.LineSegments(stemGeometry, stemMaterial);
+  stem.renderOrder = 41; root.add(stem);
+  scene?.add(root);
+
+  let subjectId = null, amount = 0;
+  function update(model, target, camera, { hidden = false, taming = false } = {}) {
+    const nextAmount = Math.max(0, Math.min(1, Number(model?.progress) || 0));
+    const show = !hidden && !taming && !!model && !model.complete && !!target?.state?.pos;
+    root.visible = show;
+    if (!show) { subjectId = null; amount = 0; return; }
+    subjectId = model.id;
+    amount = nextAmount;
+    const pos = target.state.pos;
+    const anchorHeight = Math.max(.9, (target.group?.scale?.y ?? 1) * 1.05);
+    root.position.set(pos.x, pos.y + anchorHeight, pos.z);
+    if (camera?.quaternion) root.quaternion.copy(camera.quaternion);
+    const total = progressGeometry.index?.count ?? progressGeometry.attributes.position.count;
+    progressGeometry.setDrawRange(0, Math.max(0, Math.floor(total * amount)));
+    progressMaterial.color.setHex(model.reason ? 0xffc66d : 0x79f1d0);
+    stemMaterial.color.copy(progressMaterial.color);
+  }
+  function clear() { root.visible = false; subjectId = null; amount = 0; }
+  function dispose() {
+    root.removeFromParent();
+    backGeometry.dispose(); progressGeometry.dispose(); stemGeometry.dispose();
+    backMaterial.dispose(); progressMaterial.dispose(); stemMaterial.dispose();
+  }
+  return { update, clear, dispose, getState: () => ({ visible: root.visible, subjectId, progress: amount,
+    position: root.position.toArray(), drawCount: progressGeometry.drawRange.count }) };
 }

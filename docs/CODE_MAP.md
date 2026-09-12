@@ -90,8 +90,12 @@ September12 stopped candidate: `tools/compose-emberfall-ravine.mjs` is deliberat
 - `world/frontierEcologyState.js` + `save/frontierProgress.js`: canonical edition/seed, bounded generated-forage records and atomic commits.
 - `world/frontierEcology.js` / `frontierEcologyRuntime.js`: deterministic forage recipes and bounded resource residency, integrated in the existing loop.
 - `resources/resourceSystem.js:addPlacements/removePlacementsByChunk`: generated finite resource residents, commit-before-yield and restore. `pickupSystem` resident hooks retain lightweight generated yields by stable ID across unload/rebind.
-- `creatures/wildkinGenome.js`: versioned Mossling recipe, expression metadata and parental inheritance; not yet wired to individual visuals/capture.
+- `creatures/wildkinGenome.js`: versioned Mossling recipe, expression metadata and parental inheritance; captured records retain it, visual expression remains F4.
+- `creatures/wildkinIndividual.js`: bounded canonical individual validation and defensive cloning. `save/frontierProgress.js` owns capture/source history/owned selection; `session/activeRunState.js` carries exact pending records.
+- `world/frontierWildlife.js` / `frontierWildlifeRuntime.js`: deterministic safe-slope sources and at most four resident actors; existing `creatureSystem` owns generated actor creation, AI, physics, retirement and disposal.
+- `companions/companionSystem.js`: individual pending capture and follower identity, species-derived ability behavior, save-before-retirement and shared generated-ground placement. `fieldTaming.js` owns one physical attempt; `fieldTamingVisual.js` owns bounded gear/observation cues.
+- `ui/worldInteractionAnchor.js`: creature action height uses local body bounds and capsule offset, safe before first rendered-root sync. `betaShell` roster/HUD selection keys by individual while icons remain species-derived.
 - `session/frontierOuting.js`: spatial departure adapter; existing `expeditionSession` owns persisted departure status. `expeditionPersistence` ties supported feet to run identity; generated terrain preloads before resume validation.
 - `world/frontierAtlasState.js` / `frontierAtlasSurvey.js`: compact survey masks and existing-loop reveal/retry adapter. `save/frontierProgress.js` remains the atomic save owner.
 - `ui/frontierMap.js` / `frontierAtlasRenderer.js`: personal fullscreen atlas/minimap, actual terrain sampling, bounded viewport/cache, true Camp/player markers and scale.
-- Evidence: `art/reviews/living-frontier-f1/receipt.md`, `living-frontier-f2a/receipt.md`, `living-frontier-f3/receipt.md`; active scope: `docs/CURRENT_SLICE.md`.
+- Evidence: `art/reviews/living-frontier-f1/receipt.md`, `living-frontier-f2a/receipt.md`, `living-frontier-f3/receipt.md`, `living-frontier-f2b/receipt.md`; active scope: `docs/CURRENT_SLICE.md`.

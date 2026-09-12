@@ -37,6 +37,7 @@ import { createWorldRegistry } from "./world/worldRegistry.js";
 import { createSectionRuntime } from "./world/sectionRuntime.js";
 import { createFrontierChunkRuntime } from "./world/frontierChunkRuntime.js";
 import { createFrontierEcologyRuntime } from "./world/frontierEcologyRuntime.js";
+import { createFrontierWildlifeRuntime } from './world/frontierWildlifeRuntime.js';
 import { createFrontierAtlasSurvey } from './world/frontierAtlasSurvey.js';
 import { createPortalGateSystem } from "./world/portalGateSystem.js";
 import { createWorldHazardSystem } from "./world/worldHazardSystem.js";
@@ -407,6 +408,12 @@ creatureSystem = createCreatureSystem(scene, physicsWorld, playground, {
 });
 creatureSystem.setInvulnChecker(() => playerCombat.isInvulnerable());
 creatureSystem.setPlayerCollider(characterPhysics.collider);
+const frontierWildlife = createFrontierWildlifeRuntime({
+  terrainRuntime: frontierChunks,
+  creatureSystem,
+  visualAssets: worldRegistry.data.visualAssets ?? [],
+  isSourceCaptured: originId => frontierProgress.isWildkinSourceCaptured(originId),
+});
 projectileSystem.setPlayerCollider(characterPhysics.collider);
 projectileSystem.setWildkinProvider(() => creatureSystem.getCreatures());
 projectileSystem.setWildkinDamageCallback((target, dmg, pos, owner) => {
@@ -872,7 +879,7 @@ function handleDeathFlow(reason = "combat") {
   const snap = expeditionSession.tryResolveDeath(reason);
   if (!snap) return;
   const discoveries = expeditionSession.getRunDiscoveries();
-  const lostCompanions = betaGame?.companions.getPending().map(c => c.id) ?? [];
+  const lostCompanions = betaGame?.companions.getPending() ?? [];
   // Death banks nothing, but discoveries (waypoints/beacons) already persisted via anchor system unlocks — they survive
   pendingResultSnapshot = { cargo: { ...cargo }, xp, companions: lostCompanions, deathReason: snap.deathReason, newWaypoints: [...discoveries.newWaypoints], newBeacons: [...discoveries.newBeacons] };
   const banked = frontierProgress.getState();
@@ -925,6 +932,7 @@ betaGame = createBetaGame({
   app, scene, camera, registry: worldRegistry, progress: frontierProgress, session: expeditionSession,
   creatures: creatureSystem, playerController, playerCombat, pickupSystem, xpMoteSystem, resourceSystem,
   physicsWorld, characterPhysics, playerCollider: characterPhysics.collider,
+  getTerrainHeight: frontierChunks.getHeight,
   audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
   getSectionId: () => sectionRuntime.getActiveSectionId(),
   onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
@@ -975,6 +983,7 @@ if(savedRun && !authorEnabled){
     // Generated support must exist in Rapier before the shared resume query.
     frontierChunks.update(savedRun.feet,{activeSectionId:'camp'});
     frontierEcology.update();
+    frontierWildlife.update();
     const candidates=[savedRun.feet,...worldRegistry.getAllWaypoints().filter(w=>w.regionId===savedRun.sectionId&&frontierProgress.isUnlockedWaypoint(w.id)).map(w=>worldRegistry.getWaypointSpawnPosition(w.id)),...worldRegistry.getEntryPointsForSection(savedRun.sectionId).map(e=>e.pos)];
     resumedFeet=candidates.map(validateResumeFeet).find(Boolean) ?? null;
   }
@@ -1040,6 +1049,7 @@ function tick() {
   // Load support before player/camera queries; no separate streaming loop.
   frontierChunks.update(playerController.state.pos, { activeSectionId: sectionRuntime.getActiveSectionId(), authorMode: !!authorSuppress });
   frontierEcology.update();
+  frontierWildlife.update();
   frontierAtlasSurvey.update(dt,playerController.state.pos,{enabled:!authorSuppress&&!resumeBlocked});
   frontierMap?.update?.(dt);
   if (authorSuppress !== prevAuthorSuppress) {
@@ -1319,7 +1329,7 @@ tick();
 window.__game = {
   scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, cameraFollow, cameraOrbit, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
   worldRegistry, regionManager, sectionRuntime, portalGateSystem, worldHazardSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
-  frontierChunks, frontierEcology, frontierAtlasSurvey, frontierOuting,
+  frontierChunks, frontierEcology, frontierWildlife, frontierAtlasSurvey, frontierOuting,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   betaGame,
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),

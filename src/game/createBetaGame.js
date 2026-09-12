@@ -41,7 +41,7 @@ export function createBetaGame(deps) {
   const observatoryMechanisms = createObservatoryMechanisms({ scene, registry, progress });
   const playerOcclusion = initializePlayerOcclusion({ scene, camera: deps.camera, getPlayerPosition: () => playerController.getState().pos });
   const guardianEncounter = createGuardianEncounter({ scene, getGuardian: () => creatures.getCreatures().find(c => c.state.id === "wildkin_guardian"), getPlayerState: () => playerController.getState(), playerCombat, audio, onPulse: ({ target }) => pulse(target, 0xffbd63), onWarning: text => toast("Heartwood Guardian", text) });
-  const companions = createCompanionSystem({ app, scene, camera: deps.camera, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), getRunId: () => session.getRunId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
+  const companions = createCompanionSystem({ app, scene, camera: deps.camera, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, getTerrainHeight: deps.getTerrainHeight, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), getRunId: () => session.getRunId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
   deps.characterPhysics?.setColliderFilter(companions.isFollowerCollider);
   creatures.setCompanionColliderFilter(companions.isFollowerCollider);
   const isCamp = () => session.isCamp();
@@ -103,10 +103,24 @@ export function createBetaGame(deps) {
   function getModel() {
     const s = progress.getState();
     const pending = companions.getPending();
+    const owned = progress.getOwnedWildkin();
+    const securedIds = new Set(owned.map(record => record.id));
+    const ordinals = new Map(), represented = new Set();
+    const roster = [...owned, ...pending.filter(record => !securedIds.has(record.id))].map(record => {
+      const species = COMPANIONS.find(candidate => candidate.id === record.speciesId);
+      const ordinal = (ordinals.get(record.speciesId) ?? 0) + 1;
+      ordinals.set(record.speciesId, ordinal); represented.add(record.speciesId);
+      return { ...species, id: record.id, speciesId: record.speciesId, name: `${species.name} ${ordinal}`,
+        secured: securedIds.has(record.id), active: s.activeWildkinId === record.id, pending: !securedIds.has(record.id), discovered: true,
+        journalEntries: getObservationJournal(record.speciesId, s), observedStages: s.observationClues[record.speciesId] ?? 0 };
+    });
+    for (const species of COMPANIONS) if (!represented.has(species.id)) roster.push({ ...species, id: `species:${species.id}`, speciesId: species.id,
+      secured: false, active: false, pending: false, discovered: s.discoveredSpecies.includes(species.id),
+      journalEntries: getObservationJournal(species.id, s), observedStages: s.observationClues[species.id] ?? 0 });
     return { isCamp: isCamp(), regionName: registry.getSectionById(getSectionId())?.displayName ?? registry.getSectionById(getSectionId())?.name ?? "Camp",
       bankedXp: s.bankedXp, playerLevel: getPlayerLevel(s.bankedXp), health: playerCombat.getHealth(), maxHealth: playerCombat.getMaxHealth(), cargo: pickupSystem.getInventory(), carriedXp: xpMoteSystem.getXp(), progress: s,
       skills: {nodes:SKILL_CATALOG,unlocked:s.skillUnlocks,points:s.skillPointsAvailable,level:getPlayerLevel(s.bankedXp)},
-      companions: COMPANIONS.map(c => ({ ...c, secured: s.securedCompanions.includes(c.id), active: s.activeCompanionId === c.id, discovered: s.discoveredSpecies.includes(c.id), pending: pending.some(p => p.id === c.id), journalEntries: getObservationJournal(c.id, s), observedStages: s.observationClues[c.id] ?? 0 })),
+      companions: roster,
       pendingCompanions: pending, captureCapacity: progress.getModifiers().captureCapacity, objective: objectiveModel(), medkits: s.craftedConsumables.medkit ?? 0,
       ability: companions.getAbility(), settings, campaignComplete: s.campaignCompleted,
       base: base.getModel(), fieldTaming: companions.getFieldTamingState?.() ?? null,
@@ -149,8 +163,9 @@ export function createBetaGame(deps) {
     }
     if (type === "selectCompanion") {
       if (!isCamp()) return { ok: false, message: "Choose your companion at the Camp sanctuary." };
-      progress.selectCompanion(payload);
-      return { ok: true, message: payload ? `${COMPANIONS.find(c => c.id === payload)?.name ?? "Companion"} will join your next expedition.` : "Your companion is resting at Camp." };
+      const selected = progress.setActiveWildkin(payload);
+      if (!selected.ok) return { ok: false, message: selected.reason === 'storage-write-failed' ? 'Could not save your selection. Try again.' : 'Choose a Wildkin secured at Camp.' };
+      return { ok: true, message: payload ? 'Your Wildkin will join the next outing.' : 'Your Wildkin is resting at Camp.' };
     }
     if (type === "ability") return companions.useAbility();
     if (type === "heal") {
@@ -247,7 +262,7 @@ export function createBetaGame(deps) {
       refreshObjectives(); refreshModifiers();
       return { companions: secured, campaignCompleted: progress.getState().campaignCompleted };
     },
-    getBankingExtras: () => ({ companions: companions.getPending().map(c => c.id), coreSecured: corePending }),
+    getBankingExtras: () => ({ companions: companions.getPending(), coreSecured: corePending }),
     restoreRunExtras(run) {
       const restored=companions.restorePending(run.companions);
       if(!restored.ok)return restored;

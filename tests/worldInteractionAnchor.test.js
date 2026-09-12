@@ -118,6 +118,21 @@ test('cached creature body follows live scale/yaw, excludes health/effects and c
   creature.state.bondCaptured=false;group.removeFromParent();assert.equal(anchor.getBodyRectangle(camera,844,390),null);
 });
 
+test('creature anchor is correct before the first visual-root position sync', () => {
+  const scene=new THREE.Scene(),group=new THREE.Group(),visual=new THREE.Group();group.name='generated';group.add(visual);scene.add(group);
+  const mesh=new THREE.Mesh(new THREE.BoxGeometry(1,2,1),new THREE.MeshBasicMaterial());mesh.position.y=1;visual.add(mesh);
+  const state={id:'generated',pos:new THREE.Vector3(4.23,5.16,-89.65),cfg:{capsuleRadius:.3,capsuleHalfHeight:.2}};
+  const creature={group,mainMesh:mesh,state};
+  // createWildCreature initially leaves the render root at authored base Y;
+  // its first controller move later places that root at capsule feet.
+  group.position.set(state.pos.x,0,state.pos.z);
+  const anchor=createWorldInteractionAnchor({scene}),info={id:'generated',type:'bond',target:creature};
+  const before=anchor.getPoint(info).clone();
+  assert.ok(Math.abs(before.y-6.84)<.001,'initial anchor uses local body height, not unsynced root Y');
+  group.position.y=state.pos.y-(state.cfg.capsuleRadius+state.cfg.capsuleHalfHeight);
+  assert.ok(Math.abs(anchor.getPoint(info).y-before.y)<.001,'first controller sync cannot move the cached anchor');
+});
+
 test('bounds projection rejects near-plane/offscreen envelopes without changing point projection', () => {
   const camera=new THREE.PerspectiveCamera(60,844/390,.1,60);camera.position.set(0,0,5);camera.lookAt(0,0,0);
   const box=new THREE.Box3(new THREE.Vector3(-1,-1,-1),new THREE.Vector3(1,1,1));

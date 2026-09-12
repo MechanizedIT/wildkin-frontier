@@ -44,7 +44,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     // Ensure homePos already inside region (validation enforces)
     creatures.push(c);
   }
-  const creatureStates = creatures.map(c => c.state);
+  function creatureStates() { return creatures.map(c => c.state); }
 
   function isRegionActive(regionId) {
     if (activeRegionSet === null) return true;
@@ -646,7 +646,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
 
   function broadcastStartle(creature, threatPos) {
     const st = creature.state;
-    const recipient = selectStartleRecipient(st, creatureStates, {
+    const recipient = selectStartleRecipient(st, creatureStates(), {
       isActive: isRegionActive, isTaming: id => fieldTamingIntents.has(id),
       verticalTolerance: COMBAT_CONFIG.verticalTolerance + .4,
     });
@@ -663,11 +663,13 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
 
   function updateFlee(creature, dt) {
     const st = creature.state;
-    if (st.fleeThreatPos) moveAway(creature, st.fleeThreatPos, st.cfg.moveSpeed * getFleeFactor(st), dt);
+    const fleeLeash = st.fleeLeashRadius ?? null;
+    const canAdvance = !Number.isFinite(fleeLeash) || distanceXZ(st.pos, st.homePos) < fleeLeash;
+    if (st.fleeThreatPos && canAdvance) moveAway(creature, st.fleeThreatPos, st.cfg.moveSpeed * getFleeFactor(st), dt);
     // One clock for both rusher and spitter; awareness does not chase an unseen
     // player's new position, and a relay only holds its last heard threat point.
     st.fleeTime = Math.max(0, st.fleeTime - dt);
-    if (st.fleeTime <= 0 || !st.fleeThreatPos) {
+    if (st.fleeTime <= 0 || !st.fleeThreatPos || !canAdvance) {
       st.aiState = distanceXZ(st.pos, st.homePos) > st.leashRadius * .8 ? 'RETURN' : 'ROAM';
       st.aiTimer = 0; st.fleeThreatPos = null; st.fleeTargetId = null;
     }
@@ -778,7 +780,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
 
       // skittish flee has priority
       if (st.temperament === TEMPERAMENT.SKITTISH) {
-        const threat = findPerceivedFleeThreat(st, creatureStates, { isActive: isRegionActive, verticalTolerance: COMBAT_CONFIG.verticalTolerance + .4 });
+        const threat = findPerceivedFleeThreat(st, creatureStates(), { isActive: isRegionActive, verticalTolerance: COMBAT_CONFIG.verticalTolerance + .4 });
         if (threat) st.fleeThreatPos = threat.pos;
         if (threat || st.fleeTime > 0) {
           if (st.aiState !== 'FLEE') {
@@ -1133,6 +1135,54 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
   }
   function getAllAliveCreatures() { return creatures.filter(isLiveCreature); }
 
+  // Streamed wildlife joins the existing owner and actor factory. Keep this
+  // deliberately separate from authored spawns so reset/section behavior
+  // remains unchanged.
+  function addGeneratedCreatures(spawns = []) {
+    const existingIds = new Set(creatures.map((creature) => creature.state.id));
+    const added = [];
+    for (const spawn of spawns) {
+      if (!spawn?.id || existingIds.has(spawn.id)) continue;
+      const creature = createWildCreature(scene, physicsWorld, spawn, creatures.length, {
+        shouldIgnoreCollider: (candidate) => companionColliderFilter(candidate),
+      });
+      creature.state.regionId = spawn.regionId ?? spawn.region ?? 'camp';
+      creature.regionId = creature.state.regionId;
+      creatures.push(creature);
+      existingIds.add(spawn.id);
+      added.push(creature);
+    }
+    return added;
+  }
+
+  function removeGeneratedCreaturesByChunk(chunkId) {
+    const retired = [];
+    for (let index = creatures.length - 1; index >= 0; index -= 1) {
+      const creature = creatures[index];
+      if (!creature.state.isGeneratedResident || creature.state.generatedChunkId !== chunkId) continue;
+      // Streaming out is cancellation only. It must never be interpreted as a
+      // successful field transaction by a caller retaining a target id.
+      clearFieldTamingIntent(creature.state.id);
+      creature.state.bondingHeld = false;
+      creature.showFocusRing(false);
+      creature.dispose();
+      creatures.splice(index, 1);
+      retired.push(creature);
+    }
+    return retired;
+  }
+
+  function removeGeneratedCreatureByOrigin(originId) {
+    const creature = creatures.find((candidate) => candidate.state.isGeneratedResident && candidate.state.originId === originId);
+    if (!creature) return null;
+    clearFieldTamingIntent(creature.state.id);
+    creature.state.bondingHeld = false;
+    creature.showFocusRing(false);
+    creature.dispose();
+    creatures.splice(creatures.indexOf(creature), 1);
+    return creature;
+  }
+
   function setFieldTamingIntent(id, intent) {
     const c = creatures.find(c => c.state.id === id);
     if (!isLiveCreature(c) || !isRegionActive(c.state.regionId) || c.state.playerDamaged || c.state.bondingHeld) return false;
@@ -1248,6 +1298,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
     getAliveCount, isAnyAggroedNearby, isAnyAggroedNearbyActive, reset, dispose, setTemperamentDebugVisible,
     setActiveRegions, getActiveCreatures, getActiveAliveCreatures, getActiveCreatureCount, isRegionActive,
     setBondingTarget, secureBondTarget, setFieldTamingIntent, clearFieldTamingIntent, hasClearSightToCreature,
+    addGeneratedCreatures, removeGeneratedCreaturesByChunk, removeGeneratedCreatureByOrigin,
     getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null,
     setWorldRegistry: (wr) => { worldRegistryRef = wr; },
     _creatures: creatures,

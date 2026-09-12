@@ -19,6 +19,8 @@ import { normalizeActiveRun, cloneActiveRun } from '../session/activeRunState.js
 import { OBSERVATION_CATALOG, normalizeObservationClues } from '../companions/observationCatalog.js';
 import { createFrontierEcologyState, cloneFrontierEcologyState, normalizeFrontierEcologyState, validateFrontierResourceState, MAX_FRONTIER_RESOURCE_RECORDS } from '../world/frontierEcologyState.js';
 import { createFrontierAtlasState, cloneFrontierAtlasState, normalizeFrontierAtlasState, revealFrontierAtlasRadius } from '../world/frontierAtlasState.js';
+import { MAX_CAPTURED_WILDKIN_SOURCES, MAX_OWNED_WILDKIN, MAX_PENDING_WILDKIN, WILDKIN_INDIVIDUAL_VERSION, cloneWildkinIndividual, normalizeWildkinIndividual, normalizeWildkinIndividuals, projectWildkinSpecies } from '../creatures/wildkinIndividual.js';
+import { createWildkinGenome } from '../creatures/wildkinGenome.js';
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
@@ -53,6 +55,19 @@ function normalizeSpeciesArray(value) {
   return normalizeIdArray(value).filter((id) => COMPANION_SPECIES.has(id));
 }
 
+const isWildkinId = value => typeof value === 'string' && /^[A-Za-z0-9_:-]{1,128}$/.test(value);
+function legacyWildkinRecord(speciesId, runId, index = 0) {
+  const suffix = `${runId}_${speciesId}_${index}`.replace(/[^A-Za-z0-9_:-]/g, '_').slice(0, 96);
+  return { version: WILDKIN_INDIVIDUAL_VERSION, id: `wildkin_legacy_${suffix}`,
+    speciesId, originId: `legacy_${suffix}`, acquiredRunId: runId,
+    genome: speciesId === 'mossling' ? { ...createWildkinGenome(`legacy:${suffix}`) } : null };
+}
+
+function projectedCompanionState(state) {
+  const active = state.ownedWildkin.find(record => record.id === state.activeWildkinId) ?? null;
+  return { securedCompanions: projectWildkinSpecies(state.ownedWildkin), activeCompanionId: active?.speciesId ?? null };
+}
+
 function defaultState(initialWaypointId, resourceDrops) {
   return {
     version: VERSION,
@@ -68,8 +83,9 @@ function defaultState(initialWaypointId, resourceDrops) {
     lootRemainders: {},
     hasDepartedOnce: false,
     upgrades: Object.fromEntries(UPGRADE_CATALOG.map((upgrade) => [upgrade.id, 0])),
-    securedCompanions: [],
-    activeCompanionId: null,
+    ownedWildkin: [],
+    activeWildkinId: null,
+    capturedWildkinSources: {},
     discoveredSpecies: [],
     observationClues: {},
     completedObjectives: [],
@@ -173,8 +189,26 @@ export function createFrontierProgress(opts = {}) {
       out.upgrades[upgrade.id] = Math.min(rawLevel, upgrade.tiers.length);
     }
     out.upgrades.matter_attractor = Math.max(out.upgrades.matter_attractor, raw.matterAttractorI === true ? 1 : 0);
-    out.securedCompanions = normalizeSpeciesArray(raw.securedCompanions);
-    out.activeCompanionId = out.securedCompanions.includes(raw.activeCompanionId) ? raw.activeCompanionId : null;
+    if (raw.ownedWildkin !== undefined) {
+      const owned = normalizeWildkinIndividuals(raw.ownedWildkin, MAX_OWNED_WILDKIN);
+      if (!owned) throw new Error('invalid-owned-wildkin');
+      out.ownedWildkin = owned;
+    } else {
+      // Old species saves become one stable local record per secured species.
+      out.ownedWildkin = normalizeSpeciesArray(raw.securedCompanions).map((speciesId, index) => legacyWildkinRecord(speciesId, 'legacy_save', index));
+    }
+    if (raw.capturedWildkinSources !== undefined) {
+      if (!raw.capturedWildkinSources || typeof raw.capturedWildkinSources !== 'object' || Array.isArray(raw.capturedWildkinSources)) throw new Error('invalid-captured-wildkin-sources');
+      const entries = Object.entries(raw.capturedWildkinSources);
+      if (entries.length > MAX_CAPTURED_WILDKIN_SOURCES) throw new Error('invalid-captured-wildkin-sources');
+      for (const [originId, individualId] of entries) {
+        if (!isWildkinId(originId) || !isWildkinId(individualId)) throw new Error('invalid-captured-wildkin-sources');
+        out.capturedWildkinSources[originId] = individualId;
+      }
+    }
+    out.activeWildkinId = out.ownedWildkin.some(record => record.id === raw.activeWildkinId)
+      ? raw.activeWildkinId
+      : out.ownedWildkin.find(record => record.speciesId === raw.activeCompanionId)?.id ?? null;
     out.discoveredSpecies = normalizeSpeciesArray(raw.discoveredSpecies);
     out.observationClues = normalizeObservationClues(raw.observationClues);
     out.discoveredSpecies = [...new Set([...out.discoveredSpecies, ...Object.keys(out.observationClues)])];
@@ -256,7 +290,8 @@ export function createFrontierProgress(opts = {}) {
       lootChestReadyAt: { ...state.lootChestReadyAt },
       lootRemainders: structuredClone(state.lootRemainders),
       upgrades: { ...state.upgrades },
-      securedCompanions: [...state.securedCompanions],
+      ownedWildkin: state.ownedWildkin.map(cloneWildkinIndividual),
+      capturedWildkinSources: { ...state.capturedWildkinSources },
       discoveredSpecies: [...state.discoveredSpecies],
       observationClues: { ...state.observationClues },
       completedObjectives: [...state.completedObjectives],
@@ -344,6 +379,46 @@ export function createFrontierProgress(opts = {}) {
     if(runId)bankedRunIds.add(runId);
     bankedRunIds=new Set([...bankedRunIds].slice(-20));
     return commitBank(rollback,{},null);
+  }
+
+  function getOwnedWildkin() { return state.ownedWildkin.map(cloneWildkinIndividual); }
+  function getActiveWildkin() {
+    return cloneWildkinIndividual(state.ownedWildkin.find(record => record.id === state.activeWildkinId) ?? null);
+  }
+  function setActiveWildkin(id) {
+    if (id !== null && !state.ownedWildkin.some(record => record.id === id)) return { ok: false, reason: 'unknown-wildkin', state: getState() };
+    if (state.activeWildkinId === id) return { ok: false, reason: 'already-active', state: getState() };
+    const rollback = snapshotForBankRollback();
+    state.activeWildkinId = id;
+    const result = commitBank(rollback, {});
+    return result.ok ? { ok: true, reason: null, state: getState() } : { ok: false, reason: result.reason, state: getState() };
+  }
+  function isWildkinSourceCaptured(originId) {
+    return isWildkinId(originId) && Object.hasOwn(state.capturedWildkinSources, originId);
+  }
+  function commitWildkinCapture(record, pendingRecords) {
+    const captured = normalizeWildkinIndividual(record);
+    if (!captured || !state.activeRun || captured.acquiredRunId !== state.activeRun.runId) {
+      return { ok: false, reason: 'invalid-wildkin-capture', state: getState() };
+    }
+    const pending = normalizeWildkinIndividuals(pendingRecords, MAX_PENDING_WILDKIN);
+    const capacity = Math.min(MAX_PENDING_WILDKIN, Math.max(1, Math.floor(getModifiers().captureCapacity ?? 1)));
+    if (!pending || pending.length > capacity || !pending.some(candidate => candidate.id === captured.id)) {
+      return { ok: false, reason: 'invalid-wildkin-pending', state: getState() };
+    }
+    if (state.ownedWildkin.length + pending.length > MAX_OWNED_WILDKIN) {
+      return { ok: false, reason: 'wildkin-owned-capacity', state: getState() };
+    }
+    const existing = state.capturedWildkinSources[captured.originId];
+    if (existing && existing !== captured.id) return { ok: false, reason: 'wildkin-source-captured', state: getState() };
+    if (!existing && Object.keys(state.capturedWildkinSources).length >= MAX_CAPTURED_WILDKIN_SOURCES) {
+      return { ok: false, reason: 'wildkin-source-capacity', state: getState() };
+    }
+    const rollback = snapshotForBankRollback();
+    state.activeRun = { ...cloneActiveRun(state.activeRun), companions: pending.map(cloneWildkinIndividual) };
+    state.capturedWildkinSources[captured.originId] = captured.id;
+    const result = commitBank(rollback, { record: cloneWildkinIndividual(captured), pendingRecords: pending.map(cloneWildkinIndividual), state: getState() }, state.activeRun);
+    return result.ok ? result : { ok: false, reason: result.reason, state: getState() };
   }
 
   function setInventoryAccess(access = {}) {
@@ -473,6 +548,7 @@ export function createFrontierProgress(opts = {}) {
   }
 
   function getState() {
+    const companionProjection = projectedCompanionState(state);
     return {
       version: state.version,
       skillUnlocks: [...state.skillUnlocks],
@@ -490,8 +566,12 @@ export function createFrontierProgress(opts = {}) {
       hasDepartedOnce: !!state.hasDepartedOnce,
       upgrades: { ...state.upgrades },
       matterAttractorI: (state.upgrades.matter_attractor ?? 0) >= 1,
-      securedCompanions: [...state.securedCompanions],
-      activeCompanionId: state.activeCompanionId,
+      // Species fields remain projections for Journal/progression consumers.
+      securedCompanions: companionProjection.securedCompanions,
+      activeCompanionId: companionProjection.activeCompanionId,
+      ownedWildkin: state.ownedWildkin.map(cloneWildkinIndividual),
+      activeWildkinId: state.activeWildkinId,
+      capturedWildkinSources: { ...state.capturedWildkinSources },
       discoveredSpecies: [...state.discoveredSpecies],
       observationClues: { ...state.observationClues },
       completedObjectives: [...state.completedObjectives],
@@ -542,10 +622,15 @@ export function createFrontierProgress(opts = {}) {
     return false;
   }
 
-  function normalizeBankingExtras(extras) {
+  function normalizeBankingExtras(extras, runId) {
     const value = extras && typeof extras === "object" && !Array.isArray(extras) ? extras : {};
+    let companions = normalizeWildkinIndividuals(value.companions, MAX_PENDING_WILDKIN);
+    if (!companions && Array.isArray(value.companions) && value.companions.every(id => typeof id === 'string')) {
+      companions = normalizeSpeciesArray(value.companions).map((speciesId, index) => legacyWildkinRecord(speciesId, runId ?? 'legacy_bank', index));
+    }
     return {
-      companions: normalizeSpeciesArray(value.companions),
+      companions: companions ?? [],
+      invalidCompanions: value.companions !== undefined && !companions,
       coreSecured: value.coreSecured === true,
     };
   }
@@ -559,7 +644,8 @@ export function createFrontierProgress(opts = {}) {
         unlockedMajorWaypointIds: [...state.unlockedMajorWaypointIds], discoveredBeaconIds: [...state.discoveredBeaconIds],
         repairedPortalGateIds: [...state.repairedPortalGateIds], claimedLootChestIds: [...state.claimedLootChestIds], lootChestReadyAt: { ...state.lootChestReadyAt },
         lootRemainders: structuredClone(state.lootRemainders),
-        securedCompanions: [...state.securedCompanions], discoveredSpecies: [...state.discoveredSpecies], completedObjectives: [...state.completedObjectives],
+        ownedWildkin: state.ownedWildkin.map(cloneWildkinIndividual), activeWildkinId: state.activeWildkinId,
+        capturedWildkinSources: { ...state.capturedWildkinSources }, discoveredSpecies: [...state.discoveredSpecies], completedObjectives: [...state.completedObjectives],
         observationClues: { ...state.observationClues },
         ecology: cloneFrontierEcologyState(state.ecology),
         atlas: cloneFrontierAtlasState(state.atlas),
@@ -584,11 +670,16 @@ export function createFrontierProgress(opts = {}) {
     const normalizedCargo = normalizeResourceMap(cargo, resourceDrops, { keepUnknown: true });
     const totalCargo = Object.values(normalizedCargo).reduce((sum, amount) => sum + amount, 0);
     const xpVal = Math.min(MAX_PERSISTED_NUMBER, Math.max(0, Math.floor(Number(xp) || 0)));
-    const bankingExtras = normalizeBankingExtras(extras);
+    const bankingExtras = normalizeBankingExtras(extras, runId);
+    if (bankingExtras.invalidCompanions) return { ok: false, added: false, reason: 'invalid-wildkin-companions', state: getState() };
     if (runId) {
       if (bankedRunIds.has(runId)) return { ok: true, added: false, state: getState() };
       const rollback = snapshotForBankRollback();
-      const newCompanions = bankingExtras.companions.filter((id) => !state.securedCompanions.includes(id));
+      const newCompanions = bankingExtras.companions.filter((record) => !state.ownedWildkin.some((owned) => owned.id === record.id));
+      if (newCompanions.some(record => state.ownedWildkin.some(owned => owned.originId === record.originId && owned.id !== record.id))) {
+        return { ok: false, added: false, reason: 'wildkin-origin-conflict', state: getState() };
+      }
+      if (state.ownedWildkin.length + newCompanions.length > MAX_OWNED_WILDKIN) return { ok: false, added: false, reason: 'wildkin-owned-capacity', state: getState() };
       const coreWasUnsecured = bankingExtras.coreSecured && !state.completedPoiIds.includes("heartwood_core_secured");
       const coreChestWasUnclaimed = bankingExtras.coreSecured && !state.claimedLootChestIds.includes("chest_heartwood_core");
       const hasExtras = newCompanions.length > 0 || coreWasUnsecured || coreChestWasUnclaimed;
@@ -602,9 +693,9 @@ export function createFrontierProgress(opts = {}) {
       state.inventory.totals.returned = Math.min(Number.MAX_SAFE_INTEGER, state.inventory.totals.returned + totalCargo);
       state.bankedXp += xpVal;
       if (newCompanions.length > 0) {
-        state.securedCompanions.push(...newCompanions);
-        state.discoveredSpecies = [...new Set([...state.discoveredSpecies, ...newCompanions])];
-        if (!state.activeCompanionId) state.activeCompanionId = newCompanions[0];
+        state.ownedWildkin.push(...newCompanions.map(cloneWildkinIndividual));
+        state.discoveredSpecies = [...new Set([...state.discoveredSpecies, ...newCompanions.map(record => record.speciesId)])];
+        if (!state.activeWildkinId) state.activeWildkinId = newCompanions[0].id;
       }
       if (bankingExtras.coreSecured) {
         if (!state.completedPoiIds.includes("heartwood_core_secured")) state.completedPoiIds.push("heartwood_core_secured");
@@ -686,22 +777,20 @@ export function createFrontierProgress(opts = {}) {
   function secureCompanions(ids, runId = null) {
     if (runId && state.securedCompanionRunIds.includes(runId)) return { added: false, companions: [], state: getState() };
     const candidates = normalizeSpeciesArray(ids);
-    const companions = candidates.filter((id) => !state.securedCompanions.includes(id));
+    const companions = candidates.filter((id) => !state.ownedWildkin.some(record => record.speciesId === id));
     if (runId) state.securedCompanionRunIds = [...state.securedCompanionRunIds, runId].slice(-20);
     if (companions.length === 0) { if (runId) save(); return { added: false, companions: [], state: getState() }; }
-    state.securedCompanions.push(...companions);
+    const records = companions.map((speciesId, index) => legacyWildkinRecord(speciesId, runId ?? 'legacy_secure', index));
+    state.ownedWildkin.push(...records);
     state.discoveredSpecies = [...new Set([...state.discoveredSpecies, ...companions])];
-    if (!state.activeCompanionId) state.activeCompanionId = companions[0];
+    if (!state.activeWildkinId) state.activeWildkinId = records[0].id;
     save();
     return { added: true, companions, state: getState() };
   }
 
   function selectCompanion(id) {
-    if (id !== null && !state.securedCompanions.includes(id)) return false;
-    if (state.activeCompanionId === id) return false;
-    state.activeCompanionId = id;
-    save();
-    return true;
+    const record = id === null ? null : state.ownedWildkin.find(candidate => candidate.speciesId === id);
+    return id === null ? setActiveWildkin(null).ok : !!record && setActiveWildkin(record.id).ok;
   }
 
   function discoverSpecies(id) {
@@ -949,6 +1038,7 @@ export function createFrontierProgress(opts = {}) {
   return {
     inventory: inventoryActions, getItemCatalog: () => itemCatalog,
     checkpointRun, endRunWithoutRewards, getActiveRun:()=>cloneActiveRun(state.activeRun),setRunSnapshotProvider:provider=>{runSnapshotProvider=provider;},
+    getOwnedWildkin, getActiveWildkin, setActiveWildkin, isWildkinSourceCaptured, commitWildkinCapture,
     getInventoryState, getPackResourceCounts, getSpendableResources, getSpendableItemCounts, collectResources, spendResources, setInventoryAccess,
     load,
     save,

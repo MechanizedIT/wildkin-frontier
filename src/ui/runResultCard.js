@@ -1,12 +1,13 @@
 import { iconMarkup } from './itemIcons.js';
 import { bindDialogInput } from './dialogInput.js';
+import { COMPANION_BY_ID } from '../companions/companionCatalog.js';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 export function resultCompanionsMarkup(companions = [], secured = false) {
   if (!companions.length) return '';
   return `<div class="result-bonds">${companions.map(c => {
-    const id = typeof c === 'string' ? c : c.id;
-    const name = typeof c === 'string' ? c : c.name ?? id;
+    const id = typeof c === 'string' ? c : c.speciesId ?? c.id;
+    const name = typeof c === 'string' ? c : c.name ?? COMPANION_BY_ID[id]?.name ?? id;
     return `<div>${iconMarkup(id,{size:48})}<span><b>${esc(name)}</b><small>${secured?'Bond secured':'Wildkin returned to the wild'}</small></span></div>`;
   }).join('')}</div>`;
 }

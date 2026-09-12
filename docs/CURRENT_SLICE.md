@@ -1,6 +1,6 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: Living Frontier F2B individual wildlife.**
+Updated September 12, 2026. **Active goal-mode development: Living Frontier F4 visible individual variation.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
@@ -34,7 +34,7 @@ F2B wildlife requires stable captured individual IDs before it streams; species-
 
 F3 checkpoint: automatic in-place outings, saved physical return eligibility, generated-ground resume and personal atlas/minimap are integrated. Aggregate1,026/1,026 and build/validate/ZIP passed; final UI focused10/10. Selected R3 independently8.5/10 after7.3/7.9 earlier passes; emulated landscape/portrait and native packaged map open passed.43.90MB unpacked/20.48MB ZIP. Exact proof, fixtures, images and hashes: `art/reviews/living-frontier-f3/receipt.md`. Current death rule retains the backpack while losing carried XP/pending bonds. Full generated-world economy and dangerous traversal remain unfinished.
 
-## Selected next slice: F2B individual wildlife
+## Completed: F2B individual wildlife
 
 Complete the individual transaction before admitting generated capture-able animals. No alternate save authority or generic genetics framework.
 
@@ -46,13 +46,23 @@ Complete the individual transaction before admitting generated capture-able anim
 
 Root owns shared integration and final checkpoint; workers own explicitly assigned schema/save, creature residency or UI modules. Adjacent production work may proceed in parallel only with separate file ownership. The old finite objective/material gates need a subsequent frontier progression pass; retained campaign checker success does not establish this new economy.
 
+F2B now carries exact individual records through native lure/bond, failed-save retry, literal reload, physical Camp banking, separate same-species roster selection and death. Generated source residency is bounded to four, with captured history preventing duplicates. The first two Mosslings retain ordinary movement within a tighter initial clearing. Selected R3 scored 8.1/10 after 6.9/7.8; exact evidence and validation are in `art/reviews/living-frontier-f2b/receipt.md`. Appearance genes remain data only.
+
+## Selected next slice: F4 visible individual variation
+
+- Make two captured Mosslings visibly distinguishable using one shared expression path for wild creatures and owned followers, with independent material ownership and complete disposal. Preserve the current rig/clips and identity transactions.
+- First candidate uses restrained whole-body tone plus separately head-bound eye geometry/material in a small editable Mossling revision. The current body texture combines coat, foliage and flowers: call this body tone, not isolated coat color. Do not infer semantic masks by texture thresholding. Evaluate the eye overlays for attachment, occlusion and all existing clips before shipping.
+- Keep size bands, markings and crest/tail variants data-only until their actual geometry, collision and motion paths are implemented. This bounded slice need not solve every trait at once.
+- Capture actual baseline and a realistic target; use separate asset implementer and visual judge, at most three visual rounds. Prove wild/follower material isolation, capture/reload expression parity, animation attachment and disposal. Reuse the current physical roster; expose only traits that are actually visible.
+- Root owns shared integration and scope. One worker owns the isolated editable asset candidate; another may own pure expression/material tests. No source asset is replaced before visual/runtime proof. Continue the long-running goal after this slice.
+
 ## Broader authorized direction
 
 Streamed terrain and ecology; personal atlas; individual modular Wildkin; slow climbing, swimming and falling risk; immersive Camp building/crafting/food/habitats; field genetics, breeding, growth, cloning and DNA recipe exchange. Rules remain producer choices to validate in play. PC/web first with mobile viability; offline Three.js/Rapier and local main remain. No backwards compatibility requirement. See LIVING_FRONTIER_PLAN for sequence and evidence gates.
 
 ## Last verified playable checkpoint
 
-Current checkpoint: `art/reviews/living-frontier-f3/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; current aggregate1,026 passes include the new foundations.
+Current checkpoint: `art/reviews/living-frontier-f2b/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipt for integrated verification.
 
 Initial working tree includes unrelated Verdant composer/test changes and untracked art/tool experiments. Preserve them; stage only owned files. Emberfall ravine and Tidefin V3 remain unshipped candidates with documented defects; they are not the current slice.
 

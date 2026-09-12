@@ -1,4 +1,4 @@
-import { COMPANION_BY_ID } from '../companions/companionCatalog.js';
+import { MAX_PENDING_WILDKIN, cloneWildkinIndividual, normalizeWildkinIndividuals } from '../creatures/wildkinIndividual.js';
 
 // Structural bounds only. The progress/bootstrap owners validate current world
 // IDs, physical support, secured species and whether this run already resolved.
@@ -13,7 +13,7 @@ export function cloneActiveRun(run) {
   return {
     runId: run.runId, startAnchorId: run.startAnchorId, sectionId: run.sectionId,
     feet: { x: run.feet.x, y: run.feet.y, z: run.feet.z }, facingYaw: run.facingYaw,
-    health: run.health, xp: run.xp, companions: [...run.companions], corePending: run.corePending,
+    health: run.health, xp: run.xp, companions: run.companions.map(cloneWildkinIndividual), corePending: run.corePending,
     kills: run.kills, maxDepth: run.maxDepth, frontierDeparted: run.frontierDeparted === true,
     newWaypoints: [...run.newWaypoints], newBeacons: [...run.newBeacons],
   };
@@ -28,10 +28,10 @@ export function normalizeActiveRun(raw) {
     || ![raw.feet.x, raw.feet.y, raw.feet.z].every(coordinate) || !Number.isFinite(raw.facingYaw)) return fail('invalid-run-position');
   if (!Number.isFinite(raw.health) || raw.health <= 0 || raw.health > 20) return fail('invalid-run-health');
   if (![raw.xp, raw.kills, raw.maxDepth].every(count)) return fail('invalid-run-count');
-  if (!idList(raw.companions, Object.keys(COMPANION_BY_ID).length)
-    || raw.companions.some(id => !Object.hasOwn(COMPANION_BY_ID, id))) return fail('invalid-run-companions');
+  const companions = normalizeWildkinIndividuals(raw.companions, MAX_PENDING_WILDKIN);
+  if (!companions) return fail('invalid-run-companions');
   if (typeof raw.corePending !== 'boolean') return fail('invalid-run-core');
   if (raw.frontierDeparted !== undefined && typeof raw.frontierDeparted !== 'boolean') return fail('invalid-run-departure');
   if (!idList(raw.newWaypoints, 256) || !idList(raw.newBeacons, 256)) return fail('invalid-run-discoveries');
-  return { ok: true, run: cloneActiveRun({ ...raw, frontierDeparted: raw.frontierDeparted === true }), reason: null };
+  return { ok: true, run: cloneActiveRun({ ...raw, companions, frontierDeparted: raw.frontierDeparted === true }), reason: null };
 }

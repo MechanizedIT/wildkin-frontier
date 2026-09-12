@@ -86,7 +86,10 @@ export function createFieldTaming({ getPlayer, getTarget, getSectionId, isActive
     if (!attempt) return;
     const a = attempt, target = getTarget(a.id), player = getPlayer();
     if (hidden || !isActive() || a.sectionId !== getSectionId()) { clear(); return; }
-    if (!target || target.state.isDead) { fail("The Wildkin was lost. Find another and prepare fresh gear."); return; }
+    // Stream retirement is neither a capture nor a failed tame. The resident
+    // owner may bring the same stable source back when its chunk returns.
+    if (!target) { clear(); return; }
+    if (target.state.isDead) { fail("The Wildkin was lost. Find another and prepare fresh gear."); return; }
     if (target.state.playerDamaged) { fail("Your attack broke its trust. Try again on another expedition."); return; }
     if (target.state.health < a.startHealth) { fail("A nearby threat interrupted taming. Clear the danger, then prepare fresh gear."); return; }
     a.age += dt; a.stageTime += dt;
