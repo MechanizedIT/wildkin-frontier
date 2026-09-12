@@ -17,5 +17,6 @@ test('resume uses real support and full capsule clearance, excluding self/sensor
  assert.equal(check({x:0,y:3,z:0}),null);assert.equal(check({x:9,y:0,z:0}),null);
  world.removeCollider(block,true);world.step();
  assert.equal(check({x:0,y:0,z:0},[{pos:{x:0,y:.3,z:0},size:{w:2,h:1,d:2},rotY:.3}]),null);
+ assert.ok(check({x:0,y:0,z:0},[{courseId:'retired',pos:{x:0,y:.3,z:0},size:{w:2,h:1,d:2},rotY:.3}]),'retired invisible course beds do not reject a supported resume');
  world.free();
 });

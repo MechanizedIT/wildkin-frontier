@@ -8,6 +8,8 @@ Reproduce locally with `tools/review/package-source-images.py`. It maps all16 at
 
 The atlas now serves as required before/after evidence for region planning, paired with native-pitch and elevation/traversal views. See REGION_REDESIGN_REVIEW.md for the independent critique and first Verdant proposal. Do not overwrite this dated before snapshot or call a generated target an implemented map.
 
+[Proposed Forest Edge upland target](https://drive.google.com/file/d/1lQ69TewdoZi3-KzzR72Mj65ajBMThaIH/view?usp=drivesdk) is a generated design target, not an implemented map. V1 was rejected for course remnants/waterfalls; V2 removes those and passes independent visual-blockout fitness8.1. Numeric source anchors override small painted-location drift. Its native height/connectivity and no-bypass gate are still pending. Retained project source: `art/targets/verdant-upland-v2/`.
+
 September12,2026. Chris requested top-down maps of each area/Camp for planning and potential later minimap use, plus generated-model renders delivered to his phone. The current snapshot is delivered; no minimap is implemented by this tooling.
 
 - [Phone-friendly visual book](https://drive.google.com/file/d/1HWbqPEt39F4BTm6dgbxnsBnDK2JRqD0W/view?usp=drivesdk):12pages,6,487,784bytes, SHA256 `a514f5c7a38eea0917b427257a7651f814c2432b64818c370ef635c84e5d8c3d`.
@@ -45,3 +47,8 @@ One orthographic render per area avoids stitching seams. A later minimap can reu
 The16views use current ExplorerV2/MosslingV3 and generated environment, storage, station, defense and discovery families. Survey pieces are shown assembled. Superseded Explorer/Mossling versions are omitted. RootfallV1 and TidefinV3 are explicitly unadmitted candidates in this dated gallery; subsequent work must not relabel this snapshot as a newer version. Update the explicit gallery records when admitting new families/candidates.
 
 The parent inspected actual map/overview/model images and rendered PDF pages1,2,9. PDF includes bookmarks and a linked area overview. Its embedded JPEG previews reduce58.5MB to6.5MB for phone use; ZIP/individualPNGs retain full lossless originals. Capture had zero browser errors/failed image requests; the ZIP rechecks every original SHA. Drive PDF/ZIP/image metadata and all11folder entries were read back. No game source, world layout or user save was changed by capture/packaging, so this read-only artifact boundary did not rerun the game aggregate suite.
+
+
+### Oblique region companion view
+
+`atlas.overview(regionId, {pitch:58, width:1564, height:1006})` renders the same region at an oblique orthographic angle to expose shelf faces. It does not exaggerate terrain height or add dressing. It retains the atlas's fog/shadow omission; native gameplay images supply those presentation checks. Its camera is recorded in the returned metadata. Use the ordinary top-down `map()` for coordinates/planning overlays; the oblique frame has a different projection. Returning to `map()` resets the camera orientation.

@@ -1,0 +1,22 @@
+{
+  "status": "focused generated edit, independent review pending",
+  "generator": "built-in image_gen",
+  "calls": 1,
+  "createdAt": "2026-09-12T01:21:58.2763660-05:00",
+  "target": "art/targets/verdant-upland-v2/target.png",
+  "sha256": "1d637afc4fdb7ad1a593031bc69f5c0246702c5195f9b80e0e57d4cd9bc32b09",
+  "width": 1564,
+  "height": 1006,
+  "bytes": 2402231,
+  "originalOutput": "C:/Users/cwood/.codex/generated_images/01a093b1-2ec4-75e3-ab7e-2f72fd980dbe/exec-02236307-27e1-48c9-9abf-f08d37f8f8d4.png",
+  "prompt": "art/targets/verdant-upland-v2/prompt.txt",
+  "promptSHA256": "11f79c6a196ae00537ea7436b99742784769308f4c17259c64a5286112663316",
+  "referenced_image_paths": [
+    {
+      "path": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\targets\\verdant-upland-v1\\target.png",
+      "role": "sole edit target",
+      "sha256": "6f2118af7ccda24dc9dfcf919a307a226c307445058559793818c8f1f9a14a8f"
+    }
+  ],
+  "postprocessing": "none; original bytes copied"
+}

@@ -14,10 +14,8 @@ import {
   syncAuthorVisual,
   syncEditProxy,
 } from "./authorPreview.js";
-import { getJumpPadGuidance, getJumpPadTrajectorySignature } from "../world/jumpPadSystem.js";
 import { summarizeSection } from "../world/sectionProfile.js";
 import { createOrbitGizmo, updateOrbitGizmo } from "./orbitGizmo.js";
-import { MOVEMENT_CONFIG } from "../game/config.js";
 import { createAuthoredTerrain } from '../presentation/authoredTerrain.js';
 
 export const ASSET_EDIT_CAMERA_STEP = Math.PI / 4;
@@ -137,8 +135,6 @@ export function createAuthorMode(opts) {
   let assetEditStageHelpers = [];
   let assetEditOrbitGizmo = null;
   let assetEditSceneState = null;
-  let trajectoryPreviewLines = [];
-  let trajectoryPreviewSignature = null;
   let editorWorldDirty = true;
   let editorPreviousSectionId = null;
   let editorVisibilitySyncCount = 0;
@@ -200,7 +196,6 @@ export function createAuthorMode(opts) {
       + `Waypoint       ${mark(summary.countStatus.waypoint)}\n`
       + `Beacon         ${mark(summary.countStatus.extractionBeacons)}\n`
       + `Secret         ${mark(summary.countStatus.secrets)}\n`
-      + `Parkour        ${mark(summary.countStatus.parkourCourses)}\n`
       + `Outbound Gate  ${mark(summary.countStatus.outboundPortals)}`;
   }
 
@@ -269,7 +264,6 @@ export function createAuthorMode(opts) {
       else {
         syncPreviewForId(id);
         updateSpawnMarkers();
-        updateTrajectoryPreviews();
       }
       ui.refreshRegionSelects?.();
       if (id) {
@@ -295,7 +289,6 @@ export function createAuthorMode(opts) {
       updateOverlays();
       setOverlaysVisible(isEdit);
       updateEditorVisibility("section-selection");
-      updateTrajectoryPreviews();
       if (ui.refreshHierarchy) ui.refreshHierarchy();
     },
     onFocusRegion: (regionId) => {
@@ -982,7 +975,6 @@ export function createAuthorMode(opts) {
       const found = draftApi.findPreviewObjectById(authorId);
       if (found?.regionId) object.visible = found.regionId === selectedEditSectionId;
     });
-    updateTrajectoryPreviews();
     highlightOverlayForSelected();
     editorWorldDirty = false;
     editorVisibilitySyncLastReason = reason;
@@ -1007,69 +999,6 @@ export function createAuthorMode(opts) {
       lastFullVisibilitySyncReason: editorVisibilitySyncLastReason,
       worldDirty: editorWorldDirty,
     };
-  }
-
-  function clearTrajectoryPreviews({ resetSignature = true } = {}) {
-    for (const line of trajectoryPreviewLines) {
-      scene.remove(line);
-      line.geometry?.dispose?.();
-      line.material?.map?.dispose?.();
-      line.material?.dispose?.();
-    }
-    trajectoryPreviewLines = [];
-    if (resetSignature) trajectoryPreviewSignature = null;
-  }
-
-  function updateTrajectoryPreviews() {
-    if (!isEdit || editingAssetId || !selectedEditSectionId) {
-      clearTrajectoryPreviews();
-      return;
-    }
-    const section = draftApi.findRegion(selectedEditSectionId);
-    const signature = JSON.stringify((section?.jumpPads ?? []).map(getJumpPadTrajectorySignature));
-    if (trajectoryPreviewSignature === signature) return;
-    clearTrajectoryPreviews({ resetSignature: false });
-    trajectoryPreviewSignature = signature;
-    for (const pad of section?.jumpPads ?? []) {
-      const guidance = getJumpPadGuidance(pad, { gravity: MOVEMENT_CONFIG.jumpGravity, walkSpeed: MOVEMENT_CONFIG.walkSpeed, runSpeed: MOVEMENT_CONFIG.runSpeed });
-      const apexLine = new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints([
-          new THREE.Vector3(pad.pos.x, (pad.pos.y ?? 0) + 0.12, pad.pos.z),
-          new THREE.Vector3(pad.pos.x, (pad.pos.y ?? 0) + guidance.apexHeightDelta, pad.pos.z),
-        ]),
-        new THREE.LineBasicMaterial({ color: 0x7fffe2, transparent: true, opacity: 0.9 }),
-      );
-      apexLine.name = `jump_apex_${pad.id}`;
-      apexLine.userData.authorHelper = true;
-      scene.add(apexLine);
-      trajectoryPreviewLines.push(apexLine);
-      for (const [distance, color] of [[guidance.walkCarryDistance, 0x65d69a], [guidance.runCarryDistance, 0xffc857]]) {
-        const points = [];
-        for (let index = 0; index <= 48; index++) {
-          const angle = index / 48 * Math.PI * 2;
-          points.push(new THREE.Vector3(pad.pos.x + Math.cos(angle) * distance, (pad.pos.y ?? 0) + 0.08, pad.pos.z + Math.sin(angle) * distance));
-        }
-        const ring = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.58 }));
-        ring.userData.authorHelper = true;
-        scene.add(ring);
-        trajectoryPreviewLines.push(ring);
-      }
-      if (typeof document !== "undefined") {
-        const canvas = document.createElement("canvas"); canvas.width = 420; canvas.height = 72;
-        const ctx = canvas.getContext("2d");
-        if (ctx) {
-          ctx.fillStyle = "rgba(10,14,22,.88)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = "#dffcff"; ctx.font = "bold 20px system-ui";
-          ctx.fillText(`APEX +${guidance.apexHeightDelta.toFixed(1)}  ·  AIR ${guidance.airtime.toFixed(1)}s  ·  WALK/RUN RINGS`, 12, 44);
-          const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(canvas), transparent: true, depthTest: false }));
-          sprite.position.set(pad.pos.x, (pad.pos.y ?? 0) + guidance.apexHeightDelta + 0.45, pad.pos.z);
-          sprite.scale.set(6.2, 1.06, 1);
-          sprite.userData.authorHelper = true;
-          scene.add(sprite);
-          trajectoryPreviewLines.push(sprite);
-        }
-      }
-    }
   }
 
   function prepareRender() {
@@ -1292,7 +1221,6 @@ export function createAuthorMode(opts) {
     setProxyVisibility(false);
     setEditorHelperVisibility(false);
     clearSpawnMarkers();
-    clearTrajectoryPreviews();
     exitPlaceMode();
     if (editorPreviousSectionId && sectionRuntime?.getActiveSectionId?.() !== editorPreviousSectionId) {
       sectionRuntime.activate(editorPreviousSectionId);

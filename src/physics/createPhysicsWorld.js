@@ -10,9 +10,22 @@ export function createPhysicsWorld(RAPIER, playground) {
 
   const staticColliders = [];
   const colliderSections = new Map();
+  const objectColliders = new Map();
+  const disabledObjects = new Set();
+  const colliderObjects = new Map();
   let activeSectionId = null;
+  let sectionSelectionMade = false;
 
-  function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0, sectionId = null) {
+  function registerCollider(collider, sectionId, objectId) {
+    staticColliders.push(collider);
+    colliderSections.set(collider, sectionId);
+    if (objectId == null) return;
+    if (!objectColliders.has(objectId)) objectColliders.set(objectId, []);
+    objectColliders.get(objectId).push(collider);
+    colliderObjects.set(collider, objectId);
+  }
+
+  function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0, sectionId = null, objectId = null) {
     const desc = RAPIER.ColliderDesc.cuboid(hx, hy, hz)
       .setTranslation(tx, ty, tz)
       .setFriction(0.6)
@@ -22,8 +35,7 @@ export function createPhysicsWorld(RAPIER, playground) {
       desc.setRotation({ x: 0, y: Math.sin(half), z: 0, w: Math.cos(half) });
     }
     const c = world.createCollider(desc);
-    staticColliders.push(c);
-    colliderSections.set(c, sectionId);
+    registerCollider(c, sectionId, objectId);
     return c;
   }
 
@@ -34,8 +46,7 @@ export function createPhysicsWorld(RAPIER, playground) {
       const desc = RAPIER.ColliderDesc.trimesh(surface.vertices, surface.indices)
         .setFriction(0.6).setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
       const collider = world.createCollider(desc);
-      staticColliders.push(collider);
-      colliderSections.set(collider, surface.sectionId);
+      registerCollider(collider, surface.sectionId ?? null, surface.id);
     }
     for (const gp of playground.groundPatches) {
       if (gp.collisionEnabled === false) continue;
@@ -48,7 +59,7 @@ export function createPhysicsWorld(RAPIER, playground) {
       const rotY = gp.rotY ?? 0;
       const x = gp.x ?? gp.pos?.x ?? 0;
       const z = gp.z ?? gp.pos?.z ?? 0;
-      addCuboid(hx, hy, hz, x, ty, z, rotY, gp.sectionId ?? gp.regionId ?? null);
+      addCuboid(hx, hy, hz, x, ty, z, rotY, gp.sectionId ?? gp.regionId ?? null, gp.id);
     }
   } else {
     // Legacy fallback for worlds without groundPatches (tests)
@@ -71,7 +82,7 @@ export function createPhysicsWorld(RAPIER, playground) {
       const half = (o.rotY ?? 0)/2;
       desc.setRotation({x:0,y:Math.sin(half),z:0,w:Math.cos(half)});
       const collider = world.createCollider(desc);
-      staticColliders.push(collider);colliderSections.set(collider, o.sectionId ?? o.regionId ?? null);
+      registerCollider(collider, o.sectionId ?? o.regionId ?? null, o.id);
       continue;
     }
     const hx = o.w / 2;
@@ -82,7 +93,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     const rotY = o.rotY ?? 0;
     // Respect collisionEnabled flag if present
     if (o.collisionEnabled === false) continue;
-    addCuboid(hx, hy, hz, o.x, ty, o.z, rotY, o.sectionId ?? o.regionId ?? null);
+    addCuboid(hx, hy, hz, o.x, ty, o.z, rotY, o.sectionId ?? o.regionId ?? null, o.id);
   }
 
   // Platforms — respect baseY/rotY
@@ -93,7 +104,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     const baseY = p.baseY ?? p.y ?? 0;
     const ty = baseY + hy;
     const rotY = p.rotY ?? 0;
-    addCuboid(hx, hy, hz, p.x, ty, p.z, rotY, p.sectionId ?? p.regionId ?? null);
+    addCuboid(hx, hy, hz, p.x, ty, p.z, rotY, p.sectionId ?? p.regionId ?? null, p.id);
   }
 
   // Boundary colliders — authored outer limits (explicit, canonical baseY + h/2 center)
@@ -109,7 +120,7 @@ export function createPhysicsWorld(RAPIER, playground) {
       const y = baseY + hy;
       const z = b.z ?? b.pos?.z ?? 0;
       const rotY = b.rotY ?? 0;
-      addCuboid(hx, hy, hz, x, y, z, rotY, b.sectionId ?? b.regionId ?? null);
+      addCuboid(hx, hy, hz, x, y, z, rotY, b.sectionId ?? b.regionId ?? null, b.id);
     }
   }
   // Safety floor far below gameplay (not walkable when authored ground deleted)
@@ -118,16 +129,38 @@ export function createPhysicsWorld(RAPIER, playground) {
   // Initial pipeline update so character controller queries see static colliders immediately
   world.step();
 
+  function isColliderEnabled(collider) {
+    const sectionId = colliderSections.get(collider);
+    return !disabledObjects.has(colliderObjects.get(collider))
+      && (!sectionSelectionMade || sectionId === null || sectionId === activeSectionId);
+  }
+
+  function setStaticObjectEnabled(id, enabled) {
+    const colliders = objectColliders.get(id);
+    if (!colliders) return false;
+    if (enabled) disabledObjects.delete(id);
+    else disabledObjects.add(id);
+    let changed = false;
+    for (const collider of colliders) {
+      const next = isColliderEnabled(collider);
+      if (collider.isEnabled() === next) continue;
+      collider.setEnabled(next);
+      changed = true;
+    }
+    if (changed) world.step();
+    return true;
+  }
+
   function setActiveSection(sectionId) {
     if (activeSectionId === sectionId) return { changed: false, sectionId };
     activeSectionId = sectionId;
+    sectionSelectionMade = true;
     for (const collider of staticColliders) {
-      const owner = colliderSections.get(collider);
-      collider.setEnabled?.(owner === null || owner === sectionId);
+      collider.setEnabled(isColliderEnabled(collider));
     }
     world.step();
     return { changed: true, sectionId };
   }
 
-  return { world, staticColliders, colliderSections, setActiveSection, getActiveSectionId: () => activeSectionId, RAPIER };
+  return { world, staticColliders, colliderSections, setActiveSection, setStaticObjectEnabled, getActiveSectionId: () => activeSectionId, RAPIER };
 }

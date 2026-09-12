@@ -8,21 +8,22 @@ function hasRoute(section, id) {
   return section.surface.routes.some((route) => route.id === id);
 }
 
-test("the first two expeditions use matched 80-unit visual and collision islands", () => {
+test("the first two expeditions match their independently sized visual and collision islands", () => {
   for (const id of ["section_1", "section_2"]) {
     const section = region(id);
-    assert.deepEqual(section.size, { width: 80, depth: 80 });
-    assert.deepEqual(section.bounds, { minX: -40, maxX: 40, minZ: -40, maxZ: 40 });
+    const {minX,maxX,minZ,maxZ}=section.bounds;
+    assert.deepEqual(section.size, { width: maxX-minX, depth: maxZ-minZ });
+    assert.ok(section.size.width>=80 && section.size.depth>=80);
     const edges = Object.fromEntries(section.boundaryColliders.map((edge) => [edge.id.split("_").at(-1), edge]));
-    assert.equal(edges.north.pos.z, -39.5); assert.equal(edges.south.pos.z, 39.5);
-    assert.equal(edges.west.pos.x, -39.5); assert.equal(edges.east.pos.x, 39.5);
-    assert.equal(edges.north.size.w, 79); assert.equal(edges.west.size.d, 79);
+    assert.equal(edges.north.pos.z, minZ+.5); assert.equal(edges.south.pos.z, maxZ-.5);
+    assert.equal(edges.west.pos.x, minX+.5); assert.equal(edges.east.pos.x, maxX-.5);
+    assert.equal(edges.north.size.w, section.size.width-1); assert.equal(edges.west.size.d, section.size.depth-1);
   }
 });
 
 test("Verdant and Shatterfen retain distinct landmark-led loops", () => {
   const verge = region("section_1"), fen = region("section_2");
-  for (const [section, required] of [[verge, ["verge-ridgeway", "verge-mossling-creek", "verge-ore-shelf", "verge-root-hollow-shortcut"]], [fen, ["fen-zigzag-causeway", "observatory-island-spur", "far-bank-route"]]]) {
+  for (const [section, required] of [[verge, ["verdant-low-spine", "verdant-west-hollow", "verdant-upland-ascent", "verdant-upland-descent"]], [fen, ["fen-zigzag-causeway", "observatory-island-spur", "far-bank-route"]]]) {
     for (const id of required) assert.ok(hasRoute(section, id), `${section.id} needs ${id}`);
     assert.ok(section.surface.heights.length >= 3, `${section.id} needs several elevation landmarks`);
     assert.ok(section.surface.water.length >= 2, `${section.id} needs multiple distinct water spaces`);

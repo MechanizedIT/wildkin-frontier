@@ -33,6 +33,10 @@ export const MOVEMENT_CONFIG = {
   // vertical: v += gravity*dt ; y += v*dt ; horizontal += hVel*dt
   jumpInitialVerticalVelocity: 5.8,
   jumpGravity: 12.0,
+  // Ordinary jump input is an edge. The short grace windows make a button
+  // press near a landing or ledge reliable without allowing held auto-jumps.
+  jumpBufferWindow: 0.10,
+  jumpCoyoteWindow: 0.08,
   // air control as fraction of ground steering
   jumpAirControlFactor: 0.28,
   jumpAirMaxSpeed: 7.2,

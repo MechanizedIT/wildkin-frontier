@@ -23,6 +23,7 @@ export function projectInteractionBounds(box, matrixWorld, camera, width, height
 
 export function resolveInteractionRecord(info, { registry, creatures, getBase } = {}) {
   if (!info) return null;
+  if (info.type === 'rootfall') return info.anchorPos?{pos:info.anchorPos}:null;
   if (info.type === 'campYard') { const pos=getBase?.()?.getCampYardAnchor();return pos?{pos}:null; }
   if (info.type === 'bond' || info.type === 'companion') {
     const creature = info.target ?? creatures?.getCreatures().find(c => c.state.id === info.id);
@@ -57,7 +58,7 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
     const nextKey = `${info?.type}|${info?.id}`;
     if (key !== nextKey || (root && !root.parent) || (record?.creature?.group && record.creature.group !== root)) {
       key = nextKey; record = resolveInteractionRecord(info, { registry, creatures, getBase });
-      root = record?.creature?.group ?? scene?.getObjectByName(info?.id) ?? null;
+      root = info?.type==='rootfall'?null:record?.creature?.group ?? scene?.getObjectByName(info?.id) ?? null;
       bodyRoot = null; bodyBox.makeEmpty();
       let bodyTop = null;
       if (record?.creature && root) {
@@ -81,7 +82,7 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
           }
         }
       }
-      offset = HEIGHT[info?.type] ?? 1.3;
+      offset = info?.type==='rootfall'?0:HEIGHT[info?.type] ?? 1.3;
       if (root) {
         root.updateWorldMatrix(true, true);
         if (bodyTop === null) box.setFromObject(root);
@@ -104,6 +105,7 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
       });
       timer = .1; blocked = false;
     }
+    if(info?.type==='rootfall')record=resolveInteractionRecord(info);
     if (!record?.pos || (root && (!root.parent || !visible(root))) || record.creature?.state.isDead || record.creature?.state.bondCaptured) return null;
     // Creature state owns moving positions; the sampled height follows its body.
     return point.set(record.pos.x, (record.pos.y ?? 0) + offset, record.pos.z);

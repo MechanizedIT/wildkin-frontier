@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import { createCreatureSystem } from '../src/creatures/creatureSystem.js';
 import { selectStartleRecipient } from '../src/creatures/socialStartle.js';
 import { composeSocialEncounters } from '../tools/compose-social-encounters.mjs';
+import { composeVerdantUplands } from '../tools/compose-verdant-uplands.mjs';
 import { getSurfaceHeight, getWaterRadius } from '../src/world/terrainSurfaceModel.js';
 import { validateWorldData } from '../src/world/worldValidator.js';
 
@@ -72,11 +73,20 @@ test('aggressive empty hostile list preserves same-species peace; explicit hosti
   }
 });
 
-test('composition preserves all old IDs and changes only second Moss home on dry terrain',()=>{
-  const before=JSON.parse(fs.readFileSync(new URL('../src/world/data/world.json',import.meta.url),'utf8')),after=composeSocialEncounters(structuredClone(before));
-  assert.deepEqual(composeSocialEncounters(structuredClone(after)),after);validateWorldData(structuredClone(after));
-  const r=after.regions.find(r=>r.id==='section_1'),b=r.props.find(p=>p.id==='prop_s1_creek_mossling_b');
-  assert.equal(b.pos.y,getSurfaceHeight(r.surface,b.pos.x,b.pos.z));assert.ok(getWaterRadius(r.surface,b.pos.x,b.pos.z)>1);
-  b.pos=before.regions.find(r=>r.id==='section_1').props.find(p=>p.id===b.id).pos;
-  assert.deepEqual(after,before);
+test('composition preserves the paired Mossling IDs in their wider dry hollow habitat',()=>{
+  const before=JSON.parse(fs.readFileSync(new URL('../src/world/data/world.json',import.meta.url),'utf8'));
+  // The current generated snapshot may predate the stable-ID repair. Restore
+  // that source contract first, then verify the real social → Verdant order.
+  const source=composeVerdantUplands(structuredClone(before));
+  const after=composeVerdantUplands(composeSocialEncounters(source));
+  assert.deepEqual(composeVerdantUplands(structuredClone(after)),after);validateWorldData(structuredClone(after));
+  const r=after.regions.find(r=>r.id==='section_1');
+  const a=r.props.find(p=>p.id==='prop_s1_creek_mossling');
+  const b=r.props.find(p=>p.id==='prop_s1_creek_mossling_b');
+  assert.deepEqual({x:a.pos.x,z:a.pos.z},{x:-40,z:12});
+  assert.deepEqual({x:b.pos.x,z:b.pos.z},{x:-42,z:3});
+  for(const actor of [a,b]){
+    assert.equal(actor.pos.y,Number(getSurfaceHeight(r.surface,actor.pos.x,actor.pos.z).toFixed(4)));
+    assert.ok(getWaterRadius(r.surface,actor.pos.x,actor.pos.z)>1);
+  }
 });

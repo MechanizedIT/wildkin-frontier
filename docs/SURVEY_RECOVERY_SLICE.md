@@ -42,6 +42,10 @@ Replace only `gate_section_1_to_2`: fallen alien growth across the existing rais
 
 The current gate is a nonblocking arch. Closed/open visuals and physical blockage must share the saved repaired state; the transfer trigger belongs beyond the cleared approach. Check static-world refresh so no orphan collider remains. Other gate families retain current behavior until individually redesigned.
 
+**Current implementation choice:** two complete cuts persist as markers in the existing `completedPoiIds` collection; each final hit commits before yielding/removing its bark chips. Partial hits still use ordinary resource lifetime. The central loose segment remains visible and solid until the atomic brace payment. Ordinary retained-root/middle/brace props share exact source geometry, with a narrow existing-physics-owner object activation mask; section changes must not resurrect the removed middle. The small travel beacon is separate from the wood, and the brace action follows the actual retained root. Author-edited requirements supply both displayed cost and charge. No new save schema, separate blueprint ledger or second physics owner.
+
+The two-state generated targets held7.4/7.5 because their cut marks and opened ends disagreed. Single CLOSED V3 passes target fitness8.0; OPEN must be derived by removing only the definedX±1.65segment from the same permanent meshes, with a3m clear corridor and supported braces. Model/native admission remains open.
+
 ## Ownership and art boundaries
 
 - Camp layout/placement: focused `src/base/campLayout.js`, basePlacement/baseCatalog/baseSystem; explicit sector/perimeter/reservation data, Camp-only runtime and Author suppression.

@@ -4,6 +4,8 @@
 
 import { describeBoxCollider, describeResourceCollider, describeCreatureCollider, describeVisualAssetCollider } from "../world/colliderDescriptor.js";
 import { enumerateRegionAuthorObjects } from "./authorObjectCollections.js";
+// Retired course definitions remain available only for legacy draft import and
+// fixture resolution. The current Author palette does not offer their creation.
 import { resolveJumpPadVisual, resolveParkourMarkerVisual, resolvePortalGateVisual } from "../world/playerFacingVisuals.js";
 
 // Helpers

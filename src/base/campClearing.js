@@ -10,7 +10,7 @@ export function createCampClearing({ progress, resources, isCamp, initialHidden 
     const next = ids.join('|');
     if (next === signature) return;
     signature = next;
-    resources.setRemovedResourceIds(ids);
+    resources.setRemovedResourceIds(ids, 'camp');
   }
   sync();
   return {

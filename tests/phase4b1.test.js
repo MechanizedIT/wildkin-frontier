@@ -204,24 +204,26 @@ describe("Phase 4B.1 — Jump Pad, parkour, and loot production systems", () => 
 });
 
 describe("Phase 4B.1 — Author palette production coverage", () => {
-  it("places every new section object in the selected owner and keeps overlapping coordinates local", () => {
+  it("places active objects in the selected owner, rejects retired kinds, and keeps overlap local", () => {
     const draftApi = createAuthorDraft(WORLD_DATA);
     const placements = [
-      ["portalGate", { x: -20, y: 0, z: 20 }],
-      ["jumpPad", { x: -12, y: 0, z: 18 }],
-      ["parkourStart", { x: 10, y: 0, z: 0 }],
-      ["parkourCheckpoint", { x: 10, y: 0, z: -4 }],
-      ["killVolume", { x: 12, y: 0.6, z: -8 }],
-      ["lootChest", { x: -20, y: 0, z: 14 }],
+      ["portalGate", null, { x: -20, y: 0, z: 20 }],
+      ["prop", "box", { x: -12, y: 0, z: 18 }],
+      ["lootChest", null, { x: -20, y: 0, z: 14 }],
     ];
-    for (const [kind, pos] of placements) {
-      const result = draftApi.createObjectAtPosition(kind, null, pos, "section_1");
+    for (const [kind, subtype, pos] of placements) {
+      const result = draftApi.createObjectAtPosition(kind, subtype, pos, "section_1");
       assert.equal(result.ok, true, `${kind}: ${result.error ?? "placement failed"}`);
       const found = draftApi.findObjectById(result.id);
       assert.equal(found.regionId, "section_1");
       assert.ok(resolveAuthorType(found), `${kind} must resolve through the Author type registry`);
     }
-    const overlap = draftApi.createObjectAtPosition("jumpPad", null, { x: 0, y: 0.35, z: 0 }, "section_2");
+    for (const kind of ["jumpPad", "parkourStart", "parkourCheckpoint", "parkourEnd", "parkourCourseZone", "killVolume"]) {
+      const retired = draftApi.createObjectAtPosition(kind, null, { x: 10, y: 0, z: 0 }, "section_1");
+      assert.equal(retired.ok, false, `${kind} must not be a usable Author action`);
+      assert.match(retired.error ?? "", new RegExp(`unknown kind ${kind}`));
+    }
+    const overlap = draftApi.createObjectAtPosition("prop", "box", { x: 0, y: 0.35, z: 0 }, "section_2");
     assert.equal(overlap.ok, true, overlap.error);
     const moved = draftApi.updateTransform(overlap.id, { pos: { x: 0, y: 0.35, z: 0.1 } });
     assert.equal(moved.ok, true, moved.error);

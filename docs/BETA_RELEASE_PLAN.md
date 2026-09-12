@@ -4,7 +4,7 @@
 
 The September 9, 2026 owner request authorizes this campaign and replaces the prior framework-only slice. The engine remains vanilla Three.js + Rapier: it already supplies tested movement, collision, section isolation, harvesting, combat, extraction/banking and a capable primitive asset/level workshop. An engine migration would discard useful work without resolving the main deficits: content, progression, companion play, presentation and onboarding.
 
-**Current September 11 overnight checkpoint:** v3 finite inventory/resume, phone controls and quiet Journal observation are integrated. One defended Camp yard clears/expands persistently; a Forest Edge Survey wreck provides a cartridge fitted at a Salvage bench for16→20pack slots. Existing physical24-slot storage and saved quantities remain intact.888tests/world/campaign/build/ZIP pass at43.44MB unpacked/20.37MB ZIP. Bounded native and independent review cover these additions; CURRENT_SLICE/BUILD_LOG own exact proof. Whole-campaign pacing, owner acceptance and physical-phone performance remain open.
+**September 12 jump/uplands prototype checkpoint:** ordinary Jump (Space/touch) and R Dodge replace active jump pads and checkpoint courses throughout Play and Author. Former reward/save IDs remain ordinary terrain caches. Forest Edge is now 140×90m with shared polygon terrain, connected 3/6/8m shelves and a separate descent. The five mistakenly removed gameplay props are restored, including both renewable iron veins and the original Thornprowler. All 934 tests, world/campaign checks, build/validation and ZIP pass: 43.69MB unpacked / 20.42MB ZIP; index SHA256 `3700c1acc91f951e0d5dc71a1901155f39672f606e385b13622970a8a8c1c30d`. Portable native Start → Survey route → 3m shelf → actual iron harvest/collection → Jump/landing → reload Continue retaining iron passes, with no browser errors or external/failed requests. This is a functional prototype checkpoint, not visual admission: Verdant V4 holds 7.3; Rootfall V4 holds 7.1 and its original-target modeling decision remains pending with Chris. Other overnight work continues.
 
 **Historical September9 initial audit:** clean main and 573 passing tests, with Camp/two proof sections, four placed resources, two creatures, two chests, one upgrade and a parkour proof. The absent campaign and shell drift described by that audit have since been addressed; these are not current missing-feature claims.
 
@@ -12,7 +12,7 @@ The September 9, 2026 owner request authorizes this campaign and replaces the pr
 
 This is a finite handcrafted adventure with repeatable expeditions, aiming at roughly 60–90 minutes for an initial campaign (a tuning target, not measured playtime). Ordinary runs should produce a worthwhile decision within 5–10 minutes. Long-term additions from older documents remain potential expansions; this build must finish a coherent arc before increasing breadth.
 
-1. **Verdant Verge:** harvesting, deliberate combat, extract/bank, discover a Waypoint, first Mossling bond, optional parkour and a revisit cache.
+1. **Verdant Verge:** harvesting, deliberate combat, extract/bank, discover a Waypoint, first Mossling bond, natural high-ground exploration and revisit caches.
 2. **Shatterfen:** blue wetland/crystal ecology, Tidefin, new materials and routes.
 3. **Emberfall:** warm ruins, territorial Emberhorn, stronger combat/tool preparation.
 4. **Windscar:** exposed stone and luminous vegetation, Skydancer, traversal/reward challenge.

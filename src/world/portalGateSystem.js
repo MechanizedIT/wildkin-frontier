@@ -78,6 +78,7 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
   const getCargo = opts.getCargo ?? (() => ({}));
   const getCarriedXp = opts.getCarriedXp ?? (() => 0);
   const onTravel = opts.onTravel ?? (() => false);
+  const checkAccess = opts.checkAccess ?? (() => ({ok:true}));
   const campGateId = worldRegistry.getFrontierGateId?.();
 
   function isGateActive(gate) {
@@ -101,8 +102,10 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
       } else if (isCampLink(gate)) {
         best = { id: gate.id, type: "portalGate", action: "return-to-camp", label: "RETURN TO CAMP", distance };
       } else if (isGateActive(gate)) {
+        if (!checkAccess(gate,'travel').ok) continue;
         best = { id: gate.id, type: "portalGate", action: "travel", label: "TRAVEL", detail: gate.displayName ?? gate.targetSectionId, distance };
       } else {
+        if (opts.hideRepairInteraction?.(gate)) continue;
         const cargo = getCargo() ?? {};
         const requirementView = getPortalRequirementViewModel({ requirements: gate.requirements, bankedXp: getBankedXp(), carriedXp: getCarriedXp(), cargo });
         const resourceDetail = requirementView.resources
@@ -123,7 +126,10 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
     if (isCampLink(gate)) return { ok: true, action: "return-to-camp", gate };
     if (gate.role === "arrival" && gate.travelEnabled === false) return { ok: false, reason: "arrival-only" };
     if (gate.id === campGateId) return { ok: true, action: "camp-start", gate };
-    if (isGateActive(gate)) return { ok: !!onTravel(gate), action: "travel", gate };
+    if (isGateActive(gate)) {
+      const access=checkAccess(gate,'travel');if(!access.ok)return access;
+      return { ok: !!onTravel(gate), action: "travel", gate };
+    }
     return repair(portalId);
   }
 
@@ -131,6 +137,7 @@ export function createPortalGateSystem(worldRegistry, opts = {}) {
     const gate = worldRegistry.getPortalGateById?.(portalId);
     if (!gate || gate.sectionId !== getActiveSectionId()) return { ok: false, reason: "inactive-or-missing" };
     if (isGateActive(gate)) return { ok: false, reason: "already-active", gate };
+    const access=checkAccess(gate,'repair');if(!access.ok)return access;
     const cargo = getCargo();
     const status = getPortalRequirementStatus({ requirements: gate.requirements, playerLevel: getPlayerLevel(), cargo });
     if (!status.ok) return { ok: false, reason: status.levelMet ? "insufficient-resources" : "insufficient-level", status };

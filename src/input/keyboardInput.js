@@ -18,7 +18,7 @@ export function shouldHandleGameplayKeyboardEvent(event, enabled = true, activeE
 export function createKeyboardInput(moveCfg, appElement = null) {
   let enabled = true;
   function clearState() {
-    pressed.clear(); spacePressed = false; spaceConsumed = false; attackPending = false; attackConsumed = false;
+    pressed.clear(); spacePressed = false; spaceConsumed = false; jumpPending = false; dodgeKeyPending = false; dodgeKeyConsumed = false; attackPending = false; attackConsumed = false;
     mouseAttackPending = false; mouseDown = false; isFDown = false; externalAttackHeld = false; externalDodgePending = false;
   }
   function setEnabled(v) {
@@ -29,6 +29,9 @@ export function createKeyboardInput(moveCfg, appElement = null) {
   const pressed = new Set();
   let spacePressed = false;
   let spaceConsumed = false;
+  let jumpPending = false;
+  let dodgeKeyPending = false;
+  let dodgeKeyConsumed = false;
   let attackPending = false;
   let attackConsumed = false;
   let mouseAttackPending = false;
@@ -46,6 +49,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     }
   }
   function requestDodge() { externalDodgePending = true; }
+  function requestJump() { jumpPending = true; }
   function setFieldToolHeld(value) { externalAttackHeld = !!value; }
 
   function onKeyDown(e) {
@@ -59,12 +63,19 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     }
     // Phase 1.1: C is primary sneak. X added as ergonomic alternative next to WASD (Alt would conflict with browser, see note).
     // Alt handling: we capture it but avoid using it as primary due to browser shortcuts (Alt+D, Alt+F, Alt+Space).
-    if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright", "shift", "c", "x", "alt", " "].includes(k) || e.code === "Space" || e.altKey) {
-      if (k === " " || k.startsWith("arrow") || k === "alt") e.preventDefault();
+    if (["w", "a", "s", "d", "r", "arrowup", "arrowdown", "arrowleft", "arrowright", "shift", "c", "x", "alt", " "].includes(k) || e.code === "Space" || e.altKey) {
+      if (k === " " || k === "r" || k.startsWith("arrow") || k === "alt") e.preventDefault();
     }
     pressed.add(k);
     if (e.altKey) pressed.add("alt");
-    if (e.code === "Space" || k === " ") spacePressed = true;
+    if (e.code === "Space" || k === " ") {
+      spacePressed = true;
+      if (!spaceConsumed) jumpPending = true;
+    }
+    if (k === "r" && !dodgeKeyConsumed) {
+      dodgeKeyPending = true;
+      dodgeKeyConsumed = true;
+    }
   }
   function onKeyUp(e) {
     const k = e.key.toLowerCase();
@@ -73,6 +84,9 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     if (e.code === "Space" || k === " ") {
       spacePressed = false;
       spaceConsumed = false;
+    }
+    if (k === "r") {
+      dodgeKeyConsumed = false;
     }
     if (k === "f") {
       attackPending = false;
@@ -116,7 +130,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
   }
 
   function getIntent() {
-    if (!enabled) return { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, dodgeX: 0, dodgeY: 0, attackRequested: false, attackHeld: false };
+    if (!enabled) return { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", jumpRequested: false, dodgeRequested: false, dodgeX: 0, dodgeY: 0, attackRequested: false, attackHeld: false };
     let x = 0;
     let y = 0;
     if (pressed.has("w") || pressed.has("arrowup")) y -= 1;
@@ -143,9 +157,8 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     }
 
     let dodgeRequested = false;
-    if ((spacePressed && !spaceConsumed && len >= 0) || externalDodgePending) {
+    if (dodgeKeyPending || externalDodgePending) {
       dodgeRequested = true;
-      spaceConsumed = true;
     }
 
     const dodgeX = nx;
@@ -166,6 +179,7 @@ export function createKeyboardInput(moveCfg, appElement = null) {
       moveY: ny,
       moveMagnitude: mag,
       movementBand: band,
+      jumpRequested: jumpPending,
       dodgeRequested,
       dodgeX,
       dodgeY,
@@ -175,10 +189,13 @@ export function createKeyboardInput(moveCfg, appElement = null) {
   }
 
   function consumeDodge() {
-    if (spacePressed && spaceConsumed) {
-      // keep consumed until release
-    }
+    dodgeKeyPending = false;
     externalDodgePending = false;
+  }
+
+  function consumeJump() {
+    jumpPending = false;
+    if (spacePressed) spaceConsumed = true;
   }
 
   function consumeAttack() {
@@ -209,5 +226,5 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     }
   }
 
-  return { getIntent, consumeDodge, consumeAttack, resetDodge, triggerAttack: requestAttack, requestDodge, setFieldToolHeld, isAttackDown: () => isFDown || mouseDown || externalAttackHeld, destroy, _pressed: pressed, setEnabled, isEnabled, get _attackPending() { return attackPending || mouseAttackPending; } };
+  return { getIntent, consumeJump, consumeDodge, consumeAttack, resetDodge, triggerAttack: requestAttack, requestJump, requestDodge, setFieldToolHeld, isAttackDown: () => isFDown || mouseDown || externalAttackHeld, destroy, _pressed: pressed, setEnabled, isEnabled, get _attackPending() { return attackPending || mouseAttackPending; } };
 }

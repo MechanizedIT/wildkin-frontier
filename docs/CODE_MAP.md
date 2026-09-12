@@ -7,7 +7,7 @@ Use this lookup after [SESSION_START.md](SESSION_START.md). Paths below were che
 | Area / owner | Entry points to inspect | Focused tests under `tests/` |
 | --- | --- | --- |
 | Boot, composition, single frame/fixed update | `src/boot.js`, `src/main.js`; beta wiring `src/game/createBetaGame.js` | `betaRuntime.test.js`, `interactionPriority.test.js` |
-| Player movement and feel | `src/player/playerController.js`, `src/game/config.js`, `src/movement/` | `movementBands.test.js`, `airControl.test.js`, `facingFreeze.test.js` |
+| Player movement and ordinary jump | `src/player/playerController.js`, `src/game/config.js`, `src/movement/`; input edge consumed by main after a movement step | `ordinaryJump.test.js`, `movementBands.test.js`, `airControl.test.js`, `facingFreeze.test.js` |
 | Input and orbit camera | `src/input/keyboardInput.js`, `touchMovement.js`, `inputController.js`, `gameCameraOrbit.js`; `src/camera/cameraFollow.js` | `landscapeCameraInput.test.js`, `landscapeInputAdapters.test.js` |
 | Browser fullscreen / viewport control | `src/ui/fullscreenControl.js`; visual viewport wiring in `src/main.js`, shell placement in `betaShell.js` | Native multitouch/fullscreen receipt under `.dream-loop/overnight2-phone/` |
 | Rapier world, KCC and collision | `src/physics/createPhysicsWorld.js`, `createCharacterPhysics.js`; `src/world/collision.js`, `colliderDescriptor.js`, `convexCollider.js` | `rapierPhase12.test.js`, `collision.test.js`, `convexPropCollider.test.js` |
@@ -26,9 +26,11 @@ Use this lookup after [SESSION_START.md](SESSION_START.md). Paths below were che
 | Quiet observation / persistent field notes | `src/companions/creatureObservation.js`, `observationCatalog.js`; progress in `src/save/frontierProgress.js`, Journal in `src/ui/betaShell.js`; shared rays `src/creatures/sightRay.js` | `creatureObservation.test.js`, `companionObservationIntegration.test.js`, `observationSight.test.js` |
 | Combat, projectile, guardian | `src/combat/playerCombat.js`, `projectileSystem.js`, `combatConfig.js`, `guardianEncounter.js` | `combatPhase3.test.js`, `betaGuardian.test.js` |
 | Waypoint return, gate/repair, loot | `src/world/frontierAnchorSystem.js`, `portalGateSystem.js`, `lootSystem.js`; `src/presentation/cacheMechanisms.js`, `observatoryMechanisms.js` | `waypointReturn.test.js`, `lootSolidContract.test.js`, `cacheMechanisms.test.js`, `observatoryMechanisms.test.js` |
+| Fallen-root cut, brace and open lane | `src/world/rootfallPassage.js`, `rootfallConfig.js`; `src/presentation/rootfallPresentation.js`; saved markers/gate in frontierProgress; composition `tools/compose-rootfall-passage.mjs` | `rootfallPassage.test.js`, `rootfallComposition.test.js`, `rootfallPresentation.test.js`, `rootfallStateContracts.test.js` |
+| Ordinary fatal volumes | `src/world/worldHazardSystem.js`, existing `hazardVisual.js`; replaces active course protection | `worldHazardSystem.test.js`; historic course fixture tests do not imply active gameplay |
 | Campaign/skills/objectives | `src/progression/campaignProgress.js`, `skillCatalog.js`, `upgradeCatalog.js`; beta shell wiring in `createBetaGame.js` | `betaProgression.test.js`, `sunlitProgression.test.js`, `betaCampaignReadiness.test.js` |
 | HUD, Journal, results and world actions | `src/ui/betaShell.js`, `runInventoryHud.js`, `runResultCard.js`, `worldInteractionAnchor.js`, `contextualInteraction.js`; `styles/beta.css` | `worldInteractionAnchor.test.js`, `runResultCompanions.test.js`, `starterGuidance.test.js` |
-| Terrain, boundary, scenery and fade | `src/world/terrainSurfaceModel.js`, `sectionRuntime.js`, `staticWorldBuilder.js`, `staticPropBatches.js`; `src/presentation/naturalBoundary.js`, `playerOcclusion.js` | `terrainRuntime.test.js`, `naturalBoundary.test.js`, `playerOcclusion.test.js`, `staticPropBatches.test.js` |
+| Terrain, polygon shelves, graded routes, boundary and fade | `src/world/terrainSurfaceModel.js`, `sectionRuntime.js`, `staticWorldBuilder.js`, `staticPropBatches.js`; `src/presentation/authoredTerrain.js`, `naturalBoundary.js`, `playerOcclusion.js` | `terrainGrading.test.js`, `verdantUplands.test.js`, `terrainRuntime.test.js`, `landscapeAuthoring.test.js`, `naturalBoundary.test.js`, `playerOcclusion.test.js` |
 | GLB cache/instances/animation | `src/assets/modelAssetRuntime.js`; Explorer `src/player/externalPlayerModel.js`; Moss calibration `src/creatures/mosslingMotion.js` | `externalModelRuntime.test.js`, `externalPlayerModel.test.js`, `mosslingMotion.test.js` |
 | Author draft, preview, schema/export | `src/author/authorMode.js`, `authorDraft.js`, `authorPreview.js`, `authorTypeRegistry.js`, `landscapeEditor.js`; `src/world/worldValidator.js` | `landscapeAuthoring.test.js`, `meshRecipe.test.js`, `convexPropCollider.test.js` |
 
@@ -62,3 +64,5 @@ For repeatable whole-area maps and generated-model galleries, use `tools/review/
 | Existing native harness entry points | `tools/playtest-beta.mjs`, `playtest-beta-author.mjs`, `test-beta-package.mjs`; choose a bounded relevant scenario, not all harnesses |
 
 `index.html` and `vendor/` are the offline runtime boundary. `dist/submission/` is generated packaging output, not production source. `package.json` is command authority. Historical hackathon/phase docs and the long `BUILD_LOG.md` are lookup archives, not default onboarding or current acceptance evidence.
+
+- Dense woodland/solid trunks: tools/register-ecology-assets.mjs, tools/compose-verdant-uplands.mjs; tests/canopyCollision.test.js. Descriptors continue through colliderDescriptor and existing static-world/physics owners.

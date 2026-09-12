@@ -13,7 +13,7 @@ import {
   tagVisualRoot,
 } from "./visualFactory.js";
 import { describeVisualAssetCollider, getColliderCenter } from "./colliderDescriptor.js";
-import { resolveJumpPadVisual, resolveParkourMarkerVisual, resolvePortalGateVisual } from "./playerFacingVisuals.js";
+import { resolvePortalGateVisual } from "./playerFacingVisuals.js";
 import { applyTerrainSurface } from "../presentation/terrainSurface.js";
 import { createAuthoredTerrain } from "../presentation/authoredTerrain.js";
 import { createNaturalBoundary } from "../presentation/naturalBoundary.js";
@@ -498,8 +498,9 @@ export function createStaticWorld(worldData) {
       });
     }
 
-    // Entry Points and course bounds remain editor-only. Gates, pads, and
-    // Parkour markers use the same player-facing resolvers as Author.
+    // Entry points and retired course records remain data-only for legacy
+    // import/fixture compatibility. Gates are the only section markers active
+    // in the current player-facing world.
     for (const gate of region.portalGates ?? []) {
       const resolved = resolvePortalGateVisual(gate, gate.state, worldData.visualAssets ?? []);
       const root = addFactoryVisual({
@@ -512,31 +513,6 @@ export function createStaticWorld(worldData) {
         metadata: { portalGateId: gate.id, portalState: resolved.effectiveState, visibleInPlay: true, collisionEnabled: false },
       });
       portalVisualRoots.set(gate.id, root);
-    }
-    for (const pad of region.jumpPads ?? []) {
-      const resolved = resolveJumpPadVisual(pad, worldData.visualAssets ?? []);
-      addFactoryVisual({
-        id: pad.id,
-        visualRef: resolved.visualRef,
-        size: resolved.size,
-        position: pad.pos,
-        rotationY: pad.rotY ?? 0,
-        options: { visualAssets: worldData.visualAssets ?? [], uniformScale: pad.uniformScale ?? 1, sizeMode: resolved.sizeMode, triggerRadius: pad.triggerRadius, powerPreset: pad.powerPreset },
-        metadata: { jumpPadId: pad.id, visibleInPlay: true, collisionEnabled: false },
-      });
-    }
-    for (const [collection, kind] of [[region.parkourStarts, "start"], [region.parkourCheckpoints, "checkpoint"], [region.parkourEnds, "end"]]) {
-      for (const marker of collection ?? []) {
-        const resolved = resolveParkourMarkerVisual(marker, kind, worldData.visualAssets ?? []);
-        addFactoryVisual({
-          id: marker.id,
-          visualRef: resolved.visualRef,
-          position: marker.pos,
-          rotationY: marker.rotY ?? 0,
-          options: { visualAssets: worldData.visualAssets ?? [], uniformScale: marker.uniformScale ?? 1, sizeMode: resolved.sizeMode, triggerRadius: marker.triggerRadius, markerKind: kind },
-          metadata: { parkourMarkerId: marker.id, parkourMarkerKind: kind, courseId: marker.courseId, visibleInPlay: true, collisionEnabled: false },
-        });
-      }
     }
     for (const chest of region.lootChests ?? []) {
       const root = addFactoryVisual({
@@ -552,16 +528,6 @@ export function createStaticWorld(worldData) {
       addAssetObstacle(chest.id, describeVisualAssetCollider({ collision: asset?.collision,
         uniformScale: chest.uniformScale ?? 1, position: chest.pos, rotationY: chest.rotY ?? 0,
         enabled: chest.collisionEnabled === true }), { visualAssetId: chest.visualAssetId });
-    }
-    for (const hazard of region.killVolumes ?? []) {
-      addFactoryVisual({
-        id: hazard.id,
-        visualId: "hazard/thornbed",
-        size: hazard.size,
-        position: hazard.pos,
-        rotationY: hazard.rotY ?? 0,
-        metadata: { hazardId: hazard.id, courseId: hazard.courseId, visibleInPlay: true, collisionEnabled: false },
-      });
     }
   }
 

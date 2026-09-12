@@ -30,6 +30,7 @@ export function createRuntimeResourcePlacements(resources = []) {
 
 export function createResourceSystem(scene, physicsWorld, placements, { hasPendingYield = () => false } = {}) {
   const nodes = [];
+  const removedResourceSources = new Map();
   let timeAcc = 0;
   let activeRegionSet = null; // null = all active (backwards compat for tests without region manager)
   let regionInactiveMap = new Map(); // node index -> bool whether collider removed due to region
@@ -110,8 +111,16 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
   // Persistence owns the IDs; this owner only masks their runtime lifecycle.
   // Keep harvest state and already spawned yields intact so Author/Play can
   // switch masks without creating a second resource or inventory authority.
-  function setRemovedResourceIds(ids) {
-    const removedIds = new Set(ids ?? []);
+  function setRemovedResourceIds(ids, owner = 'default') {
+    const contribution = new Set(ids ?? []);
+    if (contribution.size) removedResourceSources.set(owner, contribution);
+    else removedResourceSources.delete(owner);
+    // Each progression owner replaces only its own contribution, including
+    // when Author temporarily clears it. Runtime always applies the union.
+    const removedIds = new Set();
+    for (const sourceIds of removedResourceSources.values()) {
+      for (const id of sourceIds) removedIds.add(id);
+    }
     let physicsChanged = false;
     for (const n of nodes) {
       const removed = removedIds.has(n.id);

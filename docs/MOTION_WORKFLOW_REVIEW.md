@@ -2,6 +2,8 @@
 
 September 11 evening follow-up: [MOTION_REFERENCE_PLAN.md](MOTION_REFERENCE_PLAN.md) records how the current clips were made, generated-video/pose-board limits, free tools and a pinned Mesh2Motion compatibility audit. The Fox preset is not a drop-in replacement for the fitted Mossling rig. Continue normal-speed independent review before another rig experiment; no video model was installed or motion replaced by this audit.
 
+**September12 Tidefin follow-up:** the preserved exact V3 export now passes an independent bounded Attack/Hurt pose-frame review8.0. All ten retained frames and both source/recovery GLB hashes were checked. Attack preparation/release separates clearly; Hurt remains a held recoil whose distinction from attack requires temporal review. No new rig/render or runtime replacement. Normal-speed continuous motion,1x/.7scale readability, event timing and native admission remain pending. See [the versioned review](../art/source/tidefin-candidate-v3/independent-action-review.md); source hash `5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f` is unchanged.
+
 ## September 11 — current Mossling V3 provisional integration
 
 The local game now references `assets/models/mossling-v3/model.glb`, exact SHA256 `ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9`. This is a **provisional motion-review candidate, not final motion acceptance**. Its editable source, packed original texture, fitted rig, five clips and concise provenance are retained in `art/source/mossling-v3/`; raw studies remain intact.

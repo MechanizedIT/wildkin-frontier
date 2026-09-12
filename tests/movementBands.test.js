@@ -108,6 +108,15 @@ describe("mergeIntentsPure", () => {
     assert.equal(merged.moveMagnitude, kb.moveMagnitude);
     assert.equal(merged.dodgeX, 1);
   });
+  it("jump combines with touch movement without changing dodge or attack ownership", () => {
+    const touch = { moveX: 1, moveY: 0, moveMagnitude: 0.8, movementBand: "run", jumpRequested: false, dodgeRequested: false, dodgeX: 0, dodgeY: 0, attackRequested: false, attackHeld: false };
+    const kb = { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", jumpRequested: true, dodgeRequested: true, dodgeX: 1, dodgeY: 0, attackRequested: true, attackHeld: false };
+    const merged = mergeIntentsPure(touch, kb);
+    assert.equal(merged.moveMagnitude, touch.moveMagnitude);
+    assert.equal(merged.jumpRequested, true);
+    assert.equal(merged.dodgeRequested, true);
+    assert.equal(merged.attackRequested, true);
+  });
   it("no touch returns keyboard", () => {
     const touch = { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, dodgeX: 0, dodgeY: 0 };
     const kb = { moveX: 0.5, moveY: 0.5, moveMagnitude: 0.5, movementBand: "walk", dodgeRequested: false, dodgeX: 0, dodgeY: 0 };

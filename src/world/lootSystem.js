@@ -17,7 +17,6 @@ export function createLootSystem(worldRegistry, opts = {}) {
   const frontierProgress = opts.frontierProgress;
   const getActiveSectionId = opts.getActiveSectionId ?? (() => null);
   const grantRewards = opts.grantRewards ?? (() => {});
-  const onCourseReward = opts.onCourseReward ?? (() => {});
   const now = opts.now ?? (() => Date.now());
   const checkAccess = opts.checkAccess ?? (() => ({ ok: true }));
   const transientChestIds = new Set(opts.transientChestIds ?? []);
@@ -70,7 +69,6 @@ export function createLootSystem(worldRegistry, opts = {}) {
     if (transientChestIds.has(chest.id) && !claim.partial) transientClaims.add(chest.id);
     const rewards = claim.rewards;
     grantRewards({ ...rewards, partial: !!claim.partial }, chest);
-    if (chest.courseId && !claim.partial) onCourseReward(chest.courseId, chest);
     return { ok: true, rewards, chest, partial:!!claim.partial, readyAt: claim.readyAt ?? null };
   }
 

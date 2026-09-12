@@ -8,6 +8,7 @@ const interactionIcon = (info) => {
   if (["portalGate", "gate", "majorWaypoint", "extractionBeacon"].includes(info?.type)) return "map";
   if (info?.type === "lootChest") return "backpack";
   if (info?.type === 'campYard') return 'shield';
+  if (info?.type === 'rootfall') return 'axe';
   if (["campSanctuary", "companion", "bond"].includes(info?.type)) return "paw";
   return "axe";
 };
@@ -88,7 +89,7 @@ export function createContextualInteraction(opts = {}) {
       const actionLabel = info.label.split(' — ')[0];
       label.textContent = info.type === 'lootChest' ? ({ 'CHEST EMPTY': 'EMPTY', 'CHEST REFILLING': 'REFILLING' }[actionLabel] ?? actionLabel) : actionLabel;
       buttonEl.append(icon, label);
-      if (info.type === 'campYard' && info.cost) {
+      if ((info.type === 'campYard'||info.type==='rootfall') && info.cost) {
         const costs=document.createElement('small');costs.className='contextual-action__cost';
         for(const [id,count] of Object.entries(info.cost)) {
           const item=document.createElement('span');

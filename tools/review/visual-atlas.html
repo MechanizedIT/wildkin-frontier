@@ -41,7 +41,7 @@ atlas.map=async(id,expanded=false)=>{
  defenses.setVisible(id==='camp');defenses.sync(base);
  const b=r.bounds,width=b.maxX-b.minX,depth=b.maxZ-b.minZ,span=Math.max(width,depth)+8,cx=(b.minX+b.maxX)/2,cz=(b.minZ+b.maxZ)/2;
  const frame={minX:cx-span/2,maxX:cx+span/2,minZ:cz-span/2,maxZ:cz+span/2};
- camera.left=-span/2;camera.right=span/2;camera.top=span/2;camera.bottom=-span/2;camera.position.set(cx,250,cz);camera.lookAt(cx,0,cz);camera.updateProjectionMatrix();scene.updateMatrixWorld(true);renderer.render(scene,camera);
+ camera.up.set(0,0,-1);camera.left=-span/2;camera.right=span/2;camera.top=span/2;camera.bottom=-span/2;camera.position.set(cx,250,cz);camera.lookAt(cx,0,cz);camera.updateProjectionMatrix();scene.updateMatrixWorld(true);renderer.render(scene,camera);
  const points=anchors(r).map(a=>({...a,pixel:{x:(a.world.x-frame.minX)/span*2048,y:(a.world.z-frame.minZ)/span*2048}}));
  const report={id,name:r.displayName,bounds:frame,authoredBounds:b,north:'image top = world -Z; right = +X',imageSize:{width:2048,height:2048},metresPerPixel:span/2048,worldToImage:{u:'(x-minX)/(maxX-minX)*2048',v:'(z-minZ)/(maxZ-minZ)*2048'},snapshot:id==='camp'?(expanded?'Expanded yard; all three bundles cleared; no player-built structures':'Starter Camp; three bundles present; no player-built structures'):'Authored initial layout, ready resources and creatures at authored spawn anchors; no live/save state',anchors:points,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles}};
  atlas.lastMap=report;return report;
@@ -52,6 +52,20 @@ atlas.planning=()=>{
  for(const a of r.anchors){const{x,y}=a.pixel;if(a.type==='object')continue;c.beginPath();c.arc(x,y,a.type==='resource'?5:9,0,Math.PI*2);c.fillStyle=colors[a.type];c.fill();c.lineWidth=2;c.strokeStyle='#173b32';c.stroke();
   if(['gate','entry','chest','waypoint','beacon'].includes(a.type)){c.font='bold 18px Arial';c.lineWidth=4;c.strokeText(a.name,x+13,y-9);c.fillStyle='#ffffff';c.fillText(a.name,x+13,y-9);}}
  c.fillStyle='rgba(14,36,32,.9)';c.fillRect(24,24,1200,122);c.fillStyle='#fff';c.font='bold 34px Arial';c.fillText(`${r.name}  ·  N ↑ (−Z)`,48,68);c.font='21px Arial';c.fillText('AUTHORED ANCHORS · yellow resources · pink creature spawns · cyan gates',48,103);c.fillText('White entry · gold chest · violet waypoint · mint beacon — not live positions',48,132);
+};
+// Companion to the measurement map: an oblique overview reveals real shelf
+// faces. It uses the same scene and sunlight, with no height exaggeration or
+// additional dressing. Do not use its projection for the planning overlay.
+atlas.overview=async(id,{pitch=58,width=1564,height=1006}={})=>{
+ const base=await atlas.map(id);overlay.style.display='none';renderer.setSize(width,height);
+ const b=registry.getSectionById(id).bounds,cx=(b.minX+b.maxX)/2,cz=(b.minZ+b.maxZ)/2;
+ const radians=THREE.MathUtils.degToRad(pitch),aspect=width/height;
+ const halfWidth=(b.maxX-b.minX+8)/2;
+ camera.up.set(0,1,0);camera.left=-halfWidth;camera.right=halfWidth;
+ camera.top=halfWidth/aspect;camera.bottom=-halfWidth/aspect;
+ camera.position.set(cx,250*Math.sin(radians),cz+250*Math.cos(radians));
+ camera.lookAt(cx,2,cz);camera.updateProjectionMatrix();scene.updateMatrixWorld(true);renderer.render(scene,camera);
+ return{...base,view:'Oblique overview; real terrain heights, no exaggeration; not a metric planning map',pitch,imageSize:{width,height},camera:{position:camera.position.toArray(),target:[cx,2,cz]},render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles}};
 };
 const modelScene=new THREE.Scene();modelScene.background=new THREE.Color('#d9ded2');modelScene.add(new THREE.HemisphereLight(0xffffff,0x70765d,2));const light=new THREE.DirectionalLight(0xfff5df,2.1);light.position.set(-5,9,6);modelScene.add(light);
 const modelRoot=new THREE.Group();modelScene.add(modelRoot);const modelCamera=new THREE.OrthographicCamera(-1,1,1,-1,.01,1000);

@@ -21,6 +21,8 @@ import { createCacheMechanisms } from '../presentation/cacheMechanisms.js';
 import { createObservatoryMechanisms } from '../presentation/observatoryMechanisms.js';
 import { createPhysicalInventory } from '../inventory/physicalInventory.js';
 import { FIELD_PACK_CARTRIDGE_ID } from '../base/fieldPackConfig.js';
+import { createRootfallPassage } from '../world/rootfallPassage.js';
+import { createRootfallPresentation } from '../presentation/rootfallPresentation.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -45,6 +47,9 @@ export function createBetaGame(deps) {
   const isCamp = () => session.isCamp();
   const campClearing = createCampClearing({progress,resources:deps.resourceSystem,isCamp,initialHidden:authorEnabled,notify:toast});
   const getSectionId = () => deps.getSectionId();
+  const rootfall=createRootfallPassage({registry,progress,resources:deps.resourceSystem,getSectionId,getPlayerPosition:()=>playerController.getState().pos,repairGate:deps.repairPortalGate,notify:toast,initialHidden:authorEnabled});
+  const rootfallPresentation=createRootfallPresentation({scene,registry,physicsWorld:deps.physicsWorld,onVisualAdded:playerOcclusion.register,onVisualRemoving:playerOcclusion.unregister});
+  rootfallPresentation.update(rootfall.getState());
   const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled,onVisualAdded:playerOcclusion.register,onVisualRemoving:playerOcclusion.unregister});
   const physicalInventory = createPhysicalInventory({app,progress,registry,getPlayerState:()=>playerController.getState(),isCamp,canOpen:()=>!authorEnabled&&!deps.isOtherBlocking()&&!companions.isBlocking()&&!base.isBlocking(),onBlockingChanged,onChanged:()=>{pickupSystem.resetInventory();shell?.update();},onOpenJournal:()=>shell?.open('journal')});
   const equipment = createEquipmentSystem({
@@ -120,7 +125,7 @@ export function createBetaGame(deps) {
     }
     // These are deliberately fire-and-forget input bridges. They must not
     // create a shell result/toast or force a HUD rerender while held.
-    if (type === "fieldToolStart" || type === "fieldToolEnd" || type === "dodge") {
+    if (type === "fieldToolStart" || type === "fieldToolEnd" || type === "dodge" || type === "jump") {
       onGameplayAction?.(type);
       return;
     }
@@ -195,7 +200,7 @@ export function createBetaGame(deps) {
   window.addEventListener("frontier:graphics-interrupted", () => { if (!isBlocking() && !deps.isOtherBlocking()) shell.open("settings"); });
   function isBlocking() { return shell.isOpen() || companions.isBlocking() || base.isBlocking() || physicalInventory.isOpen(); }
   return {
-    isBlocking, getModel, companions, shell, base, equipment, physicalInventory, refreshModifiers, refreshObjectives,
+    isBlocking, getModel, companions, shell, base, equipment, physicalInventory, rootfall, refreshModifiers, refreshObjectives,
     showWelcome: () => { if (!authorEnabled) shell.showWelcome(); },
     openWorkshop: (id) => { if(!base.openStation(id))shell.open("workshop"); },
     openSanctuary: () => shell.open('wildkin'),
@@ -209,12 +214,12 @@ export function createBetaGame(deps) {
         const sanctuary=registry.getSectionById('camp')?.props?.find(p=>p.id==='prop_camp_sanctuary');
         if(sanctuary&&Math.hypot(pos.x-sanctuary.pos.x,pos.z-sanctuary.pos.z)<2)return {type:'campSanctuary',id:sanctuary.id,label:'Wildkin'};
       }
-      return companions.getNearbyInteraction(pos);
+      return rootfall.getNearbyInteraction(pos)??companions.getNearbyInteraction(pos);
     },
     beginBond: companions.beginBond,
     canUseFieldTool: () => session.isActive() || isCamp(),
-    beforeHarvestHit: campClearing.beforeHit,
-    afterHarvestHit: campClearing.afterHit,
+    beforeHarvestHit: node=>campClearing.beforeHit(node)&&rootfall.beforeHit(node),
+    afterHarvestHit(node){campClearing.afterHit(node);rootfall.afterHit(node);},
     activateCampYard() { const result=base.onAction('expandBase');if(result?.message)toast('Camp work yard',result.message);shell.update();return result; },
     getDamage: () => progress.getModifiers().fieldToolDamageMultiplier,
     onCreatureDamaged: (creature, amount) => combatFeedback.showDamage(creature.state.pos, amount),
@@ -253,6 +258,7 @@ export function createBetaGame(deps) {
     // below only advances visual animation and DOM/presentation concerns.
     updateFixed(dt, { paused = false, authorSuppress = false } = {}) {
       campClearing.update(dt,{hidden:authorSuppress});
+      rootfallPresentation.update(rootfall.update(dt,{hidden:authorSuppress}));
       base.update(0,{hidden:authorSuppress});
       companions.updateFixed(dt, { sectionId: getSectionId(), paused: paused || isBlocking() || deps.isOtherBlocking() || document.hidden, hidden: authorSuppress });
     },
@@ -263,6 +269,7 @@ export function createBetaGame(deps) {
       // Edit mode does not run fixed simulation, but must release the saved
       // clearing mask for Author's own preview and restore it on return to Play.
       campClearing.update(0,{hidden});
+      rootfallPresentation.update(rootfall.update(0,{hidden}));
       base.update(dt,{hidden,paused,reducedMotion:settings.reducedMotion});
       combatFeedback.update(dt, { hidden: paused || hidden });
       playerOcclusion.update(dt, { hidden: paused || hidden });

@@ -34,8 +34,7 @@ import WORLD_DATA from "./world/data/world.js";
 import { createWorldRegistry } from "./world/worldRegistry.js";
 import { createSectionRuntime } from "./world/sectionRuntime.js";
 import { createPortalGateSystem } from "./world/portalGateSystem.js";
-import { createJumpPadSystem } from "./world/jumpPadSystem.js";
-import { createParkourSystem } from "./world/parkourSystem.js";
+import { createWorldHazardSystem } from "./world/worldHazardSystem.js";
 import { createLootSystem } from "./world/lootSystem.js";
 import { createExpeditionSession } from "./session/expeditionSession.js";
 import { createExpeditionPersistence } from './session/expeditionPersistence.js';
@@ -215,6 +214,9 @@ cameraFollow.snap();
 const cameraOrbit = createGameCameraOrbit(app, cameraFollow, CAMERA_CONFIG_FOLLOW);
 
 function placePlayerAtFeetTransform(feetPosition, facingYaw = 0) {
+  playerController.resetJumpState();
+  touchMovement.consumeJump?.();
+  keyboardInput.consumeJump?.();
   const position = {
     x: feetPosition.x,
     y: resolveSpawnCapsuleCenter(feetPosition.y ?? 0),
@@ -292,7 +294,6 @@ const combatSession = createCombatSession();
 
 let isDead = false; // transient death overlay flag — now replaced by result card flow but kept for tick guard
 let pendingResultSnapshot = null;
-let parkourSystem = null;
 
 const playerCombat = createPlayerCombat({
   playerMesh: player,
@@ -308,7 +309,6 @@ const playerCombat = createPlayerCombat({
   },
   onDeath: () => {
     if (expeditionSession.isResolved?.()) return;
-    if (parkourSystem?.handleFatalFailure("damage")) return;
     handleDeathFlow("combat");
   },
   scene,
@@ -531,8 +531,6 @@ function transitionThroughPortalGate(gate) {
       projectileSystem.reset();
       combatSession.reset();
       if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
-      parkourSystem?.leaveCourse();
-      jumpPadSystem?.reset();
     },
     onArrive: ({ entry }) => {
       const arrival = placePlayerAtFeetTransform(entry.pos, entry.facingYaw ?? entry.rotY ?? 0);
@@ -543,18 +541,8 @@ function transitionThroughPortalGate(gate) {
   return result.ok;
 }
 
-function handleParkourSafeFailure({ respawn }) {
-  if (!respawn?.position) return;
-  projectileSystem.reset();
-  combatSession.reset();
-  if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
-  playerCombat.reset();
-  combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
-  placePlayerAtFeetTransform(respawn.position, respawn.facingYaw ?? 0);
-}
-
 let portalGateSystem = null;
-let jumpPadSystem = null;
+let worldHazardSystem = null;
 let lootSystem = null;
 
 portalGateSystem = createPortalGateSystem(worldRegistry, {
@@ -567,33 +555,13 @@ portalGateSystem = createPortalGateSystem(worldRegistry, {
   spendCargo: (_cargo, cost) => pickupSystem.spendInventory(cost),
   refundCargo: (cost) => pickupSystem.grantInventory(cost),
   onTravel: transitionThroughPortalGate,
+  hideRepairInteraction:gate=>betaGame?.rootfall.handlesGate(gate.id),
+  checkAccess:(gate,action)=>betaGame?.rootfall.handlesGate(gate.id)?betaGame.rootfall.access(action):{ok:true},
 });
 
-jumpPadSystem = createJumpPadSystem(worldRegistry, {
+worldHazardSystem = createWorldHazardSystem(worldRegistry, {
   getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
-  launchPlayer: (launch) => playerController.launchFromJumpPad(launch),
-});
-
-parkourSystem = createParkourSystem(worldRegistry, {
-  getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
-  onSafeFailure: handleParkourSafeFailure,
-  onNormalFatal: ({ reason } = {}) => handleDeathFlow(reason ?? "fatal_hazard"),
-  onCourseStarted: ({ start }) => {
-    activationToast.pulseWorld(start.pos, 0x59f0c8);
-    activationToast.showMessage({ title: "PARKOUR START", subtitle: "Course protection active" });
-    gameAudio.playParkour?.("start");
-  },
-  onCheckpointActivated: ({ checkpoint }) => {
-    activationToast.pulseWorld(checkpoint.pos, 0x5ba7ff);
-    activationToast.showMessage({ title: "CHECKPOINT", subtitle: "Safe respawn updated" });
-    gameAudio.playParkour?.("checkpoint");
-  },
-  onCourseEnded: ({ end }) => {
-    activationToast.pulseWorld(end.pos, 0xffd45b);
-    activationToast.showMessage({ title: "COURSE COMPLETE", subtitle: "Normal expedition risk restored" });
-    gameAudio.playParkour?.("complete");
-  },
-  onCourseAbandoned: () => activationToast.showMessage({ title: "COURSE LEFT", subtitle: "Checkpoint protection cleared" }),
+  onFatal: ({ reason } = {}) => handleDeathFlow(reason ?? "fatal_hazard"),
 });
 
 lootSystem = createLootSystem(worldRegistry, {
@@ -607,7 +575,6 @@ lootSystem = createLootSystem(worldRegistry, {
     if (rewards.xp > 0) xpMoteSystem.setXp(xpMoteSystem.getXp() + rewards.xp);
     betaGame?.onLoot(rewards, chest);
   },
-  onCourseReward: (courseId) => parkourSystem.completeCourse(courseId),
 });
 
 returnToCampFlow = createReturnToCampFlow({
@@ -627,6 +594,8 @@ contextualInteraction = createContextualInteraction({
     if (isAnyBlockingModal()) return;
     if (info.type === "bond") {
       betaGame?.beginBond(info.id);
+    } else if (info.type === 'rootfall') {
+      betaGame?.rootfall.activate();
     } else if (info.type === "portalGate") {
       if (info.action === "camp-start") {
         frontierMap.openStartSelection();
@@ -755,8 +724,7 @@ function resetTransientWorldToCamp() {
   lastActiveIds = activated.activeIds;
   frontierAnchorSystem.reset();
   frontierAnchorSystem.prime(cPos);
-  jumpPadSystem?.reset();
-  parkourSystem?.reset();
+  worldHazardSystem?.reset();
   isDead = false;
   accumulator = 0;
   autoHarvestToggle.setEnabled(autoHarvestEnabled, false);
@@ -794,8 +762,7 @@ function beginExpeditionAtTransform({ sectionId, startAnchorId, feetPosition, fa
   frontierAnchorSystem.reset();
   frontierAnchorSystem.prime(sPos);
   if (suppressAnchorId) frontierAnchorSystem.suppressUntilExit(suppressAnchorId);
-  jumpPadSystem.reset();
-  parkourSystem.reset();
+  worldHazardSystem.reset();
   frontierMap.close();
   anchorPrompt.hide();
   runResultCard.hide();
@@ -986,11 +953,13 @@ betaGame = createBetaGame({
   onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
   getLootVisualRoot: (id) => playground.getLootVisualRoot(id),
   getLootAvailability: (id) => lootSystem.getAvailability(id),
+  repairPortalGate:id=>portalGateSystem.repair(id),
   onGameplayAction: (type) => {
     if (type === "fieldToolStart") { keyboardInput.triggerAttack(); keyboardInput.setFieldToolHeld(true); }
     else if (type === "equipmentCancel") { keyboardInput.setFieldToolHeld(false); keyboardInput.consumeAttack(); pendingAttackLatch = false; fieldTool.hardReset(); }
     else if (type === "fieldToolEnd") keyboardInput.setFieldToolHeld(false);
     else if (type === "dodge") keyboardInput.requestDodge();
+    else if (type === "jump") keyboardInput.requestJump();
   },
   isOtherBlocking: () => frontierMap.isOpen() || anchorPrompt.isVisible() || runResultCard.isVisible() || matterResonatorPanel.isVisible(),
   openMap: () => frontierMap.openInspect(),
@@ -1028,7 +997,7 @@ if(savedRun && !authorEnabled){
       xpMoteSystem.setXp(savedRun.xp);pickupSystem.resetInventory();
       lootSystem.restoreTransientClaims(savedRun.corePending?['chest_heartwood_core']:[]);
       frontierAnchorSystem.reset();frontierAnchorSystem.prime(position);
-      jumpPadSystem.reset();parkourSystem.reset();combatSession.reset();fieldTool.hardReset();
+      worldHazardSystem.reset();combatSession.reset();fieldTool.hardReset();
     } else resumeBlocked=true;
   } else resumeBlocked=true;
 }
@@ -1046,6 +1015,7 @@ function tick() {
   // Author edit visibility + anchor/map updates sync
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
   if (authorSuppress !== prevAuthorSuppress) {
+    playerController.resetJumpState();
     syncInputBlock();
     refreshMapAvailability();
     prevAuthorSuppress = authorSuppress;
@@ -1058,17 +1028,24 @@ function tick() {
   const kbIntent = keyboardInput.getIntent();
   const intent = mergeIntentsPure(touchIntent, kbIntent);
   const wasDodgeRequested = intent.dodgeRequested;
+  const wasJumpRequested = intent.jumpRequested;
   // Latch attack edge: keep pending until fixed step consumes it
   const rawWasAttackRequested = intent.attackRequested;
   if(rawWasAttackRequested) pendingAttackLatch = true;
   let wasAttackRequested = pendingAttackLatch;
 
   const blocked = isAnyBlockingModal() || !!authorSuppress;
+  if (blocked) {
+    playerController.cancelPendingJump();
+    touchMovement.consumeJump?.();
+    keyboardInput.consumeJump?.();
+  }
   const equipmentInput = betaGame?.equipment.routeInput({ requested: pendingAttackLatch, held: intent.attackHeld, down: keyboardInput.isAttackDown() || intent.attackHeld, blocked }) ?? { toolAllowed: true };
   if (equipmentInput.handled) { pendingAttackLatch = false; wasAttackRequested = false; keyboardInput.consumeAttack(); }
-  const effectiveIntent = blocked ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
+  const effectiveIntent = blocked ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", jumpRequested: false, dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
 
   let substeps = 0;
+  let movementStepped = false;
   while (accumulator >= fixedDt && substeps < maxSubsteps) {
     if (!expeditionSession.isResolved?.() && !authorSuppress && !isAnyBlockingModal()) {
       const pPosForAnchor = playerController.getState().pos;
@@ -1172,11 +1149,12 @@ function tick() {
       };
 
       playerController.update(fixedDt, effectiveIntent, combatOpts);
+      movementStepped = true;
+      effectiveIntent.jumpRequested = false;
 
       const pStateFixed = playerController.getState();
       const pPosFixed = pStateFixed.pos;
-      jumpPadSystem.update(pPosFixed);
-      parkourSystem.update(pPosFixed);
+      worldHazardSystem.update(pPosFixed);
 
       creatureSystem.setPlayerPos(pPosFixed);
       creatureSystem.setPlayerState(pStateFixed);
@@ -1221,9 +1199,13 @@ function tick() {
   physicsSubstepsLast = substeps;
   if (accumulator >= fixedDt) accumulator = 0;
 
-  if (wasDodgeRequested) {
+  if (wasDodgeRequested && movementStepped) {
     touchMovement.consumeDodge();
     keyboardInput.consumeDodge?.();
+  }
+  if (wasJumpRequested && movementStepped) {
+    touchMovement.consumeJump?.();
+    keyboardInput.consumeJump?.();
   }
   // Consume attack edge only after eligible fixed step processed it (not on zero-substep frames)
   // FieldTool consumes pending when it starts a swing; we detect via isSwinging transition
@@ -1302,7 +1284,7 @@ tick();
 // Debug globals — gameplay code must not rely on window.__game
 window.__game = {
   scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, cameraFollow, cameraOrbit, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
-  worldRegistry, regionManager, sectionRuntime, portalGateSystem, jumpPadSystem, parkourSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
+  worldRegistry, regionManager, sectionRuntime, portalGateSystem, worldHazardSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   betaGame,
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),

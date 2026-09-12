@@ -3,9 +3,23 @@ import { getSurfaceHeight } from '../world/terrainSurfaceModel.js';
 
 // One continuous escarpment, rather than repeated scenery props. Its render and
 // Rapier triangles share these buffers; bounds remain the hidden final failsafe.
-export const NATURAL_BOUNDARY_CONFIG = Object.freeze({ skirt: 32, stationSpacing: 6, minInset: 1.8, maxInset: 3.8 });
+export const NATURAL_BOUNDARY_CONFIG = Object.freeze({ skirt: 32, stationSpacing: 6, minInset: 1.8, maxInset: 3.8, supportProbeDepth: 6 });
 const fract = n => n - Math.floor(n);
 const noise = (i, seed) => fract(Math.sin(i * 127.1 + seed * 17.7) * 43758.5453);
+
+function getPlayableSideSupportRange(surface, x, z, nx, nz, support) {
+  // Polygon shelves can rise or fall just inside a resized section boundary.
+  // Span that local ground range so the shared render/collision face remains
+  // continuous instead of hanging below a shelf or stopping short of it.
+  let floor = support, crest = support;
+  for (let step = 1; step <= 4; step++) {
+    const distance = NATURAL_BOUNDARY_CONFIG.supportProbeDepth * step / 4;
+    const height = getSurfaceHeight(surface, x - nx * distance, z - nz * distance);
+    floor = Math.min(floor, height);
+    crest = Math.max(crest, height);
+  }
+  return { floor, crest };
+}
 
 export function describeNaturalBoundary(region) {
   const b = region.bounds, s = region.surface, seed = s.seed ?? 7;
@@ -32,19 +46,20 @@ export function describeNaturalBoundary(region) {
       }
       const ix=x-nx*inset, iz=z-nz*inset;
       const support=getSurfaceHeight(s,ix,iz);
+      const { floor, crest }=getPlayableSideSupportRange(s, x, z, nx, nz, support);
       const height=7.4+noise(index+141,seed)*4.8;
-      stations.push({ x,z,nx,nz,inset,support,height });
+      stations.push({ x,z,nx,nz,inset,support,floor,crest,height });
     }
   }
   const vertices=[], indices=[];
   for(const p of stations) {
-    const {x,z,nx,nz,inset,support,height}=p;
+    const {x,z,nx,nz,inset,floor,crest,height}=p;
     // Near-vertical inner face is plainly unwalkable. Broad broken shoulders
     // recede into landscape, giving an alien geological mass, not a fence.
-    const rings=[[-inset,support-1],[-inset+.15,support+1.8+noise(x+z,seed)*1.1],
-      [.6+noise(x-z,seed)*1.5,support+2.3+noise(x+z,seed)*1.1],
-      [4+noise(x+z,seed)*3,support+height*.63],
-      [9+noise(x-z,seed)*4,support+height],[20+noise(x+z,seed)*3,height*.3],
+    const rings=[[-inset,floor-1],[-inset+.15,crest+1.8+noise(x+z,seed)*1.1],
+      [.6+noise(x-z,seed)*1.5,crest+2.3+noise(x+z,seed)*1.1],
+      [4+noise(x+z,seed)*3,crest+height*.63],
+      [9+noise(x-z,seed)*4,crest+height],[20+noise(x+z,seed)*3,height*.3],
       [NATURAL_BOUNDARY_CONFIG.skirt,0]];
     for(const [offset,y] of rings)vertices.push(x+nx*offset,y,z+nz*offset);
   }

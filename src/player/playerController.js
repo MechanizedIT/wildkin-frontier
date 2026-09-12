@@ -46,6 +46,9 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     airCap: 0,
     // internal jump/climb/mantle/fall
     jumpData: null,
+    jumpBufferRemaining: 0,
+    coyoteRemaining: 0,
+    jumpRequestActive: false,
     fallHVel: null,
     climbable: null,
     climbTime: 0,
@@ -167,8 +170,59 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.vel.set(launchVelocity.x, 0, launchVelocity.z);
     if (horizontalSpeed > 0.1) state.facing = Math.atan2(launchVelocity.x, launchVelocity.z);
     state.fallHVel = null;
+    state.jumpBufferRemaining = 0;
+    state.coyoteRemaining = 0;
     state.climbable = null;
     state.mantleData = null;
+    return true;
+  }
+
+  function cancelPendingJump() {
+    state.jumpBufferRemaining = 0;
+    state.coyoteRemaining = 0;
+    state.jumpRequestActive = false;
+  }
+
+  function resetJumpState() {
+    cancelPendingJump();
+    if (state.mode === "JUMP" || state.mode === "FALL") state.mode = "IDLE";
+    state.jumpData = null;
+    state.fallHVel = null;
+    state.airCap = 0;
+    state.verticalVelocity = 0;
+  }
+
+  function updateJumpRequestWindow(dt, intent) {
+    const requested = !!intent?.jumpRequested;
+    state.jumpBufferRemaining = Math.max(0, state.jumpBufferRemaining - dt);
+    if (requested && !state.jumpRequestActive) {
+      state.jumpBufferRemaining = moveCfg.jumpBufferWindow ?? 0.10;
+    }
+    state.jumpRequestActive = requested;
+    if (state.grounded) state.coyoteRemaining = moveCfg.jumpCoyoteWindow ?? 0.08;
+    else state.coyoteRemaining = Math.max(0, state.coyoteRemaining - dt);
+  }
+
+  function startOrdinaryJump() {
+    const horizontalSpeed = Math.hypot(state.vel.x, state.vel.z);
+    const verticalLaunch = moveCfg.jumpInitialVerticalVelocity ?? 5.8;
+    state.mode = "JUMP";
+    state.jumpData = {
+      hVel: { x: state.vel.x, z: state.vel.z },
+      initialSpeed: horizontalSpeed,
+      landingRegion: null,
+      maxLandingCorrection: 0,
+      airTime: (2 * verticalLaunch) / (moveCfg.jumpGravity ?? 12),
+      time: 0,
+      source: "ordinary",
+      lockHorizontal: false,
+    };
+    state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, horizontalSpeed);
+    state.verticalVelocity = verticalLaunch;
+    state.grounded = false;
+    state.fallHVel = null;
+    state.jumpBufferRemaining = 0;
+    state.coyoteRemaining = 0;
     return true;
   }
 
@@ -283,6 +337,12 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
 
     if (state.dodgeCooldown > 0) state.dodgeCooldown = Math.max(0, state.dodgeCooldown - fixedDt);
     const worldDir = intentToWorldDir(intent);
+    updateJumpRequestWindow(fixedDt, intent);
+
+    const canStartOrdinaryJump = state.mode !== "JUMP" && state.mode !== "DODGE" && state.mode !== "CLIMB" && state.mode !== "MANTLE";
+    if (canStartOrdinaryJump && state.jumpBufferRemaining > 0 && (state.grounded || state.coyoteRemaining > 0)) {
+      startOrdinaryJump();
+    }
 
     // --- JUMP active (authored auto-jump, shares air model with FALL) ---
     if (state.mode === "JUMP" && state.jumpData) {
@@ -715,5 +775,5 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   }
 
   snapRenderPose();
-  return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad, setMoveSpeedMultiplier };
+  return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad, cancelPendingJump, resetJumpState, setMoveSpeedMultiplier };
 }

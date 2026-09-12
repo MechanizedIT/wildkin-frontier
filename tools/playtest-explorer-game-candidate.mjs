@@ -90,7 +90,7 @@ try {
       await page.keyboard.press("KeyF", { delay: 80 }); await page.waitForTimeout(170);
       const attack = await inspect(page); await framePlayer(page); await capture(page, `${view.id}-attack-tool.png`);
       await page.waitForTimeout(650); const afterAttack = await inspect(page);
-      await page.keyboard.press("Space", { delay: 80 }); await page.waitForTimeout(100); await capture(page, `${view.id}-dodge.png`);
+      await page.keyboard.press("r", { delay: 80 }); await page.waitForTimeout(100); await capture(page, `${view.id}-dodge.png`);
       // These snapshots verify every imported clip can be selected.  They are
       // diagnostic-only; only movement/attack/dodge above use ordinary input.
       const diagnostics = await page.evaluate(() => {

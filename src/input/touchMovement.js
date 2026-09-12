@@ -12,7 +12,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       hideVisuals(); try { appElement.releasePointerCapture(id); } catch {}
     }
     swipe.active = false; swipe.id = null; swipe.holdEstablished = false;
-    attackHeld = false; dodgePending = false; attackPending = false;
+    attackHeld = false; jumpPending = false; dodgePending = false; attackPending = false;
   }
   function setEnabled(v) {
     if(enabled===!!v)return;
@@ -34,6 +34,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
 
   // Dodge + Attack gesture state (right side) — Phase 3.1 tap/hold/swipe
   let dodgePending = false;
+  let jumpPending = false;
   let dodgeX = 0;
   let dodgeY = 0;
   let attackPending = false; // one-frame tap
@@ -266,8 +267,9 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   showRestVisuals();
 
   function getIntent() {
-    if (!enabled) return { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", dodgeRequested: false, dodgeX: 0, dodgeY: 0, attackRequested: false, attackHeld: false };
+    if (!enabled) return { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", jumpRequested: false, dodgeRequested: false, dodgeX: 0, dodgeY: 0, attackRequested: false, attackHeld: false };
     const base = {
+      jumpRequested: jumpPending,
       dodgeRequested: dodgePending,
       dodgeX,
       dodgeY,
@@ -296,6 +298,14 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     dodgePending = false;
   }
 
+  function requestJump() {
+    jumpPending = true;
+  }
+
+  function consumeJump() {
+    jumpPending = false;
+  }
+
   function consumeAttack() {
     attackPending = false;
   }
@@ -322,5 +332,5 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     globalThis.window?.removeEventListener?.("resize", onResize);
   }
 
-  return { getIntent, consumeDodge, consumeAttack, simulateGesture, simulateHold, destroy, clear: clearActive, setEnabled, isEnabled, _debug: () => ({ hasActive, nx, ny, magnitude, band, dodgePending, attackPending, attackHeld, swipe, enabled }) };
+  return { getIntent, requestJump, consumeJump, consumeDodge, consumeAttack, simulateGesture, simulateHold, destroy, clear: clearActive, setEnabled, isEnabled, _debug: () => ({ hasActive, nx, ny, magnitude, band, jumpPending, dodgePending, attackPending, attackHeld, swipe, enabled }) };
 }

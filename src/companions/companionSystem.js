@@ -125,6 +125,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     const chest = registry.getLootChestById(species.secret);
     if (chest && chest.sectionId === getSectionId() && Math.hypot(chest.pos.x - pos.x, chest.pos.z - pos.z) < 5.5 && !progress.getState().completedPoiIds.includes(chest.id)) {
       openedSeal = progress.completePoi(chest.id);
+      if (!openedSeal) return { ok: false, message: 'Could not save the awakened seal. Try again.' };
       if (openedSeal) toast("Ancient seal awakened", hasCacheMechanism(chest.id) ? "The vault's mechanism is awakening." : `${species.name} has opened a path to the cache.`);
     }
     if (species.id === "mossling") {

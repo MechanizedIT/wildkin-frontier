@@ -14,6 +14,7 @@ export function findSupportedResumeFeet({ feet, section, killVolumes = [], chara
     if(Math.abs(y-feet.y)>.3)return null;
     const center={x:feet.x,y:y+cfg.capsuleHalfHeight+cfg.capsuleRadius+.025,z:feet.z};
     for(const volume of killVolumes){
+      if(volume.courseId)continue; // Retired, invisible course beds are inactive in Play.
       const dx=center.x-volume.pos.x,dz=center.z-volume.pos.z,c=Math.cos(volume.rotY??0),s=Math.sin(volume.rotY??0);
       if(Math.abs(dx*c-dz*s)<volume.size.w/2+cfg.capsuleRadius && Math.abs(dx*s+dz*c)<volume.size.d/2+cfg.capsuleRadius && Math.abs(center.y-volume.pos.y)<volume.size.h/2+cfg.capsuleHalfHeight+cfg.capsuleRadius)return null;
     }

@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import * as THREE from 'three';
+import * as RAPIER from '@dimforge/rapier3d-compat';
+import {createPhysicsWorld} from '../src/physics/createPhysicsWorld.js';
+import {createRootfallPresentation} from '../src/presentation/rootfallPresentation.js';
+import {ROOTFALL_CONFIG as C} from '../src/world/rootfallConfig.js';
+await RAPIER.init();
+
+test('the visible Rootfall opening and real collision remain open across section/Author switches',t=>{
+  const scene=new THREE.Scene(),ids=[C.props.middle,C.props.braceLeft,C.props.braceRight],geometry=new THREE.BoxGeometry(1,1,1),material=new THREE.MeshBasicMaterial();
+  const props=ids.map((id,i)=>({id,visibleInPlay:i===0,pos:{x:i*5,y:0,z:0}}));
+  const roots=props.map(p=>{const root=new THREE.Mesh(geometry,material);root.name=p.id;root.position.copy(p.pos);root.visible=p.visibleInPlay;scene.add(root);return root;});
+  const physics=createPhysicsWorld(RAPIER,{groundPatches:[],terrainSurfaces:[],platforms:[],boundaries:[],obstacles:props.map(p=>({id:p.id,x:p.pos.x,z:0,w:2,h:2,height:2,baseY:0,sectionId:C.sectionId}))});
+  t.after(()=>{physics.world.free();geometry.dispose();material.dispose();});
+  physics.setActiveSection(C.sectionId);
+  const bodyAt=x=>!!physics.world.castRay(new RAPIER.Ray({x,y:1,z:4},{x:0,y:0,z:-1}),8,true);
+  const indexed=new Set(roots),presentation=createRootfallPresentation({scene,registry:{getSectionById:()=>({props})},physicsWorld:physics,onVisualAdded:r=>indexed.add(r),onVisualRemoving:r=>indexed.delete(r)});
+  presentation.update({enabled:true,hidden:false,repaired:false});
+  assert.deepEqual(roots.map(r=>r.visible),[true,false,false]);assert.deepEqual([0,5,10].map(bodyAt),[true,false,false]);
+  scene.updateMatrixWorld(true);
+  const transforms=roots.map(r=>r.matrixWorld.elements.slice()),source=roots.map(r=>r.geometry);
+  presentation.update({enabled:true,hidden:false,repaired:true});
+  assert.deepEqual(roots.map(r=>r.visible),[false,true,true]);assert.deepEqual([0,5,10].map(bodyAt),[false,true,true]);assert.equal(indexed.has(roots[0]),false);
+  physics.setActiveSection('camp');assert.deepEqual([0,5,10].map(bodyAt),[false,false,false]);
+  physics.setActiveSection(C.sectionId);assert.deepEqual([0,5,10].map(bodyAt),[false,true,true]);
+  presentation.update({enabled:true,hidden:true,repaired:true});assert.deepEqual([0,5,10].map(bodyAt),[false,false,false]);assert.deepEqual(roots.map(r=>r.visible),[true,false,false]);
+  presentation.update({enabled:true,hidden:false,repaired:true});assert.deepEqual([0,5,10].map(bodyAt),[false,true,true]);
+  scene.updateMatrixWorld(true);
+  assert.deepEqual(roots.map(r=>r.matrixWorld.elements),transforms);assert.deepEqual(roots.map(r=>r.geometry),source,'state changes preserve existing prop geometry and transforms');
+});

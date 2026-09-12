@@ -514,8 +514,8 @@ September 11 supersedes the historical partial-resource-loss proposal: death cur
 
 - Standard world cell is 50×50; Camp is 100×100 with future 25×25 expansion plots.
 - Expedition sections do not need to be physically adjacent; paired Portal Gates define world topology.
-- AI builds level-design systems/tools; the owner performs final section/level composition and pacing.
-- Jump Pads become first-class traversal objects; destination-hardcoded jump links are not the long-term authoring model.
+- September9 onward: AI may compose and refine regions under the active autonomous scope; owner playtesting decides final composition/pacing acceptance.
+- Superseded September12: ordinary player jumping and natural terrain exploration replace Jump Pads and checkpoint-course objects.
 - Standard sections support reusable secret/parkour/loot patterns rather than bespoke one-off code.
 
 - Handcrafted frontier graph of self-contained portal-connected sections, not open-world sprawl, a single continuous coordinate strip, or a forced runner.
@@ -538,3 +538,9 @@ September 11 supersedes the historical partial-resource-loss proposal: death cur
 - Exact long-term Matter Resonator upgrade catalog and costs beyond Matter Attractor I.
 - Exact human-authored Section 1/2 layouts, encounter placement, loot tables, gate costs, and balance targets.
 - Which companion abilities/mounts make the competition cut versus later game.
+
+## September12 owner steering and active redesign
+
+Normal player jumping replaces jump pads and checkpoint-course protection. Hidden high-ground supplies should be reached through natural terrain exploration, with broad ordinary walking routes and optional short jumps. Space/Jump button is the new action; R dodges. Current course rewards retain their saved identities as hidden terrain caches.
+
+Owner review of the delivered overhead maps finds regions too flat and sparse. Use overhead targets and independent level review, then prove real height, routes and discoveries from the gameplay camera. Verdant V2 is an independently accepted visual blockout target for a140x90m region with a connected eastern3/6/8m upland and sheltered lowland habitat; exact dimensions remain provisional and the corresponding terrain/woodland blockout is implemented in dev but remains below the visual target; native V2 traversal passes and denser composition is under review. Preserve Survey recovery, Rootfall travel state, harvest readability and quiet observation as useful activities across the terrain. Tidefin's candidate is not accepted by Chris; retain its original target for a revised production approach. CURRENT_SLICE owns current implementation/proof.

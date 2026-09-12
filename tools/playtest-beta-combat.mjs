@@ -36,7 +36,7 @@ try {
     const keys=[];
     if(s.rings.some(r=>Math.hypot(r.x-s.player.x,r.z-s.player.z)<2.7)) {
       if(!ringShot){await page.screenshot({path:"dist/qa/guardian-fight-warning.png"});ringShot=true;}
-      keys.push(s.player.x>0?"d":"a");await page.keyboard.down(keys[0]);await page.keyboard.press("Space");dodges++;
+      keys.push(s.player.x>0?"d":"a");await page.keyboard.down(keys[0]);await page.keyboard.press("r");dodges++;
     } else {
       if(Math.abs(dx)>.4)keys.push(dx>0?"d":"a");
       if(Math.abs(dz)>.4)keys.push(dz>0?"s":"w");

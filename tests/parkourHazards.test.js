@@ -4,26 +4,17 @@ import * as THREE from 'three';
 import WORLD_DATA from '../src/world/data/world.generated.js';
 import { createParkourSystem } from '../src/world/parkourSystem.js';
 import { createThornBedVisual } from '../src/world/hazardVisual.js';
-import { createAuthorVisual } from '../src/author/authorPreview.js';
-import { createAuthorDraft } from '../src/author/authorDraft.js';
-import { getSurfaceHeight } from '../src/world/terrainSurfaceModel.js';
 
-test('every authored course shows its hazard between safe takeoff and landing', () => {
-  const draft = createAuthorDraft(WORLD_DATA);
+test('retired courses emit no campaign hazards while the generic thorn bed stays bounded', () => {
   for (const region of WORLD_DATA.regions.filter(r=>r.id!=='camp')) {
-    assert.equal(region.killVolumes.length,1);
-    const hazard=region.killVolumes[0], [takeoff,landing]=region.traversal.platforms;
-    assert.ok(hazard.pos.z+hazard.size.d/2 < takeoff.z-takeoff.h/2);
-    assert.ok(hazard.pos.z-hazard.size.d/2 > landing.z+landing.h/2);
-    assert.ok(Math.abs(hazard.pos.y-hazard.size.h/2-getSurfaceHeight(region.surface,hazard.pos.x,hazard.pos.z))<.001);
-    const found=draft.findObjectById(hazard.id), preview=createAuthorVisual(found);
-    assert.equal(preview.userData.hazardVisual,'thornBed');
-    const visual=createThornBedVisual({size:hazard.size});
-    visual.updateMatrixWorld(true);
-    const bounds=new THREE.Box3().setFromObject(visual);
-    assert.ok(bounds.max.y <= hazard.size.h/2+.025,'visible tips stay within hazard height');
-    assert.ok(bounds.min.y >= -hazard.size.h/2-.001);
+    assert.deepEqual(region.killVolumes, [], `${region.id} has no retired course hazard`);
   }
+  const size = { w: 4, h: 1.2, d: 5 };
+  const visual=createThornBedVisual({size});
+  visual.updateMatrixWorld(true);
+  const bounds=new THREE.Box3().setFromObject(visual);
+  assert.ok(bounds.max.y <= size.h/2+.025,'visible tips stay within hazard height');
+  assert.ok(bounds.min.y >= -size.h/2-.001);
 });
 
 test('rotated visible beds and protection volumes use the same oriented footprint', () => {

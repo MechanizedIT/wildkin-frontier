@@ -38,6 +38,8 @@ export function initializePlayerOcclusion({ scene, camera, getPlayerPosition } =
   const cameraPosition = new THREE.Vector3();
   const player = new THREE.Vector3();
   const direction = new THREE.Vector3();
+  const localCamera = new THREE.Vector3();
+  const inverseWorld = new THREE.Matrix4();
   const effectivelyVisible = mesh => {
     for (let object = mesh; object; object = object.parent) if (!object.visible) return false;
     return true;
@@ -79,6 +81,15 @@ export function initializePlayerOcclusion({ scene, camera, getPlayerPosition } =
     // loop. Respect hidden section ancestors, not just each leaf mesh's flag.
     const visibleCandidates = candidates.filter(effectivelyVisible);
     const occluding = new Set();
+    // A camera inside a one-sided crown sees exit/back faces that the ordinary
+    // sightline ray cannot hit. Check each mesh's local bounds too, so entering
+    // tall foliage never turns the view into an opaque ceiling. Matrices and
+    // geometry are untouched; inactive sections still retain original opacity.
+    for(const mesh of visibleCandidates){
+      if(!mesh.geometry.boundingBox)mesh.geometry.computeBoundingBox();
+      localCamera.copy(cameraPosition).applyMatrix4(inverseWorld.copy(mesh.matrixWorld).invert());
+      if(mesh.geometry.boundingBox?.containsPoint(localCamera))occluding.add(meshToRoot.get(mesh));
+    }
     for (const offset of PLAYER_OCCLUSION_CONFIG.heightOffsets) {
       player.set(position.x ?? 0, (position.y ?? 0.55) + offset, position.z ?? 0);
       direction.subVectors(player, cameraPosition);

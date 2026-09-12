@@ -678,9 +678,9 @@ export function createFrontierProgress(opts = {}) {
 
   function completePoi(id) {
     if (!id || typeof id !== "string" || state.completedPoiIds.includes(id)) return false;
+    const rollback = snapshotForBankRollback();
     state.completedPoiIds.push(id);
-    save();
-    return true;
+    return commitBank(rollback, {}).ok;
   }
 
   function craftConsumable(id) {
@@ -910,6 +910,7 @@ export function createFrontierProgress(opts = {}) {
     earnObservationClue,
     completeObjective,
     completePoi,
+    isPoiCompleted: id => state.completedPoiIds.includes(id),
     craftConsumable,
     consumeConsumable,
     getBaseState, getFieldSupplies, craftFieldSupply, fitFieldPack, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,

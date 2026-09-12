@@ -48,3 +48,20 @@ test('placed scenery can join and leave visibility ownership without leaking sha
   root.visible=false;system.update(.11);assert.equal(wall.material.opacity,1);
   system.dispose();assert.equal(system.candidateCount,0);assert.equal(wall.material,material);geometry.dispose();material.dispose();
 });
+
+test('camera inside a one-sided scaled crown fades its own prop even when exit-face rays miss',()=>{
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera();
+  const root=new THREE.Group();root.userData={propId:'large-canopy',visualAssetId:'asset_verge_canopy'};
+  root.position.set(0,1,3);root.scale.setScalar(2);root.rotation.y=.7;scene.add(root);
+  const geometry=new THREE.BoxGeometry(2,2,2),material=new THREE.MeshBasicMaterial({side:THREE.FrontSide});
+  const crown=new THREE.Mesh(geometry,material);crown.position.y=2;root.add(crown);
+  const sibling=new THREE.Mesh(geometry,material);sibling.position.set(15,2,3);scene.add(sibling);
+  camera.position.set(0,5,3);scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);
+  const target=new THREE.Vector3(0,.52,0),ray=target.clone().sub(camera.position);
+  assert.equal(new THREE.Raycaster(camera.position,ray.clone().normalize(),0,ray.length()).intersectObject(crown).length,0,'exit/back faces reproduce the missing ray hit');
+  const system=initializePlayerOcclusion({scene,camera,getPlayerPosition:()=>target});system.update(.11);
+  assert.equal(crown.material.opacity,.25);assert.equal(sibling.material.opacity,1);assert.equal(material.opacity,1);
+  system.update(.11,{hidden:true});assert.equal(crown.material.opacity,1,'Author isolation restores the prop');
+  camera.position.set(12,4,6);camera.updateMatrixWorld(true);system.update(.11);assert.equal(crown.material.opacity,1,'leaving the crown and sightline restores it');
+  system.dispose();assert.equal(crown.material,material);geometry.dispose();material.dispose();
+});

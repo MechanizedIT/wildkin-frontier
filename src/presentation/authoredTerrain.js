@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {getSurfaceHeight,getPathDistance,getWaterRadius,smoothstep} from '../world/terrainSurfaceModel.js';
+import {getSurfaceHeight,getPathDistance,getWaterRadius,ellipseRadius,smoothstep} from '../world/terrainSurfaceModel.js';
 import {addMeadowDetails,createGroundcoverGeometry} from './meadowDetails.js';
 import {createGroundFoliageGeometry} from './groundFoliage.js';
 import {addGeneratedTerrainPaint} from './terrainPaint.js';
@@ -23,7 +23,8 @@ export function createAuthoredTerrain(region){
     const n=noise(x*.38,z*.38,surface.seed??7),fine=noise(x*1.8,z*1.8,93);
     color.copy(shade).lerp(grass,.48+n*.42+fine*.1);
     const slope=Math.hypot(getSurfaceHeight(surface,x+.3,z)-getSurfaceHeight(surface,x-.3,z),getSurfaceHeight(surface,x,z+.3)-getSurfaceHeight(surface,x,z-.3))/.6;
-    if(slope>.22){const height=getSurfaceHeight(surface,x,z),stratum=.91+.09*Math.sin(height*15);color.lerp(rock,smoothstep(.22,.58,slope)).multiplyScalar(stratum);}
+    // Broad matte rock faces, not repeated contour stripes around every hill.
+    if(slope>.35)color.lerp(rock,smoothstep(.35,.9,slope)).multiplyScalar(.94+n*.08);
     // Paths are painted at higher resolution below, so close-up curves stay crisp.
     const wet=getWaterRadius(surface,x,z);
     if(wet<1.13)color.lerp(shore,1-smoothstep(.9,1.13,wet));
@@ -48,30 +49,40 @@ export function createAuthoredTerrain(region){
       const low=document.createElement('canvas');low.width=low.height=resolution;low.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(pixels),resolution,resolution),0,0);
       const canvas=document.createElement('canvas');canvas.width=canvas.height=2048;const ctx=canvas.getContext('2d');ctx.drawImage(low,0,0,2048,2048);
       ctx.save();ctx.scale(2048/width,2048/depth);ctx.translate(-bounds.minX,-bounds.minZ);ctx.lineCap='round';ctx.lineJoin='round';
-      for(const outer of [true,false])for(const route of surface.routes??[]){if(route.style==='gravel')continue;ctx.strokeStyle=outer?palette.pathEdge:palette.path;ctx.lineWidth=route.width+(outer?.2:0);ctx.beginPath();route.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.z):ctx.moveTo(p.x,p.z));ctx.stroke();}
-      for(const route of surface.routes??[])if(route.style==='gravel')paintGravelRoute(ctx,route);
+      for(const outer of [true,false])for(const route of surface.routes??[]){if(route.paint===false||route.style==='gravel')continue;ctx.strokeStyle=outer?palette.pathEdge:palette.path;ctx.lineWidth=route.width+(outer?.2:0);ctx.beginPath();route.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.z):ctx.moveTo(p.x,p.z));ctx.stroke();}
+      for(const route of surface.routes??[])if(route.paint!==false&&route.style==='gravel')paintGravelRoute(ctx,route);
       ctx.restore();
       texture=new THREE.CanvasTexture(canvas);
       addGeneratedTerrainPaint(texture,canvas,bounds);
     }else texture=new THREE.DataTexture(pixels,resolution,resolution,THREE.RGBAFormat);
     texture.flipY=false;texture.colorSpace=THREE.SRGBColorSpace;texture.magFilter=THREE.LinearFilter;texture.minFilter=THREE.LinearMipmapLinearFilter;texture.generateMipmaps=true;texture.needsUpdate=true;textureCache.set(key,texture);
   }
-  const mesh=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({map:texture,roughness:1,metalness:0}));mesh.name=`terrain_${region.id}`;mesh.receiveShadow=true;mesh.userData.isGround=true;
+  const mesh=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({map:texture,roughness:1,metalness:0,flatShading:true}));mesh.name=`terrain_${region.id}`;mesh.receiveShadow=true;mesh.userData.isGround=true;
   const group=new THREE.Group();group.name=`landscape_${region.id}`;group.userData.sectionId=region.id;group.add(mesh);
   // The shared natural escarpment continues beyond this authored ground edge;
   // no exposed rectangular island side is rendered here.
-  for(const pond of surface.water??[])addWater(group,pond,palette);
+  for(const pond of surface.water??[])addWater(group,pond,palette,surface.water);
   addMeadow(group,surface,bounds,palette,MEADOW_PROFILES[region.id]);
   addMeadowDetails(group,surface,bounds,palette);
   return {group,vertices:positions,indices:new Uint32Array(indices),sectionId:region.id};
 }
 
-function addWater(group,pond,palette){
+function addWater(group,pond,palette,allWater){
   const segments=64,verts=[pond.x,-.12,pond.z],colors=[],indices=[];
   for(let i=0;i<=segments;i++){const a=i/segments*Math.PI*2;verts.push(pond.x+Math.cos(a)*pond.rx*.87,-.12,pond.z+Math.sin(a)*pond.rz*.87);if(i>0)indices.push(0,i+1,i);}
   const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.setIndex(indices);geo.computeVertexNormals();
   const water=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:palette.water}));water.name='shallow_water';water.renderOrder=1;group.add(water);
-  const ring=new THREE.Mesh(new THREE.RingGeometry(.84,.87,64),new THREE.MeshBasicMaterial({color:palette.waterFoam,transparent:true,opacity:.72,side:THREE.DoubleSide,depthWrite:false}));ring.rotation.x=-Math.PI/2;ring.scale.set(pond.rx,pond.rz,1);ring.position.set(pond.x,-.108,pond.z);group.add(ring);
+  // Overlapping authored ponds form one creek. Only its outside edge gets a
+  // quiet shoreline; drawing complete rings created seams through open water.
+  const shorePositions=[];
+  for(let i=0;i<segments;i++){
+    const mid=(i+.5)/segments*Math.PI*2,x=pond.x+Math.cos(mid)*pond.rx*.87,z=pond.z+Math.sin(mid)*pond.rz*.87;
+    if(allWater.some(other=>other!==pond&&ellipseRadius(other,x,z)<.875))continue;
+    const a=i/segments*Math.PI*2,b=(i+1)/segments*Math.PI*2;
+    for(const [angle,radius] of [[a,.854],[b,.854],[a,.87],[b,.854],[b,.87],[a,.87]])shorePositions.push(pond.x+Math.cos(angle)*pond.rx*radius,-.108,pond.z+Math.sin(angle)*pond.rz*radius);
+  }
+  const shoreGeometry=new THREE.BufferGeometry();shoreGeometry.setAttribute('position',new THREE.Float32BufferAttribute(shorePositions,3));
+  const ring=new THREE.Mesh(shoreGeometry,new THREE.MeshBasicMaterial({color:palette.waterFoam,transparent:true,opacity:.35,side:THREE.DoubleSide,depthWrite:false}));ring.name='water_outer_shore';group.add(ring);
   // Flat color and shoreline communicate water with no reflective glints.
 }
 
