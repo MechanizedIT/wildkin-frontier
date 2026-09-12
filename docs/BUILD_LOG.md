@@ -1397,3 +1397,16 @@
 - Shatterfen remains planning/target work, not runtime content. Fresh baseline protected-role audit records7resources plus3harvestableprops. V1 target holds7.7; V2 holds7.9 after fixing dry crossings/low receiver, but retained a duplicate green creature and an unclear Beacon. One focused V3 image cleanup is the next target gate; no region composition has begun.
 
 - Chris asked what he was being asked to approve and requested Drive delivery because he is on his phone. Clarified the scope as Forest Edge rock-to-grass terrain appearance, preserving his prior model acceptance. Created a visually checked two-page comparison PDF with actual held V8 toe/cap captures and the generated reference; uploaded to the existing private Drive review folder and verified metadata. No new approval is requested for the already completed Blender install or the accepted models.
+
+
+## 2026-09-12 — owner terrain direction resolved — Codex Astra parent
+
+- Chris accepts the grass rising into the rocky cliff and suggests grass/rock dressing where a join looks distracting. Recorded the bounded decision in current scope/start/playtest/atlas, asset acceptance and workflow lessons. V7 runtime remains unchanged; V8 remains preserved and restored away. Historical7.3 scene review, Rootfall's separate pending art direction and phone-performance limits remain explicit. No aggregate rerun for documentation-only direction capture.
+- Shatterfen V3 target reaches8.1 visual quality, with an ambiguous central green mark remaining. Root excludes that painted mark entirely from the role plan: ordinary ground/reeds only, no added actor, resource or interaction. Existing audited actor IDs and exact X/Z anchors own runtime content; independent review of this explicit resolution is pending before production.
+
+
+## 2026-09-12 — bedtime producer delegation and candidate selection
+
+- Chris explicitly asked the producer to choose the best of three or four versions and move on while he sleeps. Recorded this override of the aesthetic question gate in CURRENT_SLICE, SESSION_START, OVERNIGHT_RUN_2 and the project skill. Preserve safety, save/collision correctness, spending limits, honest scores and distinction from owner personally viewing a candidate.
+- Independent side-by-side Rootfall review recommends retaining V4: clearer native cut sites outweigh V2's higher historical7.4 versus V4's7.1. Root selected V4; six source/runtime hashes and numeric collider data already match, so no swap or redundant gameplay revalidation. Known arch-like underside, broad cut bands and subtle first-cut change remain. Durable comparison: art/source/rootfall-v1/candidate-v4/PRODUCER_SELECTION.md.
+- Shatterfen V3 target plus explicit omitted-mark role plan now passes independent admission. Standalone composition/test work is under separate code review; canonical world is unchanged.

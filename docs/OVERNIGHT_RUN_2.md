@@ -2,6 +2,8 @@
 
 ## Owner mandate and evidence
 
+**September12 bedtime update:** Chris is unavailable for decisions and explicitly directs: if another issue arises, take the best of the three or four versions and move on. The producer selects the strongest usable candidate after bounded iteration, including pending aesthetic choices, instead of waiting on art preference prompts. Record delegated choices and remaining flaws without inflating reviewer scores or calling them personal owner acceptance. This supersedes Dream Loop's aesthetic question gate for this run; established safety, spending, collision and save requirements remain.
+
 Chris explicitly resumed goal-mode development after testing on his phone. Continue useful implementation/review cycles until he says stop. Act as producer/orchestrator, make routine professional decisions, use independently assigned domain implementers/reviewers, and keep the game locally playable. This supersedes the previous wrap-up pause; it does not erase accepted engineering rules. Re-read this brief at each integrated checkpoint and after context compaction.
 
 Owner reports the game generally looks good and the gather → return → deposit-in-pod loop worked easily. These are positive observations of that short journey, not whole-game acceptance. Reported issues and new ideas below take precedence over old agent visual scores.

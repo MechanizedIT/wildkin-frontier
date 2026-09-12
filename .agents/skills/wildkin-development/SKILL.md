@@ -26,6 +26,7 @@ Use this project-local skill to coordinate a small complete change. It composes 
 - Separate reference author, implementer and independent visual judge for art admission. An implementer may report defects or traversal results, but cannot independently PASS their own art. Give reviewers raw images and scope, not a score they must inherit.
 - Integrate one representative vertical slice early: input → actual game effect → save/reload → relevant Author/package path. A polished isolated panel does not prove its physical access point is discoverable.
 - After repeated failure with the same approach, stop that approach and diagnose the visible structure. Preserve the rejected version and target. Change topology, joint support, material treatment or composition as warranted; avoid endless bevel, color or profile tweaks and avoid score inflation from effort.
+- When Chris explicitly delegates unavailable-time decisions, follow that current instruction over Dream Loop's aesthetic owner-question exit. For the September12 overnight run he said to take the best of three or four versions and move on. Select the strongest usable existing candidate, retain scores/gaps and record a delegated provisional choice. Do not imply personal owner acceptance or waive collision, save correctness, resource guards or spending limits. This applies to pending aesthetic choices as well as later ones; avoid another generation cycle merely to reach a numerical score.
 
 ## Evidence that can support admission
 

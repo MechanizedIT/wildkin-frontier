@@ -11,3 +11,7 @@ Exact accepted GLB SHA256:
 - ledge: `ae57ade463b6b6221f01a2d7964a67e90c4ac2b1d1d12515e14b3cf9414e7da7`
 
 The first runtime copies are `assets/models/verdant-cliff-{toe,buttress,ledge}-v1/model.glb`, byte-identical to these V3 source exports. All3 combined:1,110 triangles /103,464bytes. Single opaque embedded palette material per file; conservative convex hulls close narrow splits/underhangs. Do not imply that the ledge has a walk-under passage.
+
+## Grass-to-rock transition direction
+
+September12 follow-up after the private cliff comparison: Chris identified “the green grass kind of comes up the rocky cliff,” said he thinks it is okay, and suggested hiding distracting joins with grass and rocks. This accepts that transition as a reasonable production treatment, with restrained local dressing as needed. Keep verified V7; V8 remains an unsuccessful restored-away study. This does not extend to Rootfall, Tidefin, full-scene fidelity or physical-phone performance, and does not change historical reviewer scores.

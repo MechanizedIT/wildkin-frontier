@@ -1,0 +1,29 @@
+{
+  "status": "GENERATED TARGET — awaiting independent review; not a runtime or implementation admission.",
+  "createdAt": "2026-09-12",
+  "generator": "built-in image generation",
+  "target": {
+    "path": "art/targets/shatterfen-redesign-v1/target.png",
+    "sha256": "4df4bef3626062b2917d2f9fc2381b91cd2a678fb3030e386ce91f86a1198494"
+  },
+  "references": [
+    {
+      "role": "actual current Section 2 58-degree baseline",
+      "path": ".dream-loop/shatterfen-redesign-v1/before/maps/section_2-overview.png",
+      "sha256": "53c3cce6b434d08650ed4dd82053161abb5a3c00683f9ed1e4105af5146b2b52"
+    },
+    {
+      "role": "owner-approved Explorer and game-style authority",
+      "path": "art/style/explorer-master.png",
+      "sha256": "a5c6d707832bb3fd0b21289be540e3fd75970befca66a442b65ebf673543adff"
+    }
+  ],
+  "baseline": {
+    "worldPath": "src/world/data/world.json",
+    "worldSha256": "e0fcaa3dd1580fcf1cd5f4de2556dfc377bff03fa126f9ae0a59cacb8a6d6888",
+    "captureManifest": ".dream-loop/shatterfen-redesign-v1/before/manifest.json",
+    "captureSourceUnchanged": true
+  },
+  "promptPath": "art/targets/shatterfen-redesign-v1/prompt.md",
+  "constraints": "One generated candidate only. No self-review, implementation, game-data change, or extra reroll occurred."
+}

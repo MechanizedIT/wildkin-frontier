@@ -1,0 +1,38 @@
+{
+  "status": "GENERATED V3 TARGET — awaiting final independent target review; not a runtime or implementation admission.",
+  "createdAt": "2026-09-12",
+  "generator": "built-in image generation",
+  "target": {
+    "path": "art/targets/shatterfen-redesign-v3/target.png",
+    "sha256": "7177c54afb1916e12ff2c937295985ed43e8f8aed237037c94751963a3904534"
+  },
+  "references": [
+    {
+      "role": "V2 target edited as the preserved layout/style source",
+      "path": "art/targets/shatterfen-redesign-v2/target.png",
+      "sha256": "12b1c9e40ea9ed53d5b8210be43c4fcdb40aaaca97ab244103b6114b77a84897"
+    },
+    {
+      "role": "fresh current Section 2 planning map and protected-position authority",
+      "path": ".dream-loop/shatterfen-redesign-v1/before/maps/section_2-planning.png",
+      "sha256": "69c073518532f1864393bc7ffb490fa6b0780d68bd76eea2db7d389aa4f479d3"
+    }
+  ],
+  "baseline": {
+    "worldPath": "src/world/data/world.json",
+    "worldSha256": "e0fcaa3dd1580fcf1cd5f4de2556dfc377bff03fa126f9ae0a59cacb8a6d6888",
+    "captureManifest": ".dream-loop/shatterfen-redesign-v1/before/manifest.json",
+    "captureSourceUnchanged": true
+  },
+  "protectedPositionRequests": {
+    "beacon_section_2": {"world": [-28, 0.62, -15], "role": "low standalone Tideglass Beacon"},
+    "chest_secret_section_2": {"world": [-29, 0.585, -21], "role": "separate Sunken Cache"},
+    "prop_s2_farbank_thorn": {"world": [-32, 0.1736, -7], "role": "only requested green creature silhouette"},
+    "prop_s2_tidefin_a": {"world": [-30, -0.0189, 18], "role": "one of two requested blue Tidefin silhouettes"},
+    "prop_s2_tidefin_b": {"world": [-30, -0.2061, 1], "role": "one of two requested blue Tidefin silhouettes"},
+    "proposed_chest_shatterfen_wreck_supply": {"world": [-44, null, -34], "role": "optional existing-reward-style wreck cache"}
+  },
+  "promptPath": "art/targets/shatterfen-redesign-v3/prompt.md",
+  "editScope": "One local V2 cleanup: remove duplicate/ambiguous green creature reads and clarify the low standalone Beacon while preserving V2's dry crossings, Observatory height composition, and region layout.",
+  "constraints": "One generated candidate only. No source/world change, browser session, local GPU job, self-review, implementation, game-data change, or extra reroll occurred. Image clarity does not prove collision, physics, exact coordinates, or route support."
+}
