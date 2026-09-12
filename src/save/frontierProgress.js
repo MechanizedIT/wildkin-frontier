@@ -19,10 +19,11 @@ import { normalizeActiveRun, cloneActiveRun } from '../session/activeRunState.js
 import { OBSERVATION_CATALOG, normalizeObservationClues } from '../companions/observationCatalog.js';
 import { createFrontierEcologyState, cloneFrontierEcologyState, normalizeFrontierEcologyState, validateFrontierResourceState, MAX_FRONTIER_RESOURCE_RECORDS } from '../world/frontierEcologyState.js';
 import { createFrontierAtlasState, cloneFrontierAtlasState, normalizeFrontierAtlasState, revealFrontierAtlasRadius } from '../world/frontierAtlasState.js';
-import { MAX_CAPTURED_WILDKIN_SOURCES, MAX_OWNED_WILDKIN, MAX_PENDING_WILDKIN, WILDKIN_INDIVIDUAL_VERSION, cloneWildkinIndividual, normalizeWildkinIndividual, normalizeWildkinIndividuals, projectWildkinSpecies } from '../creatures/wildkinIndividual.js';
+import { MAX_CAPTURED_WILDKIN_SOURCES, MAX_OWNED_WILDKIN, MAX_PENDING_WILDKIN, WILDKIN_INDIVIDUAL_VERSION, cloneWildkinIndividual, getWildkinSex, normalizeWildkinIndividual, normalizeWildkinIndividuals, projectWildkinSpecies } from '../creatures/wildkinIndividual.js';
 import { createWildkinGenome } from '../creatures/wildkinGenome.js';
 import { CAMP_CARE_MAX_NOURISHMENT, CAMP_CARE_VERSION, cloneCampCare, readCampCare } from '../companions/campCareState.js';
 import { CAMP_CROP_GROWTH_SECONDS, CAMP_CROP_MAX_ADVANCE_SECONDS, CAMP_CROP_VERSION, cloneCampCrop, getCampCropStage, readCampCrop } from '../base/campGardenState.js';
+import { CAMP_BREEDING_GROWTH_SECONDS, CAMP_BREEDING_MAX_ADVANCE_SECONDS, CAMP_BREEDING_VERSION, MAX_CAMP_BREEDING_SEQUENCE, MAX_NEXT_CAMP_BREEDING_SEQUENCE, cloneCampBreeding, createCampOffspring, getCampBreedingStage, getCampOffspringSequence, readCampBreeding } from '../companions/campBreedingState.js';
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
@@ -62,6 +63,7 @@ function legacyWildkinRecord(speciesId, runId, index = 0) {
   const suffix = `${runId}_${speciesId}_${index}`.replace(/[^A-Za-z0-9_:-]/g, '_').slice(0, 96);
   return { version: WILDKIN_INDIVIDUAL_VERSION, id: `wildkin_legacy_${suffix}`,
     speciesId, originId: `legacy_${suffix}`, acquiredRunId: runId,
+    sex: getWildkinSex(`legacy_${suffix}`), lineage: null,
     genome: speciesId === 'mossling' ? { ...createWildkinGenome(`legacy:${suffix}`) } : null };
 }
 
@@ -96,6 +98,8 @@ function defaultState(initialWaypointId, resourceDrops) {
     base: { tier: 0, layout: createCampLayout(), structures: [] },
     campCare: null,
     campCrop: null,
+    campBreeding: null,
+    nextCampBreedingSequence: 1,
     loadout: normalizeLoadout(null),
     securedCompanionRunIds: [],
     ecology: createFrontierEcologyState(),
@@ -226,6 +230,18 @@ export function createFrontierProgress(opts = {}) {
     const campCrop = readCampCrop(raw.campCrop, { structures: out.base.structures });
     if (!campCrop.ok) throw new Error(campCrop.reason);
     out.campCrop = campCrop.crop;
+    const nextCampBreedingSequence = raw.nextCampBreedingSequence ?? 1;
+    if (!Number.isSafeInteger(nextCampBreedingSequence) || nextCampBreedingSequence < 1 || nextCampBreedingSequence > MAX_NEXT_CAMP_BREEDING_SEQUENCE) {
+      throw new Error('invalid-camp-breeding-sequence');
+    }
+    const campBreeding = readCampBreeding(raw.campBreeding, { structures: out.base.structures, ownedWildkin: out.ownedWildkin });
+    if (!campBreeding.ok) throw new Error(campBreeding.reason);
+    if (campBreeding.breeding && out.campCare) throw new Error('invalid-camp-breeding-care');
+    const usedBreedingSequences = [...out.ownedWildkin, campBreeding.breeding?.offspring].filter(Boolean)
+      .map(getCampOffspringSequence).filter(Number.isSafeInteger);
+    if (usedBreedingSequences.some(sequence => sequence >= nextCampBreedingSequence)) throw new Error('invalid-camp-breeding-sequence');
+    out.campBreeding = campBreeding.breeding;
+    out.nextCampBreedingSequence = nextCampBreedingSequence;
     if (raw.version >= 3 && raw.lootRemainders) {
       if (typeof raw.lootRemainders !== 'object' || Array.isArray(raw.lootRemainders) || Object.keys(raw.lootRemainders).length > MAX_PERSISTED_LIST_ENTRIES) throw new Error('invalid-loot-remainders');
       for (const [id, entry] of Object.entries(raw.lootRemainders)) {
@@ -252,6 +268,12 @@ export function createFrontierProgress(opts = {}) {
       const active = normalizeActiveRun(raw.activeRun);
       if (!active.ok) throw new Error(active.reason);
       out.activeRun = bankedRunIds.has(active.run.runId) ? null : active.run;
+    }
+    if (out.campBreeding && out.activeRun) {
+      if (out.ownedWildkin.length + out.activeRun.companions.length + 1 > MAX_OWNED_WILDKIN) throw new Error('invalid-camp-breeding-capacity');
+      if (out.activeRun.companions.some(record => record.id === out.campBreeding.offspring.id || record.originId === out.campBreeding.offspring.originId)) {
+        throw new Error('invalid-camp-breeding-offspring');
+      }
     }
     return out;
   }
@@ -309,6 +331,8 @@ export function createFrontierProgress(opts = {}) {
       base: cloneBase(state.base),
       campCare: cloneCampCare(state.campCare),
       campCrop: cloneCampCrop(state.campCrop),
+      campBreeding: cloneCampBreeding(state.campBreeding),
+      nextCampBreedingSequence: state.nextCampBreedingSequence,
       loadout: cloneLoadout(state.loadout),
       ecology: cloneFrontierEcologyState(state.ecology),
       atlas: cloneFrontierAtlasState(state.atlas),
@@ -418,7 +442,10 @@ export function createFrontierProgress(opts = {}) {
     if (!pending || pending.length > capacity || !pending.some(candidate => candidate.id === captured.id)) {
       return { ok: false, reason: 'invalid-wildkin-pending', state: getState() };
     }
-    if (state.ownedWildkin.length + pending.length > MAX_OWNED_WILDKIN) {
+    if (state.campBreeding && pending.some(candidate => candidate.id === state.campBreeding.offspring.id || candidate.originId === state.campBreeding.offspring.originId)) {
+      return { ok: false, reason: 'wildkin-identity-conflict', state: getState() };
+    }
+    if (state.ownedWildkin.length + pending.length + (state.campBreeding ? 1 : 0) > MAX_OWNED_WILDKIN) {
       return { ok: false, reason: 'wildkin-owned-capacity', state: getState() };
     }
     const existing = state.capturedWildkinSources[captured.originId];
@@ -593,6 +620,8 @@ export function createFrontierProgress(opts = {}) {
       base: cloneBase(state.base),
       campCare: cloneCampCare(state.campCare),
       campCrop: cloneCampCrop(state.campCrop),
+      campBreeding: cloneCampBreeding(state.campBreeding),
+      nextCampBreedingSequence: state.nextCampBreedingSequence,
       loadout: cloneLoadout(state.loadout),
       ecology: cloneFrontierEcologyState(state.ecology),
       atlas: cloneFrontierAtlasState(state.atlas),
@@ -667,6 +696,7 @@ export function createFrontierProgress(opts = {}) {
         base: cloneBase(state.base),
         campCare: cloneCampCare(state.campCare),
         campCrop: cloneCampCrop(state.campCrop),
+        campBreeding: cloneCampBreeding(state.campBreeding),
         loadout: cloneLoadout(state.loadout),
       },
       bankedRunIds: new Set(bankedRunIds), lastBankToken,
@@ -695,7 +725,10 @@ export function createFrontierProgress(opts = {}) {
       if (newCompanions.some(record => state.ownedWildkin.some(owned => owned.originId === record.originId && owned.id !== record.id))) {
         return { ok: false, added: false, reason: 'wildkin-origin-conflict', state: getState() };
       }
-      if (state.ownedWildkin.length + newCompanions.length > MAX_OWNED_WILDKIN) return { ok: false, added: false, reason: 'wildkin-owned-capacity', state: getState() };
+      if (state.campBreeding && newCompanions.some(record => record.id === state.campBreeding.offspring.id || record.originId === state.campBreeding.offspring.originId)) {
+        return { ok: false, added: false, reason: 'wildkin-identity-conflict', state: getState() };
+      }
+      if (state.ownedWildkin.length + newCompanions.length + (state.campBreeding ? 1 : 0) > MAX_OWNED_WILDKIN) return { ok: false, added: false, reason: 'wildkin-owned-capacity', state: getState() };
       const coreWasUnsecured = bankingExtras.coreSecured && !state.completedPoiIds.includes("heartwood_core_secured");
       const coreChestWasUnclaimed = bankingExtras.coreSecured && !state.claimedLootChestIds.includes("chest_heartwood_core");
       const hasExtras = newCompanions.length > 0 || coreWasUnsecured || coreChestWasUnclaimed;
@@ -931,9 +964,87 @@ export function createFrontierProgress(opts = {}) {
   }
   function findCareBed(bedId) { return state.base.structures.find(record => record.id === bedId && record.type === 'bed') ?? null; }
   function findCareWildkin(wildkinId) { return state.ownedWildkin.find(record => record.id === wildkinId && record.speciesId === 'mossling') ?? null; }
+  function getCampBreeding() { return cloneCampBreeding(state.campBreeding); }
+  function pendingOwnedReservationCount() {
+    return (state.activeRun?.companions ?? []).filter(record => !state.ownedWildkin.some(owned => owned.id === record.id)).length;
+  }
+  function failedBreedingEligibility(reason, bedId) {
+    return { ok: false, reason, bedId, parentIds: null, offspring: null, breeding: getCampBreeding() };
+  }
+  function getCampBreedingEligibility(bedId) {
+    const bed = findCareBed(bedId);
+    if (!bed) return failedBreedingEligibility('unknown-bed', bedId);
+    if (state.campBreeding) return failedBreedingEligibility('breeding-active', bedId);
+    if (!state.campCare || state.campCare.bedId !== bedId) return failedBreedingEligibility('unassigned', bedId);
+    if (state.campCare.nourishment < CAMP_CARE_MAX_NOURISHMENT) return failedBreedingEligibility('not-nourished', bedId);
+    const settled = findCareWildkin(state.campCare.wildkinId);
+    const selected = state.ownedWildkin.find(record => record.id === state.activeWildkinId) ?? null;
+    if (!settled) return failedBreedingEligibility('missing-settled-parent', bedId);
+    if (!selected || selected.speciesId !== 'mossling') return failedBreedingEligibility('select-mossling', bedId);
+    if (selected.id === settled.id) return failedBreedingEligibility('select-distinct-parent', bedId);
+    if (selected.sex === settled.sex) return failedBreedingEligibility('same-sex', bedId);
+    if (state.nextCampBreedingSequence > MAX_CAMP_BREEDING_SEQUENCE) return failedBreedingEligibility('breeding-sequence-capacity', bedId);
+    if (state.ownedWildkin.length + pendingOwnedReservationCount() + 1 > MAX_OWNED_WILDKIN) return failedBreedingEligibility('wildkin-owned-capacity', bedId);
+    const offspring = createCampOffspring(settled, selected, state.nextCampBreedingSequence);
+    if (!offspring) return failedBreedingEligibility('invalid-parents', bedId);
+    const conflicts = [...state.ownedWildkin, ...(state.activeRun?.companions ?? [])]
+      .some(record => record.id === offspring.id || record.originId === offspring.originId);
+    if (conflicts) return failedBreedingEligibility('wildkin-identity-conflict', bedId);
+    return { ok: true, reason: null, bedId, parentIds: [settled.id, selected.id], offspring, breeding: null };
+  }
+  function beginCampBreeding(bedId) {
+    const eligible = getCampBreedingEligibility(bedId);
+    if (!eligible.ok) return eligible;
+    const rollback = snapshotForBankRollback();
+    state.campCare = null;
+    state.campBreeding = {
+      version: CAMP_BREEDING_VERSION,
+      bedId,
+      parentIds: [...eligible.parentIds],
+      offspring: cloneWildkinIndividual(eligible.offspring),
+      growthSeconds: 0,
+    };
+    state.nextCampBreedingSequence += 1;
+    const write = commitBank(rollback, { breeding: getCampBreeding(), offspring: cloneWildkinIndividual(eligible.offspring), care: null });
+    return write.ok ? write : { ok: false, reason: write.reason, breeding: getCampBreeding(), care: getCampCare() };
+  }
+  function advanceCampBreeding(seconds) {
+    if (!Number.isFinite(seconds) || seconds <= 0 || seconds > CAMP_BREEDING_MAX_ADVANCE_SECONDS) {
+      return { ok: false, reason: 'invalid-growth', breeding: getCampBreeding() };
+    }
+    if (!state.campBreeding) return { ok: false, reason: 'no-young', breeding: null };
+    if (!findCareBed(state.campBreeding.bedId)) return { ok: false, reason: 'missing-bed', breeding: getCampBreeding() };
+    if (state.campBreeding.growthSeconds >= CAMP_BREEDING_GROWTH_SECONDS) {
+      return { ok: true, changed: false, reason: 'ready', breeding: getCampBreeding(), stageTransition: false, ready: true };
+    }
+    const previousStage = getCampBreedingStage(state.campBreeding);
+    const rollback = snapshotForBankRollback();
+    const growthSeconds = Math.min(CAMP_BREEDING_GROWTH_SECONDS, Math.round((state.campBreeding.growthSeconds + seconds) * 1000) / 1000);
+    state.campBreeding = { ...state.campBreeding, growthSeconds };
+    const stageTransition = getCampBreedingStage(state.campBreeding) !== previousStage;
+    const ready = growthSeconds === CAMP_BREEDING_GROWTH_SECONDS;
+    const write = commitBank(rollback, { changed: true, breeding: getCampBreeding(), stageTransition, ready });
+    return write.ok ? write : { ok: false, reason: write.reason, breeding: getCampBreeding() };
+  }
+  function welcomeCampYoung(bedId) {
+    if (!state.campBreeding) return { ok: false, reason: 'no-young', breeding: null };
+    if (state.campBreeding.bedId !== bedId) return { ok: false, reason: 'wrong-bed', breeding: getCampBreeding() };
+    if (!findCareBed(bedId)) return { ok: false, reason: 'missing-bed', breeding: getCampBreeding() };
+    if (state.campBreeding.growthSeconds < CAMP_BREEDING_GROWTH_SECONDS) return { ok: false, reason: 'growing', breeding: getCampBreeding() };
+    const record = cloneWildkinIndividual(state.campBreeding.offspring);
+    if (state.ownedWildkin.length >= MAX_OWNED_WILDKIN) return { ok: false, reason: 'wildkin-owned-capacity', breeding: getCampBreeding() };
+    if (state.ownedWildkin.some(owned => owned.id === record.id || owned.originId === record.originId)) return { ok: false, reason: 'wildkin-identity-conflict', breeding: getCampBreeding() };
+    const rollback = snapshotForBankRollback();
+    state.ownedWildkin.push(record);
+    state.campBreeding = null;
+    state.campCare = { version: CAMP_CARE_VERSION, bedId, wildkinId: record.id, nourishment: 0 };
+    const write = commitBank(rollback, { record: cloneWildkinIndividual(record), breeding: null, care: getCampCare() });
+    return write.ok ? write : { ok: false, reason: write.reason, breeding: getCampBreeding(), care: getCampCare() };
+  }
   function assignCampWildkin(wildkinId, bedId) {
     if (!findCareBed(bedId)) return { ok: false, reason: 'unknown-bed', care: getCampCare() };
     if (!findCareWildkin(wildkinId)) return { ok: false, reason: 'unknown-wildkin', care: getCampCare() };
+    if (state.campBreeding) return { ok: false, reason: 'bed-occupied', care: getCampCare() };
     if (state.campCare) return { ok: false, reason: state.campCare.bedId === bedId && state.campCare.wildkinId === wildkinId ? 'already-assigned' : 'release-required', care: getCampCare() };
     const rollback = snapshotForBankRollback();
     state.campCare = { version: CAMP_CARE_VERSION, bedId, wildkinId, nourishment: 0 };
@@ -1021,6 +1132,7 @@ export function createFrontierProgress(opts = {}) {
   function removeStructure(id) {
     const piece=state.base.structures.find(p=>p.id===id);if(!piece)return {removed:false,reason:'unknown-structure'};
     if(state.campCare?.bedId===id)return {removed:false,reason:'bed-occupied'};
+    if(state.campBreeding?.bedId===id)return {removed:false,reason:'bed-occupied'};
     if(state.campCrop?.plotId===id)return {removed:false,reason:'crop-planted'};
     if(state.base.structures.some(p=>p.supportId===id))return {removed:false,reason:'remove-supported-first'};
     const container=state.inventory.containers.find(c=>c.id===id);
@@ -1175,7 +1287,7 @@ export function createFrontierProgress(opts = {}) {
     isPoiCompleted: id => state.completedPoiIds.includes(id),
     craftConsumable,
     consumeConsumable,
-    getBaseState, getCampCare, assignCampWildkin, releaseCampWildkin, feedCampWildkin, getCampCrop, getCampCropHarvest, plantCampCrop, advanceCampCrop, harvestCampCrop, getFieldSupplies, craftFieldSupply, fitFieldPack, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,
+    getBaseState, getCampCare, assignCampWildkin, releaseCampWildkin, feedCampWildkin, getCampBreeding, getCampBreedingEligibility, beginCampBreeding, advanceCampBreeding, welcomeCampYoung, getCampCrop, getCampCropHarvest, plantCampCrop, advanceCampCrop, harvestCampCrop, getFieldSupplies, craftFieldSupply, fitFieldPack, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,
     getLoadout, assignQuickSlot, selectQuickSlot,
     tryResolve,
     getBankedResources,

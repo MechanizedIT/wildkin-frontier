@@ -26,6 +26,7 @@ import { createRootfallPresentation } from '../presentation/rootfallPresentation
 import { createCampCareInteraction } from '../companions/campCareInteraction.js';
 import { FRONTIER_TERRAIN_CONFIG } from '../world/frontierTerrain.js';
 import { createCampGarden } from '../base/campGarden.js';
+import { createCampBreedingGrowth } from '../companions/campBreedingGrowth.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -48,6 +49,10 @@ export function createBetaGame(deps) {
     if (!canCareAtCamp()) return null;
     const care = progress.getCampCare(), bed = care && base.getWildkinBed(care.bedId);
     return bed ? { ...bed, wildkinId: care.wildkinId } : null;
+  }, getCampYoungAnchor: () => {
+    if (!canCareAtCamp()) return null;
+    const breeding = progress.getCampBreeding(), bed = breeding && base.getWildkinBed(breeding.bedId);
+    return bed ? { ...bed, offspring: breeding.offspring, growthSeconds: breeding.growthSeconds } : null;
   }, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), getRunId: () => session.getRunId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
   deps.characterPhysics?.setColliderFilter(companions.isFollowerCollider);
   creatures.setCompanionColliderFilter(companions.isFollowerCollider);
@@ -66,6 +71,7 @@ export function createBetaGame(deps) {
   const campCare = createCampCareInteraction({ progress, getBed: base.getWildkinBed, canCare: canCareAtCamp,
     getPlayerPosition: () => playerController.getState().pos, notify: toast,
     onChanged: bed => { pickupSystem.resetInventory(); shell?.update(); pulse(bed.anchorPos, 0x91e5a5); audio.playXpCollect(); } });
+  const campBreedingGrowth = createCampBreedingGrowth(progress);
   const campGarden = createCampGarden({ progress, getGarden: base.getBerryGarden, canGarden: canCareAtCamp,
     getPlayerPosition: () => playerController.getState().pos, notify: toast,
     onChanged: plot => { pickupSystem.resetInventory(); shell?.update(); pulse(plot.anchorPos, 0x91e5a5); audio.playPickup('berries'); } });
@@ -129,6 +135,7 @@ export function createBetaGame(deps) {
       const ordinal = (ordinals.get(record.speciesId) ?? 0) + 1;
       ordinals.set(record.speciesId, ordinal); represented.add(record.speciesId);
       return { ...species, id: record.id, speciesId: record.speciesId, name: `${species.name} ${ordinal}`,
+        sex: record.sex, lineage: record.lineage,
         secured: securedIds.has(record.id), active: s.activeWildkinId === record.id, pending: !securedIds.has(record.id), discovered: true,
         journalEntries: getObservationJournal(record.speciesId, s), observedStages: s.observationClues[record.speciesId] ?? 0 };
     });
@@ -294,7 +301,9 @@ export function createBetaGame(deps) {
     // Simulation ownership stays in the single fixed loop. The regular update
     // below only advances visual animation and DOM/presentation concerns.
     updateFixed(dt, { paused = false, authorSuppress = false } = {}) {
-      campGarden.update(dt, { active: !paused && !authorSuppress && !isBlocking() && !deps.isOtherBlocking() && !document.hidden && (session.isCamp() || session.isActive()) });
+      const activePlay = !paused && !authorSuppress && !isBlocking() && !deps.isOtherBlocking() && !document.hidden && (session.isCamp() || session.isActive());
+      campGarden.update(dt, { active: activePlay });
+      campBreedingGrowth.update(dt, { active: activePlay });
       campClearing.update(dt,{hidden:authorSuppress});
       rootfallPresentation.update(rootfall.update(dt,{hidden:authorSuppress}));
       base.update(0,{hidden:authorSuppress});

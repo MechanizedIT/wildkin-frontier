@@ -55,7 +55,10 @@ test('pending restore retains two exact Mosslings and exposes defensive record c
     creatures: { getActiveAliveCreatures: () => [], getCreatures: () => [], hasClearSightToCreature: () => true, setBondingTarget() {} },
     playerController: { getState: () => ({ pos: { x: 0, y: .6, z: 0 }, grounded: true, facing: 0 }) },
     isActive: () => true, getSectionId: () => 'camp', toast() {}, pulse() {} });
-  assert.deepEqual(system.restorePending(records), { ok: true, companions: records });
+  const restored = system.restorePending(records);
+  assert.equal(restored.ok, true);
+  assert.deepEqual(restored.companions.map(record => record.id), records.map(record => record.id));
+  assert.deepEqual(restored.companions.map(record => record.genome), records.map(record => record.genome));
   records[0].genome.baseColor = 'mutated';
   const pending = system.getPending();
   assert.equal(pending.length, 2);
@@ -198,5 +201,52 @@ test('one owned individual docks at its Camp bed, undocks into formation, and ne
   assert.equal(followers[0].visible, false, 'an unselected assignment stays hidden outside Camp');
   assert.equal(followers[0].docked, false);
   assert.equal(followers[0].physicsEnabled, false);
+  system.dispose();
+});
+
+test('one Camp young is visual-only, stages at its bed, and promotes to its ordinary follower without duplication', async t => {
+  await RAPIER.init();
+  const world = new RAPIER.World({ x: 0, y: 0, z: 0 });
+  t.after(() => world.free());
+  const child = record('moss_child', 'offspring_source');
+  let owned = [], active = null;
+  let careAnchor = null;
+  let youngAnchor = { anchorPos: { x: 3, y: 1.1, z: 5 }, yaw: .4, offspring: child, growthSeconds: 0 };
+  const system = createCompanionSystem({ scene: new THREE.Scene(), physicsWorld: { world, RAPIER },
+    registry: { data: { visualAssets: [{ id: 'asset_wildkin_mossling', parts: [] }] }, getLootChestById: () => null,
+      getSectionById: () => ({ surface: null }) },
+    progress: { getState: () => ({ securedCompanions: ['mossling'], completedPoiIds: [], discoveredSpecies: [], observationClues: {} }),
+      getOwnedWildkin: () => owned, getActiveWildkin: () => active, getModifiers: () => ({ captureCapacity: 2 }),
+      discoverSpecies() {}, earnObservationClue() {} },
+    creatures: { getActiveAliveCreatures: () => [], getCreatures: () => [], hasClearSightToCreature: () => true, setBondingTarget() {} },
+    playerController: { getState: () => ({ pos: { x: 0, y: .6, z: 0 }, grounded: true, facing: 0 }) },
+    playerCombat: { getHealth: () => 6 }, isActive: () => true, getSectionId: () => 'camp', getTerrainHeight: () => 0,
+    getCampCareAnchor: () => careAnchor, getCampYoungAnchor: () => youngAnchor, toast() {}, pulse() {} });
+
+  system.updateFixed(.01, { sectionId: 'camp' });
+  let followers = system.getFollowerDiagnostics();
+  assert.equal(followers.length, 1);assert.equal(followers[0].id, child.id);
+  assert.equal(followers[0].young, true);assert.equal(followers[0].docked, true);assert.equal(followers[0].physicsEnabled, null);
+  assert.equal(followers[0].growthStage, 0);assert.equal(followers[0].scale, .7 * .7);
+
+  youngAnchor = { ...youngAnchor, growthSeconds: 45 };
+  system.updateFixed(.01, { sectionId: 'camp' });
+  assert.equal(system.getFollowerDiagnostics()[0].growthStage, 1);assert.equal(system.getFollowerDiagnostics()[0].scale, .7 * .85);
+  system.updateFixed(.01, { sectionId: 'frontier' });
+  assert.equal(system.getFollowerDiagnostics()[0].visible, false,'the young hides outside Camp without a collider');
+
+  youngAnchor = null;owned = [child];active = child;
+  careAnchor = { wildkinId: child.id, anchorPos: { x: 3, y: 1.1, z: 5 }, yaw: .4 };
+  system.updateFixed(.01, { sectionId: 'camp' });
+  followers = system.getFollowerDiagnostics();
+  assert.equal(followers.length, 1,'Welcome keeps the existing child visual');
+  assert.equal(followers[0].young, false);assert.equal(followers[0].scale, .7);assert.equal(followers[0].docked, true);
+  assert.equal(followers[0].physicsEnabled, false);
+
+  careAnchor = null;
+  system.updateFixed(.01, { sectionId: 'frontier' });
+  followers = system.getFollowerDiagnostics();
+  assert.equal(followers.length, 1);assert.equal(followers[0].young, false);assert.equal(followers[0].scale, .7);
+  assert.equal(followers[0].visible, true);assert.equal(followers[0].physicsEnabled, true,'the welcomed child returns to ordinary following');
   system.dispose();
 });

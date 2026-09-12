@@ -14,7 +14,7 @@ import { createWildkinGenome, normalizeWildkinGenome } from '../creatures/wildki
 import { cloneWildkinIndividual, MAX_PENDING_WILDKIN, normalizeWildkinIndividual } from '../creatures/wildkinIndividual.js';
 import { applyWildkinAppearance } from '../creatures/wildkinAppearance.js';
 
-export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, getCampCareAnchor = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
+export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, getCampCareAnchor = () => null, getCampYoungAnchor = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
   let pending = [], cooldown = 0, elapsed = 0, fixedElapsed = 0;
   let interactionTargetId = null;
   const followers = new Map();
@@ -226,22 +226,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     const physicsVisible = !!visible && !follower.docked;
     if (follower.physics && follower.physics.enabled !== physicsVisible) follower.physics.setEnabled(physicsVisible);
   }
-  function ensureFollower(record, player, sectionId, slotIndex, slotCount) {
-    let follower = followers.get(record.id);
-    if (follower) return follower;
-    const species = COMPANION_BY_ID[record.speciesId];
-    const asset = registry.data.visualAssets.find(a => a.id === species?.assetId);
-    if (!asset) return null;
-    const group = createVisualAssetVisual(asset);
-    if (record.genome) applyWildkinAppearance(group, record.genome);
-    group.name = `companion_${record.id}`;
-    group.userData.betaPresentation = true;
-    group.scale.setScalar(0.7);
-    group.userData.modelAnimator = createVisualAnimationController(group);
-    scene.add(group);
-    const startAnchor = getCompanionFormationAnchor(player.pos, player.facing, slotIndex, slotCount);
-    const start = getSpawnPosition(startAnchor, sectionId);
-    const physics = createCompanionPhysics({
+  function createFollowerPhysics(start) {
+    return createCompanionPhysics({
       physicsWorld,
       initialPosition: start,
       // The party is intentionally ghosted to each other. World terrain,
@@ -258,6 +244,34 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
         return false;
       },
     });
+  }
+  function ensureFollower(record, player, sectionId, slotIndex, slotCount, { young = false } = {}) {
+    let follower = followers.get(record.id);
+    if (follower) {
+      if (!young && follower.young) {
+        follower.young = false;
+        follower.group.scale.setScalar(.7);
+        follower.physics = createFollowerPhysics(getSpawnPosition(player.pos, sectionId));
+        follower.docked = false;
+        follower.growthStage = null;
+        follower.growthScale = 1;
+        follower.state = { mode: "SETTLE", attentionUntil: fixedElapsed + .8, lastSettledAt: fixedElapsed };
+      }
+      return follower;
+    }
+    const species = COMPANION_BY_ID[record.speciesId];
+    const asset = registry.data.visualAssets.find(a => a.id === species?.assetId);
+    if (!asset) return null;
+    const group = createVisualAssetVisual(asset);
+    if (record.genome) applyWildkinAppearance(group, record.genome);
+    group.name = `companion_${record.id}`;
+    group.userData.betaPresentation = true;
+    group.scale.setScalar(young ? .7 * .7 : .7);
+    group.userData.modelAnimator = createVisualAnimationController(group);
+    scene.add(group);
+    const startAnchor = getCompanionFormationAnchor(player.pos, player.facing, slotIndex, slotCount);
+    const start = getSpawnPosition(startAnchor, sectionId);
+    const physics = young ? null : createFollowerPhysics(start);
     follower = {
       id: record.id, speciesId: record.speciesId, group, physics, sectionId,
       state: { mode: "SETTLE", attentionUntil: 0, lastSettledAt: fixedElapsed },
@@ -268,10 +282,13 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       grounded: false,
       blockedSeconds: 0,
       docked: false,
+      young,
+      growthStage: young ? 0 : null,
+      growthScale: young ? .7 : 1,
       steerSide: record.id.charCodeAt(0) % 2 ? 1 : -1,
     };
     followers.set(record.id, follower);
-    syncFollowerVisual(follower);
+    if (!young) syncFollowerVisual(follower);
     return follower;
   }
   function syncFollowerVisual(follower) {
@@ -305,6 +322,24 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     follower.grounded = true;
     follower.blockedSeconds = 0;
     setFollowerVisible(follower, true);
+    follower.group.position.set(point.x, point.y + follower.visualYOffset, point.z);
+    follower.group.rotation.y = Number.isFinite(anchor.yaw) ? anchor.yaw : 0;
+  }
+  function dockYoung(follower, anchor, sectionId) {
+    const point = anchor.anchorPos;
+    const growthSeconds = Math.max(0, Math.min(120, Number(anchor.growthSeconds) || 0));
+    const growthStage = growthSeconds < 40 ? 0 : growthSeconds < 80 ? 1 : 2;
+    const growthScale = [.7, .85, 1][growthStage];
+    follower.young = true;
+    follower.docked = true;
+    follower.sectionId = sectionId;
+    follower.state = { mode: "YOUNG_DOCKED", attentionUntil: 0, lastSettledAt: fixedElapsed };
+    follower.lastSpeed = 0;
+    follower.growthStage = growthStage;
+    follower.growthScale = growthScale;
+    follower.physics?.setEnabled(false);
+    follower.group.scale.setScalar(.7 * growthScale);
+    follower.group.visible = true;
     follower.group.position.set(point.x, point.y + follower.visualYOffset, point.z);
     follower.group.rotation.y = Number.isFinite(anchor.yaw) ? anchor.yaw : 0;
   }
@@ -381,7 +416,10 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     cooldown = Math.max(0, cooldown - dt);
     const careAnchor = getCampCareAnchor?.() ?? null;
     const records = desiredRecords(careAnchor);
-    const ids = records.map(record => record.id);
+    const youngAnchor = getCampYoungAnchor?.() ?? null;
+    const youngRecord = youngAnchor?.offspring?.id && !records.some(record => record.id === youngAnchor.offspring.id)
+      ? youngAnchor.offspring : null;
+    const ids = [...records.map(record => record.id), ...(youngRecord ? [youngRecord.id] : [])];
     const player = playerController.getState();
     for (const [id, follower] of followers) {
       if (!ids.includes(id) && follower.docked) follower.docked = false;
@@ -409,6 +447,15 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       follower.state = intent.nextState;
       moveFollower(follower, intent, dt);
       syncFollowerVisual(follower);
+    }
+    if (youngRecord) {
+      const follower = ensureFollower(youngRecord, player, sectionId, records.length, records.length + 1, { young: true });
+      const validAnchor = youngAnchor?.anchorPos
+        && [youngAnchor.anchorPos.x, youngAnchor.anchorPos.y, youngAnchor.anchorPos.z].every(Number.isFinite);
+      if (follower) {
+        if (hidden || sectionId !== 'camp' || !validAnchor) setFollowerVisible(follower, false);
+        else dockYoung(follower, youngAnchor, sectionId);
+      }
     }
   }
   function update(dt, { sectionId, paused = false, hidden = false } = {}) {
@@ -480,6 +527,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       grounded: follower.grounded, steeringAroundObstacle: follower.blockedSeconds > 0,
       position: follower.group.position.toArray(), visible: follower.group.visible, docked: follower.docked,
       physicsEnabled: follower.physics?.enabled ?? null,
+      young: !!follower.young, growthStage: follower.growthStage, growthScale: follower.growthScale, scale: follower.group.scale.x,
     })),
     getAbility: () => { const active = getActiveRecord(); const species = COMPANION_BY_ID[active?.speciesId]; return species ? { individualId: active.id, speciesId: species.id, name: species.abilityName, ready: cooldown <= 0, cooldown } : null; },
     isFollowerCollider: (candidate) => {

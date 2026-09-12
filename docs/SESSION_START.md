@@ -9,7 +9,7 @@
 
 ## Current result
 
-Living Frontier now has a physical nursery and berry garden. Plant a berry, explore while it grows, and harvest3berries or4with a nearby fully nourished Mossling. Native failure/retry/reload, pause, outing/return and phone-sized harvest passed; packaged Plant/growth and clean logs passed. R2 scored8.6/10.1,070 tests plus verify/build/validation/ZIP PASS;44.01MB unpacked/20.51MB ZIP. See `art/reviews/living-frontier-f6b/receipt.md`. Eye overlays remain rejected; F5A terrace is functional groundwork, not visual target admission. Generalized climbing/swimming and breeding remain unfinished. **Next: F7A physical pairing and young, continuing the active goal until Chris asks to stop.**
+Living Frontier now has physical nursery care, berry gardening and the first ordinary pairing/young loop. Two opposite-sex Mosslings produce one exact inherited child, which grows at the bed and becomes an owned companion through Welcome. Native failure/retry/reload, portrait Welcome, lineage/selection/follow and portable Welcome passed. R2 scored8.5;1,077tests plus verify/build/validation/ZIP PASS;44.03MB/20.51MB. See `art/reviews/living-frontier-f7a/receipt.md`. Chris woke and prioritized mobile/casual-first and portrait; see `MOBILE_IDENTITY.md` for Honeycomb findings. **Next M1 simplifies portrait camera/controls/HUD. Continue the active goal until Chris asks to stop.** Richer geography, general climbing/swimming, guided research and alternate reproduction remain unfinished.
 
 ## Inherited restart checkpoint
 

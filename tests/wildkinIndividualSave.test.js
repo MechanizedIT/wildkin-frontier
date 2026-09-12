@@ -3,6 +3,7 @@ import test from 'node:test';
 import WORLD_DATA from '../src/world/data/world.js';
 import { createFrontierProgress } from '../src/save/frontierProgress.js';
 import { createWildkinGenome } from '../src/creatures/wildkinGenome.js';
+import { getWildkinSex } from '../src/creatures/wildkinIndividual.js';
 
 function withStorage(run) {
   const previous = global.localStorage;
@@ -19,7 +20,8 @@ function run(runId, companions = []) {
     health: 4, xp: 0, companions, corePending: false, kills: 0, maxDepth: 0, newWaypoints: [], newBeacons: [] };
 }
 function mossling(id, originId, acquiredRunId) {
-  return { version: 1, id, speciesId: 'mossling', originId, acquiredRunId, genome: createWildkinGenome(originId) };
+  return { version: 1, id, speciesId: 'mossling', originId, acquiredRunId,
+    sex: getWildkinSex(originId), lineage: null, genome: createWildkinGenome(originId) };
 }
 
 test('capture persists the exact pending individual and source atomically across reload', () => withStorage(({ fail }) => {

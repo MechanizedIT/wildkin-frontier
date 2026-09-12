@@ -121,3 +121,9 @@ Native harnesses must use current canonical objects and physically clear startin
 ### September 12 — garden foliage and rendered cost
 - Inspect the local geometry axis before rotating repeated foliage: the leaf blade grows along+Y, so upright/edge-on blades read as thin flower stems. Staggered outward radial tiers produced a fuller shrub in one meaningful second pass.
 - Count visible triangles times InstancedMesh.count, not unique geometry or hidden objects. A temporary real-factory thumbnail renderer supplies actual WebGL calls/triangles and keeps catalog pictures consistent with changed physical models. Dispose its resources and context; menus still use static PNGs.
+
+### September12 — nursery reservation and mobile priority
+- Check sibling reservations beyond the directly occupied object. Blocking care only on the growing child's own bed still allowed another paid care assignment that Welcome would overwrite. A single-nursery foundation now makes those states globally exclusive in runtime and import.
+- A young scale that looks plausible numerically can read as a small prop at gameplay distance. First-stage70% preserved recognition after55% failed review; anatomy and animation remain unchanged.
+- Exact identity test fixtures should include every new canonical field; preserve full record equality instead of stripping sex/lineage to make an older assertion pass.
+- A nearest object behind the player can suppress a visible object's world action in portrait. M1 must consider target readability along with physical range, while retaining authoritative activation checks.

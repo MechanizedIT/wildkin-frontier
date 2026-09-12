@@ -9,9 +9,11 @@ import { createCreatureSystem } from '../src/creatures/creatureSystem.js';
 import { createFieldTaming } from '../src/companions/fieldTaming.js';
 import { COMPANION_BY_ID } from '../src/companions/companionCatalog.js';
 import { createWildkinGenome } from '../src/creatures/wildkinGenome.js';
+import { getWildkinSex } from '../src/creatures/wildkinIndividual.js';
 
 const wildkin = (id, speciesId = 'tidefin', originId = `f1:w:0:0:${id}`, acquiredRunId = 'same-run-123') => ({
   version: 1, id, speciesId, originId, acquiredRunId,
+  sex: getWildkinSex(originId), lineage: null,
   genome: speciesId === 'mossling' ? createWildkinGenome(originId) : null,
 });
 const record = () => ({ runId: 'same-run-123', startAnchorId: 'camp_gate', sectionId: 'section_2',

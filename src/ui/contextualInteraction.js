@@ -73,7 +73,7 @@ export function createContextualInteraction(opts = {}) {
     if(current?.id!==info?.id || current?.type!==info?.type)lastPlacement=null;
     current = info;
     if (!buttonEl) return;
-    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}|${info.nourishment}|${info.secondary?.label}|${info.bonus}|${JSON.stringify(info.cost ?? info.reward ?? null)}` : "";
+    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}|${info.nourishment}|${info.growthStage}|${info.secondary?.label}|${info.bonus}|${JSON.stringify(info.cost ?? info.reward ?? null)}` : "";
     // Countdown/accessibility detail can change without moving or rebuilding a
     // held action. Only its visible label/identity/availability affects layout.
     if (info) {
@@ -84,7 +84,7 @@ export function createContextualInteraction(opts = {}) {
     if (presentationKey === nextKey) return;
     presentationKey = nextKey;
     buttonEl.disabled = info?.disabled === true;
-    buttonEl.classList.toggle('nursery-action', (info?.type === 'wildkinBed' && info.nourishment !== null) || !!info?.bonus);
+    buttonEl.classList.toggle('nursery-action', (info?.type === 'wildkinBed' && (info.nourishment !== null || info.growthStage != null)) || !!info?.bonus);
     secondaryEl.textContent = info?.secondary?.label ?? '';
     size = null; layoutTimer = 1; hide();
     if (!info) {
@@ -113,9 +113,9 @@ export function createContextualInteraction(opts = {}) {
         }
         label.append(costs);
       }
-      if (info.type === 'wildkinBed' && info.nourishment !== null) {
+      if (info.type === 'wildkinBed' && (info.nourishment !== null || info.growthStage != null)) {
         const dots = document.createElement('small'); dots.className = 'contextual-action__nourishment'; dots.setAttribute('aria-hidden','true');
-        for (let i=0;i<3;i++) { const dot=document.createElement('i'); dot.className=i<info.nourishment?'filled':''; dots.append(dot); }
+        for (let i=0;i<3;i++) { const dot=document.createElement('i'); dot.className=i<(info.growthStage ?? info.nourishment)?'filled':''; dots.append(dot); }
         label.append(dots);
       }
       if (info.bonus) {
