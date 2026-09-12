@@ -12,24 +12,24 @@ const textureCache=new Map();
 function hash(x,z,seed=0){let n=Math.imul(x|0,374761393)^Math.imul(z|0,668265263)^(seed|0);n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967295;}
 function noise(x,z,seed){const ix=Math.floor(x),iz=Math.floor(z),u=smoothstep(0,1,x-ix),v=smoothstep(0,1,z-iz);return lerp(lerp(hash(ix,iz,seed),hash(ix+1,iz,seed),u),lerp(hash(ix,iz+1,seed),hash(ix+1,iz+1,seed),u),v);}
 
+export function createTerrainColorSampler(surface){
+  const palette={...DEFAULTS,...surface.palette},grass=new THREE.Color(palette.grass),shade=new THREE.Color(palette.grassShade),shore=new THREE.Color(palette.shore),rock=new THREE.Color(palette.rock),color=new THREE.Color();
+  return (x,z)=>{
+    const n=noise(x*.38,z*.38,surface.seed??7),fine=noise(x*1.8,z*1.8,93);
+    color.copy(shade).lerp(grass,.48+n*.42+fine*.1);
+    const slope=Math.hypot(getSurfaceHeight(surface,x+.3,z)-getSurfaceHeight(surface,x-.3,z),getSurfaceHeight(surface,x,z+.3)-getSurfaceHeight(surface,x,z-.3))/.6;
+    if(slope>.35)color.lerp(rock,smoothstep(.35,.9,slope)).multiplyScalar(.94+n*.08);
+    const wet=getWaterRadius(surface,x,z);if(wet<1.13)color.lerp(shore,1-smoothstep(.9,1.13,wet));
+    return color.multiplyScalar(.97+fine*.06);
+  };
+}
+
 export function createAuthoredTerrain(region){
   const surface=region.surface,palette={...DEFAULTS,...surface.palette};
   const bounds=region.bounds, width=bounds.maxX-bounds.minX,depth=bounds.maxZ-bounds.minZ;
   const nx=Math.ceil(width/.7),nz=Math.ceil(depth/.7),dx=width/nx,dz=depth/nz;
   const positions=new Float32Array((nx+1)*(nz+1)*3),colors=new Float32Array(positions.length),indices=[];
-  const grass=new THREE.Color(palette.grass),shade=new THREE.Color(palette.grassShade),path=new THREE.Color(palette.path),edge=new THREE.Color(palette.pathEdge),shore=new THREE.Color(palette.shore),rock=new THREE.Color(palette.rock);
-  const color=new THREE.Color();
-  function paintColor(x,z){
-    const n=noise(x*.38,z*.38,surface.seed??7),fine=noise(x*1.8,z*1.8,93);
-    color.copy(shade).lerp(grass,.48+n*.42+fine*.1);
-    const slope=Math.hypot(getSurfaceHeight(surface,x+.3,z)-getSurfaceHeight(surface,x-.3,z),getSurfaceHeight(surface,x,z+.3)-getSurfaceHeight(surface,x,z-.3))/.6;
-    // Broad matte rock faces, not repeated contour stripes around every hill.
-    if(slope>.35)color.lerp(rock,smoothstep(.35,.9,slope)).multiplyScalar(.94+n*.08);
-    // Paths are painted at higher resolution below, so close-up curves stay crisp.
-    const wet=getWaterRadius(surface,x,z);
-    if(wet<1.13)color.lerp(shore,1-smoothstep(.9,1.13,wet));
-    return color.multiplyScalar(.97+fine*.06);
-  }
+  const paintColor=createTerrainColorSampler(surface);
   for(let iz=0;iz<=nz;iz++)for(let ix=0;ix<=nx;ix++){
     const x=bounds.minX+ix*dx,z=bounds.minZ+iz*dz,i=(iz*(nx+1)+ix)*3;
     positions[i]=x;positions[i+1]=getSurfaceHeight(surface,x,z)-.018;positions[i+2]=z;

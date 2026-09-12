@@ -19,6 +19,9 @@ export function createPhysicsWorld(RAPIER, playground) {
   const objectColliders = new Map();
   const disabledObjects = new Set();
   const colliderObjects = new Map();
+  // Streamed terrain owns one collider per stable surface id. Authored terrain
+  // remains in the ordinary object index; this map only tracks runtime additions.
+  const terrainSurfaceColliders = new Map();
   let activeSectionId = null;
   let sectionSelectionMade = false;
 
@@ -30,6 +33,29 @@ export function createPhysicsWorld(RAPIER, playground) {
     if (!objectColliders.has(objectId)) objectColliders.set(objectId, []);
     objectColliders.get(objectId).push(collider);
     colliderObjects.set(collider, objectId);
+  }
+
+  function retireCollider(collider) {
+    if (!collider) return false;
+    const staticIndex = staticColliders.indexOf(collider);
+    if (staticIndex >= 0) staticColliders.splice(staticIndex, 1);
+    cameraColliders.delete(collider);
+    const objectId = colliderObjects.get(collider);
+    colliderObjects.delete(collider);
+    colliderSections.delete(collider);
+    if (objectId != null) {
+      const siblings = objectColliders.get(objectId);
+      if (siblings) {
+        const next = siblings.filter(entry => entry !== collider);
+        if (next.length) objectColliders.set(objectId, next);
+        else {
+          objectColliders.delete(objectId);
+          disabledObjects.delete(objectId);
+        }
+      }
+    }
+    world.removeCollider(collider, true);
+    return true;
   }
 
   function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0, sectionId = null, objectId = null, { cameraSolid = true } = {}) {
@@ -169,11 +195,49 @@ export function createPhysicsWorld(RAPIER, playground) {
     return { changed: true, sectionId };
   }
 
+  /**
+   * Apply one streamed terrain lifecycle batch. Vertices use local x/z and
+   * real y; origin rebases x/z into the shared Rapier world coordinates.
+   * A duplicate stable id is ignored, preserving the existing collider.
+   */
+  function updateTerrainSurfaces({ add = [], remove = [] } = {}) {
+    let added = 0;
+    let removed = 0;
+    let ignored = 0;
+    for (const id of remove) {
+      const collider = terrainSurfaceColliders.get(typeof id === 'string' ? id : id?.id);
+      if (!collider) continue;
+      terrainSurfaceColliders.delete(typeof id === 'string' ? id : id.id);
+      retireCollider(collider);
+      removed++;
+    }
+    for (const surface of add) {
+      const id = surface?.id;
+      if (id == null || terrainSurfaceColliders.has(id) || objectColliders.has(id)) {
+        ignored++;
+        continue;
+      }
+      const origin = surface.origin ?? { x: 0, z: 0 };
+      const desc = RAPIER.ColliderDesc.trimesh(surface.vertices, surface.indices)
+        .setTranslation(origin.x ?? 0, 0, origin.z ?? 0)
+        .setFriction(0.6)
+        .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
+      const collider = world.createCollider(desc);
+      registerCollider(collider, surface.sectionId ?? null, id);
+      terrainSurfaceColliders.set(id, collider);
+      collider.setEnabled(isColliderEnabled(collider));
+      added++;
+    }
+    // Refresh broadphase exactly once, after the complete add/remove batch.
+    if (added || removed) world.step();
+    return { added, removed, ignored, active: terrainSurfaceColliders.size };
+  }
+
   function registerCameraCollider(collider) {
     if (collider) cameraColliders.add(collider);
     return collider;
   }
   function unregisterCameraCollider(collider) { cameraColliders.delete(collider); }
 
-  return { world, staticColliders, cameraColliders, colliderSections, registerCameraCollider, unregisterCameraCollider, setActiveSection, setStaticObjectEnabled, getActiveSectionId: () => activeSectionId, RAPIER };
+  return { world, staticColliders, cameraColliders, colliderSections, registerCameraCollider, unregisterCameraCollider, setActiveSection, setStaticObjectEnabled, updateTerrainSurfaces, getActiveSectionId: () => activeSectionId, RAPIER };
 }

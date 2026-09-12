@@ -82,3 +82,12 @@ For the tested bpy-dev derivative registered as `blender_lab` and official porta
 Backpack quick-slot assignment is rendered by `src/ui/inventoryPanel.js` and routed through `src/inventory/physicalInventory.js` to existing `frontierProgress.assignQuickSlot`. References stay item IDs, never stack indices or another container. `equipmentSystem` owns runtime input; the blocking frame loop cancels held use while the panel is open. `betaShell` routes Journal Gear to the physical panel. `tests/equipmentLoadout.test.js` covers full-pack assignment, sorting and quantity/save ownership; native layout/gesture receipts are in `.dream-loop/physical-hotbar-v1/`.
 
 September12 stopped candidate: `tools/compose-emberfall-ravine.mjs` is deliberately unwired; `tests/emberfallRavine.candidate.mjs` is an opt-in failing study outside the normal suite. See EMBERFALL_CANDIDATE_HANDOFF.md before integration.
+# Living Frontier ownership — September 12 pivot
+
+- `world/frontierTerrain.js`: deterministic global sampler,50 m chunk identity, shared mesh borders and Camp reserve.
+- `world/frontierChunkRuntime.js`: bounded terrain residents and complete visual/Rapier lifecycle; `staticWorldBuilder` installs the shared active height provider.
+- `presentation/authoredTerrain.js:createTerrainColorSampler` and `terrainPaint.js`: shared ground color/paint treatment for authored and streamed ground.
+- `world/frontierEcologyState.js` + `save/frontierProgress.js`: canonical edition/seed, bounded generated-forage records and atomic commits.
+- `resources/resourceSystem.js:addPlacements/removePlacementsByChunk`: generated finite resource residents, commit-before-yield and restore. F2A composition wiring is the next task.
+- `creatures/wildkinGenome.js`: versioned Mossling recipe, expression metadata and parental inheritance; not yet wired to individual visuals/capture.
+- Evidence: `art/reviews/living-frontier-f1/receipt.md`; active scope: `docs/CURRENT_SLICE.md`.

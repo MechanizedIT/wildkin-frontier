@@ -1,5 +1,7 @@
 # Game Design — Wildkin Frontier
 
+> **September 12 Living Frontier direction supersedes the finite-section concept below.** Chris approved continuous procedural geography with curated ecology/transitions, individual modular Wildkin, immersive Camp care/research/breeding and eventual DNA recipes. PC/web playable first with mobile viability. Danger, slow traversal, gathering and the crashed-Camp fantasy remain. No backwards compatibility or parallel campaign is required. LIVING_FRONTIER_PLAN owns the new sequence; CURRENT_SLICE distinguishes implementation from plans. The retained sections describe the reusable baseline and history.
+
 > Current product direction: independent single-player expedition game. On September 9, 2026, Chris authorized autonomous design and implementation of a playable beta candidate and superseded the former hackathon/phase/owner-only composition restrictions. The core vision below is retained. Historical references to competition cuts, Phase 4B limits or unimplemented prototype systems do not describe the current 0.3 alpha.
 
 ## Current alpha implementation and provisional design

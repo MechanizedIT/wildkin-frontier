@@ -28,8 +28,9 @@ export function createRuntimeResourcePlacements(resources = []) {
   });
 }
 
-export function createResourceSystem(scene, physicsWorld, placements, { hasPendingYield = () => false } = {}) {
+export function createResourceSystem(scene, physicsWorld, placements, { hasPendingYield = () => false, readPersistentResource = () => undefined, commitPersistentResource = () => ({ ok: true }) } = {}) {
   const nodes = [];
+  const nodesById = new Map();
   const removedResourceSources = new Map();
   let timeAcc = 0;
   let activeRegionSet = null; // null = all active (backwards compat for tests without region manager)
@@ -62,11 +63,17 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
     return physicsWorld.world.createCollider(colliderDesc);
   }
 
-  // Create nodes from placements [{type, pos, regionId?, id?}]
-  for (let i = 0; i < placements.length; i++) {
-    const p = placements[i];
-    const regionId = p.regionId ?? p.region ?? null;
-    const nodeId = p.id ?? `${p.type}_${i}`;
+  // Creates one resident. Generated IDs are stable and therefore never depend
+  // on a transient resident-array index.
+  function addPlacement(p) {
+    const i = nodes.length;
+    const generatedChunkId = p.chunkId ?? (Number.isInteger(p.cx) && Number.isInteger(p.cz) ? `${p.cx}:${p.cz}` : null);
+    const regionId = p.regionId ?? p.region ?? (generatedChunkId ? 'camp' : null);
+    const generatedIndex = p.placementIndex ?? p.resourceIndex ?? p.index;
+    const nodeId = p.id ?? (p.persistentFinite && generatedChunkId && Number.isInteger(generatedIndex)
+      ? `f1:r:${generatedChunkId}:${generatedIndex}`
+      : `${p.type}_${i}`);
+    if (nodesById.has(nodeId)) return null;
     const transform = {
       rotationY: p.rotY ?? p.rotationY ?? 0,
       uniformScale: p.uniformScale ?? p.scale ?? 1,
@@ -95,17 +102,87 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
     const type = p.resourceType ?? RESOURCE_TYPES[p.type];
     let collider = null;
     let remnantCollider = null;
-    if (p.collisionEnabled !== false && type.solid && type.colliderHalfExtents) {
-      collider = createRuntimeCollider(p.type, state, type);
-      physicsWorld.world.step();
+    if (p.persistentFinite) {
+      const savedRemaining = readPersistentResource(nodeId);
+      if (Number.isFinite(savedRemaining)) {
+        state.remainingChunks = Math.max(0, Math.min(state.maxChunks, Math.floor(savedRemaining)));
+        if (state.remainingChunks <= 0) {
+          state.nodeState = 'RESPAWNING';
+          state.respawnRemaining = Infinity;
+          for (const mesh of chunkMeshes) mesh.visible = false;
+          visualRoot.visible = false;
+          if (remnantMesh) remnantMesh.visible = true;
+        } else {
+          hideOneChunk({ chunkMeshes }, Math.ceil(state.remainingChunks / state.maxChunks * chunkMeshes.length));
+        }
+      }
     }
-    nodes.push({ group, visualRoot, state, type, chunkMeshes, feedbackMaterials, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, _regionInactive: false, _removed: false, visibleInPlay: p.visibleInPlay !== false, collisionEnabled: p.collisionEnabled !== false });
+    if (p.collisionEnabled !== false && state.nodeState === 'READY' && type.solid && type.colliderHalfExtents) {
+      collider = createRuntimeCollider(p.type, state, type);
+    }
+    const node = { group, visualRoot, state, type, chunkMeshes, feedbackMaterials, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, chunkId: generatedChunkId, persistentFinite: p.persistentFinite === true, _regionInactive: false, _removed: false, visibleInPlay: p.visibleInPlay !== false, collisionEnabled: p.collisionEnabled !== false };
+    nodes.push(node);
+    nodesById.set(nodeId, node);
+    return node;
   }
+  let initialPhysicsChanged = false;
+  for (const placement of placements) initialPhysicsChanged = Boolean(addPlacement(placement)?.collider) || initialPhysicsChanged;
+  if (initialPhysicsChanged) physicsWorld.world.step();
 
   function isRegionActive(regionId) {
     if (activeRegionSet === null) return true;
     if (!regionId) return true; // global
     return activeRegionSet.has(regionId);
+  }
+
+  function disposeResidentVisual(node) {
+    node.group.removeFromParent();
+    node.group.traverse((object) => {
+      if (!object.isMesh) return;
+      if (object.geometry && !object.geometry.userData?.isSharedAssetGeometry) object.geometry.dispose?.();
+      for (const material of (Array.isArray(object.material) ? object.material : [object.material])) {
+        if (material && !material.userData?.isSharedAssetMaterial) material.dispose?.();
+      }
+    });
+  }
+
+  // Generated residents are the only nodes removed from the owner entirely.
+  // Pickups deliberately remain in pickupSystem, whose pending-yield contract
+  // continues independently of source residency.
+  function removePlacementsByChunk(chunkId) {
+    let physicsChanged = false;
+    for (let index = nodes.length - 1; index >= 0; index--) {
+      const node = nodes[index];
+      if (node.chunkId !== chunkId) continue;
+      for (const key of ['collider', 'remnantCollider']) {
+        if (!node[key]) continue;
+        physicsWorld.world.removeCollider(node[key], true);
+        node[key] = null;
+        physicsChanged = true;
+      }
+      disposeResidentVisual(node);
+      nodesById.delete(node.id);
+      regionInactiveMap.delete(node.index);
+      nodes.splice(index, 1);
+    }
+    nodes.forEach((node, index) => { node.index = index; });
+    // Region masking keys are resident indices; rebuild after compaction so an
+    // unloaded sibling cannot strand an inactive survivor without restoration.
+    regionInactiveMap = new Map(nodes.filter(node => node._regionInactive).map(node => [node.index, true]));
+    if (physicsChanged) physicsWorld.world.step();
+  }
+
+  function addPlacements(nextPlacements = []) {
+    let physicsChanged = false;
+    const added = [];
+    for (const placement of nextPlacements) {
+      const node = addPlacement(placement);
+      if (!node) continue;
+      added.push(node);
+      physicsChanged = Boolean(node.collider) || physicsChanged;
+    }
+    if (physicsChanged) physicsWorld.world.step();
+    return added;
   }
 
   // Persistence owns the IDs; this owner only masks their runtime lifecycle.
@@ -252,8 +329,15 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
     if (node._removed || node._regionInactive || !isRegionActive(node.regionId)) return false;
     if (node.state.nodeState !== "READY") return false;
     if (node.state.remainingChunks <= 0) return false;
+    const nextRemaining = node.state.remainingChunks - 1;
+    // Finite streamed forage is a save transaction: do not emit an accepted
+    // reward, feedback, or visual state until the durable source count wins.
+    if (node.persistentFinite) {
+      const commit = commitPersistentResource(node.id, nextRemaining) ?? { ok: false };
+      if (!commit.ok) return false;
+    }
     // Reduce chunk
-    node.state.remainingChunks -= 1;
+    node.state.remainingChunks = nextRemaining;
     hideOneChunk(node, Math.ceil(node.state.remainingChunks / node.state.maxChunks * node.chunkMeshes.length));
     node._wobbleTime = 0;
     node._wobbleAmount = node.type.id === "fiber" ? 0.18 : node.type.id === "stone" ? 0.12 : 0.15;
@@ -267,7 +351,7 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
     if (node.state.remainingChunks <= 0) {
       // Depleted
       node.state.nodeState = "RESPAWNING";
-      node.state.respawnRemaining = node.type.respawnSeconds;
+      node.state.respawnRemaining = node.persistentFinite ? Infinity : node.type.respawnSeconds;
       for (const m of node.chunkMeshes) m.visible = false;
       node.visualRoot.visible = false;
       if (node.remnantMesh) node.remnantMesh.visible = true;
@@ -307,6 +391,7 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
   }
 
   function respawnNode(node, playerPos) {
+    if (node.persistentFinite) return;
     node.state.nodeState = "READY";
     node.state.remainingChunks = node.type.maxChunks;
     node.state.respawnRemaining = 0;
@@ -330,7 +415,7 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
   function resetDepleted() {
     for (const n of nodes) {
       if (n._removed) continue;
-      if (n.state.nodeState === 'RESPAWNING' && !hasPendingYield(n)) {
+      if (!n.persistentFinite && n.state.nodeState === 'RESPAWNING' && !hasPendingYield(n)) {
         n.state.nodeState = 'READY';
         n.state.remainingChunks = n.type.maxChunks;
         n.state.respawnRemaining = 0;
@@ -432,6 +517,11 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
       // to one finite harvest cycle (including its configured hit bonuses).
       // Progress only while active (freeze when inactive).
       if (n.state.nodeState === "RESPAWNING") {
+        if (n.persistentFinite) {
+          n.haloMesh.visible = false;
+          n.respawnGroup.visible = false;
+          continue;
+        }
         if (hasPendingYield(n)) {
           n.haloMesh.visible = false;
           n.respawnGroup.visible = false;
@@ -495,5 +585,5 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
     return nodes.filter(n => !n._removed && isRegionActive(n.regionId));
   }
 
-  return { nodes, getManualTargets, getEligibleNodes, getHaloTargets, isHarvestableInRange, canAutoHarvestNow, applyHit, update, resetDepleted, getNodes, isRespawnVisible, setRemovedResourceIds, setActiveRegions, isRegionActive, getActiveNodeCount, getActiveNodes, getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null };
+  return { nodes, addPlacements, removePlacementsByChunk, getManualTargets, getEligibleNodes, getHaloTargets, isHarvestableInRange, canAutoHarvestNow, applyHit, update, resetDepleted, getNodes, isRespawnVisible, setRemovedResourceIds, setActiveRegions, isRegionActive, getActiveNodeCount, getActiveNodes, getActiveRegionSet: () => activeRegionSet ? new Set(activeRegionSet) : null };
 }

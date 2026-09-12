@@ -4,7 +4,7 @@ import { createPlayer } from "../player/createPlayer.js";
 import { initializeFrontierShadows } from "../presentation/frontierShadows.js";
 import { FRONTIER_LIGHTING_CONFIG as light, FRONTIER_VIEW_CONFIG as view } from "../presentation/visualStyle.js";
 
-export function createScene(worldData = null) {
+export function createScene(worldData = null, worldOptions = {}) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x1d5c58);
   scene.fog = new THREE.Fog(0x1d5c58, view.fogNear, view.fogFar);
@@ -15,7 +15,7 @@ export function createScene(worldData = null) {
   const fill = new THREE.DirectionalLight(light.fillColor, light.fillIntensity);
   fill.position.set(8, 5, -8);
   scene.add(fill);
-  const playground = createMovementPlayground(worldData);
+  const playground = createMovementPlayground(worldData, worldOptions);
   scene.add(playground.group);
   const player = createPlayer(worldData?.playerVisual ?? null);
   scene.add(player);

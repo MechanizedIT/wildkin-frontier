@@ -35,6 +35,7 @@ import { createCombatHud } from "./ui/combatHud.js";
 import WORLD_DATA from "./world/data/world.js";
 import { createWorldRegistry } from "./world/worldRegistry.js";
 import { createSectionRuntime } from "./world/sectionRuntime.js";
+import { createFrontierChunkRuntime } from "./world/frontierChunkRuntime.js";
 import { createPortalGateSystem } from "./world/portalGateSystem.js";
 import { createWorldHazardSystem } from "./world/worldHazardSystem.js";
 import { createLootSystem } from "./world/lootSystem.js";
@@ -113,7 +114,7 @@ await preloadVisualModels([
 const worldRegistry = createWorldRegistry(effectiveWorldData);
 const regionDepthMap = worldRegistry.getRegionDepthMap();
 
-const { scene, player, playground, shadows } = createScene(worldRegistry.data);
+const { scene, player, playground, shadows } = createScene(worldRegistry.data, { openSections: ['camp'] });
 
 function getAspect() {
   const w = app.clientWidth;
@@ -139,6 +140,12 @@ window.addEventListener("orientationchange", () => {
 });
 
 const physicsWorld = createPhysicsWorld(RAPIER, playground);
+const frontierChunks = createFrontierChunkRuntime({
+  parent: playground.group,
+  physicsWorld,
+  campSurface: worldRegistry.getSectionById('camp')?.surface,
+});
+playground.setTerrainHeightProvider('camp', frontierChunks.getHeight);
 function resolveSpawnCapsuleCenter(feetY){
   // authored support Y is feet elevation; derive capsule center via collider half extents + small clearance
   return feetY + RAPIER_CONFIG.capsuleHalfHeight + RAPIER_CONFIG.capsuleRadius + 0.02;
@@ -217,6 +224,7 @@ cameraFollow.snap();
 const cameraOrbit = createGameCameraOrbit(app, cameraFollow, CAMERA_CONFIG_FOLLOW);
 
 function placePlayerAtFeetTransform(feetPosition, facingYaw = 0) {
+  frontierChunks.update(feetPosition, { activeSectionId: sectionRuntime.getActiveSectionId() });
   playerController.resetJumpState();
   touchMovement.consumeJump?.();
   keyboardInput.consumeJump?.();
@@ -390,6 +398,7 @@ xpMoteSystem.setPlayerPos(playerController.getState().pos);
   expeditionSession.setRegion("camp", null);
   resourceSystem.setActiveRegions(init.activeIds);
   creatureSystem.setActiveRegions(init.activeIds);
+  frontierChunks.update(playerController.state.pos, { activeSectionId: 'camp' });
 }
 
 // UI — Map, AnchorPrompt, ResultCard, Indicators (Phase 4A focused owners)
@@ -1021,6 +1030,8 @@ function tick() {
 
   // Author edit visibility + anchor/map updates sync
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
+  // Load support before player/camera queries; no separate streaming loop.
+  frontierChunks.update(playerController.state.pos, { activeSectionId: sectionRuntime.getActiveSectionId(), authorMode: !!authorSuppress });
   if (authorSuppress !== prevAuthorSuppress) {
     playerController.resetJumpState();
     syncInputBlock();
@@ -1294,6 +1305,7 @@ tick();
 window.__game = {
   scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, cameraFollow, cameraOrbit, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
   worldRegistry, regionManager, sectionRuntime, portalGateSystem, worldHazardSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
+  frontierChunks,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   betaGame,
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),

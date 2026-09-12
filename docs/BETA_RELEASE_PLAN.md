@@ -1,5 +1,7 @@
 # Wildkin Frontier — Beta Candidate Plan
 
+> **Historical finite-campaign plan after September 12.** Chris approved the Living Frontier pivot and autonomous pre-alpha iteration in place. Read LIVING_FRONTIER_PLAN and CURRENT_SLICE for the active destination and evidence. Completing this former finite arc is not a prerequisite for procedural foundations.
+
 ## Direction and evidence
 
 **Current September12 status is maintained in CURRENT_SLICE.md.** Production stopped for Chris's PC restart/new session. Camera pitch/terrain clearance, ordinary Jump, defended Camp expansion, Survey pack fitting and physical hotbar arrangement are implemented;966 tests and package checks pass. Verdant V7 retains Chris's accepted grass/rock appearance; Shatterfen V3 is selected under delegated producer judgment with remaining visual debt recorded. Rootfall V4 retains known art flaws. Tidefin V3 and the Emberfall ravine remain unintegrated candidates. The numeric checkpoints below are historical evidence, not current package claims. Read SESSION_HANDOFF_2026-09-12.md to resume.

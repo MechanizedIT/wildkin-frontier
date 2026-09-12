@@ -38,7 +38,7 @@ function shouldCloneMaterial(mat, needsTint, needsOpacity) {
   return needsTint || needsOpacity;
 }
 
-export function createStaticWorld(worldData) {
+export function createStaticWorld(worldData, { openSections = [] } = {}) {
   const group = new THREE.Group();
   group.name = "movement-playground";
 
@@ -52,6 +52,8 @@ export function createStaticWorld(worldData) {
   const sectionGroups = new Map();
   const portalVisualRoots = new Map();
   const lootVisualRoots = new Map();
+  const openSectionIds = new Set(openSections);
+  const terrainHeightProviders = new Map();
   let currentSectionId = null;
   let currentSectionGroup = group;
   let activeSectionId = null;
@@ -380,9 +382,11 @@ export function createStaticWorld(worldData) {
       const terrain = createAuthoredTerrain(region);
       currentSectionGroup.add(terrain.group);
       terrainSurfaces.push(terrain);
-      const naturalBoundary = createNaturalBoundary(region);
-      currentSectionGroup.add(naturalBoundary.group);
-      terrainSurfaces.push(naturalBoundary);
+      if (!openSectionIds.has(region.id)) {
+        const naturalBoundary = createNaturalBoundary(region);
+        currentSectionGroup.add(naturalBoundary.group);
+        terrainSurfaces.push(naturalBoundary);
+      }
     }
     for (const gp of region.groundPatches ?? []) {
       // A region's continuous surface replaces its former flat base only.
@@ -393,7 +397,7 @@ export function createStaticWorld(worldData) {
       addPropMesh(prop);
     }
     // Boundary colliders (authored)
-    for (const bc of region.boundaryColliders ?? []) {
+    for (const bc of openSectionIds.has(region.id) ? [] : region.boundaryColliders ?? []) {
       addBoundaryCollider(bc);
     }
 
@@ -546,6 +550,8 @@ export function createStaticWorld(worldData) {
   }));
 
   function getTerrainHeight(x, z) {
+    const provider = terrainHeightProviders.get(activeSectionId);
+    if (provider) return provider(x, z);
     const surface = regions.find(r => r.id === activeSectionId)?.surface;
     return getSurfaceHeight(surface, x, z);
   }
@@ -675,6 +681,10 @@ export function createStaticWorld(worldData) {
     refreshPortalGateVisual,
     getLootVisualRoot: (id) => lootVisualRoots.get(id) ?? null,
     getActiveSectionId: () => activeSectionId,
+    setTerrainHeightProvider: (sectionId, provider) => {
+      if (typeof provider === 'function') terrainHeightProviders.set(sectionId, provider);
+      else terrainHeightProviders.delete(sectionId);
+    },
     getTerrainHeight,
     getGroundHeight,
     getCollisionObstaclesForHeight,

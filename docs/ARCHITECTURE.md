@@ -1,5 +1,7 @@
 # Architecture — Wildkin Frontier 0.2
 
+> **September 12 Living Frontier cutover:** evolve the existing runtime toward continuous chunks and persistent creature individuals directly on main. LIVING_FRONTIER_PLAN defines ownership/stages; CURRENT_SLICE owns current scope. The section graph, finite-ID registry and species roster below are baseline contracts being replaced deliberately. One loop, Rapier, offline vendored Three.js, explicit owners and coherent transactions remain.
+
 > Lightweight, explicit, human-editable Three.js + Rapier. The beta extends the existing section/authoring foundation rather than migrating engines. The owner authorized agent-led content/design on September 9, 2026; older phase/owner-only composition statements below are historical. New implementation is candidate work pending owner playtesting.
 
 ## Beta ownership and lifecycle

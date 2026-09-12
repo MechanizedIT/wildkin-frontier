@@ -17,6 +17,7 @@ import { createInventoryActions } from '../inventory/inventoryActions.js';
 import { addStack, countItems, craftStacks } from '../inventory/slotOperations.js';
 import { normalizeActiveRun, cloneActiveRun } from '../session/activeRunState.js';
 import { OBSERVATION_CATALOG, normalizeObservationClues } from '../companions/observationCatalog.js';
+import { createFrontierEcologyState, cloneFrontierEcologyState, normalizeFrontierEcologyState, validateFrontierResourceState, MAX_FRONTIER_RESOURCE_RECORDS } from '../world/frontierEcologyState.js';
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
@@ -76,6 +77,7 @@ function defaultState(initialWaypointId, resourceDrops) {
     base: { tier: 0, layout: createCampLayout(), structures: [] },
     loadout: normalizeLoadout(null),
     securedCompanionRunIds: [],
+    ecology: createFrontierEcologyState(),
   };
 }
 
@@ -186,6 +188,7 @@ export function createFrontierProgress(opts = {}) {
     }
     out.loadout = normalizeLoadout(raw.loadout);
     out.securedCompanionRunIds = normalizeIdArray(raw.securedCompanionRunIds).slice(-20);
+    out.ecology = normalizeFrontierEcologyState(raw.ecology);
     if (out.bankedXp < 0) out.bankedXp = 0;
     if (out.unlockedMajorWaypointIds.length === 0 && initialWaypointId) out.unlockedMajorWaypointIds = [initialWaypointId];
     if (Array.isArray(raw.bankedRunIds)) {
@@ -248,6 +251,7 @@ export function createFrontierProgress(opts = {}) {
       completedPoiIds: [...state.completedPoiIds],
       base: cloneBase(state.base),
       loadout: cloneLoadout(state.loadout),
+      ecology: cloneFrontierEcologyState(state.ecology),
       securedCompanionRunIds: [...state.securedCompanionRunIds],
       bankedRunIds: [...bankedRunIds].slice(-20),
     };
@@ -280,6 +284,24 @@ export function createFrontierProgress(opts = {}) {
   }
 
   function getStorageStatus() { return { ...storageStatus }; }
+  function getFrontierEcologyState() { return cloneFrontierEcologyState(state.ecology); }
+  function commitFrontierResourceState(id, remainingChunks) {
+    const checked = validateFrontierResourceState(id, remainingChunks);
+    if (!checked.ok) return { ok: false, reason: checked.reason, state: getFrontierEcologyState() };
+    const exists = Object.hasOwn(state.ecology.resources, id);
+    if (!exists && Object.keys(state.ecology.resources).length >= MAX_FRONTIER_RESOURCE_RECORDS) {
+      return { ok: false, reason: 'ecology-capacity-exceeded', state: getFrontierEcologyState() };
+    }
+    if (exists && state.ecology.resources[id] === remainingChunks) return { ok: true, changed: false, state: getFrontierEcologyState() };
+    const previous = cloneFrontierEcologyState(state.ecology);
+    state.ecology.resources[id] = remainingChunks;
+    const write = save();
+    if (!write.saved) {
+      state.ecology = previous;
+      return { ok: false, reason: write.reason, state: getFrontierEcologyState() };
+    }
+    return { ok: true, changed: true, state: getFrontierEcologyState() };
+  }
   function checkpointRun(patch) { return commitBank(snapshotForBankRollback(), {}, patch); }
   function endRunWithoutRewards(runId) {
     const rollback=snapshotForBankRollback();
@@ -440,6 +462,7 @@ export function createFrontierProgress(opts = {}) {
       ...getPackEquipment(state.inventory, itemCatalog),
       base: cloneBase(state.base),
       loadout: cloneLoadout(state.loadout),
+      ecology: cloneFrontierEcologyState(state.ecology),
     };
   }
 
@@ -499,6 +522,7 @@ export function createFrontierProgress(opts = {}) {
         lootRemainders: structuredClone(state.lootRemainders),
         securedCompanions: [...state.securedCompanions], discoveredSpecies: [...state.discoveredSpecies], completedObjectives: [...state.completedObjectives],
         observationClues: { ...state.observationClues },
+        ecology: cloneFrontierEcologyState(state.ecology),
         completedPoiIds: [...state.completedPoiIds], securedCompanionRunIds: [...state.securedCompanionRunIds],
         base: cloneBase(state.base),
         loadout: cloneLoadout(state.loadout),
@@ -889,6 +913,8 @@ export function createFrontierProgress(opts = {}) {
     load,
     save,
     getStorageStatus,
+    getFrontierEcologyState,
+    commitFrontierResourceState,
     exportSave,
     importSave,
     clear,

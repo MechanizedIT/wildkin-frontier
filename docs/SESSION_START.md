@@ -1,6 +1,6 @@
 # Start the next Wildkin Frontier session
 
-**Stopped September12 at Chris's request for a PC restart and a new Codex session.** The old overnight instruction does not automatically restart work. On a new explicit resume request, continue from this checkpoint.
+**Resumed September12: Living Frontier pivot.** Chris approved continuous goal-mode work on procedural geography and creature life. Read CURRENT_SLICE and LIVING_FRONTIER_PLAN first. The stopped-session details below are baseline evidence, not the next-work mandate. Continue bounded slices until Chris asks to stop.
 
 1. Read docs/CURRENT_SLICE.md and docs/SESSION_HANDOFF_2026-09-12.md. Then use docs/CODE_MAP.md for the relevant owner; do not load the full build log or every historic plan.
 2. Check git status --short and git log -3 --oneline. Work directly on main. Preserve unrelated source experiments and existing user work.

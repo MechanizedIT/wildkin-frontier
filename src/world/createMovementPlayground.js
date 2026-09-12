@@ -7,9 +7,9 @@ import { createStaticWorld } from "./staticWorldBuilder.js";
 // Static world/traversal/anchor visuals derive from normalized data.
 // For backwards compatibility (tests without world data), create minimal base ground + boundaries.
 
-export function createMovementPlayground(worldData = null) {
+export function createMovementPlayground(worldData = null, options = {}) {
   if (worldData && worldData.regions) {
-    return createStaticWorld(worldData);
+    return createStaticWorld(worldData, options);
   }
   // Legacy fallback for elevation/traversal tests that call without world data.
   // Production always passes worldData (single source), so this duplicate is test-only.
