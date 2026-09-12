@@ -1,6 +1,6 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: Living Frontier F6A physical nursery and care.**
+Updated September 12, 2026. **Active goal-mode development: Living Frontier F6B physical food garden.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
@@ -66,7 +66,7 @@ One three-metre shelf in chunk0,-3 now has a four-metre clear left slope, sharp 
 
 R1/R2/R3 visual scores1.5/~3/~4.5; R3 is selected functional groundwork, not target visual admission. Flat wall/stone repetition and sparse geography remain debt. Shared F4/F5A checkpoint:1,057/1,057 tests, verify/build/validation/ZIP PASS;43.95MB unpacked/20.49MB ZIP. Exact proof and fixture limits:`art/reviews/living-frontier-f5a/receipt.md`. The portable build contains all six final rock instances and the same3.02m sampled drop.
 
-## Selected next slice: F6A physical nursery and care
+## Completed foundation: F6A physical nursery and care
 
 - Reuse Camp construction and one existing Wildkin bed as a physical nursery anchor. Settle one owned Mossling there, feed berries through a nearby world action, and show its care visibly. Keep one companion visual owner and individual identity; avoid a second creature inventory.
 - Add one bounded, versioned care assignment under frontierProgress. Validate the live bed and owned individual. Spend raw berries and advance nourishment in one rollback-safe transaction. No missed-day decay, old-age death or real-time care debt.
@@ -74,11 +74,20 @@ R1/R2/R3 visual scores1.5/~3/~4.5; R3 is selected functional groundwork, not tar
 - Keep the physical bed/action reachable and placement-safe. Release an assignment before removing its bed. Reuse the selected companion for assignment, with short in-world feedback; avoid a new management dashboard.
 - Root owns shared integration, visual target/review and scope. Workers may own explicitly separate care/save, base interaction or resting-visual files. Capture current Camp/bed baseline and a feasible target, with about three visual passes. Prove assign/feed/save failure/reload/release and preserve expedition following.
 
+F6A selected R3 at8.7/10 after8.0/8.4. A physical moss bed, visible bowl, Settle/Feed/Release actions and one exact owned Mossling are integrated. Native failure/retry, reload, mobile controls, outing/return and packaged interactions passed.1,064/1,064 at the behavior checkpoint; final geometry focused/base/build/validation/ZIP also passed.43.98MB unpacked/20.49MB ZIP. Nourishment is presently visual status only. Exact evidence and limitations:`art/reviews/living-frontier-f6a/receipt.md`.
+
+## Selected next slice: F6B physical food garden
+
+- Add a small Berry Garden construction piece and one planted crop record under the existing save owner. Plant one raw backpack berry, visibly grow through three stages over90seconds of active play, then harvest3berries. Growth continues during outings; paused, hidden, Author and offline time do not advance it. No absence penalty.
+- A fully nourished assigned Mossling within6m of the plot adds one Bloom-tended berry at harvest. Calculate this from authoritative bed/plot/individual/care state inside the harvest transaction. This gives the nursery an immediate use; no new autonomous animal simulation.
+- Plant/harvest exchange inventory and crop in one rollback-safe commit. Full inventory and failed writes leave the ripe crop available. Save growth in bounded5second quanta, never per frame; at most one unsaved quantum may be lost. One planted crop initially; an occupied plot cannot be removed.
+- Reuse base placement, footprint validation, world action and the single fixed update. Root owns integration/target/review/docs; workers own explicitly separate save/rules or garden geometry/base routing. Capture real Camp baseline and target before visual production; up to three reviewed passes.
+
 Streamed terrain and ecology; personal atlas; individual modular Wildkin; slow climbing, swimming and falling risk; immersive Camp building/crafting/food/habitats; field genetics, breeding, growth, cloning and DNA recipe exchange. Rules remain producer choices to validate in play. PC/web first with mobile viability; offline Three.js/Rapier and local main remain. No backwards compatibility requirement. See LIVING_FRONTIER_PLAN for sequence and evidence gates.
 
 ## Last verified playable checkpoint
 
-Current checkpoint: `art/reviews/living-frontier-f4/receipt.md` and `art/reviews/living-frontier-f5a/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
+Current checkpoint: `art/reviews/living-frontier-f6a/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
 
 Initial working tree includes unrelated Verdant composer/test changes and untracked art/tool experiments. Preserve them; stage only owned files. Emberfall ravine and Tidefin V3 remain unshipped candidates with documented defects; they are not the current slice.
 

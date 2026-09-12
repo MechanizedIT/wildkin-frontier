@@ -700,6 +700,8 @@ contextualInteraction = createContextualInteraction({
       betaGame?.openStorage(info.id);refreshMapAvailability();syncInputBlock();
     } else if (info.type === 'campYard' && expeditionSession.isCamp()) {
       betaGame?.activateCampYard();refreshMapAvailability();syncInputBlock();
+    } else if (info.type === 'wildkinBed') {
+      betaGame?.activateCampCare(info);
     } else if (info.type === 'campSanctuary' && expeditionSession.isCamp()) {
       betaGame?.openSanctuary();refreshMapAvailability();syncInputBlock();
     }

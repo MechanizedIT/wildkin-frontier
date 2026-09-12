@@ -23,6 +23,8 @@ import { createPhysicalInventory } from '../inventory/physicalInventory.js';
 import { FIELD_PACK_CARTRIDGE_ID } from '../base/fieldPackConfig.js';
 import { createRootfallPassage } from '../world/rootfallPassage.js';
 import { createRootfallPresentation } from '../presentation/rootfallPresentation.js';
+import { createCampCareInteraction } from '../companions/campCareInteraction.js';
+import { FRONTIER_TERRAIN_CONFIG } from '../world/frontierTerrain.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -41,7 +43,11 @@ export function createBetaGame(deps) {
   const observatoryMechanisms = createObservatoryMechanisms({ scene, registry, progress });
   const playerOcclusion = initializePlayerOcclusion({ scene, camera: deps.camera, getPlayerPosition: () => playerController.getState().pos });
   const guardianEncounter = createGuardianEncounter({ scene, getGuardian: () => creatures.getCreatures().find(c => c.state.id === "wildkin_guardian"), getPlayerState: () => playerController.getState(), playerCombat, audio, onPulse: ({ target }) => pulse(target, 0xffbd63), onWarning: text => toast("Heartwood Guardian", text) });
-  const companions = createCompanionSystem({ app, scene, camera: deps.camera, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, getTerrainHeight: deps.getTerrainHeight, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), getRunId: () => session.getRunId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
+  const companions = createCompanionSystem({ app, scene, camera: deps.camera, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, getTerrainHeight: deps.getTerrainHeight, getCampCareAnchor: () => {
+    if (!canCareAtCamp()) return null;
+    const care = progress.getCampCare(), bed = care && base.getWildkinBed(care.bedId);
+    return bed ? { ...bed, wildkinId: care.wildkinId } : null;
+  }, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), getRunId: () => session.getRunId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
   deps.characterPhysics?.setColliderFilter(companions.isFollowerCollider);
   creatures.setCompanionColliderFilter(companions.isFollowerCollider);
   const isCamp = () => session.isCamp();
@@ -51,6 +57,14 @@ export function createBetaGame(deps) {
   const rootfallPresentation=createRootfallPresentation({scene,registry,physicsWorld:deps.physicsWorld,onVisualAdded:playerOcclusion.register,onVisualRemoving:playerOcclusion.unregister});
   rootfallPresentation.update(rootfall.getState());
   const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled,onVisualAdded:playerOcclusion.register,onVisualRemoving:playerOcclusion.unregister});
+  function canCareAtCamp() {
+    const p = playerController.getState().pos, b = FRONTIER_TERRAIN_CONFIG.campBounds;
+    return !authorEnabled && session.isCamp() && deps.getSectionId() === 'camp'
+      && p.x >= b.minX && p.x <= b.maxX && p.z >= b.minZ && p.z <= b.maxZ;
+  }
+  const campCare = createCampCareInteraction({ progress, getBed: base.getWildkinBed, canCare: canCareAtCamp,
+    getPlayerPosition: () => playerController.getState().pos, notify: toast,
+    onChanged: bed => { pickupSystem.resetInventory(); shell?.update(); pulse(bed.anchorPos, 0x91e5a5); audio.playXpCollect(); } });
   const physicalInventory = createPhysicalInventory({app,progress,registry,getPlayerState:()=>playerController.getState(),isCamp,canOpen:()=>!authorEnabled&&!deps.isOtherBlocking()&&!companions.isBlocking()&&!base.isBlocking(),onBlockingChanged,onChanged:()=>{pickupSystem.resetInventory();shell?.update();},onOpenJournal:()=>shell?.open('journal')});
   const equipment = createEquipmentSystem({
     progress, isCamp,
@@ -225,7 +239,7 @@ export function createBetaGame(deps) {
         const storage=physicalInventory.getNearbyInteraction(pos);
         if(storage)return storage;
         const workbench=base.getNearbyInteraction(pos);
-        if(workbench)return {...workbench,type:workbench.type==='campYard'?'campYard':'resonator'};
+        if(workbench)return workbench.type === 'wildkinBed' ? campCare.describe(workbench) : {...workbench,type:workbench.type==='campYard'?'campYard':'resonator'};
         const sanctuary=registry.getSectionById('camp')?.props?.find(p=>p.id==='prop_camp_sanctuary');
         if(sanctuary&&Math.hypot(pos.x-sanctuary.pos.x,pos.z-sanctuary.pos.z)<2)return {type:'campSanctuary',id:sanctuary.id,label:'Wildkin'};
       }
@@ -236,6 +250,7 @@ export function createBetaGame(deps) {
     beforeHarvestHit: node=>campClearing.beforeHit(node)&&rootfall.beforeHit(node),
     afterHarvestHit(node){campClearing.afterHit(node);rootfall.afterHit(node);},
     activateCampYard() { const result=base.onAction('expandBase');if(result?.message)toast('Camp work yard',result.message);shell.update();return result; },
+    activateCampCare: info => campCare.activate(info),
     getDamage: () => progress.getModifiers().fieldToolDamageMultiplier,
     onCreatureDamaged: (creature, amount) => combatFeedback.showDamage(creature.state.pos, amount),
     onHarvestDrop(node) {

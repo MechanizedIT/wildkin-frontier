@@ -153,3 +153,50 @@ test('followers key by individual ID, resolve species assets and spawn on inject
   assert.deepEqual(system.getAbility(), { individualId: 'moss_a', speciesId: 'mossling', name: 'Bloom', ready: true, cooldown: 0 });
   system.dispose();
 });
+
+test('one owned individual docks at its Camp bed, undocks into formation, and never duplicates', async t => {
+  await RAPIER.init();
+  const world = new RAPIER.World({ x: 0, y: 0, z: 0 });
+  t.after(() => world.free());
+  const owned = record('moss_nursery', 'source_nursery');
+  let active = owned;
+  let careAnchor = { wildkinId: owned.id, anchorPos: { x: 4, y: 1.25, z: 6 }, yaw: .75 };
+  const system = createCompanionSystem({ scene: new THREE.Scene(), physicsWorld: { world, RAPIER },
+    registry: { data: { visualAssets: [{ id: 'asset_wildkin_mossling', parts: [] }] }, getLootChestById: () => null,
+      getSectionById: () => ({ surface: null }) },
+    progress: { getState: () => ({ securedCompanions: ['mossling'], completedPoiIds: [], discoveredSpecies: [], observationClues: {} }),
+      getOwnedWildkin: () => [owned], getActiveWildkin: () => active, getModifiers: () => ({ captureCapacity: 2 }),
+      discoverSpecies() {}, earnObservationClue() {} },
+    creatures: { getActiveAliveCreatures: () => [], getCreatures: () => [], hasClearSightToCreature: () => true, setBondingTarget() {} },
+    playerController: { getState: () => ({ pos: { x: 0, y: .6, z: 0 }, grounded: true, facing: 0 }) },
+    playerCombat: { getHealth: () => 6 }, isActive: () => true, getSectionId: () => 'camp',
+    getTerrainHeight: () => 0, getCampCareAnchor: () => careAnchor, toast() {}, pulse() {} });
+
+  system.updateFixed(.01, { sectionId: 'camp' });
+  let followers = system.getFollowerDiagnostics();
+  assert.equal(followers.length, 1, 'active and assigned references share one follower');
+  assert.deepEqual(followers[0].position, [4, 1.25, 6]);
+  assert.equal(followers[0].mode, 'DOCKED');
+  assert.equal(followers[0].docked, true);
+  assert.equal(followers[0].physicsEnabled, false);
+
+  careAnchor = null;
+  system.updateFixed(.01, { sectionId: 'camp' });
+  followers = system.getFollowerDiagnostics();
+  assert.equal(followers[0].docked, false, 'release undocks the same visual');
+  assert.equal(followers[0].physicsEnabled, true);
+  assert.equal(followers[0].visible, true);
+  assert.notDeepEqual(followers[0].position, [4, 1.25, 6]);
+
+  active = null;
+  careAnchor = { wildkinId: owned.id, anchorPos: { x: 4, y: 1.25, z: 6 }, yaw: .75 };
+  system.updateFixed(.01, { sectionId: 'camp' });
+  assert.equal(system.getFollowerDiagnostics()[0].docked, true, 'an assigned unselected Mossling still rests at Camp');
+  careAnchor = null;
+  system.updateFixed(.01, { sectionId: 'frontier' });
+  followers = system.getFollowerDiagnostics();
+  assert.equal(followers[0].visible, false, 'an unselected assignment stays hidden outside Camp');
+  assert.equal(followers[0].docked, false);
+  assert.equal(followers[0].physicsEnabled, false);
+  system.dispose();
+});

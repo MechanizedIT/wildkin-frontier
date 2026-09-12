@@ -112,3 +112,8 @@ Native harnesses must use current canonical objects and physically clear startin
 - Tintable iris vertices must be white, with a black pupil. Tinting a teal vertex ring multiplies colors and cannot express arbitrary eye hues faithfully.
 - Procedural terrain queries must describe the full route, including joins between authored profiles. Testing a ramp column missed a max-of-two-weights trough that was absent from the mesh. Complementary ramp/shelf weights now sum, and the crosswise crown route is checked.
 - PowerShell searches must use `rg ... directory -g 'pattern'`; shell-expanded filename wildcards are unreliable. Parse the minified world JSON and select records rather than returning its entire line.
+
+### September 12 — nursery geometry and developer save fixtures
+- Compare decorative heights against the actual supporting surface: a bowl rim at.545m was hidden inside a moss top at.55m. Raise the bowl visibly; keep the collider/footrest contract explicit.
+- Prefer the normal save import owner for cross-origin diagnostic fixtures. Replacing localStorage while an old run is active can be overwritten by its existing save lifecycle during navigation.
+- Clear device-metrics emulation before changing orientation/DPR. Verify CSS dimensions and reframe an offscreen world subject; do not mistake a stale compositor capture or offscreen anchor for a layout defect.

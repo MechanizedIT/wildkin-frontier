@@ -1,0 +1,29 @@
+{
+  "active": true,
+  "bedVisible": false,
+  "care": {
+    "bedId": "build_2680e50c-12e7-454a-a69a-ef712e7d28a4",
+    "nourishment": 3,
+    "version": 1,
+    "wildkinId": "wildkin_1b156h6"
+  },
+  "followers": [
+    {
+      "docked": false,
+      "grounded": true,
+      "id": "wildkin_1b156h6",
+      "mode": "ATTEND",
+      "physicsEnabled": true,
+      "position": [
+        -0.942939817905426,
+        0.24362782239913935,
+        -57.744842529296875
+      ],
+      "speciesId": "mossling",
+      "speed": 0.4527303271800348,
+      "steeringAroundObstacle": false,
+      "visible": true
+    }
+  ],
+  "health": 5
+}

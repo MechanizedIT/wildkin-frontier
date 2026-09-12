@@ -14,7 +14,7 @@ import { createWildkinGenome, normalizeWildkinGenome } from '../creatures/wildki
 import { cloneWildkinIndividual, MAX_PENDING_WILDKIN, normalizeWildkinIndividual } from '../creatures/wildkinIndividual.js';
 import { applyWildkinAppearance } from '../creatures/wildkinAppearance.js';
 
-export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
+export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, getCampCareAnchor = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
   let pending = [], cooldown = 0, elapsed = 0, fixedElapsed = 0;
   let interactionTargetId = null;
   const followers = new Map();
@@ -208,8 +208,11 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     const species = COMPANION_BY_ID[required];
     return { ok: false, label: `${species.name.toUpperCase()} SEAL`, reason: `Bring a secured ${species.name} and use ${species.abilityName} near this cache.` };
   }
-  function desiredRecords() {
-    const records = [getActiveRecord(), ...pending].filter(Boolean);
+  function desiredRecords(careAnchor = null) {
+    const assigned = careAnchor?.wildkinId
+      ? getOwnedRecords().find(record => record.id === careAnchor.wildkinId) ?? null
+      : null;
+    const records = [getActiveRecord(), ...pending, assigned].filter(Boolean);
     return [...new Map(records.map(record => [record.id, record])).values()];
   }
   function getSpawnPosition(playerPos, sectionId) {
@@ -220,7 +223,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
   }
   function setFollowerVisible(follower, visible) {
     follower.group.visible = !!visible;
-    if (follower.physics && follower.physics.enabled !== !!visible) follower.physics.setEnabled(!!visible);
+    const physicsVisible = !!visible && !follower.docked;
+    if (follower.physics && follower.physics.enabled !== physicsVisible) follower.physics.setEnabled(physicsVisible);
   }
   function ensureFollower(record, player, sectionId, slotIndex, slotCount) {
     let follower = followers.get(record.id);
@@ -263,6 +267,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       verticalVelocity: 0,
       grounded: false,
       blockedSeconds: 0,
+      docked: false,
       steerSide: record.id.charCodeAt(0) % 2 ? 1 : -1,
     };
     followers.set(record.id, follower);
@@ -276,6 +281,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     follower.group.rotation.y = follower.facing;
   }
   function respawnFollower(follower, playerPos, sectionId) {
+    follower.docked = false;
+    if (follower.physics && !follower.physics.enabled) follower.physics.setEnabled(true);
     const start = getSpawnPosition(playerPos, sectionId);
     follower.physics?.setPosition(start);
     follower.sectionId = sectionId;
@@ -286,6 +293,20 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     follower.grounded = false;
     follower.blockedSeconds = 0;
     syncFollowerVisual(follower);
+  }
+  function dockFollower(follower, anchor, sectionId) {
+    const point = anchor.anchorPos;
+    follower.docked = true;
+    follower.sectionId = sectionId;
+    follower.state = { mode: "DOCKED", attentionUntil: 0, lastSettledAt: fixedElapsed };
+    follower.lastSpeed = 0;
+    follower.commandedSpeed = 0;
+    follower.verticalVelocity = 0;
+    follower.grounded = true;
+    follower.blockedSeconds = 0;
+    setFollowerVisible(follower, true);
+    follower.group.position.set(point.x, point.y + follower.visualYOffset, point.z);
+    follower.group.rotation.y = Number.isFinite(anchor.yaw) ? anchor.yaw : 0;
   }
   function normalizeAngle(angle) {
     let value = angle;
@@ -358,16 +379,23 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     fieldTaming.update(dt, { hidden });
     fixedElapsed += dt;
     cooldown = Math.max(0, cooldown - dt);
-    const records = desiredRecords();
+    const careAnchor = getCampCareAnchor?.() ?? null;
+    const records = desiredRecords(careAnchor);
     const ids = records.map(record => record.id);
     const player = playerController.getState();
     for (const [id, follower] of followers) {
+      if (!ids.includes(id) && follower.docked) follower.docked = false;
       if (!ids.includes(id) || hidden) setFollowerVisible(follower, false);
     }
     for (let i = 0; i < records.length; i++) {
       const follower = ensureFollower(records[i], player, sectionId, i, records.length);
       if (!follower || hidden) continue;
-      if (follower.sectionId !== sectionId) {
+      if (careAnchor?.wildkinId === follower.id && careAnchor.anchorPos
+        && [careAnchor.anchorPos.x, careAnchor.anchorPos.y, careAnchor.anchorPos.z].every(Number.isFinite)) {
+        dockFollower(follower, careAnchor, sectionId);
+        continue;
+      }
+      if (follower.docked || follower.sectionId !== sectionId) {
         const arrivalAnchor = getCompanionFormationAnchor(player.pos, player.facing, i, ids.length);
         respawnFollower(follower, arrivalAnchor, sectionId);
       }
@@ -420,6 +448,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       follower.commandedSpeed = 0;
       follower.verticalVelocity = 0;
       follower.grounded = false;
+      follower.docked = false;
     }
   }
   function restorePending(records) {
@@ -449,7 +478,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     getFollowerDiagnostics: () => [...followers.values()].map(follower => ({
       id: follower.id, speciesId: follower.speciesId, mode: follower.state.mode, speed: follower.lastSpeed,
       grounded: follower.grounded, steeringAroundObstacle: follower.blockedSeconds > 0,
-      position: follower.group.position.toArray(), visible: follower.group.visible,
+      position: follower.group.position.toArray(), visible: follower.group.visible, docked: follower.docked,
+      physicsEnabled: follower.physics?.enabled ?? null,
     })),
     getAbility: () => { const active = getActiveRecord(); const species = COMPANION_BY_ID[active?.speciesId]; return species ? { individualId: active.id, speciesId: species.id, name: species.abilityName, ready: cooldown <= 0, cooldown } : null; },
     isFollowerCollider: (candidate) => {

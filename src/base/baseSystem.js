@@ -15,6 +15,7 @@ const REASONS={
   'output-full':'Make room in your backpack first.', 'storage-not-empty':'Empty this container before removing it.', 'out-of-reach':'Move beside your selected storage container.',
   'remove-supported-first':'Remove the pieces on this foundation first.', 'storage-write-failed':'Could not save. Your materials were kept.',
   'supply-limit':'Your supply pouch is full.', 'already-expanded':'This yard is already secured.', 'debris-remaining':'Clear the three bundles at the amber stakes beyond the southern opening first.',
+  'bed-occupied':'Release the Wildkin from its nursery before removing it.',
 };
 export function createBaseSystem({app,scene,camera,progress,registry,physicsWorld,getPlayerState,isCamp,onBlockingChanged=()=>{},toast=()=>{},initialHidden=false,onVisualAdded=()=>{},onVisualRemoving=()=>{}}){
   const root=new THREE.Group();root.name='player-base';scene.add(root);
@@ -71,13 +72,23 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
   }
   function removeInstance(instance){onVisualRemoving(instance.visual);root.remove(instance.visual);for(const collider of instance.colliders){physicsWorld?.unregisterCameraCollider?.(collider);world?.removeCollider(collider,true);}if(instance.ownsResources)instance.visual.traverse(n=>{n.geometry?.dispose();if(n.material)for(const m of [].concat(n.material))m.dispose();});/* Library geometry/materials are shared factory caches. */}
   const stations=createCraftingStations({app,camera,progress,getPlayerState,isCamp:campActive,onBlockingChanged,notify:message=>toast('Crafting',message)});
-  function sync(){
-    const base=progress.getBaseState(),next=JSON.stringify(base);if(next===signature)return;signature=next;
+  function syncBedBerries(care){
+    for(const instance of instances.values()){
+      if(instance.record.type!=='bed')continue;
+      const nourishment=care?.bedId===instance.record.id?care.nourishment:0;
+      const berries=instance.visual.userData.nurseryBerryMeshes;
+      if(!berries)continue;
+      for(let index=0;index<berries.length;index++)berries[index].visible=index<nourishment;
+    }
+  }
+  function sync(care=progress.getCampCare?.()??null){
+    const base=progress.getBaseState(),next=JSON.stringify(base);if(next===signature){syncBedBerries(care);return;}signature=next;
     defenses.sync(base);
     const records=new Map(base.structures.map(record=>[record.id,record]));
     for(const [id,instance]of instances)if(JSON.stringify(records.get(id))!==JSON.stringify(instance.record)){removeInstance(instance);instances.delete(id);}
     for(const record of base.structures)if(!instances.has(record.id))instances.set(record.id,createInstance(record));
     stations.sync(instances);
+    syncBedBerries(care);
     const points=getCampBuildAreas(base).flatMap(b=>{const corners=[[b.minX,b.minZ],[b.maxX,b.minZ],[b.maxX,b.maxZ],[b.minX,b.maxZ]];return corners.flatMap((p,i)=>[p,corners[(i+1)%4]]).map(([x,z])=>new THREE.Vector3(x,getSurfaceHeight(surface,x,z)+.08,z));});
     clearing.geometry.dispose();clearing.geometry=new THREE.BufferGeometry().setFromPoints(points);if(active)refreshPreview();
   }
@@ -121,17 +132,36 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
     else return null;
     if(ok)sync();return {ok,message:ok?message:REASONS[result.reason]??'Unable to complete that action.'};
   }
+  function getWildkinBed(id){
+    const instance=instances.get(id);
+    if(!instance||instance.record.type!=='bed')return null;
+    const piece=BASE_PIECE_BY_ID.bed,record=instance.record;
+    const topHeight=record.pos.y+piece.size[1],anchorPos=Object.freeze({x:record.pos.x,y:topHeight,z:record.pos.z});
+    return Object.freeze({id:record.id,buildId:record.id,anchorPos,yaw:Number.isFinite(record.yaw)?record.yaw:0,topHeight});
+  }
+  function getNearbyWildkinBed(pos){
+    let nearest=null,distance=3.2;
+    for(const id of instances.keys()){
+      const bed=getWildkinBed(id);if(!bed)continue;
+      const d=Math.hypot(pos.x-bed.anchorPos.x,pos.z-bed.anchorPos.z);
+      if(d<=distance){distance=d;nearest=Object.freeze({id:bed.buildId,type:'wildkinBed',label:'Nursery',distance:d,pos:Object.freeze({...bed.anchorPos}),anchorPos:Object.freeze({...bed.anchorPos}),yaw:bed.yaw,topHeight:bed.topHeight});}
+    }
+    return nearest;
+  }
   sync();return {open,close,isBlocking:()=>active,getModel,onAction,openStation:stations.open,isStationOpen:stations.isOpen,
-    update(dt,{hidden=false,paused=false,reducedMotion=false}={}){suppressed=hidden;const camp=campActive();root.visible=camp;clearing.visible=camp&&active;defenses.setVisible(camp);edgeMaterial.opacity=.85;if(lastCamp!==camp){lastCamp=camp;for(const instance of instances.values())for(const collider of instance.colliders)collider.setEnabled(camp);if(!camp)close();}poll+=dt;if(poll>.3){poll=0;sync();if(active)refreshPreview();}stations.update(dt,{hidden,paused,reducedMotion});},
+    update(dt,{hidden=false,paused=false,reducedMotion=false}={}){suppressed=hidden;const camp=campActive();root.visible=camp;clearing.visible=camp&&active;defenses.setVisible(camp);edgeMaterial.opacity=.85;if(lastCamp!==camp){lastCamp=camp;for(const instance of instances.values())for(const collider of instance.colliders)collider.setEnabled(camp);if(!camp)close();}poll+=dt;if(poll>.3){poll=0;const care=progress.getCampCare?.()??null;sync(care);if(active)refreshPreview();}stations.update(dt,{hidden,paused,reducedMotion});},
     getNearbyInteraction(pos){
       const station=stations.getNearbyInteraction(pos);if(station)return station;
       if(!campActive())return null;
       const base=progress.getBaseState(),anchor=defenses.getConsoleAnchor();
-      if(base.layout.yardExpanded||!anchor||Math.hypot(pos.x-anchor.x,pos.z-anchor.z)>2.5||Math.abs(pos.y-anchor.y)>2.2)return null;
-      const count=base.layout.clearedDebrisIds.length,ready=count===CAMP_DEBRIS_IDS.length;
-      return {id:'camp-yard-console',type:'campYard',label:ready?'Secure yard':`Clear yard · ${count}/${CAMP_DEBRIS_IDS.length}`,cost:ready?CAMP_YARD_COST:null,detail:ready?'Spend these materials to extend the emergency barricades.':'Clear the three bundles at amber survey stakes beyond the opening.'};
+      if(!base.layout.yardExpanded&&anchor&&Math.hypot(pos.x-anchor.x,pos.z-anchor.z)<=2.5&&Math.abs(pos.y-anchor.y)<=2.2){
+        const count=base.layout.clearedDebrisIds.length,ready=count===CAMP_DEBRIS_IDS.length;
+        return {id:'camp-yard-console',type:'campYard',label:ready?'Secure yard':`Clear yard · ${count}/${CAMP_DEBRIS_IDS.length}`,cost:ready?CAMP_YARD_COST:null,detail:ready?'Spend these materials to extend the emergency barricades.':'Clear the three bundles at amber survey stakes beyond the opening.'};
+      }
+      return getNearbyWildkinBed(pos);
     },
     getCampYardAnchor:()=>defenses.getConsoleAnchor(),
+    getWildkinBed,
     getRestPosition:()=>{const bed=progress.getBaseState().structures.find(p=>p.type==='bed');return bed?{...bed.pos}:null;},
     dispose(){close();stations.dispose();defenses.dispose();window.removeEventListener('keydown',keydown);document.removeEventListener('visibilitychange',loseFocus);window.removeEventListener('blur',close);for(const instance of instances.values())removeInstance(instance);instances.clear();root.removeFromParent();clearPreviewModel();preview.removeFromParent();clearing.removeFromParent();previewMaterial.dispose();clearing.geometry.dispose();edgeMaterial.dispose();panel.remove();},
   };

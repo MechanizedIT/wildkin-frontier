@@ -9,7 +9,7 @@
 
 ## Current result
 
-Living Frontier F1/F2A/F3/F2B foundations are followed by shared Mossling body tone and one streamed rocky terrace with fall damage. Eye overlays remain rejected; generalized climbing/swimming, nursery/garden and breeding remain unfinished. Current checkpoint:1,057 tests plus verify/build/validation/ZIP PASS;43.95MB unpacked/20.49MB ZIP. F5A visual R3 is selected functional groundwork at4.5/10, not target admission. See the F4/F5A receipts linked from CURRENT_SLICE. **Next: F6A physical nursery and feeding, continuing the active goal until Chris asks to stop.**
+Living Frontier foundations now include one physical nursery: build a moss bed, settle an exact owned Mossling, feed berries into visible care, release or take the selected companion on outings. Save failures, reload and return preserve the single individual correctly. R3 scored8.7/10. Behavior checkpoint1,064 tests plus verify/build/validation/ZIP PASS; final geometry focused/base/build/validation/ZIP also passed;43.98MB unpacked/20.49MB ZIP. See `art/reviews/living-frontier-f6a/receipt.md`. Eye overlays remain rejected; F5A terrace is functional groundwork, not visual target admission. Generalized climbing/swimming, garden and breeding remain unfinished. **Next: F6B physical berry garden with a nourished-Mossling benefit, continuing the active goal until Chris asks to stop.**
 
 ## Inherited restart checkpoint
 

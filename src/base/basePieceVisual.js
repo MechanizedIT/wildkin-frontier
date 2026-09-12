@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 import { createVisualAssetVisual, createFenceVisual } from '../world/visualFactory.js';
+import { createWildkinBedVisual } from './wildkinBedVisual.js';
 
 // Placement and catalog thumbnails share the same fitted model.
 export function createBasePieceVisual(piece, visualAssets = []) {
   const asset = visualAssets.find(entry => entry.id === piece.assetId);
   const size = piece.size;
+  if (piece.id === 'bed') return createWildkinBedVisual(piece, asset);
   const visual = asset ? createVisualAssetVisual(asset)
     : createFenceVisual({ size: { w: size[0], h: size[1], d: size[2] } });
   const box = new THREE.Box3().setFromObject(visual);

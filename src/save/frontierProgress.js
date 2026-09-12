@@ -21,6 +21,7 @@ import { createFrontierEcologyState, cloneFrontierEcologyState, normalizeFrontie
 import { createFrontierAtlasState, cloneFrontierAtlasState, normalizeFrontierAtlasState, revealFrontierAtlasRadius } from '../world/frontierAtlasState.js';
 import { MAX_CAPTURED_WILDKIN_SOURCES, MAX_OWNED_WILDKIN, MAX_PENDING_WILDKIN, WILDKIN_INDIVIDUAL_VERSION, cloneWildkinIndividual, normalizeWildkinIndividual, normalizeWildkinIndividuals, projectWildkinSpecies } from '../creatures/wildkinIndividual.js';
 import { createWildkinGenome } from '../creatures/wildkinGenome.js';
+import { CAMP_CARE_MAX_NOURISHMENT, CAMP_CARE_VERSION, cloneCampCare, readCampCare } from '../companions/campCareState.js';
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
@@ -92,6 +93,7 @@ function defaultState(initialWaypointId, resourceDrops) {
     completedPoiIds: [],
     campaignCompleted: false,
     base: { tier: 0, layout: createCampLayout(), structures: [] },
+    campCare: null,
     loadout: normalizeLoadout(null),
     securedCompanionRunIds: [],
     ecology: createFrontierEcologyState(),
@@ -216,6 +218,9 @@ export function createFrontierProgress(opts = {}) {
     out.completedPoiIds = normalizeIdArray(raw.completedPoiIds);
     out.campaignCompleted = !!raw.campaignCompleted;
     out.base = normalizeBase(raw.base, baseEnvironment());
+    const campCare = readCampCare(raw.campCare, { structures: out.base.structures, ownedWildkin: out.ownedWildkin });
+    if (!campCare.ok) throw new Error(campCare.reason);
+    out.campCare = campCare.care;
     if (raw.version >= 3 && raw.lootRemainders) {
       if (typeof raw.lootRemainders !== 'object' || Array.isArray(raw.lootRemainders) || Object.keys(raw.lootRemainders).length > MAX_PERSISTED_LIST_ENTRIES) throw new Error('invalid-loot-remainders');
       for (const [id, entry] of Object.entries(raw.lootRemainders)) {
@@ -297,6 +302,7 @@ export function createFrontierProgress(opts = {}) {
       completedObjectives: [...state.completedObjectives],
       completedPoiIds: [...state.completedPoiIds],
       base: cloneBase(state.base),
+      campCare: cloneCampCare(state.campCare),
       loadout: cloneLoadout(state.loadout),
       ecology: cloneFrontierEcologyState(state.ecology),
       atlas: cloneFrontierAtlasState(state.atlas),
@@ -579,6 +585,7 @@ export function createFrontierProgress(opts = {}) {
       campaignCompleted: !!state.campaignCompleted,
       ...getPackEquipment(state.inventory, itemCatalog),
       base: cloneBase(state.base),
+      campCare: cloneCampCare(state.campCare),
       loadout: cloneLoadout(state.loadout),
       ecology: cloneFrontierEcologyState(state.ecology),
       atlas: cloneFrontierAtlasState(state.atlas),
@@ -651,6 +658,7 @@ export function createFrontierProgress(opts = {}) {
         atlas: cloneFrontierAtlasState(state.atlas),
         completedPoiIds: [...state.completedPoiIds], securedCompanionRunIds: [...state.securedCompanionRunIds],
         base: cloneBase(state.base),
+        campCare: cloneCampCare(state.campCare),
         loadout: cloneLoadout(state.loadout),
       },
       bankedRunIds: new Set(bankedRunIds), lastBankToken,
@@ -861,6 +869,40 @@ export function createFrontierProgress(opts = {}) {
 
   function baseEnvironment() { return { reserved: getCampReserved(worldRegistry), surface: worldRegistry?.getSectionById?.('camp')?.surface ?? null }; }
   function getBaseState() { return cloneBase(state.base); }
+  function getCampCare() { return cloneCampCare(state.campCare); }
+  function findCareBed(bedId) { return state.base.structures.find(record => record.id === bedId && record.type === 'bed') ?? null; }
+  function findCareWildkin(wildkinId) { return state.ownedWildkin.find(record => record.id === wildkinId && record.speciesId === 'mossling') ?? null; }
+  function assignCampWildkin(wildkinId, bedId) {
+    if (!findCareBed(bedId)) return { ok: false, reason: 'unknown-bed', care: getCampCare() };
+    if (!findCareWildkin(wildkinId)) return { ok: false, reason: 'unknown-wildkin', care: getCampCare() };
+    if (state.campCare) return { ok: false, reason: state.campCare.bedId === bedId && state.campCare.wildkinId === wildkinId ? 'already-assigned' : 'release-required', care: getCampCare() };
+    const rollback = snapshotForBankRollback();
+    state.campCare = { version: CAMP_CARE_VERSION, bedId, wildkinId, nourishment: 0 };
+    const write = commitBank(rollback, { care: getCampCare() });
+    return write.ok ? write : { ok: false, reason: write.reason, care: getCampCare() };
+  }
+  function releaseCampWildkin(bedId) {
+    if (!state.campCare) return { ok: false, reason: 'unassigned', care: null };
+    if (state.campCare.bedId !== bedId) return { ok: false, reason: 'wrong-bed', care: getCampCare() };
+    const rollback = snapshotForBankRollback();
+    state.campCare = null;
+    const write = commitBank(rollback, { care: null });
+    return write.ok ? write : { ok: false, reason: write.reason, care: getCampCare() };
+  }
+  function feedCampWildkin(bedId) {
+    if (!state.campCare) return { ok: false, reason: 'unassigned', care: null };
+    if (state.campCare.bedId !== bedId) return { ok: false, reason: 'wrong-bed', care: getCampCare() };
+    if (!findCareBed(bedId)) return { ok: false, reason: 'missing-bed', care: getCampCare() };
+    if (!findCareWildkin(state.campCare.wildkinId)) return { ok: false, reason: 'missing-wildkin', care: getCampCare() };
+    if (state.campCare.nourishment >= CAMP_CARE_MAX_NOURISHMENT) return { ok: false, reason: 'nourished', care: getCampCare() };
+    const exchange = prepareExchange({ berries: 1 }, {}, null);
+    if (!exchange.ok) return { ok: false, reason: 'empty', care: getCampCare() };
+    const rollback = snapshotForBankRollback();
+    state.inventory = exchange.inventory;
+    state.campCare = { ...state.campCare, nourishment: state.campCare.nourishment + 1 };
+    const write = commitBank(rollback, { care: getCampCare() });
+    return write.ok ? write : { ok: false, reason: write.reason, care: getCampCare() };
+  }
   function getFieldSupplies() { return getPackEquipment(state.inventory, itemCatalog).fieldSupplies; }
   function getLoadout() { return cloneLoadout(state.loadout); }
   function assignQuickSlot(slot, itemId) {
@@ -919,6 +961,7 @@ export function createFrontierProgress(opts = {}) {
   }
   function removeStructure(id) {
     const piece=state.base.structures.find(p=>p.id===id);if(!piece)return {removed:false,reason:'unknown-structure'};
+    if(state.campCare?.bedId===id)return {removed:false,reason:'bed-occupied'};
     if(state.base.structures.some(p=>p.supportId===id))return {removed:false,reason:'remove-supported-first'};
     const container=state.inventory.containers.find(c=>c.id===id);
     if(container?.slots.some(Boolean))return {removed:false,reason:'storage-not-empty'};
@@ -1072,7 +1115,7 @@ export function createFrontierProgress(opts = {}) {
     isPoiCompleted: id => state.completedPoiIds.includes(id),
     craftConsumable,
     consumeConsumable,
-    getBaseState, getFieldSupplies, craftFieldSupply, fitFieldPack, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,
+    getBaseState, getCampCare, assignCampWildkin, releaseCampWildkin, feedCampWildkin, getFieldSupplies, craftFieldSupply, fitFieldPack, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,
     getLoadout, assignQuickSlot, selectQuickSlot,
     tryResolve,
     getBankedResources,

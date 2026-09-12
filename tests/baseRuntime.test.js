@@ -23,7 +23,7 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
     const template=new THREE.Group();template.add(new THREE.Mesh(new THREE.BoxGeometry(2.8,1.7,.4),new THREE.MeshLambertMaterial()));
     registerModelTemplateForTests('assets/models/emergency-barricade-v1/model.glb',{scene:template,animations:[]});
     const registry=createWorldRegistry(WORLD_DATA),progress=createFrontierProgress({worldRegistry:registry,resourceDrops:WORLD_DATA.resourceDrops,isAuthorMode:true,inMemoryAuthor:true});
-    const supplies={wood:18,stone:12,fiber:4};
+    const supplies={wood:30,stone:12,fiber:10};
     assert.deepEqual(progress.collectResources(supplies).added,supplies);
     assert.equal(progress.getInventoryState().pack.length,16);
     for(const id of CAMP_DEBRIS_IDS)assert.equal(progress.clearCampDebris(id).cleared,true);
@@ -48,6 +48,22 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
     base.update(0,{hidden:false});assert.ok(enabled().every(Boolean));
     assert.equal(base.onAction('removeStructure','build_door').ok,true);assert.equal(world.colliders.len(),defenseColliders+1);assert.equal(cameraColliders.size,world.colliders.len());
     assert.equal(occlusion.candidateCount,defenseRoots+1,'removal releases the same presentation root');
+    const nurseryPlacement=progress.placeStructure({id:'build_nursery',type:'bed',pos:{x:-4,z:18},yaw:Math.PI/2});
+    assert.equal(nurseryPlacement.placed,true,nurseryPlacement.reason);
+    base.update(.4);
+    const bed=base.getWildkinBed('build_nursery');
+    assert.equal(bed.buildId,'build_nursery');assert.equal(bed.topHeight,bed.anchorPos.y);assert.equal(bed.topHeight,progress.getBaseState().structures.find(p=>p.id==='build_nursery').pos.y+.55);
+    assert.throws(()=>{bed.anchorPos.x=99;},TypeError,'bed anchor is a frozen clone');
+    const nursery=base.getNearbyInteraction({...bed.anchorPos});
+    assert.equal(nursery.type,'wildkinBed');assert.equal(nursery.id,'build_nursery');assert.equal(nursery.label,'Nursery');assert.ok(nursery.distance<=3.2);
+    assert.equal(base.getNearbyInteraction({x:bed.anchorPos.x+3.21,y:bed.anchorPos.y,z:bed.anchorPos.z}),null,'Nursery is a nearby world interaction only');
+    const berryNames=['nursery-berry-0','nursery-berry-1','nursery-berry-2'];
+    const nurseryVisual=scene.getObjectByName('build_nursery');
+    assert.deepEqual(berryNames.map(name=>nurseryVisual.getObjectByName(name).visible),[false,false,false],'an unassigned bed is visibly empty');
+    const readCare=progress.getCampCare;progress.getCampCare=()=>({bedId:'build_nursery',nourishment:2});
+    base.update(.4);
+    assert.deepEqual(berryNames.map(name=>nurseryVisual.getObjectByName(name).visible),[true,true,false],'care-only nourishment updates named berries without rebuilding the bed');
+    progress.getCampCare=readCare;
     base.dispose();base=null;assert.equal(world.colliders.len(),0);assert.equal(cameraColliders.size,0);assert.equal(scene.children.length,0);
     assert.equal(occlusion.candidateCount,0);occlusion.dispose();
   }finally{try{base?.dispose();world.free();}catch{}clearModelAssetCacheForTests();global.window=oldWindow;global.document=oldDocument;}

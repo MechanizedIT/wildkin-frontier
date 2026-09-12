@@ -9,7 +9,7 @@ const interactionIcon = (info) => {
   if (info?.type === "lootChest") return "backpack";
   if (info?.type === 'campYard') return 'shield';
   if (info?.type === 'rootfall') return 'axe';
-  if (["campSanctuary", "companion", "bond"].includes(info?.type)) return "paw";
+  if (["campSanctuary", "companion", "bond", "wildkinBed"].includes(info?.type)) return "paw";
   return "axe";
 };
 
@@ -18,6 +18,7 @@ export function createContextualInteraction(opts = {}) {
   const onActivate = opts.onActivate ?? (()=>{});
   let current = null; // {id, type, label}
   let buttonEl = null;
+  let secondaryEl = null, secondaryPressed = null;
   let presentationKey = "";
   let leaderEl = null;
   let safeEl = null;
@@ -27,7 +28,7 @@ export function createContextualInteraction(opts = {}) {
   let obstacles = [], layoutTimer = 1;
   let bodyRectangle = null;
   let lastPlacement = null;
-  const hide = () => { if (buttonEl) buttonEl.hidden = true; if (leaderEl) leaderEl.hidden = true; };
+  const hide = () => { if (buttonEl) buttonEl.hidden = true; if (secondaryEl) secondaryEl.hidden = true; if (leaderEl) leaderEl.hidden = true; };
 
   if (app) {
     buttonEl = document.createElement("button");
@@ -35,6 +36,17 @@ export function createContextualInteraction(opts = {}) {
     buttonEl.type = "button";
     buttonEl.hidden = true;
     app.appendChild(buttonEl);
+    secondaryEl = document.createElement('button');
+    secondaryEl.id = 'contextual-secondary-action-button'; secondaryEl.type = 'button'; secondaryEl.hidden = true;
+    app.appendChild(secondaryEl);
+    secondaryEl.addEventListener('pointerdown', e => { e.stopPropagation(); secondaryPressed = current?.id; });
+    secondaryEl.addEventListener('pointerup', e => e.stopPropagation());
+    secondaryEl.addEventListener('pointercancel', () => { secondaryPressed = null; });
+    secondaryEl.addEventListener('click', e => {
+      e.stopPropagation();
+      const same = !secondaryPressed || secondaryPressed === current?.id; secondaryPressed = null;
+      if (same && current?.secondary) onActivate({ ...current, action: current.secondary.action });
+    });
     leaderEl = document.createElement('i');
     leaderEl.className = 'contextual-action-leader'; leaderEl.hidden = true;
     safeEl = document.createElement('i'); safeEl.className = 'contextual-action-safe-area';
@@ -60,7 +72,7 @@ export function createContextualInteraction(opts = {}) {
     if(current?.id!==info?.id || current?.type!==info?.type)lastPlacement=null;
     current = info;
     if (!buttonEl) return;
-    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}` : "";
+    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}|${info.nourishment}|${info.secondary?.label}` : "";
     // Countdown/accessibility detail can change without moving or rebuilding a
     // held action. Only its visible label/identity/availability affects layout.
     if (info) {
@@ -71,6 +83,8 @@ export function createContextualInteraction(opts = {}) {
     if (presentationKey === nextKey) return;
     presentationKey = nextKey;
     buttonEl.disabled = info?.disabled === true;
+    buttonEl.classList.toggle('nursery-action', info?.type === 'wildkinBed' && info.nourishment !== null);
+    secondaryEl.textContent = info?.secondary?.label ?? '';
     size = null; layoutTimer = 1; hide();
     if (!info) {
 
@@ -89,7 +103,7 @@ export function createContextualInteraction(opts = {}) {
       const actionLabel = info.label.split(' — ')[0];
       label.textContent = info.type === 'lootChest' ? ({ 'CHEST EMPTY': 'EMPTY', 'CHEST REFILLING': 'REFILLING' }[actionLabel] ?? actionLabel) : actionLabel;
       buttonEl.append(icon, label);
-      if ((info.type === 'campYard'||info.type==='rootfall') && info.cost) {
+      if (['campYard','rootfall','wildkinBed'].includes(info.type) && info.cost) {
         const costs=document.createElement('small');costs.className='contextual-action__cost';
         for(const [id,count] of Object.entries(info.cost)) {
           const item=document.createElement('span');
@@ -97,6 +111,11 @@ export function createContextualInteraction(opts = {}) {
           costs.append(item);
         }
         label.append(costs);
+      }
+      if (info.type === 'wildkinBed' && info.nourishment !== null) {
+        const dots = document.createElement('small'); dots.className = 'contextual-action__nourishment'; dots.setAttribute('aria-hidden','true');
+        for (let i=0;i<3;i++) { const dot=document.createElement('i'); dot.className=i<info.nourishment?'filled':''; dots.append(dot); }
+        label.append(dots);
       }
 
     }
@@ -110,7 +129,8 @@ export function createContextualInteraction(opts = {}) {
     const point = projectInteractionPoint(anchor, opts.camera, frame.width, frame.height);
     if (!point || opts.anchor.isOccluded(opts.camera, anchor, dt)) { hide(); return; }
     buttonEl.hidden = false;
-    if (!size) size = { width: buttonEl.offsetWidth, height: buttonEl.offsetHeight };
+    secondaryEl.hidden = !current.secondary;
+    if (!size) size = { width: Math.max(buttonEl.offsetWidth, current.secondary ? secondaryEl.offsetWidth : 0), height: buttonEl.offsetHeight + (current.secondary ? secondaryEl.offsetHeight + 5 : 0) };
     layoutTimer += dt;
     // This only projects eight cached corners; moving body bounds must track
     // the same frame as the anchor, independently of throttled DOM layout.
@@ -142,6 +162,7 @@ export function createContextualInteraction(opts = {}) {
     // Hold the touch target under the finger until release; don't chase a
     // moving creature midway through the user's tap.
     buttonEl.style.left = `${position.left}px`; buttonEl.style.top = `${position.top}px`;
+    if (current.secondary) { secondaryEl.style.left = `${position.left}px`; secondaryEl.style.top = `${position.top + buttonEl.offsetHeight + 5}px`; }
     const dx = point.x - position.endX, dy = point.y - position.endY;
     leaderEl.style.left = `${position.endX}px`; leaderEl.style.top = `${position.endY}px`;
     leaderEl.style.width = `${Math.hypot(dx, dy)}px`;

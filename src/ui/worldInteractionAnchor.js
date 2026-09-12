@@ -24,6 +24,7 @@ export function projectInteractionBounds(box, matrixWorld, camera, width, height
 export function resolveInteractionRecord(info, { registry, creatures, getBase } = {}) {
   if (!info) return null;
   if (info.type === 'rootfall') return info.anchorPos?{pos:info.anchorPos}:null;
+  if (info.type === 'wildkinBed') return info.anchorPos ? { pos: info.anchorPos } : null;
   if (info.type === 'campYard') { const pos=getBase?.()?.getCampYardAnchor();return pos?{pos}:null; }
   if (info.type === 'bond' || info.type === 'companion') {
     const creature = info.target ?? creatures?.getCreatures().find(c => c.state.id === info.id);
@@ -83,8 +84,8 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
           }
         }
       }
-      offset = info?.type==='rootfall'?0:HEIGHT[info?.type] ?? 1.3;
-      if (root) {
+      offset = ['rootfall','wildkinBed'].includes(info?.type)?0:HEIGHT[info?.type] ?? 1.3;
+      if (root && info?.type !== 'wildkinBed') {
         root.updateWorldMatrix(true, true);
         if (bodyTop === null) box.setFromObject(root);
         if (bodyTop !== null && record?.creature) {
