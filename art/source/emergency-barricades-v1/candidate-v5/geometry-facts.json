@@ -1,0 +1,128 @@
+{
+  "emergency-barricade": {
+    "ok": true,
+    "input": "art\\source\\emergency-barricades-v1\\candidate-v5\\emergency-barricade.glb",
+    "profile": "prop",
+    "limits": {
+      "max_triangles": 5000,
+      "max_vertices": 15000,
+      "max_materials": 2,
+      "max_bones": 0,
+      "max_texture": 1024
+    },
+    "sourceSHA256": "2cc773a2def685f876aeb0da4eb100e7b060099bdd9834df5c6d78257e6197a6",
+    "textureSHA256": [
+      "a54bcfe4f6099f8d059892719dbd920c34ca67c3fc2449109287e2f0303723bb"
+    ],
+    "counts": {
+      "triangles": 880,
+      "vertices": 1884,
+      "materials": 1,
+      "bones": 0,
+      "animations": 0
+    },
+    "animations": [],
+    "textures": [
+      {
+        "mimeType": "image/png",
+        "width": 64,
+        "height": 8,
+        "sha256": "a54bcfe4f6099f8d059892719dbd920c34ca67c3fc2449109287e2f0303723bb",
+        "roles": [
+          "baseColor"
+        ]
+      }
+    ],
+    "textureRoles": [
+      {
+        "texture": 0,
+        "role": "baseColor"
+      }
+    ],
+    "failures": [],
+    "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate.",
+    "bounds": {
+      "min": [
+        -1.4000000953674316,
+        0.0,
+        -0.20000000298023224
+      ],
+      "max": [
+        1.4000000953674316,
+        1.7000000476837158,
+        0.6399999856948853
+      ]
+    },
+    "drawPrimitives": 1,
+    "nodes": [
+      {
+        "mesh": 0,
+        "name": "emergency-barricade"
+      }
+    ],
+    "bytes": 67296
+  },
+  "emergency-corner-post": {
+    "ok": true,
+    "input": "art\\source\\emergency-barricades-v1\\candidate-v5\\emergency-corner-post.glb",
+    "profile": "prop",
+    "limits": {
+      "max_triangles": 5000,
+      "max_vertices": 15000,
+      "max_materials": 2,
+      "max_bones": 0,
+      "max_texture": 1024
+    },
+    "sourceSHA256": "c8f84e55996754e676cffede0a83b527e2a9057133506715ae6f3a9956a24aaa",
+    "textureSHA256": [
+      "a54bcfe4f6099f8d059892719dbd920c34ca67c3fc2449109287e2f0303723bb"
+    ],
+    "counts": {
+      "triangles": 396,
+      "vertices": 832,
+      "materials": 1,
+      "bones": 0,
+      "animations": 0
+    },
+    "animations": [],
+    "textures": [
+      {
+        "mimeType": "image/png",
+        "width": 64,
+        "height": 8,
+        "sha256": "a54bcfe4f6099f8d059892719dbd920c34ca67c3fc2449109287e2f0303723bb",
+        "roles": [
+          "baseColor"
+        ]
+      }
+    ],
+    "textureRoles": [
+      {
+        "texture": 0,
+        "role": "baseColor"
+      }
+    ],
+    "failures": [],
+    "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate.",
+    "bounds": {
+      "min": [
+        -0.25999999046325684,
+        0.0,
+        -0.25999999046325684
+      ],
+      "max": [
+        0.25999999046325684,
+        1.7000000476837158,
+        0.25999999046325684
+      ]
+    },
+    "drawPrimitives": 1,
+    "nodes": [
+      {
+        "mesh": 0,
+        "name": "emergency-corner-post"
+      }
+    ],
+    "bytes": 30732
+  }
+}

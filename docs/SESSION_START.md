@@ -14,6 +14,8 @@ After a fresh clone or machine replacement, read [RECOVERY.md](RECOVERY.md). The
 
 ## Snapshot to verify, not silently upgrade
 
+- Latest Camp checkpoint:867tests/build/ZIP pass,42.97MB unpacked/20.29MB ZIP. One defended adjoining yard clears/pays/expands/reloads, with independently reviewed openings, console and new armor. Legacy construction/storage survives. Read SURVEY_RECOVERY_SLICE for the next survey-cartridge/pack fitting work; older lists below predate this addition.
+
 - September11 evening phone candidate:842tests/build/validation/ZIP pass at42.56MB unpacked/20.26MB ZIP. Square inventory/lifted drag, rounded frames, fullscreen/right-side zoom/real joystick, quiet persistent observation notes and continuous harvesting are integrated. The pickup-dependent next-hit gate was explicitly rejected by Chris. Read OVERNIGHT_RUN_2 rolling status and latest BUILD_LOG before relying on the older handoff below. Camp target is independently reviewed; barricade/layout work is underway, not admitted content.
 
 - Physical inventory is integrated: finite pack, physical pod/crate storage, drag/tap/split/sort, selected nearby crafting source, capacity-safe transactions, v3 migration and an active-expedition reload snapshot. Saved quantities belong to frontier progress; old counters are derived views.

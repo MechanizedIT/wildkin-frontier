@@ -30,6 +30,7 @@ Use this project-local skill to coordinate a small complete change. It composes 
 
 - Identify exact source/model SHA256, capture revision, dimensions and relevant fixture. Inspect the actual full images. Separate target fitness, neutral model, deformation frames, continuous exported motion, native gameplay and physical-phone gates. A score of at least 8 is the current art threshold, not a waiver of a failed contract.
 - Sampled stills cannot prove continuous cadence, transitions or sound. A saved video that the reviewer could not play remains unreviewed. Inspect motion at the actual species scale, authored speed and native camera; displacement/contact numbers support, rather than replace, perception.
+- Before a new motion donor or video generator, consult `docs/MOTION_REFERENCE_PLAN.md`. Match neutral bone bases and chain structure; a tool's animal preset is not proof of retarget compatibility. Prefer reviewing the current export against consistent 3D donor motion before installing another inference stack.
 - Label diagnostic grants, save seeds, teleports, camera overrides and read-only position navigation. Ordinary input after a fixture is native execution, not a fresh earned journey. Distinguish dev, packaged, already-loaded offline and literal reload evidence; do not claim one from another.
 - Keep an honest compact receipt: actual actions, observed outcome, errors/requests, exact hashes, PASS/HOLD and remaining limitation. Retain failed evidence without presenting it as current proof.
 

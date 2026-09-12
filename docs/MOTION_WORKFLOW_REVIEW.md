@@ -1,5 +1,7 @@
 # Character motion workflow correction
 
+September 11 evening follow-up: [MOTION_REFERENCE_PLAN.md](MOTION_REFERENCE_PLAN.md) records how the current clips were made, generated-video/pose-board limits, free tools and a pinned Mesh2Motion compatibility audit. The Fox preset is not a drop-in replacement for the fitted Mossling rig. Continue normal-speed independent review before another rig experiment; no video model was installed or motion replaced by this audit.
+
 ## September 11 — current Mossling V3 provisional integration
 
 The local game now references `assets/models/mossling-v3/model.glb`, exact SHA256 `ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9`. This is a **provisional motion-review candidate, not final motion acceptance**. Its editable source, packed original texture, fitted rig, five clips and concise provenance are retained in `art/source/mossling-v3/`; raw studies remain intact.

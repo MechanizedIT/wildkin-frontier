@@ -674,6 +674,8 @@ contextualInteraction = createContextualInteraction({
       syncInputBlock();
     } else if (info.type === 'storage' && expeditionSession.isCamp()) {
       betaGame?.openStorage(info.id);refreshMapAvailability();syncInputBlock();
+    } else if (info.type === 'campYard' && expeditionSession.isCamp()) {
+      betaGame?.activateCampYard();refreshMapAvailability();syncInputBlock();
     } else if (info.type === 'campSanctuary' && expeditionSession.isCamp()) {
       betaGame?.openSanctuary();refreshMapAvailability();syncInputBlock();
     }
@@ -977,7 +979,7 @@ if (authorEnabled) {
 
 betaGame = createBetaGame({
   app, scene, camera, registry: worldRegistry, progress: frontierProgress, session: expeditionSession,
-  creatures: creatureSystem, playerController, playerCombat, pickupSystem, xpMoteSystem,
+  creatures: creatureSystem, playerController, playerCombat, pickupSystem, xpMoteSystem, resourceSystem,
   physicsWorld, characterPhysics, playerCollider: characterPhysics.collider,
   audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
   getSectionId: () => sectionRuntime.getActiveSectionId(),
@@ -1085,7 +1087,7 @@ function tick() {
       const isAggroNearby = creatureSystem.isAnyAggroedNearby();
       combatSession.update(fixedDt, isAggroNearby);
       const combatEngaged = combatSession.isEngaged();
-      const harvestingAllowed = equipmentInput.toolAllowed && autoHarvestEnabled && !blocked && expeditionSession.isActive();
+      const harvestingAllowed = equipmentInput.toolAllowed && autoHarvestEnabled && !blocked && betaGame.canUseFieldTool();
 
       const pPosForCombat = pStBefore.pos;
       const pFacingForCombat = pStBefore.facing;
@@ -1096,13 +1098,14 @@ function tick() {
         return hits.map(h => alive.find(a => a.state.id === h.id)).filter(Boolean);
       };
 
-      const fieldCanAttack = equipmentInput.toolAllowed && !blocked && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE") && expeditionSession.isActive();
+      const fieldCanAttack = equipmentInput.toolAllowed && !blocked && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE") && betaGame.canUseFieldTool();
       const effectiveAttackRequested = equipmentInput.toolAllowed && pendingAttackLatch && !blocked;
       const effectiveAttackHeld = !!intent.attackHeld && fieldCanAttack;
       const getManualHarvestTargets = () => resourceSystem.getManualTargets(pStBefore.pos);
       const handleUnifiedImpact = ({ resourceHits, combatHits }) => {
         for (const node of resourceHits) {
-          resourceSystem.applyHit(
+          if (!betaGame.beforeHarvestHit(node)) continue;
+          const harvested = resourceSystem.applyHit(
             node,
             (n) => { pickupSystem.spawnPickup(n); betaGame?.onHarvestDrop(n); },
             (n, cnt) => particleSystem.spawnBurst(n, cnt, pStBefore.pos),
@@ -1111,6 +1114,7 @@ function tick() {
               if (isFinal) gameAudio.playDeplete();
             }
           );
+          if (harvested) betaGame.afterHarvestHit(node);
         }
         for (const creature of combatHits) {
           const pPos = playerController.getState().pos;

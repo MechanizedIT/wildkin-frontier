@@ -16,6 +16,7 @@ import { createEquipmentSystem } from '../equipment/equipmentSystem.js';
 import { createTamingEquipmentUse } from '../equipment/tamingEquipment.js';
 import { createFieldFoodUse } from '../equipment/fieldFood.js';
 import { createBaseSystem } from '../base/baseSystem.js';
+import { createCampClearing } from '../base/campClearing.js';
 import { createCacheMechanisms } from '../presentation/cacheMechanisms.js';
 import { createObservatoryMechanisms } from '../presentation/observatoryMechanisms.js';
 import { createPhysicalInventory } from '../inventory/physicalInventory.js';
@@ -41,6 +42,7 @@ export function createBetaGame(deps) {
   deps.characterPhysics?.setColliderFilter(companions.isFollowerCollider);
   creatures.setCompanionColliderFilter(companions.isFollowerCollider);
   const isCamp = () => session.isCamp();
+  const campClearing = createCampClearing({progress,resources:deps.resourceSystem,isCamp,initialHidden:authorEnabled,notify:toast});
   const getSectionId = () => deps.getSectionId();
   const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled,onVisualAdded:playerOcclusion.register,onVisualRemoving:playerOcclusion.unregister});
   const physicalInventory = createPhysicalInventory({app,progress,registry,getPlayerState:()=>playerController.getState(),isCamp,canOpen:()=>!authorEnabled&&!deps.isOtherBlocking()&&!companions.isBlocking()&&!base.isBlocking(),onBlockingChanged,onChanged:()=>{pickupSystem.resetInventory();shell?.update();},onOpenJournal:()=>shell?.open('journal')});
@@ -202,13 +204,17 @@ export function createBetaGame(deps) {
         const storage=physicalInventory.getNearbyInteraction(pos);
         if(storage)return storage;
         const workbench=base.getNearbyInteraction(pos);
-        if(workbench)return {...workbench,type:'resonator'};
+        if(workbench)return {...workbench,type:workbench.type??'resonator'};
         const sanctuary=registry.getSectionById('camp')?.props?.find(p=>p.id==='prop_camp_sanctuary');
         if(sanctuary&&Math.hypot(pos.x-sanctuary.pos.x,pos.z-sanctuary.pos.z)<2)return {type:'campSanctuary',id:sanctuary.id,label:'Wildkin'};
       }
       return companions.getNearbyInteraction(pos);
     },
     beginBond: companions.beginBond,
+    canUseFieldTool: () => session.isActive() || isCamp(),
+    beforeHarvestHit: campClearing.beforeHit,
+    afterHarvestHit: campClearing.afterHit,
+    activateCampYard() { const result=base.onAction('expandBase');if(result?.message)toast('Camp work yard',result.message);shell.update();return result; },
     getDamage: () => progress.getModifiers().fieldToolDamageMultiplier,
     onCreatureDamaged: (creature, amount) => combatFeedback.showDamage(creature.state.pos, amount),
     onHarvestDrop(node) {
@@ -244,6 +250,7 @@ export function createBetaGame(deps) {
     // Simulation ownership stays in the single fixed loop. The regular update
     // below only advances visual animation and DOM/presentation concerns.
     updateFixed(dt, { paused = false, authorSuppress = false } = {}) {
+      campClearing.update(dt,{hidden:authorSuppress});
       base.update(0,{hidden:authorSuppress});
       companions.updateFixed(dt, { sectionId: getSectionId(), paused: paused || isBlocking() || deps.isOtherBlocking() || document.hidden, hidden: authorSuppress });
     },
@@ -251,6 +258,9 @@ export function createBetaGame(deps) {
       physicalInventory.update();
       const sectionId = getSectionId();
       const hidden = !!authorSuppress;
+      // Edit mode does not run fixed simulation, but must release the saved
+      // clearing mask for Author's own preview and restore it on return to Play.
+      campClearing.update(0,{hidden});
       base.update(dt,{hidden,paused,reducedMotion:settings.reducedMotion});
       combatFeedback.update(dt, { hidden: paused || hidden });
       playerOcclusion.update(dt, { hidden: paused || hidden });

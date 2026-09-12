@@ -6,8 +6,9 @@ import { CONSUMABLE_CATALOG, getUpgradeDefinition, getUpgradeModifiers, getUpgra
 import { getCampaignObjective } from "../progression/campaignProgress.js";
 import { getPlayerLevel } from "../progression/playerLevel.js";
 import { getAvailableSkillPoints, getSkillPurchaseReason, normalizeSkillUnlocks, mergeSkillModifiers } from "../progression/skillCatalog.js";
-import { BASE_EXPANSIONS, BASE_PIECE_BY_ID, FIELD_RECIPE_BY_ID } from '../base/baseCatalog.js';
+import { BASE_PIECE_BY_ID, FIELD_RECIPE_BY_ID } from '../base/baseCatalog.js';
 import { cloneBase, getCampReserved, normalizeBase, validatePlacement } from '../base/basePlacement.js';
+import { CAMP_DEBRIS_IDS, CAMP_YARD_COST, createCampLayout } from '../base/campLayout.js';
 import { QUICK_SLOT_COUNT, EQUIPMENT_BY_ID, normalizeLoadout, cloneLoadout, getEquipmentCount } from '../equipment/equipmentCatalog.js';
 import { createItemCatalog, INVENTORY_CONFIG } from '../inventory/itemCatalog.js';
 import { createInventoryState, cloneInventory, readInventoryState, migrateLegacyInventory, getPackResources, getPackEquipment } from '../inventory/inventoryState.js';
@@ -71,7 +72,7 @@ function defaultState(initialWaypointId, resourceDrops) {
     completedObjectives: [],
     completedPoiIds: [],
     campaignCompleted: false,
-    base: { tier: 0, structures: [] },
+    base: { tier: 0, layout: createCampLayout(), structures: [] },
     loadout: normalizeLoadout(null),
     securedCompanionRunIds: [],
   };
@@ -752,10 +753,17 @@ export function createFrontierProgress(opts = {}) {
     const write=commitBank(rollback,{});return {removed:write.ok,reason:write.reason,state:getState()};
   }
   function expandBase() {
-    const cost=BASE_EXPANSIONS[state.base.tier];if(!cost)return {expanded:false,reason:'max-tier'};
-    const exchange=prepareExchange(cost);if(!exchange.ok)return {expanded:false,reason:exchange.reason};
-    const rollback=snapshotForBankRollback();state.inventory=exchange.inventory;state.base.tier++;
+    if(state.base.layout.yardExpanded)return {expanded:false,reason:'already-expanded'};
+    if(CAMP_DEBRIS_IDS.some(id=>!state.base.layout.clearedDebrisIds.includes(id)))return {expanded:false,reason:'debris-remaining'};
+    const exchange=prepareExchange(CAMP_YARD_COST);if(!exchange.ok)return {expanded:false,reason:exchange.reason};
+    const rollback=snapshotForBankRollback();state.inventory=exchange.inventory;state.base.layout.yardExpanded=true;
     const write=commitBank(rollback,{});return {expanded:write.ok,reason:write.reason,state:getState()};
+  }
+  function clearCampDebris(id) {
+    if(!CAMP_DEBRIS_IDS.includes(id))return {cleared:false,reason:'unknown-debris'};
+    if(state.base.layout.clearedDebrisIds.includes(id))return {cleared:false,reason:'already-cleared'};
+    const rollback=snapshotForBankRollback();state.base.layout.clearedDebrisIds.push(id);
+    const write=commitBank(rollback,{});return {cleared:write.ok,reason:write.reason,state:getState()};
   }
 
   // For idempotent run resolution helper: generic resolve token
@@ -883,7 +891,7 @@ export function createFrontierProgress(opts = {}) {
     completePoi,
     craftConsumable,
     consumeConsumable,
-    getBaseState, getFieldSupplies, craftFieldSupply, consumeFieldSupply, placeStructure, removeStructure, expandBase,
+    getBaseState, getFieldSupplies, craftFieldSupply, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,
     getLoadout, assignQuickSlot, selectQuickSlot,
     tryResolve,
     getBankedResources,

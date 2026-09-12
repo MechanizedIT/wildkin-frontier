@@ -2,6 +2,8 @@
 
 September 11 evening. **Provisional production plan, not completed gameplay.** Derived from Chris's crashland/Camp/progression direction and an independent level/systems audit. Current scope and progress remain in CURRENT_SLICE and OVERNIGHT_RUN_2. Root integrates canonical world data; each production writer receives explicit file ownership.
 
+**Camp implementation checkpoint:** defended apron, adjoining yard, three persistent Omni-tool clearing bundles, world-console payment and saved perimeter expansion are integrated candidates. Independent target/model gates pass; root native auto-clearing, cost-button payment and literal reload pass. Independent native layout/art review passes8.0, with both entrance crossings and explicit Author Edit suppression;867tests/build/ZIP pass. Survey wreck, cartridge/pack fitting and Rootfall remain plans. The actual starter floor and bench fit at(-4.5,7.7), with a crate at(-4.5,9.7); the material-only gravel pad changes no terrain height beneath legacy saves.
+
 ## Player journey
 
 Wake beside the damaged pod inside emergency defenses. Gather in Forest Edge, follow recognizable cargo fragments into a torn survey module, recover a pack cartridge, and fit it at a Camp Salvage bench. Clear an adjoining work yard to gain protected construction space. Clear and brace a fallen alien growth farther up the Verdant trail to open the next region. Pack capacity helps preparation; it is not an arbitrary permission requirement for cutting the obstruction.

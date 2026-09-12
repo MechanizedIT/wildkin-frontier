@@ -23,6 +23,7 @@ export function projectInteractionBounds(box, matrixWorld, camera, width, height
 
 export function resolveInteractionRecord(info, { registry, creatures, getBase } = {}) {
   if (!info) return null;
+  if (info.type === 'campYard') { const pos=getBase?.()?.getCampYardAnchor();return pos?{pos}:null; }
   if (info.type === 'bond' || info.type === 'companion') {
     const creature = info.target ?? creatures?.getCreatures().find(c => c.state.id === info.id);
     return creature && !creature.state.isDead && !creature.state.bondCaptured ? { pos: creature.state.pos, creature } : null;
@@ -97,7 +98,7 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
           if (parent === root || parent.userData?.creatureId) return;
           // Batched meshes can carry propId below the selected visual root.
           // Finish exclusions before admitting any part as an occluder.
-          if (parent.userData?.propId || parent.userData?.isGround || parent.name === 'player-base') scenery = true;
+          if (parent.userData?.propId || parent.userData?.isGround || parent.name === 'player-base' || parent.name === 'camp-defenses') scenery = true;
         }
         if (scenery) occluders.push(n);
       });

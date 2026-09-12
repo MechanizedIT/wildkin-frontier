@@ -6,7 +6,7 @@ import { createFrontierProgress } from '../src/save/frontierProgress.js';
 import { normalizeBase,validatePlacement,getBuildBounds } from '../src/base/basePlacement.js';
 import { BASE_CONFIG } from '../src/base/baseCatalog.js';
 
-function withProgress(run){const original=global.localStorage,values=new Map();let failing=false;global.localStorage={getItem:k=>values.get(k)??null,setItem:(k,v)=>{if(failing)throw Error('full');values.set(k,v);}};try{const registry=createWorldRegistry(WORLD_DATA);const p=createFrontierProgress({worldRegistry:registry,resourceDrops:WORLD_DATA.resourceDrops});p.load();const supplies={wood:60,stone:40,fiber:30,berries:12,iron_ore:16,crystal_shard:8};const collected=p.collectResources(supplies);assert.equal(collected.ok,true);assert.deepEqual(collected.added,supplies);assert.deepEqual(collected.remaining,{});assert.equal(p.getInventoryState().pack.length,16);run(p,()=>{failing=true;},values,registry);}finally{global.localStorage=original;}}
+function withProgress(run){const original=global.localStorage,values=new Map([["wildkin.frontierProgress",JSON.stringify({version:2,base:{tier:1,structures:[]}})]]);let failing=false;global.localStorage={getItem:k=>values.get(k)??null,setItem:(k,v)=>{if(failing)throw Error('full');values.set(k,v);}};try{const registry=createWorldRegistry(WORLD_DATA);const p=createFrontierProgress({worldRegistry:registry,resourceDrops:WORLD_DATA.resourceDrops});p.load();const supplies={wood:60,stone:40,fiber:30,berries:12,iron_ore:16,crystal_shard:8};const collected=p.collectResources(supplies);assert.equal(collected.ok,true);assert.deepEqual(collected.added,supplies);assert.deepEqual(collected.remaining,{});assert.equal(p.getInventoryState().pack.length,16);run(p,()=>{failing=true;},values,registry);}finally{global.localStorage=original;}}
 const piece=(id,type='foundation',x=0,z=18,yaw=0)=>({id:`build_${id}`,type,pos:{x,y:999,z},yaw});
 
 describe('Free Camp placement and field supplies',()=>{
@@ -34,7 +34,7 @@ describe('Free Camp placement and field supplies',()=>{
     assert.equal(p.removeStructure('build_floor').reason,'remove-supported-first');
     assert.equal(p.removeStructure('build_wall').removed,true);assert.equal(p.removeStructure('build_floor').removed,true);
   }));
-  it('charges expansions once per tier and requires the matching station for advanced gear',()=>withProgress(p=>{
+  it('preserves paid Camp access and requires the matching station for advanced gear',()=>withProgress(p=>{
     assert.equal(p.craftFieldSupply('calming_chime').reason,'station-required');
     assert.equal(p.placeStructure(piece('bench','workbench',0,18)).placed,true);
     assert.equal(p.craftFieldSupply('calming_chime').reason,'station-required');
@@ -46,8 +46,8 @@ describe('Free Camp placement and field supplies',()=>{
     assert.equal(p.craftFieldSupply('berry_lure').crafted,true);
     assert.equal(p.getFieldSupplies().berry_lure,1);assert.equal(p.consumeFieldSupply('berry_lure').consumed,true);
     assert.equal(p.consumeFieldSupply('berry_lure').reason,'empty');
-    assert.equal(p.expandBase().expanded,true);assert.equal(p.expandBase().expanded,true);assert.equal(p.expandBase().reason,'max-tier');
-    assert.equal(getBuildBounds(p.getBaseState().tier).maxX,12);
+    assert.equal(p.expandBase().reason,'already-expanded');assert.equal(p.getBaseState().layout.yardExpanded,true);
+    assert.equal(getBuildBounds(p.getBaseState()).maxX,13);
   }));
   it('rolls back placement, removal, expansion, field recipes and existing medkit paths on storage failure',()=>withProgress((p,fail)=>{
     assert.equal(p.placeStructure(piece('floor')).placed,true);assert.equal(p.craftFieldSupply('berry_lure').crafted,true);assert.equal(p.craftConsumable('medkit').crafted,true);

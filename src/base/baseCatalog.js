@@ -1,6 +1,6 @@
-// Provisional casual Camp economy. Persistent transactions use this same catalog.
+// Provisional casual Camp economy. center/halfSizes describe pre-layout save squares only.
+// Active authored sectors and the single defense cost live in campLayout.js.
 export const BASE_CONFIG = Object.freeze({ center: { x: 0, z: 18 }, halfSizes: [6, 9, 12], maxStructures: 64, maxSupply: 99, maxSlope: .3, foundationHeight: .24 });
-export const BASE_EXPANSIONS = Object.freeze([{ wood: 12, stone: 8 }, { wood: 24, stone: 16, fiber: 8 }]);
 export const BASE_PIECES = Object.freeze([
   { id: 'foundation', name: 'Foundation', icon: '▱', assetId: 'asset_wood_floor', size: [2.6,.24,2.6], cost: { wood: 4, stone: 2 }, description: 'A raised floor. Build walls and furniture on top.' },
   { id: 'wall', name: 'Wall', icon: '▥', assetId: 'asset_wood_wall', size: [2.6,2.25,.3], cost: { wood: 4, fiber: 1 }, description: 'Timber shelter with a solid back.' },

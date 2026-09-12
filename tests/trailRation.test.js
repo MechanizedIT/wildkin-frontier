@@ -16,7 +16,7 @@ function fixture(run){
  run({progress,eat,health:()=>health,setHealth:v=>health=v,setActive:v=>active=v,fail:v=>fail=v,feedback:()=>feedback});
  }finally{globalThis.localStorage=previous;}
 }
-const bedlessBench={id:'build_ration_test',type:'workbench',pos:{x:0,y:0,z:18},yaw:0};
+const bedlessBench={id:'build_ration_test',type:'workbench',pos:{x:-5,y:0,z:7},yaw:0};
 const item={id:'trail_ration'};
 test('ration recipe uses existing station, ingredient and persistent stack/loadout transactions',()=>fixture(({progress:p})=>{
  assert.ok(STATION_RECIPE_IDS.workbench.includes(item.id));assert.equal(p.craftFieldSupply(item.id).reason,'station-required');

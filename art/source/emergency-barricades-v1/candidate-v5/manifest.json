@@ -1,0 +1,143 @@
+{
+  "status": "Independent model PASS8.3; straight panel used in bounded Camp native PASS8.0. Optional post neutral-only; owner/physical-phone acceptance pending.",
+  "builder": "tools/art/build-emergency-barricades.py",
+  "reference": "art/targets/crash-camp-v1/target.png",
+  "style": "art/style/explorer-master.png",
+  "axis": "glTF meters: X along wall, Y up, +Z outboard brace",
+  "pivot": [
+    0,
+    0,
+    0
+  ],
+  "modularPitch": 2.8,
+  "straightBounds": {
+    "min": [
+      -1.4,
+      0,
+      -0.2
+    ],
+    "max": [
+      1.4,
+      1.7,
+      0.64
+    ]
+  },
+  "cornerPostBounds": {
+    "min": [
+      -0.26,
+      0,
+      -0.26
+    ],
+    "max": [
+      0.26,
+      1.7,
+      0.26
+    ]
+  },
+  "collisionRecommendation": {
+    "panel": {
+      "center": [
+        0,
+        0.85,
+        0
+      ],
+      "size": [
+        2.8,
+        1.7,
+        0.4
+      ]
+    },
+    "feet": [
+      {
+        "center": [
+          -1.22,
+          0.06,
+          0.37
+        ],
+        "size": [
+          0.3,
+          0.12,
+          0.54
+        ]
+      },
+      {
+        "center": [
+          1.22,
+          0.06,
+          0.37
+        ],
+        "size": [
+          0.3,
+          0.12,
+          0.54
+        ]
+      }
+    ],
+    "brace": "Optional convex wedge per side: X center +/-1.22 width .24; Y/Z polygon [(0,-.13),(0,.62),(.13,.62),(.97,.22),(.97,.13)]. Never full-height box over feet.",
+    "cornerPost": {
+      "center": [
+        0,
+        0.85,
+        0
+      ],
+      "size": [
+        0.52,
+        1.7,
+        0.52
+      ]
+    },
+    "note": "Descriptor recommendations only; parent must validate actual compound/convex support and runtime access."
+  },
+  "render": {
+    "engine": "Cycles CPU",
+    "threads": 2,
+    "samples": 12,
+    "freshGLB": true,
+    "gameCamera": {
+      "verticalFov": 52,
+      "focusHeight": 0.9,
+      "horizontalDistance": 6.55,
+      "verticalOffset": 4.1,
+      "landscapeZoom": 0.85
+    },
+    "images": [
+      "front.png",
+      "rear.png",
+      "three-quarter.png",
+      "side.png",
+      "corner-post.png",
+      "game-scale-neutral.png"
+    ]
+  },
+  "materials": "one matte opaque palette material per GLB; 64x8 embedded PNG; metallic=0 roughness=1, no emission",
+  "files": {
+    "build-emergency-barricades.py": {
+      "sha256": "fa733b5b05bb92665380cfaaec50a5bd0595787580396c244a3de54da72feffa",
+      "bytes": 10904
+    },
+    "emergency-barricade-editable.blend": {
+      "sha256": "675feddb27f414ee988d0ca3b5be6bbce3f17540d5dc461e30c6243143a8e6c4",
+      "bytes": 540510
+    },
+    "emergency-barricade.glb": {
+      "sha256": "2cc773a2def685f876aeb0da4eb100e7b060099bdd9834df5c6d78257e6197a6",
+      "bytes": 67296
+    },
+    "emergency-corner-post-editable.blend": {
+      "sha256": "7813fa687fda2ac0c050170f09df36a727e4480b52fa966b4613ec36583ecfa1",
+      "bytes": 459525
+    },
+    "emergency-corner-post.glb": {
+      "sha256": "c8f84e55996754e676cffede0a83b527e2a9057133506715ae6f3a9956a24aaa",
+      "bytes": 30732
+    },
+    "geometry-facts.json": {
+      "sha256": "448d049dc4cd2b0cb25291ff8b8195ad29716a458e9d3951a706934250f791d3",
+      "bytes": 3133
+    },
+    "palette.png": {
+      "sha256": "a54bcfe4f6099f8d059892719dbd920c34ca67c3fc2449109287e2f0303723bb",
+      "bytes": 240
+    }
+  }
+}

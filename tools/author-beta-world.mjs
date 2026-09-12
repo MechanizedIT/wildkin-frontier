@@ -20,6 +20,7 @@ import {composeStarterRoute} from './compose-starter-route.mjs';
 import {composeSocialEncounters} from './compose-social-encounters.mjs';
 import {composeShatterfenClearance} from './compose-shatterfen-clearance.mjs';
 import {composeShatterfenBank} from './compose-shatterfen-bank.mjs';
+import {composeCrashlandCamp} from './compose-crashland-camp.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const WORLD_PATH = path.join(ROOT, "src/world/data/world.json");
@@ -525,6 +526,7 @@ composeShatterfenClearance(world);
 composeShatterfenBank(world);
 registerCharacterAssets(world);
 registerEcologyAssets(world);
+composeCrashlandCamp(world);
 normalizeCampaignHarvestCollision(world);
 writeGeneratedFile(WORLD_PATH, JSON.stringify(world) + "\n");
 console.log("Authored Early Access campaign: Frontier Haven + Verdant Verge, Shatterfen, Emberfall Ruins, Windscar Cliffs, Heartwood Vault.");

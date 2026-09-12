@@ -45,6 +45,8 @@ test('all authored families and placed workbenches resolve the same selected ID'
   }
   assert.equal(resolveInteractionRecord({id:'chosen',type:'campSanctuary'},{registry:{data:{regions:[{props:[authored]}]}}}),authored);
   assert.equal(resolveInteractionRecord({id:'chosen',type:'resonator'},{getBase:()=>({getModel:()=>({structures:[authored]})})}),authored);
+  assert.deepEqual(resolveInteractionRecord({id:'camp-yard-console',type:'campYard'},{getBase:()=>({getCampYardAnchor:()=>authored.pos})}),{pos:authored.pos});
+  assert.equal(resolveInteractionRecord({id:'camp-yard-console',type:'campYard'},{getBase:()=>({getCampYardAnchor:()=>null})}),null);
 });
 test('actual visual height anchors labels and live creature state continues moving without target replacement', () => {
   const scene=new THREE.Scene(), mesh=new THREE.Mesh(new THREE.BoxGeometry(2,3,2),new THREE.MeshBasicMaterial());

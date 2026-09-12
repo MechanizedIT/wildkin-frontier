@@ -1,9 +1,11 @@
 import * as THREE from 'three';
-import { BASE_CONFIG, BASE_EXPANSIONS, BASE_PIECES, BASE_PIECE_BY_ID, FIELD_RECIPES, canAfford, formatCost } from './baseCatalog.js';
+import { BASE_CONFIG, BASE_PIECES, BASE_PIECE_BY_ID, FIELD_RECIPES, canAfford, formatCost } from './baseCatalog.js';
+import { CAMP_YARD_COST, CAMP_DEBRIS_IDS, getCampBuildAreas } from './campLayout.js';
 import { getBuildBounds, getCampReserved, validatePlacement } from './basePlacement.js';
 import { getSurfaceHeight } from '../world/terrainSurfaceModel.js';
 import { createBasePieceVisual } from './basePieceVisual.js';
 import { createCraftingStations } from './craftingStations.js';
+import { createCampDefenses } from './campDefenses.js';
 
 const REASONS={
   'outside-clearing':'Aim inside the marked clearing.', 'player-overlap':'Leave room around your feet.',
@@ -12,7 +14,7 @@ const REASONS={
   'unaffordable':'Bring the materials in your pack or selected nearby storage.', 'station-required':'Place the matching fabrication station first.',
   'output-full':'Make room in your backpack first.', 'storage-not-empty':'Empty this container before removing it.', 'out-of-reach':'Move beside your selected storage container.',
   'remove-supported-first':'Remove the pieces on this foundation first.', 'storage-write-failed':'Could not save. Your materials were kept.',
-  'supply-limit':'Your supply pouch is full.', 'max-tier':'Your clearing is fully expanded.',
+  'supply-limit':'Your supply pouch is full.', 'already-expanded':'This yard is already secured.', 'debris-remaining':'Clear the three bundles at the amber stakes beyond the southern opening first.',
 };
 export function createBaseSystem({app,scene,camera,progress,registry,physicsWorld,getPlayerState,isCamp,onBlockingChanged=()=>{},toast=()=>{},initialHidden=false,onVisualAdded=()=>{},onVisualRemoving=()=>{}}){
   const root=new THREE.Group();root.name='player-base';scene.add(root);
@@ -20,6 +22,7 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
   const instances=new Map(),world=physicsWorld?.world,RAPIER=physicsWorld?.RAPIER;
   let active=false,type='foundation',yaw=0,target={x:0,y:0,z:18},candidate=null,signature='',poll=0,lastCamp=null,suppressed=initialHidden;
   const campActive=()=>isCamp()&&!suppressed;
+  const defenses=createCampDefenses({scene,registry,physicsWorld,onVisualAdded,onVisualRemoving});
   const previewMaterial=new THREE.MeshStandardMaterial({color:0x87edbc,transparent:true,opacity:.5,depthWrite:false,roughness:1,metalness:0});
   const preview=new THREE.Group();preview.name='base-placement-preview';preview.visible=false;scene.add(preview);
   let previewModel=null;
@@ -35,7 +38,7 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
     preview.add(previewModel);
   }
   const edgeMaterial=new THREE.LineBasicMaterial({color:0xf3cd77,transparent:true,opacity:.85});
-  const clearing=new THREE.LineLoop(new THREE.BufferGeometry(),edgeMaterial);scene.add(clearing);clearing.visible=false;
+  const clearing=new THREE.LineSegments(new THREE.BufferGeometry(),edgeMaterial);scene.add(clearing);clearing.visible=false;
   const panel=document.createElement('div');panel.className='base-placement';panel.hidden=true;
   panel.innerHTML='<div class="base-aim" aria-label="Aim building on ground"></div><div class="base-caption"><strong></strong><span></span></div><div class="base-tools"><button data-base="cancel">✕ Cancel</button><button data-base="rotate">↻ Rotate</button><button data-base="place">✓ Place</button></div>';
   app.append(panel);const aim=panel.querySelector('.base-aim'),title=panel.querySelector('strong'),hint=panel.querySelector('.base-caption span'),confirm=panel.querySelector('[data-base="place"]');
@@ -70,11 +73,12 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
   const stations=createCraftingStations({app,camera,progress,getPlayerState,isCamp:campActive,onBlockingChanged,notify:message=>toast('Crafting',message)});
   function sync(){
     const base=progress.getBaseState(),next=JSON.stringify(base);if(next===signature)return;signature=next;
+    defenses.sync(base);
     const records=new Map(base.structures.map(record=>[record.id,record]));
     for(const [id,instance]of instances)if(JSON.stringify(records.get(id))!==JSON.stringify(instance.record)){removeInstance(instance);instances.delete(id);}
     for(const record of base.structures)if(!instances.has(record.id))instances.set(record.id,createInstance(record));
     stations.sync(instances);
-    const b=getBuildBounds(base.tier),points=[[b.minX,b.minZ],[b.maxX,b.minZ],[b.maxX,b.maxZ],[b.minX,b.maxZ]].map(([x,z])=>new THREE.Vector3(x,getSurfaceHeight(surface,x,z)+.08,z));
+    const points=getCampBuildAreas(base).flatMap(b=>{const corners=[[b.minX,b.minZ],[b.maxX,b.minZ],[b.maxX,b.maxZ],[b.minX,b.maxZ]];return corners.flatMap((p,i)=>[p,corners[(i+1)%4]]).map(([x,z])=>new THREE.Vector3(x,getSurfaceHeight(surface,x,z)+.08,z));});
     clearing.geometry.dispose();clearing.geometry=new THREE.BufferGeometry().setFromPoints(points);if(active)refreshPreview();
   }
   function refreshPreview(){
@@ -86,11 +90,11 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
   }
   function open(pieceType='foundation'){
     if(!campActive())return {ok:false,message:'Build at Camp after extracting.'};if(!BASE_PIECE_BY_ID[pieceType])return {ok:false,message:'Unknown building piece.'};
-    const pos=getPlayerState().pos,b=getBuildBounds(progress.getBaseState().tier);
-    if(pos.x<b.minX-3||pos.x>b.maxX+3||pos.z<b.minZ-3||pos.z>b.maxZ+3)return {ok:false,message:'Walk to the open clearing south of Camp, beyond the drop pod, then open Build.'};
+    const pos=getPlayerState().pos,b=getBuildBounds(progress.getBaseState());
+    if(pos.x<b.minX-3||pos.x>b.maxX+3||pos.z<b.minZ-3||pos.z>b.maxZ+3)return {ok:false,message:'Walk inside the protected Camp apron or secured work yard, then open Build.'};
     stations.close();type=pieceType;yaw=0;showPreviewModel(BASE_PIECE_BY_ID[type]);target={x:pos.x+2.5,y:pos.y,z:pos.z};active=true;panel.hidden=false;preview.visible=true;clearing.visible=true;app.classList.add('base-building');onBlockingChanged();refreshPreview();return {ok:true};
   }
-  function close(){stations.close();if(!active)return;active=false;pointer=null;panel.hidden=true;preview.visible=false;app.classList.remove('base-building');onBlockingChanged();}
+  function close(){stations.close();if(!active)return;active=false;pointer=null;panel.hidden=true;preview.visible=false;clearing.visible=false;app.classList.remove('base-building');onBlockingChanged();}
   function place(){
     if(!active||!isCamp())return;refreshPreview();if(!candidate?.ok)return;
     const id=`build_${globalThis.crypto?.randomUUID?.()??`${Date.now()}_${Math.random().toString(36).slice(2,8)}`}`;
@@ -99,24 +103,36 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
   }
   function getModel(){
     const base=progress.getBaseState(),bank=progress.getBankedResources(),supplies=progress.getFieldSupplies(),hasWorkbench=base.structures.some(p=>p.type==='workbench');
-    return {tier:base.tier,maxStructures:BASE_CONFIG.maxStructures,bounds:getBuildBounds(base.tier),structures:base.structures.map(p=>({...p,name:BASE_PIECE_BY_ID[p.type].name,icon:BASE_PIECE_BY_ID[p.type].icon})),fieldSupplies:supplies,hasWorkbench,
+    return {tier:base.tier,layout:base.layout,maxStructures:BASE_CONFIG.maxStructures,bounds:getBuildBounds(base),structures:base.structures.map(p=>({...p,name:BASE_PIECE_BY_ID[p.type].name,icon:BASE_PIECE_BY_ID[p.type].icon})),fieldSupplies:supplies,hasWorkbench,
       pieces:BASE_PIECES.map(p=>({...p,costLabel:formatCost(p.cost),affordable:canAfford(bank,p.cost),action:'beginBuild'})),
       recipes:FIELD_RECIPES.map(r=>({...r,count:supplies[r.id],costLabel:formatCost(r.cost),affordable:canAfford(bank,r.cost),stationName:r.station?BASE_PIECE_BY_ID[r.station].name:null,locked:!!r.station,action:'craftFieldSupply'})),
-      nextExpansion:BASE_EXPANSIONS[base.tier]?{cost:BASE_EXPANSIONS[base.tier],costLabel:formatCost(BASE_EXPANSIONS[base.tier]),affordable:canAfford(bank,BASE_EXPANSIONS[base.tier])}:null};
+      nextExpansion:base.layout?.yardExpanded?null:{cost:CAMP_YARD_COST,costLabel:formatCost(CAMP_YARD_COST),affordable:canAfford(bank,CAMP_YARD_COST),cleared:base.layout?.clearedDebrisIds.length??0,total:CAMP_DEBRIS_IDS.length}};
   }
   function onAction(action,payload){
     if(!campActive())return {ok:false,message:'Return to Camp first.'};if(action==='beginBuild')return open(payload);
     let result,ok,message;
     if(action==='craftFieldSupply'){const recipe=FIELD_RECIPES.find(r=>r.id===payload);if(recipe?.station)return {ok:false,message:`Use your ${BASE_PIECE_BY_ID[recipe.station].name.toLowerCase()} beside the machine.`};result=progress.craftFieldSupply(payload);ok=result.crafted;message='Field supply packed.';}
-    else if(action==='expandBase'){result=progress.expandBase();ok=result.expanded;message='Your clearing is larger.';}
+    else if(action==='expandBase'){
+      const anchor=defenses.getConsoleAnchor(),pos=getPlayerState().pos;
+      if(!anchor||Math.hypot(pos.x-anchor.x,pos.z-anchor.z)>2.5||Math.abs(pos.y-anchor.y)>2.2)return {ok:false,message:'Use the amber console beside the southern Camp opening.'};
+      result=progress.expandBase();ok=result.expanded;message='Work yard secured. The perimeter has moved outward.';
+    }
     else if(action==='removeStructure'){result=progress.removeStructure(payload);ok=result.removed;message='Piece removed. Materials returned.';}
     else return null;
     if(ok)sync();return {ok,message:ok?message:REASONS[result.reason]??'Unable to complete that action.'};
   }
   sync();return {open,close,isBlocking:()=>active,getModel,onAction,openStation:stations.open,isStationOpen:stations.isOpen,
-    update(dt,{hidden=false,paused=false,reducedMotion=false}={}){suppressed=hidden;const camp=campActive();root.visible=camp;clearing.visible=camp;edgeMaterial.opacity=active?.85:.38;if(lastCamp!==camp){lastCamp=camp;for(const instance of instances.values())for(const collider of instance.colliders)collider.setEnabled(camp);if(!camp)close();}poll+=dt;if(poll>.3){poll=0;sync();if(active)refreshPreview();}stations.update(dt,{hidden,paused,reducedMotion});},
-    getNearbyInteraction:stations.getNearbyInteraction,
+    update(dt,{hidden=false,paused=false,reducedMotion=false}={}){suppressed=hidden;const camp=campActive();root.visible=camp;clearing.visible=camp&&active;defenses.setVisible(camp);edgeMaterial.opacity=.85;if(lastCamp!==camp){lastCamp=camp;for(const instance of instances.values())for(const collider of instance.colliders)collider.setEnabled(camp);if(!camp)close();}poll+=dt;if(poll>.3){poll=0;sync();if(active)refreshPreview();}stations.update(dt,{hidden,paused,reducedMotion});},
+    getNearbyInteraction(pos){
+      const station=stations.getNearbyInteraction(pos);if(station)return station;
+      if(!campActive())return null;
+      const base=progress.getBaseState(),anchor=defenses.getConsoleAnchor();
+      if(base.layout.yardExpanded||!anchor||Math.hypot(pos.x-anchor.x,pos.z-anchor.z)>2.5||Math.abs(pos.y-anchor.y)>2.2)return null;
+      const count=base.layout.clearedDebrisIds.length,ready=count===CAMP_DEBRIS_IDS.length;
+      return {id:'camp-yard-console',type:'campYard',label:ready?'Secure yard':`Clear yard · ${count}/${CAMP_DEBRIS_IDS.length}`,cost:ready?CAMP_YARD_COST:null,detail:ready?'Spend these materials to extend the emergency barricades.':'Clear the three bundles at amber survey stakes beyond the opening.'};
+    },
+    getCampYardAnchor:()=>defenses.getConsoleAnchor(),
     getRestPosition:()=>{const bed=progress.getBaseState().structures.find(p=>p.type==='bed');return bed?{...bed.pos}:null;},
-    dispose(){close();stations.dispose();window.removeEventListener('keydown',keydown);document.removeEventListener('visibilitychange',loseFocus);window.removeEventListener('blur',close);for(const instance of instances.values())removeInstance(instance);instances.clear();root.removeFromParent();clearPreviewModel();preview.removeFromParent();clearing.removeFromParent();previewMaterial.dispose();clearing.geometry.dispose();edgeMaterial.dispose();panel.remove();},
+    dispose(){close();stations.dispose();defenses.dispose();window.removeEventListener('keydown',keydown);document.removeEventListener('visibilitychange',loseFocus);window.removeEventListener('blur',close);for(const instance of instances.values())removeInstance(instance);instances.clear();root.removeFromParent();clearPreviewModel();preview.removeFromParent();clearing.removeFromParent();previewMaterial.dispose();clearing.geometry.dispose();edgeMaterial.dispose();panel.remove();},
   };
 }

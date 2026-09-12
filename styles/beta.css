@@ -272,6 +272,8 @@
 #contextual-action-button:active{background:#176459}
 .contextual-action__icon{width:25px;height:25px;flex:0 0 25px}
 .contextual-action__label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.contextual-action__cost{display:flex;align-items:center;justify-content:center;gap:9px;font-size:12px;line-height:20px}
+.contextual-action__cost>span{display:inline-flex;align-items:center;gap:2px}
 .contextual-action-leader{position:absolute;height:2px;background:#a5f3d8;box-shadow:0 1px 2px #071c26;transform-origin:0 50%;pointer-events:none;z-index:7}
 .contextual-action-leader::after{content:"";position:absolute;right:-3px;top:-2px;width:6px;height:6px;border-radius:50%;background:#d2ffe9}
 .contextual-action-safe-area{position:absolute;inset:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));visibility:hidden;pointer-events:none}
