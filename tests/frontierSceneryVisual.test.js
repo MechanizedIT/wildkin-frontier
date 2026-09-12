@@ -47,7 +47,7 @@ test('scenery aligns external canopies and compact solid cores to world-space te
 
   assert.equal(scenery.group.position.length(), 0, 'world-space specs need no parent origin');
   assert.equal(scenery.canopyRoots.length, 1);
-  assert.deepEqual(scenery.stats, { canopyCount: 1, lowCount: 1, stoneSolidCount: 1, surfaceCount: 2, lowDrawCount: 1, lowTriangleCount: 1033, groundTuftCount: 7, groundTuftTriangleCount: 1032 });
+  assert.deepEqual(scenery.stats, { canopyCount: 1, lowCount: 1, stoneSolidCount: 1, surfaceCount: 2, lowDrawCount: 1, lowTriangleCount: 1, groundDrawCount: 1, groundClusterCount: 26, groundClusterTriangleCount: 416 });
   const trunk = scenery.terrainSurfaces.find(surface => surface.id === 'f2c:canopy-a:trunk');
   const solidStone = scenery.terrainSurfaces.find(surface => surface.id === 'f2c:stone-a:stone');
   assert.deepEqual(trunk.origin, { x: 0, z: 0 }); assert.equal(trunk.sectionId, 'camp');
@@ -65,7 +65,7 @@ test('scenery aligns external canopies and compact solid cores to world-space te
   scenery.dispose();
 });
 
-test('low scenery bakes authored part transforms and colors into one owned draw', () => {
+test('low scenery keeps authored parts in one owned draw beside instanced ground cover', () => {
   const scenery = createFrontierSceneryVisual({
     visualAssets: [reed],
     specs: [{ id: 'reed-a', chunkId: '0,-2', assetId: reed.id, x: 7, y: 2, z: -90, scale: 2, yaw: Math.PI / 2, kind: 'low' }],
@@ -73,7 +73,7 @@ test('low scenery bakes authored part transforms and colors into one owned draw'
   const mesh = scenery.group.getObjectByName('frontier_scenery_low_props');
   assert.ok(mesh?.isMesh); assert.equal(mesh.material.vertexColors, true); assert.equal(scenery.stats.lowDrawCount, 1);
   assert.equal(mesh.geometry.index, null, 'low geometry normalizes indexed authored parts for the foliage batch');
-  assert.ok(mesh.geometry.getAttribute('position').count / 3 > 2, 'the same draw includes the low detail tuft');
+  assert.equal(mesh.geometry.getAttribute('position').count / 3, 2, 'ground cover stays outside the authored low-prop draw');
   const positions = mesh.geometry.getAttribute('position');
   assert.ok(Math.abs(positions.getX(0) - 7) < 1e-6 && Math.abs(positions.getZ(0) + 90) < 1e-6, 'placement transform is baked into the merged mesh');
   const colors = mesh.geometry.getAttribute('color');
@@ -86,29 +86,42 @@ test('low scenery bakes authored part transforms and colors into one owned draw'
   assert.equal(geometryDisposed, true); assert.equal(materialDisposed, true);
 });
 
-test('staged canopy tufts are bounded and use the injected terrain height', async () => {
+test('staged ground cover is bounded and uses the injected terrain height', async () => {
   await preloadFixture();
   const scenery = createFrontierSceneryVisual({
     visualAssets: [canopy], getHeight: () => 17,
     specs: [{ id: '0,-2:stage-canopy', chunkId: '0,-2', assetId: canopy.id, x: 4, y: 2, z: -88, scale: 1, yaw: 0, kind: 'canopy' }],
   });
-  assert.equal(scenery.stats.groundTuftCount, 4);
-  const tuftMesh = scenery.group.getObjectByName('frontier_scenery_low_props');
-  const ys = Array.from(tuftMesh.geometry.getAttribute('position').array).filter((_, index) => index % 3 === 1);
-  assert.ok(Math.min(...ys) > 16.9 && Math.max(...ys) < 17.7, 'tufts sit on the authoritative terrain sample rather than the spec fallback');
+  assert.equal(scenery.stats.groundClusterCount, 28);
+  const groundMesh = scenery.group.getObjectByName('frontier_scenery_ground_cover');
+  const matrix = new THREE.Matrix4(); groundMesh.getMatrixAt(0, matrix);
+  assert.equal(new THREE.Vector3().setFromMatrixPosition(matrix).y, 17, 'clusters sit on the authoritative terrain sample rather than the spec fallback');
   scenery.dispose();
 });
 
-test('dense foliage remains one merged draw and caps at 72 deterministic tufts', () => {
-  const specs = Array.from({ length: 28 }, (_, index) => ({
+test('ground cover caps at 640 deterministic clusters in one instanced draw', () => {
+  const specs = Array.from({ length: 70 }, (_, index) => ({
     id: `wet-${index}`, chunkId: '0,-2', assetId: reed.id,
     x: index, y: 3, z: -90, scale: 1, yaw: 0, kind: 'low',
   }));
   const scenery = createFrontierSceneryVisual({ visualAssets: [reed], specs });
-  assert.equal(scenery.stats.lowCount, 28);
-  assert.equal(scenery.stats.groundTuftCount, 72);
+  assert.equal(scenery.stats.lowCount, 70);
+  assert.equal(scenery.stats.groundClusterCount, 640);
   assert.equal(scenery.stats.lowDrawCount, 1);
-  assert.ok(scenery.stats.groundTuftTriangleCount > 0);
+  assert.equal(scenery.stats.groundDrawCount, 1);
+  assert.equal(scenery.stats.groundClusterTriangleCount, 10240);
+  scenery.dispose();
+});
+
+test('injected ground-cover policy can exclude a whole patch without affecting low props', () => {
+  const scenery = createFrontierSceneryVisual({
+    visualAssets: [reed], canPlaceGroundCover: () => false,
+    specs: [{ id: 'blocked-reed', chunkId: '0,-2', assetId: reed.id, x: 7, y: 2, z: -90, scale: 1, yaw: 0, kind: 'low' }],
+  });
+  assert.equal(scenery.stats.lowDrawCount, 1);
+  assert.equal(scenery.stats.groundDrawCount, 0);
+  assert.equal(scenery.stats.groundClusterCount, 0);
+  assert.equal(scenery.group.getObjectByName('frontier_scenery_ground_cover'), undefined);
   scenery.dispose();
 });
 

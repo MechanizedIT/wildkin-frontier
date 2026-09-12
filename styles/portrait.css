@@ -60,6 +60,7 @@
   #app .contextual-target-marker::after{content:'';position:absolute;bottom:-7px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #a9f5da}
   #app .contextual-target-marker .item-icon{width:22px;height:22px}
   #app .contextual-target-marker[hidden]{display:none!important}
-  #app .beta-field-guide{left:14px!important;right:14px!important;bottom:294px!important;max-width:none!important}
-  #app .beta-toast{bottom:294px!important;max-width:calc(100% - 28px)!important}
+  #app .beta-field-guide{left:14px!important;right:14px!important;bottom:auto!important;width:auto!important;max-width:none!important;transform:none!important}
+  #app .beta-toast{left:50%!important;right:auto!important;bottom:auto!important;max-width:calc(100% - 28px)!important;transform:translate(-50%,-10px)!important}
+  #app .beta-toast.show{transform:translate(-50%,0)!important}
 }

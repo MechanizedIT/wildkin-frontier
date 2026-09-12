@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
+import WORLD_DATA from '../src/world/data/world.js';
 import { createCreatureSystem } from '../src/creatures/creatureSystem.js';
 import { createWildkinGenome } from '../src/creatures/wildkinGenome.js';
 import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
@@ -32,14 +33,45 @@ function owner() {
   };
 }
 
-test('frontier Mossling sources have stable IDs, a deterministic genome, and staged safe north placement', () => {
-  const [first] = sampleFrontierWildlifeChunk(0, -2);
+test('starter wildlife keeps the first two Mossling identities and adds stable side encounters', () => {
+  const [first, second, tidefin] = sampleFrontierWildlifeChunk(0, -2);
   const [again] = sampleFrontierWildlifeChunk(0, -2);
+  const [emberhorn] = sampleFrontierWildlifeChunk(0, -3);
   assert.equal(first.originId, 'f1:w:0:-2:0');
+  assert.equal(second.originId, 'f1:w:0:-2:1');
   assert.deepEqual(first.pos, { x: 7, y: first.pos.y, z: -85 });
   assert.deepEqual({ roam: first.roamRadius, leash: first.leashRadius, fleeLeash: first.fleeLeashRadius }, { roam: 2.6, leash: 4.2, fleeLeash: 3.5 });
   assert.deepEqual(first.genome, createWildkinGenome(first.originId, 'fen'));
   assert.deepEqual(again, first);
+  assert.deepEqual({ id: tidefin.originId, species: tidefin.speciesTag, x: tidefin.pos.x, z: tidefin.pos.z, genome: tidefin.genome, priority: tidefin.residentPriority },
+    { id: 'f1:w:0:-2:2', species: 'tidefin', x: 17, z: -79, genome: null, priority: 2 });
+  assert.deepEqual({ id: emberhorn.originId, species: emberhorn.speciesTag, x: emberhorn.pos.x, z: emberhorn.pos.z, genome: emberhorn.genome, priority: emberhorn.residentPriority },
+    { id: 'f1:w:0:-3:0', species: 'emberhorn', x: 0, z: -111, genome: null, priority: 3 });
+});
+
+test('generated side encounters deliberately match shipped catalog behavior', () => {
+  const sources = [...sampleFrontierWildlifeChunk(0, -2), ...sampleFrontierWildlifeChunk(0, -3)];
+  for (const speciesId of ['tidefin', 'emberhorn']) {
+    const source = sources.find((candidate) => candidate.speciesTag === speciesId);
+    const asset = WORLD_DATA.visualAssets.find((candidate) => candidate.id === `asset_wildkin_${speciesId}`);
+    const shipped = asset.gameplay.wildkin;
+    assert.deepEqual({
+      type: source.type, speciesTag: source.speciesTag, temperament: source.temperament,
+      roamRadius: source.roamRadius, noticeRadius: source.noticeRadius,
+      personalSpace: source.personalSpace, leashRadius: source.leashRadius,
+      hostileSpecies: source.hostileSpecies,
+      health: source.configOverrides.health, moveSpeed: source.configOverrides.moveSpeed,
+      damage: source.configOverrides.damage, respawnSeconds: source.configOverrides.respawnSeconds,
+    }, {
+      type: shipped.archetype, speciesTag: shipped.speciesTag, temperament: shipped.temperament,
+      roamRadius: shipped.roamRadius, noticeRadius: shipped.noticeRadius,
+      personalSpace: shipped.personalSpace, leashRadius: shipped.leashRadius,
+      hostileSpecies: shipped.hostileSpecies,
+      health: shipped.health, moveSpeed: shipped.moveSpeed,
+      damage: shipped.damage, respawnSeconds: shipped.respawnSeconds,
+    });
+    assert.equal(source.visualAssetId, asset.id);
+  }
 });
 
 test('runtime bounds live sources, retires unloaded chunks, and never restores a captured source', () => {
@@ -69,6 +101,24 @@ test('runtime does not exceed the four generated-resident cap', () => {
   const runtime = createFrontierWildlifeRuntime({ terrainRuntime: { getResidency: () => residency(0, -2) }, creatureSystem: creatures });
   runtime.update();
   assert.equal(creatures.actors.length, 4);
+  runtime.dispose();
+});
+
+test('staged animals replace a lower-priority random resident when their chunk enters residency', () => {
+  let snapshot = residency(1, -1);
+  const creatures = owner();
+  const runtime = createFrontierWildlifeRuntime({ terrainRuntime: { getResidency: () => snapshot }, creatureSystem: creatures });
+  runtime.update();
+  assert.deepEqual(creatures.actors.map((actor) => actor.state.originId).sort(), [
+    'f1:w:0:-2:0', 'f1:w:0:-2:1', 'f1:w:0:-2:2', 'f1:w:1:-1:0',
+  ]);
+  snapshot = residency(1, -2);
+  runtime.update();
+  assert.deepEqual(creatures.actors.map((actor) => actor.state.originId).sort(), [
+    'f1:w:0:-2:0', 'f1:w:0:-2:1', 'f1:w:0:-2:2', 'f1:w:0:-3:0',
+  ]);
+  runtime.update();
+  assert.equal(creatures.actors.length, 4, 'unchanged residency does not rebuild resident actors');
   runtime.dispose();
 });
 

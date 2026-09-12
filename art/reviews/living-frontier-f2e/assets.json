@@ -1,0 +1,76 @@
+[
+  {
+    "path": "art/reviews/living-frontier-f2e/baseline-emberhorn.png",
+    "sha256": "146a615bf03deb4a500c472f885fe564f7718c0a85f7ccf9c7c05f8178014cbe",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/baseline-tidefin.png",
+    "sha256": "c964b223a5394685a87303e0ea2ba0a611d5388aa9b9de2174731a0cc98fa6f4",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/emberhorn-guide-fixed.png",
+    "sha256": "ef90a9793429735020d0fe31fe38fc378ecb4af1b2556e71acdd1c1cb6dd6682",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/emberhorn-unattended-death.png",
+    "sha256": "95d52c7b855ac654cf3f1e221ded8f34d67791ed0ac28d74b0be57894218857f",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/hashes.json",
+    "sha256": "a039c9e32e40526e362663e8a8f6c0be476cb7e6360bf3e79fc956880085a19b"
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/mineral-proof.json",
+    "sha256": "b24f1435492f39c53738384364e742271c59021c0442d12bed0bc78c1199482a"
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/package-proof.json",
+    "sha256": "08c36c08d241f85b64762b34d15d46dc99f082680900dc53e57fea9aa6c6a7d4"
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/r1-emberhorn.png",
+    "sha256": "bc08c40628692eec649ba4dfddf77178cf0ac0f20a5a1e54d0b64cd7aa038512",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/r1-tidefin.png",
+    "sha256": "210b2a1ca075158224839482d9f5dbf0db56f5c82c6048b4c046755e265e4350",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/receipt.md",
+    "sha256": "76b75d9fcf77eaddd3f2812d996b2b90f9828705d043adfd3637270c0527a5f8"
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/species-reference.png",
+    "sha256": "af57a76063eccd730a31f481253d8223e3d0cd0daef8cd0df7f9936229d8bf91",
+    "width": 900,
+    "height": 600
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/target.png",
+    "sha256": "a2ccb38dc884fb5a7b0a967fa32e4bc63582289149b3889d38494888d6ee7916",
+    "width": 1190,
+    "height": 1322
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/tidefin-capture-proof.json",
+    "sha256": "9ad12100b84d4935bb4e6f47497b9dcc2b402f00bcb6b5ed97f6770a7353539b"
+  },
+  {
+    "path": "art/reviews/living-frontier-f2e/tidefin-snare.png",
+    "sha256": "5a0095da3e95d9fae762dd3e2994062ff894476abbfbab30b6f41a2c672ca4fd",
+    "width": 309,
+    "height": 686
+  }
+]

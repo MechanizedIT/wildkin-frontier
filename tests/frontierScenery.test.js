@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { FRONTIER_SCENERY_CONFIG, sampleFrontierSceneryChunk, selectFrontierScenery } from '../src/world/frontierScenery.js';
+import { FRONTIER_SCENERY_CONFIG, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter } from '../src/world/frontierScenery.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
 import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
 import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
@@ -10,6 +10,20 @@ const chunkGrid = (cx, cz) => {
   for (let z = cz - 2; z <= cz + 2; z++) for (let x = cx - 2; x <= cx + 2; x++) chunks.push({ id: `${x},${z}`, cx: x, cz: z });
   return { center: { cx, cz }, chunks };
 };
+
+test('wide grass patches preserve Camp, routes, terrace and resource/creature feet', () => {
+  const filter = createFrontierGroundCoverFilter();
+  for (const [x,z] of [[0,0],[0,-54],[7,-75],[24,-120],[7,-85],[20,-95]]) {
+    assert.equal(filter(x,z),false,`protected grass point ${x},${z}`);
+  }
+  const forage = sampleFrontierForageChunk(0,-2);
+  assert.ok(forage.length);
+  for (const node of forage) assert.equal(filter(node.pos.x,node.pos.z),false);
+  assert.equal(filter(9,-74),true,'soft plants may grow beside the route within the wider habitat patch');
+  assert.equal(filter(NaN,0),false);
+  const steep = createFrontierGroundCoverFilter({getHeight:(x,z)=>x});
+  assert.equal(steep(9,-74),false,'wide patch edges cannot cross steep ground');
+});
 
 test('chunk recipes are deterministic, terrain-grounded, and habitat-dithered', () => {
   const flatWet = { getHeight: () => 7.25, getTerrainSample: () => ({ height: 7.25, habitatBlend: { wetland: 1, fernUpland: 0 } }) };

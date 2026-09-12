@@ -1146,3 +1146,6 @@ Canopy family collision uses exported lower-trunk bounds: a1x2.45x1m local box a
 
 
 The September12 visibility/collision closure checks the entire canopy family, including four existing solid Shatterfen variants. Camera-inside one-sided foliage is detected with cached local mesh bounds in the existing 10Hz occlusion pass; it uses the same isolated fading/material lifecycle. Natural-boundary faces span the sampled floor and crest of nearby playable ground so raised polygon shelves cannot leave a hanging seam. Render and Rapier still consume identical boundary buffers. Both paths retain section and Author visibility ownership.
+
+### September12 F2E/F2F integration
+Generated Tidefin/Emberhorn reuse existing creature/taming/identity owners and null genomes. Four-resident selection reconciles priorities on membership/residency change. Three existing finite rock identities use the established harvestable override for iron/crystal. Grass now has one bounded instanced draw with16triangle clusters; authored foliage is unchanged. One build-only clearance predicate shares Camp/route/terrace/resource/wildlife exclusions and slope sampling. There is no new loop/save schema/dependency. The new WORLD_GENERATION_PLAN explains the next single-descriptor seed contract and later heightfield/mesh/semantic habitat layers; those later systems are not implemented here.

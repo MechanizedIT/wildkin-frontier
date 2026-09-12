@@ -5,6 +5,11 @@ const EDGE = 3;
 const CAMP_CLEARANCE = 6;
 const SLOPE_SAMPLE = .8;
 const MAX_SLOPE = .42;
+const TERRACE_MINERAL_ASSET_BY_INDEX = Object.freeze({
+  2: 'asset_iron_ore_rock',
+  4: 'asset_crystal',
+  7: 'asset_iron_ore_rock',
+});
 
 function random(cx, cz, index, salt = 0) {
   let value = Math.imul(cx | 0, 73856093) ^ Math.imul(cz | 0, 19349663) ^ Math.imul(index + salt, 83492791);
@@ -18,6 +23,15 @@ function outsideCampApron(x, z) {
 function harvestableBerry(visualAssets) {
   const asset = (visualAssets ?? []).find(candidate => candidate?.id === 'asset_berry_bush');
   return asset?.gameplay?.role === 'harvestable' && asset.gameplay.harvestable ? asset : null;
+}
+function terraceMineral(cx, cz, index, kind, visualAssets) {
+  if (cx !== 0 || cz !== -3 || kind.type !== 'rock') return kind;
+  const assetId = TERRACE_MINERAL_ASSET_BY_INDEX[index];
+  if (!assetId) return kind;
+  const asset = (visualAssets ?? []).find(candidate => candidate?.id === assetId);
+  return asset?.gameplay?.role === 'harvestable' && asset.gameplay.harvestable
+    ? { ...kind, visualAsset: asset }
+    : kind;
 }
 function typeFor(sample, roll, berry) {
   // Wetland produces visible low forage; upland favors solid sapwood/rock.
@@ -58,7 +72,8 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, visualAssets, ter
     const dz = (typeof getHeight === 'function' ? getHeight(x, z + SLOPE_SAMPLE) - getHeight(x, z - SLOPE_SAMPLE) : sampleFrontier(x, z + SLOPE_SAMPLE, terrainOptions).height - sampleFrontier(x, z - SLOPE_SAMPLE, terrainOptions).height) / (SLOPE_SAMPLE * 2);
     if (!Number.isFinite(height) || Math.hypot(dx, dz) > MAX_SLOPE) continue;
     const stagedBerry = northApproach && group === 0 && slot === 0 && berry;
-    const kind = stagedBerry ? { type: 'fiber', visualAsset: berry } : typeFor(sampleFrontier(x, z, terrainOptions), random(cx, cz, index, 79), berry);
+    const baseKind = stagedBerry ? { type: 'fiber', visualAsset: berry } : typeFor(sampleFrontier(x, z, terrainOptions), random(cx, cz, index, 79), berry);
+    const kind = terraceMineral(cx, cz, index, baseKind, visualAssets);
     const uniformScale = kind.type === 'tree' ? .72 + random(cx, cz, index, 107) * .08
       : kind.type === 'fiber' ? 1.08 + random(cx, cz, index, 107) * .14
         : .9 + random(cx, cz, index, 107) * .14;

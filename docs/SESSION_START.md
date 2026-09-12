@@ -9,11 +9,13 @@
 
 ## Current result
 
-Living Frontier now has a modest rolling shoulder/bowl through the first clearing and clearer inherited body tones. F1B selects R3 at6.0HOLD: terrain depth remains too subtle. F4B selects R2 at8.1PASS with the unchanged Mossling V3 model. Earned research, optional nursery guidance, climbing and the wall-jump fix remain intact. Final1,131tests and verify/build/validate/ZIP PASS;44.10MB/20.53MB. Native seven-waypoint route retained health5; packaged resume and streamed Jump passed. See `art/reviews/living-frontier-f1b/receipt.md` and `art/reviews/living-frontier-f4b/receipt.md`.
+Living Frontier now adds generated Tidefin/Emberhorn encounters, terrace iron/crystal supply and cheaper upright grass. F2E reuse review8.0PASS; F2F selectedR3 at7.4HOLD with remaining sparse-world/dark-root debt. Native Tidefin snare/release, exact pending reload and Camp banking passed. Portrait guide/toast stretching is repaired. Final1,137tests and verify/build/validate/ZIP PASS;44.11MB/20.53MB. Native safe-route health5 and packaged Jump/five-individual identity passed. Receipts: `art/reviews/living-frontier-f2e/receipt.md`, `art/reviews/living-frontier-f2f/receipt.md`. Full native Emberhorn dodge/tether capture and physical-phone testing remain open.
 
-**Next: F2E varied wildlife and F2F cheaper, fuller ground cover, with separate writers.** CURRENT_SLICE defines targets, ownership and closure. Use shipped Tidefin/Emberhorn sculpts; their more elaborate candidates are not admitted. Ground-cover visibility estimates must be checked in the actual portrait frame. One fixed deterministic world edition remains, without complete per-save seed control. Four active agents total including root are available. Mobile/casual-first portrait remains primary. Continue the goal until Chris asks to stop.
+**Next: unify the saved generation descriptor across current frontier layers.** Read CURRENT_SLICE and WORLD_GENERATION_PLAN. Preserve current default geography first; do not expose alternate seeds before world-scoped histories. Special overhang/cave geometry and richer climate/content layers are subsequent slices. One fixed deterministic world edition remains, without complete per-save seed control. Four active agents total including root are available. Mobile/casual-first portrait remains primary. Continue the goal until Chris asks to stop.
 
 ## Inherited restart checkpoint
+
+Latest owner direction additionally favors extreme alien geography and large biomes: narrow plateau chains, mountains, deserts and distinct vertical habitats, with future weather/day-night. See WORLD_GENERATION_PLAN for the proposed separate cave instances and simple component-style architecture; these future systems are not yet implemented.
 
 The game has the camera pitch/terrain collision pass, selected Shatterfen V3 and Backpack shortcut editing. Aggregate **966/966**, world/campaign, build/validation and ZIP pass;43.84MB unpacked /20.46MB ZIP. Native and packaged camera checks pass their disclosed fixtures. Physical-phone comfort/performance remains open. Exact evidence: art/reviews/gameplay-camera-v1/checkpoint.json.
 

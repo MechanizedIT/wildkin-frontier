@@ -1,4 +1,4 @@
-import { selectFrontierScenery } from './frontierScenery.js';
+import { selectFrontierScenery, createFrontierGroundCoverFilter } from './frontierScenery.js';
 import { createFrontierSceneryVisual } from './frontierSceneryVisual.js';
 
 /** Scenery borrows terrain residency; it owns no loop, terrain height or save. */
@@ -27,7 +27,9 @@ export function createFrontierSceneryRuntime({
     }) : [];
     // Construct before retiring the previous resident, so a construction error
     // leaves the old scene coherent and the same residency retryable.
-    const next = nextSpecs.length ? createVisual({ specs: nextSpecs, visualAssets, getHeight: terrainRuntime.getHeight }) : null;
+    const next = nextSpecs.length ? createVisual({ specs: nextSpecs, visualAssets, getHeight: terrainRuntime.getHeight,
+      canPlaceGroundCover: createFrontierGroundCoverFilter({ getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample }),
+    }) : null;
     const remove = (visual?.terrainSurfaces ?? []).map(surface => surface.id);
     const add = next?.terrainSurfaces ?? [];
     if (remove.length || add.length) physicsWorld?.updateTerrainSurfaces({ remove, add });

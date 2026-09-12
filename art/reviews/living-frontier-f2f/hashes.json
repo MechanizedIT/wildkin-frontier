@@ -1,0 +1,42 @@
+[
+  {
+    "path": "src/presentation/groundFoliage.js",
+    "sha256": "BA8C6D5C8B8EE3D92C152EF5A62B66EA06571D607F43E00FCF99877C7C5334C2"
+  },
+  {
+    "path": "src/world/frontierEcology.js",
+    "sha256": "BC4097337E41F808248DF7D8F20054B210DDBE9F7CAC3E8B54DB9BF6EFDD0FE5"
+  },
+  {
+    "path": "src/world/frontierScenery.js",
+    "sha256": "BD8E7D619EC4E3EBD51F73FB78E0CB3211F90819CC6B511FCA82530D4F5D1C11"
+  },
+  {
+    "path": "src/world/frontierSceneryRuntime.js",
+    "sha256": "E3F909D29237F9886B4F91123AF0636033C9BAFF00AD5B7C4DD6CFBAA04C311C"
+  },
+  {
+    "path": "src/world/frontierSceneryVisual.js",
+    "sha256": "0260F3266586822F01A29C568795D98EC423171D173C1B5D84CFD8FA3924FBD2"
+  },
+  {
+    "path": "src/world/frontierWildlife.js",
+    "sha256": "B8C4BC7B9F8274B7D80E5957C72A15EAA1F5E74D0AF624A1D0DFE7FD31F6AF75"
+  },
+  {
+    "path": "src/world/frontierWildlifeRuntime.js",
+    "sha256": "8C9EEF75C3C6BF2D932CE867A6DC87EC7875BD2225911CD1178AA2E89B2B7A51"
+  },
+  {
+    "path": "styles/portrait.css",
+    "sha256": "BB2919EC432975B92118F7275EFD450D76971EC2FD1B7FA20B10A7158ED8B0E9"
+  },
+  {
+    "path": "dist/submission/index.html",
+    "sha256": "ADADB81DE2A127ABF4728AF65D311EABB5C6B83A57F74F4FF1B8695AE9604373"
+  },
+  {
+    "path": "dist/submission.zip",
+    "sha256": "F9B23B1136ACCEC08F844C3C2C88246AF1BCDE822FFA76603DC77B80989B643B"
+  }
+]

@@ -20,7 +20,8 @@ test('scenery replaces physics and camera registrations only when terrain reside
     onVisualAdded: root => registered.add(root),
     onVisualRemoving: root => registered.delete(root),
     onGeometryChanged: () => invalidations++,
-    createVisual({ specs }) {
+    createVisual({ specs, canPlaceGroundCover }) {
+      assert.equal(canPlaceGroundCover(7,-75),false,'runtime injects shared route protection into grass construction');
       created++;
       const group = new THREE.Group(), canopyRoots = specs.filter(spec => spec.kind === 'canopy').map(() => new THREE.Group());
       group.add(...canopyRoots);

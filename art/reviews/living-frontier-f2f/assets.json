@@ -1,0 +1,56 @@
+[
+  {
+    "path": "art/reviews/living-frontier-f2f/baseline.png",
+    "sha256": "bf4782a17ec0272829fe1b5e84eda91d9d61f1a1852ae9c68810046e242f0dde",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2f/hashes.json",
+    "sha256": "a039c9e32e40526e362663e8a8f6c0be476cb7e6360bf3e79fc956880085a19b"
+  },
+  {
+    "path": "art/reviews/living-frontier-f2f/package-portrait.png",
+    "sha256": "9841ce64a10780e2680ddd552842194440b49c57c226dd996a0410ff68dddb7d",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2f/r1.png",
+    "sha256": "e166f23bae1ef4b80f9aaa3184b887e4f60e4e1c94a7f65444f7abdb72386161",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2f/r2.png",
+    "sha256": "c57e5f0f46cb4fef41e1defa9c4251a878262803ed27e71b00381c052540eedf",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2f/r3-second-view.png",
+    "sha256": "dd3a5689ebadcc4df46e85ab28e91cceab5d65fa3ca641390aea3a95ef18e6e0",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2f/r3.png",
+    "sha256": "2ae1bd7fa5652c364926bc01a42ff46312168aa1fdb1e0c897f754ec524870f1",
+    "width": 309,
+    "height": 686
+  },
+  {
+    "path": "art/reviews/living-frontier-f2f/receipt.md",
+    "sha256": "bdc8cde9d64a2d91cd86e6e84cf35fc0f432991f0493f9f562a3f7cfff682919"
+  },
+  {
+    "path": "art/reviews/living-frontier-f2f/route-proof.json",
+    "sha256": "c6b978f699f5787f4fabbcb7731372a4dbd558a949889cd51af16dca784184f1"
+  },
+  {
+    "path": "art/reviews/living-frontier-f2f/target.png",
+    "sha256": "2096845cc8e4eb8bc8daa4d3549a720860f81c548594f955ca2a14e937e8dbe3",
+    "width": 841,
+    "height": 1870
+  }
+]

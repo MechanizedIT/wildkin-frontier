@@ -36,3 +36,28 @@ export function createGroundFoliageGeometry(palette, fern = false) {
   geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.computeVertexNormals();
   return geometry;
 }
+
+// A small ground-cover rosette for the streamed scenery path. Each of its four
+// leaves has a raised fold and a bent tip, so dense clusters read as foliage
+// rather than flat cards or upright triangle signs.
+export function createGroundCoverClusterGeometry(palette) {
+  const vertices=[],colors=[];
+  const rootShade=new THREE.Color(palette.grass).multiplyScalar(.3);
+  const base=new THREE.Color(palette.grass).multiplyScalar(.5);
+  const side=new THREE.Color(palette.grass).multiplyScalar(.72);
+  const upper=new THREE.Color(palette.grass).lerp(new THREE.Color('#c0d863'),.24);
+  function tri(a,b,c,color) {for(const p of [a,b,c]){vertices.push(...p);colors.push(color.r,color.g,color.b);}}
+  function leaf(yaw,length,width,height) {
+    const c=Math.cos(yaw),s=Math.sin(yaw);
+    const point=(forward,across,y)=>[c*forward-s*across,y,s*forward+c*across];
+    const root=point(0,0,0),left=point(length*.2,width,height*.26),ridge=point(length*.27,0,height*.72),right=point(length*.2,-width,height*.26),tip=point(length*.58,width*.08,height*.88);
+    tri(root,left,ridge,rootShade);tri(root,ridge,right,base);
+    tri(left,tip,ridge,upper);tri(ridge,tip,right,side);
+  }
+  leaf(-.18,.36,.052,.42);leaf(1.48,.31,.046,.36);
+  leaf(3.04,.40,.058,.46);leaf(4.52,.28,.042,.32);
+  const geometry=new THREE.BufferGeometry();
+  geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
+  geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.computeVertexNormals();
+  return geometry;
+}

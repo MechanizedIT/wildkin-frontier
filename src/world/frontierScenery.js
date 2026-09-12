@@ -19,6 +19,7 @@ const FORAGE_CLEARANCE = 3.2;
 // lane more closely, which is what makes the portrait route read as habitat.
 const ROUTE_CLEARANCE = 1.15;
 const SOLID_ROUTE_CLEARANCE = 2.1;
+const GROUND_COVER_CLEARANCE = Object.freeze({ route: .65, forage: 1.4, wildlife: 1.4 });
 const TERRACE_CLEARANCE = Object.freeze({ minX: 18, maxX: 46, minZ: -150, maxZ: -108 });
 const NORTH_ROUTE = Object.freeze([
   Object.freeze([0, -56]), Object.freeze([7, -68]), Object.freeze([7, -85]), Object.freeze([20, -95]), Object.freeze([24, -118]),
@@ -58,7 +59,8 @@ function distanceToSegment(x, z, a, b) {
 
 function routeIsClear(x, z, candidate) {
   if (x >= TERRACE_CLEARANCE.minX && x <= TERRACE_CLEARANCE.maxX && z >= TERRACE_CLEARANCE.minZ && z <= TERRACE_CLEARANCE.maxZ) return false;
-  const clearance = candidate.kind === 'canopy' || candidate.assetId === 'asset_fen_stone' ? SOLID_ROUTE_CLEARANCE : ROUTE_CLEARANCE;
+  const clearance = candidate.kind === 'ground-cover' ? GROUND_COVER_CLEARANCE.route
+    : candidate.kind === 'canopy' || candidate.assetId === 'asset_fen_stone' ? SOLID_ROUTE_CLEARANCE : ROUTE_CLEARANCE;
   for (let i = 1; i < NORTH_ROUTE.length; i++) if (distanceToSegment(x, z, NORTH_ROUTE[i - 1], NORTH_ROUTE[i]) < clearance) return false;
   return true;
 }
@@ -95,9 +97,24 @@ function exclusionsFor(cx, cz, options) {
 
 function isClear(x, z, candidate, exclusions) {
   if (!outsideCampApron(x, z) || !routeIsClear(x, z, candidate)) return false;
-  if (exclusions.forage.some(node => Math.hypot(x - node.pos.x, z - node.pos.z) < FORAGE_CLEARANCE)) return false;
-  if (exclusions.wildlife.some(animal => Math.hypot(x - animal.homePos.x, z - animal.homePos.z) < animal.roamRadius + 2.5)) return false;
+  const groundCover = candidate.kind === 'ground-cover';
+  if (exclusions.forage.some(node => Math.hypot(x - node.pos.x, z - node.pos.z) < (groundCover ? GROUND_COVER_CLEARANCE.forage : FORAGE_CLEARANCE))) return false;
+  if (exclusions.wildlife.some(animal => Math.hypot(x - animal.homePos.x, z - animal.homePos.z) < (groundCover ? GROUND_COVER_CLEARANCE.wildlife : animal.roamRadius + 2.5))) return false;
   return true;
+}
+
+// Build-only filter: soft grass can occupy roaming ground, while the same
+// route, Camp, terrace and encounter sources preserve readable feet/access.
+export function createFrontierGroundCoverFilter(options = {}) {
+  const exclusions = new Map();
+  const candidate = Object.freeze({ kind: 'ground-cover' });
+  return (x, z) => {
+    if (!Number.isFinite(x) || !Number.isFinite(z)) return false;
+    const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+    const cx = Math.floor(x / size), cz = Math.floor(z / size), key = `${cx},${cz}`;
+    if (!exclusions.has(key)) exclusions.set(key, exclusionsFor(cx, cz, options));
+    return isClear(x, z, candidate, exclusions.get(key)) && hasSafeGround(x, z, options);
+  };
 }
 
 function lowAsset(sample, habitatRoll, detailRoll) {

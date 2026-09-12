@@ -1,0 +1,13 @@
+# F2F — cheaper, fuller ground cover
+
+September12,2026. Selected R3 under owner delegation after three visual rounds. Scores R1:5.5HOLD, R2:7.2HOLD, R3:7.4HOLD. The final upright blades read as grass; the locked target's fullness and soft contact remain unmet. Repeated dark V-shaped bases and sparse stretches remain art debt. No fourth aesthetic pass.
+
+The additive geometry helper leaves authored ground foliage intact. Current scenery uses16triangles per grass cluster, max640/10240triangles in one InstancedMesh. The reviewed clearing has503clusters/8048triangles plus one low-prop draw9586triangles; 26props,12canopies and15compact colliders. Previous72tufts used10368triangles inside the merged low draw. This improves local cover at lower grass geometry cost but adds one grass draw. It is not measured physical-phone FPS or an ecosystem simulation.
+
+Root's build-only clearance filter shares final height/slope, Camp, route, terrace, forage and creature-home sources. Grass has narrow soft clearances; solid scenery retains its wider access/roam clearances. Deterministic placement, root support, bounded cap, injected policy, disposal and unchanged residency behavior pass focused tests. Both starter clearings, Tidefin/Emberhorn sources, mineral slots and staged scenery remain consistent after integration.
+
+baseline.png and r1/r2/r3.png use the ordinary42degree north-facing portrait camera at the first route clearing(player7,-75); target.png is generated. r3-second-view.png(player7,-84) honestly shows the still-sparse next view. package-portrait.png is the actual portable build. Source snapshots of rejected passes remain in ignored .dream-loop. Asset manifest records exact dimensions/hashes; emulator412×915CSS,DPR1.25,60% compositor workaround. Restore100% for native input. No physical-phone claim.
+
+Combined verification:1,137tests and verify/build/validate/ZIP PASS.44.11MB/20.53MB. route-proof.json records the seven-waypoint route28.266seconds at unchangedhealth5, after a disclosed Camp-approach placement. Packaged Jump/identity proof lives beside the F2E receipt. Dev/package logs clean, observed package resources local.
+
+Try walking north from Camp between the left-hand canopy/mushrooms and right-hand reeds. Small upright tufts should fill nearby ground while leaving the middle route open. Continue toward the berry clearing and terrace; grass should sit on the slope, remain decorative and clear the harvestable deposits. Failure signs are floating roots, invisible solid barriers, buried resources or accumulating duplicate vegetation after revisiting. This pass deliberately does not claim the whole world now feels full.
