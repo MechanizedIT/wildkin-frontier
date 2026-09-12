@@ -91,4 +91,7 @@ September12 stopped candidate: `tools/compose-emberfall-ravine.mjs` is deliberat
 - `world/frontierEcology.js` / `frontierEcologyRuntime.js`: deterministic forage recipes and bounded resource residency, integrated in the existing loop.
 - `resources/resourceSystem.js:addPlacements/removePlacementsByChunk`: generated finite resource residents, commit-before-yield and restore. `pickupSystem` resident hooks retain lightweight generated yields by stable ID across unload/rebind.
 - `creatures/wildkinGenome.js`: versioned Mossling recipe, expression metadata and parental inheritance; not yet wired to individual visuals/capture.
-- Evidence: `art/reviews/living-frontier-f1/receipt.md`; active scope: `docs/CURRENT_SLICE.md`.
+- `session/frontierOuting.js`: spatial departure adapter; existing `expeditionSession` owns persisted departure status. `expeditionPersistence` ties supported feet to run identity; generated terrain preloads before resume validation.
+- `world/frontierAtlasState.js` / `frontierAtlasSurvey.js`: compact survey masks and existing-loop reveal/retry adapter. `save/frontierProgress.js` remains the atomic save owner.
+- `ui/frontierMap.js` / `frontierAtlasRenderer.js`: personal fullscreen atlas/minimap, actual terrain sampling, bounded viewport/cache, true Camp/player markers and scale.
+- Evidence: `art/reviews/living-frontier-f1/receipt.md`, `living-frontier-f2a/receipt.md`, `living-frontier-f3/receipt.md`; active scope: `docs/CURRENT_SLICE.md`.

@@ -12,6 +12,7 @@ import { COMPANION_BY_ID } from '../src/companions/companionCatalog.js';
 const record = () => ({ runId: 'same-run-123', startAnchorId: 'camp_gate', sectionId: 'section_2',
   feet: { x: -27, y: 1.4, z: 9 }, facingYaw: -1.25, health: 3.5, xp: 3_000_000_001,
   companions: ['tidefin'], corePending: true, kills: 8, maxDepth: 2,
+  frontierDeparted: false,
   newWaypoints: ['wp_section_2'], newBeacons: ['beacon_2'] });
 
 test('active run validation clones only the run contract, never a second inventory', () => {
@@ -34,7 +35,7 @@ test('malformed run identity, values and companion/discovery lists reject rather
     { feet: { x: 0, y: NaN, z: 0 } }, { feet: { x: 1_000_001, y: 0, z: 0 } },
     { facingYaw: Infinity }, { health: 0 }, { health: 21 }, { health: '3' },
     { xp: -1 }, { xp: Number.MAX_SAFE_INTEGER + 1 }, { kills: .5 }, { maxDepth: -1 },
-    { companions: ['constructor'] }, { companions: ['mossling', 'mossling'] },
+    { companions: ['constructor'] }, { companions: ['mossling', 'mossling'] }, { frontierDeparted: 'yes' },
     { companions: new Array(1) }, { corePending: 1 },
     { newWaypoints: ['same', 'same'] }, { newBeacons: new Array(1) },
   ]) {

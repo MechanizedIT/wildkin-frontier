@@ -1,0 +1,12 @@
+{
+  "activeRun": null,
+  "atlasUnchanged": true,
+  "packUnchanged": true,
+  "pos": {
+    "x": 170,
+    "y": 5.327854633331299,
+    "z": -100
+  },
+  "session": "camp",
+  "toast": "Outing could not be savedYou stayed at Camp. Your pack and position were kept; retry when browser storage is available."
+}

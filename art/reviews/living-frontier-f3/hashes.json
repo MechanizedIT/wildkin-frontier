@@ -1,0 +1,46 @@
+[
+  {
+    "path": "src/main.js",
+    "sha256": "7216afa19d833e6e1f29f0e4ef9fc15793f52805a75e03e823059b408892468d"
+  },
+  {
+    "path": "src/ui/frontierMap.js",
+    "sha256": "90cb4498b624240ae3e8e3988dafe65bab5d6b362852808c49c5ed5b87c9dd38"
+  },
+  {
+    "path": "src/ui/frontierAtlasRenderer.js",
+    "sha256": "d7d46634d224f034a946b78f9e43c24572c6e8ba3372f26284401de26e344de2"
+  },
+  {
+    "path": "src/save/frontierProgress.js",
+    "sha256": "399ad5c80a844e0c316d5a46caac4b472606585364aec466428ab43896e7f89f"
+  },
+  {
+    "path": "src/session/frontierOuting.js",
+    "sha256": "cdbd9c2339b00a442be3c0aac305c07dfb7bf1ef3aa214e207b353107354cd01"
+  },
+  {
+    "path": "src/session/expeditionPersistence.js",
+    "sha256": "6816195c507a0a15c94cdf3f193b7fd1690d901e4f9ac850eb63ab6b54f103c4"
+  },
+  {
+    "path": "src/session/activeRunState.js",
+    "sha256": "5212fff56f36b823d2367fe26c4ae611b2dfcd3341d0e11eca008d61b997a4bf"
+  },
+  {
+    "path": "src/world/frontierAtlasState.js",
+    "sha256": "9b8da9c2f1fe07c3da2084e15cdcde2e54655fc7f7706acc42b67127e004e030"
+  },
+  {
+    "path": "src/world/frontierAtlasSurvey.js",
+    "sha256": "e7174e53f28efb1fa0be0db7407b5fde903000bed5cbe2b973fcd786db4def7d"
+  },
+  {
+    "path": "dist/submission/index.html",
+    "sha256": "fe3b35c0eb2af7e20e8534f73ca4b468e3467f1cdec50fc9bd626150afdfa311"
+  },
+  {
+    "path": "dist/submission.zip",
+    "sha256": "5febfc1c904ecfdd47181c7706d9824df63c3d51f6109deefe6509d303052648"
+  }
+]

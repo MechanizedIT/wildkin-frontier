@@ -24,3 +24,19 @@ test('background checkpoint preserves imported run; pending failed death retries
  assert.equal(attempts,2);assert.equal(JSON.parse(raw).activeRun,null);assert.equal(session.isCamp(),true);assert.equal(progress.getPackResourceCounts().wood,3);
  active.destroy();delete globalThis.document;delete globalThis.window;delete globalThis.localStorage;
 });
+
+test('safe feet from a prior run cannot become a new airborne run checkpoint',()=>{
+ globalThis.document=new EventTarget();document.hidden=false;globalThis.window=new EventTarget();
+ let provider=null,stored=null,mode='WALK';
+ const progress={setRunSnapshotProvider:value=>{provider=value;},getActiveRun:()=>stored,
+   checkpointRun:()=>{const next=provider?.();if(next)stored=next;return {ok:true};}};
+ const session=createExpeditionSession({initialStatus:'active',initialRegionId:'camp'});
+ const controller=createExpeditionPersistence({progress,session,getPlayerState:()=>({pos:{x:0,y:.54,z:0},facing:0,grounded:true,mode}),
+   getHealth:()=>4,getXp:()=>0,getSectionId:()=> 'camp',getExtras:()=>({companions:[],coreSecured:false}),
+   validateFeet:feet=>({...feet,y:0}),capsuleExtent:.52});
+ controller.checkpoint();const priorRunId=stored.runId;
+ session.resetToCamp();session.beginRun('camp_gate');mode='JUMP';
+ controller.checkpoint();
+ assert.equal(stored.runId,priorRunId);assert.notEqual(stored.runId,session.getRunId());
+ controller.destroy();delete globalThis.document;delete globalThis.window;
+});

@@ -1,9 +1,10 @@
 // Restore queries use the same Rapier world and capsule as movement. They never
 // move the player as a probe or accept a missing/failed collision query.
-export function findSupportedResumeFeet({ feet, section, killVolumes = [], characterPhysics, ignoreCollider = () => false }) {
+export function findSupportedResumeFeet({ feet, section, bounds = section?.bounds, isPositionAllowed, killVolumes = [], characterPhysics, ignoreCollider = () => false }) {
   if (!feet || ![feet.x,feet.y,feet.z].every(Number.isFinite)) return null;
-  const bounds=section?.bounds;
-  if(!bounds || feet.x<bounds.minX+.4 || feet.x>bounds.maxX-.4 || feet.z<bounds.minZ+.4 || feet.z>bounds.maxZ-.4)return null;
+  if (typeof isPositionAllowed === 'function') {
+    try { if (!isPositionAllowed(feet)) return null; } catch { return null; }
+  } else if (!bounds || feet.x<bounds.minX+.4 || feet.x>bounds.maxX-.4 || feet.z<bounds.minZ+.4 || feet.z>bounds.maxZ-.4) return null;
   const {world,RAPIER,cfg,collider}=characterPhysics;
   const filter=other=>other.handle!==collider.handle && !other.isSensor() && !ignoreCollider(other);
   try {

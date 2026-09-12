@@ -14,7 +14,7 @@ export function cloneActiveRun(run) {
     runId: run.runId, startAnchorId: run.startAnchorId, sectionId: run.sectionId,
     feet: { x: run.feet.x, y: run.feet.y, z: run.feet.z }, facingYaw: run.facingYaw,
     health: run.health, xp: run.xp, companions: [...run.companions], corePending: run.corePending,
-    kills: run.kills, maxDepth: run.maxDepth,
+    kills: run.kills, maxDepth: run.maxDepth, frontierDeparted: run.frontierDeparted === true,
     newWaypoints: [...run.newWaypoints], newBeacons: [...run.newBeacons],
   };
 }
@@ -31,6 +31,7 @@ export function normalizeActiveRun(raw) {
   if (!idList(raw.companions, Object.keys(COMPANION_BY_ID).length)
     || raw.companions.some(id => !Object.hasOwn(COMPANION_BY_ID, id))) return fail('invalid-run-companions');
   if (typeof raw.corePending !== 'boolean') return fail('invalid-run-core');
+  if (raw.frontierDeparted !== undefined && typeof raw.frontierDeparted !== 'boolean') return fail('invalid-run-departure');
   if (!idList(raw.newWaypoints, 256) || !idList(raw.newBeacons, 256)) return fail('invalid-run-discoveries');
-  return { ok: true, run: cloneActiveRun(raw), reason: null };
+  return { ok: true, run: cloneActiveRun({ ...raw, frontierDeparted: raw.frontierDeparted === true }), reason: null };
 }

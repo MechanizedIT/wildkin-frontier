@@ -37,12 +37,15 @@ import { createWorldRegistry } from "./world/worldRegistry.js";
 import { createSectionRuntime } from "./world/sectionRuntime.js";
 import { createFrontierChunkRuntime } from "./world/frontierChunkRuntime.js";
 import { createFrontierEcologyRuntime } from "./world/frontierEcologyRuntime.js";
+import { createFrontierAtlasSurvey } from './world/frontierAtlasSurvey.js';
 import { createPortalGateSystem } from "./world/portalGateSystem.js";
 import { createWorldHazardSystem } from "./world/worldHazardSystem.js";
 import { createLootSystem } from "./world/lootSystem.js";
 import { createExpeditionSession } from "./session/expeditionSession.js";
 import { createExpeditionPersistence } from './session/expeditionPersistence.js';
 import { findSupportedResumeFeet } from './session/resumePosition.js';
+import { commitFrontierOutingStart, createFrontierOuting } from './session/frontierOuting.js';
+import { FRONTIER_TERRAIN_CONFIG } from './world/frontierTerrain.js';
 import { createFrontierProgress } from "./save/frontierProgress.js";
 import { createFrontierAnchorSystem } from "./world/frontierAnchorSystem.js";
 import { createFrontierMap } from "./ui/frontierMap.js";
@@ -303,6 +306,10 @@ const frontierEcology = createFrontierEcologyRuntime({
   visualAssets: worldRegistry.data.visualAssets ?? [],
   getHeight: frontierChunks.getHeight,
 });
+const frontierAtlasSurvey=createFrontierAtlasSurvey({
+  progress:frontierProgress,
+  onBlocked:()=>betaGame?.shell.toast('Survey could not be saved','Your last safe atlas record was kept. Retrying automatically.'),
+});
 const fieldTool = createFieldTool(player, gameAudio, {
   onSwingStart: () => player.userData.externalPlayerModel?.playAction("attack"),
 });
@@ -420,7 +427,7 @@ xpMoteSystem.setPlayerPos(playerController.getState().pos);
 }
 
 // UI — Map, AnchorPrompt, ResultCard, Indicators (Phase 4A focused owners)
-let frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem;
+let frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, frontierOuting;
 let returnToCampFlow = null;
 
 function isAnyBlockingModal() {
@@ -450,6 +457,8 @@ frontierMap = createFrontierMap({
   frontierProgress,
   getSession: () => expeditionSession,
   getPlayerPos: () => playerController.getState().pos,
+  getPlayerYaw: () => playerController.getState().facing,
+  getTerrainSample: frontierChunks.sample,
   onStartSelected: (destination) => {
     beginExpeditionDestination(destination);
   },
@@ -592,6 +601,15 @@ portalGateSystem = createPortalGateSystem(worldRegistry, {
   checkAccess:(gate,action)=>betaGame?.rootfall.handlesGate(gate.id)?betaGame.rootfall.access(action):{ok:true},
 });
 
+function getNearbyPortalGateInteraction(playerPos){
+  const interaction=portalGateSystem.getNearbyInteraction(playerPos);
+  if(interaction?.action==='camp-start'&&expeditionSession.isActive()){
+    if(!frontierOuting?.hasDepartedCamp())return null;
+    return {...interaction,action:'return-to-camp',label:'RETURN TO CAMP'};
+  }
+  return interaction;
+}
+
 worldHazardSystem = createWorldHazardSystem(worldRegistry, {
   getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
   onFatal: ({ reason } = {}) => handleDeathFlow(reason ?? "fatal_hazard"),
@@ -631,9 +649,7 @@ contextualInteraction = createContextualInteraction({
       betaGame?.rootfall.activate();
     } else if (info.type === "portalGate") {
       if (info.action === "camp-start") {
-        frontierMap.openStartSelection();
-        refreshMapAvailability();
-        syncInputBlock();
+        beginFrontierOutingAtCurrentPosition('camp-gate');
       } else if (info.action === "return-to-camp") {
         if (returnToCampFlow.request({ id: info.id }).ok) {
           anchorPrompt.show({ type: "campReturn", id: info.id, cargo: pickupSystem.getInventory(), xp: xpMoteSystem.getXp() });
@@ -655,9 +671,7 @@ contextualInteraction = createContextualInteraction({
       else if(!opened.ok && opened.reason==='storage-write-failed')betaGame?.shell.toast('Could not save','The supplies remain in this cache.');
     } else if (info.type === "gate") {
       if (expeditionSession.isCamp()) {
-        frontierMap.openStartSelection();
-        refreshMapAvailability();
-        syncInputBlock();
+        beginFrontierOutingAtCurrentPosition('camp-gate');
       } else if (expeditionSession.isActive()) {
         if (returnToCampFlow.request({ id: info.id }).ok) {
           anchorPrompt.show({ type: "campReturn", id: info.id, cargo: pickupSystem.getInventory(), xp: xpMoteSystem.getXp() });
@@ -689,6 +703,7 @@ frontierAnchorSystem = createFrontierAnchorSystem(worldRegistry, {
   getPlayerPos: () => playerController.getState().pos,
   getSession: () => expeditionSession,
   getActiveSectionId: () => sectionRuntime.getActiveSectionId(),
+  canReturnToCamp:()=>frontierOuting?.hasDepartedCamp()??false,
   frontierProgress,
   onWaypointDiscovered: (id) => {
     const wp = worldRegistry.getWaypointById(id);
@@ -764,89 +779,17 @@ function resetTransientWorldToCamp() {
   autoHarvestToggle.setEnabled(autoHarvestEnabled, false);
 }
 
-function beginExpeditionAtTransform({ sectionId, startAnchorId, feetPosition, facingYaw = 0, suppressAnchorId = null }) {
-  if (!expeditionSession.isCamp() || !worldRegistry.getSectionById(sectionId)) return false;
-  betaGame?.reset();
-  betaGame?.refreshModifiers();
-  lootSystem?.reset();
-  // Clear old run state (transient)
-  pickupSystem.resetInventory();
-  inventoryHud.update(pickupSystem.getInventory(), 0);
-  xpMoteSystem.reset();
-  lastCarriedXp = 0;
-  combatHud.updateXp(0);
-  projectileSystem.reset();
-  if (pickupSystem.clear) { try { pickupSystem.clear({discardPending:true}); } catch {} }
-  // resources/creatures to baseline for new run
-  creatureSystem.reset();
-  resourceSystem.resetDepleted();
-  playerCombat.reset();
-  combatHud.updateHealth(playerCombat.getHealth(), playerCombat.getMaxHealth());
-  combatSession.reset();
-  if (fieldTool.hardReset) fieldTool.hardReset(); else fieldTool.resetSwing();
-
-  // Set session active
-  expeditionSession.beginRun(startAnchorId);
-  frontierProgress.markDeparted();
-  const activated = sectionRuntime.activate(sectionId);
-  if (!activated.ok) return false;
-  lastActiveIds = activated.activeIds;
-  const sPos = placePlayerAtFeetTransform(feetPosition, facingYaw);
-  // Generic suppression until leave/re-enter for any selectable waypoint
-  frontierAnchorSystem.reset();
-  frontierAnchorSystem.prime(sPos);
-  if (suppressAnchorId) frontierAnchorSystem.suppressUntilExit(suppressAnchorId);
-  worldHazardSystem.reset();
-  frontierMap.close();
-  anchorPrompt.hide();
-  runResultCard.hide();
-  matterResonatorPanel.hide();
-  syncInputBlock();
-  refreshMapAvailability();
-  expeditionPersistence?.checkpoint();
-  return true;
+function beginFrontierOutingAtCurrentPosition(source = 'camp-action') {
+  const state = playerController.getState();
+  const result = frontierOuting?.startAt(state.pos, { source });
+  return result?.ok === true;
 }
 
-function beginExpedition(waypointId) {
-  if (!waypointId || !frontierProgress.isUnlockedWaypoint(waypointId)) return false;
-  const waypoint = worldRegistry.getWaypointById(waypointId);
-  if (!waypoint) return false;
-  const spawn = worldRegistry.getWaypointSpawnPosition(waypointId);
-  const feetPosition = spawn ?? { x: waypoint.pos.x, y: waypoint.pos.y ?? 0, z: waypoint.pos.z + 1 };
-  return beginExpeditionAtTransform({
-    sectionId: waypoint.regionId,
-    startAnchorId: waypointId,
-    feetPosition,
-    facingYaw: spawn?.facingYaw ?? 0,
-    suppressAnchorId: waypointId,
-  });
-}
-
-function beginExpeditionDestination(destination) {
-  if (!destination) return false;
-  if (destination.type === "waypoint") return beginExpedition(destination.id);
-  if (destination.type !== "sectionEntry") return false;
-  return beginExpeditionAtTransform({
-    sectionId: destination.sectionId,
-    startAnchorId: destination.id,
-    feetPosition: destination.feetPosition,
-    facingYaw: destination.facingYaw ?? 0,
-    suppressAnchorId: null,
-  });
-}
-
-function beginExpeditionFromDefaultEntry() {
-  const destination = worldRegistry.getDefaultExpeditionArrival?.() ?? worldRegistry.getDefaultExpeditionEntry();
-  if (!destination) return false;
-  const entry = destination.gate ? destination : worldRegistry.getEntryPoint(destination.sectionId, destination.entryId);
-  if (!entry) return false;
-  return beginExpeditionAtTransform({
-    sectionId: destination.sectionId,
-    startAnchorId: destination.entryId,
-    feetPosition: entry.pos,
-    facingYaw: entry.facingYaw ?? entry.rotY ?? 0,
-  });
-}
+// Retain debug seams while normal departures now join the continuous frontier
+// at the player's current feet rather than selecting or teleporting to a section.
+function beginExpedition() { return beginFrontierOutingAtCurrentPosition('legacy-action'); }
+function beginExpeditionDestination() { return beginFrontierOutingAtCurrentPosition('atlas-action'); }
+function beginExpeditionFromDefaultEntry() { return beginFrontierOutingAtCurrentPosition('default-action'); }
 
 function handleExtractionFlow(data) {
   if (expeditionSession.isResolved?.()) return;
@@ -1011,14 +954,27 @@ const fixedDt = RAPIER_CONFIG.fixedDt;
 const maxSubsteps = RAPIER_CONFIG.maxSubsteps;
 const maxDelta = RAPIER_CONFIG.maxDelta;
 
-const validateResumeFeet=feet=>findSupportedResumeFeet({feet,section:worldRegistry.getSectionById(sectionRuntime.getActiveSectionId()),killVolumes:worldRegistry.getKillVolumesForSection(sectionRuntime.getActiveSectionId()),characterPhysics,ignoreCollider:betaGame.companions.isFollowerCollider});
+const validateResumeFeet=feet=>{
+  const sectionId=sectionRuntime.getActiveSectionId();
+  return findSupportedResumeFeet({
+    feet,
+    section:worldRegistry.getSectionById(sectionId),
+    isPositionAllowed:sectionId==='camp' ? candidate=>Math.abs(candidate.x)<=1_000_000&&Math.abs(candidate.z)<=1_000_000 : undefined,
+    killVolumes:worldRegistry.getKillVolumesForSection(sectionId),
+    characterPhysics,
+    ignoreCollider:betaGame.companions.isFollowerCollider,
+  });
+};
 const savedRun=frontierProgress.getActiveRun();
 let resumedFeet=null;
 if(savedRun && !authorEnabled){
-  const section=worldRegistry.getSectionById(savedRun.sectionId);
+  const section=savedRun.sectionId==='camp' ? worldRegistry.getSectionById('camp') : null;
   const activated=section && sectionRuntime.activate(savedRun.sectionId);
   if(activated?.ok){
     lastActiveIds=activated.activeIds;
+    // Generated support must exist in Rapier before the shared resume query.
+    frontierChunks.update(savedRun.feet,{activeSectionId:'camp'});
+    frontierEcology.update();
     const candidates=[savedRun.feet,...worldRegistry.getAllWaypoints().filter(w=>w.regionId===savedRun.sectionId&&frontierProgress.isUnlockedWaypoint(w.id)).map(w=>worldRegistry.getWaypointSpawnPosition(w.id)),...worldRegistry.getEntryPointsForSection(savedRun.sectionId).map(e=>e.pos)];
     resumedFeet=candidates.map(validateResumeFeet).find(Boolean) ?? null;
   }
@@ -1036,6 +992,39 @@ if(savedRun && !authorEnabled){
   } else resumeBlocked=true;
 }
 if(!authorEnabled && !resumeBlocked)expeditionPersistence=createExpeditionPersistence({progress:frontierProgress,session:expeditionSession,getPlayerState:()=>playerController.getState(),getHealth:()=>playerCombat.getHealth(),getXp:()=>xpMoteSystem.getXp(),getSectionId:()=>sectionRuntime.getActiveSectionId(),getExtras:()=>betaGame.getBankingExtras(),validateFeet:validateResumeFeet,capsuleExtent:RAPIER_CONFIG.capsuleHalfHeight+RAPIER_CONFIG.capsuleRadius,initialFeet:resumedFeet});
+frontierOuting=createFrontierOuting({
+  session:expeditionSession,
+  campBounds:FRONTIER_TERRAIN_CONFIG.campBounds,
+  initialDeparted:expeditionSession.getFrontierDeparted(),
+  onDeparted:()=>{
+    expeditionSession.setFrontierDeparted(true);
+    expeditionPersistence?.checkpoint();
+  },
+  commitStart:({source,frontierDeparted})=>{
+    const started=commitFrontierOutingStart({
+      session:expeditionSession,
+      checkpoint:()=>expeditionPersistence?.checkpoint(),
+      getActiveRun:()=>frontierProgress.getActiveRun(),
+      startAnchorId:worldRegistry.getFrontierGateId?.()??'camp_gate',
+      sectionId:'camp',
+      cargo:pickupSystem.getInventory(),
+      xp:xpMoteSystem.getXp(),
+      frontierDeparted,
+    });
+    if(!started.ok){
+      betaGame?.shell.toast('Outing not recorded','Your pack is safe. Saving will retry automatically.');
+      return started;
+    }
+    frontierProgress.markDeparted();
+    const position=playerController.getState().pos;
+    frontierAnchorSystem.reset();frontierAnchorSystem.prime(position);
+    const campGateId=worldRegistry.getFrontierGateId?.();
+    if(campGateId)frontierAnchorSystem.suppressUntilExit(campGateId);
+    frontierMap.close();anchorPrompt.hide();runResultCard.hide();matterResonatorPanel.hide();
+    refreshMapAvailability();syncInputBlock();
+    return {ok:true,source,runId:started.runId};
+  },
+});
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · Rapier ${RAPIER.version ? RAPIER.version() : "0.20.0"} · starting…`;
 
@@ -1051,6 +1040,8 @@ function tick() {
   // Load support before player/camera queries; no separate streaming loop.
   frontierChunks.update(playerController.state.pos, { activeSectionId: sectionRuntime.getActiveSectionId(), authorMode: !!authorSuppress });
   frontierEcology.update();
+  frontierAtlasSurvey.update(dt,playerController.state.pos,{enabled:!authorSuppress&&!resumeBlocked});
+  frontierMap?.update?.(dt);
   if (authorSuppress !== prevAuthorSuppress) {
     playerController.resetJumpState();
     syncInputBlock();
@@ -1090,7 +1081,7 @@ function tick() {
       frontierAnchorSystem.update(pPosForAnchor);
       const nearby = chooseNearbyInteraction({
         camp:getNearbyResonatorInteraction(pPosForAnchor),
-        gate:portalGateSystem.getNearbyInteraction(pPosForAnchor),
+        gate:getNearbyPortalGateInteraction(pPosForAnchor),
         loot:lootSystem.getNearbyInteraction(pPosForAnchor),
         frontier:frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession),
         field:betaGame?.getNearbyInteraction(pPosForAnchor),
@@ -1191,6 +1182,10 @@ function tick() {
       effectiveIntent.jumpRequested = false;
 
       const pStateFixed = playerController.getState();
+      frontierOuting?.update(fixedDt,pStateFixed.pos,{
+        enabled:!resumeBlocked,
+        grounded:pStateFixed.grounded&&!['CLIMB','MANTLE','JUMP'].includes(pStateFixed.mode),
+      });
       movementAudio.update(fixedDt, pStateFixed);
       const pPosFixed = pStateFixed.pos;
       worldHazardSystem.update(pPosFixed);
@@ -1324,7 +1319,7 @@ tick();
 window.__game = {
   scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, cameraFollow, cameraOrbit, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
   worldRegistry, regionManager, sectionRuntime, portalGateSystem, worldHazardSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
-  frontierChunks, frontierEcology,
+  frontierChunks, frontierEcology, frontierAtlasSurvey, frontierOuting,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   betaGame,
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),

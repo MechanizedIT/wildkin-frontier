@@ -28,6 +28,7 @@ export function createExpeditionSession(opts = {}) {
   let resolved = false; // has this run been resolved (banked/lost) — idempotent guard
   let runDiscoveries = { newWaypoints: [], newBeacons: [] }; // temp discoveries this run before banking
   let runId = opts.initialRunId ?? generateRunId();
+  let frontierDeparted = opts.initialFrontierDeparted === true;
 
   function getDepthForRegion(regionId) {
     if (!regionId) return 0;
@@ -73,6 +74,7 @@ export function createExpeditionSession(opts = {}) {
     runDiscoveries = { newWaypoints: [], newBeacons: [] };
     runId = generateRunId();
     maxDepth = 0;
+    frontierDeparted = false;
     return true;
   }
 
@@ -86,6 +88,7 @@ export function createExpeditionSession(opts = {}) {
     unsecuredWildkin = [];
     runDiscoveries = { newWaypoints: [], newBeacons: [] };
     maxDepth = 0;
+    frontierDeparted = false;
     runId = generateRunId();
   }
 
@@ -98,6 +101,7 @@ export function createExpeditionSession(opts = {}) {
     currentRegionId = run.sectionId; currentPocketId = null;
     runXp = run.xp; kills = run.kills; maxDepth = run.maxDepth;
     runDiscoveries = { newWaypoints: run.newWaypoints, newBeacons: run.newBeacons };
+    frontierDeparted = run.frontierDeparted === true;
     // Pack and pending bonds retain their inventory/companion owners. This is
     // only the legacy nonspendable cargo view, refreshed by the caller.
     unsecuredCargo = emptyCargo(); unsecuredWildkin = [];
@@ -115,6 +119,7 @@ export function createExpeditionSession(opts = {}) {
     unsecuredWildkin = [];
     runDiscoveries = { newWaypoints: [], newBeacons: [] };
     maxDepth = getDepthForRegion(currentRegionId);
+    frontierDeparted = false;
     runId = generateRunId();
   }
 
@@ -129,6 +134,7 @@ export function createExpeditionSession(opts = {}) {
       newWaypoints: [...runDiscoveries.newWaypoints],
       newBeacons: [...runDiscoveries.newBeacons],
       runId,
+      frontierDeparted,
     };
   }
 
@@ -186,6 +192,7 @@ export function createExpeditionSession(opts = {}) {
       resolved,
       runDiscoveries: { newWaypoints: [...runDiscoveries.newWaypoints], newBeacons: [...runDiscoveries.newBeacons] },
       runId,
+      frontierDeparted,
     };
   }
 
@@ -199,6 +206,8 @@ export function createExpeditionSession(opts = {}) {
     getCurrentPocketId: () => currentPocketId,
     getMaxDepth: () => maxDepth,
     getRunId: () => runId,
+    getFrontierDeparted: () => frontierDeparted,
+    setFrontierDeparted: value => { frontierDeparted = value === true; },
     setRegion,
     addXp,
     setXp,

@@ -19,6 +19,7 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
   const getSession = opts.getSession ?? (() => null);
   const frontierProgress = opts.frontierProgress ?? null;
   const getActiveSectionId = opts.getActiveSectionId ?? (() => null);
+  const canReturnToCamp = opts.canReturnToCamp ?? (() => true);
 
   function buildAnchors() {
     const anchors = [];
@@ -94,7 +95,7 @@ export function createFrontierAnchorSystem(worldRegistry, opts = {}) {
       let candidate = null;
       if (anchor.type === "gate") {
         if (isCamp) candidate = { id: anchor.id, type: "gate", label: "TRAVEL", dist };
-        else if (isActive) candidate = { id: anchor.id, type: "gate", label: "RETURN TO CAMP", dist };
+        else if (isActive && canReturnToCamp()) candidate = { id: anchor.id, type: "gate", label: "RETURN TO CAMP", dist };
       } else if (anchor.type === "majorWaypoint") {
         if (!isActive) continue;
         const name = worldRegistry.getAnchorDisplayName(worldRegistry.getWaypointById(anchor.id) ?? { id: anchor.id, type: "majorWaypoint" });

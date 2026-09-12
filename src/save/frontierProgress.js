@@ -18,6 +18,7 @@ import { addStack, countItems, craftStacks } from '../inventory/slotOperations.j
 import { normalizeActiveRun, cloneActiveRun } from '../session/activeRunState.js';
 import { OBSERVATION_CATALOG, normalizeObservationClues } from '../companions/observationCatalog.js';
 import { createFrontierEcologyState, cloneFrontierEcologyState, normalizeFrontierEcologyState, validateFrontierResourceState, MAX_FRONTIER_RESOURCE_RECORDS } from '../world/frontierEcologyState.js';
+import { createFrontierAtlasState, cloneFrontierAtlasState, normalizeFrontierAtlasState, revealFrontierAtlasRadius } from '../world/frontierAtlasState.js';
 
 const STORAGE_KEY = "wildkin.frontierProgress";
 const AUTHOR_STORAGE_KEY = "wildkin.authorFrontierProgress";
@@ -78,6 +79,7 @@ function defaultState(initialWaypointId, resourceDrops) {
     loadout: normalizeLoadout(null),
     securedCompanionRunIds: [],
     ecology: createFrontierEcologyState(),
+    atlas: createFrontierAtlasState(),
   };
 }
 
@@ -102,10 +104,16 @@ export function createFrontierProgress(opts = {}) {
   const useMemoryOnly = isAuthorMode && !!opts.inMemoryAuthor;
 
   let state = defaultState(initialWaypointId, resourceDrops);
+  let frontierAtlasSnapshot = makeFrontierAtlasSnapshot(state.atlas);
   let lastBankToken = null; // legacy fallback
   let bankedRunIds = new Set();
   let storageStatus = { saved: true, reason: null };
   let loadError = null;
+
+  function makeFrontierAtlasSnapshot(atlas) {
+    return Object.freeze({ edition: atlas.edition, seed: atlas.seed, chunks: Object.freeze({ ...atlas.chunks }) });
+  }
+  function refreshFrontierAtlasSnapshot() { frontierAtlasSnapshot = makeFrontierAtlasSnapshot(state.atlas); }
   // persist bankedRunIds via state? Keep in memory bounded; versioned save includes lastBankedRunIds
   // Load from storage if present
   const BANKED_IDS_KEY = storageKey + ":bankedRunIds";
@@ -189,6 +197,7 @@ export function createFrontierProgress(opts = {}) {
     out.loadout = normalizeLoadout(raw.loadout);
     out.securedCompanionRunIds = normalizeIdArray(raw.securedCompanionRunIds).slice(-20);
     out.ecology = normalizeFrontierEcologyState(raw.ecology);
+    out.atlas = normalizeFrontierAtlasState(raw.atlas);
     if (out.bankedXp < 0) out.bankedXp = 0;
     if (out.unlockedMajorWaypointIds.length === 0 && initialWaypointId) out.unlockedMajorWaypointIds = [initialWaypointId];
     if (Array.isArray(raw.bankedRunIds)) {
@@ -207,6 +216,7 @@ export function createFrontierProgress(opts = {}) {
     loadError = null;
     if (useMemoryOnly) {
       filterStale();
+      refreshFrontierAtlasSnapshot();
       return getState();
     }
     try {
@@ -223,9 +233,11 @@ export function createFrontierProgress(opts = {}) {
       // legitimate quantities with an empty normalized save.
       storageStatus = { saved: false, reason: error.message ?? 'invalid-save' };
       loadError = storageStatus.reason;
+      refreshFrontierAtlasSnapshot();
       return getState();
     }
     filterStale();
+    refreshFrontierAtlasSnapshot();
     // persist normalized if we filtered
     save(state.activeRun);
     return getState();
@@ -252,6 +264,7 @@ export function createFrontierProgress(opts = {}) {
       base: cloneBase(state.base),
       loadout: cloneLoadout(state.loadout),
       ecology: cloneFrontierEcologyState(state.ecology),
+      atlas: cloneFrontierAtlasState(state.atlas),
       securedCompanionRunIds: [...state.securedCompanionRunIds],
       bankedRunIds: [...bankedRunIds].slice(-20),
     };
@@ -285,6 +298,28 @@ export function createFrontierProgress(opts = {}) {
 
   function getStorageStatus() { return { ...storageStatus }; }
   function getFrontierEcologyState() { return cloneFrontierEcologyState(state.ecology); }
+  function getFrontierAtlasState() { return frontierAtlasSnapshot; }
+  function revealFrontierAt(position) {
+    const revealed = revealFrontierAtlasRadius(state.atlas, position);
+    if (!revealed.ok) return { ok: false, changed: false, reason: revealed.reason };
+    if (!revealed.changed) return { ok: true, changed: false, reason: null };
+    const rollback = snapshotForBankRollback();
+    const previousSnapshot = frontierAtlasSnapshot;
+    state.atlas = {
+      ...state.atlas,
+      chunks: { ...state.atlas.chunks, ...Object.fromEntries(revealed.patches.map(({ chunkId, mask }) => [chunkId, mask])) },
+    };
+    const write = save();
+    if (!write.saved) {
+      state = rollback.state;
+      bankedRunIds = rollback.bankedRunIds;
+      lastBankToken = rollback.lastBankToken;
+      frontierAtlasSnapshot = previousSnapshot;
+      return { ok: false, changed: false, reason: write.reason };
+    }
+    refreshFrontierAtlasSnapshot();
+    return { ok: true, changed: true, reason: null };
+  }
   function getFrontierResourceRemaining(id) { return state.ecology.resources[id]; }
   function commitFrontierResourceState(id, remainingChunks) {
     const checked = validateFrontierResourceState(id, remainingChunks);
@@ -421,6 +456,7 @@ export function createFrontierProgress(opts = {}) {
       return { ok: false, reason: write.reason, state: getState() };
     }
     lastBankToken = null;
+    refreshFrontierAtlasSnapshot();
     // The old runtime may still be at Camp until its scheduled reload. Its
     // pagehide checkpoint must not overwrite the newly imported expedition.
     runSnapshotProvider = null;
@@ -430,6 +466,7 @@ export function createFrontierProgress(opts = {}) {
   function clear() {
     loadError = null;
     state = defaultState(initialWaypointId, resourceDrops);
+    refreshFrontierAtlasSnapshot();
     lastBankToken = null;
     bankedRunIds.clear();
     save(null);
@@ -464,6 +501,7 @@ export function createFrontierProgress(opts = {}) {
       base: cloneBase(state.base),
       loadout: cloneLoadout(state.loadout),
       ecology: cloneFrontierEcologyState(state.ecology),
+      atlas: cloneFrontierAtlasState(state.atlas),
     };
   }
 
@@ -524,6 +562,7 @@ export function createFrontierProgress(opts = {}) {
         securedCompanions: [...state.securedCompanions], discoveredSpecies: [...state.discoveredSpecies], completedObjectives: [...state.completedObjectives],
         observationClues: { ...state.observationClues },
         ecology: cloneFrontierEcologyState(state.ecology),
+        atlas: cloneFrontierAtlasState(state.atlas),
         completedPoiIds: [...state.completedPoiIds], securedCompanionRunIds: [...state.securedCompanionRunIds],
         base: cloneBase(state.base),
         loadout: cloneLoadout(state.loadout),
@@ -917,6 +956,8 @@ export function createFrontierProgress(opts = {}) {
     getFrontierEcologyState,
     getFrontierResourceRemaining,
     commitFrontierResourceState,
+    getFrontierAtlasState,
+    revealFrontierAt,
     exportSave,
     importSave,
     clear,

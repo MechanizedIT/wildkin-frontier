@@ -149,7 +149,8 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface }
     center = { cx: nextCx, cz: nextCz }; refreshResidencySnapshot();
   }
 
-  function getHeight(x, z) { return sampleFrontier(x, z, terrainOptions).height; }
+  function sample(x, z) { return sampleFrontier(x, z, terrainOptions); }
+  function getHeight(x, z) { return sample(x, z).height; }
   // Stable lifecycle snapshot for nearby resident owners. It changes only when
   // the terrain residency does, and never exposes a gameplay mutation path.
   function getResidency() {
@@ -161,5 +162,5 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface }
     clearResidents(); parent?.remove(root);
     foliageGeometry.dispose(); foliageMaterial.dispose(); disposed = true;
   }
-  return { root, update, getHeight, getResidency, getDebugState, dispose };
+  return { root, update, sample, getHeight, getResidency, getDebugState, dispose };
 }
