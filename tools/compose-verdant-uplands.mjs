@@ -1,4 +1,5 @@
 import { getSurfaceHeight } from "../src/world/terrainSurfaceModel.js";
+import { composeVerdantCliffs } from "./compose-verdant-cliffs.mjs";
 
 export const VERDANT_UPLANDS = Object.freeze({
   sectionId: "section_1",
@@ -55,49 +56,74 @@ function gameplayProps() {
   ));
 }
 
-// These are deliberate perimeter, bank, and escarpment clusters, rather than
-// a seeded scatter. Every admitted canopy now uses the same narrow measured
-// trunk collider, so visual crowns may overlap without a canopy-wide wall.
+// These are deliberate woodland masses, rather than a seeded scatter or a
+// perimeter necklace. Eighteen of the existing scenic-canopy budget now lives
+// in five interior/arrival masses: the lowland reads as a sequence of places
+// while the route windows and all gameplay anchors retain working room.
+// Every admitted canopy uses the same narrow measured trunk collider, so
+// interlocking visual crowns do not turn into a canopy-wide wall.
 const WOODLAND_CLUSTERS = Object.freeze([
-  // East: five unequal groups sit outside the ascent/return corridor and make
-  // the connected escarpment read as a substantial landmark from the lowland.
-  ["east-toe", [[34, 28], [45, 27], [38, 21], [31, 20]]],
-  ["east-mid-face", [[62, 16], [64, 10], [58, 12], [55, 15], [60, 22]]],
-  ["east-outer-crest", [[65, -5], [62, -11], [59, -1], [61, 7], [65, 2]]],
-  ["east-south-face", [[57, -15], [48, -24], [43, -27], [56, -25], [60, -20]]],
+  // East: contracted outer groups leave room for a foreground pocket below
+  // the climb, so the escarpment has a toe, face and distant crest.
+  ["east-toe", [[42, 25], [48, 25], [39, 21]]],
+  ["east-mid-face", [[62, 17], [64, 10], [57, 16]]],
+  ["east-outer-crest", [[64, -5], [62, -11], [59, 2], [65, 6]]],
+  ["east-south-face", [[57, -16], [48, -24], [44, -28], [59, -23]]],
   ["east-overlook-edge", [[39, -21]]],
-  // West: three bank masses make a quiet framed hollow, leaving the east-bank
-  // Mossling observation pocket intentionally open around its actor/berry tell.
-  ["west-bank-upper", [[-65, 27], [-61, 30], [-58, 27], [-65, 21], [-61, 19]]],
-  ["west-bank-mid", [[-66, 12], [-63, 8], [-65, 4], [-61, 1], [-65, -3]]],
-  ["west-bank-lower", [[-65, -11], [-62, -15], [-65, -19], [-60, -22], [-62, -27]]],
-  ["mossling-pocket", [[-50, -1], [-35, -2], [-34, 17]]],
-  ["hollow-gateway", [[-31, 21], [-26, 22], [-34, 18]]],
-  // Survey's clear apron remains open; these two curtains make the west and
-  // east departures legible as the first real decision.
-  ["arrival-curtain-west", [[-22, 31], [-20, 27], [-17, 24], [-19, 29]]],
-  ["arrival-curtain-east", [[27, 27], [30, 23]]],
-  // Rootfall stays the only obvious north gap: planted flanks compress the
-  // approach without adding a hidden boundary or changing Rootfall geometry.
-  ["rootfall-west-throat", [[-28, -31], [-23, -29], [-26, -27], [-20, -33]]],
-  ["rootfall-east-throat", [[25, -28], [27, -24], [22, -31]]],
-  ["rootfall-east-mass", [[32, -29], [42, -30], [46, -27], [37, -32], [47, -34]]],
+  // West remains a protected water bank, but the large repeated rows are
+  // broken into three unequal masses with open shoreline windows.
+  ["west-bank-upper", [[-65, 27], [-61, 31], [-66, 19], [-59, 25]]],
+  ["west-bank-mid", [[-66, 12], [-63, 7], [-65, 1], [-61, -3]]],
+  ["west-bank-lower", [[-65, -12], [-62, -18], [-64, -26]]],
+  // Mossling's dry eastern bank has only two framing crowns; its actors,
+  // cache, berry tell and calm observation space stay visibly open.
+  ["mossling-pocket", [[-51, -1], [-35, 21]]],
+  ["hollow-gateway", [[-31, 20]]],
+  // Five arrival shoulders reveal the Survey in the middle rather than making
+  // a hedge around the gate-to-Survey route and its harvest trees.
+  ["arrival-shoulder-west", [[-33, 39], [-29, 34], [-35, 35]]],
+  ["arrival-shoulder-east", [[30, 36], [36, 39]]],
+  // The missing interior sequence: a main wooded island, sheltered waypoint
+  // backdrop, north-return island, and low east-face foreground pocket.
+  // The central island stops north of the Thornprowler's 6m working pocket.
+  ["central-island", [[-26, 1], [-21, 0], [-17, -2], [-20, 3]]],
+  ["lookout-backdrop", [[-15, 7], [-13, 3], [-10, 5]]],
+  ["north-return-island", [[-14, -14], [-20, -14], [-13, -15]]],
+  ["east-low-face", [[18, 0], [21, -4], [22, 3]]],
+  // Rootfall stays the only obvious northern throat. The flanks remain well
+  // away from the 16m supported lane, leaving the fallen-root assembly quiet.
+  ["rootfall-west-shoulder", [[-52, -29], [-35, -25], [-23, -29], [-20, -34]]],
+  ["rootfall-east-shoulder", [[24, -28], [28, -25], [37, -31], [46, -27], [53, -31], [61, -29]]],
 ]);
 
 function woodlandProps() {
   // Favor the substantial standard canopy. All variants are marked physical:
   // tall/spread trunk descriptors are being supplied separately and must not
   // be silently bypassed through composition flags.
-  const variants = ["asset_verge_canopy", "asset_verge_canopy", "asset_verge_canopy_tall", "asset_verge_canopy", "asset_verge_canopy_spread"];
+  // Tall fans are reserved for a few silhouette accents. The bulk of each
+  // mass is the broader standard crown, with occasional low spread fringe.
+  const variants = ["asset_verge_canopy", "asset_verge_canopy", "asset_verge_canopy", "asset_verge_canopy", "asset_verge_canopy", "asset_verge_canopy", "asset_verge_canopy_spread", "asset_verge_canopy"];
   const standardScales = [2.12, 2.36, 2.64, 2.24, 2.58, 2.46];
   const tallScales = [1.54, 1.72, 1.88, 1.62, 1.8, 1.68];
   const spreadScales = [1.84, 2.06, 2.34, 1.96, 2.22, 2.12];
+  // Landmark crowns are smaller silhouette breaks within larger masses. They
+  // retain the trunk-collider contract while keeping routes and anchor aprons
+  // available for actual player movement.
+  const landmarkCanopies = new Map([
+    ["mossling-pocket-01", { visualAssetId: "asset_verge_canopy_tall", uniformScale: 1.62 }],
+    ["arrival-shoulder-west-01", { visualAssetId: "asset_verge_canopy_tall", uniformScale: 1.72 }],
+    ["central-island-02", { visualAssetId: "asset_verge_canopy_spread", uniformScale: 1.92 }],
+    ["lookout-backdrop-01", { visualAssetId: "asset_verge_canopy_tall", uniformScale: 1.68 }],
+    ["east-low-face-03", { visualAssetId: "asset_verge_canopy_tall", uniformScale: 1.74 }],
+    ["rootfall-east-shoulder-01", { visualAssetId: "asset_verge_canopy_spread", uniformScale: 1.92 }],
+  ]);
   let sequence = 0;
   return WOODLAND_CLUSTERS.flatMap(([cluster, points]) => points.map(([x, z], index) => {
-    const variant = variants[sequence % variants.length];
-    const uniformScale = variant === "asset_verge_canopy" ? standardScales[sequence % standardScales.length]
+    const landmark = landmarkCanopies.get(`${cluster}-${String(index + 1).padStart(2, "0")}`);
+    const variant = landmark?.visualAssetId ?? variants[sequence % variants.length];
+    const uniformScale = landmark?.uniformScale ?? (variant === "asset_verge_canopy" ? standardScales[sequence % standardScales.length]
       : variant === "asset_verge_canopy_tall" ? tallScales[sequence % tallScales.length]
-      : spreadScales[sequence % spreadScales.length];
+      : spreadScales[sequence % spreadScales.length]);
     const result = prop(
       `prop_verdant_woodland_${cluster}_${String(index + 1).padStart(2, "0")}`,
       variant, x, z, uniformScale, ((sequence * .71) % (Math.PI * 2)) - Math.PI, true,
@@ -148,7 +174,7 @@ function makeSurface() {
   return {
     seed: 2101,
     palette: {
-      grass: "#789950", grassShade: "#3e6240", path: "#b2a27c", pathEdge: "#839066",
+      grass: "#789950", grassShade: "#3e6240", path: "#bb955d", pathEdge: "#938154", gravel: "#ad844f",
       rock: "#716d68", water: "#43bdd0", waterFoam: "#e3fbf4", accent: "#f4d768",
     },
     routes: [
@@ -166,7 +192,10 @@ function makeSurface() {
       route("verdant-upland-descent", [P(32, -15, 8), P(22, -20, 5.5), P(12, -21, 2.7), P(2, -19, 1.35)], 3.8, { feather: 2.4, style: "gravel" }),
       // This wide, constant support lane preserves the accepted Rootfall ground
       // plane while the two flank landforms read as a real north bottleneck.
-      route("verdant-rootfall-support", [{ x: 0, z: -36 }, { x: 0, z: -26 }], 16, { elevation: 1.35, feather: 1.2, paint: false, scatter: false }),
+      // Grade the broad Rootfall support out into the terminal West Hollow
+      // segment. A 3m feather keeps the same 1.35m plateau but avoids a
+      // one-way uphill lip beyond the character controller's slope limit.
+      route("verdant-rootfall-support", [{ x: 0, z: -36 }, { x: 0, z: -26 }], 16, { elevation: 1.35, feather: 3, paint: false, scatter: false }),
       route("rootfall-approach", [{ x: 0, z: -26.5 }, { x: 0, z: -29.4 }], 3, { feather: .45, style: "gravel", scatter: false }),
     ],
     heights: [
@@ -182,24 +211,31 @@ function makeSurface() {
       outlinedHeight("verdant-east-overlook", 8, 2.4, [
         { x: 29, z: -8 }, { x: 38, z: -10 }, { x: 40, z: -16 }, { x: 35, z: -21 }, { x: 27, z: -19 }, { x: 24, z: -14 },
       ]),
-      // The northern flanks meet the boundary and pinch at the Rootfall lane;
-      // the eastern highland itself still terminates south of the obstruction.
+      // The northern flanks keep the supported Rootfall lane non-bypassable,
+      // but their irregular shoulders avoid the old retaining-wall read. The
+      // immediate Rootfall footprint remains clear and is still the focal end.
       outlinedHeight("verdant-rootfall-west-flank", 4.8, 3.2, [
-        { x: -69, z: -42 }, { x: -11, z: -42 }, { x: -10, z: -35 }, { x: -13, z: -28 }, { x: -25, z: -23 }, { x: -45, z: -23 }, { x: -62, z: -29 },
+        { x: -69, z: -42 }, { x: -11, z: -42 }, { x: -10, z: -35 }, { x: -14, z: -31 }, { x: -17, z: -27 },
+        { x: -31, z: -23 }, { x: -40, z: -26 }, { x: -54, z: -25 }, { x: -62, z: -29 },
       ]),
       outlinedHeight("verdant-rootfall-east-flank", 6.2, 3.4, [
-        { x: 10, z: -42 }, { x: 68, z: -42 }, { x: 66, z: -33 }, { x: 57, z: -25 }, { x: 41, z: -23 }, { x: 20, z: -25 }, { x: 11, z: -29 }, { x: 9, z: -35 },
+        { x: 10, z: -42 }, { x: 68, z: -42 }, { x: 67, z: -34 }, { x: 58, z: -27 }, { x: 45, z: -24 },
+        { x: 35, z: -26 }, { x: 22, z: -24 }, { x: 14, z: -28 }, { x: 10, z: -34 },
       ]),
       outlinedHeight("verdant-west-hollow-rim", 1.3, 4.2, [
         { x: -44, z: 29 }, { x: -25, z: 21 }, { x: -22, z: 5 }, { x: -26, z: -14 }, { x: -39, z: -27 }, { x: -48, z: -16 }, { x: -47, z: 8 },
       ]),
     ],
-    // Overlapping shallow ellipses remain one same-level creek/pool system;
-    // there is no elevated water, cascade, or falling-water implication.
+    // North is negative Z: a broad northern bay narrows through a gently
+    // offset neck to the south. Five substantially overlapping same-plane
+    // ellipses avoid the three tangent-oval read and renderer-radius pinches.
+    // There is no elevated water, cascade, or falling-water implication.
     water: [
-      { id: "mosslight-upper-pool", x: -51, z: 16, rx: 10, rz: 15, depth: .3 },
-      { id: "mosslight-creek", x: -52, z: -4, rx: 7, rz: 19, depth: .3 },
-      { id: "mosslight-lower-pool", x: -48, z: -20, rx: 9, rz: 11, depth: .3 },
+      { id: "mosslight-north-bay", x: -53, z: -19, rx: 10, rz: 9, depth: .3 },
+      { id: "mosslight-north-shoulder", x: -56, z: -12, rx: 10, rz: 8, depth: .3 },
+      { id: "mosslight-neck", x: -56, z: -4, rx: 5.5, rz: 9, depth: .3 },
+      { id: "mosslight-south-reach", x: -55, z: 4, rx: 5, rz: 9, depth: .3 },
+      { id: "mosslight-south-outlet", x: -55, z: 14, rx: 5, rz: 8.5, depth: .3 },
     ],
     detail: { grassDensity: .66, groundcover: "cushion" },
   };
@@ -269,6 +305,7 @@ export function composeVerdantUplands(world) {
     ...woodlandProps(),
     prop("prop_verdant_arrival_stones", "asset_trail_stones", 1, 28, 1.45),
     prop("prop_verdant_survey_clue", "asset_trail_stones", 17, 17, 1.05, .55),
+    prop("prop_verdant_arrival_curtain_root", "asset_fallen_log", -23, 25, 1.14, -.24),
     prop("prop_verdant_berry_hollow", "asset_berry_bush", -39, 6, 1.08, .3),
     prop("prop_verdant_shore_stone_a", "asset_fen_stone", -59, 12, 1.16, .22, true),
     prop("prop_verdant_shore_stone_b", "asset_fen_stone", -57, -14, 1.12, -.16, true),
@@ -285,12 +322,15 @@ export function composeVerdantUplands(world) {
     prop("prop_verdant_east_face_stone_c", "asset_fen_stone", 58, 7, 1.35, .16, true),
     prop("prop_verdant_east_face_stone_d", "asset_fen_stone", 54, -14, 1.42, -.12, true),
     prop("prop_verdant_east_face_stone_e", "asset_fen_stone", 43, -22, 1.3, .2, true),
-    prop("prop_verdant_east_face_root_a", "asset_fallen_log", 49, 20, 1.42, .32),
-    prop("prop_verdant_east_face_root_b", "asset_fallen_log", 63, 4, 1.5, -.28),
-    prop("prop_verdant_east_face_root_c", "asset_fallen_log", 50, -22, 1.46, .2),
+    // The existing east roots now sit half-hidden at the bases of the joined
+    // fronts. They remain non-physical scenery; this adds no instance or route role.
+    prop("prop_verdant_east_face_root_a", "asset_fallen_log", 35.5, 20.1, 1.42, .18),
+    prop("prop_verdant_east_face_root_b", "asset_fallen_log", 58.1, 4.6, 1.5, -.44),
+    prop("prop_verdant_east_face_root_c", "asset_fallen_log", 26.3, -7.8, 1.46, -.34),
     prop("prop_verdant_shelf_stone", "asset_fen_stone", 53, -4, 1.35, .2, true),
     prop("prop_verdant_overlook_stone", "asset_fen_stone", 29, -14, 1.18, -.2, true),
     prop("prop_verdant_overlook_salvage", "asset_trail_stones", 35, -13, 1.08, .3),
+    prop("prop_verdant_shelf_cache_root", "asset_fallen_log", 42, -12, 1.18, -.38),
     prop("prop_verdant_root_flank_west", "asset_fallen_log", -18, -33, 1.6, .18, false),
     prop("prop_verdant_root_flank_east", "asset_fallen_log", 19, -33, 1.65, -.16, false),
     prop("prop_verdant_rootfall_west_outcrop", "asset_fen_stone", -15, -28, 1.3, .28, true),
@@ -300,6 +340,10 @@ export function composeVerdantUplands(world) {
     prop("prop_verdant_return_shrub_b", "asset_berry_bush", -28, -26, 1.06, .3),
     prop("prop_verdant_lookout_rest_stone", "asset_fen_stone", -9, 10, 1.1, .18, true),
     prop("prop_verdant_lookout_rest_groundcover", "asset_mushroom_ring", -6, 10, 1.25, -.2),
+    // A low, offset rest frames the west-hollow turn and east-toe clue without
+    // blocking the low spine or introducing another harvestable/reward.
+    prop("prop_verdant_lookout_sightline_root", "asset_fallen_log", -8, 5, 1.16, -.68),
+    prop("prop_verdant_lookout_sightline_groundcover", "asset_mushroom_ring", -4.5, 5, 1.12, .28),
     prop("prop_verdant_root_approach_stones", "asset_trail_stones", 0, -24, 1.35),
     ...gameplayProps(),
   );
@@ -328,6 +372,6 @@ export function composeVerdantUplands(world) {
   rebase(region, region.creatures);
   rebase(region, region.majorWaypoints);
   rebase(region, region.extractionBeacons);
-
+  composeVerdantCliffs(world);
   return world;
 }

@@ -132,6 +132,23 @@ export function createGameAudio() {
     setTimeout(() => tone({ freq: 950, freq2: 820, duration: 0.10, type: "sine", gain: 0.045, filterFreq: 1400 }), 8);
   }
 
+  // Movement cues stay short and below the harvest/impact envelope so they read
+  // as dry foley on phone speakers rather than as reward or menu tones.
+  function playJump() {
+    whooshNoise({ duration: 0.11, gain: 0.075, bandFreq: 900 });
+    tone({ freq: 190, freq2: 300, duration: 0.10, type: "triangle", gain: 0.045, filterFreq: 1050 });
+  }
+
+  function playLand(intensity = 0) {
+    const amount = Math.max(0, Math.min(1, Number(intensity) || 0));
+    tone({ freq: 118 - amount * 22, freq2: 58 - amount * 16, duration: 0.13 + amount * 0.05, type: "triangle", gain: 0.065 + amount * 0.07, filterFreq: 780, noise: 0.025 + amount * 0.025 });
+    tone({ freq: 760, freq2: 420, duration: 0.035, type: "triangle", gain: 0.018 + amount * 0.022, filterFreq: 2300 });
+  }
+
+  function playDodge() {
+    whooshNoise({ duration: 0.105, gain: 0.085, bandFreq: 720 });
+  }
+
   function playHarvest(type, isFinal) {
     if (type === "wood") {
       // Phase 2.2: audible on phone — boosted mids, clear attack, body, click
@@ -234,5 +251,5 @@ export function createGameAudio() {
     musicStep++;
   }
 
-  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, playHit, playHurt, playEnemyHit, playEnemyDeath, playProjectileFire, playProjectileHit, playXpCollect, playCombatWhoosh, playActivation, playParkour, playLevelUp, updateAmbience, setMuted(value) { muted = !!value; }, get context() { return ctx; } };
+  return { ensure, unlock, playHarvest, playPickup, playDeplete, playWhoosh, playJump, playLand, playDodge, playHit, playHurt, playEnemyHit, playEnemyDeath, playProjectileFire, playProjectileHit, playXpCollect, playCombatWhoosh, playActivation, playParkour, playLevelUp, updateAmbience, setMuted(value) { muted = !!value; }, get context() { return ctx; } };
 }

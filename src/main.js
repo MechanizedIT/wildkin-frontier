@@ -19,6 +19,7 @@ import { createPickupSystem } from "./resources/pickupSystem.js";
 import { createFieldTool } from "./tools/fieldTool.js";
 import { chooseNearbyInteraction } from './game/interactionPriority.js';
 import { createGameAudio } from "./audio/gameAudio.js";
+import { createMovementAudio } from "./audio/movementAudio.js";
 import { createRunInventoryHud } from "./ui/runInventoryHud.js";
 import { createParticleSystem } from "./resources/particleSystem.js";
 import { createAutoHarvestToggle } from "./ui/autoHarvestToggle.js";
@@ -243,6 +244,7 @@ function placePlayerAtFeetTransform(feetPosition, facingYaw = 0) {
   playerController.syncPosFromPhysics();
   playerController.snapRenderPose();
   cameraFollow.snap();
+  movementAudio.reset(playerController.getState());
   return position;
 }
 
@@ -251,6 +253,8 @@ const physicsDebug = createPhysicsDebug(scene, characterPhysics, physicsWorld);
 const placementsFromWorld = createRuntimeResourcePlacements(worldRegistry.getAllResources());
 
 const gameAudio = createGameAudio();
+const movementAudio = createMovementAudio({ gameAudio });
+movementAudio.reset(playerController.getState());
 const particleSystem = createParticleSystem(scene);
 const inventoryHud = createRunInventoryHud(resourceDrops);
 const autoHarvestToggle = createAutoHarvestToggle(true);
@@ -690,6 +694,7 @@ function syncInputBlock() {
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
   const modalBlocked = isAnyBlockingModal();
   const blocked = !!(authorSuppress || modalBlocked);
+  if (blocked) movementAudio.reset(playerController.getState());
   app.classList.toggle("gameplay-blocked", blocked);
   setGameplayInputBlocked(blocked);
   if (authorSuppress !== prevAuthorSuppress) {
@@ -1036,6 +1041,7 @@ function tick() {
 
   const blocked = isAnyBlockingModal() || !!authorSuppress;
   if (blocked) {
+    movementAudio.reset(playerController.getState());
     playerController.cancelPendingJump();
     touchMovement.consumeJump?.();
     keyboardInput.consumeJump?.();
@@ -1153,6 +1159,7 @@ function tick() {
       effectiveIntent.jumpRequested = false;
 
       const pStateFixed = playerController.getState();
+      movementAudio.update(fixedDt, pStateFixed);
       const pPosFixed = pStateFixed.pos;
       worldHazardSystem.update(pPosFixed);
 

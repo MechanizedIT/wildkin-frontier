@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
 import {composeShatterfenBank,FEN_BANK_OUTCROPS,FEN_BANK_COMPONENTS,getFootSamples} from '../tools/compose-shatterfen-bank.mjs';
 import {getSurfaceHeight,getPathDistance,validateSurface} from '../src/world/terrainSurfaceModel.js';
-import {getGravelCoverage,getGravelCanvasSize} from '../src/presentation/gravelRoutePaint.js';
+import {getGravelCoverage,getGravelCanvasSize,paintGravelRoute} from '../src/presentation/gravelRoutePaint.js';
 import {createAuthoredTerrain} from '../src/presentation/authoredTerrain.js';
 const baseline=JSON.parse(fs.readFileSync(new URL('../src/world/data/world.json',import.meta.url),'utf8'));
 test('bank composition preserves gameplay, terrain support and sibling regions; rerun is stable',()=>{
@@ -31,4 +31,18 @@ test('bank masks remove only local meadow instances and never reseed distant fol
  const world=structuredClone(baseline),old=structuredClone(world.regions.find(r=>r.id==='section_2'));old.surface.routes=old.surface.routes.filter(r=>!r.id.startsWith('fen_bank_'));delete old.surface.routes.find(r=>r.id==='observatory-island-spur').style;
  composeShatterfenBank(world);const next=world.regions.find(r=>r.id==='section_2'),before=createAuthoredTerrain(old).group,after=createAuthoredTerrain(next).group;
  for(const name of ['meadow_grass','meadow_ferns']){const collect=root=>{const mesh=root.getObjectByName(name),map=new Map();for(let i=0;i<mesh.count;i++){const m=Array.from(mesh.instanceMatrix.array.slice(i*16,i*16+16));map.set(JSON.stringify(m),{x:m[12],z:m[14]});}return map;};const a=collect(before),b=collect(after);for(const key of b.keys())assert.ok(a.has(key),'new distant tuft was introduced');for(const [key,pos]of a)if(!b.has(key))assert.ok(getPathDistance(next.surface,pos.x,pos.z)<.301,'removed tuft is outside bank clearing');}
+});
+
+test('an authored gravel tint changes baked colour without moving its mask or changing the default',()=>{
+ const previous=globalThis.document,images=[];
+ globalThis.document={createElement(){return{width:0,height:0,getContext(){return{createImageData(w,h){return{data:new Uint8ClampedArray(w*h*4)};},putImageData(image){images.push(image.data);}};}};}};
+ const route={points:[{x:0,z:0},{x:0,z:5}],width:3.4,style:'gravel'},ctx={drawImage(){}};
+ try{
+  paintGravelRoute(ctx,route);paintGravelRoute(ctx,route,'#979482');paintGravelRoute(ctx,route,'#ad844f');
+  assert.deepEqual(images[0],images[1],'legacy default stays byte identical');
+  let changed=0;for(let i=0;i<images[0].length;i+=4){assert.equal(images[0][i+3],images[2][i+3],'tint does not change path coverage');if(images[0][i+3]>240){assert.ok(images[2][i]>images[0][i]&&images[2][i+2]<images[0][i+2],'warm centre replaces the cool gravel base');changed++;}}
+  assert.ok(changed>100,'substantial visible path interior is recoloured');
+  const surface={routes:[route],palette:{gravel:'#ad844f'}};assert.deepEqual(validateSurface(JSON.parse(JSON.stringify(surface))),surface);
+  assert.throws(()=>validateSurface({...surface,palette:{gravel:'warm'}}),/palette color/);
+ }finally{if(previous===undefined)delete globalThis.document;else globalThis.document=previous;}
 });

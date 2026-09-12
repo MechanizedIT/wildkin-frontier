@@ -447,6 +447,7 @@ src/ui/
 
 src/audio/
   procedural/local audio
+  movementAudio.js — fixed-step Jump/Land/Dodge presentation edges; existing gameAudio owns voices/context
 ```
 
 # Fixed Update Ownership

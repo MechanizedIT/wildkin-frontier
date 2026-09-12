@@ -53,6 +53,14 @@ Test example: `node --test tests/fieldPlacement.test.js tests/creatureSteering.t
 
 For repeatable whole-area maps and generated-model galleries, use `tools/review/capture-visual-atlas.mjs` / `visual-atlas.html`; `export-visual-book.py` and `package-visual-atlas.py` package the review. See VISUAL_ATLAS.md for exact snapshot, source hashes, coordinate projection, limitations and private owner delivery. These are development tools, not a runtime minimap.
 
+Verdant's terrain/route/grove composition is `tools/compose-verdant-uplands.mjs`; its accepted V3 rock registration and deliberate18-piece scenic placement are `tools/compose-verdant-cliffs.mjs`, called after terrain grounding. The original reference, owner decision and exact V3 exports are under `art/source/verdant-cliff-kit-v1/`. Keep Rootfall's broad support-edge grade smooth at the West Hollow junction; the bidirectional regression is in `tests/verdantUplands.test.js`. Shared convex/Author/runtime transforms remain covered by `tests/convexPropCollider.test.js`.
+
+Movement sound presentation belongs to `src/audio/movementAudio.js`: it reads authoritative fixed-step player transitions and requests Jump/Land/Dodge cues from the existing `src/audio/gameAudio.js` audio owner. `main.js` only wires update/reset at movement, modal and placement boundaries. Focused proof: `tests/movementAudio.test.js`; native event/mute/reset recording: `.dream-loop/overnight2-movement-audio/`. The adapter does not own physics, add a frame loop or create another AudioContext.
+
+Gravel path colour follows optional `surface.palette.gravel` through `authoredTerrain.js` → `gravelRoutePaint.js`; absent values retain the existing gray palette. The Author landscape palette exposes it when gravel routes exist, and ordinary palette validation/export applies. `shatterfenBank.test.js` checks exact default pixels and unchanged coverage under a new tint. The ordinary `palette.path` field does not colour gravel routes.
+
+For the tested bpy-dev derivative registered as `blender_lab` and official portable5.2.1, see `docs/BLENDER_MCP_COMPARISON.md`. `tools/art/check-bpy-dev-mcp.py` proves saved-file/API/source-copy operations; `start-blender-lab.ps1` + `blender-lab-workbench.py` launch an isolated loopback19877 review, and `check-blender-lab-live.py` records real viewport/object/rig evidence. Existing4.5/ahujasid production work remains available; loading a new MCP catalog may require a connection refresh.
+
 | Need | Command / source |
 | --- | --- |
 | Local game | `npm run dev` → `tools/serve.mjs` |

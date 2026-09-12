@@ -15,7 +15,8 @@ export function getGravelCoverage(route,x,z){
  const distance=Math.min(rawDistance+drift+bite,rawDistance<-.7?-.3:Infinity);
  return 1-smoothstep(-.16,GRAVEL_PAINT.edgeFeather,distance);
 }
-export function paintGravelRoute(ctx,route){
+export function paintGravelRoute(ctx,route,baseColor){
+ const base=baseColor?baseColor.slice(1).match(/../g).map(channel=>parseInt(channel,16)):GRAVEL_PAINT.base;
  const pad=route.width/2+1,minX=Math.min(...route.points.map(p=>p.x))-pad,minZ=Math.min(...route.points.map(p=>p.z))-pad;
  const width=Math.max(...route.points.map(p=>p.x))+pad-minX,depth=Math.max(...route.points.map(p=>p.z))+pad-minZ;
  const canvas=document.createElement('canvas'),size=getGravelCanvasSize(width,depth);canvas.width=size.width;canvas.height=size.height;
@@ -25,7 +26,7 @@ export function paintGravelRoute(ctx,route){
   const coarse=noise(x*.68,z*.68),grain=hash(Math.floor(x*24),Math.floor(z*24)),pebble=noise(x*8,z*8);
   const light=.91+coarse*.15+(grain-.5)*.09+(pebble>.69?.11:pebble<.24?-.09:0),i=(iz*canvas.width+ix)*4;
   const growth=(1-smoothstep(.22,.78,coverage))*.8,green=[103,126,72];
-  for(let c=0;c<3;c++)pixels[i+c]=Math.round((GRAVEL_PAINT.base[c]*(1-growth)+green[c]*growth)*light);
+  for(let c=0;c<3;c++)pixels[i+c]=Math.round((base[c]*(1-growth)+green[c]*growth)*light);
   pixels[i+3]=Math.round(coverage*(.93+coarse*.07)*255);
  }
  local.putImageData(image,0,0);ctx.drawImage(canvas,minX,minZ,width,depth);

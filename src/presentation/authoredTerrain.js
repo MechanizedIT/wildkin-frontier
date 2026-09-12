@@ -50,7 +50,7 @@ export function createAuthoredTerrain(region){
       const canvas=document.createElement('canvas');canvas.width=canvas.height=2048;const ctx=canvas.getContext('2d');ctx.drawImage(low,0,0,2048,2048);
       ctx.save();ctx.scale(2048/width,2048/depth);ctx.translate(-bounds.minX,-bounds.minZ);ctx.lineCap='round';ctx.lineJoin='round';
       for(const outer of [true,false])for(const route of surface.routes??[]){if(route.paint===false||route.style==='gravel')continue;ctx.strokeStyle=outer?palette.pathEdge:palette.path;ctx.lineWidth=route.width+(outer?.2:0);ctx.beginPath();route.points.forEach((p,i)=>i?ctx.lineTo(p.x,p.z):ctx.moveTo(p.x,p.z));ctx.stroke();}
-      for(const route of surface.routes??[])if(route.paint!==false&&route.style==='gravel')paintGravelRoute(ctx,route);
+      for(const route of surface.routes??[])if(route.paint!==false&&route.style==='gravel')paintGravelRoute(ctx,route,palette.gravel);
       ctx.restore();
       texture=new THREE.CanvasTexture(canvas);
       addGeneratedTerrainPaint(texture,canvas,bounds);

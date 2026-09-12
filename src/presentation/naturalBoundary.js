@@ -11,10 +11,15 @@ function getPlayableSideSupportRange(surface, x, z, nx, nz, support) {
   // Polygon shelves can rise or fall just inside a resized section boundary.
   // Span that local ground range so the shared render/collision face remains
   // continuous instead of hanging below a shelf or stopping short of it.
+  // Sample half a station to either side as well: an authored shelf can meet
+  // the perimeter between stations, where interpolating two local probes
+  // would otherwise leave a low horizontal seam in the cliff face.
   let floor = support, crest = support;
-  for (let step = 1; step <= 4; step++) {
+  const tx = -nz, tz = nx;
+  for (const lateral of [-.5, 0, .5]) for (let step = 0; step <= 4; step++) {
     const distance = NATURAL_BOUNDARY_CONFIG.supportProbeDepth * step / 4;
-    const height = getSurfaceHeight(surface, x - nx * distance, z - nz * distance);
+    const offset = lateral * NATURAL_BOUNDARY_CONFIG.stationSpacing;
+    const height = getSurfaceHeight(surface, x + tx * offset - nx * distance, z + tz * offset - nz * distance);
     floor = Math.min(floor, height);
     crest = Math.max(crest, height);
   }

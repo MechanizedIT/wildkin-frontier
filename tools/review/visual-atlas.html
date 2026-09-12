@@ -56,16 +56,22 @@ atlas.planning=()=>{
 // Companion to the measurement map: an oblique overview reveals real shelf
 // faces. It uses the same scene and sunlight, with no height exaggeration or
 // additional dressing. Do not use its projection for the planning overlay.
-atlas.overview=async(id,{pitch=58,width=1564,height=1006}={})=>{
- const base=await atlas.map(id);overlay.style.display='none';renderer.setSize(width,height);
- const b=registry.getSectionById(id).bounds,cx=(b.minX+b.maxX)/2,cz=(b.minZ+b.maxZ)/2;
+atlas.overview=async(id,{pitch=58,width=1564,height=1006,expanded=false}={})=>{
+ const base=await atlas.map(id,expanded);overlay.style.display='none';renderer.setSize(width,height);
+ const region=registry.getSectionById(id),b=region.bounds,cx=(b.minX+b.maxX)/2,cz=(b.minZ+b.maxZ)/2;
  const radians=THREE.MathUtils.degToRad(pitch),aspect=width/height;
- const halfWidth=(b.maxX-b.minX+8)/2;
+ // Wide Verdant already fits by width. Square/deep regions also need their
+ // inclined depth and a terrain/canopy margin, otherwise Camp gets cropped.
+ const headroom=Math.max(16,...(region.surface?.heights??[]).map(shape=>(shape.height??0)+10));
+ const halfWidth=Math.max((b.maxX-b.minX+8)/2,((b.maxZ-b.minZ+8)*Math.sin(radians)+headroom*Math.cos(radians))*aspect/2);
  camera.up.set(0,1,0);camera.left=-halfWidth;camera.right=halfWidth;
  camera.top=halfWidth/aspect;camera.bottom=-halfWidth/aspect;
  camera.position.set(cx,250*Math.sin(radians),cz+250*Math.cos(radians));
  camera.lookAt(cx,2,cz);camera.updateProjectionMatrix();scene.updateMatrixWorld(true);renderer.render(scene,camera);
- return{...base,view:'Oblique overview; real terrain heights, no exaggeration; not a metric planning map',pitch,imageSize:{width,height},camera:{position:camera.position.toArray(),target:[cx,2,cz]},render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles}};
+ // The metric top-down mapping does not apply to an inclined view. Record
+ // actual camera-projected anchor pixels instead of carrying false coordinates.
+ const projected=base.anchors.map(a=>{const p=new THREE.Vector3(a.world.x,a.world.y,a.world.z).project(camera);return{...a,pixel:{x:(p.x+1)*width/2,y:(1-p.y)*height/2}};});
+ return{id:base.id,name:base.name,authoredBounds:base.authoredBounds,snapshot:base.snapshot,anchors:projected,north:'world -Z; tilted view, height affects pixel position',view:'Oblique overview; real terrain heights, no exaggeration; not a metric planning map',pitch,imageSize:{width,height},camera:{position:camera.position.toArray(),target:[cx,2,cz],projection:camera.projectionMatrix.toArray(),view:camera.matrixWorldInverse.toArray()},render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles}};
 };
 const modelScene=new THREE.Scene();modelScene.background=new THREE.Color('#d9ded2');modelScene.add(new THREE.HemisphereLight(0xffffff,0x70765d,2));const light=new THREE.DirectionalLight(0xfff5df,2.1);light.position.set(-5,9,6);modelScene.add(light);
 const modelRoot=new THREE.Group();modelScene.add(modelRoot);const modelCamera=new THREE.OrthographicCamera(-1,1,1,-1,.01,1000);

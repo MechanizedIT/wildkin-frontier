@@ -1723,9 +1723,9 @@ export const WORLD_DATA = {
           "id": "prop_verdant_woodland_east-toe_01",
           "opacity": 1,
           "pos": {
-            "x": 34,
+            "x": 42,
             "y": 0,
-            "z": 28
+            "z": 25
           },
           "rotY": -3.141592653589793,
           "subtype": "visualAsset",
@@ -1738,9 +1738,9 @@ export const WORLD_DATA = {
           "id": "prop_verdant_woodland_east-toe_02",
           "opacity": 1,
           "pos": {
-            "x": 45,
+            "x": 48,
             "y": 0,
-            "z": 27
+            "z": 25
           },
           "rotY": -2.431592653589793,
           "subtype": "visualAsset",
@@ -1753,28 +1753,13 @@ export const WORLD_DATA = {
           "id": "prop_verdant_woodland_east-toe_03",
           "opacity": 1,
           "pos": {
-            "x": 38,
-            "y": 0.7713,
+            "x": 39,
+            "y": 0.6286,
             "z": 21
           },
           "rotY": -1.7215926535897932,
           "subtype": "visualAsset",
-          "uniformScale": 1.88,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_east-toe_04",
-          "opacity": 1,
-          "pos": {
-            "x": 31,
-            "y": 2.5797,
-            "z": 20
-          },
-          "rotY": -1.0115926535897932,
-          "subtype": "visualAsset",
-          "uniformScale": 2.24,
+          "uniformScale": 2.64,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -1785,13 +1770,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 62,
             "y": 0,
-            "z": 16
+            "z": 17
           },
-          "rotY": -0.30159265358979326,
+          "rotY": -1.0115926535897932,
           "subtype": "visualAsset",
-          "uniformScale": 2.22,
+          "uniformScale": 2.24,
           "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_spread"
+          "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
@@ -1802,9 +1787,9 @@ export const WORLD_DATA = {
             "y": 0,
             "z": 10
           },
-          "rotY": 0.4084073464102067,
+          "rotY": -0.30159265358979326,
           "subtype": "visualAsset",
-          "uniformScale": 2.46,
+          "uniformScale": 2.58,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -1813,43 +1798,13 @@ export const WORLD_DATA = {
           "id": "prop_verdant_woodland_east-mid-face_03",
           "opacity": 1,
           "pos": {
-            "x": 58,
+            "x": 57,
             "y": 0,
-            "z": 12
+            "z": 16
           },
-          "rotY": 1.1184073464102067,
+          "rotY": 0.4084073464102067,
           "subtype": "visualAsset",
-          "uniformScale": 2.12,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_east-mid-face_04",
-          "opacity": 1,
-          "pos": {
-            "x": 55,
-            "y": 0,
-            "z": 15
-          },
-          "rotY": 1.8284073464102066,
-          "subtype": "visualAsset",
-          "uniformScale": 1.72,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_east-mid-face_05",
-          "opacity": 1,
-          "pos": {
-            "x": 60,
-            "y": 0,
-            "z": 22
-          },
-          "rotY": 2.5384073464102066,
-          "subtype": "visualAsset",
-          "uniformScale": 2.64,
+          "uniformScale": 2.46,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -1858,13 +1813,13 @@ export const WORLD_DATA = {
           "id": "prop_verdant_woodland_east-outer-crest_01",
           "opacity": 1,
           "pos": {
-            "x": 65,
+            "x": 64,
             "y": 0,
             "z": -5
           },
-          "rotY": -3.0347779607693797,
+          "rotY": 1.1184073464102067,
           "subtype": "visualAsset",
-          "uniformScale": 1.96,
+          "uniformScale": 1.84,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy_spread"
         },
@@ -1877,9 +1832,9 @@ export const WORLD_DATA = {
             "y": 0,
             "z": -11
           },
-          "rotY": -2.3247779607693797,
+          "rotY": 1.8284073464102066,
           "subtype": "visualAsset",
-          "uniformScale": 2.58,
+          "uniformScale": 2.36,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -1890,11 +1845,11 @@ export const WORLD_DATA = {
           "pos": {
             "x": 59,
             "y": 0,
-            "z": -1
+            "z": 2
           },
-          "rotY": -1.6147779607693797,
+          "rotY": 2.5384073464102066,
           "subtype": "visualAsset",
-          "uniformScale": 2.46,
+          "uniformScale": 2.64,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -1903,28 +1858,13 @@ export const WORLD_DATA = {
           "id": "prop_verdant_woodland_east-outer-crest_04",
           "opacity": 1,
           "pos": {
-            "x": 61,
-            "y": 0,
-            "z": 7
-          },
-          "rotY": -0.9047779607693798,
-          "subtype": "visualAsset",
-          "uniformScale": 1.54,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_east-outer-crest_05",
-          "opacity": 1,
-          "pos": {
             "x": 65,
             "y": 0,
-            "z": 2
+            "z": 6
           },
-          "rotY": -0.19477796076937892,
+          "rotY": -3.0347779607693797,
           "subtype": "visualAsset",
-          "uniformScale": 2.36,
+          "uniformScale": 2.24,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -1935,13 +1875,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 57,
             "y": 0,
-            "z": -15
+            "z": -16
           },
-          "rotY": 0.5152220392306202,
+          "rotY": -2.3247779607693797,
           "subtype": "visualAsset",
-          "uniformScale": 2.34,
+          "uniformScale": 2.58,
           "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_spread"
+          "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
@@ -1949,12 +1889,12 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 48,
-            "y": 0.0241,
+            "y": 0,
             "z": -24
           },
-          "rotY": 1.2252220392306192,
+          "rotY": -1.6147779607693797,
           "subtype": "visualAsset",
-          "uniformScale": 2.24,
+          "uniformScale": 2.46,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -1963,13 +1903,13 @@ export const WORLD_DATA = {
           "id": "prop_verdant_woodland_east-south-face_03",
           "opacity": 1,
           "pos": {
-            "x": 43,
+            "x": 44,
             "y": 6.2,
-            "z": -27
+            "z": -28
           },
-          "rotY": 1.93522203923062,
+          "rotY": -0.9047779607693798,
           "subtype": "visualAsset",
-          "uniformScale": 2.58,
+          "uniformScale": 2.12,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -1978,28 +1918,13 @@ export const WORLD_DATA = {
           "id": "prop_verdant_woodland_east-south-face_04",
           "opacity": 1,
           "pos": {
-            "x": 56,
-            "y": 0.0242,
-            "z": -25
-          },
-          "rotY": 2.645222039230621,
-          "subtype": "visualAsset",
-          "uniformScale": 1.68,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_east-south-face_05",
-          "opacity": 1,
-          "pos": {
-            "x": 60,
+            "x": 59,
             "y": 0,
-            "z": -20
+            "z": -23
           },
-          "rotY": -2.927963267948966,
+          "rotY": -0.19477796076937892,
           "subtype": "visualAsset",
-          "uniformScale": 2.12,
+          "uniformScale": 2.36,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -2012,9 +1937,9 @@ export const WORLD_DATA = {
             "y": 1.2434,
             "z": -21
           },
-          "rotY": -2.217963267948967,
+          "rotY": 0.5152220392306202,
           "subtype": "visualAsset",
-          "uniformScale": 2.06,
+          "uniformScale": 2.34,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy_spread"
         },
@@ -2027,9 +1952,9 @@ export const WORLD_DATA = {
             "y": 0,
             "z": 27
           },
-          "rotY": -1.5079632679489663,
+          "rotY": 1.2252220392306192,
           "subtype": "visualAsset",
-          "uniformScale": 2.64,
+          "uniformScale": 2.24,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -2040,11 +1965,11 @@ export const WORLD_DATA = {
           "pos": {
             "x": -61,
             "y": 0,
-            "z": 30
+            "z": 31
           },
-          "rotY": -0.7979632679489654,
+          "rotY": 1.93522203923062,
           "subtype": "visualAsset",
-          "uniformScale": 2.24,
+          "uniformScale": 2.58,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -2053,26 +1978,11 @@ export const WORLD_DATA = {
           "id": "prop_verdant_woodland_west-bank-upper_03",
           "opacity": 1,
           "pos": {
-            "x": -58,
+            "x": -66,
             "y": 0,
-            "z": 27
+            "z": 19
           },
-          "rotY": -0.08796326794896636,
-          "subtype": "visualAsset",
-          "uniformScale": 1.8,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_west-bank-upper_04",
-          "opacity": 1,
-          "pos": {
-            "x": -65,
-            "y": 0,
-            "z": 21
-          },
-          "rotY": 0.6220367320510327,
+          "rotY": 2.645222039230621,
           "subtype": "visualAsset",
           "uniformScale": 2.46,
           "visibleInPlay": true,
@@ -2080,18 +1990,18 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_west-bank-upper_05",
+          "id": "prop_verdant_woodland_west-bank-upper_04",
           "opacity": 1,
           "pos": {
-            "x": -61,
+            "x": -59,
             "y": 0,
-            "z": 19
+            "z": 25
           },
-          "rotY": 1.3320367320510336,
+          "rotY": -2.927963267948966,
           "subtype": "visualAsset",
-          "uniformScale": 1.84,
+          "uniformScale": 2.12,
           "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_spread"
+          "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
@@ -2102,7 +2012,7 @@ export const WORLD_DATA = {
             "y": 0,
             "z": 12
           },
-          "rotY": 2.0420367320510344,
+          "rotY": -2.217963267948967,
           "subtype": "visualAsset",
           "uniformScale": 2.36,
           "visibleInPlay": true,
@@ -2115,9 +2025,9 @@ export const WORLD_DATA = {
           "pos": {
             "x": -63,
             "y": 0,
-            "z": 8
+            "z": 7
           },
-          "rotY": 2.7520367320510353,
+          "rotY": -1.5079632679489663,
           "subtype": "visualAsset",
           "uniformScale": 2.64,
           "visibleInPlay": true,
@@ -2130,13 +2040,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": -65,
             "y": 0,
-            "z": 4
+            "z": 1
           },
-          "rotY": -2.8211485751285537,
+          "rotY": -0.7979632679489654,
           "subtype": "visualAsset",
-          "uniformScale": 1.62,
+          "uniformScale": 2.24,
           "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
+          "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
@@ -2144,27 +2054,12 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -61,
-            "y": 0,
-            "z": 1
-          },
-          "rotY": -2.111148575128553,
-          "subtype": "visualAsset",
-          "uniformScale": 2.58,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_west-bank-mid_05",
-          "opacity": 1,
-          "pos": {
-            "x": -65,
-            "y": 0,
+            "y": -0.0437,
             "z": -3
           },
-          "rotY": -1.401148575128552,
+          "rotY": -0.08796326794896636,
           "subtype": "visualAsset",
-          "uniformScale": 2.12,
+          "uniformScale": 2.22,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy_spread"
         },
@@ -2174,12 +2069,12 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -65,
-            "y": 0,
-            "z": -11
+            "y": -0.0595,
+            "z": -12
           },
-          "rotY": -0.6911485751285547,
+          "rotY": 0.6220367320510327,
           "subtype": "visualAsset",
-          "uniformScale": 2.12,
+          "uniformScale": 2.46,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -2189,8 +2084,113 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -62,
+            "y": -0.0525,
+            "z": -18
+          },
+          "rotY": 1.3320367320510336,
+          "subtype": "visualAsset",
+          "uniformScale": 2.12,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_west-bank-lower_03",
+          "opacity": 1,
+          "pos": {
+            "x": -64,
             "y": 0,
-            "z": -15
+            "z": -26
+          },
+          "rotY": 2.0420367320510344,
+          "subtype": "visualAsset",
+          "uniformScale": 2.36,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_mossling-pocket_01",
+          "opacity": 1,
+          "pos": {
+            "x": -51,
+            "y": -0.0069,
+            "z": -1
+          },
+          "rotY": 2.7520367320510353,
+          "subtype": "visualAsset",
+          "uniformScale": 1.62,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy_tall"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_mossling-pocket_02",
+          "opacity": 1,
+          "pos": {
+            "x": -35,
+            "y": 1.2786,
+            "z": 21
+          },
+          "rotY": -2.8211485751285537,
+          "subtype": "visualAsset",
+          "uniformScale": 2.24,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_hollow-gateway_01",
+          "opacity": 1,
+          "pos": {
+            "x": -31,
+            "y": 1.1306,
+            "z": 20
+          },
+          "rotY": -2.111148575128553,
+          "subtype": "visualAsset",
+          "uniformScale": 2.58,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_arrival-shoulder-west_01",
+          "opacity": 1,
+          "pos": {
+            "x": -33,
+            "y": 0,
+            "z": 39
+          },
+          "rotY": -1.401148575128552,
+          "subtype": "visualAsset",
+          "uniformScale": 1.72,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy_tall"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_arrival-shoulder-west_02",
+          "opacity": 1,
+          "pos": {
+            "x": -29,
+            "y": 0,
+            "z": 34
+          },
+          "rotY": -0.6911485751285547,
+          "subtype": "visualAsset",
+          "uniformScale": 1.84,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy_spread"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_arrival-shoulder-west_03",
+          "opacity": 1,
+          "pos": {
+            "x": -35,
+            "y": 0,
+            "z": 35
           },
           "rotY": 0.0188514248714462,
           "subtype": "visualAsset",
@@ -2200,27 +2200,27 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_west-bank-lower_03",
+          "id": "prop_verdant_woodland_arrival-shoulder-east_01",
           "opacity": 1,
           "pos": {
-            "x": -65,
+            "x": 30,
             "y": 0,
-            "z": -19
+            "z": 36
           },
           "rotY": 0.728851424871447,
           "subtype": "visualAsset",
-          "uniformScale": 1.88,
+          "uniformScale": 2.64,
           "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
+          "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_west-bank-lower_04",
+          "id": "prop_verdant_woodland_arrival-shoulder-east_02",
           "opacity": 1,
           "pos": {
-            "x": -60,
+            "x": 36,
             "y": 0,
-            "z": -22
+            "z": 39
           },
           "rotY": 1.438851424871448,
           "subtype": "visualAsset",
@@ -2230,41 +2230,41 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_west-bank-lower_05",
+          "id": "prop_verdant_woodland_central-island_01",
           "opacity": 1,
           "pos": {
-            "x": -62,
-            "y": 0,
-            "z": -27
+            "x": -26,
+            "y": 1.0756,
+            "z": 1
           },
           "rotY": 2.1488514248714488,
           "subtype": "visualAsset",
-          "uniformScale": 2.22,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_spread"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_mossling-pocket_01",
-          "opacity": 1,
-          "pos": {
-            "x": -50,
-            "y": -0.3,
-            "z": -1
-          },
-          "rotY": 2.858851424871446,
-          "subtype": "visualAsset",
-          "uniformScale": 2.46,
+          "uniformScale": 2.58,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_mossling-pocket_02",
+          "id": "prop_verdant_woodland_central-island_02",
           "opacity": 1,
           "pos": {
-            "x": -35,
-            "y": 1.3,
+            "x": -21,
+            "y": 0,
+            "z": 0
+          },
+          "rotY": 2.858851424871446,
+          "subtype": "visualAsset",
+          "uniformScale": 1.92,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy_spread"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_central-island_03",
+          "opacity": 1,
+          "pos": {
+            "x": -17,
+            "y": 0,
             "z": -2
           },
           "rotY": -2.7143338823081393,
@@ -2275,57 +2275,57 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_mossling-pocket_03",
+          "id": "prop_verdant_woodland_central-island_04",
           "opacity": 1,
           "pos": {
-            "x": -34,
-            "y": 1.3,
-            "z": 17
+            "x": -20,
+            "y": 0,
+            "z": 3
           },
           "rotY": -2.0043338823081385,
           "subtype": "visualAsset",
-          "uniformScale": 1.72,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_hollow-gateway_01",
-          "opacity": 1,
-          "pos": {
-            "x": -31,
-            "y": 0.7557,
-            "z": 21
-          },
-          "rotY": -1.2943338823081412,
-          "subtype": "visualAsset",
-          "uniformScale": 2.64,
+          "uniformScale": 2.36,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_hollow-gateway_02",
+          "id": "prop_verdant_woodland_lookout-backdrop_01",
           "opacity": 1,
           "pos": {
-            "x": -26,
+            "x": -15,
             "y": 0,
-            "z": 22
+            "z": 7
           },
-          "rotY": -0.5843338823081403,
+          "rotY": -1.2943338823081412,
           "subtype": "visualAsset",
-          "uniformScale": 1.96,
+          "uniformScale": 1.68,
           "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_spread"
+          "visualAssetId": "asset_verge_canopy_tall"
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_hollow-gateway_03",
+          "id": "prop_verdant_woodland_lookout-backdrop_02",
           "opacity": 1,
           "pos": {
-            "x": -34,
-            "y": 1.3,
-            "z": 18
+            "x": -13,
+            "y": 0,
+            "z": 3
+          },
+          "rotY": -0.5843338823081403,
+          "subtype": "visualAsset",
+          "uniformScale": 2.24,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_lookout-backdrop_03",
+          "opacity": 1,
+          "pos": {
+            "x": -10,
+            "y": 0,
+            "z": 5
           },
           "rotY": 0.12566611769186053,
           "subtype": "visualAsset",
@@ -2335,12 +2335,12 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_arrival-curtain-west_01",
+          "id": "prop_verdant_woodland_north-return-island_01",
           "opacity": 1,
           "pos": {
-            "x": -22,
+            "x": -14,
             "y": 0,
-            "z": 31
+            "z": -14
           },
           "rotY": 0.8356661176918614,
           "subtype": "visualAsset",
@@ -2350,27 +2350,27 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_arrival-curtain-west_02",
+          "id": "prop_verdant_woodland_north-return-island_02",
           "opacity": 1,
           "pos": {
             "x": -20,
             "y": 0,
-            "z": 27
+            "z": -14
           },
           "rotY": 1.5456661176918622,
           "subtype": "visualAsset",
-          "uniformScale": 1.54,
+          "uniformScale": 2.12,
           "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
+          "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_arrival-curtain-west_03",
+          "id": "prop_verdant_woodland_north-return-island_03",
           "opacity": 1,
           "pos": {
-            "x": -17,
+            "x": -13,
             "y": 0,
-            "z": 24
+            "z": -15
           },
           "rotY": 2.2556661176918595,
           "subtype": "visualAsset",
@@ -2380,27 +2380,27 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_arrival-curtain-west_04",
+          "id": "prop_verdant_woodland_east-low-face_01",
           "opacity": 1,
           "pos": {
-            "x": -19,
-            "y": 0,
-            "z": 29
+            "x": 18,
+            "y": 1.0221,
+            "z": 0
           },
           "rotY": 2.9656661176918604,
           "subtype": "visualAsset",
-          "uniformScale": 2.34,
+          "uniformScale": 2.64,
           "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_spread"
+          "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_arrival-curtain-east_01",
+          "id": "prop_verdant_woodland_east-low-face_02",
           "opacity": 1,
           "pos": {
-            "x": 27,
-            "y": 0,
-            "z": 27
+            "x": 21,
+            "y": 3,
+            "z": -4
           },
           "rotY": -2.607519189487725,
           "subtype": "visualAsset",
@@ -2410,42 +2410,42 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_arrival-curtain-east_02",
+          "id": "prop_verdant_woodland_east-low-face_03",
           "opacity": 1,
           "pos": {
-            "x": 30,
-            "y": 0.1438,
-            "z": 23
+            "x": 22,
+            "y": 3,
+            "z": 3
           },
           "rotY": -1.8975191894877277,
           "subtype": "visualAsset",
-          "uniformScale": 2.58,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-west-throat_01",
-          "opacity": 1,
-          "pos": {
-            "x": -28,
-            "y": 4.8,
-            "z": -31
-          },
-          "rotY": -1.1875191894877268,
-          "subtype": "visualAsset",
-          "uniformScale": 1.68,
+          "uniformScale": 1.74,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy_tall"
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-west-throat_02",
+          "id": "prop_verdant_woodland_rootfall-west-shoulder_01",
           "opacity": 1,
           "pos": {
-            "x": -23,
+            "x": -52,
             "y": 4.8,
             "z": -29
+          },
+          "rotY": -1.1875191894877268,
+          "subtype": "visualAsset",
+          "uniformScale": 2.46,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_rootfall-west-shoulder_02",
+          "opacity": 1,
+          "pos": {
+            "x": -35,
+            "y": 0.4883,
+            "z": -25
           },
           "rotY": -0.477519189487726,
           "subtype": "visualAsset",
@@ -2455,27 +2455,27 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-west-throat_03",
+          "id": "prop_verdant_woodland_rootfall-west-shoulder_03",
           "opacity": 1,
           "pos": {
-            "x": -26,
+            "x": -23,
             "y": 4.8,
-            "z": -27
+            "z": -29
           },
           "rotY": 0.23248081051227487,
           "subtype": "visualAsset",
-          "uniformScale": 2.06,
+          "uniformScale": 2.36,
           "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_spread"
+          "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-west-throat_04",
+          "id": "prop_verdant_woodland_rootfall-west-shoulder_04",
           "opacity": 1,
           "pos": {
             "x": -20,
             "y": 4.8,
-            "z": -33
+            "z": -34
           },
           "rotY": 0.9424808105122757,
           "subtype": "visualAsset",
@@ -2485,40 +2485,40 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-east-throat_01",
+          "id": "prop_verdant_woodland_rootfall-east-shoulder_01",
           "opacity": 1,
           "pos": {
-            "x": 25,
+            "x": 24,
             "y": 6.2,
             "z": -28
           },
           "rotY": 1.6524808105122766,
           "subtype": "visualAsset",
-          "uniformScale": 2.24,
+          "uniformScale": 1.92,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy_spread"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_woodland_rootfall-east-shoulder_02",
+          "opacity": 1,
+          "pos": {
+            "x": 28,
+            "y": 0.0092,
+            "z": -25
+          },
+          "rotY": 2.3624808105122774,
+          "subtype": "visualAsset",
+          "uniformScale": 2.58,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-east-throat_02",
+          "id": "prop_verdant_woodland_rootfall-east-shoulder_03",
           "opacity": 1,
           "pos": {
-            "x": 27,
-            "y": 0.1319,
-            "z": -24
-          },
-          "rotY": 2.3624808105122774,
-          "subtype": "visualAsset",
-          "uniformScale": 1.8,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-east-throat_03",
-          "opacity": 1,
-          "pos": {
-            "x": 22,
+            "x": 37,
             "y": 6.2,
             "z": -31
           },
@@ -2530,12 +2530,12 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-east-mass_01",
+          "id": "prop_verdant_woodland_rootfall-east-shoulder_04",
           "opacity": 1,
           "pos": {
-            "x": 32,
-            "y": 6.2,
-            "z": -29
+            "x": 46,
+            "y": 5.5169,
+            "z": -27
           },
           "rotY": -2.500704496667314,
           "subtype": "visualAsset",
@@ -2545,12 +2545,12 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-east-mass_02",
+          "id": "prop_verdant_woodland_rootfall-east-shoulder_05",
           "opacity": 1,
           "pos": {
-            "x": 42,
+            "x": 53,
             "y": 6.2,
-            "z": -30
+            "z": -31
           },
           "rotY": -1.7907044966673134,
           "subtype": "visualAsset",
@@ -2560,46 +2560,16 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-east-mass_03",
+          "id": "prop_verdant_woodland_rootfall-east-shoulder_06",
           "opacity": 1,
           "pos": {
-            "x": 46,
-            "y": 6.1958,
-            "z": -27
+            "x": 61,
+            "y": 0,
+            "z": -29
           },
           "rotY": -1.0807044966673125,
           "subtype": "visualAsset",
           "uniformScale": 2.64,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-east-mass_04",
-          "opacity": 1,
-          "pos": {
-            "x": 37,
-            "y": 6.2,
-            "z": -32
-          },
-          "rotY": -0.37070449666731164,
-          "subtype": "visualAsset",
-          "uniformScale": 1.62,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_verdant_woodland_rootfall-east-mass_05",
-          "opacity": 1,
-          "pos": {
-            "x": 47,
-            "y": 6.2,
-            "z": -34
-          },
-          "rotY": 0.3392955033326892,
-          "subtype": "visualAsset",
-          "uniformScale": 2.58,
           "visibleInPlay": true,
           "visualAssetId": "asset_verge_canopy"
         },
@@ -2635,6 +2605,21 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": false,
+          "id": "prop_verdant_arrival_curtain_root",
+          "opacity": 1,
+          "pos": {
+            "x": -23,
+            "y": 0,
+            "z": 25
+          },
+          "rotY": -0.24,
+          "subtype": "visualAsset",
+          "uniformScale": 1.14,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
           "id": "prop_verdant_berry_hollow",
           "opacity": 1,
           "pos": {
@@ -2653,30 +2638,30 @@ export const WORLD_DATA = {
           "id": "prop_verdant_shore_stone_a",
           "opacity": 1,
           "pos": {
-            "x": -59,
-            "y": -0.1266,
-            "z": 12
+            "x": -50,
+            "y": -0.42,
+            "z": 11
           },
-          "rotY": 0.22,
+          "rotY": -0.2,
           "subtype": "visualAsset",
-          "uniformScale": 1.16,
+          "uniformScale": 1.3,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_toe"
         },
         {
           "collisionEnabled": true,
           "id": "prop_verdant_shore_stone_b",
           "opacity": 1,
           "pos": {
-            "x": -57,
-            "y": -0.0733,
-            "z": -14
+            "x": -47,
+            "y": -0.42,
+            "z": -15
           },
-          "rotY": -0.16,
+          "rotY": 2.4,
           "subtype": "visualAsset",
-          "uniformScale": 1.12,
+          "uniformScale": 1.2,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_ledge"
         },
         {
           "collisionEnabled": false,
@@ -2699,7 +2684,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -56,
-            "y": -0.073,
+            "y": 0,
             "z": 27
           },
           "rotY": 0.3,
@@ -2714,7 +2699,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -60,
-            "y": 0,
+            "y": -0.1819,
             "z": -1
           },
           "rotY": -0.18,
@@ -2729,7 +2714,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -53,
-            "y": 1.2053,
+            "y": 3.0474,
             "z": -27
           },
           "rotY": 0.48,
@@ -2759,7 +2744,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -49,
-            "y": -0.3,
+            "y": 0,
             "z": 9
           },
           "rotY": 0.24,
@@ -2774,115 +2759,115 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -35,
-            "y": 1.3,
+            "y": 1.18,
             "z": 5
           },
-          "rotY": -0.18,
+          "rotY": -0.5,
           "subtype": "visualAsset",
-          "uniformScale": 1.08,
+          "uniformScale": 1,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_toe"
         },
         {
           "collisionEnabled": true,
           "id": "prop_verdant_east_toe_stone",
           "opacity": 1,
           "pos": {
-            "x": 22,
-            "y": 0,
-            "z": 21
+            "x": 25.2,
+            "y": -0.12,
+            "z": 21.3
           },
-          "rotY": -0.12,
+          "rotY": 0.38,
           "subtype": "visualAsset",
           "uniformScale": 1.28,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_toe"
         },
         {
           "collisionEnabled": true,
           "id": "prop_verdant_east_face_stone_a",
           "opacity": 1,
           "pos": {
-            "x": 29,
-            "y": 0.5194,
-            "z": 22
+            "x": 29.1,
+            "y": -0.12,
+            "z": 21.4
           },
-          "rotY": 0.22,
+          "rotY": 0.24,
           "subtype": "visualAsset",
-          "uniformScale": 1.3,
+          "uniformScale": 1.34,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_buttress"
         },
         {
           "collisionEnabled": true,
           "id": "prop_verdant_east_face_stone_b",
           "opacity": 1,
           "pos": {
-            "x": 53,
-            "y": 0,
-            "z": 17
+            "x": 28.7,
+            "y": 2.88,
+            "z": 3.1
           },
-          "rotY": -0.2,
+          "rotY": -1.4907963267948965,
           "subtype": "visualAsset",
-          "uniformScale": 1.24,
+          "uniformScale": 1.58,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_buttress"
         },
         {
           "collisionEnabled": true,
           "id": "prop_verdant_east_face_stone_c",
           "opacity": 1,
           "pos": {
-            "x": 58,
-            "y": 0,
-            "z": 7
+            "x": 29.1,
+            "y": 2.88,
+            "z": -2
           },
-          "rotY": 0.16,
+          "rotY": -1.4707963267948965,
           "subtype": "visualAsset",
-          "uniformScale": 1.35,
+          "uniformScale": 1.56,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_buttress"
         },
         {
           "collisionEnabled": true,
           "id": "prop_verdant_east_face_stone_d",
           "opacity": 1,
           "pos": {
-            "x": 54,
-            "y": 0,
-            "z": -14
+            "x": 29.7,
+            "y": 2.88,
+            "z": -6.4
           },
-          "rotY": -0.12,
+          "rotY": -1.2907963267948965,
           "subtype": "visualAsset",
-          "uniformScale": 1.42,
+          "uniformScale": 1.46,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_ledge"
         },
         {
           "collisionEnabled": true,
           "id": "prop_verdant_east_face_stone_e",
           "opacity": 1,
           "pos": {
-            "x": 43,
-            "y": 0,
-            "z": -22
+            "x": 34,
+            "y": 2.1409,
+            "z": 18.3
           },
-          "rotY": 0.2,
+          "rotY": -0.22,
           "subtype": "visualAsset",
-          "uniformScale": 1.3,
+          "uniformScale": 1.22,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_buttress"
         },
         {
           "collisionEnabled": false,
           "id": "prop_verdant_east_face_root_a",
           "opacity": 1,
           "pos": {
-            "x": 49,
-            "y": 0,
-            "z": 20
+            "x": 35.5,
+            "y": 1.9473,
+            "z": 20.1
           },
-          "rotY": 0.32,
+          "rotY": 0.18,
           "subtype": "visualAsset",
           "uniformScale": 1.42,
           "visibleInPlay": true,
@@ -2893,11 +2878,11 @@ export const WORLD_DATA = {
           "id": "prop_verdant_east_face_root_b",
           "opacity": 1,
           "pos": {
-            "x": 63,
+            "x": 58.1,
             "y": 0,
-            "z": 4
+            "z": 4.6
           },
-          "rotY": -0.28,
+          "rotY": -0.44,
           "subtype": "visualAsset",
           "uniformScale": 1.5,
           "visibleInPlay": true,
@@ -2908,11 +2893,11 @@ export const WORLD_DATA = {
           "id": "prop_verdant_east_face_root_c",
           "opacity": 1,
           "pos": {
-            "x": 50,
-            "y": 0,
-            "z": -22
+            "x": 26.3,
+            "y": 3,
+            "z": -7.8
           },
-          "rotY": 0.2,
+          "rotY": -0.34,
           "subtype": "visualAsset",
           "uniformScale": 1.46,
           "visibleInPlay": true,
@@ -2923,30 +2908,30 @@ export const WORLD_DATA = {
           "id": "prop_verdant_shelf_stone",
           "opacity": 1,
           "pos": {
-            "x": 53,
-            "y": 0.5719,
-            "z": -4
+            "x": 52,
+            "y": -0.0152,
+            "z": -3
           },
-          "rotY": 0.2,
+          "rotY": 1.3907963267948966,
           "subtype": "visualAsset",
-          "uniformScale": 1.35,
+          "uniformScale": 1.5,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_buttress"
         },
         {
           "collisionEnabled": true,
           "id": "prop_verdant_overlook_stone",
           "opacity": 1,
           "pos": {
-            "x": 29,
-            "y": 7.5267,
-            "z": -14
+            "x": 23,
+            "y": 2.88,
+            "z": -13
           },
           "rotY": -0.2,
           "subtype": "visualAsset",
-          "uniformScale": 1.18,
+          "uniformScale": 0.9,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_toe"
         },
         {
           "collisionEnabled": false,
@@ -2962,6 +2947,21 @@ export const WORLD_DATA = {
           "uniformScale": 1.08,
           "visibleInPlay": true,
           "visualAssetId": "asset_trail_stones"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_verdant_shelf_cache_root",
+          "opacity": 1,
+          "pos": {
+            "x": 42,
+            "y": 5.5556,
+            "z": -12
+          },
+          "rotY": -0.38,
+          "subtype": "visualAsset",
+          "uniformScale": 1.18,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
         },
         {
           "collisionEnabled": false,
@@ -2999,14 +2999,14 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -15,
-            "y": 0.6988,
+            "y": -0.12,
             "z": -28
           },
-          "rotY": 0.28,
+          "rotY": 0.6,
           "subtype": "visualAsset",
-          "uniformScale": 1.3,
+          "uniformScale": 1.35,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_buttress"
         },
         {
           "collisionEnabled": true,
@@ -3014,14 +3014,14 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 15,
-            "y": 0.6993,
+            "y": -0.12,
             "z": -28
           },
-          "rotY": -0.22,
+          "rotY": -0.6,
           "subtype": "visualAsset",
-          "uniformScale": 1.34,
+          "uniformScale": 1.35,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_buttress"
         },
         {
           "collisionEnabled": false,
@@ -3059,7 +3059,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -28,
-            "y": 4.7461,
+            "y": 3.4066,
             "z": -26
           },
           "rotY": 0.3,
@@ -3073,15 +3073,15 @@ export const WORLD_DATA = {
           "id": "prop_verdant_lookout_rest_stone",
           "opacity": 1,
           "pos": {
-            "x": -9,
-            "y": 0,
-            "z": 10
+            "x": -10.5,
+            "y": -0.12,
+            "z": 11
           },
           "rotY": 0.18,
           "subtype": "visualAsset",
-          "uniformScale": 1.1,
+          "uniformScale": 0.85,
           "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
+          "visualAssetId": "asset_verdant_cliff_toe"
         },
         {
           "collisionEnabled": false,
@@ -3095,6 +3095,36 @@ export const WORLD_DATA = {
           "rotY": -0.2,
           "subtype": "visualAsset",
           "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_verdant_lookout_sightline_root",
+          "opacity": 1,
+          "pos": {
+            "x": -8,
+            "y": 0,
+            "z": 5
+          },
+          "rotY": -0.68,
+          "subtype": "visualAsset",
+          "uniformScale": 1.16,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fallen_log"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_verdant_lookout_sightline_groundcover",
+          "opacity": 1,
+          "pos": {
+            "x": -4.5,
+            "y": 0,
+            "z": 5
+          },
+          "rotY": 0.28,
+          "subtype": "visualAsset",
+          "uniformScale": 1.12,
           "visibleInPlay": true,
           "visualAssetId": "asset_mushroom_ring"
         },
@@ -3217,6 +3247,66 @@ export const WORLD_DATA = {
           "uniformScale": 1,
           "visibleInPlay": true,
           "visualAssetId": "asset_berry_bush"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_cliff_lower_shoulder",
+          "opacity": 1,
+          "pos": {
+            "x": 31.4,
+            "y": 1.8139,
+            "z": 19.1
+          },
+          "rotY": -0.04,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verdant_cliff_buttress"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_cliff_west_foot",
+          "opacity": 1,
+          "pos": {
+            "x": 27.2,
+            "y": 2.88,
+            "z": 0.2
+          },
+          "rotY": -1.28,
+          "subtype": "visualAsset",
+          "uniformScale": 1.34,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verdant_cliff_toe"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_cliff_outer_shoulder",
+          "opacity": 1,
+          "pos": {
+            "x": 56,
+            "y": -0.12,
+            "z": -1.5
+          },
+          "rotY": 1.6207963267948966,
+          "subtype": "visualAsset",
+          "uniformScale": 1.38,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verdant_cliff_buttress"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_verdant_cliff_outer_foot",
+          "opacity": 1,
+          "pos": {
+            "x": 57.2,
+            "y": -0.12,
+            "z": 2.4
+          },
+          "rotY": 0.74,
+          "subtype": "visualAsset",
+          "uniformScale": 1.16,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verdant_cliff_toe"
         }
       ],
       "resources": [
@@ -3315,7 +3405,7 @@ export const WORLD_DATA = {
           "level": 1,
           "pos": {
             "x": -9,
-            "y": 0,
+            "y": 0.4438,
             "z": -22
           },
           "type": "rock"
@@ -3517,16 +3607,24 @@ export const WORLD_DATA = {
                 "z": -0.2632
               },
               {
-                "x": 0.8983,
-                "z": 0.4737
+                "x": 0.8644,
+                "z": 0.1579
               },
               {
-                "x": 0.4915,
+                "x": 0.7627,
+                "z": 0.5789
+              },
+              {
+                "x": 0.2881,
                 "z": 1
               },
               {
-                "x": -0.1864,
-                "z": 1
+                "x": -0.0169,
+                "z": 0.6842
+              },
+              {
+                "x": -0.4915,
+                "z": 0.7895
               },
               {
                 "x": -0.7627,
@@ -3544,7 +3642,7 @@ export const WORLD_DATA = {
             "id": "verdant-rootfall-east-flank",
             "outline": [
               {
-                "x": -0.9661,
+                "x": -1,
                 "z": -1
               },
               {
@@ -3552,34 +3650,38 @@ export const WORLD_DATA = {
                 "z": -1
               },
               {
-                "x": 0.9322,
-                "z": -0.0526
+                "x": 0.9655,
+                "z": -0.1111
               },
               {
-                "x": 0.6271,
-                "z": 0.7895
+                "x": 0.6552,
+                "z": 0.6667
               },
               {
-                "x": 0.0847,
+                "x": 0.2069,
                 "z": 1
               },
               {
-                "x": -0.6271,
-                "z": 0.7895
+                "x": -0.1379,
+                "z": 0.7778
               },
               {
-                "x": -0.9322,
-                "z": 0.3684
+                "x": -0.5862,
+                "z": 1
+              },
+              {
+                "x": -0.8621,
+                "z": 0.5556
               },
               {
                 "x": -1,
-                "z": -0.2632
+                "z": -0.1111
               }
             ],
-            "rx": 29.5,
-            "rz": 9.5,
-            "x": 38.5,
-            "z": -32.5
+            "rx": 29,
+            "rz": 9,
+            "x": 39,
+            "z": -33
           },
           {
             "edgeWidth": 4.2,
@@ -3625,8 +3727,9 @@ export const WORLD_DATA = {
           "accent": "#f4d768",
           "grass": "#789950",
           "grassShade": "#3e6240",
-          "path": "#b2a27c",
-          "pathEdge": "#839066",
+          "gravel": "#ad844f",
+          "path": "#bb955d",
+          "pathEdge": "#938154",
           "rock": "#716d68",
           "water": "#43bdd0",
           "waterFoam": "#e3fbf4"
@@ -3867,7 +3970,7 @@ export const WORLD_DATA = {
           },
           {
             "elevation": 1.35,
-            "feather": 1.2,
+            "feather": 3,
             "id": "verdant-rootfall-support",
             "paint": false,
             "points": [
@@ -3905,27 +4008,43 @@ export const WORLD_DATA = {
         "water": [
           {
             "depth": 0.3,
-            "id": "mosslight-upper-pool",
+            "id": "mosslight-north-bay",
             "rx": 10,
-            "rz": 15,
-            "x": -51,
-            "z": 16
+            "rz": 9,
+            "x": -53,
+            "z": -19
           },
           {
             "depth": 0.3,
-            "id": "mosslight-creek",
-            "rx": 7,
-            "rz": 19,
-            "x": -52,
+            "id": "mosslight-north-shoulder",
+            "rx": 10,
+            "rz": 8,
+            "x": -56,
+            "z": -12
+          },
+          {
+            "depth": 0.3,
+            "id": "mosslight-neck",
+            "rx": 5.5,
+            "rz": 9,
+            "x": -56,
             "z": -4
           },
           {
             "depth": 0.3,
-            "id": "mosslight-lower-pool",
-            "rx": 9,
-            "rz": 11,
-            "x": -48,
-            "z": -20
+            "id": "mosslight-south-reach",
+            "rx": 5,
+            "rz": 9,
+            "x": -55,
+            "z": 4
+          },
+          {
+            "depth": 0.3,
+            "id": "mosslight-south-outlet",
+            "rx": 5,
+            "rz": 8.5,
+            "x": -55,
+            "z": 14
           }
         ]
       },
@@ -574074,6 +574193,567 @@ export const WORLD_DATA = {
           "side": 0
         }
       ],
+      "version": 1
+    },
+    {
+      "category": "Verdant cliffs",
+      "collision": {
+        "indices": [
+          14,
+          16,
+          1,
+          16,
+          5,
+          1,
+          5,
+          0,
+          1,
+          0,
+          7,
+          6,
+          0,
+          6,
+          11,
+          0,
+          11,
+          10,
+          0,
+          10,
+          13,
+          0,
+          13,
+          14,
+          0,
+          14,
+          1,
+          13,
+          16,
+          14,
+          2,
+          5,
+          16,
+          13,
+          15,
+          16,
+          15,
+          2,
+          16,
+          2,
+          3,
+          5,
+          3,
+          4,
+          5,
+          4,
+          7,
+          5,
+          7,
+          0,
+          5,
+          10,
+          12,
+          13,
+          12,
+          2,
+          13,
+          2,
+          15,
+          13,
+          12,
+          3,
+          2,
+          11,
+          6,
+          3,
+          6,
+          8,
+          3,
+          8,
+          9,
+          3,
+          9,
+          4,
+          3,
+          12,
+          11,
+          3,
+          9,
+          7,
+          4,
+          9,
+          6,
+          7,
+          11,
+          12,
+          10,
+          9,
+          8,
+          6
+        ],
+        "offset": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "shape": "convexHull",
+        "vertices": [
+          0.468025,
+          0,
+          -0.759225,
+          -1.353575,
+          0,
+          -0.831675,
+          -1.312175,
+          1.148,
+          0.586275,
+          0.188575,
+          1.435,
+          0.638025,
+          0.364525,
+          1.40425,
+          -0.676425,
+          -1.084475,
+          1.2505,
+          -0.800625,
+          1.647925,
+          0,
+          0.648375,
+          1.409875,
+          0,
+          -0.717825,
+          1.099375,
+          0.91225,
+          0.399975,
+          1.171825,
+          0.99425,
+          -0.521175,
+          -0.763625,
+          0,
+          1.031325,
+          0.488725,
+          0,
+          1.041675,
+          -0.629075,
+          0.656,
+          0.907125,
+          -1.777925,
+          0,
+          0.772575,
+          -1.664075,
+          0,
+          -0.189975,
+          -1.653725,
+          0.369,
+          0.689775,
+          -1.519175,
+          0.56375,
+          -0.283125
+        ]
+      },
+      "displayName": "Cliff foot",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_verdant_cliff_toe",
+      "model": {
+        "path": "assets/models/verdant-cliff-toe-v1/model.glb",
+        "pivot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": 1
+      },
+      "parts": [],
+      "version": 1
+    },
+    {
+      "category": "Verdant cliffs",
+      "collision": {
+        "indices": [
+          11,
+          10,
+          6,
+          11,
+          6,
+          1,
+          11,
+          1,
+          0,
+          11,
+          0,
+          16,
+          11,
+          16,
+          15,
+          16,
+          18,
+          15,
+          18,
+          17,
+          15,
+          17,
+          11,
+          15,
+          17,
+          13,
+          11,
+          13,
+          14,
+          11,
+          14,
+          12,
+          11,
+          12,
+          10,
+          11,
+          0,
+          18,
+          16,
+          4,
+          3,
+          18,
+          3,
+          17,
+          18,
+          0,
+          4,
+          18,
+          3,
+          13,
+          17,
+          3,
+          8,
+          13,
+          8,
+          14,
+          13,
+          8,
+          7,
+          14,
+          7,
+          9,
+          14,
+          9,
+          12,
+          14,
+          9,
+          6,
+          12,
+          6,
+          10,
+          12,
+          1,
+          4,
+          0,
+          5,
+          2,
+          4,
+          2,
+          3,
+          4,
+          1,
+          5,
+          4,
+          2,
+          7,
+          3,
+          7,
+          8,
+          3,
+          2,
+          9,
+          7,
+          2,
+          5,
+          9,
+          5,
+          6,
+          9,
+          5,
+          1,
+          6
+        ],
+        "offset": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "shape": "convexHull",
+        "vertices": [
+          1.291125,
+          0,
+          -0.8808,
+          -0.354525,
+          0,
+          -1.0464,
+          -0.375225,
+          3.74125,
+          -0.12525,
+          1.115175,
+          3.8745,
+          -0.02175,
+          1.022025,
+          3.96675,
+          -0.798,
+          -0.458025,
+          3.772,
+          -0.9222,
+          -1.472325,
+          0,
+          -0.8394,
+          -1.089375,
+          3.28,
+          0.3198,
+          -0.240675,
+          3.239,
+          0.4026,
+          -1.244625,
+          3.45425,
+          -0.72555,
+          -1.544775,
+          0,
+          1.03395,
+          0.887475,
+          0,
+          1.1064,
+          -1.461975,
+          1.87575,
+          0.7131,
+          0.742575,
+          1.15825,
+          0.86835,
+          -1.337775,
+          2.542,
+          0.57855,
+          1.694775,
+          0,
+          0.47505,
+          1.560225,
+          0,
+          -0.72555,
+          1.498125,
+          2.3985,
+          0.2991,
+          1.404975,
+          2.542,
+          -0.68415
+        ]
+      },
+      "displayName": "Stepped cliff rock",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_verdant_cliff_buttress",
+      "model": {
+        "path": "assets/models/verdant-cliff-buttress-v1/model.glb",
+        "pivot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": 1
+      },
+      "parts": [],
+      "version": 1
+    },
+    {
+      "category": "Verdant cliffs",
+      "collision": {
+        "indices": [
+          2,
+          17,
+          0,
+          17,
+          16,
+          7,
+          17,
+          7,
+          13,
+          17,
+          13,
+          1,
+          17,
+          1,
+          12,
+          17,
+          12,
+          0,
+          12,
+          2,
+          0,
+          4,
+          17,
+          2,
+          12,
+          3,
+          2,
+          3,
+          4,
+          2,
+          4,
+          6,
+          17,
+          6,
+          19,
+          17,
+          19,
+          16,
+          17,
+          1,
+          3,
+          12,
+          8,
+          11,
+          4,
+          11,
+          6,
+          4,
+          3,
+          5,
+          4,
+          5,
+          8,
+          4,
+          1,
+          13,
+          3,
+          13,
+          5,
+          3,
+          11,
+          19,
+          6,
+          11,
+          18,
+          19,
+          18,
+          16,
+          19,
+          18,
+          10,
+          16,
+          10,
+          7,
+          16,
+          5,
+          9,
+          8,
+          9,
+          10,
+          8,
+          10,
+          11,
+          8,
+          10,
+          18,
+          11,
+          13,
+          14,
+          5,
+          14,
+          9,
+          5,
+          7,
+          15,
+          13,
+          15,
+          9,
+          13,
+          9,
+          14,
+          13,
+          9,
+          15,
+          10,
+          15,
+          7,
+          10
+        ],
+        "offset": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "shape": "convexHull",
+        "vertices": [
+          -1.07535,
+          0,
+          0.485925,
+          0.93255,
+          0,
+          0.806775,
+          -1.5204,
+          0.984,
+          0.930975,
+          0.76695,
+          0.779,
+          1.024125,
+          -1.77915,
+          1.6195,
+          1.075875,
+          0.8808,
+          1.69125,
+          1.096575,
+          -1.36515,
+          1.89625,
+          -0.673275,
+          1.5846,
+          0,
+          -0.818175,
+          0.5496,
+          2.419,
+          0.061575,
+          1.34655,
+          2.26525,
+          0.071925,
+          1.34655,
+          2.38825,
+          -0.714675,
+          0.33225,
+          2.583,
+          -0.745725,
+          0.91185,
+          0,
+          0.806775,
+          1.71915,
+          0,
+          0.641175,
+          1.5432,
+          0.93275,
+          0.548025,
+          1.5639,
+          1.2505,
+          -0.083325,
+          0.4461,
+          0,
+          -1.066575,
+          -1.07535,
+          0,
+          -0.994125,
+          0.29085,
+          2.1525,
+          -0.952725,
+          -0.9822,
+          1.93725,
+          -0.911325
+        ]
+      },
+      "displayName": "Rock shelf",
+      "gameplay": {
+        "role": "prop"
+      },
+      "id": "asset_verdant_cliff_ledge",
+      "model": {
+        "path": "assets/models/verdant-cliff-ledge-v1/model.glb",
+        "pivot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": 1
+      },
+      "parts": [],
       "version": 1
     }
   ]

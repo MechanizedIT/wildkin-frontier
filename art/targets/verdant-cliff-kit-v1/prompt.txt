@@ -1,0 +1,12 @@
+Create one clean production reference image for a mobile game low-poly asset family. The four supplied images are reference-only: preserve the approved Explorer's chunky faceted, high-contrast matte construction and the Verdant terrain's warm gray cliff palette; do not alter or reproduce any supplied regional scene.
+
+Composition: a neutral studio asset sheet with exactly THREE separate, evenly spaced rock objects, all in matching 3/4 view on a plain light-neutral background. No text, labels, scale bars, scenic floor, landscape, character, plants, trees, water, sky, UI, or extra objects. Each object rests flush at zero height with a visibly grounded flat/irregular bottom silhouette; subtle contact shadow is fine.
+
+Objects, from left to right:
+1) Broad low irregular toe boulder, wide than tall, planted stance, a few broad chamfered planes and a blunt chipped crown.
+2) Layered upright split cliff buttress, taller than the other two but stable and broad-bottomed, several large horizontal/diagonal strata and one deep split/overlap that reads as constructed stone mass, not as a free-standing pointed spire.
+3) Squat root-catching ledge, an asymmetric blocky overhang with a broad usable-looking shelf and recessed underside, squat and grounded, not an arch or cave.
+
+Art direction: substantial low-poly game meshes, roughly 8-20 large chamfered faces per main mass, deliberate asymmetry, clear warm-gray and charcoal plane separation, matte rough material only, slight restrained very-dark root or lichen patches only in a few broad recesses. These must read as scenic cliff/outcrop geology rather than collectible harvest ore.
+
+Mesh target: visibly simple, realistic to make as three mobile-game Blender meshes totalling roughly <=1800 triangles, embedded palette only, no textures needed. Silhouettes must avoid smooth round rocks, pyramids, cubes, tiny decorative veins, gem clusters, crystals, glowing ore, runes, gold, technology, markings, separate pebbles, ambiguous loose fragments, or extra asset parts. No glossy reflections. Keep every object isolated and complete.

@@ -88,6 +88,24 @@ describe("Verdant uplands standalone composition", () => {
     assert.deepEqual(afterSurvey, beforeSurvey, "Survey component offsets remain untouched");
   });
 
+  it("grades the West Hollow terminal support smoothly in both walking directions", () => {
+    const verdant = section(composedWorld());
+    const support = find(verdant.surface.routes, "verdant-rootfall-support");
+    assert.equal(support.feather, 3, "Rootfall keeps its plateau while widening only the outer grade");
+    const terminal = [[-8, -19], [-7, -19], [-6, -19], [-5.5, -19], [-5, -19], [-4.5, -19], [-4, -19], [-3.5, -19]];
+    const gradeSegments = (points) => points.slice(1).map(([x, z], index) => {
+      const [priorX, priorZ] = points[index];
+      return (getSurfaceHeight(verdant.surface, x, z) - getSurfaceHeight(verdant.surface, priorX, priorZ)) / Math.hypot(x - priorX, z - priorZ);
+    });
+    const eastboundGrades = gradeSegments(terminal);
+    const westboundGrades = gradeSegments([...terminal].reverse());
+    assert.ok(Math.max(...eastboundGrades) <= .5, "West Hollow → Rootfall uphill grade stays below the controller slope limit");
+    assert.ok(Math.max(...westboundGrades.map(Math.abs)) <= .5, "Rootfall → West Hollow downhill grade has the same bounded magnitude");
+    for (const [x, z] of [[-8, -36], [8, -36], [-8, -26], [8, -26], [0, -31]]) {
+      assert.equal(getSurfaceHeight(verdant.surface, x, z), 1.35, `Rootfall support plateau stays fixed at ${x},${z}`);
+    }
+  });
+
   it("authors a broad, connected 3/6/8m upland loop with no unmeasured jump lane", () => {
     const verdant = section(composedWorld());
     const byId = (id) => find(verdant.surface.routes, id);
@@ -134,7 +152,7 @@ describe("Verdant uplands standalone composition", () => {
     assert.equal(routes.get("rootfall-approach").style, "gravel", "Rootfall keeps a narrow visible approach");
 
     const woodland = verdant.props.filter((entry) => entry.id.startsWith("prop_verdant_woodland_"));
-    assert.ok(woodland.length >= 45 && woodland.length <= 140, "a bounded canopy budget frames the region without a uniform wall");
+    assert.ok(woodland.length >= 45 && woodland.length <= 65, "interior recomposition keeps the existing approximate canopy budget");
     assert.deepEqual(new Set(woodland.map((entry) => entry.visualAssetId)), new Set(["asset_verge_canopy", "asset_verge_canopy_tall", "asset_verge_canopy_spread"]));
     assert.ok(woodland.filter((entry) => entry.visualAssetId === "asset_verge_canopy").every((entry) => entry.uniformScale >= 2.1 && entry.uniformScale <= 2.7));
     assert.ok(woodland.filter((entry) => entry.visualAssetId === "asset_verge_canopy_tall").every((entry) => entry.uniformScale >= 1.5 && entry.uniformScale <= 1.9));
@@ -144,6 +162,28 @@ describe("Verdant uplands standalone composition", () => {
     assert.ok(woodland.some((entry) => entry.pos.x < -58), "west pool keeps a protected bank");
     assert.ok(woodland.some((entry) => entry.pos.z < -28), "Rootfall flanks remain visibly contained");
     assert.equal(woodland.filter((entry) => entry.pos.x > -47 && entry.pos.x < -39 && entry.pos.z > 3 && entry.pos.z < 12).length, 0, "Mossling east-bank opening stays readable");
+    const countMass = (id) => woodland.filter((entry) => entry.id.startsWith(`prop_verdant_woodland_${id}_`));
+    const thorn = find(verdant.props, "prop_s1_hollow_thorn");
+    for (const tree of countMass("central-island")) {
+      const treeCollider = describeVisualAssetCollider({ collision: composedWorld().visualAssets.find((entry) => entry.id === tree.visualAssetId)?.collision, uniformScale: tree.uniformScale, position: tree.pos, rotationY: tree.rotY });
+      assert.ok(Math.hypot(tree.pos.x - thorn.pos.x, tree.pos.z - thorn.pos.z) >= 6 + footprintRadius(treeCollider), `${tree.id} preserves Thornprowler's six-metre working pocket`);
+    }
+    const waypoint = find(verdant.majorWaypoints, "wp_section_1");
+    for (const tree of countMass("lookout-backdrop")) {
+      assert.ok(Math.hypot(tree.pos.x - waypoint.pos.x, tree.pos.z - waypoint.pos.z) >= 3, `${tree.id} leaves the supported lookout standing space open`);
+      assert.ok(Math.hypot(tree.pos.x - waypoint.runSpawn.position.x, tree.pos.z - waypoint.runSpawn.position.z) >= 3, `${tree.id} leaves the lookout return spawn open`);
+    }
+    const landmarkCanopies = [
+      "prop_verdant_woodland_mossling-pocket_01",
+      "prop_verdant_woodland_arrival-shoulder-west_01",
+      "prop_verdant_woodland_central-island_02",
+      "prop_verdant_woodland_lookout-backdrop_01",
+      "prop_verdant_woodland_east-low-face_03",
+      "prop_verdant_woodland_rootfall-east-shoulder_01",
+    ].map((id) => find(woodland, id));
+    assert.ok(landmarkCanopies.every((entry) => entry?.collisionEnabled), "landmark canopy variation keeps trunk collision enabled");
+    assert.ok(new Set(landmarkCanopies.map((entry) => entry.visualAssetId)).size >= 2, "landmarks break the repeated canopy silhouette");
+    assert.ok(landmarkCanopies.every((entry) => entry.uniformScale < 2), "landmark crowns are deliberately smaller than the perimeter mass");
     const visibleRoutes = verdant.surface.routes.filter((entry) => entry.paint !== false);
     const assets = new Map(composedWorld().visualAssets.map((entry) => [entry.id, entry]));
     const encounterAndGathering = [
@@ -165,7 +205,7 @@ describe("Verdant uplands standalone composition", () => {
     for (const id of ["prop_verdant_mossling_gap_root", "prop_verdant_mossling_gap_stone", "prop_verdant_return_root", "prop_verdant_lookout_rest_stone"]) assert.ok(find(verdant.props, id), `${id} gives a discovery pocket a local tell`);
   });
 
-  it("keeps three distinct discovery contexts and clears the new main routes", () => {
+  it("keeps three distinct discovery contexts, a dry Mossling bank, and clear main routes", () => {
     const verdant = section(composedWorld());
     const survey = find(verdant.lootChests, "chest_survey_cartridge");
     const upland = find(verdant.lootChests, "chest_parkour_section_1");
@@ -176,6 +216,43 @@ describe("Verdant uplands standalone composition", () => {
     assert.ok(Math.abs(upland.pos.y - getSurfaceHeight(verdant.surface, upland.pos.x, upland.pos.z)) < .0001);
     assert.ok(Math.abs(mossling.pos.y - getSurfaceHeight(verdant.surface, mossling.pos.x, mossling.pos.z)) < .0001);
     assert.ok(getWaterRadius(verdant.surface, mossling.pos.x, mossling.pos.z) > 1, "Mossling cache remains on the dry hollow bank");
+    const water = new Map(verdant.surface.water.map((entry) => [entry.id, entry]));
+    const northBay = water.get("mosslight-north-bay");
+    const northShoulder = water.get("mosslight-north-shoulder");
+    const neck = water.get("mosslight-neck");
+    const southReach = water.get("mosslight-south-reach");
+    const southOutlet = water.get("mosslight-south-outlet");
+    assert.equal(water.size, 5, "the water uses a five-ellipse connected silhouette rather than three tangent ovals");
+    assert.ok(northBay.z < northShoulder.z && northShoulder.z < neck.z && neck.z < southReach.z && southReach.z < southOutlet.z, "the broad bay is north at negative Z and narrows southward");
+    assert.ok(northBay.rx > southOutlet.rx && northShoulder.rx > southOutlet.rx && neck.rx > southOutlet.rx, "the north bay and shoulder stay wider than the southern reach");
+    for (const [x, z] of [[-54.5, -15.5], [-56, -8], [-55.5, 0], [-55, 9]]) {
+      assert.ok(getWaterRadius(verdant.surface, x, z) < .87, `water overlap at ${x},${z} is generous enough for the rendered shoreline radius`);
+    }
+    const observationBank = [
+      ...VERDANT_MOSSLING_ACTOR_IDS.map((id) => find(verdant.props, id)),
+      find(verdant.resources, "fiber_section_1_creek"),
+      find(verdant.resources, "tree_section_1_creek_a"),
+      { id: "east-bank-upper", pos: { x: -42, z: 12 } },
+      { id: "east-bank-mid", pos: { x: -42, z: 8 } },
+      { id: "east-bank-lower", pos: { x: -42, z: 5 } },
+    ];
+    for (const target of observationBank) {
+      assert.ok(getWaterRadius(verdant.surface, target.pos.x, target.pos.z) >= 1.1, `${target.id} keeps a dry Mossling observation/harvest approach`);
+      assert.ok(getSurfaceHeight(verdant.surface, target.pos.x, target.pos.z) > 0, `${target.id} stays on the shared dry bank terrain`);
+    }
+    const westHollow = find(verdant.surface.routes, "verdant-west-hollow");
+    for (const point of westHollow.points) assert.ok(getWaterRadius(verdant.surface, point.x, point.z) >= 1.1, `west walking route stays dry at ${point.x},${point.z}`);
+    const lowSpine = find(verdant.surface.routes, "verdant-low-spine");
+    for (const id of ["prop_verdant_lookout_rest_stone", "prop_verdant_lookout_rest_groundcover", "prop_verdant_lookout_sightline_root", "prop_verdant_lookout_sightline_groundcover"]) {
+      const landmark = find(verdant.props, id);
+      assert.ok(landmark, `${id} composes the central rest/sightline`);
+      assert.ok(getRouteDistance(lowSpine, landmark.pos.x, landmark.pos.z) >= PLAYER_RADIUS + COMFORT_MARGIN, `${id} leaves low-spine player comfort`);
+    }
+    for (const id of ["prop_verdant_arrival_curtain_root", "prop_verdant_shelf_cache_root"]) {
+      const landmark = find(verdant.props, id);
+      const asset = composedWorld().visualAssets.find((entry) => entry.id === landmark.visualAssetId);
+      assert.equal(asset.gameplay?.role, "prop", `${id} remains a non-harvest landmark`);
+    }
     const mainRoutes = verdant.surface.routes.filter((entry) => entry.id.startsWith("verdant-upland-") || entry.id === "verdant-low-spine");
     for (const item of [...verdant.resources, ...verdant.props.filter((entry) => entry.id.startsWith("prop_verdant_") && entry.collisionEnabled)]) {
       const nearest = Math.min(...mainRoutes.map((entry) => getRouteDistance(entry, item.pos.x, item.pos.z)));
@@ -198,6 +275,12 @@ describe("Verdant uplands standalone composition", () => {
     assert.equal(fixture.homePos.y, Number(getSurfaceHeight(verdant.surface, fixture.homePos.x, fixture.homePos.z).toFixed(4)));
 
     const assets = new Map(world.visualAssets.map((entry) => [entry.id, entry]));
+    const routes = verdant.surface.routes.filter(route => route.paint !== false);
+    for (const rock of verdant.props.filter(entry => entry.visualAssetId?.startsWith("asset_verdant_cliff_"))) {
+      const collision = assets.get(rock.visualAssetId).collision;
+      const radius = Math.max(...collision.vertices.filter((_, index) => index % 3 === 0).map((x, index) => Math.hypot(x, collision.vertices[index * 3 + 2]))) * rock.uniformScale;
+      for (const route of routes) assert.ok(getRouteDistance(route, rock.pos.x, rock.pos.z) >= radius + PLAYER_RADIUS + COMFORT_MARGIN, `${rock.id} keeps ${route.id} clear with its actual convex footprint`);
+    }
     const physical = [
       ...verdant.resources.map((entry) => ({ id: entry.id, pos: entry.pos, collider: describeResourceCollider({ typeId: entry.type, position: entry.pos }) })),
       ...verdant.creatures.map((entry) => ({ id: entry.id, pos: entry.pos, collider: describeCreatureCollider({ uniformScale: entry.uniformScale ?? 1, position: entry.pos }) })),
