@@ -204,7 +204,7 @@ export function createBetaGame(deps) {
         const storage=physicalInventory.getNearbyInteraction(pos);
         if(storage)return storage;
         const workbench=base.getNearbyInteraction(pos);
-        if(workbench)return {...workbench,type:workbench.type??'resonator'};
+        if(workbench)return {...workbench,type:workbench.type==='campYard'?'campYard':'resonator'};
         const sanctuary=registry.getSectionById('camp')?.props?.find(p=>p.id==='prop_camp_sanctuary');
         if(sanctuary&&Math.hypot(pos.x-sanctuary.pos.x,pos.z-sanctuary.pos.z)<2)return {type:'campSanctuary',id:sanctuary.id,label:'Wildkin'};
       }
