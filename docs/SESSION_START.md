@@ -6,6 +6,8 @@ After a fresh clone or machine replacement, read [RECOVERY.md](RECOVERY.md). The
 
 ## Read the minimum first
 
+**September12 01:15 checkpoint:** atlas/PDF and model source images delivered privately; links/reproduction in VISUAL_ATLAS.md. Owner review says regions remain too flat/repetitive/sparse and Tidefin needs improvement. REGION_REDESIGN_REVIEW.md proposes Verdant first with an eastern upland and larger useful footprint; generated targetV1 awaits independent review and retains defects. Ordinary jump controller/input/UI are working-tree changes; runtime pads/course protection removed, world/Author retirement and native jump proof underway. RootfallV2 is in dev and its diagnostic cut/brace/walk/travel/return/reload passes; independent native gate and aggregate/package remain pending. Last packaged checkpoint remains Survey888tests. Local video runtime is installed but idle below the conservative free-RAM margin. Continue overnight; do not treat this as a stop or complete beta.
+
 1. Read the current user request and repository `AGENTS.md`, then the newest status at the top of [CURRENT_SLICE.md](CURRENT_SLICE.md). The full old chronology is archived separately; do not load it unless history matters.
 2. Read `docs/OVERNIGHT_HANDOFF.md` for the current playable checkpoint and remaining work. Use the latest BUILD_LOG entry only for exact closure evidence.
 3. Run `git status --short` and `git log -3 --oneline` to establish the actual checkout and unexplained changes. Preserve other writers' files. Work directly on **main**; no branches, push, publication or paid services without explicit authorization.
@@ -13,6 +15,9 @@ After a fresh clone or machine replacement, read [RECOVERY.md](RECOVERY.md). The
 5. For inventory/save work, read [PHYSICAL_INVENTORY_PLAN.md](PHYSICAL_INVENTORY_PLAN.md). Read design/architecture sections only when the task changes those contracts. Query the local brain only when owner intent/history is relevant; repository evidence owns current implementation.
 
 ## Snapshot to verify, not silently upgrade
+
+-September12 owner feedback: add ordinary jumping and a Jump button/animation; retire jump pads/checkpoint courses in favor of natural terrain/hidden loot. Existing Rapier kinematic jump/fall and Explorer clips can be reused; implementation is underway, not yet closed. RootfallV1 model held7.2; V2 passes neutral8.0 with native integration still pending. Keep current uncommitted writers separate.
+-The requested map/model review is delivered privately through Drive and an email to the owner. VISUAL_ATLAS.md links the12pagebook and originals, with repeatable capture tools and coordinate metadata. It is a static Survey-checkpoint snapshot, not proof of jumping/Rootfall/minimap implementation.
 
 - Latest Survey checkpoint:888tests/world/campaign/build/validation/ZIP pass,43.44MB unpacked/20.37MB ZIP. Unique physical cartridge→placed Salvage fitting16→20slots, item-loot/Author closure and new wreckV2 are integrated. Fresh ordinary recovery/exit/reload and separate diagnostic fitting/reload pass; independent native8.0 and station UI8.4. V1 was rejected, not shipped. Rootfall is the next unimplemented passage; its source plan is `.dream-loop/overnight2-rootfall/planning.md` and its target is being prepared from the actual raised ridge. See CURRENT_SLICE for exact package hash and remaining limits.
 
@@ -23,7 +28,7 @@ After a fresh clone or machine replacement, read [RECOVERY.md](RECOVERY.md). The
 - Physical inventory is integrated: finite pack, physical pod/crate storage, drag/tap/split/sort, selected nearby crafting source, capacity-safe transactions, v3 migration and an active-expedition reload snapshot. Saved quantities belong to frontier progress; old counters are derived views.
 - Parent's wrap-up checkpoint reports **810 tests** and build/validation/ZIP success, about **42.53 MB unpacked / 20.25 MB ZIP**. Native/package closure passed; see the handoff for exact fixtures and limitations. Counts and bytes are historical evidence, not a reason to rerun everything on session start.
 - Death currently keeps the pack while losing unsecured XP/bonds; mobile reload resumes a supported saved expedition. Exact survival balance is provisional. Migration-fixture checks do not prove an earned full campaign.
-- Tidefin's new model/rig is **not shipping**. Animation V2 passed limited frame/deformation review but failed action readability. V3 changes only Attack/Hurt and awaits independent action review; continuous/native cadence and owner phone gates remain open. Existing shipping Tidefin stays in place.
+- Tidefin's new model/rig is **not shipping**. V2 failed action readability. Preserved V3 changes only Attack/Hurt and now passes independent pose-frame review8.0; continuous motion, companion-scale readability, native cadence/event timing and owner phone gates remain open. Existing shipping Tidefin stays in place. See `art/source/tidefin-candidate-v3/independent-action-review.md`.
 - V3 candidate: `.dream-loop/overnight-tidefin-animation/v3/README.md`; GLB SHA256 `5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f`. Geometry/UV/weights and Idle/Walk/Run are exactly preserved from V2. No further rendering is needed merely to resume.
 - Robot/drone, the wider crash-land story, unique natural passages and further wreck-led blueprints remain planned. One Survey wreck/pack upgrade and one defended Camp expansion are now integrated. `CRASHLAND_PROGRESSION_PROPOSAL.md` is broader provisional design; CURRENT_SLICE owns actual scope/status.
 

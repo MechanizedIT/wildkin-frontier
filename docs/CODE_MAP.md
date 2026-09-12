@@ -49,6 +49,8 @@ Test example: `node --test tests/fieldPlacement.test.js tests/creatureSteering.t
 
 ## Running and packaging
 
+For repeatable whole-area maps and generated-model galleries, use `tools/review/capture-visual-atlas.mjs` / `visual-atlas.html`; `export-visual-book.py` and `package-visual-atlas.py` package the review. See VISUAL_ATLAS.md for exact snapshot, source hashes, coordinate projection, limitations and private owner delivery. These are development tools, not a runtime minimap.
+
 | Need | Command / source |
 | --- | --- |
 | Local game | `npm run dev` → `tools/serve.mjs` |

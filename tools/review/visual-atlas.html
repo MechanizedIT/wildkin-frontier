@@ -1,0 +1,78 @@
+<!doctype html><meta charset="utf-8"><base href="../../"><title>Wildkin visual atlas capture</title><link rel="icon" href="data:,"><style>html,body{margin:0;overflow:hidden;background:#dbe0d2}canvas{display:block}#overlay{position:absolute;inset:0;pointer-events:none}</style>
+<script type="importmap">{"imports":{"three":"../../vendor/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import WORLD from '../../src/world/data/world.js';
+import {createWorldRegistry} from '../../src/world/worldRegistry.js';
+import {createScene} from '../../src/game/createScene.js';
+import {preloadVisualModels,createExternalModelVisual} from '../../src/assets/modelAssetRuntime.js';
+import {SAPWOOD_VISUAL_ASSET} from '../../src/resources/resourceConfig.js';
+import {createRuntimeResourcePlacements} from '../../src/resources/resourceSystem.js';
+import {createResourceNode} from '../../src/resources/createResourceNode.js';
+import {createWildCreature} from '../../src/creatures/createWildCreature.js';
+import {createCampDefenses} from '../../src/base/campDefenses.js';
+import {createCampLayout,CAMP_DEBRIS_IDS} from '../../src/base/campLayout.js';
+const atlas=window.atlas={ready:false};
+try{
+const registry=createWorldRegistry(WORLD),assets=registry.data.visualAssets;
+await preloadVisualModels([SAPWOOD_VISUAL_ASSET,...assets,WORLD.playerVisual].filter(Boolean),{baseUrl:new URL('../../',import.meta.url)});
+const {scene,player,playground}=createScene(registry.data);scene.fog=null;player.visible=false;
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(1);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=false;document.body.append(renderer.domElement);
+const overlay=document.createElement('canvas');overlay.id='overlay';document.body.append(overlay);
+const camera=new THREE.OrthographicCamera(-1,1,1,-1,.1,600);camera.up.set(0,0,-1);
+const dynamic=new Map(),resources=[];
+for(const r of registry.data.regions){const group=new THREE.Group();scene.add(group);dynamic.set(r.id,group);
+ for(const [i,p] of createRuntimeResourcePlacements(registry.getResourcesForRegion(r.id)).entries()){
+  const n=createResourceNode(p.type,p.pos,i,p.id,{rotationY:p.rotY,uniformScale:p.uniformScale,resourceType:p.resourceType,visualAsset:p.visualAsset,remnantVisualAsset:p.remnantVisualAsset});
+  n.group.visible=p.visibleInPlay!==false;group.add(n.group);resources.push({id:p.id,region:r.id,group:n.group,visible:p.visibleInPlay!==false});
+ }
+ for(const [i,c] of registry.getCreaturesForRegion(r.id).entries())createWildCreature(group,null,{...c,facingYaw:c.facingYaw??0},i);
+}
+const defenses=createCampDefenses({scene,registry,physicsWorld:null});
+atlas.regions=registry.data.regions.map(r=>({id:r.id,name:r.displayName,bounds:r.bounds}));
+function dimensions(size){renderer.setSize(size,size);overlay.width=size;overlay.height=size;overlay.style.display='none';}
+function anchors(r){const result=[];const add=(type,items)=>items.forEach(a=>{if(a.pos)result.push({id:a.id,name:a.displayName??a.id,type,world:{...a.pos}});});
+ add('entry',r.entryPoints);add('gate',r.portalGates);add('chest',r.lootChests);add('waypoint',r.majorWaypoints);add('beacon',r.extractionBeacons);
+ add('resource',registry.getResourcesForRegion(r.id));add('creature-spawn',registry.getCreaturesForRegion(r.id));add('object',r.props.filter(p=>p.visibleInPlay!==false));return result;}
+atlas.map=async(id,expanded=false)=>{
+ dimensions(2048);const r=registry.getSectionById(id);playground.setActiveSection(id);for(const [rid,g]of dynamic)g.visible=rid===id;
+ for(const n of resources)n.group.visible=n.visible&&!(id==='camp'&&expanded&&CAMP_DEBRIS_IDS.includes(n.id));
+ const base={tier:0,structures:[],layout:{...createCampLayout(),yardExpanded:expanded,clearedDebrisIds:expanded?[...CAMP_DEBRIS_IDS]:[]}};
+ defenses.setVisible(id==='camp');defenses.sync(base);
+ const b=r.bounds,width=b.maxX-b.minX,depth=b.maxZ-b.minZ,span=Math.max(width,depth)+8,cx=(b.minX+b.maxX)/2,cz=(b.minZ+b.maxZ)/2;
+ const frame={minX:cx-span/2,maxX:cx+span/2,minZ:cz-span/2,maxZ:cz+span/2};
+ camera.left=-span/2;camera.right=span/2;camera.top=span/2;camera.bottom=-span/2;camera.position.set(cx,250,cz);camera.lookAt(cx,0,cz);camera.updateProjectionMatrix();scene.updateMatrixWorld(true);renderer.render(scene,camera);
+ const points=anchors(r).map(a=>({...a,pixel:{x:(a.world.x-frame.minX)/span*2048,y:(a.world.z-frame.minZ)/span*2048}}));
+ const report={id,name:r.displayName,bounds:frame,authoredBounds:b,north:'image top = world -Z; right = +X',imageSize:{width:2048,height:2048},metresPerPixel:span/2048,worldToImage:{u:'(x-minX)/(maxX-minX)*2048',v:'(z-minZ)/(maxZ-minZ)*2048'},snapshot:id==='camp'?(expanded?'Expanded yard; all three bundles cleared; no player-built structures':'Starter Camp; three bundles present; no player-built structures'):'Authored initial layout, ready resources and creatures at authored spawn anchors; no live/save state',anchors:points,render:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles}};
+ atlas.lastMap=report;return report;
+};
+atlas.planning=()=>{
+ const r=atlas.lastMap,c=overlay.getContext('2d');c.clearRect(0,0,2048,2048);overlay.style.display='block';
+ const colors={entry:'#ffffff',gate:'#80e7f0',chest:'#ffd37d',waypoint:'#cab8ff',beacon:'#92f0bb',resource:'#ffff70','creature-spawn':'#ff9fab',object:'#ffffff'};
+ for(const a of r.anchors){const{x,y}=a.pixel;if(a.type==='object')continue;c.beginPath();c.arc(x,y,a.type==='resource'?5:9,0,Math.PI*2);c.fillStyle=colors[a.type];c.fill();c.lineWidth=2;c.strokeStyle='#173b32';c.stroke();
+  if(['gate','entry','chest','waypoint','beacon'].includes(a.type)){c.font='bold 18px Arial';c.lineWidth=4;c.strokeText(a.name,x+13,y-9);c.fillStyle='#ffffff';c.fillText(a.name,x+13,y-9);}}
+ c.fillStyle='rgba(14,36,32,.9)';c.fillRect(24,24,1200,122);c.fillStyle='#fff';c.font='bold 34px Arial';c.fillText(`${r.name}  ·  N ↑ (−Z)`,48,68);c.font='21px Arial';c.fillText('AUTHORED ANCHORS · yellow resources · pink creature spawns · cyan gates',48,103);c.fillText('White entry · gold chest · violet waypoint · mint beacon — not live positions',48,132);
+};
+const modelScene=new THREE.Scene();modelScene.background=new THREE.Color('#d9ded2');modelScene.add(new THREE.HemisphereLight(0xffffff,0x70765d,2));const light=new THREE.DirectionalLight(0xfff5df,2.1);light.position.set(-5,9,6);modelScene.add(light);
+const modelRoot=new THREE.Group();modelScene.add(modelRoot);const modelCamera=new THREE.OrthographicCamera(-1,1,1,-1,.01,1000);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(300,300),new THREE.MeshLambertMaterial({color:'#b6bfab'}));floor.rotation.x=-Math.PI/2;modelScene.add(floor);
+atlas.model=async(record)=>{
+ dimensions(768);modelRoot.clear();const descriptors=record.parts.map((p,i)=>({id:`atlas_${i}`,model:{path:p.path,scale:1,pivot:{x:0,y:0,z:0}}}));
+ await preloadVisualModels(descriptors,{baseUrl:new URL('../../',import.meta.url)});let rightEdge=0;
+ for(const [i,p]of record.parts.entries()){const visual=createExternalModelVisual(descriptors[i]);visual.updateMatrixWorld(true);
+  if(record.layout==='row'){const box=new THREE.Box3().setFromObject(visual),size=box.getSize(new THREE.Vector3());visual.position.x=rightEdge-box.min.x;visual.position.y=-box.min.y;rightEdge+=size.x+.8;}
+  else visual.position.set(...(p.offset??[0,0,0]));modelRoot.add(visual);}
+ modelRoot.updateMatrixWorld(true);const bounds=new THREE.Box3().setFromObject(modelRoot),center=bounds.getCenter(new THREE.Vector3()),size=bounds.getSize(new THREE.Vector3());
+ floor.position.y=bounds.min.y-.018;modelCamera.position.copy(center).add(new THREE.Vector3(1,.72,1.35).normalize().multiplyScalar(100));modelCamera.up.set(0,1,0);modelCamera.lookAt(center);modelCamera.updateMatrixWorld(true);
+ const inv=modelCamera.matrixWorldInverse;let mx=0,my=0;for(const x of [bounds.min.x,bounds.max.x])for(const y of [bounds.min.y,bounds.max.y])for(const z of [bounds.min.z,bounds.max.z]){const q=new THREE.Vector3(x,y,z).applyMatrix4(inv);mx=Math.max(mx,Math.abs(q.x));my=Math.max(my,Math.abs(q.y));}
+ const half=Math.max(mx,my)*1.13;modelCamera.left=-half;modelCamera.right=half;modelCamera.top=half;modelCamera.bottom=-half;modelCamera.updateProjectionMatrix();renderer.render(modelScene,modelCamera);
+ return{bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()},size:size.toArray(),triangles:renderer.info.render.triangles,calls:renderer.info.render.calls};
+};
+atlas.contact=async(records)=>{
+ const width=2048,cell=512,height=Math.ceil(records.length/4)*560;renderer.domElement.style.display='none';overlay.width=width;overlay.height=height;overlay.style.display='block';const c=overlay.getContext('2d');c.fillStyle='#e8ecdf';c.fillRect(0,0,width,height);
+ for(const [i,r]of records.entries()){const img=new Image();img.src=r.data;await img.decode();const x=(i%4)*cell,y=Math.floor(i/4)*560;c.drawImage(img,x,y,cell,cell);c.fillStyle='#18352d';c.font='bold 21px Arial';c.fillText(r.name.slice(0,40),x+14,y+535);c.font='16px Arial';c.fillText(r.status,x+14,y+556);}
+ return{width,height};
+};
+atlas.ready=true;
+}catch(e){atlas.error=e.stack;console.error(e);}
+</script>

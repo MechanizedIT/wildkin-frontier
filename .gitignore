@@ -7,3 +7,5 @@ Thumbs.db
 .dream-loop/
 *.blend1
 __pycache__/
+output/pdf/
+output/review/

@@ -28,6 +28,8 @@ Use this project-local skill to coordinate a small complete change. It composes 
 
 ## Evidence that can support admission
 
+- For region layout passes, capture the repeatable overhead atlas before planning. Give the independent level designer both clean/planning maps and actual bounds/elevation. Generate a top-down target for the chosen region from that baseline, then compare the implementation from the same view. Also inspect normal gameplay pitch and traversable height: a top-down image alone cannot prove verticality, natural jump access, discovery pacing or encounter readability. Each region needs its own terrain and route logic; avoid repeating a course or increasing area without useful content.
+
 - Identify exact source/model SHA256, capture revision, dimensions and relevant fixture. Inspect the actual full images. Separate target fitness, neutral model, deformation frames, continuous exported motion, native gameplay and physical-phone gates. A score of at least 8 is the current art threshold, not a waiver of a failed contract.
 - Sampled stills cannot prove continuous cadence, transitions or sound. A saved video that the reviewer could not play remains unreviewed. Inspect motion at the actual species scale, authored speed and native camera; displacement/contact numbers support, rather than replace, perception.
 - Before a new motion donor or video generator, consult `docs/MOTION_REFERENCE_PLAN.md`. Match neutral bone bases and chain structure; a tool's animal preset is not proof of retarget compatibility. Prefer reviewing the current export against consistent 3D donor motion before installing another inference stack.
