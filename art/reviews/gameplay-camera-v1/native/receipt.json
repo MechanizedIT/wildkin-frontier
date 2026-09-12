@@ -1,0 +1,925 @@
+{
+  "fixture": "Isolated dev Edge844x390 touch context, actual Start. Explicit waypoint unlocks, invulnerability and supported position fixtures isolate camera behavior. Right drag, multitouch pinch/joystick, keyboard movement/Jump and menu actions are browser input. Not earned campaign, continuous visual perception or physical-phone performance.",
+  "before": {
+    "src/camera/cameraFollow.js": "80ac4561f6d7ba12a2871e016dd4c315a43c57d6d9a8c48127d4a10ca6ed0ad3",
+    "src/camera/cameraCollision.js": "a3a6a5628bf46cea7662585316a7e54d3acd914e6a9a50368b1b83d4e7df1d9b",
+    "src/input/gameCameraOrbit.js": "ffef8ff8cee8177c88d7e36d949feeec5cdef19d28b69b62593b8054af4c7548",
+    "src/game/config.js": "c5484eda3d8c5a8c9b0b980e8c4a36a064527d24259eff88ec0ed686eb2ea214",
+    "src/main.js": "211091d104054a1c907516e646ae32daa8e104c6e84ba0583e491f3359997f6d",
+    "src/world/data/world.json": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f"
+  },
+  "steps": [
+    {
+      "name": "supported open-ground fixture",
+      "yaw": 0,
+      "pitch": 0.5585053606381855,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 6.568278408380691,
+      "effectiveDistance": 6.568278408380691,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        0,
+        1.4340562558658978,
+        29
+      ],
+      "position": [
+        0,
+        4.9147135173138405,
+        34.5702159992526
+      ],
+      "player": {
+        "x": 0,
+        "y": 0.5219999551773071,
+        "z": 29,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "IDLE"
+      },
+      "movementDirection": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "native diagonal orbit",
+      "yaw": -0.44000000000000006,
+      "pitch": 1.0685053606381856,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 6.568278408380691,
+      "effectiveDistance": 6.568278408380691,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        0,
+        1.4230294697494799,
+        29
+      ],
+      "position": [
+        -1.3469048140263997,
+        7.180006688733734,
+        31.86100366515823
+      ],
+      "player": {
+        "x": 0,
+        "y": 0.5219999551773071,
+        "z": 29,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "IDLE"
+      },
+      "movementDirection": [
+        0.4259394650660006,
+        0,
+        -0.9047516632199629
+      ]
+    },
+    {
+      "name": "native upper pitch limit",
+      "yaw": -0.44000000000000006,
+      "pitch": 1.117010721276371,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 6.568278408380691,
+      "effectiveDistance": 6.568278408380691,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        0,
+        1.4220748693190466,
+        29
+      ],
+      "position": [
+        -1.2264261316376552,
+        7.32560439720698,
+        31.60509103621957
+      ],
+      "player": {
+        "x": 0,
+        "y": 0.5219999551773071,
+        "z": 29,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "IDLE"
+      },
+      "movementDirection": [
+        0.42593946506600006,
+        0,
+        -0.9047516632199633
+      ]
+    },
+    {
+      "name": "native lower pitch limit",
+      "yaw": -0.44000000000000006,
+      "pitch": 0.3490658503988659,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 6.568278408380691,
+      "effectiveDistance": 6.568278408380691,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        0,
+        1.4220014157705454,
+        29
+      ],
+      "position": [
+        -2.6289677007264816,
+        3.6684849384078047,
+        34.584274515194984
+      ],
+      "player": {
+        "x": 0,
+        "y": 0.5219999551773071,
+        "z": 29,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "IDLE"
+      },
+      "movementDirection": [
+        0.42593946506600006,
+        0,
+        -0.9047516632199634
+      ]
+    },
+    {
+      "name": "native concurrent joystick and right pinch",
+      "yaw": -0.44000000000000006,
+      "pitch": 0.3490658503988659,
+      "zoom": 0.72,
+      "userZoom": 0.72,
+      "requestedDistance": 4.729160454034098,
+      "collisionDistance": 4.729160454034098,
+      "effectiveDistance": 4.729160454034098,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        0.156775868969472,
+        1.4220308794658256,
+        28.66698769586682
+      ],
+      "position": [
+        -1.7360808755535946,
+        3.039499015764652,
+        32.68766534680721
+      ],
+      "player": {
+        "x": 0.3072206676006317,
+        "y": 0.5219570398330688,
+        "z": 28.347423553466797,
+        "facing": 2.701592653589793,
+        "grounded": true,
+        "mode": "WALK"
+      },
+      "movementDirection": [
+        0.42593946506599983,
+        0,
+        -0.9047516632199634
+      ]
+    },
+    {
+      "name": "actual terrain retracts camera",
+      "yaw": 3.926990816987242,
+      "pitch": 0.4363323129985824,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 3.916771297454834,
+      "effectiveDistance": 3.916771297454834,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        29.99170578209226,
+        2.1997279598119803,
+        -24.02419606777898
+      ],
+      "position": [
+        27.481617899065398,
+        3.855027037178206,
+        -26.534283950805843
+      ],
+      "player": {
+        "x": 29.990253448486328,
+        "y": 1.3048678636550903,
+        "z": -24.028432846069336,
+        "facing": 2.701592653589793,
+        "grounded": true,
+        "mode": "IDLE"
+      },
+      "movementDirection": [
+        0.7071067811865477,
+        0,
+        0.7071067811865477
+      ]
+    },
+    {
+      "name": "native orbit away and recovery",
+      "yaw": 7.046990816987244,
+      "pitch": 0.4363323129985824,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 6.565548984672138,
+      "effectiveDistance": 6.565548984672138,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        29.990253613525393,
+        2.2048672795710194,
+        -24.0284323646139
+      ],
+      "position": [
+        34.1060011174414,
+        4.979588178846573,
+        -19.73099360585747
+      ],
+      "player": {
+        "x": 29.990253448486328,
+        "y": 1.3048678636550903,
+        "z": -24.028432846069336,
+        "facing": 2.701592653589793,
+        "grounded": true,
+        "mode": "IDLE"
+      },
+      "movementDirection": [
+        -0.6916748205592268,
+        0,
+        -0.7222090712559358
+      ]
+    },
+    {
+      "name": "ordinary Jump with collision camera",
+      "yaw": 7.046990816987244,
+      "pitch": 0.4363323129985824,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 6.567169373133042,
+      "effectiveDistance": 6.567169373133042,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        29.990253526406295,
+        2.2091845902104086,
+        -24.028432618759574
+      ],
+      "position": [
+        34.10701680368397,
+        4.984590295240654,
+        -19.72993324493617
+      ],
+      "player": {
+        "x": 29.990253448486328,
+        "y": 1.3982012271881104,
+        "z": -24.028432846069336,
+        "facing": 2.701592653589793,
+        "grounded": false,
+        "mode": "JUMP"
+      },
+      "movementDirection": [
+        -0.6916748205592268,
+        0,
+        -0.7222090712559358
+      ]
+    },
+    {
+      "name": "native forward at high pitch",
+      "yaw": 0.5999999999999996,
+      "pitch": 1.117010721276371,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 6.568278408380691,
+      "effectiveDistance": 6.568278408380691,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        -0.3076167820482931,
+        1.4225993777720753,
+        28.55033134647269
+      ],
+      "position": [
+        1.3181829881065767,
+        7.32612890566001,
+        30.926756281268574
+      ],
+      "player": {
+        "x": -0.5283139944076538,
+        "y": 0.5219979882240295,
+        "z": 28.22771453857422,
+        "facing": 3.7415926535897923,
+        "grounded": true,
+        "mode": "WALK"
+      },
+      "movementDirection": [
+        -0.564642473395034,
+        0,
+        -0.8253356149096793
+      ]
+    },
+    {
+      "name": "portrait keeps pitch and zoom",
+      "yaw": 0.5999999999999996,
+      "pitch": 1.117010721276371,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 7.7273863628008135,
+      "collisionDistance": 7.391421700246437,
+      "effectiveDistance": 7.391421700246437,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        -0.4735414561350888,
+        1.4221813192684492,
+        28.307784212262536
+      ],
+      "position": [
+        1.3560051851956911,
+        8.065547137136413,
+        30.982025122886093
+      ],
+      "player": {
+        "x": -0.5549933314323425,
+        "y": 0.5219600200653076,
+        "z": 28.188718795776367,
+        "facing": 3.7415926535897923,
+        "grounded": true,
+        "mode": "IDLE"
+      },
+      "movementDirection": [
+        -0.564642473395034,
+        0,
+        -0.8253356149096793
+      ]
+    },
+    {
+      "name": "runtime placed wall camera clearance",
+      "yaw": 0,
+      "pitch": 0.3490658503988659,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 1.5933035908513775,
+      "effectiveDistance": 1.5933035908513775,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        0,
+        1.4285162572901866,
+        16
+      ],
+      "position": [
+        0,
+        1.9734581797944775,
+        17.49721562699473
+      ],
+      "player": {
+        "x": 0,
+        "y": 0.5219977498054504,
+        "z": 16,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "IDLE"
+      },
+      "movementDirection": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "Author isolates gameplay orbit",
+      "yaw": 0,
+      "pitch": 0.5585053606381855,
+      "zoom": 1,
+      "userZoom": 1,
+      "requestedDistance": 6.568278408380691,
+      "collisionDistance": 6.568278408380691,
+      "effectiveDistance": 6.568278408380691,
+      "focusRecovery": "clear",
+      "horizontalDistance": 6.55,
+      "height": 5,
+      "center": [
+        0,
+        1.4248987837470966,
+        2
+      ],
+      "position": [
+        0,
+        41.46354590177633,
+        6.6913646777983296
+      ],
+      "player": {
+        "x": 0,
+        "y": 0.521996259689331,
+        "z": 2,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "mode": "IDLE"
+      },
+      "movementDirection": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "external": [],
+  "terrainCandidate": {
+    "x": 30,
+    "z": -24,
+    "y": 0.7103741235878103,
+    "yaw": 3.9269908169872414,
+    "pitch": 0.4363323129985824,
+    "distance": 3.940934066772461,
+    "allDistance": 3.940934066772461,
+    "opposite": 6.56,
+    "terrainCount": 2
+  },
+  "shoulderMotion": [
+    {
+      "camera": [
+        34.097960214475236,
+        5.422910527175269,
+        -19.739406593623006
+      ],
+      "ground": 3.029549431179785,
+      "focusRecovery": "clear",
+      "player": {
+        "x": 29.91170310974121,
+        "y": 1.2256243228912354,
+        "z": -24.110498428344727
+      }
+    },
+    {
+      "camera": [
+        34.043476686783336,
+        5.19523261543905,
+        -19.796308675721882
+      ],
+      "ground": 2.9978786217780495,
+      "focusRecovery": "clear",
+      "player": {
+        "x": 29.763341903686523,
+        "y": 1.0819340944290161,
+        "z": -24.265417098999023
+      }
+    },
+    {
+      "camera": [
+        33.96402520757026,
+        5.017551395326503,
+        -19.879341655193087
+      ],
+      "ground": 2.9939472248199444,
+      "focusRecovery": "clear",
+      "player": {
+        "x": 29.666706085205078,
+        "y": 0.9876111149787903,
+        "z": -24.367855072021484
+      }
+    },
+    {
+      "camera": [
+        33.89748712866243,
+        4.8846001017776945,
+        -19.951014274574945
+      ],
+      "ground": 2.988893205548269,
+      "focusRecovery": "clear",
+      "player": {
+        "x": 29.671018600463867,
+        "y": 0.9857097268104553,
+        "z": -24.37223243713379
+      }
+    },
+    {
+      "camera": [
+        33.85792230858349,
+        4.80189174336805,
+        -19.996701944964624
+      ],
+      "ground": 2.984770630706083,
+      "focusRecovery": "clear",
+      "player": {
+        "x": 29.674524307250977,
+        "y": 0.9837646484375,
+        "z": -24.37577247619629
+      }
+    },
+    {
+      "camera": [
+        33.83427172760859,
+        4.748782060337849,
+        -20.0271362412567
+      ],
+      "ground": 2.9815408660198575,
+      "focusRecovery": "clear",
+      "player": {
+        "x": 29.67872428894043,
+        "y": 0.9819453358650208,
+        "z": -24.38002586364746
+      }
+    },
+    {
+      "camera": [
+        33.82081952347347,
+        4.714740583721669,
+        -20.047757805116273
+      ],
+      "ground": 2.979045786393629,
+      "focusRecovery": "clear",
+      "player": {
+        "x": 29.68290901184082,
+        "y": 0.9806874394416809,
+        "z": -24.384262084960938
+      }
+    },
+    {
+      "camera": [
+        33.81360830328424,
+        4.691969952239525,
+        -20.062742998938592
+      ],
+      "ground": 2.976994893232633,
+      "focusRecovery": "clear",
+      "player": {
+        "x": 29.68647003173828,
+        "y": 0.9784618020057678,
+        "z": -24.387868881225586
+      }
+    }
+  ],
+  "foliageOpacities": [
+    0.25,
+    0.25
+  ],
+  "constructionFixture": {
+    "granted": {
+      "ok": true,
+      "added": {
+        "wood": 70,
+        "stone": 50,
+        "fiber": 20
+      },
+      "remaining": {}
+    },
+    "expanded": {
+      "expanded": true,
+      "state": {
+        "version": 3,
+        "skillUnlocks": [],
+        "skillPointsAvailable": 1,
+        "inventory": {
+          "packTier": 0,
+          "pack": [
+            {
+              "id": "wood",
+              "count": 20
+            },
+            {
+              "id": "wood",
+              "count": 20
+            },
+            {
+              "id": "wood",
+              "count": 20
+            },
+            {
+              "id": "wood",
+              "count": 4
+            },
+            {
+              "id": "stone",
+              "count": 20
+            },
+            {
+              "id": "stone",
+              "count": 20
+            },
+            {
+              "id": "stone",
+              "count": 6
+            },
+            {
+              "id": "fiber",
+              "count": 18
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "containers": [
+            {
+              "id": "pod_locker",
+              "type": "pod",
+              "label": "Pod locker",
+              "slots": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          ],
+          "legacy": {},
+          "totals": {
+            "gathered": 0,
+            "returned": 0
+          }
+        },
+        "activeRun": null,
+        "bankedResources": {
+          "wood": 64,
+          "stone": 46,
+          "fiber": 18,
+          "berries": 0,
+          "iron_ore": 0,
+          "crystal_shard": 0,
+          "wildflower": 0
+        },
+        "bankedXp": 0,
+        "unlockedMajorWaypointIds": [
+          "wp_section_1"
+        ],
+        "discoveredBeaconIds": [],
+        "repairedPortalGateIds": [],
+        "claimedLootChestIds": [],
+        "lootChestReadyAt": {},
+        "hasDepartedOnce": true,
+        "upgrades": {
+          "matter_attractor": 0,
+          "field_tool": 0,
+          "vitality": 0,
+          "capture_capacity": 0,
+          "field_medicine": 0
+        },
+        "matterAttractorI": false,
+        "securedCompanions": [],
+        "activeCompanionId": null,
+        "discoveredSpecies": [],
+        "observationClues": {},
+        "completedObjectives": [],
+        "completedPoiIds": [],
+        "campaignCompleted": false,
+        "craftedConsumables": {
+          "medkit": 0
+        },
+        "fieldSupplies": {
+          "trail_ration": 0,
+          "berry_lure": 0,
+          "woven_snare": 0,
+          "calming_chime": 0,
+          "reinforced_tether": 0
+        },
+        "base": {
+          "tier": 0,
+          "layout": {
+            "version": 1,
+            "yardExpanded": true,
+            "clearedDebrisIds": [
+              "camp_yard_debris_west",
+              "camp_yard_debris_east",
+              "camp_yard_debris_south"
+            ],
+            "legacyApron": false
+          },
+          "structures": []
+        },
+        "loadout": {
+          "slots": [
+            "omni_tool",
+            "medkit",
+            "berry_lure",
+            "woven_snare",
+            "build_tool"
+          ],
+          "selected": 0
+        }
+      }
+    },
+    "placed": {
+      "placed": true,
+      "state": {
+        "version": 3,
+        "skillUnlocks": [],
+        "skillPointsAvailable": 1,
+        "inventory": {
+          "packTier": 0,
+          "pack": [
+            {
+              "id": "wood",
+              "count": 20
+            },
+            {
+              "id": "wood",
+              "count": 20
+            },
+            {
+              "id": "wood",
+              "count": 20
+            },
+            null,
+            {
+              "id": "stone",
+              "count": 20
+            },
+            {
+              "id": "stone",
+              "count": 20
+            },
+            {
+              "id": "stone",
+              "count": 6
+            },
+            {
+              "id": "fiber",
+              "count": 17
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "containers": [
+            {
+              "id": "pod_locker",
+              "type": "pod",
+              "label": "Pod locker",
+              "slots": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          ],
+          "legacy": {},
+          "totals": {
+            "gathered": 0,
+            "returned": 0
+          }
+        },
+        "activeRun": null,
+        "bankedResources": {
+          "wood": 60,
+          "stone": 46,
+          "fiber": 17,
+          "berries": 0,
+          "iron_ore": 0,
+          "crystal_shard": 0,
+          "wildflower": 0
+        },
+        "bankedXp": 0,
+        "unlockedMajorWaypointIds": [
+          "wp_section_1"
+        ],
+        "discoveredBeaconIds": [],
+        "repairedPortalGateIds": [],
+        "claimedLootChestIds": [],
+        "lootChestReadyAt": {},
+        "hasDepartedOnce": true,
+        "upgrades": {
+          "matter_attractor": 0,
+          "field_tool": 0,
+          "vitality": 0,
+          "capture_capacity": 0,
+          "field_medicine": 0
+        },
+        "matterAttractorI": false,
+        "securedCompanions": [],
+        "activeCompanionId": null,
+        "discoveredSpecies": [],
+        "observationClues": {},
+        "completedObjectives": [],
+        "completedPoiIds": [],
+        "campaignCompleted": false,
+        "craftedConsumables": {
+          "medkit": 0
+        },
+        "fieldSupplies": {
+          "trail_ration": 0,
+          "berry_lure": 0,
+          "woven_snare": 0,
+          "calming_chime": 0,
+          "reinforced_tether": 0
+        },
+        "base": {
+          "tier": 0,
+          "layout": {
+            "version": 1,
+            "yardExpanded": true,
+            "clearedDebrisIds": [
+              "camp_yard_debris_west",
+              "camp_yard_debris_east",
+              "camp_yard_debris_south"
+            ],
+            "legacyApron": false
+          },
+          "structures": [
+            {
+              "id": "build_camera_fixture",
+              "type": "wall",
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 18
+              },
+              "yaw": 0,
+              "supportId": null
+            }
+          ]
+        },
+        "loadout": {
+          "slots": [
+            "omni_tool",
+            "medkit",
+            "berry_lure",
+            "woven_snare",
+            "build_tool"
+          ],
+          "selected": 0
+        }
+      }
+    }
+  },
+  "pass": true,
+  "after": {
+    "src/camera/cameraFollow.js": "80ac4561f6d7ba12a2871e016dd4c315a43c57d6d9a8c48127d4a10ca6ed0ad3",
+    "src/camera/cameraCollision.js": "a3a6a5628bf46cea7662585316a7e54d3acd914e6a9a50368b1b83d4e7df1d9b",
+    "src/input/gameCameraOrbit.js": "ffef8ff8cee8177c88d7e36d949feeec5cdef19d28b69b62593b8054af4c7548",
+    "src/game/config.js": "c5484eda3d8c5a8c9b0b980e8c4a36a064527d24259eff88ec0ed686eb2ea214",
+    "src/main.js": "211091d104054a1c907516e646ae32daa8e104c6e84ba0583e491f3359997f6d",
+    "src/world/data/world.json": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f"
+  },
+  "sourceStable": true
+}

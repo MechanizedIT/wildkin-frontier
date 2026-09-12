@@ -4,6 +4,7 @@ import WORLD_DATA from '../src/world/data/world.generated.js';
 import {registerEcologyAssets} from '../tools/register-ecology-assets.mjs';
 import {describeVisualAssetCollider,getColliderCenter,getColliderHalfExtents} from '../src/world/colliderDescriptor.js';
 import RAPIER from '@dimforge/rapier3d-compat';
+import {createPhysicsWorld} from '../src/physics/createPhysicsWorld.js';
 
 await RAPIER.init();
 test('all canopy variants have solid scaled trunks, clear canopy shoulders, and retain explicit scenery flags',()=>{
@@ -27,4 +28,17 @@ test('all canopy variants have solid scaled trunks, clear canopy shoulders, and 
       assert.equal(physics.castRay(new RAPIER.Ray({x,y:7,z:4},{x:0,y:0,z:-1}),8,true),null,'collider does not extend into the crown');
     }
   }finally{physics.free();}
+});
+
+test('canopy trunk colliders remain gameplay-solid while every canopy family stays fade-only for camera collision',()=>{
+  const obstacles=['asset_verge_canopy','asset_verge_canopy_tall','asset_verge_canopy_spread'].map((visualAssetId,index)=>({
+    id:`canopy-${index}`, visualAssetId, x:index*3, z:0, w:1, h:1, height:3, baseY:0,
+  }));
+  obstacles.push({id:'stone-solid',visualAssetId:'asset_fen_stone',x:12,z:0,w:1,h:1,height:2,baseY:0});
+  const physics=createPhysicsWorld(RAPIER,{obstacles,platforms:[],groundPatches:[],terrainSurfaces:[],boundaries:[]});
+  try {
+    assert.equal(physics.staticColliders.length,6,'fallback and safety floors plus each authored trunk and ordinary solid are gameplay colliders');
+    assert.equal(physics.cameraColliders.size,3,'only floors and ordinary solid are camera blockers');
+    for(const x of [0,3,6])assert.ok(physics.world.castRay(new RAPIER.Ray({x,y:1,z:3},{x:0,y:0,z:-1}),6,true),'player physics still blocks on each canopy trunk');
+  } finally { physics.world.free(); }
 });

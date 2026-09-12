@@ -1,8 +1,10 @@
 # Latest overnight prototype — short player guide
 
-September12,2026. The newest package includes selected ShatterfenV3 and Backpack shortcut editing, with953tests and focused/native checks passing. The region remains visually provisional, and physical-phone acceptance is open. Landscape is preferred with a portrait fallback. Existing saves remain usable; a private browser window gives a fresh game without deleting them. Current Wi-Fi: http://192.168.4.96:8080/ .
+September12,2026. Production stopped at Chris's request. The newest package includes camera pitch/terrain clearance, selected ShatterfenV3 and Backpack shortcut editing, with966tests and focused/native checks passing. The region remains visually provisional, and physical-phone acceptance is open. Landscape is preferred with a portrait fallback. Existing saves remain usable; a private browser window gives a fresh game without deleting them. Current Wi-Fi: http://192.168.4.96:8080/ .
 
 ## A short five-minute check
+
+**Camera first:** on the open Camp apron, drag the empty right side up/down and sideways. Then stand near a wall or rocky slope and orbit toward it. The view should come closer without clipping through the solid, then ease out when clear; trees should fade. Try forward movement and Jump at both high/low pitch. Sudden heading changes, persistent underground views or an unreadable player after returning to open ground are failure signs.
 
 1. **Jump at Camp.** Stand on the open apron and tap Jump, then try it while moving. On desktop use Space; R now dodges. The Explorer should rise and land once per press, with no double jump or continuing hops after holding the button. Orbit should still control the camera independently. New quiet movement sounds are a development candidate; report whether they are audible and pleasant on your phone.
 2. **Explore above Forest Edge.** Travel out of Camp, pass the torn blue-gray Survey wreck through its open western side, then follow the eastern uphill route as it bends from the lower shelf to the high overlook. The height difference should be obvious, with room to turn and land. The high shelf holds a supply cache, and the lower route beside the warm gravel trail leads back down. A hidden wall, stuck movement on the visible path, floating loot or an unreadable player is a failure. You no longer need launch pads or checkpoints.

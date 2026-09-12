@@ -36,7 +36,7 @@ function setup() {
   globalThis.window = windowTarget;
   globalThis.document = documentTarget;
   const app = appTarget();
-  const camera = { yaw: 0, zoom:1, zoomByFactor(factor){this.zoom*=factor;}, orbitBy(delta) { this.yaw += delta; }, getYaw() { return this.yaw; } };
+  const camera = { yaw: 0, pitch: 0, zoom:1, zoomByFactor(factor){this.zoom*=factor;}, orbitBy(yawDelta, pitchDelta = 0) { this.yaw += yawDelta; this.pitch += pitchDelta; }, getYaw() { return this.yaw; }, getPitch() { return this.pitch; } };
   return { app, camera, windowTarget, documentTarget };
 }
 
@@ -123,6 +123,18 @@ describe("landscape input adapters", () => {
     app.dispatch("pointerup", { pointerType: "mouse", pointerId: 20, button: 0, clientX: 660, clientY: 200 });
     assert.equal(keyboard._attackPending, false);
     assert.equal(camera.yaw, -.6);
+  });
+
+  it("uses vertical right-side drag for bounded camera pitch without affecting pinch ownership", () => {
+    const { app, camera } = setup();
+    createGameCameraOrbit(app, camera, { yawSensitivity: .01, pitchSensitivity: .02 });
+    app.dispatch("pointerdown", { pointerType: "touch", pointerId: 40, button: 0, clientX: 650, clientY: 180 });
+    app.dispatch("pointermove", { pointerType: "touch", pointerId: 40, clientX: 680, clientY: 200 });
+    assert.equal(camera.yaw, -.3);
+    assert.equal(camera.pitch, -.4);
+    app.dispatch("pointerdown", { pointerType: "touch", pointerId: 41, button: 0, clientX: 740, clientY: 180 });
+    app.dispatch("pointermove", { pointerType: "touch", pointerId: 41, clientX: 760, clientY: 260 });
+    assert.equal(camera.pitch, -.4, "two-finger pinch cannot also orbit pitch");
   });
 
   it("clears an orbit pointer on cancel, blur, and hidden visibility", () => {

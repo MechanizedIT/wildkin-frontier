@@ -44,7 +44,7 @@ export function createCampDefenses({scene,registry,physicsWorld,onVisualAdded=()
   }
   function collider(instance,desc) {
     desc.setFriction(.6).setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
-    const shape=world.createCollider(desc);shape.setEnabled(visible);instance.colliders.push(shape);
+    const shape=world.createCollider(desc);shape.setEnabled(visible);physicsWorld?.registerCameraCollider?.(shape);instance.colliders.push(shape);
   }
   function panelColliders(instance,p) {
     if(!world||!RAPIER)return;
@@ -90,7 +90,7 @@ export function createCampDefenses({scene,registry,physicsWorld,onVisualAdded=()
   }
   function remove(instance) {
     onVisualRemoving(instance.visual);
-    for(const shape of instance.colliders)world?.removeCollider(shape,true);
+    for(const shape of instance.colliders){physicsWorld?.unregisterCameraCollider?.(shape);world?.removeCollider(shape,true);}
     if(instance.record.kind==='panel')disposeExternalModelInstance(instance.visual);
     else instance.visual.removeFromParent();
   }

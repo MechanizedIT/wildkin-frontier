@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-12T13:11:25.890Z",
+  "tests": 966,
+  "verify": "PASS",
+  "zipStatus": "PASS",
+  "unpackedMB": 43.84,
+  "zipMB": 20.46,
+  "world": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+  "generated": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5",
+  "index": "e0703ece3ea3ec2febb18c75ecc0ce0c75aad7c0137999cd86714de9716b0727",
+  "zip": "c2949b6acaeaef651c2e42943864f9f1f98fe268e4774bccbc14e3ec395e8bfb",
+  "native": "PASS, disclosed fixtures",
+  "packaged": "PASS, disclosed fixtures",
+  "limitations": [
+    "No physical-phone comfort/performance acceptance",
+    "Emberfall redesign remains an unintegrated candidate with one grade test failing",
+    "Tidefin V3 is not admitted to runtime"
+  ]
+}

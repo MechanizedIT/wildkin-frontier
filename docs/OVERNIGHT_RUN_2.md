@@ -1,5 +1,7 @@
 # Second overnight run — September 11, 2026
 
+**Stopped September12 at Chris's request for a PC restart/new session.** This mandate is historical until a new explicit resume. Current checkpoint:966 tests and camera/native/package closure; Emberfall is unintegrated with one candidate grade failure. Read CURRENT_SLICE and SESSION_HANDOFF_2026-09-12.
+
 ## Owner mandate and evidence
 
 **Latest September12 steering:** push verticality further in the next zone with mountains, plateaus or a deep ravine and paths to higher ground. Consider fuller orbit pitch and terrain collision that brings the camera closer smoothly, preserving tree fading. Producer choice: use Emberfall for a broad ravine and asymmetric plateau study, beginning with camera clearance/input, followed by target-driven level implementation and independent native review. Preserve existing encounters, resources, foundry and rewards. Exact geometry and camera tuning remain provisional; this work precedes the queued powered-tool slice.

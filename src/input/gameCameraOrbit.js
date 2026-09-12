@@ -5,6 +5,7 @@ export function createGameCameraOrbit(appElement, cameraFollow, cfg = {}) {
   let enabled = true;
   let pointerId = null;
   let lastX = 0;
+  let lastY = 0;
   const touches = new Map();
   let pinchDistance = null;
 
@@ -39,6 +40,7 @@ export function createGameCameraOrbit(appElement, cameraFollow, cfg = {}) {
     } else if (pointerId !== null) return;
     pointerId = event.pointerId;
     lastX = event.clientX;
+    lastY = event.clientY;
     try { appElement.setPointerCapture(pointerId); } catch {}
     if (event.cancelable) event.preventDefault();
   }
@@ -55,8 +57,10 @@ export function createGameCameraOrbit(appElement, cameraFollow, cfg = {}) {
     }
     if (!enabled || event.pointerId !== pointerId) return;
     const dx = event.clientX - lastX;
+    const dy = event.clientY - lastY;
     lastX = event.clientX;
-    if (dx) cameraFollow.orbitBy(-dx * sensitivity);
+    lastY = event.clientY;
+    if (dx || dy) cameraFollow.orbitBy(-dx * sensitivity, -dy * (cfg.pitchSensitivity ?? sensitivity));
     if (event.cancelable) event.preventDefault();
   }
   function onEnd(event) {
@@ -64,7 +68,7 @@ export function createGameCameraOrbit(appElement, cameraFollow, cfg = {}) {
       touches.delete(event.pointerId);pinchDistance=null;
       const remaining=touches.entries().next().value;
       pointerId=remaining?.[0]??null;
-      if(remaining)lastX=remaining[1].x;
+      if(remaining){lastX=remaining[1].x;lastY=remaining[1].y;}
       try{appElement.releasePointerCapture(event.pointerId);}catch{}
     } else if(event.pointerId===pointerId)clear();
   }
@@ -86,7 +90,7 @@ export function createGameCameraOrbit(appElement, cameraFollow, cfg = {}) {
   window.addEventListener('resize',clear);
   window.visualViewport?.addEventListener('resize',clear);
   document.addEventListener("visibilitychange", onVisibilityChange);
-  return { setEnabled, isEnabled: () => enabled, clear, _debug: () => ({ enabled, pointerId, pinch:touches.size===2, yaw: cameraFollow.getYaw() }), destroy() {
+  return { setEnabled, isEnabled: () => enabled, clear, _debug: () => ({ enabled, pointerId, pinch:touches.size===2, yaw: cameraFollow.getYaw(), pitch: cameraFollow.getPitch?.() }), destroy() {
     window.removeEventListener('resize',clear);window.visualViewport?.removeEventListener('resize',clear);
     clear(); appElement.removeEventListener("pointerdown", onDown); appElement.removeEventListener("pointermove", onMove); appElement.removeEventListener("pointerup", onEnd); appElement.removeEventListener("pointercancel", onEnd); appElement.removeEventListener("lostpointercapture", onLostCapture); appElement.removeEventListener("wheel",onWheel); window.removeEventListener("blur", clear); document.removeEventListener("visibilitychange", onVisibilityChange);
   } };

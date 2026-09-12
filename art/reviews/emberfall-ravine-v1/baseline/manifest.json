@@ -1,0 +1,2579 @@
+{
+  "createdAt": "2026-09-12T12:31:07.515Z",
+  "source": "Current authored dev world with native Three.js scene/terrain/visual constructors; no player save loaded",
+  "sourceWorldPath": "src/world/data/world.json",
+  "sourceWorldSHA256": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+  "sourceBefore": {
+    "src/world/data/world.json": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+    "src/world/data/world.generated.js": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5"
+  },
+  "reproduce": "node tools/review/capture-visual-atlas.mjs --url http://localhost:8080/ --out .dream-loop/emberfall-ravine-v1/baseline --regions section_3 --maps-only --overview",
+  "maps": [
+    {
+      "id": "section_3",
+      "name": "Emberfall Ruins",
+      "bounds": {
+        "minX": -64,
+        "maxX": 64,
+        "minZ": -64,
+        "maxZ": 64
+      },
+      "authoredBounds": {
+        "maxX": 60,
+        "maxZ": 60,
+        "minX": -60,
+        "minZ": -60
+      },
+      "north": "image top = world -Z; right = +X",
+      "imageSize": {
+        "width": 2048,
+        "height": 2048
+      },
+      "metresPerPixel": 0.0625,
+      "worldToImage": {
+        "u": "(x-minX)/(maxX-minX)*2048",
+        "v": "(z-minZ)/(maxZ-minZ)*2048"
+      },
+      "snapshot": "Authored initial layout, ready resources and creatures at authored spawn anchors; no live/save state",
+      "anchors": [
+        {
+          "id": "entry_section_3",
+          "name": "entry_section_3",
+          "type": "entry",
+          "world": {
+            "x": 0,
+            "y": 0,
+            "z": 46
+          },
+          "pixel": {
+            "x": 1024,
+            "y": 1760
+          }
+        },
+        {
+          "id": "gate_section_3_to_2",
+          "name": "Shatterfen Return Gate",
+          "type": "gate",
+          "world": {
+            "x": 0,
+            "y": 0,
+            "z": 51
+          },
+          "pixel": {
+            "x": 1024,
+            "y": 1840
+          }
+        },
+        {
+          "id": "gate_section_3_to_4",
+          "name": "Windscar Gate",
+          "type": "gate",
+          "world": {
+            "x": 0,
+            "y": 0.9,
+            "z": -49
+          },
+          "pixel": {
+            "x": 1024,
+            "y": 240
+          }
+        },
+        {
+          "id": "chest_secret_section_3",
+          "name": "Cinder Cache",
+          "type": "chest",
+          "world": {
+            "x": -17,
+            "y": 0.7665,
+            "z": -10
+          },
+          "pixel": {
+            "x": 752,
+            "y": 864
+          }
+        },
+        {
+          "id": "chest_parkour_section_3",
+          "name": "Cinder Shelf Cache",
+          "type": "chest",
+          "world": {
+            "x": 28,
+            "y": 2.6,
+            "z": 8
+          },
+          "pixel": {
+            "x": 1472,
+            "y": 1152
+          }
+        },
+        {
+          "id": "chest_emberhorn_secret",
+          "name": "Ember Forge Vault",
+          "type": "chest",
+          "world": {
+            "x": -25,
+            "y": 0,
+            "z": -32
+          },
+          "pixel": {
+            "x": 624,
+            "y": 512
+          }
+        },
+        {
+          "id": "wp_section_3",
+          "name": "Emberfall Ruins Waypoint",
+          "type": "waypoint",
+          "world": {
+            "x": -17,
+            "y": 0.3344,
+            "z": 23
+          },
+          "pixel": {
+            "x": 752,
+            "y": 1392
+          }
+        },
+        {
+          "id": "beacon_section_3",
+          "name": "Emberfall Ruins Beacon",
+          "type": "beacon",
+          "world": {
+            "x": -30,
+            "y": 0.7924,
+            "z": -22
+          },
+          "pixel": {
+            "x": 544,
+            "y": 672
+          }
+        },
+        {
+          "id": "tree_section_3_01",
+          "name": "tree_section_3_01",
+          "type": "resource",
+          "world": {
+            "x": -12,
+            "y": 0.0521,
+            "z": 14
+          },
+          "pixel": {
+            "x": 832,
+            "y": 1248
+          }
+        },
+        {
+          "id": "rock_section_3_01",
+          "name": "rock_section_3_01",
+          "type": "resource",
+          "world": {
+            "x": 12,
+            "y": 0,
+            "z": 13
+          },
+          "pixel": {
+            "x": 1216,
+            "y": 1232
+          }
+        },
+        {
+          "id": "fiber_section_3_01",
+          "name": "fiber_section_3_01",
+          "type": "resource",
+          "world": {
+            "x": 12,
+            "y": 0.0853,
+            "z": 4
+          },
+          "pixel": {
+            "x": 1216,
+            "y": 1088
+          }
+        },
+        {
+          "id": "prop_s3_ore_a",
+          "name": "prop_s3_ore_a",
+          "type": "resource",
+          "world": {
+            "x": 10,
+            "y": 0,
+            "z": -10
+          },
+          "pixel": {
+            "x": 1184,
+            "y": 864
+          }
+        },
+        {
+          "id": "prop_s3_crystal",
+          "name": "prop_s3_crystal",
+          "type": "resource",
+          "world": {
+            "x": -15,
+            "y": 0.3412,
+            "z": -10
+          },
+          "pixel": {
+            "x": 784,
+            "y": 864
+          }
+        },
+        {
+          "id": "prop_s3_shrine_ore",
+          "name": "prop_s3_shrine_ore",
+          "type": "resource",
+          "world": {
+            "x": -22,
+            "y": 1.6078364118017043,
+            "z": -12
+          },
+          "pixel": {
+            "x": 672,
+            "y": 832
+          }
+        },
+        {
+          "id": "prop_s3_gate_ore",
+          "name": "prop_s3_gate_ore",
+          "type": "resource",
+          "world": {
+            "x": -4.1,
+            "y": 0,
+            "z": -15.1
+          },
+          "pixel": {
+            "x": 958.4,
+            "y": 782.4
+          }
+        },
+        {
+          "id": "prop_s3_route_ore",
+          "name": "prop_s3_route_ore",
+          "type": "resource",
+          "world": {
+            "x": 4.8,
+            "y": 0,
+            "z": -5.6
+          },
+          "pixel": {
+            "x": 1100.8,
+            "y": 934.4
+          }
+        },
+        {
+          "id": "prop_s3_arrival_ore",
+          "name": "prop_s3_arrival_ore",
+          "type": "resource",
+          "world": {
+            "x": 5.1,
+            "y": 0,
+            "z": 12.5
+          },
+          "pixel": {
+            "x": 1105.6,
+            "y": 1224
+          }
+        },
+        {
+          "id": "wildkin_emberhorn_1",
+          "name": "wildkin_emberhorn_1",
+          "type": "creature-spawn",
+          "world": {
+            "x": -4,
+            "y": 0,
+            "z": 12
+          },
+          "pixel": {
+            "x": 960,
+            "y": 1216
+          }
+        },
+        {
+          "id": "wildkin_emberhorn_2",
+          "name": "wildkin_emberhorn_2",
+          "type": "creature-spawn",
+          "world": {
+            "x": 10,
+            "y": 0,
+            "z": 6
+          },
+          "pixel": {
+            "x": 1184,
+            "y": 1120
+          }
+        },
+        {
+          "id": "wildkin_cinder_1",
+          "name": "wildkin_cinder_1",
+          "type": "creature-spawn",
+          "world": {
+            "x": -10,
+            "y": 0,
+            "z": -6
+          },
+          "pixel": {
+            "x": 864,
+            "y": 928
+          }
+        },
+        {
+          "id": "wildkin_cinder_2",
+          "name": "wildkin_cinder_2",
+          "type": "creature-spawn",
+          "world": {
+            "x": 10,
+            "y": 0,
+            "z": -12
+          },
+          "pixel": {
+            "x": 1184,
+            "y": 832
+          }
+        },
+        {
+          "id": "prop_s3_spire_a",
+          "name": "prop_s3_spire_a",
+          "type": "object",
+          "world": {
+            "x": -14,
+            "y": 0.438,
+            "z": 12
+          },
+          "pixel": {
+            "x": 800,
+            "y": 1216
+          }
+        },
+        {
+          "id": "prop_s3_spire_b",
+          "name": "prop_s3_spire_b",
+          "type": "object",
+          "world": {
+            "x": 30,
+            "y": 2.5249,
+            "z": 10
+          },
+          "pixel": {
+            "x": 1504,
+            "y": 1184
+          }
+        },
+        {
+          "id": "prop_s3_bloom_a",
+          "name": "prop_s3_bloom_a",
+          "type": "object",
+          "world": {
+            "x": -9,
+            "y": 0,
+            "z": 4
+          },
+          "pixel": {
+            "x": 880,
+            "y": 1088
+          }
+        },
+        {
+          "id": "prop_s3_ore_a",
+          "name": "prop_s3_ore_a",
+          "type": "object",
+          "world": {
+            "x": 10,
+            "y": 0,
+            "z": -10
+          },
+          "pixel": {
+            "x": 1184,
+            "y": 864
+          }
+        },
+        {
+          "id": "prop_s3_crystal",
+          "name": "prop_s3_crystal",
+          "type": "object",
+          "world": {
+            "x": -15,
+            "y": 0.3412,
+            "z": -10
+          },
+          "pixel": {
+            "x": 784,
+            "y": 864
+          }
+        },
+        {
+          "id": "prop_s3_barrier",
+          "name": "prop_s3_barrier",
+          "type": "object",
+          "world": {
+            "x": -26.8,
+            "y": 0,
+            "z": -33.2
+          },
+          "pixel": {
+            "x": 595.2,
+            "y": 492.79999999999995
+          }
+        },
+        {
+          "id": "wildkin_emberhorn_1",
+          "name": "wildkin_emberhorn_1",
+          "type": "object",
+          "world": {
+            "x": -4,
+            "y": 0,
+            "z": 12
+          },
+          "pixel": {
+            "x": 960,
+            "y": 1216
+          }
+        },
+        {
+          "id": "wildkin_emberhorn_2",
+          "name": "wildkin_emberhorn_2",
+          "type": "object",
+          "world": {
+            "x": 10,
+            "y": 0,
+            "z": 6
+          },
+          "pixel": {
+            "x": 1184,
+            "y": 1120
+          }
+        },
+        {
+          "id": "wildkin_cinder_1",
+          "name": "wildkin_cinder_1",
+          "type": "object",
+          "world": {
+            "x": -10,
+            "y": 0,
+            "z": -6
+          },
+          "pixel": {
+            "x": 864,
+            "y": 928
+          }
+        },
+        {
+          "id": "wildkin_cinder_2",
+          "name": "wildkin_cinder_2",
+          "type": "object",
+          "world": {
+            "x": 10,
+            "y": 0,
+            "z": -12
+          },
+          "pixel": {
+            "x": 1184,
+            "y": 832
+          }
+        },
+        {
+          "id": "prop_s3_shrine_spire_l",
+          "name": "prop_s3_shrine_spire_l",
+          "type": "object",
+          "world": {
+            "x": -23,
+            "y": 1.3850779514120928,
+            "z": 23
+          },
+          "pixel": {
+            "x": 656,
+            "y": 1392
+          }
+        },
+        {
+          "id": "prop_s3_shrine_spire_r",
+          "name": "prop_s3_shrine_spire_r",
+          "type": "object",
+          "world": {
+            "x": 20,
+            "y": 1.8542730735696822,
+            "z": 9
+          },
+          "pixel": {
+            "x": 1344,
+            "y": 1168
+          }
+        },
+        {
+          "id": "prop_s3_shrine_bloom_l",
+          "name": "prop_s3_shrine_bloom_l",
+          "type": "object",
+          "world": {
+            "x": -9,
+            "y": 0,
+            "z": 19
+          },
+          "pixel": {
+            "x": 880,
+            "y": 1328
+          }
+        },
+        {
+          "id": "prop_s3_shrine_bloom_r",
+          "name": "prop_s3_shrine_bloom_r",
+          "type": "object",
+          "world": {
+            "x": 16,
+            "y": 0.3314081441832963,
+            "z": 14
+          },
+          "pixel": {
+            "x": 1280,
+            "y": 1248
+          }
+        },
+        {
+          "id": "prop_s3_shrine_ruin",
+          "name": "prop_s3_shrine_ruin",
+          "type": "object",
+          "world": {
+            "x": -5.8,
+            "y": 0,
+            "z": 2.4
+          },
+          "pixel": {
+            "x": 931.2,
+            "y": 1062.4
+          }
+        },
+        {
+          "id": "prop_s3_shrine_ore",
+          "name": "prop_s3_shrine_ore",
+          "type": "object",
+          "world": {
+            "x": -22,
+            "y": 1.6078364118017043,
+            "z": -12
+          },
+          "pixel": {
+            "x": 672,
+            "y": 832
+          }
+        },
+        {
+          "id": "prop_s3_chamber_arch_l",
+          "name": "prop_s3_chamber_arch_l",
+          "type": "object",
+          "world": {
+            "x": -7.4,
+            "y": 0,
+            "z": -7.3
+          },
+          "pixel": {
+            "x": 905.6,
+            "y": 907.2
+          }
+        },
+        {
+          "id": "prop_s3_chamber_arch_r",
+          "name": "prop_s3_chamber_arch_r",
+          "type": "object",
+          "world": {
+            "x": 7.3,
+            "y": 0,
+            "z": -8.6
+          },
+          "pixel": {
+            "x": 1140.8,
+            "y": 886.4
+          }
+        },
+        {
+          "id": "prop_s3_chamber_spire_l",
+          "name": "prop_s3_chamber_spire_l",
+          "type": "object",
+          "world": {
+            "x": -4.6,
+            "y": 0,
+            "z": -11.1
+          },
+          "pixel": {
+            "x": 950.4,
+            "y": 846.4
+          }
+        },
+        {
+          "id": "prop_s3_chamber_spire_r",
+          "name": "prop_s3_chamber_spire_r",
+          "type": "object",
+          "world": {
+            "x": 4.9,
+            "y": 0,
+            "z": -10.4
+          },
+          "pixel": {
+            "x": 1102.4,
+            "y": 857.6
+          }
+        },
+        {
+          "id": "prop_s3_chamber_bloom",
+          "name": "prop_s3_chamber_bloom",
+          "type": "object",
+          "world": {
+            "x": 3.4,
+            "y": 0,
+            "z": -7.1
+          },
+          "pixel": {
+            "x": 1078.4,
+            "y": 910.4
+          }
+        },
+        {
+          "id": "prop_s3_gate_spire_l",
+          "name": "prop_s3_gate_spire_l",
+          "type": "object",
+          "world": {
+            "x": -7,
+            "y": 0.8935861396854181,
+            "z": -46
+          },
+          "pixel": {
+            "x": 912,
+            "y": 288
+          }
+        },
+        {
+          "id": "prop_s3_gate_spire_r",
+          "name": "prop_s3_gate_spire_r",
+          "type": "object",
+          "world": {
+            "x": 8,
+            "y": 0.7119189513906904,
+            "z": -48
+          },
+          "pixel": {
+            "x": 1152,
+            "y": 256
+          }
+        },
+        {
+          "id": "prop_s3_gate_ore",
+          "name": "prop_s3_gate_ore",
+          "type": "object",
+          "world": {
+            "x": -4.1,
+            "y": 0,
+            "z": -15.1
+          },
+          "pixel": {
+            "x": 958.4,
+            "y": 782.4
+          }
+        },
+        {
+          "id": "prop_s3_gate_bloom",
+          "name": "prop_s3_gate_bloom",
+          "type": "object",
+          "world": {
+            "x": 3.8,
+            "y": 0,
+            "z": -15.3
+          },
+          "pixel": {
+            "x": 1084.8,
+            "y": 779.2
+          }
+        },
+        {
+          "id": "prop_s3_route_spire_l",
+          "name": "prop_s3_route_spire_l",
+          "type": "object",
+          "world": {
+            "x": -3.9,
+            "y": 0,
+            "z": -0.5
+          },
+          "pixel": {
+            "x": 961.6,
+            "y": 1016
+          }
+        },
+        {
+          "id": "prop_s3_route_spire_r",
+          "name": "prop_s3_route_spire_r",
+          "type": "object",
+          "world": {
+            "x": 4,
+            "y": 0,
+            "z": -1.5
+          },
+          "pixel": {
+            "x": 1088,
+            "y": 1000
+          }
+        },
+        {
+          "id": "prop_s3_route_bloom_l",
+          "name": "prop_s3_route_bloom_l",
+          "type": "object",
+          "world": {
+            "x": -2.8,
+            "y": 0,
+            "z": -3.8
+          },
+          "pixel": {
+            "x": 979.2,
+            "y": 963.2
+          }
+        },
+        {
+          "id": "prop_s3_route_bloom_r",
+          "name": "prop_s3_route_bloom_r",
+          "type": "object",
+          "world": {
+            "x": 2.9,
+            "y": 0,
+            "z": -4.6
+          },
+          "pixel": {
+            "x": 1070.4,
+            "y": 950.4
+          }
+        },
+        {
+          "id": "prop_s3_route_ore",
+          "name": "prop_s3_route_ore",
+          "type": "object",
+          "world": {
+            "x": 4.8,
+            "y": 0,
+            "z": -5.6
+          },
+          "pixel": {
+            "x": 1100.8,
+            "y": 934.4
+          }
+        },
+        {
+          "id": "prop_s3_bloom_b",
+          "name": "prop_s3_bloom_b",
+          "type": "object",
+          "world": {
+            "x": 6,
+            "y": 0,
+            "z": 13
+          },
+          "pixel": {
+            "x": 1120,
+            "y": 1232
+          }
+        },
+        {
+          "id": "prop_s3_bloom_c",
+          "name": "prop_s3_bloom_c",
+          "type": "object",
+          "world": {
+            "x": -5,
+            "y": 0,
+            "z": -8
+          },
+          "pixel": {
+            "x": 944,
+            "y": 896
+          }
+        },
+        {
+          "id": "prop_s3_pebbles",
+          "name": "prop_s3_pebbles",
+          "type": "object",
+          "world": {
+            "x": -26,
+            "y": 2.1732312879127953,
+            "z": -10
+          },
+          "pixel": {
+            "x": 608,
+            "y": 864
+          }
+        },
+        {
+          "id": "prop_s3_arrival_spire_l",
+          "name": "prop_s3_arrival_spire_l",
+          "type": "object",
+          "world": {
+            "x": -16,
+            "y": 0,
+            "z": 35
+          },
+          "pixel": {
+            "x": 768,
+            "y": 1584
+          }
+        },
+        {
+          "id": "prop_s3_arrival_spire_r",
+          "name": "prop_s3_arrival_spire_r",
+          "type": "object",
+          "world": {
+            "x": 1,
+            "y": 0,
+            "z": 42
+          },
+          "pixel": {
+            "x": 1040,
+            "y": 1696
+          }
+        },
+        {
+          "id": "prop_s3_arrival_bloom_l",
+          "name": "prop_s3_arrival_bloom_l",
+          "type": "object",
+          "world": {
+            "x": -3.3,
+            "y": 0,
+            "z": 15.1
+          },
+          "pixel": {
+            "x": 971.2,
+            "y": 1265.6
+          }
+        },
+        {
+          "id": "prop_s3_arrival_bloom_r",
+          "name": "prop_s3_arrival_bloom_r",
+          "type": "object",
+          "world": {
+            "x": 3.7,
+            "y": 0,
+            "z": 14.2
+          },
+          "pixel": {
+            "x": 1083.2,
+            "y": 1251.2
+          }
+        },
+        {
+          "id": "prop_s3_arrival_ore",
+          "name": "prop_s3_arrival_ore",
+          "type": "object",
+          "world": {
+            "x": 5.1,
+            "y": 0,
+            "z": 12.5
+          },
+          "pixel": {
+            "x": 1105.6,
+            "y": 1224
+          }
+        },
+        {
+          "id": "prop_s3_arrival_stones",
+          "name": "prop_s3_arrival_stones",
+          "type": "object",
+          "world": {
+            "x": -1.2,
+            "y": 0,
+            "z": 13.2
+          },
+          "pixel": {
+            "x": 1004.8,
+            "y": 1235.2
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_0",
+          "name": "prop_foundry_habitat_shelf_0",
+          "type": "object",
+          "world": {
+            "x": -35.8,
+            "y": 3.5621,
+            "z": -10.8
+          },
+          "pixel": {
+            "x": 451.20000000000005,
+            "y": 851.2
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_1",
+          "name": "prop_foundry_habitat_shelf_1",
+          "type": "object",
+          "world": {
+            "x": -37.9,
+            "y": 3.6,
+            "z": -18.1
+          },
+          "pixel": {
+            "x": 417.6,
+            "y": 734.4
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_2",
+          "name": "prop_foundry_habitat_shelf_2",
+          "type": "object",
+          "world": {
+            "x": -15.1,
+            "y": 0.4957,
+            "z": -18
+          },
+          "pixel": {
+            "x": 782.4,
+            "y": 736
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_2_support_1",
+          "name": "prop_foundry_habitat_shelf_2_support_1",
+          "type": "object",
+          "world": {
+            "x": -16.408861343199817,
+            "y": 0.4957,
+            "z": -18.243468793145755
+          },
+          "pixel": {
+            "x": 761.4582185088029,
+            "y": 732.104499309668
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_2_support_2",
+          "name": "prop_foundry_habitat_shelf_2_support_2",
+          "type": "object",
+          "world": {
+            "x": -13.632996679787839,
+            "y": 0.4957,
+            "z": -17.658666178899004
+          },
+          "pixel": {
+            "x": 805.8720531233946,
+            "y": 741.4613411376159
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_3",
+          "name": "prop_foundry_habitat_shelf_3",
+          "type": "object",
+          "world": {
+            "x": -12.9,
+            "y": 0.6051,
+            "z": -23.5
+          },
+          "pixel": {
+            "x": 817.6,
+            "y": 648
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_3_support_1",
+          "name": "prop_foundry_habitat_shelf_3_support_1",
+          "type": "object",
+          "world": {
+            "x": -14.024950386882665,
+            "y": 0.6051,
+            "z": -23.851297218297596
+          },
+          "pixel": {
+            "x": 799.6007938098774,
+            "y": 642.3792445072385
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_3_support_2",
+          "name": "prop_foundry_habitat_shelf_3_support_2",
+          "type": "object",
+          "world": {
+            "x": -11.646802121334806,
+            "y": 0.6051,
+            "z": -23.04890349242008
+          },
+          "pixel": {
+            "x": 837.6511660586431,
+            "y": 655.2175441212787
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_4",
+          "name": "prop_foundry_habitat_shelf_4",
+          "type": "object",
+          "world": {
+            "x": -36.8,
+            "y": 0,
+            "z": -30.9
+          },
+          "pixel": {
+            "x": 435.20000000000005,
+            "y": 529.6
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_5",
+          "name": "prop_foundry_habitat_shelf_5",
+          "type": "object",
+          "world": {
+            "x": -33.5,
+            "y": 2.6,
+            "z": -39.1
+          },
+          "pixel": {
+            "x": 488,
+            "y": 398.4
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_6",
+          "name": "prop_foundry_habitat_shelf_6",
+          "type": "object",
+          "world": {
+            "x": -13.8,
+            "y": 0.65,
+            "z": -20.8
+          },
+          "pixel": {
+            "x": 803.2,
+            "y": 691.2
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_6_support_1",
+          "name": "prop_foundry_habitat_shelf_6_support_1",
+          "type": "object",
+          "world": {
+            "x": -14.86170084306387,
+            "y": 0.65,
+            "z": -20.943852304519357
+          },
+          "pixel": {
+            "x": 786.212786510978,
+            "y": 688.8983631276903
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_shelf_6_support_2",
+          "name": "prop_foundry_habitat_shelf_6_support_2",
+          "type": "object",
+          "world": {
+            "x": -12.63412454058584,
+            "y": 0.65,
+            "z": -21.15723157692318
+          },
+          "pixel": {
+            "x": 821.8540073506266,
+            "y": 685.4842947692291
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_grove_0",
+          "name": "prop_foundry_habitat_grove_0",
+          "type": "object",
+          "world": {
+            "x": -30.7,
+            "y": 2.2,
+            "z": -9.3
+          },
+          "pixel": {
+            "x": 532.8,
+            "y": 875.2
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_grove_1",
+          "name": "prop_foundry_habitat_grove_1",
+          "type": "object",
+          "world": {
+            "x": -31.6,
+            "y": 1.3126,
+            "z": -18.7
+          },
+          "pixel": {
+            "x": 518.4,
+            "y": 724.8
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_grove_2",
+          "name": "prop_foundry_habitat_grove_2",
+          "type": "object",
+          "world": {
+            "x": -18,
+            "y": 0.6939,
+            "z": -13.1
+          },
+          "pixel": {
+            "x": 736,
+            "y": 814.4
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_grove_3",
+          "name": "prop_foundry_habitat_grove_3",
+          "type": "object",
+          "world": {
+            "x": -20.8,
+            "y": 0.1202,
+            "z": -23
+          },
+          "pixel": {
+            "x": 691.2,
+            "y": 656
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_grove_4",
+          "name": "prop_foundry_habitat_grove_4",
+          "type": "object",
+          "world": {
+            "x": -31,
+            "y": 0,
+            "z": -30.7
+          },
+          "pixel": {
+            "x": 528,
+            "y": 532.8
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_grove_5",
+          "name": "prop_foundry_habitat_grove_5",
+          "type": "object",
+          "world": {
+            "x": -20.2,
+            "y": 0,
+            "z": -33.3
+          },
+          "pixel": {
+            "x": 700.8,
+            "y": 491.20000000000005
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_grove_6",
+          "name": "prop_foundry_habitat_grove_6",
+          "type": "object",
+          "world": {
+            "x": -31.2,
+            "y": 0.1333,
+            "z": -34.1
+          },
+          "pixel": {
+            "x": 524.8,
+            "y": 478.4
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_recess_left",
+          "name": "prop_foundry_habitat_recess_left",
+          "type": "object",
+          "world": {
+            "x": -28.5,
+            "y": 0.9249,
+            "z": -37
+          },
+          "pixel": {
+            "x": 568,
+            "y": 432
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_recess_right",
+          "name": "prop_foundry_habitat_recess_right",
+          "type": "object",
+          "world": {
+            "x": -21.5,
+            "y": 0,
+            "z": -37
+          },
+          "pixel": {
+            "x": 680,
+            "y": 432
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_recess_back",
+          "name": "prop_foundry_habitat_recess_back",
+          "type": "object",
+          "world": {
+            "x": -25,
+            "y": 0,
+            "z": -39.1
+          },
+          "pixel": {
+            "x": 624,
+            "y": 398.4
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_recess_lintel",
+          "name": "prop_foundry_habitat_recess_lintel",
+          "type": "object",
+          "world": {
+            "x": -25,
+            "y": 0,
+            "z": -37
+          },
+          "pixel": {
+            "x": 624,
+            "y": 432
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_landing_lower",
+          "name": "prop_foundry_habitat_landing_lower",
+          "type": "object",
+          "world": {
+            "x": -25,
+            "y": 0,
+            "z": -35.2
+          },
+          "pixel": {
+            "x": 624,
+            "y": 460.79999999999995
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_landing_upper",
+          "name": "prop_foundry_habitat_landing_upper",
+          "type": "object",
+          "world": {
+            "x": -25,
+            "y": 0,
+            "z": -37.25
+          },
+          "pixel": {
+            "x": 624,
+            "y": 428
+          }
+        },
+        {
+          "id": "prop_foundry_habitat_ground_details",
+          "name": "prop_foundry_habitat_ground_details",
+          "type": "object",
+          "world": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pixel": {
+            "x": 1024,
+            "y": 1024
+          }
+        }
+      ],
+      "render": {
+        "calls": 349,
+        "triangles": 268664
+      },
+      "path": ".dream-loop/emberfall-ravine-v1/baseline/maps/section_3.png",
+      "planningPath": ".dream-loop/emberfall-ravine-v1/baseline/maps/section_3-planning.png",
+      "overview": {
+        "id": "section_3",
+        "name": "Emberfall Ruins",
+        "authoredBounds": {
+          "maxX": 60,
+          "maxZ": 60,
+          "minX": -60,
+          "minZ": -60
+        },
+        "snapshot": "Authored initial layout, ready resources and creatures at authored spawn anchors; no live/save state",
+        "anchors": [
+          {
+            "id": "entry_section_3",
+            "name": "entry_section_3",
+            "type": "entry",
+            "world": {
+              "x": 0,
+              "y": 0,
+              "z": 46
+            },
+            "pixel": {
+              "x": 782,
+              "y": 846.613672983383
+            }
+          },
+          {
+            "id": "gate_section_3_to_2",
+            "name": "Shatterfen Return Gate",
+            "type": "gate",
+            "world": {
+              "x": 0,
+              "y": 0,
+              "z": 51
+            },
+            "pixel": {
+              "x": 782,
+              "y": 882.9659526369514
+            }
+          },
+          {
+            "id": "gate_section_3_to_4",
+            "name": "Windscar Gate",
+            "type": "gate",
+            "world": {
+              "x": 0,
+              "y": 0.9,
+              "z": -49
+            },
+            "pixel": {
+              "x": 782,
+              "y": 151.79264448883478
+            }
+          },
+          {
+            "id": "chest_secret_section_3",
+            "name": "Cinder Cache",
+            "type": "chest",
+            "world": {
+              "x": -17,
+              "y": 0.7665,
+              "z": -10
+            },
+            "pixel": {
+              "x": 635.8651120999715,
+              "y": 435.95270352305255
+            }
+          },
+          {
+            "id": "chest_parkour_section_3",
+            "name": "Cinder Shelf Cache",
+            "type": "chest",
+            "world": {
+              "x": 28,
+              "y": 2.6,
+              "z": 8
+            },
+            "pixel": {
+              "x": 1022.6927565412234,
+              "y": 558.4118373945435
+            }
+          },
+          {
+            "id": "chest_emberhorn_secret",
+            "name": "Ember Forge Vault",
+            "type": "chest",
+            "world": {
+              "x": -25,
+              "y": 0,
+              "z": -32
+            },
+            "pixel": {
+              "x": 567.0957530881933,
+              "y": 279.5181103877165
+            }
+          },
+          {
+            "id": "wp_section_3",
+            "name": "Emberfall Ruins Waypoint",
+            "type": "waypoint",
+            "world": {
+              "x": -17,
+              "y": 0.3344,
+              "z": 23
+            },
+            "pixel": {
+              "x": 635.8651120999715,
+              "y": 677.8595111084519
+            }
+          },
+          {
+            "id": "beacon_section_3",
+            "name": "Emberfall Ruins Beacon",
+            "type": "beacon",
+            "world": {
+              "x": -30,
+              "y": 0.7924,
+              "z": -22
+            },
+            "pixel": {
+              "x": 524.1149037058321,
+              "y": 348.58844588727976
+            }
+          },
+          {
+            "id": "tree_section_3_01",
+            "name": "tree_section_3_01",
+            "type": "resource",
+            "world": {
+              "x": -12,
+              "y": 0.0521,
+              "z": 14
+            },
+            "pixel": {
+              "x": 678.8459614823329,
+              "y": 613.7201343611025
+            }
+          },
+          {
+            "id": "rock_section_3_01",
+            "name": "rock_section_3_01",
+            "type": "resource",
+            "world": {
+              "x": 12,
+              "y": 0,
+              "z": 13
+            },
+            "pixel": {
+              "x": 885.1540385176672,
+              "y": 606.6886272698318
+            }
+          },
+          {
+            "id": "fiber_section_3_01",
+            "name": "fiber_section_3_01",
+            "type": "resource",
+            "world": {
+              "x": 12,
+              "y": 0.0853,
+              "z": 4
+            },
+            "pixel": {
+              "x": 885.1540385176672,
+              "y": 540.8633082311346
+            }
+          },
+          {
+            "id": "prop_s3_ore_a",
+            "name": "prop_s3_ore_a",
+            "type": "resource",
+            "world": {
+              "x": 10,
+              "y": 0,
+              "z": -10
+            },
+            "pixel": {
+              "x": 867.9616987647227,
+              "y": 439.4681408634173
+            }
+          },
+          {
+            "id": "prop_s3_crystal",
+            "name": "prop_s3_crystal",
+            "type": "resource",
+            "world": {
+              "x": -15,
+              "y": 0.3412,
+              "z": -10
+            },
+            "pixel": {
+              "x": 653.0574518529161,
+              "y": 437.90327821432084
+            }
+          },
+          {
+            "id": "prop_s3_shrine_ore",
+            "name": "prop_s3_shrine_ore",
+            "type": "resource",
+            "world": {
+              "x": -22,
+              "y": 1.6078364118017043,
+              "z": -12
+            },
+            "pixel": {
+              "x": 592.8842627176102,
+              "y": 417.55312833761184
+            }
+          },
+          {
+            "id": "prop_s3_gate_ore",
+            "name": "prop_s3_gate_ore",
+            "type": "resource",
+            "world": {
+              "x": -4.1,
+              "y": 0,
+              "z": -15.1
+            },
+            "pixel": {
+              "x": 746.7557035064638,
+              "y": 402.3888156167775
+            }
+          },
+          {
+            "id": "prop_s3_route_ore",
+            "name": "prop_s3_route_ore",
+            "type": "resource",
+            "world": {
+              "x": 4.8,
+              "y": 0,
+              "z": -5.6
+            },
+            "pixel": {
+              "x": 823.2616154070669,
+              "y": 471.45814695855745
+            }
+          },
+          {
+            "id": "prop_s3_arrival_ore",
+            "name": "prop_s3_arrival_ore",
+            "type": "resource",
+            "world": {
+              "x": 5.1,
+              "y": 0,
+              "z": 12.5
+            },
+            "pixel": {
+              "x": 825.8404663700086,
+              "y": 603.053399304475
+            }
+          },
+          {
+            "id": "wildkin_emberhorn_1",
+            "name": "wildkin_emberhorn_1",
+            "type": "creature-spawn",
+            "world": {
+              "x": -4,
+              "y": 0,
+              "z": 12
+            },
+            "pixel": {
+              "x": 747.615320494111,
+              "y": 599.4181713391181
+            }
+          },
+          {
+            "id": "wildkin_emberhorn_2",
+            "name": "wildkin_emberhorn_2",
+            "type": "creature-spawn",
+            "world": {
+              "x": 10,
+              "y": 0,
+              "z": 6
+            },
+            "pixel": {
+              "x": 867.9616987647227,
+              "y": 555.795435754836
+            }
+          },
+          {
+            "id": "wildkin_cinder_1",
+            "name": "wildkin_cinder_1",
+            "type": "creature-spawn",
+            "world": {
+              "x": -10,
+              "y": 0,
+              "z": -6
+            },
+            "pixel": {
+              "x": 696.0383012352773,
+              "y": 468.549964586272
+            }
+          },
+          {
+            "id": "wildkin_cinder_2",
+            "name": "wildkin_cinder_2",
+            "type": "creature-spawn",
+            "world": {
+              "x": 10,
+              "y": 0,
+              "z": -12
+            },
+            "pixel": {
+              "x": 867.9616987647227,
+              "y": 424.92722900198993
+            }
+          },
+          {
+            "id": "prop_s3_spire_a",
+            "name": "prop_s3_spire_a",
+            "type": "object",
+            "world": {
+              "x": -14,
+              "y": 0.438,
+              "z": 12
+            },
+            "pixel": {
+              "x": 661.6536217293883,
+              "y": 597.4093500017668
+            }
+          },
+          {
+            "id": "prop_s3_spire_b",
+            "name": "prop_s3_spire_b",
+            "type": "object",
+            "world": {
+              "x": 30,
+              "y": 2.5249,
+              "z": 10
+            },
+            "pixel": {
+              "x": 1039.8850962941679,
+              "y": 573.297184147375
+            }
+          },
+          {
+            "id": "prop_s3_bloom_a",
+            "name": "prop_s3_bloom_a",
+            "type": "object",
+            "world": {
+              "x": -9,
+              "y": 0,
+              "z": 4
+            },
+            "pixel": {
+              "x": 704.6344711117497,
+              "y": 541.2545238934088
+            }
+          },
+          {
+            "id": "prop_s3_ore_a",
+            "name": "prop_s3_ore_a",
+            "type": "object",
+            "world": {
+              "x": 10,
+              "y": 0,
+              "z": -10
+            },
+            "pixel": {
+              "x": 867.9616987647227,
+              "y": 439.4681408634173
+            }
+          },
+          {
+            "id": "prop_s3_crystal",
+            "name": "prop_s3_crystal",
+            "type": "object",
+            "world": {
+              "x": -15,
+              "y": 0.3412,
+              "z": -10
+            },
+            "pixel": {
+              "x": 653.0574518529161,
+              "y": 437.90327821432084
+            }
+          },
+          {
+            "id": "prop_s3_barrier",
+            "name": "prop_s3_barrier",
+            "type": "object",
+            "world": {
+              "x": -26.8,
+              "y": 0,
+              "z": -33.2
+            },
+            "pixel": {
+              "x": 551.6226473105434,
+              "y": 270.79356327086
+            }
+          },
+          {
+            "id": "wildkin_emberhorn_1",
+            "name": "wildkin_emberhorn_1",
+            "type": "object",
+            "world": {
+              "x": -4,
+              "y": 0,
+              "z": 12
+            },
+            "pixel": {
+              "x": 747.615320494111,
+              "y": 599.4181713391181
+            }
+          },
+          {
+            "id": "wildkin_emberhorn_2",
+            "name": "wildkin_emberhorn_2",
+            "type": "object",
+            "world": {
+              "x": 10,
+              "y": 0,
+              "z": 6
+            },
+            "pixel": {
+              "x": 867.9616987647227,
+              "y": 555.795435754836
+            }
+          },
+          {
+            "id": "wildkin_cinder_1",
+            "name": "wildkin_cinder_1",
+            "type": "object",
+            "world": {
+              "x": -10,
+              "y": 0,
+              "z": -6
+            },
+            "pixel": {
+              "x": 696.0383012352773,
+              "y": 468.549964586272
+            }
+          },
+          {
+            "id": "wildkin_cinder_2",
+            "name": "wildkin_cinder_2",
+            "type": "object",
+            "world": {
+              "x": 10,
+              "y": 0,
+              "z": -12
+            },
+            "pixel": {
+              "x": 867.9616987647227,
+              "y": 424.92722900198993
+            }
+          },
+          {
+            "id": "prop_s3_shrine_spire_l",
+            "name": "prop_s3_shrine_spire_l",
+            "type": "object",
+            "world": {
+              "x": -23,
+              "y": 1.3850779514120928,
+              "z": 23
+            },
+            "pixel": {
+              "x": 584.2880928411379,
+              "y": 673.0407341963945
+            }
+          },
+          {
+            "id": "prop_s3_shrine_spire_r",
+            "name": "prop_s3_shrine_spire_r",
+            "type": "object",
+            "world": {
+              "x": 20,
+              "y": 1.8542730735696822,
+              "z": 9
+            },
+            "pixel": {
+              "x": 953.9233975294452,
+              "y": 569.1024580778841
+            }
+          },
+          {
+            "id": "prop_s3_shrine_bloom_l",
+            "name": "prop_s3_shrine_bloom_l",
+            "type": "object",
+            "world": {
+              "x": -9,
+              "y": 0,
+              "z": 19
+            },
+            "pixel": {
+              "x": 704.6344711117497,
+              "y": 650.3113628541138
+            }
+          },
+          {
+            "id": "prop_s3_shrine_bloom_r",
+            "name": "prop_s3_shrine_bloom_r",
+            "type": "object",
+            "world": {
+              "x": 16,
+              "y": 0.3314081441832963,
+              "z": 14
+            },
+            "pixel": {
+              "x": 919.5387180235563,
+              "y": 612.4391294302089
+            }
+          },
+          {
+            "id": "prop_s3_shrine_ruin",
+            "name": "prop_s3_shrine_ruin",
+            "type": "object",
+            "world": {
+              "x": -5.8,
+              "y": 0,
+              "z": 2.4
+            },
+            "pixel": {
+              "x": 732.1422147164608,
+              "y": 529.6217944042668
+            }
+          },
+          {
+            "id": "prop_s3_shrine_ore",
+            "name": "prop_s3_shrine_ore",
+            "type": "object",
+            "world": {
+              "x": -22,
+              "y": 1.6078364118017043,
+              "z": -12
+            },
+            "pixel": {
+              "x": 592.8842627176102,
+              "y": 417.55312833761184
+            }
+          },
+          {
+            "id": "prop_s3_chamber_arch_l",
+            "name": "prop_s3_chamber_arch_l",
+            "type": "object",
+            "world": {
+              "x": -7.4,
+              "y": 0,
+              "z": -7.3
+            },
+            "pixel": {
+              "x": 718.3883429141052,
+              "y": 459.0983718763442
+            }
+          },
+          {
+            "id": "prop_s3_chamber_arch_r",
+            "name": "prop_s3_chamber_arch_r",
+            "type": "object",
+            "world": {
+              "x": 7.3,
+              "y": 0,
+              "z": -8.6
+            },
+            "pixel": {
+              "x": 844.7520400982476,
+              "y": 449.6467791664164
+            }
+          },
+          {
+            "id": "prop_s3_chamber_spire_l",
+            "name": "prop_s3_chamber_spire_l",
+            "type": "object",
+            "world": {
+              "x": -4.6,
+              "y": 0,
+              "z": -11.1
+            },
+            "pixel": {
+              "x": 742.4576185682275,
+              "y": 431.47063933963227
+            }
+          },
+          {
+            "id": "prop_s3_chamber_spire_r",
+            "name": "prop_s3_chamber_spire_r",
+            "type": "object",
+            "world": {
+              "x": 4.9,
+              "y": 0,
+              "z": -10.4
+            },
+            "pixel": {
+              "x": 824.1212323947141,
+              "y": 436.5599584911318
+            }
+          },
+          {
+            "id": "prop_s3_chamber_bloom",
+            "name": "prop_s3_chamber_bloom",
+            "type": "object",
+            "world": {
+              "x": 3.4,
+              "y": 0,
+              "z": -7.1
+            },
+            "pixel": {
+              "x": 811.2269775800056,
+              "y": 460.55246306248694
+            }
+          },
+          {
+            "id": "prop_s3_gate_spire_l",
+            "name": "prop_s3_gate_spire_l",
+            "type": "object",
+            "world": {
+              "x": -7,
+              "y": 0.8935861396854181,
+              "z": -46
+            },
+            "pixel": {
+              "x": 721.8268108646942,
+              "y": 173.6334284897765
+            }
+          },
+          {
+            "id": "prop_s3_gate_spire_r",
+            "name": "prop_s3_gate_spire_r",
+            "type": "object",
+            "world": {
+              "x": 8,
+              "y": 0.7119189513906904,
+              "z": -48
+            },
+            "pixel": {
+              "x": 850.7693590117782,
+              "y": 159.92570595287668
+            }
+          },
+          {
+            "id": "prop_s3_gate_ore",
+            "name": "prop_s3_gate_ore",
+            "type": "object",
+            "world": {
+              "x": -4.1,
+              "y": 0,
+              "z": -15.1
+            },
+            "pixel": {
+              "x": 746.7557035064638,
+              "y": 402.3888156167775
+            }
+          },
+          {
+            "id": "prop_s3_gate_bloom",
+            "name": "prop_s3_gate_bloom",
+            "type": "object",
+            "world": {
+              "x": 3.8,
+              "y": 0,
+              "z": -15.3
+            },
+            "pixel": {
+              "x": 814.6654455305945,
+              "y": 400.93472443063484
+            }
+          },
+          {
+            "id": "prop_s3_route_spire_l",
+            "name": "prop_s3_route_spire_l",
+            "type": "object",
+            "world": {
+              "x": -3.9,
+              "y": 0,
+              "z": -0.5
+            },
+            "pixel": {
+              "x": 748.4749374817582,
+              "y": 508.53747220519716
+            }
+          },
+          {
+            "id": "prop_s3_route_spire_r",
+            "name": "prop_s3_route_spire_r",
+            "type": "object",
+            "world": {
+              "x": 4,
+              "y": 0,
+              "z": -1.5
+            },
+            "pixel": {
+              "x": 816.384679505889,
+              "y": 501.2670162744835
+            }
+          },
+          {
+            "id": "prop_s3_route_bloom_l",
+            "name": "prop_s3_route_bloom_l",
+            "type": "object",
+            "world": {
+              "x": -2.8,
+              "y": 0,
+              "z": -3.8
+            },
+            "pixel": {
+              "x": 757.9307243458776,
+              "y": 484.5449676338421
+            }
+          },
+          {
+            "id": "prop_s3_route_bloom_r",
+            "name": "prop_s3_route_bloom_r",
+            "type": "object",
+            "world": {
+              "x": 2.9,
+              "y": 0,
+              "z": -4.6
+            },
+            "pixel": {
+              "x": 806.9288926417695,
+              "y": 478.72860288927114
+            }
+          },
+          {
+            "id": "prop_s3_route_ore",
+            "name": "prop_s3_route_ore",
+            "type": "object",
+            "world": {
+              "x": 4.8,
+              "y": 0,
+              "z": -5.6
+            },
+            "pixel": {
+              "x": 823.2616154070669,
+              "y": 471.45814695855745
+            }
+          },
+          {
+            "id": "prop_s3_bloom_b",
+            "name": "prop_s3_bloom_b",
+            "type": "object",
+            "world": {
+              "x": 6,
+              "y": 0,
+              "z": 13
+            },
+            "pixel": {
+              "x": 833.5770192588336,
+              "y": 606.6886272698318
+            }
+          },
+          {
+            "id": "prop_s3_bloom_c",
+            "name": "prop_s3_bloom_c",
+            "type": "object",
+            "world": {
+              "x": -5,
+              "y": 0,
+              "z": -8
+            },
+            "pixel": {
+              "x": 739.0191506176386,
+              "y": 454.0090527248446
+            }
+          },
+          {
+            "id": "prop_s3_pebbles",
+            "name": "prop_s3_pebbles",
+            "type": "object",
+            "world": {
+              "x": -26,
+              "y": 2.1732312879127953,
+              "z": -10
+            },
+            "pixel": {
+              "x": 558.4995832117212,
+              "y": 429.500941360772
+            }
+          },
+          {
+            "id": "prop_s3_arrival_spire_l",
+            "name": "prop_s3_arrival_spire_l",
+            "type": "object",
+            "world": {
+              "x": -16,
+              "y": 0,
+              "z": 35
+            },
+            "pixel": {
+              "x": 644.4612819764437,
+              "y": 766.6386577455326
+            }
+          },
+          {
+            "id": "prop_s3_arrival_spire_r",
+            "name": "prop_s3_arrival_spire_r",
+            "type": "object",
+            "world": {
+              "x": 1,
+              "y": 0,
+              "z": 42
+            },
+            "pixel": {
+              "x": 790.5961698764722,
+              "y": 817.5318492605284
+            }
+          },
+          {
+            "id": "prop_s3_arrival_bloom_l",
+            "name": "prop_s3_arrival_bloom_l",
+            "type": "object",
+            "world": {
+              "x": -3.3,
+              "y": 0,
+              "z": 15.1
+            },
+            "pixel": {
+              "x": 753.6326394076416,
+              "y": 621.9565847243306
+            }
+          },
+          {
+            "id": "prop_s3_arrival_bloom_r",
+            "name": "prop_s3_arrival_bloom_r",
+            "type": "object",
+            "world": {
+              "x": 3.7,
+              "y": 0,
+              "z": 14.2
+            },
+            "pixel": {
+              "x": 813.8058285429473,
+              "y": 615.4131743866882
+            }
+          },
+          {
+            "id": "prop_s3_arrival_ore",
+            "name": "prop_s3_arrival_ore",
+            "type": "object",
+            "world": {
+              "x": 5.1,
+              "y": 0,
+              "z": 12.5
+            },
+            "pixel": {
+              "x": 825.8404663700086,
+              "y": 603.053399304475
+            }
+          },
+          {
+            "id": "prop_s3_arrival_stones",
+            "name": "prop_s3_arrival_stones",
+            "type": "object",
+            "world": {
+              "x": -1.2,
+              "y": 0,
+              "z": 13.2
+            },
+            "pixel": {
+              "x": 771.6845961482333,
+              "y": 608.1427184559745
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_0",
+            "name": "prop_foundry_habitat_shelf_0",
+            "type": "object",
+            "world": {
+              "x": -35.8,
+              "y": 3.5621,
+              "z": -10.8
+            },
+            "pixel": {
+              "x": 474.257118422293,
+              "y": 417.3147384800815
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_1",
+            "name": "prop_foundry_habitat_shelf_1",
+            "type": "object",
+            "world": {
+              "x": -37.9,
+              "y": 3.6,
+              "z": -18.1
+            },
+            "pixel": {
+              "x": 456.2051616817012,
+              "y": 364.0665875176396
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_2",
+            "name": "prop_foundry_habitat_shelf_2",
+            "type": "object",
+            "world": {
+              "x": -15.1,
+              "y": 0.4957,
+              "z": -18
+            },
+            "pixel": {
+              "x": 652.1978348652689,
+              "y": 379.03103968043615
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_2_support_1",
+            "name": "prop_foundry_habitat_shelf_2_support_1",
+            "type": "object",
+            "world": {
+              "x": -16.408861343199817,
+              "y": 0.4957,
+              "z": -18.243468793145755
+            },
+            "pixel": {
+              "x": 640.9466404143755,
+              "y": 377.26091054936586
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_2_support_2",
+            "name": "prop_foundry_habitat_shelf_2_support_2",
+            "type": "object",
+            "world": {
+              "x": -13.632996679787839,
+              "y": 0.4957,
+              "z": -17.658666178899004
+            },
+            "pixel": {
+              "x": 664.8084446151614,
+              "y": 381.512692184413
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_3",
+            "name": "prop_foundry_habitat_shelf_3",
+            "type": "object",
+            "world": {
+              "x": -12.9,
+              "y": 0.6051,
+              "z": -23.5
+            },
+            "pixel": {
+              "x": 671.1094085935077,
+              "y": 338.54178536218154
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_3_support_1",
+            "name": "prop_foundry_habitat_shelf_3_support_1",
+            "type": "object",
+            "world": {
+              "x": -14.024950386882665,
+              "y": 0.6051,
+              "z": -23.851297218297596
+            },
+            "pixel": {
+              "x": 661.4391439652612,
+              "y": 335.9876944179666
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_3_support_2",
+            "name": "prop_foundry_habitat_shelf_3_support_2",
+            "type": "object",
+            "world": {
+              "x": -11.646802121334806,
+              "y": 0.6051,
+              "z": -23.04890349242008
+            },
+            "pixel": {
+              "x": 681.8821104473485,
+              "y": 341.8214626410403
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_4",
+            "name": "prop_foundry_habitat_shelf_4",
+            "type": "object",
+            "world": {
+              "x": -36.8,
+              "y": 0,
+              "z": -30.9
+            },
+            "pixel": {
+              "x": 465.66094854582064,
+              "y": 287.5156119115015
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_5",
+            "name": "prop_foundry_habitat_shelf_5",
+            "type": "object",
+            "world": {
+              "x": -33.5,
+              "y": 2.6,
+              "z": -39.1
+            },
+            "pixel": {
+              "x": 494.0283091381791,
+              "y": 215.97336305792936
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_6",
+            "name": "prop_foundry_habitat_shelf_6",
+            "type": "object",
+            "world": {
+              "x": -13.8,
+              "y": 0.65,
+              "z": -20.8
+            },
+            "pixel": {
+              "x": 663.3728557046828,
+              "y": 357.9660892562796
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_6_support_1",
+            "name": "prop_foundry_habitat_shelf_6_support_1",
+            "type": "object",
+            "world": {
+              "x": -14.86170084306387,
+              "y": 0.65,
+              "z": -20.943852304519357
+            },
+            "pixel": {
+              "x": 654.2462948997119,
+              "y": 356.92021741574
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_shelf_6_support_2",
+            "name": "prop_foundry_habitat_shelf_6_support_2",
+            "type": "object",
+            "world": {
+              "x": -12.63412454058584,
+              "y": 0.65,
+              "z": -21.15723157692318
+            },
+            "pixel": {
+              "x": 673.394919208617,
+              "y": 355.36885281920024
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_grove_0",
+            "name": "prop_foundry_habitat_grove_0",
+            "type": "object",
+            "world": {
+              "x": -30.7,
+              "y": 2.2,
+              "z": -9.3
+            },
+            "pixel": {
+              "x": 518.0975847923014,
+              "y": 434.4674898273076
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_grove_1",
+            "name": "prop_foundry_habitat_grove_1",
+            "type": "object",
+            "world": {
+              "x": -31.6,
+              "y": 1.3126,
+              "z": -18.7
+            },
+            "pixel": {
+              "x": 510.3610319034765,
+              "y": 370.19513114427383
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_grove_2",
+            "name": "prop_foundry_habitat_grove_2",
+            "type": "object",
+            "world": {
+              "x": -18,
+              "y": 0.6939,
+              "z": -13.1
+            },
+            "pixel": {
+              "x": 627.2689422234993,
+              "y": 413.74725915403127
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_grove_3",
+            "name": "prop_foundry_habitat_grove_3",
+            "type": "object",
+            "world": {
+              "x": -20.8,
+              "y": 0.1202,
+              "z": -23
+            },
+            "pixel": {
+              "x": 603.1996665693769,
+              "y": 344.4009344838892
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_grove_4",
+            "name": "prop_foundry_habitat_grove_4",
+            "type": "object",
+            "world": {
+              "x": -31,
+              "y": 0,
+              "z": -30.7
+            },
+            "pixel": {
+              "x": 515.5187338293598,
+              "y": 288.96970309764424
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_grove_5",
+            "name": "prop_foundry_habitat_grove_5",
+            "type": "object",
+            "world": {
+              "x": -20.2,
+              "y": 0,
+              "z": -33.3
+            },
+            "pixel": {
+              "x": 608.3573684952603,
+              "y": 270.0665176777887
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_grove_6",
+            "name": "prop_foundry_habitat_grove_6",
+            "type": "object",
+            "world": {
+              "x": -31.2,
+              "y": 0.1333,
+              "z": -34.1
+            },
+            "pixel": {
+              "x": 513.7994998540654,
+              "y": 263.6387924668503
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_recess_left",
+            "name": "prop_foundry_habitat_recess_left",
+            "type": "object",
+            "world": {
+              "x": -28.5,
+              "y": 0.9249,
+              "z": -37
+            },
+            "pixel": {
+              "x": 537.0091585205405,
+              "y": 238.9239155402755
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_recess_right",
+            "name": "prop_foundry_habitat_recess_right",
+            "type": "object",
+            "world": {
+              "x": -21.5,
+              "y": 0,
+              "z": -37
+            },
+            "pixel": {
+              "x": 597.1823476558463,
+              "y": 243.16583073414807
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_recess_back",
+            "name": "prop_foundry_habitat_recess_back",
+            "type": "object",
+            "world": {
+              "x": -25,
+              "y": 0,
+              "z": -39.1
+            },
+            "pixel": {
+              "x": 567.0957530881933,
+              "y": 227.8978732796494
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_recess_lintel",
+            "name": "prop_foundry_habitat_recess_lintel",
+            "type": "object",
+            "world": {
+              "x": -25,
+              "y": 0,
+              "z": -37
+            },
+            "pixel": {
+              "x": 567.0957530881933,
+              "y": 243.16583073414807
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_landing_lower",
+            "name": "prop_foundry_habitat_landing_lower",
+            "type": "object",
+            "world": {
+              "x": -25,
+              "y": 0,
+              "z": -35.2
+            },
+            "pixel": {
+              "x": 567.0957530881933,
+              "y": 256.25265140943264
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_landing_upper",
+            "name": "prop_foundry_habitat_landing_upper",
+            "type": "object",
+            "world": {
+              "x": -25,
+              "y": 0,
+              "z": -37.25
+            },
+            "pixel": {
+              "x": 567.0957530881933,
+              "y": 241.34821675146966
+            }
+          },
+          {
+            "id": "prop_foundry_habitat_ground_details",
+            "name": "prop_foundry_habitat_ground_details",
+            "type": "object",
+            "world": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pixel": {
+              "x": 782,
+              "y": 512.172700170554
+            }
+          }
+        ],
+        "north": "world -Z; tilted view, height affects pixel position",
+        "view": "Oblique overview; real terrain heights, no exaggeration; not a metric planning map",
+        "pitch": 58,
+        "imageSize": {
+          "width": 1564,
+          "height": 1006
+        },
+        "camera": {
+          "position": [
+            0,
+            212.01202403910648,
+            132.47981605830122
+          ],
+          "target": [
+            0,
+            2,
+            0
+          ],
+          "projection": [
+            0.010992544599069391,
+            0,
+            0,
+            0,
+            0,
+            0.017089800947260963,
+            0,
+            0,
+            0,
+            0,
+            -0.0033338889814969164,
+            0,
+            0,
+            0,
+            -1.0003333888981498,
+            1
+          ],
+          "view": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0.5335341380153227,
+            0.8457785310424039,
+            0,
+            0,
+            -0.8457785310424039,
+            0.5335341380153227,
+            0,
+            0,
+            -1.0670682760306676,
+            -249.99772272021653,
+            1
+          ]
+        },
+        "render": {
+          "calls": 349,
+          "triangles": 268664
+        }
+      },
+      "overviewPath": ".dream-loop/emberfall-ravine-v1/baseline/maps/section_3-overview.png"
+    }
+  ],
+  "models": [],
+  "contactSheets": [],
+  "errors": [],
+  "files": {
+    "maps/section_3.png": {
+      "bytes": 1633404,
+      "sha256": "ab53df6736fa389be605af6d4eb3a5d288cdc84fc06b46b17b8b3351dee60af4"
+    },
+    "maps/section_3-planning.png": {
+      "bytes": 1666922,
+      "sha256": "c0567cb59639c6e689d42e81445212cc63eaad555bf64d7d4c04d839bc32d79a"
+    },
+    "maps/section_3-overview.png": {
+      "bytes": 927573,
+      "sha256": "7bce927d45cfd62afb54e1ed9bbf6c9c0cad570fd0ca46ec44546db222cc1125"
+    }
+  },
+  "sourceAfter": {
+    "src/world/data/world.json": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+    "src/world/data/world.generated.js": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5"
+  },
+  "sourceUnchanged": true
+}

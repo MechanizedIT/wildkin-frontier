@@ -73,4 +73,55 @@ describe("landscape camera orbit", () => {
       assert.ok(Math.abs(Math.atan2(dy, Math.hypot(dx, dz)) - expectedPitch) < 1e-9);
     }
   });
+
+  it("clamps vertical orbit while leaving yaw and the player transform independent", () => {
+    const target = new THREE.Group();
+    const camera = createCamera(16 / 9);
+    const follow = createCameraFollow(camera, target, { pitch: .5, minPitch: .35, maxPitch: .8 }, CAMERA_CONFIG);
+    const before = target.matrix.clone();
+    follow.orbitBy(.4, 10); follow.snap();
+    assert.equal(follow.getYaw(), .4);
+    assert.equal(follow.getPitch(), .8);
+    assert.deepEqual(target.matrix.elements, before.elements);
+    const highPitchMovementBasis = camera.getWorldDirection(new THREE.Vector3()).setY(0).normalize();
+    follow.orbitBy(0, -10); follow.prepareForInput();
+    assert.equal(follow.getPitch(), .35);
+    const lowPitchMovementBasis = camera.getWorldDirection(new THREE.Vector3()).setY(0).normalize();
+    assert.ok(highPitchMovementBasis.distanceTo(lowPitchMovementBasis) < 1e-9, "pitch cannot change yaw-relative movement basis");
+  });
+
+  it("keeps requested zoom separate from a temporary collision bound and recovers smoothly", () => {
+    const target = new THREE.Group();
+    const camera = createCamera(16 / 9);
+    let safeDistance = 2;
+    const probe = { resolveDistance: ({ requestedDistance }) => Math.min(safeDistance, requestedDistance) };
+    const follow = createCameraFollow(camera, target, { landscapeZoom: 1, collisionRecoveryLerp: 4 }, CAMERA_CONFIG, { collisionProbe: probe });
+    follow.snap();
+    const blocked = follow._debug();
+    assert.equal(follow.getZoom(), 1);
+    assert.equal(blocked.effectiveDistance, 2);
+    assert.ok(blocked.requestedDistance > blocked.effectiveDistance);
+    safeDistance = CAMERA_CONFIG.distance;
+    follow.update(.1, 0, null);
+    const recovering = follow._debug();
+    assert.equal(follow.getZoom(), 1);
+    assert.ok(recovering.effectiveDistance > 2 && recovering.effectiveDistance < recovering.requestedDistance);
+    follow.zoomByFactor(.5); follow.prepareForInput();
+    assert.equal(follow.getZoom(), .72);
+    assert.ok(follow._debug().effectiveDistance <= follow._debug().requestedDistance);
+  });
+
+  it("retains yaw-relative movement orientation when collision retracts camera to focus", () => {
+    const target = new THREE.Group();
+    const camera = createCamera(16 / 9);
+    const probe = { resolveDistance: () => 0 };
+    const follow = createCameraFollow(camera, target, { landscapeZoom: 1, pitch: .7 }, CAMERA_CONFIG, { collisionProbe: probe });
+    follow.orbitBy(.65); follow.snap();
+    assert.equal(follow._debug().effectiveDistance, 0);
+    const direction = camera.getWorldDirection(new THREE.Vector3());
+    const expected = new THREE.Vector3(-Math.sin(.65), 0, -Math.cos(.65)).normalize();
+    direction.y = 0; direction.normalize();
+    assert.ok(direction.distanceTo(expected) < 1e-9, "zero-distance camera preserves yaw movement basis");
+    assert.ok(Number.isFinite(camera.quaternion.x) && Number.isFinite(camera.quaternion.y));
+  });
 });

@@ -4,6 +4,8 @@ A single-player expedition adventure for landscape mobile and desktop browsers, 
 
 **Local alpha build; not a release.** Sunlit Wilds 0.3.0-alpha.1 is under active development. It has not received owner acceptance, has not been published, and has no physical-phone performance claim. The earlier Devpost work and the older beta report are historical context only.
 
+**September12 stopping point:** camera pitch/terrain clearance, Shatterfen V3 and Backpack shortcuts are saved locally;966 tests, verification and packaging pass. See [restart handoff](docs/SESSION_HANDOFF_2026-09-12.md) and [current scope](docs/CURRENT_SLICE.md). Emberfall's proposed ravine remains an unintegrated candidate.
+
 ## Play locally
 
 Use Node.js 22 or newer:
@@ -15,13 +17,13 @@ npm run dev
 
 Open http://localhost:8080/. Your browser stores progression, physical inventory and a small active-expedition snapshot locally. Reload resumes the saved expedition with ordinary world objects rebuilt; it does not preserve every creature or loose drop. From Settings, export or restore a save backup. Saves belong to that browser and site address.
 
-Desktop controls: **WASD** move, **Shift** run, **C** sneak, **1–5** select a quick slot, **F** uses the selected item, **Space** dodges, **E** interacts and **Q** uses the companion ability. On touchscreens, nudge the lower-left stick to sneak or push farther to run. Drag open ground on the right to orbit; use the labeled action and Dodge buttons. Tap **Pack** for carried items and the nearby **Pod locker** world button for physical storage. **Pack → Journal** opens Gear assignment, Work, Wildkin, skills and Settings.
+Desktop controls: **WASD** move, **Shift** run, **C** sneak, **1–5** select a quick slot, **F** uses the selected item, **Space** jumps, **R** dodges, **E** interacts and **Q** uses the companion ability. On touchscreens, nudge the lower-left stick to sneak or push farther to run. Drag open ground on the right horizontally or vertically to orbit; pinch with two right-side fingers to zoom. Use the labeled action, Jump and Dodge buttons. Tap **Pack** to carry items and arrange five shortcuts; the nearby **Pod locker** world button opens physical storage. **Pack → Journal** opens Gear, Work, Wildkin, skills and Settings.
 
 ## Current playable frontier
 
 - Frontier Haven and five connected regions: Verdant Verge, Shatterfen, Emberfall Ruins, Windscar Cliffs, and Heartwood Vault.
 - Authored Sunlit Wilds terrain: curved routes, water, hills, grass detail, region palettes, landmark pockets, and editable landscape surfaces.
-- Harvesting, renewable resource fields, extraction, Waypoints, Beacons, gates, hostile wildlife, optional traversal courses, caches, and a Guardian/Core finale.
+- Harvesting, renewable resource fields, extraction, Waypoints, Beacons, gates, hostile wildlife, ordinary Jump and natural high-ground caches, and a Guardian/Core finale.
 - Four bondable Wildkin with distinct abilities, plus original sculpted player, creature, environmental, Camp, and resource models.
 - A 12-node, three-branch **Skill paths** board, persistent levels, Workshop upgrades, field medicine, and locally saved progression.
 - A landscape-first interface with a 16-slot backpack, nearby 24-slot pod/crate storage, drag/sort/split controls, tap/keyboard alternatives, compact Wildkin guidance and a five-slot toolbar.

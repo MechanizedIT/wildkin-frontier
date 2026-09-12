@@ -1,6 +1,8 @@
 // src/physics/createPhysicsWorld.js — Rapier World + static world colliders (Phase 1.2)
 // No game-design decisions. Builds fixed colliders matching the visual playground.
 
+const CAMERA_FADE_ASSET_IDS = new Set(['asset_verge_canopy', 'asset_verge_canopy_tall', 'asset_verge_canopy_spread']);
+
 export function createPhysicsWorld(RAPIER, playground) {
   // Gravity 0 — we manage vertical velocity explicitly via the character controller.
   // World step is still useful for broadphase updates; gravity not applied to kinematic.
@@ -9,6 +11,10 @@ export function createPhysicsWorld(RAPIER, playground) {
   // Length unit default 1.0 is fine for ~1u character.
 
   const staticColliders = [];
+  // Camera queries include immutable terrain/props plus explicitly registered
+  // runtime construction. Harvest nodes stay out so foliage fading remains
+  // visual-only and companions/creatures remain query-filtered kinematics.
+  const cameraColliders = new Set();
   const colliderSections = new Map();
   const objectColliders = new Map();
   const disabledObjects = new Set();
@@ -16,8 +22,9 @@ export function createPhysicsWorld(RAPIER, playground) {
   let activeSectionId = null;
   let sectionSelectionMade = false;
 
-  function registerCollider(collider, sectionId, objectId) {
+  function registerCollider(collider, sectionId, objectId, { cameraSolid = true } = {}) {
     staticColliders.push(collider);
+    if (cameraSolid) cameraColliders.add(collider);
     colliderSections.set(collider, sectionId);
     if (objectId == null) return;
     if (!objectColliders.has(objectId)) objectColliders.set(objectId, []);
@@ -25,7 +32,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     colliderObjects.set(collider, objectId);
   }
 
-  function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0, sectionId = null, objectId = null) {
+  function addCuboid(hx, hy, hz, tx, ty, tz, rotY = 0, sectionId = null, objectId = null, { cameraSolid = true } = {}) {
     const desc = RAPIER.ColliderDesc.cuboid(hx, hy, hz)
       .setTranslation(tx, ty, tz)
       .setFriction(0.6)
@@ -35,7 +42,7 @@ export function createPhysicsWorld(RAPIER, playground) {
       desc.setRotation({ x: 0, y: Math.sin(half), z: 0, w: Math.cos(half) });
     }
     const c = world.createCollider(desc);
-    registerCollider(c, sectionId, objectId);
+    registerCollider(c, sectionId, objectId, { cameraSolid });
     return c;
   }
 
@@ -82,7 +89,7 @@ export function createPhysicsWorld(RAPIER, playground) {
       const half = (o.rotY ?? 0)/2;
       desc.setRotation({x:0,y:Math.sin(half),z:0,w:Math.cos(half)});
       const collider = world.createCollider(desc);
-      registerCollider(collider, o.sectionId ?? o.regionId ?? null, o.id);
+      registerCollider(collider, o.sectionId ?? o.regionId ?? null, o.id, { cameraSolid: !CAMERA_FADE_ASSET_IDS.has(o.visualAssetId) });
       continue;
     }
     const hx = o.w / 2;
@@ -93,7 +100,7 @@ export function createPhysicsWorld(RAPIER, playground) {
     const rotY = o.rotY ?? 0;
     // Respect collisionEnabled flag if present
     if (o.collisionEnabled === false) continue;
-    addCuboid(hx, hy, hz, o.x, ty, o.z, rotY, o.sectionId ?? o.regionId ?? null, o.id);
+    addCuboid(hx, hy, hz, o.x, ty, o.z, rotY, o.sectionId ?? o.regionId ?? null, o.id, { cameraSolid: !CAMERA_FADE_ASSET_IDS.has(o.visualAssetId) });
   }
 
   // Platforms — respect baseY/rotY
@@ -162,5 +169,11 @@ export function createPhysicsWorld(RAPIER, playground) {
     return { changed: true, sectionId };
   }
 
-  return { world, staticColliders, colliderSections, setActiveSection, setStaticObjectEnabled, getActiveSectionId: () => activeSectionId, RAPIER };
+  function registerCameraCollider(collider) {
+    if (collider) cameraColliders.add(collider);
+    return collider;
+  }
+  function unregisterCameraCollider(collider) { cameraColliders.delete(collider); }
+
+  return { world, staticColliders, cameraColliders, colliderSections, registerCameraCollider, unregisterCameraCollider, setActiveSection, setStaticObjectEnabled, getActiveSectionId: () => activeSectionId, RAPIER };
 }

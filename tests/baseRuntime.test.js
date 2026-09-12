@@ -30,12 +30,14 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
     assert.equal(progress.expandBase().expanded,true);
     assert.equal(progress.placeStructure({id:'build_door',type:'doorway',pos:{x:0,z:18},yaw:0}).placed,true);
     assert.equal(progress.placeStructure({id:'build_lantern',type:'lantern',pos:{x:4,z:18},yaw:0}).placed,true);
-    let camp=true;const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera();
+    let camp=true;const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(),cameraColliders=new Set();
+    const physicsWorld={world,RAPIER,cameraColliders,registerCameraCollider:collider=>cameraColliders.add(collider),unregisterCameraCollider:collider=>cameraColliders.delete(collider)};
     const occlusion=initializePlayerOcclusion({scene,camera,getPlayerPosition:()=>({x:0,y:0,z:14})});
-    base=createBaseSystem({app:element(),scene,camera,progress,registry,physicsWorld:{world,RAPIER},getPlayerState:()=>({pos:{x:0,y:0,z:14}}),isCamp:()=>camp,onVisualAdded:occlusion.register,onVisualRemoving:occlusion.unregister});
+    base=createBaseSystem({app:element(),scene,camera,progress,registry,physicsWorld,getPlayerState:()=>({pos:{x:0,y:0,z:14}}),isCamp:()=>camp,onVisualAdded:occlusion.register,onVisualRemoving:occlusion.unregister});
     base.update(.4);world.step();
     const defenseRoots=scene.getObjectByName('camp-defenses').children.length,defenseColliders=world.colliders.len()-4;
     assert.ok(defenseColliders>0);assert.equal(occlusion.candidateCount,defenseRoots+2,'construction and defenses register after visibility initialization');
+    assert.equal(cameraColliders.size,world.colliders.len(),'only solid construction, defenses and console join camera collision');
     assert.equal(world.castRay(new RAPIER.Ray({x:0,y:1,z:16},{x:0,y:0,z:1}),4,true),null,'The doorway center is physically open');
     assert.ok(world.castRay(new RAPIER.Ray({x:1.09,y:1,z:16},{x:0,y:0,z:1}),4,true),'The visible doorway post is solid');
     assert.equal(base.open('foundation').ok,true);assert.equal(base.isBlocking(),true);
@@ -44,9 +46,9 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
     camp=true;base.update(.4);assert.ok(enabled().every(Boolean));
     base.update(0,{hidden:true});assert.ok(enabled().every(v=>!v));assert.equal(scene.getObjectByName('player-base').visible,false,'Author mode hides all player construction');
     base.update(0,{hidden:false});assert.ok(enabled().every(Boolean));
-    assert.equal(base.onAction('removeStructure','build_door').ok,true);assert.equal(world.colliders.len(),defenseColliders+1);
+    assert.equal(base.onAction('removeStructure','build_door').ok,true);assert.equal(world.colliders.len(),defenseColliders+1);assert.equal(cameraColliders.size,world.colliders.len());
     assert.equal(occlusion.candidateCount,defenseRoots+1,'removal releases the same presentation root');
-    base.dispose();base=null;assert.equal(world.colliders.len(),0);assert.equal(scene.children.length,0);
+    base.dispose();base=null;assert.equal(world.colliders.len(),0);assert.equal(cameraColliders.size,0);assert.equal(scene.children.length,0);
     assert.equal(occlusion.candidateCount,0);occlusion.dispose();
   }finally{try{base?.dispose();world.free();}catch{}clearModelAssetCacheForTests();global.window=oldWindow;global.document=oldDocument;}
 });

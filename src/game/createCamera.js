@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-// Landscape gameplay camera: a fixed 32° pitch and user-controlled horizontal yaw.
+// Landscape gameplay camera defaults to a 32° pitch; orbit input owns bounded pitch and yaw.
 export const CAMERA_CONFIG = {
   fov: 52,
   near: 0.1,

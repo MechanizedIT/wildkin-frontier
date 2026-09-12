@@ -1,0 +1,89 @@
+{
+  "fixture": "Fresh packaged Edge844x390 touch context. Actual Start, explicit waypoint unlock and supported terrain-position fixture from the dev camera receipt. Browser touch drag, Jump, reload/Continue. No earned campaign or physical-phone claim.",
+  "errors": [],
+  "failed": [],
+  "external": [],
+  "steps": [
+    {
+      "name": "packaged terrain retraction",
+      "camera": {
+        "yaw": 3.9269908169872414,
+        "pitch": 0.4363323129985824,
+        "zoom": 1,
+        "userZoom": 1,
+        "requestedDistance": 6.568278408380691,
+        "collisionDistance": 3.919438247680664,
+        "effectiveDistance": 3.919438247680664,
+        "focusRecovery": "clear",
+        "horizontalDistance": 6.55,
+        "height": 5,
+        "center": [
+          29.992587051734645,
+          2.196609088773555,
+          -24.02162520935256
+        ]
+      },
+      "player": {
+        "x": 29.990253448486328,
+        "y": 1.3048678636550903,
+        "z": -24.028432846069336
+      },
+      "grounded": true
+    },
+    {
+      "name": "packaged native touch pitch and yaw",
+      "camera": {
+        "yaw": 3.446990816987241,
+        "pitch": 0.8683323129985827,
+        "zoom": 1,
+        "userZoom": 1,
+        "requestedDistance": 6.568278408380691,
+        "collisionDistance": 6.251253936291645,
+        "effectiveDistance": 6.251253936291645,
+        "focusRecovery": "clear",
+        "horizontalDistance": 6.55,
+        "height": 5,
+        "center": [
+          29.99036642374112,
+          2.204468036822006,
+          -24.02810327226835
+        ]
+      },
+      "player": {
+        "x": 29.990253448486328,
+        "y": 1.3048678636550903,
+        "z": -24.028432846069336
+      },
+      "grounded": true
+    },
+    {
+      "name": "literal Continue at supported position",
+      "camera": {
+        "yaw": 0,
+        "pitch": 0.5585053606381855,
+        "zoom": 1,
+        "userZoom": 1,
+        "requestedDistance": 6.568278408380691,
+        "collisionDistance": 6.568278408380691,
+        "effectiveDistance": 6.568278408380691,
+        "focusRecovery": "clear",
+        "horizontalDistance": 6.55,
+        "height": 5,
+        "center": [
+          -4,
+          1.4220000147819518,
+          13
+        ]
+      },
+      "player": {
+        "x": -4,
+        "y": 0.5220000147819519,
+        "z": 13
+      },
+      "grounded": true
+    }
+  ],
+  "index": "e0703ece3ea3ec2febb18c75ecc0ce0c75aad7c0137999cd86714de9716b0727",
+  "zip": "c2949b6acaeaef651c2e42943864f9f1f98fe268e4774bccbc14e3ec395e8bfb",
+  "pass": true
+}

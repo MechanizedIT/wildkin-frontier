@@ -90,11 +90,19 @@ export const CAMERA_CONFIG_FOLLOW = {
   lookAtLerp: 6.0,
   // The fixed focal height/framing lives with the base camera configuration.
   yawSensitivity: 0.008,
+  pitch: 32 * Math.PI / 180,
+  minPitch: 20 * Math.PI / 180,
+  maxPitch: 64 * Math.PI / 180,
+  pitchSensitivity: 0.006,
   // More readable character size in short phone/browser landscape viewports.
   landscapeZoom: .85,
   minZoom: .72,
   maxZoom: 1.3,
   wheelZoomSensitivity: .0015,
+  collisionRadius: .24,
+  collisionMargin: .12,
+  collisionNearDistance: 1.35,
+  collisionRecoveryLerp: 6,
 };
 
 export const INPUT_CONFIG = {

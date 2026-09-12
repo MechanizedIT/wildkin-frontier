@@ -1,0 +1,1699 @@
+{
+  "date": "2026-09-12T12:32:50.023Z",
+  "sourceWorldSHA256": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+  "sourceGeneratedSHA256": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5",
+  "section": "section_3",
+  "bounds": {
+    "minX": -60,
+    "maxX": 60,
+    "minZ": -60,
+    "maxZ": 60
+  },
+  "size": {
+    "width": 120,
+    "depth": 120
+  },
+  "north": "-Z",
+  "surfaceSample": {
+    "spacing": 1,
+    "count": 14641,
+    "min": 0,
+    "max": 3.6,
+    "above1Percent": 17.49880472645311,
+    "above3Percent": 0.7308243972406256,
+    "excludes": "props, physical hull/mesh tops and naturalBoundary"
+  },
+  "counts": {
+    "props": 66,
+    "resourceNodes": 3,
+    "harvestableProps": 6,
+    "actorProps": 4,
+    "creatureArray": 0
+  },
+  "resources": [
+    {
+      "id": "tree_section_3_01",
+      "type": "tree",
+      "level": 3,
+      "pos": {
+        "x": -12,
+        "y": 0.0521,
+        "z": 14
+      }
+    },
+    {
+      "id": "rock_section_3_01",
+      "type": "rock",
+      "level": 3,
+      "pos": {
+        "x": 12,
+        "y": 0,
+        "z": 13
+      }
+    },
+    {
+      "id": "fiber_section_3_01",
+      "type": "fiber",
+      "level": 3,
+      "pos": {
+        "x": 12,
+        "y": 0.0853,
+        "z": 4
+      }
+    }
+  ],
+  "props": [
+    {
+      "id": "prop_s3_spire_a",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": -14,
+        "y": 0.438,
+        "z": 12
+      },
+      "scale": 1.15,
+      "yaw": 0.2,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_spire_b",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": 30,
+        "y": 2.5249,
+        "z": 10
+      },
+      "scale": 1.4,
+      "yaw": 0.7,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_bloom_a",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": -9,
+        "y": 0,
+        "z": 4
+      },
+      "scale": 1.35,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_ore_a",
+      "asset": "asset_iron_ore_rock",
+      "role": "harvestable",
+      "pos": {
+        "x": 10,
+        "y": 0,
+        "z": -10
+      },
+      "scale": 1.15,
+      "yaw": 0,
+      "solid": true,
+      "harvest": {
+        "dropId": "iron_ore",
+        "maxChunks": 5,
+        "respawnSeconds": 22,
+        "feedbackProfile": "stone"
+      }
+    },
+    {
+      "id": "prop_s3_crystal",
+      "asset": "asset_crystal",
+      "role": "harvestable",
+      "pos": {
+        "x": -15,
+        "y": 0.3412,
+        "z": -10
+      },
+      "scale": 1.2,
+      "yaw": 0,
+      "solid": true,
+      "harvest": {
+        "dropId": "crystal_shard",
+        "maxChunks": 4,
+        "respawnSeconds": 28,
+        "feedbackProfile": "stone"
+      }
+    },
+    {
+      "id": "prop_s3_barrier",
+      "asset": "asset_vault_barrier",
+      "role": "prop",
+      "pos": {
+        "x": -26.8,
+        "y": 0,
+        "z": -33.2
+      },
+      "scale": 1.05,
+      "yaw": 0.7853981633974483,
+      "solid": false
+    },
+    {
+      "id": "wildkin_emberhorn_1",
+      "asset": "asset_wildkin_emberhorn",
+      "role": "wildkin",
+      "pos": {
+        "x": -4,
+        "y": 0,
+        "z": 12
+      },
+      "scale": 1,
+      "yaw": 0,
+      "solid": true,
+      "actor": {
+        "archetype": "rusher",
+        "temperament": "TERRITORIAL",
+        "health": 12,
+        "moveSpeed": 2.1,
+        "damage": 2,
+        "respawnSeconds": 28,
+        "roamRadius": 4.5,
+        "noticeRadius": 7,
+        "personalSpace": 2,
+        "leashRadius": 10,
+        "speciesTag": "emberhorn",
+        "hostileSpecies": []
+      }
+    },
+    {
+      "id": "wildkin_emberhorn_2",
+      "asset": "asset_wildkin_emberhorn",
+      "role": "wildkin",
+      "pos": {
+        "x": 10,
+        "y": 0,
+        "z": 6
+      },
+      "scale": 0.95,
+      "yaw": 0,
+      "solid": true,
+      "actor": {
+        "archetype": "rusher",
+        "temperament": "TERRITORIAL",
+        "health": 12,
+        "moveSpeed": 2.1,
+        "damage": 2,
+        "respawnSeconds": 28,
+        "roamRadius": 4.5,
+        "noticeRadius": 7,
+        "personalSpace": 2,
+        "leashRadius": 10,
+        "speciesTag": "emberhorn",
+        "hostileSpecies": []
+      }
+    },
+    {
+      "id": "wildkin_cinder_1",
+      "asset": "asset_cinderjaw",
+      "role": "wildkin",
+      "pos": {
+        "x": -10,
+        "y": 0,
+        "z": -6
+      },
+      "scale": 0.9,
+      "yaw": 0,
+      "solid": true,
+      "actor": {
+        "archetype": "rusher",
+        "temperament": "AGGRESSIVE",
+        "health": 16,
+        "moveSpeed": 2.3,
+        "damage": 2,
+        "respawnSeconds": 28,
+        "roamRadius": 4.5,
+        "noticeRadius": 7,
+        "personalSpace": 2,
+        "leashRadius": 10,
+        "speciesTag": "cinderjaw",
+        "hostileSpecies": []
+      }
+    },
+    {
+      "id": "wildkin_cinder_2",
+      "asset": "asset_cinderjaw",
+      "role": "wildkin",
+      "pos": {
+        "x": 10,
+        "y": 0,
+        "z": -12
+      },
+      "scale": 0.9,
+      "yaw": 0,
+      "solid": true,
+      "actor": {
+        "archetype": "rusher",
+        "temperament": "AGGRESSIVE",
+        "health": 16,
+        "moveSpeed": 2.3,
+        "damage": 2,
+        "respawnSeconds": 28,
+        "roamRadius": 4.5,
+        "noticeRadius": 7,
+        "personalSpace": 2,
+        "leashRadius": 10,
+        "speciesTag": "cinderjaw",
+        "hostileSpecies": []
+      }
+    },
+    {
+      "id": "prop_s3_shrine_spire_l",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": -23,
+        "y": 1.3850779514120928,
+        "z": 23
+      },
+      "scale": 1.22,
+      "yaw": -0.12,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_shrine_spire_r",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": 20,
+        "y": 1.8542730735696822,
+        "z": 9
+      },
+      "scale": 1.15,
+      "yaw": 0.18,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_shrine_bloom_l",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": -9,
+        "y": 0,
+        "z": 19
+      },
+      "scale": 1.65,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_shrine_bloom_r",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": 16,
+        "y": 0.3314081441832963,
+        "z": 14
+      },
+      "scale": 1.55,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_shrine_ruin",
+      "asset": "asset_ruin_arch",
+      "role": "prop",
+      "pos": {
+        "x": -5.8,
+        "y": 0,
+        "z": 2.4
+      },
+      "scale": 0.86,
+      "yaw": 0.12,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_shrine_ore",
+      "asset": "asset_iron_ore_rock",
+      "role": "harvestable",
+      "pos": {
+        "x": -22,
+        "y": 1.6078364118017043,
+        "z": -12
+      },
+      "scale": 1.12,
+      "yaw": 0,
+      "solid": true,
+      "harvest": {
+        "dropId": "iron_ore",
+        "maxChunks": 5,
+        "respawnSeconds": 22,
+        "feedbackProfile": "stone"
+      }
+    },
+    {
+      "id": "prop_s3_chamber_arch_l",
+      "asset": "asset_ruin_arch",
+      "role": "prop",
+      "pos": {
+        "x": -7.4,
+        "y": 0,
+        "z": -7.3
+      },
+      "scale": 0.96,
+      "yaw": 0.2,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_chamber_arch_r",
+      "asset": "asset_ruin_arch",
+      "role": "prop",
+      "pos": {
+        "x": 7.3,
+        "y": 0,
+        "z": -8.6
+      },
+      "scale": 0.88,
+      "yaw": -0.25,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_chamber_spire_l",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": -4.6,
+        "y": 0,
+        "z": -11.1
+      },
+      "scale": 1.1,
+      "yaw": 0.2,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_chamber_spire_r",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": 4.9,
+        "y": 0,
+        "z": -10.4
+      },
+      "scale": 1.05,
+      "yaw": -0.18,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_chamber_bloom",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": 3.4,
+        "y": 0,
+        "z": -7.1
+      },
+      "scale": 1.55,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_gate_spire_l",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": -7,
+        "y": 0.8935861396854181,
+        "z": -46
+      },
+      "scale": 1.15,
+      "yaw": 0.1,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_gate_spire_r",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": 8,
+        "y": 0.7119189513906904,
+        "z": -48
+      },
+      "scale": 0.95,
+      "yaw": -0.12,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_gate_ore",
+      "asset": "asset_iron_ore_rock",
+      "role": "harvestable",
+      "pos": {
+        "x": -4.1,
+        "y": 0,
+        "z": -15.1
+      },
+      "scale": 1.13,
+      "yaw": 0,
+      "solid": true,
+      "harvest": {
+        "dropId": "iron_ore",
+        "maxChunks": 5,
+        "respawnSeconds": 22,
+        "feedbackProfile": "stone"
+      }
+    },
+    {
+      "id": "prop_s3_gate_bloom",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": 3.8,
+        "y": 0,
+        "z": -15.3
+      },
+      "scale": 1.55,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_route_spire_l",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": -3.9,
+        "y": 0,
+        "z": -0.5
+      },
+      "scale": 0.98,
+      "yaw": 0.14,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_route_spire_r",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": 4,
+        "y": 0,
+        "z": -1.5
+      },
+      "scale": 0.95,
+      "yaw": -0.15,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_route_bloom_l",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": -2.8,
+        "y": 0,
+        "z": -3.8
+      },
+      "scale": 1.48,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_route_bloom_r",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": 2.9,
+        "y": 0,
+        "z": -4.6
+      },
+      "scale": 1.45,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_route_ore",
+      "asset": "asset_iron_ore_rock",
+      "role": "harvestable",
+      "pos": {
+        "x": 4.8,
+        "y": 0,
+        "z": -5.6
+      },
+      "scale": 1.06,
+      "yaw": 0,
+      "solid": true,
+      "harvest": {
+        "dropId": "iron_ore",
+        "maxChunks": 5,
+        "respawnSeconds": 22,
+        "feedbackProfile": "stone"
+      }
+    },
+    {
+      "id": "prop_s3_bloom_b",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": 6,
+        "y": 0,
+        "z": 13
+      },
+      "scale": 1.4,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_bloom_c",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": -5,
+        "y": 0,
+        "z": -8
+      },
+      "scale": 1.2,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_pebbles",
+      "asset": "asset_pebble_cluster",
+      "role": "prop",
+      "pos": {
+        "x": -26,
+        "y": 2.1732312879127953,
+        "z": -10
+      },
+      "scale": 1.4,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_arrival_spire_l",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": -16,
+        "y": 0,
+        "z": 35
+      },
+      "scale": 1.2,
+      "yaw": -0.15,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_arrival_spire_r",
+      "asset": "asset_ember_spire",
+      "role": "prop",
+      "pos": {
+        "x": 1,
+        "y": 0,
+        "z": 42
+      },
+      "scale": 1,
+      "yaw": 0.2,
+      "solid": true
+    },
+    {
+      "id": "prop_s3_arrival_bloom_l",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": -3.3,
+        "y": 0,
+        "z": 15.1
+      },
+      "scale": 1.55,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_arrival_bloom_r",
+      "asset": "asset_ember_bloom",
+      "role": "prop",
+      "pos": {
+        "x": 3.7,
+        "y": 0,
+        "z": 14.2
+      },
+      "scale": 1.45,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_s3_arrival_ore",
+      "asset": "asset_iron_ore_rock",
+      "role": "harvestable",
+      "pos": {
+        "x": 5.1,
+        "y": 0,
+        "z": 12.5
+      },
+      "scale": 1.05,
+      "yaw": 0,
+      "solid": true,
+      "harvest": {
+        "dropId": "iron_ore",
+        "maxChunks": 5,
+        "respawnSeconds": 22,
+        "feedbackProfile": "stone"
+      }
+    },
+    {
+      "id": "prop_s3_arrival_stones",
+      "asset": "asset_pebble_cluster",
+      "role": "prop",
+      "pos": {
+        "x": -1.2,
+        "y": 0,
+        "z": 13.2
+      },
+      "scale": 1.6,
+      "yaw": 0,
+      "solid": false
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_0",
+      "asset": "asset_foundry_habitat_shelf_0",
+      "role": "prop",
+      "pos": {
+        "x": -35.8,
+        "y": 3.5621,
+        "z": -10.8
+      },
+      "scale": 1,
+      "yaw": 0.14,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_1",
+      "asset": "asset_foundry_habitat_shelf_1",
+      "role": "prop",
+      "pos": {
+        "x": -37.9,
+        "y": 3.6,
+        "z": -18.1
+      },
+      "scale": 1,
+      "yaw": -0.16,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_2",
+      "asset": "asset_foundry_habitat_shelf_2",
+      "role": "prop",
+      "pos": {
+        "x": -15.1,
+        "y": 0.4957,
+        "z": -18
+      },
+      "scale": 1,
+      "yaw": 0.06,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_2_support_1",
+      "asset": "asset_foundry_habitat_shelf_2_support_1",
+      "role": "prop",
+      "pos": {
+        "x": -16.408861343199817,
+        "y": 0.4957,
+        "z": -18.243468793145755
+      },
+      "scale": 1,
+      "yaw": 0.3,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_2_support_2",
+      "asset": "asset_foundry_habitat_shelf_2_support_2",
+      "role": "prop",
+      "pos": {
+        "x": -13.632996679787839,
+        "y": 0.4957,
+        "z": -17.658666178899004
+      },
+      "scale": 1,
+      "yaw": -0.26,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_3",
+      "asset": "asset_foundry_habitat_shelf_3",
+      "role": "prop",
+      "pos": {
+        "x": -12.9,
+        "y": 0.6051,
+        "z": -23.5
+      },
+      "scale": 1,
+      "yaw": -0.07,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_3_support_1",
+      "asset": "asset_foundry_habitat_shelf_3_support_1",
+      "role": "prop",
+      "pos": {
+        "x": -14.024950386882665,
+        "y": 0.6051,
+        "z": -23.851297218297596
+      },
+      "scale": 1,
+      "yaw": -0.31,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_3_support_2",
+      "asset": "asset_foundry_habitat_shelf_3_support_2",
+      "role": "prop",
+      "pos": {
+        "x": -11.646802121334806,
+        "y": 0.6051,
+        "z": -23.04890349242008
+      },
+      "scale": 1,
+      "yaw": 0.25,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_4",
+      "asset": "asset_foundry_habitat_shelf_4",
+      "role": "prop",
+      "pos": {
+        "x": -36.8,
+        "y": 0,
+        "z": -30.9
+      },
+      "scale": 1,
+      "yaw": 0.12,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_5",
+      "asset": "asset_foundry_habitat_shelf_5",
+      "role": "prop",
+      "pos": {
+        "x": -33.5,
+        "y": 2.6,
+        "z": -39.1
+      },
+      "scale": 1,
+      "yaw": -0.08,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_6",
+      "asset": "asset_foundry_habitat_shelf_6",
+      "role": "prop",
+      "pos": {
+        "x": -13.8,
+        "y": 0.65,
+        "z": -20.8
+      },
+      "scale": 1,
+      "yaw": 0.04,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_6_support_1",
+      "asset": "asset_foundry_habitat_shelf_6_support_1",
+      "role": "prop",
+      "pos": {
+        "x": -14.86170084306387,
+        "y": 0.65,
+        "z": -20.943852304519357
+      },
+      "scale": 1,
+      "yaw": 0.27999999999999997,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_6_support_2",
+      "asset": "asset_foundry_habitat_shelf_6_support_2",
+      "role": "prop",
+      "pos": {
+        "x": -12.63412454058584,
+        "y": 0.65,
+        "z": -21.15723157692318
+      },
+      "scale": 1,
+      "yaw": -0.28,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_grove_0",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "role": "prop",
+      "pos": {
+        "x": -30.7,
+        "y": 2.2,
+        "z": -9.3
+      },
+      "scale": 1.15,
+      "yaw": 0.7,
+      "solid": false
+    },
+    {
+      "id": "prop_foundry_habitat_grove_1",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "role": "prop",
+      "pos": {
+        "x": -31.6,
+        "y": 1.3126,
+        "z": -18.7
+      },
+      "scale": 1,
+      "yaw": -0.4,
+      "solid": false
+    },
+    {
+      "id": "prop_foundry_habitat_grove_2",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "role": "prop",
+      "pos": {
+        "x": -18,
+        "y": 0.6939,
+        "z": -13.1
+      },
+      "scale": 0.9,
+      "yaw": 0.2,
+      "solid": false
+    },
+    {
+      "id": "prop_foundry_habitat_grove_3",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "role": "prop",
+      "pos": {
+        "x": -20.8,
+        "y": 0.1202,
+        "z": -23
+      },
+      "scale": 1,
+      "yaw": 1.1,
+      "solid": false
+    },
+    {
+      "id": "prop_foundry_habitat_grove_4",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "role": "prop",
+      "pos": {
+        "x": -31,
+        "y": 0,
+        "z": -30.7
+      },
+      "scale": 1.2,
+      "yaw": 0.6,
+      "solid": false
+    },
+    {
+      "id": "prop_foundry_habitat_grove_5",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "role": "prop",
+      "pos": {
+        "x": -20.2,
+        "y": 0,
+        "z": -33.3
+      },
+      "scale": 0.85,
+      "yaw": -0.5,
+      "solid": false
+    },
+    {
+      "id": "prop_foundry_habitat_grove_6",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "role": "prop",
+      "pos": {
+        "x": -31.2,
+        "y": 0.1333,
+        "z": -34.1
+      },
+      "scale": 1.05,
+      "yaw": 0.3,
+      "solid": false
+    },
+    {
+      "id": "prop_foundry_habitat_recess_left",
+      "asset": "asset_foundry_habitat_recess_left",
+      "role": "prop",
+      "pos": {
+        "x": -28.5,
+        "y": 0.9249,
+        "z": -37
+      },
+      "scale": 1,
+      "yaw": 0,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_recess_right",
+      "asset": "asset_foundry_habitat_recess_right",
+      "role": "prop",
+      "pos": {
+        "x": -21.5,
+        "y": 0,
+        "z": -37
+      },
+      "scale": 1,
+      "yaw": 0,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_recess_back",
+      "asset": "asset_foundry_habitat_recess_back",
+      "role": "prop",
+      "pos": {
+        "x": -25,
+        "y": 0,
+        "z": -39.1
+      },
+      "scale": 1,
+      "yaw": 0,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_recess_lintel",
+      "asset": "asset_foundry_habitat_recess_lintel",
+      "role": "prop",
+      "pos": {
+        "x": -25,
+        "y": 0,
+        "z": -37
+      },
+      "scale": 1,
+      "yaw": 0,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_landing_lower",
+      "asset": "asset_foundry_habitat_landing_lower",
+      "role": "prop",
+      "pos": {
+        "x": -25,
+        "y": 0,
+        "z": -35.2
+      },
+      "scale": 1,
+      "yaw": 0,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_landing_upper",
+      "asset": "asset_foundry_habitat_landing_upper",
+      "role": "prop",
+      "pos": {
+        "x": -25,
+        "y": 0,
+        "z": -37.25
+      },
+      "scale": 1,
+      "yaw": 0,
+      "solid": true
+    },
+    {
+      "id": "prop_foundry_habitat_ground_details",
+      "asset": "asset_foundry_habitat_ground_details",
+      "role": "prop",
+      "pos": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": 1,
+      "yaw": 0,
+      "solid": false
+    }
+  ],
+  "anchors": {
+    "entryPoints": [
+      {
+        "id": "entry_section_3",
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 46
+        },
+        "facingYaw": 3.141592653589793
+      }
+    ],
+    "portalGates": [
+      {
+        "id": "gate_section_3_to_2",
+        "displayName": "Shatterfen Return Gate",
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 51
+        },
+        "rotY": 3.141592653589793,
+        "targetGateId": "gate_section_2_to_3",
+        "targetSectionId": "section_2",
+        "targetEntryId": "entry_section_2",
+        "state": "active",
+        "triggerRadius": 1.85,
+        "visualAssetId": "asset_ruin_arch",
+        "uniformScale": 0.7
+      },
+      {
+        "id": "gate_section_3_to_4",
+        "displayName": "Windscar Gate",
+        "pos": {
+          "x": 0,
+          "y": 0.9,
+          "z": -49
+        },
+        "rotY": 0,
+        "targetSectionId": "section_4",
+        "targetEntryId": "entry_section_4",
+        "targetGateId": "gate_section_4_to_3",
+        "state": "ruined",
+        "triggerRadius": 1.85,
+        "visualAssetId": "asset_ruin_arch",
+        "uniformScale": 0.72,
+        "requirements": {
+          "minPlayerLevel": 4,
+          "resources": {
+            "stone": 7,
+            "iron_ore": 4,
+            "crystal_shard": 2
+          }
+        }
+      }
+    ],
+    "majorWaypoints": [
+      {
+        "id": "wp_section_3",
+        "type": "majorWaypoint",
+        "pos": {
+          "x": -17,
+          "y": 0.3344,
+          "z": 23
+        },
+        "displayName": "Emberfall Ruins Waypoint",
+        "runSpawn": {
+          "position": {
+            "x": -12,
+            "y": 0,
+            "z": 28
+          },
+          "facingYaw": 3.141592653589793
+        }
+      }
+    ],
+    "extractionBeacons": [
+      {
+        "id": "beacon_section_3",
+        "type": "extractionBeacon",
+        "pos": {
+          "x": -30,
+          "y": 0.7924,
+          "z": -22
+        },
+        "displayName": "Emberfall Ruins Beacon"
+      }
+    ],
+    "lootChests": [
+      {
+        "id": "chest_secret_section_3",
+        "displayName": "Cinder Cache",
+        "pos": {
+          "x": -17,
+          "y": 0.7665,
+          "z": -10
+        },
+        "rotY": 0,
+        "lootTableId": "loot_emberfall_secret",
+        "refillSeconds": null,
+        "triggerRadius": 1.4,
+        "secret": true,
+        "visualAssetId": "asset_chest"
+      },
+      {
+        "id": "chest_parkour_section_3",
+        "displayName": "Cinder Shelf Cache",
+        "pos": {
+          "x": 28,
+          "y": 2.6,
+          "z": 8
+        },
+        "rotY": 0,
+        "lootTableId": "loot_emberfall_parkour",
+        "refillSeconds": 86400,
+        "triggerRadius": 1.4,
+        "secret": true,
+        "visualAssetId": "asset_chest"
+      },
+      {
+        "id": "chest_emberhorn_secret",
+        "displayName": "Ember Forge Vault",
+        "pos": {
+          "x": -25,
+          "y": 0,
+          "z": -32
+        },
+        "rotY": 0,
+        "lootTableId": "loot_emberfall_secret",
+        "refillSeconds": null,
+        "triggerRadius": 1.65,
+        "secret": true,
+        "visualAssetId": "asset_ember_forge_cache",
+        "collisionEnabled": true
+      }
+    ]
+  },
+  "lootTables": [
+    {
+      "id": "loot_emberfall_secret",
+      "displayName": "Emberfall Discovery",
+      "rewards": [
+        {
+          "type": "resource",
+          "id": "iron_ore",
+          "amount": 3
+        },
+        {
+          "type": "xp",
+          "amount": 78
+        }
+      ]
+    },
+    {
+      "id": "loot_emberfall_parkour",
+      "displayName": "Emberfall Cinder Shelf",
+      "rewards": [
+        {
+          "type": "resource",
+          "id": "crystal_shard",
+          "amount": 2
+        },
+        {
+          "type": "xp",
+          "amount": 72
+        }
+      ]
+    }
+  ],
+  "foundryStructural": [
+    {
+      "id": "prop_foundry_habitat_shelf_0",
+      "asset": "asset_foundry_habitat_shelf_0",
+      "partCount": 22,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 6.8,
+        "h": 4.329497539982733,
+        "d": 5.4
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_1",
+      "asset": "asset_foundry_habitat_shelf_1",
+      "partCount": 22,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 7.6,
+        "h": 4.672962156850858,
+        "d": 5.8
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_2",
+      "asset": "asset_foundry_habitat_shelf_2",
+      "partCount": 19,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 5.243621454605419,
+        "h": 1.345667986686509,
+        "d": 3.7510112597976337
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_2_support_1",
+      "asset": "asset_foundry_habitat_shelf_2_support_1",
+      "partCount": 1,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 3.9517147194127804,
+        "h": 1.345667986686509,
+        "d": 3.5902536343777354
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_2_support_2",
+      "asset": "asset_foundry_habitat_shelf_2_support_2",
+      "partCount": 1,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 3.723731177908197,
+        "h": 1.345667986686509,
+        "d": 3.4830818840978033
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_3",
+      "asset": "asset_foundry_habitat_shelf_3",
+      "partCount": 19,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 4.654521275599567,
+        "h": 2.955068267212227,
+        "d": 3.170471013814198
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_3_support_1",
+      "asset": "asset_foundry_habitat_shelf_3_support_1",
+      "partCount": 1,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 3.507755164219964,
+        "h": 2.955068267212227,
+        "d": 3.0345936846507326
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_3_support_2",
+      "asset": "asset_foundry_habitat_shelf_3_support_2",
+      "partCount": 1,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 3.3053846739765036,
+        "h": 2.955068267212227,
+        "d": 2.944008798541755
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_4",
+      "asset": "asset_foundry_habitat_shelf_4",
+      "partCount": 22,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 7.8,
+        "h": 3.3,
+        "d": 5.4
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_5",
+      "asset": "asset_foundry_habitat_shelf_5",
+      "partCount": 22,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 9,
+        "h": 4.5115097797292325,
+        "d": 6.6
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_6",
+      "asset": "asset_foundry_habitat_shelf_6",
+      "partCount": 20,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 4.282460800289668,
+        "h": 2.1,
+        "d": 2.172262724784614
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_6_support_1",
+      "asset": "asset_foundry_habitat_shelf_6_support_1",
+      "partCount": 1,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 3.227361762537141,
+        "h": 2.1,
+        "d": 2.0791657508652737
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_shelf_6_support_2",
+      "asset": "asset_foundry_habitat_shelf_6_support_2",
+      "partCount": 1,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 3.04116781469846,
+        "h": 2.1,
+        "d": 2.0171011015857134
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_grove_0",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "partCount": 9,
+      "collisionShape": null,
+      "collisionSize": null,
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_grove_1",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "partCount": 9,
+      "collisionShape": null,
+      "collisionSize": null,
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_grove_2",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "partCount": 9,
+      "collisionShape": null,
+      "collisionSize": null,
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_grove_3",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "partCount": 9,
+      "collisionShape": null,
+      "collisionSize": null,
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_grove_4",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "partCount": 9,
+      "collisionShape": null,
+      "collisionSize": null,
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_grove_5",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "partCount": 9,
+      "collisionShape": null,
+      "collisionSize": null,
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_grove_6",
+      "asset": "asset_foundry_habitat_mineral_grove",
+      "partCount": 9,
+      "collisionShape": null,
+      "collisionSize": null,
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_recess_left",
+      "asset": "asset_foundry_habitat_recess_left",
+      "partCount": 2,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 1.8,
+        "h": 4.422215423990398,
+        "d": 3.2
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_recess_right",
+      "asset": "asset_foundry_habitat_recess_right",
+      "partCount": 2,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 1.8,
+        "h": 3.1999999999999997,
+        "d": 3.2
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_recess_back",
+      "asset": "asset_foundry_habitat_recess_back",
+      "partCount": 3,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 8.8,
+        "h": 3.9999999999999996,
+        "d": 1.1
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_recess_lintel",
+      "asset": "asset_foundry_habitat_recess_lintel",
+      "partCount": 2,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 8.8,
+        "h": 0.85,
+        "d": 3.4
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_landing_lower",
+      "asset": "asset_foundry_habitat_landing_lower",
+      "partCount": 1,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 4.8,
+        "h": 0.15,
+        "d": 1
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_landing_upper",
+      "asset": "asset_foundry_habitat_landing_upper",
+      "partCount": 1,
+      "collisionShape": "box",
+      "collisionSize": {
+        "w": 4.8,
+        "h": 0.3,
+        "d": 3.1
+      },
+      "collisionHulls": null
+    },
+    {
+      "id": "prop_foundry_habitat_ground_details",
+      "asset": "asset_foundry_habitat_ground_details",
+      "partCount": 178,
+      "collisionShape": null,
+      "collisionSize": null,
+      "collisionHulls": null
+    }
+  ],
+  "surface": {
+    "seed": 4109,
+    "palette": {
+      "grass": "#917450",
+      "grassShade": "#65523e",
+      "path": "#927a60",
+      "pathEdge": "#8f775e",
+      "rock": "#756055",
+      "water": "#4e8a93",
+      "waterFoam": "#f7e4b2",
+      "accent": "#ffb35d"
+    },
+    "routes": [
+      {
+        "id": "ember-route",
+        "points": [
+          {
+            "x": 0,
+            "z": 48
+          },
+          {
+            "x": -10,
+            "z": 34
+          },
+          {
+            "x": -18,
+            "z": 16
+          },
+          {
+            "x": -6,
+            "z": 2
+          },
+          {
+            "x": 8,
+            "z": -15
+          },
+          {
+            "x": 0,
+            "z": -45
+          }
+        ],
+        "width": 3.4
+      },
+      {
+        "id": "ember-court-direct",
+        "points": [
+          {
+            "x": -18,
+            "z": 16
+          },
+          {
+            "x": -3,
+            "z": 12
+          },
+          {
+            "x": 13,
+            "z": 5
+          },
+          {
+            "x": 8,
+            "z": -15
+          }
+        ],
+        "width": 4.2
+      },
+      {
+        "id": "foundry-return",
+        "points": [
+          {
+            "x": -6,
+            "z": 2
+          },
+          {
+            "x": -13,
+            "z": 0.4
+          },
+          {
+            "x": -20,
+            "z": -1.7
+          },
+          {
+            "x": -25,
+            "z": -4
+          },
+          {
+            "x": -25.9,
+            "z": -9.6
+          },
+          {
+            "x": -27.9,
+            "z": -15.1
+          },
+          {
+            "x": -29,
+            "z": -23
+          },
+          {
+            "x": -24.4,
+            "z": -27
+          },
+          {
+            "x": -17.8,
+            "z": -29.5
+          },
+          {
+            "x": -12,
+            "z": -34
+          },
+          {
+            "x": 0,
+            "z": -45
+          }
+        ],
+        "width": 2.35
+      }
+    ],
+    "heights": [
+      {
+        "id": "ember-west-shelf",
+        "x": -30,
+        "z": 4,
+        "rx": 20,
+        "rz": 34,
+        "height": 2.2,
+        "plateau": 0.42
+      },
+      {
+        "id": "ember-east-shelf",
+        "x": 28,
+        "z": -7,
+        "rx": 18,
+        "rz": 38,
+        "height": 2.6,
+        "plateau": 0.4
+      },
+      {
+        "id": "ember-gate-rise",
+        "x": 0,
+        "z": -45,
+        "rx": 15,
+        "rz": 10,
+        "height": 0.9,
+        "plateau": 0.45
+      },
+      {
+        "id": "foundry_habitat_west_back",
+        "x": -38,
+        "z": -16,
+        "rx": 7.2,
+        "rz": 12,
+        "height": 3.6,
+        "plateau": 0.5
+      },
+      {
+        "id": "foundry_habitat_east_fold",
+        "x": -15,
+        "z": -22,
+        "rx": 5.2,
+        "rz": 7.2,
+        "height": 0.65,
+        "plateau": 0.35
+      },
+      {
+        "id": "foundry_habitat_rear_fold",
+        "x": -35,
+        "z": -40,
+        "rx": 10,
+        "rz": 7,
+        "height": 2.6,
+        "plateau": 0.45
+      }
+    ],
+    "water": [],
+    "detail": {
+      "grassDensity": 0.44,
+      "groundcover": "mineral"
+    }
+  },
+  "traversal": {
+    "platforms": [],
+    "obstacles": [],
+    "climbables": [],
+    "jumpTraversals": []
+  },
+  "killVolumes": [],
+  "profile": {
+    "tier": 3,
+    "recommendedLevel": {
+      "min": 3,
+      "max": 4
+    },
+    "resourceValueTarget": {
+      "min": 12,
+      "max": 25
+    },
+    "wildkinCountTarget": {
+      "min": 3,
+      "max": 5
+    },
+    "wildkinLevelTarget": {
+      "min": 3,
+      "max": 4
+    },
+    "expected": {
+      "waypoint": 1,
+      "extractionBeacons": {
+        "min": 1,
+        "max": 1
+      },
+      "secrets": {
+        "min": 2,
+        "max": 3
+      },
+      "outboundPortals": {
+        "min": 1,
+        "max": 1
+      }
+    }
+  }
+}

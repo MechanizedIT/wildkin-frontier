@@ -545,9 +545,13 @@ export function createStaticWorld(worldData) {
     regionId: p.regionId,
   }));
 
-  function getGroundHeight(x, z, currentY) {
+  function getTerrainHeight(x, z) {
     const surface = regions.find(r => r.id === activeSectionId)?.surface;
-    const terrainHeight = getSurfaceHeight(surface, x, z);
+    return getSurfaceHeight(surface, x, z);
+  }
+
+  function getGroundHeight(x, z, currentY) {
+    const terrainHeight = getTerrainHeight(x, z);
     const check = (p) => x >= p.aabb.minX && x <= p.aabb.maxX && z >= p.aabb.minZ && z <= p.aabb.maxZ;
     for (const p of platforms) {
       if (activeSectionId && p.sectionId !== activeSectionId) continue;
@@ -671,6 +675,7 @@ export function createStaticWorld(worldData) {
     refreshPortalGateVisual,
     getLootVisualRoot: (id) => lootVisualRoots.get(id) ?? null,
     getActiveSectionId: () => activeSectionId,
+    getTerrainHeight,
     getGroundHeight,
     getCollisionObstaclesForHeight,
     resolveStuckPosition,

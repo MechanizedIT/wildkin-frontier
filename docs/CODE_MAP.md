@@ -8,7 +8,7 @@ Use this lookup after [SESSION_START.md](SESSION_START.md). Paths below were che
 | --- | --- | --- |
 | Boot, composition, single frame/fixed update | `src/boot.js`, `src/main.js`; beta wiring `src/game/createBetaGame.js` | `betaRuntime.test.js`, `interactionPriority.test.js` |
 | Player movement and ordinary jump | `src/player/playerController.js`, `src/game/config.js`, `src/movement/`; input edge consumed by main after a movement step | `ordinaryJump.test.js`, `movementBands.test.js`, `airControl.test.js`, `facingFreeze.test.js` |
-| Input and orbit camera | `src/input/keyboardInput.js`, `touchMovement.js`, `inputController.js`, `gameCameraOrbit.js`; `src/camera/cameraFollow.js` | `landscapeCameraInput.test.js`, `landscapeInputAdapters.test.js` |
+| Input and orbit camera | `src/input/keyboardInput.js`, `touchMovement.js`, `inputController.js`, `gameCameraOrbit.js`; `src/camera/cameraFollow.js`, `cameraCollision.js`; camera-solid lifecycle in physics/base | `landscapeCameraInput.test.js`, `landscapeInputAdapters.test.js`, `cameraCollision.test.js`, `canopyCollision.test.js`, `baseRuntime.test.js` |
 | Browser fullscreen / viewport control | `src/ui/fullscreenControl.js`; visual viewport wiring in `src/main.js`, shell placement in `betaShell.js` | Native multitouch/fullscreen receipt under `.dream-loop/overnight2-phone/` |
 | Rapier world, KCC and collision | `src/physics/createPhysicsWorld.js`, `createCharacterPhysics.js`; `src/world/collision.js`, `colliderDescriptor.js`, `convexCollider.js` | `rapierPhase12.test.js`, `collision.test.js`, `convexPropCollider.test.js` |
 | Persistent progress and saved quantities | **`src/save/frontierProgress.js`**; owns commits, migration and inventory authority | `physicalInventoryProgress.test.js`, `activeRunRestore.test.js` |
@@ -80,3 +80,5 @@ For the tested bpy-dev derivative registered as `blender_lab` and official porta
 - Dense woodland/solid trunks: tools/register-ecology-assets.mjs, tools/compose-verdant-uplands.mjs; tests/canopyCollision.test.js. Descriptors continue through colliderDescriptor and existing static-world/physics owners.
 
 Backpack quick-slot assignment is rendered by `src/ui/inventoryPanel.js` and routed through `src/inventory/physicalInventory.js` to existing `frontierProgress.assignQuickSlot`. References stay item IDs, never stack indices or another container. `equipmentSystem` owns runtime input; the blocking frame loop cancels held use while the panel is open. `betaShell` routes Journal Gear to the physical panel. `tests/equipmentLoadout.test.js` covers full-pack assignment, sorting and quantity/save ownership; native layout/gesture receipts are in `.dream-loop/physical-hotbar-v1/`.
+
+September12 stopped candidate: `tools/compose-emberfall-ravine.mjs` is deliberately unwired; `tests/emberfallRavine.candidate.mjs` is an opt-in failing study outside the normal suite. See EMBERFALL_CANDIDATE_HANDOFF.md before integration.

@@ -44,7 +44,7 @@ See `CURRENT_SLICE.md`, `BETA_RELEASE_PLAN.md` and `OVERNIGHT_PLAYTEST.md` for c
 - **Title:** Wildkin Frontier
 - **Genre:** Survival & Resource Management
 - **Format:** Single-player, landscape-first mobile web game (Three.js/HTML5), explicitly changed by Chris on September 10, 2026. Keep a usable portrait fallback.
-- **Camera:** Fixed high third-person / near top-down
+- **Camera:** Player-controlled yaw and bounded20–64° pitch, default32°; temporary terrain/solid retraction preserves requested zoom, while trees fade. Movement follows horizontal camera heading.
 - **Target session:** roughly 5–10 minutes for one meaningful expedition
 
 ## High Concept

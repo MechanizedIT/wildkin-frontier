@@ -6,6 +6,7 @@ import { createScene } from "./game/createScene.js";
 import { createPlayerProjectedShadow } from "./presentation/playerProjectedShadow.js";
 import { createPlayerController } from "./player/playerController.js";
 import { createCameraFollow } from "./camera/cameraFollow.js";
+import { createCameraCollisionProbe } from "./camera/cameraCollision.js";
 import { createTouchMovement } from "./input/touchMovement.js";
 import { createKeyboardInput } from "./input/keyboardInput.js";
 import { createGameCameraOrbit } from "./input/gameCameraOrbit.js";
@@ -210,7 +211,8 @@ player.position.set(startPos.x, startPos.y, startPos.z);
 playerController.state.facing = campStartFacing;
 playerController.snapRenderPose();
 
-const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG);
+const cameraCollisionProbe = createCameraCollisionProbe({ RAPIER, physicsWorld, playerCollider: characterPhysics.collider, getTerrainHeight: playground.getTerrainHeight, cfg: CAMERA_CONFIG_FOLLOW });
+const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG, { collisionProbe: cameraCollisionProbe });
 cameraFollow.snap();
 const cameraOrbit = createGameCameraOrbit(app, cameraFollow, CAMERA_CONFIG_FOLLOW);
 

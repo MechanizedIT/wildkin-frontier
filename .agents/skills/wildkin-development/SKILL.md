@@ -58,4 +58,6 @@ Use this project-local skill to coordinate a small complete change. It composes 
 
 Update current status, affected ownership/contracts and BUILD_LOG with actual evidence. Commit cohesive changes directly on `main` under repository rules, preserving unrelated work; do not publish without authorization. Keep source, generated data and packaged bytes consistent with the stated checkpoint.
 
+For an owner-requested stop/reboot, leave one concise restart entry point with the actual package, server command, exact next task and workflow lessons. Preserve an entirely unintegrated candidate and its failing proof as an explicit opt-in study outside the normal test glob; document the failure and restoration path. Never use that exception to hide a failing test for integrated behavior. Archive superseded scope chronology so its old active mandate cannot accidentally restart work. The September12 example is [SESSION_HANDOFF_2026-09-12.md](../../../docs/SESSION_HANDOFF_2026-09-12.md).
+
 Give Chris a short changelog, recognizable things to try, a few actual visuals and unfinished work. State what is still provisional or unshipped. Respect a request to wrap up: preserve candidates and useful next steps without launching another production cycle. See [WORKFLOW_RETROSPECTIVE.md](../../../docs/WORKFLOW_RETROSPECTIVE.md) for the session evidence behind these rules.

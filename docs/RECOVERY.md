@@ -2,6 +2,8 @@
 
 The existing GitHub repository is [MechanizedIT/wildkin-frontier](https://github.com/MechanizedIT/wildkin-frontier). Chris authorized the September 11 backup after rebooting his PC. This is a source backup, not a deployed game or permission to resume overnight production.
 
+**Latest local checkpoint, September12:** camera/selected Shatterfen/Backpack work is saved on main with966-test verification. No new remote push was performed during this stop. For a same-PC reboot, use SESSION_START and SESSION_HANDOFF_2026-09-12; the older GitHub backup is not proof of latest remote coverage.
+
 ## Play the checkpoint
 
 1. Clone the repository and use `main`. Install Node.js/npm if needed, then run `npm ci` in the project directory.
