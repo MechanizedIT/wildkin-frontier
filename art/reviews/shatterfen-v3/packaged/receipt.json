@@ -1,0 +1,50 @@
+{
+  "pass": true,
+  "before": {
+    "index": "c288c321780e26d5599bbeaf019c80edb1fa4c8fbf18698b4bc52ec671c34760",
+    "world": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+    "generated": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5"
+  },
+  "fixture": "Fresh isolated packaged Edge context; actual Start, explicit one-medkit grant and wp_section_2 unlock/start fixture. Native tap assignment, ordinary Jump and literal reload/Continue. Not earned progression or physical-phone proof.",
+  "squares": [
+    {
+      "w": 48,
+      "h": 48
+    },
+    {
+      "w": 48,
+      "h": 48
+    },
+    {
+      "w": 48,
+      "h": 48
+    },
+    {
+      "w": 48,
+      "h": 48
+    },
+    {
+      "w": 48,
+      "h": 48
+    }
+  ],
+  "region": {
+    "started": true,
+    "bounds": {
+      "maxX": 50,
+      "maxZ": 50,
+      "minX": -50,
+      "minZ": -50
+    },
+    "water": 7,
+    "shore": "#4d7a75"
+  },
+  "continued": {
+    "slot": "medkit",
+    "section": "section_2",
+    "grounded": true
+  },
+  "errors": [],
+  "external": [],
+  "failed": []
+}

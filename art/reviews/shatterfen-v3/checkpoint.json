@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-12T12:27:01.393Z",
+  "tests": 953,
+  "verify": "PASS",
+  "zipStatus": "PASS",
+  "zip": "782bd3d2ff5f269b9338da1bae5864abc5a4bbfc5d3124bf2472fd079ce27180",
+  "unpackedMB": 43.84,
+  "zipMB": 20.46,
+  "world": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+  "generated": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5",
+  "index": "c288c321780e26d5599bbeaf019c80edb1fa4c8fbf18698b4bc52ec671c34760",
+  "packagedSmoke": "PASS",
+  "selection": "Shatterfen V3 under explicit bedtime delegation; functional closure, not 8+ target match or physical-phone acceptance"
+}

@@ -2,11 +2,11 @@
 
 This is a local alpha playtest, not a release or owner-accepted build. Start at the normal local address without `?author=1`. The guide describes recognizable player actions; it does not require developer tools. Physical-phone performance and full campaign acceptance remain unproven.
 
-Updated for September 11 physical inventory v3. Use `OVERNIGHT_PLAYTEST.md` for the current focused checks; old screenshots and beta reports describe earlier builds. Keep your save and export a backup through Settings before testing.
+Updated for September12 ordinary jumping and physical hotbar editing. Use `OVERNIGHT_PLAYTEST.md` for the current focused checks and CURRENT_SLICE for dev versus package status; old screenshots and beta reports describe earlier builds. A private browser window starts a fresh game without deleting your ordinary save.
 
 ## Controls and shell
 
-Desktop: **WASD** move, **Shift** run, **C** sneak, **1–5** select gear, **F** uses the selected item, **Space** dodges, **E** interacts and **Q** uses the companion ability. Tap Pack for carried items, then Journal to reach Gear, Work, Wildkin, skills and Settings. A nearby Pod locker or crate opens physical storage; Pack alone does not provide remote access.
+Desktop: **WASD** move, **Shift** run, **C** sneak, **1–5** select gear, **F** uses the selected item, **Space** jumps, **R** dodges, **E** interacts and **Q** uses the companion ability. Tap Pack for carried items and quick-slot arrangement, then Journal for Work, Wildkin, skills and Settings. Select a carried usable stack, then a quick slot, or drag it there; sorting should preserve the shortcut. A nearby Pod locker or crate opens physical storage, whose Hotbar button returns to arrangement. Pack alone does not provide remote storage access.
 
 On touch, nudge the lower-left stick to sneak or push farther to run. Drag open ground on the right to orbit, and use the labeled action and Dodge buttons. Report lost movement, accidental swings or menu state that does not clear after closing it.
 
@@ -22,7 +22,7 @@ On touch, nudge the lower-left stick to sneak or push farther to run. Drag open 
 5. **Meet a Mossling.** Craft a berry lure in the Camp menu and assign it through Gear. Follow the Wildkin Journal: sneak toward the creek Mossling, place berries on dry open ground, retreat while it feeds, then approach gently and Bond. There is no universal resonance-timing modal. A new bond remains unsecured until extraction; then choose it in Wildkin at Camp. Tidefin uses a dry-bank woven snare and calm release instead.
 6. **Use the companion.** On an expedition, use **Q** or the ability button. The ability should have a readable effect and cooldown. Matching sealed caches are intended revisits once the appropriate Wildkin is secured.
 7. **Check expedition risk safely.** Do not sacrifice a valued bond merely to test. On an incidental defeat, the provisional rule keeps the backpack and permanent progress while losing carried XP and pending bonds. Reload is not defeat: it resumes the small saved expedition snapshot on supported ground, with ordinary world state rebuilt. Duplicate rewards or missing packed items are failures.
-8. **Push farther only as route evidence allows.** Repair an outbound gate when its prompt’s level and carried-material requirements are met. Later zones contain landmarks, water and elevation, optional courses, more wildlife, and the Heartwood Guardian/Core finale. Record the exact landmark and action if a route, pad, collision, or interaction blocks progress; later course grading remains under active QA.
+8. **Push farther only as route evidence allows.** Repair an outbound passage when its displayed requirements are met. Later zones contain landmarks, water, higher ground, optional caches, more wildlife, and the Heartwood Guardian/Core finale. Record the recognizable landmark and action if a visible path, ledge, collision or interaction blocks progress. Jump pads and checkpoint courses have been retired.
 
 ## Human-device checks still needed
 
@@ -33,6 +33,6 @@ On touch, nudge the lower-left stick to sneak or push farther to run. Drag open 
 
 When reporting an issue, include the region and landmark, the action, the observed result, the expected result, device/browser, and whether an older save was loaded. Screenshots help with readability and visual issues.
 
-## Visible parkour danger
+## Natural high-ground exploration
 
-The dark thorn-crystal beds with amber rims are hazardous. Enter through the green course start, then walk onto the launch pad and clear the bed to the blue checkpoint. Both the takeoff and landing are safe. Deliberately step into the thorns after starting a course: you should return to its latest checkpoint with your cargo. Outside an active course, the same visible hazard carries normal expedition risk. Failure signs are an invisible hazard, a safe landing that resets you, or a failed course that loses your cargo.
+In Forest Edge, follow the eastern uphill trail toward the higher ore shelves and lookout. Use Jump on open ground or toward a nearby reachable ledge, and follow the walking route where a wall is too high. A press should produce one rise and supported landing, with no pad or checkpoint required. A hidden wall across a visible trail, falling through a shelf, floating loot, or a checkpoint reset is a failure. The ordinary expedition risk rules apply to dangers encountered in the field.

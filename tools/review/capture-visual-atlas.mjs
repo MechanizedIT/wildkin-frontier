@@ -37,7 +37,7 @@ try{
   model('matter-fabricator','Matter fabricator',['matter-fabricator-v1']),model('resonance-bench','Resonance bench',['resonance-bench-v1']),model('forge-cache','Ember forge cache',['ember-forge-cache-v1']),model('observatory','Fen observatory',['fen-observatory-v1']),
   model('barricades','Camp barricade family',['emergency-barricade-v1','emergency-barricade-post-v1']),
   model('survey-module','Survey wreck assembly',['survey-left-wall-v2','survey-right-wall-v2','survey-rear-wall-v2','survey-floor-v2','survey-ramp-v2',{path:'assets/models/survey-panel-debris-v2/model.glb',offset:[-4,0,2]},{path:'assets/models/survey-cargo-frame-v2/model.glb',offset:[4,0,1]}],'assembly'),
-  model('rootfall-candidate','Rootfall V4 — closed prototype',['left','right','center'].map(n=>({path:`assets/models/rootfall-${n}-v1/model.glb`})).concat(rootfall.seams.positions.map(offset=>({path:'assets/models/rootfall-seam-v1/model.glb',offset}))),'assembly','INTEGRATED PROTOTYPE · visual HOLD 7.1 / owner direction pending'),
+  model('rootfall-candidate','Rootfall V4 — closed prototype',['left','right','center'].map(n=>({path:`assets/models/rootfall-${n}-v1/model.glb`})).concat(rootfall.seams.positions.map(offset=>({path:'assets/models/rootfall-seam-v1/model.glb',offset}))),'assembly','INTEGRATED PROTOTYPE · producer selected / historical visual 7.1'),
   model('tidefin-candidate','Tidefin — pending candidate',[{path:'art/source/tidefin-candidate-v3/candidate/tidefin-motion.glb'}],'row','PENDING · not integrated / not admitted')];
  for(const id of selectedModels)if(!allModels.some(r=>r.id===id))throw Error(`Unknown model: ${id}`);
  const records=allModels.filter(r=>!selectedModels.length||selectedModels.includes(r.id));

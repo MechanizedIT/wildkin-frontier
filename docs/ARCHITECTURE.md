@@ -1112,6 +1112,8 @@ September 11 additions: `frontierProgress` also owns normalized base structures/
 
 `terrainSurfaceModel.js` owns continuous heights and route grading. The rendered grid supplies the same vertices/indices to Rapier; floor queries ground the player shadow, pickups, XP, followers and placed objects. The landscape draft transaction rebases object families against old/new terrain, preserving elevation offsets, with Apply/Undo/export parity. Platforms prefer `baseY` consistently in author, validation, rendering and physics. Frozen asset catalogs make Author preview lookup cheap without exposing mutable draft state.
 
+Ground remains one generated height-grid mesh per region, composed in Three.js from authored elevations, routes and water depressions. Blender GLBs are separate rocks, cliffs, props and characters. The shared height grid does not represent stacked cave floors or overhangs; those need separately authored geometry/colliders. Optional local `surface.palette.gravel` and `shore` channels change only their existing paint masks, preserve prior defaults when absent, and round-trip through Landscape Author. `waterFoam` colours separate thin shoreline geometry.
+
 `skillCatalog.js` defines the three connected paths and effects. `frontierProgress.js` owns unlocks, banked-level point budgets and normalized save restoration; the UI reads the resulting model. `itemIcons.js` supplies the same original art identity to inventory, costs, rewards and HUD. `hazardVisual.js` renders each kill volume as a thorn bed in Author and Play; parkour failure/protection tests use the corresponding centered, yaw-rotated bounds. Visuals do not own additional physics or frame loops.
 
 ## Defended Camp ownership — September 11 evening

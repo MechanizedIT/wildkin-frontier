@@ -23,7 +23,7 @@ test("the first two expeditions match their independently sized visual and colli
 
 test("Verdant and Shatterfen retain distinct landmark-led loops", () => {
   const verge = region("section_1"), fen = region("section_2");
-  for (const [section, required] of [[verge, ["verdant-low-spine", "verdant-west-hollow", "verdant-upland-ascent", "verdant-upland-descent"]], [fen, ["fen-zigzag-causeway", "observatory-island-spur", "far-bank-route"]]]) {
+  for (const [section, required] of [[verge, ["verdant-low-spine", "verdant-west-hollow", "verdant-upland-ascent", "verdant-upland-descent"]], [fen, ["fen-return-silt", "fen-tidefin-bank", "fen-observatory-high-loop", "fen-far-bank-shoulder", "fen-wreck-return-descent"]]]) {
     for (const id of required) assert.ok(hasRoute(section, id), `${section.id} needs ${id}`);
     assert.ok(section.surface.heights.length >= 3, `${section.id} needs several elevation landmarks`);
     assert.ok(section.surface.water.length >= 2, `${section.id} needs multiple distinct water spaces`);

@@ -1,0 +1,101 @@
+{
+  "pass": true,
+  "evidence": "Actual unpaused Three.js mixer execution with video capture; screenshot/telemetry checks alone do not admit perceived motion quality or native-game cadence.",
+  "steps": [
+    {
+      "hash": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+      "selected": "Walk",
+      "playing": true,
+      "elapsed": 2.3445999999999976,
+      "distance": 1.5109919999971893,
+      "cycles": 3,
+      "completed": false,
+      "phase": 0.1261333333333248,
+      "duration": 0.75,
+      "scale": 0.7,
+      "worldSpeed": 0.63,
+      "rate": 1,
+      "view": "side"
+    },
+    {
+      "hash": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+      "selected": "Run",
+      "playing": true,
+      "elapsed": 1.6139,
+      "distance": 4.942076999997159,
+      "cycles": 3,
+      "completed": false,
+      "phase": 0.22780000000000059,
+      "duration": 0.5,
+      "scale": 0.7,
+      "worldSpeed": 2.1,
+      "rate": 1,
+      "view": "opposite"
+    },
+    {
+      "hash": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+      "selected": "Attack",
+      "playing": true,
+      "elapsed": 1.1109999999999962,
+      "distance": 5.111336999997156,
+      "cycles": 0,
+      "completed": true,
+      "phase": 1,
+      "duration": 0.75,
+      "scale": 0.7,
+      "worldSpeed": 0,
+      "rate": 1,
+      "view": "three"
+    },
+    {
+      "hash": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+      "selected": "Hurt",
+      "playing": true,
+      "elapsed": 1.1055999999999964,
+      "distance": 5.111336999997156,
+      "cycles": 0,
+      "completed": true,
+      "phase": 1,
+      "duration": 0.5,
+      "scale": 0.7,
+      "worldSpeed": 0,
+      "rate": 1,
+      "view": "opposite"
+    },
+    {
+      "hash": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+      "selected": "Idle",
+      "playing": true,
+      "elapsed": 1.108299999999998,
+      "distance": 5.111336999997156,
+      "cycles": 0,
+      "completed": false,
+      "phase": 0.36943333333333267,
+      "duration": 3,
+      "scale": 0.7,
+      "worldSpeed": 0,
+      "rate": 1,
+      "view": "front"
+    },
+    {
+      "replay": {
+        "hash": "5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f",
+        "selected": "Hurt",
+        "playing": true,
+        "elapsed": 0.008399999999999635,
+        "distance": 5.111336999997156,
+        "cycles": 0,
+        "completed": false,
+        "phase": 0.01679999999999927,
+        "duration": 0.5,
+        "scale": 0.7,
+        "worldSpeed": 0,
+        "rate": 1,
+        "view": "front"
+      }
+    }
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "video": "C:\\Users\\cwood\\Documents\\mobile-rpg\\.dream-loop\\tidefin-continuous-v3\\recording\\page@500758cd8b99c5427868c0949cea09f4.webm"
+}

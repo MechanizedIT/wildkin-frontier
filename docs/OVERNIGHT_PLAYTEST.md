@@ -1,6 +1,6 @@
 # Latest overnight prototype — short player guide
 
-September 12, 2026. The current local V7 package has passed its focused functional checks; Chris has accepted the grass-to-rock transition with optional local dressing. The historical whole-scene score remains7.3; this is not physical-phone acceptance. Landscape is preferred, with a portrait fallback. Your existing save remains usable; a private browser window gives a fresh game without deleting it. On the current Wi-Fi: http://192.168.4.96:8080/ .
+September12,2026. The newest package includes selected ShatterfenV3 and Backpack shortcut editing, with953tests and focused/native checks passing. The region remains visually provisional, and physical-phone acceptance is open. Landscape is preferred with a portrait fallback. Existing saves remain usable; a private browser window gives a fresh game without deleting them. Current Wi-Fi: http://192.168.4.96:8080/ .
 
 ## A short five-minute check
 
@@ -17,7 +17,7 @@ September 12, 2026. The current local V7 package has passed its focused function
 
 ## What remains unfinished
 
-Forest Edge is the first substantial terrain redesign; the other four expedition regions still need their distinct vertical layouts and discoveries. Its latest composition remains below the visual target. A representative cliff/terrain/grass experiment also held7.3; it is preserved for owner comparison, while the playable build retains V7 and accepted V3 models. Chris has since accepted that grass/rock transition and suggested selective dressing, resolving the specific appearance question. Rootfall V4 is retained under delegated selection with its known flaws; Tidefin's unshipped replacement still needs motion review. Shatterfen's100×100m redesign is planning only. Camp drone/story progression, further defended sectors, powered/ranged weapons, broader blueprint progression and more creature/prop art remain planned.
+Forest Edge is the first substantial terrain redesign; Shatterfen now adds a different low-bank/plate/wreck loop; the other three expedition regions still need their distinct vertical layouts and discoveries. Its latest composition remains below the visual target. A representative cliff/terrain/grass experiment also held7.3; it is preserved for owner comparison, while the playable build retains V7 and accepted V3 models. Chris has since accepted that grass/rock transition and suggested selective dressing, resolving the specific appearance question. Rootfall V4 is retained under delegated selection with its known flaws; Tidefin's unshipped replacement still needs motion review. Shatterfen's100×100m redesign is now integrated: after reaching it through the repaired northern passage, explore the western Tidefin bank, the raised path beside the Observatory and the northwest wreck supply cache. Paths should support walking/jumping; cache rewards should remain after Continue. Sparse scenery and a modest wreck silhouette remain known visual debt. Camp drone/story progression, further defended sectors, powered/ranged weapons, broader blueprint progression and more creature/prop art remain planned.
 
 Browser evidence establishes specific interactions, not sustained phone frame rate, heat, sound quality or whole-campaign balance. Short notes about what you actually see/hear/feel are more useful than trying every system.
 

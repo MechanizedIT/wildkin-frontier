@@ -1,0 +1,714 @@
+{
+  "pass": true,
+  "fixtureDisclosure": "Fresh isolated Edge run. Actual Start, then explicit wp_section_2 unlock plus its authored expedition-start fixture. No campaign reward claim, position write, controller warp, per-segment teleport, grant, or source edit.",
+  "sourceSnapshots": {
+    "before": {
+      "world": {
+        "sha256": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+        "size": 3274047
+      },
+      "generated": {
+        "sha256": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5",
+        "size": 11735666
+      }
+    },
+    "after": {
+      "world": {
+        "sha256": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+        "size": 3274047
+      },
+      "generated": {
+        "sha256": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5",
+        "size": 11735666
+      }
+    }
+  },
+  "points": {
+    "spawn": [
+      19,
+      11
+    ],
+    "forecourt": [
+      14,
+      10
+    ],
+    "eastC": [
+      10,
+      10
+    ],
+    "eastB": [
+      5,
+      12
+    ],
+    "eastA": [
+      -3,
+      12
+    ],
+    "silt": [
+      -5,
+      15
+    ],
+    "westA": [
+      -9,
+      19
+    ],
+    "westB": [
+      -11,
+      17
+    ],
+    "westC": [
+      -13,
+      16
+    ],
+    "tideA": [
+      -17,
+      13
+    ],
+    "tideB": [
+      -24,
+      11
+    ],
+    "grotto": [
+      -34,
+      3
+    ],
+    "neNW": [
+      20,
+      -12
+    ],
+    "neW": [
+      20,
+      -25
+    ],
+    "neS": [
+      30,
+      -30
+    ],
+    "neSE": [
+      40,
+      -30
+    ],
+    "neE": [
+      40,
+      -20
+    ]
+  },
+  "steps": [
+    {
+      "label": "actual Start then disclosed wp_section_2-unlocked authored waypoint fixture",
+      "actualStart": {
+        "pos": {
+          "x": 0,
+          "y": 0.5400000214576721,
+          "z": 2
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "IDLE",
+        "extent": 0.52,
+        "sectionId": "camp"
+      },
+      "fixture": {
+        "unlocked": true,
+        "begin": true
+      },
+      "arrival": {
+        "pos": {
+          "x": 19,
+          "y": 1.7219891548156738,
+          "z": 11
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "IDLE",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 1.2,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5219891548156739,
+        "waterRadius": 3.9006943645381793
+      }
+    },
+    {
+      "label": "low forecourt",
+      "target": {
+        "x": 14,
+        "z": 10
+      },
+      "reached": {
+        "pos": {
+          "x": 14.262633323669434,
+          "y": 1.7196398973464966,
+          "z": 9.90728759765625
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 1.2,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5196398973464966,
+        "waterRadius": 4.066062464037683
+      }
+    },
+    {
+      "label": "east dry crossing C",
+      "target": {
+        "x": 10,
+        "z": 10
+      },
+      "reached": {
+        "pos": {
+          "x": 10.305257797241211,
+          "y": 1.5028491020202637,
+          "z": 9.90728759765625
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.9801697158813476,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5226793861389161,
+        "waterRadius": 4.3618380597781305
+      }
+    },
+    {
+      "label": "east dry crossing B",
+      "target": {
+        "x": 5,
+        "z": 12
+      },
+      "reached": {
+        "pos": {
+          "x": 5.1773858070373535,
+          "y": 1.2947325706481934,
+          "z": 11.977444648742676
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.7734028843067763,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5213296863414171,
+        "waterRadius": 4.867795473163306
+      }
+    },
+    {
+      "label": "east dry crossing A",
+      "target": {
+        "x": -3,
+        "z": 12
+      },
+      "reached": {
+        "pos": {
+          "x": -2.7985286712646484,
+          "y": 1.2421000003814697,
+          "z": 11.97730541229248
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.72,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5221000003814698,
+        "waterRadius": 3.8351963656945567
+      }
+    },
+    {
+      "label": "return silt",
+      "target": {
+        "x": -5,
+        "z": 15
+      },
+      "reached": {
+        "pos": {
+          "x": -5.0049567222595215,
+          "y": 1.10759699344635,
+          "z": 14.742363929748535
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.6263261435988444,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.4812708498475057,
+        "waterRadius": 3.316411023474921
+      }
+    },
+    {
+      "label": "west dry crossing A",
+      "target": {
+        "x": -9,
+        "z": 19
+      },
+      "reached": {
+        "pos": {
+          "x": -9.000260353088379,
+          "y": 1.2421000003814697,
+          "z": 18.822967529296875
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.72,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5221000003814698,
+        "waterRadius": 2.4239003349246344
+      }
+    },
+    {
+      "label": "west dry crossing B",
+      "target": {
+        "x": -11,
+        "z": 17
+      },
+      "reached": {
+        "pos": {
+          "x": -10.759121894836426,
+          "y": 1.2420799732208252,
+          "z": 17.249671936035156
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.72,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5220799732208252,
+        "waterRadius": 2.318192307002106
+      }
+    },
+    {
+      "label": "west dry crossing C",
+      "target": {
+        "x": -13,
+        "z": 16
+      },
+      "reached": {
+        "pos": {
+          "x": -12.675966262817383,
+          "y": 1.2419999837875366,
+          "z": 16.047391891479492
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.72,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5219999837875366,
+        "waterRadius": 2.222595034937245
+      }
+    },
+    {
+      "label": "Tidefin dry bank A",
+      "target": {
+        "x": -17,
+        "z": 13
+      },
+      "reached": {
+        "pos": {
+          "x": -16.69400978088379,
+          "y": 0.6988155841827393,
+          "z": 12.947463035583496
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.15098913359897648,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5478264505837628,
+        "waterRadius": 2.0446956749916474
+      }
+    },
+    {
+      "label": "Tidefin dry bank B",
+      "target": {
+        "x": -24,
+        "z": 11
+      },
+      "reached": {
+        "pos": {
+          "x": -23.86330223083496,
+          "y": 1.8019819259643555,
+          "z": 11.10994815826416
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 1.28,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5219819259643554,
+        "waterRadius": 1.459224388548177
+      }
+    },
+    {
+      "label": "Tidefin Grotto approach",
+      "target": {
+        "x": -34,
+        "z": 3
+      },
+      "reached": {
+        "pos": {
+          "x": -33.56160354614258,
+          "y": 0.47048649191856384,
+          "z": 3.03133225440979
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": -0.02416343975458208,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.4946499316731459,
+        "waterRadius": 0.9429399809192632
+      }
+    },
+    {
+      "label": "Tidefin return B",
+      "target": {
+        "x": -24,
+        "z": 11
+      },
+      "reached": {
+        "pos": {
+          "x": -24.284194946289062,
+          "y": 1.8021044731140137,
+          "z": 11.097423553466797
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 1.28,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5221044731140136,
+        "waterRadius": 1.4273906579938924
+      }
+    },
+    {
+      "label": "Tidefin return A",
+      "target": {
+        "x": -17,
+        "z": 13
+      },
+      "reached": {
+        "pos": {
+          "x": -17.13866424560547,
+          "y": 0.5886289477348328,
+          "z": 12.988040924072266
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.04876172191371331,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5398672258211195,
+        "waterRadius": 1.9888278863157816
+      }
+    },
+    {
+      "label": "west crossing return C",
+      "target": {
+        "x": -13,
+        "z": 16
+      },
+      "reached": {
+        "pos": {
+          "x": -13.42428207397461,
+          "y": 1.2419984340667725,
+          "z": 16.004261016845703
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.72,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5219984340667725,
+        "waterRadius": 2.1423656395529096
+      }
+    },
+    {
+      "label": "west crossing return A",
+      "target": {
+        "x": -9,
+        "z": 19
+      },
+      "reached": {
+        "pos": {
+          "x": -9.437236785888672,
+          "y": 1.2421096563339233,
+          "z": 19.195219039916992
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.72,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5221096563339234,
+        "waterRadius": 2.340008953127838
+      }
+    },
+    {
+      "label": "silt return",
+      "target": {
+        "x": -5,
+        "z": 15
+      },
+      "reached": {
+        "pos": {
+          "x": -5.31415319442749,
+          "y": 0.927420437335968,
+          "z": 15.316948890686035
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.3535142238690399,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5739062134669282,
+        "waterRadius": 3.216414020213209
+      }
+    },
+    {
+      "label": "east crossing return A",
+      "target": {
+        "x": -3,
+        "z": 12
+      },
+      "reached": {
+        "pos": {
+          "x": -2.853041887283325,
+          "y": 1.2420661449432373,
+          "z": 12.455541610717773
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.72,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5220661449432373,
+        "waterRadius": 3.8098259402687793
+      }
+    },
+    {
+      "label": "east crossing return C",
+      "target": {
+        "x": 10,
+        "z": 10
+      },
+      "reached": {
+        "pos": {
+          "x": 9.725046157836914,
+          "y": 1.4654698371887207,
+          "z": 10.041426658630371
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.9426742362976075,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5227956008911132,
+        "waterRadius": 4.421622821381446
+      }
+    },
+    {
+      "label": "northeast water northwest bank",
+      "target": {
+        "x": 20,
+        "z": -12
+      },
+      "reached": {
+        "pos": {
+          "x": 19.928688049316406,
+          "y": 1.418047547340393,
+          "z": -11.842470169067383
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.9,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.518047547340393,
+        "waterRadius": 1.595893551364838
+      }
+    },
+    {
+      "label": "northeast water west bank",
+      "target": {
+        "x": 20,
+        "z": -25
+      },
+      "reached": {
+        "pos": {
+          "x": 19.9285831451416,
+          "y": 0.5572153329849243,
+          "z": -24.765674591064453
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0.02917655293614492,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5280387800487794,
+        "waterRadius": 1.5118905567078371
+      }
+    },
+    {
+      "label": "northeast water south bank",
+      "target": {
+        "x": 30,
+        "z": -30
+      },
+      "reached": {
+        "pos": {
+          "x": 29.74028968811035,
+          "y": 0.5219672322273254,
+          "z": -29.952709197998047
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5219672322273254,
+        "waterRadius": 1.3200577811354393
+      }
+    },
+    {
+      "label": "northeast water east-south bank",
+      "target": {
+        "x": 40,
+        "z": -30
+      },
+      "reached": {
+        "pos": {
+          "x": 39.5806999206543,
+          "y": 0.5220431685447693,
+          "z": -29.88768768310547
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5220431685447693,
+        "waterRadius": 1.8309992752996904
+      }
+    },
+    {
+      "label": "northeast water east bank",
+      "target": {
+        "x": 40,
+        "z": -20
+      },
+      "reached": {
+        "pos": {
+          "x": 40.103912353515625,
+          "y": 0.5219999551773071,
+          "z": -20.443988800048828
+        },
+        "yaw": 0,
+        "grounded": true,
+        "mode": "WALK",
+        "extent": 0.52,
+        "sectionId": "section_2"
+      },
+      "support": {
+        "terrainY": 0,
+        "capsuleExtent": 0.52,
+        "centerOffset": 0.5219999551773071,
+        "waterRadius": 1.3583753157216547
+      }
+    }
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "externalRequests": [],
+  "limitations": "This V3 follow-up covers only changed west/Tidefin and northeast water-bank approaches. V2 grades, cache, and Continue proof remain separately tied to V2 source hashes. No companion was spawned."
+}

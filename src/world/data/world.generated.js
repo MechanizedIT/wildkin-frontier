@@ -4065,13 +4065,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": -39.5
+            "z": -49.5
           },
           "rotY": 0,
           "size": {
             "d": 0.5,
             "h": 3,
-            "w": 79
+            "w": 99
           },
           "visibleInPlay": false
         },
@@ -4083,13 +4083,13 @@ export const WORLD_DATA = {
           "pos": {
             "x": 0,
             "y": 0,
-            "z": 39.5
+            "z": 49.5
           },
           "rotY": 0,
           "size": {
             "d": 0.5,
             "h": 3,
-            "w": 79
+            "w": 99
           },
           "visibleInPlay": false
         },
@@ -4099,13 +4099,13 @@ export const WORLD_DATA = {
           "id": "boundary_section_2_west",
           "opacity": 0.22,
           "pos": {
-            "x": -39.5,
+            "x": -49.5,
             "y": 0,
             "z": 0
           },
           "rotY": 0,
           "size": {
-            "d": 79,
+            "d": 99,
             "h": 3,
             "w": 0.5
           },
@@ -4117,13 +4117,13 @@ export const WORLD_DATA = {
           "id": "boundary_section_2_east",
           "opacity": 0.22,
           "pos": {
-            "x": 39.5,
+            "x": 49.5,
             "y": 0,
             "z": 0
           },
           "rotY": 0,
           "size": {
-            "d": 79,
+            "d": 99,
             "h": 3,
             "w": 0.5
           },
@@ -4131,10 +4131,10 @@ export const WORLD_DATA = {
         }
       ],
       "bounds": {
-        "maxX": 40,
-        "maxZ": 40,
-        "minX": -40,
-        "minZ": -40
+        "maxX": 50,
+        "maxZ": 50,
+        "minX": -50,
+        "minZ": -50
       },
       "creatures": [],
       "displayName": "Shatterfen",
@@ -4155,7 +4155,7 @@ export const WORLD_DATA = {
           "id": "beacon_section_2",
           "pos": {
             "x": -28,
-            "y": 0.62,
+            "y": 1.55,
             "z": -15
           },
           "type": "extractionBeacon"
@@ -4176,7 +4176,7 @@ export const WORLD_DATA = {
           "lootTableId": "loot_shatterfen_secret",
           "pos": {
             "x": -29,
-            "y": 0.585,
+            "y": 1.5517,
             "z": -21
           },
           "refillSeconds": null,
@@ -4191,7 +4191,7 @@ export const WORLD_DATA = {
           "lootTableId": "loot_shatterfen_parkour",
           "pos": {
             "x": 17,
-            "y": 0.0897,
+            "y": 0.218,
             "z": 4
           },
           "refillSeconds": 86400,
@@ -4214,6 +4214,21 @@ export const WORLD_DATA = {
           "secret": true,
           "triggerRadius": 1.4,
           "visualAssetId": "asset_chest"
+        },
+        {
+          "displayName": "Wreck Supply Cache",
+          "id": "chest_shatterfen_wreck_supply",
+          "lootTableId": "loot_shatterfen_parkour",
+          "pos": {
+            "x": -44,
+            "y": 4.25,
+            "z": -34
+          },
+          "refillSeconds": 86400,
+          "rotY": 0.28,
+          "secret": true,
+          "triggerRadius": 1.4,
+          "visualAssetId": "asset_chest"
         }
       ],
       "majorWaypoints": [
@@ -4222,14 +4237,14 @@ export const WORLD_DATA = {
           "id": "wp_section_2",
           "pos": {
             "x": 23,
-            "y": 0.7,
+            "y": 1.2,
             "z": 8
           },
           "runSpawn": {
             "facingYaw": 3.141592653589793,
             "position": {
               "x": 19,
-              "y": 0.5819,
+              "y": 1.2,
               "z": 11
             }
           },
@@ -4266,7 +4281,7 @@ export const WORLD_DATA = {
           "id": "gate_section_2_to_3",
           "pos": {
             "x": 0,
-            "y": 0.62,
+            "y": 0.72,
             "z": -34
           },
           "requirements": {
@@ -4289,102 +4304,12 @@ export const WORLD_DATA = {
       ],
       "props": [
         {
-          "collisionEnabled": false,
-          "id": "prop_s2_arrival_reed_l",
-          "opacity": 1,
-          "pos": {
-            "x": -7,
-            "y": 0,
-            "z": 31
-          },
-          "rotY": 0,
-          "subtype": "visualAsset",
-          "uniformScale": 1.55,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_reed"
-        },
-        {
-          "collisionEnabled": false,
-          "id": "prop_s2_arrival_reed_r",
-          "opacity": 1,
-          "pos": {
-            "x": 12,
-            "y": 0,
-            "z": 31
-          },
-          "rotY": 0,
-          "subtype": "visualAsset",
-          "uniformScale": 1.5,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_reed"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_arrival_stone",
-          "opacity": 1,
-          "pos": {
-            "x": 10,
-            "y": 0,
-            "z": 26
-          },
-          "rotY": 0.15,
-          "subtype": "visualAsset",
-          "uniformScale": 1.05,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_causeway_stone_a",
-          "opacity": 1,
-          "pos": {
-            "x": -9,
-            "y": 0,
-            "z": 20
-          },
-          "rotY": 0.2,
-          "subtype": "visualAsset",
-          "uniformScale": 1.02,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": false,
-          "id": "prop_s2_causeway_lily_a",
-          "opacity": 1,
-          "pos": {
-            "x": 1,
-            "y": 0,
-            "z": 18
-          },
-          "rotY": 0,
-          "subtype": "visualAsset",
-          "uniformScale": 1.6,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_lily"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_causeway_stone_b",
-          "opacity": 1,
-          "pos": {
-            "x": -10,
-            "y": 0,
-            "z": 7
-          },
-          "rotY": -0.15,
-          "subtype": "visualAsset",
-          "uniformScale": 1.1,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
           "collisionEnabled": true,
           "id": "prop_s2_causeway_crystal",
           "opacity": 1,
           "pos": {
             "x": 5,
-            "y": -0.0501,
+            "y": 0,
             "z": -2
           },
           "rotY": 0,
@@ -4394,57 +4319,12 @@ export const WORLD_DATA = {
           "visualAssetId": "asset_crystal"
         },
         {
-          "collisionEnabled": false,
-          "id": "prop_s2_shallows_reed_a",
-          "opacity": 1,
-          "pos": {
-            "x": -28,
-            "y": -0.34,
-            "z": 13
-          },
-          "rotY": 0,
-          "subtype": "visualAsset",
-          "uniformScale": 1.65,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_reed"
-        },
-        {
-          "collisionEnabled": false,
-          "id": "prop_s2_shallows_reed_b",
-          "opacity": 1,
-          "pos": {
-            "x": -19,
-            "y": -0.34,
-            "z": 5
-          },
-          "rotY": 0,
-          "subtype": "visualAsset",
-          "uniformScale": 1.5,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_reed"
-        },
-        {
-          "collisionEnabled": false,
-          "id": "prop_s2_shallows_lily",
-          "opacity": 1,
-          "pos": {
-            "x": -25,
-            "y": -0.34,
-            "z": 2
-          },
-          "rotY": 0,
-          "subtype": "visualAsset",
-          "uniformScale": 1.6,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_lily"
-        },
-        {
           "collisionEnabled": true,
           "id": "prop_s2_tidefin_a",
           "opacity": 1,
           "pos": {
             "x": -30,
-            "y": -0.0189,
+            "y": -0.34,
             "z": 18
           },
           "rotY": 0.22,
@@ -4459,7 +4339,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -30,
-            "y": -0.2061,
+            "y": -0.34,
             "z": 1
           },
           "rotY": -0.18,
@@ -4474,7 +4354,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 23,
-            "y": 0.6599999999999999,
+            "y": 1.2,
             "z": 4.8
           },
           "rotY": 0,
@@ -4482,36 +4362,6 @@ export const WORLD_DATA = {
           "uniformScale": 1,
           "visibleInPlay": true,
           "visualAssetId": "asset_fen_observatory"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_observatory_stone_l",
-          "opacity": 1,
-          "pos": {
-            "x": 18,
-            "y": 0.477,
-            "z": 10
-          },
-          "rotY": -0.1,
-          "subtype": "visualAsset",
-          "uniformScale": 1.08,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_observatory_stone_r",
-          "opacity": 1,
-          "pos": {
-            "x": 31,
-            "y": 0,
-            "z": 6.8
-          },
-          "rotY": 0.14,
-          "subtype": "visualAsset",
-          "uniformScale": 1.05,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
         },
         {
           "collisionEnabled": true,
@@ -4530,41 +4380,11 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": false,
-          "id": "prop_s2_farbank_reed",
-          "opacity": 1,
-          "pos": {
-            "x": -30,
-            "y": 0.62,
-            "z": -12
-          },
-          "rotY": 0,
-          "subtype": "visualAsset",
-          "uniformScale": 1.65,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_reed"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_farbank_stone",
-          "opacity": 1,
-          "pos": {
-            "x": -24,
-            "y": 0.543,
-            "z": -19
-          },
-          "rotY": 0.18,
-          "subtype": "visualAsset",
-          "uniformScale": 1.12,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": false,
           "id": "prop_s2_farbank_blossom",
           "opacity": 1,
           "pos": {
             "x": -29,
-            "y": 0.62,
+            "y": 1.6765,
             "z": -20
           },
           "rotY": 0,
@@ -4579,7 +4399,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": -32,
-            "y": 0.1736,
+            "y": 0,
             "z": -7
           },
           "rotY": -0.2,
@@ -4590,266 +4410,11 @@ export const WORLD_DATA = {
         },
         {
           "collisionEnabled": true,
-          "id": "prop_s2_gate_stone_l",
-          "opacity": 1,
-          "pos": {
-            "x": -7,
-            "y": 0.577,
-            "z": -31
-          },
-          "rotY": 0.18,
-          "subtype": "visualAsset",
-          "uniformScale": 1.15,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_gate_stone_r",
-          "opacity": 1,
-          "pos": {
-            "x": 7,
-            "y": 0.577,
-            "z": -31
-          },
-          "rotY": -0.18,
-          "subtype": "visualAsset",
-          "uniformScale": 1.12,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": false,
-          "id": "prop_s2_gate_lily",
-          "opacity": 1,
-          "pos": {
-            "x": 4,
-            "y": 0.6128,
-            "z": -28
-          },
-          "rotY": 0,
-          "subtype": "visualAsset",
-          "uniformScale": 1.45,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_lily"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_south_l_a",
-          "opacity": 1,
-          "pos": {
-            "x": -30,
-            "y": 0,
-            "z": 36
-          },
-          "rotY": 0.16,
-          "subtype": "visualAsset",
-          "uniformScale": 1.5,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_south_l_b",
-          "opacity": 1,
-          "pos": {
-            "x": -20,
-            "y": 0,
-            "z": 35
-          },
-          "rotY": -0.12,
-          "subtype": "visualAsset",
-          "uniformScale": 1.24,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_south_r_a",
-          "opacity": 1,
-          "pos": {
-            "x": 21,
-            "y": 0,
-            "z": 35
-          },
-          "rotY": 0.14,
-          "subtype": "visualAsset",
-          "uniformScale": 1.28,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_south_r_b",
-          "opacity": 1,
-          "pos": {
-            "x": 31,
-            "y": 0,
-            "z": 36
-          },
-          "rotY": -0.18,
-          "subtype": "visualAsset",
-          "uniformScale": 1.52,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_gate_l_a",
-          "opacity": 1,
-          "pos": {
-            "x": -29,
-            "y": 0,
-            "z": -35
-          },
-          "rotY": 0.12,
-          "subtype": "visualAsset",
-          "uniformScale": 1.58,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_gate_l_b",
-          "opacity": 1,
-          "pos": {
-            "x": -18,
-            "y": 0,
-            "z": -36
-          },
-          "rotY": -0.18,
-          "subtype": "visualAsset",
-          "uniformScale": 1.3,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_gate_r_a",
-          "opacity": 1,
-          "pos": {
-            "x": 18,
-            "y": 0,
-            "z": -36
-          },
-          "rotY": 0.18,
-          "subtype": "visualAsset",
-          "uniformScale": 1.3,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_gate_r_b",
-          "opacity": 1,
-          "pos": {
-            "x": 29,
-            "y": 0,
-            "z": -35
-          },
-          "rotY": -0.12,
-          "subtype": "visualAsset",
-          "uniformScale": 1.56,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_basin_a",
-          "opacity": 1,
-          "pos": {
-            "x": -36,
-            "y": 0,
-            "z": 25
-          },
-          "rotY": -0.16,
-          "subtype": "visualAsset",
-          "uniformScale": 1.5,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_basin_b",
-          "opacity": 1,
-          "pos": {
-            "x": -35,
-            "y": 0,
-            "z": 12
-          },
-          "rotY": 0.12,
-          "subtype": "visualAsset",
-          "uniformScale": 1.26,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_basin_c",
-          "opacity": 1,
-          "pos": {
-            "x": -36,
-            "y": 0.0576,
-            "z": -14
-          },
-          "rotY": 0.18,
-          "subtype": "visualAsset",
-          "uniformScale": 1.54,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_observatory_a",
-          "opacity": 1,
-          "pos": {
-            "x": 36,
-            "y": 0,
-            "z": 25
-          },
-          "rotY": -0.12,
-          "subtype": "visualAsset",
-          "uniformScale": 1.28,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy_tall"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_observatory_b",
-          "opacity": 1,
-          "pos": {
-            "x": 35,
-            "y": 0,
-            "z": 5
-          },
-          "rotY": 0.16,
-          "subtype": "visualAsset",
-          "uniformScale": 1.55,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_fen_stone"
-        },
-        {
-          "collisionEnabled": true,
-          "id": "prop_s2_edge_observatory_c",
-          "opacity": 1,
-          "pos": {
-            "x": 36,
-            "y": 0,
-            "z": -16
-          },
-          "rotY": -0.18,
-          "subtype": "visualAsset",
-          "uniformScale": 1.3,
-          "visibleInPlay": true,
-          "visualAssetId": "asset_verge_canopy"
-        },
-        {
-          "collisionEnabled": true,
           "id": "prop_fen_bank_outcrop_left",
           "opacity": 1,
           "pos": {
             "x": 19.15,
-            "y": 0.203,
+            "y": 0.8248,
             "z": 5.8
           },
           "rotY": 0,
@@ -4864,7 +4429,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 18.15,
-            "y": 0.0016,
+            "y": 0.0814,
             "z": 4.7
           },
           "rotY": 0,
@@ -4879,7 +4444,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 27.65,
-            "y": 0.1476,
+            "y": 0.9695,
             "z": 8.4
           },
           "rotY": 0,
@@ -4894,7 +4459,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 26.3,
-            "y": 0.5183,
+            "y": 1.12,
             "z": 9.05
           },
           "rotY": 0,
@@ -4909,7 +4474,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 19.2,
-            "y": 0.6478675240555071,
+            "y": 1.2,
             "z": 10.5
           },
           "rotY": 0.4,
@@ -4924,7 +4489,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 20.2,
-            "y": 0.7,
+            "y": 1.2,
             "z": 5.6
           },
           "rotY": 2.1,
@@ -4939,7 +4504,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 26.2,
-            "y": 0.6890463852055073,
+            "y": 1.2,
             "z": 10.7
           },
           "rotY": -0.8,
@@ -4954,7 +4519,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 25.8,
-            "y": 0.5377933272011393,
+            "y": 1.106,
             "z": 3.3
           },
           "rotY": 1.4,
@@ -4969,7 +4534,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 20,
-            "y": 0.7,
+            "y": 1.2,
             "z": 8.1
           },
           "rotY": 0.3,
@@ -4984,7 +4549,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 20.3,
-            "y": 0.7,
+            "y": 1.2,
             "z": 8.35
           },
           "rotY": 1.2,
@@ -4999,7 +4564,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 19.8,
-            "y": 0.7,
+            "y": 1.2,
             "z": 8.5
           },
           "rotY": 2.1,
@@ -5014,7 +4579,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 24.7,
-            "y": 0.7,
+            "y": 1.2,
             "z": 10.2
           },
           "rotY": 0.2,
@@ -5029,7 +4594,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 25.1,
-            "y": 0.7,
+            "y": 1.2,
             "z": 10.3
           },
           "rotY": 0.6,
@@ -5044,7 +4609,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 24.9,
-            "y": 0.7,
+            "y": 1.2,
             "z": 10.6
           },
           "rotY": 1.5,
@@ -5059,7 +4624,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 25.2,
-            "y": 0.7,
+            "y": 1.2,
             "z": 6.5
           },
           "rotY": 0.9,
@@ -5074,7 +4639,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 25.5,
-            "y": 0.7,
+            "y": 1.2,
             "z": 6.8
           },
           "rotY": 2.4,
@@ -5089,7 +4654,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 24.9,
-            "y": 0.7,
+            "y": 1.2,
             "z": 6.6
           },
           "rotY": 0.6,
@@ -5104,7 +4669,7 @@ export const WORLD_DATA = {
           "opacity": 1,
           "pos": {
             "x": 25.3,
-            "y": 0.7,
+            "y": 1.2,
             "z": 6.15
           },
           "rotY": 1.9,
@@ -5112,6 +4677,621 @@ export const WORLD_DATA = {
           "uniformScale": 0.26,
           "visibleInPlay": true,
           "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_arrival_panel_a",
+          "opacity": 1,
+          "pos": {
+            "x": -6,
+            "y": 0,
+            "z": 27
+          },
+          "rotY": 0.38,
+          "subtype": "visualAsset",
+          "uniformScale": 0.82,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_survey_panel_debris"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_arrival_panel_b",
+          "opacity": 1,
+          "pos": {
+            "x": 7,
+            "y": 0,
+            "z": 25
+          },
+          "rotY": -0.7,
+          "subtype": "visualAsset",
+          "uniformScale": 0.68,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_survey_panel_debris"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_arrival_reed_l",
+          "opacity": 1,
+          "pos": {
+            "x": -10,
+            "y": 0,
+            "z": 30
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.35,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_arrival_reed_r",
+          "opacity": 1,
+          "pos": {
+            "x": 12,
+            "y": 0,
+            "z": 29
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.28,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_crossing_stone_w",
+          "opacity": 1,
+          "pos": {
+            "x": -19,
+            "y": -0.0969,
+            "z": 22.5
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.08,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_crossing_stone_e",
+          "opacity": 1,
+          "pos": {
+            "x": 40,
+            "y": 0,
+            "z": 22
+          },
+          "rotY": -0.16,
+          "subtype": "visualAsset",
+          "uniformScale": 1.02,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_tidefin_rim_reed_a",
+          "opacity": 1,
+          "pos": {
+            "x": -38.2,
+            "y": 0,
+            "z": 20.4
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_tidefin_rim_reed_b",
+          "opacity": 1,
+          "pos": {
+            "x": -39.8,
+            "y": 0,
+            "z": 10.2
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.62,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_tidefin_rim_lily",
+          "opacity": 1,
+          "pos": {
+            "x": -36.8,
+            "y": 0,
+            "z": -1.8
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_tidefin_bank_stone",
+          "opacity": 1,
+          "pos": {
+            "x": -21,
+            "y": 0,
+            "z": 17
+          },
+          "rotY": 0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_observatory_toe",
+          "opacity": 1,
+          "pos": {
+            "x": 39.5,
+            "y": 0,
+            "z": 20
+          },
+          "rotY": -0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 1.15,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_observatory_high_stone",
+          "opacity": 1,
+          "pos": {
+            "x": 46,
+            "y": 0,
+            "z": 10
+          },
+          "rotY": 0.25,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_observatory_lily",
+          "opacity": 1,
+          "pos": {
+            "x": 12,
+            "y": 0,
+            "z": 5
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.42,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_farbank_reed",
+          "opacity": 1,
+          "pos": {
+            "x": -39,
+            "y": 0.1537,
+            "z": -15
+          },
+          "rotY": 0,
+          "subtype": "visualAsset",
+          "uniformScale": 1.5,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_farbank_stone",
+          "opacity": 1,
+          "pos": {
+            "x": -20,
+            "y": 1.4288,
+            "z": -23
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.16,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_wreck_frame",
+          "opacity": 1,
+          "pos": {
+            "x": -42.3,
+            "y": 4.0221,
+            "z": -31.2
+          },
+          "rotY": 0.36,
+          "subtype": "visualAsset",
+          "uniformScale": 3.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_survey_cargo_frame"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_wreck_panel_a",
+          "opacity": 1,
+          "pos": {
+            "x": -44.3,
+            "y": 4.0743,
+            "z": -30.7
+          },
+          "rotY": -0.22,
+          "subtype": "visualAsset",
+          "uniformScale": 2.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_survey_panel_debris"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_wreck_panel_b",
+          "opacity": 1,
+          "pos": {
+            "x": -40.2,
+            "y": 3.8415,
+            "z": -32.5
+          },
+          "rotY": 0.92,
+          "subtype": "visualAsset",
+          "uniformScale": 1.55,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_survey_panel_debris"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_wreck_crystal",
+          "opacity": 1,
+          "pos": {
+            "x": -47.2,
+            "y": 4.2378,
+            "z": -29.2
+          },
+          "rotY": 0.14,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_gate_stone_l",
+          "opacity": 1,
+          "pos": {
+            "x": -10,
+            "y": 0.5333,
+            "z": -38
+          },
+          "rotY": 0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.12,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_gate_stone_r",
+          "opacity": 1,
+          "pos": {
+            "x": 10,
+            "y": 0.2815,
+            "z": -38
+          },
+          "rotY": -0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_west_reed_c",
+          "opacity": 1,
+          "pos": {
+            "x": -39.4,
+            "y": 0,
+            "z": 19
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.45,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_west_reed_d",
+          "opacity": 1,
+          "pos": {
+            "x": -40.5,
+            "y": 0,
+            "z": 11.5
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.68,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_west_reed_e",
+          "opacity": 1,
+          "pos": {
+            "x": -38.5,
+            "y": -0.3695,
+            "z": 8.2
+          },
+          "rotY": 0.12,
+          "subtype": "visualAsset",
+          "uniformScale": 1.38,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_west_reed_f",
+          "opacity": 1,
+          "pos": {
+            "x": -38.3,
+            "y": -0.0119,
+            "z": 0.4
+          },
+          "rotY": -0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.56,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_west_lily_b",
+          "opacity": 1,
+          "pos": {
+            "x": -37.4,
+            "y": -0.209,
+            "z": 18.2
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.26,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_west_lily_c",
+          "opacity": 1,
+          "pos": {
+            "x": -37,
+            "y": -0.36,
+            "z": 9
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.34,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_peat_reed_a",
+          "opacity": 1,
+          "pos": {
+            "x": 27,
+            "y": -0.23,
+            "z": -23
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.48,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_peat_reed_b",
+          "opacity": 1,
+          "pos": {
+            "x": 28.7,
+            "y": -0.1606,
+            "z": -21.5
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.6,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_peat_reed_c",
+          "opacity": 1,
+          "pos": {
+            "x": 34,
+            "y": -0.1828,
+            "z": -14.6
+          },
+          "rotY": 0.24,
+          "subtype": "visualAsset",
+          "uniformScale": 1.42,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_peat_lily_a",
+          "opacity": 1,
+          "pos": {
+            "x": 29.5,
+            "y": -0.23,
+            "z": -22.2
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.24,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_peat_lily_b",
+          "opacity": 1,
+          "pos": {
+            "x": 35.2,
+            "y": -0.0212,
+            "z": -13.8
+          },
+          "rotY": -0.15,
+          "subtype": "visualAsset",
+          "uniformScale": 1.3,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_east_reed_a",
+          "opacity": 1,
+          "pos": {
+            "x": 45,
+            "y": 0,
+            "z": 14
+          },
+          "rotY": -0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.42,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_east_reed_b",
+          "opacity": 1,
+          "pos": {
+            "x": 45,
+            "y": 0,
+            "z": 3
+          },
+          "rotY": 0.18,
+          "subtype": "visualAsset",
+          "uniformScale": 1.54,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_east_reed_c",
+          "opacity": 1,
+          "pos": {
+            "x": 41,
+            "y": 0,
+            "z": 20
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1.36,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_east_lily_a",
+          "opacity": 1,
+          "pos": {
+            "x": 43,
+            "y": 0,
+            "z": 1
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 1.25,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_east_face_a",
+          "opacity": 1,
+          "pos": {
+            "x": 43.2,
+            "y": 0,
+            "z": 20.4
+          },
+          "rotY": 0.22,
+          "subtype": "visualAsset",
+          "uniformScale": 1.12,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_east_face_b",
+          "opacity": 1,
+          "pos": {
+            "x": 44.8,
+            "y": 0,
+            "z": 18.2
+          },
+          "rotY": -0.14,
+          "subtype": "visualAsset",
+          "uniformScale": 1.24,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_east_face_c",
+          "opacity": 1,
+          "pos": {
+            "x": 43.8,
+            "y": 0,
+            "z": 16.4
+          },
+          "rotY": 0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 1.14,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_east_face_d",
+          "opacity": 1,
+          "pos": {
+            "x": 38.4,
+            "y": 0,
+            "z": -12.5
+          },
+          "rotY": -0.22,
+          "subtype": "visualAsset",
+          "uniformScale": 1.2,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_shatterfen_east_face_e",
+          "opacity": 1,
+          "pos": {
+            "x": 40.2,
+            "y": 0,
+            "z": -14.5
+          },
+          "rotY": 0.17,
+          "subtype": "visualAsset",
+          "uniformScale": 1.1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_stone"
         }
       ],
       "resources": [
@@ -5140,7 +5320,7 @@ export const WORLD_DATA = {
           "level": 2,
           "pos": {
             "x": -29,
-            "y": -0.34,
+            "y": 1.28,
             "z": 9
           },
           "type": "tree"
@@ -5150,7 +5330,7 @@ export const WORLD_DATA = {
           "level": 2,
           "pos": {
             "x": -20,
-            "y": -0.34,
+            "y": 0,
             "z": 2
           },
           "type": "fiber"
@@ -5160,7 +5340,7 @@ export const WORLD_DATA = {
           "level": 2,
           "pos": {
             "x": 27,
-            "y": 0.4666,
+            "y": 1.2,
             "z": 12
           },
           "type": "rock"
@@ -5170,7 +5350,7 @@ export const WORLD_DATA = {
           "level": 2,
           "pos": {
             "x": -31,
-            "y": 0.6107,
+            "y": 2.0172,
             "z": -19
           },
           "type": "tree"
@@ -5180,7 +5360,7 @@ export const WORLD_DATA = {
           "level": 2,
           "pos": {
             "x": 9,
-            "y": 0.2064,
+            "y": 0.1867,
             "z": -28
           },
           "type": "rock"
@@ -5197,7 +5377,7 @@ export const WORLD_DATA = {
             "min": 1
           },
           "secrets": {
-            "max": 3,
+            "max": 4,
             "min": 2
           },
           "waypoint": 1
@@ -5222,124 +5402,777 @@ export const WORLD_DATA = {
       },
       "sectionType": "expedition",
       "size": {
-        "depth": 80,
-        "width": 80
+        "depth": 100,
+        "width": 100
       },
       "surface": {
         "detail": {
-          "grassDensity": 0.68,
+          "grassDensity": 0.55,
           "groundcover": "fan"
         },
         "heights": [
           {
-            "height": 0.7,
-            "id": "observatory-islet",
-            "plateau": 0.46,
-            "rx": 8,
-            "rz": 9,
-            "x": 23,
-            "z": 8
-          },
-          {
-            "height": 0.62,
-            "id": "far-bank",
-            "plateau": 0.43,
+            "edgeWidth": 3,
+            "height": 1.28,
+            "id": "fen-tidefin-dry-crescent",
+            "outline": [
+              {
+                "x": -1,
+                "z": 0.4545
+              },
+              {
+                "x": -0.3333,
+                "z": 1
+              },
+              {
+                "x": 0.5556,
+                "z": 0.8182
+              },
+              {
+                "x": 1,
+                "z": -0.0909
+              },
+              {
+                "x": 0.7778,
+                "z": -1
+              },
+              {
+                "x": -0.1111,
+                "z": -1
+              },
+              {
+                "x": -0.7778,
+                "z": -0.4545
+              }
+            ],
             "rx": 9,
-            "rz": 12,
-            "x": -28,
-            "z": -15
+            "rz": 5.5,
+            "x": -27,
+            "z": 10.5
           },
           {
-            "height": 0.62,
-            "id": "fen-gate-bank",
-            "plateau": 0.45,
-            "rx": 13,
-            "rz": 8,
-            "x": 0,
-            "z": -31
+            "edgeWidth": 2.6,
+            "height": 1.2,
+            "id": "fen-observatory-forecourt-land",
+            "outline": [
+              {
+                "x": -1,
+                "z": 0.5556
+              },
+              {
+                "x": -0.4737,
+                "z": 1
+              },
+              {
+                "x": 0.5789,
+                "z": 1
+              },
+              {
+                "x": 1,
+                "z": 0.4444
+              },
+              {
+                "x": 0.8947,
+                "z": -0.5556
+              },
+              {
+                "x": 0.4737,
+                "z": -1
+              },
+              {
+                "x": -0.4737,
+                "z": -0.8889
+              },
+              {
+                "x": -1,
+                "z": -0.3333
+              }
+            ],
+            "rx": 9.5,
+            "rz": 9,
+            "x": 22.5,
+            "z": 10
+          },
+          {
+            "edgeWidth": 2,
+            "height": 2.2,
+            "id": "fen-observatory-middle-plate",
+            "outline": [
+              {
+                "x": -1,
+                "z": 1
+              },
+              {
+                "x": 0.4286,
+                "z": 0.8182
+              },
+              {
+                "x": 1,
+                "z": -0.0909
+              },
+              {
+                "x": 0.4286,
+                "z": -1
+              },
+              {
+                "x": -0.2857,
+                "z": -0.8182
+              },
+              {
+                "x": -0.7143,
+                "z": -0.0909
+              }
+            ],
+            "rx": 7,
+            "rz": 5.5,
+            "x": 32,
+            "z": 12.5
+          },
+          {
+            "edgeWidth": 1.8,
+            "height": 3.3,
+            "id": "fen-observatory-rear-plate",
+            "outline": [
+              {
+                "x": -0.8462,
+                "z": 1
+              },
+              {
+                "x": 0.6923,
+                "z": 0.8333
+              },
+              {
+                "x": 1,
+                "z": -0.3333
+              },
+              {
+                "x": 0.0769,
+                "z": -1
+              },
+              {
+                "x": -0.6923,
+                "z": -0.5
+              },
+              {
+                "x": -1,
+                "z": 0.1667
+              }
+            ],
+            "rx": 6.5,
+            "rz": 6,
+            "x": 37.5,
+            "z": 7
+          },
+          {
+            "edgeWidth": 5.2,
+            "height": 0.9,
+            "id": "fen-northeast-peat-tongue",
+            "outline": [
+              {
+                "x": -0.76,
+                "z": -0.7
+              },
+              {
+                "x": -0.2,
+                "z": -1
+              },
+              {
+                "x": 0.76,
+                "z": -0.6
+              },
+              {
+                "x": 1,
+                "z": 0
+              },
+              {
+                "x": 0.6,
+                "z": 0.8
+              },
+              {
+                "x": -0.28,
+                "z": 1
+              },
+              {
+                "x": -0.84,
+                "z": 0.5
+              },
+              {
+                "x": -1,
+                "z": -0.2
+              }
+            ],
+            "rx": 12.5,
+            "rz": 10,
+            "x": 20.5,
+            "z": -16
+          },
+          {
+            "edgeWidth": 3.4,
+            "height": 1.55,
+            "id": "fen-far-bank-low-cut",
+            "outline": [
+              {
+                "x": -0.9167,
+                "z": 0.9048
+              },
+              {
+                "x": 0.3333,
+                "z": 1
+              },
+              {
+                "x": 1,
+                "z": 0.5238
+              },
+              {
+                "x": 1,
+                "z": -0.5238
+              },
+              {
+                "x": 0.25,
+                "z": -1
+              },
+              {
+                "x": -0.6667,
+                "z": -0.619
+              },
+              {
+                "x": -1,
+                "z": 0.0476
+              }
+            ],
+            "rx": 12,
+            "rz": 10.5,
+            "x": -28,
+            "z": -18.5
+          },
+          {
+            "edgeWidth": 3,
+            "height": 4.45,
+            "id": "fen-wreck-lookout",
+            "outline": [
+              {
+                "x": -1,
+                "z": 0.5238
+              },
+              {
+                "x": -0.0667,
+                "z": 1
+              },
+              {
+                "x": 1,
+                "z": 0.619
+              },
+              {
+                "x": 0.8667,
+                "z": -0.4286
+              },
+              {
+                "x": 0.0667,
+                "z": -1
+              },
+              {
+                "x": -1,
+                "z": -0.8095
+              }
+            ],
+            "rx": 7.5,
+            "rz": 10.5,
+            "x": -42.5,
+            "z": -33.5
+          },
+          {
+            "edgeWidth": 3,
+            "height": 0.72,
+            "id": "fen-emberfall-gate-bank",
+            "outline": [
+              {
+                "x": -0.875,
+                "z": 1
+              },
+              {
+                "x": 0.75,
+                "z": 1
+              },
+              {
+                "x": 1,
+                "z": -0.0769
+              },
+              {
+                "x": 0.6875,
+                "z": -1
+              },
+              {
+                "x": -0.6875,
+                "z": -1
+              },
+              {
+                "x": -1,
+                "z": -0.0769
+              }
+            ],
+            "rx": 16,
+            "rz": 6.5,
+            "x": -1,
+            "z": -33.5
           }
         ],
         "palette": {
-          "accent": "#f4a4c7",
-          "grass": "#5aa786",
-          "grassShade": "#286d64",
-          "path": "#d1a56a",
-          "pathEdge": "#edd69c",
-          "rock": "#9fa68f",
-          "water": "#38adc5",
-          "waterFoam": "#d6fff7"
+          "accent": "#5ba8aa",
+          "grass": "#4f8277",
+          "grassShade": "#315d59",
+          "gravel": "#ad9974",
+          "path": "#b8a675",
+          "pathEdge": "#d4c69a",
+          "rock": "#53686b",
+          "shore": "#4d7a75",
+          "water": "#2a95a7",
+          "waterFoam": "#8ccfcc"
         },
         "routes": [
           {
-            "id": "fen-zigzag-causeway",
+            "feather": 1.6,
+            "id": "fen-return-silt",
             "points": [
               {
                 "x": 0,
                 "z": 36
               },
               {
-                "x": -8,
-                "z": 26
+                "x": -4,
+                "z": 29
               },
               {
-                "x": 6,
-                "z": 17
+                "x": -7,
+                "z": 22
+              },
+              {
+                "x": -5,
+                "z": 15
+              },
+              {
+                "x": -2,
+                "z": 8
+              },
+              {
+                "x": -5,
+                "z": 0
               },
               {
                 "x": -9,
-                "z": 8
-              },
-              {
-                "x": 5,
-                "z": -2
-              },
-              {
-                "x": -7,
-                "z": -16
-              },
-              {
-                "x": 0,
-                "z": -30
-              }
-            ],
-            "width": 3.25
-          },
-          {
-            "id": "observatory-island-spur",
-            "points": [
-              {
-                "x": 6,
-                "z": 17
-              },
-              {
-                "x": 16,
-                "z": 14
-              },
-              {
-                "x": 23,
-                "z": 8
+                "z": -8
               }
             ],
             "style": "gravel",
-            "width": 2.8
+            "width": 3.7
           },
           {
-            "id": "far-bank-route",
+            "elevation": 0.72,
+            "feather": 2.4,
+            "id": "fen-creek-west-crossing",
+            "paint": false,
             "points": [
               {
+                "x": -9,
+                "z": 19
+              },
+              {
+                "x": -11,
+                "z": 17
+              },
+              {
+                "x": -13,
+                "z": 16
+              }
+            ],
+            "scatter": false,
+            "width": 6.2
+          },
+          {
+            "elevation": 0.72,
+            "feather": 2.2,
+            "id": "fen-creek-east-crossing",
+            "paint": false,
+            "points": [
+              {
+                "x": -3,
+                "z": 12
+              },
+              {
+                "x": 5,
+                "z": 12
+              },
+              {
+                "x": 10,
+                "z": 10
+              }
+            ],
+            "scatter": false,
+            "width": 5.8
+          },
+          {
+            "feather": 1.6,
+            "id": "fen-tidefin-bank",
+            "points": [
+              {
+                "x": -13,
+                "z": 16
+              },
+              {
+                "x": -17,
+                "z": 13
+              },
+              {
+                "x": -24,
+                "z": 11
+              },
+              {
+                "x": -34,
+                "z": 5
+              }
+            ],
+            "style": "gravel",
+            "width": 3.45
+          },
+          {
+            "feather": 2,
+            "id": "fen-observatory-forecourt",
+            "points": [
+              {
+                "elevation": 0.8,
+                "x": 8,
+                "z": 12
+              },
+              {
+                "elevation": 1.2,
+                "x": 14,
+                "z": 10
+              },
+              {
+                "elevation": 1.2,
+                "x": 18,
+                "z": 12
+              }
+            ],
+            "style": "gravel",
+            "width": 4.1
+          },
+          {
+            "feather": 1.8,
+            "id": "fen-observatory-middle-grade",
+            "paint": false,
+            "points": [
+              {
+                "elevation": 1.2,
+                "x": 18,
+                "z": 12
+              },
+              {
+                "elevation": 1.55,
+                "x": 21,
+                "z": 17
+              },
+              {
+                "elevation": 1.8,
+                "x": 24,
+                "z": 22
+              },
+              {
+                "elevation": 2.1,
+                "x": 32,
+                "z": 22
+              },
+              {
+                "elevation": 2.2,
+                "x": 36,
+                "z": 18
+              },
+              {
+                "elevation": 2.2,
+                "x": 34,
+                "z": 16
+              }
+            ],
+            "scatter": false,
+            "width": 3.5
+          },
+          {
+            "feather": 1.7,
+            "id": "fen-observatory-high-loop",
+            "paint": false,
+            "points": [
+              {
+                "elevation": 2.2,
+                "x": 34,
+                "z": 16
+              },
+              {
+                "elevation": 2.75,
+                "x": 40,
+                "z": 13
+              },
+              {
+                "elevation": 3.3,
+                "x": 42,
+                "z": 6
+              },
+              {
+                "elevation": 2.8,
+                "x": 38,
+                "z": 2
+              },
+              {
+                "elevation": 2.55,
+                "x": 34,
+                "z": 4
+              },
+              {
+                "elevation": 3,
+                "x": 34,
+                "z": 10
+              },
+              {
+                "elevation": 2.2,
+                "x": 34,
+                "z": 16
+              }
+            ],
+            "scatter": false,
+            "width": 3.25
+          },
+          {
+            "feather": 2.2,
+            "id": "fen-far-bank-shoulder",
+            "paint": false,
+            "points": [
+              {
+                "elevation": 0.35,
+                "x": -9,
+                "z": -8
+              },
+              {
+                "elevation": 1.1,
+                "x": -18,
+                "z": -14
+              },
+              {
+                "elevation": 1.55,
+                "x": -28,
+                "z": -15
+              },
+              {
+                "elevation": 2.3,
+                "x": -34,
+                "z": -20
+              },
+              {
+                "elevation": 3.3,
+                "x": -39,
+                "z": -27
+              },
+              {
+                "elevation": 4.25,
+                "x": -44,
+                "z": -34
+              }
+            ],
+            "scatter": false,
+            "width": 3.7
+          },
+          {
+            "feather": 2.2,
+            "id": "fen-wreck-return-descent",
+            "paint": false,
+            "points": [
+              {
+                "elevation": 4.25,
+                "x": -44,
+                "z": -34
+              },
+              {
+                "elevation": 3.3,
+                "x": -35,
+                "z": -31
+              },
+              {
+                "elevation": 2.15,
+                "x": -24,
+                "z": -30
+              },
+              {
+                "elevation": 1.25,
+                "x": -13,
+                "z": -32
+              },
+              {
+                "elevation": 0.72,
+                "x": 0,
+                "z": -34
+              }
+            ],
+            "scatter": false,
+            "width": 3.8
+          },
+          {
+            "feather": 1.6,
+            "id": "fen-gate-spur",
+            "paint": false,
+            "points": [
+              {
+                "x": 0,
+                "z": -34
+              },
+              {
                 "x": -7,
-                "z": -16
+                "z": -31
+              },
+              {
+                "x": -15,
+                "z": -29
+              }
+            ],
+            "scatter": false,
+            "width": 3.25
+          },
+          {
+            "elevation": 4.25,
+            "feather": 1.4,
+            "id": "fen-wreck-cache-shelf",
+            "paint": false,
+            "points": [
+              {
+                "x": -44,
+                "z": -34
+              },
+              {
+                "x": -46,
+                "z": -36
+              }
+            ],
+            "scatter": false,
+            "width": 4.3
+          },
+          {
+            "feather": 1.2,
+            "id": "fen-middle-silt-stroke",
+            "points": [
+              {
+                "x": 18,
+                "z": 12
+              },
+              {
+                "x": 21,
+                "z": 17
+              },
+              {
+                "x": 24,
+                "z": 22
+              }
+            ],
+            "scatter": false,
+            "style": "gravel",
+            "width": 3.2
+          },
+          {
+            "feather": 1.1,
+            "id": "fen-high-silt-stroke-a",
+            "points": [
+              {
+                "x": 34,
+                "z": 16
+              },
+              {
+                "x": 40,
+                "z": 13
+              }
+            ],
+            "scatter": false,
+            "style": "gravel",
+            "width": 2.9
+          },
+          {
+            "feather": 1.1,
+            "id": "fen-high-silt-stroke-b",
+            "points": [
+              {
+                "x": 38,
+                "z": 2
+              },
+              {
+                "x": 34,
+                "z": 4
+              }
+            ],
+            "scatter": false,
+            "style": "gravel",
+            "width": 2.7
+          },
+          {
+            "feather": 1.2,
+            "id": "fen-far-silt-stroke-a",
+            "points": [
+              {
+                "x": -9,
+                "z": -8
               },
               {
                 "x": -18,
-                "z": -19
-              },
+                "z": -14
+              }
+            ],
+            "scatter": false,
+            "style": "gravel",
+            "width": 3.2
+          },
+          {
+            "feather": 1.2,
+            "id": "fen-far-silt-stroke-b",
+            "points": [
               {
                 "x": -28,
                 "z": -15
+              },
+              {
+                "x": -34,
+                "z": -20
               }
             ],
-            "width": 2.65
+            "scatter": false,
+            "style": "gravel",
+            "width": 3.15
+          },
+          {
+            "feather": 1.2,
+            "id": "fen-wreck-silt-stroke",
+            "points": [
+              {
+                "x": -35,
+                "z": -31
+              },
+              {
+                "x": -24,
+                "z": -30
+              }
+            ],
+            "scatter": false,
+            "style": "gravel",
+            "width": 3.2
+          },
+          {
+            "feather": 1,
+            "id": "fen-gate-silt-stroke",
+            "points": [
+              {
+                "x": 0,
+                "z": -34
+              },
+              {
+                "x": -7,
+                "z": -31
+              }
+            ],
+            "scatter": false,
+            "style": "gravel",
+            "width": 2.8
           },
           {
             "id": "fen_bank_approach",
@@ -5414,23 +6247,63 @@ export const WORLD_DATA = {
             "width": 1.5
           }
         ],
-        "seed": 3107,
+        "seed": 3209,
         "water": [
           {
             "depth": 0.34,
-            "id": "tidefin-shallows",
-            "rx": 11,
-            "rz": 18,
-            "x": -22,
-            "z": 7
+            "id": "fen-creek-south-reach",
+            "rx": 6.9,
+            "rz": 4.5,
+            "x": -25,
+            "z": 22
+          },
+          {
+            "depth": 0.34,
+            "id": "fen-quietwater-north-lobe",
+            "rx": 7.5,
+            "rz": 6.8,
+            "x": -30.5,
+            "z": 19
+          },
+          {
+            "depth": 0.36,
+            "id": "fen-quietwater-west-link",
+            "rx": 2,
+            "rz": 10.5,
+            "x": -37,
+            "z": 10
+          },
+          {
+            "depth": 0.34,
+            "id": "fen-quietwater-south-lobe",
+            "rx": 4.4,
+            "rz": 4.2,
+            "x": -30,
+            "z": 1
           },
           {
             "depth": 0.38,
-            "id": "mirror-basin",
-            "rx": 12,
-            "rz": 15,
-            "x": 14,
-            "z": -10
+            "id": "fen-creek-middle-reach",
+            "rx": 3.2,
+            "rz": 4.8,
+            "x": -38,
+            "z": 5
+          },
+          {
+            "depth": 0.33,
+            "id": "fen-creek-north-bend",
+            "rx": 6.5,
+            "rz": 6,
+            "x": -22.5,
+            "z": -4
+          },
+          {
+            "depth": 0.23,
+            "id": "fen-peat-north-indentation",
+            "rx": 7.5,
+            "rz": 8.3,
+            "x": 30,
+            "z": -19
           }
         ]
       },

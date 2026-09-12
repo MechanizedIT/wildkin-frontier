@@ -1,5 +1,7 @@
 # Repeatable maps and model renders
 
+**Current selected Shatterfen V3:** [region overview for phone review](https://drive.google.com/file/d/13WylPOeqvug93sIf5HqONqPEq6TiBvt8/view?usp=drivesdk). This is the actual integrated map, selected from three scene versions under Chris's bedtime delegation. It includes connected wetland banks, graded uplands and optional wreck supplies; remaining sparse scenery and modest landform scale are documented. The private upload was read back with matching 887,073-byte size. Durable maps and receipts are in `art/reviews/shatterfen-v3/`; the older book below remains a before snapshot. Emberfall baseline maps now support the next ravine/plateau plan.
+
 ## Original model reference images
 
 Chris requested the images behind the models after viewing the atlas. [Private source-image folder](https://drive.google.com/drive/folders/1jmy1OJl_epxTnekod2kGzfPidM90bmoX) contains17 byte-identical originals, two phone contact sheets, a26.61MB ZIP, README and provenance manifest. All22 Drive items were read back as downloadable/private. [Tidefin original target](https://drive.google.com/file/d/18LCSMdG1yxnGZoRYHgPri9Ggh9T2sBCx/view?usp=drivesdk) remains a comparison reference, not approval of its resulting candidate.

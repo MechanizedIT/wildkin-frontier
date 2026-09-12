@@ -1,10 +1,10 @@
-> Current status: target plus binding role plan admitted; standalone composer under functional review, not integrated. Route water/scenery clearance issues are being repaired. This document records the bounded design; CURRENT_SLICE and source remain implementation authority.
+> Current status: sceneV3 selected under delegated producer judgment, native changed-area checks and953-test package closure pass. Target fidelity remains below the intended wetland richness. Preserve the exact7+3resources/3actors and one added wreck cache. See art/reviews/shatterfen-v3/ and CURRENT_SLICE. Original planning baseline follows.
 
 # Shatterfen redesign v1 — planning handoff
 
 ## Status and source of truth
 
-This is a **planning-only** proposal for `section_2`, made while Verdant work is still changing the shared world file. It contains no production mutation, generated target, or claim of browser/native proof.
+The original proposal below was prepared while Verdant was changing the shared world file. Its audit describes that earlier80×80m baseline; the top status and CURRENT_SLICE record subsequent target admission and100×100m implementation. Planning language and coordinates do not claim browser/native proof.
 
 The two September 12 atlas maps were inspected in full. They are valuable as a visible before-state, but must not be treated as the canonical current map: their manifest records source SHA `6b038a…`, while the canonical source observed for this audit was `678d1c…`. The direct ID comparison found a material mismatch: capture labels `chest_parkour_section_2` as **Fen Leap Cache** at `(13.95, 0.15, -10.1)`; the canonical world now has the same stable ID as **Reedbank Cache** at `(17, 0.0897, 4)`. Other inspected anchors matched. The compact evidence extract is [section_2-audit.json](section_2-audit.json).
 

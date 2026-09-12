@@ -5,7 +5,7 @@ import {createGroundFoliageGeometry} from './groundFoliage.js';
 import {addGeneratedTerrainPaint} from './terrainPaint.js';
 import {paintGravelRoute} from './gravelRoutePaint.js';
 
-const DEFAULTS={grass:'#60b97c',grassShade:'#3b936c',path:'#e8bd78',pathEdge:'#a5b569',rock:'#b78365',water:'#239bb3',waterFoam:'#b7f5e7',accent:'#f3cc72'};
+const DEFAULTS={grass:'#60b97c',grassShade:'#3b936c',path:'#e8bd78',pathEdge:'#a5b569',rock:'#b78365',water:'#239bb3',waterFoam:'#b7f5e7',shore:'#e7cf9a',accent:'#f3cc72'};
 const MEADOW_PROFILES={camp:{density:.75},section_1:{density:.49},section_2:{density:.28,sedge:true},section_3:{density:.4},section_4:{density:.45},section_5:{density:.55,foliage:'#199ab5'}};
 const lerp=(a,b,t)=>a+(b-a)*t;
 const textureCache=new Map();
@@ -17,7 +17,7 @@ export function createAuthoredTerrain(region){
   const bounds=region.bounds, width=bounds.maxX-bounds.minX,depth=bounds.maxZ-bounds.minZ;
   const nx=Math.ceil(width/.7),nz=Math.ceil(depth/.7),dx=width/nx,dz=depth/nz;
   const positions=new Float32Array((nx+1)*(nz+1)*3),colors=new Float32Array(positions.length),indices=[];
-  const grass=new THREE.Color(palette.grass),shade=new THREE.Color(palette.grassShade),path=new THREE.Color(palette.path),edge=new THREE.Color(palette.pathEdge),shore=new THREE.Color('#e7cf9a'),rock=new THREE.Color(palette.rock);
+  const grass=new THREE.Color(palette.grass),shade=new THREE.Color(palette.grassShade),path=new THREE.Color(palette.path),edge=new THREE.Color(palette.pathEdge),shore=new THREE.Color(palette.shore),rock=new THREE.Color(palette.rock);
   const color=new THREE.Color();
   function paintColor(x,z){
     const n=noise(x*.38,z*.38,surface.seed??7),fine=noise(x*1.8,z*1.8,93);

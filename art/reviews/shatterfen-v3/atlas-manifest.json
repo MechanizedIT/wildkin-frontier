@@ -1,0 +1,2607 @@
+{
+  "createdAt": "2026-09-12T12:08:40.861Z",
+  "source": "Current authored dev world with native Three.js scene/terrain/visual constructors; no player save loaded",
+  "sourceWorldPath": "src/world/data/world.json",
+  "sourceWorldSHA256": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+  "sourceBefore": {
+    "src/world/data/world.json": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+    "src/world/data/world.generated.js": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5"
+  },
+  "reproduce": "node tools/review/capture-visual-atlas.mjs --url http://localhost:8080/ --out .dream-loop/shatterfen-redesign-v1/blockout-v3 --regions section_2 --maps-only --overview",
+  "maps": [
+    {
+      "id": "section_2",
+      "name": "Shatterfen",
+      "bounds": {
+        "minX": -54,
+        "maxX": 54,
+        "minZ": -54,
+        "maxZ": 54
+      },
+      "authoredBounds": {
+        "maxX": 50,
+        "maxZ": 50,
+        "minX": -50,
+        "minZ": -50
+      },
+      "north": "image top = world -Z; right = +X",
+      "imageSize": {
+        "width": 2048,
+        "height": 2048
+      },
+      "metresPerPixel": 0.052734375,
+      "worldToImage": {
+        "u": "(x-minX)/(maxX-minX)*2048",
+        "v": "(z-minZ)/(maxZ-minZ)*2048"
+      },
+      "snapshot": "Authored initial layout, ready resources and creatures at authored spawn anchors; no live/save state",
+      "anchors": [
+        {
+          "id": "entry_section_2",
+          "name": "entry_section_2",
+          "type": "entry",
+          "world": {
+            "x": 0,
+            "y": 0,
+            "z": 32
+          },
+          "pixel": {
+            "x": 1024,
+            "y": 1630.8148148148148
+          }
+        },
+        {
+          "id": "gate_section_2_to_1",
+          "name": "Verdant Return Gate",
+          "type": "gate",
+          "world": {
+            "x": 0,
+            "y": 0,
+            "z": 36
+          },
+          "pixel": {
+            "x": 1024,
+            "y": 1706.6666666666667
+          }
+        },
+        {
+          "id": "gate_section_2_to_3",
+          "name": "Emberfall Gate",
+          "type": "gate",
+          "world": {
+            "x": 0,
+            "y": 0.72,
+            "z": -34
+          },
+          "pixel": {
+            "x": 1024,
+            "y": 379.25925925925924
+          }
+        },
+        {
+          "id": "chest_secret_section_2",
+          "name": "Sunken Cache",
+          "type": "chest",
+          "world": {
+            "x": -29,
+            "y": 1.5517,
+            "z": -21
+          },
+          "pixel": {
+            "x": 474.0740740740741,
+            "y": 625.7777777777778
+          }
+        },
+        {
+          "id": "chest_parkour_section_2",
+          "name": "Reedbank Cache",
+          "type": "chest",
+          "world": {
+            "x": 17,
+            "y": 0.218,
+            "z": 4
+          },
+          "pixel": {
+            "x": 1346.3703703703704,
+            "y": 1099.851851851852
+          }
+        },
+        {
+          "id": "chest_tidefin_secret",
+          "name": "Tidefin Grotto",
+          "type": "chest",
+          "world": {
+            "x": -34,
+            "y": 0,
+            "z": 3
+          },
+          "pixel": {
+            "x": 379.25925925925924,
+            "y": 1080.888888888889
+          }
+        },
+        {
+          "id": "chest_shatterfen_wreck_supply",
+          "name": "Wreck Supply Cache",
+          "type": "chest",
+          "world": {
+            "x": -44,
+            "y": 4.25,
+            "z": -34
+          },
+          "pixel": {
+            "x": 189.62962962962962,
+            "y": 379.25925925925924
+          }
+        },
+        {
+          "id": "wp_section_2",
+          "name": "Fen Observatory",
+          "type": "waypoint",
+          "world": {
+            "x": 23,
+            "y": 1.2,
+            "z": 8
+          },
+          "pixel": {
+            "x": 1460.148148148148,
+            "y": 1175.7037037037037
+          }
+        },
+        {
+          "id": "beacon_section_2",
+          "name": "Tideglass Beacon",
+          "type": "beacon",
+          "world": {
+            "x": -28,
+            "y": 1.55,
+            "z": -15
+          },
+          "pixel": {
+            "x": 493.037037037037,
+            "y": 739.5555555555555
+          }
+        },
+        {
+          "id": "rock_section_2_arrival",
+          "name": "rock_section_2_arrival",
+          "type": "resource",
+          "world": {
+            "x": 8,
+            "y": 0,
+            "z": 28
+          },
+          "pixel": {
+            "x": 1175.7037037037037,
+            "y": 1554.962962962963
+          }
+        },
+        {
+          "id": "fiber_section_2_arrival",
+          "name": "fiber_section_2_arrival",
+          "type": "resource",
+          "world": {
+            "x": -9,
+            "y": 0,
+            "z": 25
+          },
+          "pixel": {
+            "x": 853.3333333333334,
+            "y": 1498.0740740740741
+          }
+        },
+        {
+          "id": "tree_section_2_shallows",
+          "name": "tree_section_2_shallows",
+          "type": "resource",
+          "world": {
+            "x": -29,
+            "y": 1.28,
+            "z": 9
+          },
+          "pixel": {
+            "x": 474.0740740740741,
+            "y": 1194.6666666666667
+          }
+        },
+        {
+          "id": "fiber_section_2_shallows",
+          "name": "fiber_section_2_shallows",
+          "type": "resource",
+          "world": {
+            "x": -20,
+            "y": 0,
+            "z": 2
+          },
+          "pixel": {
+            "x": 644.7407407407408,
+            "y": 1061.9259259259259
+          }
+        },
+        {
+          "id": "rock_section_2_observatory",
+          "name": "rock_section_2_observatory",
+          "type": "resource",
+          "world": {
+            "x": 27,
+            "y": 1.2,
+            "z": 12
+          },
+          "pixel": {
+            "x": 1536,
+            "y": 1251.5555555555557
+          }
+        },
+        {
+          "id": "tree_section_2_far_bank",
+          "name": "tree_section_2_far_bank",
+          "type": "resource",
+          "world": {
+            "x": -31,
+            "y": 2.0172,
+            "z": -19
+          },
+          "pixel": {
+            "x": 436.14814814814815,
+            "y": 663.7037037037037
+          }
+        },
+        {
+          "id": "rock_section_2_gate",
+          "name": "rock_section_2_gate",
+          "type": "resource",
+          "world": {
+            "x": 9,
+            "y": 0.1867,
+            "z": -28
+          },
+          "pixel": {
+            "x": 1194.6666666666667,
+            "y": 493.037037037037
+          }
+        },
+        {
+          "id": "prop_s2_causeway_crystal",
+          "name": "prop_s2_causeway_crystal",
+          "type": "resource",
+          "world": {
+            "x": 5,
+            "y": 0,
+            "z": -2
+          },
+          "pixel": {
+            "x": 1118.8148148148148,
+            "y": 986.074074074074
+          }
+        },
+        {
+          "id": "prop_s2_observatory_crystal",
+          "name": "prop_s2_observatory_crystal",
+          "type": "resource",
+          "world": {
+            "x": 29,
+            "y": 0,
+            "z": 18
+          },
+          "pixel": {
+            "x": 1573.9259259259259,
+            "y": 1365.3333333333333
+          }
+        },
+        {
+          "id": "prop_s2_farbank_blossom",
+          "name": "prop_s2_farbank_blossom",
+          "type": "resource",
+          "world": {
+            "x": -29,
+            "y": 1.6765,
+            "z": -20
+          },
+          "pixel": {
+            "x": 474.0740740740741,
+            "y": 644.7407407407408
+          }
+        },
+        {
+          "id": "prop_s2_tidefin_a",
+          "name": "prop_s2_tidefin_a",
+          "type": "creature-spawn",
+          "world": {
+            "x": -30,
+            "y": -0.34,
+            "z": 18
+          },
+          "pixel": {
+            "x": 455.1111111111111,
+            "y": 1365.3333333333333
+          }
+        },
+        {
+          "id": "prop_s2_tidefin_b",
+          "name": "prop_s2_tidefin_b",
+          "type": "creature-spawn",
+          "world": {
+            "x": -30,
+            "y": -0.34,
+            "z": 1
+          },
+          "pixel": {
+            "x": 455.1111111111111,
+            "y": 1042.962962962963
+          }
+        },
+        {
+          "id": "prop_s2_farbank_thorn",
+          "name": "prop_s2_farbank_thorn",
+          "type": "creature-spawn",
+          "world": {
+            "x": -32,
+            "y": 0,
+            "z": -7
+          },
+          "pixel": {
+            "x": 417.18518518518516,
+            "y": 891.2592592592592
+          }
+        },
+        {
+          "id": "prop_s2_causeway_crystal",
+          "name": "prop_s2_causeway_crystal",
+          "type": "object",
+          "world": {
+            "x": 5,
+            "y": 0,
+            "z": -2
+          },
+          "pixel": {
+            "x": 1118.8148148148148,
+            "y": 986.074074074074
+          }
+        },
+        {
+          "id": "prop_s2_tidefin_a",
+          "name": "prop_s2_tidefin_a",
+          "type": "object",
+          "world": {
+            "x": -30,
+            "y": -0.34,
+            "z": 18
+          },
+          "pixel": {
+            "x": 455.1111111111111,
+            "y": 1365.3333333333333
+          }
+        },
+        {
+          "id": "prop_s2_tidefin_b",
+          "name": "prop_s2_tidefin_b",
+          "type": "object",
+          "world": {
+            "x": -30,
+            "y": -0.34,
+            "z": 1
+          },
+          "pixel": {
+            "x": 455.1111111111111,
+            "y": 1042.962962962963
+          }
+        },
+        {
+          "id": "prop_s2_observatory_arch",
+          "name": "prop_s2_observatory_arch",
+          "type": "object",
+          "world": {
+            "x": 23,
+            "y": 1.2,
+            "z": 4.8
+          },
+          "pixel": {
+            "x": 1460.148148148148,
+            "y": 1115.0222222222221
+          }
+        },
+        {
+          "id": "prop_s2_observatory_crystal",
+          "name": "prop_s2_observatory_crystal",
+          "type": "object",
+          "world": {
+            "x": 29,
+            "y": 0,
+            "z": 18
+          },
+          "pixel": {
+            "x": 1573.9259259259259,
+            "y": 1365.3333333333333
+          }
+        },
+        {
+          "id": "prop_s2_farbank_blossom",
+          "name": "prop_s2_farbank_blossom",
+          "type": "object",
+          "world": {
+            "x": -29,
+            "y": 1.6765,
+            "z": -20
+          },
+          "pixel": {
+            "x": 474.0740740740741,
+            "y": 644.7407407407408
+          }
+        },
+        {
+          "id": "prop_s2_farbank_thorn",
+          "name": "prop_s2_farbank_thorn",
+          "type": "object",
+          "world": {
+            "x": -32,
+            "y": 0,
+            "z": -7
+          },
+          "pixel": {
+            "x": 417.18518518518516,
+            "y": 891.2592592592592
+          }
+        },
+        {
+          "id": "prop_fen_bank_outcrop_left",
+          "name": "prop_fen_bank_outcrop_left",
+          "type": "object",
+          "world": {
+            "x": 19.15,
+            "y": 0.8248,
+            "z": 5.8
+          },
+          "pixel": {
+            "x": 1387.1407407407407,
+            "y": 1133.9851851851852
+          }
+        },
+        {
+          "id": "prop_fen_bank_outcrop_left_shoulder",
+          "name": "prop_fen_bank_outcrop_left_shoulder",
+          "type": "object",
+          "world": {
+            "x": 18.15,
+            "y": 0.0814,
+            "z": 4.7
+          },
+          "pixel": {
+            "x": 1368.177777777778,
+            "y": 1113.125925925926
+          }
+        },
+        {
+          "id": "prop_fen_bank_outcrop_right",
+          "name": "prop_fen_bank_outcrop_right",
+          "type": "object",
+          "world": {
+            "x": 27.65,
+            "y": 0.9695,
+            "z": 8.4
+          },
+          "pixel": {
+            "x": 1548.325925925926,
+            "y": 1183.2888888888888
+          }
+        },
+        {
+          "id": "prop_fen_bank_outcrop_right_ledge",
+          "name": "prop_fen_bank_outcrop_right_ledge",
+          "type": "object",
+          "world": {
+            "x": 26.3,
+            "y": 1.12,
+            "z": 9.05
+          },
+          "pixel": {
+            "x": 1522.7259259259258,
+            "y": 1195.6148148148147
+          }
+        },
+        {
+          "id": "prop_fen_bank_frond_0",
+          "name": "prop_fen_bank_frond_0",
+          "type": "object",
+          "world": {
+            "x": 19.2,
+            "y": 1.2,
+            "z": 10.5
+          },
+          "pixel": {
+            "x": 1388.088888888889,
+            "y": 1223.111111111111
+          }
+        },
+        {
+          "id": "prop_fen_bank_frond_1",
+          "name": "prop_fen_bank_frond_1",
+          "type": "object",
+          "world": {
+            "x": 20.2,
+            "y": 1.2,
+            "z": 5.6
+          },
+          "pixel": {
+            "x": 1407.051851851852,
+            "y": 1130.1925925925925
+          }
+        },
+        {
+          "id": "prop_fen_bank_frond_2",
+          "name": "prop_fen_bank_frond_2",
+          "type": "object",
+          "world": {
+            "x": 26.2,
+            "y": 1.2,
+            "z": 10.7
+          },
+          "pixel": {
+            "x": 1520.8296296296296,
+            "y": 1226.9037037037037
+          }
+        },
+        {
+          "id": "prop_fen_bank_frond_3",
+          "name": "prop_fen_bank_frond_3",
+          "type": "object",
+          "world": {
+            "x": 25.8,
+            "y": 1.106,
+            "z": 3.3
+          },
+          "pixel": {
+            "x": 1513.2444444444443,
+            "y": 1086.5777777777778
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_0",
+          "name": "prop_fen_bank_pebbles_0",
+          "type": "object",
+          "world": {
+            "x": 20,
+            "y": 1.2,
+            "z": 8.1
+          },
+          "pixel": {
+            "x": 1403.2592592592594,
+            "y": 1177.6000000000001
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_1",
+          "name": "prop_fen_bank_pebbles_1",
+          "type": "object",
+          "world": {
+            "x": 20.3,
+            "y": 1.2,
+            "z": 8.35
+          },
+          "pixel": {
+            "x": 1408.948148148148,
+            "y": 1182.3407407407408
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_2",
+          "name": "prop_fen_bank_pebbles_2",
+          "type": "object",
+          "world": {
+            "x": 19.8,
+            "y": 1.2,
+            "z": 8.5
+          },
+          "pixel": {
+            "x": 1399.4666666666667,
+            "y": 1185.1851851851852
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_3",
+          "name": "prop_fen_bank_pebbles_3",
+          "type": "object",
+          "world": {
+            "x": 24.7,
+            "y": 1.2,
+            "z": 10.2
+          },
+          "pixel": {
+            "x": 1492.3851851851853,
+            "y": 1217.4222222222222
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_4",
+          "name": "prop_fen_bank_pebbles_4",
+          "type": "object",
+          "world": {
+            "x": 25.1,
+            "y": 1.2,
+            "z": 10.3
+          },
+          "pixel": {
+            "x": 1499.9703703703703,
+            "y": 1219.3185185185184
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_5",
+          "name": "prop_fen_bank_pebbles_5",
+          "type": "object",
+          "world": {
+            "x": 24.9,
+            "y": 1.2,
+            "z": 10.6
+          },
+          "pixel": {
+            "x": 1496.177777777778,
+            "y": 1225.0074074074073
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_6",
+          "name": "prop_fen_bank_pebbles_6",
+          "type": "object",
+          "world": {
+            "x": 25.2,
+            "y": 1.2,
+            "z": 6.5
+          },
+          "pixel": {
+            "x": 1501.8666666666668,
+            "y": 1147.2592592592594
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_7",
+          "name": "prop_fen_bank_pebbles_7",
+          "type": "object",
+          "world": {
+            "x": 25.5,
+            "y": 1.2,
+            "z": 6.8
+          },
+          "pixel": {
+            "x": 1507.5555555555557,
+            "y": 1152.948148148148
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_8",
+          "name": "prop_fen_bank_pebbles_8",
+          "type": "object",
+          "world": {
+            "x": 24.9,
+            "y": 1.2,
+            "z": 6.6
+          },
+          "pixel": {
+            "x": 1496.177777777778,
+            "y": 1149.1555555555556
+          }
+        },
+        {
+          "id": "prop_fen_bank_pebbles_9",
+          "name": "prop_fen_bank_pebbles_9",
+          "type": "object",
+          "world": {
+            "x": 25.3,
+            "y": 1.2,
+            "z": 6.15
+          },
+          "pixel": {
+            "x": 1503.762962962963,
+            "y": 1140.6222222222223
+          }
+        },
+        {
+          "id": "prop_shatterfen_arrival_panel_a",
+          "name": "prop_shatterfen_arrival_panel_a",
+          "type": "object",
+          "world": {
+            "x": -6,
+            "y": 0,
+            "z": 27
+          },
+          "pixel": {
+            "x": 910.2222222222222,
+            "y": 1536
+          }
+        },
+        {
+          "id": "prop_shatterfen_arrival_panel_b",
+          "name": "prop_shatterfen_arrival_panel_b",
+          "type": "object",
+          "world": {
+            "x": 7,
+            "y": 0,
+            "z": 25
+          },
+          "pixel": {
+            "x": 1156.7407407407406,
+            "y": 1498.0740740740741
+          }
+        },
+        {
+          "id": "prop_shatterfen_arrival_reed_l",
+          "name": "prop_shatterfen_arrival_reed_l",
+          "type": "object",
+          "world": {
+            "x": -10,
+            "y": 0,
+            "z": 30
+          },
+          "pixel": {
+            "x": 834.3703703703703,
+            "y": 1592.888888888889
+          }
+        },
+        {
+          "id": "prop_shatterfen_arrival_reed_r",
+          "name": "prop_shatterfen_arrival_reed_r",
+          "type": "object",
+          "world": {
+            "x": 12,
+            "y": 0,
+            "z": 29
+          },
+          "pixel": {
+            "x": 1251.5555555555557,
+            "y": 1573.9259259259259
+          }
+        },
+        {
+          "id": "prop_shatterfen_crossing_stone_w",
+          "name": "prop_shatterfen_crossing_stone_w",
+          "type": "object",
+          "world": {
+            "x": -19,
+            "y": -0.0969,
+            "z": 22.5
+          },
+          "pixel": {
+            "x": 663.7037037037037,
+            "y": 1450.6666666666667
+          }
+        },
+        {
+          "id": "prop_shatterfen_crossing_stone_e",
+          "name": "prop_shatterfen_crossing_stone_e",
+          "type": "object",
+          "world": {
+            "x": 40,
+            "y": 0,
+            "z": 22
+          },
+          "pixel": {
+            "x": 1782.5185185185185,
+            "y": 1441.1851851851852
+          }
+        },
+        {
+          "id": "prop_shatterfen_tidefin_rim_reed_a",
+          "name": "prop_shatterfen_tidefin_rim_reed_a",
+          "type": "object",
+          "world": {
+            "x": -38.2,
+            "y": 0,
+            "z": 20.4
+          },
+          "pixel": {
+            "x": 299.61481481481474,
+            "y": 1410.8444444444447
+          }
+        },
+        {
+          "id": "prop_shatterfen_tidefin_rim_reed_b",
+          "name": "prop_shatterfen_tidefin_rim_reed_b",
+          "type": "object",
+          "world": {
+            "x": -39.8,
+            "y": 0,
+            "z": 10.2
+          },
+          "pixel": {
+            "x": 269.2740740740741,
+            "y": 1217.4222222222222
+          }
+        },
+        {
+          "id": "prop_shatterfen_tidefin_rim_lily",
+          "name": "prop_shatterfen_tidefin_rim_lily",
+          "type": "object",
+          "world": {
+            "x": -36.8,
+            "y": 0,
+            "z": -1.8
+          },
+          "pixel": {
+            "x": 326.16296296296304,
+            "y": 989.8666666666667
+          }
+        },
+        {
+          "id": "prop_shatterfen_tidefin_bank_stone",
+          "name": "prop_shatterfen_tidefin_bank_stone",
+          "type": "object",
+          "world": {
+            "x": -21,
+            "y": 0,
+            "z": 17
+          },
+          "pixel": {
+            "x": 625.7777777777778,
+            "y": 1346.3703703703704
+          }
+        },
+        {
+          "id": "prop_shatterfen_observatory_toe",
+          "name": "prop_shatterfen_observatory_toe",
+          "type": "object",
+          "world": {
+            "x": 39.5,
+            "y": 0,
+            "z": 20
+          },
+          "pixel": {
+            "x": 1773.037037037037,
+            "y": 1403.2592592592594
+          }
+        },
+        {
+          "id": "prop_shatterfen_observatory_high_stone",
+          "name": "prop_shatterfen_observatory_high_stone",
+          "type": "object",
+          "world": {
+            "x": 46,
+            "y": 0,
+            "z": 10
+          },
+          "pixel": {
+            "x": 1896.2962962962963,
+            "y": 1213.6296296296296
+          }
+        },
+        {
+          "id": "prop_shatterfen_observatory_lily",
+          "name": "prop_shatterfen_observatory_lily",
+          "type": "object",
+          "world": {
+            "x": 12,
+            "y": 0,
+            "z": 5
+          },
+          "pixel": {
+            "x": 1251.5555555555557,
+            "y": 1118.8148148148148
+          }
+        },
+        {
+          "id": "prop_shatterfen_farbank_reed",
+          "name": "prop_shatterfen_farbank_reed",
+          "type": "object",
+          "world": {
+            "x": -39,
+            "y": 0.1537,
+            "z": -15
+          },
+          "pixel": {
+            "x": 284.44444444444446,
+            "y": 739.5555555555555
+          }
+        },
+        {
+          "id": "prop_shatterfen_farbank_stone",
+          "name": "prop_shatterfen_farbank_stone",
+          "type": "object",
+          "world": {
+            "x": -20,
+            "y": 1.4288,
+            "z": -23
+          },
+          "pixel": {
+            "x": 644.7407407407408,
+            "y": 587.8518518518518
+          }
+        },
+        {
+          "id": "prop_shatterfen_wreck_frame",
+          "name": "prop_shatterfen_wreck_frame",
+          "type": "object",
+          "world": {
+            "x": -42.3,
+            "y": 4.0221,
+            "z": -31.2
+          },
+          "pixel": {
+            "x": 221.86666666666673,
+            "y": 432.35555555555555
+          }
+        },
+        {
+          "id": "prop_shatterfen_wreck_panel_a",
+          "name": "prop_shatterfen_wreck_panel_a",
+          "type": "object",
+          "world": {
+            "x": -44.3,
+            "y": 4.0743,
+            "z": -30.7
+          },
+          "pixel": {
+            "x": 183.9407407407408,
+            "y": 441.8370370370371
+          }
+        },
+        {
+          "id": "prop_shatterfen_wreck_panel_b",
+          "name": "prop_shatterfen_wreck_panel_b",
+          "type": "object",
+          "world": {
+            "x": -40.2,
+            "y": 3.8415,
+            "z": -32.5
+          },
+          "pixel": {
+            "x": 261.6888888888888,
+            "y": 407.7037037037037
+          }
+        },
+        {
+          "id": "prop_shatterfen_wreck_crystal",
+          "name": "prop_shatterfen_wreck_crystal",
+          "type": "object",
+          "world": {
+            "x": -47.2,
+            "y": 4.2378,
+            "z": -29.2
+          },
+          "pixel": {
+            "x": 128.9481481481481,
+            "y": 470.2814814814815
+          }
+        },
+        {
+          "id": "prop_shatterfen_gate_stone_l",
+          "name": "prop_shatterfen_gate_stone_l",
+          "type": "object",
+          "world": {
+            "x": -10,
+            "y": 0.5333,
+            "z": -38
+          },
+          "pixel": {
+            "x": 834.3703703703703,
+            "y": 303.4074074074074
+          }
+        },
+        {
+          "id": "prop_shatterfen_gate_stone_r",
+          "name": "prop_shatterfen_gate_stone_r",
+          "type": "object",
+          "world": {
+            "x": 10,
+            "y": 0.2815,
+            "z": -38
+          },
+          "pixel": {
+            "x": 1213.6296296296296,
+            "y": 303.4074074074074
+          }
+        },
+        {
+          "id": "prop_shatterfen_west_reed_c",
+          "name": "prop_shatterfen_west_reed_c",
+          "type": "object",
+          "world": {
+            "x": -39.4,
+            "y": 0,
+            "z": 19
+          },
+          "pixel": {
+            "x": 276.85925925925926,
+            "y": 1384.2962962962963
+          }
+        },
+        {
+          "id": "prop_shatterfen_west_reed_d",
+          "name": "prop_shatterfen_west_reed_d",
+          "type": "object",
+          "world": {
+            "x": -40.5,
+            "y": 0,
+            "z": 11.5
+          },
+          "pixel": {
+            "x": 256,
+            "y": 1242.0740740740741
+          }
+        },
+        {
+          "id": "prop_shatterfen_west_reed_e",
+          "name": "prop_shatterfen_west_reed_e",
+          "type": "object",
+          "world": {
+            "x": -38.5,
+            "y": -0.3695,
+            "z": 8.2
+          },
+          "pixel": {
+            "x": 293.9259259259259,
+            "y": 1179.4962962962964
+          }
+        },
+        {
+          "id": "prop_shatterfen_west_reed_f",
+          "name": "prop_shatterfen_west_reed_f",
+          "type": "object",
+          "world": {
+            "x": -38.3,
+            "y": -0.0119,
+            "z": 0.4
+          },
+          "pixel": {
+            "x": 297.7185185185186,
+            "y": 1031.585185185185
+          }
+        },
+        {
+          "id": "prop_shatterfen_west_lily_b",
+          "name": "prop_shatterfen_west_lily_b",
+          "type": "object",
+          "world": {
+            "x": -37.4,
+            "y": -0.209,
+            "z": 18.2
+          },
+          "pixel": {
+            "x": 314.7851851851852,
+            "y": 1369.125925925926
+          }
+        },
+        {
+          "id": "prop_shatterfen_west_lily_c",
+          "name": "prop_shatterfen_west_lily_c",
+          "type": "object",
+          "world": {
+            "x": -37,
+            "y": -0.36,
+            "z": 9
+          },
+          "pixel": {
+            "x": 322.3703703703704,
+            "y": 1194.6666666666667
+          }
+        },
+        {
+          "id": "prop_shatterfen_peat_reed_a",
+          "name": "prop_shatterfen_peat_reed_a",
+          "type": "object",
+          "world": {
+            "x": 27,
+            "y": -0.23,
+            "z": -23
+          },
+          "pixel": {
+            "x": 1536,
+            "y": 587.8518518518518
+          }
+        },
+        {
+          "id": "prop_shatterfen_peat_reed_b",
+          "name": "prop_shatterfen_peat_reed_b",
+          "type": "object",
+          "world": {
+            "x": 28.7,
+            "y": -0.1606,
+            "z": -21.5
+          },
+          "pixel": {
+            "x": 1568.237037037037,
+            "y": 616.2962962962963
+          }
+        },
+        {
+          "id": "prop_shatterfen_peat_reed_c",
+          "name": "prop_shatterfen_peat_reed_c",
+          "type": "object",
+          "world": {
+            "x": 34,
+            "y": -0.1828,
+            "z": -14.6
+          },
+          "pixel": {
+            "x": 1668.7407407407406,
+            "y": 747.1407407407407
+          }
+        },
+        {
+          "id": "prop_shatterfen_peat_lily_a",
+          "name": "prop_shatterfen_peat_lily_a",
+          "type": "object",
+          "world": {
+            "x": 29.5,
+            "y": -0.23,
+            "z": -22.2
+          },
+          "pixel": {
+            "x": 1583.4074074074074,
+            "y": 603.0222222222222
+          }
+        },
+        {
+          "id": "prop_shatterfen_peat_lily_b",
+          "name": "prop_shatterfen_peat_lily_b",
+          "type": "object",
+          "world": {
+            "x": 35.2,
+            "y": -0.0212,
+            "z": -13.8
+          },
+          "pixel": {
+            "x": 1691.4962962962964,
+            "y": 762.3111111111111
+          }
+        },
+        {
+          "id": "prop_shatterfen_east_reed_a",
+          "name": "prop_shatterfen_east_reed_a",
+          "type": "object",
+          "world": {
+            "x": 45,
+            "y": 0,
+            "z": 14
+          },
+          "pixel": {
+            "x": 1877.3333333333333,
+            "y": 1289.4814814814815
+          }
+        },
+        {
+          "id": "prop_shatterfen_east_reed_b",
+          "name": "prop_shatterfen_east_reed_b",
+          "type": "object",
+          "world": {
+            "x": 45,
+            "y": 0,
+            "z": 3
+          },
+          "pixel": {
+            "x": 1877.3333333333333,
+            "y": 1080.888888888889
+          }
+        },
+        {
+          "id": "prop_shatterfen_east_reed_c",
+          "name": "prop_shatterfen_east_reed_c",
+          "type": "object",
+          "world": {
+            "x": 41,
+            "y": 0,
+            "z": 20
+          },
+          "pixel": {
+            "x": 1801.4814814814815,
+            "y": 1403.2592592592594
+          }
+        },
+        {
+          "id": "prop_shatterfen_east_lily_a",
+          "name": "prop_shatterfen_east_lily_a",
+          "type": "object",
+          "world": {
+            "x": 43,
+            "y": 0,
+            "z": 1
+          },
+          "pixel": {
+            "x": 1839.4074074074074,
+            "y": 1042.962962962963
+          }
+        },
+        {
+          "id": "prop_shatterfen_east_face_a",
+          "name": "prop_shatterfen_east_face_a",
+          "type": "object",
+          "world": {
+            "x": 43.2,
+            "y": 0,
+            "z": 20.4
+          },
+          "pixel": {
+            "x": 1843.2,
+            "y": 1410.8444444444447
+          }
+        },
+        {
+          "id": "prop_shatterfen_east_face_b",
+          "name": "prop_shatterfen_east_face_b",
+          "type": "object",
+          "world": {
+            "x": 44.8,
+            "y": 0,
+            "z": 18.2
+          },
+          "pixel": {
+            "x": 1873.5407407407406,
+            "y": 1369.125925925926
+          }
+        },
+        {
+          "id": "prop_shatterfen_east_face_c",
+          "name": "prop_shatterfen_east_face_c",
+          "type": "object",
+          "world": {
+            "x": 43.8,
+            "y": 0,
+            "z": 16.4
+          },
+          "pixel": {
+            "x": 1854.5777777777778,
+            "y": 1334.9925925925927
+          }
+        },
+        {
+          "id": "prop_shatterfen_east_face_d",
+          "name": "prop_shatterfen_east_face_d",
+          "type": "object",
+          "world": {
+            "x": 38.4,
+            "y": 0,
+            "z": -12.5
+          },
+          "pixel": {
+            "x": 1752.177777777778,
+            "y": 786.9629629629629
+          }
+        },
+        {
+          "id": "prop_shatterfen_east_face_e",
+          "name": "prop_shatterfen_east_face_e",
+          "type": "object",
+          "world": {
+            "x": 40.2,
+            "y": 0,
+            "z": -14.5
+          },
+          "pixel": {
+            "x": 1786.3111111111111,
+            "y": 749.0370370370371
+          }
+        }
+      ],
+      "render": {
+        "calls": 374,
+        "triangles": 166557
+      },
+      "path": ".dream-loop/shatterfen-redesign-v1/blockout-v3/maps/section_2.png",
+      "planningPath": ".dream-loop/shatterfen-redesign-v1/blockout-v3/maps/section_2-planning.png",
+      "overview": {
+        "id": "section_2",
+        "name": "Shatterfen",
+        "authoredBounds": {
+          "maxX": 50,
+          "maxZ": 50,
+          "minX": -50,
+          "minZ": -50
+        },
+        "snapshot": "Authored initial layout, ready resources and creatures at authored spawn anchors; no live/save state",
+        "anchors": [
+          {
+            "id": "entry_section_2",
+            "name": "entry_section_2",
+            "type": "entry",
+            "world": {
+              "x": 0,
+              "y": 0,
+              "z": 32
+            },
+            "pixel": {
+              "x": 782,
+              "y": 785.8156923260354
+            }
+          },
+          {
+            "id": "gate_section_2_to_1",
+            "name": "Verdant Return Gate",
+            "type": "gate",
+            "world": {
+              "x": 0,
+              "y": 0,
+              "z": 36
+            },
+            "pixel": {
+              "x": 782,
+              "y": 819.8267260347128
+            }
+          },
+          {
+            "id": "gate_section_2_to_3",
+            "name": "Emberfall Gate",
+            "type": "gate",
+            "world": {
+              "x": 0,
+              "y": 0.72,
+              "z": -34
+            },
+            "pixel": {
+              "x": 782,
+              "y": 220.77176397647835
+            }
+          },
+          {
+            "id": "chest_secret_section_2",
+            "name": "Sunken Cache",
+            "type": "chest",
+            "world": {
+              "x": -29,
+              "y": 1.5517,
+              "z": -21
+            },
+            "pixel": {
+              "x": 490.45796465889754,
+              "y": 326.84662481792526
+            }
+          },
+          {
+            "id": "chest_parkour_section_2",
+            "name": "Reedbank Cache",
+            "type": "chest",
+            "world": {
+              "x": 17,
+              "y": 0.218,
+              "z": 4
+            },
+            "pixel": {
+              "x": 952.9039517516808,
+              "y": 546.5691672957233
+            }
+          },
+          {
+            "id": "chest_tidefin_secret",
+            "name": "Tidefin Grotto",
+            "type": "chest",
+            "world": {
+              "x": -34,
+              "y": 0,
+              "z": 3
+            },
+            "pixel": {
+              "x": 440.1920964966385,
+              "y": 539.2356979381252
+            }
+          },
+          {
+            "id": "chest_shatterfen_wreck_supply",
+            "name": "Wreck Supply Cache",
+            "type": "chest",
+            "world": {
+              "x": -44,
+              "y": 4.25,
+              "z": -34
+            },
+            "pixel": {
+              "x": 339.6603601721204,
+              "y": 201.83786298754922
+            }
+          },
+          {
+            "id": "wp_section_2",
+            "name": "Fen Observatory",
+            "type": "waypoint",
+            "world": {
+              "x": 23,
+              "y": 1.2,
+              "z": 8
+            },
+            "pixel": {
+              "x": 1013.2229935463916,
+              "y": 575.3130364800016
+            }
+          },
+          {
+            "id": "beacon_section_2",
+            "name": "Tideglass Beacon",
+            "type": "beacon",
+            "world": {
+              "x": -28,
+              "y": 1.55,
+              "z": -15
+            },
+            "pixel": {
+              "x": 500.51113829134937,
+              "y": 377.87229369019934
+            }
+          },
+          {
+            "id": "rock_section_2_arrival",
+            "name": "rock_section_2_arrival",
+            "type": "resource",
+            "world": {
+              "x": 8,
+              "y": 0,
+              "z": 28
+            },
+            "pixel": {
+              "x": 862.4253890596145,
+              "y": 751.8046586173582
+            }
+          },
+          {
+            "id": "fiber_section_2_arrival",
+            "name": "fiber_section_2_arrival",
+            "type": "resource",
+            "world": {
+              "x": -9,
+              "y": 0,
+              "z": 25
+            },
+            "pixel": {
+              "x": 691.5214373079336,
+              "y": 726.2963833358502
+            }
+          },
+          {
+            "id": "tree_section_2_shallows",
+            "name": "tree_section_2_shallows",
+            "type": "resource",
+            "world": {
+              "x": -29,
+              "y": 1.28,
+              "z": 9
+            },
+            "pixel": {
+              "x": 490.45796465889754,
+              "y": 583.3866980009062
+            }
+          },
+          {
+            "id": "fiber_section_2_shallows",
+            "name": "fiber_section_2_shallows",
+            "type": "resource",
+            "world": {
+              "x": -20,
+              "y": 0,
+              "z": 2
+            },
+            "pixel": {
+              "x": 580.9365273509638,
+              "y": 530.7329395109559
+            }
+          },
+          {
+            "id": "rock_section_2_observatory",
+            "name": "rock_section_2_observatory",
+            "type": "resource",
+            "world": {
+              "x": 27,
+              "y": 1.2,
+              "z": 12
+            },
+            "pixel": {
+              "x": 1053.4356880761989,
+              "y": 609.3240701886789
+            }
+          },
+          {
+            "id": "tree_section_2_far_bank",
+            "name": "tree_section_2_far_bank",
+            "type": "resource",
+            "world": {
+              "x": -31,
+              "y": 2.0172,
+              "z": -19
+            },
+            "pixel": {
+              "x": 470.3516173939939,
+              "y": 341.3553340489363
+            }
+          },
+          {
+            "id": "rock_section_2_gate",
+            "name": "rock_section_2_gate",
+            "type": "resource",
+            "world": {
+              "x": 9,
+              "y": 0.1867,
+              "z": -28
+            },
+            "pixel": {
+              "x": 872.4785626920664,
+              "y": 274.6487817908812
+            }
+          },
+          {
+            "id": "prop_s2_causeway_crystal",
+            "name": "prop_s2_causeway_crystal",
+            "type": "resource",
+            "world": {
+              "x": 5,
+              "y": 0,
+              "z": -2
+            },
+            "pixel": {
+              "x": 832.2658681622589,
+              "y": 496.7219058022786
+            }
+          },
+          {
+            "id": "prop_s2_observatory_crystal",
+            "name": "prop_s2_observatory_crystal",
+            "type": "resource",
+            "world": {
+              "x": 29,
+              "y": 0,
+              "z": 18
+            },
+            "pixel": {
+              "x": 1073.5420353411023,
+              "y": 666.777074345665
+            }
+          },
+          {
+            "id": "prop_s2_farbank_blossom",
+            "name": "prop_s2_farbank_blossom",
+            "type": "resource",
+            "world": {
+              "x": -29,
+              "y": 1.6765,
+              "z": -20
+            },
+            "pixel": {
+              "x": 490.45796465889754,
+              "y": 334.6799920713217
+            }
+          },
+          {
+            "id": "prop_s2_tidefin_a",
+            "name": "prop_s2_tidefin_a",
+            "type": "creature-spawn",
+            "world": {
+              "x": -30,
+              "y": -0.34,
+              "z": 18
+            },
+            "pixel": {
+              "x": 480.40479102644576,
+              "y": 668.60073619729
+            }
+          },
+          {
+            "id": "prop_s2_tidefin_b",
+            "name": "prop_s2_tidefin_b",
+            "type": "creature-spawn",
+            "world": {
+              "x": -30,
+              "y": -0.34,
+              "z": 1
+            },
+            "pixel": {
+              "x": 480.40479102644576,
+              "y": 524.0538429354116
+            }
+          },
+          {
+            "id": "prop_s2_farbank_thorn",
+            "name": "prop_s2_farbank_thorn",
+            "type": "creature-spawn",
+            "world": {
+              "x": -32,
+              "y": 0,
+              "z": -7
+            },
+            "pixel": {
+              "x": 460.2984437615421,
+              "y": 454.20811366643204
+            }
+          },
+          {
+            "id": "prop_s2_causeway_crystal",
+            "name": "prop_s2_causeway_crystal",
+            "type": "object",
+            "world": {
+              "x": 5,
+              "y": 0,
+              "z": -2
+            },
+            "pixel": {
+              "x": 832.2658681622589,
+              "y": 496.7219058022786
+            }
+          },
+          {
+            "id": "prop_s2_tidefin_a",
+            "name": "prop_s2_tidefin_a",
+            "type": "object",
+            "world": {
+              "x": -30,
+              "y": -0.34,
+              "z": 18
+            },
+            "pixel": {
+              "x": 480.40479102644576,
+              "y": 668.60073619729
+            }
+          },
+          {
+            "id": "prop_s2_tidefin_b",
+            "name": "prop_s2_tidefin_b",
+            "type": "object",
+            "world": {
+              "x": -30,
+              "y": -0.34,
+              "z": 1
+            },
+            "pixel": {
+              "x": 480.40479102644576,
+              "y": 524.0538429354116
+            }
+          },
+          {
+            "id": "prop_s2_observatory_arch",
+            "name": "prop_s2_observatory_arch",
+            "type": "object",
+            "world": {
+              "x": 23,
+              "y": 1.2,
+              "z": 4.8
+            },
+            "pixel": {
+              "x": 1013.2229935463916,
+              "y": 548.1042095130597
+            }
+          },
+          {
+            "id": "prop_s2_observatory_crystal",
+            "name": "prop_s2_observatory_crystal",
+            "type": "object",
+            "world": {
+              "x": 29,
+              "y": 0,
+              "z": 18
+            },
+            "pixel": {
+              "x": 1073.5420353411023,
+              "y": 666.777074345665
+            }
+          },
+          {
+            "id": "prop_s2_farbank_blossom",
+            "name": "prop_s2_farbank_blossom",
+            "type": "object",
+            "world": {
+              "x": -29,
+              "y": 1.6765,
+              "z": -20
+            },
+            "pixel": {
+              "x": 490.45796465889754,
+              "y": 334.6799920713217
+            }
+          },
+          {
+            "id": "prop_s2_farbank_thorn",
+            "name": "prop_s2_farbank_thorn",
+            "type": "object",
+            "world": {
+              "x": -32,
+              "y": 0,
+              "z": -7
+            },
+            "pixel": {
+              "x": 460.2984437615421,
+              "y": 454.20811366643204
+            }
+          },
+          {
+            "id": "prop_fen_bank_outcrop_left",
+            "name": "prop_fen_bank_outcrop_left",
+            "type": "object",
+            "world": {
+              "x": 19.15,
+              "y": 0.8248,
+              "z": 5.8
+            },
+            "pixel": {
+              "x": 974.5182750614521,
+              "y": 558.6194324306105
+            }
+          },
+          {
+            "id": "prop_fen_bank_outcrop_left_shoulder",
+            "name": "prop_fen_bank_outcrop_left_shoulder",
+            "type": "object",
+            "world": {
+              "x": 18.15,
+              "y": 0.0814,
+              "z": 4.7
+            },
+            "pixel": {
+              "x": 964.4651014290004,
+              "y": 553.2537811621887
+            }
+          },
+          {
+            "id": "prop_fen_bank_outcrop_right",
+            "name": "prop_fen_bank_outcrop_right",
+            "type": "object",
+            "world": {
+              "x": 27.65,
+              "y": 0.9695,
+              "z": 8.4
+            },
+            "pixel": {
+              "x": 1059.9702509372926,
+              "y": 579.9504753120444
+            }
+          },
+          {
+            "id": "prop_fen_bank_outcrop_right_ledge",
+            "name": "prop_fen_bank_outcrop_right_ledge",
+            "type": "object",
+            "world": {
+              "x": 26.3,
+              "y": 1.12,
+              "z": 9.05
+            },
+            "pixel": {
+              "x": 1046.3984665334826,
+              "y": 584.6700297347941
+            }
+          },
+          {
+            "id": "prop_fen_bank_frond_0",
+            "name": "prop_fen_bank_frond_0",
+            "type": "object",
+            "world": {
+              "x": 19.2,
+              "y": 1.2,
+              "z": 10.5
+            },
+            "pixel": {
+              "x": 975.0209337430747,
+              "y": 596.5699325479249
+            }
+          },
+          {
+            "id": "prop_fen_bank_frond_1",
+            "name": "prop_fen_bank_frond_1",
+            "type": "object",
+            "world": {
+              "x": 20.2,
+              "y": 1.2,
+              "z": 5.6
+            },
+            "pixel": {
+              "x": 985.0741073755265,
+              "y": 554.9064162547952
+            }
+          },
+          {
+            "id": "prop_fen_bank_frond_2",
+            "name": "prop_fen_bank_frond_2",
+            "type": "object",
+            "world": {
+              "x": 26.2,
+              "y": 1.2,
+              "z": 10.7
+            },
+            "pixel": {
+              "x": 1045.3931491702374,
+              "y": 598.2704842333588
+            }
+          },
+          {
+            "id": "prop_fen_bank_frond_3",
+            "name": "prop_fen_bank_frond_3",
+            "type": "object",
+            "world": {
+              "x": 25.8,
+              "y": 1.106,
+              "z": 3.3
+            },
+            "pixel": {
+              "x": 1041.3718797172567,
+              "y": 535.8542607371668
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_0",
+            "name": "prop_fen_bank_pebbles_0",
+            "type": "object",
+            "world": {
+              "x": 20,
+              "y": 1.2,
+              "z": 8.1
+            },
+            "pixel": {
+              "x": 983.0634726490362,
+              "y": 576.1633123227185
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_1",
+            "name": "prop_fen_bank_pebbles_1",
+            "type": "object",
+            "world": {
+              "x": 20.3,
+              "y": 1.2,
+              "z": 8.35
+            },
+            "pixel": {
+              "x": 986.0794247387716,
+              "y": 578.2890019295108
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_2",
+            "name": "prop_fen_bank_pebbles_2",
+            "type": "object",
+            "world": {
+              "x": 19.8,
+              "y": 1.2,
+              "z": 8.5
+            },
+            "pixel": {
+              "x": 981.0528379225457,
+              "y": 579.5644156935863
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_3",
+            "name": "prop_fen_bank_pebbles_3",
+            "type": "object",
+            "world": {
+              "x": 24.7,
+              "y": 1.2,
+              "z": 10.2
+            },
+            "pixel": {
+              "x": 1030.3133887215597,
+              "y": 594.0191050197741
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_4",
+            "name": "prop_fen_bank_pebbles_4",
+            "type": "object",
+            "world": {
+              "x": 25.1,
+              "y": 1.2,
+              "z": 10.3
+            },
+            "pixel": {
+              "x": 1034.3346581745404,
+              "y": 594.8693808624911
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_5",
+            "name": "prop_fen_bank_pebbles_5",
+            "type": "object",
+            "world": {
+              "x": 24.9,
+              "y": 1.2,
+              "z": 10.6
+            },
+            "pixel": {
+              "x": 1032.32402344805,
+              "y": 597.4202083906418
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_6",
+            "name": "prop_fen_bank_pebbles_6",
+            "type": "object",
+            "world": {
+              "x": 25.2,
+              "y": 1.2,
+              "z": 6.5
+            },
+            "pixel": {
+              "x": 1035.3399755377854,
+              "y": 562.5588988392476
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_7",
+            "name": "prop_fen_bank_pebbles_7",
+            "type": "object",
+            "world": {
+              "x": 25.5,
+              "y": 1.2,
+              "z": 6.8
+            },
+            "pixel": {
+              "x": 1038.3559276275212,
+              "y": 565.1097263673984
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_8",
+            "name": "prop_fen_bank_pebbles_8",
+            "type": "object",
+            "world": {
+              "x": 24.9,
+              "y": 1.2,
+              "z": 6.6
+            },
+            "pixel": {
+              "x": 1032.32402344805,
+              "y": 563.4091746819646
+            }
+          },
+          {
+            "id": "prop_fen_bank_pebbles_9",
+            "name": "prop_fen_bank_pebbles_9",
+            "type": "object",
+            "world": {
+              "x": 25.3,
+              "y": 1.2,
+              "z": 6.15
+            },
+            "pixel": {
+              "x": 1036.3452929010307,
+              "y": 559.5829333897384
+            }
+          },
+          {
+            "id": "prop_shatterfen_arrival_panel_a",
+            "name": "prop_shatterfen_arrival_panel_a",
+            "type": "object",
+            "world": {
+              "x": -6,
+              "y": 0,
+              "z": 27
+            },
+            "pixel": {
+              "x": 721.6809582052891,
+              "y": 743.3019001901889
+            }
+          },
+          {
+            "id": "prop_shatterfen_arrival_panel_b",
+            "name": "prop_shatterfen_arrival_panel_b",
+            "type": "object",
+            "world": {
+              "x": 7,
+              "y": 0,
+              "z": 25
+            },
+            "pixel": {
+              "x": 852.3722154271627,
+              "y": 726.2963833358502
+            }
+          },
+          {
+            "id": "prop_shatterfen_arrival_reed_l",
+            "name": "prop_shatterfen_arrival_reed_l",
+            "type": "object",
+            "world": {
+              "x": -10,
+              "y": 0,
+              "z": 30
+            },
+            "pixel": {
+              "x": 681.4682636754819,
+              "y": 768.8101754716969
+            }
+          },
+          {
+            "id": "prop_shatterfen_arrival_reed_r",
+            "name": "prop_shatterfen_arrival_reed_r",
+            "type": "object",
+            "world": {
+              "x": 12,
+              "y": 0,
+              "z": 29
+            },
+            "pixel": {
+              "x": 902.6380835894217,
+              "y": 760.3074170445276
+            }
+          },
+          {
+            "id": "prop_shatterfen_crossing_stone_w",
+            "name": "prop_shatterfen_crossing_stone_w",
+            "type": "object",
+            "world": {
+              "x": -19,
+              "y": -0.0969,
+              "z": 22.5
+            },
+            "pixel": {
+              "x": 590.9897009834157,
+              "y": 705.5592308956401
+            }
+          },
+          {
+            "id": "prop_shatterfen_crossing_stone_e",
+            "name": "prop_shatterfen_crossing_stone_e",
+            "type": "object",
+            "world": {
+              "x": 40,
+              "y": 0,
+              "z": 22
+            },
+            "pixel": {
+              "x": 1184.1269452980723,
+              "y": 700.7881080543423
+            }
+          },
+          {
+            "id": "prop_shatterfen_tidefin_rim_reed_a",
+            "name": "prop_shatterfen_tidefin_rim_reed_a",
+            "type": "object",
+            "world": {
+              "x": -38.2,
+              "y": 0,
+              "z": 20.4
+            },
+            "pixel": {
+              "x": 397.9687672403408,
+              "y": 687.1836945708714
+            }
+          },
+          {
+            "id": "prop_shatterfen_tidefin_rim_reed_b",
+            "name": "prop_shatterfen_tidefin_rim_reed_b",
+            "type": "object",
+            "world": {
+              "x": -39.8,
+              "y": 0,
+              "z": 10.2
+            },
+            "pixel": {
+              "x": 381.88368942841805,
+              "y": 600.4555586137443
+            }
+          },
+          {
+            "id": "prop_shatterfen_tidefin_rim_lily",
+            "name": "prop_shatterfen_tidefin_rim_lily",
+            "type": "object",
+            "world": {
+              "x": -36.8,
+              "y": 0,
+              "z": -1.8
+            },
+            "pixel": {
+              "x": 412.04321032577343,
+              "y": 498.42245748771256
+            }
+          },
+          {
+            "id": "prop_shatterfen_tidefin_bank_stone",
+            "name": "prop_shatterfen_tidefin_bank_stone",
+            "type": "object",
+            "world": {
+              "x": -21,
+              "y": 0,
+              "z": 17
+            },
+            "pixel": {
+              "x": 570.883353718512,
+              "y": 658.2743159184957
+            }
+          },
+          {
+            "id": "prop_shatterfen_observatory_toe",
+            "name": "prop_shatterfen_observatory_toe",
+            "type": "object",
+            "world": {
+              "x": 39.5,
+              "y": 0,
+              "z": 20
+            },
+            "pixel": {
+              "x": 1179.1003584818466,
+              "y": 683.7825912000037
+            }
+          },
+          {
+            "id": "prop_shatterfen_observatory_high_stone",
+            "name": "prop_shatterfen_observatory_high_stone",
+            "type": "object",
+            "world": {
+              "x": 46,
+              "y": 0,
+              "z": 10
+            },
+            "pixel": {
+              "x": 1244.4459870927833,
+              "y": 598.7550069283105
+            }
+          },
+          {
+            "id": "prop_shatterfen_observatory_lily",
+            "name": "prop_shatterfen_observatory_lily",
+            "type": "object",
+            "world": {
+              "x": 12,
+              "y": 0,
+              "z": 5
+            },
+            "pixel": {
+              "x": 902.6380835894217,
+              "y": 556.2412147924639
+            }
+          },
+          {
+            "id": "prop_shatterfen_farbank_reed",
+            "name": "prop_shatterfen_farbank_reed",
+            "type": "object",
+            "world": {
+              "x": -39,
+              "y": 0.1537,
+              "z": -15
+            },
+            "pixel": {
+              "x": 389.92622833437946,
+              "y": 385.36164381791656
+            }
+          },
+          {
+            "id": "prop_shatterfen_farbank_stone",
+            "name": "prop_shatterfen_farbank_stone",
+            "type": "object",
+            "world": {
+              "x": -20,
+              "y": 1.4288,
+              "z": -23
+            },
+            "pixel": {
+              "x": 580.9365273509638,
+              "y": 310.5003080858358
+            }
+          },
+          {
+            "id": "prop_shatterfen_wreck_frame",
+            "name": "prop_shatterfen_wreck_frame",
+            "type": "object",
+            "world": {
+              "x": -42.3,
+              "y": 4.0221,
+              "z": -31.2
+            },
+            "pixel": {
+              "x": 356.7507553472885,
+              "y": 226.86797639534478
+            }
+          },
+          {
+            "id": "prop_shatterfen_wreck_panel_a",
+            "name": "prop_shatterfen_wreck_panel_a",
+            "type": "object",
+            "world": {
+              "x": -44.3,
+              "y": 4.0743,
+              "z": -30.7
+            },
+            "pixel": {
+              "x": 336.6444080823849,
+              "y": 230.83936987759176
+            }
+          },
+          {
+            "id": "prop_shatterfen_wreck_panel_b",
+            "name": "prop_shatterfen_wreck_panel_b",
+            "type": "object",
+            "world": {
+              "x": -40.2,
+              "y": 3.8415,
+              "z": -32.5
+            },
+            "pixel": {
+              "x": 377.86241997543726,
+              "y": 216.78307670591718
+            }
+          },
+          {
+            "id": "prop_shatterfen_wreck_crystal",
+            "name": "prop_shatterfen_wreck_crystal",
+            "type": "object",
+            "world": {
+              "x": -47.2,
+              "y": 4.2378,
+              "z": -29.2
+            },
+            "pixel": {
+              "x": 307.4902045482746,
+              "y": 242.71654071616732
+            }
+          },
+          {
+            "id": "prop_shatterfen_gate_stone_l",
+            "name": "prop_shatterfen_gate_stone_l",
+            "type": "object",
+            "world": {
+              "x": -10,
+              "y": 0.5333,
+              "z": -38
+            },
+            "pixel": {
+              "x": 681.4682636754819,
+              "y": 187.76213517279623
+            }
+          },
+          {
+            "id": "prop_shatterfen_gate_stone_r",
+            "name": "prop_shatterfen_gate_stone_r",
+            "type": "object",
+            "world": {
+              "x": 10,
+              "y": 0.2815,
+              "z": -38
+            },
+            "pixel": {
+              "x": 882.5317363245181,
+              "y": 189.11271768526433
+            }
+          },
+          {
+            "id": "prop_shatterfen_west_reed_c",
+            "name": "prop_shatterfen_west_reed_c",
+            "type": "object",
+            "world": {
+              "x": -39.4,
+              "y": 0,
+              "z": 19
+            },
+            "pixel": {
+              "x": 385.9049588813988,
+              "y": 675.2798327728343
+            }
+          },
+          {
+            "id": "prop_shatterfen_west_reed_d",
+            "name": "prop_shatterfen_west_reed_d",
+            "type": "object",
+            "world": {
+              "x": -40.5,
+              "y": 0,
+              "z": 11.5
+            },
+            "pixel": {
+              "x": 374.84646788570177,
+              "y": 611.5091445690646
+            }
+          },
+          {
+            "id": "prop_shatterfen_west_reed_e",
+            "name": "prop_shatterfen_west_reed_e",
+            "type": "object",
+            "world": {
+              "x": -38.5,
+              "y": -0.3695,
+              "z": 8.2
+            },
+            "pixel": {
+              "x": 394.95281515060543,
+              "y": 585.4319330952156
+            }
+          },
+          {
+            "id": "prop_shatterfen_west_reed_f",
+            "name": "prop_shatterfen_west_reed_f",
+            "type": "object",
+            "world": {
+              "x": -38.3,
+              "y": -0.0119,
+              "z": 0.4
+            },
+            "pixel": {
+              "x": 396.96344987709574,
+              "y": 517.1923541922919
+            }
+          },
+          {
+            "id": "prop_shatterfen_west_lily_b",
+            "name": "prop_shatterfen_west_lily_b",
+            "type": "object",
+            "world": {
+              "x": -37.4,
+              "y": -0.209,
+              "z": 18.2
+            },
+            "pixel": {
+              "x": 406.0113061463024,
+              "y": 669.5986416987155
+            }
+          },
+          {
+            "id": "prop_shatterfen_west_lily_c",
+            "name": "prop_shatterfen_west_lily_c",
+            "type": "object",
+            "world": {
+              "x": -37,
+              "y": -0.36,
+              "z": 9
+            },
+            "pixel": {
+              "x": 410.0325755992831,
+              "y": 592.1831845793322
+            }
+          },
+          {
+            "id": "prop_shatterfen_peat_reed_a",
+            "name": "prop_shatterfen_peat_reed_a",
+            "type": "object",
+            "world": {
+              "x": 27,
+              "y": -0.23,
+              "z": -23
+            },
+            "pixel": {
+              "x": 1053.4356880761989,
+              "y": 319.39763243723394
+            }
+          },
+          {
+            "id": "prop_shatterfen_peat_reed_b",
+            "name": "prop_shatterfen_peat_reed_b",
+            "type": "object",
+            "world": {
+              "x": 28.7,
+              "y": -0.1606,
+              "z": -21.5
+            },
+            "pixel": {
+              "x": 1070.526083251367,
+              "y": 331.77952851180333
+            }
+          },
+          {
+            "id": "prop_shatterfen_peat_reed_c",
+            "name": "prop_shatterfen_peat_reed_c",
+            "type": "object",
+            "world": {
+              "x": 34,
+              "y": -0.1828,
+              "z": -14.6
+            },
+            "pixel": {
+              "x": 1123.8079035033616,
+              "y": 390.5676360507601
+            }
+          },
+          {
+            "id": "prop_shatterfen_peat_lily_a",
+            "name": "prop_shatterfen_peat_lily_a",
+            "type": "object",
+            "world": {
+              "x": 29.5,
+              "y": -0.23,
+              "z": -22.2
+            },
+            "pixel": {
+              "x": 1078.5686221573283,
+              "y": 326.19983917896946
+            }
+          },
+          {
+            "id": "prop_shatterfen_peat_lily_b",
+            "name": "prop_shatterfen_peat_lily_b",
+            "type": "object",
+            "world": {
+              "x": 35.2,
+              "y": -0.0212,
+              "z": -13.8
+            },
+            "pixel": {
+              "x": 1135.8717118623035,
+              "y": 396.50306704184084
+            }
+          },
+          {
+            "id": "prop_shatterfen_east_reed_a",
+            "name": "prop_shatterfen_east_reed_a",
+            "type": "object",
+            "world": {
+              "x": 45,
+              "y": 0,
+              "z": 14
+            },
+            "pixel": {
+              "x": 1234.3928134603314,
+              "y": 632.7660406369878
+            }
+          },
+          {
+            "id": "prop_shatterfen_east_reed_b",
+            "name": "prop_shatterfen_east_reed_b",
+            "type": "object",
+            "world": {
+              "x": 45,
+              "y": 0,
+              "z": 3
+            },
+            "pixel": {
+              "x": 1234.3928134603314,
+              "y": 539.2356979381252
+            }
+          },
+          {
+            "id": "prop_shatterfen_east_reed_c",
+            "name": "prop_shatterfen_east_reed_c",
+            "type": "object",
+            "world": {
+              "x": 41,
+              "y": 0,
+              "z": 20
+            },
+            "pixel": {
+              "x": 1194.1801189305243,
+              "y": 683.7825912000037
+            }
+          },
+          {
+            "id": "prop_shatterfen_east_lily_a",
+            "name": "prop_shatterfen_east_lily_a",
+            "type": "object",
+            "world": {
+              "x": 43,
+              "y": 0,
+              "z": 1
+            },
+            "pixel": {
+              "x": 1214.2864661954277,
+              "y": 522.2301810837866
+            }
+          },
+          {
+            "id": "prop_shatterfen_east_face_a",
+            "name": "prop_shatterfen_east_face_a",
+            "type": "object",
+            "world": {
+              "x": 43.2,
+              "y": 0,
+              "z": 20.4
+            },
+            "pixel": {
+              "x": 1216.2971009219182,
+              "y": 687.1836945708714
+            }
+          },
+          {
+            "id": "prop_shatterfen_east_face_b",
+            "name": "prop_shatterfen_east_face_b",
+            "type": "object",
+            "world": {
+              "x": 44.8,
+              "y": 0,
+              "z": 18.2
+            },
+            "pixel": {
+              "x": 1232.3821787338409,
+              "y": 668.4776260310989
+            }
+          },
+          {
+            "id": "prop_shatterfen_east_face_c",
+            "name": "prop_shatterfen_east_face_c",
+            "type": "object",
+            "world": {
+              "x": 43.8,
+              "y": 0,
+              "z": 16.4
+            },
+            "pixel": {
+              "x": 1222.3290051013892,
+              "y": 653.1726608621941
+            }
+          },
+          {
+            "id": "prop_shatterfen_east_face_d",
+            "name": "prop_shatterfen_east_face_d",
+            "type": "object",
+            "world": {
+              "x": 38.4,
+              "y": 0,
+              "z": -12.5
+            },
+            "pixel": {
+              "x": 1168.0418674861494,
+              "y": 407.4429423170008
+            }
+          },
+          {
+            "id": "prop_shatterfen_east_face_e",
+            "name": "prop_shatterfen_east_face_e",
+            "type": "object",
+            "world": {
+              "x": 40.2,
+              "y": 0,
+              "z": -14.5
+            },
+            "pixel": {
+              "x": 1186.1375800245628,
+              "y": 390.4374254626622
+            }
+          }
+        ],
+        "north": "world -Z; tilted view, height affects pixel position",
+        "view": "Oblique overview; real terrain heights, no exaggeration; not a metric planning map",
+        "pitch": 58,
+        "imageSize": {
+          "width": 1564,
+          "height": 1006
+        },
+        "camera": {
+          "position": [
+            0,
+            212.01202403910648,
+            132.47981605830122
+          ],
+          "target": [
+            0,
+            2,
+            0
+          ],
+          "projection": [
+            0.012855720757611008,
+            0,
+            0,
+            0,
+            0,
+            0.019986428692747134,
+            0,
+            0,
+            0,
+            0,
+            -0.0033338889814969164,
+            0,
+            0,
+            0,
+            -1.0003333888981498,
+            1
+          ],
+          "view": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0.5335341380153227,
+            0.8457785310424039,
+            0,
+            0,
+            -0.8457785310424039,
+            0.5335341380153227,
+            0,
+            0,
+            -1.0670682760306676,
+            -249.99772272021653,
+            1
+          ]
+        },
+        "render": {
+          "calls": 374,
+          "triangles": 166557
+        }
+      },
+      "overviewPath": ".dream-loop/shatterfen-redesign-v1/blockout-v3/maps/section_2-overview.png"
+    }
+  ],
+  "models": [],
+  "contactSheets": [],
+  "errors": [],
+  "files": {
+    "maps/section_2.png": {
+      "bytes": 1792135,
+      "sha256": "f4392d41e3e1d2664e3fb64ef790b1d53a517da53a83bf469f94de1b75c572a9"
+    },
+    "maps/section_2-planning.png": {
+      "bytes": 1837306,
+      "sha256": "097c450229f8774201efa65340f3093649e979063719b9c381116b04901a444a"
+    },
+    "maps/section_2-overview.png": {
+      "bytes": 887073,
+      "sha256": "226ae3d3b1dcdcb52ee6dfaa830adefcfee2590c220cf71df92c39886e07a4c2"
+    }
+  },
+  "sourceAfter": {
+    "src/world/data/world.json": "640f9239e3e42555322a3cc3267071ccdeb6d3d41029afc32e24b1719e1d829f",
+    "src/world/data/world.generated.js": "69db106b859df19f4491aadfdb82a22523cfd8a89e6e11444bda1b3d8dfc0bd5"
+  },
+  "sourceUnchanged": true
+}
