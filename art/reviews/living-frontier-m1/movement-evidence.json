@@ -1,0 +1,51 @@
+{
+  "done": true,
+  "end": {
+    "x": 0.11479329317808153,
+    "y": 0.5224133133888245,
+    "z": 0.5683297514915466
+  },
+  "intent": {
+    "attackHeld": false,
+    "attackRequested": false,
+    "dodgeRequested": false,
+    "dodgeX": 0,
+    "dodgeY": 0,
+    "jumpRequested": false,
+    "moveMagnitude": 0.6666666666666666,
+    "moveX": 0,
+    "moveY": -1,
+    "movementBand": "walk"
+  },
+  "intentWithOrbit": {
+    "attackHeld": false,
+    "attackRequested": false,
+    "dodgeRequested": false,
+    "dodgeX": 0,
+    "dodgeY": 0,
+    "jumpRequested": false,
+    "moveMagnitude": 0.6666666666666666,
+    "moveX": 0,
+    "moveY": -1,
+    "movementBand": "walk"
+  },
+  "released": {
+    "attackHeld": false,
+    "attackRequested": false,
+    "dodgeRequested": false,
+    "dodgeX": 0,
+    "dodgeY": 0,
+    "jumpRequested": false,
+    "moveMagnitude": 0,
+    "moveX": 0,
+    "moveY": 0,
+    "movementBand": "idle"
+  },
+  "start": {
+    "x": 0,
+    "y": 0.521996259689331,
+    "z": 2
+  },
+  "yawAfter": -0.08,
+  "yawBefore": 0
+}

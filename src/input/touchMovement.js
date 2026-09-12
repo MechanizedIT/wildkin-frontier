@@ -2,8 +2,27 @@
 // reserved for camera orbit; Field Tool and Dodge arrive through explicit UI.
 import { classifyMovementBand } from "../movement/movementBands.js";
 
+const clamp = (value, min, max) => max < min ? (min + max) * .5 : Math.max(min, Math.min(max, value));
+
+export function getTouchJoystickLayout(rect, maxRadius = 68) {
+  const portrait = rect.height > rect.width;
+  if (!portrait) return { portrait: false, radius: maxRadius, center: null, activationRadius: null };
+  const radius = Math.min(54, Math.max(44, (rect.width - 20) / 5.5));
+  const edge = radius + 12;
+  return {
+    portrait: true,
+    radius,
+    center: {
+      x: clamp(74, edge, rect.width - edge),
+      y: clamp(rect.height - 136, edge, rect.height - edge),
+    },
+    activationRadius: radius + 26,
+  };
+}
+
 export function createTouchMovement(appElement, moveCfg, inputCfg) {
   const maxRadius = inputCfg.joystickMaxRadius ?? 68;
+  let activeRadius = maxRadius;
   let enabled = true;
   function clearActive() {
     if (hasActive) {
@@ -45,6 +64,23 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   let originEl = null;
   let stickEl = null;
   let containerEl = null;
+  let ringEls = [];
+
+  function layout() { return getTouchJoystickLayout(appElement.getBoundingClientRect(), maxRadius); }
+
+  function sizeVisuals(radius) {
+    if (!originEl || !stickEl) return;
+    originEl.style.width = radius * 2 + "px";
+    originEl.style.height = radius * 2 + "px";
+    ringEls.forEach((ring, index) => {
+      const threshold = [moveCfg.deadzone, moveCfg.sneakThreshold, moveCfg.walkThreshold][index];
+      ring.style.width = radius * 2 * threshold + "px";
+      ring.style.height = radius * 2 * threshold + "px";
+    });
+    const stickSize = 44 * radius / maxRadius;
+    stickEl.style.width = stickSize + "px";
+    stickEl.style.height = stickSize + "px";
+  }
 
   function ensureVisuals() {
     if (containerEl) return;
@@ -64,8 +100,6 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       originEl = document.createElement("div");
       originEl.id = "joystick-origin";
       originEl.style.position = "absolute";
-      originEl.style.width = maxRadius * 2 + "px";
-      originEl.style.height = maxRadius * 2 + "px";
       originEl.style.borderRadius = "50%";
       originEl.style.border = "2px solid rgba(173,226,208,0.72)";
       originEl.style.background = "rgba(9,37,45,0.28)";
@@ -74,7 +108,6 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       containerEl.appendChild(originEl);
 
       // Band rings visualization
-      const sneakR = maxRadius * (moveCfg.deadzone + (moveCfg.sneakThreshold - moveCfg.deadzone) * 0.5);
       // Create 3 rings
       [moveCfg.deadzone, moveCfg.sneakThreshold, moveCfg.walkThreshold].forEach((thr) => {
         const ring = document.createElement("div");
@@ -89,14 +122,13 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
         ring.style.transform = "translate(-50%, -50%)";
         ring.style.pointerEvents = "none";
         originEl.appendChild(ring);
+        ringEls.push(ring);
       });
     }
     if (!stickEl) {
       stickEl = document.createElement("div");
       stickEl.id = "joystick-stick";
       stickEl.style.position = "absolute";
-      stickEl.style.width = "44px";
-      stickEl.style.height = "44px";
       stickEl.style.borderRadius = "50%";
       stickEl.style.background = "rgba(255,255,255,0.88)";
       stickEl.style.border = "2px solid rgba(14,20,32,0.9)";
@@ -105,10 +137,12 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       stickEl.style.pointerEvents = "none";
       containerEl.appendChild(stickEl);
     }
+    if (!ringEls.length && originEl?.children) ringEls = [...originEl.children].filter(child => child.className === 'joy-ring');
   }
 
-  function showVisuals(x, y) {
+  function showVisuals(x, y, radius = maxRadius) {
     ensureVisuals();
+    sizeVisuals(radius);
     containerEl.style.display = "block";
     containerEl.style.opacity = "1";
     originEl.style.left = x + "px";
@@ -129,9 +163,12 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   // One real joystick owns both its resting cue and the active touch graphic.
   // It follows the touch origin rather than leaving a second painted stick.
   function showRestVisuals() {
-    if(!enabled||hasActive||!globalThis.window?.matchMedia?.('(any-pointer: coarse)').matches)return;
     const rect=appElement.getBoundingClientRect();
-    showVisuals(Math.min(94,rect.width*.23),Math.max(maxRadius+12,rect.height-(rect.width>rect.height?88:170)));
+    const currentLayout = getTouchJoystickLayout(rect, maxRadius);
+    if(!globalThis.document||!enabled||hasActive||(!currentLayout.portrait&&!globalThis.window?.matchMedia?.('(any-pointer: coarse)').matches))return;
+    const center = currentLayout.portrait ? currentLayout.center
+      : { x: Math.min(94,rect.width*.23), y: Math.max(maxRadius+12,rect.height-88) };
+    showVisuals(center.x, center.y, currentLayout.radius);
     containerEl.style.opacity='.48';
   }
 
@@ -139,6 +176,10 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     const rect = appElement.getBoundingClientRect();
     const relX = clientX - rect.left;
     const relY = clientY - rect.top;
+    const currentLayout = getTouchJoystickLayout(rect, maxRadius);
+    if (currentLayout.portrait) {
+      return Math.hypot(relX - currentLayout.center.x, relY - currentLayout.center.y) <= currentLayout.activationRadius;
+    }
     // movement zone: left ~58% and bottom ~62%
     const w = rect.width;
     const h = rect.height;
@@ -175,15 +216,17 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     if (!isInMovementArea(e.clientX, e.clientY)) return;
 
     activeId = id;
-    origin.x = e.clientX;
-    origin.y = e.clientY;
+    const currentLayout = getTouchJoystickLayout(rect, maxRadius);
+    activeRadius = currentLayout.radius;
+    origin.x = currentLayout.portrait ? rect.left + currentLayout.center.x : e.clientX;
+    origin.y = currentLayout.portrait ? rect.top + currentLayout.center.y : e.clientY;
     current.x = e.clientX;
     current.y = e.clientY;
     hasActive = true;
     updateFromCurrent();
 
     ensureVisuals();
-    showVisuals(origin.x - rect.left, origin.y - rect.top);
+    showVisuals(origin.x - rect.left, origin.y - rect.top, activeRadius);
 
     try { appElement.setPointerCapture(id); } catch {}
     if (e.cancelable) e.preventDefault();
@@ -202,9 +245,9 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
       const len = Math.hypot(dx, dy);
       let visX = current.x;
       let visY = current.y;
-      if (len > maxRadius) {
-        visX = origin.x + (dx / len) * maxRadius;
-        visY = origin.y + (dy / len) * maxRadius;
+      if (len > activeRadius) {
+        visX = origin.x + (dx / len) * activeRadius;
+        visY = origin.y + (dy / len) * activeRadius;
       }
       moveVisuals(visX - rect.left, visY - rect.top);
       if (e.cancelable) e.preventDefault();
@@ -238,7 +281,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     const dx = current.x - origin.x;
     const dy = current.y - origin.y;
     // dy positive down = +Z; we keep that mapping for world.
-    const rawMag = Math.hypot(dx, dy) / maxRadius;
+    const rawMag = Math.hypot(dx, dy) / activeRadius;
     const clampedMag = Math.min(1, rawMag);
     const len = Math.hypot(dx, dy);
     if (len > 1e-6) {
@@ -264,6 +307,7 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
   globalThis.window?.addEventListener?.("blur", clearActive);
   globalThis.document?.addEventListener?.("visibilitychange", onVisibilityChange);
   globalThis.window?.addEventListener?.("resize", onResize);
+  globalThis.window?.visualViewport?.addEventListener?.("resize", onResize);
   showRestVisuals();
 
   function getIntent() {
@@ -330,7 +374,8 @@ export function createTouchMovement(appElement, moveCfg, inputCfg) {
     globalThis.window?.removeEventListener?.("blur", clearActive);
     globalThis.document?.removeEventListener?.("visibilitychange", onVisibilityChange);
     globalThis.window?.removeEventListener?.("resize", onResize);
+    globalThis.window?.visualViewport?.removeEventListener?.("resize", onResize);
   }
 
-  return { getIntent, requestJump, consumeJump, consumeDodge, consumeAttack, simulateGesture, simulateHold, destroy, clear: clearActive, setEnabled, isEnabled, _debug: () => ({ hasActive, nx, ny, magnitude, band, jumpPending, dodgePending, attackPending, attackHeld, swipe, enabled }) };
+  return { getIntent, requestJump, consumeJump, consumeDodge, consumeAttack, simulateGesture, simulateHold, destroy, clear: clearActive, setEnabled, isEnabled, _debug: () => ({ hasActive, nx, ny, magnitude, band, jumpPending, dodgePending, attackPending, attackHeld, swipe, enabled, layout: layout(), origin: { ...origin }, activeRadius }) };
 }

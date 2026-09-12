@@ -7,6 +7,7 @@ import { createBasePieceVisual } from './basePieceVisual.js';
 import { createCraftingStations } from './craftingStations.js';
 import { createCampDefenses } from './campDefenses.js';
 
+const NEARBY_GARDEN_CONFIG = { reach:3.2, heightReach:2.2, screenWeight:.25, behindPenalty:1 };
 const REASONS={
   'outside-clearing':'Aim inside the marked clearing.', 'player-overlap':'Leave room around your feet.',
   'keep-path-clear':'Keep Camp objects and paths clear.', 'structure-overlap':'Another piece is in the way.',
@@ -153,31 +154,41 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
     const topHeight=record.pos.y+piece.size[1],anchorPos=Object.freeze({x:record.pos.x,y:topHeight,z:record.pos.z});
     return Object.freeze({id:record.id,buildId:record.id,anchorPos,yaw:Number.isFinite(record.yaw)?record.yaw:0,topHeight});
   }
-  function getNearbyGardenInteraction(pos){
-    let nearest=null,distance=3.2;
+  function getNearbyGardenInteraction(pos,isVisible){
+    let nearest=null,score=Infinity;
+    camera.updateMatrixWorld();
     for(const id of instances.keys()){
       const bed=getWildkinBed(id),garden=getBerryGarden(id),anchor=bed??garden;
       if(!anchor)continue;
       const d=Math.hypot(pos.x-anchor.anchorPos.x,pos.z-anchor.anchorPos.z);
-      if(d<=distance){
-        distance=d;
+      if(d>NEARBY_GARDEN_CONFIG.reach||Math.abs(pos.y-anchor.topHeight)>NEARBY_GARDEN_CONFIG.heightReach)continue;
+      // A physically near plot behind the camera must not steal a visible bed.
+      // Use the same care/garden action height as its world cue, then favor the
+      // camera-facing side gently over tiny differences in walking distance.
+      point.set(anchor.anchorPos.x,anchor.topHeight+(bed?1.15:1.2),anchor.anchorPos.z).project(camera);
+      if(point.z < -1||point.z > 1||Math.abs(point.x)>1||Math.abs(point.y)>1)continue;
+      const behind=(anchor.anchorPos.x-pos.x)*camera.matrixWorld.elements[8]+(anchor.anchorPos.z-pos.z)*camera.matrixWorld.elements[10]>0;
+      const candidateScore=d+Math.hypot(point.x,point.y)*NEARBY_GARDEN_CONFIG.screenWeight+(behind?NEARBY_GARDEN_CONFIG.behindPenalty:0);
+      if(candidateScore<score){
         const isBed=!!bed;
-        nearest=Object.freeze({id:anchor.buildId,type:isBed?'wildkinBed':'berryGarden',label:isBed?'Nursery':'Berry garden',distance:d,pos:Object.freeze({...anchor.anchorPos}),anchorPos:Object.freeze({...anchor.anchorPos}),yaw:anchor.yaw,topHeight:anchor.topHeight});
+        const candidate=Object.freeze({id:anchor.buildId,type:isBed?'wildkinBed':'berryGarden',label:isBed?'Nursery':'Berry garden',distance:d,pos:Object.freeze({...anchor.anchorPos}),anchorPos:Object.freeze({...anchor.anchorPos}),yaw:anchor.yaw,topHeight:anchor.topHeight});
+        if(isVisible(candidate)){score=candidateScore;nearest=candidate;}
       }
     }
     return nearest;
   }
   sync();return {open,close,isBlocking:()=>active,getModel,onAction,openStation:stations.open,isStationOpen:stations.isOpen,
     update(dt,{hidden=false,paused=false,reducedMotion=false}={}){suppressed=hidden;const camp=campActive();root.visible=camp;clearing.visible=camp&&active;defenses.setVisible(camp);edgeMaterial.opacity=.85;if(lastCamp!==camp){lastCamp=camp;for(const instance of instances.values())for(const collider of instance.colliders)collider.setEnabled(camp);if(!camp)close();}poll+=dt;if(poll>.3){poll=0;const care=progress.getCampCare?.()??null,crop=progress.getCampCrop?.()??null,harvest=crop?progress.getCampCropHarvest?.()??null:null;sync(care,crop,harvest);if(active)refreshPreview();}stations.update(dt,{hidden,paused,reducedMotion});},
-    getNearbyInteraction(pos){
-      const station=stations.getNearbyInteraction(pos);if(station)return station;
+    getNearbyInteraction(pos,isVisible=()=>true){
+      const station=stations.getNearbyInteraction(pos,isVisible);if(station)return station;
       if(!campActive())return null;
       const base=progress.getBaseState(),anchor=defenses.getConsoleAnchor();
       if(!base.layout.yardExpanded&&anchor&&Math.hypot(pos.x-anchor.x,pos.z-anchor.z)<=2.5&&Math.abs(pos.y-anchor.y)<=2.2){
         const count=base.layout.clearedDebrisIds.length,ready=count===CAMP_DEBRIS_IDS.length;
-        return {id:'camp-yard-console',type:'campYard',label:ready?'Secure yard':`Clear yard · ${count}/${CAMP_DEBRIS_IDS.length}`,cost:ready?CAMP_YARD_COST:null,detail:ready?'Spend these materials to extend the emergency barricades.':'Clear the three bundles at amber survey stakes beyond the opening.'};
+        const candidate={id:'camp-yard-console',type:'campYard',label:ready?'Secure yard':`Clear yard · ${count}/${CAMP_DEBRIS_IDS.length}`,cost:ready?CAMP_YARD_COST:null,detail:ready?'Spend these materials to extend the emergency barricades.':'Clear the three bundles at amber survey stakes beyond the opening.'};
+        if(isVisible(candidate))return candidate;
       }
-      return getNearbyGardenInteraction(pos);
+      return getNearbyGardenInteraction(pos,isVisible);
     },
     getCampYardAnchor:()=>defenses.getConsoleAnchor(),
     getWildkinBed,

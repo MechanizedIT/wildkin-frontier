@@ -69,10 +69,10 @@ export function createCraftingStations({app,camera,progress,getPlayerState,isCam
     },
     open(id){const entry=stations.get(id);if(!entry||!isCamp()||distance(entry)>REACH)return false;selectedId=id;panel.open();onBlockingChanged();return true;},
     close(){panel.close();},isOpen:()=>panel.isOpen(),
-    getNearbyInteraction(pos){
+    getNearbyInteraction(pos,isVisible=()=>true){
       let nearest=null,best=REACH;
       if(!isCamp())return null;
-      for(const [id,entry]of stations){const d=Math.hypot(pos.x-entry.record.pos.x,pos.z-entry.record.pos.z);if(d<best){best=d;nearest={type:'campWorkbench',id,label:BASE_PIECE_BY_ID[entry.record.type].name};}}
+      for(const [id,entry]of stations){const d=Math.hypot(pos.x-entry.record.pos.x,pos.z-entry.record.pos.z),candidate={type:'campWorkbench',id,label:BASE_PIECE_BY_ID[entry.record.type].name};if(d<best&&isVisible(candidate)){best=d;nearest=candidate;}}
       return nearest;
     },
     update(dt,{hidden=false,paused:pause=false,reducedMotion=false}={}){

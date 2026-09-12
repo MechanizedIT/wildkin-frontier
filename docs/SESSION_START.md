@@ -9,7 +9,7 @@
 
 ## Current result
 
-Living Frontier now has physical nursery care, berry gardening and the first ordinary pairing/young loop. Two opposite-sex Mosslings produce one exact inherited child, which grows at the bed and becomes an owned companion through Welcome. Native failure/retry/reload, portrait Welcome, lineage/selection/follow and portable Welcome passed. R2 scored8.5;1,077tests plus verify/build/validation/ZIP PASS;44.03MB/20.51MB. See `art/reviews/living-frontier-f7a/receipt.md`. Chris woke and prioritized mobile/casual-first and portrait; see `MOBILE_IDENTITY.md` for Honeycomb findings. **Next M1 simplifies portrait camera/controls/HUD. Continue the active goal until Chris asks to stop.** Richer geography, general climbing/swimming, guided research and alternate reproduction remain unfinished.
+Living Frontier now has streamed terrain/forage/wildlife, a personal atlas, individual Mosslings, physical nursery/garden care and ordinary pairing/young growth. M1 adds portrait-primary camera, fixed stick, compact HUD/tool belt and reachable world actions. R2 scored9.0;1,092tests plus verify/build/validation/ZIP PASS;44.05MB/20.52MB. See `art/reviews/living-frontier-m1/receipt.md`. Chris prioritized mobile/casual-first and portrait; `MOBILE_IDENTITY.md` records Honeycomb findings. **Next F2C improves sparse northbound habitat scenery using admitted assets and bounded residency. Continue the active goal until Chris asks to stop.** Richer geography, climbing/swimming, modular anatomy/eyes, guided research, alternate reproduction and DNA sharing remain unfinished.
 
 ## Inherited restart checkpoint
 

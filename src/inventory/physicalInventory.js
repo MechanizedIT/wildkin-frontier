@@ -58,13 +58,14 @@ export function createPhysicalInventory({ app, progress, registry, getPlayerStat
   return {
     open, close:panel.close, isOpen:panel.isOpen, canAccess, getCraftSourceId,
     openObject(id) { return open(id === pod?.id ? POD_LOCKER_ID : id); },
-    getNearbyInteraction(pos) {
+    getNearbyInteraction(pos, isVisible = () => true) {
       if (!isCamp()) return null;
       const candidates=progress.getInventoryState().containers.map(c=>({container:c,object:record(c.id)})).filter(({object})=>object);
       let best=null,distance=STORAGE_REACH;
       for(const {container,object} of candidates) {
         const d=Math.hypot(pos.x-object.pos.x,pos.z-object.pos.z);
-        if(d<=distance && canAccess(container.id)){distance=d;best={type:'storage',id:object.id,label:container.label};}
+        const candidate={type:'storage',id:object.id,label:container.label};
+        if(d<=distance && canAccess(container.id) && isVisible(candidate)){distance=d;best=candidate;}
       }
       return best;
     },

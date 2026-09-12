@@ -1,10 +1,10 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: M1 portrait controls and camera.**
+Updated September 12, 2026. **Active goal-mode development: F2C habitat scenery and northbound route.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
-**Latest owner steering after waking:** mobile/casual first, portrait playable with simple intuitive controls. Finish the current F7A transaction, then M1 portrait controls/camera/HUD before deeper research menus. This replaces the earlier PC/web-first/landscape-first priority; danger and longer exploration remain. Competitive findings and proposed identity: `MOBILE_IDENTITY.md`.
+**Latest owner steering after waking:** mobile/casual first, portrait playable with simple intuitive controls. F7A and M1 portrait controls/camera/HUD are now complete; F2C scenery is next. This replaces the earlier PC/web-first/landscape-first priority; danger and longer exploration remain. Competitive findings and proposed identity: `MOBILE_IDENTITY.md`.
 
 ## Completed foundation: F1 terrain and recipe foundations
 
@@ -97,7 +97,7 @@ F6B selected R2 at8.6/10 PASS after R1's7.7. Native planting, natural growth, fa
 
 F7A selected R2 at8.5/10 after R1's7.8HOLD. Native Pair/failure/retry, natural120second growth, failed Welcome/reload, portrait Welcome, lineage roster/selection and mature release/follow passed. Young scales70/85/100% of ordinary adult size; existing V3 anatomy/Idle retained.1,077/1,077 tests and verify/build/validation/ZIP PASS;44.03MB unpacked/20.51MB ZIP. Exact receipt: `art/reviews/living-frontier-f7a/receipt.md`. One-nursery reservation also blocks care at a different bed to prevent Welcome overwriting paid care.
 
-## Selected next slice: M1 portrait controls and camera
+## Completed foundation: M1 portrait controls and camera
 
 - Follow Chris's new mobile/casual-first steering. Make portrait the primary comfortable play layout while preserving keyboard and landscape. Capture actual portrait Camp/travel, author a feasible target, and use up to three reviewed visual passes. See `MOBILE_IDENTITY.md` for competitive positioning and limits.
 - Reduce the narrow HUD to compact status/map, equipped tool/Pack, one movement control, one primary nearby action and compact traversal/escape controls. Keep existing backend action owners and separate held Attack from click interaction; do not turn a stale interaction gesture into an attack.
@@ -105,11 +105,21 @@ F7A selected R2 at8.5/10 after R1's7.8HOLD. Native Pair/failure/retry, natural12
 - Put the portrait primary action within thumb reach with a clear world target cue. Select physically reachable, visible useful targets consistently so a garden behind the player does not suppress a bed ahead. Preserve range, line-of-sight, disabled states, modal/Author cancellation and save transactions across Camp, forage/taming, gates and storage.
 - One writer per input/camera/HUD file. Root owns integration, target/review, native portrait actions/travel and landscape regression; workers use focused pointer/camera/selection checks. Emulation is not physical-phone comfort/performance proof. No new deep menu, dependency or combat/progression expansion in this slice.
 
+M1 selects R2 at9.0/10 after R1's8.8. Portrait now uses a stable42° camera, fixed left stick, compact status/map and tool/Pack controls, a real selectable tool belt, and a reachable contextual primary with a world cue. Disabled nursery/garden status leaves ordinary tool actions available. Visible candidates fall through blocked/offscreen priority targets; an eight-entry cache bounds target geometry and10Hz LOS checks. Feed/Plant/equip/Build/Atlas/Auto Harvest/Jump and portable landscape/portrait Feed passed.1,092/1,092 tests and verify/build/validation/ZIP PASS;44.05MB unpacked/20.52MB ZIP. Exact proof and fixture limits: `art/reviews/living-frontier-m1/receipt.md`.
+
+## Selected next slice: F2C habitat scenery and northbound route
+
+- Improve the sparse generated landscape now that the creature-life loop and portrait controls are usable. Existing terrain already provides habitat blends, but every chunk uses the same low groundcover; make the northbound route into visibly distinct Verge and Fen surroundings with a coherent transition.
+- Reuse admitted canopy, reed, lily, stone and mushroom assets in a small deterministic scenery recipe. Frame the existing forage, Mosslings and terrace with recognizable scenery. This is scenery/route readability, not a new terrain-height system, water simulation, secret reward or expanded save schema.
+- Keep one chunk lifecycle and shared terrain sampling. Start with a deliberate budget of up to18 nearby props plus one silhouette per outer resident chunk, maximum34 live props; measure actual draws/triangles and reduce if needed. No new dependency or model generation is required merely to add variety.
+- Keep Camp, forage access, creature clearing, terrace slope and fall-gap paths clear. Decorations that visually imply a solid obstacle need deliberate placement or an existing collision path; do not scatter intangible tree trunks across walking routes.
+- Capture actual portrait route baseline and a feasible target before production. Separate recipe/render worker ownership and independent visual judge, about three passes. Root owns integration, a physical Camp→Mossling→terrace route check, budget/disposal proof, aggregate and portable checkpoint. Continue the active goal afterward.
+
 Streamed terrain and ecology; personal atlas; individual modular Wildkin; slow climbing, swimming and falling risk; immersive Camp building/crafting/food/habitats; field genetics, breeding, growth, cloning and DNA recipe exchange. Rules remain producer choices to validate in play. Mobile/casual first with portrait priority and landscape/desktop support; offline Three.js/Rapier and local main remain. No backwards compatibility requirement. See LIVING_FRONTIER_PLAN for sequence and evidence gates.
 
 ## Last verified playable checkpoint
 
-Current checkpoint: `art/reviews/living-frontier-f7a/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
+Current checkpoint: `art/reviews/living-frontier-m1/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
 
 Initial working tree includes unrelated Verdant composer/test changes and untracked art/tool experiments. Preserve them; stage only owned files. Emberfall ravine and Tidefin V3 remain unshipped candidates with documented defects; they are not the current slice.
 

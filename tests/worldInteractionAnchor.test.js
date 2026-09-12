@@ -65,6 +65,8 @@ test('opaque scenery hides the anchor; faded scenery and the object itself do no
   const point=anchor.getPoint({id:'chest',type:'lootChest'});
   assert.equal(anchor.isOccluded(camera,point,.1),true);
   wall.material.opacity=.25;assert.equal(anchor.isOccluded(camera,point,.1),false);
+  wall.material.opacity=1;wall.removeFromParent();
+  assert.equal(anchor.isOccluded(camera,point,.1),false,'a retired cached occluder cannot keep blocking LOS');
 });
 
 test('nested prop metadata cannot admit the selected storage body before its root exclusion', () => {
@@ -139,4 +141,86 @@ test('bounds projection rejects near-plane/offscreen envelopes without changing 
   assert.ok(projectInteractionBounds(box,new THREE.Matrix4(),camera,844,390));
   assert.equal(projectInteractionBounds(box,new THREE.Matrix4().makeTranslation(0,0,4.5),camera,844,390),null);
   assert.equal(projectInteractionBounds(box,new THREE.Matrix4().makeTranslation(100,0,0),camera,844,390),null);
+});
+
+test('candidate presentation rejects blocked LOS and permits a visible nearby fallback', () => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(60, 1, .1, 60);
+  camera.position.set(0, 1, 8); camera.lookAt(0, 1, 0);
+  const wall = new THREE.Mesh(new THREE.BoxGeometry(2, 3, .4), new THREE.MeshBasicMaterial());
+  wall.position.set(0, 1.5, 4); wall.userData.propId = 'wall'; scene.add(wall); scene.updateMatrixWorld(true);
+  const records = new Map([
+    ['blocked', { id: 'blocked', pos: { x: 0, y: 0, z: 0 } }],
+    ['visible', { id: 'visible', pos: { x: 3, y: 0, z: 0 } }],
+  ]);
+  const anchor = createWorldInteractionAnchor({ scene, registry: { getLootChestById: id => records.get(id) } });
+  assert.equal(anchor.canPresent({ type: 'lootChest', id: 'blocked' }, camera), false);
+  assert.equal(anchor.canPresent({ type: 'lootChest', id: 'visible' }, camera), true);
+});
+
+test('candidate switches reuse cached scene and LOS work, with eight-target eviction', () => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(60, 1, .1, 60);
+  camera.position.set(0, 1, 8); camera.lookAt(0, 1, 0);
+  const wall = new THREE.Mesh(new THREE.BoxGeometry(2, 3, .4), new THREE.MeshBasicMaterial());
+  wall.position.set(0, 1.5, 4); wall.userData.propId = 'wall'; scene.add(wall); scene.updateMatrixWorld(true);
+  const records = new Map(Array.from({ length: 9 }, (_, i) => [`c${i}`, { id: `c${i}`, pos: { x: i ? 2.5 : 0, y: 0, z: 0 } }]));
+  const originalTraverse = scene.traverse.bind(scene); let traversals = 0;
+  scene.traverse = callback => { traversals++; return originalTraverse(callback); };
+  const anchor = createWorldInteractionAnchor({ scene, registry: { getLootChestById: id => records.get(id) } });
+  const first = { type: 'lootChest', id: 'c0' }, second = { type: 'lootChest', id: 'c1' };
+  assert.equal(anchor.canPresent(first, camera), false);
+  anchor.canPresent(second, camera);
+  anchor.canPresent(first, camera);
+  assert.equal(traversals, 2, 'switching back reuses the target snapshot');
+  wall.material.opacity = .2;
+  assert.equal(anchor.canPresent(first, camera), false, 'same-frame selection and display share the LOS result');
+  const point = anchor.getPoint(first);
+  assert.equal(anchor.isOccluded(camera, point, .11), false, 'the target refreshes after the bounded 10Hz interval');
+  for (let i = 1; i < 9; i++) anchor.canPresent({ type: 'lootChest', id: `c${i}` }, camera);
+  anchor.canPresent(first, camera);
+  assert.equal(traversals, 10, 'the ninth distinct target evicts the least-recently-used snapshot');
+});
+
+test('wall time and render dt share one LOS timebase', () => {
+  const performanceDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'performance');
+  let now = 0;
+  Object.defineProperty(globalThis, 'performance', { configurable: true, value: { now: () => now } });
+  try {
+    const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(60, 1, .1, 60);
+    camera.position.set(0, 1, 8); camera.lookAt(0, 1, 0);
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(2, 3, .4), new THREE.MeshBasicMaterial());
+    wall.position.set(0, 1.5, 4); wall.userData.propId = 'wall'; scene.add(wall); scene.updateMatrixWorld(true);
+    const record = { id: 'chest', pos: { x: 0, y: 0, z: 0 } }, info = { type: 'lootChest', id: 'chest' };
+    const anchor = createWorldInteractionAnchor({ scene, registry: { getLootChestById: () => record } });
+    assert.equal(anchor.canPresent(info, camera), false);
+    wall.material.opacity = .2;
+    now = 60;
+    assert.equal(anchor.canPresent(info, camera), false);
+    const point = anchor.getPoint(info);
+    assert.equal(anchor.isOccluded(camera, point, .06), true, 'the same 60ms is not counted once from each clock');
+    now = 100;
+    assert.equal(anchor.isOccluded(camera, point, .04), false, 'LOS refreshes after 100ms of total elapsed time');
+  } finally {
+    if (performanceDescriptor) Object.defineProperty(globalThis, 'performance', performanceDescriptor);
+    else delete globalThis.performance;
+  }
+});
+
+test('cached targets exclude their own geometry and recover after retirement and recreation', () => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(60, 1, .1, 60);
+  camera.position.set(0, 1, 8); camera.lookAt(0, 1, 0);
+  let record = { id: 'pod', pos: { x: 0, y: 0, z: 0 } };
+  const makeRoot = x => {
+    const root = new THREE.Group(); root.name = 'pod'; root.position.x = x;
+    const body = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshBasicMaterial());
+    body.position.y = 1; body.userData.propId = 'pod-body'; root.add(body); scene.add(root); return root;
+  };
+  const firstRoot = makeRoot(0); scene.updateMatrixWorld(true);
+  const info = { type: 'storage', id: 'pod' };
+  const anchor = createWorldInteractionAnchor({ scene, registry: { getAllPois: () => record ? [record] : [] } });
+  assert.equal(anchor.canPresent(info, camera), true, 'selected body is not its own occluder');
+  firstRoot.removeFromParent(); record = null;
+  assert.equal(anchor.getPoint(info), null, 'retired target is invalidated');
+  record = { id: 'pod', pos: { x: 2, y: 0, z: 0 } }; makeRoot(2); scene.updateMatrixWorld(true);
+  assert.equal(anchor.getPoint(info).x, 2, 'replacement with the same ID gets a fresh record and root');
+  assert.equal(anchor.canPresent(info, camera), true);
 });

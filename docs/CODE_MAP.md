@@ -6,6 +6,7 @@ Use this lookup after [SESSION_START.md](SESSION_START.md). Paths below were che
 
 | Area / owner | Entry points to inspect | Focused tests under `tests/` |
 | --- | --- | --- |
+| Portrait controls / target selection | `styles/portrait.css`; `cameraFollow`, `touchMovement`, `betaShell`, `contextualInteraction`, `contextualGesture`, `worldInteractionAnchor`; nearby base/storage/station/priority owners | `cameraFollow.test.js`, `portraitTouchMovement.test.js`, `contextualGesture.test.js`, `worldInteractionAnchor.test.js`, `interactionPriority.test.js`, `baseRuntime.test.js` |
 | Individual body-tone expression | `src/creatures/wildkinAppearance.js`; wild/follower constructors apply saved genomes; V3 eyes remain unchanged | `wildkinAppearance.test.js`, `externalModelRuntime.test.js` |
 | Frontier terrace and falling risk | `src/world/frontierLandform.js`, `frontierLandformVisual.js`, `frontierTerrain.js`, `frontierChunkRuntime.js`; `src/player/fallImpact.js`, controller landing event → existing combat health | `frontierTerrain.test.js`, `frontierLandformVisual.test.js`, `fallImpact.test.js`, `frontierIntegration.test.js` |
 | Boot, composition, single frame/fixed update | `src/boot.js`, `src/main.js`; beta wiring `src/game/createBetaGame.js` | `betaRuntime.test.js`, `interactionPriority.test.js` |

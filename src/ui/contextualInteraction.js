@@ -3,6 +3,7 @@
 
 import { projectInteractionPoint, placeInteractionLabel } from "./worldInteractionAnchor.js";
 import { iconMarkup } from "./itemIcons.js";
+import { createContextualGesture } from './contextualGesture.js';
 
 const interactionIcon = (info) => {
   if (["portalGate", "gate", "majorWaypoint", "extractionBeacon"].includes(info?.type)) return "map";
@@ -19,7 +20,9 @@ export function createContextualInteraction(opts = {}) {
   const onActivate = opts.onActivate ?? (()=>{});
   let current = null; // {id, type, label}
   let buttonEl = null;
-  let secondaryEl = null, secondaryPressed = null;
+  let secondaryEl = null;
+  const primaryGesture = createContextualGesture(), secondaryGesture = createContextualGesture();
+  let markerEl = null, presented = false, portraitPresented = false;
   let presentationKey = "";
   let leaderEl = null;
   let safeEl = null;
@@ -29,7 +32,17 @@ export function createContextualInteraction(opts = {}) {
   let obstacles = [], layoutTimer = 1;
   let bodyRectangle = null;
   let lastPlacement = null;
-  const hide = () => { if (buttonEl) buttonEl.hidden = true; if (secondaryEl) secondaryEl.hidden = true; if (leaderEl) leaderEl.hidden = true; };
+  let residency = opts.getResidency?.();
+  function setPresented(value, portrait = false) {
+    presented = value;
+    const next = value && portrait;
+    if (next !== portraitPresented) { portraitPresented = next; opts.onPortraitVisibilityChanged?.(next); }
+  }
+  const hide = () => {
+    if (buttonEl) buttonEl.hidden = true; if (secondaryEl) secondaryEl.hidden = true;
+    if (leaderEl) leaderEl.hidden = true; if (markerEl) markerEl.hidden = true;
+    pressedTarget = null; primaryGesture.cancel(); secondaryGesture.cancel(); setPresented(false);
+  };
 
   if (app) {
     buttonEl = document.createElement("button");
@@ -40,31 +53,36 @@ export function createContextualInteraction(opts = {}) {
     secondaryEl = document.createElement('button');
     secondaryEl.id = 'contextual-secondary-action-button'; secondaryEl.type = 'button'; secondaryEl.hidden = true;
     app.appendChild(secondaryEl);
-    secondaryEl.addEventListener('pointerdown', e => { e.stopPropagation(); secondaryPressed = current?.id; });
+    secondaryEl.addEventListener('pointerdown', e => { e.stopPropagation(); secondaryGesture.begin(current, true); });
     secondaryEl.addEventListener('pointerup', e => e.stopPropagation());
-    secondaryEl.addEventListener('pointercancel', () => { secondaryPressed = null; });
+    secondaryEl.addEventListener('pointercancel', () => secondaryGesture.cancel());
     secondaryEl.addEventListener('click', e => {
       e.stopPropagation();
-      const same = !secondaryPressed || secondaryPressed === current?.id; secondaryPressed = null;
-      if (same && current?.secondary) onActivate({ ...current, action: current.secondary.action });
+      if (secondaryGesture.complete(current, { secondary: true, keyboard: e.detail === 0, visible: presented })) onActivate({ ...current, action: current.secondary.action });
     });
     leaderEl = document.createElement('i');
     leaderEl.className = 'contextual-action-leader'; leaderEl.hidden = true;
     safeEl = document.createElement('i'); safeEl.className = 'contextual-action-safe-area';
     app.append(leaderEl, safeEl);
+    markerEl = document.createElement('i'); markerEl.className = 'contextual-target-marker'; markerEl.hidden = true;
+    markerEl.setAttribute('aria-hidden', 'true'); app.appendChild(markerEl);
     // A native click handles touch and mouse exactly once. Keep world gestures
     // from starting underneath this control without globally blocking movement.
-    buttonEl.addEventListener('pointerdown', e => { e.stopPropagation(); pressedTarget = current; });
+    buttonEl.addEventListener('pointerdown', e => { e.stopPropagation(); pressedTarget = current; primaryGesture.begin(current); });
     buttonEl.addEventListener('pointerup', e => e.stopPropagation());
-    buttonEl.addEventListener('pointercancel', () => { pressedTarget = null; });
+    buttonEl.addEventListener('pointercancel', () => { pressedTarget = null; primaryGesture.cancel(); });
     buttonEl.addEventListener('pointerleave', e => { if (!e.buttons) pressedTarget = null; });
-    window.addEventListener('pointerup', e => { if (!buttonEl.contains(e.target)) pressedTarget = null; });
-    window.addEventListener('blur', () => { pressedTarget = null; });
+    window.addEventListener('pointerup', e => {
+      if (!buttonEl.contains(e.target)) { pressedTarget = null; primaryGesture.cancel(); }
+      if (!secondaryEl.contains(e.target)) secondaryGesture.cancel();
+    });
+    window.addEventListener('blur', hide);
+    window.addEventListener('resize', hide);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) hide(); });
     buttonEl.addEventListener('click', e => {
       e.stopPropagation();
-      const sameTarget = !pressedTarget || (pressedTarget.id === current?.id && pressedTarget.type === current?.type);
       pressedTarget = null;
-      if (current && !current.disabled && sameTarget) onActivate(current);
+      if (primaryGesture.complete(current, { keyboard: e.detail === 0, visible: presented })) onActivate(current);
     });
   }
 
@@ -94,6 +112,7 @@ export function createContextualInteraction(opts = {}) {
       buttonEl.removeAttribute("aria-label");
     } else {
       buttonEl.textContent = "";
+      markerEl.innerHTML = iconMarkup(interactionIcon(info), { size: 22, label: '' });
       // This is only populated for a real nearby interaction.  Its icon
       // distinguishes a usable cache/gate/companion from ordinary scenery
       // without turning the world into a field of permanent labels.
@@ -134,6 +153,25 @@ export function createContextualInteraction(opts = {}) {
     if (!point || opts.anchor.isOccluded(opts.camera, anchor, dt)) { hide(); return; }
     buttonEl.hidden = false;
     secondaryEl.hidden = !current.secondary;
+    const portrait = frame.width < frame.height;
+    const statusOnly = portrait && current.disabled === true;
+    buttonEl.classList.toggle('portrait-context-status', statusOnly);
+    setPresented(true, portrait && !statusOnly);
+    if (portrait) {
+      // Fixed thumb controls share the existing transaction owner. The small
+      // world marker identifies the live target without laying a panel over it.
+      markerEl.hidden = statusOnly; leaderEl.hidden = true;
+      markerEl.style.left = `${point.x}px`; markerEl.style.top = `${point.y}px`;
+      buttonEl.style.left = ''; buttonEl.style.top = '';
+      if (statusOnly) {
+        buttonEl.style.setProperty('--context-x', `${Math.max(8,Math.min(frame.width-116,point.x-54))}px`);
+        buttonEl.style.setProperty('--context-y', `${Math.max(8,point.y-44)}px`);
+      }
+      secondaryEl.style.left = ''; secondaryEl.style.top = '';
+      size = null; lastPlacement = null;
+      return;
+    }
+    markerEl.hidden = true;
     if (!size) size = { width: Math.max(buttonEl.offsetWidth, current.secondary ? secondaryEl.offsetWidth : 0), height: buttonEl.offsetHeight + (current.secondary ? secondaryEl.offsetHeight + 5 : 0) };
     layoutTimer += dt;
     // This only projects eight cached corners; moving body bounds must track
@@ -175,15 +213,15 @@ export function createContextualInteraction(opts = {}) {
   }
 
   function getCurrent() { return current; }
-  function isAvailable() { return !!current && !current.disabled; }
+  function isAvailable() { return presented && !!current && !current.disabled; }
   function activate() {
-    if (current && !current.disabled) onActivate(current);
+    if (isAvailable()) onActivate(current);
   }
 
   // desktop E key handling — caller should call handleKey in global keydown
   function handleKey(e) {
     if (e.key.toLowerCase() !== "e") return false;
-    if (!current || current.disabled) return false;
+    if (!isAvailable()) return false;
     // don't trigger if focused in input
     const tag = document.activeElement?.tagName?.toLowerCase();
     if (tag === "input" || tag === "textarea" || tag === "select" || document.activeElement?.isContentEditable) return false;
@@ -192,5 +230,11 @@ export function createContextualInteraction(opts = {}) {
     return true;
   }
 
-  return { update, setInteraction, getCurrent, isAvailable, activate, handleKey, element: buttonEl };
+  const canPresent = info => {
+    const next = opts.getResidency?.();
+    if (next !== residency) { residency = next; invalidate(); }
+    return !!info && opts.anchor.canPresent(info, opts.camera);
+  };
+  function invalidate() { opts.anchor.invalidate(); hide(); }
+  return { update, setInteraction, getCurrent, isAvailable, activate, handleKey, canPresent, invalidate, element: buttonEl };
 }

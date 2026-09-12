@@ -1,0 +1,170 @@
+{
+  "checkpoint": "M1 portrait controls",
+  "hashes": [
+    {
+      "path": "index.html",
+      "sha256": "65d48befa7eb7f95c27c9edb76376407d763ef67e685c1e9fd41be3a01a660ed",
+      "bytes": 2957
+    },
+    {
+      "path": "styles/portrait.css",
+      "sha256": "d214e389506fb5806c24a81a3e28a2fd125d61ca51989d768d9757f1d2651764",
+      "bytes": 7507
+    },
+    {
+      "path": "src/base/baseSystem.js",
+      "sha256": "c7a7039e105377bfb5fa5db134d6a2edeedda09d61d30dd298d857dbdad91340",
+      "bytes": 18860
+    },
+    {
+      "path": "src/base/craftingStations.js",
+      "sha256": "8b8e00e7b88e90c28df8bd6bbcc77c5fcc19d63fecdd5e6c11a9b6bff25f4b7f",
+      "bytes": 6577
+    },
+    {
+      "path": "src/camera/cameraFollow.js",
+      "sha256": "3927340a06d9ddcb06c833a172e6a78765a4ae44f7d251d27478085535d54b55",
+      "bytes": 5853
+    },
+    {
+      "path": "src/game/config.js",
+      "sha256": "4d05463bf36eae34da12e4c3861de72fbd6d6ffe2cfba28ebacf1953baaf74e0",
+      "bytes": 4495
+    },
+    {
+      "path": "src/game/createBetaGame.js",
+      "sha256": "3a8a7ec2701aaa5b6cb78caa1273e928e1257fc670b6ab9c7c851682a8b696de",
+      "bytes": 28516
+    },
+    {
+      "path": "src/game/interactionPriority.js",
+      "sha256": "64f5baf594c932bd9fcd11f69d7d76363c846b29e9c5b990d667c8ca25b421f9",
+      "bytes": 448
+    },
+    {
+      "path": "src/input/touchMovement.js",
+      "sha256": "46b4bab3146d7cc42f55385546e7b4aea5f1c1135f6e3eaef5ba0652694b3f74",
+      "bytes": 14362
+    },
+    {
+      "path": "src/inventory/physicalInventory.js",
+      "sha256": "83fc997ae75202756b4b707ad35a190672b982a5706688c12782b952068790bf",
+      "bytes": 4358
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "fdff1a7571d0460df2572054850c68c32c943773409e0a40b627a380c3856568",
+      "bytes": 67222
+    },
+    {
+      "path": "src/ui/betaShell.js",
+      "sha256": "1a5be314a3609c39acf6b2d7d49aebb55eea8a035ffa3d92c624d50ae4a27a79",
+      "bytes": 34671
+    },
+    {
+      "path": "src/ui/contextualInteraction.js",
+      "sha256": "97a2e6a17bb56edd8ffbe82ed25496a1fa7bd548731ab8bd217037b190b02f25",
+      "bytes": 14078
+    },
+    {
+      "path": "src/ui/contextualGesture.js",
+      "sha256": "eb287400464168e5f75eaffb0f162eb0c5bb28545f86a9232626e68305c17294",
+      "bytes": 727
+    },
+    {
+      "path": "src/ui/worldInteractionAnchor.js",
+      "sha256": "e73cbfbf8f0412042f72abf406cbcc4da153ff578beb7ccba72652c8b3cfdd04",
+      "bytes": 13652
+    },
+    {
+      "path": "tests/baseRuntime.test.js",
+      "sha256": "d43067d5c1ca62d650aa6ff270e1fd72cd0f472e48468f6bf879c42d1b9e13fd",
+      "bytes": 8873
+    },
+    {
+      "path": "tests/interactionPriority.test.js",
+      "sha256": "1e34a00d6a89c2581d6e51f9c2c7f3b7315423b6778e7d99a4f135004fd121fd",
+      "bytes": 1134
+    },
+    {
+      "path": "tests/worldInteractionAnchor.test.js",
+      "sha256": "ebd6d688dad26cc3e4f05a61e1d684b154fe7c8e61c6524f9466e31b3cf5bcf9",
+      "bytes": 17129
+    },
+    {
+      "path": "tests/cameraFollow.test.js",
+      "sha256": "f16b2de489831f2ab40fdc88fd1b3452a325681a04001f82042df9a9832974ae",
+      "bytes": 2899
+    },
+    {
+      "path": "tests/contextualGesture.test.js",
+      "sha256": "ef05a636abb6b96756478e82e0f32e6d94466756950d90585e5d3f6069be4391",
+      "bytes": 1854
+    },
+    {
+      "path": "tests/portraitTouchMovement.test.js",
+      "sha256": "44b8127695faa99e78e3717adad4428f516b02a54479f4b7dac4888d78791581",
+      "bytes": 5840
+    },
+    {
+      "path": "dist/submission.zip",
+      "sha256": "dfa5f6d98cedf3f78878959662aabc6849482dd40579c83c430675eb2a30a0e0",
+      "bytes": 21514904
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/baseline.png",
+      "sha256": "3dd701e6cbdc4d4bde29670edb535f902985134495d34237a0763e0e4eb6f330",
+      "bytes": 428212
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/framing-study.png",
+      "sha256": "7f2c3e5e875ac807dd7ee9a5eb1970c64f2d44cea1257ac31def9b99134d5ef8",
+      "bytes": 419904
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/movement-evidence.json",
+      "sha256": "bcd4b455a70f66f22387bd7c352d2fc1d6daa1ee049be72e9113c4907f382439",
+      "bytes": 1020
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/package-final-gate.png",
+      "sha256": "a279e3968ef310fc1eadc73d53fb0e315cc9de2a08c189fd7f25ad5ff76fdeb8",
+      "bytes": 362567
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/package-landscape.png",
+      "sha256": "87063ce307048a996a3e13dc76b16a7d3201b741affd4c9b76cef354d4c534ce",
+      "bytes": 475566
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/r1-portrait.png",
+      "sha256": "74b09d637b5e83cbdf2e059ed5f03806ca0a9ebb7ce0c875e5b1b6752b047e16",
+      "bytes": 406609
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/r2-package-portrait.png",
+      "sha256": "66e8d5d55ccbb062915135cf2311126f80852206c1733fae28878f4a027d3a54",
+      "bytes": 419684
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/r2-package-tool-belt.png",
+      "sha256": "b45522059227a2054c055db9da25b4e56bad1bbec01935513539ab0b84ebab44",
+      "bytes": 407867
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/r2-small-portrait.png",
+      "sha256": "4d3fbdd78408488b7272c3b5e0f02521990270ee0c577b4ca4da357e105ac0ba",
+      "bytes": 378279
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/receipt.md",
+      "sha256": "b4ed6e260ad42936b809fedf91cf59659fd40c02f1c3c922eee8a5c66510a05a",
+      "bytes": 6029
+    },
+    {
+      "path": "art/reviews/living-frontier-m1/target.png",
+      "sha256": "974a728d977569b686f43d9792cecca0f15c3da20299f39ff834b42f8f38db1e",
+      "bytes": 1594752
+    }
+  ]
+}

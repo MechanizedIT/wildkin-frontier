@@ -54,6 +54,7 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
     assert.equal(gardenPlacement.placed,true,gardenPlacement.reason);
     base.update(.4);
     const bed=base.getWildkinBed('build_nursery');
+    camera.position.set(-2,10,26);camera.lookAt(-2,0,18);camera.updateMatrixWorld();
     assert.equal(bed.buildId,'build_nursery');assert.equal(bed.topHeight,bed.anchorPos.y);assert.equal(bed.topHeight,progress.getBaseState().structures.find(p=>p.id==='build_nursery').pos.y+.55);
     assert.throws(()=>{bed.anchorPos.x=99;},TypeError,'bed anchor is a frozen clone');
     const nursery=base.getNearbyInteraction({...bed.anchorPos});
@@ -64,6 +65,10 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
     assert.throws(()=>{garden.anchorPos.z=99;},TypeError,'garden anchor is a frozen clone');
     const gardenInteraction=base.getNearbyInteraction({...garden.anchorPos});
     assert.equal(gardenInteraction.type,'berryGarden');assert.equal(gardenInteraction.id,'build_berries');assert.equal(gardenInteraction.label,'Berry garden');
+    assert.equal(base.getNearbyInteraction({...garden.anchorPos},info=>info.id!=='build_berries')?.id,'build_nursery','an occluded nearer garden does not suppress the reachable nursery');
+    camera.lookAt(-2,10,36);camera.updateMatrixWorld();
+    assert.equal(base.getNearbyInteraction({...garden.anchorPos}),null,'offscreen furniture cannot become the portrait primary action');
+    camera.lookAt(-2,0,18);camera.updateMatrixWorld();
     const gardenVisual=scene.getObjectByName('build_berries');
     const cropRead=progress.getCampCrop,harvestRead=progress.getCampCropHarvest;
     let crop={plotId:'build_berries',growthSeconds:45};let harvest={bloomTended:false};

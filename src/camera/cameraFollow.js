@@ -10,10 +10,13 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg, { collisi
   const desiredCenter = new THREE.Vector3();
   const orbitDirection = new THREE.Vector3();
   let yaw = 0;
-  let pitch = cfg.pitch ?? Math.atan2(verticalOffset, horizontalDistance);
   const minPitch = cfg.minPitch ?? (20 * Math.PI / 180);
   const maxPitch = cfg.maxPitch ?? (64 * Math.PI / 180);
-  pitch = Math.max(minPitch, Math.min(maxPitch, pitch));
+  const clampPitch = value => Math.max(minPitch, Math.min(maxPitch, value));
+  let portrait = camera.aspect < 1;
+  let landscapePitch = clampPitch(cfg.pitch ?? Math.atan2(verticalOffset, horizontalDistance));
+  let portraitPitch = clampPitch(cfg.portraitPitch ?? landscapePitch);
+  let pitch = portrait ? portraitPitch : landscapePitch;
   let userZoom = 1;
   let collisionDistance = null;
   let requestedDistance = baseDistance;
@@ -25,8 +28,17 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg, { collisi
   function setDesiredCenter() {
     desiredCenter.set(target.position.x, target.position.y + focusHeight, target.position.z);
   }
+  function syncCameraProfile() {
+    const nextPortrait = camera.aspect < 1;
+    if (nextPortrait === portrait) return;
+    if (portrait) portraitPitch = pitch;
+    else landscapePitch = pitch;
+    portrait = nextPortrait;
+    pitch = portrait ? portraitPitch : landscapePitch;
+  }
   function getRequestedDistance() {
-    const distanceScale = userZoom * (camera.aspect > 1 ? (cfg.landscapeZoom ?? 1) : 1);
+    const profileZoom = camera.aspect < 1 ? (cfg.portraitZoom ?? 1) : camera.aspect > 1 ? (cfg.landscapeZoom ?? 1) : 1;
+    const distanceScale = userZoom * profileZoom;
     return baseDistance * distanceScale;
   }
   function setOrbitDirection() {
@@ -72,6 +84,7 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg, { collisi
   }
 
   function update(dt, speed, moveDir) {
+    syncCameraProfile();
     setDesiredCenter();
     const centerLerp = 1 - Math.exp(-(cfg.followLerp ?? 5) * dt);
     smoothedCenter.lerp(desiredCenter, centerLerp);
@@ -79,6 +92,7 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg, { collisi
   }
 
   function snap() {
+    syncCameraProfile();
     setDesiredCenter();
     smoothedCenter.copy(desiredCenter);
     collisionDistance = getRequestedDistance();
@@ -88,11 +102,12 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg, { collisi
   // Called before player physics. It makes camera-relative movement use the
   // exact yaw the player sees this frame, without jumping the follow center.
   function prepareForInput() {
+    syncCameraProfile();
     applyCamera(0, false);
   }
   function orbitBy(yawDelta, pitchDelta = 0) {
     yaw += Number.isFinite(yawDelta) ? yawDelta : 0;
-    if (Number.isFinite(pitchDelta)) pitch = Math.max(minPitch, Math.min(maxPitch, pitch + pitchDelta));
+    if (Number.isFinite(pitchDelta)) pitch = clampPitch(pitch + pitchDelta);
   }
   function getYaw() { return yaw; }
   function getPitch() { return pitch; }
@@ -100,5 +115,5 @@ export function createCameraFollow(camera, target, cfg, baseCameraCfg, { collisi
   function zoomByFactor(factor) { if (Number.isFinite(factor) && factor > 0) setZoom(userZoom * factor); }
   function getZoom() { return userZoom; }
 
-  return { update, snap, prepareForInput, orbitBy, getYaw, getPitch, setZoom, zoomByFactor, getZoom, _debug: () => ({ yaw, pitch, zoom: userZoom, userZoom, requestedDistance, collisionDistance, effectiveDistance, focusRecovery, horizontalDistance, height, center: smoothedCenter.toArray() }) };
+  return { update, snap, prepareForInput, orbitBy, getYaw, getPitch, setZoom, zoomByFactor, getZoom, _debug: () => ({ yaw, pitch, portrait, portraitPitch, landscapePitch, zoom: userZoom, userZoom, requestedDistance, collisionDistance, effectiveDistance, focusRecovery, horizontalDistance, height, center: smoothedCenter.toArray() }) };
 }

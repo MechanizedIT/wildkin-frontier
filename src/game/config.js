@@ -91,11 +91,13 @@ export const CAMERA_CONFIG_FOLLOW = {
   // The fixed focal height/framing lives with the base camera configuration.
   yawSensitivity: 0.008,
   pitch: 32 * Math.PI / 180,
+  portraitPitch: 42 * Math.PI / 180,
   minPitch: 20 * Math.PI / 180,
   maxPitch: 64 * Math.PI / 180,
   pitchSensitivity: 0.006,
   // More readable character size in short phone/browser landscape viewports.
   landscapeZoom: .85,
+  portraitZoom: 1.2,
   minZoom: .72,
   maxZoom: 1.3,
   wheelZoomSensitivity: .0015,

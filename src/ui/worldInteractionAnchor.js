@@ -51,40 +51,54 @@ export function projectInteractionPoint(point, camera, width, height, output = {
 export function createWorldInteractionAnchor({ scene, registry, creatures, getBase } = {}) {
   const box = new THREE.Box3(), point = new THREE.Vector3();
   const ray = new THREE.Raycaster(), direction = new THREE.Vector3(), origin = new THREE.Vector3();
-  const bodyBox = new THREE.Box3(), partBox = new THREE.Box3(), inverse = new THREE.Matrix4(), relative = new THREE.Matrix4(), bodyRect = {};
-  let key = '', record = null, root = null, offset = 0, occluders = [], timer = 0, blocked = false;
-  let bodyRoot = null;
-  const visible = object => { for (let n = object; n; n = n.parent) if (!n.visible) return false; return true; };
-  function getPoint(info) {
-    const nextKey = `${info?.type}|${info?.id}`;
-    if (key !== nextKey || (root && !root.parent) || (record?.creature?.group && record.creature.group !== root)) {
-      key = nextKey; record = resolveInteractionRecord(info, { registry, creatures, getBase });
-      root = info?.type==='rootfall'?null:record?.creature?.group ?? scene?.getObjectByName(info?.id) ?? null;
-      bodyRoot = null; bodyBox.makeEmpty();
+  const partBox = new THREE.Box3(), inverse = new THREE.Matrix4(), relative = new THREE.Matrix4();
+  const cache = new Map();
+  const maxEntries = 8, losInterval = .1;
+  const wallClockStart = globalThis.performance?.now?.() ?? Date.now();
+  let active = null, explicitClock = 0;
+  const visible = object => {
+    let attached = !scene;
+    for (let n = object; n; n = n.parent) {
+      if (!n.visible) return false;
+      if (n === scene) attached = true;
+    }
+    return attached;
+  };
+  const keyFor = info => `${info?.type}|${info?.id}`;
+  const syntheticRecord = info => ['rootfall','wildkinBed','berryGarden','campYard'].includes(info?.type);
+  function advanceClock(dt = 0) {
+    const now = globalThis.performance?.now?.() ?? Date.now();
+    if (Number.isFinite(dt) && dt > 0) explicitClock += dt;
+    return Math.max(explicitClock, Math.max(0, (now - wallClockStart) / 1000));
+  }
+  function buildEntry(info, record = resolveInteractionRecord(info, { registry, creatures, getBase })) {
+      const key = keyFor(info);
+      const root = info?.type==='rootfall'?null:record?.creature?.group ?? scene?.getObjectByName(info?.id) ?? null;
+      const entry = { key, record, root, offset: 0, occluders: [], bodyRoot: null, bodyBox: new THREE.Box3(), bodyRect: {}, losCheckedAt: -Infinity, blocked: false };
       let bodyTop = null, bodyLocalTop = null;
       if (record?.creature && root) {
         // The visual is the direct group child containing mainMesh. Focus rings,
         // health bars and taming effects are siblings, not part of this envelope.
-        bodyRoot = record.creature.mainMesh ?? (root.isMesh ? root : null);
-        while (bodyRoot !== root && bodyRoot?.parent && bodyRoot.parent !== root) bodyRoot = bodyRoot.parent;
-        if (bodyRoot) {
+        entry.bodyRoot = record.creature.mainMesh ?? (root.isMesh ? root : null);
+        while (entry.bodyRoot !== root && entry.bodyRoot?.parent && entry.bodyRoot.parent !== root) entry.bodyRoot = entry.bodyRoot.parent;
+        if (entry.bodyRoot) {
           root.updateWorldMatrix(true, true); inverse.copy(root.matrixWorld).invert();
-          bodyRoot.traverse(mesh => {
+          entry.bodyRoot.traverse(mesh => {
             if (!mesh.isMesh || !mesh.geometry) return;
             if (mesh.isSkinnedMesh) mesh.computeBoundingBox();
             else if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
             relative.multiplyMatrices(inverse, mesh.matrixWorld);
             partBox.copy(mesh.isSkinnedMesh ? mesh.boundingBox : mesh.geometry.boundingBox).applyMatrix4(relative);
-            bodyBox.union(partBox);
+            entry.bodyBox.union(partBox);
           });
-          if (!bodyBox.isEmpty()) {
-            bodyLocalTop = bodyBox.max.y;
-            bodyTop = box.copy(bodyBox).applyMatrix4(root.matrixWorld).max.y;
-            bodyBox.expandByScalar(.12);
+          if (!entry.bodyBox.isEmpty()) {
+            bodyLocalTop = entry.bodyBox.max.y;
+            bodyTop = box.copy(entry.bodyBox).applyMatrix4(root.matrixWorld).max.y;
+            entry.bodyBox.expandByScalar(.12);
           }
         }
       }
-      offset = ['rootfall','wildkinBed','berryGarden'].includes(info?.type)?0:HEIGHT[info?.type] ?? 1.3;
+      entry.offset = ['rootfall','wildkinBed','berryGarden'].includes(info?.type)?0:HEIGHT[info?.type] ?? 1.3;
       if (root && !['wildkinBed','berryGarden'].includes(info?.type)) {
         root.updateWorldMatrix(true, true);
         if (bodyTop === null) box.setFromObject(root);
@@ -98,14 +112,13 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
             const worldScale = root.getWorldScale(new THREE.Vector3());
             const bodyHeight = bodyLocalTop * Math.abs(worldScale.y);
             const centerToFeet = (radius + halfHeight) * Math.abs(worldScale.y);
-            offset = bodyHeight - centerToFeet + .18;
-          } else offset = bodyTop - (record?.pos?.y ?? root.position.y) + .18;
-        } else if (!box.isEmpty()) offset = box.max.y - (record?.pos?.y ?? root.position.y) + .18;
+            entry.offset = bodyHeight - centerToFeet + .18;
+          } else entry.offset = bodyTop - (record?.pos?.y ?? root.position.y) + .18;
+        } else if (!box.isEmpty()) entry.offset = box.max.y - (record?.pos?.y ?? root.position.y) + .18;
       }
       // A locker is used at its door, below nearby overhead foliage. The pod's
       // roof anchor was hidden by Camp canopy even while its front was visible.
-      if (info?.type === 'storage') offset = Math.min(offset, HEIGHT.storage);
-      occluders = [];
+      if (info?.type === 'storage') entry.offset = Math.min(entry.offset, HEIGHT.storage);
       scene?.traverse(n => {
         if (!n.isMesh || n.userData?.authorId === info?.id) return;
         let scenery = false;
@@ -115,30 +128,70 @@ export function createWorldInteractionAnchor({ scene, registry, creatures, getBa
           // Finish exclusions before admitting any part as an occluder.
           if (parent.userData?.propId || parent.userData?.isGround || parent.name === 'player-base' || parent.name === 'camp-defenses') scenery = true;
         }
-        if (scenery) occluders.push(n);
+        if (scenery) entry.occluders.push(n);
       });
-      timer = .1; blocked = false;
+      cache.delete(key); cache.set(key, entry);
+      while (cache.size > maxEntries) cache.delete(cache.keys().next().value);
+      return entry;
+  }
+  function bind(info) {
+    if (!info) { active = null; return null; }
+    const key = keyFor(info), fresh = resolveInteractionRecord(info, { registry, creatures, getBase });
+    let entry = cache.get(key);
+    if (entry && !fresh) {
+      entry.record = null;
+      cache.delete(key); cache.set(key, entry);
+      active = entry;
+      return entry;
     }
-    if(info?.type==='rootfall')record=resolveInteractionRecord(info);
-    if (!record?.pos || (root && (!root.parent || !visible(root))) || record.creature?.state.isDead || record.creature?.state.bondCaptured) return null;
-    // Creature state owns moving positions; the sampled height follows its body.
-    return point.set(record.pos.x, (record.pos.y ?? 0) + offset, record.pos.z);
+    const expectedCreatureRoot = fresh?.creature?.group;
+    const rootWasRecreated = entry && ((!entry.root && info.type !== 'rootfall' && scene?.getObjectByName(info.id)) || (entry.root && !entry.root.parent));
+    const recordChanged = entry && !syntheticRecord(info) && entry.record !== fresh && entry.record?.creature !== fresh?.creature;
+    if (!entry || recordChanged || (expectedCreatureRoot && expectedCreatureRoot !== entry.root) || rootWasRecreated) {
+      entry = buildEntry(info, fresh);
+    } else if (syntheticRecord(info) || fresh?.creature) entry.record = fresh;
+    cache.delete(key); cache.set(key, entry);
+    active = entry;
+    return entry;
+  }
+  function getPoint(info) {
+    const entry = bind(info);
+    if (!entry) return null;
+    const { record, root } = entry;
+    if(info?.type==='rootfall')entry.record=resolveInteractionRecord(info);
+    if (!entry.record?.pos || (root && (!root.parent || !visible(root))) || entry.record.creature?.state.isDead || entry.record.creature?.state.bondCaptured) return null;
+    return point.set(entry.record.pos.x, (entry.record.pos.y ?? 0) + entry.offset, entry.record.pos.z);
+  }
+  function checkOccluded(entry, camera, anchor, at) {
+    if (at - entry.losCheckedAt < losInterval) return entry.blocked;
+    entry.losCheckedAt = at;
+    camera.getWorldPosition(origin); direction.subVectors(anchor, origin);
+    const distance = direction.length(); ray.set(origin, direction.normalize()); ray.far = Math.max(0, distance - .2);
+    const candidates = entry.occluders.filter(n => visible(n) && [].concat(n.material).some(m => m && m.opacity > .5));
+    entry.blocked = ray.intersectObjects(candidates, false).length > 0;
+    return entry.blocked;
   }
   function isOccluded(camera, anchor, dt) {
-    timer += dt;
-    if (timer < .1) return blocked;
-    timer = 0; camera.getWorldPosition(origin); direction.subVectors(anchor, origin);
-    const distance = direction.length(); ray.set(origin, direction.normalize()); ray.far = Math.max(0, distance - .2);
-    const candidates = occluders.filter(n => visible(n) && [].concat(n.material).some(m => m && m.opacity > .5));
-    blocked = ray.intersectObjects(candidates, false).length > 0;
-    return blocked;
+    return active ? checkOccluded(active, camera, anchor, advanceClock(dt)) : false;
+  }
+  function canPresent(info, camera) {
+    const anchor = getPoint(info);
+    if (!anchor || !projectInteractionPoint(anchor, camera, 1, 1)) return false;
+    return !checkOccluded(active, camera, anchor, advanceClock());
+  }
+  function invalidate(info = null) {
+    if (!info) { cache.clear(); active = null; return; }
+    const key = typeof info === 'string' ? info : keyFor(info);
+    if (active?.key === key) active = null;
+    cache.delete(key);
   }
   function getBodyRectangle(camera, width, height) {
-    if (!bodyRoot || !root?.parent || !visible(root) || record?.creature?.state.isDead || record?.creature?.state.bondCaptured) return null;
-    root.updateWorldMatrix(true, false);
-    return projectInteractionBounds(bodyBox, root.matrixWorld, camera, width, height, bodyRect);
+    const entry = active;
+    if (!entry?.record || !entry.bodyRoot || !entry.root?.parent || !visible(entry.root) || entry.record.creature?.state.isDead || entry.record.creature?.state.bondCaptured) return null;
+    entry.root.updateWorldMatrix(true, false);
+    return projectInteractionBounds(entry.bodyBox, entry.root.matrixWorld, camera, width, height, entry.bodyRect);
   }
-  return { getPoint, getBodyRectangle, hasBodyEnvelope: () => !bodyBox.isEmpty(), isOccluded };
+  return { getPoint, getBodyRectangle, hasBodyEnvelope: () => !!active && !active.bodyBox.isEmpty(), isOccluded, canPresent, invalidate };
 }
 
 export function placeInteractionLabel(point, size, bounds, obstacles = [], body = null, preferred = null) {

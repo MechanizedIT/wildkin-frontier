@@ -6,6 +6,8 @@
 
 ## Beta ownership and lifecycle
 
+- September12 M1: portrait is primary. `cameraFollow` owns a stable42°/1.2 portrait profile and separate orientation pitch preferences; `touchMovement` owns a fixed portrait stick and both viewport cancellation paths. `betaShell` owns compact tool-belt presentation and cancellation of held tool input. `contextualInteraction` owns thumb/world-status presentation and exact-action gesture tokens; nearby gameplay owners retain physical range and transaction validation. `worldInteractionAnchor` provides bounded eight-target geometry/LOS caches with10Hz reuse, explicit invalidation, and visible-candidate predicates. `styles/portrait.css` owns the new layout without replacing the landscape controls. Native/package evidence: `art/reviews/living-frontier-m1/receipt.md`.
+
 - Survey Recovery uses the existing inventory `packTier` as the durable learned/fitted result. A fixed stack1 cartridge is ordinary inventory; `frontierProgress.fitFieldPack` atomically consumes it plus materials, appends four empty slots and preserves active-run/loadout state on rollback. `getSpendableItemCounts` includes nonresources without changing resource statistics. Physical station UI owns no rewards. Loot tables now accept catalog `item` rewards through the same finite remainder ledger; validation checks safe combined quantities. Author's chest inspector edits the referenced shared table explicitly and validates before committing.
 
 - `src/boot.js` supplies the visible startup/error/context-loss boundary and imports `main.js`. Both development and the readable packaged bundle use this entry and the same HTML/styles.
@@ -82,7 +84,7 @@ Accepted current systems:
 - `?dev=1` dev-only `RESET PLAYER SAVE` (clears `wildkin.frontierProgress` only),
 - desktop Author Mode with categorized palette, Ground/Boundaries hierarchy, Display Name + presentation controls, Edit proxy for hidden colliders, live tint/opacity preview, deterministic export/reset,
 - visual ↔ Rapier parity for supported solids including ground/boundary with rotation/opacity/tint,
-- single rAF/fixed 1/60 and offline operation; portrait and package-size restrictions here are historical (current owner direction is landscape-first with no 35 MB cap).
+- single rAF/fixed 1/60 and offline operation; portrait and package-size restrictions here are historical (current owner direction is portrait/mobile-first with no 35 MB cap).
 
 # Phase 4B.1 Architectural Direction
 

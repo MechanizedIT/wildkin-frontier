@@ -60,9 +60,11 @@ export function createBetaGame(deps) {
   const campClearing = createCampClearing({progress,resources:deps.resourceSystem,isCamp,initialHidden:authorEnabled,notify:toast});
   const getSectionId = () => deps.getSectionId();
   const rootfall=createRootfallPassage({registry,progress,resources:deps.resourceSystem,getSectionId,getPlayerPosition:()=>playerController.getState().pos,repairGate:deps.repairPortalGate,notify:toast,initialHidden:authorEnabled});
-  const rootfallPresentation=createRootfallPresentation({scene,registry,physicsWorld:deps.physicsWorld,onVisualAdded:playerOcclusion.register,onVisualRemoving:playerOcclusion.unregister});
+  const onVisualAdded = visual => { playerOcclusion.register(visual); deps.onInteractionGeometryChanged?.(); };
+  const onVisualRemoving = visual => { playerOcclusion.unregister(visual); deps.onInteractionGeometryChanged?.(); };
+  const rootfallPresentation=createRootfallPresentation({scene,registry,physicsWorld:deps.physicsWorld,onVisualAdded,onVisualRemoving});
   rootfallPresentation.update(rootfall.getState());
-  const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled,onVisualAdded:playerOcclusion.register,onVisualRemoving:playerOcclusion.unregister});
+  const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled,onVisualAdded,onVisualRemoving});
   function canCareAtCamp() {
     const p = playerController.getState().pos, b = FRONTIER_TERRAIN_CONFIG.campBounds;
     return !authorEnabled && session.isCamp() && deps.getSectionId() === 'camp'
@@ -245,18 +247,20 @@ export function createBetaGame(deps) {
     openWorkshop: (id) => { if(!base.openStation(id))shell.open("workshop"); },
     openSanctuary: () => shell.open('wildkin'),
     openStorage: id => {base.close();return physicalInventory.openObject(id);},
-    getNearbyInteraction(pos){
+    getNearbyInteraction(pos,isVisible=()=>true){
       if(isCamp()){
-        const storage=physicalInventory.getNearbyInteraction(pos);
+        const storage=physicalInventory.getNearbyInteraction(pos,isVisible);
         if(storage)return storage;
-        const workbench=base.getNearbyInteraction(pos);
-        if(workbench)return workbench.type === 'wildkinBed' ? campCare.describe(workbench)
+        const describe=workbench=>workbench.type === 'wildkinBed' ? campCare.describe(workbench)
           : workbench.type === 'berryGarden' ? campGarden.describe(workbench)
             : {...workbench,type:workbench.type==='campYard'?'campYard':'resonator'};
+        const workbench=base.getNearbyInteraction(pos,info=>isVisible(describe(info)));
+        if(workbench)return describe(workbench);
         const sanctuary=registry.getSectionById('camp')?.props?.find(p=>p.id==='prop_camp_sanctuary');
-        if(sanctuary&&Math.hypot(pos.x-sanctuary.pos.x,pos.z-sanctuary.pos.z)<2)return {type:'campSanctuary',id:sanctuary.id,label:'Wildkin'};
+        if(sanctuary&&Math.hypot(pos.x-sanctuary.pos.x,pos.z-sanctuary.pos.z)<2){const info={type:'campSanctuary',id:sanctuary.id,label:'Wildkin'};if(isVisible(info))return info;}
       }
-      return rootfall.getNearbyInteraction(pos)??companions.getNearbyInteraction(pos);
+      const rootfallInfo=rootfall.getNearbyInteraction(pos);
+      return rootfallInfo&&isVisible(rootfallInfo)?rootfallInfo:companions.getNearbyInteraction(pos);
     },
     beginBond: companions.beginBond,
     canUseFieldTool: () => session.isActive() || isCamp(),

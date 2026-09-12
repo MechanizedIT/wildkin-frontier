@@ -127,3 +127,9 @@ Native harnesses must use current canonical objects and physically clear startin
 - A young scale that looks plausible numerically can read as a small prop at gameplay distance. First-stage70% preserved recognition after55% failed review; anatomy and animation remain unchanged.
 - Exact identity test fixtures should include every new canonical field; preserve full record equality instead of stripping sex/lineage to make an older assertion pass.
 - A nearest object behind the player can suppress a visible object's world action in portrait. M1 must consider target readability along with physical range, while retaining authoritative activation checks.
+
+### September12 — portrait controls and visible-action closure
+- A shortcut assignment screen is not an equip screen. Before collapsing controls, perform the complete native replacement action; the compact tool button now exposes actual selection.
+- Optional flags must become explicit booleans before DOM classList.toggle(force). Undefined can behave as an omitted force and alternate a class every frame; verify ordinary targets without the optional field, not only feature-specific records.
+- Visibility filtering belongs before final nearby selection, with fallback across sibling owners. Reuse bounded target caches and one wall/render timebase; detached occluders must not block cached targets. Follow decorators through to the final anchor before reporting a mismatch.
+- For bulk document edits, use named replacement records or explicit tuples with expected-match assertions. PowerShell single nested arrays can flatten into strings; inspect diff scope immediately and recover only your own edits from known clean evidence if needed.

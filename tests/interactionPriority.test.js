@@ -8,3 +8,8 @@ test('travel and extraction remain usable beside incidental wildlife, while deli
   assert.equal(chooseNearbyInteraction({field,frontier:beacon,gate,activeTamingId:'mossling'}),gate);
   assert.equal(chooseNearbyInteraction({field}),field);
 });
+test('an occluded or offscreen priority target does not suppress a visible reachable action',()=>{
+  const camp={type:'resonator',id:'camp'},gate={type:'portalGate',id:'gate'},field={type:'wildkinBed',id:'nursery'};
+  assert.equal(chooseNearbyInteraction({camp,gate,field,isVisible:info=>info.id==='nursery'}),field);
+  assert.equal(chooseNearbyInteraction({camp,gate,field,isVisible:()=>false}),null);
+});

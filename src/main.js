@@ -77,7 +77,7 @@ const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
 const VERSION = "Wildkin Frontier — Beta 0.2.0";
-let betaGame = null;
+let betaGame = null, contextualInteraction = null;
 let resumeBlocked = false, deathSavePending = false, expeditionPersistence = null;
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
@@ -204,6 +204,7 @@ const sectionRuntime = createSectionRuntime({
   playground,
   physicsWorld,
   onChange: ({ sectionId, activeIds, prevActiveIds }) => {
+    contextualInteraction?.invalidate();
     expeditionSession.setRegion(sectionId, null);
     if (resourceSystem) resourceSystem.setActiveRegions(activeIds);
     if (creatureSystem) creatureSystem.setActiveRegions(activeIds);
@@ -644,9 +645,10 @@ returnToCampFlow = createReturnToCampFlow({
 });
 
 // Contextual interaction (single owner)
-let contextualInteraction = null;
 contextualInteraction = createContextualInteraction({
   camera,
+  getResidency: frontierChunks.getResidency,
+  onPortraitVisibilityChanged: visible => betaGame?.shell.setContextualVisible(visible),
   getPlayerPosition: () => player.position,
   anchor: createWorldInteractionAnchor({ scene, registry: worldRegistry, creatures: creatureSystem, getBase: () => betaGame?.base }),
   onActivate: (info) => {
@@ -755,6 +757,7 @@ function syncInputBlock() {
   setGameplayInputBlocked(blocked);
   if (authorSuppress !== prevAuthorSuppress) {
     prevAuthorSuppress = authorSuppress;
+    contextualInteraction?.invalidate();
     refreshMapAvailability();
   }
 }
@@ -938,6 +941,7 @@ betaGame = createBetaGame({
   creatures: creatureSystem, playerController, playerCombat, pickupSystem, xpMoteSystem, resourceSystem,
   physicsWorld, characterPhysics, playerCollider: characterPhysics.collider,
   getTerrainHeight: frontierChunks.getHeight,
+  onInteractionGeometryChanged: () => contextualInteraction?.invalidate(),
   audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
   getSectionId: () => sectionRuntime.getActiveSectionId(),
   onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
@@ -1099,8 +1103,9 @@ function tick() {
         gate:getNearbyPortalGateInteraction(pPosForAnchor),
         loot:lootSystem.getNearbyInteraction(pPosForAnchor),
         frontier:frontierAnchorSystem.getNearbyInteraction(pPosForAnchor, expeditionSession),
-        field:betaGame?.getNearbyInteraction(pPosForAnchor),
+        field:betaGame?.getNearbyInteraction(pPosForAnchor, contextualInteraction.canPresent),
         activeTamingId:betaGame?.companions.getFieldTamingState?.()?.id,
+        isVisible:contextualInteraction.canPresent,
       });
       if (contextualInteraction) contextualInteraction.setInteraction(betaGame?.base.isStationOpen() ? null : nearby);
       // Pause AI while blocking already handled via isAnyBlockingModal guard
