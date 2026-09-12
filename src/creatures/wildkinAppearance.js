@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { expressWildkinGenome } from './wildkinGenome.js';
 
-export const WILDKIN_BODY_TONE_STRENGTH = 0.45;
+export const WILDKIN_BODY_TONE_STRENGTH = 0.78;
 export const WILDKIN_BODY_MATERIAL = 'wildkin_body';
 export const WILDKIN_IRIS_MATERIAL = 'wildkin_iris';
 

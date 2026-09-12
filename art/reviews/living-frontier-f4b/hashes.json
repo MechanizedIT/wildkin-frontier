@@ -1,0 +1,35 @@
+{
+  "algorithm": "SHA-256",
+  "fixtures": {
+    "baseline.png": {
+      "label": "neutral pair, one-off 900x600 render; locally loaded actual Mossling V3 models; fixed Idle 0.4; scale 0.7; no extra RAF",
+      "sha256": "f8632e551738efdd7e116f33b44be28ea34e56a271805b37d0fb5595dcafb46e"
+    },
+    "target.png": {
+      "label": "Generated1537x1023 material target edited from actual neutral baseline; not a gameplay render",
+      "sha256": "5f1ea915e37cf2e55c1209f6a8a5a12426f24a8bea6d8c237b3f3c29801459c8"
+    },
+    "r1.png": {
+      "label": "R1 neutral pair, one-off 900x600 render; shared tint strength 0.60",
+      "sha256": "288bf25fa919d195da889caa5c82a80e32fac2e03f2889b21bf8626833058641"
+    },
+    "r2.png": {
+      "label": "R2 neutral pair, one-off 900x600 render; shared tint strength 0.78",
+      "sha256": "8c158ab932773f2366aaad0101144c8cf07577659795293a34705ad8532a7029"
+    },
+    "r2-camp.png": {
+      "label": "actual nursery resident; 309x687 capture from 412x915 portrait emulation; gameplay scale",
+      "sha256": "00249e9419c636471855890d2d8012ac5ef4d774827f81aa0ad2788696984626"
+    }
+  },
+  "currentSource": {
+    "src/creatures/wildkinAppearance.js": "84c8a3d6d89d496db9cc637e977f9372a37bd11dc67ed9d141ccfa70ad1d04d1"
+  },
+  "shippingModel": {
+    "assets/models/mossling-v3/model.glb": "ca044bb9321423c8d4e83aedce7697d98109eafbeeafbefbdf3d0e13a58e9cf9"
+  },
+  "package": {
+    "dist/submission/index.html": "0d65dfe75003a44523fb01877c8a98da391db1a8b535de4a3a9686e1ab0de7a5",
+    "dist/submission.zip": "6ed81f3e9d215c736b62648dc7defb49c4f9395d0effba9ac0325e1d1b9f1a8d"
+  }
+}

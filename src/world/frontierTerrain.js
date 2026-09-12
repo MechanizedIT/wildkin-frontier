@@ -34,17 +34,28 @@ function valueNoise(x, z, seed, scale) {
   return (a + (b - a) * tx) * (1 - tz) + (c + (d - c) * tx) * tz;
 }
 
-function globalHeight(x, z, seed) {
+function hillAt(x, z, cx, cz, rx, rz, height) {
+  return height * Math.exp(-(((x - cx) / rx) ** 2 + ((z - cz) / rz) ** 2));
+}
+
+function rollingTransitionOffset(x, z) {
+  const transitionFade = smooth(clamp((z + 110) / 12, 0, 1));
+  return (
+    hillAt(x, z, -1, -92, 12, 28, 1.65)
+    + hillAt(x, z, 13, -89, 12, 28, -.95)
+  ) * transitionFade;
+}
+
+function globalHeight(x, z, seed, rollingTransition) {
   const broad = valueNoise(x, z, seed, 145) * 2 - 1;
   const middle = valueNoise(x + 37, z - 19, seed ^ 0x6e624eb7, 52) * 2 - 1;
   const detail = valueNoise(x - 11, z + 29, seed ^ 0x1f123bb5, 25) * 2 - 1;
   // These wide, global-space forms give the Camp approach an actual horizon:
   // a soft left shoulder, a shallow blue-green right valley, and distant rolls.
-  const hill = (cx, cz, rx, rz, height) => height * Math.exp(-(((x - cx) / rx) ** 2 + ((z - cz) / rz) ** 2));
-  const shoulder = hill(-82, -106, 88, 64, 3.0) + hill(30, -176, 138, 72, 2.3);
-  const basin = hill(94, -108, 70, 55, 3.4) + hill(48, -42, 82, 65, 1.05);
+  const shoulder = hillAt(x, z, -82, -106, 88, 64, 3.0) + hillAt(x, z, 30, -176, 138, 72, 2.3);
+  const basin = hillAt(x, z, 94, -108, 70, 55, 3.4) + hillAt(x, z, 48, -42, 82, 65, 1.05);
   const ridge = 1 - Math.abs(valueNoise(x + 91, z - 67, seed ^ 0x3c6ef372, 105) * 2 - 1);
-  return clamp(4.8 + broad * 2.1 + middle * 1.05 + detail * .26 + shoulder + (ridge - .5) * .9 - basin, config.minHeight, config.maxHeight);
+  return clamp(4.8 + broad * 2.1 + middle * 1.05 + detail * .26 + shoulder + (ridge - .5) * .9 - basin + rollingTransition, config.minHeight, config.maxHeight);
 }
 
 function campSample(x, z, options) {
@@ -63,7 +74,10 @@ function campSample(x, z, options) {
 export function sampleFrontier(x, z, options = {}) {
   x = finite(x); z = finite(z);
   const seed = finite(options.seed, config.defaultSeed) | 0;
-  const terrain = globalHeight(x, z, seed);
+  // One signed world-space relief sample drives geometry and its restrained
+  // drainage cue, so color cannot drift away from the rolling landform.
+  const rollingTransition = rollingTransitionOffset(x, z);
+  const terrain = globalHeight(x, z, seed, rollingTransition);
   const camp = campSample(x, z, options);
   const baseHeight = camp === null ? terrain : camp.edge * (1 - camp.t) + terrain * camp.t;
   const landform = sampleFrontierLandform(x, z);
@@ -76,6 +90,11 @@ export function sampleFrontier(x, z, options = {}) {
   let red = .235 * upland + .15 * wetland + macro * .025;
   let green = .43 * upland + .34 * wetland + macro * .035;
   let blue = .18 * upland + .32 * wetland + macro * .02;
+  const dryRelief = clamp(rollingTransition / 1.1, 0, 1);
+  const wetRelief = clamp(-rollingTransition / .42, 0, 1);
+  red += dryRelief * .065 - wetRelief * .055;
+  green += dryRelief * .05 - wetRelief * .04;
+  blue += dryRelief * .015 + wetRelief * .025;
   if (camp !== null && typeof options.campColor === 'function') {
     const color = options.campColor(camp.x, camp.z);
     if (Array.isArray(color) && color.length === 3) {

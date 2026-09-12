@@ -1,0 +1,41 @@
+{
+  "checkpoint": "F1B selected R3",
+  "createdUTC": "2026-09-12T23:00:49Z",
+  "baseCommit": "1e110c0f7b99835bac1c2d12e5c221ba8e43a0b5",
+  "sources": [
+    {
+      "path": "src/world/frontierTerrain.js",
+      "sha256": "c42ae73671b6f256deef4761132007458133093b75a4230f2bea0582f0ed7fb2"
+    },
+    {
+      "path": "tests/frontierTerrain.test.js",
+      "sha256": "6fd608ec87705c4119533312a32b51401746b7be5aef6f5dbc0a48866170704a"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "art/reviews/living-frontier-f1b/baseline.png",
+      "sha256": "f1649060e456e0051c710716beb9042923a63e218d9464ddcc8fa098cea026a4"
+    },
+    {
+      "path": "art/reviews/living-frontier-f1b/target.png",
+      "sha256": "d3302499b3ee6a582bfbbaf7dc0c6067caa5f645672addac67ede8bd29c0be37"
+    },
+    {
+      "path": "art/reviews/living-frontier-f1b/r1.png",
+      "sha256": "f3b86a331a817d64fbaf830126d1179436893c587f831edc7f7c1e1c86795f8f"
+    },
+    {
+      "path": "art/reviews/living-frontier-f1b/r2.png",
+      "sha256": "18d7b3de2b7cacb94b7f3f58fa5186207c1d1e0868bf4bf5e7d0c0585c539ebc"
+    },
+    {
+      "path": "art/reviews/living-frontier-f1b/r3.png",
+      "sha256": "ac0e7a6931f1e47841a9e8de8dff341212fc8a298c436fd686942c4d2f3ee8c9"
+    },
+    {
+      "path": "art/reviews/living-frontier-f1b/r0-samples.json",
+      "sha256": "8ba8c07903dd8b07dbbee4b1502a4dee52f950b29838c15bf82a0a83bca98165"
+    }
+  ]
+}

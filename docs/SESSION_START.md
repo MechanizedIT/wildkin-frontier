@@ -9,9 +9,9 @@
 
 ## Current result
 
-Living Frontier now connects earned wild research to an optional Natural/parent-body-tone nursery choice. Exact guided young persist through growth/reload/Welcome, while ordinary inheritance remains available. F7B visual8.4PASS. F2D selects improved route framing R2 at6.9HOLD; broad ground fullness remains debt. Slow climbing and the wall-jump fix remain intact. Final1,127tests and verify/build/validate/ZIP PASS;44.10MB/20.53MB. Native seven-waypoint route retained health5; packaged portrait breeding and streamed Jump passed. See `art/reviews/living-frontier-f7b/receipt.md` and `art/reviews/living-frontier-f2d/receipt.md`.
+Living Frontier now has a modest rolling shoulder/bowl through the first clearing and clearer inherited body tones. F1B selects R3 at6.0HOLD: terrain depth remains too subtle. F4B selects R2 at8.1PASS with the unchanged Mossling V3 model. Earned research, optional nursery guidance, climbing and the wall-jump fix remain intact. Final1,131tests and verify/build/validate/ZIP PASS;44.10MB/20.53MB. Native seven-waypoint route retained health5; packaged resume and streamed Jump passed. See `art/reviews/living-frontier-f1b/receipt.md` and `art/reviews/living-frontier-f4b/receipt.md`.
 
-**Next: F1B rolling terrain and F4B clearer existing body tones, with separate writers.** Capture actual baselines and feasible targets first; CURRENT_SLICE defines scope and ownership. The terrain audit found one fixed deterministic world edition, not complete per-save seed control. Preserve Camp, clearings and terrace route. Four active agents total including root are available. Mobile/casual-first portrait remains primary. Continue the goal until Chris asks to stop.
+**Next: F2E varied wildlife and F2F cheaper, fuller ground cover, with separate writers.** CURRENT_SLICE defines targets, ownership and closure. Use shipped Tidefin/Emberhorn sculpts; their more elaborate candidates are not admitted. Ground-cover visibility estimates must be checked in the actual portrait frame. One fixed deterministic world edition remains, without complete per-save seed control. Four active agents total including root are available. Mobile/casual-first portrait remains primary. Continue the goal until Chris asks to stop.
 
 ## Inherited restart checkpoint
 

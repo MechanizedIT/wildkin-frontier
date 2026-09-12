@@ -59,8 +59,8 @@ test('validation leaves the model untouched when a required channel or valid gen
 });
 
 test('admitted V3 expresses body tone only and leaves eye genes invisible', () => {
-  const a = fixture(), b = fixture();
-  for (const f of [a, b]) {
+  const a = fixture(), b = fixture(), c = fixture();
+  for (const f of [a, b, c]) {
     f.root.remove(f.second);
     f.root.userData.externalModelPath = 'assets/models/mossling-v3/model.glb';
     f.first.material = a.body;
@@ -73,8 +73,11 @@ test('admitted V3 expresses body tone only and leaves eye genes invisible', () =
   assert.equal(result.irisMaterialCount, 0);
   assert.equal(result.materialCloneCount, 1);
   applyWildkinAppearance(b.root, { ...genome, eyeColor: 'violet' });
+  applyWildkinAppearance(c.root, { ...genome, baseColor: 'lichen', eyeColor: 'amber' });
   assert.notStrictEqual(a.first.material, b.first.material);
   assert.equal(a.first.material.color.getHex(), b.first.material.color.getHex(), 'eye data cannot recolor the body');
+  assert.notEqual(a.first.material.color.getHex(), c.first.material.color.getHex(),
+    'lichen and clay remain distinguishable through V3\'s one shared material');
   assert.equal(a.body.color.getHex(), before.getHex(), 'the species template stays neutral');
   assert.strictEqual(a.first.material.map, a.texture);
 });

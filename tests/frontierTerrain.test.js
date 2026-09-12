@@ -18,9 +18,9 @@ test('chunk ownership floors negative coordinates and keys are stable', () => {
   assert.equal(isCampChunk(1, 0), false);
 });
 
-test('adjacent chunks have identical shared edge data', () => {
-  const left = createFrontierChunk(1, 2, { seed: 1234 });
-  const right = createFrontierChunk(2, 2, { seed: 1234 });
+function assertEastWestSeam(leftCoords, rightCoords) {
+  const left = createFrontierChunk(...leftCoords, { seed: 1234 });
+  const right = createFrontierChunk(...rightCoords, { seed: 1234 });
   const stride = config.segments + 1;
   for (let iz = 0; iz <= config.segments; iz++) {
     const a = iz * stride + config.segments;
@@ -29,6 +29,27 @@ test('adjacent chunks have identical shared edge data', () => {
     assert.deepEqual(Array.from(left.normals.slice(a * 3, a * 3 + 3)), Array.from(right.normals.slice(b * 3, b * 3 + 3)));
     assert.deepEqual(Array.from(left.colors.slice(a * 3, a * 3 + 3)), Array.from(right.colors.slice(b * 3, b * 3 + 3)));
   }
+}
+
+function assertNorthSouthSeam(southCoords, northCoords) {
+  const south = createFrontierChunk(...southCoords, { seed: 1234 });
+  const north = createFrontierChunk(...northCoords, { seed: 1234 });
+  const stride = config.segments + 1;
+  for (let ix = 0; ix <= config.segments; ix++) {
+    const a = config.segments * stride + ix;
+    const b = ix;
+    assert.equal(south.vertices[a * 3 + 1], north.vertices[b * 3 + 1]);
+    assert.deepEqual(Array.from(south.normals.slice(a * 3, a * 3 + 3)), Array.from(north.normals.slice(b * 3, b * 3 + 3)));
+    assert.deepEqual(Array.from(south.colors.slice(a * 3, a * 3 + 3)), Array.from(north.colors.slice(b * 3, b * 3 + 3)));
+  }
+}
+
+test('positive and negative chunk seams share coherent heights, normals, and colors', () => {
+  assertEastWestSeam([1, 2], [2, 2]);
+  assertEastWestSeam([-4, 2], [-3, 2]);
+  assertEastWestSeam([-1, -2], [0, -2]);
+  assertNorthSouthSeam([2, 1], [2, 2]);
+  assertNorthSouthSeam([-3, -4], [-3, -3]);
 });
 
 test('camp boundary honors callback and blends smoothly outside the footprint', () => {
@@ -45,6 +66,73 @@ test('camp callback preserves finite negative and raised heights', () => {
   const campHeight = (x, z) => x < 0 ? -24 : 31;
   assert.equal(sampleFrontier(-20, -20, { campHeight }).height, -24);
   assert.equal(sampleFrontier(20, 20, { campHeight }).height, 31);
+});
+
+test('rolling transition leaves authored Camp samples exact', () => {
+  const campHeight = (x, z) => 2 + x * .01 - z * .005;
+  const campColor = (x, z) => [.31 + x * .0001, .42, .23 - z * .0001];
+  for (const [x, z] of [[-50, -50], [0, -50], [50, -50], [-50, 0], [0, 0], [50, 0], [-50, 50], [0, 50], [50, 50]]) {
+    const sample = sampleFrontier(x, z, { campHeight, campColor });
+    assert.equal(sample.height, campHeight(x, z), `Camp height at ${x},${z}`);
+    assert.deepEqual(sample.groundColorRGB, campColor(x, z), `Camp color at ${x},${z}`);
+  }
+});
+
+test('rolling transition preserves the established north terrace heights and colors', () => {
+  const protectedSamples = [
+    [0, -110, 5.976246171775798, [0.2116608418951089, 0.4063237283856889, 0.2258699957356585]],
+    [24, -114, 4.740649634730418, [0.20735338402259554, 0.40514384722774666, 0.2572142519074377]],
+    [24, -128, 8.728540728938814, [0.41412660002245155, 0.40596330159194055, 0.21776682500367636]],
+    [32, -133, 8.403194422750774, [0.2473124600670787, 0.4453855524939219, 0.20983640071581616]],
+    [42, -133, 7.603701842446358, [0.2411153673051308, 0.438051617881679, 0.21450407177979924]],
+  ];
+  for (const [x, z, expectedHeight, expectedColor] of protectedSamples) {
+    const sample = sampleFrontier(x, z);
+    assert.equal(sample.height, expectedHeight, `protected height at ${x},${z}`);
+    assert.deepEqual(sample.groundColorRGB, expectedColor, `protected color at ${x},${z}`);
+  }
+});
+
+test('rolling color cue distinguishes the framed dry rise and wet bowl without replacing terrain state', () => {
+  const dry = sampleFrontier(-1, -92);
+  assert.equal(dry.height, 5.494323904627238);
+  assert.deepEqual(dry.habitatBlend, { fernUpland: 0.6234028315053738, wetland: 0.3765971684946262 });
+  assert.ok(dry.groundColorRGB[0] - 0.20468154570303375 >= .06, 'dry rise is visibly warmer');
+  assert.ok(dry.groundColorRGB[1] - 0.39847548187059145 >= .045, 'dry rise is visibly lighter');
+
+  const wet = sampleFrontier(13, -89);
+  assert.equal(wet.height, 2.8704643258524505);
+  assert.deepEqual(wet.habitatBlend, { fernUpland: 0.3722008489302384, wetland: 0.6277991510697616 });
+  assert.ok(wet.groundColorRGB[0] - 0.18555495788824488 <= -.05, 'wet bowl is visibly darker');
+  assert.ok(wet.groundColorRGB[2] - 0.27102618973310634 >= .02, 'wet bowl is visibly cooler');
+});
+
+function terrainSlope(x, z, distance = .8) {
+  const dx = (sampleFrontier(x + distance, z).height - sampleFrontier(x - distance, z).height) / (distance * 2);
+  const dz = (sampleFrontier(x, z + distance).height - sampleFrontier(x, z - distance).height) / (distance * 2);
+  return Math.hypot(dx, dz);
+}
+
+test('both staged Mossling clearings and the northbound route remain safely graded', () => {
+  const clearings = [[7, -85], [20, -95]];
+  for (const [cx, cz] of clearings) {
+    let steepest = 0;
+    for (let x = cx - 3.5; x <= cx + 3.5; x += .5) for (let z = cz - 3.5; z <= cz + 3.5; z += .5) {
+      if (Math.hypot(x - cx, z - cz) <= 3.5) steepest = Math.max(steepest, terrainSlope(x, z));
+    }
+    assert.ok(steepest <= .32, `Mossling clearing at ${cx},${cz} slope ${steepest.toFixed(3)}`);
+  }
+
+  const route = [[0, -56], [7, -68], [7, -85], [20, -95], [24, -118]];
+  let steepestRoute = 0;
+  for (let segment = 1; segment < route.length; segment += 1) {
+    const [ax, az] = route[segment - 1], [bx, bz] = route[segment];
+    for (let step = 0; step <= 40; step += 1) {
+      const t = step / 40;
+      steepestRoute = Math.max(steepestRoute, terrainSlope(ax + (bx - ax) * t, az + (bz - az) * t));
+    }
+  }
+  assert.ok(steepestRoute <= .32, `northbound route slope ${steepestRoute.toFixed(3)}`);
 });
 
 test('mesh vertices, normals and colors are finite and repeatable', () => {

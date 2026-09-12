@@ -1,0 +1,19 @@
+{
+  "tests": {
+    "passed": 1131,
+    "failed": 0
+  },
+  "verify": "PASS",
+  "zip": "PASS",
+  "terrainSelection": "R3 6.0 HOLD",
+  "bodyToneSelection": "R2 8.1 PASS",
+  "hashes": {
+    "src/world/frontierTerrain.js": "c42ae73671b6f256deef4761132007458133093b75a4230f2bea0582f0ed7fb2",
+    "src/creatures/wildkinAppearance.js": "84c8a3d6d89d496db9cc637e977f9372a37bd11dc67ed9d141ccfa70ad1d04d1",
+    "dist/submission/index.html": "0d65dfe75003a44523fb01877c8a98da391db1a8b535de4a3a9686e1ab0de7a5",
+    "dist/submission.zip": "6ed81f3e9d215c736b62648dc7defb49c4f9395d0effba9ac0325e1d1b9f1a8d",
+    "art/reviews/living-frontier-f1b/package-portrait.png": "ff0bc4004c6b3491614e8c66da6336a88827d254ec8f8864606a165b54989390",
+    "art/reviews/living-frontier-f1b/route-r3-proof.json": "01c3e46a4668f18d2703e8be6a8dc8d460e81f637d44669490c64b89f7d07b3c",
+    "art/reviews/living-frontier-f1b/package-proof.json": "e1d2b24c524b6e39d5f0f78a903afc3dd840cd08711ebca7a6822a20aee1d8d7"
+  }
+}

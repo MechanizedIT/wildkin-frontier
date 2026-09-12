@@ -91,7 +91,7 @@ Backpack quick-slot assignment is rendered by `src/ui/inventoryPanel.js` and rou
 September12 stopped candidate: `tools/compose-emberfall-ravine.mjs` is deliberately unwired; `tests/emberfallRavine.candidate.mjs` is an opt-in failing study outside the normal suite. See EMBERFALL_CANDIDATE_HANDOFF.md before integration.
 # Living Frontier ownership — September 12 pivot
 
-- `world/frontierTerrain.js`: deterministic global sampler,50 m chunk identity, shared mesh borders and Camp reserve.
+- `world/frontierTerrain.js`: deterministic global sampler,50 m chunk identity, shared mesh borders, Camp reserve and guarded F1B rolling relief/color cue.
 - `world/frontierChunkRuntime.js`: bounded terrain residents and complete visual/Rapier lifecycle; `staticWorldBuilder` installs the shared active height provider.
 - `presentation/authoredTerrain.js:createTerrainColorSampler` and `terrainPaint.js`: shared ground color/paint treatment for authored and streamed ground.
 - `world/frontierEcologyState.js` + `save/frontierProgress.js`: canonical edition/seed, bounded generated-forage records and atomic commits.

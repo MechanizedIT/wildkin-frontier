@@ -1,0 +1,348 @@
+{
+  "followers": [
+    {
+      "docked": false,
+      "grounded": true,
+      "growthScale": 1,
+      "growthStage": null,
+      "id": "wildkin_rrjqz1",
+      "mode": "SETTLE",
+      "physicsEnabled": true,
+      "position": [
+        6.529996871948242,
+        2.8576849460601808,
+        -81.23974609375
+      ],
+      "scale": 0.7,
+      "speciesId": "mossling",
+      "speed": 0.0011397312967282986,
+      "steeringAroundObstacle": false,
+      "visible": true,
+      "young": false
+    }
+  ],
+  "ground": 3.1516846429234935,
+  "jump": {
+    "done": true,
+    "samples": [
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989188194274902
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 3.882251977920532
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.052251815795898
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.208918571472168
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.352252006530762
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.702252388000488
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.7489190101623535
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.832252502441406
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.958919525146484
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 5.00225305557251
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 5.032253265380859
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 5.048920154571533
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 5.052253723144531
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 5.018919944763184
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.982253074645996
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.932252883911133
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.868919372558594
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.792252540588379
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.598918914794922
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.48225212097168
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.352252006530762
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.208918571472168
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 4.052251815795898
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6990246772766113
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 3.6989150047302246
+      }
+    ]
+  },
+  "origins": [
+    "http://localhost:8081"
+  ],
+  "owned": [
+    {
+      "baseColor": "lichen",
+      "id": "wildkin_rrjqz1"
+    },
+    {
+      "baseColor": "clay",
+      "id": "wildkin_1b156h6"
+    },
+    {
+      "baseColor": "clay",
+      "id": "wildkin_bred_1"
+    },
+    {
+      "baseColor": "clay",
+      "id": "wildkin_bred_2"
+    }
+  ],
+  "pos": {
+    "x": 7.000014305114746,
+    "y": 3.6989150047302246,
+    "z": -83.99998474121094
+  },
+  "scenery": {
+    "canopyCount": 12,
+    "colliderCount": 15,
+    "groundTuftCount": 72,
+    "groundTuftTriangleCount": 10368,
+    "lowCount": 14,
+    "lowDrawCount": 1,
+    "lowTriangleCount": 19954,
+    "residentCount": 26,
+    "residentIds": [
+      "f2c:s:0:-2:stage-fen-1",
+      "f2c:s:0:-2:stage-fen-2",
+      "f2c:s:0:-2:stage-fen-3",
+      "f2c:s:0:-2:stage-fen-4",
+      "f2c:s:0:-2:stage-fen-5",
+      "f2c:s:0:-2:stage-fen-6",
+      "f2c:s:0:-2:stage-fen-7",
+      "f2c:s:0:-2:stage-fen-8",
+      "f2c:s:0:-2:stage-tree-west-1",
+      "f2c:s:0:-2:stage-tree-west-2",
+      "f2c:s:0:-3:stage-tree-north",
+      "f2c:s:-1:-2:seed-1",
+      "f2c:s:-1:-2:seed-2",
+      "f2c:s:-1:-2:seed-3",
+      "f2c:s:-1:-2:seed-4",
+      "f2c:s:-1:-2:seed-5",
+      "f2c:s:-1:-2:seed-8",
+      "f2c:s:0:-3:seed-22",
+      "f2c:s:-2:-2:seed-0",
+      "f2c:s:0:-4:seed-1",
+      "f2c:s:2:-2:seed-0",
+      "f2c:s:-1:-4:seed-0",
+      "f2c:s:-2:-1:seed-0",
+      "f2c:s:-2:-3:seed-2",
+      "f2c:s:1:-4:seed-1",
+      "f2c:s:1:0:seed-0"
+    ],
+    "stoneSolidCount": 3,
+    "surfaceCount": 15
+  }
+}
