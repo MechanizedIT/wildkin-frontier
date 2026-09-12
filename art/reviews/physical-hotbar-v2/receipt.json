@@ -1,0 +1,1517 @@
+{
+  "fixture": "Isolated Edge touch context. Minimal v2 save and explicitly granted pack contents through actual progress owner. Native DOM taps/mouse drag/keyboard follow. No user save, full earned journey or physical-phone claim.",
+  "before": {
+    "src/ui/inventoryPanel.js": "3a2f1b121f8768ed1a1d07717461bffbd435e79b1f006e170d1b8eaaa10403c6",
+    "styles/inventory.css": "0f0b5a98f054250e12e36e7a328d06406b9098b33f35b13aaddefe7854f38373",
+    "src/inventory/physicalInventory.js": "a6176fd8b27a7eb3e2027b020896edba0ca3a86ceb995bf075160c3624496555",
+    "src/ui/betaShell.js": "36ccd056c66a9d2a79af7d36940cfadae8151a896394106d418dc8e4c99d04d2"
+  },
+  "steps": [
+    "Tap carried medkit then slot5: persisted reference only, pack unchanged.",
+    "Sort then native mouse drag carried ration to slot3: reference remains item-based.",
+    "Permanent tool assign and clear preserve supplies.",
+    "Failed save retains pack/loadout and selected stack; same tap retries successfully.",
+    "HUD keyboard3 selects newly assigned ration.",
+    "Literal reload/Continue retains pack and configured shortcuts.",
+    "Journal Gear opens the physical Backpack assignment surface.",
+    "Disclosed grounded near-pod fixture opens actual storage panel through proximity owner.",
+    "Storage Hotbar opens pack arrangement without moving any items."
+  ],
+  "views": [
+    {
+      "name": "01-landscape",
+      "width": 844,
+      "height": 390,
+      "panel": {
+        "x": 8,
+        "y": 6,
+        "width": 828,
+        "height": 378
+      },
+      "grid": {
+        "x": 401.390625,
+        "y": 104,
+        "width": 400,
+        "height": 179
+      },
+      "slots": [
+        {
+          "x": 402.390625,
+          "y": 71,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 503.140625,
+          "y": 71,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 603.890625,
+          "y": 71,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 704.640625,
+          "y": 71,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 402.390625,
+          "y": 171.75,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 503.140625,
+          "y": 171.75,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 603.890625,
+          "y": 171.75,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 704.640625,
+          "y": 171.75,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 402.390625,
+          "y": 272.5,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 503.140625,
+          "y": 272.5,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 603.890625,
+          "y": 272.5,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 704.640625,
+          "y": 272.5,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 402.390625,
+          "y": 373.25,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 503.140625,
+          "y": 373.25,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 603.890625,
+          "y": 373.25,
+          "width": 94.75,
+          "height": 94.75
+        },
+        {
+          "x": 704.640625,
+          "y": 373.25,
+          "width": 94.75,
+          "height": 94.75
+        }
+      ],
+      "quick": [
+        {
+          "x": 63.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "x": 117.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "x": 171.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "x": 225.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "x": 279.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "overflow": false,
+      "controls": [
+        {
+          "label": "Journal",
+          "x": 702.75,
+          "y": 7.5,
+          "width": 69.25,
+          "height": 48
+        },
+        {
+          "label": "Close inventory",
+          "x": 782,
+          "y": 6.5,
+          "width": 52,
+          "height": 50
+        },
+        {
+          "label": "Inspect quick slot 1: Omni-tool",
+          "x": 63.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Inspect quick slot 2: Construction tool",
+          "x": 117.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Inspect quick slot 3: Berry lure, 1 carried",
+          "x": 171.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Inspect quick slot 4: Woven snare, 1 carried",
+          "x": 225.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Inspect quick slot 5: Field medkit, 2 carried",
+          "x": 279.390625,
+          "y": 148.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Assign permanent Omni-tool",
+          "x": 111.390625,
+          "y": 204.09375,
+          "width": 52,
+          "height": 48
+        },
+        {
+          "label": "Assign permanent Construction tool",
+          "x": 169.390625,
+          "y": 204.09375,
+          "width": 52,
+          "height": 48
+        },
+        {
+          "label": "Clear",
+          "x": 227.390625,
+          "y": 204.09375,
+          "width": 52,
+          "height": 48
+        },
+        {
+          "label": "Storage unavailable",
+          "x": 315.703125,
+          "y": 304.5,
+          "width": 314.296875,
+          "height": 48
+        },
+        {
+          "label": "Split",
+          "x": 638,
+          "y": 304.5,
+          "width": 70,
+          "height": 48
+        },
+        {
+          "label": "Sort Pack",
+          "x": 716,
+          "y": 304.5,
+          "width": 106,
+          "height": 48
+        }
+      ]
+    },
+    {
+      "name": "02-portrait",
+      "width": 390,
+      "height": 844,
+      "panel": {
+        "x": 8,
+        "y": 8,
+        "width": 374,
+        "height": 828
+      },
+      "grid": {
+        "x": 30,
+        "y": 266.203125,
+        "width": 330,
+        "height": 340.796875
+      },
+      "slots": [
+        {
+          "x": 31,
+          "y": 267.203125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 114.25,
+          "y": 267.203125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 197.5,
+          "y": 267.203125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 280.75,
+          "y": 267.203125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 31,
+          "y": 350.453125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 114.25,
+          "y": 350.453125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 197.5,
+          "y": 350.453125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 280.75,
+          "y": 350.453125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 31,
+          "y": 433.703125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 114.25,
+          "y": 433.703125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 197.5,
+          "y": 433.703125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 280.75,
+          "y": 433.703125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 31,
+          "y": 516.953125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 114.25,
+          "y": 516.953125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 197.5,
+          "y": 516.953125,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 280.75,
+          "y": 516.953125,
+          "width": 77.25,
+          "height": 77.25
+        }
+      ],
+      "quick": [
+        {
+          "x": 22,
+          "y": 96,
+          "width": 65.1875,
+          "height": 65.1875
+        },
+        {
+          "x": 92.1875,
+          "y": 96,
+          "width": 65.203125,
+          "height": 65.203125
+        },
+        {
+          "x": 162.390625,
+          "y": 96,
+          "width": 65.203125,
+          "height": 65.203125
+        },
+        {
+          "x": 232.59375,
+          "y": 96,
+          "width": 65.203125,
+          "height": 65.203125
+        },
+        {
+          "x": 302.796875,
+          "y": 96,
+          "width": 65.1875,
+          "height": 65.1875
+        }
+      ],
+      "overflow": false,
+      "controls": [
+        {
+          "label": "Journal",
+          "x": 248.75,
+          "y": 11.5,
+          "width": 69.25,
+          "height": 48
+        },
+        {
+          "label": "Close inventory",
+          "x": 328,
+          "y": 10.5,
+          "width": 52,
+          "height": 50
+        },
+        {
+          "label": "Inspect quick slot 1: Omni-tool",
+          "x": 22,
+          "y": 96,
+          "width": 65.1875,
+          "height": 65.1875
+        },
+        {
+          "label": "Inspect quick slot 2: Empty",
+          "x": 92.1875,
+          "y": 96,
+          "width": 65.203125,
+          "height": 65.203125
+        },
+        {
+          "label": "Inspect quick slot 3: Trail ration, 3 carried",
+          "x": 162.390625,
+          "y": 96,
+          "width": 65.203125,
+          "height": 65.203125
+        },
+        {
+          "label": "Inspect quick slot 4: Field medkit, 2 carried",
+          "x": 232.59375,
+          "y": 96,
+          "width": 65.203125,
+          "height": 65.203125
+        },
+        {
+          "label": "Inspect quick slot 5: Woven snare, 1 carried",
+          "x": 302.796875,
+          "y": 96,
+          "width": 65.1875,
+          "height": 65.1875
+        },
+        {
+          "label": "Assign permanent Omni-tool",
+          "x": 132,
+          "y": 167.203125,
+          "width": 84,
+          "height": 48
+        },
+        {
+          "label": "Assign permanent Construction tool",
+          "x": 222,
+          "y": 167.203125,
+          "width": 84,
+          "height": 48
+        },
+        {
+          "label": "Clear",
+          "x": 312,
+          "y": 167.203125,
+          "width": 56,
+          "height": 48
+        },
+        {
+          "label": "Storage unavailable",
+          "x": 22,
+          "y": 688,
+          "width": 346,
+          "height": 48
+        },
+        {
+          "label": "Split",
+          "x": 22,
+          "y": 744,
+          "width": 169,
+          "height": 48
+        },
+        {
+          "label": "Sort Pack",
+          "x": 199,
+          "y": 744,
+          "width": 169,
+          "height": 48
+        }
+      ]
+    },
+    {
+      "name": "03-short-landscape",
+      "width": 844,
+      "height": 300,
+      "panel": {
+        "x": 8,
+        "y": 6,
+        "width": 828,
+        "height": 288
+      },
+      "grid": {
+        "x": 442.390625,
+        "y": 104,
+        "width": 318,
+        "height": 89
+      },
+      "slots": [
+        {
+          "x": 443.390625,
+          "y": 105,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 523.640625,
+          "y": 105,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 603.890625,
+          "y": 105,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 684.140625,
+          "y": 105,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 443.390625,
+          "y": 185.25,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 523.640625,
+          "y": 185.25,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 603.890625,
+          "y": 185.25,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 684.140625,
+          "y": 185.25,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 443.390625,
+          "y": 265.5,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 523.640625,
+          "y": 265.5,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 603.890625,
+          "y": 265.5,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 684.140625,
+          "y": 265.5,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 443.390625,
+          "y": 345.75,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 523.640625,
+          "y": 345.75,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 603.890625,
+          "y": 345.75,
+          "width": 74.25,
+          "height": 74.25
+        },
+        {
+          "x": 684.140625,
+          "y": 345.75,
+          "width": 74.25,
+          "height": 74.25
+        }
+      ],
+      "quick": [
+        {
+          "x": 63.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "x": 117.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "x": 171.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "x": 225.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "x": 279.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "overflow": false,
+      "controls": [
+        {
+          "label": "Journal",
+          "x": 702.75,
+          "y": 7.5,
+          "width": 69.25,
+          "height": 48
+        },
+        {
+          "label": "Close inventory",
+          "x": 782,
+          "y": 7.5,
+          "width": 52,
+          "height": 48
+        },
+        {
+          "label": "Inspect quick slot 1: Omni-tool",
+          "x": 63.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Inspect quick slot 2: Empty",
+          "x": 117.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Inspect quick slot 3: Trail ration, 3 carried",
+          "x": 171.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Inspect quick slot 4: Field medkit, 2 carried",
+          "x": 225.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Inspect quick slot 5: Woven snare, 1 carried",
+          "x": 279.390625,
+          "y": 103.09375,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "label": "Assign permanent Omni-tool",
+          "x": 111.390625,
+          "y": 159.09375,
+          "width": 52,
+          "height": 48
+        },
+        {
+          "label": "Assign permanent Construction tool",
+          "x": 169.390625,
+          "y": 159.09375,
+          "width": 52,
+          "height": 48
+        },
+        {
+          "label": "Clear",
+          "x": 227.390625,
+          "y": 159.09375,
+          "width": 52,
+          "height": 48
+        },
+        {
+          "label": "Storage unavailable",
+          "x": 315.703125,
+          "y": 214.5,
+          "width": 314.296875,
+          "height": 48
+        },
+        {
+          "label": "Split",
+          "x": 638,
+          "y": 214.5,
+          "width": 70,
+          "height": 48
+        },
+        {
+          "label": "Sort Pack",
+          "x": 716,
+          "y": 214.5,
+          "width": 106,
+          "height": 48
+        }
+      ]
+    },
+    {
+      "name": "05-storage-narrow",
+      "width": 568,
+      "height": 320,
+      "panel": {
+        "x": 8,
+        "y": 6,
+        "width": 552,
+        "height": 308
+      },
+      "grid": {
+        "x": 30,
+        "y": 105,
+        "width": 240,
+        "height": 110
+      },
+      "slots": [
+        {
+          "x": 31,
+          "y": 106,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 91.75,
+          "y": 106,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 152.5,
+          "y": 106,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 213.25,
+          "y": 106,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 31,
+          "y": 166.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 91.75,
+          "y": 166.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 152.5,
+          "y": 166.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 213.25,
+          "y": 166.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 31,
+          "y": 227.5,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 91.75,
+          "y": 227.5,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 152.5,
+          "y": 227.5,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 213.25,
+          "y": 227.5,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 31,
+          "y": 288.25,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 91.75,
+          "y": 288.25,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 152.5,
+          "y": 288.25,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 213.25,
+          "y": 288.25,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 299,
+          "y": 106,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 359.75,
+          "y": 106,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 420.5,
+          "y": 106,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 481.25,
+          "y": 106,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 299,
+          "y": 166.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 359.75,
+          "y": 166.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 420.5,
+          "y": 166.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 481.25,
+          "y": 166.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 299,
+          "y": 227.5,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 359.75,
+          "y": 227.5,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 420.5,
+          "y": 227.5,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 481.25,
+          "y": 227.5,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 299,
+          "y": 288.25,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 359.75,
+          "y": 288.25,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 420.5,
+          "y": 288.25,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 481.25,
+          "y": 288.25,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 299,
+          "y": 349,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 359.75,
+          "y": 349,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 420.5,
+          "y": 349,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 481.25,
+          "y": 349,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 299,
+          "y": 409.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 359.75,
+          "y": 409.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 420.5,
+          "y": 409.75,
+          "width": 54.75,
+          "height": 54.75
+        },
+        {
+          "x": 481.25,
+          "y": 409.75,
+          "width": 54.75,
+          "height": 54.75
+        }
+      ],
+      "quick": [],
+      "overflow": false,
+      "controls": [
+        {
+          "label": "Arrange quick slots",
+          "x": 428.265625,
+          "y": 7.5,
+          "width": 67.734375,
+          "height": 48
+        },
+        {
+          "label": "Close inventory",
+          "x": 506,
+          "y": 7.5,
+          "width": 52,
+          "height": 48
+        },
+        {
+          "label": "To Pod locker",
+          "x": 184.28125,
+          "y": 238,
+          "width": 169.71875,
+          "height": 48
+        },
+        {
+          "label": "Split",
+          "x": 362,
+          "y": 238,
+          "width": 70,
+          "height": 48
+        },
+        {
+          "label": "Sort Pack",
+          "x": 440,
+          "y": 238,
+          "width": 106,
+          "height": 48
+        }
+      ]
+    },
+    {
+      "name": "06-storage-short",
+      "width": 844,
+      "height": 300,
+      "panel": {
+        "x": 8,
+        "y": 6,
+        "width": 828,
+        "height": 288
+      },
+      "grid": {
+        "x": 30,
+        "y": 105,
+        "width": 378,
+        "height": 90
+      },
+      "slots": [
+        {
+          "x": 31,
+          "y": 106,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 126.25,
+          "y": 106,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 221.5,
+          "y": 106,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 316.75,
+          "y": 106,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 31,
+          "y": 201.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 126.25,
+          "y": 201.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 221.5,
+          "y": 201.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 316.75,
+          "y": 201.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 31,
+          "y": 296.5,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 126.25,
+          "y": 296.5,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 221.5,
+          "y": 296.5,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 316.75,
+          "y": 296.5,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 31,
+          "y": 391.75,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 126.25,
+          "y": 391.75,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 221.5,
+          "y": 391.75,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 316.75,
+          "y": 391.75,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 437,
+          "y": 106,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 532.25,
+          "y": 106,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 627.5,
+          "y": 106,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 722.75,
+          "y": 106,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 437,
+          "y": 201.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 532.25,
+          "y": 201.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 627.5,
+          "y": 201.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 722.75,
+          "y": 201.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 437,
+          "y": 296.5,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 532.25,
+          "y": 296.5,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 627.5,
+          "y": 296.5,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 722.75,
+          "y": 296.5,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 437,
+          "y": 391.75,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 532.25,
+          "y": 391.75,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 627.5,
+          "y": 391.75,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 722.75,
+          "y": 391.75,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 437,
+          "y": 487,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 532.25,
+          "y": 487,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 627.5,
+          "y": 487,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 722.75,
+          "y": 487,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 437,
+          "y": 582.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 532.25,
+          "y": 582.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 627.5,
+          "y": 582.25,
+          "width": 89.25,
+          "height": 89.25
+        },
+        {
+          "x": 722.75,
+          "y": 582.25,
+          "width": 89.25,
+          "height": 89.25
+        }
+      ],
+      "quick": [],
+      "overflow": false,
+      "controls": [
+        {
+          "label": "Arrange quick slots",
+          "x": 704.265625,
+          "y": 7.5,
+          "width": 67.734375,
+          "height": 48
+        },
+        {
+          "label": "Close inventory",
+          "x": 782,
+          "y": 7.5,
+          "width": 52,
+          "height": 48
+        },
+        {
+          "label": "To Pod locker",
+          "x": 315.703125,
+          "y": 218,
+          "width": 314.296875,
+          "height": 48
+        },
+        {
+          "label": "Split",
+          "x": 638,
+          "y": 218,
+          "width": 70,
+          "height": 48
+        },
+        {
+          "label": "Sort Pack",
+          "x": 716,
+          "y": 218,
+          "width": 106,
+          "height": 48
+        }
+      ]
+    },
+    {
+      "name": "07-storage-portrait",
+      "width": 390,
+      "height": 844,
+      "panel": {
+        "x": 8,
+        "y": 8,
+        "width": 374,
+        "height": 828
+      },
+      "grid": {
+        "x": 30,
+        "y": 167,
+        "width": 330,
+        "height": 440
+      },
+      "slots": [
+        {
+          "x": 31,
+          "y": 168,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 114.25,
+          "y": 168,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 197.5,
+          "y": 168,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 280.75,
+          "y": 168,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 31,
+          "y": 251.25,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 114.25,
+          "y": 251.25,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 197.5,
+          "y": 251.25,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 280.75,
+          "y": 251.25,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 31,
+          "y": 334.5,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 114.25,
+          "y": 334.5,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 197.5,
+          "y": 334.5,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 280.75,
+          "y": 334.5,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 31,
+          "y": 417.75,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 114.25,
+          "y": 417.75,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 197.5,
+          "y": 417.75,
+          "width": 77.25,
+          "height": 77.25
+        },
+        {
+          "x": 280.75,
+          "y": 417.75,
+          "width": 77.25,
+          "height": 77.25
+        }
+      ],
+      "quick": [],
+      "overflow": false,
+      "controls": [
+        {
+          "label": "Arrange quick slots",
+          "x": 250.265625,
+          "y": 11.5,
+          "width": 67.734375,
+          "height": 48
+        },
+        {
+          "label": "Close inventory",
+          "x": 328,
+          "y": 10.5,
+          "width": 52,
+          "height": 50
+        },
+        {
+          "label": "Backpack",
+          "x": 22,
+          "y": 70,
+          "width": 169,
+          "height": 48
+        },
+        {
+          "label": "Pod locker",
+          "x": 199,
+          "y": 70,
+          "width": 169,
+          "height": 48
+        },
+        {
+          "label": "To Pod locker",
+          "x": 22,
+          "y": 688,
+          "width": 346,
+          "height": 48
+        },
+        {
+          "label": "Split",
+          "x": 22,
+          "y": 744,
+          "width": 169,
+          "height": 48
+        },
+        {
+          "label": "Sort Pack",
+          "x": 199,
+          "y": 744,
+          "width": 169,
+          "height": 48
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "pass": true,
+  "after": {
+    "src/ui/inventoryPanel.js": "3a2f1b121f8768ed1a1d07717461bffbd435e79b1f006e170d1b8eaaa10403c6",
+    "styles/inventory.css": "0f0b5a98f054250e12e36e7a328d06406b9098b33f35b13aaddefe7854f38373",
+    "src/inventory/physicalInventory.js": "a6176fd8b27a7eb3e2027b020896edba0ca3a86ceb995bf075160c3624496555",
+    "src/ui/betaShell.js": "36ccd056c66a9d2a79af7d36940cfadae8151a896394106d418dc8e4c99d04d2"
+  }
+}

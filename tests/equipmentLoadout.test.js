@@ -10,6 +10,29 @@ test('quick slots normalize corrupt IDs, duplicates and selection without introd
   assert.equal(normalizeLoadout(null).slots.length,5);
 });
 
+test('a full pack can configure shortcuts and sorting never moves the shortcut to a different item',()=>{
+  const old=globalThis.localStorage,values=new Map();
+  globalThis.localStorage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
+  try{
+  const p=createFrontierProgress({resourceDrops:WORLD_DATA.resourceDrops});
+  p.load();
+  p.collectResources({berries:2,fiber:3});
+  assert.equal(p.craftConsumable('medkit').crafted,true);
+  assert.equal(p.collectResources({wood:300}).added.wood,300);
+  const before=p.getInventoryState();
+  assert.equal(before.pack.filter(Boolean).length,before.pack.length);
+  assert.equal(p.assignQuickSlot(4,'medkit').ok,true);
+  assert.deepEqual(p.getInventoryState(),before,'assigning changes no item quantity or storage slot');
+  assert.equal(p.inventory.sort('backpack').ok,true);
+  assert.equal(p.getLoadout().slots[4],'medkit');
+  assert.equal(getEquipmentCount(p.getLoadout().slots[4],p.getState()),1);
+  assert.equal(p.assignQuickSlot(4,null).ok,true);
+  assert.equal(p.getLoadout().slots[4],null);
+  assert.equal(p.getInventoryState().pack.filter(s=>s?.id==='medkit').reduce((n,s)=>n+s.count,0),1);
+  assert.equal(p.assignQuickSlot(4,'omni_tool').ok,true,'permanent rescue tool remains available in a full pack');
+  }finally{globalThis.localStorage=old;}
+});
+
 test('loadout assignment, use counts, reload, export/import, clear and storage rollback share the persistent owner',()=>{
   const old=globalThis.localStorage,values=new Map();let fail=false;
   globalThis.localStorage={getItem:k=>values.get(k)??null,setItem:(k,v)=>{if(fail)throw Error('storage full');values.set(k,v);},removeItem:k=>values.delete(k)};

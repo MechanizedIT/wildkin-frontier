@@ -25,7 +25,7 @@ export function createEquipmentSystem({ progress, cancelTool = () => {}, setTool
   function use() {
     if (!canUse()) return { ok: false };
     const item = selectedItem();
-    if (!item) return { ok: false, message: 'This slot is empty. Open Pack → Equipment to assign an item.' };
+    if (!item) return { ok: false, message: 'This slot is empty. Open Backpack to arrange your quick slots.' };
     if (item.kind === 'tool') return { ok: true, tool: true };
     if (item.kind === 'building') return isCamp() ? openBuild() : { ok: false, message: 'Return to Camp to build in your clearing.' };
     if (item.kind === 'taming') return beginTaming(item);

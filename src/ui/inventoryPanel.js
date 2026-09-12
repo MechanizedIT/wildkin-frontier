@@ -1,6 +1,6 @@
 import { iconMarkup } from './itemIcons.js';
 import { equipmentIcon } from '../equipment/equipmentView.js';
-import { EQUIPMENT_BY_ID } from '../equipment/equipmentCatalog.js';
+import { EQUIPMENT_BY_ID, QUICK_SLOT_COUNT } from '../equipment/equipmentCatalog.js';
 
 const MESSAGES = {
   full: 'No room in that container.', 'out-of-reach': 'Move beside the storage container.',
@@ -8,6 +8,7 @@ const MESSAGES = {
   'partial-swap': 'Choose an empty slot for part of a stack.', 'withdraw-only': 'This container only allows withdrawals.',
   'unknown-container': 'That container is no longer available.', 'same-slot': 'Choose another slot.',
   'invalid-count': 'Choose a valid amount from this stack.', 'invalid-destination': 'Choose an available slot.',
+  'item-unavailable': 'Take that supply into your backpack first.', 'invalid-slot': 'Choose one of the five quick slots.',
 };
 
 const INVENTORY_DRAG = { size:64, touchGap:24, edge:8, mouseOffset:12, holdMs:320, slop:8 };
@@ -56,6 +57,7 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
   overlay.innerHTML = `<section class="inventory-panel" role="dialog" aria-modal="true" aria-label="Backpack and storage">
     <header class="ip-heading">${iconMarkup('backpack',{size:40})}<h2>Backpack & Storage</h2><button type="button" class="ip-alternate" data-ip="alternate" hidden></button><button type="button" data-ip="close" aria-label="Close inventory">×</button></header>
     <nav class="ip-container-switch" aria-label="Visible container"><button type="button" data-ip="show-pack">Backpack</button><button type="button" data-ip="show-storage">Storage</button></nav>
+    <section class="ip-loadout" aria-label="Arrange quick slots" hidden><div class="ip-loadout-heading"><strong>Quick slots</strong><span class="ip-loadout-help">Select a carried supply, then a slot</span></div><div class="ip-loadout-controls"><div class="ip-quick-slots">${Array.from({length:QUICK_SLOT_COUNT},(_,slot)=>`<button type="button" class="ip-quick-slot" data-quick-slot="${slot}"></button>`).join('')}</div><div class="ip-tool-picker"><button type="button" data-ip-tool="omni_tool" aria-label="Assign permanent Omni-tool">${equipmentIcon('omni_tool',28)}<span>Omni</span></button><button type="button" data-ip-tool="build_tool" aria-label="Assign permanent Construction tool">${equipmentIcon('build_tool',28)}<span>Build</span></button><button type="button" data-ip="clear-quick-slot" disabled>Clear</button></div></div></section>
     <div class="ip-containers"></div>
     <footer class="ip-footer"><div class="ip-selection"><i></i><span><strong>Select an item</strong><small>Tap a stack to inspect it</small></span></div><button type="button" data-ip="transfer">To storage</button><button type="button" data-ip="split">Split</button><button type="button" data-ip="sort">Sort Pack</button></footer>
     <p class="ip-status" role="status" aria-live="polite">Tap an item, then an empty slot. Drag to swap.</p>
@@ -69,15 +71,41 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
   const panel = overlay.querySelector('.inventory-panel'), containersEl = overlay.querySelector('.ip-containers');
   const status = overlay.querySelector('.ip-status'), selectionEl = overlay.querySelector('.ip-selection');
   const splitEl = overlay.querySelector('.ip-split'), ghost = overlay.querySelector('.ip-drag-ghost');
+  const loadoutEl = overlay.querySelector('.ip-loadout'), quickButtons = [...overlay.querySelectorAll('.ip-quick-slot')];
   const control = id => overlay.querySelector(`[data-ip="${id}"]`);
   const views = new Map();
   const resizeObserver = new ResizeObserver(updateScrollHints);
   let opened = false, storageId = null, model = null, selection = null, activeId = 'backpack', signature = '';
   let splitCount = null, gesture = null, holdTimer = null, suppressClick = false, restoreFocus = null;
+  let selectedTool = null, selectedQuickSlot = null;
   const containers = () => [model?.pack, model?.storage].filter(Boolean);
   const container = id => containers().find(c => c.id === id);
   const selectedStack = () => container(selection?.id)?.slots[selection?.index];
   const slotButton = (id,index) => views.get(id)?.buttons[index];
+  const selectedEquipment = () => selectedTool ?? (selection?.id === model?.pack.id && selectedStack()?.count > 0 && EQUIPMENT_BY_ID[selectedStack()?.id] ? selectedStack().id : null);
+  function renderLoadout() {
+    loadoutEl.hidden = !model?.loadout || !!model.storage;
+    if (!model?.loadout) return;
+    const assigning = selectedEquipment();
+    quickButtons.forEach((button,slot) => {
+      const id=model.loadout.slots[slot],item=EQUIPMENT_BY_ID[id],permanent=item?.kind==='tool'||item?.kind==='building';
+      const count=permanent?1:model.pack.slots.reduce((n,stack)=>n+(stack?.id===id?stack.count:0),0);
+      const key=`${id}:${count}`;
+      if(button.dataset.content!==key){button.innerHTML=`<kbd>${slot+1}</kbd>${equipmentIcon(id,36)}${item&&!permanent?`<b>${count}</b>`:''}`;button.dataset.content=key;}
+      button.classList.toggle('is-selected',selectedQuickSlot===slot||!!assigning&&assigning===id);
+      button.classList.toggle('is-empty',!!item&&!count);
+      button.setAttribute('aria-pressed',String(selectedQuickSlot===slot));
+      button.setAttribute('aria-label',`${assigning?'Assign '+EQUIPMENT_BY_ID[assigning].name+' to':'Inspect'} quick slot ${slot+1}: ${item?.name??'Empty'}${item&&!permanent?`, ${count} carried`:''}`);
+    });
+    overlay.querySelector('.ip-loadout-help').textContent=assigning?`${EQUIPMENT_BY_ID[assigning].name} → tap a slot`:selectedQuickSlot!==null?`Slot ${selectedQuickSlot+1} · choose a supply to replace it`:'Select a carried supply, then a slot';
+    for(const button of overlay.querySelectorAll('[data-ip-tool]'))button.setAttribute('aria-pressed',String(button.dataset.ipTool===selectedTool));
+    control('clear-quick-slot').disabled=selectedQuickSlot===null||!model.loadout.slots[selectedQuickSlot];
+  }
+  function assignSlot(slot) {
+    const itemId=selectedEquipment();
+    if(!itemId){selectedQuickSlot=slot;selection=null;selectedTool=null;renderSelection();say('Choose a carried supply to replace a slot, or Clear to remove this shortcut.');return;}
+    if(act('assignQuickSlot',{slot,itemId})){selection=null;selectedTool=null;selectedQuickSlot=slot;renderSelection();say(`${EQUIPMENT_BY_ID[itemId].name} assigned to slot ${slot+1}. Items stay in your backpack.`);}
+  }
   function itemIcon(stack, size = 50) {
     return EQUIPMENT_BY_ID[stack.id] ? equipmentIcon(stack.id,size) : iconMarkup(model.catalog?.[stack.id]?.icon ?? stack.id,{size});
   }
@@ -95,6 +123,7 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
     gesture = null; ghost.hidden = true; overlay.classList.remove('is-dragging');
   }
   function select(id,index) {
+    selectedTool=null;selectedQuickSlot=null;
     activeId = id; const stack = container(id)?.slots[index];
     selection = stack ? { id,index,itemId:stack.id } : null; splitCount = null; renderSelection();
     say(model.catalog?.[stack?.id]?.description ?? 'Tap an item, then an empty slot. Drag to swap.');
@@ -108,11 +137,12 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
         button.classList.toggle('is-selected',selected); button.setAttribute('aria-pressed',String(selected));
       });
     }
-    const name = stack ? model.catalog?.[stack.id]?.name ?? stack.id : 'Select an item';
-    const iconKey = stack?.id ?? '';
-    if (selectionEl.dataset.icon !== iconKey) { selectionEl.querySelector('i').innerHTML = stack ? itemIcon(stack,48) : ''; selectionEl.dataset.icon = iconKey; }
+    const quickId=selectedQuickSlot===null?null:model?.loadout?.slots[selectedQuickSlot],shownEquipment=EQUIPMENT_BY_ID[selectedTool??quickId];
+    const name = stack ? model.catalog?.[stack.id]?.name ?? stack.id : shownEquipment?.name ?? 'Select an item';
+    const iconKey = stack?.id ?? shownEquipment?.id ?? '';
+    if (selectionEl.dataset.icon !== iconKey) { selectionEl.querySelector('i').innerHTML = stack ? itemIcon(stack,48) : shownEquipment ? equipmentIcon(shownEquipment.id,48) : ''; selectionEl.dataset.icon = iconKey; }
     selectionEl.querySelector('strong').textContent = name;
-    selectionEl.querySelector('small').textContent = stack ? source.withdrawOnly ? `${stack.count} ready to take${Number.isFinite(stack.totalCount) ? ` • ${stack.totalCount} remaining` : ''}` : `${stack.count} ${source.id === model.pack.id ? 'carried' : 'stored'}` : 'Tap a stack to inspect it';
+    selectionEl.querySelector('small').textContent = stack ? source.withdrawOnly ? `${stack.count} ready to take${Number.isFinite(stack.totalCount) ? ` • ${stack.totalCount} remaining` : ''}` : `${stack.count} ${source.id === model.pack.id ? 'carried' : 'stored'}` : selectedTool ? 'Permanent tool · choose a quick slot' : selectedQuickSlot!==null ? `Quick slot ${selectedQuickSlot+1} · shortcut only` : 'Tap a stack to inspect it';
     control('transfer').textContent = source?.withdrawOnly ? 'Take to Backpack' : destination ? `To ${destination.label}` : 'Storage unavailable';
     control('transfer').title = destination?.withdrawOnly ? 'Legacy supplies is withdraw-only. Open Pod locker to deposit items.' : destination ? `Move selected stack to ${destination.label}` : 'Open a nearby storage container to transfer items.';
     control('transfer').disabled = !stack || !destination || !!destination.withdrawOnly;
@@ -122,6 +152,7 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
     control('sort').disabled = !!container(activeId)?.withdrawOnly;
     control('sort').title = container(activeId)?.withdrawOnly ? 'Legacy supplies cannot be sorted.' : `Merge and sort ${container(activeId)?.label ?? 'Backpack'}`;
     for (const [id,key] of [[model?.pack?.id,'show-pack'],[model?.storage?.id,'show-storage']]) control(key).setAttribute('aria-pressed',String(id === activeId));
+    renderLoadout();
     updateScrollHints();
   }
   function update() {
@@ -129,7 +160,7 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
     const next = getModel(storageId);
     if (!next?.pack?.slots) { close(); return; }
     model = next;
-    const nextSignature = containers().map(c => `${c.id}:${c.label}:${!!c.withdrawOnly}:${c.slots.map(s=>s ? `${s.id}:${s.count}:${s.totalCount??''}` : '-').join(',')}`).join('|') + `|${model.alternateStorage?.id??''}:${model.alternateStorage?.label??''}`;
+    const nextSignature = containers().map(c => `${c.id}:${c.label}:${!!c.withdrawOnly}:${c.slots.map(s=>s ? `${s.id}:${s.count}:${s.totalCount??''}` : '-').join(',')}`).join('|') + `|${model.alternateStorage?.id??''}:${model.alternateStorage?.label??''}|${model.loadout?.slots.join(',')??''}`;
     if (nextSignature === signature) return;
     signature = nextSignature;
     if (!container(activeId)) activeId = model.pack.id;
@@ -166,6 +197,8 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
     control('alternate').textContent=model.alternateStorage?.label??'';
     control('alternate').title=model.alternateStorage?`Open ${model.alternateStorage.label}`:'';
     overlay.querySelector('h2').textContent=model.storage?'Backpack & Storage':'Backpack';
+    const journalButton=control('journal');
+    if(journalButton){journalButton.textContent=model.storage?'Hotbar':'Journal';journalButton.setAttribute('aria-label',model.storage?'Arrange quick slots':'Journal');}
     control('show-pack').textContent=model.pack.label;control('show-storage').textContent=model.storage?.label??'Storage';control('show-storage').hidden=!model.storage;
     renderSelection();
   }
@@ -197,7 +230,7 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
   function renderQuantity(){overlay.querySelector('.ip-quantity output').textContent=splitCount;control('less').disabled=splitCount<=1;control('more').disabled=splitCount>=selectedStack().count-1;}
   function open(id=null) {
     if(opened)cancelDrag();else restoreFocus=document.activeElement;
-    storageId=id;opened=true;overlay.hidden=false;signature='';selection=null;activeId='backpack';splitEl.hidden=true;splitCount=null;suppressClick=false;
+    storageId=id;opened=true;overlay.hidden=false;signature='';selection=null;selectedTool=null;selectedQuickSlot=null;activeId='backpack';splitEl.hidden=true;splitCount=null;suppressClick=false;
     update();if(!opened)return;
     const initial=model.storage?.withdrawOnly?model.storage:model.pack;
     select(initial.id,initial.slots.findIndex(Boolean));for(const view of views.values())view.grid.scrollTop=0;updateScrollHints();
@@ -206,11 +239,16 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
   function close(){if(!opened)return;cancelDrag();opened=false;overlay.hidden=true;splitEl.hidden=true;selection=null;splitCount=null;onBlockingChanged(false);restoreFocus?.focus?.({preventScroll:true});}
   function click(event) {
     event.stopPropagation();if(suppressClick){suppressClick=false;return;}
+    const tool=event.target.closest('[data-ip-tool]');
+    if(tool){selectedTool=tool.dataset.ipTool;selection=null;selectedQuickSlot=null;splitEl.hidden=true;renderSelection();say('Choose a quick slot for this permanent tool.');return;}
+    const quick=event.target.closest('.ip-quick-slot');
+    if(quick){assignSlot(Number(quick.dataset.quickSlot));return;}
     const slot=event.target.closest('.ip-slot');
     if(slot){const id=slot.dataset.container,index=Number(slot.dataset.index);if(selection&&!container(id).slots[index])moveSelection(id,index);else select(id,index);return;}
     const action=event.target.closest('[data-ip]')?.dataset.ip;
     if(action==='close')close();
-    else if(action==='journal'){close();onOpenJournal?.();}
+    else if(action==='clear-quick-slot'&&selectedQuickSlot!==null){const slot=selectedQuickSlot;if(act('assignQuickSlot',{slot,itemId:null})){renderSelection();say(`Slot ${slot+1} cleared. Your items stayed in place.`);}}
+    else if(action==='journal'){if(model.storage)open();else{close();onOpenJournal?.();}}
     else if(action==='alternate'&&model.alternateStorage)open(model.alternateStorage.id);
     else if(action==='transfer'){const other=containers().find(c=>c.id!==selection?.id);if(other)moveSelection(other.id);}
     else if(action==='sort'){act('sort',{id:activeId});selection=null;renderSelection();}
@@ -246,14 +284,14 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
   }
   function pointerUp(event){
     event.stopPropagation();if(!gesture||gesture.pointerId!==event.pointerId)return;
-    const active=gesture.active,target=document.elementFromPoint(event.clientX,event.clientY)?.closest('.ip-slot');
+    const active=gesture.active,target=document.elementFromPoint(event.clientX,event.clientY)?.closest('.ip-slot,.ip-quick-slot');
     cancelDrag();if(!active)return;suppressClick=true;
-    if(target&&overlay.contains(target))moveSelection(target.dataset.container,Number(target.dataset.index));else say('Move cancelled. Your items stayed in place.');
+    if(target&&overlay.contains(target)){if(target.matches('.ip-quick-slot')){if(selectedEquipment())assignSlot(Number(target.dataset.quickSlot));else say('Only carried tools and usable supplies can go in quick slots.');}else moveSelection(target.dataset.container,Number(target.dataset.index));}else say('Move cancelled. Your items stayed in place.');
   }
   function keyDown(event){
     if(!opened)return;
     event.stopPropagation();
-    if(event.key==='Escape'){event.preventDefault();event.stopPropagation();if(gesture){cancelDrag();say('Move cancelled.');}else if(!splitEl.hidden){splitCount=null;splitEl.hidden=true;control('split').focus();}else if(selection){selection=null;renderSelection();say('Selection cleared. Escape closes inventory.');}else close();return;}
+    if(event.key==='Escape'){event.preventDefault();event.stopPropagation();if(gesture){cancelDrag();say('Move cancelled.');}else if(!splitEl.hidden){splitCount=null;splitEl.hidden=true;control('split').focus();}else if(selection||selectedTool||selectedQuickSlot!==null){selection=null;selectedTool=null;selectedQuickSlot=null;renderSelection();say('Selection cleared. Escape closes inventory.');}else close();return;}
     if(event.key==='Tab'){
       const scope=splitEl.hidden?panel:splitEl,buttons=[...scope.querySelectorAll('button:not(:disabled)')].filter(b=>b.getClientRects().length);const first=buttons[0],last=buttons.at(-1);
       if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}event.stopPropagation();return;

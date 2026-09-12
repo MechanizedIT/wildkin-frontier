@@ -1410,3 +1410,14 @@
 - Chris explicitly asked the producer to choose the best of three or four versions and move on while he sleeps. Recorded this override of the aesthetic question gate in CURRENT_SLICE, SESSION_START, OVERNIGHT_RUN_2 and the project skill. Preserve safety, save/collision correctness, spending limits, honest scores and distinction from owner personally viewing a candidate.
 - Independent side-by-side Rootfall review recommends retaining V4: clearer native cut sites outweigh V2's higher historical7.4 versus V4's7.1. Root selected V4; six source/runtime hashes and numeric collider data already match, so no swap or redundant gameplay revalidation. Known arch-like underside, broad cut bands and subtle first-cut change remain. Durable comparison: art/source/rootfall-v1/candidate-v4/PRODUCER_SELECTION.md.
 - Shatterfen V3 target plus explicit omitted-mark role plan now passes independent admission. Standalone composition/test work is under separate code review; canonical world is unchanged.
+
+
+## 2026-09-12 — Backpack quick-slot editing — Codex Astra root, Terra reference author, independent Astra UI reviewer
+
+The development Backpack now edits the existing five saved item-ID shortcuts. Select a carried usable supply and tap a slot, or drag it there; choose Omni/Build to restore permanent tools. Select a shortcut and Clear to unassign it without moving supplies. Sorting, splitting, storing or consuming stacks never changes their shortcut identity; counts come only from the pack, and an exhausted reference can remain at zero. No new inventory container, item, recipe or weapon was introduced.
+
+Storage-transfer views hide the assignment strip to preserve square cells and visible actions; their Hotbar button opens the ordinary pack-only arrangement. The Backpack's Journal button and Journal Gear route use the same physical panel. Short landscape uses side-by-side pack/shortcut groups; portrait retains a top strip and square grid.
+
+Independent actual-UI review V1 held7.7 for storage clipping; V2 passes8.3 after the contextual layout fix. Eighteen focused tests and the isolated native nine-step fixture pass tap/mouse-drag assignment, sorting, permanent tools/clear, save failure/retry, keyboard selection, literal reload and Gear/Hotbar navigation. An independent V1 long-press touch-drag also passed; V2 did not change the gesture handler. View checks cover landscape, portrait and short/narrow storage with fixed controls visible and at least one full square row. This is browser emulation, not physical-phone acceptance or whole earned gameplay. Source hashes and receipts: .dream-loop/physical-hotbar-v1/implementation-v2/.
+
+Aggregate/package closure is pending the parallel Shatterfen integration; prior V7 ZIP remains the packaged checkpoint.

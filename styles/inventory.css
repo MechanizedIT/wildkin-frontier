@@ -30,3 +30,25 @@
 /* Overflow guidance shares the existing heading height; slots keep their space. */
 .ip-container-title{display:flex;flex-direction:column;justify-content:center}.ip-scroll-hint{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#aee0e3;font-size:11px;line-height:12px;font-weight:700;text-transform:none}
 .inventory-panel [data-ip=transfer]:disabled{background:#163d48;border-color:#488e99;color:var(--ip-muted);opacity:.65}
+/* The five slots are references to carried items, alongside permanent tools. */
+.ip-loadout{flex:0 0 auto;align-self:center;width:min(700px,100%);padding:6px 12px 2px}
+.ip-loadout-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:22px;margin-bottom:4px}
+.ip-loadout-heading strong{font-size:16px;white-space:nowrap}.ip-loadout-help{font-size:12px;color:#bde2df;text-align:right;line-height:1.25}
+.ip-loadout-controls{display:flex;justify-content:center;align-items:center;gap:16px}
+.ip-quick-slots{display:grid;grid-template-columns:repeat(5,56px);gap:7px}
+.inventory-panel .ip-quick-slot{position:relative;display:grid;place-items:center;width:56px;height:56px;min-width:48px;min-height:48px;padding:4px;aspect-ratio:1}
+.ip-quick-slot .item-icon{width:36px!important;height:36px!important;pointer-events:none}.ip-quick-slot kbd{position:absolute;left:4px;top:3px;font:900 11px/1 Nunito,system-ui,sans-serif;color:#bee0de;pointer-events:none}.ip-quick-slot b{position:absolute;right:4px;bottom:3px;font-size:15px;line-height:1;pointer-events:none;text-shadow:0 1px 2px #001a25}
+.inventory-panel .ip-quick-slot.is-selected,.inventory-panel [data-ip-tool][aria-pressed=true]{border-color:#ffcb69;background:#21424a;box-shadow:0 0 0 1px #b17a2b}.ip-quick-slot.is-empty .item-icon{opacity:.4}
+.ip-tool-picker{display:flex;gap:6px;border-left:1px solid #397b86;padding-left:12px}.ip-tool-picker button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:52px;height:52px;padding:2px}.ip-tool-picker span{font-size:11px;line-height:1}.ip-tool-picker .item-icon{pointer-events:none}.inventory-panel [data-ip=clear-quick-slot]{font-size:13px}
+@media(orientation:portrait),(max-width:544px){.ip-loadout{padding:8px 12px 2px}.ip-loadout-heading{align-items:flex-start}.ip-loadout-controls{flex-wrap:wrap;gap:6px}.ip-quick-slots{grid-template-columns:repeat(5,minmax(48px,1fr));width:100%;gap:5px}.inventory-panel .ip-quick-slot{width:100%;height:auto;min-height:48px}.ip-tool-picker{border-left:0;padding-left:0;justify-content:flex-end;width:100%}.ip-tool-picker button{height:48px;width:56px}.ip-tool-picker [data-ip-tool]{width:auto;min-width:84px;flex-direction:row;gap:5px}.ip-tool-picker span{font-size:13px}}
+@media(orientation:landscape) and (max-height:400px){.ip-loadout{padding-top:2px}.ip-loadout-heading{min-height:18px;margin-bottom:2px}.ip-quick-slots{grid-template-columns:repeat(5,48px);gap:6px}.inventory-panel .ip-quick-slot{width:48px;height:48px}.ip-tool-picker button{height:48px}.is-pack-only .ip-containers{max-width:340px}.ip-containers{min-height:110px}}
+/* Short phone browsers need side-by-side pack/loadout, not another stacked bar. */
+@media(orientation:landscape) and (max-height:400px){
+ .inventory-panel.is-pack-only{display:grid;grid-template-columns:minmax(284px,.9fr) minmax(248px,1.1fr);grid-template-rows:48px minmax(110px,1fr)60px 24px;overflow:hidden}
+ .is-pack-only .ip-heading{grid-column:1/-1;height:48px}.is-pack-only .ip-loadout{grid-column:1;grid-row:2;align-self:center;padding:5px 10px;width:100%;min-width:0}
+ .is-pack-only .ip-loadout-heading{flex-direction:column;gap:4px;margin-bottom:8px}.is-pack-only .ip-loadout-help{text-align:center;max-width:100%}
+ .is-pack-only .ip-loadout-controls{flex-wrap:wrap;gap:8px}.is-pack-only .ip-tool-picker{border:0;padding:0;justify-content:center;width:100%}
+ .is-pack-only .ip-containers{grid-column:2;grid-row:2;align-self:stretch;width:100%;max-width:none;min-height:0;padding:7px 12px 7px 0}
+ .is-pack-only .ip-slots{width:100%;max-width:clamp(210px,calc(400dvh - 882px),400px);justify-self:center}
+ .is-pack-only .ip-footer{grid-column:1/-1;padding-top:4px;padding-bottom:4px}.is-pack-only .ip-status{grid-column:1/-1;padding-top:2px;align-self:stretch;overflow:hidden}
+}

@@ -35,11 +35,12 @@ export function createPhysicalInventory({ app, progress, registry, getPlayerStat
         if (storageId === POD_LOCKER_ID && legacySlots().length) alternateStorage = { id:LEGACY_SUPPLIES_ID,label:'Legacy supplies' };
       }
     }
-    return { pack:{id:'backpack',label:'Backpack',slots:inventory.pack},storage,catalog,alternateStorage };
+    return { pack:{id:'backpack',label:'Backpack',slots:inventory.pack},storage,catalog,alternateStorage,loadout:progress.getLoadout() };
   }
   function action(type,payload) {
     let result;
     if (type === 'sort') result = progress.inventory.sort(payload.id);
+    else if (type === 'assignQuickSlot') result = progress.assignQuickSlot(payload.slot,payload.itemId);
     else if (type === 'transfer' && payload.fromId === LEGACY_SUPPLIES_ID) {
       const stack=legacySlots()[payload.fromIndex];
       result=stack && stack.id===payload.itemId && payload.toId === 'backpack' ? progress.inventory.takeLegacy(stack.id,payload.count ?? stack.count) : {ok:false,reason:'empty-source'};
