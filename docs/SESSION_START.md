@@ -9,9 +9,9 @@
 
 ## Current result
 
-Living Frontier has streamed terrain/forage/wildlife, personal atlas, individual Mosslings, physical nursery/garden care, pairing/young, portrait-first controls and bounded habitat scenery. F5B now adds slow natural-face climbing, holding/descent/release and collision-resolved mantle. Chris's repeated-wall-jump bug is reproduced/fixed through real floor support; falls under knockback also count correctly.1,123tests plus verify/build/validate/ZIP PASS;44.09MB/20.53MB. Approach UI8.7PASS; R3 staging improved, but hand/boot/mantle art remains HOLD. See `art/reviews/living-frontier-f5b/receipt.md`.
+Living Frontier now connects earned wild research to an optional Natural/parent-body-tone nursery choice. Exact guided young persist through growth/reload/Welcome, while ordinary inheritance remains available. F7B visual8.4PASS. F2D selects improved route framing R2 at6.9HOLD; broad ground fullness remains debt. Slow climbing and the wall-jump fix remain intact. Final1,127tests and verify/build/validate/ZIP PASS;44.10MB/20.53MB. Native seven-waypoint route retained health5; packaged portrait breeding and streamed Jump passed. See `art/reviews/living-frontier-f7b/receipt.md` and `art/reviews/living-frontier-f2d/receipt.md`.
 
-**Next: run F7B field research/optional tone-guided pairing alongside F2D fuller habitat vegetation.** Chris explicitly wants faster visible progress and independent concurrent jobs. Four active agents total including root are available. Read exact ownership and scope in CURRENT_SLICE; preserve ordinary pairing and bounded scenery. Mobile/casual-first portrait remains primary; do not resume older landscape/PC priority. Continue the goal until Chris asks to stop.
+**Next: F1B rolling terrain and F4B clearer existing body tones, with separate writers.** Capture actual baselines and feasible targets first; CURRENT_SLICE defines scope and ownership. The terrain audit found one fixed deterministic world edition, not complete per-save seed control. Preserve Camp, clearings and terrace route. Four active agents total including root are available. Mobile/casual-first portrait remains primary. Continue the goal until Chris asks to stop.
 
 ## Inherited restart checkpoint
 

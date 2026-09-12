@@ -15,8 +15,10 @@ const MAX_SLOPE = .32;
 const SLOPE_STEP = .8;
 const CAMP_CLEARANCE = 6;
 const FORAGE_CLEARANCE = 3.2;
-const ROUTE_CLEARANCE = 1.6;
-const SOLID_ROUTE_CLEARANCE = 1.65;
+// Solid trunks and stones keep a true walk lane. Soft foliage may frame that
+// lane more closely, which is what makes the portrait route read as habitat.
+const ROUTE_CLEARANCE = 1.15;
+const SOLID_ROUTE_CLEARANCE = 2.1;
 const TERRACE_CLEARANCE = Object.freeze({ minX: 18, maxX: 46, minZ: -150, maxZ: -108 });
 const NORTH_ROUTE = Object.freeze([
   Object.freeze([0, -56]), Object.freeze([7, -68]), Object.freeze([7, -85]), Object.freeze([20, -95]), Object.freeze([24, -118]),
@@ -29,14 +31,14 @@ const STAGED = Object.freeze(new Map([
     Object.freeze({ key: 'tree-north', assetId: 'asset_verge_canopy_tall', x: 6, z: -106, scale: .9, kind: 'canopy' }),
   ])],
   ['0,-2', Object.freeze([
-    Object.freeze({ key: 'tree-west-1', assetId: 'asset_verge_canopy', x: 5.2, z: -78.5, scale: .75, yaw: .2, kind: 'canopy' }),
+    Object.freeze({ key: 'tree-west-1', assetId: 'asset_verge_canopy', x: 4.85, z: -78.5, scale: .82, yaw: .2, kind: 'canopy' }),
     Object.freeze({ key: 'tree-west-2', assetId: 'asset_verge_canopy_spread', x: 1.8, z: -85, scale: .72, yaw: -.35, kind: 'canopy' }),
     Object.freeze({ key: 'fen-1', assetId: 'asset_fen_reed', x: 8.7, z: -75.8, scale: .42, kind: 'low' }),
     Object.freeze({ key: 'fen-2', assetId: 'asset_fen_lily', x: 8.7, z: -76.8, scale: .55, kind: 'low' }),
     Object.freeze({ key: 'fen-3', assetId: 'asset_mushroom_ring', x: 5.2, z: -77.4, scale: .8, kind: 'low' }),
     Object.freeze({ key: 'fen-4', assetId: 'asset_fen_reed', x: 8.8, z: -78, scale: .5, kind: 'low' }),
     Object.freeze({ key: 'fen-5', assetId: 'asset_fen_lily', x: 9.1, z: -78.1, scale: .5, kind: 'low' }),
-    Object.freeze({ key: 'fen-6', assetId: 'asset_fen_stone', x: 8.8, z: -78.8, scale: .32, kind: 'low' }),
+    Object.freeze({ key: 'fen-6', assetId: 'asset_fen_stone', x: 9.2, z: -78.8, scale: .32, kind: 'low' }),
     Object.freeze({ key: 'fen-7', assetId: 'asset_fen_reed', x: 9, z: -80, scale: .38, kind: 'low' }),
     Object.freeze({ key: 'fen-8', assetId: 'asset_fen_lily', x: 8.7, z: -79.9, scale: .46, kind: 'low' }),
   ])],
@@ -128,19 +130,21 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   };
   for (const candidate of STAGED.get(`${cx},${cz}`) ?? []) accept(`stage-${candidate.key}`, candidate, true);
 
-  // Seed two loose clumps rather than an even scatter. Slot zero is always a
-  // stable canopy silhouette; the other slots express the sampled blend.
-  for (let attempt = 0; attempt < 20 && specs.length < 6; attempt++) {
-    const group = attempt % 2, slot = Math.floor(attempt / 2);
+  // Three seeded patches make a visible verge/fen rhythm without filling the
+  // walking lane with a uniform scatter. Slot zero is the patch silhouette;
+  // later slots build its low habitat detail.
+  for (let attempt = 0; attempt < 30 && specs.length < 6; attempt++) {
+    const group = attempt % 3, slot = Math.floor(attempt / 3);
     const centerX = cx * size + 10 + random(cx, cz, group, 31) * (size - 20);
     const centerZ = cz * size + 10 + random(cx, cz, group, 53) * (size - 20);
     const angle = random(cx, cz, attempt, 71) * Math.PI * 2, radius = slot ? 2.2 + random(cx, cz, attempt, 83) * 5.8 : 0;
     const x = centerX + Math.cos(angle) * radius, z = centerZ + Math.sin(angle) * radius;
     const sample = terrainSample(x, z, options), canopy = !specs.some(spec => spec.kind === 'canopy');
+    const canopyRoll = random(cx, cz, attempt, 97);
     const assetId = canopy
-      ? (random(cx, cz, attempt, 97) < .5 ? 'asset_verge_canopy_tall' : 'asset_verge_canopy_spread')
+      ? (canopyRoll < .34 ? 'asset_verge_canopy' : canopyRoll < .67 ? 'asset_verge_canopy_tall' : 'asset_verge_canopy_spread')
       : lowAsset(sample, random(cx, cz, attempt, 101), random(cx, cz, attempt, 107));
-    accept(`seed-${attempt}`, { x, z, assetId, kind: canopy ? 'canopy' : 'low', scale: canopy ? .82 + random(cx, cz, attempt, 113) * .16 : .76 + random(cx, cz, attempt, 127) * .3, yaw: random(cx, cz, attempt, 131) * Math.PI * 2 });
+    accept(`seed-${attempt}`, { x, z, assetId, kind: canopy ? 'canopy' : 'low', scale: canopy ? .72 + random(cx, cz, attempt, 113) * .34 : .76 + random(cx, cz, attempt, 127) * .3, yaw: random(cx, cz, attempt, 131) * Math.PI * 2 });
   }
   return specs;
 }

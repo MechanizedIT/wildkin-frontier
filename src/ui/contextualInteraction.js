@@ -22,6 +22,7 @@ export function createContextualInteraction(opts = {}) {
   let current = null; // {id, type, label}
   let buttonEl = null;
   let secondaryEl = null;
+  let captionEl = null, choicePresented = false;
   const primaryGesture = createContextualGesture(), secondaryGesture = createContextualGesture();
   let markerEl = null, presented = false, portraitPresented = false;
   let presentationKey = "";
@@ -38,10 +39,13 @@ export function createContextualInteraction(opts = {}) {
     presented = value;
     const next = value && portrait;
     if (next !== portraitPresented) { portraitPresented = next; opts.onPortraitVisibilityChanged?.(next); }
+    const choice = value && current?.pairChoice === true;
+    if (choice !== choicePresented) { choicePresented = choice; app?.classList.toggle('nursery-choice-open', choice); }
   }
   const hide = () => {
     if (buttonEl) buttonEl.hidden = true; if (secondaryEl) secondaryEl.hidden = true;
     if (leaderEl) leaderEl.hidden = true; if (markerEl) markerEl.hidden = true;
+    if (captionEl) captionEl.hidden = true;
     pressedTarget = null; primaryGesture.cancel(); secondaryGesture.cancel(); setPresented(false);
   };
 
@@ -54,6 +58,9 @@ export function createContextualInteraction(opts = {}) {
     secondaryEl = document.createElement('button');
     secondaryEl.id = 'contextual-secondary-action-button'; secondaryEl.type = 'button'; secondaryEl.hidden = true;
     app.appendChild(secondaryEl);
+    captionEl = document.createElement('span');
+    captionEl.id = 'contextual-action-caption'; captionEl.hidden = true;
+    app.appendChild(captionEl);
     secondaryEl.addEventListener('pointerdown', e => { e.stopPropagation(); secondaryGesture.begin(current, true); });
     secondaryEl.addEventListener('pointerup', e => e.stopPropagation());
     secondaryEl.addEventListener('pointercancel', () => secondaryGesture.cancel());
@@ -92,7 +99,7 @@ export function createContextualInteraction(opts = {}) {
     if(current?.id!==info?.id || current?.type!==info?.type)lastPlacement=null;
     current = info;
     if (!buttonEl) return;
-    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}|${info.nourishment}|${info.growthStage}|${info.secondary?.label}|${info.bonus}|${JSON.stringify(info.cost ?? info.reward ?? null)}` : "";
+    const nextKey = info ? `${info.id}|${info.type}|${info.label}|${!!info.disabled}|${info.nourishment}|${info.growthStage}|${info.secondary?.label}|${info.secondary?.color}|${info.caption}|${info.pairChoice}|${info.bonus}|${JSON.stringify(info.cost ?? info.reward ?? null)}` : "";
     // Countdown/accessibility detail can change without moving or rebuilding a
     // held action. Only its visible label/identity/availability affects layout.
     if (info) {
@@ -105,6 +112,16 @@ export function createContextualInteraction(opts = {}) {
     buttonEl.disabled = info?.disabled === true;
     buttonEl.classList.toggle('nursery-action', (info?.type === 'wildkinBed' && (info.nourishment !== null || info.growthStage != null)) || !!info?.bonus);
     secondaryEl.textContent = info?.secondary?.label ?? '';
+    if (info?.secondary?.color) {
+      const swatch = document.createElement('i'); swatch.className = 'contextual-action__swatch';
+      swatch.style.backgroundColor = info.secondary.color; swatch.setAttribute('aria-hidden', 'true');
+      secondaryEl.prepend(swatch);
+    }
+    captionEl.textContent = info?.caption ?? '';
+    for (const el of [buttonEl, secondaryEl]) {
+      if (info?.caption) el.setAttribute('aria-describedby', captionEl.id);
+      else el.removeAttribute('aria-describedby');
+    }
     size = null; layoutTimer = 1; hide();
     if (!info) {
 
@@ -156,6 +173,7 @@ export function createContextualInteraction(opts = {}) {
     if (!point || (!pinned && opts.anchor.isOccluded(opts.camera, anchor, dt))) { hide(); return; }
     buttonEl.hidden = false;
     secondaryEl.hidden = !current.secondary;
+    captionEl.hidden = !current.caption;
     const portrait = frame.width < frame.height;
     const statusOnly = portrait && current.disabled === true;
     buttonEl.classList.toggle('portrait-context-status', statusOnly);
@@ -171,6 +189,7 @@ export function createContextualInteraction(opts = {}) {
         buttonEl.style.setProperty('--context-y', `${Math.max(8,point.y-44)}px`);
       }
       secondaryEl.style.left = ''; secondaryEl.style.top = '';
+      captionEl.style.left = ''; captionEl.style.top = '';
       size = null; lastPlacement = null;
       return;
     }
@@ -184,7 +203,8 @@ export function createContextualInteraction(opts = {}) {
       size = null; lastPlacement = null;
       return;
     }
-    if (!size) size = { width: Math.max(buttonEl.offsetWidth, current.secondary ? secondaryEl.offsetWidth : 0), height: buttonEl.offsetHeight + (current.secondary ? secondaryEl.offsetHeight + 5 : 0) };
+    const captionHeight = current.caption ? captionEl.offsetHeight + 6 : 0;
+    if (!size) size = { width: Math.max(buttonEl.offsetWidth, current.secondary ? secondaryEl.offsetWidth : 0, current.caption ? captionEl.offsetWidth : 0), height: captionHeight + buttonEl.offsetHeight + (current.secondary ? secondaryEl.offsetHeight + 5 : 0) };
     layoutTimer += dt;
     // This only projects eight cached corners; moving body bounds must track
     // the same frame as the anchor, independently of throttled DOM layout.
@@ -215,8 +235,9 @@ export function createContextualInteraction(opts = {}) {
     lastPlacement={left:position.left,top:position.top,anchorX:point.x,anchorY:point.y};
     // Hold the touch target under the finger until release; don't chase a
     // moving creature midway through the user's tap.
-    buttonEl.style.left = `${position.left}px`; buttonEl.style.top = `${position.top}px`;
-    if (current.secondary) { secondaryEl.style.left = `${position.left}px`; secondaryEl.style.top = `${position.top + buttonEl.offsetHeight + 5}px`; }
+    buttonEl.style.left = `${position.left}px`; buttonEl.style.top = `${position.top + captionHeight}px`;
+    if (current.caption) { captionEl.style.left = `${position.left}px`; captionEl.style.top = `${position.top}px`; }
+    if (current.secondary) { secondaryEl.style.left = `${position.left}px`; secondaryEl.style.top = `${position.top + captionHeight + buttonEl.offsetHeight + 5}px`; }
     const dx = point.x - position.endX, dy = point.y - position.endY;
     leaderEl.style.left = `${position.endX}px`; leaderEl.style.top = `${position.endY}px`;
     leaderEl.style.width = `${Math.hypot(dx, dy)}px`;

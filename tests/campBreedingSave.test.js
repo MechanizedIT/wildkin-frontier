@@ -30,6 +30,8 @@ function setupPair() {
     individual('wildkin_parent_a', 'f1:w:0:-2:0'),
     individual('wildkin_parent_b', 'f1:w:0:-2:1'),
   ];
+  parents[0].genome = { ...createWildkinGenome('parent-a-tone', 'fen'), baseColor: 'clay' };
+  parents[1].genome = { ...createWildkinGenome('parent-b-tone', 'fen'), baseColor: 'fern' };
   assert.equal(progress.bankRun({}, 0, 'pair_run', { companions: parents }).ok, true);
   assert.equal(progress.assignCampWildkin(parents[0].id, 'build_pair_bed').ok, true);
   for (let count = 0; count < 3; count += 1) assert.equal(progress.feedCampWildkin('build_pair_bed').ok, true);
@@ -157,4 +159,38 @@ test('a growing child reserves the final owned slot from banking and field captu
   assert.equal(progress.commitWildkinCapture(captured, [captured]).reason, 'wildkin-owned-capacity');
   assert.equal(progress.getOwnedWildkin().length, 63);
   assert.equal(progress.getCampBreeding().offspring.id, 'wildkin_bred_1');
+}));
+
+test('completed field research permits one fixed settled-parent body-tone guidance without changing ordinary pairing', () => withStorage(({ fail }) => {
+  const { progress } = setupPair();
+  assert.equal(progress.getCampBreedingEligibility('build_pair_bed').guidedTrait, null);
+  assert.equal(progress.beginCampBreeding('build_pair_bed', { preserveTrait: 'baseColor' }).reason, 'mossling-study-required');
+  assert.equal(progress.earnObservationClue('mossling', 1).ok, true);
+  assert.equal(progress.earnObservationClue('mossling', 2).ok, true);
+  const guided = progress.getCampBreedingEligibility('build_pair_bed', { preserveTrait: 'baseColor' });
+  assert.equal(guided.ok, true);
+  assert.equal(guided.guidedTrait, 'baseColor');
+  assert.equal(guided.offspring.genome.baseColor, 'clay', 'guidance promises the settled parent tone');
+
+  fail(true);
+  assert.equal(progress.beginCampBreeding('build_pair_bed', { preserveTrait: 'baseColor' }).reason, 'storage-write-failed');
+  assert.equal(progress.getCampBreeding(), null);
+  fail(false);
+  assert.equal(progress.beginCampBreeding('build_pair_bed', { preserveTrait: 'baseColor' }).ok, true);
+  assert.equal(progress.getCampBreeding().guidedTrait, 'baseColor');
+  assert.deepEqual(progress.getCampBreeding().offspring, guided.offspring, 'failed save did not advance the sequence or reroll the child');
+
+  const saved = progress.exportSave().payload;
+  const restored = createFrontierProgress({ resourceDrops: WORLD_DATA.resourceDrops });
+  restored.load();
+  assert.deepEqual(restored.getCampBreeding(), progress.getCampBreeding());
+  for (const [mutate, reason] of [
+    [candidate => { candidate.progress.campBreeding.guidedTrait = 'eyeColor'; }, 'invalid-camp-breeding'],
+    [candidate => { candidate.progress.observationClues = { mossling: 1 }; }, 'invalid-camp-breeding-guidance'],
+    [candidate => { candidate.progress.campBreeding.offspring.genome.baseColor = 'fern'; }, 'invalid-camp-breeding-offspring'],
+  ]) {
+    const candidate = structuredClone(saved); mutate(candidate);
+    assert.equal(restored.importSave(candidate).reason, reason);
+    assert.equal(restored.getCampBreeding().offspring.genome.baseColor, 'clay');
+  }
 }));

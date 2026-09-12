@@ -303,7 +303,7 @@ export function createBetaGame(deps) {
       if(!restored.ok)return restored;
       corePending=run.corePending;return {ok:true};
     },
-    reset() { equipment.cancel(); equipment.sync(); base.close(); companions.reset(); cacheMechanisms.reset(); observatoryMechanisms.reset(); guardianEncounter.reset(); combatFeedback.reset(); abilityFx.reset(); playerOcclusion.reset(); corePending = false; guardianDefeated = false; harvestBonus = 0; },
+    reset() { equipment.cancel(); equipment.sync(); base.close(); campCare.cancelPairChoice(); companions.reset(); cacheMechanisms.reset(); observatoryMechanisms.reset(); guardianEncounter.reset(); combatFeedback.reset(); abilityFx.reset(); playerOcclusion.reset(); corePending = false; guardianDefeated = false; harvestBonus = 0; },
     // Simulation ownership stays in the single fixed loop. The regular update
     // below only advances visual animation and DOM/presentation concerns.
     updateFixed(dt, { paused = false, authorSuppress = false } = {}) {
@@ -317,6 +317,9 @@ export function createBetaGame(deps) {
     },
     update(dt, { paused, authorSuppress } = {}) {
       physicalInventory.update();
+      // `main` calls this presentation lifecycle even while fixed simulation is
+      // blocked, so temporary nursery choices cannot survive an inventory/modal.
+      campCare.update({ paused, authorSuppress, blocked: deps.isOtherBlocking() || isBlocking() || document.hidden });
       const sectionId = getSectionId();
       const hidden = !!authorSuppress;
       // Edit mode does not run fixed simulation, but must release the saved

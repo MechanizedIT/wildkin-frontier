@@ -100,7 +100,7 @@ test('optional old-save schema, secured guides and strict bounded observation im
     const payload=structuredClone(backup); payload.progress.observationClues=bad;
     const before=f.saved(); assert.equal(f.progress.importSave(payload).ok,false); assert.equal(f.saved(),before);
   }
-  assert.equal(getObservationJournal('mossling',{securedCompanions:['mossling']}).length,2);
+  assert.equal(getObservationJournal('mossling',{securedCompanions:['mossling']}).length,0);
   assert.deepEqual(f.progress.getState().observationClues,{});
 });
 
@@ -135,11 +135,18 @@ test('newly completed study yields on its next step while unfinished timing stay
   assert.ok(f.progress.getState().discoveredSpecies.includes('tidefin'));
 });
 
-test('secured species yields to unfinished wildlife but remains displayable when no unfinished subject is eligible', () => {
+test('owned Mosslings still need two earned field notes, while completed notes yield to unfinished wildlife', () => {
   const f=fixture(); f.progress.secureCompanions(['mossling']);
-  f.tick(.1); assert.equal(f.observation.getModel().speciesId,'mossling'); assert.equal(f.observation.getModel().complete,true);
+  f.tick(2.9); assert.equal(f.progress.getState().observationClues.mossling,undefined);
+  f.tick(.1); assert.equal(f.progress.getState().observationClues.mossling,1);
+  f.tick(7); assert.equal(f.progress.getState().observationClues.mossling,2);
+  assert.equal(getObservationJournal('mossling',f.progress.getState()).length,2);
+  for (const speciesId of Object.keys(OBSERVATION_CATALOG)) {
+    assert.equal(getObservationJournal(speciesId,{securedCompanions:[speciesId]}).length,0, `${speciesId} ownership cannot fabricate research`);
+  }
+  f.observation.reset(); f.tick(.1); assert.equal(f.observation.getModel().speciesId,'mossling'); assert.equal(f.observation.getModel().complete,true);
   const tide=f.creature('tide','tidefin',1); tide.state.regionId='other'; f.targets.push(tide);
   f.tick(.1); assert.equal(f.observation.getModel().speciesId,'mossling','ineligible unfinished target cannot displace known subject');
   tide.state.regionId='verge'; f.tick(.1); assert.equal(f.observation.getModel().speciesId,'tidefin');
-  assert.deepEqual(f.progress.getState().observationClues,{},'secured knowledge does not invent earned stages');
+  assert.deepEqual(f.progress.getState().observationClues,{mossling:2},'ownership never invents sibling research stages');
 });

@@ -52,6 +52,10 @@
   #app .contextual-action__nourishment i{width:8px;height:8px}
   #app .contextual-action__bonus{font-size:9px}
   #app #contextual-secondary-action-button{box-sizing:border-box;left:auto!important;top:auto!important;right:max(14px,env(safe-area-inset-right));bottom:calc(max(12px,env(safe-area-inset-bottom)) + 140px);width:110px;height:44px;min-height:44px;padding:6px 8px;border:2px solid #75c7b9;border-radius:12px;font-size:12px}
+  #app.nursery-choice-open #contextual-action-button{bottom:calc(max(12px,env(safe-area-inset-bottom)) + 160px)}
+  #app.nursery-choice-open #contextual-secondary-action-button{bottom:calc(max(12px,env(safe-area-inset-bottom)) + 244px);width:124px;height:60px;border-radius:16px}
+  #app #contextual-action-caption{left:auto!important;top:auto!important;right:max(14px,env(safe-area-inset-right));bottom:calc(max(12px,env(safe-area-inset-bottom)) + 312px);width:124px}
+  #app.nursery-choice-open .beta-action-cluster .beta-dodge,#app.nursery-choice-open .beta-action-cluster .beta-jump{bottom:0!important}
   #app .contextual-target-marker{display:grid!important;place-items:center;position:absolute;z-index:7;width:32px;height:32px;border:2px solid #a9f5da;border-radius:50%;background:#123d42e8;color:#e7ffdd;transform:translate(-50%,-100%);box-shadow:0 2px #062c34;pointer-events:none}
   #app .contextual-target-marker::after{content:'';position:absolute;bottom:-7px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #a9f5da}
   #app .contextual-target-marker .item-icon{width:22px;height:22px}

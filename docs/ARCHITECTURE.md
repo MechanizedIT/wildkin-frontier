@@ -1,5 +1,8 @@
 # Architecture — Wildkin Frontier 0.2
 
+- September12 F7B: earned `observationClues` is the study authority for owned and unowned species. `campBreedingState` resolves one optional settled-parent body-tone guarantee; `frontierProgress` saves/validates `guidedTrait` with the fixed child. `campCareInteraction` owns the temporary physical choice; cancellation runs in `createBetaGame.update`, since main pauses fixed simulation behind modals. `contextualInteraction` renders the same natural/guided transaction in portrait or projected landscape, including caption bounds and swatch. No second research inventory or save owner.
+- September12 F2D: existing scenery residency/merged geometry now permits72 tufts. SelectedR2 retains26 inspected props/15 compact colliders/one low draw19954triangles. It remains below the visual target. The current world is one fixed deterministic edition; saved atlas/ecology seed fields do not yet control every content RNG.
+
 > **September 12 Living Frontier cutover:** evolve the existing runtime toward continuous chunks and persistent creature individuals directly on main. LIVING_FRONTIER_PLAN defines ownership/stages; CURRENT_SLICE owns current scope. The section graph, finite-ID registry and species roster below are baseline contracts being replaced deliberately. One loop, Rapier, offline vendored Three.js, explicit owners and coherent transactions remain.
 
 > Lightweight, explicit, human-editable Three.js + Rapier. The beta extends the existing section/authoring foundation rather than migrating engines. The owner authorized agent-led content/design on September 9, 2026; older phase/owner-only composition statements below are historical. New implementation is candidate work pending owner playtesting.

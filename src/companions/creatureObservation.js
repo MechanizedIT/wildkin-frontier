@@ -40,9 +40,9 @@ export function createCreatureObservation({ getPlayer, getCreatures, getProgress
     retry = Math.max(0, retry - step);
     const player = getPlayer(), candidates = getCreatures(), saved = getProgress();
     let target = study && candidates.find(c => c.state.id === study.id && identifyCompanion(c)?.id === study.species.id);
-    // Stick while useful timing is underway. Once this species is known (or
-    // secured), yield to any visible unfinished species rather than letting a
-    // nearby familiar animal monopolize the field guide.
+    // Stick while useful timing is underway. Once this species has earned all
+    // of its field notes, yield to any visible unfinished species rather than
+    // letting a nearby familiar animal monopolize the field guide.
     let nextSubject = null;
     if (study && getObservationJournal(study.species.id, saved).length === 2) {
       nextSubject = selectSubject(candidates, player, sectionId, saved, true);

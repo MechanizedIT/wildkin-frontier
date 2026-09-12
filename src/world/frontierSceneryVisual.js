@@ -8,6 +8,7 @@ const CANOPY_TRUNK = Object.freeze({ width: 1.1, height: 2.45, depth: 1.1 });
 // its physical core narrow enough to match the stone rather than becoming a
 // broad invisible obstacle around the moss and scattered foot pieces.
 const FEN_STONE_CORE = Object.freeze({ width: .92, height: 2.15, depth: .78 });
+const MAX_GROUND_TUFTS = 72;
 const BOX_INDICES = new Uint32Array([
   0, 1, 2, 0, 2, 3, 4, 6, 5, 4, 7, 6,
   0, 5, 1, 0, 4, 5, 1, 6, 2, 1, 5, 6,
@@ -102,18 +103,22 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
   let lowCount = 0;
   let stoneSolidCount = 0;
   let groundTuftCount = 0;
+  let groundTuftTriangleCount = 0;
   const heightAt = typeof getHeight === 'function' ? getHeight : null;
 
   function addGroundTufts(spec, count) {
-    for (let index = 0; index < count && groundTuftCount < 24; index++) {
+    const wet = spec.assetId.startsWith('asset_fen_');
+    for (let index = 0; index < count && groundTuftCount < MAX_GROUND_TUFTS; index++) {
       const seed = `${spec.id}:tuft:${index}`;
       const angle = hash(`${seed}:angle`) * Math.PI * 2;
-      const radius = (spec.kind === 'canopy' ? .58 : .32) * finite(spec.scale, 1) * (.9 + hash(`${seed}:radius`) * .2);
+      const patchRadius = spec.kind === 'canopy' ? 1.05 : wet ? .66 : .58;
+      const ring = index % 3;
+      const radius = patchRadius * finite(spec.scale, 1) * ([.32, .62, .94][ring] + hash(`${seed}:radius`) * .18);
       const x = spec.x + Math.cos(angle) * radius;
       const z = spec.z + Math.sin(angle) * radius;
       const y = finite(heightAt?.(x, z), finite(spec.y));
-      const scale = .4 + hash(`${seed}:scale`) * .2;
-      const geometry = createGroundFoliageGeometry({ grass: '#6d9f69' }, true);
+      const scale = (wet ? [.9, .72, .56][ring] : [1.05, .82, .62][ring]) + hash(`${seed}:scale`) * .15;
+      const geometry = createGroundFoliageGeometry({ grass: wet ? '#6d9872' : '#86aa58' }, wet ? 'sedge' : true);
       geometry.applyMatrix4(new THREE.Matrix4().compose(
         new THREE.Vector3(x, y, z),
         new THREE.Quaternion().setFromEuler(new THREE.Euler(0, hash(`${seed}:yaw`) * Math.PI * 2, 0, 'XYZ')),
@@ -121,6 +126,7 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
       ));
       lowGeometries.push(geometry.index ? geometry.toNonIndexed() : geometry);
       if (geometry.index) geometry.dispose();
+      groundTuftTriangleCount += geometry.getAttribute('position').count / 3;
       groundTuftCount++;
     }
   }
@@ -144,7 +150,7 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
       canopyCount++;
       const modelScale = finite(asset.model?.scale, 1) * scale;
       terrainSurfaces.push(surfaceBox({ id: `f2c:${spec.id}:trunk`, x: spec.x, y: spec.y, z: spec.z, yaw, scale: modelScale, size: CANOPY_TRUNK }));
-      if (spec.id.includes(':stage-')) addGroundTufts(spec, 2);
+      addGroundTufts(spec, 4);
       continue;
     }
 
@@ -161,7 +167,7 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
       terrainSurfaces.push(surfaceBox({ id: `f2c:${spec.id}:stone`, x: spec.x, y: spec.y, z: spec.z, yaw, scale, size: FEN_STONE_CORE }));
       stoneSolidCount++;
     }
-    addGroundTufts(spec, 1);
+    addGroundTufts(spec, spec.assetId.startsWith('asset_fen_') ? 3 : 2);
   }
 
   let lowMesh = null;
@@ -186,6 +192,7 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
     lowDrawCount: lowMesh ? 1 : 0,
     lowTriangleCount: lowMesh ? lowMesh.geometry.getAttribute('position').count / 3 : 0,
     groundTuftCount,
+    groundTuftTriangleCount,
   });
   let disposed = false;
   return {

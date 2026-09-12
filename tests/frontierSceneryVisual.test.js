@@ -47,7 +47,7 @@ test('scenery aligns external canopies and compact solid cores to world-space te
 
   assert.equal(scenery.group.position.length(), 0, 'world-space specs need no parent origin');
   assert.equal(scenery.canopyRoots.length, 1);
-  assert.deepEqual(scenery.stats, { canopyCount: 1, lowCount: 1, stoneSolidCount: 1, surfaceCount: 2, lowDrawCount: 1, lowTriangleCount: 169, groundTuftCount: 1 });
+  assert.deepEqual(scenery.stats, { canopyCount: 1, lowCount: 1, stoneSolidCount: 1, surfaceCount: 2, lowDrawCount: 1, lowTriangleCount: 1033, groundTuftCount: 7, groundTuftTriangleCount: 1032 });
   const trunk = scenery.terrainSurfaces.find(surface => surface.id === 'f2c:canopy-a:trunk');
   const solidStone = scenery.terrainSurfaces.find(surface => surface.id === 'f2c:stone-a:stone');
   assert.deepEqual(trunk.origin, { x: 0, z: 0 }); assert.equal(trunk.sectionId, 'camp');
@@ -92,12 +92,26 @@ test('staged canopy tufts are bounded and use the injected terrain height', asyn
     visualAssets: [canopy], getHeight: () => 17,
     specs: [{ id: '0,-2:stage-canopy', chunkId: '0,-2', assetId: canopy.id, x: 4, y: 2, z: -88, scale: 1, yaw: 0, kind: 'canopy' }],
   });
-  assert.equal(scenery.stats.groundTuftCount, 2);
+  assert.equal(scenery.stats.groundTuftCount, 4);
   const tuftMesh = scenery.group.getObjectByName('frontier_scenery_low_props');
   const ys = Array.from(tuftMesh.geometry.getAttribute('position').array).filter((_, index) => index % 3 === 1);
-  assert.ok(Math.min(...ys) > 16.9 && Math.max(...ys) < 17.4, 'tufts sit on the authoritative terrain sample rather than the spec fallback');
+  assert.ok(Math.min(...ys) > 16.9 && Math.max(...ys) < 17.7, 'tufts sit on the authoritative terrain sample rather than the spec fallback');
   scenery.dispose();
 });
+
+test('dense foliage remains one merged draw and caps at 72 deterministic tufts', () => {
+  const specs = Array.from({ length: 28 }, (_, index) => ({
+    id: `wet-${index}`, chunkId: '0,-2', assetId: reed.id,
+    x: index, y: 3, z: -90, scale: 1, yaw: 0, kind: 'low',
+  }));
+  const scenery = createFrontierSceneryVisual({ visualAssets: [reed], specs });
+  assert.equal(scenery.stats.lowCount, 28);
+  assert.equal(scenery.stats.groundTuftCount, 72);
+  assert.equal(scenery.stats.lowDrawCount, 1);
+  assert.ok(scenery.stats.groundTuftTriangleCount > 0);
+  scenery.dispose();
+});
+
 
 test('disposal releases owned low resources without destroying the shared canopy template', async () => {
   await preloadFixture();

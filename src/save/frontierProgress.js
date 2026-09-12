@@ -234,7 +234,7 @@ export function createFrontierProgress(opts = {}) {
     if (!Number.isSafeInteger(nextCampBreedingSequence) || nextCampBreedingSequence < 1 || nextCampBreedingSequence > MAX_NEXT_CAMP_BREEDING_SEQUENCE) {
       throw new Error('invalid-camp-breeding-sequence');
     }
-    const campBreeding = readCampBreeding(raw.campBreeding, { structures: out.base.structures, ownedWildkin: out.ownedWildkin });
+    const campBreeding = readCampBreeding(raw.campBreeding, { structures: out.base.structures, ownedWildkin: out.ownedWildkin, observationClues: out.observationClues });
     if (!campBreeding.ok) throw new Error(campBreeding.reason);
     if (campBreeding.breeding && out.campCare) throw new Error('invalid-camp-breeding-care');
     const usedBreedingSequences = [...out.ownedWildkin, campBreeding.breeding?.offspring].filter(Boolean)
@@ -971,7 +971,10 @@ export function createFrontierProgress(opts = {}) {
   function failedBreedingEligibility(reason, bedId) {
     return { ok: false, reason, bedId, parentIds: null, offspring: null, breeding: getCampBreeding() };
   }
-  function getCampBreedingEligibility(bedId) {
+  function getCampBreedingEligibility(bedId, options = {}) {
+    const preserveTrait = options?.preserveTrait ?? null;
+    if (preserveTrait !== null && preserveTrait !== 'baseColor') return failedBreedingEligibility('invalid-preserve-trait', bedId);
+    if (preserveTrait === 'baseColor' && state.observationClues.mossling !== 2) return failedBreedingEligibility('mossling-study-required', bedId);
     const bed = findCareBed(bedId);
     if (!bed) return failedBreedingEligibility('unknown-bed', bedId);
     if (state.campBreeding) return failedBreedingEligibility('breeding-active', bedId);
@@ -985,15 +988,15 @@ export function createFrontierProgress(opts = {}) {
     if (selected.sex === settled.sex) return failedBreedingEligibility('same-sex', bedId);
     if (state.nextCampBreedingSequence > MAX_CAMP_BREEDING_SEQUENCE) return failedBreedingEligibility('breeding-sequence-capacity', bedId);
     if (state.ownedWildkin.length + pendingOwnedReservationCount() + 1 > MAX_OWNED_WILDKIN) return failedBreedingEligibility('wildkin-owned-capacity', bedId);
-    const offspring = createCampOffspring(settled, selected, state.nextCampBreedingSequence);
+    const offspring = createCampOffspring(settled, selected, state.nextCampBreedingSequence, preserveTrait);
     if (!offspring) return failedBreedingEligibility('invalid-parents', bedId);
     const conflicts = [...state.ownedWildkin, ...(state.activeRun?.companions ?? [])]
       .some(record => record.id === offspring.id || record.originId === offspring.originId);
     if (conflicts) return failedBreedingEligibility('wildkin-identity-conflict', bedId);
-    return { ok: true, reason: null, bedId, parentIds: [settled.id, selected.id], offspring, breeding: null };
+    return { ok: true, reason: null, bedId, parentIds: [settled.id, selected.id], guidedTrait: preserveTrait, offspring, breeding: null };
   }
-  function beginCampBreeding(bedId) {
-    const eligible = getCampBreedingEligibility(bedId);
+  function beginCampBreeding(bedId, options = {}) {
+    const eligible = getCampBreedingEligibility(bedId, options);
     if (!eligible.ok) return eligible;
     const rollback = snapshotForBankRollback();
     state.campCare = null;
@@ -1001,6 +1004,7 @@ export function createFrontierProgress(opts = {}) {
       version: CAMP_BREEDING_VERSION,
       bedId,
       parentIds: [...eligible.parentIds],
+      guidedTrait: eligible.guidedTrait,
       offspring: cloneWildkinIndividual(eligible.offspring),
       growthSeconds: 0,
     };

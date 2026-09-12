@@ -4,6 +4,8 @@ Use this lookup after [SESSION_START.md](SESSION_START.md). Paths below were che
 
 ## Runtime owners and focused proof
 
+F7B research and pairing: `companions/creatureObservation.js` and `observationCatalog.js` use earned clues even for owned species. `campBreedingState.js` and `save/frontierProgress.js` validate optional fixed donor tone. `campCareInteraction.js` owns temporary Natural/tone choice; its cancellation is in the always-called `createBetaGame.update`, not paused fixed simulation. `ui/contextualInteraction.js`, `styles/portrait.css`, `styles/beta.css` own presentation. Focused proof: `campBreedingSave`, `campCareInteraction`, `creatureObservation`, `contextualGesture` tests. Receipt: `art/reviews/living-frontier-f7b/receipt.md`.
+
 | Area / owner | Entry points to inspect | Focused tests under `tests/` |
 | --- | --- | --- |
 | Frontier habitat scenery | `src/world/frontierScenery.js`, `frontierSceneryVisual.js`, `frontierSceneryRuntime.js`; shared chunk snapshot, low-mesh batching, terrain collider and player-fade lifecycle | `frontierScenery.test.js`, `frontierSceneryVisual.test.js`, `frontierSceneryRuntime.test.js` |

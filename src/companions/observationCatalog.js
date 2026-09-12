@@ -3,7 +3,7 @@ export const OBSERVATION_CONFIG = Object.freeze({ range: 12, verticalRange: 2.2,
 export const OBSERVATION_CATALOG = Object.freeze({
   mossling: Object.freeze({ seconds: [3, 7], clues: [
     { title: 'A quiet approach', text: 'Mossling watches ahead and hears rushing feet. Sneak around its side or rear, and give it space if it startles.' },
-    { title: 'Room to feed', text: 'Place a berry lure on open ground, then step back. Let Mossling approach and finish feeding before walking gently in to bond.' },
+    { title: 'Family body tones', text: 'Mossling body tones run in families. After this field study, a nourished nursery can guide one settled parent’s body tone into its young.' },
   ] }),
   tidefin: Object.freeze({ seconds: [4, 9], clues: [
     { title: 'A patient marsh glider', text: 'Tidefin investigates a baited snare when the bank is clear. Prepare the woven snare on dry, open ground.' },
@@ -35,6 +35,6 @@ export function normalizeObservationClues(value) {
 export function getObservationJournal(speciesId, progress) {
   const definition = OBSERVATION_CATALOG[speciesId];
   if (!definition) return [];
-  const count = progress.securedCompanions?.includes(speciesId) ? 2 : progress.observationClues?.[speciesId] ?? 0;
+  const count = progress?.observationClues?.[speciesId] ?? 0;
   return definition.clues.slice(0, count).map((clue, index) => ({ ...clue, stage: index + 1 }));
 }

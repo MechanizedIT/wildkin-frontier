@@ -1,0 +1,104 @@
+{
+  "checkpoint": "F7B/F2D selected R2",
+  "createdUTC": "2026-09-12T22:25:16Z",
+  "sources": [
+    {
+      "path": "src/companions/campBreedingState.js",
+      "sha256": "778b2a69bd5bb5746d64ca1660e22c93fc67c4881b99dbd184f5599bb7b10244"
+    },
+    {
+      "path": "src/companions/campCareInteraction.js",
+      "sha256": "6351bb293e0cc9b1e0127c8e50040dcb133bc2f49dcb12e4435c2e0aa5d2d3b1"
+    },
+    {
+      "path": "src/companions/creatureObservation.js",
+      "sha256": "3ca28ed9d1a2a0689ec5bf40ca9a09bfeab71b4dde99e33cfbf8df1b29d110d1"
+    },
+    {
+      "path": "src/companions/observationCatalog.js",
+      "sha256": "e670fbf6cda8b0506440d9a49cc7eee38cab03fa075f6effcedcc499a1a200f0"
+    },
+    {
+      "path": "src/game/createBetaGame.js",
+      "sha256": "8951657f8bea021b96cff94f0f61e4e208da3df5d8de1afb4b02fc4f00961391"
+    },
+    {
+      "path": "src/save/frontierProgress.js",
+      "sha256": "8edec15efee27349f614621ec071d73d00a3680c172fcf3fccd8935a294be7e5"
+    },
+    {
+      "path": "src/ui/contextualInteraction.js",
+      "sha256": "700781afc3e12d7c882d8775f96f95d96592d6541c4e07470c24db63be165854"
+    },
+    {
+      "path": "src/world/frontierScenery.js",
+      "sha256": "0b7085aeb6fb1c48d600a03da0450f89344499ee66f921817add0532a758f62c"
+    },
+    {
+      "path": "src/world/frontierSceneryVisual.js",
+      "sha256": "7dc70de6ac32abc7ab90a71edf31217302c8bd0cba9fa1c4883ac03791ac568b"
+    },
+    {
+      "path": "styles/beta.css",
+      "sha256": "c5c5c9008b062f3881ba615668b7507a1460cc8c7b92528574b4c33f96b5e6fb"
+    },
+    {
+      "path": "styles/portrait.css",
+      "sha256": "c397c8ceca961f00daa4abe1434fa6cc5cf932283b67e8de6fc511f10b8b39d3"
+    },
+    {
+      "path": "tests/campBreedingRuntime.test.js",
+      "sha256": "7442bd0044a6c50299ae91ba95a9a84e1cad8770ba9ca7c3da9fd8e451e71b4a"
+    },
+    {
+      "path": "tests/campBreedingSave.test.js",
+      "sha256": "15130b295594332fd82b712c25e5ddef2d903518aea615d0502323044e36dc91"
+    },
+    {
+      "path": "tests/campCareInteraction.test.js",
+      "sha256": "486c9d95305e6f1d46142e05e7fd858824312bd045051d5268dce598a1a97024"
+    },
+    {
+      "path": "tests/creatureObservation.test.js",
+      "sha256": "0f77a47daaab8fa08ad0e2e7e1233ebad244a2bd8283da9a34779ca289cbcc78"
+    },
+    {
+      "path": "tests/frontierScenery.test.js",
+      "sha256": "cdef0724b41772a71d948ea357fbb248fd9b696306a217ffecdac6e1e053a855"
+    },
+    {
+      "path": "tests/frontierSceneryVisual.test.js",
+      "sha256": "99da22a31d1dcd27cd6b08c33f7b02cc56cc6ffb6920ae9f780df952d28415df"
+    },
+    {
+      "path": "dist/submission/index.html",
+      "sha256": "208545330a5b721cb3d7deb4a1a4cdae5c128b49024349b3777cf64b754d197c"
+    },
+    {
+      "path": "dist/submission.zip",
+      "sha256": "8e3dd96e4702e15a37887c4e2ce18f9811605cc0cea1741fb1178e37e6987db5"
+    }
+  ],
+  "images": [
+    {
+      "path": "art/reviews/living-frontier-f7b/baseline-portrait.png",
+      "sha256": "59ae3f908b9343129e264009b0e403907a72be18f93ba662efa880db7dc043e7"
+    },
+    {
+      "path": "art/reviews/living-frontier-f7b/landscape-choice.png",
+      "sha256": "1bcdfce5790a03c373e380283fa4c90b1eb38a611f150445d558354e2070a69f"
+    },
+    {
+      "path": "art/reviews/living-frontier-f7b/package-portrait.png",
+      "sha256": "d300bea240e9adb3677150b0f7b50a66fb7fde67c54d1bc678ff2544045333ff"
+    },
+    {
+      "path": "art/reviews/living-frontier-f7b/r1-portrait.png",
+      "sha256": "12ec8e147c33001913815dac6202d5019184e73500f1e095eafb0b744871b86f"
+    },
+    {
+      "path": "art/reviews/living-frontier-f7b/target.png",
+      "sha256": "0d0dfd89f2550d5c2bb1af92a29b8043b74c0958eb88f6569f1d27c40c081f1a"
+    }
+  ]
+}

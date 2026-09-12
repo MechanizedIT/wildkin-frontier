@@ -1,6 +1,6 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: parallel F7B field research and F2D habitat fullness.**
+Updated September 12, 2026. **Active goal-mode development: F7B/F2D checkpoint complete; next F1B rolling terrain and F4B body-tone readability.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
@@ -128,7 +128,7 @@ F2C selects R3 at6.1/10 HOLD after4.5/5.4; strongest usable of three passes, bel
 
 F5B selects R3: approach/controls8.7PASS, improved lift-to-mantle staging, hand/boot contact and mantle art still HOLD. Chris's reported wall-jump ratchet reproduced under raw KCC grounding and is fixed by true slope-aware sole support. Repeated jumps now stay within the ordinary1.43m apex. Knockback and long-jump falls close through the same one-impact landing owner.1,123/1,123, verify/build/validate/ZIP PASS;44.09MB/20.53MB. Final landscape placement/hit-target refinements received native package proof after the aggregate. Exact evidence: `art/reviews/living-frontier-f5b/receipt.md`.
 
-## Next parallel batch: F7B research and F2D habitat fullness
+## Completed parallel batch: F7B research and F2D habitat fullness
 
 Chris asked for faster visible milestones and explicitly authorized several independent jobs at once. Keep three worker lanes available with root integration/playtesting; this session has four active-agent slots total. Do not serialize unrelated scenery and breeding work behind shared movement code.
 
@@ -138,9 +138,18 @@ Chris asked for faster visible milestones and explicitly authorized several inde
 
 Broader direction remains streamed terrain/ecology, personal atlas, individual modular Wildkin, swimming, immersive Camp food/habitats, field genetics, alternate reproduction, cloning and DNA exchange. Rules remain provisional producer choices to validate in play. Mobile/casual first with portrait priority and landscape/desktop support; offline Three.js/Rapier and local main remain. No backwards compatibility requirement. See LIVING_FRONTIER_PLAN for sequence and evidence gates.
 
+F7B selects R1 at8.4PASS: earned wild observation unlocks a physical NATURAL / named-parent-tone choice. Owned species must earn their notes; ownership no longer falsely completes study. Native research, save failure/retry, exact guided-child reload/growth/Welcome, ordinary lichen versus guided clay, and portrait/landscape controls passed. Modal cancellation now runs in the existing always-called update, since paused fixed simulation cannot cancel it. F2D selects R2 at6.9HOLD after5.4/6.2; its framing remains below the art target.72tufts share one merged draw with19954triangles. The seven-waypoint physical Camp→clearings→safe terrace route passed at health5. Final1,127tests, verify/build/validate/ZIP PASS;44.10MB unpacked/20.53MB ZIP. Exact evidence: `art/reviews/living-frontier-f7b/receipt.md` and `art/reviews/living-frontier-f2d/receipt.md`.
+
+## Next bounded parallel batch
+
+- F1B: make the wet/dry transition read as a broad rolling rise and shallow depression through the existing global terrain sampler. Preserve authored Camp, both Mossling clearings, northbound valley and the terrace/safe slope. Capture actual baseline/feasible target before production. One worker owns `frontierTerrain.js` and focused tests; root owns integration. Close shared mesh/collider/atlas/ecology/scenery grounding, both signs of chunk borders, physical route and package. No water, erosion framework or dependency; up to three visual passes.
+- Seed truth: runtime currently uses one fixed deterministic edition. Stored atlas/ecology seeds do not drive every placement RNG. A unified saved seed and new-world selection need a later explicit consistency slice; do not imply this exists when changing terrain noise.
+- F4B may proceed independently: make already expressed Mossling body tones easier to distinguish through `wildkinAppearance.js` and focused tests. Capture actual paired bodies and a restrained target before production. Preserve rig/texture, shared wild/follower/young expression and material isolation/disposal. No eye, shape, size-band, modular-part or coat-mask claim; do not repeat rejected eye overlays.
+- Root owns targets, native playtesting, shared integration and docs. Terrain and appearance writers stay separate; the third worker provides independent review or a bounded uncertainty audit. Continue the goal after this checkpoint.
+
 ## Last verified playable checkpoint
 
-Current checkpoint: `art/reviews/living-frontier-f5b/receipt.md`. Inherited `11393c7` supplies the terrain-aware camera, ordinary Jump, selected Shatterfen V3, accepted Verdant rocks, physical inventory/shortcuts, defended Camp expansion, Survey pack fitting and Rootfall. That session's966-test checkpoint is historical; use the current receipts for integrated verification.
+Current checkpoint: F7B/F2D receipts above. F5B climbing evidence remains in `art/reviews/living-frontier-f5b/receipt.md`. Inherited `11393c7` supplies the reusable camera and finite-world baseline; its966-test checkpoint is historical.
 
 Initial working tree includes unrelated Verdant composer/test changes and untracked art/tool experiments. Preserve them; stage only owned files. Emberfall ravine and Tidefin V3 remain unshipped candidates with documented defects; they are not the current slice.
 

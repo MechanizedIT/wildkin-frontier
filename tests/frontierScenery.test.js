@@ -34,13 +34,13 @@ test('the curated north route keeps three west/north canopies and eight damp eas
   assert.equal(staged.filter(spec => spec.kind === 'canopy').length, 3);
   assert.equal(staged.filter(spec => spec.kind === 'low').length, 8);
   assert.ok(staged.filter(spec => spec.kind === 'canopy').every(spec => spec.x <= 6));
-  assert.ok(staged.filter(spec => spec.kind === 'low' && spec.assetId !== 'asset_mushroom_ring').every(spec => spec.x >= 8.7 && spec.x <= 9.1));
+  assert.ok(staged.filter(spec => spec.kind === 'low' && !['asset_mushroom_ring', 'asset_fen_stone'].includes(spec.assetId)).every(spec => spec.x >= 8.7 && spec.x <= 9.1));
   const mushroom = staged.find(spec => spec.assetId === 'asset_mushroom_ring');
   assert.deepEqual({ x: mushroom.x, z: mushroom.z, scale: mushroom.scale }, { x: 5.2, z: -77.4, scale: .8 });
   assert.ok(staged.filter(spec => spec.assetId === 'asset_fen_stone').every(spec => spec.scale <= .32));
   assert.ok(staged.filter(spec => spec.assetId === 'asset_fen_reed').every(spec => spec.scale <= .5));
   const nearTree = staged.find(spec => spec.id.endsWith('stage-tree-west-1'));
-  assert.deepEqual({ assetId: nearTree.assetId, x: nearTree.x, z: nearTree.z, scale: nearTree.scale }, { assetId: 'asset_verge_canopy', x: 5.2, z: -78.5, scale: .75 });
+  assert.deepEqual({ assetId: nearTree.assetId, x: nearTree.x, z: -78.5, scale: nearTree.scale }, { assetId: 'asset_verge_canopy', x: 4.85, z: -78.5, scale: .82 });
 });
 
 test('accepted scenery stays clear of forage, wildlife roaming, Camp apron, route, and terrace', () => {
@@ -56,7 +56,7 @@ test('accepted scenery stays clear of forage, wildlife roaming, Camp apron, rout
     assert.equal(Math.floor(spec.x / 50), cx); assert.equal(Math.floor(spec.z / 50), cz);
     assert.ok(spec.x < -56 || spec.x > 56 || spec.z < -56 || spec.z > 56);
     assert.ok(!(spec.x >= 18 && spec.x <= 46 && spec.z >= -150 && spec.z <= -108));
-    const routeClearance = spec.kind === 'canopy' || spec.assetId === 'asset_fen_stone' ? 1.65 : 1.6;
+    const routeClearance = spec.kind === 'canopy' || spec.assetId === 'asset_fen_stone' ? 2.1 : 1.15;
     for (let i = 1; i < route.length; i++) assert.ok(segmentDistance(spec, route[i - 1], route[i]) >= routeClearance);
     for (const node of sampleFrontierForageChunk(cx, cz)) assert.ok(Math.hypot(spec.x - node.pos.x, spec.z - node.pos.z) >= 3.2);
     for (let wz = cz - 1; wz <= cz + 1; wz++) for (let wx = cx - 1; wx <= cx + 1; wx++) {

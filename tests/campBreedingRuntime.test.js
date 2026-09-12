@@ -23,7 +23,7 @@ test('young active growth pauses, commits bounded time and caps at maturity with
 test('physical nursery routes pair, growing and welcome without remote or premature activation', () => {
   let breeding=null,care={bedId:'bed',wildkinId:'mother',nourishment:3},near=true,calls=0;
   const progress={getCampCare:()=>care,getActiveWildkin:()=>({id:'father',speciesId:'mossling'}),getPackResourceCounts:()=>({berries:3}),
-    getCampBreeding:()=>breeding,getCampBreedingEligibility:()=>({ok:true}),
+    getCampBreeding:()=>breeding,getCampBreedingEligibility:(_bed, options)=>options?.preserveTrait ? ({ok:false,reason:'mossling-study-required'}) : ({ok:true}),
     beginCampBreeding(){calls++;care=null;breeding={bedId:'bed',growthSeconds:0};return{ok:true,care:null};},
     welcomeCampYoung(){calls++;if(breeding.growthSeconds<120)return{ok:false,reason:'growing'};breeding=null;care={bedId:'bed',wildkinId:'young',nourishment:0};return{ok:true,care};}};
   const interaction=createCampCareInteraction({progress,getBed:()=>({id:'bed',anchorPos:{x:0,y:.55,z:0},topHeight:.55}),canCare:()=>near,getPlayerPosition:()=>({x:0,y:.55,z:1})});
