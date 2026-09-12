@@ -36,6 +36,7 @@ import WORLD_DATA from "./world/data/world.js";
 import { createWorldRegistry } from "./world/worldRegistry.js";
 import { createSectionRuntime } from "./world/sectionRuntime.js";
 import { createFrontierChunkRuntime } from "./world/frontierChunkRuntime.js";
+import { createFrontierEcologyRuntime } from "./world/frontierEcologyRuntime.js";
 import { createPortalGateSystem } from "./world/portalGateSystem.js";
 import { createWorldHazardSystem } from "./world/worldHazardSystem.js";
 import { createLootSystem } from "./world/lootSystem.js";
@@ -284,7 +285,24 @@ pickupSystem.setMagnetTuning(getMatterAttractorPickupTuning(frontierProgress.has
 inventoryHud.update(pickupSystem.getInventory());
 expeditionSession.setCargo(pickupSystem.getInventory());
 
-resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld, {hasPendingYield:node=>pickupSystem.hasPendingYield(node)});
+resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld, {
+  hasPendingYield: node => pickupSystem.hasPendingYield(node),
+  onResourceResidentAdded: node => pickupSystem.onResourceResidentAdded(node),
+  onResourceResidentRemoved: node => pickupSystem.onResourceResidentRemoved(node),
+  readPersistentResource: id => frontierProgress.getFrontierResourceRemaining(id),
+  commitPersistentResource: (id, remaining) => {
+    const result = frontierProgress.commitFrontierResourceState(id, remaining);
+    if (!result.ok) betaGame?.shell.toast('Forage kept', result.reason === 'ecology-capacity-exceeded'
+      ? 'Survey storage is full.' : 'Could not save. Please retry.');
+    return result;
+  },
+});
+const frontierEcology = createFrontierEcologyRuntime({
+  terrainRuntime: frontierChunks,
+  resourceSystem,
+  visualAssets: worldRegistry.data.visualAssets ?? [],
+  getHeight: frontierChunks.getHeight,
+});
 const fieldTool = createFieldTool(player, gameAudio, {
   onSwingStart: () => player.userData.externalPlayerModel?.playAction("attack"),
 });
@@ -1032,6 +1050,7 @@ function tick() {
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
   // Load support before player/camera queries; no separate streaming loop.
   frontierChunks.update(playerController.state.pos, { activeSectionId: sectionRuntime.getActiveSectionId(), authorMode: !!authorSuppress });
+  frontierEcology.update();
   if (authorSuppress !== prevAuthorSuppress) {
     playerController.resetJumpState();
     syncInputBlock();
@@ -1305,7 +1324,7 @@ tick();
 window.__game = {
   scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, cameraFollow, cameraOrbit, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
   worldRegistry, regionManager, sectionRuntime, portalGateSystem, worldHazardSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
-  frontierChunks,
+  frontierChunks, frontierEcology,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   betaGame,
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),

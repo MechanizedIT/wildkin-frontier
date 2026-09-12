@@ -88,6 +88,7 @@ September12 stopped candidate: `tools/compose-emberfall-ravine.mjs` is deliberat
 - `world/frontierChunkRuntime.js`: bounded terrain residents and complete visual/Rapier lifecycle; `staticWorldBuilder` installs the shared active height provider.
 - `presentation/authoredTerrain.js:createTerrainColorSampler` and `terrainPaint.js`: shared ground color/paint treatment for authored and streamed ground.
 - `world/frontierEcologyState.js` + `save/frontierProgress.js`: canonical edition/seed, bounded generated-forage records and atomic commits.
-- `resources/resourceSystem.js:addPlacements/removePlacementsByChunk`: generated finite resource residents, commit-before-yield and restore. F2A composition wiring is the next task.
+- `world/frontierEcology.js` / `frontierEcologyRuntime.js`: deterministic forage recipes and bounded resource residency, integrated in the existing loop.
+- `resources/resourceSystem.js:addPlacements/removePlacementsByChunk`: generated finite resource residents, commit-before-yield and restore. `pickupSystem` resident hooks retain lightweight generated yields by stable ID across unload/rebind.
 - `creatures/wildkinGenome.js`: versioned Mossling recipe, expression metadata and parental inheritance; not yet wired to individual visuals/capture.
 - Evidence: `art/reviews/living-frontier-f1/receipt.md`; active scope: `docs/CURRENT_SLICE.md`.

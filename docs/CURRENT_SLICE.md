@@ -1,6 +1,6 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: Living Frontier F2A.**
+Updated September 12, 2026. **Active goal-mode development: Living Frontier F3 outing and atlas.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
@@ -18,7 +18,19 @@ Root owns integration, scope/docs and final verification. Bounded workers own pu
 
 F1 selected its third pass under Chris's delegation: technical foundation usable, visual target not admitted. Independent R1/R2/R3 scores are3/10,3.5/10,4.4/10. The straight ground edge, sparse content and lack of distant terrain remain leading visual gaps. Full checkpoint proof:998/998 tests, verify/build/ZIP;43.87 MB unpacked /20.47 MB ZIP; native packaged Jump on streamed ground and section retirement/return fixtures. Exact sources, images, hashes and limits: `art/reviews/living-frontier-f1/receipt.md`.
 
-**Active F2A persistent forage**: integrate the tested resident APIs and save ledger with generated placements, existing assets and a compact ecology composition module. The existing save authority records partial/depleted nodes before yields appear. First generated forage is finite, while Camp's established supply nodes remain renewable. Do not silently regenerate forage on unload or discard old changes to satisfy a storage cap. Prove gather→unload→return→reload and save-failure retry in the game. F2B will join wildlife persistence to individual capture; the atlas/individual ordering may move to keep that transaction complete. These are producer choices, not personally playtested owner decisions.
+**F2A complete**: live generated forage uses the existing harvesting/save owners, bounded3×3 ecology residents and persistent partial/depleted records. Native auto-harvest/collection→unload→return→reload and failed-save retry passed in an isolated developer save. Generated pending drops unload into lightweight stable-ID records and rebind on return. Camp supply stays renewable. R2 selected6.5/10 after three visual passes; exact evidence:`art/reviews/living-frontier-f2a/receipt.md`. Current selected aggregate1007/1007 and verify/build/ZIP PASS;43.88MB unpacked /20.47MB ZIP.
+
+## Selected next slice: F3 continuous outings and personal atlas
+
+This adjacent reorder completes the exploration/session contract before F2B wildlife and individual capture. The world currently streams beyond Camp while the old session/map still treats it as Camp; close that mismatch now.
+
+- Walking beyond Camp starts the existing expedition session at the current supported position. Keep one session and terrain section`camp`; distinguish physical Camp bounds from session state. No second game mode or save branch.
+- Resume must load terrain at saved frontier feet before the shared support/overlap validation; preserve healthy saved position/cargo/health/XP. Physical return to Camp's existing gate/station resolves the outing through the existing banking path. Death retains terrain/resource discoveries but uses the established carried-inventory/run consequence.
+- Replace the finite destination map as the normal MAP surface with a personal exploration atlas and minimap. Reveal nearby terrain as the player walks; retain revealed cells under the existing save authority. Show Camp/current position and distance with short labels; no online community or unexplored-secret disclosure yet.
+- Bound live map work and stored coverage. Freeze/clear spatial runtime in Author editing. Continue one frame loop, one save authority and shared terrain height sampling.
+- Test walk-out start, physical return, outside-Camp reload, failed-save retry, map reveal persistence and death. Capture actual map baseline and a realistic target before UI production; up to three visual passes.
+
+F2B wildlife requires stable captured individual IDs before it streams; species-only pending companions cannot prove that. Mossling's current single textured mesh supports modest uniform scale/whole-model tint only. Isolated coat/eye/marking changes and modular accents require an art path; do not display unexpressed recipe traits as implemented features.
 
 ## Broader authorized direction
 

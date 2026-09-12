@@ -55,7 +55,18 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface }
     campColor: (x, z) => { const color = campColor(x, z); return [color.r, color.g, color.b]; },
   } : {};
   let center = null;
+  let residencySnapshot = { center: null, chunks: [] };
   let disposed = false;
+
+  function refreshResidencySnapshot() {
+    const chunks = [...residents.values()].map(({ chunk }) => Object.freeze({
+        id: chunk.id,
+        cx: Math.floor(chunk.origin.x / FRONTIER_TERRAIN_CONFIG.chunkSize),
+        cz: Math.floor(chunk.origin.z / FRONTIER_TERRAIN_CONFIG.chunkSize),
+        origin: Object.freeze({ ...chunk.origin }),
+      }));
+    residencySnapshot = Object.freeze({ center: center && Object.freeze({ ...center }), chunks: Object.freeze(chunks) });
+  }
 
   function createResident(cx, cz) {
     const chunk = createFrontierChunk(cx, cz, terrainOptions);
@@ -89,6 +100,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface }
   }
 
   function clearResidents() {
+    if (!residents.size && center === null) return;
     const remove = [...residents.keys()];
     if (remove.length) physicsWorld?.updateTerrainSurfaces({ remove });
     for (const resident of residents.values()) {
@@ -98,7 +110,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface }
       resident.texture?.dispose();
       resident.material.dispose();
     }
-    residents.clear(); center = null;
+    residents.clear(); center = null; refreshResidencySnapshot();
   }
 
   function shouldKeepCenter(position) {
@@ -134,15 +146,20 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface }
     }
     // The physics owner refreshes broadphase once for this complete lifecycle.
     if (add.length || remove.length) physicsWorld?.updateTerrainSurfaces({ add, remove });
-    center = { cx: nextCx, cz: nextCz };
+    center = { cx: nextCx, cz: nextCz }; refreshResidencySnapshot();
   }
 
   function getHeight(x, z) { return sampleFrontier(x, z, terrainOptions).height; }
+  // Stable lifecycle snapshot for nearby resident owners. It changes only when
+  // the terrain residency does, and never exposes a gameplay mutation path.
+  function getResidency() {
+    return residencySnapshot;
+  }
   function getDebugState() { return { residentCount: residents.size, center: center && { ...center }, residentIds: [...residents.keys()] }; }
   function dispose() {
     if (disposed) return;
     clearResidents(); parent?.remove(root);
     foliageGeometry.dispose(); foliageMaterial.dispose(); disposed = true;
   }
-  return { root, update, getHeight, getDebugState, dispose };
+  return { root, update, getHeight, getResidency, getDebugState, dispose };
 }

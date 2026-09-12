@@ -319,6 +319,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   }
 
   function sourceIsActive(record) {
+    if (record.streamedOut) return false;
     if (activeRegions === null) return true;
     const regionId = record.node.regionId ?? record.node.state?.regionId
       ?? regionRegistry?.getRegionForPosition?.(record.node.state.position);
@@ -333,11 +334,33 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     pickup.state = 'RETAINED';
   }
 
-  function hasPendingYield(node) { return pendingYields.has(node); }
+  function yieldKey(node) { return node?.persistentFinite ? `generated:${node.id}` : node; }
+  function hasPendingYield(node) { return pendingYields.has(yieldKey(node)); }
+
+  function onResourceResidentRemoved(node) {
+    if (!node?.persistentFinite) return;
+    const record = pendingYields.get(yieldKey(node));
+    if (!record) return;
+    if (record.visual) retainPickup(record.visual);
+    // Do not retain an unloaded Three.js/Rapier source through its pending
+    // yield. This descriptor is sufficient until the stable resident returns.
+    record.node = { id: node.id, regionId: node.regionId, chunkId: node.chunkId, persistentFinite: true };
+    record.streamedOut = true;
+  }
+
+  function onResourceResidentAdded(node) {
+    if (!node?.persistentFinite) return;
+    const record = pendingYields.get(yieldKey(node));
+    if (!record) return;
+    record.node = node;
+    record.streamedOut = false;
+  }
 
   function spawnPickup(node) {
-    let record = pendingYields.get(node);
-    if (!record) { record = { node, resources: {}, visual: null }; pendingYields.set(node, record); }
+    const key = yieldKey(node);
+    let record = pendingYields.get(key);
+    if (!record) { record = { key, node, resources: {}, visual: null, streamedOut: false }; pendingYields.set(key, record); }
+    else if (node.persistentFinite) { record.node = node; record.streamedOut = false; }
     const id = node.type.resourceId;
     record.resources[id] = (record.resources[id] ?? 0) + 1;
     // Every hit and bonus shares its source's one visual. Collection never
@@ -409,7 +432,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
 
   function collectPickup(pickup, playSound) {
     const record = pickup.yield;
-    if (pickup.collected || pendingYields.get(record?.node) !== record || record.visual !== pickup || !sourceIsActive(record)) return false;
+    if (pickup.collected || pendingYields.get(record?.key) !== record || record.visual !== pickup || !sourceIsActive(record)) return false;
     let result;
     try { result = inventoryAccess?.collect?.({ ...record.resources }, { gathered: true }); }
     catch { result = { ok: false, reason: 'storage-write-failed' }; }
@@ -436,7 +459,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     }
     pickup.collected = true;
     pickup.state = "COLLECTED";
-    pendingYields.delete(record.node); record.visual = null;
+    pendingYields.delete(record.key); record.visual = null;
     pickup.mesh.visible = false;
     const idx = pickups.indexOf(pickup);
     if (idx !== -1) { releaseMesh(pickup); pickups.splice(idx, 1); }
@@ -490,8 +513,9 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
     // sources only near the player, without evicting another active visual.
     for (const record of pendingYields.values()) {
       if (pickups.length >= MAX_ACTIVE) break;
+      if (!sourceIsActive(record)) continue;
       const base = record.node.state.position;
-      if (!record.visual && sourceIsActive(record) && Math.hypot(base.x-playerPos.x,(base.y??0)-(playerPos.y??0),base.z-playerPos.z) <= PICKUP_CONFIG.retentionRecallRadius) materializeYield(record);
+      if (!record.visual && Math.hypot(base.x-playerPos.x,(base.y??0)-(playerPos.y??0),base.z-playerPos.z) <= PICKUP_CONFIG.retentionRecallRadius) materializeYield(record);
     }
 
     for (let i = pickups.length - 1; i >= 0; i--) {
@@ -613,7 +637,7 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
   function getCount() { return pickups.length; }
   function getPooledCount() { return pool.length; }
   function getDebug() { return { active: pickups.length, pooled: pool.length, pendingSources: pendingYields.size }; }
-  function getPendingYields() { return [...pendingYields.values()].map(r => ({ sourceId: r.node.id ?? r.node.index, regionId: r.node.regionId ?? r.node.state?.regionId ?? null, resources: { ...r.resources }, visible: !!r.visual })); }
+  function getPendingYields() { return [...pendingYields.values()].map(r => ({ sourceId: r.node.id ?? r.node.index, regionId: r.node.regionId ?? r.node.state?.regionId ?? null, resources: { ...r.resources }, visible: !!r.visual, streamedOut: !!r.streamedOut })); }
 
   function setMagnetTuning(tuning = null) {
     const radius = tuning?.magnetRadius;
@@ -665,5 +689,5 @@ export function createPickupSystem(scene, physicsWorld = null, playground = null
 
   function setActiveRegions(activeSet) { return cullInactiveRegions(activeSet); }
 
-  return { spawnPickup, collectPickup, update, getInventory, resetInventory, grantInventory, spendInventory, hasPendingYield, getPendingYields, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, cullInactiveRegions, setActiveRegions, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, setMagnetTuning, getMagnetTuning, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
+  return { spawnPickup, collectPickup, update, getInventory, resetInventory, grantInventory, spendInventory, hasPendingYield, onResourceResidentAdded, onResourceResidentRemoved, getPendingYields, getPickups, getCount, getPooledCount, getDebug, clear, _clearActive, cullInactiveRegions, setActiveRegions, _pool: pool, _shared: shared, setPlayerCollider, setPhysicsWorld, setMagnetTuning, getMagnetTuning, get playerCollider() { return playerCollider; }, PICKUP_CONFIG, getPickupRadius, isPositionOverlappingSolid, castSphereBlocked };
 }

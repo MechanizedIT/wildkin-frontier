@@ -28,7 +28,7 @@ export function createRuntimeResourcePlacements(resources = []) {
   });
 }
 
-export function createResourceSystem(scene, physicsWorld, placements, { hasPendingYield = () => false, readPersistentResource = () => undefined, commitPersistentResource = () => ({ ok: true }) } = {}) {
+export function createResourceSystem(scene, physicsWorld, placements, { hasPendingYield = () => false, readPersistentResource = () => undefined, commitPersistentResource = () => ({ ok: true }), onResourceResidentAdded = () => {}, onResourceResidentRemoved = () => {} } = {}) {
   const nodes = [];
   const nodesById = new Map();
   const removedResourceSources = new Map();
@@ -123,6 +123,7 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
     const node = { group, visualRoot, state, type, chunkMeshes, feedbackMaterials, remnantMesh, haloMesh, respawnGroup, ticks, collider, remnantCollider, index: i, _pendingColliderRestore: false, regionId, id: nodeId, chunkId: generatedChunkId, persistentFinite: p.persistentFinite === true, _regionInactive: false, _removed: false, visibleInPlay: p.visibleInPlay !== false, collisionEnabled: p.collisionEnabled !== false };
     nodes.push(node);
     nodesById.set(nodeId, node);
+    onResourceResidentAdded(node);
     return node;
   }
   let initialPhysicsChanged = false;
@@ -154,6 +155,7 @@ export function createResourceSystem(scene, physicsWorld, placements, { hasPendi
     for (let index = nodes.length - 1; index >= 0; index--) {
       const node = nodes[index];
       if (node.chunkId !== chunkId) continue;
+      onResourceResidentRemoved(node);
       for (const key of ['collider', 'remnantCollider']) {
         if (!node[key]) continue;
         physicsWorld.world.removeCollider(node[key], true);

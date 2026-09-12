@@ -285,6 +285,7 @@ export function createFrontierProgress(opts = {}) {
 
   function getStorageStatus() { return { ...storageStatus }; }
   function getFrontierEcologyState() { return cloneFrontierEcologyState(state.ecology); }
+  function getFrontierResourceRemaining(id) { return state.ecology.resources[id]; }
   function commitFrontierResourceState(id, remainingChunks) {
     const checked = validateFrontierResourceState(id, remainingChunks);
     if (!checked.ok) return { ok: false, reason: checked.reason, state: getFrontierEcologyState() };
@@ -914,6 +915,7 @@ export function createFrontierProgress(opts = {}) {
     save,
     getStorageStatus,
     getFrontierEcologyState,
+    getFrontierResourceRemaining,
     commitFrontierResourceState,
     exportSave,
     importSave,
