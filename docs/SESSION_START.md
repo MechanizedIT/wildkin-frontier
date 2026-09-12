@@ -14,7 +14,9 @@ After a fresh clone or machine replacement, read [RECOVERY.md](RECOVERY.md). The
 
 ## Snapshot to verify, not silently upgrade
 
-- Latest Camp checkpoint:867tests/build/ZIP pass,42.97MB unpacked/20.29MB ZIP. One defended adjoining yard clears/pays/expands/reloads, with independently reviewed openings, console and new armor. Legacy construction/storage survives. Read SURVEY_RECOVERY_SLICE for the next survey-cartridge/pack fitting work; older lists below predate this addition.
+- Latest Survey checkpoint:888tests/world/campaign/build/validation/ZIP pass,43.44MB unpacked/20.37MB ZIP. Unique physical cartridge→placed Salvage fitting16→20slots, item-loot/Author closure and new wreckV2 are integrated. Fresh ordinary recovery/exit/reload and separate diagnostic fitting/reload pass; independent native8.0 and station UI8.4. V1 was rejected, not shipped. Rootfall is the next unimplemented passage; its source plan is `.dream-loop/overnight2-rootfall/planning.md` and its target is being prepared from the actual raised ridge. See CURRENT_SLICE for exact package hash and remaining limits.
+
+- Preceding Camp checkpoint:867tests/build/ZIP pass,42.97MB unpacked/20.29MB ZIP. One defended adjoining yard clears/pays/expands/reloads, with independently reviewed openings, console and new armor. Legacy construction/storage survives. Read SURVEY_RECOVERY_SLICE for the integrated discovery/expansion loop and remaining Rootfall work.
 
 - September11 evening phone candidate:842tests/build/validation/ZIP pass at42.56MB unpacked/20.26MB ZIP. Square inventory/lifted drag, rounded frames, fullscreen/right-side zoom/real joystick, quiet persistent observation notes and continuous harvesting are integrated. The pickup-dependent next-hit gate was explicitly rejected by Chris. Read OVERNIGHT_RUN_2 rolling status and latest BUILD_LOG before relying on the older handoff below. Camp target is independently reviewed; barricade/layout work is underway, not admitted content.
 
@@ -23,7 +25,7 @@ After a fresh clone or machine replacement, read [RECOVERY.md](RECOVERY.md). The
 - Death currently keeps the pack while losing unsecured XP/bonds; mobile reload resumes a supported saved expedition. Exact survival balance is provisional. Migration-fixture checks do not prove an earned full campaign.
 - Tidefin's new model/rig is **not shipping**. Animation V2 passed limited frame/deformation review but failed action readability. V3 changes only Attack/Hurt and awaits independent action review; continuous/native cadence and owner phone gates remain open. Existing shipping Tidefin stays in place.
 - V3 candidate: `.dream-loop/overnight-tidefin-animation/v3/README.md`; GLB SHA256 `5f22dfe31acc9c2b16924d0e662d357c92e17af3518a0c2413ba26440e12eb5f`. Geometry/UV/weights and Idle/Walk/Run are exactly preserved from V2. No further rendering is needed merely to resume.
-- Crash-land story content, robot/drone, improvised barricades and defended adjoining Camp sections, unique natural/wreck obstacles, wreck-led blueprints and pack upgrades are **planned work**, not completed gameplay. See `CRASHLAND_PROGRESSION_PROPOSAL.md` and the inventory plan after Chris's feedback establishes priority.
+- Robot/drone, the wider crash-land story, unique natural passages and further wreck-led blueprints remain planned. One Survey wreck/pack upgrade and one defended Camp expansion are now integrated. `CRASHLAND_PROGRESSION_PROPOSAL.md` is broader provisional design; CURRENT_SLICE owns actual scope/status.
 
 ## Non-negotiable implementation habits
 

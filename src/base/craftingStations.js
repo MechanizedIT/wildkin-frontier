@@ -5,6 +5,7 @@ import { createStationMotion } from './stationMotion.js';
 import { createStationPanel } from './stationPanel.js';
 import { createCraftOutputVisual, disposeCraftOutput } from './craftOutputVisual.js';
 import { projectInteractionPoint } from '../ui/worldInteractionAnchor.js';
+import { FIELD_PACK_CARTRIDGE_ID } from './fieldPackConfig.js';
 
 const REACH=3.2;
 // One presentation owner for nearby physical machines. Inventory stays in progress.
@@ -16,21 +17,32 @@ export function createCraftingStations({app,camera,progress,getPlayerState,isCam
   function count(id,state){return id==='medkit'?state.craftedConsumables.medkit:state.fieldSupplies[id]??0;}
   function panelModel(){
     const entry=stations.get(selectedId);if(!entry||!isCamp()||distance(entry)>REACH+.7)return null;
-    const state=progress.getState(),bank=state.bankedResources,motion=entry.motion?.getState(),piece=BASE_PIECE_BY_ID[entry.record.type];
+    const state=progress.getState(),bank=progress.getSpendableItemCounts(),motion=entry.motion?.getState(),piece=BASE_PIECE_BY_ID[entry.record.type];
     point.set(entry.record.pos.x,entry.record.pos.y+piece.size[1]+.18,entry.record.pos.z);
     const rect=app.getBoundingClientRect(),projected=projectInteractionPoint(point,camera,rect.width,rect.height,screenPoint);
     return {id:selectedId,name:piece.name,operating:entry.motion?.isOperating()??false,progress:motion?.progress??0,
       completedLabel:entry.completedLabel,screenPoint:projected??null,
-      recipes:STATION_RECIPE_IDS[entry.record.type].map(id=>{const recipe=getStationRecipe(id);return {...recipe,count:count(id,state),available:!paused&&canAfford(bank,recipe.cost)&&!entry.motion?.isOperating(),reason:canAfford(bank,recipe.cost)?'':'Bring these materials in your pack or selected nearby storage.'};})};
+      recipes:STATION_RECIPE_IDS[entry.record.type].map(id=>{
+        const recipe=getStationRecipe(id),fitted=recipe.permanent&&state.inventory.packTier>=1,affordable=canAfford(bank,recipe.cost);
+        return {...recipe,fitted,count:count(id,state),countLabel:recipe.permanent?(fitted?'Fitted':'+4 slots'):undefined,
+          actionLabel:fitted?'Fitted':recipe.actionLabel,
+          cost:Object.fromEntries(Object.entries(recipe.cost).map(([item,required])=>[item,{required,owned:bank[item]??0}])),
+          available:!fitted&&!paused&&affordable&&!entry.motion?.isOperating(),
+          reason:fitted?`Your pack has ${state.inventory.pack.length} slots.`:!affordable?(recipe.permanent&&!bank[FIELD_PACK_CARTRIDGE_ID]?'Recover a cartridge from the Forest Edge survey wreck; bring fiber and wood.':'Bring these materials in your pack or selected nearby storage.'):'',
+        };
+      })};
   }
   function craft(id){
     const reject=message=>{notify(message);return {ok:false,message};};
     const entry=stations.get(selectedId);
     if(!entry||!isCamp()||paused||distance(entry)>REACH||!STATION_RECIPE_IDS[entry.record.type]?.includes(id))return reject('Stand beside the matching station.');
     if(entry.motion?.isOperating())return reject('This station is finishing its current item.');
-    const result=id==='medkit'?progress.craftConsumable(id):progress.craftFieldSupply(id);
-    if(!result.crafted)return reject(result.reason==='storage-write-failed'?'Could not save. Your materials were kept.':result.reason==='output-full'?'Make room in your backpack.':'Bring the materials in your pack or selected nearby storage.');
-    disposeCraftOutput(entry.output);entry.output=createCraftOutputVisual(id);entry.output.visible=false;entry.completedLabel='';
+    const recipe=getStationRecipe(id);
+    const result=recipe.permanent?progress.fitFieldPack():id==='medkit'?progress.craftConsumable(id):progress.craftFieldSupply(id);
+    if(!(result.crafted||result.fitted))return reject(result.reason==='storage-write-failed'?'Could not save. Your materials were kept.':result.reason==='already-fitted'?'Your field pack is already fitted.':result.reason==='output-full'?'Make room in your backpack.':'Bring the materials in your pack or selected nearby storage.');
+    disposeCraftOutput(entry.output);entry.output=null;entry.completedLabel='';entry.outputId=id;
+    if(recipe.permanent){if(!entry.motion?.play({outputId:id}))complete(entry);return {ok:true};}
+    entry.output=createCraftOutputVisual(id);entry.output.visible=false;
     const anchor=entry.visual.getObjectByName('CraftOutputAnchor');
     if(anchor){
       anchor.add(entry.output);
@@ -45,7 +57,8 @@ export function createCraftingStations({app,camera,progress,getPlayerState,isCam
   }
   function complete(entry){
     if(entry.output)entry.output.visible=true;
-    entry.completedLabel=`${getStationRecipe(entry.outputId)?.name??'Item'} packed`;
+    const recipe=getStationRecipe(entry.outputId);
+    entry.completedLabel=recipe?.permanent?'Field pack fitted · 20 slots':`${recipe?.name??'Item'} packed`;
   }
   function remove(entry){entry.motion?.dispose();disposeCraftOutput(entry.output);}
   return {

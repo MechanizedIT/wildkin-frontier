@@ -1,0 +1,831 @@
+{
+  "status": "candidate; independent model and native integration gates pending",
+  "reference": "art/targets/survey-wreck-v1/target.png",
+  "referenceSHA256": "55742c30f0b474990cb970421a8bec0d052e41f76f46f4e94d0d0fa6da14b8f7",
+  "builder": "tools/art/build-survey-module.py",
+  "axes": "X width, Y up, +Z entrance; root yaw -PI/2 gives west world entrance",
+  "origin": "all five shell GLBs share module center ground origin; each breadcrumb separately centered at its own ground origin",
+  "components": {
+    "survey-left-wall": {
+      "ok": true,
+      "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\survey-module-v1\\candidate-v1\\survey-left-wall.glb",
+      "profile": "prop",
+      "limits": {
+        "max_triangles": 5000,
+        "max_vertices": 15000,
+        "max_materials": 2,
+        "max_bones": 0,
+        "max_texture": 1024
+      },
+      "sourceSHA256": "d58091c38a11c1e1b05b1348ec6e4141a3a0b87f626de1350eb4b878aaf46bf9",
+      "textureSHA256": [
+        "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f"
+      ],
+      "counts": {
+        "triangles": 964,
+        "vertices": 2088,
+        "materials": 1,
+        "bones": 0,
+        "animations": 0
+      },
+      "animations": [],
+      "textures": [
+        {
+          "mimeType": "image/png",
+          "width": 64,
+          "height": 8,
+          "sha256": "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f",
+          "roles": [
+            "baseColor"
+          ]
+        }
+      ],
+      "textureRoles": [
+        {
+          "texture": 0,
+          "role": "baseColor"
+        }
+      ],
+      "failures": [],
+      "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate.",
+      "bounds": {
+        "min": [
+          -3.0174999237060547,
+          0.18000000715255737,
+          -3.5
+        ],
+        "max": [
+          -1.9798197746276855,
+          3.0618503093719482,
+          3.5
+        ]
+      },
+      "drawPrimitives": 1,
+      "bytes": 74308,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "upperShoulderParts": [
+        {
+          "name": "short snapped roof shoulder",
+          "min": [
+            -2.870180130004883,
+            1.9862874746322632,
+            -3.054999828338623
+          ],
+          "max": [
+            -1.9798197746276855,
+            3.0037124156951904,
+            -2.6449999809265137
+          ]
+        },
+        {
+          "name": "ivory shoulder armor",
+          "min": [
+            -2.9331164360046387,
+            2.0081498622894287,
+            -2.9649999141693115
+          ],
+          "max": [
+            -1.9968833923339844,
+            3.0618503093719482,
+            -2.734999895095825
+          ]
+        },
+        {
+          "name": "short snapped roof shoulder.001",
+          "min": [
+            -2.870180130004883,
+            1.9862874746322632,
+            -0.20500004291534424
+          ],
+          "max": [
+            -1.9798197746276855,
+            3.0037124156951904,
+            0.20500004291534424
+          ]
+        },
+        {
+          "name": "ivory shoulder armor.001",
+          "min": [
+            -2.9331164360046387,
+            2.0081498622894287,
+            -0.11500004678964615
+          ],
+          "max": [
+            -1.9968833923339844,
+            3.0618503093719482,
+            0.11500004678964615
+          ]
+        },
+        {
+          "name": "short snapped roof shoulder.002",
+          "min": [
+            -2.870180130004883,
+            1.9862874746322632,
+            2.6449999809265137
+          ],
+          "max": [
+            -1.9798197746276855,
+            3.0037124156951904,
+            3.054999828338623
+          ]
+        },
+        {
+          "name": "ivory shoulder armor.002",
+          "min": [
+            -2.9331164360046387,
+            2.0081498622894287,
+            2.734999895095825
+          ],
+          "max": [
+            -1.9968833923339844,
+            3.0618503093719482,
+            2.9649999141693115
+          ]
+        }
+      ]
+    },
+    "survey-right-wall": {
+      "ok": true,
+      "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\survey-module-v1\\candidate-v1\\survey-right-wall.glb",
+      "profile": "prop",
+      "limits": {
+        "max_triangles": 5000,
+        "max_vertices": 15000,
+        "max_materials": 2,
+        "max_bones": 0,
+        "max_texture": 1024
+      },
+      "sourceSHA256": "ee46f273efa907b41e56449dc9aa18557cbd868441c2fa9a878f132a4f984191",
+      "textureSHA256": [
+        "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f"
+      ],
+      "counts": {
+        "triangles": 1276,
+        "vertices": 2704,
+        "materials": 1,
+        "bones": 0,
+        "animations": 0
+      },
+      "animations": [],
+      "textures": [
+        {
+          "mimeType": "image/png",
+          "width": 64,
+          "height": 8,
+          "sha256": "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f",
+          "roles": [
+            "baseColor"
+          ]
+        }
+      ],
+      "textureRoles": [
+        {
+          "texture": 0,
+          "role": "baseColor"
+        }
+      ],
+      "failures": [],
+      "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate.",
+      "bounds": {
+        "min": [
+          1.9712278842926025,
+          0.18000000715255737,
+          -3.5
+        ],
+        "max": [
+          3.4433023929595947,
+          3.347580671310425,
+          3.5
+        ]
+      },
+      "drawPrimitives": 1,
+      "bytes": 95892,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "upperShoulderParts": [
+        {
+          "name": "short snapped roof shoulder",
+          "min": [
+            1.9798197746276855,
+            1.9862874746322632,
+            -3.054999828338623
+          ],
+          "max": [
+            2.870180130004883,
+            3.0037124156951904,
+            -2.6449999809265137
+          ]
+        },
+        {
+          "name": "ivory shoulder armor",
+          "min": [
+            1.9968833923339844,
+            2.0081498622894287,
+            -2.9649999141693115
+          ],
+          "max": [
+            2.9331164360046387,
+            3.0618503093719482,
+            -2.734999895095825
+          ]
+        },
+        {
+          "name": "short snapped roof shoulder.001",
+          "min": [
+            1.9798197746276855,
+            1.9862874746322632,
+            -0.20500004291534424
+          ],
+          "max": [
+            2.870180130004883,
+            3.0037124156951904,
+            0.20500004291534424
+          ]
+        },
+        {
+          "name": "ivory shoulder armor.001",
+          "min": [
+            1.9968833923339844,
+            2.0081498622894287,
+            -0.11500004678964615
+          ],
+          "max": [
+            2.9331164360046387,
+            3.0618503093719482,
+            0.11500004678964615
+          ]
+        },
+        {
+          "name": "short snapped roof shoulder.002",
+          "min": [
+            1.9798197746276855,
+            1.9862874746322632,
+            2.6449999809265137
+          ],
+          "max": [
+            2.870180130004883,
+            3.0037124156951904,
+            3.054999828338623
+          ]
+        },
+        {
+          "name": "ivory shoulder armor.002",
+          "min": [
+            1.9968833923339844,
+            2.0081498622894287,
+            2.734999895095825
+          ],
+          "max": [
+            2.9331164360046387,
+            3.0618503093719482,
+            2.9649999141693115
+          ]
+        }
+      ]
+    },
+    "survey-rear-wall": {
+      "ok": true,
+      "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\survey-module-v1\\candidate-v1\\survey-rear-wall.glb",
+      "profile": "prop",
+      "limits": {
+        "max_triangles": 5000,
+        "max_vertices": 15000,
+        "max_materials": 2,
+        "max_bones": 0,
+        "max_texture": 1024
+      },
+      "sourceSHA256": "ad0d57334a03557e7ce51d8afbdde99f62098a3341a34adbbe2c2496df0e9051",
+      "textureSHA256": [
+        "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f"
+      ],
+      "counts": {
+        "triangles": 300,
+        "vertices": 636,
+        "materials": 1,
+        "bones": 0,
+        "animations": 0
+      },
+      "animations": [],
+      "textures": [
+        {
+          "mimeType": "image/png",
+          "width": 64,
+          "height": 8,
+          "sha256": "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f",
+          "roles": [
+            "baseColor"
+          ]
+        }
+      ],
+      "textureRoles": [
+        {
+          "texture": 0,
+          "role": "baseColor"
+        }
+      ],
+      "failures": [],
+      "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate.",
+      "bounds": {
+        "min": [
+          -2.700000047683716,
+          0.18000000715255737,
+          -3.490000009536743
+        ],
+        "max": [
+          2.700000047683716,
+          2.1600000858306885,
+          -2.740000009536743
+        ]
+      },
+      "drawPrimitives": 1,
+      "bytes": 23880,
+      "pivot": [
+        0,
+        0,
+        0
+      ]
+    },
+    "survey-floor": {
+      "ok": true,
+      "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\survey-module-v1\\candidate-v1\\survey-floor.glb",
+      "profile": "prop",
+      "limits": {
+        "max_triangles": 5000,
+        "max_vertices": 15000,
+        "max_materials": 2,
+        "max_bones": 0,
+        "max_texture": 1024
+      },
+      "sourceSHA256": "0c0b85c525b7da4e6aa8daad16c6a2193009f1bafee62ee7a06ef95ea34b7f34",
+      "textureSHA256": [
+        "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f"
+      ],
+      "counts": {
+        "triangles": 44,
+        "vertices": 96,
+        "materials": 1,
+        "bones": 0,
+        "animations": 0
+      },
+      "animations": [],
+      "textures": [
+        {
+          "mimeType": "image/png",
+          "width": 64,
+          "height": 8,
+          "sha256": "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f",
+          "roles": [
+            "baseColor"
+          ]
+        }
+      ],
+      "textureRoles": [
+        {
+          "texture": 0,
+          "role": "baseColor"
+        }
+      ],
+      "failures": [],
+      "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate.",
+      "bounds": {
+        "min": [
+          -3.0,
+          0.0,
+          -3.5
+        ],
+        "max": [
+          3.0,
+          0.18000000715255737,
+          3.5
+        ]
+      },
+      "drawPrimitives": 1,
+      "bytes": 4972,
+      "pivot": [
+        0,
+        0,
+        0
+      ]
+    },
+    "survey-ramp": {
+      "ok": true,
+      "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\survey-module-v1\\candidate-v1\\survey-ramp.glb",
+      "profile": "prop",
+      "limits": {
+        "max_triangles": 5000,
+        "max_vertices": 15000,
+        "max_materials": 2,
+        "max_bones": 0,
+        "max_texture": 1024
+      },
+      "sourceSHA256": "cfd69b2cdac08969859fde1ecadeba86e3b677ee3693cd3e83a7f128bcc53c1e",
+      "textureSHA256": [
+        "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f"
+      ],
+      "counts": {
+        "triangles": 12,
+        "vertices": 24,
+        "materials": 1,
+        "bones": 0,
+        "animations": 0
+      },
+      "animations": [],
+      "textures": [
+        {
+          "mimeType": "image/png",
+          "width": 64,
+          "height": 8,
+          "sha256": "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f",
+          "roles": [
+            "baseColor"
+          ]
+        }
+      ],
+      "textureRoles": [
+        {
+          "texture": 0,
+          "role": "baseColor"
+        }
+      ],
+      "failures": [],
+      "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate.",
+      "bounds": {
+        "min": [
+          -1.600000023841858,
+          0.0,
+          3.5
+        ],
+        "max": [
+          1.600000023841858,
+          0.18000000715255737,
+          4.800000190734863
+        ]
+      },
+      "drawPrimitives": 1,
+      "bytes": 2532,
+      "pivot": [
+        0,
+        0,
+        0
+      ]
+    },
+    "survey-panel-debris": {
+      "ok": true,
+      "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\survey-module-v1\\candidate-v1\\survey-panel-debris.glb",
+      "profile": "prop",
+      "limits": {
+        "max_triangles": 5000,
+        "max_vertices": 15000,
+        "max_materials": 2,
+        "max_bones": 0,
+        "max_texture": 1024
+      },
+      "sourceSHA256": "673c0d767167ac730531642340d0318964cdb8bd1bc2442aacec61406949dd00",
+      "textureSHA256": [
+        "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f"
+      ],
+      "counts": {
+        "triangles": 92,
+        "vertices": 180,
+        "materials": 1,
+        "bones": 0,
+        "animations": 0
+      },
+      "animations": [],
+      "textures": [
+        {
+          "mimeType": "image/png",
+          "width": 64,
+          "height": 8,
+          "sha256": "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f",
+          "roles": [
+            "baseColor"
+          ]
+        }
+      ],
+      "textureRoles": [
+        {
+          "texture": 0,
+          "role": "baseColor"
+        }
+      ],
+      "failures": [],
+      "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate.",
+      "bounds": {
+        "min": [
+          -1.0099999904632568,
+          0.0,
+          -0.6600000262260437
+        ],
+        "max": [
+          1.0199999809265137,
+          0.2639999985694885,
+          0.699999988079071
+        ]
+      },
+      "drawPrimitives": 1,
+      "bytes": 8044,
+      "pivot": [
+        0,
+        0,
+        0
+      ]
+    },
+    "survey-cargo-frame": {
+      "ok": true,
+      "input": "C:\\Users\\cwood\\Documents\\mobile-rpg\\art\\source\\survey-module-v1\\candidate-v1\\survey-cargo-frame.glb",
+      "profile": "prop",
+      "limits": {
+        "max_triangles": 5000,
+        "max_vertices": 15000,
+        "max_materials": 2,
+        "max_bones": 0,
+        "max_texture": 1024
+      },
+      "sourceSHA256": "33cb40392991ef7ce6c8a269a0fe3e58823d485bc0e6bc24e5e1c0b8bb2dcb61",
+      "textureSHA256": [
+        "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f"
+      ],
+      "counts": {
+        "triangles": 528,
+        "vertices": 1152,
+        "materials": 1,
+        "bones": 0,
+        "animations": 0
+      },
+      "animations": [],
+      "textures": [
+        {
+          "mimeType": "image/png",
+          "width": 64,
+          "height": 8,
+          "sha256": "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f",
+          "roles": [
+            "baseColor"
+          ]
+        }
+      ],
+      "textureRoles": [
+        {
+          "texture": 0,
+          "role": "baseColor"
+        }
+      ],
+      "failures": [],
+      "note": "Structural asset checks only; visual acceptance and measured phone FPS remain separate.",
+      "bounds": {
+        "min": [
+          -0.6800000071525574,
+          0.0,
+          -0.5
+        ],
+        "max": [
+          0.6800000667572021,
+          0.7200000286102295,
+          0.4999999701976776
+        ]
+      },
+      "drawPrimitives": 1,
+      "bytes": 41740,
+      "pivot": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "shellNominalSize": [
+    6,
+    3,
+    7
+  ],
+  "rampEndZ": 4.8,
+  "entranceClearWidth": 3.2,
+  "openRoofClearWidthAtRibTips": 3.8,
+  "chestFixture": {
+    "path": "assets/models/field-chest-v1/model.glb",
+    "position": [
+      0,
+      0.18,
+      -1.48
+    ],
+    "yaw": 0,
+    "exportedWithShell": false,
+    "openLocalXDegrees": -100
+  },
+  "colliders": {
+    "survey-left-wall": {
+      "kind": "box",
+      "center": [
+        -2.74,
+        1.17,
+        0
+      ],
+      "size": [
+        0.56,
+        1.98,
+        7
+      ],
+      "note": "Thin main wall only. Exact upperShoulderParts bounds describe optional upper collision boxes. Do not enclose cabin, floor or elevated receiver footprint."
+    },
+    "survey-right-wall": {
+      "kind": "box",
+      "center": [
+        2.74,
+        1.17,
+        0
+      ],
+      "size": [
+        0.56,
+        1.98,
+        7
+      ],
+      "note": "Thin main wall only. Exact upperShoulderParts bounds describe optional upper collision boxes. Do not enclose cabin, floor or elevated receiver footprint."
+    },
+    "survey-rear-wall": {
+      "kind": "box",
+      "center": [
+        0,
+        1.1,
+        -3.245
+      ],
+      "size": [
+        5.4,
+        2.2,
+        0.47
+      ],
+      "bracketBox": {
+        "center": [
+          1.51,
+          0.94,
+          -2.92
+        ],
+        "size": [
+          0.52,
+          1.12,
+          0.38
+        ]
+      }
+    },
+    "survey-floor": {
+      "kind": "box",
+      "center": [
+        0,
+        0.09,
+        0
+      ],
+      "size": [
+        6,
+        0.18,
+        7
+      ]
+    },
+    "survey-ramp": {
+      "kind": "convex-prism",
+      "axis": "X",
+      "range": [
+        -1.6,
+        1.6
+      ],
+      "polygonYZ": [
+        [
+          0,
+          3.5
+        ],
+        [
+          0,
+          4.8
+        ],
+        [
+          0.025,
+          4.8
+        ],
+        [
+          0.18,
+          3.5
+        ]
+      ]
+    },
+    "survey-panel-debris": {
+      "kind": "box",
+      "center": [
+        0,
+        0.14,
+        0
+      ],
+      "size": [
+        2.04,
+        0.28,
+        1.4
+      ]
+    },
+    "survey-cargo-frame": {
+      "kind": "box",
+      "center": [
+        0,
+        0.36,
+        0
+      ],
+      "size": [
+        1.36,
+        0.72,
+        1.0
+      ],
+      "note": "Small open frame is not a player-sized pass-through."
+    }
+  },
+  "material": "one opaque matte material per component, embedded 64x8 palette; no emission/metal/reflection/normal maps",
+  "review": {
+    "engine": "Cycles CPU",
+    "threads": 2,
+    "samples": 12,
+    "freshExportReimport": true,
+    "renderPaths": [
+      "front.png",
+      "rear.png",
+      "three-quarter.png",
+      "game-scale-neutral.png",
+      "chest-open-clearance.png",
+      "breadcrumbs.png"
+    ]
+  },
+  "totals": {
+    "triangles": 3216,
+    "draws": 7,
+    "glbBytes": 251368
+  },
+  "files": {
+    "build-survey-module.py": {
+      "sha256": "e9ae84ab1b9ca1bad52c8818abcc6feaf8b1d1e13ac6fd5dfe56aa7974f9a0f4",
+      "bytes": 16777
+    },
+    "palette.png": {
+      "sha256": "c384c2ec2c000b47a15ee584ef7fb2abea53c505ca048f6cff010a26094efc9f",
+      "bytes": 240
+    },
+    "survey-cargo-frame-editable.blend": {
+      "sha256": "f44e80c85697767887cdd502862dbac351f078a04b417d0dbc4ac6182e2a1859",
+      "bytes": 479106
+    },
+    "survey-cargo-frame.glb": {
+      "sha256": "33cb40392991ef7ce6c8a269a0fe3e58823d485bc0e6bc24e5e1c0b8bb2dcb61",
+      "bytes": 41740
+    },
+    "survey-floor-editable.blend": {
+      "sha256": "83082818fc9263f2d85fbfa39f051992bbed6ca02001944858af6a14abf478ba",
+      "bytes": 407309
+    },
+    "survey-floor.glb": {
+      "sha256": "0c0b85c525b7da4e6aa8daad16c6a2193009f1bafee62ee7a06ef95ea34b7f34",
+      "bytes": 4972
+    },
+    "survey-left-wall-editable.blend": {
+      "sha256": "ae99c42fea01bf34dd5da038e354c995afe845f77ee365a027e1924225bf1041",
+      "bytes": 549185
+    },
+    "survey-left-wall.glb": {
+      "sha256": "d58091c38a11c1e1b05b1348ec6e4141a3a0b87f626de1350eb4b878aaf46bf9",
+      "bytes": 74308
+    },
+    "survey-panel-debris-editable.blend": {
+      "sha256": "145d58c812688e8c9419c21f7508fdb23c38420b2c272acd87097d0bc7b024e0",
+      "bytes": 418745
+    },
+    "survey-panel-debris.glb": {
+      "sha256": "673c0d767167ac730531642340d0318964cdb8bd1bc2442aacec61406949dd00",
+      "bytes": 8044
+    },
+    "survey-ramp-editable.blend": {
+      "sha256": "569e9b94e7ab2bf6dc7d5384b42a52b6cee005e87d5c393d57ed76df4b115153",
+      "bytes": 406035
+    },
+    "survey-ramp.glb": {
+      "sha256": "cfd69b2cdac08969859fde1ecadeba86e3b677ee3693cd3e83a7f128bcc53c1e",
+      "bytes": 2532
+    },
+    "survey-rear-wall-editable.blend": {
+      "sha256": "bcf91b4d731e070d1108f15705513de37f813e8dfcdf69042bc43cd7dfdec349",
+      "bytes": 446657
+    },
+    "survey-rear-wall.glb": {
+      "sha256": "ad0d57334a03557e7ce51d8afbdde99f62098a3341a34adbbe2c2496df0e9051",
+      "bytes": 23880
+    },
+    "survey-right-wall-editable.blend": {
+      "sha256": "cedcc9ceed541106802efd8e342df7dd09850141e333f1b4060d095c461d33ce",
+      "bytes": 587696
+    },
+    "survey-right-wall.glb": {
+      "sha256": "ee46f273efa907b41e56449dc9aa18557cbd868441c2fa9a878f132a4f984191",
+      "bytes": 95892
+    }
+  },
+  "revisionNote": "Metadata closure only: replaced convex side envelope with thin main wall boxes and exact source shoulder-part bounds. All seven GLBs and rendered images unchanged."
+}

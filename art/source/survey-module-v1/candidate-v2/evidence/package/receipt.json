@@ -1,0 +1,299 @@
+{
+  "fixture": "Isolated fresh start. Actual keyboard travel from pod through Camp Travel/map, Forest Edge trail and west wreck entrance; actual chest and pack clicks. Read-only position-based navigation. No save seeds, teleport, grants, camera overrides or debug mutations.",
+  "steps": [
+    {
+      "walkTo": [
+        0,
+        -4.4
+      ],
+      "arrived": {
+        "x": 0.00008189567597582936,
+        "y": 0.5220965147018433,
+        "z": -4.512668609619141,
+        "yaw": 0
+      }
+    },
+    {
+      "departed": {
+        "x": 3.0616169991140216e-16,
+        "y": 0.5219985842704773,
+        "z": 33.5,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        0.3,
+        25
+      ],
+      "arrived": {
+        "x": 0.3370593786239624,
+        "y": 0.5219889283180237,
+        "z": 25.176189422607422,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        0.3,
+        23
+      ],
+      "arrived": {
+        "x": 0.3370679020881653,
+        "y": 0.5219900012016296,
+        "z": 23.01344871520996,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        3.4,
+        23
+      ],
+      "arrived": {
+        "x": 3.3467979431152344,
+        "y": 0.7042397856712341,
+        "z": 22.91977310180664,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        7.1,
+        23
+      ],
+      "arrived": {
+        "x": 6.937674522399902,
+        "y": 0.7000987529754639,
+        "z": 22.919795989990234,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        3.3,
+        23
+      ],
+      "arrived": {
+        "x": 3.2666642665863037,
+        "y": 0.6945932507514954,
+        "z": 22.919803619384766,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        0.3,
+        23
+      ],
+      "arrived": {
+        "x": 0.35320916771888733,
+        "y": 0.5219867825508118,
+        "z": 22.919822692871094,
+        "yaw": 0
+      }
+    },
+    {
+      "exited": {
+        "x": 0.3174990713596344,
+        "y": 0.5231894850730896,
+        "z": 22.919822692871094,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        0.3,
+        24
+      ],
+      "arrived": {
+        "x": 0.27024906873703003,
+        "y": 0.5219999551773071,
+        "z": 23.67683982849121,
+        "yaw": 0
+      }
+    }
+  ],
+  "reward": {
+    "pack": [
+      {
+        "id": "field_pack_cartridge",
+        "count": 1
+      },
+      {
+        "id": "fiber",
+        "count": 2
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "available": {
+      "available": false,
+      "readyAt": null
+    },
+    "pos": {
+      "x": 7.092174530029297,
+      "y": 0.6992411613464355,
+      "z": 22.919795989990234
+    }
+  },
+  "loaded": {
+    "pack": [
+      {
+        "id": "field_pack_cartridge",
+        "count": 1
+      },
+      {
+        "id": "fiber",
+        "count": 2
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "available": {
+      "available": false,
+      "readyAt": null
+    }
+  },
+  "errors": [],
+  "external": [],
+  "failed": [],
+  "requests": [
+    "http://localhost:8081/",
+    "http://localhost:8081/assets/ui/frontier-icons.png",
+    "http://localhost:8081/assets/ui/wildkin-portraits.png",
+    "http://localhost:8081/assets/fonts/Nunito.ttf",
+    "http://localhost:8081/vendor/three.module.js",
+    "http://localhost:8081/vendor/rapier.js",
+    "http://localhost:8081/assets/models/sapwood-v1/model.glb",
+    "http://localhost:8081/assets/models/field-chest-v1/model.glb",
+    "http://localhost:8081/assets/models/frontier-crate-v1/model.glb",
+    "http://localhost:8081/assets/models/alien-canopy-v1/model.glb",
+    "http://localhost:8081/assets/models/mossling-v3/model.glb",
+    "http://localhost:8081/assets/models/alien-canopy-spread-v1/model.glb",
+    "http://localhost:8081/assets/models/alien-canopy-tall-v1/model.glb",
+    "http://localhost:8081/assets/models/matter-fabricator-v1/model.glb",
+    "http://localhost:8081/assets/models/resonance-bench-v1/model.glb",
+    "http://localhost:8081/assets/models/salvage-bench-v1/model.glb",
+    "http://localhost:8081/assets/models/ember-forge-cache-v1/model.glb",
+    "http://localhost:8081/assets/models/fen-observatory-v1/model.glb",
+    "http://localhost:8081/assets/models/fen-bank-outcrop-left-v1/model.glb",
+    "http://localhost:8081/assets/models/fen-bank-outcrop-right-v1/model.glb",
+    "http://localhost:8081/assets/models/emergency-barricade-v1/model.glb",
+    "http://localhost:8081/assets/models/emergency-barricade-post-v1/model.glb",
+    "http://localhost:8081/assets/models/survey-left-wall-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-right-wall-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-rear-wall-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-floor-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-ramp-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-panel-debris-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-cargo-frame-v2/model.glb",
+    "http://localhost:8081/assets/models/explorer-v2/model.glb",
+    "blob:http://localhost:8081/34feb7fd-713b-4aff-bd88-6c0eef064987",
+    "blob:http://localhost:8081/b7c4bb6c-537a-4ccb-87f8-8cd849211eea",
+    "blob:http://localhost:8081/0a062cc4-3ac6-4598-bd9f-b88058007aef",
+    "blob:http://localhost:8081/d035d4ae-4793-403a-9e9d-5a8da582f29c",
+    "blob:http://localhost:8081/ec4f8090-3575-415c-88b7-a7d11abffaa3",
+    "blob:http://localhost:8081/35d7a209-4b8e-46ca-be95-707da321bc36",
+    "blob:http://localhost:8081/ceb05cc7-3361-4301-ad0b-879a2c7bbe88",
+    "blob:http://localhost:8081/46b38d43-2329-49c3-9db6-bd289d8d60ab",
+    "blob:http://localhost:8081/be29d05b-6160-4a4d-8102-c59c25b0e6fd",
+    "blob:http://localhost:8081/9c2e664d-7905-4037-8eb6-f671d5036079",
+    "blob:http://localhost:8081/bb03de81-7d4c-4bbb-a7cf-367f31bb5f1b",
+    "blob:http://localhost:8081/ba7284fc-e961-4b7a-8166-4a255be5120f",
+    "blob:http://localhost:8081/88435751-0c58-4d8e-8aee-c184936c090e",
+    "blob:http://localhost:8081/64b36451-d1c9-439e-b1be-dc0734318bde",
+    "blob:http://localhost:8081/808d7f36-308b-4a28-b825-9471fdca0cf7",
+    "blob:http://localhost:8081/94d789e7-68cf-4394-9cd2-5f828580f891",
+    "blob:http://localhost:8081/2d853fcd-7787-41c6-88a1-9c63fd422674",
+    "blob:http://localhost:8081/c082b55f-49ae-4afd-91be-363e26ac0910",
+    "blob:http://localhost:8081/352a4ded-e3b9-4d15-b10f-2a121de78a58",
+    "blob:http://localhost:8081/af57f525-8c65-42db-8c59-e56b334cc433",
+    "blob:http://localhost:8081/ff16ee8c-0bb6-4fcd-84fa-bb5b3b6a44bf",
+    "blob:http://localhost:8081/82771cce-05f1-43db-b972-75593108ce5b",
+    "blob:http://localhost:8081/dfc33082-d639-485f-b43b-a3979c4367e1",
+    "blob:http://localhost:8081/e3390995-3926-4447-849c-0e87d090068a",
+    "http://localhost:8081/assets/environment/ground-paint.png",
+    "http://localhost:8081/",
+    "http://localhost:8081/assets/ui/frontier-icons.png",
+    "http://localhost:8081/assets/ui/wildkin-portraits.png",
+    "http://localhost:8081/assets/fonts/Nunito.ttf",
+    "http://localhost:8081/vendor/three.module.js",
+    "http://localhost:8081/vendor/rapier.js",
+    "http://localhost:8081/assets/models/sapwood-v1/model.glb",
+    "http://localhost:8081/assets/models/field-chest-v1/model.glb",
+    "http://localhost:8081/assets/models/frontier-crate-v1/model.glb",
+    "http://localhost:8081/assets/models/alien-canopy-v1/model.glb",
+    "http://localhost:8081/assets/models/mossling-v3/model.glb",
+    "http://localhost:8081/assets/models/alien-canopy-spread-v1/model.glb",
+    "http://localhost:8081/assets/models/alien-canopy-tall-v1/model.glb",
+    "http://localhost:8081/assets/models/matter-fabricator-v1/model.glb",
+    "http://localhost:8081/assets/models/resonance-bench-v1/model.glb",
+    "http://localhost:8081/assets/models/salvage-bench-v1/model.glb",
+    "http://localhost:8081/assets/models/ember-forge-cache-v1/model.glb",
+    "http://localhost:8081/assets/models/fen-observatory-v1/model.glb",
+    "http://localhost:8081/assets/models/fen-bank-outcrop-left-v1/model.glb",
+    "http://localhost:8081/assets/models/fen-bank-outcrop-right-v1/model.glb",
+    "http://localhost:8081/assets/models/emergency-barricade-v1/model.glb",
+    "http://localhost:8081/assets/models/emergency-barricade-post-v1/model.glb",
+    "http://localhost:8081/assets/models/survey-left-wall-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-right-wall-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-rear-wall-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-floor-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-ramp-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-panel-debris-v2/model.glb",
+    "http://localhost:8081/assets/models/survey-cargo-frame-v2/model.glb",
+    "http://localhost:8081/assets/models/explorer-v2/model.glb",
+    "blob:http://localhost:8081/00877f8b-cd56-40c8-bcb4-50a143f16929",
+    "blob:http://localhost:8081/a636da77-3529-4c8c-bf18-5dc9eee3af78",
+    "blob:http://localhost:8081/12632178-e4ff-42cd-9ecc-9f44ca3ea1e1",
+    "blob:http://localhost:8081/e608db01-3dd3-4a04-bf7f-81f612557a97",
+    "blob:http://localhost:8081/6d5ed6c6-e527-41cd-8f52-c5f98af5a79e",
+    "blob:http://localhost:8081/ad254768-0541-4764-9e8a-7a7abfcc7a5b",
+    "blob:http://localhost:8081/faaeacea-67da-44c0-a5ae-862cd43fafdf",
+    "blob:http://localhost:8081/b1174e60-b3b1-4ec8-a0a8-6882fbe37894",
+    "blob:http://localhost:8081/115d7cee-d537-4b21-8fdc-cc1d221f0c65",
+    "blob:http://localhost:8081/2142c456-c328-4fb9-b3b9-c7109bb82470",
+    "blob:http://localhost:8081/0c6260ca-df3e-4db1-92fa-d79146253406",
+    "blob:http://localhost:8081/bd8b03b2-0900-4202-a7a6-7d341e74010f",
+    "blob:http://localhost:8081/978170f6-370c-4c82-925d-599a1d82b490",
+    "blob:http://localhost:8081/9e746e03-ec7a-4c51-adcb-4170c472147f",
+    "blob:http://localhost:8081/855d3185-be7c-417d-8c9f-ffbea4e8757e",
+    "blob:http://localhost:8081/e4ed0d44-821c-4890-ae29-d3a9d6dd8903",
+    "blob:http://localhost:8081/aa6399f0-ce11-45a1-97ad-484fad74ffe3",
+    "blob:http://localhost:8081/6f1df50f-46f4-41d1-8e86-4a5b899f7fd2",
+    "blob:http://localhost:8081/fd6ba6cd-4bde-4ac7-9c86-287e94e5655a",
+    "blob:http://localhost:8081/4986ae83-5f6b-498d-98e1-11ffd87bc10a",
+    "blob:http://localhost:8081/808ea994-a461-45af-a413-37993f7dcc77",
+    "blob:http://localhost:8081/9db35062-6aa6-493f-a967-20b11e4003a6",
+    "blob:http://localhost:8081/6926dd2f-0c78-467e-bfaf-247ba323cd67",
+    "blob:http://localhost:8081/5de6848b-28cb-467c-ad88-225f4a54088b",
+    "http://localhost:8081/assets/environment/ground-paint.png"
+  ],
+  "alreadyLoadedOfflineMovement": true,
+  "pass": true
+}

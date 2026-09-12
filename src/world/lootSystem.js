@@ -1,15 +1,16 @@
 // Reusable deterministic Loot Tables + persistent one-time/refill chests.
+import { createItemCatalog } from '../inventory/itemCatalog.js';
 
-export function resolveLootTable(lootTable, resourceIds = null) {
+export function resolveLootTable(lootTable, resourceIds = null, itemIds = null) {
   if (!lootTable) return null;
-  const resources = {};
+  const resources = new Map();
   let xp = 0;
   for (const reward of lootTable.rewards ?? []) {
-    if (reward.type === "resource" && (!resourceIds || resourceIds.has(reward.id))) {
-      resources[reward.id] = (resources[reward.id] ?? 0) + reward.amount;
+    if ((reward.type === "resource" && (!resourceIds || resourceIds.has(reward.id))) || (reward.type === 'item' && (!itemIds || itemIds.has(reward.id)))) {
+      resources.set(reward.id,(resources.get(reward.id) ?? 0) + reward.amount);
     } else if (reward.type === "xp") xp += reward.amount;
   }
-  return { resources, xp };
+  return { resources:Object.fromEntries(resources), xp };
 }
 
 export function createLootSystem(worldRegistry, opts = {}) {
@@ -21,6 +22,8 @@ export function createLootSystem(worldRegistry, opts = {}) {
   const checkAccess = opts.checkAccess ?? (() => ({ ok: true }));
   const transientChestIds = new Set(opts.transientChestIds ?? []);
   const transientClaims = new Set();
+  const resourceIds = new Set((worldRegistry.data.resourceDrops ?? []).map(entry=>entry.id));
+  const itemIds = new Set(Object.keys(createItemCatalog(worldRegistry.data.resourceDrops)));
   function availabilityFor(chest) {
     if (transientClaims.has(chest.id)) return { available: false, readyAt: null };
     return frontierProgress?.getLootChestAvailability?.(chest.id, chest.refillSeconds, now()) ?? { available: true };
@@ -61,7 +64,7 @@ export function createLootSystem(worldRegistry, opts = {}) {
     const table = worldRegistry.getLootTableById?.(chest.lootTableId);
     if (!table) return { ok: false, reason: "missing-loot-table" };
     if (!availabilityFor(chest).available) return { ok: false, reason: "unavailable" };
-    const offered = resolveLootTable(table, new Set((worldRegistry.data.resourceDrops ?? []).map((entry) => entry.id)));
+    const offered = resolveLootTable(table, resourceIds, itemIds);
     const claim = frontierProgress?.claimLootRewards?.(chest.id, chest.refillSeconds, offered, now());
     if (!claim?.ok) return { ok: false, reason: claim?.reason ?? "unavailable", readyAt: claim?.readyAt ?? null };
     if (transientChestIds.has(chest.id) && !claim.partial) transientClaims.add(chest.id);

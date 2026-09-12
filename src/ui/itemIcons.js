@@ -2,8 +2,9 @@
 export const ICON_IDS = Object.freeze(['wood','stone','fiber','berries','iron_ore','crystal_shard','wildflower','xp','backpack','skills','paw','map','axe','shield','boot','medkit','more']);
 const LABELS = {wood:'Wood',stone:'Stone',fiber:'Fiber',berries:'Berries',iron_ore:'Iron ore',crystal_shard:'Crystal',wildflower:'Wildflower',xp:'Experience',backpack:'Backpack',skills:'Skills',paw:'Wildkin',map:'Map',axe:'Field tool',shield:'Defense',boot:'Movement',medkit:'Medkit',settings:'Settings',more:'More options'};
 const escape = v => String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function resourceLabel(id) { return LABELS[id] ?? String(id).replaceAll('_',' '); }
+export function resourceLabel(id) { return id==='field_pack_cartridge'?'Field-pack cartridge':LABELS[id] ?? String(id).replaceAll('_',' '); }
 export function iconMarkup(id, {size=40,className='',label=''}={}) {
+  if(id==='field_pack_cartridge')return iconMarkup('backpack',{size,className,label:label||resourceLabel(id)});
   const index=ICON_IDS.indexOf(id), title=label || resourceLabel(id), px=Math.max(12,Math.min(160,Number(size)||40));
   const common=`class="item-icon ${escape(className)}" role="img" aria-label="${escape(title)}" style="display:inline-block;flex-shrink:0;width:${px}px;height:${px}px;vertical-align:middle;`;
   if(id==='more')return `<svg ${common}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.2" fill="currentColor"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/><circle cx="19" cy="12" r="2.2" fill="currentColor"/></svg>`;

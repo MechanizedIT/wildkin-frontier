@@ -1,0 +1,53 @@
+{
+  "fixture": "Isolated fresh browser context. Native Start followed by diagnostic beginExpeditionFromDefaultEntry, then physics-position placement at x=7,z=23. Default native camera; no Author mode, camera override, resource grants or gameplay acceptance claimed.",
+  "commit": "9f8d49c",
+  "viewport": {
+    "width": 844,
+    "height": 390,
+    "dpr": 1
+  },
+  "errors": [],
+  "setup": {
+    "position": {
+      "x": 7,
+      "y": 0.55,
+      "z": 23
+    },
+    "region": "section_1",
+    "session": {
+      "status": "active",
+      "runXp": 0,
+      "kills": 0,
+      "unsecuredCargo": {
+        "wood": 0,
+        "stone": 0,
+        "fiber": 0,
+        "berries": 0,
+        "iron_ore": 0,
+        "crystal_shard": 0,
+        "wildflower": 0
+      },
+      "startAnchorId": "gate_section_1_camp_arrival",
+      "currentRegionId": "section_1",
+      "currentPocketId": null,
+      "maxDepth": 1,
+      "unsecuredWildkin": [],
+      "extractionOutcome": null,
+      "resolved": false,
+      "runDiscoveries": {
+        "newWaypoints": [],
+        "newBeacons": []
+      },
+      "runId": "997bb66d-4fe4-483a-b08c-504fc68daeab"
+    }
+  },
+  "capture": {
+    "position": {
+      "x": 7,
+      "y": 0.5219971537590027,
+      "z": 23
+    },
+    "region": "section_1"
+  },
+  "complete": true
+}

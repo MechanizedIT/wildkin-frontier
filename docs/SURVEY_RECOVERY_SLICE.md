@@ -1,6 +1,8 @@
 # Survey Recovery — second overnight candidate
 
-September 11 evening. **Provisional production plan, not completed gameplay.** Derived from Chris's crashland/Camp/progression direction and an independent level/systems audit. Current scope and progress remain in CURRENT_SLICE and OVERNIGHT_RUN_2. Root integrates canonical world data; each production writer receives explicit file ownership.
+September 11 evening. **Provisional production plan with rolling implementation below.** Derived from Chris's crashland/Camp/progression direction and an independent level/systems audit. Current scope and progress remain in CURRENT_SLICE and OVERNIGHT_RUN_2. Root integrates canonical world data; each production writer receives explicit file ownership.
+
+**23:40 Survey checkpoint:** cartridge loot/Author editing and Salvage fitting are integrated; new wreckV2 neutral8.0, independent native8.0 and bench UI8.4 pass. V1 remains rejected6.3. Root's fresh ordinary Camp Travel→Forest Edge→west entrance→chest→pack inspection→exit→reload succeeds without item grants/teleports. Separate diagnostic bench fixture proves Fit→20slots→reload. These are two separate paths, not an earned crafting journey.888tests/world/campaign/build/validation/ZIP pass,43.44MB/20.37MB. Rootfall remains unimplemented. A milestone toast can replace the initial pickup message; item inspection retains fitting instructions, with notification coordination noted for later UI polish.
 
 **Camp implementation checkpoint:** defended apron, adjoining yard, three persistent Omni-tool clearing bundles, world-console payment and saved perimeter expansion are integrated candidates. Independent target/model gates pass; root native auto-clearing, cost-button payment and literal reload pass. Independent native layout/art review passes8.0, with both entrance crossings and explicit Author Edit suppression;867tests/build/ZIP pass. Survey wreck, cartridge/pack fitting and Rootfall remain plans. The actual starter floor and bench fit at(-4.5,7.7), with a crate at(-4.5,9.7); the material-only gravel pad changes no terrain height beneath legacy saves.
 
@@ -8,7 +10,7 @@ September 11 evening. **Provisional production plan, not completed gameplay.** D
 
 Wake beside the damaged pod inside emergency defenses. Gather in Forest Edge, follow recognizable cargo fragments into a torn survey module, recover a pack cartridge, and fit it at a Camp Salvage bench. Clear an adjoining work yard to gain protected construction space. Clear and brace a fallen alien growth farther up the Verdant trail to open the next region. Pack capacity helps preparation; it is not an arbitrary permission requirement for cutting the obstruction.
 
-Build this as a few complete reviewed changes. Camp is the next visual/physical slice; survey rewards and pack fitting follow. Do not start every feature simultaneously or claim the whole journey from isolated fixtures.
+Camp and Survey are integrated reviewed changes. Rootfall is next. Do not start every feature simultaneously or claim the whole journey from isolated fixtures.
 
 ## Camp composition and expansion
 
@@ -30,13 +32,13 @@ Grandfather existing southern construction or paid tiers into a cleared yard; re
 - Torn Survey Module around(7,23) in Verdant, roughly6×7m with a west opening, near the arrival-to-Lookout trip and south of the ore branch. Keep the ridgeway and z18 route accessible.
 - Manufactured pale ribs, open roof, damaged receiver and admitted articulated field chest establish a recognizable wreck. Two restrained cargo fragments lead to it. Alien ruins retain a different silhouette/material story.
 - Preserve the familiar first-tree/supply nook and IDs near(-8.5,24),(-12,21.5),berries(-12,25).
-- Guaranteed one stack-limit-1 Field-pack cartridge. Full inventory leaves it recoverable after making space. Loot currently admits resources/XP only: item rewards must close validation, Author editing/export and partial-reward persistence as well as runtime.
-- At a placed Salvage bench, cartridge+6 fiber+2 wood fits a permanent16→20-slot pack upgrade. One transaction consumes costs, records learned blueprint/capacity and adds four empty slots without moving existing stacks. Failed saves preserve prior ownership; repeat attempts show Fitted and never charge again. Exact cost is provisional.
+- Guaranteed one stack-limit-1 Field-pack cartridge. Full inventory leaves it recoverable after making space. Loot now admits catalog items alongside resources/XP; validation, shared-table Author editing/export and partial-reward persistence are integrated.
+- At a placed Salvage bench, cartridge+6 fiber+2 wood fits a permanent16→20-slot pack upgrade. One transaction consumes costs, records the existing pack tier and adds four empty slots without moving existing stacks. No separate blueprint ledger was added. Failed saves preserve prior ownership; repeat attempts show Fitted and never charge again. Exact cost is provisional.
 - Reuse existing pack tiers16/20/24 and the frontierProgress save owner. Do not create a parallel blueprint/inventory authority or pretend a permanent upgrade is a disposable item output.
 
 ## Rootfall Passage
 
-Replace only `gate_section_1_to_2`: a fallen alien trunk across the drainage cut near(0,-31), with flanking banks near(-7,-31)/(7,-31). Starter Omni clears visibly stressed sections;4 wood+2 fiber braces the bank. Remove this edge's XP threshold. Preserve its ID, repaired flag and destinations; repaired saves remain open.
+Replace only `gate_section_1_to_2`: fallen alien growth across the existing raised ridge near(0,-31), with grounded flanking rock/root masses. Source inspection found no drainage cut, so retain the actual ridge instead of assuming a ravine. Starter Omni clears visibly stressed sections;4 wood+2 fiber braces the passage. Remove this edge's XP threshold. Preserve its ID, repaired flag, destinations and safe return landing at(0,1.35,-31.5); repaired saves remain open. Exact target/layout is the next independent reference gate.
 
 The current gate is a nonblocking arch. Closed/open visuals and physical blockage must share the saved repaired state; the transfer trigger belongs beyond the cleared approach. Check static-world refresh so no orphan collider remains. Other gate families retain current behavior until individually redesigned.
 

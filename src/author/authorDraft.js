@@ -977,6 +977,13 @@ export function createAuthorDraft(repoData) {
         }
       }
       if (fieldDef?.type === "visualAsset" && val === "") val = undefined;
+      if (fieldDef?.source === 'lootTable') {
+        const table=candidate.lootTables?.find(table=>table.id===found.obj.lootTableId);
+        if(!table)throw new Error('Choose an existing Loot Table before editing rewards');
+        if(!Array.isArray(val)||!val.length)throw new Error('Rewards must be a nonempty JSON array');
+        table.rewards=deepClone(val);
+        return; // transact validates every referenced chest/table before commit.
+      }
       if (val === undefined) {
         if (path.includes(".")) {
           const keys = path.split(".");
@@ -1439,6 +1446,10 @@ export function createAuthorDraft(repoData) {
     findObjectById,
     getVisualAssets,
     getResourceDrops,
+    getLootTableDetails(id) {
+      const table=draft.lootTables?.find(table=>table.id===id);
+      return table?{...deepClone(table),chestCount:draft.regions.reduce((sum,region)=>sum+(region.lootChests??[]).filter(chest=>chest.lootTableId===id).length,0)}:null;
+    },
     findVisualAssetById,
     findPreviewObjectById: id=>findObjectById(id,true),
     createVisualAsset,

@@ -1,5 +1,6 @@
 import { getResourceDrops } from '../resources/resourceDropCatalog.js';
 import { EQUIPMENT_CATALOG } from '../equipment/equipmentCatalog.js';
+import { FIELD_PACK_CARTRIDGE_ID } from '../base/fieldPackConfig.js';
 
 export const INVENTORY_CONFIG = Object.freeze({ packSlots: [16, 20, 24], podSlots: 24, crateSlots: 24, lockerSlots: 36, resourceStack: 20, foodStack: 5, tamingStack: 3 });
 
@@ -12,5 +13,8 @@ export function createItemCatalog(resourceDrops) {
     if (entries.some(entry => entry.id === item.id)) throw new Error(`Resource and equipment item ID conflict: ${item.id}`);
     entries.push({ id: item.id, name: item.name, icon: item.icon, kind: item.kind, stackLimit: item.kind === 'taming' ? INVENTORY_CONFIG.tamingStack : INVENTORY_CONFIG.foodStack });
   }
+  if (entries.some(entry => entry.id === FIELD_PACK_CARTRIDGE_ID)) throw new Error(`Resource and fixed item ID conflict: ${FIELD_PACK_CARTRIDGE_ID}`);
+  entries.push({ id: FIELD_PACK_CARTRIDGE_ID, name: 'Field-pack cartridge', icon: 'backpack', kind: 'upgrade', stackLimit: 1,
+    description:'Fit at a Salvage bench to expand a starter pack to 20 slots.' });
   return Object.freeze(Object.fromEntries(entries.map(item => [item.id, Object.freeze(item)])));
 }

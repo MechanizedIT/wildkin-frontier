@@ -4,6 +4,7 @@
 import { DEFAULT_RESOURCE_DROPS } from "../resources/resourceDropCatalog.js";
 import { validateSurface, getSurfaceHeight } from "./terrainSurfaceModel.js";
 import { validateConvexCollider } from './convexCollider.js';
+import { createItemCatalog } from '../inventory/itemCatalog.js';
 
 const SUPPORTED_RESOURCE_TYPES = new Set(["tree", "rock", "fiber"]);
 const SUPPORTED_CREATURE_TYPES = new Set(["rusher", "spitter"]);
@@ -126,6 +127,7 @@ export function normalizeWorldData(raw) {
       throw new Error(`resource drop ${drop.id} visualAssetId must be a non-empty string`);
     }
   }
+  const itemCatalog = createItemCatalog(data.resourceDrops);
   if (data.visualAssets === undefined) data.visualAssets = [];
   if (!Array.isArray(data.visualAssets)) throw new Error("world.visualAssets must be an array");
   const visualAssetIds = new Set();
@@ -245,10 +247,15 @@ export function normalizeWorldData(raw) {
     if (lootTableIds.has(table.id)) throw new Error(`duplicate loot table id ${table.id}`);
     lootTableIds.add(table.id);
     if (!Array.isArray(table.rewards) || table.rewards.length === 0) throw new Error(`loot table ${table.id} rewards required`);
+    const rewardTotals=new Map();
     for (const reward of table.rewards) {
-      if (reward.type !== "resource" && reward.type !== "xp") throw new Error(`loot table ${table.id} unsupported reward ${reward.type}`);
-      if (!Number.isInteger(reward.amount) || reward.amount <= 0) throw new Error(`loot table ${table.id} reward amount must be positive integer`);
+      if (!["resource", "item", "xp"].includes(reward.type)) throw new Error(`loot table ${table.id} unsupported reward ${reward.type}`);
+      if (!Number.isSafeInteger(reward.amount) || reward.amount <= 0) throw new Error(`loot table ${table.id} reward amount must be positive safe integer`);
       if (reward.type === "resource" && !resourceDropIds.has(reward.id)) throw new Error(`loot table ${table.id} unresolved resource ${reward.id}`);
+      if (reward.type === 'item' && !Object.hasOwn(itemCatalog,reward.id)) throw new Error(`loot table ${table.id} unresolved item ${reward.id}`);
+      const key=reward.type==='xp'?'xp:':`item:${reward.id}`,total=(rewardTotals.get(key)??0)+reward.amount;
+      if(!Number.isSafeInteger(total))throw new Error(`loot table ${table.id} combined reward amount must be positive safe integer`);
+      rewardTotals.set(key,total);
     }
   }
   if (!Array.isArray(data.regions) || data.regions.length === 0) throw new Error("world.regions must be non-empty array");

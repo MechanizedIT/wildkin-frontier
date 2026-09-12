@@ -1063,11 +1063,13 @@ export function createAuthorUI(opts) {
     const fields = def?.inspector ?? [];
     host.style.display = fields.length ? "" : "none";
     for (const field of fields) {
+      const lootTable=field.source==='lootTable'?draftApi.getLootTableDetails(found.obj.lootTableId):null;
       const label = document.createElement("label");
       label.style.cssText = field.type === "boolean"
         ? "display:flex;align-items:center;gap:6px;margin:4px 0"
         : "display:block;margin:4px 0";
       label.append(document.createTextNode(field.label + " "));
+      if(lootTable)label.append(document.createTextNode(`· shared by ${lootTable.chestCount} chest(s) `));
       let input;
       if (field.type === "enum" || field.type === "visualAsset") {
         input = document.createElement("select");
@@ -1080,6 +1082,9 @@ export function createAuthorUI(opts) {
           optionEl.textContent = option.label;
           input.append(optionEl);
         }
+      } else if(field.source==='lootTable') {
+        input=document.createElement('textarea');input.rows=4;
+        input.placeholder='[{"type":"item","id":"field_pack_cartridge","amount":1}]';
       } else {
         input = document.createElement("input");
         input.type = field.type === "number" ? "number" : field.type === "boolean" ? "checkbox" : "text";
@@ -1097,7 +1102,7 @@ export function createAuthorUI(opts) {
       input.style.width = field.type === "boolean" ? "auto" : "100%";
       const raw = field.editorOnly
         ? (field.defaultValue ?? false)
-        : readPath(found.obj, field.path ?? field.key);
+        : field.source==='lootTable'?lootTable?.rewards:readPath(found.obj, field.path ?? field.key);
       if (field.type === "boolean") input.checked = !!raw;
       else if (field.type === "json") input.value = raw == null ? "" : JSON.stringify(raw);
       else input.value = raw ?? "";
@@ -1266,6 +1271,7 @@ export function createAuthorUI(opts) {
       return;
     }
     setStatus(`Edited ${key} — ${selectedId}`, false);
+    if(key==='lootTableId')setSelected(selectedId);
     opts.onDraftChanged?.(selectedId);
   });
   // Tint color picker live sync to text

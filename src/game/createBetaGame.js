@@ -20,6 +20,7 @@ import { createCampClearing } from '../base/campClearing.js';
 import { createCacheMechanisms } from '../presentation/cacheMechanisms.js';
 import { createObservatoryMechanisms } from '../presentation/observatoryMechanisms.js';
 import { createPhysicalInventory } from '../inventory/physicalInventory.js';
+import { FIELD_PACK_CARTRIDGE_ID } from '../base/fieldPackConfig.js';
 
 const SETTINGS_KEY = "wildkin.settings";
 export function createBetaGame(deps) {
@@ -231,7 +232,8 @@ export function createBetaGame(deps) {
     },
     onLoot(rewards, chest) {
       if (chest?.id === "chest_heartwood_core" && !rewards.partial) corePending = true;
-      toast(chest?.displayName ?? "Recovered cache", rewards.partial ? 'Some supplies remain. Make room in your pack to collect them.' : chest?.id === "chest_heartwood_core" ? "Bring the Core home." : `+${rewards.xp} XP`);
+      if(rewards.resources?.[FIELD_PACK_CARTRIDGE_ID]>0)toast('Field-pack cartridge recovered','Fit it at a Salvage bench for 4 more pack slots.');
+      else toast(chest?.displayName ?? "Recovered cache", rewards.partial ? 'Some supplies remain. Make room in your pack to collect them.' : chest?.id === "chest_heartwood_core" ? "Bring the Core home." : `+${rewards.xp} XP`);
       pulse(chest?.pos ?? playerController.getState().pos, 0xffd878); audio.playLevelUp();
     },
     onExtract(runId) {

@@ -1,0 +1,36 @@
+{
+  "fixture": "Supplemental isolated save. Normal Camp Travel/map to Verdant. Diagnostic position seeds near the existing tree and behind the wreck, then native Auto harvest UI and ordinary mouse orbit. No grant or camera override.",
+  "errors": [],
+  "before": {
+    "chunks": 5,
+    "collider": true,
+    "player": {
+      "x": 11,
+      "y": 0.5219995975494385,
+      "z": 29.299999237060547
+    },
+    "mode": "IDLE",
+    "targets": [
+      "tree_section_1_arrival_r"
+    ]
+  },
+  "after": {
+    "chunks": 0,
+    "collider": false,
+    "player": {
+      "x": 11,
+      "y": 0.5219995975494385,
+      "z": 29.299999237060547
+    },
+    "mode": "IDLE",
+    "targets": []
+  },
+  "rear": {
+    "pos": {
+      "x": 13.5,
+      "y": 0.5219999551773071,
+      "z": 24.5
+    },
+    "yaw": 1.5679999999999996
+  }
+}

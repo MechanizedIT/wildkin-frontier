@@ -1,0 +1,273 @@
+{
+  "fixture": "Isolated fresh save; diagnostic material grants and placed floor/bench; actual world-label and recipe/Fit clicks, viewport resize and literal reload.",
+  "placement": {
+    "floor": true,
+    "bench": true
+  },
+  "dims": {
+    "panel": {
+      "x": 30.96875,
+      "y": 322.140625,
+      "width": 328,
+      "height": 257.796875,
+      "top": 322.140625,
+      "right": 358.96875,
+      "bottom": 579.9375,
+      "left": 30.96875
+    },
+    "recipes": [
+      {
+        "text": "Berry lure\n0 packed",
+        "rect": {
+          "x": 43.96875,
+          "y": 386.140625,
+          "width": 70.25,
+          "height": 88.296875,
+          "top": 386.140625,
+          "right": 114.21875,
+          "bottom": 474.4375,
+          "left": 43.96875
+        },
+        "overflow": false
+      },
+      {
+        "text": "Woven snare\n0 packed",
+        "rect": {
+          "x": 121.21875,
+          "y": 386.140625,
+          "width": 70.25,
+          "height": 88.296875,
+          "top": 386.140625,
+          "right": 191.46875,
+          "bottom": 474.4375,
+          "left": 121.21875
+        },
+        "overflow": false
+      },
+      {
+        "text": "Trail ration\n0 packed",
+        "rect": {
+          "x": 198.46875,
+          "y": 386.140625,
+          "width": 70.25,
+          "height": 88.296875,
+          "top": 386.140625,
+          "right": 268.71875,
+          "bottom": 474.4375,
+          "left": 198.46875
+        },
+        "overflow": false
+      },
+      {
+        "text": "Field pack\n+4 slots",
+        "rect": {
+          "x": 275.71875,
+          "y": 386.140625,
+          "width": 70.25,
+          "height": 88.296875,
+          "top": 386.140625,
+          "right": 345.96875,
+          "bottom": 474.4375,
+          "left": 275.71875
+        },
+        "overflow": false
+      }
+    ]
+  },
+  "before": {
+    "packTier": 0,
+    "pack": [
+      {
+        "id": "field_pack_cartridge",
+        "count": 1
+      },
+      {
+        "id": "fiber",
+        "count": 6
+      },
+      {
+        "id": "wood",
+        "count": 2
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "containers": [
+      {
+        "id": "pod_locker",
+        "type": "pod",
+        "label": "Pod locker",
+        "slots": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "legacy": {},
+    "totals": {
+      "gathered": 0,
+      "returned": 0
+    }
+  },
+  "after": {
+    "packTier": 1,
+    "pack": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "containers": [
+      {
+        "id": "pod_locker",
+        "type": "pod",
+        "label": "Pod locker",
+        "slots": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "legacy": {},
+    "totals": {
+      "gathered": 0,
+      "returned": 0
+    }
+  },
+  "loaded": {
+    "packTier": 1,
+    "pack": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "containers": [
+      {
+        "id": "pod_locker",
+        "type": "pod",
+        "label": "Pod locker",
+        "slots": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "legacy": {},
+    "totals": {
+      "gathered": 0,
+      "returned": 0
+    }
+  },
+  "errors": [],
+  "pass": true
+}

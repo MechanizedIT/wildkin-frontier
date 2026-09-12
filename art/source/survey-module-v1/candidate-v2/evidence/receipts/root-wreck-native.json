@@ -1,0 +1,172 @@
+{
+  "fixture": "Isolated fresh start. Actual keyboard travel from pod through Camp Travel/map, Forest Edge trail and west wreck entrance; actual chest and pack clicks. Read-only position-based navigation. No save seeds, teleport, grants, camera overrides or debug mutations.",
+  "steps": [
+    {
+      "walkTo": [
+        0,
+        -4.4
+      ],
+      "arrived": {
+        "x": 0.00008189619984477758,
+        "y": 0.5219999551773071,
+        "z": -4.2266693115234375,
+        "yaw": 0
+      }
+    },
+    {
+      "departed": {
+        "x": 3.0616169991140216e-16,
+        "y": 0.5219985842704773,
+        "z": 33.5,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        0.3,
+        25
+      ],
+      "arrived": {
+        "x": 0.2585678994655609,
+        "y": 0.5219979286193848,
+        "z": 25.163969039916992,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        0.3,
+        23
+      ],
+      "arrived": {
+        "x": 0.25858062505722046,
+        "y": 0.5223843455314636,
+        "z": 23.28723907470703,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        3.4,
+        23
+      ],
+      "arrived": {
+        "x": 3.111187696456909,
+        "y": 0.6761433482170105,
+        "z": 22.9205322265625,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        7.1,
+        23
+      ],
+      "arrived": {
+        "x": 6.877391815185547,
+        "y": 0.7000667452812195,
+        "z": 22.920555114746094,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        3.3,
+        23
+      ],
+      "arrived": {
+        "x": 3.596562623977661,
+        "y": 0.7069931626319885,
+        "z": 22.920547485351562,
+        "yaw": 0
+      }
+    },
+    {
+      "walkTo": [
+        0.3,
+        23
+      ],
+      "arrived": {
+        "x": 0.4304923415184021,
+        "y": 0.5219987034797668,
+        "z": 22.920604705810547,
+        "yaw": 0
+      }
+    },
+    {
+      "exited": {
+        "x": 0.4047423303127289,
+        "y": 0.5219987034797668,
+        "z": 22.920604705810547,
+        "yaw": 0
+      }
+    }
+  ],
+  "reward": {
+    "pack": [
+      {
+        "id": "field_pack_cartridge",
+        "count": 1
+      },
+      {
+        "id": "fiber",
+        "count": 2
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "available": {
+      "available": false,
+      "readyAt": null
+    },
+    "pos": {
+      "x": 6.924642086029053,
+      "y": 0.6999889016151428,
+      "z": 22.920555114746094
+    }
+  },
+  "loaded": {
+    "pack": [
+      {
+        "id": "field_pack_cartridge",
+        "count": 1
+      },
+      {
+        "id": "fiber",
+        "count": 2
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "available": {
+      "available": false,
+      "readyAt": null
+    }
+  },
+  "errors": [],
+  "pass": true
+}

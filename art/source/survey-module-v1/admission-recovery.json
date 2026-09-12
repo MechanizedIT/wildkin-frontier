@@ -1,0 +1,201 @@
+{
+  "status": "V2 integrated locally at exact reviewed model hashes; bounded neutral 8.0 and independent native 8.0 PASS",
+  "sourceGate": "candidate-v2/independent-model-review-v2.md",
+  "nativeGate": "candidate-v2/independent-native-review.md",
+  "ownerAcceptance": false,
+  "physicalPhoneAcceptance": false,
+  "wholeJourneyAcceptance": false,
+  "integrationBoundary": "Seven V2 runtime assets are present and exact-hash matched. Parent aggregate reports 888 tests, world/campaign, build/validate and ZIP PASS. The native earned cartridge route and diagnostic bench fitting are separate receipts, not a claimed one-save complete journey.",
+  "runtime": [
+    {
+      "source": "art/source/survey-module-v1/candidate-v2/survey-left-wall.glb",
+      "runtime": "assets/models/survey-left-wall-v2/model.glb",
+      "sha256": "8b0724eeb2b6c94ec36da6564bada5fbd23be75bc0e534c811c0ee1d364912f4",
+      "bytes": 141564
+    },
+    {
+      "source": "art/source/survey-module-v1/candidate-v2/survey-right-wall.glb",
+      "runtime": "assets/models/survey-right-wall-v2/model.glb",
+      "sha256": "446290df32dc148063fffacf373e7ec75ff580a209307ed8372e0d55378ff030",
+      "bytes": 178960
+    },
+    {
+      "source": "art/source/survey-module-v1/candidate-v2/survey-rear-wall.glb",
+      "runtime": "assets/models/survey-rear-wall-v2/model.glb",
+      "sha256": "7b01df4ec586c03e1dc2a2c852df8d105309f7cbf90a87ebafd0720de521fed2",
+      "bytes": 45152
+    },
+    {
+      "source": "art/source/survey-module-v1/candidate-v2/survey-floor.glb",
+      "runtime": "assets/models/survey-floor-v2/model.glb",
+      "sha256": "b8aa63ff73d34be713392600f940403cdafbfb6a49e6f22c8fd5de81bf2f7c53",
+      "bytes": 38348
+    },
+    {
+      "source": "art/source/survey-module-v1/candidate-v2/survey-ramp.glb",
+      "runtime": "assets/models/survey-ramp-v2/model.glb",
+      "sha256": "cfd69b2cdac08969859fde1ecadeba86e3b677ee3693cd3e83a7f128bcc53c1e",
+      "bytes": 2532
+    },
+    {
+      "source": "art/source/survey-module-v1/candidate-v2/survey-panel-debris.glb",
+      "runtime": "assets/models/survey-panel-debris-v2/model.glb",
+      "sha256": "578d0a0daca5c24a7ffaaed914a62f000dc69d303a19b7cad9f110fac9b7a82e",
+      "bytes": 10608
+    },
+    {
+      "source": "art/source/survey-module-v1/candidate-v2/survey-cargo-frame.glb",
+      "runtime": "assets/models/survey-cargo-frame-v2/model.glb",
+      "sha256": "49e80161b89d545607b444398000660bdd1433400f16d217f80d047243c84926",
+      "bytes": 58436
+    }
+  ],
+  "retainedEvidence": [
+    {
+      "source": ".dream-loop/overnight2-survey-model/v2/front.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/neutral/front.png",
+      "bytes": 383201,
+      "sha256": "dd6810e04d7f1cd78bc7e42e157b48fbfa241678af50ff24e58806b90b72b6e5"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey-model/v2/rear.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/neutral/rear.png",
+      "bytes": 369539,
+      "sha256": "a819234fb26897369f97b34fc93119b6303814ae6db425b6a5d8d0acf4a22929"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey-model/v2/three-quarter.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/neutral/three-quarter.png",
+      "bytes": 408191,
+      "sha256": "d66149d2ae1b30d3f66cf6de6ede841e4ad816276b35e127a88da14f0360c636"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey-model/v2/chest-open-clearance.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/neutral/chest-open-clearance.png",
+      "bytes": 429250,
+      "sha256": "92cffac9026495b72fa901ffe7229465ba4def6c24e278f8ecd3367d6ed59d5f"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey-model/v2/game-scale-neutral.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/neutral/game-scale-neutral.png",
+      "bytes": 367057,
+      "sha256": "06eda8fdb810bbd92793dc9a5b622a8ebf82346cd95c1f6f9de2edf716e3062f"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey-model/v2/breadcrumbs.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/neutral/breadcrumbs.png",
+      "bytes": 343905,
+      "sha256": "398c8d959ce52d21a831678f8fb7e1c4a47d7f76a06e5f75a953a6ac4738fa09"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/wreck-entry.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/native/root/wreck-entry.png",
+      "bytes": 312815,
+      "sha256": "99099d8ce3af70694b04f2cfc99dd06bd360964dcf9cc52731697fd707a781fd"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/wreck-chest-open.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/native/root/wreck-chest-open.png",
+      "bytes": 315972,
+      "sha256": "22cabdccf3719309b61250d4f2b6b9c3a2f932ed868f02366a9a8c8435cfb9b9"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/cartridge-in-pack.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/native/root/cartridge-in-pack.png",
+      "bytes": 107297,
+      "sha256": "7568c71bcbe8eace9687d033f8ff5522ab47768e473e7468e554340726293134"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/review/inside-quarter-two.png",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/native/independent/inside-quarter-two.png",
+      "bytes": 264533,
+      "sha256": "10d57b6b5dc10b03f8965dbb3fadd55f3e8ecddd95d86c55eea31acb1a781abd"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey-model/review/v2-evidence.json",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/receipts/neutral-review.json",
+      "bytes": 1282,
+      "sha256": "6c06c531bf73ce9466cb7629096e4b30539bea351eee4ac7be740320241db703"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/wreck-native.json",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/receipts/root-wreck-native.json",
+      "bytes": 3014,
+      "sha256": "e4ae68608771d45d2b344ec80fa73a1e89a9d987671b0ed8c5bf6181a683ee5f"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/review/native-receipt.json",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/receipts/independent-native.json",
+      "bytes": 7350,
+      "sha256": "359fb2fa5cde8c89ccf97a5a1a8eac8b5fa146390a1533cad72192e2901a83cc"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/review/tree-grounding-receipt.json",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/receipts/independent-tree-grounding.json",
+      "bytes": 810,
+      "sha256": "37883b32386177a2a736283e5b12422c869d29e09c3830459114c4539c24572f"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/review/source-hashes.json",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/receipts/independent-source-hashes.json",
+      "bytes": 1494,
+      "sha256": "e9bd1ca707c3807ac22b2e442fc60e6b21a6989c5f81242753c3b21852fc0359"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/station-native.json",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/receipts/root-station-native.json",
+      "bytes": 4723,
+      "sha256": "ed210f18b92e18cc9ae701ec05db8482c2c7e73572cac1c543318b6a0c206ba8"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/author-native.json",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/receipts/root-author-native.json",
+      "bytes": 683,
+      "sha256": "03210600bddde784e70cda831128620227d0e5d41894eb2ada944f0f9fdd786a"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/wreck-native.mjs",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/harnesses/root-wreck-native.mjs",
+      "bytes": 4458,
+      "sha256": "bc40ccded4c69d51b19b2e0d3cbe4ec32b2d773764d5779d283b6eb5aaa7a1bb"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/review/native.mjs",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/harnesses/independent-native.mjs",
+      "bytes": 4472,
+      "sha256": "f5ac9ad02e46bbcb3dfe2c803c95e0eb08d6980d6debf60690ee9653377b312e"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/review/tree-grounding.mjs",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/harnesses/independent-tree-grounding.mjs",
+      "bytes": 2797,
+      "sha256": "dbbcb6030225e75584e218cc428a9128a159e7a0579d98d65b13a40a479c53a7"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/station-native.mjs",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/harnesses/root-station-native.mjs",
+      "bytes": 3480,
+      "sha256": "bff357258cda638ca3b70cc954795d98a19a172eb6aba6648c652e612bb339d6"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey/author-native.mjs",
+      "retained": "art/source/survey-module-v1/candidate-v2/evidence/harnesses/root-author-native.mjs",
+      "bytes": 2707,
+      "sha256": "edfe07bb46f97c027320cfa010ecbdd379bb57bb9dba5a2c0e38ed85d64974c6"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey-reference/capture.mjs",
+      "retained": "art/targets/survey-wreck-v1/capture.mjs",
+      "bytes": 1911,
+      "sha256": "df9031e4c1f634e4348fc1d9d38a05ecbf62ad449609d745942d51e857d08ff4"
+    },
+    {
+      "source": ".dream-loop/overnight2-survey-model/v1/three-quarter.png",
+      "retained": "art/source/survey-module-v1/candidate-v1/rejected-three-quarter.png",
+      "bytes": 393841,
+      "sha256": "b2dafbcb8b8fb3a216d5efcdf4fc30b2bd2c9a1217adb813f803eaae8197b643"
+    }
+  ],
+  "retainedEvidenceBytes": 3734782,
+  "omissions": "No browser profiles, node_modules, giant Author fixture JSON, aggregate logs, original Blender review assembly, or whole proof directory copied."
+}

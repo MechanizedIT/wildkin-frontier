@@ -1,0 +1,31 @@
+{
+  "fixture": "Isolated Author draft. Actual EDIT/region/hierarchy selection, rewards textarea changes (valid then invalid), exported download and literal reload; no shipped world mutation.",
+  "table": {
+    "displayName": "Section 1 Secret",
+    "id": "loot_secret_section_1",
+    "rewards": [
+      {
+        "type": "item",
+        "id": "field_pack_cartridge",
+        "amount": 1
+      }
+    ],
+    "chestCount": 3
+  },
+  "exportedReward": [
+    {
+      "type": "item",
+      "id": "field_pack_cartridge",
+      "amount": 1
+    }
+  ],
+  "reloaded": [
+    {
+      "type": "item",
+      "id": "field_pack_cartridge",
+      "amount": 1
+    }
+  ],
+  "errors": [],
+  "pass": true
+}

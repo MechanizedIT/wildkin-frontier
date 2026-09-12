@@ -1,0 +1,42 @@
+[
+  {
+    "path": "tools/compose-survey-recovery.mjs",
+    "sha256": "c7d1d70d36d3098c2c9daf09625a4d99a6bfd116d005661b3fde70f9008bf0b4"
+  },
+  {
+    "path": "src/world/data/world.json",
+    "sha256": "6b038aee3550fa8ed29a458629fee2ed6f0dce425ff121b1383ceddec2ce46ec"
+  },
+  {
+    "path": "src/world/data/world.generated.js",
+    "sha256": "759191ab57182cebaedff90e9d3242a897a0a44ccd9e1387440f871b5bb922d7"
+  },
+  {
+    "path": "assets/models/survey-left-wall-v2/model.glb",
+    "sha256": "8b0724eeb2b6c94ec36da6564bada5fbd23be75bc0e534c811c0ee1d364912f4"
+  },
+  {
+    "path": "assets/models/survey-right-wall-v2/model.glb",
+    "sha256": "446290df32dc148063fffacf373e7ec75ff580a209307ed8372e0d55378ff030"
+  },
+  {
+    "path": "assets/models/survey-rear-wall-v2/model.glb",
+    "sha256": "7b01df4ec586c03e1dc2a2c852df8d105309f7cbf90a87ebafd0720de521fed2"
+  },
+  {
+    "path": "assets/models/survey-floor-v2/model.glb",
+    "sha256": "b8aa63ff73d34be713392600f940403cdafbfb6a49e6f22c8fd5de81bf2f7c53"
+  },
+  {
+    "path": "assets/models/survey-ramp-v2/model.glb",
+    "sha256": "cfd69b2cdac08969859fde1ecadeba86e3b677ee3693cd3e83a7f128bcc53c1e"
+  },
+  {
+    "path": "assets/models/survey-panel-debris-v2/model.glb",
+    "sha256": "578d0a0daca5c24a7ffaaed914a62f000dc69d303a19b7cad9f110fac9b7a82e"
+  },
+  {
+    "path": "assets/models/survey-cargo-frame-v2/model.glb",
+    "sha256": "49e80161b89d545607b444398000660bdd1433400f16d217f80d047243c84926"
+  }
+]

@@ -7,6 +7,7 @@ import { getCampaignObjective } from "../progression/campaignProgress.js";
 import { getPlayerLevel } from "../progression/playerLevel.js";
 import { getAvailableSkillPoints, getSkillPurchaseReason, normalizeSkillUnlocks, mergeSkillModifiers } from "../progression/skillCatalog.js";
 import { BASE_PIECE_BY_ID, FIELD_RECIPE_BY_ID } from '../base/baseCatalog.js';
+import { FIELD_PACK_FIT_COST } from '../base/fieldPackConfig.js';
 import { cloneBase, getCampReserved, normalizeBase, validatePlacement } from '../base/basePlacement.js';
 import { CAMP_DEBRIS_IDS, CAMP_YARD_COST, createCampLayout } from '../base/campLayout.js';
 import { QUICK_SLOT_COUNT, EQUIPMENT_BY_ID, normalizeLoadout, cloneLoadout, getEquipmentCount } from '../equipment/equipmentCatalog.js';
@@ -293,6 +294,14 @@ export function createFrontierProgress(opts = {}) {
   }
   function getInventoryState() { return cloneInventory(state.inventory); }
   function getPackResourceCounts() { return getPackResources(state.inventory, itemCatalog); }
+  function getSpendableItemCounts(storageId = getCraftStorageId()) {
+    const counts = countItems(state.inventory.pack);
+    const source = storageId && canAccessContainer(storageId) ? state.inventory.containers.find(c => c.id === storageId) : null;
+    const stored = countItems(source?.slots ?? []);
+    return Object.fromEntries(Object.keys(itemCatalog).map(id => [id,
+      (Object.hasOwn(counts, id) ? counts[id] : 0) + (Object.hasOwn(stored, id) ? stored[id] : 0),
+    ]));
+  }
   function getSpendableResources(storageId = getCraftStorageId()) {
     const counts = getPackResourceCounts();
     const source = storageId && canAccessContainer(storageId) ? state.inventory.containers.find(c => c.id === storageId) : null;
@@ -725,6 +734,18 @@ export function createFrontierProgress(opts = {}) {
     const rollback=snapshotForBankRollback();state.inventory=exchange.inventory;
     const write=commitBank(rollback,{});return {crafted:write.ok,reason:write.reason,state:getState()};
   }
+  function fitFieldPack() {
+    if (state.inventory.packTier >= 1) return { fitted: false, reason: 'already-fitted', state: getState() };
+    if (!state.base.structures.some(piece => piece.type === 'workbench')) return { fitted: false, reason: 'station-required', state: getState() };
+    const exchange = prepareExchange(FIELD_PACK_FIT_COST);
+    if (!exchange.ok) return { fitted: false, reason: exchange.reason, state: getState() };
+    const rollback = snapshotForBankRollback();
+    exchange.inventory.pack.push(...Array(INVENTORY_CONFIG.packSlots[1] - exchange.inventory.pack.length).fill(null));
+    exchange.inventory.packTier = 1;
+    state.inventory = exchange.inventory;
+    const write = commitBank(rollback, {});
+    return { fitted: write.ok, reason: write.ok ? 'fitted' : write.reason, state: getState() };
+  }
   function consumeFieldSupply(id, runPatch) {
     if(!FIELD_RECIPE_BY_ID[id])return {consumed:false,reason:'unknown-recipe'};
     const exchange=prepareExchange({[id]:1},{},null);if(!exchange.ok)return {consumed:false,reason:'empty'};
@@ -864,7 +885,7 @@ export function createFrontierProgress(opts = {}) {
   return {
     inventory: inventoryActions, getItemCatalog: () => itemCatalog,
     checkpointRun, endRunWithoutRewards, getActiveRun:()=>cloneActiveRun(state.activeRun),setRunSnapshotProvider:provider=>{runSnapshotProvider=provider;},
-    getInventoryState, getPackResourceCounts, getSpendableResources, collectResources, spendResources, setInventoryAccess,
+    getInventoryState, getPackResourceCounts, getSpendableResources, getSpendableItemCounts, collectResources, spendResources, setInventoryAccess,
     load,
     save,
     getStorageStatus,
@@ -891,7 +912,7 @@ export function createFrontierProgress(opts = {}) {
     completePoi,
     craftConsumable,
     consumeConsumable,
-    getBaseState, getFieldSupplies, craftFieldSupply, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,
+    getBaseState, getFieldSupplies, craftFieldSupply, fitFieldPack, consumeFieldSupply, placeStructure, removeStructure, expandBase, clearCampDebris,
     getLoadout, assignQuickSlot, selectQuickSlot,
     tryResolve,
     getBankedResources,

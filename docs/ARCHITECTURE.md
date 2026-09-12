@@ -4,6 +4,8 @@
 
 ## Beta ownership and lifecycle
 
+- Survey Recovery uses the existing inventory `packTier` as the durable learned/fitted result. A fixed stack1 cartridge is ordinary inventory; `frontierProgress.fitFieldPack` atomically consumes it plus materials, appends four empty slots and preserves active-run/loadout state on rollback. `getSpendableItemCounts` includes nonresources without changing resource statistics. Physical station UI owns no rewards. Loot tables now accept catalog `item` rewards through the same finite remainder ledger; validation checks safe combined quantities. Author's chest inspector edits the referenced shared table explicitly and validates before committing.
+
 - `src/boot.js` supplies the visible startup/error/context-loss boundary and imports `main.js`. Both development and the readable packaged bundle use this entry and the same HTML/styles.
 - `src/main.js` wires one RAF/fixed physics loop and existing world systems. `src/game/createBetaGame.js` composes beta objectives, shell, companions, encounter and presentation callbacks; gameplay does not depend on `window.__game`.
 - `frontierProgress` owns persisted version-3 state: finite inventory, banked XP, keyed upgrades, secured roster, discoveries, milestones, seals/Core, partial loot remainders and a small active-run record. Legacy resource/gear getters are derived views, never independent balances. v1/v2 migration converts materials and gear together, preserving excess in finite withdraw-only pod supplies; v3 inventory is strictly validated. Import validates and writes before accepting replacement, and detaches the old snapshot provider before reload.

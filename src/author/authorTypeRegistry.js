@@ -939,6 +939,7 @@ function makeLootChestDefinition() {
     { key: 'displayName', label: 'Display Name', type: 'text', path: 'displayName' },
     { key: 'visualAssetId', label: 'World Model', type: 'visualAsset', path: 'visualAssetId' },
     { key: 'lootTableId', label: 'Loot Table', type: 'text', path: 'lootTableId' },
+    { key: 'lootRewards', label: 'Table rewards (JSON)', type: 'json', source: 'lootTable' },
     { key: 'refillSeconds', label: 'Refill Seconds (blank = once)', type: 'number', path: 'refillSeconds' },
     { key: 'courseId', label: 'Course ID', type: 'text', path: 'courseId' },
     { key: 'collisionEnabled', label: 'Solid', type: 'boolean', path: 'collisionEnabled' },

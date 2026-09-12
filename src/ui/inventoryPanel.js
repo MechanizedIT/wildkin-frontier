@@ -97,6 +97,7 @@ export function createInventoryPanel({ app, getModel, onAction = () => ({ ok: fa
   function select(id,index) {
     activeId = id; const stack = container(id)?.slots[index];
     selection = stack ? { id,index,itemId:stack.id } : null; splitCount = null; renderSelection();
+    say(model.catalog?.[stack?.id]?.description ?? 'Tap an item, then an empty slot. Drag to swap.');
   }
   function renderSelection() {
     const stack = selectedStack(), source = container(selection?.id), destination = containers().find(c => c.id !== (selection?.id ?? activeId));

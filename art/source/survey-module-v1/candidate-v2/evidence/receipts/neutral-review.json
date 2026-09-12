@@ -1,0 +1,45 @@
+{
+  "reviewer": "camp_native_review",
+  "gate": "neutral-model-only",
+  "verdict": "PASS",
+  "score": 8.0,
+  "targetSHA256": "55742c30f0b474990cb970421a8bec0d052e41f76f46f4e94d0d0fa6da14b8f7",
+  "images": [
+    {
+      "file": "breadcrumbs.png",
+      "sha256": "398c8d959ce52d21a831678f8fb7e1c4a47d7f76a06e5f75a953a6ac4738fa09",
+      "width": 640,
+      "height": 512
+    },
+    {
+      "file": "chest-open-clearance.png",
+      "sha256": "92cffac9026495b72fa901ffe7229465ba4def6c24e278f8ecd3367d6ed59d5f",
+      "width": 640,
+      "height": 512
+    },
+    {
+      "file": "front.png",
+      "sha256": "dd6810e04d7f1cd78bc7e42e157b48fbfa241678af50ff24e58806b90b72b6e5",
+      "width": 640,
+      "height": 512
+    },
+    {
+      "file": "game-scale-neutral.png",
+      "sha256": "06eda8fdb810bbd92793dc9a5b622a8ebf82346cd95c1f6f9de2edf716e3062f",
+      "width": 844,
+      "height": 390
+    },
+    {
+      "file": "rear.png",
+      "sha256": "a819234fb26897369f97b34fc93119b6303814ae6db425b6a5d8d0acf4a22929",
+      "width": 640,
+      "height": 512
+    },
+    {
+      "file": "three-quarter.png",
+      "sha256": "d66149d2ae1b30d3f66cf6de6ede841e4ad816276b35e127a88da14f0360c636",
+      "width": 640,
+      "height": 512
+    }
+  ]
+}

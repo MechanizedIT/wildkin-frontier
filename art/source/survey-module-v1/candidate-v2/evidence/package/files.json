@@ -1,0 +1,20 @@
+[
+  {
+    "source": ".dream-loop/overnight2-survey/package/native.mjs",
+    "path": "art/source/survey-module-v1/candidate-v2/evidence/package/native.mjs",
+    "bytes": 4969,
+    "sha256": "d6a03221ec7fc6e933c9cff2c978b3646b9f74e9c6c586ef3545aad440fc8b8c"
+  },
+  {
+    "source": ".dream-loop/overnight2-survey/package/wreck-native.json",
+    "path": "art/source/survey-module-v1/candidate-v2/evidence/package/receipt.json",
+    "bytes": 10927,
+    "sha256": "87e0572e408788ce62556e500b72ce47d0609d004275ab9e3811929b53e46f9d"
+  },
+  {
+    "source": ".dream-loop/overnight2-survey/package/wreck-entry.png",
+    "path": "art/source/survey-module-v1/candidate-v2/evidence/package/entry.png",
+    "bytes": 303840,
+    "sha256": "2a31e0ab3f7c289bcfcb733bbdfb047e0a9a58afbd71bbd70a81f6f260a4db57"
+  }
+]

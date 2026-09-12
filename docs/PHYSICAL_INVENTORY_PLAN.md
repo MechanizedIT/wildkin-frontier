@@ -1,5 +1,7 @@
 # Physical inventory implementation plan
 
+**September11 Survey extension:** `fieldPackConfig` defines the stack1 cartridge and fitting cost. A placed Salvage bench invokes the progress owner's atomic16→20-slot fitting, using existing `packTier` as its durable result and preserving slot positions. Item rewards share the finite loot-remainder transaction; Author chest editing exposes the referenced shared table. Existing20/24slot saves remain unchanged. Native earned cartridge recovery/reload and a separate diagnostic bench Fit/reload pass; see CURRENT_SLICE for final integration/packaging and remaining whole-journey limits. A general blueprint ledger is not implemented.
+
 September 11 — active producer plan, provisional implementation choices.
 
 Owner direction: finite upgradeable backpack, draggable/sortable stacks, physical Camp storage, useful preparation within the crash-land exploration loop. Story obstacles and defended adjoining Camp sectors are active scope too; the inventory conversion must remain coherent across the existing whole game before those content additions depend on it. The independent narrative/system proposal is `CRASHLAND_PROGRESSION_PROPOSAL.md`.

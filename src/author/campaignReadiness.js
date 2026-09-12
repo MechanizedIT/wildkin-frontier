@@ -3,6 +3,8 @@ import { CAMPAIGN_OBJECTIVES } from "../progression/campaignProgress.js";
 import { getPlayerLevel } from "../progression/playerLevel.js";
 import { BASE_PIECE_BY_ID, FIELD_RECIPE_BY_ID } from "../base/baseCatalog.js";
 import { describeVisualAssetCollider, getColliderCenter } from '../world/colliderDescriptor.js';
+import {getSurfaceHeight} from '../world/terrainSurfaceModel.js';
+import {RAPIER_PHYSICS_CONFIG} from '../physics/physicsConfig.js';
 
 const ROUTE = ["section_1", "section_2", "section_3", "section_4", "section_5"];
 const PLAYER_RADIUS = 0.36;
@@ -24,6 +26,13 @@ function staticBlockers(section, assets) {
     // Readiness is conservative; the actual controller follows the convex faces.
     const descriptor = describeVisualAssetCollider({collision:asset.collision, position:prop.pos, uniformScale:prop.uniformScale ?? 1, rotationY:prop.rotY ?? 0});
     const center = getColliderCenter(descriptor);
+    // Low ground-level floors/lips are supported walking surfaces, not walls.
+    // Keep elevated thin slabs and tall/steep props conservatively blocked.
+    if(descriptor.size.height<=RAPIER_PHYSICS_CONFIG.autostepMaxHeight){
+      const c=Math.cos(prop.rotY??0),s=Math.sin(prop.rotY??0),w=descriptor.size.width/2,d=descriptor.size.depth/2;
+      const minimumGround=Math.min(...[[0,0],[-w,-d],[-w,d],[w,-d],[w,d]].map(([x,z])=>getSurfaceHeight(section.surface,center.x+x*c+z*s,center.z-x*s+z*c)));
+      if(center.y+descriptor.size.height/2-minimumGround<=RAPIER_PHYSICS_CONFIG.autostepMaxHeight+1e-6)continue;
+    }
     blockers.push({id:prop.id, x:center.x, z:center.z, w:descriptor.size.width, d:descriptor.size.depth, r:prop.rotY ?? 0});
   }
   for (const obstacle of section.traversal?.obstacles ?? []) blockers.push({ id: obstacle.id, x: obstacle.x, z: obstacle.z, w: obstacle.w, d: obstacle.h, r: obstacle.rotY ?? 0 });

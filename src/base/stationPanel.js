@@ -5,7 +5,7 @@ import { iconMarkup, resourceLabel } from '../ui/itemIcons.js';
 const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const itemIcon = (id, size) => EQUIPMENT_BY_ID[id] ? equipmentIcon(id, size) : iconMarkup(id, {size});
-const protectedSelectors = '#combat-hud,#frontier-map-button,.beta-hud-actions,.beta-action-cluster,.beta-quick,.beta-joystick-home,.beta-field-guide,.beta-toast,#activation-toast';
+const protectedSelectors = '#combat-hud,#frontier-map-button,.beta-hud-actions,.beta-action-cluster,.beta-quick,#joystick-origin,.viewport-fullscreen,.beta-field-guide,.beta-toast,#activation-toast';
 
 function costMarkup(cost) {
   return Object.entries(cost ?? {}).map(([id, value]) => {
@@ -32,7 +32,7 @@ export function createStationPanel({app, getModel, onCraft = () => {}, onClose =
     onClose();
   }
   function render(model) {
-    const recipes = (model.recipes ?? []).slice(0,3);
+    const recipes = model.recipes ?? [];
     if (stationId !== model.id) { stationId = model.id; selectedId = null; }
     if (!recipes.some(r => r.id === selectedId)) selectedId = recipes[0]?.id ?? null;
     const selected = recipes.find(r => r.id === selectedId);
@@ -42,8 +42,8 @@ export function createStationPanel({app, getModel, onCraft = () => {}, onClose =
     panel.dataset.recipeCount = String(recipes.length);
     panel.classList.toggle('is-operating', !!model.operating);
     const header = `<header><h2>${escape(model.name ?? 'Crafting station')}</h2><button type="button" class="station-close" data-station-close aria-label="Close crafting station">×</button></header>`;
-    const picker = `<div class="station-recipes" aria-label="Recipes" style="--station-recipes:${Math.max(1,recipes.length)}">${recipes.map(r=>`<button type="button" class="station-recipe ${r.id === selectedId ? 'is-selected' : ''}" data-station-recipe="${escape(r.id)}" aria-pressed="${r.id === selectedId}">${itemIcon(r.icon ?? r.id,32)}<span>${escape(r.name)}</span><small>${escape(r.count ?? 0)} packed</small></button>`).join('')}</div>`;
-    const craft = selected ? `<div class="station-craft-row"><div class="station-costs" aria-label="Materials required">${costMarkup(selected.cost)}</div><button type="button" class="station-craft" data-station-craft ${selected.available ? '' : 'disabled'}>Craft</button></div><p class="station-feedback ${selected.available ? '' : 'is-unavailable'}" role="status">${escape(!selected.available ? selected.reason || 'Materials needed.' : model.completedLabel || '')}</p>` : '<p class="station-feedback">No recipes available.</p>';
+    const picker = `<div class="station-recipes" aria-label="Recipes" style="--station-recipes:${Math.max(1,recipes.length)}">${recipes.map(r=>`<button type="button" class="station-recipe ${r.id === selectedId ? 'is-selected' : ''}" data-station-recipe="${escape(r.id)}" aria-pressed="${r.id === selectedId}">${itemIcon(r.icon ?? r.id,32)}<span>${escape(r.name)}</span><small>${escape(r.countLabel ?? `${r.count ?? 0} packed`)}</small></button>`).join('')}</div>`;
+    const craft = selected ? `<div class="station-craft-row"><div class="station-costs" aria-label="Materials required">${selected.fitted?'':costMarkup(selected.cost)}</div><button type="button" class="station-craft" data-station-craft ${selected.available ? '' : 'disabled'}>${escape(selected.actionLabel??'Craft')}</button></div><p class="station-feedback ${selected.available||selected.fitted ? '' : 'is-unavailable'}" role="status">${escape(!selected.available ? selected.reason || 'Materials needed.' : model.completedLabel || '')}</p>` : '<p class="station-feedback">No recipes available.</p>';
     const operation = `<div class="station-operation" role="status"><strong>${escape(model.completedLabel || selected?.name || 'Crafting')}</strong><span class="station-progress-label">Working</span><div class="station-progress" role="progressbar" aria-label="Crafting progress" aria-valuemin="0" aria-valuemax="100"><i></i></div></div>`;
     panel.innerHTML = header + (model.operating ? operation : picker + craft);
     progressFill = panel.querySelector('.station-progress i'); progressLabel = panel.querySelector('.station-progress-label');

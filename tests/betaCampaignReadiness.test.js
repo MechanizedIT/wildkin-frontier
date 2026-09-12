@@ -29,4 +29,14 @@ describe("Campaign readiness", () => {
     first.props = first.props.filter(prop => !berryAssets.has(prop.visualAssetId));
     assert.ok(analyzeCampaign(draft).errors.some(error => error.includes("no renewable berries for the first Berry lure")));
   });
+
+  it('treats the shallow survey floor as walkable but retains raised slabs and cabin walls as blockers',()=>{
+    const draft=structuredClone(WORLD_DATA),region=draft.regions.find(r=>r.id==='section_1');
+    assert.ok(!analyzeCampaign(draft).errors.some(e=>e.includes('chest_survey_cartridge')));
+    const floor=region.props.find(p=>p.id==='prop_survey_floor');floor.pos.y=1;
+    assert.ok(analyzeCampaign(draft).errors.some(e=>e.includes('chest_survey_cartridge')),'a thin floating floor is not a reachable ground lip');
+    floor.pos.y=0;
+    const asset=draft.visualAssets.find(a=>a.id===floor.visualAssetId);asset.collision.size.h=.8;asset.collision.offset.y=.4;
+    assert.ok(analyzeCampaign(draft).errors.some(e=>e.includes('chest_survey_cartridge')),'a tall platform remains conservative without a traversable ramp');
+  });
 });
