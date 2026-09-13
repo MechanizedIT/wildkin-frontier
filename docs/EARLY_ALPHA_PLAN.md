@@ -2,7 +2,11 @@
 
 September 13,2026. Chris's current direction is to reach an early alpha as soon as practical while continuing the procedural world, habitats, Wildkin and core mechanics. One deterministic finite continent, irregular shore, shallow shelf and surface swimming now form a tested foundation. Selected R3 visuals remain6.4/10 HOLD; this is not a release claim. Boats may open larger continents later. Likewise, about10 habitats and roughly30 useful species is a staged continent target, not the first-alpha content count.
 
-## Current earned preview — connected journey verified
+## Current visual refinement
+
+Larger existing inland plants now read more clearly in portrait. R1 visual/source review passes8/10; all1,323 tests and package checks pass (44.29MB unpacked /20.57MB ZIP). Positions, density, rendering counts and guarded shore/Skybreak scales remain unchanged, and the complete earned Camp save matches developer/portable reload. Fuller scenery remains separate work: the proposed unchanged-budget placement shuffle projected no useful improvement and was not implemented. [Evidence](../art/reviews/ecotone-plants/receipt.md). Prioritize useful actual-camera coverage and a measured density budget next; keep the earned core loop and staged species target.
+
+## Earned preview — connected journey verified
 
 The previously earned one-Mossling Camp save now supports a useful second outing without a quest ledger. The nearer visible garden takes focus over the yard console, while storage/stations and existing reach, action and save rules retain priority. Outside Camp, the established-away purpose points toward a Lush rootbound grove and explains full-health Bloom plus its food, flower, crystal and field-XP payoff. A legitimate harvest and replant left50 banked XP and8 berries; ordinary input reached and collected a grove at health5, adding6 berries,3 wildflowers,2 crystal shards and12 field XP. [Evidence and limits](../art/reviews/alpha-preview/receipt.md).
 

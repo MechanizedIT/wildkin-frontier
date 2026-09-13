@@ -1,6 +1,12 @@
 # Wildkin Frontier
 
-## Latest local progress: an earned second outing
+## Latest local progress: readable inland plants
+
+Larger existing inland plants now read more clearly in portrait. R1 visual/source review passes8/10; all1,323 tests and package checks pass (44.29MB unpacked /20.57MB ZIP). Positions, density, rendering counts and guarded shore/Skybreak scales remain unchanged, and the complete earned Camp save matches developer/portable reload. Fuller scenery remains separate work: the proposed unchanged-budget placement shuffle projected no useful improvement and was not implemented. [Actual comparisons and limits](art/reviews/ecotone-plants/receipt.md).
+
+<img src="art/reviews/ecotone-plants/baseline-lush.png" alt="Actual sparse Lush view before larger ground plants" width="210"> <img src="art/reviews/ecotone-plants/final-lush.png" alt="Same portrait view with readable inland plants" width="210">
+
+## Previous connected checkpoint: an earned second outing
 
 The previously earned Mossling, bed and garden now lead into a useful second trip without a quest ledger. At Camp, the nearer visible garden wins focus over the yard console while storage and stations keep priority. Away from Camp, the derived plan points an established Mossling player toward Lush green country and explains that Bloom works at full health on a living cache. The earned save began this leg with50 banked XP and reached8 berries through a legitimate four-berry harvest and replant. Ordinary input then reached a rootbound grove at health5; Bloom and collection added6 berries,3 wildflowers,2 crystal shards and12 field XP. [Current receipt, controls and limits](art/reviews/alpha-preview/receipt.md).
 
@@ -8,7 +14,7 @@ The previously earned Mossling, bed and garden now lead into a useful second tri
 
 Read-only catalog and terrain guidance identified the route; it did not move the player, grant supplies or advance simulation. This proves a guided earned outing, not unaided discovery. Physical return secured the twelve field XP (50→62). Harvest and replant left 17 berries, six flowers and two crystal shards; the same Mossling and complete progress survived developer and portable reload. All 1,322 tests and package checks pass (44.29 MB unpacked / 20.57 MB ZIP). The earlier59-grove mechanics and all1,319-test gate remain a prior checkpoint in the [grove receipt](art/reviews/lush-groves/receipt.md).
 
-The next provisional visual priority is readable travel across the Sunscar/Lush ecotone using the existing grass, scenery and resident caps. The actual route exposed roughly27m gaps between substantial props and grass that reads too small; this does not promise more assets, higher caps or new biomes. The roughly10-habitat/30-species direction remains staged, and danger pacing, physical-mobile evidence and refreshed report distribution remain limited.
+The plant-size pass above addresses readability. The actual route still has roughly27m substantial-prop gaps; fuller scenery needs measured density, preparation and rendering budgets before another production pass. The roughly10-habitat/30-species direction remains staged, and danger pacing, physical-mobile evidence and refreshed report distribution remain limited.
 
 **Continent foundation:** Walk into the shallows, swim at the surface, and follow the offshore current back toward land. Companions wait on dry ground; reloading restores your last supported shore position with the same outing and supplies. Shoreline art remains held at6.4/10, with richer landforms, dressing and swimming animation still needed. [Coast proof and limitations](art/reviews/frontier-coast/receipt.md).
 

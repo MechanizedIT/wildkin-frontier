@@ -1,0 +1,90 @@
+{
+  "createdAt": "2026-09-13T13:44:57.648Z",
+  "baseCommit": "2a5631e761b1628d0584c239641f31818b6ffaa2",
+  "status": "local verified; not published",
+  "visual": {
+    "rounds": 1,
+    "score": 8,
+    "scope": "inland plant readability only"
+  },
+  "validation": {
+    "tests": 1323,
+    "passed": 1323,
+    "durationMs": 74922.1429,
+    "zipBytes": 21569918
+  },
+  "timing": {
+    "before": {
+      "calls": 25,
+      "frames": 120,
+      "medianMs": 33.400000005960464,
+      "p95Ms": 35.19999998807907,
+      "renderMedianMs": 3.800000011920929,
+      "running": false,
+      "triangles": 117701
+    },
+    "after": {
+      "calls": 25,
+      "frames": 120,
+      "medianMs": 33.400000005960464,
+      "p95Ms": 34.69999998807907,
+      "renderMedianMs": 4,
+      "running": false,
+      "triangles": 117701
+    }
+  },
+  "nativeWalk": {
+    "elapsedMs": 2010.7999999821184,
+    "from": {
+      "x": -217.639404296875,
+      "y": 11.7720947265625,
+      "z": 485.7658996582031
+    },
+    "running": false,
+    "start": 49300.30000001192,
+    "to": {
+      "x": -220.2445831298828,
+      "y": 11.882630348205566,
+      "z": 482.4446716308594
+    },
+    "horizontalDistance": 4.221079525614935
+  },
+  "saveParity": {
+    "developer": true,
+    "package": true,
+    "developerContinue": true,
+    "packageContinue": true
+  },
+  "saveHashes": {
+    "prior-save.json": "b4e905bafb3b69f24b52ba60f39355fea35915fa8401544d57027f2f6aabbfed",
+    "developer-restored-save.json": "b4e905bafb3b69f24b52ba60f39355fea35915fa8401544d57027f2f6aabbfed",
+    "package-restored-save.json": "b4e905bafb3b69f24b52ba60f39355fea35915fa8401544d57027f2f6aabbfed"
+  },
+  "hashes": {
+    "src/world/frontierChunkRuntime.js": "f8ad1d94b5c920970600d6096b3ab67c88bb7d883a2f11609ff6ff69b8090357",
+    "tests/frontierChunkRuntime.test.js": "06e5636f2758a4bb22dda6a83512457d4dfcec7a9d74be2749e00a9f043f2291",
+    "README.md": "d16d587b7d3ac583fbeb2f1dc5e0256bb763003e97ac21e8e8252732607a892a",
+    "docs/CURRENT_SLICE.md": "8c3d536d3bbf9779ab72079b15ac6f19f2eb2fca536b2063ad839fc5d53c144e",
+    "docs/SESSION_START.md": "c6452003c6ddc18f667f028ba91c42e1cf7599c00a3e13ed240609623f1a924c",
+    "docs/EARLY_ALPHA_PLAN.md": "37811866808dff7f3c06dec65be781999557e63d7642eebee5f9c865c9068bf4",
+    "docs/BETA_RELEASE_PLAN.md": "88f44962d1c45529b9ea5fdd76509a5788d186bc430557c3c22267f6b34b060d",
+    "docs/CODE_MAP.md": "3e69834810a8d446aaaee78d4f57e4de5b8c1769c4924385d73d73a55fb813e5",
+    "docs/ARCHITECTURE.md": "09292767e7d5f8bfcaa202c615b20e727327eaf08e32bc41c90a931d8245f961",
+    "docs/ALPHA_WORKFLOW.md": "30acb43a1863977342bcd9cd25ef55adc429851b778e38a0609de0cd5e1d33ba",
+    "docs/BUILD_LOG.md": "e46ce5938fcac04dca31600b8e52bf7f4cc547f52b20ec2d45fa0208431d721e",
+    "docs/research/living-frontier/Early-Alpha-Progress.md": "a45672f46c5ca13283305decc54a08a11350905bff5b0d3ec2431422d7860456",
+    "docs/research/living-frontier/README.md": "fab717683ff8d975226a426032ef9cb4117524ae4fde59a2100077e48609ab0d",
+    "art/reviews/ecotone-plants/baseline-dry.png": "d897957030566bde4dfa17cbedb5dc602383ebacf937fc4f1857eae27855942a",
+    "art/reviews/ecotone-plants/baseline-lush.png": "7b1787cdd0741cd3578c62f880476d136cbac5c4d3cbc09fc95018abf54f20a7",
+    "art/reviews/ecotone-plants/final-dry.png": "d5d6863c51905d502c753a5fa3b4398843ba0e6a290d9e8b0d7ebcb8e61c9191",
+    "art/reviews/ecotone-plants/final-lush.png": "568a166ffde097bf12f51d4bf12d0a04d900e3e0838cbfbd25195ca3df02aba1",
+    "art/reviews/ecotone-plants/grove-approach.png": "6dd55c4c7911e9522f029302b6d4329af5354d16b7035922a47edd14e0a2d646",
+    "art/reviews/ecotone-plants/grove-walk.png": "c3edca9a304afc86dcc3829dbe57ebfce2684c381be60c7ef4e25816c8289dbe",
+    "art/reviews/ecotone-plants/package-camp.png": "009bf2ea0585755bd001dda70c260d02448171aa5625c0857bb7ea31062e17c0",
+    "art/reviews/ecotone-plants/r1-lush.png": "a2c2e8a143090d5d8c26fddab3675cb09e7ff0110b7a31e3717e875cc9893295",
+    "art/reviews/ecotone-plants/receipt.md": "47a3c030f87d425b4c15690b6c2e7eddf8ebe55949ccb952328b811f55a03cf4",
+    "art/reviews/ecotone-plants/scenery-audit.md": "bb38f7e45de66559e670c6837b64fa1ba881914dc3cd57aa49820f81af3b8b8f",
+    "art/reviews/ecotone-plants/target.png": "72fb20795acc4f4d95930906b6b3f0bb9c88907c863e114baaa4cd8f9ac5e002",
+    "dist/submission.zip": "8eb808d2393d571fd36799814d36ead65c813da72f6083ecb8b3cbdbe32d858e"
+  }
+}

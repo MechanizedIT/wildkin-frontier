@@ -6,6 +6,23 @@ import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from '../src/world/frontierTe
 import { getSurfaceHeight } from '../src/world/terrainSurfaceModel.js';
 import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/frontierWorld.js';
 import { isSkybreakArea } from '../src/world/frontierLandform.js';
+import WORLD_DATA from '../src/world/data/world.js';
+import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
+import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalPlace.js';
+
+const GRASS_MAX_XZ_NORM = .6678251760362262;
+
+function grassInstances(group) {
+  const grass = group?.getObjectByName('frontier_groundcover');
+  if (!grass) return [];
+  const matrix = new THREE.Matrix4(), position = new THREE.Vector3();
+  const scale = new THREE.Vector3(), rotation = new THREE.Quaternion();
+  return Array.from({ length: grass.count }, (_, index) => {
+    grass.getMatrixAt(index, matrix);
+    matrix.decompose(position, rotation, scale);
+    return { x: position.x + group.position.x, z: position.z + group.position.z, scale: scale.x };
+  });
+}
 
 function fixture(world) {
   const calls = [];
@@ -19,6 +36,8 @@ test('regional terrain foliage stays bounded and dry while starter tint remains 
   runtime.update({ x: 0, z: -90 }, { activeSectionId: 'camp' });
   const starter = runtime.root.getObjectByName('frontier_chunk_0,-2').getObjectByName('frontier_groundcover');
   assert.ok(Array.from(starter.instanceColor.array).every(value => value === 1));
+  const starterScales = grassInstances(runtime.root.getObjectByName('frontier_chunk_0,-2')).map(instance => instance.scale);
+  assert.ok(starterScales.every(scale => scale >= .38 && scale <= .76), 'starter grass keeps its original scale range');
   runtime.update({ x: -640, z: -335 }, { activeSectionId: 'camp' });
   const sample = runtime.sample(-640, -335);
   assert.equal(sample.provinceKind, 'sunscar');
@@ -32,6 +51,61 @@ test('regional terrain foliage stays bounded and dry while starter tint remains 
   });
   assert.equal(meshes, 25);
   assert.ok(count > 0 && count < 25 * 48, 'dry ground keeps broad open space at unchanged mesh cap');
+  const inlandDry = runtime.root.children.flatMap(grassInstances).filter(instance => {
+    const grassSample = runtime.sample(instance.x, instance.z);
+    return grassSample.provinceInfluence > 0 && grassSample.coastDistance >= 40 && !isSkybreakArea(instance.x, instance.z, .45);
+  });
+  assert.ok(inlandDry.every(instance => instance.scale >= .59 && instance.scale <= 1.24), 'inland dry grass uses the readable regional range');
+  assert.ok(inlandDry.some(instance => instance.scale > .76), 'inland dry grass can exceed the old maximum');
+  runtime.dispose();
+});
+
+test('inland grass grows at native ecotone witnesses without crowding nearby forage or the Lush cache', () => {
+  const { runtime } = fixture();
+  runtime.update({ x: -99.904, z: 219.680 }, { activeSectionId: 'camp' });
+  const mixed = grassInstances(runtime.root.getObjectByName('frontier_chunk_-2,4'));
+  assert.equal(mixed.length, 30, 'the mixed ecotone keeps its deterministic selection count');
+  assert.ok(mixed.every(instance => instance.scale >= .59 && instance.scale <= 1.24));
+  assert.ok(mixed.some(instance => instance.scale > .76), 'the ecotone includes readable taller tufts');
+  const reserveEdge = runtime.root.children.flatMap(grassInstances).filter(instance => {
+    const sample = runtime.sample(instance.x, instance.z);
+    return sample.provinceInfluence > 0 && sample.provinceInfluence < .1
+      && sample.coastDistance >= 40 && !isSkybreakArea(instance.x, instance.z, .45);
+  });
+  assert.ok(reserveEdge.length > 0, 'the witness window crosses the regional influence boundary');
+  assert.ok(reserveEdge.every(instance => instance.scale >= .377 && instance.scale <= .81), 'low influence blends gradually from the legacy scale');
+
+  const forage = sampleFrontierForageChunk(-2, 4, { visualAssets: WORLD_DATA.visualAssets });
+  const forageRadius = resource => ({ tree: 1.35, rock: .9, fiber: .55 })[resource.type] * resource.uniformScale;
+  for (const grass of mixed) for (const resource of forage) {
+    assert.ok(Math.hypot(grass.x - resource.pos.x, grass.z - resource.pos.z)
+      >= GRASS_MAX_XZ_NORM * grass.scale + forageRadius(resource), 'mixed grass remains clear of forage footprints');
+  }
+
+  runtime.update({ x: -150, z: 345 }, { activeSectionId: 'camp' });
+  const lush = grassInstances(runtime.root.getObjectByName('frontier_chunk_-3,6'));
+  assert.equal(lush.length, 78, 'the Lush gap keeps its deterministic selection count');
+  assert.ok(lush.every(instance => instance.scale >= .59 && instance.scale <= 1.24));
+  assert.ok(lush.some(instance => instance.scale > 1.1), 'the Lush gap reaches the intended portrait-readable range');
+
+  runtime.update({ x: 325, z: 100 }, { activeSectionId: 'camp' });
+  const coastGrass = runtime.root.children.flatMap(grassInstances).filter(instance => runtime.sample(instance.x, instance.z).coastDistance < 40);
+  assert.ok(coastGrass.length > 0, 'the shore witness contains retained grass');
+  assert.ok(coastGrass.every(instance => instance.scale >= .38 && instance.scale <= .76), 'near-shore grass keeps its original scale range');
+
+  const grove = sampleFrontierRegionalPlaceChunk(-5, 9, { visualAssets: WORLD_DATA.visualAssets });
+  assert.equal(grove?.kind, 'lush-root-cache');
+  runtime.update(grove.center, { activeSectionId: 'camp' });
+  const groveGrass = runtime.root.children.flatMap(grassInstances);
+  const chestRadius = .851 * grove.chest.scale;
+  const stone = grove.scenery.find(part => part.assetId === 'asset_fen_stone');
+  const stoneRadius = 1.14 * stone.scale;
+  for (const grass of groveGrass) {
+    assert.ok(Math.hypot(grass.x - grove.chest.x, grass.z - grove.chest.z)
+      >= GRASS_MAX_XZ_NORM * grass.scale + chestRadius, 'grove grass remains clear of the cache footprint');
+    assert.ok(Math.hypot(grass.x - stone.x, grass.z - stone.z)
+      >= GRASS_MAX_XZ_NORM * grass.scale + stoneRadius, 'grove grass remains clear of the stone footprint');
+  }
   runtime.dispose();
 });
 
@@ -258,10 +332,10 @@ test('unloaded foliage releases its instance buffer exactly once', () => {
   assert.equal(disposals, 1);
 });
 
-test('Skybreak terrain grass keeps its complete footprint supported and limits shadow casters', () => {
+test('Skybreak terrain grass keeps its old scale, complete footprint support, and limited shadow casters', () => {
   const { runtime } = fixture();
   runtime.update({ x: 10, z: -200 }, { activeSectionId: 'camp' });
-  const matrix = new THREE.Matrix4(), point = new THREE.Vector3();
+  const matrix = new THREE.Matrix4(), point = new THREE.Vector3(), scale = new THREE.Vector3(), rotation = new THREE.Quaternion();
   let checked = 0, culledChunks = 0, shadowChunks = 0;
   for (const group of runtime.root.children) {
     const ground = group.getObjectByName('frontier_ground');
@@ -273,6 +347,8 @@ test('Skybreak terrain grass keeps its complete footprint supported and limits s
       grass.getMatrixAt(index, matrix); point.setFromMatrixPosition(matrix).add(group.position);
       if (!isSkybreakArea(point.x, point.z, .45)) continue;
       checked++;
+      matrix.decompose(point, rotation, scale); point.add(group.position);
+      assert.ok(scale.x >= .38 && scale.x <= .76, 'Skybreak keeps its original grass range');
       const center = runtime.getHeight(point.x, point.z);
       assert.ok(Math.abs(center - point.y) < .0001, 'visible grass rests on shared terrain');
       for (let direction = 0; direction < 8; direction++) {
@@ -283,6 +359,12 @@ test('Skybreak terrain grass keeps its complete footprint supported and limits s
     }
   }
   assert.ok(checked > 0, 'useful supported grass remains in the region');
+  const shelfGrass = grassInstances(runtime.root.getObjectByName('frontier_chunk_0,-3'));
+  const shelfFronds = shelfGrass.filter(instance => [[28.5,-125],[30,-125],[35.5,-125],[38.5,-125],[41,-125],
+    [27,-121.8],[29,-121.8],[37,-121.8],[40.5,-121.8],[28,-135],[40.5,-138],[28,-143],[38,-143]]
+    .some(([x, z]) => Math.hypot(instance.x - x, instance.z - z) < .001));
+  assert.ok(shelfFronds.length > 0, 'authored shelf fronds remain present');
+  assert.ok(shelfFronds.every(instance => instance.scale >= 1.12 && instance.scale <= 1.5), 'authored shelf fronds retain their original scale range');
   assert.ok(culledChunks > 0, 'unsupported grass was actually removed');
   assert.equal(shadowChunks, 4, 'only the four tall-landform chunks cast terrain shadows');
   runtime.dispose();

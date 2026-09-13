@@ -1,6 +1,14 @@
 # Early alpha — procedural frontier progress
 
-## New local progress: an earned round trip
+## New local progress: readable ground plants
+
+Larger existing inland plants now read more clearly in portrait. R1 visual/source review passes8/10; all1,323 tests and package checks pass (44.29MB unpacked /20.57MB ZIP). Positions, density, rendering counts and guarded shore/Skybreak scales remain unchanged, and the complete earned Camp save matches developer/portable reload. Fuller scenery remains separate work: the proposed unchanged-budget placement shuffle projected no useful improvement and was not implemented.
+
+<img src="../../../art/reviews/ecotone-plants/baseline-lush.png" alt="Actual Lush travel before plant scaling" width="210"> <img src="../../../art/reviews/ecotone-plants/final-lush.png" alt="Actual same-view plants after scaling" width="210"> <img src="../../../art/reviews/ecotone-plants/grove-walk.png" alt="Open grove remains readable after a short normal-input walk" width="210">
+
+Two120-frame samples stayed33.4ms median with25draws and117,701triangles. This is laptop portrait emulation, not a physical-phone test. This restrained pass changes plant size, not overall world density. The screenshot-guided scenery audit ruled out two off-camera approaches before production; future density work needs an explicit budget. [Receipt, workflow findings and limits](../../../art/reviews/ecotone-plants/receipt.md). Existing PDFs and Drive links remain the earlier publication.
+
+## Previous earned round trip
 
 The previously earned one-Mossling save now connects Camp preparation to a useful habitat trip without adding a quest ledger. At the overlapping Camp spot, the nearer visible garden receives Harvest or Plant instead of the farther yard console; storage/stations and existing reach, action and save rules retain priority. Away from Camp, the derived plan points an established Mossling player toward Lush green country and explains full-health Bloom and the cache payoff.
 

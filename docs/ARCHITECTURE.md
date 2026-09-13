@@ -1180,3 +1180,7 @@ The September12 visibility/collision closure checks the entire canopy family, in
 
 ### September12 F2E/F2F integration
 Generated Tidefin/Emberhorn reuse existing creature/taming/identity owners and null genomes. Four-resident selection reconciles priorities on membership/residency change. Three existing finite rock identities use the established harvestable override for iron/crystal. Grass now has one bounded instanced draw with16triangle clusters; authored foliage is unchanged. One build-only clearance predicate shares Camp/route/terrace/resource/wildlife exclusions and slope sampling. There is no new loop/save schema/dependency. The new WORLD_GENERATION_PLAN explains the next single-descriptor seed contract and later heightfield/mesh/semantic habitat layers; those later systems are not implemented here.
+
+### Inland ground-plant scale — September13
+
+`frontierChunkRuntime.addFoliage` keeps one96-candidate instanced mesh per terrain chunk and unchanged distribution, color and shared geometry/material. Ordinary inland scale blends from legacy through province influence with a Lush gain; nearshore40m, Skybreak and special shelf fronds retain exact prior scales and approximate guards. This introduces no new placement/exclusion/save authority. Fixed native views retain the same draw/triangle counts; larger pixel overdraw remains a device consideration. Ordinary inland ground grass is distinct from scenery-cluster grass and does not inherit its whole-place/resource exclusions. See `art/reviews/ecotone-plants/receipt.md`.

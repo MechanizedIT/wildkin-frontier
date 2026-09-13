@@ -2,9 +2,13 @@
 
 Updated September 13,2026. **Continuous goal-mode development; latest priority is a playable early alpha.** Chris proposed one seeded continent with an ocean boundary, later boat access to other continents, roughly10 habitats/30 species as a staged content target, and distinctive practical uses for each Wildkin. Root has adopted the bounded continent as the working release direction. Read `EARLY_ALPHA_PLAN.md` for priorities; the coast/ocean foundation now exists, while the target roster remains staged.
 
-## Next planning: readable ecotone travel
+## Next planning: visible scenery density within measured budgets
 
-The earned second outing is complete. Next, lock an attainable ordinary-portrait target at the recorded Sunscar/Lush travel witnesses before production. A bounded audit found approximately 27-metre scenery gaps and tiny, heavily thinned dry grass, with runtime registration working. Improve visible travel using admitted grass/scenery and the existing caps, while preserving supported placement, exclusions, finite resources and grove identities. Do not expand the roster, add a route/quest framework or deepen ocean systems to fill this gap. The continuous goal remains active.
+The inland-plant readability checkpoint is complete, with R1 8/10 visual/source PASS, all1,323 tests and package gates passing. Full developer/portable earned-save parity is verified. Ground tufts are larger on ordinary inland terrain and blend gradually out of the protected starter region; exact shore/Skybreak/frond behavior and all counts/positions remain. Short fixed-view rendering samples stayed33.4ms median with unchanged draws/triangles. Evidence and precise limits: `art/reviews/ecotone-plants/receipt.md`.
+
+Fullness remains open. Exact projection disproved the proposed three-patch shuffle and fairer round-robin selection as visual fixes for the recorded sparse views; neither was implemented. The current six-prop recipe and18-near residency cap cannot be assumed to produce useful coverage in the ordinary portrait camera. Next, measure one representative density experiment against the actual frame and prepared-build cost, then set a bounded geometry/collider/rendering budget before production. Root may provisionally revise these agent-selected caps when evidence supports it; do not invent camera-driven rebuilds or a broad framework. Preserve finite content IDs, whole-place admission, support/exclusions, actor/save ownership and mobile viability. A wider density experiment is separate from this admitted scale pass.
+
+The continuous goal stays active. Reuse the earned Camp save, unchanged actual-camera baselines and source evidence. Keep one production owner per shared chain, one principal review and one aggregate per playable checkpoint. Do not add species or new systems to disguise sparse presentation. Existing grove/coast visual holds, unaided discovery, danger pacing and physical-phone/cold-offline proof remain open.
 
 ## Completed checkpoint: an earned second outing
 

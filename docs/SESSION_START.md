@@ -8,7 +8,11 @@ Chris has authorized continuous goal-mode development on main until he asks to s
 2. Use `.agents/skills/wildkin-development/SKILL.md` and the two-batch trial in `ALPHA_WORKFLOW.md`; it borrows selected Rapid Alpha Producer ideas and keeps Dream Loop for substantive visual work. One writer per shared file, economical independent workers, one consolidated review/repair packet, focused tests during changes and one integrated package gate. Three art rounds are a ceiling.
 3. Inspect Git/workers before editing. Preserve unrelated Verdant composer/test and local art experiments. Work directly on main; do not create a branch.
 
-## Current playable checkpoint
+## Newest plant-readability checkpoint
+
+Larger existing inland plants now read more clearly in portrait. R1 visual/source review passes8/10; all1,323 tests and package checks pass (44.29MB unpacked /20.57MB ZIP). Positions, density, rendering counts and guarded shore/Skybreak scales remain unchanged, and the complete earned Camp save matches developer/portable reload. Fuller scenery remains separate work: the proposed unchanged-budget placement shuffle projected no useful improvement and was not implemented. Read `art/reviews/ecotone-plants/receipt.md`. Next, measure actual-frame density and prepared-build cost before changing scenery budgets. The continuous goal remains active.
+
+## Previous connected playable checkpoint
 
 The newest local checkpoint completes the earned one-Mossling Camp→grove→return→garden journey. The away plan now explains grove exploration, and nearer visible furniture competes fairly with the yard console. The return secured 12 XP for 62 total; harvest/replant left 17 berries, six flowers and two crystals. All 1,322 tests and package gates pass at 44.29 MB unpacked / 20.57 MB ZIP. Complete developer/portable save parity and independent review pass. Read `art/reviews/alpha-preview/receipt.md` for the guided route, screenshots and limits. Next: define an actual-camera ecotone travel target using the existing grass/scenery caps; native play exposed sparse stretches. No unaided discovery or physical-phone claim. Grove R3 remains7.7/10 HOLD and coast R3 remains6.4/10 HOLD.
 

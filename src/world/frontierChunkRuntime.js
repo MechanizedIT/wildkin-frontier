@@ -90,12 +90,21 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
     if (sample.contentLand === false || (sample.coastDistance < 40
       && !hasFrontierLandFootprint(worldX, worldZ, { radius: .45, continentSampler: terrainOptions.continentSampler }))) continue;
     const influence = Math.max(0, Math.min(1, sample.provinceInfluence ?? 0));
+    const lush = influence * (sample.provinceWeights?.lush ?? 0);
     const dry = influence * (sample.provinceWeights?.sunscar ?? 0);
     const high = influence * (sample.provinceWeights?.ironspine ?? 0);
     if (influence > 0 && hash(index, chunk.origin.x + chunk.origin.z, densitySeed) > 1 - dry * .92 - high * .65) continue;
-    if (isSkybreakArea(worldX, worldZ, .45)
+    const skybreak = isSkybreakArea(worldX, worldZ, .45);
+    if (skybreak
       && !hasFootprintSupport(worldX, worldZ, { getHeight, radius: .45, maxSlope: .65 })) continue;
-    const scale = (frond ? 1.12 : .38) + hash(index, chunk.origin.x + chunk.origin.z, scaleSeed) * .38;
+    const scaleRoll = hash(index, chunk.origin.x + chunk.origin.z, scaleSeed);
+    const protectedScale = influence <= 0 || sample.coastDistance < 40 || skybreak;
+    const legacyScale = .38 + scaleRoll * .38;
+    const scale = frond
+      ? 1.12 + scaleRoll * .38
+      : protectedScale
+        ? legacyScale
+        : legacyScale + influence * (.24 + scaleRoll * .08) + lush * .16 - dry * .03;
     dummy.position.set(x, sample.height, z);
     dummy.rotation.y = hash(index, chunk.origin.z, yawSeed) * Math.PI * 2;
     dummy.scale.setScalar(scale);
