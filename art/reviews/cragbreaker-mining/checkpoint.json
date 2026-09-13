@@ -1,0 +1,603 @@
+{
+  "schemaVersion": 1,
+  "createdUtc": "2026-09-13T09:32:02.403Z",
+  "baseCommit": "5cd30567b37e26d4da98bc2352dfeb71bc40d5a4",
+  "scope": "Emberhorn Cragbreaker mineral utility, current main candidate identified by exact file hashes",
+  "verdict": "PASS",
+  "independentReviewer": "/root/regional_place_audit",
+  "sourceHashes": {
+    "src/resources/mineralStrike.js": "9f3de96e4a81ad5917f1854aa5e403c7da20261eeb90d1c679a44f65ba3771e7",
+    "src/main.js": "89ac186e9ec73a47431eed1b201ddf13585f3124c4b2cb17ede81b99b54f8d7d",
+    "src/game/createBetaGame.js": "1c7e876f04cc4f27d1e666d5e2e477b6d9740523134079d044fa924171810eb2",
+    "src/companions/companionSystem.js": "d5a449cb5f64cd58e7f6930523b49f5a5b1bb9d72ede254a4b3ae6a895d50e73",
+    "src/companions/companionCatalog.js": "454a7f360a0f6f7a84b9ea99f88f40b9977159da89fba9d93191262763721e25",
+    "tests/mineralStrike.test.js": "b68180288ea5c53322b2137c7d15125cbb5e3726abc8a2430cac1734a2db77af",
+    "tests/emberhornAbility.test.js": "8bbc64461bbe9051855905217cd8f772e6de3862510d41609dc503909163669d"
+  },
+  "screenshots": [
+    {
+      "path": "art/reviews/cragbreaker-mining/baseline-portrait.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "8241137feef249b37b5d1645ea13a9756b5b33397ce011114d24e6168764ae60"
+    },
+    {
+      "path": "art/reviews/cragbreaker-mining/after-strike-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "5c8c8e9d1cd2bdf0a4eba71c6a1c68d24e62f7c288ba6f46d4060bde97f7ee2b"
+    },
+    {
+      "path": "art/reviews/cragbreaker-mining/iron-partial-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "950d590130b0ff2fed20141814e133f395b8c32f304e66893551fdcff6ecfb0e"
+    },
+    {
+      "path": "art/reviews/cragbreaker-mining/iron-finished-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "f04bd0abcb5fd338a9cc7367b830f90d1b168a1d443eec937d95b5fed0176d9a"
+    },
+    {
+      "path": "art/reviews/cragbreaker-mining/portable-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "579314e343c35f459c663ea988b6a9f91afd498ef6647a2aa54aebc37e5e6213"
+    }
+  ],
+  "fixtures": {
+    "seed": 1327115068,
+    "grantedIndividual": "wildkin_cragbreaker_review",
+    "originalOwnedCount": 6,
+    "totalOwnedCount": 7,
+    "stagedInitialFeet": {
+      "x": -318.879655,
+      "y": 6.161323,
+      "z": 85.282102
+    },
+    "cameraAssists": true,
+    "unload": "Explicit synchronous resident-window move away and back, through existing owners; not an earned walk or character teleport",
+    "earnedEmberhornJourney": false
+  },
+  "ordinaryAbilityBaseline": {
+    "ability": {
+      "cooldown": 17.783333333333346,
+      "individualId": "wildkin_cragbreaker_review",
+      "name": "Cragbreaker",
+      "ready": false,
+      "speciesId": "emberhorn"
+    },
+    "health": 5,
+    "nodes": [
+      {
+        "id": "f1:r:-7:1:200",
+        "remaining": 4
+      },
+      {
+        "id": "f1:r:-7:1:201",
+        "remaining": 4
+      }
+    ],
+    "pack": {
+      "berries": 2,
+      "crystal_shard": 14,
+      "fiber": 2,
+      "iron_ore": 12,
+      "stone": 0,
+      "wildflower": 3,
+      "wood": 1
+    }
+  },
+  "crystalStrike": {
+    "activations": [
+      {
+        "cooldown": 18,
+        "elapsedMs": 12.200000002980232,
+        "result": {
+          "message": "Cragbreaker · 2 outcrops cracked.",
+          "ok": true
+        }
+      }
+    ],
+    "hits": [
+      {
+        "after": 3,
+        "before": 4,
+        "elapsedMs": 2.3999999910593033,
+        "feedback": false,
+        "id": "f1:r:-7:1:200",
+        "ok": true
+      },
+      {
+        "after": 2,
+        "before": 3,
+        "elapsedMs": 0.09999999403953552,
+        "feedback": false,
+        "id": "f1:r:-7:1:200",
+        "ok": true
+      },
+      {
+        "after": 1,
+        "before": 2,
+        "elapsedMs": 0.09999999403953552,
+        "feedback": false,
+        "id": "f1:r:-7:1:200",
+        "ok": true
+      },
+      {
+        "after": 0,
+        "before": 1,
+        "elapsedMs": 3.299999997019768,
+        "feedback": true,
+        "id": "f1:r:-7:1:200",
+        "ok": true
+      },
+      {
+        "after": 3,
+        "before": 4,
+        "elapsedMs": 0.6000000089406967,
+        "feedback": false,
+        "id": "f1:r:-7:1:201",
+        "ok": true
+      },
+      {
+        "after": 2,
+        "before": 3,
+        "elapsedMs": 0.09999999403953552,
+        "feedback": false,
+        "id": "f1:r:-7:1:201",
+        "ok": true
+      },
+      {
+        "after": 1,
+        "before": 2,
+        "elapsedMs": 0.20000000298023224,
+        "feedback": false,
+        "id": "f1:r:-7:1:201",
+        "ok": true
+      },
+      {
+        "after": 0,
+        "before": 1,
+        "elapsedMs": 2.200000002980232,
+        "feedback": true,
+        "id": "f1:r:-7:1:201",
+        "ok": true
+      }
+    ],
+    "after": {
+      "ability": {
+        "cooldown": 0,
+        "individualId": "wildkin_cragbreaker_review",
+        "name": "Cragbreaker",
+        "ready": true,
+        "speciesId": "emberhorn"
+      },
+      "health": 5,
+      "nodes": [
+        {
+          "collider": false,
+          "id": "f1:r:-7:1:200",
+          "remaining": 0,
+          "visible": false
+        },
+        {
+          "collider": false,
+          "id": "f1:r:-7:1:201",
+          "remaining": 0,
+          "visible": false
+        }
+      ],
+      "pack": {
+        "berries": 2,
+        "crystal_shard": 14,
+        "fiber": 2,
+        "iron_ore": 12,
+        "stone": 0,
+        "wildflower": 3,
+        "wood": 1
+      },
+      "pickups": 2
+    }
+  },
+  "crystalCollection": {
+    "elapsedMs": 1546.6000000089407,
+    "health": 5,
+    "outcome": "collected",
+    "pack": {
+      "berries": 2,
+      "crystal_shard": 22,
+      "fiber": 2,
+      "iron_ore": 12,
+      "stone": 0,
+      "wildflower": 3,
+      "wood": 1
+    },
+    "pickups": 0,
+    "pos": {
+      "x": -314.91180419921875,
+      "y": 6.709441184997559,
+      "z": 84.32819366455078
+    },
+    "samples": [
+      {
+        "distance": 5.091284660267156,
+        "ms": 0,
+        "state": "RESTING"
+      },
+      {
+        "distance": 4.138413362772302,
+        "ms": 501,
+        "state": "RESTING"
+      },
+      {
+        "distance": 3.1609883979102027,
+        "ms": 1000,
+        "state": "RESTING"
+      }
+    ]
+  },
+  "ironStrike": {
+    "collider": true,
+    "health": 5,
+    "hits": [
+      {
+        "after": 4,
+        "before": 5,
+        "elapsedMs": 2,
+        "feedback": false,
+        "id": "f1:r:-7:1:8",
+        "ok": true
+      },
+      {
+        "after": 3,
+        "before": 4,
+        "elapsedMs": 0.20000000298023224,
+        "feedback": false,
+        "id": "f1:r:-7:1:8",
+        "ok": true
+      },
+      {
+        "after": 2,
+        "before": 3,
+        "elapsedMs": 0.20000000298023224,
+        "feedback": false,
+        "id": "f1:r:-7:1:8",
+        "ok": true
+      },
+      {
+        "after": 1,
+        "before": 2,
+        "elapsedMs": 1,
+        "feedback": true,
+        "id": "f1:r:-7:1:8",
+        "ok": true
+      }
+    ],
+    "lastActivation": {
+      "cooldown": 18,
+      "elapsedMs": 6.399999991059303,
+      "result": {
+        "message": "Cragbreaker · 1 outcrop cracked.",
+        "ok": true
+      }
+    },
+    "pack": {
+      "berries": 2,
+      "crystal_shard": 22,
+      "fiber": 2,
+      "iron_ore": 12,
+      "stone": 0,
+      "wildflower": 3,
+      "wood": 1
+    },
+    "remaining": 1,
+    "visible": true
+  },
+  "partialReload": {
+    "health": 5,
+    "pack": {
+      "wood": 1,
+      "stone": 0,
+      "fiber": 2,
+      "berries": 2,
+      "iron_ore": 16,
+      "crystal_shard": 22,
+      "wildflower": 3
+    },
+    "active": "wildkin_cragbreaker_review",
+    "owned": 7,
+    "nodes": [
+      {
+        "id": "f1:r:-7:1:8",
+        "remaining": 1,
+        "visible": true,
+        "collider": true
+      },
+      {
+        "id": "f1:r:-7:1:200",
+        "remaining": 0,
+        "visible": false,
+        "collider": false
+      },
+      {
+        "id": "f1:r:-7:1:201",
+        "remaining": 0,
+        "visible": false,
+        "collider": false
+      }
+    ],
+    "position": {
+      "x": -334.099853515625,
+      "y": 12.401845932006836,
+      "z": 70.7825698852539
+    }
+  },
+  "partialUnloadReturn": {
+    "fixture": "Explicit synchronous resident-window move away and back through existing owners; no earned walk or character teleport claimed.",
+    "before": [
+      {
+        "id": "f1:r:-7:1:8",
+        "remaining": 1,
+        "visible": true,
+        "collider": true
+      },
+      {
+        "id": "f1:r:-7:1:200",
+        "remaining": 0,
+        "visible": false,
+        "collider": false
+      },
+      {
+        "id": "f1:r:-7:1:201",
+        "remaining": 0,
+        "visible": false,
+        "collider": false
+      }
+    ],
+    "away": [
+      null,
+      null,
+      null
+    ],
+    "returned": [
+      {
+        "id": "f1:r:-7:1:8",
+        "remaining": 1,
+        "visible": true,
+        "collider": true
+      },
+      {
+        "id": "f1:r:-7:1:200",
+        "remaining": 0,
+        "visible": false,
+        "collider": false
+      },
+      {
+        "id": "f1:r:-7:1:201",
+        "remaining": 0,
+        "visible": false,
+        "collider": false
+      }
+    ],
+    "pack": {
+      "wood": 1,
+      "stone": 0,
+      "fiber": 2,
+      "berries": 2,
+      "iron_ore": 16,
+      "crystal_shard": 22,
+      "wildflower": 3
+    },
+    "health": 5
+  },
+  "normalTool": {
+    "action": "700ms ordinary F input at1.35m; previous2.02m attempt did not hit",
+    "auto": false,
+    "position": {
+      "x": -335.700439453125,
+      "y": 13.532093048095703,
+      "z": 68.73461151123047
+    },
+    "remaining": 0,
+    "visible": false,
+    "collider": false,
+    "pack": {
+      "wood": 1,
+      "stone": 0,
+      "fiber": 2,
+      "berries": 2,
+      "iron_ore": 16,
+      "crystal_shard": 22,
+      "wildflower": 3
+    },
+    "health": 5,
+    "pickups": 1
+  },
+  "finalCollection": {
+    "reason": "collected",
+    "elapsedMs": 0.09999999403953552,
+    "pack": {
+      "wood": 1,
+      "stone": 0,
+      "fiber": 2,
+      "berries": 2,
+      "iron_ore": 17,
+      "crystal_shard": 22,
+      "wildflower": 3
+    },
+    "pickups": 0,
+    "health": 5,
+    "position": {
+      "x": -335.700439453125,
+      "y": 13.532093048095703,
+      "z": 68.73461151123047
+    }
+  },
+  "portable": {
+    "pack": {
+      "wood": 1,
+      "stone": 0,
+      "fiber": 2,
+      "berries": 2,
+      "iron_ore": 17,
+      "crystal_shard": 22,
+      "wildflower": 3
+    },
+    "health": 5,
+    "pickups": 0,
+    "nodes": [
+      {
+        "id": "f1:r:-7:1:8",
+        "remaining": 0,
+        "visible": false,
+        "collider": false
+      },
+      {
+        "id": "f1:r:-7:1:200",
+        "remaining": 0,
+        "visible": false,
+        "collider": false
+      },
+      {
+        "id": "f1:r:-7:1:201",
+        "remaining": 0,
+        "visible": false,
+        "collider": false
+      }
+    ],
+    "resourceOrigins": [
+      "http://127.0.0.1:8081"
+    ],
+    "parity": {
+      "matching": [
+        "inventory",
+        "ownedWildkin",
+        "activeWildkinId",
+        "base",
+        "campCare",
+        "campCrop",
+        "campBreeding",
+        "nextCampBreedingSequence",
+        "capturedWildkinSources",
+        "ecology",
+        "bankedXp"
+      ],
+      "differences": [
+        "atlas"
+      ],
+      "run": {
+        "expected": {
+          "runId": "a501b419-7362-418b-a11b-88642f824af6",
+          "startAnchorId": "gate_camp_frontier",
+          "sectionId": "camp",
+          "feet": {
+            "x": -335.700439453125,
+            "y": 12.990355802148958,
+            "z": 68.73461151123047
+          },
+          "facingYaw": -9.42477796076938,
+          "health": 5,
+          "xp": 8,
+          "companions": [],
+          "corePending": false,
+          "kills": 0,
+          "maxDepth": 0,
+          "frontierDeparted": true,
+          "newWaypoints": [],
+          "newBeacons": []
+        },
+        "actual": {
+          "runId": "a501b419-7362-418b-a11b-88642f824af6",
+          "startAnchorId": "gate_camp_frontier",
+          "sectionId": "camp",
+          "feet": {
+            "x": -335.700439453125,
+            "y": 12.990355802148958,
+            "z": 68.73461151123047
+          },
+          "facingYaw": -9.42477796076938,
+          "health": 5,
+          "xp": 8,
+          "companions": [],
+          "corePending": false,
+          "kills": 0,
+          "maxDepth": 0,
+          "frontierDeparted": true,
+          "newWaypoints": [],
+          "newBeacons": []
+        }
+      },
+      "comparison": "Recursive sorted object keys, array order preserved",
+      "atlasChanges": [
+        {
+          "key": "f1:a:-7:1",
+          "before": 32505315,
+          "after": 32505319
+        }
+      ]
+    }
+  },
+  "browserLogs": {
+    "developer": [],
+    "package": []
+  },
+  "finalState": {
+    "ownedIds": [
+      "wildkin_rrjqz1",
+      "wildkin_1b156h6",
+      "wildkin_bred_1",
+      "wildkin_bred_2",
+      "wildkin_1v340z8",
+      "wildkin_1jun5ez",
+      "wildkin_cragbreaker_review"
+    ],
+    "activeWildkinId": "wildkin_cragbreaker_review",
+    "bankedXp": 50,
+    "run": {
+      "runId": "a501b419-7362-418b-a11b-88642f824af6",
+      "startAnchorId": "gate_camp_frontier",
+      "sectionId": "camp",
+      "feet": {
+        "x": -335.700439453125,
+        "y": 12.990355802148958,
+        "z": 68.73461151123047
+      },
+      "facingYaw": -9.42477796076938,
+      "health": 5,
+      "xp": 8,
+      "companions": [],
+      "corePending": false,
+      "kills": 0,
+      "maxDepth": 0,
+      "frontierDeparted": true,
+      "newWaypoints": [],
+      "newBeacons": []
+    }
+  },
+  "validation": {
+    "tests": 1260,
+    "passed": 1260,
+    "failed": 0,
+    "testDurationMs": 66839.1347,
+    "verify": "PASS",
+    "world": "PASS",
+    "retainedCampaign": "PASS",
+    "build": "PASS",
+    "validate": "PASS",
+    "zip": "PASS",
+    "unpackedMB": 44.22,
+    "zipMB": 20.56,
+    "aggregateRuns": 1,
+    "zipSha256": "f1e275f642a5b33384ec39d00cbbc7332ad61d1055a9a937028fbc9506cfa914"
+  },
+  "limits": [
+    "No physical-phone performance or12-hit worst-case benchmark",
+    "No continuous sound/motion admission from stills",
+    "No airplane-mode cold start",
+    "Atlas adds one normal reveal bit; exact atlas parity unclaimed",
+    "Existing terrain/art HOLD debt unchanged",
+    "Earlier GitHub and Drive checkpoints unchanged"
+  ]
+}

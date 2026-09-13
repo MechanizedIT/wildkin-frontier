@@ -54,7 +54,7 @@ export function createBetaGame(deps) {
     if (!canCareAtCamp()) return null;
     const breeding = progress.getCampBreeding(), bed = breeding && base.getWildkinBed(breeding.bedId);
     return bed ? { ...bed, offspring: breeding.offspring, growthSeconds: breeding.growthSeconds } : null;
-  }, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), getRunId: () => session.getRunId(), onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
+  }, hasCacheMechanism: cacheMechanisms.has, isActive: () => session.isActive(), getSectionId: () => deps.getSectionId(), getRunId: () => session.getRunId(), strikeMinerals: deps.strikeMinerals, onBlockingChanged, toast: (title, detail) => { if (!detail || detail !== companions.getFieldTamingState()?.detail) toast(title, detail); }, pulse, audio, onAbility: (id, pos) => abilityFx.trigger(id, pos) });
   deps.characterPhysics?.setColliderFilter(companions.isFollowerCollider);
   creatures.setCompanionColliderFilter(companions.isFollowerCollider);
   const isCamp = () => session.isCamp();

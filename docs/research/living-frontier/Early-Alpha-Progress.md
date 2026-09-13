@@ -8,7 +8,7 @@ September 13,2026. This supplement follows the published Visual Fieldbook and Re
 
 Chris's latest priority is a playable early alpha soon. The working world scope is one seeded continent surrounded by ocean, with later boats opening additional continents. Roughly10 habitats and30 species are a staged content target; the first alpha uses a smaller finished set. Portrait mobile/casual comes first, with five bottom quick slots, movement above the left side and contextual actions above the right.
 
-Each Wildkin should change what the player can do. The first proposed roles build on current abilities: Mossling for recovery and cultivation, Emberhorn for mineral access/defense, and Tidefin for a short protected approach. The abilities already exist; repeatable procedural opportunities for using them remain the next priority. [Current effects versus proposed uses](../../EARLY_ALPHA_PLAN.md).
+Each Wildkin should change what the player can do. Mossling now supports recovery and cultivation, while Emberhorn's current Cragbreaker checkpoint adds bounded multi-source mining to its combat role. Tidefin's short protected approach remains proposed. [Current effects versus proposed uses](../../EARLY_ALPHA_PLAN.md).
 
 Large regions, extreme heights and distinct upper/lower habitats remain the destination. Rivers should follow terrain, while dense areas may need clearing; the world should not become a predictable web of paths. New content should differ in silhouette, traversal, resources, behavior and discoveries—not merely color.
 
@@ -33,6 +33,14 @@ Construction now tests at most40 deterministic nearby positions through the unch
 Native play reused the earned/refunded Camp fixture. Normal UI completed bed Build→Place→Settle→Feed three times and garden Build→Place at(2.3,0,4.3)→walk600ms/1.29m→Plant with no landscape, position or camera override. The garden is3.253m from the starting position: the rounded3.2m-ring candidate sits just outside interaction reach, and the ordinary short walk closed it. Independent review scored8.5/10 PASS. Visible Cancel and seven external owner/event paths restored exact camera state; landscape open retained its view and returning to portrait restored the prior portrait pitch.
 
 Developer and packaged reload matched individual/genome, base/care/crop, pack, atlas/ecology,50XP, health5 and purpose exactly. The final fixture retained a ready90-second Bloom+1/yield4 crop and pack1wood,1fiber,2berries,3wildflowers. All1,252 tests passed in65.684seconds; verify/world/retained-campaign/build/validate/ZIP pass at44.22MB unpacked/20.56MB ZIP. This closes the earlier landscape workaround, but it is not a fresh outing or physical-phone claim. [Evidence and limits](../../../art/reviews/portrait-construction/receipt.md).
+
+## Actual: Cragbreaker mining
+
+An ordinary portrait ability activation now selects the three nearest active stone, iron or crystal sources within4.5m in3D and applies up to four normal harvest hits to each,12 total. It uses the existing guard, save-before-effect, pickup, harvest-bonus and depletion path. A full iron source has five pieces and can retain one. The first rejected hit stops the remaining burst while already committed effects and the ability cooldown remain.
+
+The Emberhorn/position fixture depleted two four-piece crystals and collected all eight shards, moving crystal14→22. A separate iron check cracked iron5→1 and collected four ore, moving iron12→16. Partial iron1 and depleted crystal0 survived literal reload and a disclosed same-session forced resident-window-away/back cycle, not an earned walk. Normal field-tool F at1.35m finished iron1→0, leaving iron17, crystal22, zero pickups and health5.
+
+Packaged import plus literal reload and Continue preserved the continuation state; Cragbreaker produced no duplicate yield and retained its18-second cooldown. Inventory, seven owned Wildkin, selection, base/care/crop/breeding, ecology, XP and active run matched exactly. The atlas correctly added one survey bit rather than matching byte-for-byte. Logs were empty and packaged origins were only `http://127.0.0.1:8081`. Activation measured12.2ms for eight hits and6.4ms for four hits on this laptop; this is not phone performance evidence. All1,260 tests passed in66.839seconds, and world/campaign/build/validate/ZIP passed at44.22MB unpacked/20.56MB ZIP. [Evidence and limits](../../../art/reviews/cragbreaker-mining/receipt.md).
 
 ## Actual: a place worth investigating
 
@@ -72,6 +80,6 @@ Earthlike and alien reproduction, habitat-driven research, DNA storage/cloning, 
 
 ## How work is being prioritized
 
-One batch should produce a player-visible outcome with a useful beginning and end. Independent workers handle genuinely separate owners. One focused review produces one repair list; tests cover the changed risks. Visual passes are capped at three, and previously held art is not reopened just to chase a score. Save, collision and offline failures still require repair. An independent workflow audit compares Dream Loop and Rapid Alpha Producer against actual project results; neither skill's defaults substitute for that evidence.
+One batch should produce a player-visible outcome with a useful beginning and end. Independent workers handle genuinely separate owners. One focused review produces one repair list; tests cover the changed risks. Visual passes are capped at three, and previously held art is not reopened just to chase a score. Save, collision and offline failures still require repair. The scoped hybrid remains provisional after two trial batches and does not modify the global Wildkin, Dream Loop or Rapid Alpha Producer skills. The next useful Wildkin role should follow another focused field audit, not another arbitrary mineral formation.
 
 The [current slice](../../CURRENT_SLICE.md) and [Living Frontier plan](../../LIVING_FRONTIER_PLAN.md) own the live next task and release priorities. This page is an illustrated checkpoint, not a promise that the remaining systems are implemented.

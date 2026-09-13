@@ -7,6 +7,7 @@ import { createPlayerProjectedShadow } from "./presentation/playerProjectedShado
 import { createPlayerController } from "./player/playerController.js";
 import { createCameraFollow } from "./camera/cameraFollow.js";
 import { createConstructionView } from "./camera/constructionView.js";
+import { createMineralStrike } from "./resources/mineralStrike.js";
 import { createCameraCollisionProbe } from "./camera/cameraCollision.js";
 import { createTouchMovement } from "./input/touchMovement.js";
 import { createKeyboardInput } from "./input/keyboardInput.js";
@@ -330,6 +331,22 @@ resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld, 
     return result;
   },
 });
+// Tool swings and companion mining share the same guarded resource transaction.
+function applyHarvestHit(node, { feedback = true } = {}) {
+  if (!betaGame.beforeHarvestHit(node)) return false;
+  const harvested = resourceSystem.applyHit(
+    node,
+    n => { pickupSystem.spawnPickup(n); betaGame.onHarvestDrop(n); },
+    feedback ? (n, count) => particleSystem.spawnBurst(n, count, playerController.getState().pos) : null,
+    feedback ? (profile, isFinal) => {
+      gameAudio.playHarvest(profile, isFinal);
+      if (isFinal) gameAudio.playDeplete();
+    } : null
+  );
+  if (harvested) betaGame.afterHarvestHit(node);
+  return harvested;
+}
+const strikeMinerals = createMineralStrike({ getNodes: () => resourceSystem.getActiveNodes(), applyHit: applyHarvestHit });
 const frontierEcology = createFrontierEcologyRuntime({
   terrainRuntime: frontierChunks,
   resourceSystem,
@@ -980,6 +997,7 @@ betaGame = createBetaGame({
   getSectionId: () => sectionRuntime.getActiveSectionId(),
   onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
   onPlacementViewChange,
+  strikeMinerals,
   getLootVisualRoot: (id) => frontierDiscoveries?.getVisualRoot(id) ?? playground.getLootVisualRoot(id),
   getLootAvailability: (id) => lootSystem.getAvailability(id),
   repairPortalGate:id=>portalGateSystem.repair(id),
@@ -1191,17 +1209,7 @@ function tick() {
       const getManualHarvestTargets = () => resourceSystem.getManualTargets(pStBefore.pos);
       const handleUnifiedImpact = ({ resourceHits, combatHits }) => {
         for (const node of resourceHits) {
-          if (!betaGame.beforeHarvestHit(node)) continue;
-          const harvested = resourceSystem.applyHit(
-            node,
-            (n) => { pickupSystem.spawnPickup(n); betaGame?.onHarvestDrop(n); },
-            (n, cnt) => particleSystem.spawnBurst(n, cnt, pStBefore.pos),
-            (profile, isFinal) => {
-              gameAudio.playHarvest(profile, isFinal);
-              if (isFinal) gameAudio.playDeplete();
-            }
-          );
-          if (harvested) betaGame.afterHarvestHit(node);
+          applyHarvestHit(node);
         }
         for (const creature of combatHits) {
           const pPos = playerController.getState().pos;

@@ -14,7 +14,7 @@ import { createWildkinGenome, normalizeWildkinGenome } from '../creatures/wildki
 import { cloneWildkinIndividual, MAX_PENDING_WILDKIN, normalizeWildkinIndividual } from '../creatures/wildkinIndividual.js';
 import { applyWildkinAppearance } from '../creatures/wildkinAppearance.js';
 
-export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, getCampCareAnchor = () => null, getCampYoungAnchor = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {} }) {
+export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, getCampCareAnchor = () => null, getCampYoungAnchor = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {}, strikeMinerals = () => ({ hits: 0, sources: 0, depleted: 0, interrupted: false }) }) {
   let pending = [], cooldown = 0, elapsed = 0, fixedElapsed = 0;
   let interactionTargetId = null;
   const followers = new Map();
@@ -174,7 +174,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     if (!species) return { ok: false, message: "Secure a bonded Wildkin, then select it at Camp." };
     if (cooldown > 0) return { ok: false, message: `${species.abilityName} is ready in ${Math.ceil(cooldown)}s.` };
     const pos = playerController.getState().pos;
-    let openedSeal = false;
+    let openedSeal = false, mineralStrike = null;
     const chest = registry.getLootChestById(species.secret);
     if (chest && chest.sectionId === getSectionId() && Math.hypot(chest.pos.x - pos.x, chest.pos.z - pos.z) < 5.5 && !progress.getState().completedPoiIds.includes(chest.id)) {
       openedSeal = progress.completePoi(chest.id);
@@ -192,6 +192,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
           creatures.damageCreature(c, 3.5 * progress.getModifiers().fieldToolDamageMultiplier, pos, { x: dx / d, z: dz / d }, "player");
         }
       }
+      mineralStrike = strikeMinerals(pos) ?? { hits: 0, sources: 0, depleted: 0, interrupted: false };
     } else if (species.id === "skydancer") {
       if (!playerController.getState().grounded && !openedSeal) return { ok: false, message: "Land before calling Skybound again." };
       playerController.launchFromJumpPad({ verticalLaunch: 8.8 });
@@ -200,7 +201,11 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     onAbility(species.id, pos, active?.id ?? null);
     pulse(pos, new THREE.Color(species.color).getHex());
     audio.playParkour?.("complete");
-    return { ok: true, message: openedSeal ? (hasCacheMechanism(chest.id) ? "The vault is opening." : "The cache is now accessible.") : `${species.name} · ${species.abilityName}` };
+    if (mineralStrike?.interrupted) return { ok: true };
+    const mineralMessage = mineralStrike?.hits > 0
+      ? `${species.abilityName} · ${mineralStrike.sources} outcrop${mineralStrike.sources === 1 ? '' : 's'} cracked.`
+      : null;
+    return { ok: true, message: openedSeal ? (hasCacheMechanism(chest.id) ? "The vault is opening." : "The cache is now accessible.") : mineralMessage ?? `${species.name} · ${species.abilityName}` };
   }
   function lootAccess(chest) {
     const required = SECRET_COMPANION[chest.id];
