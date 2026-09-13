@@ -40,6 +40,9 @@ import { createFrontierChunkRuntime } from "./world/frontierChunkRuntime.js";
 import { createFrontierEcologyRuntime } from "./world/frontierEcologyRuntime.js";
 import { createFrontierWildlifeRuntime } from './world/frontierWildlifeRuntime.js';
 import { createFrontierSceneryRuntime } from './world/frontierSceneryRuntime.js';
+import { sampleFrontierDiscoveries } from './world/frontierDiscovery.js';
+import { createFrontierDiscoveryRuntime } from './world/frontierDiscoveryRuntime.js';
+import { createLootRegistryOverlay } from './world/lootRegistryOverlay.js';
 import { createFrontierAtlasSurvey } from './world/frontierAtlasSurvey.js';
 import { createPortalGateSystem } from "./world/portalGateSystem.js";
 import { createWorldHazardSystem } from "./world/worldHazardSystem.js";
@@ -79,7 +82,7 @@ const app = document.getElementById("app");
 const debugLabel = document.getElementById("debug-label");
 
 const VERSION = "Wildkin Frontier — Beta 0.2.0";
-let betaGame = null, contextualInteraction = null, frontierScenery = null;
+let betaGame = null, contextualInteraction = null, frontierScenery = null, frontierDiscoveries = null;
 let resumeBlocked = false, deathSavePending = false, expeditionPersistence = null;
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · loading Rapier…`;
@@ -118,7 +121,14 @@ await preloadVisualModels([
   ...(effectiveWorldData.playerVisual?.model ? [effectiveWorldData.playerVisual] : []),
 ]);
 
-const worldRegistry = createWorldRegistry(effectiveWorldData);
+const authoredWorldRegistry = createWorldRegistry(effectiveWorldData);
+// The current save accepts one canonical seed. Register its admitted discovery
+// before save loading, even when the physical object is outside residency.
+const discoveryDefinitions = authorEnabled ? [] : sampleFrontierDiscoveries({
+  visualAssets: authoredWorldRegistry.data.visualAssets,
+  lootTables: authoredWorldRegistry.data.lootTables,
+});
+const worldRegistry = createLootRegistryOverlay(authoredWorldRegistry, discoveryDefinitions);
 const regionDepthMap = worldRegistry.getRegionDepthMap();
 
 const { scene, player, playground, shadows } = createScene(worldRegistry.data, { openSections: ['camp'] });
@@ -238,6 +248,7 @@ const cameraOrbit = createGameCameraOrbit(app, cameraFollow, CAMERA_CONFIG_FOLLO
 function placePlayerAtFeetTransform(feetPosition, facingYaw = 0) {
   frontierChunks.update(feetPosition, { activeSectionId: sectionRuntime.getActiveSectionId() });
   frontierScenery?.update();
+  frontierDiscoveries?.update();
   playerController.resetJumpState();
   touchMovement.consumeJump?.();
   keyboardInput.consumeJump?.();
@@ -958,7 +969,7 @@ betaGame = createBetaGame({
   audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
   getSectionId: () => sectionRuntime.getActiveSectionId(),
   onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
-  getLootVisualRoot: (id) => playground.getLootVisualRoot(id),
+  getLootVisualRoot: (id) => frontierDiscoveries?.getVisualRoot(id) ?? playground.getLootVisualRoot(id),
   getLootAvailability: (id) => lootSystem.getAvailability(id),
   repairPortalGate:id=>portalGateSystem.repair(id),
   onGameplayAction: (type) => {
@@ -980,6 +991,17 @@ frontierScenery = createFrontierSceneryRuntime({
   onGeometryChanged: () => contextualInteraction?.invalidate(),
 });
 frontierScenery.update();
+frontierDiscoveries = createFrontierDiscoveryRuntime({
+  parent: playground.group, terrainRuntime: frontierChunks, physicsWorld,
+  lootRegistry: worldRegistry, discoveries: discoveryDefinitions,
+  visualAssets: worldRegistry.data.visualAssets,
+  registerLootMechanism: betaGame.registerLootMechanism,
+  unregisterLootMechanism: betaGame.unregisterLootMechanism,
+  onVisualAdded: betaGame.registerWorldOccluder,
+  onVisualRemoving: betaGame.unregisterWorldOccluder,
+  onGeometryChanged: () => contextualInteraction?.invalidate(),
+});
+frontierDiscoveries.update();
 
 // Loop — single rAF drives all per-frame updates and rendering (thin main.js)
 const clock = new THREE.Clock();
@@ -1014,6 +1036,7 @@ if(savedRun && !authorEnabled){
     // Generated support must exist in Rapier before the shared resume query.
     frontierChunks.update(savedRun.feet,{activeSectionId:'camp'});
     frontierScenery.update();
+    frontierDiscoveries.update();
     frontierEcology.update();
     frontierWildlife.update();
     const candidates=[savedRun.feet,...worldRegistry.getAllWaypoints().filter(w=>w.regionId===savedRun.sectionId&&frontierProgress.isUnlockedWaypoint(w.id)).map(w=>worldRegistry.getWaypointSpawnPosition(w.id)),...worldRegistry.getEntryPointsForSection(savedRun.sectionId).map(e=>e.pos)];
@@ -1081,6 +1104,7 @@ function tick() {
   // Load support before player/camera queries; no separate streaming loop.
   frontierChunks.update(playerController.state.pos, { activeSectionId: sectionRuntime.getActiveSectionId(), authorMode: !!authorSuppress });
   frontierScenery.update();
+  frontierDiscoveries.update();
   frontierEcology.update();
   frontierWildlife.update();
   frontierAtlasSurvey.update(dt,playerController.state.pos,{enabled:!authorSuppress&&!resumeBlocked});
@@ -1368,7 +1392,7 @@ tick();
 window.__game = {
   scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, cameraFollow, cameraOrbit, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
   worldRegistry, regionManager, sectionRuntime, portalGateSystem, worldHazardSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
-  frontierChunks, frontierEcology, frontierWildlife, frontierScenery, frontierAtlasSurvey, frontierOuting,
+  frontierChunks, frontierEcology, frontierWildlife, frontierScenery, frontierDiscoveries, frontierAtlasSurvey, frontierOuting,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   betaGame,
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),

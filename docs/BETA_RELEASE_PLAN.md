@@ -4,6 +4,8 @@
 
 ## Current direction and evidence
 
+September13 local continuation: one physical Signal Cache now uses existing inventory/save transactions and explicit streaming registration. Scenery preparation is cheaper at measured walking boundaries, while frame-budget streaming and broader secret variety remain unfinished.1,207 tests and package checks pass; discovery R2 selected7/10 HOLD. Current source of evidence: `art/reviews/frontier-discoveries/receipt.md`. The previously published illustrated checkpoint is separate from this local work.
+
 Use [Current slice](CURRENT_SLICE.md) for live implementation, test/package status, and the selected Skybreak/province foundations. Use [Living Frontier plan](LIVING_FRONTIER_PLAN.md) for the staged destination. Three broad seeded terrain/ecology grammars now extend beyond the protected starter area; selected province art remains5.5/10 HOLD. Current evidence belongs in the current slice and its receipts.
 
 The current build includes the five-slot portrait hotbar, separate Pack access, a personal atlas, individual Wildkin capture/banking/reload, body-tone expression, a physical nursery/garden, active-play growth, pairing with earned optional body-tone guidance, bounded terrain residency, and a shared world descriptor. It does not yet ship the proposed modular anatomy, broad reproduction system, cave/overhang regions, swimming, weather, DNA archive, community mapping, or online trade.

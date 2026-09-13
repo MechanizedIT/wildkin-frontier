@@ -6,6 +6,8 @@ Current local proof: Skybreak still distinguishes true caps, shoulders and lowla
 
 **Latest explicit owner steering:** lean toward extreme geography and large biomes: tall narrow plateaus to jump between, different life/resources above and below, large mountains/deserts and unusual alien formations. Lay foundations for later weather and day/night. These are accepted direction; exact scales, algorithms and cave/architecture choices below remain provisional.
 
+September13 continuation: `frontierDiscovery` now validates one authored receiver/chest location on the canonical seeded ground, with both object support/clearance checks. Persistent loot identity is independent of visual residency, preserving one-time and partial rewards through load/unload. Distributed regional secrets remain next-content work. A shared ephemeral scenery preparation cache removes repeated overlapping forage/wildlife recipe generation; native bursts608.2/455.5ms→191.3/146.5ms, still above a frame budget. Preserve synchronous support on initial load/resume/teleport when introducing bounded ordinary-walk preparation. Exact failure hazards and responsible owners: `art/reviews/frontier-discoveries/streaming-audit.md`.
+
 [`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) develops six regional grammars, progression principles and reusable ecology kits. Lush, Sunscar and Ironspine now have generated foundation grammars in the local foundation; their deeper ecology/discoveries and the other three families remain proposed.
 
 ```mermaid

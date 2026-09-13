@@ -6,6 +6,8 @@ Current local checkpoint: broad seeded provinces now surround the preserved Camp
 
 ## The game we are building
 
+September13 local checkpoint now adds one physical Signal Cache on validated seeded ground, explicit streamed loot identity/presentation and a68.2% reduction in two measured scenery-preparation bursts. Native Open, collision, unload/revisit and developer/portable reload preserve the one-time reward.1,207 tests and package checks pass; discovery R2 remains7/10 HOLD. This is an authored discovery foundation, not distributed procedural secrets or finished streaming. Current evidence: `art/reviews/frontier-discoveries/receipt.md`; remaining streaming work: `art/reviews/frontier-discoveries/streaming-audit.md`.
+
 A dangerous alien frontier surrounds the crashed research Camp. Walk out, read the landscape, harvest supplies, investigate a clue, understand an unfamiliar Wildkin and decide when to return. At Camp, build useful spaces, grow suitable food, study inherited traits and raise a distinctive family. Physical actions and visible creatures carry the experience; the Journal and atlas explain discoveries without taking over play.
 
 Continuous geography uses curated landform, habitat, ecotone and discovery recipes. It must remain coherent and reproducible, not promise that no two places ever resemble one another. One canonical seed/content edition supports separate player histories. Offline field/DNA cards are a proposed later sharing format. Verified online trading is a later product/service decision.

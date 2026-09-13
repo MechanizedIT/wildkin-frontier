@@ -33,6 +33,7 @@ const FORAGE_CLEARANCE = 3.2;
 const ROUTE_CLEARANCE = 1.15;
 const SOLID_ROUTE_CLEARANCE = 2.1;
 const GROUND_COVER_CLEARANCE = Object.freeze({ route: .65, forage: 1.4, wildlife: 1.4 });
+const EXCLUSION_RECIPE_CACHE = Symbol('frontier-scenery-exclusion-recipe-cache');
 const TERRACE_CLEARANCE = Object.freeze({ minX: 18, maxX: 46, minZ: -150, maxZ: -108 });
 const NORTH_ROUTE = Object.freeze([
   Object.freeze([0, -56]), Object.freeze([7, -68]), Object.freeze([7, -85]), Object.freeze([20, -95]), Object.freeze([24, -118]),
@@ -202,6 +203,14 @@ function hasSafeFootprint(x, z, candidate, options) {
   return hasFootprintSupport(x, z, { getHeight: (sx, sz) => heightAt(sx, sz, options), radius, maxSlope: MAX_SLOPE });
 }
 
+function cachedExclusionRecipe(kind, cx, cz, options, sample) {
+  const cache = options[EXCLUSION_RECIPE_CACHE];
+  if (!cache || cx < cache.minCx || cx > cache.maxCx || cz < cache.minCz || cz > cache.maxCz) return sample();
+  const recipes = cache[kind], key = `${cx},${cz}`;
+  if (!recipes.has(key)) recipes.set(key, sample());
+  return recipes.get(key);
+}
+
 function exclusionsFor(cx, cz, options) {
   const world = options.world ?? DEFAULT_FRONTIER_WORLD;
   const forage = [];
@@ -209,14 +218,17 @@ function exclusionsFor(cx, cz, options) {
   // the same local neighborhood as wildlife so chunk ownership never creates
   // a seam in interaction clearance.
   for (let fz = cz - 1; fz <= cz + 1; fz++) for (let fx = cx - 1; fx <= cx + 1; fx++) {
-    forage.push(...sampleFrontierForageChunk(fx, fz, {
+    const sample = typeof options.sampleForageChunk === 'function' ? options.sampleForageChunk : sampleFrontierForageChunk;
+    forage.push(...cachedExclusionRecipe('forage', fx, fz, options, () => sample(fx, fz, {
       getHeight: (x, z) => heightAt(x, z, options), terrainOptions: options.terrainOptions,
       getTerrainSample: (x, z) => terrainSample(x, z, options), visualAssets: options.visualAssets, world,
-    }));
+    })));
   }
   const wildlife = [];
   for (let wz = cz - 1; wz <= cz + 1; wz++) for (let wx = cx - 1; wx <= cx + 1; wx++) {
-    wildlife.push(...sampleFrontierWildlifeChunk(wx, wz, { getTerrainSample: (x, z) => terrainSample(x, z, options), terrainOptions: options.terrainOptions, world }));
+    const sample = typeof options.sampleWildlifeChunk === 'function' ? options.sampleWildlifeChunk : sampleFrontierWildlifeChunk;
+    wildlife.push(...cachedExclusionRecipe('wildlife', wx, wz, options,
+      () => sample(wx, wz, { getTerrainSample: (x, z) => terrainSample(x, z, options), terrainOptions: options.terrainOptions, world })));
   }
   return { forage, wildlife };
 }
@@ -343,4 +355,24 @@ export function selectFrontierScenery(residency, options = {}) {
   const canopyRoom = Math.max(0, FRONTIER_SCENERY_CONFIG.maxCanopies - chosenNear.filter(spec => spec.kind === 'canopy').length);
   const chosenOuter = outerSpecs.slice(0, Math.min(FRONTIER_SCENERY_CONFIG.maxOuterDesired, FRONTIER_SCENERY_CONFIG.maxOuter, canopyRoom));
   return Object.freeze([...chosenNear, ...chosenOuter].slice(0, FRONTIER_SCENERY_CONFIG.maxTotal));
+}
+
+/** Builds one residency using a private cache shared by selection and grass clearance. */
+export function createFrontierSceneryBuild(residency, options = {}) {
+  const center = residency?.center;
+  if (!Number.isSafeInteger(center?.cx) || !Number.isSafeInteger(center?.cz)) {
+    return Object.freeze({ specs: Object.freeze([]), canPlaceGroundCover: () => false });
+  }
+  // Outer patches can spill one chunk past the 5x5 resident window. Their
+  // clearance neighborhood fits in this fixed 9x9 source envelope.
+  const cache = {
+    minCx: center.cx - 4, maxCx: center.cx + 4,
+    minCz: center.cz - 4, maxCz: center.cz + 4,
+    forage: new Map(), wildlife: new Map(),
+  };
+  const buildOptions = { ...options, [EXCLUSION_RECIPE_CACHE]: cache };
+  return Object.freeze({
+    specs: selectFrontierScenery(residency, buildOptions),
+    canPlaceGroundCover: createFrontierGroundCoverFilter(buildOptions),
+  });
 }

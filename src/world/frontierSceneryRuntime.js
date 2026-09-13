@@ -1,4 +1,4 @@
-import { selectFrontierScenery, createFrontierGroundCoverFilter } from './frontierScenery.js';
+import { createFrontierSceneryBuild } from './frontierScenery.js';
 import { createFrontierSceneryVisual } from './frontierSceneryVisual.js';
 import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
 
@@ -24,17 +24,23 @@ export function createFrontierSceneryRuntime({
     if (disposed) return;
     const residency = terrainRuntime?.getResidency?.();
     if (residency === lastResidency) return;
-    const nextSpecs = residency?.center ? selectFrontierScenery(residency, {
+    const build = residency?.center ? createFrontierSceneryBuild(residency, {
       visualAssets, getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample, world,
-    }) : [];
+    }) : null;
+    const nextSpecs = build?.specs ?? [];
     // Construct before retiring the previous resident, so a construction error
     // leaves the old scene coherent and the same residency retryable.
     const next = nextSpecs.length ? createVisual({ specs: nextSpecs, visualAssets, getHeight: terrainRuntime.getHeight,
-      canPlaceGroundCover: createFrontierGroundCoverFilter({ visualAssets, getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample, world }), world,
+      canPlaceGroundCover: build.canPlaceGroundCover, world,
     }) : null;
     const remove = (visual?.terrainSurfaces ?? []).map(surface => surface.id);
     const add = next?.terrainSurfaces ?? [];
-    if (remove.length || add.length) physicsWorld?.updateTerrainSurfaces({ remove, add });
+    try {
+      if (remove.length || add.length) physicsWorld?.updateTerrainSurfaces({ remove, add });
+    } catch (error) {
+      next?.dispose();
+      throw error;
+    }
     retireVisual();
     visual = next;
     specs = nextSpecs;

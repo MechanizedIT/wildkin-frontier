@@ -122,3 +122,22 @@ test('lid observes authoritative transient availability even before a persistent
   claimedForRun = false; presentation.reset(); presentation.update(0, { sectionId: 'vault' });
   assert.equal(lid.rotation.x, 0, 'losing the run restores an available closed container');
 });
+
+test('streamed lids register once, restore claims, and unregister without scene traversal', () => {
+  const claims = new Set(['f1:d:3:1:0']);
+  const root = new Group(), lid = new Group(); lid.name = 'ChestLidPivot'; root.add(lid);
+  const chest = { id: 'f1:d:3:1:0', sectionId: 'camp', refillSeconds: null };
+  const presentation = createCacheMechanisms({
+    registry: { data: { regions: [] }, getLootChestsForSection: () => [] },
+    progress: { getState: () => ({ completedPoiIds: [] }), getLootChestAvailability: id => ({ available: !claims.has(id) }) },
+    getVisualRoot: () => { throw new Error('dynamic registration supplies its root directly'); },
+  });
+  assert.equal(presentation.register(chest, root), true);
+  assert.equal(presentation.register(chest, root), true);
+  presentation.update(0, { sectionId: 'camp' });
+  assert.ok(lid.rotation.x < -1.7, 'saved claim snaps a reloaded resident lid open');
+  assert.equal(presentation.unregister(chest.id, new Group()), false, 'a stale retirement cannot remove a replacement');
+  assert.equal(presentation.unregister(chest.id, root), true);
+  assert.equal(lid.rotation.x, 0);
+  assert.equal(presentation.has(chest.id), false);
+});

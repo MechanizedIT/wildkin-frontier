@@ -4,7 +4,11 @@ Wildkin Frontier is an offline, single-player exploration and creature-life game
 
 Leave a physical Camp, make a short useful outing, study or bring home an individual Wildkin, and return to a world that remembers the result. The direction favors slow, dangerous exploration, recognizable regional geography, and care that happens in the world rather than through a separate creature inventory.
 
-**Local pre-alpha; not a release.** Broad seeded provinces now extend beyond the protected Camp, starter route and Skybreak: lush rolling ground, pale Sunscar ribs/basins and taller Ironspine ridges share terrain and ecology rules. All1,191 tests and build/ZIP checks pass. Native walking, gathering and reload evidence is in the [province receipt](art/reviews/regional-provinces/receipt.md). Selected art remains5.5/10 HOLD: portrait terrain and discovery readability need more work. The previously delivered GitHub/Drive checkpoint remains `4298dd5` + `08e36a5`; this newer work is local.
+**Local pre-alpha; not a release.** The first Signal Cache now gives exploration a physical discovery: approach a receiver east of Camp, open its chest, and recover two iron ore and eight XP once. Scenery preparation at two measured walking boundaries is68.2% cheaper after removing repeated recipe work; loading hitches remain. All1,207 tests and build/ZIP checks pass. The [discovery receipt](art/reviews/frontier-discoveries/receipt.md) records native interaction, persistence, portable checks and limits. Selected discovery art is7/10 HOLD; broad province art remains5.5/10 HOLD. The previously delivered GitHub/Drive checkpoint remains `4298dd5` + `08e36a5`; this newer work is local.
+
+<img src="art/reviews/frontier-discoveries/r2-near-portrait.png" alt="Actual portrait approach to the Signal Cache receiver and chest" width="210"> <img src="art/reviews/frontier-discoveries/native-opened.png" alt="Actual opened chest after collecting its one-time reward" width="210">
+
+This is one validated authored location on seeded ground. Distributed procedural secrets remain planned. The [timing comparison](art/reviews/frontier-discoveries/streaming-comparison.svg) shows measured desktop CPU pauses, not phone performance.
 
 <img src="art/reviews/regional-provinces/r3-overhead.png" alt="Actual seeded Sunscar ridges and resource pockets in the selected diagnostic overhead" width="440"> <img src="art/reviews/regional-provinces/final-package-portrait.png" alt="Regional Emberhorn beside the tested resource pocket in the final portable build" width="210">
 

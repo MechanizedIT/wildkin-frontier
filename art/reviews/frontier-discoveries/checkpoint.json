@@ -1,0 +1,186 @@
+{
+  "createdAt": "2026-09-13T05:22:59.405Z",
+  "baseCommit": "36771e4e3fba25f615c803734bab3985721c352c",
+  "selected": "R2, provisionally selected under delegated iteration policy",
+  "visualScores": {
+    "target": 9,
+    "r1": 5.5,
+    "r2": 7,
+    "status": "HOLD"
+  },
+  "tests": {
+    "command": "npm run verify",
+    "tests": 1207,
+    "pass": 1207,
+    "fail": 0,
+    "world": "PASS",
+    "retainedCampaign": "PASS",
+    "build": "PASS",
+    "validate": "PASS",
+    "zip": "PASS"
+  },
+  "package": {
+    "unpackedMB": 44.18,
+    "zipMB": 20.55
+  },
+  "native": {
+    "developerPort": 8082,
+    "portablePort": 8081,
+    "claim": {
+      "ironBefore": 10,
+      "ironAfter": 12,
+      "xpBefore": 0,
+      "xpAfter": 8
+    },
+    "health": 5,
+    "ownedWildkin": 6,
+    "logs": {
+      "developer": [],
+      "portable": []
+    },
+    "physicalPhone": false
+  },
+  "publication": "Local only; earlier 4298dd5/08e36a5 GitHub/Drive delivery already completed.",
+  "hashes": [
+    {
+      "path": "src/main.js",
+      "bytes": 70058,
+      "sha256": "a48122e6bc3383f54a83ecae33875dc852a1396d6436adb191f63ca58c8722d9"
+    },
+    {
+      "path": "src/game/createBetaGame.js",
+      "bytes": 29079,
+      "sha256": "3f37f0f401fba9992d14c0ef421f2d135981459736ea34764bda7be6dd2b135e"
+    },
+    {
+      "path": "src/world/frontierDiscovery.js",
+      "bytes": 4878,
+      "sha256": "e9ee11781c67ad9d21abc6a4237f77f7da9ebd09b08d940c406efcc66b8456c8"
+    },
+    {
+      "path": "src/world/frontierDiscoveryRuntime.js",
+      "bytes": 5581,
+      "sha256": "23a468e14a05022fe3a00bfd78633ea80d16347d8f2d959d943e2aaf0b281903"
+    },
+    {
+      "path": "src/world/lootRegistryOverlay.js",
+      "bytes": 1416,
+      "sha256": "d0181491ea7977085f72cea6b0e73da2e61296dbfba5a7b768d9f2fefd98be21"
+    },
+    {
+      "path": "src/presentation/cacheMechanisms.js",
+      "bytes": 4523,
+      "sha256": "fd4f1e41599672e7cf64a503ab3d0a0599abfc7d4e7724fe12c584280c5506ff"
+    },
+    {
+      "path": "src/world/frontierScenery.js",
+      "bytes": 23734,
+      "sha256": "ee1ec327cfa34596e65fd7b6f492b43e4d4170c2c52eb3cb4338e19a7d2314ad"
+    },
+    {
+      "path": "src/world/frontierSceneryRuntime.js",
+      "bytes": 3124,
+      "sha256": "b2f8f4cb03d9848d67b21f8c44c0e53b02907b8576fd54084e97b7f6ec754651"
+    },
+    {
+      "path": "tests/frontierDiscovery.test.js",
+      "bytes": 3645,
+      "sha256": "a3d39a9a5b25c6b95ebad7c55bb584675ec977a181d48ea5f90ef0a441d2b83d"
+    },
+    {
+      "path": "tests/frontierDiscoveryRuntime.test.js",
+      "bytes": 7166,
+      "sha256": "a24fa604b21220b68e575f14f66080ba2a630ef63a5c01ac9b71ef1d0b63c86b"
+    },
+    {
+      "path": "tests/frontierDiscoveryLootLifecycle.test.js",
+      "bytes": 5039,
+      "sha256": "51794429716750cfeea15a145b8666b4b57dd0d6e60e1e12efa14604f7bc0ff1"
+    },
+    {
+      "path": "tests/lootRegistryOverlay.test.js",
+      "bytes": 2144,
+      "sha256": "86511abb6da29f8f6ea2571cb6899d9c0487d3132646d61c403c5429ecb036b6"
+    },
+    {
+      "path": "tests/cacheMechanisms.test.js",
+      "bytes": 8236,
+      "sha256": "b145df3df2bdbf537146fadf8f4577438560e9ccf223f0ae704bd433eae41877"
+    },
+    {
+      "path": "tests/frontierScenery.test.js",
+      "bytes": 17332,
+      "sha256": "f1a3d55850e616db14f607fe53bf32db86580b1963f63e728d09e016086fbf62"
+    },
+    {
+      "path": "tests/frontierSceneryRuntime.test.js",
+      "bytes": 6591,
+      "sha256": "62174a1a032efb34b30b08fd7aba57db28ced63f38622a3b1068eddc15c04fdf"
+    },
+    {
+      "path": "assets/models/fen-observatory-v1/model.glb",
+      "bytes": 111120,
+      "sha256": "91b2e30d4813ee8b67f3a122f84e6641bdf99b4eead74e9c84835ddf0a32ccee"
+    },
+    {
+      "path": "assets/models/field-chest-v1/model.glb",
+      "bytes": 249784,
+      "sha256": "36f19f19badbe2dd61b4fcd0c12363d8ee1473374d01b937a2530cd9336cbc41"
+    },
+    {
+      "path": "dist/submission/index.html",
+      "bytes": 16122179,
+      "sha256": "404744be755a6dd20c12034563ce0012baf36f3b8a87c43032b573ba9b0c0fc0"
+    },
+    {
+      "path": "dist/submission.zip",
+      "bytes": 21545070,
+      "sha256": "4bd8c5d2f8f85cd9278c335f4fb6ee7e6f3af0274f84999ab4a5478798b29bd7"
+    },
+    {
+      "path": "art/reviews/frontier-discoveries/baseline-portrait.png",
+      "bytes": 98856,
+      "sha256": "b29ffec47a246c764d41756f3a4857513c13e015a8c04d138028e9b3bcad90d5"
+    },
+    {
+      "path": "art/reviews/frontier-discoveries/final-package-portrait.png",
+      "bytes": 133419,
+      "sha256": "7b1a0cb15273ef64cce55b1f3f88f32243988fff8b33cf848ec519b8d3fdfa7a"
+    },
+    {
+      "path": "art/reviews/frontier-discoveries/native-open-action.png",
+      "bytes": 132403,
+      "sha256": "a1e4a492a766d55b9787ff48d2458664ce3b4797cf80d0f9798a4c239ba6dceb"
+    },
+    {
+      "path": "art/reviews/frontier-discoveries/native-opened.png",
+      "bytes": 133770,
+      "sha256": "b5e92467b3e95b13374951e019981cdbcd738d185626047f340eb8857d2cb998"
+    },
+    {
+      "path": "art/reviews/frontier-discoveries/r1-near-portrait.png",
+      "bytes": 124817,
+      "sha256": "f3abbad03ace4f6e148d0d66593446d3bfdc6a4ac45f25d06002d3aa4bba962f"
+    },
+    {
+      "path": "art/reviews/frontier-discoveries/r1-portrait.png",
+      "bytes": 116499,
+      "sha256": "48b7337f022b1d444efd900f431d19e38f95d1770368a74b34bb118b8849fa92"
+    },
+    {
+      "path": "art/reviews/frontier-discoveries/r2-near-portrait.png",
+      "bytes": 130389,
+      "sha256": "daf48575b5729f364c49f3c84f8b2886d85c5bc20791ccf57a1724d753a66b7c"
+    },
+    {
+      "path": "art/reviews/frontier-discoveries/streaming-comparison.svg",
+      "bytes": 1310,
+      "sha256": "032292d9120e970747e98dfb395829b28b23d532f04ca07b72676871948ca689"
+    },
+    {
+      "path": "art/reviews/frontier-discoveries/target.png",
+      "bytes": 1373581,
+      "sha256": "107f0ec1b851c3c688611d642be147c5770728cb8b187877e9a02e607f56fe00"
+    }
+  ]
+}

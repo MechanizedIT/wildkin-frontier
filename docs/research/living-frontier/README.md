@@ -2,6 +2,8 @@
 
 September 12, 2026: repository-owned research, implementation evidence and owner direction.
 
+Later local checkpoint, September13: [Signal Cache and streaming receipt](../../../art/reviews/frontier-discoveries/receipt.md) adds actual portrait approach/opened-chest screenshots and a measured timing chart. It follows the separately delivered PDFs below; those Drive files still represent their recorded publication checkpoint.
+
 - [Visual Fieldbook](Living-Frontier-Visual-Fieldbook.pdf): portrait pages with actual game screenshots, proposed mockups, process diagrams and an exploration-area graph.
 - [Detailed Research Appendix](Living-Frontier-Research-Appendix.pdf) and [editable Markdown](Living-Frontier-Research-Appendix.md): current-state ledger, world generation, modular creatures, reproduction, habitat research, aging/DNA choices, community and sources.
 - [Image manifest](image-manifest.md): exact sources and current/proposed distinctions. Game art targets are not game screenshots.

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { FRONTIER_SCENERY_CONFIG, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter } from '../src/world/frontierScenery.js';
+import { FRONTIER_SCENERY_CONFIG, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter, createFrontierSceneryBuild } from '../src/world/frontierScenery.js';
+import { createFrontierSceneryVisual } from '../src/world/frontierSceneryVisual.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
 import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
 import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
@@ -13,6 +14,48 @@ const chunkGrid = (cx, cz) => {
   for (let z = cz - 2; z <= cz + 2; z++) for (let x = cx - 2; x <= cx + 2; x++) chunks.push({ id: `${x},${z}`, cx: x, cz: z });
   return { center: { cx, cz }, chunks };
 };
+
+test('one residency build shares a bounded exclusion-recipe cache across selection and ground cover', () => {
+  let forageCalls = 0, wildlifeCalls = 0;
+  const flatSample = () => ({ height: 3, surfaceKind: 'ordinary', habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 0, provinceWeights: null });
+  const build = createFrontierSceneryBuild(chunkGrid(-13, -7), {
+    getHeight: () => 3,
+    getTerrainSample: flatSample,
+    visualAssets: [],
+    sampleForageChunk: () => { forageCalls++; return []; },
+    sampleWildlifeChunk: () => { wildlifeCalls++; return []; },
+  });
+  const groundOwnerChunks = new Set();
+  const visual = createFrontierSceneryVisual({
+    specs: build.specs,
+    visualAssets: [],
+    getHeight: () => 3,
+    canPlaceGroundCover: (x, z) => {
+      groundOwnerChunks.add(`${Math.floor(x / 50)},${Math.floor(z / 50)}`);
+      return build.canPlaceGroundCover(x, z);
+    },
+  });
+  try {
+    const previousCallsPerDomain = 25 * 9 + groundOwnerChunks.size * 9;
+    assert.equal(groundOwnerChunks.size, 12);
+    assert.equal(previousCallsPerDomain, 333, 'equivalent uncached selection and filter work');
+    assert.equal(forageCalls, 49);
+    assert.equal(wildlifeCalls, 49);
+    assert.ok(forageCalls <= 81 && wildlifeCalls <= 81, 'the private 9x9 source envelope is a hard bound');
+  } finally { visual.dispose(); }
+});
+
+test('shared exclusion recipes preserve selected specs and clearance decisions', () => {
+  const residency = chunkGrid(4, -5);
+  const options = { getHeight: () => 7.25, getTerrainSample: () => ({ height: 7.25, surfaceKind: 'ordinary', habitatBlend: { wetland: 1, fernUpland: 0 } }) };
+  const expectedSpecs = selectFrontierScenery(residency, options);
+  const expectedFilter = createFrontierGroundCoverFilter(options);
+  const build = createFrontierSceneryBuild(residency, options);
+  assert.deepEqual(build.specs, expectedSpecs);
+  for (const [x, z] of [[205, -245], [224, -226], [249, -201], [200, -250], [255, -195]]) {
+    assert.equal(build.canPlaceGroundCover(x, z), expectedFilter(x, z), `clearance parity at ${x},${z}`);
+  }
+});
 
 test('content recipes replay for one world descriptor and redistribute for another without changing source ID formats', () => {
   const alternate = { edition: 1, seed: 0x6d2b79a1 };

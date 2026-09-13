@@ -92,3 +92,32 @@ test('a failed scenery construction retains the old resident and can retry the s
   assert.notEqual(parent.children[0], oldGroup);
   runtime.dispose();
 });
+
+test('a failed physics replacement disposes the new visual and preserves the old resident for retry', () => {
+  let snapshot = residency(0, -2), failPhysics = false, attempts = 0;
+  const parent = new THREE.Group(), disposed = [];
+  const physicsWorld = { updateTerrainSurfaces() { if (failPhysics) throw new Error('physics-fixture'); } };
+  const runtime = createFrontierSceneryRuntime({ parent, visualAssets, physicsWorld,
+    terrainRuntime: { getResidency: () => snapshot, getHeight: () => 0, sample: () => ({ height: 0, habitatBlend: { wetland: .7, fernUpland: .3 } }) },
+    createVisual() {
+      attempts++;
+      const group = new THREE.Group();
+      return { group, terrainSurfaces: [{ id: `surface-${attempts}` }], canopyRoots: [], dispose() { disposed.push(group); } };
+    },
+  });
+  runtime.update();
+  const oldGroup = parent.children[0], oldIds = runtime.getDebugState().residentIds;
+  snapshot = residency(1, -2); failPhysics = true;
+  assert.throws(() => runtime.update(), /physics-fixture/);
+  assert.equal(attempts, 2);
+  assert.deepEqual(parent.children, [oldGroup]);
+  assert.deepEqual(runtime.getDebugState().residentIds, oldIds);
+  assert.equal(disposed.length, 1);
+  assert.notEqual(disposed[0], oldGroup, 'only the rejected visual is disposed');
+
+  failPhysics = false; runtime.update();
+  assert.equal(attempts, 3, 'the unchanged residency retries after the failed commit');
+  assert.notEqual(parent.children[0], oldGroup);
+  assert.equal(disposed.filter(group => group === oldGroup).length, 1);
+  runtime.dispose();
+});

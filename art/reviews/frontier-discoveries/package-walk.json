@@ -1,0 +1,23 @@
+{
+  "discovery": {
+    "colliderCount": 2,
+    "residentId": "f1:d:3:1:0"
+  },
+  "health": 5,
+  "iron": 12,
+  "origins": [
+    "http://localhost:8081"
+  ],
+  "owned": 6,
+  "pos": {
+    "x": 171.6155242919922,
+    "y": 5.437837600708008,
+    "z": 59.71174621582031
+  },
+  "walk": {
+    "done": true,
+    "ms": 1486.7000000029802,
+    "reason": "complete"
+  },
+  "xp": 8
+}

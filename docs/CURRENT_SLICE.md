@@ -1,6 +1,16 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: broad seeded province foundation selected and verified after Skybreak ecology. The earlier illustrated GitHub/Drive checkpoint was delivered.**
+Updated September 13, 2026. **Active goal-mode development: the Signal Cache and scenery preparation checkpoint is complete locally. The earlier illustrated GitHub/Drive checkpoint was delivered.**
+
+## Completed: smoother exploration and a reason to investigate
+
+Selected R2 is7/10 HOLD after R1 at5.5; the independent judge recommended stopping after the second useful pass because the remaining target mismatch requires changing camera/scale/framing. Native approach/Open granted two iron and eight XP once; physical collision, unload/revisit and literal developer/portable reload preserved the open chest and rewards. All1,207 tests, verify/world/retained-campaign/build/validate and ZIP pass;44.18MB unpacked/20.55MB ZIP. Native scenery bursts at two walking boundaries fell608.2/455.5ms→191.3/146.5ms (68.2% combined reduction). Full evidence and limits: `art/reviews/frontier-discoveries/receipt.md`.
+
+Next bounded work: prepare and publish streamed terrain safely, then reuse the discovery lifecycle for richer distinct places. Read the remaining terrain/ecology/physics failure hazards in `art/reviews/frontier-discoveries/streaming-audit.md` before changing those shared paths. Keep the current world, portrait controls and physical discovery intact; define exact next scope and ownership before production.
+
+First remove repeated deterministic ecology/wildlife recipe generation within one scenery residency rebuild, preserving exact selected placements, exclusions, resident caps, terrain-before-movement ordering and Author/resume behavior. Use an ephemeral preparation cache owned by that rebuild; do not introduce a scheduler, worker framework or second loop. Root records a quiet native boundary-crossing baseline and selected timing; a bounded worker owns scenery preparation and focused equivalence/count tests. Timing evidence must distinguish the recipe improvement from remaining terrain, collider and visual-construction costs.
+
+The selected first discovery is one Sunscar Signal Cache east of Camp: an admitted Fen receiver and articulated field chest, placed at a validated fixed site on seeded ground. Reuse the existing two-iron/eight-XP loot table and one-time transaction. A bounded registry overlay admits its ID before save loading and exposes nearby interaction only while resident. The runtime owns physical visuals/colliders; the existing cache mechanism owns lid presentation. This is one authored discovery location, not distributed procedural secrets. Target `art/reviews/frontier-discoveries/target.png` independently scored9/10 for feasibility; implementation remains under review. Reuse current interaction, inventory and save owners. Root owns integration, native proof, visual review and checkpoint documentation. No menus, online trading, new save authority or terrain morphology expansion in this slice. Continue locally after the prior requested publication checkpoint.
 
 ## Completed foundation: seeded provinces
 

@@ -1,0 +1,16 @@
+# tests 1207
+# pass 1207
+# fail 0
+# cancelled 0
+# skipped 0
+[check-world] PASS — world.json and world.generated.js in sync
+[check-campaign] PASS — route, carried renewable economy, companion identity, finale order, and coarse walkability are coherent.
+[check-campaign] Coarse walkability is an estimate only; run a physical playtest before release.
+[build] wrote dist\submission\index.html (15744.3 KB)
+[build] vendor/three.module.js 1243.1 KB
+[build] vendor/rapier.js 2790.6 KB
+[build] submission dir: dist\submission
+[build] next: npm run validate  |  npm run zip
+[validate] submission size 45240.9 KB (44.18 MB)
+[validate] PASS — submission looks compliant
+ZIP: PASS — 20.55 MB

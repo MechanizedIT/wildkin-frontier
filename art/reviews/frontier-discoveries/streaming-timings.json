@@ -1,0 +1,143 @@
+{
+  "date": "2026-09-13",
+  "route": "Ordinary keyboard travel from staged (-70,-200) to (-205,-200). Same camera orientation; no concurrent aggregate verification.",
+  "limits": "Desktop in-app browser, different viewport sizes between runs. Owner CPU burst comparison, not a phone benchmark. Recorded totals include idle after travel; compare slow boundary events only.",
+  "baseline": {
+    "events": [
+      {
+        "elapsedMs": 10188.40000000596,
+        "ms": 90.79999999701975,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 10279.30000001192,
+        "ms": 608.1999999880791,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 10887.5,
+        "ms": 34.900000005960464,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 24088.10000000894,
+        "ms": 83.8999999910593,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -158.07884216308594,
+          "y": 17.20628547668457,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "elapsedMs": 24172.10000000894,
+        "ms": 455.5,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -158.07884216308594,
+          "y": 17.20628547668457,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "elapsedMs": 24627.60000000894,
+        "ms": 30.700000002980232,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -158.07884216308594,
+          "y": 17.20628547668457,
+          "z": -199.9307861328125
+        }
+      }
+    ],
+    "walkMs": 36647.60000000894,
+    "health": 5
+  },
+  "selected": {
+    "events": [
+      {
+        "elapsedMs": 10188.5,
+        "ms": 85.30000001192093,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 10273.90000000596,
+        "ms": 191.29999999701977,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 10465.30000001192,
+        "ms": 34.79999999701977,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 23688.40000000596,
+        "ms": 81.40000000596046,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "elapsedMs": 23769.90000000596,
+        "ms": 146.5,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "elapsedMs": 23916.40000000596,
+        "ms": 28.599999994039536,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      }
+    ],
+    "walkMs": 35849.20000000298,
+    "health": 5
+  },
+  "sceneryBurstReductionPercent": 68.2,
+  "exactRecipeWorkload": {
+    "before": 666,
+    "after": 98,
+    "note": "Synthetic representative window; exact selected specs and clearance-equivalence tests. Not native invocation counts."
+  }
+}

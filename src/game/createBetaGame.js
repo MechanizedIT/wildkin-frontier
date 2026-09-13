@@ -245,6 +245,8 @@ export function createBetaGame(deps) {
     isBlocking, getModel, companions, shell, base, equipment, physicalInventory, rootfall, refreshModifiers, refreshObjectives,
     registerWorldOccluder: visual => playerOcclusion.register(visual),
     unregisterWorldOccluder: visual => playerOcclusion.unregister(visual),
+    registerLootMechanism: cacheMechanisms.register,
+    unregisterLootMechanism: cacheMechanisms.unregister,
     showWelcome: () => { if (!authorEnabled) shell.showWelcome(); },
     openWorkshop: (id) => { if(!base.openStation(id))shell.open("workshop"); },
     openSanctuary: () => shell.open('wildkin'),

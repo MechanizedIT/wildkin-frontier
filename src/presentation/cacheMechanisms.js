@@ -9,9 +9,11 @@ const ease = (t) => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t
 
 export function createCacheMechanisms({ registry, progress, getVisualRoot, getAvailability }) {
   const mechanisms = new Map();
-  for (const region of registry.data.regions ?? []) {
-    for (const chest of registry.getLootChestsForSection(region.id)) {
-      const root = getVisualRoot?.(chest.id);
+  function register(chest, root = getVisualRoot?.(chest?.id)) {
+      if (!chest?.id || !root) return false;
+      const current = mechanisms.get(chest.id);
+      if (current?.root === root) return true;
+      if (current) unregister(chest.id);
       const left = root?.getObjectByName('CacheDoorLeft');
       const right = root?.getObjectByName('CacheDoorRight');
       const tray = root?.getObjectByName('CacheTray');
@@ -21,12 +23,24 @@ export function createCacheMechanisms({ registry, progress, getVisualRoot, getAv
         const latches = ['ChestLatchLeft', 'ChestLatchRight'].map(name => root.getObjectByName(name)).filter(Boolean);
         mechanisms.set(chest.id, { kind: 'lid', chest, root, lid, lidX: lid.rotation.x,
           latches: latches.map(node => ({ node, x: node.rotation.x })), amount: 0, initialized: false });
-        continue;
+        return true;
       }
-      if (!left || !right || !tray || !core) continue;
+      if (!left || !right || !tray || !core) return false;
       mechanisms.set(chest.id, { kind: 'vault', chest, root, left, right, tray, core,
         leftX: left.position.x, rightX: right.position.x, trayZ: tray.position.z,
         amount: 0, initialized: false });
+      return true;
+  }
+  function unregister(id, root = null) {
+    const current = mechanisms.get(id);
+    if (!current || (root && current.root !== root)) return false;
+    apply(current, 0, false);
+    mechanisms.delete(id);
+    return true;
+  }
+  for (const region of registry.data.regions ?? []) {
+    for (const chest of registry.getLootChestsForSection(region.id)) {
+      register(chest);
     }
   }
   let previousSection = null;
@@ -63,7 +77,7 @@ export function createCacheMechanisms({ registry, progress, getVisualRoot, getAv
         ? { ok: false, busy: true, label: 'OPENING', reason: 'The vault is opening.' }
         : { ok: true };
     },
-    reset,
+    reset, register, unregister,
     update(dt, { sectionId, paused = false, hidden = false, reducedMotion = false } = {}) {
       if (hidden) { reset(); return; }
       const changedSection = previousSection !== sectionId;

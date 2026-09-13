@@ -200,3 +200,11 @@ Native harnesses must use current canonical objects and physically clear startin
 - Feed regional choices through the same terrain sample in real residency and scenery's nested clearance samplers. Preserve reserved sources before ordinary profile selection; limit draw-heavy signature animals separately from total actor count.
 - Optimize expensive texture color sampling separately from authoritative height/mesh/physics. Globally aligned bounded grids need shared-edge and error proof; reserve/fade fallbacks preserve accepted starter appearance. Benchmark a micro-operation separately from whole-game frame rate and disclose concurrent tooling load.
 - Avoid exact witness counts where terrain safety legitimately changes candidate acceptance. Tests should assert the real composition/support/budget requirement, with exact IDs reserved for persistence and fixed authored fixtures.
+
+
+## September13 — measure owner bursts and validate target perspective
+
+- Time the existing streaming owners during an ordinary boundary walk before choosing an architecture change. A visually broad terrain task hid a608ms scenery exclusion burst; an ephemeral cache preserved exact output while removing85.3% of representative recipe calls and68.2% of two native scenery bursts. Label viewport differences and CPU timings; do not call them phone FPS.
+- Project the planned physical landmark bounds into the actual gameplay camera before generating a target. Image generation put a3.15m receiver comfortably at12m when the native42degree portrait camera clipped it. Keep the target and disclose the natural closer read zone instead of silently moving the camera or inflating the score. A second chest-placement pass improved readability; the independent judge recommended stopping at7HOLD.
+- Streamed loot must join the existing finite validation registry before loading saves. Keep identity available outside residency while exposing nearby interaction only for the physical resident. Verify partial remainder and failed-write cases across reload, and register/unregister mechanisms explicitly rather than scanning the scene every frame.
+- A visual rollback is not proof that a physics batch is transactional. Preserve the exact remaining terrain/ecology/physics mutation hazards in the next-slice audit; do not claim atomic Rapier rollback from a throwing test stub.
