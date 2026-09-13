@@ -1,10 +1,12 @@
 import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
+import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
 
 const MAX_LIVE_RESIDENTS = 4;
 
 /** Maps immutable terrain residency to bounded generated Wildkin. */
 export function createFrontierWildlifeRuntime({ terrainRuntime, creatureSystem, visualAssets = [], isSourceCaptured = () => false } = {}) {
   const loaded = new Map();
+  const world = terrainRuntime?.getWorldDescriptor?.() ?? DEFAULT_FRONTIER_WORLD;
   let lastResidency = null;
   let cachedDesired = [];
   let cachedSources = new Map();
@@ -43,7 +45,7 @@ export function createFrontierWildlifeRuntime({ terrainRuntime, creatureSystem, 
     const center = lastResidency?.center;
     const candidates = [];
     for (const chunk of chunks) {
-      const sources = cachedSources.get(chunk.id) ?? sampleFrontierWildlifeChunk(chunk.cx, chunk.cz, { getTerrainSample: terrainRuntime?.sample });
+      const sources = cachedSources.get(chunk.id) ?? sampleFrontierWildlifeChunk(chunk.cx, chunk.cz, { getTerrainSample: terrainRuntime?.sample, world });
       cachedSources.set(chunk.id, sources);
       const distance = Math.abs(chunk.cx - center.cx) + Math.abs(chunk.cz - center.cz);
       for (const source of sources) if (!isSourceCaptured(source.originId)) candidates.push({ source, distance });

@@ -1,6 +1,6 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: F2E/F2F checkpoint complete; next unify the saved world descriptor before expanding generation.**
+Updated September 12, 2026. **Active goal-mode development: shared world descriptor checkpoint complete; proceed to a visual generator inspector and dramatic terrain.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
@@ -159,17 +159,22 @@ F1B selects R3 at6.0HOLD after5.4/5.7. The first northbound clearing now has a m
 
 F2E selects admitted-species encounter reuse at8.0PASS. Tidefin's real snare/release capture and Camp banking retained the same null-genome individual through literal dev/package reload; Emberhorn WARN/Challenge/death were observed, while full native dodge/tether capture remains open. Existing terrace rock slots now provide10iron/4crystal theoretical yield; native proof collected10iron/2crystal, enough for unchanged Fabricator/tether mineral costs. Portrait guide/toast inset conflicts are fixed. F2F selects R3 at7.4HOLD after5.5/7.2:503cheap upright clusters/8048triangles in the reviewed clearing, with visible remaining sparse areas. Final1,137tests, verify/build/validate/ZIP PASS;44.11MB/20.53MB. Final route28.266seconds athealth5; packaged Jump and exact five-individual identity passed. See both new receipts.
 
-## Next bounded slice: unified world descriptor
+## Integrated foundation: unified world descriptor
 
 - Latest explicit owner direction: large biomes and extreme alien relief, including tall narrow plateau chains, mountains/deserts and different resources/life above and below. Support eventual weather/day-night and evaluate persistent cave interiors. This changes the long-term visual/structural target; the current gentle test clearing is not that target. WORLD_GENERATION_PLAN records layered surfaces, cave instances and current composition-based architecture. No ECS framework migration is authorized by the owner's architecture question.
 - Follow WORLD_GENERATION_PLAN.md, written in response to Chris's terrain/biome/mesh questions. Keep heightfield chunks plus separate geometry for special overhang/cave formations. Future semantic ground/habitat fields drive both material and decoration; material color itself is not an ecology input.
 - First thread one immutable saved edition/seed through terrain, ecology, scenery and wildlife owners while retaining the current default output. Use domain-derived random streams and same world-space samples. Root owns shared save/main integration; a bounded worker may own the pure helper/sampler changes with explicit files.
 - Do not expose a seed selector before atlas, depletion and captured-source histories are safely scoped to the generated world. No compatibility framework is needed for this pre-alpha; any deliberate new-generation reset must be explicit. No new climate, water, cave, LOD or ecosystem claim from descriptor wiring alone.
-- Prove cross-border sameness, same-descriptor reproducibility, distinct test-seed effects, world-scoped identities and existing Camp/route behavior with focused checks. Then build one small visual inspector of height/moisture/habitat/slope/content to guide richer connected regions. Continue the goal; larger terrain changes get a fresh real baseline/target first.
+- Prove cross-border sameness, same-descriptor reproducibility, distinct test-seed effects and existing Camp/route behavior with focused checks. Current saves remain strictly one fixed world; alternate saved-world identities are deferred together with the seed selector. Then build one small visual inspector of height/moisture/habitat/slope/content to guide richer connected regions. Continue the goal; larger terrain changes get a fresh real baseline/target first.
+
+- New accepted travel direction: generate rivers as coherent regional features before final beds/banks and scatter, but avoid a predictable global web of paths. Some areas should require actual persistent clearing. Feasible access may involve climbing/jumping/clearing and must not automatically reserve a visibly prepared corridor. See WORLD_GENERATION_PLAN.
+- Chris clarified the desired component modularity for effects, crops, machines and Wildkin. SIMULATION_PLAN records current owners and proposed reusable records/process clocks. Keep existing active-play-only growth and explicit save authority; no ECS dependency or offline-care rule change is implied.
+
+The descriptor now loads before runtime construction and is shared immutably across terrain, both grass paths, ecology, wildlife and scenery, including placement exclusions. Same/default output and alternate generator tests are covered. Atlas, depletion and captured origins retain current identities; alternate imports remain rejected until their complete provenance namespace is implemented.
 
 ## Last verified playable checkpoint
 
-Current checkpoint: F2E/F2F receipts above. F1B/F4B retain the preceding terrain and appearance proof. F7B/F2D and F5B receipts retain the preceding research, scenery and climbing evidence. Inherited `11393c7` supplies the reusable camera and finite-world baseline; its966-test checkpoint is historical.
+Current checkpoint: shared descriptor,1,145/1,145tests plus verify/build/validate/ZIP PASS;44.11MB/20.53MB. Default terrain/content and native reload discoveries/owned identities preserved; packaged Jump passed. Receipt: `art/reviews/world-descriptor/receipt.md`. F2E/F2F retain encounter/grass proof, F1B/F4B preceding terrain/appearance, and F7B/F2D/F5B research/scenery/climbing. Inherited `11393c7` supplies the reusable camera and finite-world baseline; its966-test checkpoint is historical.
 
 Initial working tree includes unrelated Verdant composer/test changes and untracked art/tool experiments. Preserve them; stage only owned files. Emberfall ravine and Tidefin V3 remain unshipped candidates with documented defects; they are not the current slice.
 

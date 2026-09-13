@@ -1,0 +1,12 @@
+[
+  {
+    "path": "package-portrait.png",
+    "kind": "actual packaged browser capture",
+    "width": 309,
+    "height": 686,
+    "cssViewport": {
+      "width": 412,
+      "height": 915
+    }
+  }
+]

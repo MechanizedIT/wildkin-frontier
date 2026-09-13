@@ -1,5 +1,6 @@
 import { FRONTIER_TERRAIN_CONFIG, isCampChunk, sampleFrontier } from './frontierTerrain.js';
 import { createWildkinGenome } from '../creatures/wildkinGenome.js';
+import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 
 const EDGE = 5;
 const SLOPE_SAMPLE = .8;
@@ -23,14 +24,15 @@ const SIDE_ENCOUNTERS = Object.freeze({
   }),
 });
 
-function random(cx, cz, index, salt = 0) {
+function random(cx, cz, index, salt = 0, world = DEFAULT_FRONTIER_WORLD) {
+  salt += frontierDomainSeed(world, 'wildlife');
   let value = Math.imul(cx | 0, 73856093) ^ Math.imul(cz | 0, 19349663) ^ Math.imul(index + salt, 83492791);
   value = Math.imul(value ^ (value >>> 16), 2246822519);
   return ((value ^ (value >>> 13)) >>> 0) / 4294967295;
 }
 
-function terrainSample(x, z, { getTerrainSample, terrainOptions } = {}) {
-  return typeof getTerrainSample === 'function' ? getTerrainSample(x, z) : sampleFrontier(x, z, terrainOptions);
+function terrainSample(x, z, { getTerrainSample, terrainOptions, world = DEFAULT_FRONTIER_WORLD } = {}) {
+  return typeof getTerrainSample === 'function' ? getTerrainSample(x, z) : sampleFrontier(x, z, { ...terrainOptions, world });
 }
 
 function slopeAt(x, z, options) {
@@ -66,7 +68,7 @@ function makeMosslingPlacement(cx, cz, index, x, z, options) {
     type: 'rusher',
     speciesTag: 'mossling',
     temperament: 'SKITTISH',
-    facingYaw: random(cx, cz, index, 71) * Math.PI * 2,
+    facingYaw: random(cx, cz, index, 71, options.world) * Math.PI * 2,
     // Only the first clearing receives a tight, readable scare/return loop.
     // Other generated Mosslings retain the ordinary broader wildlife range.
     roamRadius: stagedShelf ? 2.6 : 4.4,
@@ -75,7 +77,7 @@ function makeMosslingPlacement(cx, cz, index, x, z, options) {
     noticeRadius: 7,
     personalSpace: 2.1,
     visualAssetId: 'asset_wildkin_mossling',
-    genome: createWildkinGenome(originId, habitatEcotype(sample)),
+    genome: createWildkinGenome(frontierDomainSeed(options.world, 'wildlife') ? `${originId}:${frontierDomainSeed(options.world, 'wildlife')}` : originId, habitatEcotype(sample)),
     residentPriority: stagedShelf ? index : 100,
   });
 }
@@ -101,30 +103,33 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   const starterShelf = cx === 0 && cz === -2;
   const emberShelf = cx === 0 && cz === -3;
   // Other chunks stay sparse and coordinate-seeded; no population simulation.
-  if (!starterShelf && !emberShelf && random(cx, cz, 0, 13) >= .22) return [];
+  const world = options.world ?? DEFAULT_FRONTIER_WORLD;
+  const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
+  const sampleOptions = { ...options, world };
+  if (!starterShelf && !emberShelf && roll(0, 13) >= .22) return [];
   const candidates = starterShelf
     ? [[7, -85], [20, -95], [17, -79]]
     : emberShelf
       ? [[0, -111]]
     : Array.from({ length: 8 }, (_, attempt) => [
-        cx * size + EDGE + random(cx, cz, attempt, 31) * (size - EDGE * 2),
-        cz * size + EDGE + random(cx, cz, attempt, 53) * (size - EDGE * 2),
+        cx * size + EDGE + roll(attempt, 31) * (size - EDGE * 2),
+        cz * size + EDGE + roll(attempt, 53) * (size - EDGE * 2),
       ]);
   if (starterShelf || emberShelf) {
     const placements = [];
     for (let index = 0; index < candidates.length; index += 1) {
       const [x, z] = candidates[index];
-      const sample = terrainSample(x, z, options);
-      if (!Number.isFinite(sample.height) || slopeAt(x, z, options) > MAX_SLOPE) continue;
-      if (starterShelf && index < 2) placements.push(makeMosslingPlacement(cx, cz, index, x, z, options));
-      else if (starterShelf) placements.push(makeSideEncounter(cx, cz, index, x, z, 'tidefin', 2, options));
-      else placements.push(makeSideEncounter(cx, cz, index, x, z, 'emberhorn', 3, options));
+      const sample = terrainSample(x, z, sampleOptions);
+      if (!Number.isFinite(sample.height) || slopeAt(x, z, sampleOptions) > MAX_SLOPE) continue;
+      if (starterShelf && index < 2) placements.push(makeMosslingPlacement(cx, cz, index, x, z, sampleOptions));
+      else if (starterShelf) placements.push(makeSideEncounter(cx, cz, index, x, z, 'tidefin', 2, sampleOptions));
+      else placements.push(makeSideEncounter(cx, cz, index, x, z, 'emberhorn', 3, sampleOptions));
     }
     return placements;
   }
   for (const [x, z] of candidates) {
-    const sample = terrainSample(x, z, options);
-    if (Number.isFinite(sample.height) && slopeAt(x, z, options) <= MAX_SLOPE) return [makeMosslingPlacement(cx, cz, 0, x, z, options)];
+    const sample = terrainSample(x, z, sampleOptions);
+    if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE) return [makeMosslingPlacement(cx, cz, 0, x, z, sampleOptions)];
   }
   return [];
 }

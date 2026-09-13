@@ -1,5 +1,6 @@
 // Deterministic, dependency-free terrain foundation for the streamed frontier.
 import { ROCKY_TERRACE, sampleFrontierLandform } from './frontierLandform.js';
+import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 
 export const FRONTIER_TERRAIN_CONFIG = Object.freeze({
   chunkSize: 50,
@@ -8,7 +9,7 @@ export const FRONTIER_TERRAIN_CONFIG = Object.freeze({
   campBlendDistance: 58,
   minHeight: 0,
   maxHeight: 16,
-  defaultSeed: 0x4f1a2b3c,
+  defaultSeed: DEFAULT_FRONTIER_WORLD.seed,
 });
 // Short alias retained for callers that use the original slice API.
 export const config = FRONTIER_TERRAIN_CONFIG;
@@ -73,7 +74,11 @@ function campSample(x, z, options) {
 
 export function sampleFrontier(x, z, options = {}) {
   x = finite(x); z = finite(z);
-  const seed = finite(options.seed, config.defaultSeed) | 0;
+  // Explicit legacy seed calls remain stable. A world descriptor instead owns
+  // the terrain stream and keeps its random domain independent of content.
+  const seed = (options.world === undefined
+    ? finite(options.seed, config.defaultSeed)
+    : frontierDomainSeed(options.world, 'terrain', config.defaultSeed)) | 0;
   // One signed world-space relief sample drives geometry and its restrained
   // drainage cue, so color cannot drift away from the rolling landform.
   const rollingTransition = rollingTransitionOffset(x, z);

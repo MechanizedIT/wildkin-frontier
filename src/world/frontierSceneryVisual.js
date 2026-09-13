@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { mergeGeometries } from '../../vendor/utils/BufferGeometryUtils.js';
 import { createExternalModelVisual, disposeExternalModelInstance } from '../assets/modelAssetRuntime.js';
 import { createGroundCoverClusterGeometry } from '../presentation/groundFoliage.js';
+import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 
 const CANOPY_TRUNK = Object.freeze({ width: 1.1, height: 2.45, depth: 1.1 });
 // The visible Fen monolith is 1.65m wide including its decorative feet. Keep
@@ -30,6 +31,10 @@ function hash(value) {
     result = Math.imul(result, 16777619);
   }
   return (result >>> 0) / 4294967295;
+}
+function worldHash(value, world) {
+  const salt = frontierDomainSeed(world, 'scenery-grass');
+  return salt ? hash(`${value}:${salt}`) : hash(value);
 }
 
 function surfaceBox({ id, x, y, z, yaw, scale, size }) {
@@ -94,7 +99,7 @@ function addVertexColor(geometry, color) {
  * residency, physics update, or terrain sampling; callers rebuild it from an
  * immutable spec list and submit terrainSurfaces through their existing owner.
  */
-export function createFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight, canPlaceGroundCover } = {}) {
+export function createFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight, canPlaceGroundCover, world = DEFAULT_FRONTIER_WORLD } = {}) {
   const group = new THREE.Group();
   group.name = 'frontier_scenery';
   const terrainSurfaces = [];
@@ -121,19 +126,19 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
     for (let index = 0, accepted = 0; index < attempts && accepted < desiredCount && groundClusterCount < MAX_GROUND_CLUSTERS; index++) {
       const seed = `${spec.id}:ground-cover:${index}`;
       const ring = index % 4;
-      const angle = ((index / desiredCount) * Math.PI * 2) + (hash(`${seed}:angle`) - .5) * .48;
-      const radius = patchRadius * ([.32, .56, .78, .98][ring] + (hash(`${seed}:radius`) - .5) * .1);
+      const angle = ((index / desiredCount) * Math.PI * 2) + (worldHash(`${seed}:angle`, world) - .5) * .48;
+      const radius = patchRadius * ([.32, .56, .78, .98][ring] + (worldHash(`${seed}:radius`, world) - .5) * .1);
       const x = spec.x + Math.cos(angle) * radius;
       const z = spec.z + Math.sin(angle) * radius;
       if (!canPlace(x, z)) continue;
       const y = finite(heightAt?.(x, z), finite(spec.y));
-      const scale = (wet ? .60 : .66) + hash(`${seed}:scale`) * .24;
+      const scale = (wet ? .60 : .66) + worldHash(`${seed}:scale`, world) * .24;
       groundDummy.position.set(x, y, z);
-      groundDummy.rotation.y = hash(`${seed}:yaw`) * Math.PI * 2;
+      groundDummy.rotation.y = worldHash(`${seed}:yaw`, world) * Math.PI * 2;
       groundDummy.scale.setScalar(scale);
       groundDummy.updateMatrix();
       groundMesh.setMatrixAt(groundClusterCount, groundDummy.matrix);
-      const tone = new THREE.Color(wet ? '#6d9872' : '#86aa58').lerp(new THREE.Color(staged ? '#b0c970' : '#759b69'), hash(`${seed}:tone`) * .28);
+      const tone = new THREE.Color(wet ? '#6d9872' : '#86aa58').lerp(new THREE.Color(staged ? '#b0c970' : '#759b69'), worldHash(`${seed}:tone`, world) * .28);
       groundMesh.setColorAt(groundClusterCount, tone);
       groundClusterCount++; accepted++;
     }

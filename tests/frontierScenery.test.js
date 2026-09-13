@@ -4,12 +4,34 @@ import { FRONTIER_SCENERY_CONFIG, sampleFrontierSceneryChunk, selectFrontierScen
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
 import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
 import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
+import { DEFAULT_FRONTIER_WORLD } from '../src/world/frontierWorld.js';
 
 const chunkGrid = (cx, cz) => {
   const chunks = [];
   for (let z = cz - 2; z <= cz + 2; z++) for (let x = cx - 2; x <= cx + 2; x++) chunks.push({ id: `${x},${z}`, cx: x, cz: z });
   return { center: { cx, cz }, chunks };
 };
+
+test('content recipes replay for one world descriptor and redistribute for another without changing source ID formats', () => {
+  const alternate = { edition: 1, seed: 0x6d2b79a1 };
+  const defaultRecipes = {
+    forage: sampleFrontierForageChunk(3, 2, { world: DEFAULT_FRONTIER_WORLD }),
+    wildlife: sampleFrontierWildlifeChunk(1, -1, { world: DEFAULT_FRONTIER_WORLD }),
+    scenery: sampleFrontierSceneryChunk(4, -5, { world: DEFAULT_FRONTIER_WORLD }),
+  };
+  const alternateRecipes = {
+    forage: sampleFrontierForageChunk(3, 2, { world: alternate }),
+    wildlife: sampleFrontierWildlifeChunk(1, -1, { world: alternate }),
+    scenery: sampleFrontierSceneryChunk(4, -5, { world: alternate }),
+  };
+  assert.deepEqual(sampleFrontierForageChunk(3, 2, { world: alternate }), alternateRecipes.forage);
+  assert.deepEqual(sampleFrontierWildlifeChunk(1, -1, { world: alternate }), alternateRecipes.wildlife);
+  assert.deepEqual(sampleFrontierSceneryChunk(4, -5, { world: alternate }), alternateRecipes.scenery);
+  assert.notDeepEqual(alternateRecipes.forage, defaultRecipes.forage);
+  assert.notDeepEqual(alternateRecipes.wildlife, defaultRecipes.wildlife);
+  assert.notDeepEqual(alternateRecipes.scenery, defaultRecipes.scenery);
+  assert.ok([...alternateRecipes.forage, ...alternateRecipes.wildlife].every(node => (node.originId ?? node.id).startsWith('f1:')));
+});
 
 test('wide grass patches preserve Camp, routes, terrace and resource/creature feet', () => {
   const filter = createFrontierGroundCoverFilter();
@@ -23,6 +45,16 @@ test('wide grass patches preserve Camp, routes, terrace and resource/creature fe
   assert.equal(filter(NaN,0),false);
   const steep = createFrontierGroundCoverFilter({getHeight:(x,z)=>x});
   assert.equal(steep(9,-74),false,'wide patch edges cannot cross steep ground');
+});
+
+test('alternate-world grass exclusions honor that world’s forage and wildlife placements', () => {
+  const world = { edition: 1, seed: 0x6d2b79a1 };
+  const filter = createFrontierGroundCoverFilter({ world });
+  const forage = sampleFrontierForageChunk(0, -2, { world });
+  const wildlife = sampleFrontierWildlifeChunk(0, -2, { world });
+  assert.ok(forage.length && wildlife.length);
+  assert.ok(forage.every(node => filter(node.pos.x, node.pos.z) === false));
+  assert.ok(wildlife.every(node => filter(node.homePos.x, node.homePos.z) === false));
 });
 
 test('chunk recipes are deterministic, terrain-grounded, and habitat-dithered', () => {

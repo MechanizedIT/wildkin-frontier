@@ -1,10 +1,10 @@
 // Persistent identity and finite generated forage scars for the streamed frontier.
 
-import { FRONTIER_TERRAIN_CONFIG } from './frontierTerrain.js';
+import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
 
-export const FRONTIER_ECOLOGY_EDITION = 1;
+export const FRONTIER_ECOLOGY_EDITION = DEFAULT_FRONTIER_WORLD.edition;
 export const MAX_FRONTIER_RESOURCE_RECORDS = 8192;
-export const FRONTIER_ECOLOGY_DEFAULT_SEED = FRONTIER_TERRAIN_CONFIG.defaultSeed;
+export const FRONTIER_ECOLOGY_DEFAULT_SEED = DEFAULT_FRONTIER_WORLD.seed;
 const MAX_CHUNK_COORDINATE = 1_000_000;
 const MAX_RESOURCE_INDEX = 8191;
 

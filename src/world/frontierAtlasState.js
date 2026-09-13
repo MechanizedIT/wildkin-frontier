@@ -3,9 +3,10 @@
 // other cells have been surveyed.
 
 import { FRONTIER_TERRAIN_CONFIG } from './frontierTerrain.js';
+import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
 
-export const FRONTIER_ATLAS_EDITION = 1;
-export const FRONTIER_ATLAS_DEFAULT_SEED = FRONTIER_TERRAIN_CONFIG.defaultSeed;
+export const FRONTIER_ATLAS_EDITION = DEFAULT_FRONTIER_WORLD.edition;
+export const FRONTIER_ATLAS_DEFAULT_SEED = DEFAULT_FRONTIER_WORLD.seed;
 export const FRONTIER_ATLAS_CELL_SIZE = 10;
 export const FRONTIER_ATLAS_CELLS_PER_CHUNK = FRONTIER_TERRAIN_CONFIG.chunkSize / FRONTIER_ATLAS_CELL_SIZE;
 export const FRONTIER_ATLAS_REVEAL_RADIUS = 18;

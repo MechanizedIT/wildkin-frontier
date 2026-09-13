@@ -1,0 +1,47 @@
+{
+  "world": {
+    "edition": 1,
+    "seed": 1327115068
+  },
+  "sameWorld": true,
+  "owned": [
+    [
+      "wildkin_rrjqz1",
+      "f1:w:0:-2:0"
+    ],
+    [
+      "wildkin_1b156h6",
+      "f1:w:0:-2:1"
+    ],
+    [
+      "wildkin_bred_1",
+      "bred:1"
+    ],
+    [
+      "wildkin_bred_2",
+      "bred:2"
+    ],
+    [
+      "wildkin_1v340z8",
+      "f1:w:0:-2:2"
+    ]
+  ],
+  "jump": {
+    "startY": 2.455965042114258,
+    "maxY": 3.7992970943450928,
+    "modes": [
+      "IDLE",
+      "JUMP"
+    ],
+    "healthBefore": 5,
+    "final": {
+      "y": 2.4605519771575928,
+      "mode": "IDLE",
+      "grounded": true,
+      "health": 5
+    }
+  },
+  "resourceOrigins": [
+    "http://localhost:8081"
+  ]
+}

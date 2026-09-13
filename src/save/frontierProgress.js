@@ -19,6 +19,7 @@ import { normalizeActiveRun, cloneActiveRun } from '../session/activeRunState.js
 import { OBSERVATION_CATALOG, normalizeObservationClues } from '../companions/observationCatalog.js';
 import { createFrontierEcologyState, cloneFrontierEcologyState, normalizeFrontierEcologyState, validateFrontierResourceState, MAX_FRONTIER_RESOURCE_RECORDS } from '../world/frontierEcologyState.js';
 import { createFrontierAtlasState, cloneFrontierAtlasState, normalizeFrontierAtlasState, revealFrontierAtlasRadius } from '../world/frontierAtlasState.js';
+import { normalizeFrontierWorld } from '../world/frontierWorld.js';
 import { MAX_CAPTURED_WILDKIN_SOURCES, MAX_OWNED_WILDKIN, MAX_PENDING_WILDKIN, WILDKIN_INDIVIDUAL_VERSION, cloneWildkinIndividual, getWildkinSex, normalizeWildkinIndividual, normalizeWildkinIndividuals, projectWildkinSpecies } from '../creatures/wildkinIndividual.js';
 import { createWildkinGenome } from '../creatures/wildkinGenome.js';
 import { CAMP_CARE_MAX_NOURISHMENT, CAMP_CARE_VERSION, cloneCampCare, readCampCare } from '../companions/campCareState.js';
@@ -128,6 +129,7 @@ export function createFrontierProgress(opts = {}) {
   const useMemoryOnly = isAuthorMode && !!opts.inMemoryAuthor;
 
   let state = defaultState(initialWaypointId, resourceDrops);
+  let frontierWorldSnapshot = makeFrontierWorldSnapshot(state);
   let frontierAtlasSnapshot = makeFrontierAtlasSnapshot(state.atlas);
   let lastBankToken = null; // legacy fallback
   let bankedRunIds = new Set();
@@ -137,7 +139,14 @@ export function createFrontierProgress(opts = {}) {
   function makeFrontierAtlasSnapshot(atlas) {
     return Object.freeze({ edition: atlas.edition, seed: atlas.seed, chunks: Object.freeze({ ...atlas.chunks }) });
   }
-  function refreshFrontierAtlasSnapshot() { frontierAtlasSnapshot = makeFrontierAtlasSnapshot(state.atlas); }
+  function makeFrontierWorldSnapshot(value) {
+    if (value.ecology.edition !== value.atlas.edition || value.ecology.seed !== value.atlas.seed) throw new Error('mismatched-frontier-world');
+    return normalizeFrontierWorld({ edition: value.atlas.edition, seed: value.atlas.seed });
+  }
+  function refreshFrontierAtlasSnapshot() {
+    frontierWorldSnapshot = makeFrontierWorldSnapshot(state);
+    frontierAtlasSnapshot = makeFrontierAtlasSnapshot(state.atlas);
+  }
   // persist bankedRunIds via state? Keep in memory bounded; versioned save includes lastBankedRunIds
   // Load from storage if present
   const BANKED_IDS_KEY = storageKey + ":bankedRunIds";
@@ -258,6 +267,7 @@ export function createFrontierProgress(opts = {}) {
     out.securedCompanionRunIds = normalizeIdArray(raw.securedCompanionRunIds).slice(-20);
     out.ecology = normalizeFrontierEcologyState(raw.ecology);
     out.atlas = normalizeFrontierAtlasState(raw.atlas);
+    makeFrontierWorldSnapshot(out);
     if (out.bankedXp < 0) out.bankedXp = 0;
     if (out.unlockedMajorWaypointIds.length === 0 && initialWaypointId) out.unlockedMajorWaypointIds = [initialWaypointId];
     if (Array.isArray(raw.bankedRunIds)) {
@@ -1262,6 +1272,7 @@ export function createFrontierProgress(opts = {}) {
     load,
     save,
     getStorageStatus,
+    getWorldDescriptor: () => frontierWorldSnapshot,
     getFrontierEcologyState,
     getFrontierResourceRemaining,
     commitFrontierResourceState,

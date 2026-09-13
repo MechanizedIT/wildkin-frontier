@@ -4,12 +4,13 @@ import * as THREE from 'three';
 import { createFrontierChunkRuntime } from '../src/world/frontierChunkRuntime.js';
 import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from '../src/world/frontierTerrain.js';
 import { getSurfaceHeight } from '../src/world/terrainSurfaceModel.js';
+import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/frontierWorld.js';
 
-function fixture() {
+function fixture(world) {
   const calls = [];
   const physicsWorld = { updateTerrainSurfaces: batch => { calls.push(batch); } };
   const parent = new THREE.Group();
-  return { runtime: createFrontierChunkRuntime({ parent, physicsWorld }), calls, parent };
+  return { runtime: createFrontierChunkRuntime({ parent, physicsWorld, world }), calls, parent };
 }
 
 test('loads a bounded five-by-five frontier window while reserving Camp chunks', () => {
@@ -56,11 +57,32 @@ test('height query exactly delegates to the shared frontier sampler', () => {
   runtime.dispose();
 });
 
+test('runtime exposes one immutable descriptor and seeds terrain plus built-in foliage', () => {
+  const alternate = normalizeFrontierWorld({ edition: 1, seed: 0x13572468 });
+  const defaults = fixture(DEFAULT_FRONTIER_WORLD).runtime;
+  const repeat = fixture(DEFAULT_FRONTIER_WORLD).runtime;
+  const changed = fixture(alternate).runtime;
+  for (const runtime of [defaults, repeat, changed]) runtime.update({ x: 120, z: -175 }, { activeSectionId: 'camp' });
+  assert.strictEqual(defaults.getWorldDescriptor(), DEFAULT_FRONTIER_WORLD);
+  assert.deepEqual(changed.getWorldDescriptor(), alternate);
+  assert.equal(Object.isFrozen(changed.getWorldDescriptor()), true);
+  assert.equal(defaults.getHeight(112, -184), repeat.getHeight(112, -184));
+  assert.notEqual(defaults.getHeight(112, -184), changed.getHeight(112, -184));
+  const matrices = runtime => Array.from(runtime.root.getObjectByName('frontier_chunk_2,-4').getObjectByName('frontier_groundcover').instanceMatrix.array);
+  assert.deepEqual(matrices(defaults), matrices(repeat));
+  assert.notDeepEqual(matrices(defaults), matrices(changed));
+  for (const runtime of [defaults, repeat, changed]) runtime.dispose();
+});
+
 test('Camp query preserves the authored negative surface height', () => {
   const campSurface = { water: [{ x: 0, z: 0, rx: 20, rz: 20, depth: .7 }] };
   const runtime = createFrontierChunkRuntime({ parent: new THREE.Group(), campSurface });
   assert.equal(runtime.getHeight(0, 0), getSurfaceHeight(campSurface, 0, 0));
   assert.equal(runtime.getHeight(0, 0), -.7);
+  const alternate = createFrontierChunkRuntime({ parent: new THREE.Group(), campSurface,
+    world: normalizeFrontierWorld({ edition: 1, seed: 0x13572468 }) });
+  assert.equal(alternate.getHeight(0, 0), -.7);
+  alternate.dispose();
   runtime.dispose();
 });
 

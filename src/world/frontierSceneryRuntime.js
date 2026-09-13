@@ -1,5 +1,6 @@
 import { selectFrontierScenery, createFrontierGroundCoverFilter } from './frontierScenery.js';
 import { createFrontierSceneryVisual } from './frontierSceneryVisual.js';
+import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
 
 /** Scenery borrows terrain residency; it owns no loop, terrain height or save. */
 export function createFrontierSceneryRuntime({
@@ -7,6 +8,7 @@ export function createFrontierSceneryRuntime({
   onVisualAdded = () => {}, onVisualRemoving = () => {}, onGeometryChanged = () => {},
   createVisual = createFrontierSceneryVisual,
 } = {}) {
+  const world = terrainRuntime?.getWorldDescriptor?.() ?? DEFAULT_FRONTIER_WORLD;
   let lastResidency = null, visual = null, specs = [], disposed = false;
 
   function retireVisual() {
@@ -23,12 +25,12 @@ export function createFrontierSceneryRuntime({
     const residency = terrainRuntime?.getResidency?.();
     if (residency === lastResidency) return;
     const nextSpecs = residency?.center ? selectFrontierScenery(residency, {
-      visualAssets, getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample,
+      visualAssets, getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample, world,
     }) : [];
     // Construct before retiring the previous resident, so a construction error
     // leaves the old scene coherent and the same residency retryable.
     const next = nextSpecs.length ? createVisual({ specs: nextSpecs, visualAssets, getHeight: terrainRuntime.getHeight,
-      canPlaceGroundCover: createFrontierGroundCoverFilter({ getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample }),
+      canPlaceGroundCover: createFrontierGroundCoverFilter({ getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample, world }), world,
     }) : null;
     const remove = (visual?.terrainSurfaces ?? []).map(surface => surface.id);
     const add = next?.terrainSurfaces ?? [];

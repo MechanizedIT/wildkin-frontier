@@ -1,0 +1,98 @@
+[
+  {
+    "path": "src/main.js",
+    "sha256": "353c25a54d4294a08b97d3010890ecde902e90152e256bd1f9e1d69b0d42d0df"
+  },
+  {
+    "path": "src/save/frontierProgress.js",
+    "sha256": "d592d721b3e86bde5b79fc90ffafdc389dc59c84ba913db404e905fcb889fcf0"
+  },
+  {
+    "path": "src/world/frontierWorld.js",
+    "sha256": "d258dca20c469f952bdb7858fc7e8b8c596ee18ccdedb14d0103c8e753cb529c"
+  },
+  {
+    "path": "src/world/frontierTerrain.js",
+    "sha256": "cdf29929a1707aee31fd1dbc75f9800026cac3e796ec394e3635941dd01b539d"
+  },
+  {
+    "path": "src/world/frontierChunkRuntime.js",
+    "sha256": "dc5491e3723608389363404e6cfa8e16270830d99a6cb4b79d25b51b5d05daf2"
+  },
+  {
+    "path": "src/world/frontierEcology.js",
+    "sha256": "f20a203545a4a86369743ab7ef41bea24b42f4beb5afe3fa256f09a4a2254589"
+  },
+  {
+    "path": "src/world/frontierEcologyRuntime.js",
+    "sha256": "37a9b1878f276ac4d9a2bc06dc5fcee4410e1246c1b1892067606ac94637e583"
+  },
+  {
+    "path": "src/world/frontierEcologyState.js",
+    "sha256": "bcdcce7f80831c169b0cc1102a99223ee10bd0cdadc3f765e9b211d15cfdb906"
+  },
+  {
+    "path": "src/world/frontierAtlasState.js",
+    "sha256": "c53b9d78d30d15191b9b5c85d859dae5f9c298c400a2e31059e36d252a039fbf"
+  },
+  {
+    "path": "src/world/frontierWildlife.js",
+    "sha256": "12aa5fd1081254ed986c2419f6aa1bb2795b5109ab813e58fc103937e6aef1ab"
+  },
+  {
+    "path": "src/world/frontierWildlifeRuntime.js",
+    "sha256": "5f8cf34d9083e7c14eea2db29d17acbcf86bee0a08bff38e083d12dfcecd4753"
+  },
+  {
+    "path": "src/world/frontierScenery.js",
+    "sha256": "f09251dccfe6339237ff5ef7253b3a294c5bc222ee86d9ce322d00316536f45d"
+  },
+  {
+    "path": "src/world/frontierSceneryRuntime.js",
+    "sha256": "562ddf30a0bbfaa29c38014134ccaffab902e0b17d122246c6387627cdb46f7e"
+  },
+  {
+    "path": "src/world/frontierSceneryVisual.js",
+    "sha256": "187487a16457f64f0ba96bea87693373140f8f32b5c640682f49be90444b3926"
+  },
+  {
+    "path": "tests/frontierWorld.test.js",
+    "sha256": "c042a8dd2134ce87b6d826ebf846395778697bde88b7246d2e975c3e305c8ffe"
+  },
+  {
+    "path": "tests/frontierTerrain.test.js",
+    "sha256": "9cf6795a1f68290b8fcc956ba6bcb06bbb5ff53393b8fff3bb72e59cb5a2bdab"
+  },
+  {
+    "path": "tests/frontierChunkRuntime.test.js",
+    "sha256": "1db47d1b1cd0f6d7c9df785bc06e7f6b782859b0b32d415dbfc797429e6afd1a"
+  },
+  {
+    "path": "tests/frontierScenery.test.js",
+    "sha256": "38b83242ac0a4965ba0ecaf7b92d47685553b2fa91f357b3786cfa666f4e0913"
+  },
+  {
+    "path": "art/reviews/world-descriptor/reload-proof.json",
+    "sha256": "14fcf7c458db3ff5be0ee2875bf3a2ddba2cfc5a1a55a65d4c1d652b4d8192a9"
+  },
+  {
+    "path": "art/reviews/world-descriptor/package-proof.json",
+    "sha256": "a0a85dcf7181d1c548ab43075b98d3bc9cd58716a61db6a06deca6bc80f730c2"
+  },
+  {
+    "path": "art/reviews/world-descriptor/package-portrait.png",
+    "sha256": "446f6c964baeb56969edb6fb3d78f09c25b71014bd6c47966befd2a33e1256ef"
+  },
+  {
+    "path": "art/reviews/world-descriptor/receipt.md",
+    "sha256": "fb1bde554e90c3e40567e6ac1dbad7ee6efe1410b18436a36635338e277cc493"
+  },
+  {
+    "path": "dist/submission/index.html",
+    "sha256": "e07ef687a2bc7ce75dc830eb8d5ad90866c7be14612e1a32c05763428a83ef75"
+  },
+  {
+    "path": "dist/submission.zip",
+    "sha256": "8011c25621e3c82c8a913e32527a2d98a99d3488737871a290af8756e3c7458d"
+  }
+]

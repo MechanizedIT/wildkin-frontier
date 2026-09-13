@@ -7,10 +7,11 @@ Provisional implementation plan, September 12, 2026. Owner direction: procedural
 ```mermaid
 flowchart TD
   S[Saved world seed + generation edition] --> G[Broad ridges, valleys and basins]
-  G --> C[Moisture, temperature and exposure]
+  G --> H[Drainage basins and continuous river courses]
+  H --> C[Moisture, temperature and exposure]
   C --> B[Blended habitat profiles]
-  B --> T[Final terrain, slopes and local landforms]
-  T --> R[Reserve Camp, discoveries, creature homes and access]
+  B --> T[Final terrain, riverbeds, banks and local landforms]
+  T --> R[Reserve Camp, discoveries, creature homes and feasible access]
   R --> E[Resources and vegetation patches]
   R --> W[Wildkin populations and regional traits]
   T --> M[One ground sample for rendering, collision and atlas]
@@ -54,6 +55,18 @@ Reserve one simulation-clock owner driven by the existing game loop for eventual
 
 Retain the current explicit modules and composition-based data records: identity, appearance, movement, needs and habitat preferences can be independently owned inputs to the systems that use them. Mesh/physics objects wrap runtime resources with clear creation/disposal. This captures useful modularity without introducing an ECS framework or deep inheritance hierarchy now. The project currently has one loop and bounded populations; profile an actual entity-scale bottleneck before proposing an ECS migration. World shape and cave instances do not require that migration.
 
+Chris clarified that his ECS interest concerns modular buffs/debuffs, crops, Wildkin and crafting machines, rather than a particular library. Proposed composition boundaries and the existing owners are in `SIMULATION_PLAN.md`. This clarification does not authorize an ECS migration or change active-play-only growth.
+
+## Rivers and untamed travel
+
+Accepted owner steering: include a river generation pass; do not give the world a predictable web of prepared paths. Some areas should require the player to clear a way through. Reachability checks must not imply visible roads or a universal corridor clearance mask.
+
+Plan drainage at regional scale from broad basins/ridges before final detail and scatter. Give connected river segments stable identities and shared endpoints/elevations across chunk boundaries; resolve sinks as deliberate lakes/basins or a drainage outlet. Carve beds and banks, then derive wet habitat influence, crossings and vegetation from the same river description. Do not independently roll river direction per loaded chunk. A coarse drainage graph and bounded channel curves are a provisional starting approach, not a shipped hydrology or erosion simulation.
+
+Travel should alternate open terrain, difficult scrub, riverbanks, ridge passes, occasional local animal trails and dense clearable patches. Rivers can guide exploration but cliffs, waterfalls, marshes and gorges can interrupt easy travel along them. Important discoveries need plausible approaches through walking, climbing, jumping or clearing; optional shortcuts can remain hazardous. Preserve the welcoming Camp reserve, without extending its prepared access pattern across the frontier.
+
+Blocking vegetation must be actual harvestable/clearable objects using stable source identities, physics and saved depletion/removal. Cheap decorative grass remains nonblocking. Clearing should open real space that remains open on return; drawing thinner grass along an invisible route is not that mechanic. Choose reusable thicket/log pieces and tool requirements when this playable slice starts.
+
 ## Habitat maps are mixtures
 
 Generate broad moisture and temperature fields, influenced by macro elevation and exposure. Blend a small set of habitat profiles continuously. Those profiles can influence smaller terrain forms, ground palette, plant families and spawn suitability. Recompute final slope/access after all terrain shaping. This avoids circular logic where final height and biome repeatedly change one another.
@@ -68,7 +81,7 @@ These are candidate recipes, not implemented new biomes. Recombining density, pa
 
 ## Placement and life
 
-Choose landmark sites, important access corridors and animal homes before final decoration. Reject or adapt sites using final slope, water/bank distance when physical water exists, clearance and route difficulty. Resources and plants grow in coherent patches with open pockets. Decorative grass can fill roaming ground, while solid rocks and trunks respect wider clearances.
+Choose landmark sites, essential local approaches and animal homes before final decoration. Reject or adapt sites using final slope, water/bank distance when physical water exists, clearance and route difficulty. Do not reserve a global network of clear corridors. Resources and plants grow in coherent patches with open pockets and deliberately clearable obstacles. Decorative grass can fill roaming ground, while solid rocks and trunks respect local interaction and safety clearances.
 
 Wildkin habitat preferences decide suitable homes and population mixes. Their regional recipe can then influence expressed traits without rerolling the same individual on every visit. Group movement, feeding, resting, predator pressure and ambient motion are later bounded behavior slices; current denser grass does not establish an ecosystem simulation.
 
@@ -86,12 +99,12 @@ Water needs its own shared level, shoreline, safe-bank, swimming and spawn rules
 
 | Already in the project | Still to implement |
 | --- | --- |
-| Global height sampler, 50m streamed chunks, shared edges/collision, authored Camp reserve | One saved seed passed into every generation layer |
+| Global height sampler, 50m streamed chunks, shared edges/collision, authored Camp reserve; one immutable descriptor injected through all current generation layers | More terrain families, climate and drainage layers using that descriptor |
 | Two blended habitat influences and a staged rolling transition/terrace | Broader climate fields and several distinct regional terrain profiles |
 | Bounded forage/scenery/wildlife, stable captured individuals, personal atlas | Discovery reservations, richer populations, regional trait distributions |
 | One fixed deterministic world edition | Safe alternate-world creation, generation namespaces, distant terrain and rebasing |
 
-Next bounded slice: wire the existing descriptor through all samplers and runtime owners while retaining the current default result. Prove same-seed reproduction, cross-chunk continuity and independent random streams with alternate test seeds. Do not offer a seed selector until atlas, resource depletion and captured-source identities are scoped to that world.
+Descriptor injection is integrated: progress exposes one immutable identity from its strictly validated atlas/ecology metadata before runtime construction. Terrain, built-in grass, forage, wildlife, scenery and scenery grass use that identity with separate domains. Default output remains exact. Alternate descriptors are supported in isolated generator tests; saved alternate worlds are deliberately still rejected. Before exposing a seed selector, add top-level save authority and namespace atlas/resource/source IDs, then validate owned, captured, pending-run and breeding provenance at every transaction/import boundary. Runtime world identity stays immutable until page reconstruction; no live seed swap.
 
 Then produce a small visual generator inspector showing elevation, moisture, habitat mixture, slope and placements for the same area. Use it to build one compelling sequence of connected regions before expanding the palette. Root owns integration and generation order; separate workers can own pure fields, an inspector or habitat/content recipes with explicit file ownership.
 

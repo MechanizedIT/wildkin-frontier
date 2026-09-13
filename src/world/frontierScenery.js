@@ -1,6 +1,7 @@
 import { FRONTIER_TERRAIN_CONFIG, isCampChunk, sampleFrontier } from './frontierTerrain.js';
 import { sampleFrontierForageChunk } from './frontierEcology.js';
 import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
+import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 
 export const FRONTIER_SCENERY_CONFIG = Object.freeze({
   maxNear: 18,
@@ -45,7 +46,8 @@ const STAGED = Object.freeze(new Map([
   ])],
 ]));
 
-function random(cx, cz, index, salt = 0) {
+function random(cx, cz, index, salt = 0, world = DEFAULT_FRONTIER_WORLD) {
+  salt += frontierDomainSeed(world, 'scenery');
   let value = Math.imul(cx | 0, 73856093) ^ Math.imul(cz | 0, 19349663) ^ Math.imul(index + salt, 83492791);
   value = Math.imul(value ^ (value >>> 16), 2246822519);
   return ((value ^ (value >>> 13)) >>> 0) / 4294967295;
@@ -71,7 +73,7 @@ function outsideCampApron(x, z) {
 }
 
 function terrainSample(x, z, options) {
-  return typeof options.getTerrainSample === 'function' ? options.getTerrainSample(x, z) : sampleFrontier(x, z, options.terrainOptions);
+  return typeof options.getTerrainSample === 'function' ? options.getTerrainSample(x, z) : sampleFrontier(x, z, { ...options.terrainOptions, world: options.world ?? DEFAULT_FRONTIER_WORLD });
 }
 
 function heightAt(x, z, options) {
@@ -87,10 +89,11 @@ function hasSafeGround(x, z, options) {
 }
 
 function exclusionsFor(cx, cz, options) {
-  const forage = sampleFrontierForageChunk(cx, cz, { getHeight: (x, z) => heightAt(x, z, options), terrainOptions: options.terrainOptions });
+  const world = options.world ?? DEFAULT_FRONTIER_WORLD;
+  const forage = sampleFrontierForageChunk(cx, cz, { getHeight: (x, z) => heightAt(x, z, options), terrainOptions: options.terrainOptions, world });
   const wildlife = [];
   for (let wz = cz - 1; wz <= cz + 1; wz++) for (let wx = cx - 1; wx <= cx + 1; wx++) {
-    wildlife.push(...sampleFrontierWildlifeChunk(wx, wz, { getTerrainSample: (x, z) => terrainSample(x, z, options), terrainOptions: options.terrainOptions }));
+    wildlife.push(...sampleFrontierWildlifeChunk(wx, wz, { getTerrainSample: (x, z) => terrainSample(x, z, options), terrainOptions: options.terrainOptions, world }));
   }
   return { forage, wildlife };
 }
@@ -131,19 +134,22 @@ function makeSpec(cx, cz, key, candidate, options) {
     assetId: candidate.assetId,
     x: candidate.x, y, z: candidate.z,
     scale: candidate.scale,
-    yaw: candidate.yaw ?? random(cx, cz, Math.round((candidate.x + candidate.z) * 10), 211) * Math.PI * 2,
+    yaw: candidate.yaw ?? random(cx, cz, Math.round((candidate.x + candidate.z) * 10), 211, options.world) * Math.PI * 2,
     kind: candidate.kind,
   });
 }
 
 export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
-  const size = FRONTIER_TERRAIN_CONFIG.chunkSize, exclusions = exclusionsFor(cx, cz, options), specs = [];
+  const world = options.world ?? DEFAULT_FRONTIER_WORLD;
+  const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
+  const sampleOptions = { ...options, world };
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize, exclusions = exclusionsFor(cx, cz, sampleOptions), specs = [];
   const accept = (key, candidate, curated = false) => {
     if (Math.floor(candidate.x / size) !== cx || Math.floor(candidate.z / size) !== cz) return;
     if (!curated && (candidate.x < cx * size + EDGE || candidate.x > (cx + 1) * size - EDGE || candidate.z < cz * size + EDGE || candidate.z > (cz + 1) * size - EDGE)) return;
-    if (!hasSafeGround(candidate.x, candidate.z, options) || !isClear(candidate.x, candidate.z, candidate, exclusions)) return;
-    specs.push(makeSpec(cx, cz, key, candidate, options));
+    if (!hasSafeGround(candidate.x, candidate.z, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions)) return;
+    specs.push(makeSpec(cx, cz, key, candidate, sampleOptions));
   };
   for (const candidate of STAGED.get(`${cx},${cz}`) ?? []) accept(`stage-${candidate.key}`, candidate, true);
 
@@ -152,16 +158,16 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   // later slots build its low habitat detail.
   for (let attempt = 0; attempt < 30 && specs.length < 6; attempt++) {
     const group = attempt % 3, slot = Math.floor(attempt / 3);
-    const centerX = cx * size + 10 + random(cx, cz, group, 31) * (size - 20);
-    const centerZ = cz * size + 10 + random(cx, cz, group, 53) * (size - 20);
-    const angle = random(cx, cz, attempt, 71) * Math.PI * 2, radius = slot ? 2.2 + random(cx, cz, attempt, 83) * 5.8 : 0;
+    const centerX = cx * size + 10 + roll(group, 31) * (size - 20);
+    const centerZ = cz * size + 10 + roll(group, 53) * (size - 20);
+    const angle = roll(attempt, 71) * Math.PI * 2, radius = slot ? 2.2 + roll(attempt, 83) * 5.8 : 0;
     const x = centerX + Math.cos(angle) * radius, z = centerZ + Math.sin(angle) * radius;
-    const sample = terrainSample(x, z, options), canopy = !specs.some(spec => spec.kind === 'canopy');
-    const canopyRoll = random(cx, cz, attempt, 97);
+    const sample = terrainSample(x, z, sampleOptions), canopy = !specs.some(spec => spec.kind === 'canopy');
+    const canopyRoll = roll(attempt, 97);
     const assetId = canopy
       ? (canopyRoll < .34 ? 'asset_verge_canopy' : canopyRoll < .67 ? 'asset_verge_canopy_tall' : 'asset_verge_canopy_spread')
-      : lowAsset(sample, random(cx, cz, attempt, 101), random(cx, cz, attempt, 107));
-    accept(`seed-${attempt}`, { x, z, assetId, kind: canopy ? 'canopy' : 'low', scale: canopy ? .72 + random(cx, cz, attempt, 113) * .34 : .76 + random(cx, cz, attempt, 127) * .3, yaw: random(cx, cz, attempt, 131) * Math.PI * 2 });
+      : lowAsset(sample, roll(attempt, 101), roll(attempt, 107));
+    accept(`seed-${attempt}`, { x, z, assetId, kind: canopy ? 'canopy' : 'low', scale: canopy ? .72 + roll(attempt, 113) * .34 : .76 + roll(attempt, 127) * .3, yaw: roll(attempt, 131) * Math.PI * 2 });
   }
   return specs;
 }

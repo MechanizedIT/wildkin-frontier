@@ -1,5 +1,7 @@
 # Wildkin Frontier code map
 
+- Shared generation identity: `src/world/frontierWorld.js` owns the immutable default descriptor and domain salts; `src/save/frontierProgress.js` exposes validated saved identity before `main.js` constructs terrain. `frontierChunkRuntime` and ecology/wildlife/scenery runtimes capture it once; all current samplers, ground-cover scatter and exclusion samples receive it. Focused contracts: `tests/frontierWorld.test.js`, `frontierTerrain.test.js`, `frontierChunkRuntime.test.js`, `frontierScenery.test.js`. `SIMULATION_PLAN.md` records component/process proposals; `WORLD_GENERATION_PLAN.md` records rivers, untamed travel, special surfaces and deferred alternate-save provenance.
+
 Use this lookup after [SESSION_START.md](SESSION_START.md). Paths below were checked against the September11 source tree. “Owner” means the module that owns the behavior/state, not permanent assignment to an agent. Search a function before reading a whole large file.
 
 ## Runtime owners and focused proof

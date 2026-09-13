@@ -1,5 +1,6 @@
 import { FRONTIER_TERRAIN_CONFIG, isCampChunk, sampleFrontier } from './frontierTerrain.js';
 import { makeFrontierResourceId } from './frontierEcologyState.js';
+import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 
 const EDGE = 3;
 const CAMP_CLEARANCE = 6;
@@ -11,10 +12,14 @@ const TERRACE_MINERAL_ASSET_BY_INDEX = Object.freeze({
   7: 'asset_iron_ore_rock',
 });
 
-function random(cx, cz, index, salt = 0) {
+function random(cx, cz, index, salt = 0, world = DEFAULT_FRONTIER_WORLD) {
+  salt += frontierDomainSeed(world, 'ecology');
   let value = Math.imul(cx | 0, 73856093) ^ Math.imul(cz | 0, 19349663) ^ Math.imul(index + salt, 83492791);
   value = Math.imul(value ^ (value >>> 16), 2246822519);
   return ((value ^ (value >>> 13)) >>> 0) / 4294967295;
+}
+function terrainSample(x, z, { terrainOptions, world = DEFAULT_FRONTIER_WORLD } = {}) {
+  return sampleFrontier(x, z, { ...terrainOptions, world });
 }
 function outsideCampApron(x, z) {
   const b = FRONTIER_TERRAIN_CONFIG.campBounds;
@@ -43,10 +48,11 @@ function typeFor(sample, roll, berry) {
 }
 
 /** Pure, per-chunk generated forage. Saved depletion is intentionally excluded. */
-export function sampleFrontierForageChunk(cx, cz, { getHeight, visualAssets, terrainOptions } = {}) {
+export function sampleFrontierForageChunk(cx, cz, { getHeight, visualAssets, terrainOptions, world = DEFAULT_FRONTIER_WORLD } = {}) {
   if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
-  const count = 6 + Math.floor(random(cx, cz, 0, 11) * 3);
+  const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
+  const count = 6 + Math.floor(roll(0, 11) * 3);
   const berry = harvestableBerry(visualAssets);
   const placements = [];
   for (let index = 0; index < 32 && placements.length < count; index++) {
@@ -58,26 +64,26 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, visualAssets, ter
     const approachCenters = cx < 0
       ? [[-5, (cz + 1) * size - 20], [-15, (cz + 1) * size - 26], [-7, (cz + 1) * size - 33]]
       : [[5, (cz + 1) * size - 20], [15, (cz + 1) * size - 26], [7, (cz + 1) * size - 33]];
-    const centerX = northApproach ? approachCenters[group % approachCenters.length][0] : cx * size + EDGE + random(cx, cz, group, 31) * (size - EDGE * 2);
-    const centerZ = northApproach ? approachCenters[group % approachCenters.length][1] : cz * size + EDGE + random(cx, cz, group, 53) * (size - EDGE * 2);
+    const centerX = northApproach ? approachCenters[group % approachCenters.length][0] : cx * size + EDGE + roll(group, 31) * (size - EDGE * 2);
+    const centerZ = northApproach ? approachCenters[group % approachCenters.length][1] : cz * size + EDGE + roll(group, 53) * (size - EDGE * 2);
     const slot = index % 3;
-    const angle = slot * Math.PI * 2 / 3 + random(cx, cz, group, 137) * .35;
-    const radius = 1.75 + random(cx, cz, index, 151) * .35;
+    const angle = slot * Math.PI * 2 / 3 + roll(group, 137) * .35;
+    const radius = 1.75 + roll(index, 151) * .35;
     const x = centerX + Math.cos(angle) * radius;
     const z = centerZ + Math.sin(angle) * radius;
     if (x < cx * size + EDGE || x > (cx + 1) * size - EDGE || z < cz * size + EDGE || z > (cz + 1) * size - EDGE) continue;
     if (!outsideCampApron(x, z)) continue;
-    const height = typeof getHeight === 'function' ? getHeight(x, z) : sampleFrontier(x, z, terrainOptions).height;
-    const dx = (typeof getHeight === 'function' ? getHeight(x + SLOPE_SAMPLE, z) - getHeight(x - SLOPE_SAMPLE, z) : sampleFrontier(x + SLOPE_SAMPLE, z, terrainOptions).height - sampleFrontier(x - SLOPE_SAMPLE, z, terrainOptions).height) / (SLOPE_SAMPLE * 2);
-    const dz = (typeof getHeight === 'function' ? getHeight(x, z + SLOPE_SAMPLE) - getHeight(x, z - SLOPE_SAMPLE) : sampleFrontier(x, z + SLOPE_SAMPLE, terrainOptions).height - sampleFrontier(x, z - SLOPE_SAMPLE, terrainOptions).height) / (SLOPE_SAMPLE * 2);
+    const height = typeof getHeight === 'function' ? getHeight(x, z) : terrainSample(x, z, { terrainOptions, world }).height;
+    const dx = (typeof getHeight === 'function' ? getHeight(x + SLOPE_SAMPLE, z) - getHeight(x - SLOPE_SAMPLE, z) : terrainSample(x + SLOPE_SAMPLE, z, { terrainOptions, world }).height - terrainSample(x - SLOPE_SAMPLE, z, { terrainOptions, world }).height) / (SLOPE_SAMPLE * 2);
+    const dz = (typeof getHeight === 'function' ? getHeight(x, z + SLOPE_SAMPLE) - getHeight(x, z - SLOPE_SAMPLE) : terrainSample(x, z + SLOPE_SAMPLE, { terrainOptions, world }).height - terrainSample(x, z - SLOPE_SAMPLE, { terrainOptions, world }).height) / (SLOPE_SAMPLE * 2);
     if (!Number.isFinite(height) || Math.hypot(dx, dz) > MAX_SLOPE) continue;
     const stagedBerry = northApproach && group === 0 && slot === 0 && berry;
-    const baseKind = stagedBerry ? { type: 'fiber', visualAsset: berry } : typeFor(sampleFrontier(x, z, terrainOptions), random(cx, cz, index, 79), berry);
+    const baseKind = stagedBerry ? { type: 'fiber', visualAsset: berry } : typeFor(terrainSample(x, z, { terrainOptions, world }), roll(index, 79), berry);
     const kind = terraceMineral(cx, cz, index, baseKind, visualAssets);
-    const uniformScale = kind.type === 'tree' ? .72 + random(cx, cz, index, 107) * .08
-      : kind.type === 'fiber' ? 1.08 + random(cx, cz, index, 107) * .14
-        : .9 + random(cx, cz, index, 107) * .14;
-    placements.push({ ...kind, id: makeFrontierResourceId(cx, cz, index), chunkId: `${cx},${cz}`, placementIndex: index, regionId: 'camp', persistentFinite: true, pos: { x, y: height, z }, rotY: random(cx, cz, index, 97) * Math.PI * 2, uniformScale, tint: kind.type === 'fiber' && !kind.visualAsset ? '#8eb65a' : undefined });
+    const uniformScale = kind.type === 'tree' ? .72 + roll(index, 107) * .08
+      : kind.type === 'fiber' ? 1.08 + roll(index, 107) * .14
+        : .9 + roll(index, 107) * .14;
+    placements.push({ ...kind, id: makeFrontierResourceId(cx, cz, index), chunkId: `${cx},${cz}`, placementIndex: index, regionId: 'camp', persistentFinite: true, pos: { x, y: height, z }, rotY: roll(index, 97) * Math.PI * 2, uniformScale, tint: kind.type === 'fiber' && !kind.visualAsset ? '#8eb65a' : undefined });
   }
   return placements;
 }

@@ -146,12 +146,18 @@ window.addEventListener("orientationchange", () => {
   setTimeout(resize, 200);
 });
 
+// Load the saved generation identity before any frontier sampling or residency.
+const resourceDrops = worldRegistry.data.resourceDrops;
+const frontierProgress = createFrontierProgress({ worldRegistry, isAuthorMode: authorEnabled, resourceDrops });
+frontierProgress.load();
+
 const physicsWorld = createPhysicsWorld(RAPIER, playground);
 const frontierChunks = createFrontierChunkRuntime({
   parent: playground.group,
   physicsWorld,
   campSurface: worldRegistry.getSectionById('camp')?.surface,
   visualAssets: worldRegistry.data.visualAssets,
+  world: frontierProgress.getWorldDescriptor(),
 });
 playground.setTerrainHeightProvider('camp', frontierChunks.getHeight);
 function resolveSpawnCapsuleCenter(feetY){
@@ -164,10 +170,6 @@ const campStartFacing = campSpawn.facingYaw ?? 0;
 const characterPhysics = createCharacterPhysics(RAPIER, physicsWorld.world, startPos);
 const playerProjectedShadow = createPlayerProjectedShadow({ scene, player, characterPhysics, physicsWorld, playground });
 
-// Persistent frontier progress (isolated from author draft)
-const resourceDrops = worldRegistry.data.resourceDrops;
-const frontierProgress = createFrontierProgress({ worldRegistry, isAuthorMode: authorEnabled, resourceDrops });
-frontierProgress.load();
 if (!validateMatterAttractorCost(resourceDrops, MATTER_ATTRACTOR_I.cost)) {
   throw new Error("Matter Attractor I cost references an invalid resource catalog entry");
 }

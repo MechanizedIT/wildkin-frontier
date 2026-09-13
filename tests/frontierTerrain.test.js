@@ -7,6 +7,7 @@ import RAPIER from '@dimforge/rapier3d-compat';
 import { createPhysicsWorld } from '../src/physics/createPhysicsWorld.js';
 import { createCharacterPhysics } from '../src/physics/createCharacterPhysics.js';
 import { sampleFrontierLandform } from '../src/world/frontierLandform.js';
+import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/frontierWorld.js';
 
 await RAPIER.init();
 
@@ -50,6 +51,29 @@ test('positive and negative chunk seams share coherent heights, normals, and col
   assertEastWestSeam([-1, -2], [0, -2]);
   assertNorthSouthSeam([2, 1], [2, 2]);
   assertNorthSouthSeam([-3, -4], [-3, -3]);
+});
+
+test('world descriptors preserve the default terrain and alternate seeds stay seamless', () => {
+  const points = [[-125, 24], [87.5, -73], [-1, -92], [13, -89], [24, -128]];
+  for (const [x, z] of points) assert.deepEqual(sampleFrontier(x, z, { world: DEFAULT_FRONTIER_WORLD }), sampleFrontier(x, z));
+  const legacy = createFrontierChunk(2, -4);
+  const described = createFrontierChunk(2, -4, { world: DEFAULT_FRONTIER_WORLD });
+  assert.deepEqual(described.vertices, legacy.vertices);
+  assert.deepEqual(described.normals, legacy.normals);
+  assert.deepEqual(described.colors, legacy.colors);
+
+  const alternate = normalizeFrontierWorld({ edition: 1, seed: 0x13572468 });
+  const west = createFrontierChunk(-1, 3, { world: alternate });
+  const east = createFrontierChunk(0, 3, { world: alternate });
+  const stride = config.segments + 1;
+  for (let iz = 0; iz <= config.segments; iz += 1) {
+    const a = (iz * stride + config.segments) * 3, b = iz * stride * 3;
+    assert.equal(west.vertices[a + 1], east.vertices[b + 1]);
+    assert.deepEqual(Array.from(west.normals.slice(a, a + 3)), Array.from(east.normals.slice(b, b + 3)));
+    assert.deepEqual(Array.from(west.colors.slice(a, a + 3)), Array.from(east.colors.slice(b, b + 3)));
+  }
+  assert.notDeepEqual(alternate, DEFAULT_FRONTIER_WORLD);
+  assert.notDeepEqual(Array.from(west.vertices), Array.from(createFrontierChunk(-1, 3).vertices));
 });
 
 test('camp boundary honors callback and blends smoothly outside the footprint', () => {
