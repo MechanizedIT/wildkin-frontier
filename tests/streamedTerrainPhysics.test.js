@@ -78,3 +78,75 @@ test('duplicate streamed ids are ignored without creating duplicate colliders', 
   assert.ok(downRay(physics, 0, 0));
   assert.equal(downRay(physics, 20, 0), null);
 });
+
+test('failed incoming collider allocation preserves old support and all public indexes, then retries', t => {
+  const physics = fixture(); t.after(() => physics.world.free());
+  const oldSurface = { ...surface('old'), traversalSurface: 'terrain' };
+  physics.updateTerrainSurfaces({ add: [oldSurface] });
+  physics.setActiveSection('camp');
+  const published = [...physics.staticColliders];
+  const old = published.find(collider => physics.getColliderSurfaceId(collider) === 'old');
+  const create = physics.world.createCollider.bind(physics.world);
+  let allocations = 0, stagedEnabled, indexesDuringPreparation;
+  physics.world.createCollider = desc => {
+    if (++allocations === 2) throw new Error('incoming allocation fixture');
+    const staged = create(desc);
+    stagedEnabled = staged.isEnabled();
+    indexesDuringPreparation = [...physics.staticColliders];
+    return staged;
+  };
+  const batch = { remove: ['old'], add: [surface('first', 'camp', { x: 5, z: 0 }), surface('second', 'camp', { x: 10, z: 0 })] };
+  assert.throws(() => physics.updateTerrainSurfaces(batch), /incoming allocation fixture/);
+  physics.world.createCollider = create;
+  assert.equal(stagedEnabled, false, 'prepared support is not query-active');
+  assert.deepEqual(indexesDuringPreparation, published, 'staged shapes have no published indexes');
+  assert.deepEqual(physics.staticColliders, published);
+  assert.equal(physics.cameraColliders.has(old), true);
+  assert.equal(physics.isTraversalColliderActive(old), true);
+  assert.equal(physics.getColliderSurfaceId(old), 'old');
+  assert.ok(downRay(physics, 0, 0), 'old broadphase support survives without another step');
+  assert.equal(downRay(physics, 5, 0), null);
+  let count = 0; physics.world.forEachCollider(() => count++);
+  assert.equal(count, published.length, 'failed staging left no orphan Rapier collider');
+  assert.deepEqual(physics.updateTerrainSurfaces(batch), { added: 2, removed: 1, ignored: 0, active: 2 });
+  assert.equal(downRay(physics, 0, 0), null);
+  assert.ok(downRay(physics, 5, 0)); assert.ok(downRay(physics, 10, 0));
+});
+
+test('terrain, rock scenery and discovery surfaces publish together with one broadphase refresh', t => {
+  const physics = fixture(); t.after(() => physics.world.free());
+  const authoredCount = physics.staticColliders.length;
+  physics.setActiveSection('camp');
+  let steps = 0; const step = physics.world.step.bind(physics.world);
+  physics.world.step = () => { steps++; return step(); };
+  const types = ['terrain', 'rock', 'scenery'];
+  const sources = types.map((type, i) => ({ ...surface(type, 'camp', { x: i * 5, z: 0 }), traversalSurface: type }));
+  physics.updateTerrainSurfaces({ add: sources });
+  assert.equal(steps, 1);
+  for (let i = 0; i < sources.length; i++) {
+    assert.ok(downRay(physics, i * 5, 0));
+    const collider = physics.staticColliders.find(c => physics.getColliderSurfaceId(c) === types[i]);
+    assert.equal(physics.cameraColliders.has(collider), true);
+    assert.equal(physics.isTraversalColliderActive(collider), i < 2);
+  }
+  physics.updateTerrainSurfaces({ add: sources, remove: ['terrain', 'rock', 'scenery'] });
+  assert.equal(steps, 2, 'replacement refreshes once after all additions and removals');
+  assert.equal(physics.staticColliders.length, authoredCount + 3);
+  assert.ok(downRay(physics, 10, 0));
+});
+
+test('same-id replacement preserves explicit disablement and active-section filtering', t => {
+  const physics = fixture(); t.after(() => physics.world.free());
+  physics.setActiveSection('camp');
+  physics.updateTerrainSurfaces({ add: [surface('disabled'), surface('other', 'field', { x: 10, z: 0 })] });
+  physics.setStaticObjectEnabled('disabled', false);
+  physics.updateTerrainSurfaces({ remove: ['disabled'], add: [surface('disabled', 'camp', { x: 5, z: 0 })] });
+  assert.equal(downRay(physics, 0, 0), null);
+  assert.equal(downRay(physics, 5, 0), null);
+  assert.equal(downRay(physics, 10, 0), null);
+  physics.setStaticObjectEnabled('disabled', true);
+  assert.ok(downRay(physics, 5, 0));
+  physics.setActiveSection('field');
+  assert.equal(downRay(physics, 5, 0), null);
+  assert.ok(downRay(physics, 10, 0));
+});

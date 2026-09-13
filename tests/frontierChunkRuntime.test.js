@@ -60,11 +60,137 @@ test('loads incoming support before retiring a shifted window and ignores edge w
   runtime.dispose();
 });
 
+test('authoritative movement prepares one detached axis chunk per call and reuses all five at crossing', () => {
+  const { runtime, calls } = fixture();
+  runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp' });
+  for (const x of [147, 148, 149, 150, 151]) runtime.update({ x, z: 120 }, { activeSectionId: 'camp', prepare: true });
+  const before = runtime.getDebugState();
+  assert.equal(before.preparedCount, 5);
+  assert.equal(calls.length, 1, 'detached preparation creates no active collider');
+  assert.equal(runtime.root.children.length, before.residentCount, 'detached preparation creates no published root');
+  runtime.update({ x: 159, z: 120 }, { activeSectionId: 'camp', prepare: true });
+  const addedChunkIds = calls[1].add.filter(surface => surface.vertices && !String(surface.id).includes(':')).map(surface => surface.id);
+  assert.deepEqual(new Set(addedChunkIds), new Set(before.preparedIds));
+  assert.equal(runtime.getDebugState().preparedCount, 0);
+  assert.ok(runtime.getDebugState().residentCount <= 25);
+  runtime.dispose();
+});
+
+test('diagonal anticipation is bounded to nine detached chunks and stationary cancellation releases them', () => {
+  const { runtime, calls } = fixture();
+  runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp' });
+  for (let value = 146; value <= 155; value++) runtime.update({ x: value, z: value }, { activeSectionId: 'camp', prepare: true });
+  assert.equal(runtime.getDebugState().preparedCount, 9);
+  assert.equal(calls.length, 1);
+  runtime.update({ x: 155, z: 155 }, { activeSectionId: 'camp', prepare: true });
+  assert.equal(runtime.getDebugState().preparedCount, 0, 'stationary motion cancels detached anticipation');
+  for (let value = 146; value <= 155; value++) runtime.update({ x: value, z: value }, { activeSectionId: 'camp', prepare: true });
+  const preparedIds = runtime.getDebugState().preparedIds;
+  assert.equal(preparedIds.length, 9);
+  runtime.update({ x: 159, z: 159 }, { activeSectionId: 'camp', prepare: true });
+  const addedChunkIds = calls[1].add.filter(surface => surface.vertices && !String(surface.id).includes(':')).map(surface => surface.id);
+  assert.deepEqual(new Set(addedChunkIds), new Set(preparedIds));
+  assert.ok(runtime.getDebugState().residentCount <= 25);
+  runtime.dispose();
+});
+
+test('failed complete-window physics keeps the published residency and retries without leaked preparation', () => {
+  const calls = [];
+  let fail = false;
+  const physicsWorld = { updateTerrainSurfaces(batch) { calls.push(batch); if (fail) throw new Error('physics-fixture'); } };
+  const runtime = createFrontierChunkRuntime({ parent: new THREE.Group(), physicsWorld });
+  runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp' });
+  for (const x of [147, 148, 149, 150, 151]) runtime.update({ x, z: 120 }, { activeSectionId: 'camp', prepare: true });
+  const snapshot = runtime.getResidency(), groups = [...runtime.root.children], state = runtime.getDebugState();
+  fail = true;
+  assert.throws(() => runtime.update({ x: 159, z: 120 }, { activeSectionId: 'camp', prepare: true }), /physics-fixture/);
+  assert.strictEqual(runtime.getResidency(), snapshot);
+  assert.deepEqual(runtime.root.children, groups);
+  assert.deepEqual(runtime.getDebugState().center, state.center);
+  assert.deepEqual(runtime.getDebugState().residentIds, state.residentIds);
+  assert.equal(runtime.getDebugState().preparedCount, 0);
+  fail = false;
+  runtime.update({ x: 159, z: 120 }, { activeSectionId: 'camp', prepare: true });
+  assert.deepEqual(runtime.getDebugState().center, { cx: 3, cz: 2 });
+  assert.notStrictEqual(runtime.getResidency(), snapshot);
+  assert.ok(runtime.getDebugState().residentCount <= 25);
+  runtime.dispose();
+});
+
+test('partial incoming geometry construction disposes every candidate and preserves the published window for retry', () => {
+  const { runtime, calls } = fixture();
+  runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp' });
+  const snapshot = runtime.getResidency(), groups = [...runtime.root.children], state = runtime.getDebugState();
+  const originalSetIndex = THREE.BufferGeometry.prototype.setIndex;
+  const originalDispose = THREE.BufferGeometry.prototype.dispose;
+  const incoming = new Set();
+  let incomingCount = 0, disposedIncoming = 0;
+  THREE.BufferGeometry.prototype.setIndex = function(index) {
+    if (!incoming.has(this) && (this.getAttribute('position')?.count ?? 0) > 600) {
+      incoming.add(this);
+      incomingCount++;
+      if (incomingCount === 3) throw new Error('geometry-fixture');
+    }
+    return originalSetIndex.call(this, index);
+  };
+  THREE.BufferGeometry.prototype.dispose = function() {
+    if (incoming.has(this)) disposedIncoming++;
+    return originalDispose.call(this);
+  };
+  try {
+    assert.throws(() => runtime.update({ x: 159, z: 120 }, { activeSectionId: 'camp' }), /geometry-fixture/);
+  } finally {
+    THREE.BufferGeometry.prototype.setIndex = originalSetIndex;
+    THREE.BufferGeometry.prototype.dispose = originalDispose;
+  }
+  assert.equal(incomingCount, 3);
+  assert.equal(disposedIncoming, 3, 'the failed chunk and both earlier candidates release their owned geometry');
+  assert.equal(calls.length, 1, 'an incomplete wanted set never reaches physics');
+  assert.strictEqual(runtime.getResidency(), snapshot);
+  assert.deepEqual(runtime.root.children, groups);
+  assert.deepEqual(runtime.getDebugState().center, state.center);
+  assert.deepEqual(runtime.getDebugState().residentIds, state.residentIds);
+  runtime.update({ x: 159, z: 120 }, { activeSectionId: 'camp' });
+  assert.deepEqual(runtime.getDebugState().center, { cx: 3, cz: 2 });
+  assert.equal(calls.length, 2);
+  runtime.dispose();
+});
+
+test('negative-edge preparation clears on reversal and reuses five detached chunks on westward crossing', () => {
+  const { runtime, calls } = fixture();
+  runtime.update({ x: 120, z: 170 }, { activeSectionId: 'camp' });
+  for (const x of [103, 102, 101, 100, 99]) runtime.update({ x, z: 170 }, { activeSectionId: 'camp', prepare: true });
+  assert.equal(runtime.getDebugState().preparedCount, 5);
+  const originalDispose = THREE.BufferGeometry.prototype.dispose;
+  let disposals = 0;
+  THREE.BufferGeometry.prototype.dispose = function() { disposals++; return originalDispose.call(this); };
+  try {
+    runtime.update({ x: 100, z: 170 }, { activeSectionId: 'camp', prepare: true });
+  } finally {
+    THREE.BufferGeometry.prototype.dispose = originalDispose;
+  }
+  assert.equal(runtime.getDebugState().preparedCount, 0);
+  assert.equal(disposals, 5, 'reversing away from the edge releases all detached chunk geometries');
+  for (const x of [103, 102, 101, 100, 99, 98]) runtime.update({ x, z: 170 }, { activeSectionId: 'camp', prepare: true });
+  const preparedIds = runtime.getDebugState().preparedIds;
+  assert.equal(preparedIds.length, 5);
+  assert.equal(calls.length, 1, 'negative-edge preparation remains detached from physics');
+  runtime.update({ x: 91, z: 170 }, { activeSectionId: 'camp', prepare: true });
+  const addedChunkIds = calls[1].add.filter(surface => surface.vertices && !String(surface.id).includes(':')).map(surface => surface.id);
+  assert.deepEqual(new Set(addedChunkIds), new Set(preparedIds));
+  assert.deepEqual(runtime.getDebugState().center, { cx: 1, cz: 3 });
+  assert.ok(runtime.getDebugState().residentCount <= 25);
+  runtime.dispose();
+});
+
 test('inactive and Author states retire residents in one batch and hide the root', () => {
   const { runtime, calls } = fixture();
   runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp' });
+  runtime.update({ x: 147, z: 120 }, { activeSectionId: 'camp', prepare: true });
+  assert.equal(runtime.getDebugState().preparedCount, 1);
   runtime.update({ x: 120, z: 120 }, { activeSectionId: 'field' });
   assert.equal(runtime.getDebugState().residentCount, 0);
+  assert.equal(runtime.getDebugState().preparedCount, 0);
   assert.equal(runtime.root.visible, false);
   assert.equal(calls[1].remove.length, 24);
   runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp', authorMode: true });
@@ -111,8 +237,11 @@ test('Camp query preserves the authored negative surface height', () => {
 test('disposal releases residents, root and shared visual resources once', () => {
   const { runtime, calls, parent } = fixture();
   runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp' });
+  runtime.update({ x: 147, z: 120 }, { activeSectionId: 'camp', prepare: true });
+  assert.equal(runtime.getDebugState().preparedCount, 1);
   runtime.dispose(); runtime.dispose();
   assert.equal(runtime.getDebugState().residentCount, 0);
+  assert.equal(runtime.getDebugState().preparedCount, 0);
   assert.equal(parent.children.includes(runtime.root), false);
   assert.equal(calls.filter(call => call.remove?.length).length, 1);
 });

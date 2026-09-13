@@ -1,4 +1,4 @@
-import { createFrontierSceneryBuild } from './frontierScenery.js';
+import { createFrontierSceneryBuild, createFrontierSceneryRecipeCache } from './frontierScenery.js';
 import { createFrontierSceneryVisual } from './frontierSceneryVisual.js';
 import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
 
@@ -9,6 +9,7 @@ export function createFrontierSceneryRuntime({
   createVisual = createFrontierSceneryVisual,
 } = {}) {
   const world = terrainRuntime?.getWorldDescriptor?.() ?? DEFAULT_FRONTIER_WORLD;
+  const recipeCache = createFrontierSceneryRecipeCache();
   let lastResidency = null, visual = null, specs = [], disposed = false;
 
   function retireVisual() {
@@ -26,13 +27,19 @@ export function createFrontierSceneryRuntime({
     if (residency === lastResidency) return;
     const build = residency?.center ? createFrontierSceneryBuild(residency, {
       visualAssets, getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample, world,
-    }) : null;
+    }, recipeCache) : null;
+    if (!build) recipeCache.clear();
     const nextSpecs = build?.specs ?? [];
     // Construct before retiring the previous resident, so a construction error
     // leaves the old scene coherent and the same residency retryable.
-    const next = nextSpecs.length ? createVisual({ specs: nextSpecs, visualAssets, getHeight: terrainRuntime.getHeight,
-      canPlaceGroundCover: build.canPlaceGroundCover, world,
-    }) : null;
+    let next = null;
+    try {
+      next = nextSpecs.length ? createVisual({ specs: nextSpecs, visualAssets, getHeight: build.getHeight,
+        canPlaceGroundCover: build.canPlaceGroundCover, world,
+      }) : null;
+    } finally {
+      build?.releaseTerrainMemo();
+    }
     const remove = (visual?.terrainSurfaces ?? []).map(surface => surface.id);
     const add = next?.terrainSurfaces ?? [];
     try {
@@ -61,6 +68,7 @@ export function createFrontierSceneryRuntime({
       residentIds: specs.map(spec => spec.id),
       canopyCount: specs.filter(spec => spec.kind === 'canopy').length,
       colliderCount: visual?.terrainSurfaces?.length ?? 0,
+      clearanceRecipeCache: recipeCache.getDebugState(),
       ...(visual?.stats ?? {}),
     };
   }
@@ -70,7 +78,7 @@ export function createFrontierSceneryRuntime({
     const remove = (visual?.terrainSurfaces ?? []).map(surface => surface.id);
     if (remove.length) physicsWorld?.updateTerrainSurfaces({ remove });
     retireVisual();
-    specs = []; lastResidency = null; disposed = true;
+    specs = []; lastResidency = null; recipeCache.clear(); disposed = true;
     onGeometryChanged();
   }
   return { update, getDebugState, dispose };

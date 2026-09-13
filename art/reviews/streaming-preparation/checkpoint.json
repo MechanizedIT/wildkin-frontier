@@ -1,0 +1,170 @@
+{
+  "date": "2026-09-13",
+  "baselineCommit": "0f3f2405f482b04f09dd8d6b1361f4cbede59f57",
+  "scope": "Bounded detached terrain preparation, disabled collider allocation staging, retained scenery recipes and ephemeral exact point reuse.",
+  "validation": {
+    "tests": 1218,
+    "failed": 0,
+    "verify": "PASS: tests, world, retained campaign, build, submission validation",
+    "zip": "PASS",
+    "unpackedMiB": 44.19,
+    "zipMiB": 20.55,
+    "developer": "135m ordinary route and literal supported reload",
+    "portable": "existing save import, literal reload, Empty action and ordinary6m target walk",
+    "phone": "not tested"
+  },
+  "limits": [
+    "Incoming collider allocation failure is the tested safety boundary; engine removal/enable/step rollback is not claimed.",
+    "Scenery/ecology remain synchronous and above a frame budget.",
+    "One quiet desktop412x915 timing run per candidate; peak CPU is not frame time or phone FPS.",
+    "Existing discovery7/10 and province5.5/10 visual HOLD results remain unchanged.",
+    "This is local work after the earlier delivered GitHub/Drive checkpoint."
+  ],
+  "hashes": [
+    {
+      "path": "src/main.js",
+      "bytes": 70073,
+      "sha256": "97bcc5bb937af0cfbd7bab5e222dffefb2d196e57cbe9da5f5056ceebf0c2e70"
+    },
+    {
+      "path": "src/physics/createPhysicsWorld.js",
+      "bytes": 12418,
+      "sha256": "c3193eee33ff62ace0ad5d2b08d29da6beaaa49316fde9da49c6d71c535f9cbc"
+    },
+    {
+      "path": "src/world/frontierChunkRuntime.js",
+      "bytes": 16997,
+      "sha256": "210f5f926475b4516cd2da21acc971ac9f69891dbc4abf79087fd4cf41e7e126"
+    },
+    {
+      "path": "src/world/frontierScenery.js",
+      "bytes": 26825,
+      "sha256": "241902648e61e62efb6cdfa5d7351b763a58baa4f24cca65d3cec8add9b31270"
+    },
+    {
+      "path": "src/world/frontierSceneryRuntime.js",
+      "bytes": 3423,
+      "sha256": "514aebda6ee840b7d4047bcfa210d6556cf01b216fe528d22c51578c537a608a"
+    },
+    {
+      "path": "tests/frontierChunkRuntime.test.js",
+      "bytes": 15941,
+      "sha256": "bbe1d3938302b0e950e1854f5013b11d14127317aad1b45e329026df8b92f5b6"
+    },
+    {
+      "path": "tests/frontierScenery.test.js",
+      "bytes": 23238,
+      "sha256": "cb2eb0ff55c4dff731988368a5f4e3a55fa573c310edb4b9690324ee468d3ef0"
+    },
+    {
+      "path": "tests/frontierSceneryRuntime.test.js",
+      "bytes": 7556,
+      "sha256": "9976a28e78763c23ee7505a4175791df13b49b93d64fe27819e98e2c8fa1bd5e"
+    },
+    {
+      "path": "tests/streamedTerrainPhysics.test.js",
+      "bytes": 7761,
+      "sha256": "c9c58d77f6d4f8cb1e588cf02c322ad2c2ed5b9965e26da63c54326ea4526b79"
+    },
+    {
+      "path": "README.md",
+      "bytes": 8007,
+      "sha256": "f187a433625d8e14ee851318dc1f265737589688d0b434622802e2ccbd1ad4f5"
+    },
+    {
+      "path": "docs/CURRENT_SLICE.md",
+      "bytes": 54525,
+      "sha256": "0b7d0efec3ac8a9f6fdc713409ec8aa44b2d4bc2b79826a38c531a49acb90290"
+    },
+    {
+      "path": "docs/SESSION_START.md",
+      "bytes": 8552,
+      "sha256": "58aef71f620a69cd178bcffb8ee195c9c0f6ccfaf637548116b35423862c241c"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "bytes": 93799,
+      "sha256": "54ddafd601bc0fe0ab1009d85c06db0f62276cbfa04ce6bfa7a90dbeb53ab853"
+    },
+    {
+      "path": "docs/CODE_MAP.md",
+      "bytes": 30304,
+      "sha256": "15332f622e77754d64f65bdc601e69f7deab1e4ea7f2244cba3d1735f7d466bd"
+    },
+    {
+      "path": "docs/WORLD_GENERATION_PLAN.md",
+      "bytes": 18438,
+      "sha256": "77b58f43c748e49e631c9a7d177940bd74dce091b6736d694a90a3511ffa071c"
+    },
+    {
+      "path": "docs/LIVING_FRONTIER_PLAN.md",
+      "bytes": 15407,
+      "sha256": "8bc54a330f2a41676344bfbaf12a84949b65c458b37c378dcf451b79949608e7"
+    },
+    {
+      "path": "docs/BETA_RELEASE_PLAN.md",
+      "bytes": 8026,
+      "sha256": "7a01f10b29c86aa415c3dfe26d11657724b5919a4db318c3d868315dbcaed1bd"
+    },
+    {
+      "path": "docs/GAME_DESIGN.md",
+      "bytes": 29423,
+      "sha256": "c20ecb390e7ec0277739433e9a22b1c52cf058faaa736779c2f04218d8ac49af"
+    },
+    {
+      "path": "docs/WORKFLOW_RETROSPECTIVE.md",
+      "bytes": 41500,
+      "sha256": "1b6c869d02a554df83218ba664a8c977f0bed0f3c9cab19f38810656cc19e134"
+    },
+    {
+      "path": "docs/BUILD_LOG.md",
+      "bytes": 390982,
+      "sha256": "3c39c3ee1836f6059666f3f3e605a7d5ce2f84b68a26280e8ededb39f8bebd46"
+    },
+    {
+      "path": "docs/research/living-frontier/README.md",
+      "bytes": 2280,
+      "sha256": "3fb61d082ce5c4a6648aa0e7d55eff2656369d3e73dab3711f8b39631115de85"
+    },
+    {
+      "path": "art/reviews/streaming-preparation/receipt.md",
+      "bytes": 7447,
+      "sha256": "564a789d5f1f3d5e17bbd3c2332b77d726bd7b4804c2da6b59585228364a26f3"
+    },
+    {
+      "path": "art/reviews/streaming-preparation/streaming-timings.json",
+      "bytes": 24304,
+      "sha256": "91fe6b6a6284dac1bf4feceb244f94d2d20f7c5104bfbe751d72c8d4b0017aac"
+    },
+    {
+      "path": "art/reviews/streaming-preparation/streaming-comparison.svg",
+      "bytes": 2154,
+      "sha256": "68538b7db06ca46e2c54870db2ee65ce562b5ae4c69670068e4cbb40c4660a4f"
+    },
+    {
+      "path": "art/reviews/streaming-preparation/developer-reload.json",
+      "bytes": 886,
+      "sha256": "4239b732f55e69558c76ffd8c73f266c78d698e64077046f9a6dd4ebd720d618"
+    },
+    {
+      "path": "art/reviews/streaming-preparation/package-walk.json",
+      "bytes": 1982,
+      "sha256": "be893a4c829ffa17598da4af056ad1aefdff1738a57d6d1bab528560c29de32c"
+    },
+    {
+      "path": "art/reviews/streaming-preparation/final-package-portrait.png",
+      "bytes": 128560,
+      "sha256": "ca435af7f81b91f085c55d87b5f400fc122a9448f069b46ac293a440240ea261"
+    },
+    {
+      "path": "dist/submission/index.html",
+      "bytes": 16129742,
+      "sha256": "83862860a3753bc6eff9b5f9c5083aa15236af57358f48c303cb8d15aef309b1"
+    },
+    {
+      "path": "dist/submission.zip",
+      "bytes": 21546675,
+      "sha256": "884eae88d5329141c016127609f8b47f89a7e99890852aa145b8d9d6d714cba0"
+    }
+  ]
+}

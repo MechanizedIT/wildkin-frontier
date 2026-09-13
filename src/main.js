@@ -1102,7 +1102,7 @@ function tick() {
   // Author edit visibility + anchor/map updates sync
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
   // Load support before player/camera queries; no separate streaming loop.
-  frontierChunks.update(playerController.state.pos, { activeSectionId: sectionRuntime.getActiveSectionId(), authorMode: !!authorSuppress });
+  frontierChunks.update(playerController.state.pos, { activeSectionId: sectionRuntime.getActiveSectionId(), authorMode: !!authorSuppress, prepare: true });
   frontierScenery.update();
   frontierDiscoveries.update();
   frontierEcology.update();

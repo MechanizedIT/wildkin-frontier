@@ -212,37 +212,51 @@ export function createPhysicsWorld(RAPIER, playground) {
    * A duplicate stable id is ignored, preserving the existing collider.
    */
   function updateTerrainSurfaces({ add = [], remove = [] } = {}) {
-    let added = 0;
-    let removed = 0;
-    let ignored = 0;
-    for (const id of remove) {
-      const collider = terrainSurfaceColliders.get(typeof id === 'string' ? id : id?.id);
-      if (!collider) continue;
-      terrainSurfaceColliders.delete(typeof id === 'string' ? id : id.id);
-      retireCollider(collider);
-      removed++;
+    const retiring = new Map();
+    for (const entry of remove) {
+      const id = typeof entry === 'string' ? entry : entry?.id;
+      const collider = terrainSurfaceColliders.get(id);
+      if (collider) retiring.set(id, collider);
     }
-    for (const surface of add) {
-      const id = surface?.id;
-      if (id == null || terrainSurfaceColliders.has(id) || objectColliders.has(id)) {
-        ignored++;
-        continue;
+    const prepared = new Map();
+    let ignored = 0;
+    try {
+      for (const surface of add) {
+        const id = surface?.id;
+        if (id == null || prepared.has(id) || (!retiring.has(id) && (terrainSurfaceColliders.has(id) || objectColliders.has(id)))) {
+          ignored++;
+          continue;
+        }
+        const origin = surface.origin ?? { x: 0, z: 0 };
+        // Allocate disabled colliders before touching any current support or
+        // public indexes. A failed incoming shape leaves the old batch usable.
+        const desc = RAPIER.ColliderDesc.trimesh(surface.vertices, surface.indices)
+          .setTranslation(origin.x ?? 0, 0, origin.z ?? 0)
+          .setFriction(0.6)
+          .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL)
+          .setEnabled(false);
+        prepared.set(id, { collider: world.createCollider(desc), surface });
       }
-      const origin = surface.origin ?? { x: 0, z: 0 };
-      const desc = RAPIER.ColliderDesc.trimesh(surface.vertices, surface.indices)
-        .setTranslation(origin.x ?? 0, 0, origin.z ?? 0)
-        .setFriction(0.6)
-        .setActiveCollisionTypes(RAPIER.ActiveCollisionTypes.ALL);
-      const collider = world.createCollider(desc);
+    } catch (error) {
+      for (const { collider } of prepared.values()) world.removeCollider(collider, true);
+      throw error;
+    }
+    // Explicit object disablement survives replacement of the same surface id.
+    const keptDisabled = new Set([...prepared.keys()].filter(id => disabledObjects.has(id)));
+    for (const [id, collider] of retiring) {
+      terrainSurfaceColliders.delete(id);
+      retireCollider(collider);
+    }
+    for (const id of keptDisabled) disabledObjects.add(id);
+    for (const [id, { collider, surface }] of prepared) {
       const traversalSolid = surface.traversalSurface === 'terrain' || surface.traversalSurface === 'rock';
       registerCollider(collider, surface.sectionId ?? null, id, { traversalSolid });
       terrainSurfaceColliders.set(id, collider);
       collider.setEnabled(isColliderEnabled(collider));
-      added++;
     }
     // Refresh broadphase exactly once, after the complete add/remove batch.
-    if (added || removed) world.step();
-    return { added, removed, ignored, active: terrainSurfaceColliders.size };
+    if (prepared.size || retiring.size) world.step();
+    return { added: prepared.size, removed: retiring.size, ignored, active: terrainSurfaceColliders.size };
   }
 
   function registerCameraCollider(collider) {

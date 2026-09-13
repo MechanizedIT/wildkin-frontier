@@ -6,7 +6,7 @@ Current local checkpoint: broad seeded provinces now surround the preserved Camp
 
 ## The game we are building
 
-September13 local checkpoint now adds one physical Signal Cache on validated seeded ground, explicit streamed loot identity/presentation and a68.2% reduction in two measured scenery-preparation bursts. Native Open, collision, unload/revisit and developer/portable reload preserve the one-time reward.1,207 tests and package checks pass; discovery R2 remains7/10 HOLD. This is an authored discovery foundation, not distributed procedural secrets or finished streaming. Current evidence: `art/reviews/frontier-discoveries/receipt.md`; remaining streaming work: `art/reviews/frontier-discoveries/streaming-audit.md`.
+September13 local checkpoint now prepares terrain ahead of ordinary movement and reuses bounded overlapping scenery recipes/exact point samples. Matching native maximum updates fell terrain85.3→20.1ms and scenery191.3→88.4ms; hitches remain. Real incoming collider-allocation failure preserves old support. All1,218 tests and package checks pass. The existing Signal Cache preserves its one-time reward and physical presence; discovery R2 remains7/10 HOLD. These are foundations, not distributed procedural secrets or finished streaming. Current evidence: `art/reviews/streaming-preparation/receipt.md`; original discovery evidence: `art/reviews/frontier-discoveries/receipt.md`.
 
 A dangerous alien frontier surrounds the crashed research Camp. Walk out, read the landscape, harvest supplies, investigate a clue, understand an unfamiliar Wildkin and decide when to return. At Camp, build useful spaces, grow suitable food, study inherited traits and raise a distinctive family. Physical actions and visible creatures carry the experience; the Journal and atlas explain discoveries without taking over play.
 
@@ -57,7 +57,7 @@ F1, F2A forage, F3 outings/atlas and F2B individual wildlife are complete as fou
 ## Runtime ownership and scaling
 
 - A pure global terrain sampler owns generated height, habitat blend and appearance parameters. The existing authored Camp height model remains the reserved landmark input. Geometry, collider triangles, camera support and resume queries use the same result.
-- A focused chunk runtime owns resident meshes and Rapier handles. Load support before movement and unload complete lifecycles. Main only composes and calls it through the existing loop.
+- A focused chunk runtime owns25 published terrain residents and up to nine detached candidates. Ordinary movement prepares one incoming chunk per tick and publishes a complete neighborhood after successful collider installation; initial load, resume and teleport establish support synchronously. Cancellation and unload dispose complete lifecycles. Main only composes and calls it through the existing loop.
 - Keep integer chunk identity separate from local floating render/physics coordinates. Add origin rebasing before describing distant travel as effectively unlimited. F1 establishes a nearby foundation, not an infinity claim.
 - Persistent world changes are separate from loaded objects. Unloaded does not mean unknown. Generated harvest/capture/reward IDs need a durable acceptance rule before those systems stream.
 - Continue with one save authority. Rework schema directly when required; no legacy migration layers solely to preserve a private pre-alpha. Avoid second inventory, health or reward ledgers. Individual/map data and terrain edition must commit coherently.

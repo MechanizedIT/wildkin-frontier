@@ -4,7 +4,7 @@
 
 ## Current direction and evidence
 
-September13 local continuation: one physical Signal Cache now uses existing inventory/save transactions and explicit streaming registration. Scenery preparation is cheaper at measured walking boundaries, while frame-budget streaming and broader secret variety remain unfinished.1,207 tests and package checks pass; discovery R2 selected7/10 HOLD. Current source of evidence: `art/reviews/frontier-discoveries/receipt.md`. The previously published illustrated checkpoint is separate from this local work.
+September13 local continuation: bounded detached terrain preparation and retained scenery recipes/exact point queries reduce measured maximum terrain85.3→20.1ms and scenery191.3→88.4ms. Existing support survives incoming collider-allocation failure. All1,218 tests and package checks pass;44.19MB unpacked/20.55MB ZIP. Frame-budget streaming, phone proof and broader secret variety remain unfinished; discovery R2 remains7/10 HOLD. Current evidence: `art/reviews/streaming-preparation/receipt.md`. The previously published illustrated checkpoint is separate from this local work.
 
 Use [Current slice](CURRENT_SLICE.md) for live implementation, test/package status, and the selected Skybreak/province foundations. Use [Living Frontier plan](LIVING_FRONTIER_PLAN.md) for the staged destination. Three broad seeded terrain/ecology grammars now extend beyond the protected starter area; selected province art remains5.5/10 HOLD. Current evidence belongs in the current slice and its receipts.
 

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { FRONTIER_SCENERY_CONFIG, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter, createFrontierSceneryBuild } from '../src/world/frontierScenery.js';
+import { FRONTIER_SCENERY_CONFIG, FRONTIER_SCENERY_POINT_MEMO_CAP, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter, createFrontierSceneryBuild, createFrontierSceneryRecipeCache } from '../src/world/frontierScenery.js';
 import { createFrontierSceneryVisual } from '../src/world/frontierSceneryVisual.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
 import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
@@ -55,6 +55,106 @@ test('shared exclusion recipes preserve selected specs and clearance decisions',
   for (const [x, z] of [[205, -245], [224, -226], [249, -201], [200, -250], [255, -195]]) {
     assert.equal(build.canPlaceGroundCover(x, z), expectedFilter(x, z), `clearance parity at ${x},${z}`);
   }
+});
+
+test('a retained recipe cache reuses overlap across signed and diagonal shifts and resets on teleport', () => {
+  const flatSample = () => ({ height: 3, surfaceKind: 'ordinary', habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 0, provinceWeights: null });
+  const parityOptions = { getHeight: () => 3, getTerrainSample: flatSample, visualAssets: [], sampleForageChunk: () => [], sampleWildlifeChunk: () => [] };
+  function shiftedCount(dx, dz, teleport = false) {
+    const calls = { forage: 0, wildlife: 0 };
+    const options = { ...parityOptions,
+      sampleForageChunk: () => { calls.forage++; return []; },
+      sampleWildlifeChunk: () => { calls.wildlife++; return []; },
+    };
+    const cache = createFrontierSceneryRecipeCache();
+    const build = (cx, cz) => {
+      const resident = chunkGrid(cx, cz);
+      const retained = createFrontierSceneryBuild(resident, options, cache);
+      const uncached = createFrontierSceneryBuild(resident, parityOptions);
+      assert.deepEqual(retained.specs, uncached.specs);
+      for (const spec of retained.specs) assert.equal(retained.canPlaceGroundCover(spec.x, spec.z), uncached.canPlaceGroundCover(spec.x, spec.z));
+      const state = cache.getDebugState();
+      assert.ok(state.forageCount <= 81 && state.wildlifeCount <= 81);
+    };
+    build(-13, -7);
+    assert.deepEqual(calls, { forage: 49, wildlife: 49 });
+    calls.forage = calls.wildlife = 0;
+    build(teleport ? 8 : -13 + dx, teleport ? 9 : -7 + dz);
+    return calls;
+  }
+  assert.deepEqual(shiftedCount(1, 0), { forage: 7, wildlife: 7 }, 'positive axis samples only the new source column');
+  assert.deepEqual(shiftedCount(-1, 0), { forage: 7, wildlife: 7 }, 'negative axis samples only the new source column');
+  assert.deepEqual(shiftedCount(1, 1), { forage: 13, wildlife: 13 }, 'diagonal samples only two new source edges');
+  assert.deepEqual(shiftedCount(0, 0, true), { forage: 49, wildlife: 49 }, 'teleport prunes the disjoint window before rebuilding');
+});
+
+test('one exact point memo removes repeated terrain work without changing selected or visible output', () => {
+  const resident = chunkGrid(-13, -7);
+  function instrumentedOptions() {
+    const heightKeys = new Map(), sampleKeys = new Map();
+    const hit = (map, x, z) => { const key = `${x},${z}`; map.set(key, (map.get(key) ?? 0) + 1); };
+    return {
+      heightKeys, sampleKeys,
+      options: {
+        getHeight: (x, z) => { hit(heightKeys, x, z); return 3; },
+        getTerrainSample: (x, z) => {
+          hit(sampleKeys, x, z);
+          return { height: 3, surfaceKind: 'ordinary', habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 0, provinceWeights: null };
+        },
+        visualAssets: [],
+      },
+    };
+  }
+  const raw = instrumentedOptions();
+  const rawSpecs = selectFrontierScenery(resident, raw.options);
+  const rawVisual = createFrontierSceneryVisual({ specs: rawSpecs, visualAssets: [], getHeight: raw.options.getHeight,
+    canPlaceGroundCover: createFrontierGroundCoverFilter(raw.options) });
+  const memo = instrumentedOptions();
+  const build = createFrontierSceneryBuild(resident, memo.options);
+  const memoVisual = createFrontierSceneryVisual({ specs: build.specs, visualAssets: [], getHeight: build.getHeight,
+    canPlaceGroundCover: build.canPlaceGroundCover });
+  try {
+    assert.deepEqual(build.specs, rawSpecs);
+    assert.deepEqual(memoVisual.stats, rawVisual.stats);
+    const ground = visual => visual.group.getObjectByName('frontier_scenery_ground_cover');
+    assert.deepEqual(Array.from(ground(memoVisual).instanceMatrix.array), Array.from(ground(rawVisual).instanceMatrix.array));
+    assert.deepEqual(Array.from(ground(memoVisual).instanceColor.array), Array.from(ground(rawVisual).instanceColor.array));
+    const total = maps => [...maps.heightKeys.values(), ...maps.sampleKeys.values()].reduce((sum, count) => sum + count, 0);
+    assert.equal([...memo.heightKeys.values()].every(count => count === 1), true);
+    assert.equal([...memo.sampleKeys.values()].every(count => count === 1), true);
+    assert.ok(total(raw) - total(memo) > 2_000, 'the fixture removes substantial exact duplicate terrain work');
+    assert.deepEqual(build.getTerrainMemoDebugState(), { heightCount: memo.heightKeys.size, sampleCount: memo.sampleKeys.size });
+  } finally {
+    rawVisual.dispose(); memoVisual.dispose(); build.releaseTerrainMemo();
+  }
+  assert.deepEqual(build.getTerrainMemoDebugState(), { heightCount: 0, sampleCount: 0 });
+});
+
+test('point memo keeps height and sample semantics separate, preserves fallback, and stops growing at its cap', () => {
+  const empty = { center: { cx: 5, cz: 5 }, chunks: [] };
+  let heightCalls = 0, sampleCalls = 0;
+  const build = createFrontierSceneryBuild(empty, {
+    getHeight: () => { heightCalls++; return 9; },
+    getTerrainSample: () => { sampleCalls++; return { height: 7 }; },
+  });
+  assert.equal(build.getHeight(1, 2), 9);
+  assert.equal(build.getTerrainSample(1, 2).height, 7);
+  assert.equal(build.getHeight(1, 2), 9);
+  assert.equal(build.getTerrainSample(1, 2).height, 7);
+  assert.deepEqual({ heightCalls, sampleCalls }, { heightCalls: 1, sampleCalls: 1 });
+  for (let index = 0; index < FRONTIER_SCENERY_POINT_MEMO_CAP + 20; index++) {
+    build.getHeight(index + 10, -1);
+    build.getTerrainSample(index + 10, -1);
+  }
+  assert.deepEqual(build.getTerrainMemoDebugState(), { heightCount: FRONTIER_SCENERY_POINT_MEMO_CAP, sampleCount: FRONTIER_SCENERY_POINT_MEMO_CAP });
+  build.releaseTerrainMemo();
+
+  let fallbackCalls = 0;
+  const fallback = createFrontierSceneryBuild(empty, { getTerrainSample: () => { fallbackCalls++; return { height: 6.5 }; } });
+  assert.equal(fallback.getHeight(3, 4), 6.5);
+  assert.equal(fallback.getHeight(3, 4), 6.5);
+  assert.equal(fallbackCalls, 1);
+  fallback.releaseTerrainMemo();
 });
 
 test('content recipes replay for one world descriptor and redistribute for another without changing source ID formats', () => {

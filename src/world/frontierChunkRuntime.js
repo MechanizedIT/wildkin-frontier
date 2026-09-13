@@ -17,8 +17,15 @@ import {
   sampleFrontier,
 } from './frontierTerrain.js';
 
-const RADIUS = 2;
-const HYSTERESIS = 8;
+export const FRONTIER_CHUNK_STREAMING_CONFIG = Object.freeze({
+  radius: 2,
+  hysteresis: 8,
+  preloadDistance: 12,
+  maxPrepared: 9,
+  motionEpsilon: .001,
+});
+const RADIUS = FRONTIER_CHUNK_STREAMING_CONFIG.radius;
+const HYSTERESIS = FRONTIER_CHUNK_STREAMING_CONFIG.hysteresis;
 const FOLIAGE_COUNT = 96;
 
 // Cliff faces use their height for stone shading. XZ ground UVs collapse to a
@@ -114,7 +121,8 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
   parent?.add(root);
   const foliageGeometry = createGroundFoliageGeometry({ grass: '#6d9f69' });
   const foliageMaterial = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide, toneMapped: false });
-  const residents = new Map();
+  let residents = new Map();
+  const prepared = new Map();
   const campColor = campSurface ? createTerrainColorSampler(campSurface) : null;
   const terrainOptions = campSurface ? {
     world: worldDescriptor,
@@ -124,6 +132,8 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
   } : { world: worldDescriptor, regionSampler };
   let center = null;
   let residencySnapshot = { center: null, chunks: [] };
+  let lastPosition = null;
+  let anticipatedCenterKey = null;
   let disposed = false;
 
   function refreshResidencySnapshot() {
@@ -139,6 +149,8 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
   function createResident(cx, cz) {
     const chunk = createFrontierChunk(cx, cz, terrainOptions);
     const geometry = new THREE.BufferGeometry();
+    let foliage = null, texture = null, material = null, stoneMaterial = null, landform = null;
+    try {
     geometry.setAttribute('position', new THREE.BufferAttribute(chunk.vertices, 3));
     geometry.setAttribute('normal', new THREE.BufferAttribute(chunk.normals, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(chunk.colors, 3));
@@ -155,13 +167,13 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     const bounds = { minX: chunk.origin.x, maxX: chunk.origin.x + FRONTIER_TERRAIN_CONFIG.chunkSize, minZ: chunk.origin.z, maxZ: chunk.origin.z + FRONTIER_TERRAIN_CONFIG.chunkSize };
     const colorAt = createFrontierTextureColorSampler({ origin: chunk.origin, size: FRONTIER_TERRAIN_CONFIG.chunkSize,
       sample: (x, z) => sampleFrontier(x, z, terrainOptions) });
-    const texture = createBakedGroundTexture({
+    texture = createBakedGroundTexture({
       bounds,
       colorAt,
       phase: { x: chunk.origin.x - FRONTIER_TERRAIN_CONFIG.campBounds.minX, z: chunk.origin.z - FRONTIER_TERRAIN_CONFIG.campBounds.minZ },
     });
-    const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 1, metalness: 0, flatShading: true });
-    const stoneMaterial = separateCliffFaces(geometry, chunk);
+    material = new THREE.MeshStandardMaterial({ map: texture, roughness: 1, metalness: 0, flatShading: true });
+    stoneMaterial = separateCliffFaces(geometry, chunk);
     const mesh = new THREE.Mesh(geometry, stoneMaterial ? [material, stoneMaterial] : material);
     mesh.name = 'frontier_ground'; mesh.receiveShadow = true; mesh.userData.isGround = true;
     // Only the bounded tall-landform chunks need to cast terrain shadows.
@@ -169,27 +181,46 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     mesh.castShadow = isSkybreakArea(chunk.origin.x + FRONTIER_TERRAIN_CONFIG.chunkSize / 2,
       chunk.origin.z + FRONTIER_TERRAIN_CONFIG.chunkSize / 2);
     group.add(mesh);
-    const foliage = addFoliage(group, chunk, foliageGeometry, foliageMaterial, terrainOptions, worldDescriptor);
-    const landform = createFrontierLandformVisual({ cx, cz, visualAssets, getHeight });
+    foliage = addFoliage(group, chunk, foliageGeometry, foliageMaterial, terrainOptions, worldDescriptor);
+    landform = createFrontierLandformVisual({ cx, cz, visualAssets, getHeight });
     group.add(landform.group);
-    root.add(group);
     return { chunk, group, geometry, foliage, texture, material, stoneMaterial, landform };
+    } catch (error) {
+      landform?.dispose();
+      foliage?.dispose();
+      stoneMaterial?.dispose();
+      material?.dispose();
+      texture?.dispose();
+      geometry.dispose();
+      throw error;
+    }
+  }
+
+  function disposeResident(resident) {
+    resident.group.removeFromParent();
+    resident.geometry.dispose();
+    resident.foliage.dispose();
+    resident.texture?.dispose();
+    resident.material.dispose();
+    resident.stoneMaterial?.dispose();
+    resident.landform.dispose();
+  }
+
+  function clearPrepared() {
+    for (const resident of prepared.values()) disposeResident(resident);
+    prepared.clear();
+    anticipatedCenterKey = null;
   }
 
   function clearResidents() {
-    if (!residents.size && center === null) return;
+    clearPrepared();
+    if (!residents.size && center === null) { lastPosition = null; return; }
     const remove = [...residents.values()].flatMap(resident => [resident.chunk.id, ...resident.landform.terrainSurfaces.map(surface => surface.id)]);
     if (remove.length) physicsWorld?.updateTerrainSurfaces({ remove });
     for (const resident of residents.values()) {
-      root.remove(resident.group);
-      resident.geometry.dispose();
-      resident.foliage.dispose();
-      resident.texture?.dispose();
-      resident.material.dispose();
-      resident.stoneMaterial?.dispose();
-      resident.landform.dispose();
+      disposeResident(resident);
     }
-    residents.clear(); center = null; refreshResidencySnapshot();
+    residents.clear(); center = null; lastPosition = null; refreshResidencySnapshot();
   }
 
   function shouldKeepCenter(position) {
@@ -200,7 +231,43 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
       && position.z >= originZ - HYSTERESIS && position.z < originZ + FRONTIER_TERRAIN_CONFIG.chunkSize + HYSTERESIS;
   }
 
-  function update(position = {}, { activeSectionId, authorMode = false } = {}) {
+  function wantedWindow(cx, cz) {
+    const wanted = new Map();
+    for (let z = cz - RADIUS; z <= cz + RADIUS; z++) for (let x = cx - RADIUS; x <= cx + RADIUS; x++) {
+      if (!isCampChunk(x, z)) wanted.set(chunkKey(x, z), { cx: x, cz: z });
+    }
+    return wanted;
+  }
+
+  function prepareIncoming(position) {
+    if (!center || !lastPosition) { clearPrepared(); return; }
+    const dx = position.x - lastPosition.x, dz = position.z - lastPosition.z;
+    const { chunkSize } = FRONTIER_TERRAIN_CONFIG;
+    const { preloadDistance, maxPrepared, motionEpsilon } = FRONTIER_CHUNK_STREAMING_CONFIG;
+    const originX = center.cx * chunkSize, originZ = center.cz * chunkSize;
+    let stepX = 0, stepZ = 0;
+    if (dx > motionEpsilon && originX + chunkSize + HYSTERESIS - position.x <= preloadDistance) stepX = 1;
+    else if (dx < -motionEpsilon && position.x - (originX - HYSTERESIS) <= preloadDistance) stepX = -1;
+    if (dz > motionEpsilon && originZ + chunkSize + HYSTERESIS - position.z <= preloadDistance) stepZ = 1;
+    else if (dz < -motionEpsilon && position.z - (originZ - HYSTERESIS) <= preloadDistance) stepZ = -1;
+    if (!stepX && !stepZ) { clearPrepared(); return; }
+    const target = { cx: center.cx + stepX, cz: center.cz + stepZ };
+    const targetKey = chunkKey(target.cx, target.cz);
+    if (anticipatedCenterKey !== targetKey) clearPrepared();
+    anticipatedCenterKey = targetKey;
+    const wanted = wantedWindow(target.cx, target.cz);
+    for (const [id, resident] of prepared) if (!wanted.has(id) || residents.has(id)) {
+      disposeResident(resident); prepared.delete(id);
+    }
+    if (prepared.size >= maxPrepared) return;
+    for (const [id, coords] of wanted) {
+      if (residents.has(id) || prepared.has(id)) continue;
+      prepared.set(id, createResident(coords.cx, coords.cz));
+      return;
+    }
+  }
+
+  function update(position = {}, { activeSectionId, authorMode = false, prepare = false } = {}) {
     if (disposed) return;
     const active = activeSectionId === 'camp' && !authorMode;
     root.visible = active;
@@ -209,24 +276,51 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     const z = Number.isFinite(position.z) ? position.z : 0;
     const nextCx = Math.floor(x / FRONTIER_TERRAIN_CONFIG.chunkSize);
     const nextCz = Math.floor(z / FRONTIER_TERRAIN_CONFIG.chunkSize);
-    if (shouldKeepCenter(position)) return;
-    const wanted = new Map();
-    for (let cz = nextCz - RADIUS; cz <= nextCz + RADIUS; cz++) for (let cx = nextCx - RADIUS; cx <= nextCx + RADIUS; cx++) {
-      if (!isCampChunk(cx, cz)) wanted.set(chunkKey(cx, cz), { cx, cz });
+    const normalizedPosition = { x, z };
+    if (shouldKeepCenter(normalizedPosition)) {
+      if (prepare) prepareIncoming(normalizedPosition);
+      else clearPrepared();
+      lastPosition = normalizedPosition;
+      return;
     }
+    const wanted = wantedWindow(nextCx, nextCz);
+    const nextResidents = new Map(), candidates = [];
     const add = [];
-    for (const { cx, cz } of wanted.values()) if (!residents.has(chunkKey(cx, cz))) {
-      const resident = createResident(cx, cz);
-      residents.set(resident.chunk.id, resident); add.push({ ...resident.chunk, sectionId: 'camp' }, ...resident.landform.terrainSurfaces);
+    try {
+      for (const [id, { cx, cz }] of wanted) {
+        let resident = residents.get(id);
+        if (!resident) {
+          resident = prepared.get(id) ?? createResident(cx, cz);
+          prepared.delete(id);
+          candidates.push(resident);
+          add.push({ ...resident.chunk, sectionId: 'camp' }, ...resident.landform.terrainSurfaces);
+        }
+        nextResidents.set(id, resident);
+      }
+    } catch (error) {
+      for (const resident of candidates) disposeResident(resident);
+      clearPrepared();
+      throw error;
     }
     const remove = [];
     for (const [id, resident] of residents) if (!wanted.has(id)) {
       remove.push(id, ...resident.landform.terrainSurfaces.map(surface => surface.id));
-      root.remove(resident.group); resident.geometry.dispose(); resident.foliage.dispose(); resident.texture?.dispose(); resident.material.dispose(); resident.stoneMaterial?.dispose(); resident.landform.dispose(); residents.delete(id);
     }
-    // The physics owner refreshes broadphase once for this complete lifecycle.
-    if (add.length || remove.length) physicsWorld?.updateTerrainSurfaces({ add, remove });
-    center = { cx: nextCx, cz: nextCz }; refreshResidencySnapshot();
+    try {
+      // Physics stages the complete replacement before it retires old support.
+      if (add.length || remove.length) physicsWorld?.updateTerrainSurfaces({ add, remove });
+    } catch (error) {
+      for (const resident of candidates) disposeResident(resident);
+      clearPrepared();
+      throw error;
+    }
+    for (const [id, resident] of residents) if (!wanted.has(id)) disposeResident(resident);
+    for (const resident of candidates) root.add(resident.group);
+    residents = nextResidents;
+    clearPrepared();
+    center = { cx: nextCx, cz: nextCz };
+    lastPosition = normalizedPosition;
+    refreshResidencySnapshot();
   }
 
   function sample(x, z) { return sampleFrontier(x, z, terrainOptions); }
@@ -237,7 +331,8 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     return residencySnapshot;
   }
   function getWorldDescriptor() { return worldDescriptor; }
-  function getDebugState() { return { residentCount: residents.size, center: center && { ...center }, residentIds: [...residents.keys()] }; }
+  function getDebugState() { return { residentCount: residents.size, center: center && { ...center }, residentIds: [...residents.keys()],
+    preparedCount: prepared.size, preparedIds: [...prepared.keys()] }; }
   function dispose() {
     if (disposed) return;
     clearResidents(); parent?.remove(root);

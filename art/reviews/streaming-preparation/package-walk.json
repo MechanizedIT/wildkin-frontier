@@ -1,0 +1,107 @@
+{
+  "claimed": true,
+  "discovery": {
+    "colliderCount": 2,
+    "residentId": "f1:d:3:1:0"
+  },
+  "health": 5,
+  "origins": [
+    "http://localhost:8081"
+  ],
+  "owned": 6,
+  "pack": {
+    "berries": 2,
+    "crystal_shard": 10,
+    "fiber": 2,
+    "iron_ore": 12,
+    "stone": 0,
+    "wildflower": 3,
+    "wood": 1
+  },
+  "pos": {
+    "x": 171.61688232421875,
+    "y": 5.428700923919678,
+    "z": 59.648048400878906
+  },
+  "terrain": {
+    "center": {
+      "cx": 3,
+      "cz": 1
+    },
+    "preparedCount": 0,
+    "preparedIds": [],
+    "residentCount": 25,
+    "residentIds": [
+      "1,-1",
+      "2,-1",
+      "3,-1",
+      "4,-1",
+      "5,-1",
+      "1,0",
+      "2,0",
+      "3,0",
+      "4,0",
+      "5,0",
+      "1,1",
+      "2,1",
+      "3,1",
+      "4,1",
+      "5,1",
+      "1,2",
+      "2,2",
+      "3,2",
+      "4,2",
+      "5,2",
+      "1,3",
+      "2,3",
+      "3,3",
+      "4,3",
+      "5,3"
+    ]
+  },
+  "walk": {
+    "done": true,
+    "elapsedMs": 1489.8999999910593,
+    "end": {
+      "x": 171.61871337890625,
+      "y": 5.403522968292236,
+      "z": 59.47172164916992
+    },
+    "fixture": "Position staged before run; ordinary keyboard events move continuously through streamed terrain.",
+    "healthEnd": 5,
+    "healthStart": 5,
+    "index": 5,
+    "nodes": [
+      {
+        "x": 171.63999938964844,
+        "z": 54.099998474121094
+      },
+      {
+        "x": 171.63999938964844,
+        "z": 60.099998474121094
+      }
+    ],
+    "reason": "complete",
+    "samples": [
+      {
+        "draws": 28,
+        "health": 5,
+        "height": 4.561638015177898,
+        "influence": 0.9767059197327256,
+        "ms": 812.2999999970198,
+        "observedFps": 29.54573433471384,
+        "pos": {
+          "x": 171.63589477539062,
+          "y": 5.112356662750244,
+          "z": 56.90717697143555
+        },
+        "province": "sunscar",
+        "scenery": 23,
+        "terrain": 25,
+        "triangles": 71139
+      }
+    ]
+  },
+  "xp": 8,
+  "logs": []
+}

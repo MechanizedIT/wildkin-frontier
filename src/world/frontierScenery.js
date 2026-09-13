@@ -34,6 +34,8 @@ const ROUTE_CLEARANCE = 1.15;
 const SOLID_ROUTE_CLEARANCE = 2.1;
 const GROUND_COVER_CLEARANCE = Object.freeze({ route: .65, forage: 1.4, wildlife: 1.4 });
 const EXCLUSION_RECIPE_CACHE = Symbol('frontier-scenery-exclusion-recipe-cache');
+const RECIPE_CACHE_ACCESS = Symbol('frontier-scenery-recipe-cache-access');
+export const FRONTIER_SCENERY_POINT_MEMO_CAP = 8192;
 const TERRACE_CLEARANCE = Object.freeze({ minX: 18, maxX: 46, minZ: -150, maxZ: -108 });
 const NORTH_ROUTE = Object.freeze([
   Object.freeze([0, -56]), Object.freeze([7, -68]), Object.freeze([7, -85]), Object.freeze([20, -95]), Object.freeze([24, -118]),
@@ -205,10 +207,7 @@ function hasSafeFootprint(x, z, candidate, options) {
 
 function cachedExclusionRecipe(kind, cx, cz, options, sample) {
   const cache = options[EXCLUSION_RECIPE_CACHE];
-  if (!cache || cx < cache.minCx || cx > cache.maxCx || cz < cache.minCz || cz > cache.maxCz) return sample();
-  const recipes = cache[kind], key = `${cx},${cz}`;
-  if (!recipes.has(key)) recipes.set(key, sample());
-  return recipes.get(key);
+  return cache?.[RECIPE_CACHE_ACCESS]?.get(kind, cx, cz, sample) ?? sample();
 }
 
 function exclusionsFor(cx, cz, options) {
@@ -357,22 +356,84 @@ export function selectFrontierScenery(residency, options = {}) {
   return Object.freeze([...chosenNear, ...chosenOuter].slice(0, FRONTIER_SCENERY_CONFIG.maxTotal));
 }
 
-/** Builds one residency using a private cache shared by selection and grass clearance. */
-export function createFrontierSceneryBuild(residency, options = {}) {
+/** Owns only pure, deterministic exclusion recipes for one expanded residency window. */
+export function createFrontierSceneryRecipeCache() {
+  const recipes = { forage: new Map(), wildlife: new Map() };
+  let bounds = null;
+  function clear() {
+    recipes.forage.clear(); recipes.wildlife.clear(); bounds = null;
+  }
+  function prepare(center) {
+    if (!Number.isSafeInteger(center?.cx) || !Number.isSafeInteger(center?.cz)) { clear(); return; }
+    bounds = { minCx: center.cx - 4, maxCx: center.cx + 4, minCz: center.cz - 4, maxCz: center.cz + 4 };
+    for (const values of Object.values(recipes)) for (const key of values.keys()) {
+      const [cx, cz] = key.split(',').map(Number);
+      if (cx < bounds.minCx || cx > bounds.maxCx || cz < bounds.minCz || cz > bounds.maxCz) values.delete(key);
+    }
+  }
+  function get(kind, cx, cz, sample) {
+    const values = recipes[kind];
+    if (!values || !bounds || cx < bounds.minCx || cx > bounds.maxCx || cz < bounds.minCz || cz > bounds.maxCz) return sample();
+    const key = `${cx},${cz}`;
+    if (!values.has(key)) values.set(key, sample());
+    return values.get(key);
+  }
+  function getDebugState() { return Object.freeze({ forageCount: recipes.forage.size, wildlifeCount: recipes.wildlife.size }); }
+  return Object.freeze({ prepare, clear, getDebugState, [RECIPE_CACHE_ACCESS]: Object.freeze({ get }) });
+}
+
+function createPointMemo(options) {
+  const samples = new Map(), heights = new Map();
+  const sampleSource = typeof options.getTerrainSample === 'function'
+    ? options.getTerrainSample : (x, z) => sampleFrontier(x, z, { ...options.terrainOptions, world: options.world ?? DEFAULT_FRONTIER_WORLD });
+  const keyFor = (x, z) => `${x},${z}`;
+  const getTerrainSample = (x, z) => {
+    const key = keyFor(x, z);
+    if (samples.has(key)) return samples.get(key);
+    const value = sampleSource(x, z);
+    if (samples.size < FRONTIER_SCENERY_POINT_MEMO_CAP) samples.set(key, value);
+    return value;
+  };
+  const heightSource = typeof options.getHeight === 'function'
+    ? options.getHeight : (x, z) => getTerrainSample(x, z)?.height;
+  const getHeight = (x, z) => {
+    const key = keyFor(x, z);
+    if (heights.has(key)) return heights.get(key);
+    const value = heightSource(x, z);
+    if (heights.size < FRONTIER_SCENERY_POINT_MEMO_CAP) heights.set(key, value);
+    return value;
+  };
+  const clear = () => { samples.clear(); heights.clear(); };
+  const getDebugState = () => Object.freeze({ heightCount: heights.size, sampleCount: samples.size });
+  return Object.freeze({ getHeight, getTerrainSample, clear, getDebugState });
+}
+
+/** Builds one residency using a bounded cache shared by selection and grass clearance. */
+export function createFrontierSceneryBuild(residency, options = {}, recipeCache = createFrontierSceneryRecipeCache()) {
+  const pointMemo = createPointMemo(options);
   const center = residency?.center;
   if (!Number.isSafeInteger(center?.cx) || !Number.isSafeInteger(center?.cz)) {
-    return Object.freeze({ specs: Object.freeze([]), canPlaceGroundCover: () => false });
+    recipeCache.clear();
+    return Object.freeze({ specs: Object.freeze([]), canPlaceGroundCover: () => false,
+      getHeight: pointMemo.getHeight, getTerrainSample: pointMemo.getTerrainSample,
+      releaseTerrainMemo: pointMemo.clear, getTerrainMemoDebugState: pointMemo.getDebugState });
   }
   // Outer patches can spill one chunk past the 5x5 resident window. Their
   // clearance neighborhood fits in this fixed 9x9 source envelope.
-  const cache = {
-    minCx: center.cx - 4, maxCx: center.cx + 4,
-    minCz: center.cz - 4, maxCz: center.cz + 4,
-    forage: new Map(), wildlife: new Map(),
-  };
-  const buildOptions = { ...options, [EXCLUSION_RECIPE_CACHE]: cache };
-  return Object.freeze({
-    specs: selectFrontierScenery(residency, buildOptions),
-    canPlaceGroundCover: createFrontierGroundCoverFilter(buildOptions),
-  });
+  recipeCache.prepare(center);
+  const buildOptions = { ...options, getHeight: pointMemo.getHeight, getTerrainSample: pointMemo.getTerrainSample,
+    [EXCLUSION_RECIPE_CACHE]: recipeCache };
+  try {
+    return Object.freeze({
+      specs: selectFrontierScenery(residency, buildOptions),
+      canPlaceGroundCover: createFrontierGroundCoverFilter(buildOptions),
+      getHeight: pointMemo.getHeight,
+      getTerrainSample: pointMemo.getTerrainSample,
+      releaseTerrainMemo: pointMemo.clear,
+      getTerrainMemoDebugState: pointMemo.getDebugState,
+    });
+  } catch (error) {
+    pointMemo.clear();
+    throw error;
+  }
 }

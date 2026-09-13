@@ -6,7 +6,7 @@ Current local proof: Skybreak still distinguishes true caps, shoulders and lowla
 
 **Latest explicit owner steering:** lean toward extreme geography and large biomes: tall narrow plateaus to jump between, different life/resources above and below, large mountains/deserts and unusual alien formations. Lay foundations for later weather and day/night. These are accepted direction; exact scales, algorithms and cave/architecture choices below remain provisional.
 
-September13 continuation: `frontierDiscovery` now validates one authored receiver/chest location on the canonical seeded ground, with both object support/clearance checks. Persistent loot identity is independent of visual residency, preserving one-time and partial rewards through load/unload. Distributed regional secrets remain next-content work. A shared ephemeral scenery preparation cache removes repeated overlapping forage/wildlife recipe generation; native bursts608.2/455.5ms→191.3/146.5ms, still above a frame budget. Preserve synchronous support on initial load/resume/teleport when introducing bounded ordinary-walk preparation. Exact failure hazards and responsible owners: `art/reviews/frontier-discoveries/streaming-audit.md`.
+September13 continuation: `frontierDiscovery` validates one authored receiver/chest location on canonical seeded ground, with both object support/clearance checks. Persistent loot identity is independent of visual residency, preserving one-time and partial rewards through load/unload. Distributed regional secrets remain next-content work. Ordinary movement now prepares at most one detached incoming terrain chunk per tick, capped at nine alongside the25 published residents. The runtime publishes a complete window only after successful collider installation; initial/resume/teleport support remains synchronous. Scenery retains overlapping pure recipe calculations within a bounded window. Incoming collider allocation failures preserve existing support and allow retry; unrecoverable engine removal/step failures are outside that guarantee. Current measurements and limits: `art/reviews/streaming-preparation/receipt.md`.
 
 [`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) develops six regional grammars, progression principles and reusable ecology kits. Lush, Sunscar and Ironspine now have generated foundation grammars in the local foundation; their deeper ecology/discoveries and the other three families remain proposed.
 
@@ -101,15 +101,15 @@ Water needs its own shared level, shoreline, safe-bank, swimming and spawn rules
 - Use absolute world coordinates and shared edge samples. Generation must not depend on travel direction, frame timing or chunk load order.
 - Regenerate ordinary world content from the descriptor; save player changes such as depletion, discoveries, captured origins and construction.
 - Namespace changed-generation records, or deliberately start a fresh world when generation changes. Existing coordinate-only IDs cannot safely be reused across unrelated seeds.
-- Keep bounded residents and simple near/far presentation. Distant terrain, progressive generation work and origin rebasing follow measured bottlenecks; do not claim unbounded runtime range before those are proven.
+- Keep25 published terrain residents and at most nine detached candidates for one anticipated adjacent window, preparing at most one per moving tick. Distant terrain, asynchronous assets and origin rebasing follow measured bottlenecks; do not claim unbounded runtime range before those are proven.
 
 ## What ships, and what comes next
 
 | Already in the project | Still to implement |
 | --- | --- |
-| Global height sampler, 50m streamed chunks, shared edges/collision, exact Camp/starter/Skybreak reserve; one immutable descriptor injected through all current generation layers | Climate and drainage layers using that descriptor |
+| Global height sampler, 50m streamed chunks, shared edges/collision, exact Camp/starter/Skybreak reserve; detached preparation and complete-window publication; synchronous initial/resume/teleport support | Climate and drainage layers using the shared descriptor |
 | Three broad weighted terrain grammars—lush, Sunscar, Ironspine—with0..84m regional targets and continuous ecotones | Richer landform/detail passes and three additional regional families |
-| Bounded regional forage/scenery/wildlife recipes using admitted assets, stable captured individuals and personal atlas; existing caps unchanged | Discovery reservations, richer populations, regional trait distributions |
+| Bounded regional forage/scenery/wildlife recipes using admitted assets, stable captured individuals and personal atlas; retained scenery recipe overlap with exact output parity | Distributed discoveries, richer populations, regional trait distributions |
 | One fixed deterministic world edition | Safe alternate-world creation, generation namespaces, distant terrain and rebasing |
 | CLI inspector for same-world elevation, current wetland weight, slope and generated candidates | Climate moisture/temperature fields and regional recipe inspection |
 

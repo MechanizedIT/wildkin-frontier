@@ -1,0 +1,1111 @@
+{
+  "date": "2026-09-13",
+  "viewport": "412 × 915 desktop in-app browser; no physical-phone claim",
+  "method": "Ordinary keyboard movement after a disclosed starting position fixture. Same135m route. No aggregate verification or asset production during walks. Owner update CPU durations include preparation; this is not total frame time or an FPS benchmark.",
+  "baseline": {
+    "label": "0f3f240 baseline",
+    "route": {
+      "from": {
+        "x": -70,
+        "z": -200
+      },
+      "target": {
+        "x": -205,
+        "z": -200
+      },
+      "fixture": "Position staged before run; ordinary keyboard events move continuously through streamed terrain.",
+      "reason": "complete",
+      "elapsedMs": 35849.2,
+      "end": {
+        "x": -204.3605804443359,
+        "y": 7.938479900360107,
+        "z": -199.9307861328125
+      },
+      "healthStart": 5,
+      "healthEnd": 5
+    },
+    "maxPublished": 25,
+    "maxPrepared": 0,
+    "owners": {
+      "frontierChunks": {
+        "maxMs": 85.3,
+        "slowCallsMs": [
+          85.3,
+          81.4
+        ]
+      },
+      "frontierEcology": {
+        "maxMs": 34.8,
+        "slowCallsMs": [
+          34.8,
+          28.6
+        ]
+      },
+      "frontierScenery": {
+        "maxMs": 191.3,
+        "slowCallsMs": [
+          191.3,
+          146.5
+        ]
+      },
+      "frontierWildlife": {
+        "maxMs": 2.4,
+        "slowCallsMs": []
+      }
+    },
+    "events": [
+      {
+        "elapsedMs": 10188.5,
+        "ms": 85.30000001192093,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 10273.90000000596,
+        "ms": 191.29999999701977,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 10465.30000001192,
+        "ms": 34.79999999701977,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 23688.40000000596,
+        "ms": 81.40000000596046,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "elapsedMs": 23769.90000000596,
+        "ms": 146.5,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "elapsedMs": 23916.40000000596,
+        "ms": 28.599999994039536,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      }
+    ],
+    "preparation": []
+  },
+  "intermediate": {
+    "label": "Detached terrain + retained recipes",
+    "route": {
+      "from": {
+        "x": -70,
+        "z": -200
+      },
+      "target": {
+        "x": -205,
+        "z": -200
+      },
+      "fixture": "Position staged before run; ordinary keyboard events move continuously through streamed terrain.",
+      "reason": "complete",
+      "elapsedMs": 35610.2,
+      "end": {
+        "x": -204.3605804443359,
+        "y": 7.938479900360107,
+        "z": -199.9307861328125
+      },
+      "healthStart": 5,
+      "healthEnd": 5
+    },
+    "maxPublished": 25,
+    "maxPrepared": 5,
+    "owners": {
+      "frontierChunks": {
+        "maxMs": 20.2,
+        "slowCallsMs": [
+          18.3,
+          16,
+          18.2,
+          15.6,
+          16.3,
+          15.2,
+          15.6,
+          16.3,
+          20.2,
+          18.6,
+          19.2,
+          16.3,
+          17.1,
+          16.2,
+          19.2
+        ]
+      },
+      "frontierEcology": {
+        "maxMs": 32.5,
+        "slowCallsMs": [
+          32.5,
+          27.3
+        ]
+      },
+      "frontierScenery": {
+        "maxMs": 123.3,
+        "slowCallsMs": [
+          123.3,
+          97.3
+        ]
+      },
+      "frontierWildlife": {
+        "maxMs": 2.4,
+        "slowCallsMs": []
+      }
+    },
+    "events": [
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 6900.9000000059605,
+        "ms": 18.299999997019768,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.02383422851562,
+          "y": 9.062945365905762,
+          "z": -200.00021362304688
+        },
+        "prepared": 1
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 6934.29999999702,
+        "ms": 16,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.14794921875,
+          "y": 9.089960098266602,
+          "z": -200.0001678466797
+        },
+        "prepared": 2
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 6967.600000008941,
+        "ms": 18.19999998807907,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.27202606201172,
+          "y": 9.117130279541016,
+          "z": -199.99989318847656
+        },
+        "prepared": 3
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 7000.79999999702,
+        "ms": 15.600000008940697,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.39615631103516,
+          "y": 9.144087791442873,
+          "z": -199.99961853027344
+        },
+        "prepared": 4
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 7034.20000000298,
+        "ms": 16.299999997019768,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.52024841308594,
+          "y": 9.171178817749023,
+          "z": -199.99949645996097
+        },
+        "prepared": 5
+      },
+      {
+        "elapsedMs": 10172.5,
+        "ms": 123.29999999701975,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 10295.79999999702,
+        "ms": 32.5,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20467.40000000596,
+        "ms": 15.200000002980232,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.0533905029297,
+          "y": 17.821245193481445,
+          "z": -199.9307861328125
+        },
+        "prepared": 1
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20500.90000000596,
+        "ms": 15.599999994039536,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.1833953857422,
+          "y": 17.816272735595703,
+          "z": -199.9307861328125
+        },
+        "prepared": 2
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20534.10000000894,
+        "ms": 16.299999997019768,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.3134002685547,
+          "y": 17.811006546020508,
+          "z": -199.9307861328125
+        },
+        "prepared": 3
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20567.40000000596,
+        "ms": 20.200000002980232,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.4434051513672,
+          "y": 17.805742263793945,
+          "z": -199.9307861328125
+        },
+        "prepared": 4
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20601.10000000894,
+        "ms": 18.599999994039536,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.5734100341797,
+          "y": 17.80047607421875,
+          "z": -199.9307861328125
+        },
+        "prepared": 5
+      },
+      {
+        "elapsedMs": 23538.29999999702,
+        "ms": 97.30000001192091,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "elapsedMs": 23635.60000000894,
+        "ms": 27.299999997019768,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33500.79999999702,
+        "ms": 19.200000002980232,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.0402679443359,
+          "y": 10.021934509277344,
+          "z": -199.9307861328125
+        },
+        "prepared": 1
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33534.29999999702,
+        "ms": 16.30000001192093,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.17027282714844,
+          "y": 9.985087394714355,
+          "z": -199.9307861328125
+        },
+        "prepared": 2
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33567.29999999702,
+        "ms": 17.100000008940697,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.30027770996097,
+          "y": 9.948322296142578,
+          "z": -199.9307861328125
+        },
+        "prepared": 3
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33600.70000000298,
+        "ms": 16.200000002980232,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.43028259277344,
+          "y": 9.91222095489502,
+          "z": -199.9307861328125
+        },
+        "prepared": 4
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33634,
+        "ms": 19.200000002980232,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.5602874755859,
+          "y": 9.87676239013672,
+          "z": -199.9307861328125
+        },
+        "prepared": 5
+      }
+    ],
+    "preparation": [
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 1,
+        "ms": 6900.9000000059605
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 2,
+        "ms": 6934.29999999702
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 3,
+        "ms": 6967.600000008941
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 4,
+        "ms": 7000.79999999702
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 5,
+        "ms": 7034.20000000298
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 1,
+        "ms": 20467.40000000596
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 2,
+        "ms": 20500.90000000596
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 3,
+        "ms": 20534.10000000894
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 4,
+        "ms": 20567.40000000596
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 5,
+        "ms": 20601.10000000894
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 1,
+        "ms": 33500.79999999702
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 2,
+        "ms": 33534.29999999702
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 3,
+        "ms": 33567.29999999702
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 4,
+        "ms": 33600.70000000298
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 5,
+        "ms": 33634
+      }
+    ]
+  },
+  "selected": {
+    "label": "Plus exact point reuse",
+    "route": {
+      "from": {
+        "x": -70,
+        "z": -200
+      },
+      "target": {
+        "x": -205,
+        "z": -200
+      },
+      "fixture": "Position staged before run; ordinary keyboard events move continuously through streamed terrain.",
+      "reason": "complete",
+      "elapsedMs": 35563.6,
+      "end": {
+        "x": -204.3605804443359,
+        "y": 7.938479900360107,
+        "z": -199.9307861328125
+      },
+      "healthStart": 5,
+      "healthEnd": 5
+    },
+    "maxPublished": 25,
+    "maxPrepared": 5,
+    "owners": {
+      "frontierChunks": {
+        "maxMs": 20.1,
+        "slowCallsMs": [
+          19.1,
+          15.3,
+          15.3,
+          15.3,
+          15.2,
+          19.4,
+          16.3,
+          16,
+          18.7,
+          17.9,
+          20.1,
+          16.9,
+          15.9,
+          16.1,
+          20.1
+        ]
+      },
+      "frontierEcology": {
+        "maxMs": 36.1,
+        "slowCallsMs": [
+          35.3,
+          36.1
+        ]
+      },
+      "frontierScenery": {
+        "maxMs": 88.4,
+        "slowCallsMs": [
+          88.4,
+          72.7
+        ]
+      },
+      "frontierWildlife": {
+        "maxMs": 2.4,
+        "slowCallsMs": []
+      }
+    },
+    "events": [
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 6911.100000008941,
+        "ms": 19.099999994039536,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.02383422851562,
+          "y": 9.062945365905762,
+          "z": -200.00021362304688
+        },
+        "prepared": 1
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 6944.5,
+        "ms": 15.300000011920927,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.14794921875,
+          "y": 9.089960098266602,
+          "z": -200.0001678466797
+        },
+        "prepared": 2
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 6977.9000000059605,
+        "ms": 15.299999997019768,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.27202606201172,
+          "y": 9.117130279541016,
+          "z": -199.99989318847656
+        },
+        "prepared": 3
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 7011,
+        "ms": 15.300000011920927,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.39615631103516,
+          "y": 9.144087791442873,
+          "z": -199.99961853027344
+        },
+        "prepared": 4
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "elapsedMs": 7044.5,
+        "ms": 15.200000002980232,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -96.52024841308594,
+          "y": 9.171178817749023,
+          "z": -199.99949645996097
+        },
+        "prepared": 5
+      },
+      {
+        "elapsedMs": 10183.70000000298,
+        "ms": 88.40000000596046,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "elapsedMs": 10272.10000000894,
+        "ms": 35.29999999701977,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -108.09105682373048,
+          "y": 11.909076690673828,
+          "z": -199.9613494873047
+        }
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20444.30000001192,
+        "ms": 19.399999991059303,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.0533905029297,
+          "y": 17.821245193481445,
+          "z": -199.9307861328125
+        },
+        "prepared": 1
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20479,
+        "ms": 16.30000001192093,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.1833953857422,
+          "y": 17.816272735595703,
+          "z": -199.9307861328125
+        },
+        "prepared": 2
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20511,
+        "ms": 16,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.3134002685547,
+          "y": 17.811006546020508,
+          "z": -199.9307861328125
+        },
+        "prepared": 3
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20544.30000001192,
+        "ms": 18.69999998807907,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.4434051513672,
+          "y": 17.805742263793945,
+          "z": -199.9307861328125
+        },
+        "prepared": 4
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "elapsedMs": 20577.60000000894,
+        "ms": 17.899999991059303,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -146.5734100341797,
+          "y": 17.80047607421875,
+          "z": -199.9307861328125
+        },
+        "prepared": 5
+      },
+      {
+        "elapsedMs": 23515.5,
+        "ms": 72.70000000298023,
+        "name": "frontierScenery",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "elapsedMs": 23588.20000000298,
+        "ms": 36.1000000089407,
+        "name": "frontierEcology",
+        "pos": {
+          "x": -158.0138397216797,
+          "y": 17.209814071655273,
+          "z": -199.9307861328125
+        }
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33477.40000000596,
+        "ms": 20.099999994039536,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.0402679443359,
+          "y": 10.021934509277344,
+          "z": -199.9307861328125
+        },
+        "prepared": 1
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33510.80000001192,
+        "ms": 16.899999991059303,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.17027282714844,
+          "y": 9.985087394714355,
+          "z": -199.9307861328125
+        },
+        "prepared": 2
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33544.30000001192,
+        "ms": 15.899999991059303,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.30027770996097,
+          "y": 9.948322296142578,
+          "z": -199.9307861328125
+        },
+        "prepared": 3
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33578.80000001192,
+        "ms": 16.099999994039536,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.43028259277344,
+          "y": 9.91222095489502,
+          "z": -199.9307861328125
+        },
+        "prepared": 4
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "elapsedMs": 33610.80000001192,
+        "ms": 20.099999994039536,
+        "name": "frontierChunks",
+        "pos": {
+          "x": -196.5602874755859,
+          "y": 9.87676239013672,
+          "z": -199.9307861328125
+        },
+        "prepared": 5
+      }
+    ],
+    "preparation": [
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 1,
+        "ms": 6911.100000008941
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 2,
+        "ms": 6944.5
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 3,
+        "ms": 6977.9000000059605
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 4,
+        "ms": 7011
+      },
+      {
+        "center": {
+          "cx": -2,
+          "cz": -4
+        },
+        "count": 5,
+        "ms": 7044.5
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 1,
+        "ms": 20444.30000001192
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 2,
+        "ms": 20479
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 3,
+        "ms": 20511
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 4,
+        "ms": 20544.30000001192
+      },
+      {
+        "center": {
+          "cx": -3,
+          "cz": -4
+        },
+        "count": 5,
+        "ms": 20577.60000000894
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 1,
+        "ms": 33477.40000000596
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 2,
+        "ms": 33510.80000001192
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 3,
+        "ms": 33544.30000001192
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 4,
+        "ms": 33578.80000001192
+      },
+      {
+        "center": {
+          "cx": -4,
+          "cz": -4
+        },
+        "count": 5,
+        "ms": 33610.80000001192
+      }
+    ]
+  },
+  "profile": {
+    "scenerySampledMs": 132.16,
+    "topSelf": [
+      {
+        "fn": "sampleResolved frontierRegion.js:143",
+        "ms": 39.84
+      },
+      {
+        "fn": "valueNoise frontierTerrain.js:49",
+        "ms": 18.47
+      },
+      {
+        "fn": "sampleFrontierRaw frontierTerrain.js:97",
+        "ms": 16.57
+      },
+      {
+        "fn": "valueNoise frontierRegion.js:29",
+        "ms": 11.74
+      },
+      {
+        "fn": "sunscarHeight frontierRegion.js:79",
+        "ms": 9.58
+      },
+      {
+        "fn": "globalHeight frontierTerrain.js:70",
+        "ms": 6.61
+      },
+      {
+        "fn": "toNonIndexed three.module.js:11233",
+        "ms": 4.72
+      },
+      {
+        "fn": "heightAt frontierScenery.js:148",
+        "ms": 3.34
+      },
+      {
+        "fn": "(anonymous) frontierScenery.js:237",
+        "ms": 3.18
+      },
+      {
+        "fn": "random frontierEcology.js:47",
+        "ms": 1.71
+      },
+      {
+        "fn": "fromBufferAttribute three.module.js:4568",
+        "ms": 1.69
+      },
+      {
+        "fn": "addVertexColor frontierSceneryVisual.js:88",
+        "ms": 1.68
+      },
+      {
+        "fn": "dispose frontierSceneryVisual.js:235",
+        "ms": 1.68
+      },
+      {
+        "fn": "sampleFrontierLandform frontierLandform.js:156",
+        "ms": 1.67
+      },
+      {
+        "fn": "(anonymous) frontierScenery.js:248",
+        "ms": 1.66
+      },
+      {
+        "fn": "computeVertexNormals three.module.js:11125",
+        "ms": 1.65
+      },
+      {
+        "fn": "selectFrontierScenery frontierScenery.js:334",
+        "ms": 1.63
+      },
+      {
+        "fn": "authoredPartGeometry frontierSceneryVisual.js:57",
+        "ms": 1.63
+      }
+    ]
+  },
+  "limits": [
+    "One quiet run per candidate; desktop timing varies.",
+    "Preparation shifts CPU work earlier, and may perform unused work if movement stops or reverses. It does not necessarily reduce total terrain CPU.",
+    "Scenery and ecology still publish synchronously and can exceed a frame budget.",
+    "Initial load, teleport and resume remain synchronous. No async asset streaming, worker scheduler, distant LOD or phone certification."
+  ]
+}

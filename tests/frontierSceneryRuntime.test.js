@@ -30,6 +30,7 @@ test('runtime ground cover leaves the staged crystal interaction clear using act
   runtime.update();
   assert.equal(checked, true);
   runtime.dispose();
+  assert.deepEqual(runtime.getDebugState().clearanceRecipeCache, { forageCount: 0, wildlifeCount: 0 });
 });
 
 test('scenery replaces physics and camera registrations only when terrain residency changes', () => {
@@ -54,10 +55,14 @@ test('scenery replaces physics and camera registrations only when terrain reside
   runtime.update();
   assert.equal(created, 1);
   assert.ok(runtime.getDebugState().residentCount > 0);
+  const firstCache = runtime.getDebugState().clearanceRecipeCache;
+  assert.ok(firstCache.forageCount > 0 && firstCache.forageCount <= 81);
+  assert.ok(firstCache.wildlifeCount > 0 && firstCache.wildlifeCount <= 81);
   assert.equal(parent.children.length, 1);
   const firstIds = [...runtime.getDebugState().residentIds];
   for (let i = 0; i < 60; i++) runtime.update();
   assert.equal(created, 1, 'no per-frame rebuild');
+  assert.deepEqual(runtime.getDebugState().clearanceRecipeCache, firstCache, 'no per-frame source generation');
   assert.equal(invalidations, 1);
   snapshot = residency(1, -2);
   runtime.update();
@@ -71,21 +76,30 @@ test('scenery replaces physics and camera registrations only when terrain reside
   assert.equal(parent.children.length, 0, 'Author/other section retires the scene');
   assert.equal(registered.size, 0);
   assert.equal(runtime.getDebugState().colliderCount, 0);
+  assert.deepEqual(runtime.getDebugState().clearanceRecipeCache, { forageCount: 0, wildlifeCount: 0 });
   const finalBatches = batches.length;
   runtime.dispose(); runtime.dispose(); runtime.update();
   assert.equal(batches.length, finalBatches, 'empty repeated disposal creates no physics work');
+  assert.deepEqual(runtime.getDebugState().clearanceRecipeCache, { forageCount: 0, wildlifeCount: 0 });
 });
 
 test('a failed scenery construction retains the old resident and can retry the same snapshot', () => {
-  let snapshot = residency(0, -2), fail = false, attempts = 0;
+  let snapshot = residency(0, -2), fail = false, attempts = 0, heightCalls = 0, failedHeight = null;
   const parent = new THREE.Group();
   const runtime = createFrontierSceneryRuntime({ parent, visualAssets,
-    terrainRuntime: { getResidency: () => snapshot, getHeight: () => 0, sample: () => ({ height: 0, habitatBlend: { wetland: .7, fernUpland: .3 } }) },
-    createVisual() { attempts++; if (fail) throw new Error('fixture'); return { group: new THREE.Group(), terrainSurfaces: [], canopyRoots: [], dispose() {} }; },
+    terrainRuntime: { getResidency: () => snapshot, getHeight: () => { heightCalls++; return 0; }, sample: () => ({ height: 0, habitatBlend: { wetland: .7, fernUpland: .3 } }) },
+    createVisual({ getHeight }) {
+      attempts++; getHeight(123, 456);
+      if (fail) { failedHeight = getHeight; throw new Error('fixture'); }
+      return { group: new THREE.Group(), terrainSurfaces: [], canopyRoots: [], dispose() {} };
+    },
   });
   runtime.update(); const oldGroup = parent.children[0];
   snapshot = residency(1, -2); fail = true;
   assert.throws(() => runtime.update(), /fixture/);
+  const callsAfterFailure = heightCalls;
+  failedHeight(123, 456);
+  assert.equal(heightCalls, callsAfterFailure + 1, 'failed visual construction releases its point memo');
   assert.equal(parent.children[0], oldGroup);
   fail = false; runtime.update();
   assert.equal(attempts, 3);
