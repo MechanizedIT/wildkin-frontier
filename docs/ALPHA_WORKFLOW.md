@@ -129,3 +129,8 @@ A quick F tap exposed a shared catch-up defect: the same edge reached several ph
 ## Portrait-view lesson — prove the frame before the art
 
 Three native camera blockouts isolated a shared source of apparent sparsity: clipped complete props and permanent inventory rows. The selected36°/11.591m view was checked at Camp, Caldera and an earned grove before its generated reference and production contract. Two disjoint workers changed four runtime/style files, cross-reviewed each other, and one presentation round passed8.8. Keep terrain-art holds separate from this usability pass. Actual pickup/expiry and retained construction distance mattered more than a larger screenshot score. Wider visibility raised grove draws67→102; record that cost and avoid inferring phone performance from a smooth180-frame Caldera witness. One aggregate passed1,379 tests/86.428s. No shared/global workflow skill changed.
+
+
+## Fungal Hollow — correct support is not visible relief
+
+Two rounds remained6.5 HOLD despite fitted stones and new banks. Preserve the useful candidate and diagnose actual projected landform before another art slice; passing support math earns no art credit. Source review found a full creature-home/route overlap, ordinary solid intrusion and analytic-versus-triangle grounding differences. Fit every solid against both surfaces and all sibling clearances; a test stopping at stone A says nothing about B/C. Reload only after disjoint writers have frozen a coherent source set, and disable automatic harvesting before Continue for a controlled tap witness. The native outing used bounded ordinary-input helpers, disclosed AI/route guidance and a visible-stump detour. One aggregate passed1,400 tests; new template/skill/global workflow changes were unnecessary.

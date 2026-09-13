@@ -45,6 +45,24 @@ test('Caldera ground patches are sparse low burnt tufts and carry their treatmen
   ordinary.dispose(); caldera.dispose();
 });
 
+test('Fungal ground patches use the muted teal tone and keep that treatment in the cache identity', () => {
+  const owner = {}, cache = createFrontierGroundPatchCache({ owner });
+  const spec = { id: 'fungal-patch', assetId: 'asset_fen_reed', x: -2850, y: 11, z: -1250,
+    scale: 1, yaw: 0, kind: 'low', groundCover: { density: 1, influence: 1, fungalWeight: 0 } };
+  let placeCalls = 0;
+  const ordinary = createFrontierSceneryVisual({ specs: [spec], visualAssets: [reed], groundPatchCache: cache,
+    groundPatchOwner: owner, canPlaceGroundCover: () => { placeCalls++; return true; }, getHeight: () => 11 });
+  const fungal = createFrontierSceneryVisual({ specs: [{ ...spec, groundCover: { ...spec.groundCover, fungalWeight: 1 } }],
+    visualAssets: [reed], groundPatchCache: cache, groundPatchOwner: owner,
+    canPlaceGroundCover: () => { placeCalls++; return true; }, getHeight: () => 11 });
+  assert.equal(placeCalls, 26, 'Fungal weight changes the complete deterministic patch cache key');
+  const ordinaryColor = ordinary.group.getObjectByName('frontier_scenery_ground_cover').instanceColor;
+  const fungalColor = fungal.group.getObjectByName('frontier_scenery_ground_cover').instanceColor;
+  assert.ok(fungalColor.getZ(0) / fungalColor.getY(0) > ordinaryColor.getZ(0) / ordinaryColor.getY(0),
+    'the Fungal treatment shifts existing grass from bright green toward muted teal');
+  ordinary.dispose(); fungal.dispose();
+});
+
 const triangle = (color, offset = 0) => ({
   shape: 'mesh', color,
   position: { x: offset, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 },

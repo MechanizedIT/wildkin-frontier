@@ -158,6 +158,11 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world, vis
     tint.r += (1.45 - tint.r) * caldera;
     tint.g += (.48 - tint.g) * caldera;
     tint.b += (.4 - tint.b) * caldera;
+    // Fungal soil keeps low living tufts in the same bounded instance owner.
+    const fungal = Math.max(0, Math.min(1, sample.fungalWeight ?? 0));
+    tint.r += (.65 - tint.r) * fungal;
+    tint.g += (.72 - tint.g) * fungal;
+    tint.b += (.92 - tint.b) * fungal;
     grass.setColorAt(liveCount++, tint);
   }
   grass.count = liveCount;

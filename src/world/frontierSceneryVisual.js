@@ -150,7 +150,7 @@ function groundPatchKey(spec, desiredCount, world) {
     normalized.edition, normalized.seed, spec.id, spec.assetId, spec.kind,
     spec.x, spec.y, spec.z, desiredCount,
     finite(regional?.density, 1), finite(regional?.influence), finite(regional?.dryWeight), finite(regional?.highWeight),
-    finite(regional?.calderaWeight),
+    finite(regional?.calderaWeight), finite(regional?.fungalWeight),
   ]);
 }
 
@@ -248,6 +248,7 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
     const dry = influence * Math.max(0, Math.min(1, finite(regional?.dryWeight)));
     const high = influence * Math.max(0, Math.min(1, finite(regional?.highWeight)));
     const caldera = Math.max(0, Math.min(1, finite(regional?.calderaWeight)));
+    const fungal = Math.max(0, Math.min(1, finite(regional?.fungalWeight)));
     desiredCount = Math.max(0, Math.min(desiredCount, Math.round(desiredCount * finite(regional?.density, 1))));
     const patchRadius = spec.kind === 'canopy' ? 6 : 4.5;
     const matrices = new Float32Array(desiredCount * 16);
@@ -278,6 +279,7 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
       tone.g *= 1 + dry * .05 - high * .2;
       tone.b *= 1 - dry * .15 + high * .12;
       tone.lerp(new THREE.Color('#8a3f1f'), caldera * .9);
+      tone.lerp(new THREE.Color('#416a5a'), fungal * .75);
       tone.toArray(colors, accepted * 3);
       accepted++;
     }
@@ -357,7 +359,8 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
     }
 
     const patchSpecs = [...specs].filter(spec => spec?.id && Number.isFinite(spec.x) && Number.isFinite(spec.z))
-    .sort((a, b) => Number(b.id.includes(':stage-')) - Number(a.id.includes(':stage-'))
+    .sort((a, b) => Number(b.id.includes(':stage-') || b.id.startsWith('f1:s:fungal-hollow:'))
+      - Number(a.id.includes(':stage-') || a.id.startsWith('f1:s:fungal-hollow:'))
       || Number(a.id.startsWith('f2c:i:')) - Number(b.id.startsWith('f2c:i:'))
       || a.id.localeCompare(b.id));
     for (const spec of patchSpecs) yield* addGroundClusters(spec, spec.id.includes(':stage-') ? 28 : 13);

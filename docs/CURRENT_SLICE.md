@@ -2,13 +2,17 @@
 
 Updated September13,2026. **Continuous goal-mode development; priority is a playable early alpha.** Latest September13 owner direction: early alpha requires at least10unique, nonrepeating habitats on a quite large continent with an irregular silhouette. Root provisionally selects an approximately6×7km hybrid world: deliberate coastline/regions/landmarks and seeded local detail. The three prior terrain grammars, new Caldera candidate and three useful species are foundations, not completion of that requirement; roughly30species remains staged. The frozen target and bounded production plan are in `CONTINENT_ALPHA_TARGET.md`.
 
-## Active slice: establish a feasible Fungal Hollow habitat
+## Active slice: Heartwood opening expedition review
 
-Next: establish Fungal Hollow as a distinct, fuller habitat using the admitted kit. Audit its actual terrain and complete asset bounds, then prove a native blockout in the new ordinary camera before locking production. Ten finished habitats remain the early-alpha requirement.
+Next: review the opening Heartwood expedition from the ordinary Camp view, then scope one readable first circuit using existing forage, Mosslings and a useful Camp crafting/building payoff. Preserve the current kit and earned save; do not add a new species or framework before identifying the actual player-facing gap. Ten finished habitats remain required, and the continuous goal stays active.
 
-Root owns a native rough composition and next production contract. Disjoint read-only audits inventory admitted fungal assets and sample current habitat/terrain support. Reuse the existing terrain, scenery, ecology, discovery, physics and residency owners. No new habitat production is admitted until its visible kit and usable approach are demonstrated in the actual36°/11.591m portrait camera. Do not expand resident budgets, add models or build another framework merely to fill the screen. The continuous goal remains active.
+Production begins only after the ordinary Camp baseline identifies a concrete change and its bounded contract is recorded here. The standing owner mandate authorizes that next decision; no owner permission pause is required.
 
-The [next blockout plan](FUNGAL_HOLLOW_NEXT.md) records the admitted kit, sampled inland approach, render-cost estimate and rejected extra species-key proposal. It is provisional, not runtime completion.
+## Completed candidate: Fungal Hollow
+
+Fungal Hollow now has branching terrain, fuller mushroom scenery, four finite useful flowers and an avoidable aggressive Thornprowler. Ordinary controls proved raised-bank gathering, two supported routes, attack/escape and streamed depletion. **1,400 tests and package gates pass** (44.39 MB unpacked /20.59 MB ZIP), with the original earned Camp restored exactly in developer and portable builds. Visual R2 remains **6.5/10 HOLD**: the banks still read too flat in the ordinary camera. [Actual images and proof](../art/reviews/fungal-hollow/receipt.md).
+
+The final [Fungal contract](FUNGAL_HOLLOW_CONTRACT.md) records terrain/scenery/life ownership, stable flower and predator identities, complete route/home support and the strict final stone fits. Two visual rounds closed with the same principal bank-read gap, so root retains the usable R2 provisionally and moves to the opening exploration loop rather than repeating cosmetic tweaks. All prior habitat art holds remain distinct.
 
 ## Completed checkpoint: portrait exploration view
 

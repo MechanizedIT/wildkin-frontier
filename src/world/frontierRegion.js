@@ -1,5 +1,6 @@
 import { FRONTIER_REGION_CATALOG } from './frontierRegionCatalog.js';
 import { FRONTIER_CALDERA_CONFIG, sampleFrontierCalderaProfile } from './frontierCaldera.js';
+import { FRONTIER_FUNGAL_CONFIG, sampleFrontierFungalProfile } from './frontierFungalHollow.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed, normalizeFrontierWorld } from './frontierWorld.js';
 
 export const FRONTIER_REGION_CONFIG = Object.freeze({
@@ -137,6 +138,8 @@ function sampleResolved(x, z, seed) {
       habitatWeights,
       calderaWeight: habitatWeights[FRONTIER_CALDERA_CONFIG.habitatId] ?? 0,
       calderaFeature: null,
+      fungalWeight: habitatWeights[FRONTIER_FUNGAL_CONFIG.habitatId] ?? 0,
+      fungalFeature: null,
     };
   }
 
@@ -156,17 +159,28 @@ function sampleResolved(x, z, seed) {
     PALETTES.lush[2] * weights.lush + sunscarColor[2] * weights.sunscar + PALETTES.ironspine[2] * weights.ironspine,
   ];
   const calderaWeight = habitatWeights[FRONTIER_CALDERA_CONFIG.habitatId] ?? 0;
+  const fungalWeight = habitatWeights[FRONTIER_FUNGAL_CONFIG.habitatId] ?? 0;
   const caldera = calderaWeight > 0
     ? sampleFrontierCalderaProfile(x, z, { seed, baseHeight, habitatWeight: calderaWeight })
     : null;
-  const colorRGB = caldera?.colorRGB
-    ? blendRGB(baseColorRGB, caldera.colorRGB, calderaWeight)
-    : baseColorRGB;
+  const fungal = fungalWeight > 0
+    ? sampleFrontierFungalProfile(x, z, { seed, baseHeight, habitatWeight: fungalWeight })
+    : null;
+  let height = baseHeight;
+  let colorRGB = [...baseColorRGB];
+  if (caldera) {
+    height += caldera.height - baseHeight;
+    colorRGB = colorRGB.map((value, index) => value + (caldera.colorRGB[index] - baseColorRGB[index]) * calderaWeight);
+  }
+  if (fungal) {
+    height += fungal.height - baseHeight;
+    colorRGB = colorRGB.map((value, index) => value + (fungal.colorRGB[index] - baseColorRGB[index]) * fungalWeight);
+  }
   return {
     id: `f1:habitat:${owner.habitatId}`,
     kind: owner.baseKind,
     influence,
-    height: caldera?.height ?? baseHeight,
+    height,
     colorRGB,
     weights,
     habitatId: owner.habitatId,
@@ -174,6 +188,8 @@ function sampleResolved(x, z, seed) {
     habitatWeights,
     calderaWeight,
     calderaFeature: caldera?.feature ?? null,
+    fungalWeight,
+    fungalFeature: fungal?.feature ?? null,
   };
 }
 

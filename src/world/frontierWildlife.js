@@ -6,6 +6,7 @@ import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 import { hasFrontierLandFootprint } from './frontierContinent.js';
 import { FRONTIER_CALDERA_CONFIG, sampleFrontierCalderaFeature } from './frontierCaldera.js';
+import { FRONTIER_FUNGAL_CONFIG, overlapsFrontierFungalOuting } from './frontierFungalHollow.js';
 
 const EDGE = 5;
 const SLOPE_SAMPLE = .8;
@@ -14,6 +15,7 @@ const HOME_FOOTPRINT_RADIUS = 4.9;
 const SKYBREAK_HOME_RADIUS = 3.1;
 const SKYBREAK_HOME_GRID = .5;
 const CALDERA_HOME_GRID = 2;
+const FUNGAL_HOME_GRID = 2;
 
 export const FRONTIER_CALDERA_WILDLIFE_ANCHOR = Object.freeze({
   index: 300, cx: 17, cz: -40,
@@ -21,6 +23,7 @@ export const FRONTIER_CALDERA_WILDLIFE_ANCHOR = Object.freeze({
   z: FRONTIER_CALDERA_CONFIG.bowlRefuge.z,
   speciesId: 'emberhorn', movementRadius: FRONTIER_CALDERA_CONFIG.bowlRefuge.radius,
 });
+export const FRONTIER_FUNGAL_WILDLIFE_ANCHOR = FRONTIER_FUNGAL_CONFIG.outing.thornHome;
 
 // These two recipes deliberately mirror the admitted wildkin catalog. The
 // generated creature path does not otherwise hydrate gameplay from its visual
@@ -137,6 +140,32 @@ function hasSafeCalderaHome(x, z, options) {
   });
 }
 
+function hasSafeFungalHome(x, z, options) {
+  const radius = FRONTIER_FUNGAL_WILDLIFE_ANCHOR.radius;
+  const steps = Math.ceil(radius / FUNGAL_HOME_GRID);
+  for (let ix = -steps; ix <= steps; ix += 1) {
+    for (let iz = -steps; iz <= steps; iz += 1) {
+      const dx = ix * FUNGAL_HOME_GRID, dz = iz * FUNGAL_HOME_GRID;
+      if (dx * dx + dz * dz > radius * radius) continue;
+      const sx = x + dx, sz = z + dz;
+      const sample = terrainSample(sx, sz, options);
+      if (!Number.isFinite(sample.height) || sample.habitatId !== FRONTIER_FUNGAL_CONFIG.habitatId
+        || sample.contentLand === false || sample.land === false) return false;
+      for (const [ox, oz] of [[FUNGAL_HOME_GRID, 0], [0, FUNGAL_HOME_GRID]]) {
+        if ((dx + ox) ** 2 + (dz + oz) ** 2 > radius * radius) continue;
+        const neighbor = terrainSample(sx + ox, sz + oz, options);
+        if (!Number.isFinite(neighbor.height)
+          || Math.abs(neighbor.height - sample.height) / FUNGAL_HOME_GRID > MAX_SLOPE) return false;
+      }
+    }
+  }
+  return hasFootprintSupport(x, z, {
+    getHeight: (sx, sz) => terrainSample(sx, sz, options).height,
+    radius,
+    maxSlope: MAX_SLOPE,
+  });
+}
+
 function habitatEcotype(sample) {
   return sample.habitatBlend.wetland >= sample.habitatBlend.fernUpland ? 'fen' : 'grove';
 }
@@ -216,12 +245,29 @@ function admittedWildkinAsset(visualAssets, speciesId) {
   return asset?.gameplay?.role === 'wildkin' && recipe?.speciesTag === speciesId ? asset : null;
 }
 
+function admittedThornprowlerAsset(visualAssets) {
+  const asset = (visualAssets ?? []).find(candidate => candidate?.id === 'asset_thornprowler');
+  const recipe = asset?.gameplay?.wildkin;
+  const positiveFields = ['roamRadius', 'noticeRadius', 'personalSpace', 'leashRadius', 'health', 'moveSpeed', 'damage', 'respawnSeconds'];
+  return asset?.gameplay?.role === 'wildkin'
+    && recipe?.speciesTag === 'thornprowler'
+    && recipe.archetype === 'rusher'
+    && recipe.temperament === 'AGGRESSIVE'
+    && positiveFields.every(field => Number.isFinite(recipe[field]) && recipe[field] > 0)
+    ? { asset, recipe } : null;
+}
+
 function movementDiskIntersectsCalderaCore(placement) {
   const radius = Math.max(0, placement.roamRadius ?? 0, placement.leashRadius ?? 0, placement.fleeLeashRadius ?? 0);
   return Math.hypot(
     placement.homePos.x - FRONTIER_CALDERA_CONFIG.center.x,
     placement.homePos.z - FRONTIER_CALDERA_CONFIG.center.z,
   ) < Math.max(FRONTIER_CALDERA_CONFIG.outerRadius.x, FRONTIER_CALDERA_CONFIG.outerRadius.z) + radius;
+}
+
+function movementDiskIntersectsFungalOuting(placement) {
+  const radius = Math.max(0, placement.roamRadius ?? 0, placement.leashRadius ?? 0, placement.fleeLeashRadius ?? 0);
+  return overlapsFrontierFungalOuting(placement.homePos.x, placement.homePos.z, radius);
 }
 
 function makeFixedCalderaEncounter(options) {
@@ -238,6 +284,41 @@ function makeFixedCalderaEncounter(options) {
     regionalSignature: true,
     calderaFeature: true,
   });
+}
+
+function makeFixedFungalEncounter(options) {
+  const admitted = admittedThornprowlerAsset(options.visualAssets);
+  if (!admitted) return null;
+  const anchor = FRONTIER_FUNGAL_WILDLIFE_ANCHOR;
+  const sample = terrainSample(anchor.x, anchor.z, options);
+  if (!Number.isFinite(sample.height) || sample.habitatId !== FRONTIER_FUNGAL_CONFIG.habitatId
+    || !hasSafeFungalHome(anchor.x, anchor.z, options)) return null;
+  const { asset, recipe } = admitted;
+  const { base } = placementBase(anchor.cx, anchor.cz, anchor.index, anchor.x, anchor.z, options);
+  const placement = Object.freeze({
+    ...base,
+    type: recipe.archetype,
+    speciesTag: recipe.speciesTag,
+    temperament: recipe.temperament,
+    roamRadius: recipe.roamRadius,
+    noticeRadius: recipe.noticeRadius,
+    personalSpace: recipe.personalSpace,
+    leashRadius: recipe.leashRadius,
+    visualAssetId: asset.id,
+    facingYaw: 0,
+    hostileSpecies: Object.freeze([...(recipe.hostileSpecies ?? [])]),
+    configOverrides: Object.freeze({
+      health: recipe.health,
+      moveSpeed: recipe.moveSpeed,
+      damage: recipe.damage,
+      respawnSeconds: recipe.respawnSeconds,
+    }),
+    genome: null,
+    residentPriority: 1,
+    regionalSignature: true,
+    fungalFeature: true,
+  });
+  return homeDiskIsLand(placement, options) ? placement : null;
 }
 
 function nearbyRegionalPlaces(cx, cz, options) {
@@ -281,6 +362,10 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
     const fixed = makeFixedCalderaEncounter(sampleOptions);
     return fixed ? [fixed] : [];
   }
+  if (cx === FRONTIER_FUNGAL_WILDLIFE_ANCHOR.cx && cz === FRONTIER_FUNGAL_WILDLIFE_ANCHOR.cz) {
+    const fixed = makeFixedFungalEncounter(sampleOptions);
+    return fixed ? [fixed] : [];
+  }
   if (!starterShelf && !emberShelf && !skybreakCrown && roll(0, 13) >= .22) return [];
   // Sample each neighboring owner at most once for this chunk. A place center
   // is inset from its owner edge, but a creature's complete movement disk can
@@ -319,7 +404,8 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
     if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE && hasSafeHome(x, z, sampleOptions)) {
       const placement = makeRegionalPlacement(cx, cz, 0, x, z, sampleOptions);
       if (homeDiskIsLand(placement, sampleOptions) && !homeDiskIntersectsPlace(placement, places)
-        && !movementDiskIntersectsCalderaCore(placement)) return [placement];
+        && !movementDiskIntersectsCalderaCore(placement)
+        && !movementDiskIntersectsFungalOuting(placement)) return [placement];
     }
   }
   return [];

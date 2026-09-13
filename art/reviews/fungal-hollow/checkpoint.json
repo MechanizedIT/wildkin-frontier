@@ -1,0 +1,154 @@
+{
+  "timestamp": "2026-09-13T23:34:12.103Z",
+  "baselineCommit": "c8f76fb97d62d09c26ef3b6d8fe23e31d00794cc",
+  "source": [
+    {
+      "path": "src/progression/frontierPurpose.js",
+      "sha256": "8600710e9bdd14f7b3aad651e9c322dd08a8e1ee2cbb5adab01a7f46ad81f853"
+    },
+    {
+      "path": "src/world/frontierChunkRuntime.js",
+      "sha256": "1dc6988238e80793259e8529ac6e3f59ac96707a9694db33a17005707e182765"
+    },
+    {
+      "path": "src/world/frontierEcology.js",
+      "sha256": "a96426a72369023942fec62fbe3f606aa7698febbcf6625ce0c9de1091739004"
+    },
+    {
+      "path": "src/world/frontierFungalHollow.js",
+      "sha256": "5834e6e0ba2d2f6dea8b7c3bdac7f084df31dca68faee67cf8113cee8bd2f180"
+    },
+    {
+      "path": "src/world/frontierRegion.js",
+      "sha256": "574973e24852e2c9f9b98654bd76b769762808bd18aa0ec2f452012fa4fe4e39"
+    },
+    {
+      "path": "src/world/frontierScenery.js",
+      "sha256": "c8f58a419c156a19d96c4227d9d5c683862606a2d8d3d639bf096c2849683967"
+    },
+    {
+      "path": "src/world/frontierSceneryVisual.js",
+      "sha256": "2a5261a24d2e2e9c3054d17e6dcb5dfb614ba3c91d4d0e0dc763d97a142f559a"
+    },
+    {
+      "path": "src/world/frontierTerrain.js",
+      "sha256": "cd9efa91d1303b932bb3b58fb0c5f5daa98538808a9956d97f604c8c2f5aa9b7"
+    },
+    {
+      "path": "src/world/frontierWildlife.js",
+      "sha256": "19b42263322776790a21fc1526f04fcfa61051b8cb9604fa80e7f50c6b498781"
+    },
+    {
+      "path": "tests/frontierEcology.test.js",
+      "sha256": "4ff611d22a2dd27bb082edbd5c8cdebc9014c59fe014e852c64e22c02eb2d60a"
+    },
+    {
+      "path": "tests/frontierFungalHollow.test.js",
+      "sha256": "9e07d2a4f396c43bf7300cb263d455bf447db76819eb14ee1f9a7e33d801dad6"
+    },
+    {
+      "path": "tests/frontierPurpose.test.js",
+      "sha256": "1ae980fb5690369d15667efb3873160653ad60de6353d0fb66755a36d3c7ff5c"
+    },
+    {
+      "path": "tests/frontierScenery.test.js",
+      "sha256": "0f92cab5deb12c79c772688f00fcf6b7de75aeeba0e88012c97e8d54a7fe16f0"
+    },
+    {
+      "path": "tests/frontierSceneryVisual.test.js",
+      "sha256": "0c1f24d7013ba7d1c3f946090ef7018248dedaa23e7b0187deae3bdac833594a"
+    },
+    {
+      "path": "tests/frontierWildlife.test.js",
+      "sha256": "cd552bc9e6973424f72a5724ef69aa3f9b3354601c9981ed8a90fbfc00655f1a"
+    }
+  ],
+  "validation": {
+    "tests": 1400,
+    "suites": 173,
+    "durationMs": 91876.4746,
+    "verify": true,
+    "zip": true,
+    "zipBytes": 21592110,
+    "unpackedMiB": 44.39
+  },
+  "reviews": {
+    "targetFitness": 8.7,
+    "visualR1": 6.5,
+    "visualR2": 6.5,
+    "visualStatus": "HOLD",
+    "source": "PASS"
+  },
+  "fixture": "Original earned Camp plus a disclosed remote active-run position near Fungal Hollow. Ordinary keyboard movement/gathering after placement; route and AI-state guidance were used. This is not an earned journey from Camp or unaided player evidence.",
+  "outing": {
+    "timestamp": "2026-09-13T23:33:31.006Z",
+    "streamedDepletion": true,
+    "flowerCounts": {
+      "400": 1,
+      "401": 3,
+      "402": 2,
+      "403": 3
+    },
+    "packFlowers": 9,
+    "healthBeforeEncounter": 5,
+    "healthAfterReturn": 4,
+    "encounterStates": [
+      "ROAM",
+      "ALERT",
+      "CHASE",
+      "WINDUP",
+      "LUNGE",
+      "RECOVER",
+      "RETURN"
+    ],
+    "returnAllLegsArrived": true,
+    "returnDetours": [
+      "Visible stump",
+      "Steep side channel; gentler north ramp used"
+    ],
+    "packageExact": true,
+    "packageThornCount": 1,
+    "packageOrigins": [
+      "http://127.0.0.1:8081"
+    ],
+    "browserErrors": 0
+  },
+  "campReload": {
+    "developer": {
+      "exact": true,
+      "timestamp": "2026-09-13T23:34:02.426Z",
+      "continueExact": true
+    },
+    "portable": {
+      "exact": true,
+      "timestamp": "2026-09-13T23:34:02.427Z",
+      "continueExact": true
+    }
+  },
+  "imageManifest": [
+    {
+      "path": "production-r1.png",
+      "sha256": "0c55c383d5584ac41dbcebc4e7333b4e33a806d45a96d290e6a9fb221df64deb"
+    },
+    {
+      "path": "production-r2.png",
+      "sha256": "e88461cb1044279565578630501fc386ed67321b38b92d08fa9ba86274c808e4"
+    },
+    {
+      "path": "raised-flower.png",
+      "sha256": "092928e8563e56a3261d5aff00456aed5dbd232cf11e845db9dde8ec02e54c61"
+    },
+    {
+      "path": "return-obstacle.png",
+      "sha256": "d6192bd6b5bc65f42b4c376d2670be71eb4da56d68c9ecc78e5a953d6945de47"
+    },
+    {
+      "path": "return-slope.png",
+      "sha256": "18b0db911faab481c13cb4b88df2bf1224922790b4e26affb10d3b2e8a62e784"
+    },
+    {
+      "path": "package-fungal.png",
+      "sha256": "9b6ae41def45c56ba734c2c1c7947ad5588928af5c675ee463b6622fb491af7c"
+    }
+  ]
+}

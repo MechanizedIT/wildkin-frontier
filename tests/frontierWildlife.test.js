@@ -4,13 +4,15 @@ import * as THREE from 'three';
 import WORLD_DATA from '../src/world/data/world.js';
 import { createCreatureSystem } from '../src/creatures/creatureSystem.js';
 import { createWildkinGenome } from '../src/creatures/wildkinGenome.js';
-import { FRONTIER_CALDERA_WILDLIFE_ANCHOR, sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
+import { identifyCompanion } from '../src/companions/companionCatalog.js';
+import { FRONTIER_CALDERA_WILDLIFE_ANCHOR, FRONTIER_FUNGAL_WILDLIFE_ANCHOR, sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
 import { createFrontierWildlifeRuntime } from '../src/world/frontierWildlifeRuntime.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
 import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalPlace.js';
 import { FRONTIER_CALDERA_RESOURCE_ANCHORS } from '../src/world/frontierEcology.js';
 import { sampleFrontierCalderaFeature } from '../src/world/frontierCaldera.js';
+import { FRONTIER_FUNGAL_CONFIG, overlapsFrontierFungalOuting } from '../src/world/frontierFungalHollow.js';
 
 function residency(cx, cz) {
   const chunks = [];
@@ -221,6 +223,124 @@ test('Caldera fixed Emberhorn wins residency and stays absent after capture', ()
   captured.add('f1:w:17:-40:300');
   runtime.update();
   assert.equal(creatures.actors.some(actor => actor.state.originId === 'f1:w:17:-40:300'), false);
+  runtime.dispose();
+});
+
+test('Fungal Hollow admits one exact aggressive Thornprowler on its full supported home disk', () => {
+  const thornAsset = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_thornprowler');
+  const [source] = sampleFrontierWildlifeChunk(
+    FRONTIER_FUNGAL_WILDLIFE_ANCHOR.cx,
+    FRONTIER_FUNGAL_WILDLIFE_ANCHOR.cz,
+    { visualAssets: [thornAsset] },
+  );
+  assert.deepEqual({
+    id: source.originId,
+    species: source.speciesTag,
+    asset: source.visualAssetId,
+    type: source.type,
+    temperament: source.temperament,
+    x: source.homePos.x,
+    z: source.homePos.z,
+    priority: source.residentPriority,
+    roam: source.roamRadius,
+    notice: source.noticeRadius,
+    personalSpace: source.personalSpace,
+    leash: source.leashRadius,
+    genome: source.genome,
+    overrides: source.configOverrides,
+  }, {
+    id: 'f1:w:-58:-26:450',
+    species: 'thornprowler',
+    asset: 'asset_thornprowler',
+    type: 'rusher',
+    temperament: 'AGGRESSIVE',
+    x: -2868,
+    z: -1260,
+    priority: 1,
+    roam: 4.5,
+    notice: 7,
+    personalSpace: 2,
+    leash: 10,
+    genome: null,
+    overrides: { health: 7, moveSpeed: 2.6, damage: 1, respawnSeconds: 28 },
+  });
+  assert.equal(source.fungalFeature, true);
+  assert.equal(identifyCompanion({ state: source }), null, 'the exact hostile asset has no companion identity or observation path');
+  assert.equal(hasFootprintSupport(source.homePos.x, source.homePos.z, {
+    getHeight: (x, z) => sampleFrontier(x, z).height,
+    radius: FRONTIER_FUNGAL_WILDLIFE_ANCHOR.radius,
+    maxSlope: .32,
+  }), true);
+  for (let dx = -10; dx <= 10; dx += 2) for (let dz = -10; dz <= 10; dz += 2) {
+    if (dx * dx + dz * dz > 100) continue;
+    const sample = sampleFrontier(source.homePos.x + dx, source.homePos.z + dz);
+    assert.equal(sample.habitatId, FRONTIER_FUNGAL_CONFIG.habitatId);
+    assert.equal(sample.contentLand, true);
+  }
+});
+
+test('Thornprowler exact-asset admission fails closed on aliases, recipe drift, and unsafe support', () => {
+  const thornAsset = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_thornprowler');
+  const recipe = thornAsset.gameplay.wildkin;
+  const sample = visualAssets => sampleFrontierWildlifeChunk(-58, -26, { visualAssets });
+  assert.deepEqual(sample([]), []);
+  assert.deepEqual(sample([{ ...thornAsset, id: 'asset_wildkin_thornprowler' }]), [], 'the canonical asset cannot be aliased');
+  assert.deepEqual(sample([{ ...thornAsset, gameplay: { role: 'prop', wildkin: recipe } }]), []);
+  assert.deepEqual(sample([{ ...thornAsset, gameplay: { role: 'wildkin', wildkin: { ...recipe, speciesTag: 'mossling' } } }]), []);
+  assert.deepEqual(sample([{ ...thornAsset, gameplay: { role: 'wildkin', wildkin: { ...recipe, damage: 0 } } }]), []);
+  const anchor = FRONTIER_FUNGAL_WILDLIFE_ANCHOR;
+  const steep = (x, z) => ({
+    height: x > anchor.x + 1 ? 8 : 0,
+    coastDistance: 100,
+    land: true,
+    contentLand: true,
+    habitatId: FRONTIER_FUNGAL_CONFIG.habitatId,
+    habitatBlend: { wetland: 1, fernUpland: 0 },
+  });
+  assert.deepEqual(sampleFrontierWildlifeChunk(-58, -26, {
+    visualAssets: [thornAsset], getTerrainSample: steep,
+  }), [], 'one unsupported interior step rejects the full home disk');
+});
+
+test('ordinary wildlife movement disks remain outside the complete Fungal outing', () => {
+  const flatFungal = () => ({
+    height: 10,
+    coastDistance: 100,
+    land: true,
+    contentLand: true,
+    habitatId: FRONTIER_FUNGAL_CONFIG.habitatId,
+    habitatBlend: { wetland: 1, fernUpland: 0 },
+  });
+  const ordinary = [];
+  for (let cz = -28; cz <= -23; cz += 1) for (let cx = -60; cx <= -55; cx += 1) {
+    if (cx === -58 && cz === -26) continue;
+    ordinary.push(...sampleFrontierWildlifeChunk(cx, cz, { getTerrainSample: flatFungal }));
+  }
+  assert.ok(ordinary.length > 0);
+  assert.ok(ordinary.every(source => {
+    const radius = Math.max(source.roamRadius, source.leashRadius, source.fleeLeashRadius ?? 0);
+    return !overlapsFrontierFungalOuting(source.homePos.x, source.homePos.z, radius);
+  }));
+});
+
+test('Fungal resident priority loads the Thornprowler once and normal retirement restores the same origin', () => {
+  const thornAsset = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_thornprowler');
+  let snapshot = residency(-58, -26);
+  const creatures = owner();
+  const runtime = createFrontierWildlifeRuntime({
+    terrainRuntime: { getResidency: () => snapshot, sample: sampleFrontier },
+    creatureSystem: creatures,
+    visualAssets: [thornAsset],
+  });
+  runtime.update();
+  assert.equal(creatures.actors.filter(actor => actor.state.originId === 'f1:w:-58:-26:450').length, 1);
+  assert.ok(creatures.actors.length <= 4);
+  snapshot = residency(8, 8);
+  runtime.update();
+  assert.equal(creatures.actors.some(actor => actor.state.originId === 'f1:w:-58:-26:450'), false);
+  snapshot = residency(-58, -26);
+  runtime.update();
+  assert.equal(creatures.actors.filter(actor => actor.state.originId === 'f1:w:-58:-26:450').length, 1);
   runtime.dispose();
 });
 

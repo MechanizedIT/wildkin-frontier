@@ -241,6 +241,23 @@ test('Caldera exploration follows the actual habitat while urgent care and pendi
   assert.equal(input.habitatFeatureKind, null);
 });
 
+test('Fungal outings replace distant grove chores without displacing safety or Camp care', () => {
+  const input = { state: state({ ownedWildkin: [mossling],
+    base: { structures: built('bed', 'berry_garden') }, campCare: { nourishment: 3 } }),
+    isCamp: false, activeSpeciesId: 'mossling', health: 5, maxHealth: 5,
+    habitatId: 'fungal-hollow', habitatFeatureKind: 'fungal-hollow' };
+  assert.equal(getFrontierPurpose(input).id, 'explore-fungal-rootwash');
+  assert.match(getFrontierPurpose(input).description, /blossoms.*Camp upgrades/);
+  assert.doesNotMatch(getFrontierPurpose(input).description, /bond|breed|grove cache/i);
+  assert.equal(getFrontierPurpose({ ...input, habitatFeatureKind: null }).id, 'explore-fungal-hollows');
+  assert.equal(getFrontierPurpose({ ...input, habitatId: 'rootbound-wildwood' }).id, 'seek-rootbound-grove');
+  assert.notEqual(getFrontierPurpose({ ...input, isCamp: true }).id, 'explore-fungal-rootwash');
+  assert.equal(getFrontierPurpose({ ...input, health: 1 }).id, 'return-low-health');
+  assert.equal(getFrontierPurpose({ ...input, health: 3,
+    ability: { speciesId: 'mossling', ready: true } }).id, 'use-bloom');
+  assert.equal(getFrontierPurpose({ ...input, pendingCompanions: [{ id: 'new_bond' }] }).id, 'return-pending-bond');
+});
+
 test('derivation does not mutate inputs or emit stale portal navigation language', () => {
   const input = Object.freeze({
     state: Object.freeze({

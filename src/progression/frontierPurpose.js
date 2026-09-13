@@ -85,6 +85,18 @@ export function getFrontierPurpose({
       description: 'Follow the dark shelves and broken volcanic stone. Look for useful minerals and give territorial Wildkin space.',
     };
 
+  if (!isCamp && habitatId === 'fungal-hollow') return habitatFeatureKind === 'fungal-hollow'
+    ? {
+      id: 'explore-fungal-rootwash',
+      title: 'Explore mushroom shelves',
+      description: 'Look for luminous blossoms among the purple caps. Wildflowers help with Camp upgrades. Give prowling Wildkin space and keep a way back along the shelves.',
+    }
+    : {
+      id: 'explore-fungal-hollows',
+      title: 'Explore branching hollows',
+      description: 'Search the cool soil and mushroom banks for a way deeper into the Hollow. Watch the slopes and wildlife as you map a route.',
+    };
+
   const owned = Array.isArray(state?.ownedWildkin) ? state.ownedWildkin : [];
   const ownsMossling = owned.some(record => record?.speciesId === 'mossling');
   const supplies = state?.fieldSupplies ?? {};

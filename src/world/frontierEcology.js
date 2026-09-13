@@ -6,12 +6,14 @@ import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 import { hasFrontierLandFootprint } from './frontierContinent.js';
 import { FRONTIER_CALDERA_CONFIG, overlapsFrontierCalderaClearLane, sampleFrontierCalderaFeature } from './frontierCaldera.js';
+import { FRONTIER_FUNGAL_CONFIG, overlapsFrontierFungalOuting } from './frontierFungalHollow.js';
 
 const EDGE = 3;
 const CAMP_CLEARANCE = 6;
 const SLOPE_SAMPLE = .8;
 const MAX_SLOPE = .42;
 const CALDERA_FIXED_MAX_SLOPE = .18;
+const FUNGAL_FIXED_MAX_SLOPE = .18;
 const FOOTPRINT_RADIUS = Object.freeze({ tree: 1.35, rock: .9, fiber: .55 });
 const STAGED_ASSET_FOOTPRINT_RADIUS = Object.freeze({
   asset_berry_bush: 1.29,
@@ -37,6 +39,7 @@ export const FRONTIER_CALDERA_RESOURCE_ANCHORS = Object.freeze({
     type: 'rock', assetId: 'asset_iron_ore_rock', uniformScale: 1, footprintRadius: .93,
   }),
 });
+export const FRONTIER_FUNGAL_BLOSSOM_ANCHORS = FRONTIER_FUNGAL_CONFIG.blossoms;
 const MAX_FORAGE_PER_CHUNK = 12;
 // Indices 0..31 belong to the ordinary coordinate-seeded attempts. These fixed
 // sources use a disjoint saved-ID range so existing depletion records never move.
@@ -232,6 +235,42 @@ function sampleFixedCalderaResource(anchor, options, nearbyRegionalPlaces) {
   };
 }
 
+function admittedLuminousBlossom(visualAssets) {
+  const asset = harvestableAsset(visualAssets, 'asset_luminous_blossom');
+  const recipe = asset?.gameplay?.harvestable;
+  return recipe?.dropId === 'wildflower' && recipe.maxChunks === 3 && recipe.feedbackProfile === 'fiber' ? asset : null;
+}
+
+function sampleFixedFungalBlossom(anchor, visualAsset, options) {
+  if (!visualAsset) return null;
+  const sample = terrainSample(anchor.x, anchor.z, options);
+  const height = heightAt(anchor.x, anchor.z, options);
+  if (!Number.isFinite(height) || sample.habitatId !== FRONTIER_FUNGAL_CONFIG.habitatId) return null;
+  const sampleTerrain = (x, z) => terrainSample(x, z, options);
+  if (!hasFrontierLandFootprint(anchor.x, anchor.z, {
+    radius: anchor.footprintRadius,
+    getTerrainSample: sampleTerrain,
+    world: options.world,
+  }) || !hasFootprintSupport(anchor.x, anchor.z, {
+    getHeight: (x, z) => heightAt(x, z, options),
+    radius: anchor.footprintRadius,
+    maxSlope: FUNGAL_FIXED_MAX_SLOPE,
+  })) return null;
+  return {
+    type: 'fiber',
+    visualAsset,
+    id: makeFrontierResourceId(anchor.cx, anchor.cz, anchor.index),
+    chunkId: `${anchor.cx},${anchor.cz}`,
+    placementIndex: anchor.index,
+    regionId: 'camp',
+    persistentFinite: true,
+    fungalFeature: true,
+    pos: { x: anchor.x, y: height, z: anchor.z },
+    rotY: (anchor.index - 400) * .73,
+    uniformScale: anchor.scale,
+  };
+}
+
 /** Pure, per-chunk generated forage. Saved depletion is intentionally excluded. */
 export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample, visualAssets, terrainOptions, world = DEFAULT_FRONTIER_WORLD } = {}) {
   if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
@@ -254,6 +293,17 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
   }
   const regionalPlace = nearbyRegionalPlaces.find(place => place.cx === cx && place.cz === cz) ?? null;
   const placements = [];
+  // Fixed blossoms publish before ordinary candidates so the per-chunk cap can
+  // never displace their stable depletion identities. One exact asset preflight
+  // governs all four chunks; invalid art leaves every blossom retryable.
+  const blossomAsset = admittedLuminousBlossom(visualAssets);
+  for (const anchor of FRONTIER_FUNGAL_BLOSSOM_ANCHORS) {
+    if (anchor.cx !== cx || anchor.cz !== cz) continue;
+    const fixed = sampleFixedFungalBlossom(anchor, blossomAsset, {
+      getHeight, getTerrainSample, visualAssets, terrainOptions, world,
+    });
+    if (fixed) placements.push(fixed);
+  }
   for (let index = 0; index < 32 && placements.length < count; index++) {
     const group = Math.floor(index / 3);
     const camp = FRONTIER_TERRAIN_CONFIG.campBounds;
@@ -297,6 +347,8 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
       getTerrainSample: (sx, sz) => terrainSample(sx, sz, { getTerrainSample, terrainOptions, world }),
       world,
     })) continue;
+    const fungalExclusionRadius = (REGIONAL_ASSET_FOOTPRINT_RADIUS[kind.visualAsset?.id] ?? FOOTPRINT_RADIUS[kind.type]) * uniformScale;
+    if (overlapsFrontierFungalOuting(x, z, fungalExclusionRadius)) continue;
     if (overlapsCalderaCore(x, z, footprintRadius) || overlapsFrontierCalderaClearLane(x, z, footprintRadius)) continue;
     if (nearbyRegionalPlaces.some(place => (
       Math.hypot(x - place.center.x, z - place.center.z) < place.radius + footprintRadius

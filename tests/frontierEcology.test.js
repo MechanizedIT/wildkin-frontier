@@ -5,9 +5,10 @@ import { createRuntimeResourcePlacements } from '../src/resources/resourceSystem
 import { getResourceType } from '../src/resources/resourceConfig.js';
 import { getHarvestInteractionPoint, getHarvestReach, isHarvestableInRange, isPlayerInsideColliderVolume } from '../src/resources/harvestLogic.js';
 import { describeVisualAssetCollider } from '../src/world/colliderDescriptor.js';
-import { FRONTIER_CALDERA_RESOURCE_ANCHORS, FRONTIER_REGIONAL_RESOURCE_ASSETS, sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
+import { FRONTIER_CALDERA_RESOURCE_ANCHORS, FRONTIER_FUNGAL_BLOSSOM_ANCHORS, FRONTIER_REGIONAL_RESOURCE_ASSETS, sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
 import { createFrontierEcologyState, normalizeFrontierEcologyState } from '../src/world/frontierEcologyState.js';
 import { overlapsFrontierCalderaClearLane } from '../src/world/frontierCaldera.js';
+import { FRONTIER_FUNGAL_CONFIG, overlapsFrontierFungalOuting } from '../src/world/frontierFungalHollow.js';
 import { SKYBREAK_ROUTE } from '../src/world/frontierLandform.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
@@ -311,4 +312,89 @@ test('regional blooms reserve ordinary forage and add priority finite crystal re
   assert.ok(cleft.every(node => ![202, 203, 204, 205, 206, 207].includes(node.placementIndex)), 'reserved semantic slots remain unused');
   assert.equal(sampleFrontierForageChunk(witnessChunk.cx, witnessChunk.cz).some(node => node.placementIndex >= 200), false, 'the place resource requires the admitted harvestable asset');
   assert.equal(sampleFrontierForageChunk(witnessChunk.cx, witnessChunk.cz, { visualAssets: [crystalAsset] }).some(node => node.placementIndex >= 200), false, 'missing decor cannot leave a resource-only reservation');
+});
+
+test('Fungal Hollow publishes four fixed finite luminous blossoms before ordinary forage', () => {
+  const blossomAsset = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_luminous_blossom');
+  const nodes = FRONTIER_FUNGAL_BLOSSOM_ANCHORS.flatMap(anchor => (
+    sampleFrontierForageChunk(anchor.cx, anchor.cz, { visualAssets: [blossomAsset] })
+      .filter(node => node.fungalFeature)
+  ));
+  assert.deepEqual(nodes.map(node => [node.id, node.placementIndex, node.visualAsset.id, node.pos.x, node.pos.z]), [
+    ['f1:r:-57:-25:400', 400, 'asset_luminous_blossom', -2847, -1241],
+    ['f1:r:-58:-25:401', 401, 'asset_luminous_blossom', -2855.8, -1240.5],
+    ['f1:r:-57:-26:402', 402, 'asset_luminous_blossom', -2843.5, -1255],
+    ['f1:r:-58:-26:403', 403, 'asset_luminous_blossom', -2860, -1255],
+  ]);
+  assert.equal(new Set(nodes.map(node => node.id)).size, 4);
+  for (const node of nodes) {
+    const anchor = FRONTIER_FUNGAL_BLOSSOM_ANCHORS.find(candidate => candidate.index === node.placementIndex);
+    const chunk = sampleFrontierForageChunk(anchor.cx, anchor.cz, { visualAssets: [blossomAsset] });
+    assert.equal(chunk[0].id, node.id, 'the fixed source owns the first cap slot');
+    assert.equal(node.persistentFinite, true);
+    assert.equal(sampleFrontier(node.pos.x, node.pos.z).habitatId, FRONTIER_FUNGAL_CONFIG.habitatId);
+    assert.equal(hasFootprintSupport(node.pos.x, node.pos.z, {
+      getHeight: (x, z) => sampleFrontier(x, z).height,
+      radius: anchor.footprintRadius,
+      maxSlope: .18,
+    }), true, node.id);
+  }
+  const runtime = createRuntimeResourcePlacements(nodes);
+  assert.ok(runtime.every(node => node.resourceType.resourceId === 'wildflower'));
+  assert.ok(runtime.every(node => node.resourceType.maxChunks === 3));
+  assert.ok(runtime.every(node => node.resourceType.solid === false && node.collisionEnabled === true));
+  const saved = createFrontierEcologyState();
+  saved.resources[nodes[0].id] = 2;
+  saved.resources[nodes[3].id] = 0;
+  assert.deepEqual(normalizeFrontierEcologyState(saved).resources, {
+    'f1:r:-57:-25:400': 2,
+    'f1:r:-58:-26:403': 0,
+  }, 'partial and exhausted blossoms retain their existing finite depletion identities');
+});
+
+test('Fungal blossoms fail closed as one exact asset family and reject unsupported feet', () => {
+  const blossomAsset = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_luminous_blossom');
+  for (const invalid of [
+    [],
+    [{ ...blossomAsset, gameplay: { role: 'prop' } }],
+    [{ ...blossomAsset, gameplay: { ...blossomAsset.gameplay, harvestable: { ...blossomAsset.gameplay.harvestable, dropId: 'fiber' } } }],
+    [{ ...blossomAsset, gameplay: { ...blossomAsset.gameplay, harvestable: { ...blossomAsset.gameplay.harvestable, maxChunks: 4 } } }],
+    [{ ...blossomAsset, gameplay: { ...blossomAsset.gameplay, harvestable: { ...blossomAsset.gameplay.harvestable, feedbackProfile: 'stone' } } }],
+  ]) {
+    const fixed = FRONTIER_FUNGAL_BLOSSOM_ANCHORS.flatMap(anchor => (
+      sampleFrontierForageChunk(anchor.cx, anchor.cz, { visualAssets: invalid }).filter(node => node.fungalFeature)
+    ));
+    assert.deepEqual(fixed, []);
+  }
+  const anchor = FRONTIER_FUNGAL_BLOSSOM_ANCHORS[0];
+  const steep = (x, z) => ({
+    height: x > anchor.x + .2 ? 3 : 0,
+    coastDistance: 100,
+    land: true,
+    contentLand: true,
+    habitatId: FRONTIER_FUNGAL_CONFIG.habitatId,
+    habitatBlend: { wetland: 1, fernUpland: 0 },
+  });
+  assert.equal(sampleFrontierForageChunk(anchor.cx, anchor.cz, {
+    visualAssets: [blossomAsset], getTerrainSample: steep,
+  }).some(node => node.fungalFeature), false, 'a steep footprint cannot publish the fixed source');
+});
+
+test('ordinary forage footprint disks stay outside the complete Fungal outing', () => {
+  const flatFungal = () => ({
+    height: 10,
+    coastDistance: 100,
+    land: true,
+    contentLand: true,
+    habitatId: FRONTIER_FUNGAL_CONFIG.habitatId,
+    habitatBlend: { wetland: 1, fernUpland: 0 },
+  });
+  const ordinary = [];
+  for (let cz = -27; cz <= -24; cz += 1) for (let cx = -59; cx <= -56; cx += 1) {
+    ordinary.push(...sampleFrontierForageChunk(cx, cz, { getTerrainSample: flatFungal })
+      .filter(node => node.placementIndex < 32));
+  }
+  assert.ok(ordinary.length > 0);
+  const radius = node => ({ tree: 1.35, rock: .9, fiber: .55 }[node.type] ?? 0) * node.uniformScale;
+  assert.ok(ordinary.every(node => !overlapsFrontierFungalOuting(node.pos.x, node.pos.z, radius(node))));
 });

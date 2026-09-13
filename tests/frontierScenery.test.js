@@ -13,6 +13,7 @@ import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalP
 import { hasFrontierLandFootprint } from '../src/world/frontierContinent.js';
 import { FRONTIER_SIGNAL_CACHE } from '../src/world/frontierFixedSites.js';
 import { overlapsFrontierCalderaClearLane } from '../src/world/frontierCaldera.js';
+import { FRONTIER_FUNGAL_CONFIG, overlapsFrontierFungalRoute } from '../src/world/frontierFungalHollow.js';
 import { WORLD_DATA } from '../src/world/data/world.generated.js';
 import { CAMERA_CONFIG, createCamera } from '../src/game/createCamera.js';
 import { CAMERA_CONFIG_FOLLOW } from '../src/game/config.js';
@@ -23,6 +24,104 @@ const chunkGrid = (cx, cz) => {
   for (let z = cz - 2; z <= cz + 2; z++) for (let x = cx - 2; x <= cx + 2; x++) chunks.push({ id: `${x},${z}`, cx: x, cz: z });
   return { center: { cx, cz }, chunks };
 };
+
+const flatFungalSample = () => ({
+  height: 10, contentLand: true, coastDistance: 100, surfaceKind: null,
+  habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 1,
+  provinceWeights: { lush: 1, sunscar: 0, ironspine: 0 }, fungalWeight: 1,
+  habitatWeights: { 'fungal-hollow': 1 },
+});
+const fungalSceneryOptions = visualAssets => ({
+  visualAssets, getHeight: () => 10, getTerrainSample: flatFungalSample,
+  sampleForageChunk: () => [], sampleWildlifeChunk: () => [], sampleRegionalPlaceChunk: () => null,
+});
+const fungalOwnerChunks = [[-58, -25], [-57, -25], [-58, -26], [-57, -26]];
+const fixedFungalSpecs = visualAssets => fungalOwnerChunks.flatMap(([cx, cz]) =>
+  sampleFrontierSceneryChunk(cx, cz, fungalSceneryOptions(visualAssets)))
+  .filter(spec => spec.id.startsWith('f1:s:fungal-hollow:'));
+
+test('the complete admitted Fungal shelf garden publishes 23 stable supported low props', () => {
+  const specs = fixedFungalSpecs(WORLD_DATA.visualAssets);
+  assert.equal(specs.length, 23);
+  assert.equal(new Set(specs.map(spec => spec.id)).size, 23);
+  assert.deepEqual(Object.fromEntries([...new Set(specs.map(spec => spec.assetId))].sort()
+    .map(assetId => [assetId, specs.filter(spec => spec.assetId === assetId).length])), {
+    asset_fallen_log: 2, asset_fen_stone: 3, asset_mushroom_ring: 6,
+    asset_pebble_cluster: 8, asset_trail_stones: 4,
+  });
+  assert.ok(specs.every(spec => spec.kind === 'low' && spec.y === 10 && spec.groundCover?.fungalWeight === 1));
+  const stoneA = specs.find(spec => spec.id === 'f1:s:fungal-hollow:stone-a');
+  assert.deepEqual([stoneA?.x, stoneA?.z, stoneA?.scale, stoneA?.yaw], [-2853, -1247.75, .6, .18],
+    'the west shelf stone retains the locked inside-view composition');
+  const radiusFor = spec => ({ asset_fallen_log: 1.525, asset_fen_stone: 1.14,
+    asset_mushroom_ring: 1.05, asset_pebble_cluster: .66, asset_trail_stones: 1.4 }[spec.assetId] * spec.scale);
+  assert.ok(specs.every(spec => FRONTIER_FUNGAL_CONFIG.blossoms.every(blossom =>
+    Math.hypot(spec.x - blossom.x, spec.z - blossom.z) >= radiusFor(spec) + blossom.footprintRadius)));
+  const solids = specs.filter(spec => spec.assetId === 'asset_fen_stone');
+  assert.ok(solids.every(spec => !overlapsFrontierFungalRoute(spec.x, spec.z, radiusFor(spec))));
+  assert.ok(solids.every(spec => Math.hypot(spec.x - FRONTIER_FUNGAL_CONFIG.outing.thornHome.x,
+    spec.z - FRONTIER_FUNGAL_CONFIG.outing.thornHome.z) >= radiusFor(spec) + FRONTIER_FUNGAL_CONFIG.outing.thornHome.radius));
+
+  const integrated = fungalOwnerChunks.flatMap(([cx, cz]) =>
+    sampleFrontierSceneryChunk(cx, cz, { visualAssets: WORLD_DATA.visualAssets }))
+    .filter(spec => spec.id.startsWith('f1:s:fungal-hollow:'));
+  assert.equal(integrated.length, 23);
+  assert.ok(integrated.every(spec => hasFootprintSupport(spec.x, spec.z, {
+    getHeight: sampleFrontierHeight, radius: radiusFor(spec), maxSlope: .32,
+  })), 'the atomic group passes its actual transformed footprint on integrated terrain');
+  const visual = createFrontierSceneryVisual({ specs: integrated, visualAssets: WORLD_DATA.visualAssets,
+    getHeight: sampleFrontierHeight, canPlaceGroundCover: () => false });
+  assert.deepEqual(visual.stats, { canopyCount: 0, lowCount: 23, stoneSolidCount: 3, surfaceCount: 3,
+    lowDrawCount: 15, lowTriangleCount: 16842, lowGeometryCount: 5, lowGeometryVertexCount: 10740,
+    lowInstanceCount: 23, groundDrawCount: 0, groundClusterCount: 0, groundClusterTriangleCount: 0 });
+  visual.dispose();
+});
+
+test('Fungal fixed scenery retries atomically after an incomplete exact mesh kit', () => {
+  for (const assetId of ['asset_mushroom_ring', 'asset_fallen_log', 'asset_fen_stone', 'asset_trail_stones', 'asset_pebble_cluster']) {
+    const withoutAsset = WORLD_DATA.visualAssets.filter(asset => asset.id !== assetId);
+    assert.equal(fixedFungalSpecs(withoutAsset).length, 0, `${assetId} absence rejects all 23 props`);
+  }
+  const fallenLog = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_fallen_log');
+  const malformed = WORLD_DATA.visualAssets.map(asset => asset.id === fallenLog.id ? { ...asset, parts: [{}] } : asset);
+  assert.equal(fixedFungalSpecs(malformed).length, 0);
+
+  const cache = createFrontierSceneryRecipeCache();
+  const incomplete = createFrontierSceneryBuild(chunkGrid(-58, -25), fungalSceneryOptions(malformed), cache);
+  assert.equal(incomplete.specs.some(spec => spec.id.startsWith('f1:s:fungal-hollow:')), false);
+  incomplete.releaseTerrainMemo();
+  const repaired = createFrontierSceneryBuild(chunkGrid(-58, -25), fungalSceneryOptions(WORLD_DATA.visualAssets), cache);
+  assert.equal(repaired.specs.filter(spec => spec.id.startsWith('f1:s:fungal-hollow:')).length, 23,
+    'the same recipe cache retries every owner chunk rather than retaining a partial fixed group or infill hole');
+  repaired.releaseTerrainMemo();
+});
+
+test('strong Fungal ordinary recipes favor complete Mooncap and low rubble models while logs stay rare', () => {
+  const options = fungalSceneryOptions(WORLD_DATA.visualAssets);
+  const chunks = [[-55, -24], [-54, -24], [-55, -25], [-54, -25], [-55, -26], [-54, -26], [-55, -27], [-54, -27]];
+  const specs = chunks.flatMap(([cx, cz]) => sampleFrontierSceneryChunk(cx, cz, options));
+  assert.equal(specs.length, 48);
+  assert.ok(specs.every(spec => ['asset_mushroom_ring', 'asset_fallen_log', 'asset_fen_stone',
+    'asset_trail_stones', 'asset_pebble_cluster'].includes(spec.assetId)));
+  assert.ok(specs.filter(spec => ['asset_mushroom_ring', 'asset_pebble_cluster'].includes(spec.assetId)).length >= 40);
+  assert.ok(specs.filter(spec => spec.assetId === 'asset_fallen_log').length <= 4,
+    'the 2.8m log is a rare accent rather than the dominant repeated silhouette');
+  assert.equal(specs.some(spec => spec.kind === 'canopy' || ['asset_fen_reed', 'asset_fen_lily'].includes(spec.assetId)), false);
+});
+
+test('ordinary Fungal solid stones reserve the complete Thorn home while soft dressing remains eligible', () => {
+  const home = FRONTIER_FUNGAL_CONFIG.outing.thornHome;
+  const specs = sampleFrontierSceneryChunk(-58, -26, {
+    ...fungalSceneryOptions(WORLD_DATA.visualAssets),
+    world: { edition: DEFAULT_FRONTIER_WORLD.edition, seed: 69 },
+  });
+  assert.equal(specs.some(spec => spec.id === 'f2c:s:-58:-26:seed-0'), false,
+    'the deterministic Fen stone centered inside the Thorn home is rejected');
+  assert.ok(specs.filter(spec => spec.assetId === 'asset_fen_stone').every(spec =>
+    Math.hypot(spec.x - home.x, spec.z - home.z) >= 1.14 * spec.scale + home.radius));
+  assert.ok(specs.some(spec => spec.id === 'f2c:s:-58:-26:seed-3' && spec.assetId === 'asset_pebble_cluster'),
+    'nonblocking low rubble may still dress the home area');
+});
 
 test('the Caldera breach composition frames the portrait lane with supported admitted low props', () => {
   const options = { visualAssets: WORLD_DATA.visualAssets };

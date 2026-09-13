@@ -135,10 +135,11 @@ function sampleFrontierRaw(x, z, options = {}, heightOnly = false) {
   red += dryRelief * .065 - wetRelief * .055;
   green += dryRelief * .05 - wetRelief * .04;
   blue += dryRelief * .015 + wetRelief * .025;
-  // Full Caldera colour is already authored for this linear vertex pipeline;
-  // do not wash it back toward the legacy green/tan field. Other habitats keep
-  // the established 88% regional blend exactly.
-  const regionColorBlend = region.influence * (.88 + .12 * (region.calderaWeight ?? 0));
+  // Full Caldera/Fungal colours are authored for this linear vertex pipeline;
+  // do not wash them back toward the legacy field. Other habitats keep the
+  // established 88% regional blend exactly.
+  const authoredColorWeight = Math.max(region.calderaWeight ?? 0, region.fungalWeight ?? 0);
+  const regionColorBlend = region.influence * (.88 + .12 * authoredColorWeight);
   red = blend(red, region.colorRGB[0], regionColorBlend);
   green = blend(green, region.colorRGB[1], regionColorBlend);
   blue = blend(blue, region.colorRGB[2], regionColorBlend);
@@ -166,6 +167,13 @@ function sampleFrontierRaw(x, z, options = {}, heightOnly = false) {
   red = blend(red, coastColor[0], coastColorBlend);
   green = blend(green, coastColor[1], coastColorBlend);
   blue = blend(blue, coastColor[2], coastColorBlend);
+  const fungalFeatureInfluence = region.fungalFeature
+    ? Math.max(region.fungalFeature.hollowWeight ?? 0, region.fungalFeature.buttressWeight ?? 0,
+      region.fungalFeature.junctionWeight ?? 0, region.fungalFeature.outingWeight ?? 0)
+    : 0;
+  const calderaFeatureInfluence = region.calderaFeature?.outerInfluence ?? 0;
+  const calderaFeatureActive = calderaFeatureInfluence > 0 && (region.calderaWeight ?? 0) > 0 && region.influence > 0;
+  const fungalFeatureActive = fungalFeatureInfluence > 0 && (region.fungalWeight ?? 0) > 0 && region.influence > 0;
   return {
     // Camp authoring owns its exact finite height, including deliberate raised or sunk values.
     height: finite(height),
@@ -180,12 +188,16 @@ function sampleFrontierRaw(x, z, options = {}, heightOnly = false) {
     habitatName: region.habitatName ?? null,
     habitatWeights: region.habitatWeights ?? null,
     calderaWeight: region.calderaWeight ?? 0,
-    habitatFeatureKind: region.calderaFeature?.outerInfluence > 0 ? 'emberglass-caldera' : null,
-    habitatFeatureZone: region.calderaFeature?.zone ?? null,
-    habitatFeatureInfluence: (region.calderaFeature?.outerInfluence ?? 0)
-      * (region.calderaWeight ?? 0) * region.influence,
+    fungalWeight: region.fungalWeight ?? 0,
+    fungalFeature: region.fungalFeature ?? null,
+    habitatFeatureKind: calderaFeatureActive ? 'emberglass-caldera' : fungalFeatureActive ? 'fungal-hollow' : null,
+    habitatFeatureZone: calderaFeatureActive ? region.calderaFeature?.zone ?? null
+      : fungalFeatureActive ? region.fungalFeature?.nearestBranchId ?? 'rootwash' : null,
+    habitatFeatureInfluence: calderaFeatureActive
+      ? calderaFeatureInfluence * (region.calderaWeight ?? 0) * region.influence
+      : fungalFeatureActive ? fungalFeatureInfluence * (region.fungalWeight ?? 0) * region.influence : 0,
     habitatFeatureRamp: region.influence > 0 && Boolean(region.calderaFeature?.ramp),
-    habitatFeatureClearLane: region.influence > 0 && Boolean(region.calderaFeature?.clearLane),
+    habitatFeatureClearLane: region.influence > 0 && Boolean(region.calderaFeature?.clearLane || region.fungalFeature?.route),
     coastDistance: continent.coastDistance,
     seaLevel: continent.seaLevel,
     land: continent.land,

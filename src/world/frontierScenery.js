@@ -8,6 +8,7 @@ import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './fron
 import { hasFrontierLandFootprint } from './frontierContinent.js';
 import { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
 import { overlapsFrontierCalderaClearLane } from './frontierCaldera.js';
+import { FRONTIER_FUNGAL_CONFIG, overlapsFrontierFungalRoute } from './frontierFungalHollow.js';
 
 export const FRONTIER_SCENERY_CONFIG = Object.freeze({
   maxNear: 2304,
@@ -34,11 +35,15 @@ const ASSET_FOOTPRINT_RADIUS = Object.freeze({
   asset_ember_spire: 1.7,
   asset_ember_bloom: 1.02,
   asset_pebble_cluster: .66,
+  asset_fallen_log: 1.525,
 });
 const CALDERA_ASSET_IDS = Object.freeze(new Set(['asset_ember_spire', 'asset_ember_bloom', 'asset_pebble_cluster']));
+const FUNGAL_ASSET_IDS = Object.freeze(new Set([
+  'asset_mushroom_ring', 'asset_fallen_log', 'asset_fen_stone', 'asset_trail_stones', 'asset_pebble_cluster',
+]));
 const RESOURCE_FOOTPRINT_RADIUS = Object.freeze({ tree: 1.35, rock: .9, fiber: .55 });
 const RESOURCE_ASSET_FOOTPRINT_RADIUS = Object.freeze({
-  asset_berry_bush: 1.29, asset_crystal: 1.3, asset_iron_ore_rock: .93,
+  asset_berry_bush: 1.29, asset_crystal: 1.3, asset_iron_ore_rock: .93, asset_luminous_blossom: .9,
 });
 const CAMP_CLEARANCE = 6;
 const FORAGE_CLEARANCE = 3.2;
@@ -125,6 +130,41 @@ const STAGED = Object.freeze(new Map([
   ])],
 ]));
 
+// One finite shelf garden gives the ordinary south approach a foreground,
+// middle and rear fungal rhythm. Terrain owns the banks and support toes;
+// these remain the existing baked, streamed low-prop families.
+const FUNGAL_FIXED_SCENERY = Object.freeze([
+  Object.freeze({ key: 'mush-a', assetId: 'asset_mushroom_ring', x: -2853.55, z: -1240, scale: 1.2, yaw: .12, kind: 'low' }),
+  Object.freeze({ key: 'mush-b', assetId: 'asset_mushroom_ring', x: -2854, z: -1248.5, scale: 1.3, yaw: -.38, kind: 'low' }),
+  Object.freeze({ key: 'mush-d', assetId: 'asset_mushroom_ring', x: -2854.2, z: -1251.5, scale: 1.1, yaw: -.15, kind: 'low' }),
+  Object.freeze({ key: 'mush-e', assetId: 'asset_mushroom_ring', x: -2846.4, z: -1243.5, scale: 1.3, yaw: -.25, kind: 'low' }),
+  Object.freeze({ key: 'mush-f', assetId: 'asset_mushroom_ring', x: -2846.15, z: -1247, scale: 1.45, yaw: .48, kind: 'low' }),
+  Object.freeze({ key: 'mush-g', assetId: 'asset_mushroom_ring', x: -2846.4, z: -1251, scale: 1.2, yaw: -.62, kind: 'low' }),
+  Object.freeze({ key: 'log-a', assetId: 'asset_fallen_log', x: -2853.75, z: -1241.7, scale: .82, yaw: .72, kind: 'low' }),
+  Object.freeze({ key: 'log-b', assetId: 'asset_fallen_log', x: -2846.15, z: -1247.8, scale: .86, yaw: -.58, kind: 'low' }),
+  Object.freeze({ key: 'stone-a', assetId: 'asset_fen_stone', x: -2853, z: -1247.75, scale: .6, yaw: .18, kind: 'low' }),
+  Object.freeze({ key: 'stone-b', assetId: 'asset_fen_stone', x: -2846.75, z: -1252, scale: .7, yaw: -.31, kind: 'low' }),
+  Object.freeze({ key: 'stone-c', assetId: 'asset_fen_stone', x: -2858.25, z: -1249, scale: .58, yaw: .42, kind: 'low' }),
+  Object.freeze({ key: 'trail-a', assetId: 'asset_trail_stones', x: -2850.55, z: -1240.1, scale: .72, yaw: .12, kind: 'low' }),
+  Object.freeze({ key: 'trail-b', assetId: 'asset_trail_stones', x: -2849.65, z: -1244, scale: .68, yaw: -.18, kind: 'low' }),
+  Object.freeze({ key: 'trail-c', assetId: 'asset_trail_stones', x: -2849.4, z: -1247.6, scale: .72, yaw: .25, kind: 'low' }),
+  Object.freeze({ key: 'trail-d', assetId: 'asset_trail_stones', x: -2850.25, z: -1250.8, scale: .66, yaw: -.1, kind: 'low' }),
+  Object.freeze({ key: 'peb-a', assetId: 'asset_pebble_cluster', x: -2852.7, z: -1241.4, scale: 1.1, yaw: .4, kind: 'low' }),
+  Object.freeze({ key: 'peb-b', assetId: 'asset_pebble_cluster', x: -2854.2, z: -1243, scale: 1.1, yaw: -.2, kind: 'low' }),
+  Object.freeze({ key: 'peb-c', assetId: 'asset_pebble_cluster', x: -2853.3, z: -1248.2, scale: .95, yaw: .8, kind: 'low' }),
+  Object.freeze({ key: 'peb-e', assetId: 'asset_pebble_cluster', x: -2845.9, z: -1246.2, scale: 1.08, yaw: .2, kind: 'low' }),
+  Object.freeze({ key: 'peb-f', assetId: 'asset_pebble_cluster', x: -2847, z: -1250.6, scale: 1, yaw: -.8, kind: 'low' }),
+  Object.freeze({ key: 'peb-g', assetId: 'asset_pebble_cluster', x: -2854, z: -1246.8, scale: .85, yaw: .35, kind: 'low' }),
+  Object.freeze({ key: 'peb-h', assetId: 'asset_pebble_cluster', x: -2846.7, z: -1252, scale: .82, yaw: -.4, kind: 'low' }),
+  Object.freeze({ key: 'peb-i', assetId: 'asset_pebble_cluster', x: -2853.4, z: -1250.6, scale: .78, yaw: .65, kind: 'low' }),
+]);
+const FUNGAL_FIXED_CHUNKS = Object.freeze(new Set(FUNGAL_FIXED_SCENERY.map(candidate =>
+  `${Math.floor(candidate.x / FRONTIER_TERRAIN_CONFIG.chunkSize)},${Math.floor(candidate.z / FRONTIER_TERRAIN_CONFIG.chunkSize)}`)));
+
+function priorityFixedScenery(spec) {
+  return Boolean(spec?.id?.includes(':stage-') || spec?.id?.startsWith('f1:s:fungal-hollow:'));
+}
+
 function random(cx, cz, index, salt = 0, world = DEFAULT_FRONTIER_WORLD) {
   salt += frontierDomainSeed(world, 'scenery');
   let value = Math.imul(cx | 0, 73856093) ^ Math.imul(cz | 0, 19349663) ^ Math.imul(index + salt, 83492791);
@@ -170,6 +210,10 @@ function calderaWeight(sample) {
   return Math.max(0, Math.min(1, Number(sample?.calderaWeight ?? sample?.habitatWeights?.['emberglass-caldera']) || 0));
 }
 
+function fungalWeight(sample) {
+  return Math.max(0, Math.min(1, Number(sample?.fungalWeight ?? sample?.habitatWeights?.['fungal-hollow']) || 0));
+}
+
 function weightedProvince(mix, roll) {
   return roll < mix.lush ? 'lush' : roll < mix.lush + mix.sunscar ? 'sunscar' : 'ironspine';
 }
@@ -177,16 +221,18 @@ function weightedProvince(mix, roll) {
 function groundCoverFor(sample) {
   const mix = provinceMix(sample);
   const emberglass = calderaWeight(sample);
-  if (!mix && !(emberglass > 0)) return null;
+  const fungal = fungalWeight(sample);
+  if (!mix && !(emberglass > 0) && !(fungal > 0)) return null;
   const regionalDensity = mix ? mix.lush + mix.sunscar * .18 + mix.ironspine * .4 : 1;
   const regionalInfluence = mix?.influence ?? 0;
   const baseDensity = 1 + (regionalDensity - 1) * regionalInfluence;
   return Object.freeze({
-    density: baseDensity * (1 - emberglass * .7),
+    density: baseDensity * (1 - emberglass * .7) * (1 - fungal * .22),
     dryWeight: mix?.sunscar ?? 0,
     highWeight: mix?.ironspine ?? 0,
     influence: regionalInfluence,
     calderaWeight: emberglass,
+    fungalWeight: fungal,
   });
 }
 
@@ -408,9 +454,10 @@ function isClear(x, z, candidate, exclusions, surfaceKind = null, sample = null)
   if ((exclusions.fixedSites ?? []).some(site => Math.hypot(x - site.x, z - site.z) < site.clearance + radius)) return false;
   const groundCover = candidate.kind === 'ground-cover';
   const strongCaldera = calderaWeight(sample) >= .6;
+  const strongFungal = fungalWeight(sample) >= .6;
   if (exclusions.forage.some(node => {
-    if (groundCover) return Math.hypot(x - node.pos.x, z - node.pos.z) < GROUND_COVER_CLEARANCE.forage;
-    if (!strongCaldera) return Math.hypot(x - node.pos.x, z - node.pos.z) < FORAGE_CLEARANCE;
+    if (groundCover && !strongFungal) return Math.hypot(x - node.pos.x, z - node.pos.z) < GROUND_COVER_CLEARANCE.forage;
+    if (!strongCaldera && !strongFungal) return Math.hypot(x - node.pos.x, z - node.pos.z) < FORAGE_CLEARANCE;
     const assetId = node.visualAsset?.id;
     const baseRadius = RESOURCE_ASSET_FOOTPRINT_RADIUS[assetId] ?? RESOURCE_FOOTPRINT_RADIUS[node.type] ?? 0;
     const resourceRadius = baseRadius * (Number.isFinite(node.uniformScale) ? node.uniformScale : 1);
@@ -418,9 +465,12 @@ function isClear(x, z, candidate, exclusions, surfaceKind = null, sample = null)
   })) return false;
   const capFlower = candidate.kind === 'low' && candidate.assetId === 'asset_cloudflower' && surfaceKind === 'skybreak-cap';
   if (exclusions.wildlife.some(animal => {
+    const solid = candidate.kind === 'canopy' || candidate.assetId === 'asset_fen_stone';
     const clearance = groundCover ? GROUND_COVER_CLEARANCE.wildlife : capFlower ? 3.1
       : strongCaldera
         ? radius + Math.max(0, animal.roamRadius ?? 0, animal.leashRadius ?? 0, animal.fleeLeashRadius ?? 0)
+        : strongFungal
+          ? radius + (solid ? Math.max(0, animal.roamRadius ?? 0, animal.leashRadius ?? 0, animal.fleeLeashRadius ?? 0) : GROUND_COVER_CLEARANCE.wildlife)
         : animal.roamRadius + 2.5;
     return Math.hypot(x - animal.homePos.x, z - animal.homePos.z) < clearance;
   })) return false;
@@ -453,6 +503,11 @@ function lowAsset(sample, habitatRoll, detailRoll, profileRoll = 1, provinceRoll
   const emberglass = calderaWeight(sample);
   if (emberglass > 0 && profileRoll < emberglass) {
     return detailRoll < .64 ? 'asset_pebble_cluster' : detailRoll < .95 ? 'asset_ember_bloom' : 'asset_ember_spire';
+  }
+  const fungal = fungalWeight(sample);
+  if (fungal > 0 && profileRoll < fungal) {
+    return detailRoll < .55 ? 'asset_mushroom_ring' : detailRoll < .59 ? 'asset_fallen_log'
+      : detailRoll < .9 ? 'asset_pebble_cluster' : detailRoll < .99 ? 'asset_trail_stones' : 'asset_fen_stone';
   }
   const mix = provinceMix(sample);
   if (mix && profileRoll < mix.influence) {
@@ -495,6 +550,43 @@ function hasCompleteCalderaKit(visualAssets) {
   return [...CALDERA_ASSET_IDS].every(assetId => admittedCalderaAsset(assetId, visualAssets));
 }
 
+function admittedFungalAsset(assetId, visualAssets) {
+  if (!FUNGAL_ASSET_IDS.has(assetId) || !Array.isArray(visualAssets)) return null;
+  const asset = visualAssets.find(entry => entry?.id === assetId);
+  if (asset?.gameplay?.role !== 'prop' || !Array.isArray(asset.parts)) return null;
+  return asset.parts.some(part => part?.shape === 'mesh'
+    && Array.isArray(part.geometry?.positions) && part.geometry.positions.length >= 9
+    && Array.isArray(part.geometry?.indices) && part.geometry.indices.length >= 3) ? asset : null;
+}
+
+function hasCompleteFungalKit(visualAssets) {
+  return [...FUNGAL_ASSET_IDS].every(assetId => admittedFungalAsset(assetId, visualAssets));
+}
+
+function fixedFungalScenerySpecs(options) {
+  if (!hasCompleteFungalKit(options.visualAssets)) return null;
+  const specs = [];
+  const exclusions = new Map();
+  const home = FRONTIER_FUNGAL_CONFIG.outing.thornHome;
+  for (const candidate of FUNGAL_FIXED_SCENERY) {
+    const cx = Math.floor(candidate.x / FRONTIER_TERRAIN_CONFIG.chunkSize);
+    const cz = Math.floor(candidate.z / FRONTIER_TERRAIN_CONFIG.chunkSize);
+    const key = `${cx},${cz}`;
+    const radius = footprintRadius(candidate);
+    if (FRONTIER_FUNGAL_CONFIG.blossoms.some(blossom =>
+      Math.hypot(candidate.x - blossom.x, candidate.z - blossom.z) < radius + blossom.footprintRadius)) return null;
+    if (candidate.assetId === 'asset_fen_stone') {
+      if (overlapsFrontierFungalRoute(candidate.x, candidate.z, radius)
+        || Math.hypot(candidate.x - home.x, candidate.z - home.z) < radius + home.radius) return null;
+    }
+    if (!exclusions.has(key)) exclusions.set(key, exclusionsFor(cx, cz, options));
+    const admitted = [];
+    if (!admitScenerySpec(cx, cz, candidate.key, candidate, options, exclusions.get(key), admitted, { curated: true })) return null;
+    specs.push(Object.freeze({ ...admitted[0], id: `f1:s:fungal-hollow:${candidate.key}` }));
+  }
+  return Object.freeze(specs);
+}
+
 function admitScenerySpec(cx, cz, key, candidate, options, exclusions, specs, { curated = false, infill = false } = {}) {
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
   if (Math.floor(candidate.x / size) !== cx || Math.floor(candidate.z / size) !== cz) return false;
@@ -503,8 +595,16 @@ function admitScenerySpec(cx, cz, key, candidate, options, exclusions, specs, { 
     || candidate.z < cz * size + edgeInset || candidate.z > (cz + 1) * size - edgeInset)) return false;
   const sample = terrainSample(candidate.x, candidate.z, options);
   if (CALDERA_ASSET_IDS.has(candidate.assetId) && !admittedCalderaAsset(candidate.assetId, options.visualAssets)) return false;
+  if (fungalWeight(sample) > 0 && FUNGAL_ASSET_IDS.has(candidate.assetId)
+    && Array.isArray(options.visualAssets) && !admittedFungalAsset(candidate.assetId, options.visualAssets)) return false;
   if (calderaWeight(sample) > 0
     && overlapsFrontierCalderaClearLane(candidate.x, candidate.z, footprintRadius(candidate))) return false;
+  if (fungalWeight(sample) > 0 && (candidate.kind === 'canopy' || candidate.assetId === 'asset_fen_stone')
+    && overlapsFrontierFungalRoute(candidate.x, candidate.z, footprintRadius(candidate))) return false;
+  if (fungalWeight(sample) > 0 && candidate.assetId === 'asset_fen_stone') {
+    const home = FRONTIER_FUNGAL_CONFIG.outing.thornHome;
+    if (Math.hypot(candidate.x - home.x, candidate.z - home.z) < footprintRadius(candidate) + home.radius) return false;
+  }
   if (sample.surfaceKind === 'skybreak-shoulder') return false;
   if (candidate.assetId === 'asset_cloudflower' && sample.surfaceKind !== 'skybreak-cap') return false;
   if (!outsideRegionalPlaces(candidate.x, candidate.z, candidate, options)
@@ -562,7 +662,7 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
     ? Math.max(centerMix.lush * .88 + centerMix.sunscar * .015 + centerMix.ironspine * .2, coastWeight * .48)
     : 1;
   const canopyChance = (centerMix ? 1 + (regionalCanopyChance - 1) * centerMix.influence : 1)
-    * (1 - calderaWeight(centerSample));
+    * (1 - calderaWeight(centerSample)) * (1 - fungalWeight(centerSample));
   const chunkCanopyAllowed = roll(0, 149) < canopyChance;
   const accept = (key, candidate, curated = false) =>
     admitScenerySpec(cx, cz, key, candidate, sampleOptions, exclusions, specs, { curated });
@@ -573,6 +673,8 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
     if (CALDERA_ASSET_IDS.has(candidate.assetId) && !fixedCalderaReady) continue;
     accept(`stage-${candidate.key}`, candidate, true);
   }
+  const fungalOwner = FUNGAL_FIXED_CHUNKS.has(`${cx},${cz}`);
+  const fixedFungal = fungalOwner ? fixedFungalScenerySpecs(sampleOptions) : Object.freeze([]);
   const place = placeLookup(sampleOptions).get(cx, cz);
 
   const coastCandidates = coastContourCandidates(cx, cz, centerSample, roll, sampleOptions);
@@ -604,8 +706,9 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   // A coherent regional formation must not consume this chunk's established
   // ordinary attempt budget. Safe old props remain eligible and compete only
   // at the existing residency cap; footprint overlaps were already rejected.
+  if (fixedFungal) specs.push(...fixedFungal.filter(spec => spec.chunkId === `${cx},${cz}`));
   specs.push(...regionalPlaceScenerySpecs(place, sampleOptions));
-  if (!fixedCalderaReady) Object.defineProperty(specs, INCOMPLETE_FIXED_SCENERY, { value: true });
+  if (!fixedCalderaReady || (fungalOwner && !fixedFungal)) Object.defineProperty(specs, INCOMPLETE_FIXED_SCENERY, { value: true });
   return specs;
 }
 
@@ -702,7 +805,8 @@ export function selectFrontierScenery(residency, options = {}) {
           () => sampleFrontierSceneryChunk(chunk.cx, chunk.cz, options))
         : sampleFrontierSceneryChunk(chunk.cx, chunk.cz, options);
       const ordinary = Array.isArray(sampledOrdinary) ? sampledOrdinary : [];
-      if (distance <= 1 && !preserveLegacyWindow) {
+      const incompleteFixedGroup = Boolean(ordinary[INCOMPLETE_FIXED_SCENERY]);
+      if (distance <= 1 && !preserveLegacyWindow && !incompleteFixedGroup) {
         const sampledInfill = cacheAccess
           ? cacheAccess.getScenery('infill', chunk.cx, chunk.cz,
             () => sampleFrontierSceneryInfillChunk(chunk.cx, chunk.cz, ordinary, options))
@@ -718,13 +822,14 @@ export function selectFrontierScenery(residency, options = {}) {
       options[RELEASE_CHUNK_POINT_MEMO]?.();
     }
   }
-  const stableSort = (a, b) => Number(!a.spec.id.includes(':stage-')) - Number(!b.spec.id.includes(':stage-')) || a.centerDistance - b.centerDistance || a.spec.id.localeCompare(b.spec.id);
+  const stableSort = (a, b) => Number(!priorityFixedScenery(a.spec)) - Number(!priorityFixedScenery(b.spec))
+    || a.centerDistance - b.centerDistance || a.spec.id.localeCompare(b.spec.id);
   near.sort(stableSort); outer.sort((a, b) => a.centerDistance - b.centerDistance || a.spec.id.localeCompare(b.spec.id));
   const nearSpecs = near.map(entry => entry.spec), outerSpecs = outer.map(entry => entry.spec);
   const denseWindow = nearSpecs.some(spec => spec.id.startsWith('f2c:i:'));
   const maxNear = denseWindow ? FRONTIER_SCENERY_CONFIG.maxNear : 18;
   const maxTotal = denseWindow ? FRONTIER_SCENERY_CONFIG.maxTotal : 34;
-  const staged = nearSpecs.filter(spec => spec.id.includes(':stage-'));
+  const staged = nearSpecs.filter(priorityFixedScenery);
   const regionalGroups = new Map();
   for (const spec of nearSpecs) if (spec.regionalPlaceId) {
     if (!regionalGroups.has(spec.regionalPlaceId)) regionalGroups.set(spec.regionalPlaceId, []);
@@ -735,7 +840,7 @@ export function selectFrontierScenery(residency, options = {}) {
     if (chosenNear.length + group.length <= maxNear) chosenNear.push(...group);
   }
   const chosen = new Set(chosenNear);
-  const generalCanopies = nearSpecs.filter(spec => !chosen.has(spec) && !spec.regionalPlaceId && spec.kind === 'canopy' && !spec.id.includes(':stage-'))
+  const generalCanopies = nearSpecs.filter(spec => !chosen.has(spec) && !spec.regionalPlaceId && spec.kind === 'canopy' && !priorityFixedScenery(spec))
     .slice(0, Math.max(0, 4 - staged.filter(spec => spec.kind === 'canopy').length));
   chosenNear.push(...generalCanopies.slice(0, Math.max(0, maxNear - chosenNear.length)));
   generalCanopies.forEach(spec => chosen.add(spec));

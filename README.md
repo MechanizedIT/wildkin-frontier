@@ -1,10 +1,10 @@
 # Wildkin Frontier
 
-**Portrait exploration checkpoint — September13:** Portrait exploration now shows more of the terrain ahead, with resource counts appearing briefly after pickups. Camp placement keeps its previous close view, landscape stays unchanged, and the exact earned Camp survives developer/portable reload. **1,379 tests and package gates pass** (44.36 MB unpacked /20.59 MB ZIP). Presentation R1 passes8.8/10; fuller habitat art remains unfinished. [Actual views and proof](art/reviews/exploration-view/receipt.md).
+**Fungal Hollow checkpoint — September13:** Fungal Hollow now has branching terrain, fuller mushroom scenery, four finite useful flowers and an avoidable aggressive Thornprowler. Ordinary controls proved raised-bank gathering, two supported routes, attack/escape and streamed depletion. **1,400 tests and package gates pass** (44.39 MB unpacked /20.59 MB ZIP), with the original earned Camp restored exactly in developer and portable builds. Visual R2 remains **6.5/10 HOLD**: the banks still read too flat in the ordinary camera. [Actual views and proof](art/reviews/fungal-hollow/receipt.md).
 
-Next: establish Fungal Hollow as a distinct, fuller habitat using the admitted kit. Audit its actual terrain and complete asset bounds, then prove a native blockout in the new ordinary camera before locking production. Ten finished habitats remain the early-alpha requirement.
+Next: review the opening Heartwood expedition from the ordinary Camp view, then scope one readable first circuit using existing forage, Mosslings and a useful Camp crafting/building payoff. Preserve the current kit and earned save; do not add a new species or framework before identifying the actual player-facing gap. Ten finished habitats remain required, and the continuous goal stays active.
 
-<img src="art/reviews/exploration-view/grove-after.png" alt="Actual wider portrait view of an earned grove" width="300">
+<img src="art/reviews/fungal-hollow/production-r2.png" alt="Actual fuller Fungal Hollow; terrain art remains unfinished" width="300">
 
 ## Earlier geography foundation: ten fixed habitat areas
 
