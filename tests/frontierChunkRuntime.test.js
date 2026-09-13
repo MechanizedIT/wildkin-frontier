@@ -150,14 +150,20 @@ test('authoritative movement prepares one detached axis chunk per call and reuse
   runtime.dispose();
 });
 
-test('diagonal anticipation is bounded to nine detached chunks and stationary cancellation releases them', () => {
+test('diagonal anticipation is bounded to nine detached chunks and survives frames without a movement step', () => {
   const { runtime, calls } = fixture();
   runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp' });
   for (let value = 146; value <= 155; value++) runtime.update({ x: value, z: value }, { activeSectionId: 'camp', prepare: true });
   assert.equal(runtime.getDebugState().preparedCount, 9);
+  const anticipated = runtime.getAnticipatedResidency();
+  assert.deepEqual(anticipated.center, { cx: 3, cz: 3 });
+  assert.equal(anticipated.chunks.length, 25);
+  assert.ok(Object.isFrozen(anticipated) && Object.isFrozen(anticipated.center) && Object.isFrozen(anticipated.chunks));
+  assert.ok(anticipated.chunks.every(chunk => Object.isFrozen(chunk) && Object.isFrozen(chunk.origin)));
   assert.equal(calls.length, 1);
   runtime.update({ x: 155, z: 155 }, { activeSectionId: 'camp', prepare: true });
-  assert.equal(runtime.getDebugState().preparedCount, 0, 'stationary motion cancels detached anticipation');
+  assert.equal(runtime.getDebugState().preparedCount, 9, 'a zero-delta frame retains bounded anticipation');
+  assert.strictEqual(runtime.getAnticipatedResidency(), anticipated);
   for (let value = 146; value <= 155; value++) runtime.update({ x: value, z: value }, { activeSectionId: 'camp', prepare: true });
   const preparedIds = runtime.getDebugState().preparedIds;
   assert.equal(preparedIds.length, 9);
@@ -165,6 +171,28 @@ test('diagonal anticipation is bounded to nine detached chunks and stationary ca
   const addedChunkIds = calls[1].add.filter(surface => surface.vertices && !String(surface.id).includes(':')).map(surface => surface.id);
   assert.deepEqual(new Set(addedChunkIds), new Set(preparedIds));
   assert.ok(runtime.getDebugState().residentCount <= 25);
+  assert.deepEqual(runtime.getResidency().chunks, anticipated.chunks, 'published membership matches the advertised target');
+  assert.equal(runtime.getAnticipatedResidency(), null, 'publication clears speculative ownership');
+  runtime.dispose();
+});
+
+test('render frames interleaved with fixed movement retain the same prediction until real reversal', () => {
+  const { runtime, calls } = fixture();
+  runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp' });
+  let target;
+  for (const x of [147, 148, 149, 150, 151]) {
+    runtime.update({ x, z: 120 }, { activeSectionId: 'camp', prepare: true });
+    target ??= runtime.getAnticipatedResidency();
+    for (let frame = 0; frame < 4; frame++) {
+      runtime.update({ x, z: 120 }, { activeSectionId: 'camp', prepare: true });
+      assert.strictEqual(runtime.getAnticipatedResidency(), target);
+    }
+  }
+  assert.equal(runtime.getDebugState().preparedCount, 5);
+  assert.equal(calls.length, 1, 'interleaved preparation stays detached');
+  runtime.update({ x: 150, z: 120 }, { activeSectionId: 'camp', prepare: true });
+  assert.equal(runtime.getAnticipatedResidency(), null);
+  assert.equal(runtime.getDebugState().preparedCount, 0, 'a real reversal retires prepared terrain');
   runtime.dispose();
 });
 
@@ -245,6 +273,7 @@ test('negative-edge preparation clears on reversal and reuses five detached chun
   }
   assert.equal(runtime.getDebugState().preparedCount, 0);
   assert.equal(disposals, 5, 'reversing away from the edge releases all detached chunk geometries');
+  assert.equal(runtime.getAnticipatedResidency(), null);
   for (const x of [103, 102, 101, 100, 99, 98]) runtime.update({ x, z: 170 }, { activeSectionId: 'camp', prepare: true });
   const preparedIds = runtime.getDebugState().preparedIds;
   assert.equal(preparedIds.length, 5);
@@ -266,6 +295,7 @@ test('inactive and Author states retire residents in one batch and hide the root
   assert.equal(runtime.getDebugState().residentCount, 0);
   assert.equal(runtime.getDebugState().preparedCount, 0);
   assert.equal(runtime.root.visible, false);
+  assert.equal(runtime.getAnticipatedResidency(), null);
   assert.equal(calls[1].remove.length, 24);
   runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp', authorMode: true });
   assert.equal(calls.length, 2);

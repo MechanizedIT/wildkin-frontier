@@ -2,9 +2,11 @@
 
 September 13,2026. Chris's current direction is to reach an early alpha as soon as practical while continuing the procedural world, habitats, Wildkin and core mechanics. One deterministic finite continent, irregular shore, shallow shelf and surface swimming now form a tested foundation. Selected R3 visuals remain6.4/10 HOLD; this is not a release claim. Boats may open larger continents later. Likewise, about10 habitats and roughly30 useful species is a staged continent target, not the first-alpha content count.
 
-## Current visual refinement
+## Current traversal refinement
 
-Ordinary inland travel now has denser seeded reeds, lilies, mushrooms and stone patches. Shared geometry and12.5m render cells keep the extra props bounded. Source review passes; visual R1 remains **6.8/10 HOLD** because midground composition and repeated dry stones need work. All **1,337 tests** and package gates pass (**44.30MB unpacked /20.57MB ZIP**), and the complete earned Camp save matches developer and portable reload. Normal travel works, but boundary loading still hitches; this is a local foundation checkpoint, not an alpha release. [Actual screenshots, measurements and limits](../art/reviews/scenery-density/receipt.md).
+**Latest owner direction:** The continent should be quite large with an irregular outline. Larger bays and peninsulas are the next geography priority; the pictured oval foundation is not the intended final shape. See the current slice for the bounded implementation scope.
+
+Dense scenery now prepares ahead of an ordinary chunk crossing through the existing frame loop. In the same Lush laptop witness, scenery boundary work fell **270.5→16.6 ms** and the slowest whole frame fell **420.6→161 ms**. Density and deterministic placement are unchanged. All **1,350 tests** and package gates pass (**44.32 MB unpacked /20.58 MB ZIP**); the complete earned Camp save matches developer reload, portable reload and Continue. Source review passes. The earlier **6.8/10 visual HOLD** remains, and loading hitches still prevent an alpha-release claim. [Evidence and limits](../art/reviews/scenery-preload/receipt.md).
 
 ## Earned preview — connected journey verified
 

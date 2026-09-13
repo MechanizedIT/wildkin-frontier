@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { FRONTIER_SCENERY_CONFIG, FRONTIER_SCENERY_PLACE_LOOKUP_CAP, FRONTIER_SCENERY_POINT_MEMO_CAP, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter, createFrontierSceneryBuild, createFrontierSceneryRecipeCache } from '../src/world/frontierScenery.js';
+import { FRONTIER_SCENERY_CONFIG, FRONTIER_SCENERY_PLACE_LOOKUP_CAP, FRONTIER_SCENERY_POINT_MEMO_CAP, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter, createFrontierSceneryBuild, createFrontierSceneryPrepareJob, createFrontierSceneryRecipeCache } from '../src/world/frontierScenery.js';
 import { createFrontierSceneryVisual } from '../src/world/frontierSceneryVisual.js';
 import { sampleFrontier, sampleFrontierHeight } from '../src/world/frontierTerrain.js';
 import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
@@ -260,6 +260,81 @@ test('completed ordinary and near-only infill recipes retry failures and prune i
   const inactive = createFrontierSceneryBuild({ center: null, chunks: [] }, options, cache);
   assert.deepEqual(cache.getSceneryDebugState(), { ordinaryCount: 0, infillCount: 0 });
   inactive.releaseTerrainMemo();
+});
+
+test('incremental preparation drains to the exact synchronous recipe with bounded work', () => {
+  const residency = { center: { cx: 6, cz: 6 }, chunks: [{ id: '6,6', cx: 6, cz: 6 }] };
+  const options = {
+    getHeight: () => 3,
+    getTerrainSample: () => ({ height: 3, surfaceKind: null, coastDistance: 100,
+      habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 1,
+      provinceWeights: { lush: 1, sunscar: 0, ironspine: 0 } }),
+    visualAssets: WORLD_DATA.visualAssets, sampleRegionalPlaceChunk: () => null,
+    sampleForageChunk: () => [], sampleWildlifeChunk: () => [],
+  };
+  const baseline = selectFrontierScenery(residency, options);
+  const cache = createFrontierSceneryRecipeCache();
+  const job = createFrontierSceneryPrepareJob(residency, options, cache);
+  for (const budget of [0, -1, NaN, Infinity]) {
+    assert.deepEqual(job.step(budget), { done: false, cancelled: false, failed: false, work: 0,
+      totalWork: 0, preparedOrdinary: 0, preparedInfill: 0 });
+  }
+  let calls = 0, last;
+  while (!(last = job.step(8)).done) {
+    assert.ok(last.work > 0 && last.work <= 8);
+    assert.ok(++calls < 100);
+  }
+  assert.ok(last.work <= 8);
+  assert.deepEqual(cache.getSceneryDebugState(), { ordinaryCount: 1, infillCount: 1 });
+  const prepared = createFrontierSceneryBuild(residency, options, cache);
+  assert.deepEqual(prepared.specs, baseline);
+  prepared.releaseTerrainMemo();
+  assert.deepEqual(job.step(8), { ...job.getState(), work: 0 }, 'completed jobs are inert');
+});
+
+test('partial prepare cancellation and failure never publish an infill recipe and remain retryable', () => {
+  const residency = { center: { cx: 6, cz: 6 }, chunks: [{ id: '6,6', cx: 6, cz: 6 }] };
+  let fail = false, terrainCalls = 0;
+  const options = {
+    getHeight: () => { if (fail) throw new Error('retryable incremental height'); return 3; },
+    getTerrainSample: () => {
+      terrainCalls++;
+      if (fail) throw new Error('retryable incremental terrain');
+      return { height: 3, surfaceKind: null, coastDistance: 100,
+        habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 1,
+        provinceWeights: { lush: 1, sunscar: 0, ironspine: 0 } };
+    },
+    visualAssets: WORLD_DATA.visualAssets, sampleRegionalPlaceChunk: () => null,
+    sampleForageChunk: () => [], sampleWildlifeChunk: () => [],
+  };
+  const cache = createFrontierSceneryRecipeCache();
+  const cancelled = createFrontierSceneryPrepareJob(residency, options, cache);
+  cancelled.step(1); // complete the ordinary recipe
+  cancelled.step(1); // initialize, but do not publish, the infill recipe
+  cancelled.step(5);
+  assert.deepEqual(cache.getSceneryDebugState(), { ordinaryCount: 1, infillCount: 0 });
+  const beforeCancel = terrainCalls;
+  assert.deepEqual(cancelled.cancel(), { done: false, cancelled: true, failed: false, work: 0,
+    totalWork: 7, preparedOrdinary: 1, preparedInfill: 0 });
+  cancelled.step(8);
+  assert.equal(terrainCalls, beforeCancel, 'cancelled jobs release their local work and remain inert');
+
+  const failed = createFrontierSceneryPrepareJob(residency, options, cache);
+  failed.step(4);
+  fail = true;
+  assert.throws(() => failed.step(1), /retryable incremental/);
+  assert.equal(failed.getState().failed, true);
+  assert.deepEqual(cache.getSceneryDebugState(), { ordinaryCount: 1, infillCount: 0 });
+  fail = false;
+
+  const retry = createFrontierSceneryPrepareJob(residency, options, cache);
+  let retryState;
+  while (!(retryState = retry.step(16)).done) assert.ok(retryState.work <= 16);
+  assert.deepEqual(cache.getSceneryDebugState(), { ordinaryCount: 1, infillCount: 1 });
+  const synchronous = selectFrontierScenery(residency, options);
+  const prepared = createFrontierSceneryBuild(residency, options, cache);
+  assert.deepEqual(prepared.specs, synchronous);
+  prepared.releaseTerrainMemo();
 });
 
 test('one exact point memo removes repeated terrain work without changing selected or visible output', () => {

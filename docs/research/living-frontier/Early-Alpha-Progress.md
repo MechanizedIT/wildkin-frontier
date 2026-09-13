@@ -1,6 +1,22 @@
 # Early alpha — procedural frontier progress
 
-## New local progress: denser seeded habitats
+## New local progress: scenery loads before the crossing
+
+Dense scenery now prepares ahead of an ordinary chunk crossing through the existing frame loop. In the same Lush laptop witness, scenery boundary work fell **270.5→16.6 ms** and the slowest whole frame fell **420.6→161 ms**. Density and deterministic placement are unchanged. All **1,350 tests** and package gates pass (**44.32 MB unpacked /20.58 MB ZIP**); the complete earned Camp save matches developer reload, portable reload and Continue. Source review passes. The earlier **6.8/10 visual HOLD** remains, and loading hitches still prevent an alpha-release claim.
+
+| Same Lush journey | Before | Current |
+| --- | ---: | ---: |
+| Scenery at the boundary | 270.5 ms | 16.6 ms |
+| Slowest whole frame | 420.6 ms | 161 ms |
+| Typical frame (median) | 33.3 ms | 33.4 ms |
+
+These are comparable single laptop runs, not a phone benchmark. The unchanged scenery is shown at the start and end of the measured ten-second walk; the third image is the preserved Camp in the portable build.
+
+<img src="../../../art/reviews/scenery-preload/lush-final-start.png" alt="Actual dense Lush starting view" width="210"> <img src="../../../art/reviews/scenery-preload/lush-final-end.png" alt="Actual Lush endpoint after ordinary travel" width="210"> <img src="../../../art/reviews/scenery-preload/package-camp.png" alt="Preserved earned Camp in the rebuilt portable game" width="210">
+
+[Preparation, measurements and limits](../../../art/reviews/scenery-preload/receipt.md). The next bottleneck is harvestable loading; remaining terrain and visual gaps still matter. This local update leaves the previously published Drive PDFs at their dated checkpoint.
+
+## Previous visual foundation: denser seeded habitats
 
 Ordinary inland travel now has denser seeded reeds, lilies, mushrooms and stone patches. Shared geometry and12.5m render cells keep the extra props bounded. Source review passes; visual R1 remains **6.8/10 HOLD** because midground composition and repeated dry stones need work. All **1,337 tests** and package gates pass (**44.30MB unpacked /20.57MB ZIP**), and the complete earned Camp save matches developer and portable reload. Normal travel works, but boundary loading still hitches; this is a local foundation checkpoint, not an alpha release.
 
@@ -10,7 +26,7 @@ Ordinary inland travel now has denser seeded reeds, lilies, mushrooms and stone 
 
 The seed now places more of the existing kit, with asset geometry shared across small cullable cells. More props do not automatically make a natural habitat: layered midground patches and repeated stone shapes remain the visual judge's main gaps. Normal travel works, but loading new ground/scenery can still pause a frame. [Actual screenshots, measurements and limits](../../../art/reviews/scenery-density/receipt.md).
 
-Next priority: retain or progressively prepare deterministic scenery/ground clusters using the existing streaming owner, then measure ordinary boundary travel. Current profiling places about78–79ms of a120ms visual rebuild in ground placement checks, alongside128–150ms of new-chunk recipe work. Tiny height-query optimizations will not remove that pause. Keep one frame loop and transactional physics/publication. Fuller, more coherent midground patches remain a separate visual debt; no further density/seed tuning in this batch.
+Chris reviewed the continent overview on September13 and explicitly asked for a quite large continent that is neither egg-shaped nor round, while continuing development. Next: measure the existing extent, then define a larger mainland with major peninsulas, deep bays and an uneven outline. Choose concrete dimensions and a feasible seed-generated overview before production. Keep streaming residency bounded and preserve coherent terrain, shoreline, land placement, atlas and swim/resume behavior. Exact dimensions and coast construction remain provisional until this audit; this request changes geography, not the current three-species content count.
 
 This local illustrated supplement is newer than the existing PDFs and Drive upload. The full staged creature/research/continent vision remains; this is groundwork for a playable alpha, not content-complete release.
 

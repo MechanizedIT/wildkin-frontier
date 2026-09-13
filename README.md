@@ -1,8 +1,10 @@
 # Wildkin Frontier
 
-## Latest local progress: denser seeded habitats
+## Latest local progress: prepare scenery before crossings
 
-Ordinary inland travel now has denser seeded reeds, lilies, mushrooms and stone patches. Shared geometry and12.5m render cells keep the extra props bounded. Source review passes; visual R1 remains **6.8/10 HOLD** because midground composition and repeated dry stones need work. All **1,337 tests** and package gates pass (**44.30MB unpacked /20.57MB ZIP**), and the complete earned Camp save matches developer and portable reload. Normal travel works, but boundary loading still hitches; this is a local foundation checkpoint, not an alpha release. [Actual screenshots, measurements and limits](art/reviews/scenery-density/receipt.md).
+**Latest owner direction:** The continent should be quite large with an irregular outline. Larger bays and peninsulas are the next geography priority; the pictured oval foundation is not the intended final shape. See the current slice for the bounded implementation scope.
+
+Dense scenery now prepares ahead of an ordinary chunk crossing through the existing frame loop. In the same Lush laptop witness, scenery boundary work fell **270.5→16.6 ms** and the slowest whole frame fell **420.6→161 ms**. Density and deterministic placement are unchanged. All **1,350 tests** and package gates pass (**44.32 MB unpacked /20.58 MB ZIP**); the complete earned Camp save matches developer reload, portable reload and Continue. Source review passes. The earlier **6.8/10 visual HOLD** remains, and loading hitches still prevent an alpha-release claim. [Evidence and limits](art/reviews/scenery-preload/receipt.md).
 
 <img src="art/reviews/scenery-density/baseline-lush.png" alt="Actual sparse Lush baseline" width="210"> <img src="art/reviews/scenery-density/final-lush.png" alt="Actual denser Lush scenery" width="210"> <img src="art/reviews/scenery-density/final-dry.png" alt="Actual dry transition" width="210">
 

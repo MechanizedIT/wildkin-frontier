@@ -2,7 +2,7 @@
 
 September13,2026: repository-owned research, implementation evidence and owner direction.
 
-**Newest density foundation:** [Illustrated progress](Early-Alpha-Progress.md) now includes denser dry/Lush comparisons, protected Signal and grove approaches, all1,337-test/package proof and exact save continuation. Source PASS; visual6.8HOLD and streaming hitches remain open. This local supplement does not update prior Drive/PDF publication.
+**Newest scenery preparation checkpoint:** [Illustrated progress](Early-Alpha-Progress.md) includes actual travel/Camp screenshots,270.5→16.6ms scenery crossing work,420.6→161ms slowest frame, all1,350 tests and exact developer/portable saved continuation. Density is unchanged; source PASS, prior visual6.8HOLD and residual loading hitches remain explicit. This local supplement does not update prior Drive/PDF publication.
 
 **Prior connected outing:** [Early-alpha illustrated progress](Early-Alpha-Progress.md) now opens with the earned Camp-to-grove outing: corrected garden focus, established-away guidance, ordinary-input travel and the collected Mossling cache. [The current receipt](../../../art/reviews/alpha-preview/receipt.md) discloses read-only route guidance and records physical return, the next garden use, all 1,322 checks and complete developer/portable save parity. It also records the next provisional visual question—readable Sunscar/Lush ecotone travel within existing grass, scenery and caps—without promising more assets or new biomes. The [early-alpha plan](../../EARLY_ALPHA_PLAN.md) keeps the roughly10-habitat/30-species direction staged and the danger, physical-mobile and distribution limits explicit. These local supplements are newer than the dated PDFs below.
 

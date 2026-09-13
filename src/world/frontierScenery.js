@@ -526,15 +526,19 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   return specs;
 }
 
-function sampleFrontierSceneryInfillChunk(cx, cz, ordinarySpecs, options = {}) {
-  if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
+function createFrontierSceneryInfillRecipe(cx, cz, ordinarySpecs, options = {}) {
+  if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) {
+    return Object.freeze({ step: () => 0, get done() { return true; }, get result() { return Object.freeze([]); } });
+  }
   const world = options.world ?? DEFAULT_FRONTIER_WORLD;
   const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
   const sampleOptions = { ...options, world };
   sampleOptions[REGIONAL_PLACE_LOOKUP] = options[REGIONAL_PLACE_LOOKUP] ?? createRegionalPlaceLookup(sampleOptions);
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
   const centerSample = terrainSample((cx + .5) * size, (cz + .5) * size, sampleOptions);
-  if (coastContourCandidates(cx, cz, centerSample, roll, sampleOptions).length) return [];
+  if (coastContourCandidates(cx, cz, centerSample, roll, sampleOptions).length) {
+    return Object.freeze({ step: () => 0, get done() { return true; }, get result() { return Object.freeze([]); } });
+  }
   const centerMix = provinceMix(centerSample);
   const effectiveLushWeight = centerMix ? centerMix.influence * centerMix.lush : 0;
   const acceptedTarget = Math.round(64 + Math.max(0, Math.min(1, effectiveLushWeight)) * 192);
@@ -546,40 +550,64 @@ function sampleFrontierSceneryInfillChunk(cx, cz, ordinarySpecs, options = {}) {
   const inset = FOOTPRINT_RADIUS.low, usable = size - inset * 2, columns = 16, rows = 16;
   const cellWidth = usable / columns, cellDepth = usable / rows;
   const offset = Math.floor(roll(0, 401) * 256);
-  for (let index = 0; index < 512 && infill.length < acceptedTarget; index++) {
-    const stratum = Math.floor(index / 256), cell = ((index % 256) * 73 + offset) % 256;
-    const column = cell % columns, row = Math.floor(cell / columns);
-    const rawX = cx * size + inset + (column + .08 + roll(index, 409 + stratum * 1009) * .84) * cellWidth;
-    const rawZ = cz * size + inset + (row + .08 + roll(index, 419 + stratum * 1013) * .84) * cellDepth;
-    const regionalCenter = settleSunscarPatchCenter(rawX, rawZ, cx, cz, sampleOptions);
-    const center = settleCoastPatchCenter(regionalCenter.x, regionalCenter.z, cx, cz, sampleOptions);
-    const sample = terrainSample(center.x, center.z, sampleOptions);
-    if (sample.surfaceKind) continue;
-    const assetId = lowAsset(sample, roll(index, 421), roll(index, 431), roll(index, 433), roll(index, 439));
-    if (admittedAssets && !admittedAssets.has(assetId)) continue;
-    const baseScale = .76 + roll(index, 443) * .3;
-    const candidate = {
-      x: center.x, z: center.z, assetId, kind: 'low',
-      scale: regionalSceneryScale(sample, assetId, baseScale, roll(index, 449)),
-      yaw: roll(index, 457) * Math.PI * 2,
-    };
-    if (!admitScenerySpec(cx, cz, index, candidate, sampleOptions, exclusions, specs, { infill: true })) continue;
-    infill.push(specs.at(-1));
-  }
-  return Object.freeze(infill);
+  let index = 0, result = null;
+  const finish = () => {
+    if (!result && (index >= 512 || infill.length >= acceptedTarget)) result = Object.freeze([...infill]);
+    return result;
+  };
+  const step = (maxWork = 8) => {
+    const limit = Number.isFinite(maxWork) ? Math.max(0, Math.floor(maxWork)) : 0;
+    if (!limit || result) return 0;
+    let work = 0;
+    while (work < limit && index < 512 && infill.length < acceptedTarget) {
+      const candidateIndex = index++;
+      work++;
+      const stratum = Math.floor(candidateIndex / 256), cell = ((candidateIndex % 256) * 73 + offset) % 256;
+      const column = cell % columns, row = Math.floor(cell / columns);
+      const rawX = cx * size + inset + (column + .08 + roll(candidateIndex, 409 + stratum * 1009) * .84) * cellWidth;
+      const rawZ = cz * size + inset + (row + .08 + roll(candidateIndex, 419 + stratum * 1013) * .84) * cellDepth;
+      const regionalCenter = settleSunscarPatchCenter(rawX, rawZ, cx, cz, sampleOptions);
+      const center = settleCoastPatchCenter(regionalCenter.x, regionalCenter.z, cx, cz, sampleOptions);
+      const sample = terrainSample(center.x, center.z, sampleOptions);
+      if (sample.surfaceKind) continue;
+      const assetId = lowAsset(sample, roll(candidateIndex, 421), roll(candidateIndex, 431), roll(candidateIndex, 433), roll(candidateIndex, 439));
+      if (admittedAssets && !admittedAssets.has(assetId)) continue;
+      const baseScale = .76 + roll(candidateIndex, 443) * .3;
+      const candidate = {
+        x: center.x, z: center.z, assetId, kind: 'low',
+        scale: regionalSceneryScale(sample, assetId, baseScale, roll(candidateIndex, 449)),
+        yaw: roll(candidateIndex, 457) * Math.PI * 2,
+      };
+      if (!admitScenerySpec(cx, cz, candidateIndex, candidate, sampleOptions, exclusions, specs, { infill: true })) continue;
+      infill.push(specs.at(-1));
+    }
+    finish();
+    return work;
+  };
+  return Object.freeze({ step, get done() { return Boolean(finish()); }, get result() { return finish(); } });
 }
 
-export function selectFrontierScenery(residency, options = {}) {
-  const center = residency?.center;
-  if (!Number.isSafeInteger(center?.cx) || !Number.isSafeInteger(center?.cz)) return [];
-  const chunks = [...new Map((residency.chunks ?? []).filter(chunk => Number.isSafeInteger(chunk?.cx) && Number.isSafeInteger(chunk?.cz)).map(chunk => [`${chunk.cx},${chunk.cz}`, chunk])).values()];
+function sampleFrontierSceneryInfillChunk(cx, cz, ordinarySpecs, options = {}) {
+  const recipe = createFrontierSceneryInfillRecipe(cx, cz, ordinarySpecs, options);
+  while (!recipe.done) recipe.step(512);
+  return recipe.result;
+}
+
+function isProtectedSceneryResidency(center, chunks, options) {
   const hasStagedNearChunk = chunks.some(chunk => Math.max(Math.abs(chunk.cx - center.cx), Math.abs(chunk.cz - center.cz)) <= 1
     && STAGED.has(`${chunk.cx},${chunk.cz}`));
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
   const centerSample = terrainSample((center.cx + .5) * size, (center.cz + .5) * size, options);
   const protectedCoast = Number.isFinite(centerSample?.coastDistance) && Math.abs(centerSample.coastDistance) <= 38
     && centerSample.inlandDirection;
-  const preserveLegacyWindow = hasStagedNearChunk || Boolean(centerSample?.surfaceKind) || Boolean(protectedCoast);
+  return hasStagedNearChunk || Boolean(centerSample?.surfaceKind) || Boolean(protectedCoast);
+}
+
+export function selectFrontierScenery(residency, options = {}) {
+  const center = residency?.center;
+  if (!Number.isSafeInteger(center?.cx) || !Number.isSafeInteger(center?.cz)) return [];
+  const chunks = [...new Map((residency.chunks ?? []).filter(chunk => Number.isSafeInteger(chunk?.cx) && Number.isSafeInteger(chunk?.cz)).map(chunk => [`${chunk.cx},${chunk.cz}`, chunk])).values()];
+  const preserveLegacyWindow = isProtectedSceneryResidency(center, chunks, options);
   const near = [], outer = [];
   for (const chunk of chunks) {
     const dx = chunk.cx - center.cx, dz = chunk.cz - center.cz;
@@ -695,6 +723,22 @@ export function createFrontierSceneryRecipeCache() {
     values.set(key, completed);
     return completed;
   }
+  function hasScenery(kind, cx, cz) {
+    const values = recipes[kind === 'ordinary' ? 'ordinaryScenery' : kind === 'infill' ? 'infillScenery' : ''];
+    return Boolean(values?.has(`${cx},${cz}`));
+  }
+  function readScenery(kind, cx, cz) {
+    const values = recipes[kind === 'ordinary' ? 'ordinaryScenery' : kind === 'infill' ? 'infillScenery' : ''];
+    return values?.get(`${cx},${cz}`) ?? null;
+  }
+  function setScenery(kind, cx, cz, completedRecipe) {
+    const values = recipes[kind === 'ordinary' ? 'ordinaryScenery' : kind === 'infill' ? 'infillScenery' : ''];
+    if (!values || !bounds || cx < bounds.minCx || cx > bounds.maxCx || cz < bounds.minCz || cz > bounds.maxCz
+      || !Array.isArray(completedRecipe)) return false;
+    const key = `${cx},${cz}`;
+    if (!values.has(key)) values.set(key, Object.freeze([...completedRecipe]));
+    return true;
+  }
   function getDebugState() {
     return Object.freeze({ forageCount: recipes.forage.size, wildlifeCount: recipes.wildlife.size });
   }
@@ -702,7 +746,7 @@ export function createFrontierSceneryRecipeCache() {
     return Object.freeze({ ordinaryCount: recipes.ordinaryScenery.size, infillCount: recipes.infillScenery.size });
   }
   return Object.freeze({ prepare, clear, getDebugState, getSceneryDebugState,
-    [RECIPE_CACHE_ACCESS]: Object.freeze({ get, getScenery }) });
+    [RECIPE_CACHE_ACCESS]: Object.freeze({ get, getScenery, hasScenery, readScenery, setScenery }) });
 }
 
 function createPointMemo(options) {
@@ -730,6 +774,89 @@ function createPointMemo(options) {
   const clear = () => { samples.clear(); heights.clear(); };
   const getDebugState = () => Object.freeze({ heightCount: heights.size, sampleCount: samples.size });
   return Object.freeze({ getHeight, getTerrainSample, clear, getDebugState });
+}
+
+/** Incrementally fills one anticipated residency's immutable scenery recipes. */
+export function createFrontierSceneryPrepareJob(residency, options = {}, recipeCache = createFrontierSceneryRecipeCache()) {
+  const center = residency?.center;
+  const chunks = [...new Map((residency?.chunks ?? [])
+    .filter(chunk => Number.isSafeInteger(chunk?.cx) && Number.isSafeInteger(chunk?.cz))
+    .map(chunk => [`${chunk.cx},${chunk.cz}`, chunk])).values()]
+    .filter(chunk => Math.max(Math.abs(chunk.cx - center?.cx), Math.abs(chunk.cz - center?.cz)) <= 2)
+    .sort((a, b) => {
+      const ad = (a.cx - center?.cx) ** 2 + (a.cz - center?.cz) ** 2;
+      const bd = (b.cx - center?.cx) ** 2 + (b.cz - center?.cz) ** 2;
+      return ad - bd || a.cx - b.cx || a.cz - b.cz;
+    });
+  let status = Number.isSafeInteger(center?.cx) && Number.isSafeInteger(center?.cz) ? 'active' : 'done';
+  let initialized = false, tasks = [], taskIndex = 0, pending = null;
+  let preparedOrdinary = 0, preparedInfill = 0, totalWork = 0;
+  const pointMemo = createPointMemo(options);
+  const buildOptions = { ...options, getHeight: pointMemo.getHeight, getTerrainSample: pointMemo.getTerrainSample,
+    [EXCLUSION_RECIPE_CACHE]: recipeCache };
+  const regionalPlaces = createRegionalPlaceLookup(buildOptions);
+  buildOptions[REGIONAL_PLACE_LOOKUP] = regionalPlaces;
+  const cacheAccess = recipeCache[RECIPE_CACHE_ACCESS];
+  const release = () => { pointMemo.clear(); regionalPlaces.clear(); pending = null; };
+  const state = (work = 0) => Object.freeze({
+    done: status === 'done', cancelled: status === 'cancelled', failed: status === 'failed', work,
+    totalWork, preparedOrdinary, preparedInfill,
+  });
+  const complete = () => { status = 'done'; release(); };
+  const initialize = () => {
+    recipeCache.prepare(center);
+    const protectedResidency = isProtectedSceneryResidency(center, chunks, buildOptions);
+    tasks = chunks.map(chunk => ({ kind: 'ordinary', cx: chunk.cx, cz: chunk.cz }));
+    if (!protectedResidency) tasks.push(...chunks
+      .filter(chunk => Math.max(Math.abs(chunk.cx - center.cx), Math.abs(chunk.cz - center.cz)) <= 1)
+      .map(chunk => ({ kind: 'infill', cx: chunk.cx, cz: chunk.cz })));
+    initialized = true;
+  };
+  const step = (maxWork = 8) => {
+    if (status !== 'active') return state();
+    const limit = Number.isFinite(maxWork) ? Math.max(0, Math.floor(maxWork)) : 0;
+    if (!limit) return state();
+    let work = 0;
+    try {
+      if (!initialized) initialize();
+      while (status === 'active' && work < limit) {
+        const task = tasks[taskIndex];
+        if (!task) { complete(); break; }
+        if (cacheAccess.hasScenery(task.kind, task.cx, task.cz)) { taskIndex++; continue; }
+        if (task.kind === 'ordinary') {
+          const recipe = sampleFrontierSceneryChunk(task.cx, task.cz, buildOptions);
+          work++; totalWork++;
+          cacheAccess.setScenery('ordinary', task.cx, task.cz, recipe);
+          preparedOrdinary++; taskIndex++; pointMemo.clear();
+          continue;
+        }
+        if (!pending) {
+          const ordinary = cacheAccess.readScenery('ordinary', task.cx, task.cz);
+          pending = createFrontierSceneryInfillRecipe(task.cx, task.cz, ordinary, buildOptions);
+          work++; totalWork++;
+          if (!pending.done) continue;
+        }
+        if (!pending.done) {
+          const consumed = pending.step(limit - work);
+          work += consumed; totalWork += consumed;
+          if (!pending.done) continue;
+        }
+        cacheAccess.setScenery('infill', task.cx, task.cz, pending.result);
+        preparedInfill++; taskIndex++; pending = null; pointMemo.clear();
+      }
+      if (status === 'active' && taskIndex >= tasks.length) complete();
+      return state(work);
+    } catch (error) {
+      status = 'failed'; release();
+      throw error;
+    }
+  };
+  const cancel = () => {
+    if (status === 'active') { status = 'cancelled'; release(); }
+    return state();
+  };
+  if (status === 'done') release();
+  return Object.freeze({ step, cancel, getState: state });
 }
 
 /** Builds one residency using a bounded cache shared by selection and grass clearance. */

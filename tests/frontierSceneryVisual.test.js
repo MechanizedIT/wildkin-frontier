@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { afterEach, test } from 'node:test';
 import * as THREE from 'three';
 import { clearModelAssetCacheForTests, getModelTemplate, preloadVisualModels } from '../src/assets/modelAssetRuntime.js';
-import { createFrontierSceneryVisual, FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE } from '../src/world/frontierSceneryVisual.js';
+import { createFrontierGroundPatchCache, createFrontierSceneryVisual, createFrontierSceneryVisualJob,
+  FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE } from '../src/world/frontierSceneryVisual.js';
 
 const canopy = {
   id: 'asset_verge_canopy',
@@ -85,6 +86,15 @@ function instancedLowAttributes(scenery, specs) {
     }
   }
   return Object.fromEntries(['position', 'normal', 'color'].map(name => [name, specs.flatMap(spec => byId.get(spec.id)[name])]));
+}
+
+function groundAttributes(scenery) {
+  const mesh = scenery.group.getObjectByName('frontier_scenery_ground_cover');
+  if (!mesh) return { matrices: [], colors: [] };
+  return {
+    matrices: Array.from(mesh.instanceMatrix.array.slice(0, mesh.count * 16)),
+    colors: Array.from(mesh.instanceColor.array.slice(0, mesh.count * 3)),
+  };
 }
 
 function assertOutwardFaces(surface, center) {
@@ -372,6 +382,108 @@ test('ground cover caps at 640 deterministic clusters in one instanced draw', ()
   assert.equal(scenery.stats.groundDrawCount, 1);
   assert.equal(scenery.stats.groundClusterTriangleCount, 10240);
   scenery.dispose();
+});
+
+test('runtime ground patch cache preserves capped output and reuses complete overlapping patches', () => {
+  const owner = Object.freeze({ name: 'terrain-owner' });
+  const cache = createFrontierGroundPatchCache({ owner, maxEntries: 64 });
+  const specs = Array.from({ length: 51 }, (_, index) => ({
+    id: `cache-${String(index).padStart(2, '0')}`, assetId: reed.id, x: index * 6, y: 2, z: 20, scale: 1, yaw: 0, kind: 'low',
+  }));
+  let coldPlaceCalls = 0, coldHeightCalls = 0;
+  const cold = createFrontierSceneryVisual({ specs, visualAssets: [reed], groundPatchCache: cache, groundPatchOwner: owner,
+    canPlaceGroundCover: () => { coldPlaceCalls++; return true; }, getHeight: () => { coldHeightCalls++; return 4; } });
+  const stateless = createFrontierSceneryVisual({ specs, visualAssets: [reed], canPlaceGroundCover: () => true, getHeight: () => 4 });
+  assert.equal(cold.stats.groundClusterCount, 640); assert.deepEqual(groundAttributes(cold), groundAttributes(stateless));
+  assert.equal(coldPlaceCalls, 650, 'the cache completes the final 13-record patch before global truncation');
+  assert.equal(coldHeightCalls, 650);
+
+  let warmPlaceCalls = 0, warmHeightCalls = 0;
+  const overlapSpecs = [...specs.slice(1, 50), { ...specs[50], id: 'cache-51', x: 306 }];
+  const warm = createFrontierSceneryVisual({ specs: overlapSpecs, visualAssets: [reed], groundPatchCache: cache, groundPatchOwner: owner,
+    canPlaceGroundCover: () => { warmPlaceCalls++; return true; }, getHeight: () => { warmHeightCalls++; return 4; } });
+  assert.equal(warmPlaceCalls, 13, '49 overlapping patches reuse cached acceptance while one new patch is prepared');
+  assert.equal(warmHeightCalls, 13);
+  assert.equal(cache.getDebugState().maxPatchRecords, 13);
+  cold.dispose(); stateless.dispose(); warm.dispose();
+});
+
+test('ground patch cache is bounded, prunable, and rejects changed owner/world contracts', () => {
+  const owner = {};
+  const cache = createFrontierGroundPatchCache({ owner, maxEntries: 2 });
+  for (let index = 0; index < 3; index++) {
+    const scenery = createFrontierSceneryVisual({ visualAssets: [reed], groundPatchCache: cache, groundPatchOwner: owner,
+      specs: [{ id: `bounded-${index}:stage-`, assetId: reed.id, x: index * 8, y: 0, z: 0, kind: 'low',
+        groundCover: { density: 100 } }] });
+    scenery.dispose();
+  }
+  assert.deepEqual(cache.getDebugState(), { entryCount: 2, maxEntries: 2, maxPatchRecords: 28 });
+  cache.prune(['bounded-2:stage-']);
+  assert.equal(cache.getDebugState().entryCount, 1);
+  assert.throws(() => createFrontierSceneryVisual({ visualAssets: [reed], groundPatchCache: cache, groundPatchOwner: {},
+    specs: [{ id: 'wrong-owner', assetId: reed.id, x: 0, y: 0, z: 0, kind: 'low' }] }), /owner\/world contract changed/);
+  assert.throws(() => createFrontierSceneryVisual({ visualAssets: [reed], groundPatchCache: cache, groundPatchOwner: owner,
+    world: { edition: 1, seed: 123 }, specs: [{ id: 'wrong-world', assetId: reed.id, x: 0, y: 0, z: 0, kind: 'low' }] }), /owner\/world contract changed/);
+  cache.clear(); assert.equal(cache.getDebugState().entryCount, 0);
+});
+
+test('failed ground preparation does not publish a partial cache entry', () => {
+  const owner = {}, cache = createFrontierGroundPatchCache({ owner });
+  let calls = 0;
+  assert.throws(() => createFrontierSceneryVisual({ visualAssets: [reed], groundPatchCache: cache, groundPatchOwner: owner,
+    canPlaceGroundCover: () => { if (++calls === 3) throw new Error('cache-prepare-fixture'); return true; },
+    specs: [{ id: 'failed-cache', assetId: reed.id, x: 0, y: 0, z: 0, kind: 'low' }] }), /cache-prepare-fixture/);
+  assert.equal(cache.getDebugState().entryCount, 0);
+  const retry = createFrontierSceneryVisual({ visualAssets: [reed], groundPatchCache: cache, groundPatchOwner: owner,
+    canPlaceGroundCover: () => { calls++; return true; }, specs: [{ id: 'failed-cache', assetId: reed.id, x: 0, y: 0, z: 0, kind: 'low' }] });
+  assert.equal(calls, 16, 'retry prepares all 13 candidates after the failed partial attempt');
+  retry.dispose();
+});
+
+test('incremental visual job matches synchronous output and transfers result ownership', () => {
+  const specs = [
+    { id: 'job-a', chunkId: '-1,0', assetId: reed.id, x: -4, y: 2, z: 3, scale: .8, yaw: .2, kind: 'low' },
+    { id: 'job-b', chunkId: '0,0', assetId: stone.id, x: 4, y: 3, z: 5, scale: 1.1, yaw: -.3, kind: 'low' },
+  ];
+  const synchronous = createFrontierSceneryVisual({ specs, visualAssets: [reed, stone], getHeight: (x, z) => x * .01 + z * .02 });
+  const job = createFrontierSceneryVisualJob({ specs, visualAssets: [reed, stone], getHeight: (x, z) => x * .01 + z * .02 });
+  assert.deepEqual(job.getState(), { status: 'pending', workCompleted: 0, hasResult: false });
+  assert.equal(job.step(1).status, 'pending');
+  while (job.getState().status === 'pending') job.step(1);
+  assert.equal(job.getState().hasResult, true);
+  const incremental = job.takeResult();
+  assert.deepEqual(incremental.stats, synchronous.stats);
+  assert.deepEqual(groundAttributes(incremental), groundAttributes(synchronous));
+  assert.deepEqual(incremental.terrainSurfaces, synchronous.terrainSurfaces);
+  let groundDisposals = 0;
+  incremental.group.getObjectByName('frontier_scenery_ground_cover').addEventListener('dispose', () => { groundDisposals++; });
+  assert.equal(job.cancel().status, 'transferred'); assert.equal(groundDisposals, 0, 'job cancellation cannot destroy a transferred visual');
+  incremental.dispose(); incremental.dispose(); assert.equal(groundDisposals, 1);
+  synchronous.dispose();
+});
+
+test('incremental visual cancellation retires partially accumulated resources exactly once', () => {
+  const originalInstanceDispose = THREE.InstancedMesh.prototype.dispose;
+  let groundDisposals = 0, lowDisposals = 0;
+  THREE.InstancedMesh.prototype.dispose = function() {
+    if (this.name === 'frontier_scenery_ground_cover') groundDisposals++;
+    if (this.name === 'frontier_scenery_low_props') lowDisposals++;
+    return originalInstanceDispose.call(this);
+  };
+  try {
+    const job = createFrontierSceneryVisualJob({ visualAssets: [reed], canPlaceGroundCover: () => false, specs: [
+      { id: 'cancel-a', assetId: reed.id, x: -4, y: 0, z: 0, kind: 'low' },
+      { id: 'cancel-b', assetId: reed.id, x: 14, y: 0, z: 0, kind: 'low' },
+    ] });
+    job.step(133);
+    assert.equal(job.getState().status, 'pending');
+    job.cancel(); job.cancel();
+    assert.equal(job.getState().status, 'cancelled');
+  } finally {
+    THREE.InstancedMesh.prototype.dispose = originalInstanceDispose;
+  }
+  assert.equal(lowDisposals, 1, 'the completed first render-cell batch is retired');
+  assert.equal(groundDisposals, 1, 'the partial job ground instance buffers are retired once');
 });
 
 test('dense infill cannot displace established ordinary or whole-place ground dressing', () => {

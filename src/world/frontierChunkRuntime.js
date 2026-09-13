@@ -149,6 +149,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
   let residencySnapshot = { center: null, chunks: [] };
   let lastPosition = null;
   let anticipatedCenterKey = null;
+  let anticipatedResidency = null;
   let disposed = false;
 
   function refreshResidencySnapshot() {
@@ -233,6 +234,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     for (const resident of prepared.values()) disposeResident(resident);
     prepared.clear();
     anticipatedCenterKey = null;
+    anticipatedResidency = null;
   }
 
   function clearResidents() {
@@ -269,16 +271,37 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     const { preloadDistance, maxPrepared, motionEpsilon } = FRONTIER_CHUNK_STREAMING_CONFIG;
     const originX = center.cx * chunkSize, originZ = center.cz * chunkSize;
     let stepX = 0, stepZ = 0;
-    if (dx > motionEpsilon && originX + chunkSize + HYSTERESIS - position.x <= preloadDistance) stepX = 1;
-    else if (dx < -motionEpsilon && position.x - (originX - HYSTERESIS) <= preloadDistance) stepX = -1;
-    if (dz > motionEpsilon && originZ + chunkSize + HYSTERESIS - position.z <= preloadDistance) stepZ = 1;
-    else if (dz < -motionEpsilon && position.z - (originZ - HYSTERESIS) <= preloadDistance) stepZ = -1;
+    const noMovementStep = Math.abs(dx) <= motionEpsilon && Math.abs(dz) <= motionEpsilon;
+    if (noMovementStep && anticipatedResidency) {
+      // Rendering can outpace fixed-step movement. Keep the bounded prediction
+      // through zero-delta frames while it is still in its preload corridor.
+      const priorX = anticipatedResidency.center.cx - center.cx;
+      const priorZ = anticipatedResidency.center.cz - center.cz;
+      if (priorX > 0 && originX + chunkSize + HYSTERESIS - position.x <= preloadDistance) stepX = 1;
+      else if (priorX < 0 && position.x - (originX - HYSTERESIS) <= preloadDistance) stepX = -1;
+      if (priorZ > 0 && originZ + chunkSize + HYSTERESIS - position.z <= preloadDistance) stepZ = 1;
+      else if (priorZ < 0 && position.z - (originZ - HYSTERESIS) <= preloadDistance) stepZ = -1;
+    } else {
+      if (dx > motionEpsilon && originX + chunkSize + HYSTERESIS - position.x <= preloadDistance) stepX = 1;
+      else if (dx < -motionEpsilon && position.x - (originX - HYSTERESIS) <= preloadDistance) stepX = -1;
+      if (dz > motionEpsilon && originZ + chunkSize + HYSTERESIS - position.z <= preloadDistance) stepZ = 1;
+      else if (dz < -motionEpsilon && position.z - (originZ - HYSTERESIS) <= preloadDistance) stepZ = -1;
+    }
     if (!stepX && !stepZ) { clearPrepared(); return; }
     const target = { cx: center.cx + stepX, cz: center.cz + stepZ };
     const targetKey = chunkKey(target.cx, target.cz);
-    if (anticipatedCenterKey !== targetKey) clearPrepared();
-    anticipatedCenterKey = targetKey;
     const wanted = wantedWindow(target.cx, target.cz);
+    if (anticipatedCenterKey !== targetKey) {
+      clearPrepared();
+      anticipatedCenterKey = targetKey;
+      anticipatedResidency = Object.freeze({
+        center: Object.freeze({ ...target }),
+        chunks: Object.freeze([...wanted].map(([id, coords]) => Object.freeze({
+          id, ...coords,
+          origin: Object.freeze({ x: coords.cx * chunkSize, z: coords.cz * chunkSize }),
+        }))),
+      });
+    }
     for (const [id, resident] of prepared) if (!wanted.has(id) || residents.has(id)) {
       disposeResident(resident); prepared.delete(id);
     }
@@ -356,6 +379,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     return residencySnapshot;
   }
   function getWorldDescriptor() { return worldDescriptor; }
+  function getAnticipatedResidency() { return anticipatedResidency; }
   function getDebugState() { return { residentCount: residents.size, center: center && { ...center }, residentIds: [...residents.keys()],
     preparedCount: prepared.size, preparedIds: [...prepared.keys()] }; }
   function dispose() {
@@ -363,7 +387,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     clearResidents(); parent?.remove(root);
     foliageGeometry.dispose(); foliageMaterial.dispose(); disposed = true;
   }
-  const api = { root, update, sample, getHeight, getWater, getResidency, getWorldDescriptor, getDebugState, dispose };
+  const api = { root, update, sample, getHeight, getWater, getResidency, getAnticipatedResidency, getWorldDescriptor, getDebugState, dispose };
   Object.defineProperty(api, 'heightMatchesSample', { value: true, enumerable: true });
   return api;
 }

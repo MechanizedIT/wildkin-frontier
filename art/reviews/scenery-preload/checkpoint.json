@@ -1,0 +1,88 @@
+{
+  "date": "2026-09-13T18:34:43.021Z",
+  "baseCommit": "262c64ffcede917607e6c8ee05c8a5d1639b20d6",
+  "status": "local-foundation",
+  "sourceReview": "PASS",
+  "visual": {
+    "status": "HOLD",
+    "score": 6.8,
+    "reusedFrom": "../scenery-density/receipt.md",
+    "newRounds": 0
+  },
+  "tests": {
+    "total": 1350,
+    "pass": 1350,
+    "durationMs": 77391.3493,
+    "aggregateAttempts": 1
+  },
+  "package": {
+    "unpackedMB": 44.32,
+    "zipBytes": 21576637,
+    "sha256": "1b7a420b2bfa00500e3bbf838341098c67b738dc1499623d5c09a3fabbed30a0"
+  },
+  "native": {
+    "medianMs": 33.400000005960464,
+    "p95Ms": 35.900000005960464,
+    "maxMs": 161,
+    "boundarySceneryMs": 16.600000023841858,
+    "start": {
+      "x": -150,
+      "y": 10.672499656677246,
+      "z": 345
+    },
+    "end": {
+      "x": -158.94256356812622,
+      "y": 11.330541841507632,
+      "z": 363.7694624634019
+    },
+    "elapsedMs": 10001.69999998808,
+    "streaming": {
+      "cancelled": 1,
+      "lastWorkMs": 0.09999999403953552,
+      "maxWorkMs": 15.5,
+      "phase": null,
+      "preparationFailures": 0,
+      "preparedPublications": 1,
+      "synchronousPublications": 2,
+      "target": null,
+      "unfinishedPublications": 0
+    },
+    "groundPatchCache": {
+      "entryCount": 52,
+      "maxEntries": 512,
+      "maxPatchRecords": 13
+    },
+    "percentileMethod": "sorted floor((n-1)*p)"
+  },
+  "browser": {
+    "developerEqual": true,
+    "portableReloadEqual": true,
+    "portableContinueEqual": true,
+    "packageOrigins": [
+      "http://127.0.0.1:8081"
+    ],
+    "developerLogs": [],
+    "packageLogs": []
+  },
+  "earnedEnvelopeSha256": "b4e905bafb3b69f24b52ba60f39355fea35915fa8401544d57027f2f6aabbfed",
+  "sourceAndEvidenceHashes": {
+    "src/world/frontierChunkRuntime.js": "de690fc3b54189390b180f06580daf32cc8af949c04ac0504d4abb18e6120c9a",
+    "src/world/frontierScenery.js": "1f5741ed7bdfbd05419b6637282ff64dcf7691963f40573bb21576ed8da6eb0a",
+    "src/world/frontierSceneryRuntime.js": "af1f6f7521b9c5f341202ac40fb6535ab9c1b5f6ea0eaa5056edcbb0d0795437",
+    "src/world/frontierSceneryVisual.js": "6c031eb75de29ff46df89bbb5fb9af40b7e3e36a68a0b61288d3e6bdca04329b",
+    "tests/frontierChunkRuntime.test.js": "32b96b73d75fd50ee45c072f8609b23acf5411becd08ba74b551bca0296d7904",
+    "tests/frontierScenery.test.js": "34b9ea1e46951debacae71769e9d4ebed1a33a3d24719122714da93a499c0b48",
+    "tests/frontierSceneryRuntime.test.js": "fde435ae4064659deb9176cfc0e526ccbf41420b848dadf66cee6eac6da970cf",
+    "tests/frontierSceneryVisual.test.js": "3b1cd2227e31fbafa8f4e6daa3db10e6671633ba6cc1656c11fbbd0b76b2247d",
+    "art/reviews/scenery-preload/browser-proof.json": "eaba708f1ceb56844c7c3623f9295cced566b0ea615b558567df1743106b3cf9",
+    "art/reviews/scenery-preload/lush-final-end.png": "de2a0534162e92a44d44e4f565c2b56a786e60c29d237946d637eebab69e2297",
+    "art/reviews/scenery-preload/lush-final-start.png": "85b99bcf819723b12b3306fa09eef2bb3e33f558d421075ec781dc6b20a47b2f",
+    "art/reviews/scenery-preload/native-lush-final.json": "0679a454d4c514729f37d3a2658cab0a32d1b328377aa9824e46f002c647e7d5",
+    "art/reviews/scenery-preload/next-ecology-audit.md": "1cae062a3ee7fda114d5d1deb1456108f5ac2dc37d4e820045505e96d63cd38b",
+    "art/reviews/scenery-preload/package-camp.png": "1b34bf20606743c7ae083042bbbd12eb18c27a059f02fbd45ff61b55cbd8ce30",
+    "art/reviews/scenery-preload/receipt.md": "808bfd032de9a9996a50b0aafa591adbd1409eb90d9e6509bd25c94db81e16ff",
+    "art/reviews/scenery-preload/recipe-evidence.md": "50df5f7f30eb6c58b840d248dd81a79009163ee9bbefd72185c4237f076eda56",
+    "art/reviews/scenery-preload/visual-evidence.md": "a1ab67e6ea8ca07edba32cea78aa0e1a3217bc92fa55dbf70e42c34ecaa5c6ee"
+  },
+  "nextScope": "Owner-requested larger irregular continent; read-only dimensions/coast audit before production"
+}
