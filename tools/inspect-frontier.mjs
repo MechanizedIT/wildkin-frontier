@@ -16,7 +16,7 @@ import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/fro
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUTPUT_DIR = path.join(ROOT, '.dream-loop', 'frontier-inspector');
 const DEFAULTS = Object.freeze({ centerX: 0, centerZ: -100, extentX: 300, extentZ: 300, resolution: 96 });
-const LIMITS = Object.freeze({ minExtent: 50, maxExtent: 600, minResolution: 24, maxResolution: 180 });
+const LIMITS = Object.freeze({ minExtent: 50, maxExtent: 1600, minResolution: 24, maxResolution: 180 });
 const worldKey = world => `f${world.edition}_${world.seed.toString(16)}`;
 
 function usage() {
@@ -141,12 +141,16 @@ function main() {
   const width = config.resolution, height = Math.max(LIMITS.minResolution, Math.round(config.resolution * config.extentZ / config.extentX));
   if (height > LIMITS.maxResolution) throw new Error(`derived Z resolution ${height} exceeds ${LIMITS.maxResolution}; reduce --resolution or the extent ratio`);
   const elevations = [], wetlands = [], slopes = [], terrainColors = [];
+  const provinceIds = [], provinceKinds = [], provinceInfluences = [];
+  const provinceWeights = { lush: [], sunscar: [], ironspine: [] };
   const heightAt = (x, z) => sampleFrontier(x, z, terrainOptions).height;
   for (let row = 0; row < height; row++) for (let column = 0; column < width; column++) {
     const x = lerp(minX, maxX, (column + .5) / width), z = lerp(minZ, maxZ, (row + .5) / height);
     const sample = sampleFrontier(x, z, terrainOptions), step = .8;
     const slope = Math.hypot((heightAt(x + step, z) - heightAt(x - step, z)) / (step * 2), (heightAt(x, z + step) - heightAt(x, z - step)) / (step * 2));
     elevations.push(sample.height); wetlands.push(sample.habitatBlend.wetland); slopes.push(slope); terrainColors.push(sample.groundColorRGB);
+    provinceIds.push(sample.provinceId ?? null); provinceKinds.push(sample.provinceKind ?? 'reserved'); provinceInfluences.push(sample.provinceInfluence ?? 0);
+    for (const kind of Object.keys(provinceWeights)) provinceWeights[kind].push(sample.provinceWeights?.[kind] ?? 0);
   }
 
   const forage = [], wildlife = [], scenery = [], size = FRONTIER_TERRAIN_CONFIG.chunkSize;
@@ -168,8 +172,17 @@ function main() {
   const wetlandPixels = rgbaGrid(wetlands, value => ramp([[.30,.25,.13],[.39,.50,.24],[.18,.53,.49],[.08,.27,.48]], value));
   const slopePixels = rgbaGrid(slopes, value => ramp([[.10,.22,.16],[.40,.63,.27],[.93,.73,.22],[.84,.27,.15],[.36,.08,.14]], clamp(value / Math.max(.5, slopeStats.p95))));
   const terrainPixels = rgbaGrid(terrainColors, value => value.map(channel => Math.round(clamp(channel) * 255)));
+  const provinceColors = { lush: [.18,.62,.30], sunscar: [.90,.62,.30], ironspine: [.50,.57,.64] };
+  const provincePixels = rgbaGrid(provinceKinds, (_kind, index) => {
+    const blend = Object.keys(provinceColors).map(kind => provinceColors[kind].map(channel => channel * provinceWeights[kind][index]))
+      .reduce((total, color) => total.map((channel, channelIndex) => channel + color[channelIndex]), [0, 0, 0]);
+    const influence = provinceInfluences[index];
+    return blend.map((channel, channelIndex) => Math.round(lerp([.08,.12,.14][channelIndex], channel, .18 + influence * .82) * 255));
+  });
+  const influenceStops = [[.08,.12,.14],[.18,.28,.31],[.32,.58,.48],[.86,.77,.40]];
+  const influencePixels = rgbaGrid(provinceInfluences, value => ramp(influenceStops, value));
 
-  const page = { width: 1280, height: 1490, panelX: [70, 660], panelY: [190, 850], plot: 520 };
+  const page = { width: 1280, height: 2160, panelX: [70, 660], panelY: [190, 850, 1510], plot: 520 };
   const topLegendY = page.panelY[0] + page.plot + 40;
   const bottomLegendY = page.panelY[1] + page.plot + 60;
   const mapX = x => (x - minX) / (maxX - minX) * page.plot;
@@ -234,15 +247,19 @@ text{font-family:system-ui,-apple-system,Segoe UI,sans-serif}.title{fill:#f5efd9
 </style>
 <text x="70" y="55" class="title">Living Frontier · seeded world inspector</text>
 <text x="70" y="84" class="meta">${esc(worldKey(world))} · bounds x ${rounded(minX,1)}…${rounded(maxX,1)}, z ${rounded(minZ,1)}…${rounded(maxZ,1)} · ${width}×${height} samples · ${campSurface ? 'authored Camp surface' : 'flat Camp fallback'}</text>
-<text x="70" y="108" class="meta">All four views share one descriptor, ground sampler and map bounds. Wetland is the current habitat weight; no climate moisture layer is implied.</text>
+<text x="70" y="108" class="meta">All six views share one descriptor, terrain sampler and map bounds. Province views expose planning metadata; they do not reveal the player's unknown atlas.</text>
 ${panel(0,'Elevation',`range ${rounded(elevationStats.min)}–${rounded(elevationStats.max)} m · 2 m contour bands`,elevationPixels,contours(page.panelX[0],page.panelY[0]))}
 ${legend(370,topLegendY,elevStops,`${rounded(elevationStats.min)} m`,`${rounded(elevationStats.max)} m`)}
-${panel(1,'Wetland habitat weight',`mean ${roundedSummary(wetlands).mean} · current terrain habitat blend`,wetlandPixels)}
-${legend(960,topLegendY,wetStops,'0 dry/upland','1 wetland')}
+${panel(1,'Province grammar blend',`${new Set(provinceIds.filter(Boolean)).size} dominant province ids · dim areas preserve authored terrain`,provincePixels)}
+<g transform="translate(700 ${topLegendY+4})"><rect width="14" height="14" rx="3" fill="rgb(46 158 77)"/><text x="22" y="12" class="key">lush</text><rect x="90" width="14" height="14" rx="3" fill="rgb(230 158 77)"/><text x="112" y="12" class="key">Sunscar</text><rect x="214" width="14" height="14" rx="3" fill="rgb(128 145 163)"/><text x="236" y="12" class="key">Ironspine</text><text x="350" y="12" class="key">mixed color = ecotone weights</text></g>
 ${panel(2,'Local slope',`rise/run · mean ${rounded(slopeStats.mean)} · p95 ${rounded(slopeStats.p95)}`,slopePixels)}
 ${legend(370,bottomLegendY,slopeStops,'level',`≥ ${rounded(Math.max(.5,slopeStats.p95))}`)}
 ${panel(3,'Terrain + generated candidates',`${visibleForage.length} forage · ${visibleWildlife.length} wildlife · ${visibleScenery.length} scenery`,terrainPixels,placementMarks(placementX,placementY))}
 <g transform="translate(660 ${bottomLegendY+10})"><circle cx="5" cy="0" r="4" class="forage"/><text x="16" y="5" class="key">forage</text><path d="M105 -7l6 11h-12z" class="wildlife"/><text x="118" y="5" class="key">wildlife</text><path d="M210 -4l8 8m0-8-8 8" class="scenery-canopy"/><text x="232" y="5" class="key">canopy</text><circle cx="324" cy="0" r="2" class="scenery-low"/><text x="334" y="5" class="key">low scenery</text></g>
+${panel(4,'Wetland habitat weight',`mean ${roundedSummary(wetlands).mean} · current terrain habitat blend`,wetlandPixels)}
+${legend(370,page.panelY[2]+page.plot+40,wetStops,'0 dry/upland','1 wetland')}
+${panel(5,'Province influence',`mean ${roundedSummary(provinceInfluences).mean} · protected authored envelope fades from 0 to 1`,influencePixels)}
+${legend(960,page.panelY[2]+page.plot+40,influenceStops,'0 authored reserve','1 regional terrain')}
 </svg>\n`;
 
   const report = {
@@ -251,7 +268,15 @@ ${panel(3,'Terrain + generated candidates',`${visibleForage.length} forage · ${
     world: { edition: world.edition, seed: world.seed, key: worldKey(world) },
     bounds: { minX, maxX, minZ, maxZ },
     sampling: { width, height, slopeStep: .8, campSurface: campSurface ? 'authored-world-registry' : 'flat-fallback', limits: LIMITS },
-    metrics: { elevationMetres: roundedSummary(elevations), wetlandWeight: roundedSummary(wetlands), slopeRiseRun: roundedSummary(slopes) },
+    metrics: {
+      elevationMetres: roundedSummary(elevations), wetlandWeight: roundedSummary(wetlands), slopeRiseRun: roundedSummary(slopes),
+      provinces: {
+        dominantKindSamples: counts(provinceKinds, value => value),
+        dominantProvinceIds: new Set(provinceIds.filter(Boolean)).size,
+        influence: roundedSummary(provinceInfluences),
+        meanWeights: Object.fromEntries(Object.entries(provinceWeights).map(([kind, values]) => [kind, roundedSummary(values).mean])),
+      },
+    },
     counts: {
       forage: { total: visibleForage.length, byType: counts(visibleForage, item => item.visualAsset?.id ?? item.type) },
       wildlife: { total: visibleWildlife.length, bySpecies: counts(visibleWildlife, item => item.speciesTag) },
@@ -262,7 +287,13 @@ ${panel(3,'Terrain + generated candidates',`${visibleForage.length} forage · ${
       wildlife: visibleWildlife.map(item => ({ id: item.originId, species: item.speciesTag, x: rounded(item.homePos.x), y: rounded(item.homePos.y), z: rounded(item.homePos.z) })),
       scenery: visibleScenery.map(item => ({ id: item.id, kind: item.kind, asset: item.assetId, x: rounded(item.x), y: rounded(item.y), z: rounded(item.z) })),
     },
-    grids: { elevation: elevations.map(value => rounded(value)), wetland: wetlands.map(value => rounded(value)), slope: slopes.map(value => rounded(value)) },
+    grids: {
+      elevation: elevations.map(value => rounded(value)), wetland: wetlands.map(value => rounded(value)), slope: slopes.map(value => rounded(value)),
+      province: {
+        id: provinceIds, kind: provinceKinds, influence: provinceInfluences.map(value => rounded(value)),
+        weights: Object.fromEntries(Object.entries(provinceWeights).map(([kind, values]) => [kind, values.map(value => rounded(value))])),
+      },
+    },
   };
   const stableMeasurement = JSON.stringify({ world: report.world, bounds: report.bounds, sampling: { width, height, slopeStep: .8 }, grids: report.grids, placements: report.placements });
   report.measurementSha256 = crypto.createHash('sha256').update(stableMeasurement).digest('hex');

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { collectVisibleAtlasCells, drawFrontierAtlas, playerYawToAtlasAngle } from '../src/ui/frontierAtlasRenderer.js';
+import { collectVisibleAtlasCells, drawFrontierAtlas, frontierAtlasColor, playerYawToAtlasAngle } from '../src/ui/frontierAtlasRenderer.js';
 
 function context() {
   const calls = [];
@@ -40,6 +40,22 @@ test('terrain colors are cached by immutable survey snapshot and never sampled f
   drawFrontierAtlas(ctx, { width: 100, height: 100, atlas, centerX: 0, centerZ: 0, metersPerPixel: 1, getTerrainSample: sample });
   drawFrontierAtlas(ctx, { width: 100, height: 100, atlas, centerX: 0, centerZ: 0, metersPerPixel: 1, getTerrainSample: sample });
   assert.equal(sampled, 1, 'one revealed cell is sampled once across mini/full redraws');
+});
+
+test('atlas height tint preserves starter colors and extends bounded contrast through 84m', () => {
+  const base = { groundColorRGB: [.2, .4, .2] };
+  const legacyColor = height => {
+    const lift = Math.max(0, Math.min(.16, height / 28));
+    return `rgb(${[.2, .4, .2].map(channel => Math.round((channel + lift) * 255)).join(',')})`;
+  };
+  for (const height of [0, 1, 4, 4.48]) {
+    assert.equal(frontierAtlasColor({ ...base, height }), legacyColor(height), `the existing starter tint remains exact at ${height}m`);
+  }
+  assert.notEqual(frontierAtlasColor({ ...base, height: 30 }), frontierAtlasColor({ ...base, height: 84 }), 'high provinces retain height contrast');
+  assert.equal(frontierAtlasColor({ height: 84, groundColorRGB: [.78, .59, .34] }), 'rgb(255,222,158)', 'bright high terrain clamps to valid RGB channels');
+  for (const channel of frontierAtlasColor({ height: 840, groundColorRGB: [1, 1, 1] }).match(/\d+/g).map(Number)) {
+    assert.ok(channel >= 0 && channel <= 255);
+  }
 });
 
 test('heading marker maps controller +Z yaw zero to atlas south', () => {

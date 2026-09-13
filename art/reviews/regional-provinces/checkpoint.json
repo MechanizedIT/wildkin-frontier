@@ -1,0 +1,55 @@
+{
+  "parent": "52904c2ce0122848a79b21f0b3afb289f236a5f7",
+  "recordedAt": "2026-09-13T04:44:55.389Z",
+  "selected": "R3 provisional;5.5/10 HOLD",
+  "tests": {
+    "total": 1191,
+    "pass": 1191,
+    "fail": 0,
+    "verify": true,
+    "zip": true
+  },
+  "package": {
+    "unpackedMB": 44.17,
+    "zipMB": 20.54
+  },
+  "reserved": {
+    "samples": 1489,
+    "changed": 0
+  },
+  "nativeBoundary": {
+    "elapsedMs": 36522.79999999702,
+    "health": 5,
+    "minInfluence": 0,
+    "maxInfluence": 1,
+    "maxTerrain": 25,
+    "maxScenery": 26,
+    "observedFps": {
+      "min": 9.701031837099157,
+      "max": 30.922930542450235,
+      "mean": 29.160449908564484
+    },
+    "note": "Emulated IAB on laptop; interval samples include streaming and tooling. Not physical-phone or controlled GPU proof."
+  },
+  "sha256": {
+    "src/world/frontierRegion.js": "abff551e31ddf0d2c57b13700b4591296a41d16e964f030f33be75c4c1c8b3f3",
+    "src/world/frontierTextureColor.js": "f976f14c9d1e80335bf8a2d706ddee666fbcc7ebb167f6244a8af6eea143dc17",
+    "src/world/frontierTerrain.js": "046c824b8533f218ec1ecf974b2918f3df63b0b1fbfa7ef868e5cff83577667d",
+    "src/world/frontierChunkRuntime.js": "c8e8a16dcf38940e291714aa11a6bb0092a20ea084caa21923f5254b76081c25",
+    "src/world/frontierEcology.js": "a3e7118f3ce6fb454e3d1e213c9e2e6670e8bfb3a6cb41d9e36ea22db0e4e5c4",
+    "src/world/frontierEcologyRuntime.js": "78e33c9440894d6072cb391d8f47983586e27f347caa1da8975d2fad27a24045",
+    "src/world/frontierWildlife.js": "c1acd128d813e8f2fcf9958de99e89fc2921f12bc6dbfc721a1860fe84420063",
+    "src/world/frontierWildlifeRuntime.js": "1052466186f2684dce6c270dea28dc2e519f938316cc2cabf1f522cdd1dc8a82",
+    "src/world/frontierScenery.js": "2eabc555ca5caf6806d0d12e7e44dd765efcc45a3118a295d5302b4d1fc5c574",
+    "src/world/frontierSceneryVisual.js": "59dcc09532efe9f41eea3d1ba3c4433f1c37e2d31848f27cd585433db5dbe24b",
+    "src/ui/frontierAtlasRenderer.js": "f375f80c8b40526a39bda403e31c4acfa0ce0d80ce13aed65e0678341bd6c269",
+    "tools/inspect-frontier.mjs": "a59c03ef51a56f39887cc917da949ba14d251c2594dab1b3b9a00a175b47924f",
+    "dist/submission/index.html": "a78cdafd9df49ccb97ec2957fd0aeb96eba7213d4bfb9c8128103d4d47bf233b",
+    "dist/submission.zip": "51c760456947429bc76c42db1afd2967baa9f056b03298449575e83e2470b797",
+    "art/reviews/regional-provinces/target.png": "96750e505d4ada064b215496ecd0c816910ad0bb131e9575d0a500781f7fcd6d",
+    "art/reviews/regional-provinces/r3-overhead.png": "1a641b85d93d55fcd5b011922338ebcc2e2483b9ef382b85c7b2b75a9e45843b",
+    "art/reviews/regional-provinces/r3-portrait.png": "d7051a18186243f06c8d344137caa0bc1a63e2ff2058392f348ea1dab6e1b95a",
+    "art/reviews/regional-provinces/final-package-portrait.png": "5f90c2cc3a0c400aebb24f7ffd48ebe445fb03f311254858db5a3b12810fa036",
+    "art/reviews/regional-provinces/selected-planning.json": "b4a729c544fb9dd69030bc5f12cd19e2c7771a954732148a9589bf931d1bf36e"
+  }
+}

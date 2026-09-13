@@ -9,6 +9,19 @@ const canopy = {
   model: { path: 'assets/models/fixture-scenery-canopy/model.glb', scale: 1.1, pivot: { x: 0, y: 0, z: 0 } },
 };
 
+test('regional groundcover reduces density and warms tint within the same visual and collider owners', () => {
+  const spec = { id: 'regional-patch', assetId: 'asset_fen_reed', x: -640, y: 33, z: -335, scale: 1, yaw: 0, kind: 'low' };
+  const lush = createFrontierSceneryVisual({ specs: [spec], visualAssets: [reed], getHeight: () => 33 });
+  const dry = createFrontierSceneryVisual({ specs: [{ ...spec, groundCover: { density: .2, influence: 1, dryWeight: 1, highWeight: 0 } }], visualAssets: [reed], getHeight: () => 33 });
+  assert.ok(dry.stats.groundClusterCount > 0 && dry.stats.groundClusterCount < lush.stats.groundClusterCount);
+  assert.equal(dry.stats.groundDrawCount, 1);
+  assert.deepEqual(dry.terrainSurfaces, lush.terrainSurfaces);
+  const a = lush.group.getObjectByName('frontier_scenery_ground_cover').instanceColor;
+  const b = dry.group.getObjectByName('frontier_scenery_ground_cover').instanceColor;
+  assert.ok(b.getX(0) / b.getY(0) > a.getX(0) / a.getY(0), 'dry expression raises straw red relative to green');
+  lush.dispose(); dry.dispose();
+});
+
 const triangle = (color, offset = 0) => ({
   shape: 'mesh', color,
   position: { x: offset, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 },

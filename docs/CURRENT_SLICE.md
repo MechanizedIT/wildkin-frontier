@@ -1,6 +1,16 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: Skybreak cap/lowland ecology selected and native capture/return closed. The earlier illustrated GitHub/Drive checkpoint was delivered.**
+Updated September 12, 2026. **Active goal-mode development: broad seeded province foundation selected and verified after Skybreak ecology. The earlier illustrated GitHub/Drive checkpoint was delivered.**
+
+## Completed foundation: seeded provinces
+
+Three broad seeded terrain/ecology grammars now extend beyond the exact starter reserve. Selected R3 scored5.5/10 HOLD after4.5/5.0; stronger overhead structure did not resolve ordinary portrait terrain readability. Native continuous135m boundary travel took36.523s, a20m highland slope walk5.566s, and regional crystal gathering increased the pack6→10 with no health loss. Depletion survived distant unloading, return and literal reload. All1,191 tests and verify/world/retained-campaign/build/validate pass; package44.17MB unpacked/20.54MB ZIP. Final portable and fixture evidence: `art/reviews/regional-provinces/receipt.md`.
+
+Create broad, irregular seeded regions beyond the starter reservation. Three initial grammars share one regional field: lush rolling ground, pale Sunscar ribs/basins, and higher directional Ironspine ridges. The regional height target may reach84m; blend into the existing terrain outside a protected Camp/apron/north-route/Skybreak envelope. Keep the existing authored Camp, terrace, detailed plateau geometry and staged ecology exact. Smooth multi-site weights must remain continuous at both ecotones and triple junctions; do not stamp the existing Skybreak fixture repeatedly.
+
+Use the same field for terrain color, foliage and ordinary forage/scenery/wildlife recipes. Keep each current resident/count cap, section activation and stable source-ID owner. Preserve staged indices100+ and fail-closed admitted-asset behavior. No new network dependency, save authority, framework, water simulation, weather, overhang claim or infinite-distance claim. Far generation changes are provisional private-alpha content in the current fixed world; existing saved changes keep their IDs, while newly generated far recipes can differ.
+
+Root owns scope, terrain runtime grass/scenery visuals, native integration, visual review and checkpoint docs. The regional-field worker owns the pure field and terrain sampling/tests after target lock. The regional-life worker owns ordinary ecology/wildlife/scenery recipes/tests. Workers must preserve each other's edits. Capture actual baseline maps and ordinary portrait views, lock a feasible target, then use at most three visual rounds. Prove reserved geometry, positive/negative seams, region continuity, bounded runtime travel, supported reload and resource lifecycle; aggregate verify/ZIP once integrated. This slice remains local after the separately completed requested GitHub/Drive delivery.
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
@@ -203,7 +213,7 @@ Selected R3 scored6.4/10 HOLD after5.1/5.8. Lower berries/fiber, an east-cap cry
 
 ## Last verified playable checkpoint
 
-Current checkpoint:1,168/1,168 tests and verify/world/campaign/build/validate PASS; rebuilt ZIP44.14MB unpacked/20.54MB compressed. Final ecology capture/harvest/return and Camp reload are documented above. The earlier native ascent/fall and health-preserving reload proofs remain in the terrain receipt. Tests of the retained campaign validate its historical data only, not a completed new frontier economy. Physical-phone performance remains unverified.
+Current checkpoint:1,191/1,191 tests and verify/world/campaign/build/validate PASS; rebuilt ZIP44.17MB unpacked/20.54MB compressed. Regional boundary travel, highland footing, crystal gathering and literal reload are documented in the province receipt. Earlier ecology capture/Camp return and ascent/fall proofs remain in their receipts. Tests of the retained campaign validate its historical data only, not a completed new frontier economy. Physical-phone performance remains unverified.
 
 The illustrated checkpoint was pushed as4298dd5 with delivery receipt08e36a5, and both original Google Drive PDFs were replaced/read back without changing their IDs or sharing. Report source and selected screenshots are in `docs/research/living-frontier/`. That requested backup is fulfilled; this later ecology slice remains a local main checkpoint. No PR/deployment/workflow dispatch is requested.
 
@@ -211,4 +221,4 @@ Initial working tree includes unrelated Verdant composer/test changes and untrac
 
 ## Working limits
 
-One loop, explicit state owners, bounded active objects, locally vendored dependencies, offline play. No paid fallback. The requested GitHub/Drive backup is complete; resume the ordinary local workflow for later slices. Reuse installed tools. Separate implementer and visual judge; choose the strongest usable of about three passes without implying owner acceptance. Keep player-facing prose short and show actual visuals. Backlog ideas are not implemented systems. Continue the active goal with a bounded step toward broad seeded regional identity; define its exact scope and independent ownership before new production.
+One loop, explicit state owners, bounded active objects, locally vendored dependencies, offline play. No paid fallback. The requested GitHub/Drive backup is complete; resume the ordinary local workflow for later slices. Reuse installed tools. Separate implementer and visual judge; choose the strongest usable of about three passes without implying owner acceptance. Keep player-facing prose short and show actual visuals. Backlog ideas are not implemented systems. Continue the active goal by improving visible exploration at portrait scale and reducing movement-time streaming stalls; define a bounded scope and independent ownership first. Region metadata and broad height variation alone have not made the landscape feel full or created readable destinations.

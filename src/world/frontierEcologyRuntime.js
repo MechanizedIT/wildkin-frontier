@@ -17,7 +17,12 @@ export function createFrontierEcologyRuntime({ terrainRuntime, resourceSystem, v
     const wanted = new Map(chunks.map(chunk => [chunk.id, chunk]));
     for (const id of [...loaded]) if (!wanted.has(id)) { resourceSystem.removePlacementsByChunk(id); loaded.delete(id); }
     for (const [id, chunk] of wanted) if (!loaded.has(id)) {
-      const sampled = sampleFrontierForageChunk(chunk.cx, chunk.cz, { getHeight: getHeight ?? terrainRuntime.getHeight, visualAssets, world });
+      const sampled = sampleFrontierForageChunk(chunk.cx, chunk.cz, {
+        getHeight: getHeight ?? terrainRuntime.getHeight,
+        getTerrainSample: terrainRuntime.sample,
+        visualAssets,
+        world,
+      });
       const placements = createRuntimeResourcePlacements(sampled).map((placement, index) => ({ ...placement, chunkId: sampled[index].chunkId, placementIndex: sampled[index].placementIndex, persistentFinite: true, regionId: 'camp' }));
       resourceSystem.addPlacements(placements);
       loaded.add(id);

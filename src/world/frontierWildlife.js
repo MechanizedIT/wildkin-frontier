@@ -40,6 +40,21 @@ function terrainSample(x, z, { getTerrainSample, terrainOptions, world = DEFAULT
   return typeof getTerrainSample === 'function' ? getTerrainSample(x, z) : sampleFrontier(x, z, { ...terrainOptions, world });
 }
 
+function provinceMix(sample) {
+  const influence = Math.max(0, Math.min(1, Number(sample?.provinceInfluence) || 0));
+  const weights = sample?.provinceWeights;
+  if (!(influence > 0) || !weights || typeof weights !== 'object') return null;
+  const lush = Math.max(0, Number(weights.lush) || 0);
+  const sunscar = Math.max(0, Number(weights.sunscar) || 0);
+  const ironspine = Math.max(0, Number(weights.ironspine) || 0);
+  const total = lush + sunscar + ironspine;
+  return total > 0 ? { influence, lush: lush / total, sunscar: sunscar / total, ironspine: ironspine / total } : null;
+}
+
+function weightedProvince(mix, roll) {
+  return roll < mix.lush ? 'lush' : roll < mix.lush + mix.sunscar ? 'sunscar' : 'ironspine';
+}
+
 function slopeAt(x, z, options) {
   const dx = (terrainSample(x + SLOPE_SAMPLE, z, options).height - terrainSample(x - SLOPE_SAMPLE, z, options).height) / (SLOPE_SAMPLE * 2);
   const dz = (terrainSample(x, z + SLOPE_SAMPLE, options).height - terrainSample(x, z - SLOPE_SAMPLE, options).height) / (SLOPE_SAMPLE * 2);
@@ -47,7 +62,8 @@ function slopeAt(x, z, options) {
 }
 
 function hasSafeHome(x, z, options) {
-  if (!isSkybreakArea(x, z, HOME_FOOTPRINT_RADIUS)) return true;
+  const regional = provinceMix(terrainSample(x, z, options));
+  if (!regional && !isSkybreakArea(x, z, HOME_FOOTPRINT_RADIUS)) return true;
   return hasFootprintSupport(x, z, {
     getHeight: (sx, sz) => terrainSample(sx, sz, options).height,
     radius: HOME_FOOTPRINT_RADIUS,
@@ -136,6 +152,19 @@ function makeSideEncounter(cx, cz, index, x, z, speciesId, residentPriority, opt
   });
 }
 
+function makeRegionalPlacement(cx, cz, index, x, z, options) {
+  const sample = terrainSample(x, z, options);
+  const mix = provinceMix(sample);
+  if (!mix || random(cx, cz, index, 181, options.world) >= mix.influence) return makeMosslingPlacement(cx, cz, index, x, z, options);
+  const province = weightedProvince(mix, random(cx, cz, index, 183, options.world));
+  const detail = random(cx, cz, index, 185, options.world);
+  const speciesId = province === 'lush' ? (detail < .28 ? 'tidefin' : null)
+    : province === 'sunscar' ? (detail < .58 ? 'emberhorn' : null)
+      : detail < .42 ? 'emberhorn' : null;
+  if (!speciesId) return makeMosslingPlacement(cx, cz, index, x, z, options);
+  return Object.freeze({ ...makeSideEncounter(cx, cz, index, x, z, speciesId, 90, options), regionalSignature: true });
+}
+
 /** Pure, stable Wildkin sources for a terrain chunk. */
 export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
@@ -178,7 +207,7 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   }
   for (const [x, z] of candidates) {
     const sample = terrainSample(x, z, sampleOptions);
-    if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE && hasSafeHome(x, z, sampleOptions)) return [makeMosslingPlacement(cx, cz, 0, x, z, sampleOptions)];
+    if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE && hasSafeHome(x, z, sampleOptions)) return [makeRegionalPlacement(cx, cz, 0, x, z, sampleOptions)];
   }
   return [];
 }

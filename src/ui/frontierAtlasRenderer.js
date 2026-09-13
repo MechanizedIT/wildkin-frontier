@@ -6,10 +6,15 @@ export const ATLAS_MAX_VISIBLE_CHUNKS = 64;
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 const EMPTY_ATLAS = Object.freeze({ chunks: Object.freeze({}) });
 
-function color(sample) {
+export function frontierAtlasColor(sample) {
   const [r = .12, g = .24, b = .19] = sample?.groundColorRGB ?? [];
-  const lift = clamp((sample?.height ?? 4) / 28, 0, .16);
-  return `rgb(${Math.round((r + lift) * 255)},${Math.round((g + lift) * 255)},${Math.round((b + lift) * 255)})`;
+  const height = sample?.height ?? 4;
+  // Preserve the original starter-ground curve exactly through its 0.16 cap
+  // at 4.48m, then retain readable contrast across the taller provinces.
+  const legacyLift = clamp(height / 28, 0, .16);
+  const provinceLift = clamp((height - 4.48) / (84 - 4.48), 0, 1) * .12;
+  const channel = value => Math.round(clamp(value + legacyLift + provinceLift, 0, 1) * 255);
+  return `rgb(${channel(r)},${channel(g)},${channel(b)})`;
 }
 
 // This only walks chunks that can be displayed. Persisted coverage can grow without
@@ -44,7 +49,7 @@ function terrainTile(atlas, chunk, getTerrainSample) {
     if (!(chunk.mask & (1 << bit))) continue;
     const worldX = chunk.cx * 50 + x * ATLAS_CELL_SIZE, worldZ = chunk.cz * 50 + z * ATLAS_CELL_SIZE;
     // Sampling happens only for cells admitted by the personal survey mask.
-    colors[bit] = color(getTerrainSample(worldX + 5, worldZ + 5) ?? sampleFrontier(worldX + 5, worldZ + 5));
+    colors[bit] = frontierAtlasColor(getTerrainSample(worldX + 5, worldZ + 5) ?? sampleFrontier(worldX + 5, worldZ + 5));
   }
   if (cache.tiles.size >= ATLAS_MAX_VISIBLE_CHUNKS) cache.tiles.delete(cache.tiles.keys().next().value);
   cache.tiles.set(key, { mask: chunk.mask, colors });

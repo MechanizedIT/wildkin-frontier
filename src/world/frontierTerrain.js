@@ -1,5 +1,6 @@
 // Deterministic, dependency-free terrain foundation for the streamed frontier.
 import { ROCKY_TERRACE, sampleFrontierLandform } from './frontierLandform.js';
+import { sampleFrontierRegion } from './frontierRegion.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 
 export const FRONTIER_TERRAIN_CONFIG = Object.freeze({
@@ -9,7 +10,8 @@ export const FRONTIER_TERRAIN_CONFIG = Object.freeze({
   campBounds: Object.freeze({ minX: -50, maxX: 50, minZ: -50, maxZ: 50 }),
   campBlendDistance: 58,
   minHeight: 0,
-  maxHeight: 16,
+  legacyMaxHeight: 16,
+  maxHeight: 84,
   defaultSeed: DEFAULT_FRONTIER_WORLD.seed,
 });
 // Short alias retained for callers that use the original slice API.
@@ -74,8 +76,10 @@ function globalHeight(x, z, seed, rollingTransition) {
   const shoulder = hillAt(x, z, -82, -106, 88, 64, 3.0) + hillAt(x, z, 30, -176, 138, 72, 2.3);
   const basin = hillAt(x, z, 94, -108, 70, 55, 3.4) + hillAt(x, z, 48, -42, 82, 65, 1.05);
   const ridge = 1 - Math.abs(valueNoise(x + 91, z - 67, seed ^ 0x3c6ef372, 105) * 2 - 1);
-  return clamp(4.8 + broad * 2.1 + middle * 1.05 + detail * .26 + shoulder + (ridge - .5) * .9 - basin + rollingTransition, config.minHeight, config.maxHeight);
+  return clamp(4.8 + broad * 2.1 + middle * 1.05 + detail * .26 + shoulder + (ridge - .5) * .9 - basin + rollingTransition, config.minHeight, config.legacyMaxHeight);
 }
+
+function blend(a, b, t) { return a + (b - a) * t; }
 
 function campSample(x, z, options) {
   const bounds = config.campBounds;
@@ -100,7 +104,12 @@ function sampleFrontierRaw(x, z, options = {}) {
   // One signed world-space relief sample drives geometry and its restrained
   // drainage cue, so color cannot drift away from the rolling landform.
   const rollingTransition = rollingTransitionOffset(x, z);
-  const terrain = globalHeight(x, z, seed, rollingTransition);
+  const region = typeof options.regionSampler === 'function'
+    ? options.regionSampler(x, z)
+    : sampleFrontierRegion(x, z, options);
+  // The region target replaces ordinary rolling terrain only beyond the exact
+  // Camp/starter/Skybreak reserve. Camp and local landforms still compose later.
+  const terrain = blend(globalHeight(x, z, seed, rollingTransition), region.height, region.influence);
   const camp = campSample(x, z, options);
   const baseHeight = camp === null ? terrain : camp.edge * (1 - camp.t) + terrain * camp.t;
   const landform = sampleFrontierLandform(x, z);
@@ -118,6 +127,10 @@ function sampleFrontierRaw(x, z, options = {}) {
   red += dryRelief * .065 - wetRelief * .055;
   green += dryRelief * .05 - wetRelief * .04;
   blue += dryRelief * .015 + wetRelief * .025;
+  const regionColorBlend = region.influence * .88;
+  red = blend(red, region.colorRGB[0], regionColorBlend);
+  green = blend(green, region.colorRGB[1], regionColorBlend);
+  blue = blend(blue, region.colorRGB[2], regionColorBlend);
   if (camp !== null && typeof options.campColor === 'function') {
     const color = options.campColor(camp.x, camp.z);
     if (Array.isArray(color) && color.length === 3) {
@@ -138,6 +151,10 @@ function sampleFrontierRaw(x, z, options = {}) {
     habitatBlend: { fernUpland: upland, wetland },
     groundColorRGB: [clamp(red, 0, 1), clamp(green, 0, 1), clamp(blue, 0, 1)],
     surfaceKind: surfaceKindFor(landform.kind),
+    provinceId: region.id,
+    provinceKind: region.kind,
+    provinceInfluence: region.influence,
+    provinceWeights: region.weights,
   };
 }
 

@@ -73,6 +73,50 @@ test('chunk recipes are deterministic, terrain-grounded, and habitat-dithered', 
   assert.equal(sampleFrontierSceneryChunk(0, 0, flatWet).length, 0, 'Camp chunks remain scenery-free');
 });
 
+test('regional scenery keeps legacy output at zero influence and makes the Sunscar witness sparse and treeless', () => {
+  const legacySample = () => ({ height: 4, habitatBlend: { wetland: 0, fernUpland: 1 }, surfaceKind: null });
+  const reservedSample = () => ({ ...legacySample(), provinceKind: 'sunscar', provinceInfluence: 0, provinceWeights: { lush: 0, sunscar: 1, ironspine: 0 } });
+  assert.deepEqual(
+    sampleFrontierSceneryChunk(4, -5, { getTerrainSample: reservedSample }),
+    sampleFrontierSceneryChunk(4, -5, { getTerrainSample: legacySample }),
+  );
+
+  const witness = sampleFrontierSceneryChunk(-13, -7, { visualAssets: WORLD_DATA.visualAssets });
+  assert.ok(witness.length >= 4 && witness.length <= 6);
+  assert.equal(witness.some(spec => spec.kind === 'canopy'), false);
+  assert.ok(witness.every(spec => ['asset_trail_stones', 'asset_fen_stone'].includes(spec.assetId)));
+  const trailStones = witness.filter(spec => spec.assetId === 'asset_trail_stones');
+  assert.ok(trailStones.every(spec => spec.scale >= 1.08));
+  assert.ok(trailStones.filter(spec => spec.scale >= 1.3).length >= Math.ceil(trailStones.length * .66));
+  assert.ok(witness.every(spec => {
+    const height = sampleFrontier(spec.x, spec.z).height;
+    const neighborHeights = [
+      sampleFrontier(spec.x - 8, spec.z).height, sampleFrontier(spec.x + 8, spec.z).height,
+      sampleFrontier(spec.x, spec.z - 8).height, sampleFrontier(spec.x, spec.z + 8).height,
+    ];
+    const neighboringHigh = Math.max(...neighborHeights);
+    const localRelief = neighboringHigh - Math.min(height, ...neighborHeights);
+    return localRelief < .05 || neighboringHigh - height >= .25;
+  }), 'Sunscar anchors sit in a basin or at a rib toe instead of uniform scatter');
+  assert.ok(witness.every(spec => spec.groundCover.density >= .18 && spec.groundCover.density < .182));
+  assert.ok(witness.every(spec => spec.groundCover.dryWeight > .95 && spec.groundCover.influence === 1));
+});
+
+test('ground-cover exclusions use the same injected province sample as regional forage', () => {
+  const terrain = () => ({
+    height: 4,
+    habitatBlend: { wetland: 0, fernUpland: 1 },
+    surfaceKind: null,
+    provinceInfluence: 1,
+    provinceWeights: { lush: 0, sunscar: 1, ironspine: 0 },
+  });
+  const options = { getHeight: () => 4, getTerrainSample: terrain, visualAssets: WORLD_DATA.visualAssets };
+  const forage = sampleFrontierForageChunk(4, -5, options);
+  const filter = createFrontierGroundCoverFilter(options);
+  assert.ok(forage.length > 0);
+  assert.ok(forage.every(node => filter(node.pos.x, node.pos.z) === false));
+});
+
 test('the curated north route keeps three west/north canopies and eight damp east details', () => {
   const staged = [
     ...sampleFrontierSceneryChunk(-1, -2),

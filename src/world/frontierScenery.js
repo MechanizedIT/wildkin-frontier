@@ -116,6 +116,33 @@ function terrainSample(x, z, options) {
   return typeof options.getTerrainSample === 'function' ? options.getTerrainSample(x, z) : sampleFrontier(x, z, { ...options.terrainOptions, world: options.world ?? DEFAULT_FRONTIER_WORLD });
 }
 
+function provinceMix(sample) {
+  const influence = Math.max(0, Math.min(1, Number(sample?.provinceInfluence) || 0));
+  const weights = sample?.provinceWeights;
+  if (!(influence > 0) || !weights || typeof weights !== 'object') return null;
+  const lush = Math.max(0, Number(weights.lush) || 0);
+  const sunscar = Math.max(0, Number(weights.sunscar) || 0);
+  const ironspine = Math.max(0, Number(weights.ironspine) || 0);
+  const total = lush + sunscar + ironspine;
+  return total > 0 ? { influence, lush: lush / total, sunscar: sunscar / total, ironspine: ironspine / total } : null;
+}
+
+function weightedProvince(mix, roll) {
+  return roll < mix.lush ? 'lush' : roll < mix.lush + mix.sunscar ? 'sunscar' : 'ironspine';
+}
+
+function groundCoverFor(sample) {
+  const mix = provinceMix(sample);
+  if (!mix) return null;
+  const regionalDensity = mix.lush + mix.sunscar * .18 + mix.ironspine * .4;
+  return Object.freeze({
+    density: 1 + (regionalDensity - 1) * mix.influence,
+    dryWeight: mix.sunscar,
+    highWeight: mix.ironspine,
+    influence: mix.influence,
+  });
+}
+
 function heightAt(x, z, options) {
   return typeof options.getHeight === 'function' ? options.getHeight(x, z) : terrainSample(x, z, options).height;
 }
@@ -128,12 +155,50 @@ function hasSafeGround(x, z, options) {
   return Number.isFinite(dx) && Number.isFinite(dz) && Math.hypot(dx, dz) <= MAX_SLOPE;
 }
 
+function settleSunscarPatchCenter(x, z, cx, cz, options) {
+  const mix = provinceMix(terrainSample(x, z, options));
+  if (!mix || mix.influence * mix.sunscar < .6) return { x, z };
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+  let best = { x, z, height: heightAt(x, z, options) };
+  for (const [ox, oz] of [[-8, 0], [8, 0], [0, -8], [0, 8], [-6, -6], [6, -6], [-6, 6], [6, 6]]) {
+    const px = x + ox, pz = z + oz;
+    if (px < cx * size + EDGE + 2 || px > (cx + 1) * size - EDGE - 2 || pz < cz * size + EDGE + 2 || pz > (cz + 1) * size - EDGE - 2) continue;
+    const candidateMix = provinceMix(terrainSample(px, pz, options));
+    if (!candidateMix || candidateMix.influence * candidateMix.sunscar < .6 || !hasSafeGround(px, pz, options)) continue;
+    const height = heightAt(px, pz, options);
+    if (height < best.height) best = { x: px, z: pz, height };
+  }
+  return { x: best.x, z: best.z };
+}
+
+function regionalSceneryScale(sample, assetId, baseScale, variationRoll) {
+  const mix = provinceMix(sample);
+  const dry = mix ? mix.influence * mix.sunscar : 0;
+  if (!(dry > 0) || !['asset_trail_stones', 'asset_fen_stone'].includes(assetId)) return baseScale;
+  const gain = assetId === 'asset_trail_stones' ? .42 + variationRoll * .42 : .18 + variationRoll * .2;
+  return baseScale * (1 + dry * gain);
+}
+
+function hasSunscarPocketCue(x, z, options) {
+  const mix = provinceMix(terrainSample(x, z, options));
+  if (!mix || mix.influence * mix.sunscar < .6) return true;
+  const height = heightAt(x, z, options);
+  const neighborHeights = [
+    heightAt(x - 8, z, options), heightAt(x + 8, z, options),
+    heightAt(x, z - 8, options), heightAt(x, z + 8, options),
+  ];
+  if (![height, ...neighborHeights].every(Number.isFinite)) return false;
+  const neighboringHigh = Math.max(...neighborHeights);
+  const localRelief = neighboringHigh - Math.min(height, ...neighborHeights);
+  return localRelief < .05 || neighboringHigh - height >= .25;
+}
+
 function hasSafeFootprint(x, z, candidate, options) {
   const categoryRadius = FOOTPRINT_RADIUS[candidate.kind] ?? FOOTPRINT_RADIUS.low;
   const assetRadius = ASSET_FOOTPRINT_RADIUS[candidate.assetId] ?? 0;
   const scale = Number.isFinite(candidate.scale) ? Math.max(0, candidate.scale) : 1;
   const radius = Math.max(categoryRadius, assetRadius * scale);
-  if (!isSkybreakArea(x, z, radius)) return true;
+  if (!provinceMix(terrainSample(x, z, options)) && !isSkybreakArea(x, z, radius)) return true;
   return hasFootprintSupport(x, z, { getHeight: (sx, sz) => heightAt(sx, sz, options), radius, maxSlope: MAX_SLOPE });
 }
 
@@ -146,7 +211,7 @@ function exclusionsFor(cx, cz, options) {
   for (let fz = cz - 1; fz <= cz + 1; fz++) for (let fx = cx - 1; fx <= cx + 1; fx++) {
     forage.push(...sampleFrontierForageChunk(fx, fz, {
       getHeight: (x, z) => heightAt(x, z, options), terrainOptions: options.terrainOptions,
-      visualAssets: options.visualAssets, world,
+      getTerrainSample: (x, z) => terrainSample(x, z, options), visualAssets: options.visualAssets, world,
     }));
   }
   const wildlife = [];
@@ -179,16 +244,24 @@ export function createFrontierGroundCoverFilter(options = {}) {
   };
 }
 
-function lowAsset(sample, habitatRoll, detailRoll) {
+function lowAsset(sample, habitatRoll, detailRoll, profileRoll = 1, provinceRoll = 0) {
   if (sample.surfaceKind === 'skybreak-cap') return 'asset_cloudflower';
   if (sample.surfaceKind === 'skybreak-lowland') return detailRoll < .56 ? 'asset_fen_reed' : 'asset_mushroom_ring';
+  const mix = provinceMix(sample);
+  if (mix && profileRoll < mix.influence) {
+    const province = weightedProvince(mix, provinceRoll);
+    if (province === 'lush') return detailRoll < .42 ? 'asset_fen_reed' : detailRoll < .72 ? 'asset_fen_lily' : detailRoll < .94 ? 'asset_mushroom_ring' : 'asset_fen_stone';
+    if (province === 'sunscar') return detailRoll < .84 ? 'asset_trail_stones' : 'asset_fen_stone';
+    return detailRoll < .58 ? 'asset_trail_stones' : detailRoll < .84 ? 'asset_fen_stone' : 'asset_mushroom_ring';
+  }
   const wet = habitatRoll < (sample.habitatBlend?.wetland ?? 0);
   if (wet) return detailRoll < .48 ? 'asset_fen_reed' : detailRoll < .78 ? 'asset_fen_lily' : 'asset_fen_stone';
   return detailRoll < .68 ? 'asset_mushroom_ring' : 'asset_trail_stones';
 }
 
-function makeSpec(cx, cz, key, candidate, options) {
+function makeSpec(cx, cz, key, candidate, options, sample = terrainSample(candidate.x, candidate.z, options)) {
   const y = heightAt(candidate.x, candidate.z, options);
+  const groundCover = groundCoverFor(sample);
   return Object.freeze({
     id: `f2c:s:${cx}:${cz}:${key}`,
     chunkId: `${cx},${cz}`,
@@ -197,6 +270,7 @@ function makeSpec(cx, cz, key, candidate, options) {
     scale: candidate.scale,
     yaw: candidate.yaw ?? random(cx, cz, Math.round((candidate.x + candidate.z) * 10), 211, options.world) * Math.PI * 2,
     kind: candidate.kind,
+    ...(groundCover ? { groundCover } : {}),
   });
 }
 
@@ -206,14 +280,19 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
   const sampleOptions = { ...options, world };
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize, exclusions = exclusionsFor(cx, cz, sampleOptions), specs = [];
+  const centerSample = terrainSample((cx + .5) * size, (cz + .5) * size, sampleOptions);
+  const centerMix = provinceMix(centerSample);
+  const regionalCanopyChance = centerMix ? centerMix.lush * .88 + centerMix.sunscar * .015 + centerMix.ironspine * .2 : 1;
+  const canopyChance = centerMix ? 1 + (regionalCanopyChance - 1) * centerMix.influence : 1;
+  const chunkCanopyAllowed = roll(0, 149) < canopyChance;
   const accept = (key, candidate, curated = false) => {
     if (Math.floor(candidate.x / size) !== cx || Math.floor(candidate.z / size) !== cz) return;
     if (!curated && (candidate.x < cx * size + EDGE || candidate.x > (cx + 1) * size - EDGE || candidate.z < cz * size + EDGE || candidate.z > (cz + 1) * size - EDGE)) return;
     const surfaceKind = terrainSample(candidate.x, candidate.z, sampleOptions).surfaceKind;
     if (surfaceKind === 'skybreak-shoulder') return;
     if (candidate.assetId === 'asset_cloudflower' && surfaceKind !== 'skybreak-cap') return;
-    if (!hasSafeGround(candidate.x, candidate.z, sampleOptions) || !hasSafeFootprint(candidate.x, candidate.z, candidate, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions, surfaceKind)) return;
-    specs.push(makeSpec(cx, cz, key, candidate, sampleOptions));
+    if (!hasSunscarPocketCue(candidate.x, candidate.z, sampleOptions) || !hasSafeGround(candidate.x, candidate.z, sampleOptions) || !hasSafeFootprint(candidate.x, candidate.z, candidate, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions, surfaceKind)) return;
+    specs.push(makeSpec(cx, cz, key, candidate, sampleOptions, terrainSample(candidate.x, candidate.z, sampleOptions)));
   };
   for (const candidate of STAGED.get(`${cx},${cz}`) ?? []) accept(`stage-${candidate.key}`, candidate, true);
 
@@ -222,18 +301,22 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   // later slots build its low habitat detail.
   for (let attempt = 0; attempt < 30 && specs.length < 6; attempt++) {
     const group = attempt % 3, slot = Math.floor(attempt / 3);
-    const centerX = cx * size + 10 + roll(group, 31) * (size - 20);
-    const centerZ = cz * size + 10 + roll(group, 53) * (size - 20);
+    const rawCenterX = cx * size + 10 + roll(group, 31) * (size - 20);
+    const rawCenterZ = cz * size + 10 + roll(group, 53) * (size - 20);
+    const center = settleSunscarPatchCenter(rawCenterX, rawCenterZ, cx, cz, sampleOptions);
+    const centerX = center.x, centerZ = center.z;
     const angle = roll(attempt, 71) * Math.PI * 2, radius = slot ? 2.2 + roll(attempt, 83) * 5.8 : 0;
     const x = centerX + Math.cos(angle) * radius, z = centerZ + Math.sin(angle) * radius;
     const sample = terrainSample(x, z, sampleOptions);
     if (sample.surfaceKind === 'skybreak-shoulder') continue;
-    const canopy = sample.surfaceKind === 'skybreak-cap' ? false : !specs.some(spec => spec.kind === 'canopy');
+    const canopy = sample.surfaceKind === 'skybreak-cap' ? false : chunkCanopyAllowed && !specs.some(spec => spec.kind === 'canopy');
     const canopyRoll = roll(attempt, 97);
     const assetId = canopy
       ? (canopyRoll < .34 ? 'asset_verge_canopy' : canopyRoll < .67 ? 'asset_verge_canopy_tall' : 'asset_verge_canopy_spread')
-      : lowAsset(sample, roll(attempt, 101), roll(attempt, 107));
-    accept(`seed-${attempt}`, { x, z, assetId, kind: canopy ? 'canopy' : 'low', scale: canopy ? .72 + roll(attempt, 113) * .34 : .76 + roll(attempt, 127) * .3, yaw: roll(attempt, 131) * Math.PI * 2 });
+      : lowAsset(sample, roll(attempt, 101), roll(attempt, 107), roll(attempt, 151), roll(attempt, 157));
+    const baseScale = canopy ? .72 + roll(attempt, 113) * .34 : .76 + roll(attempt, 127) * .3;
+    const scale = regionalSceneryScale(sample, assetId, baseScale, roll(attempt, 163));
+    accept(`seed-${attempt}`, { x, z, assetId, kind: canopy ? 'canopy' : 'low', scale, yaw: roll(attempt, 131) * Math.PI * 2 });
   }
   return specs;
 }

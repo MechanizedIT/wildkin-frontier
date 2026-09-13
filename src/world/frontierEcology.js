@@ -13,6 +13,16 @@ const STAGED_ASSET_FOOTPRINT_RADIUS = Object.freeze({
   asset_berry_bush: 1.29,
   asset_crystal: 1.3,
 });
+const REGIONAL_ASSET_FOOTPRINT_RADIUS = Object.freeze({
+  asset_berry_bush: 1.29,
+  asset_crystal: 1.3,
+  asset_iron_ore_rock: .93,
+});
+export const FRONTIER_REGIONAL_RESOURCE_ASSETS = Object.freeze({
+  berries: 'asset_berry_bush',
+  crystal: 'asset_crystal',
+  iron: 'asset_iron_ore_rock',
+});
 const MAX_FORAGE_PER_CHUNK = 12;
 // Indices 0..31 belong to the ordinary coordinate-seeded attempts. These fixed
 // sources use a disjoint saved-ID range so existing depletion records never move.
@@ -40,8 +50,52 @@ function random(cx, cz, index, salt = 0, world = DEFAULT_FRONTIER_WORLD) {
   value = Math.imul(value ^ (value >>> 16), 2246822519);
   return ((value ^ (value >>> 13)) >>> 0) / 4294967295;
 }
-function terrainSample(x, z, { terrainOptions, world = DEFAULT_FRONTIER_WORLD } = {}) {
-  return sampleFrontier(x, z, { ...terrainOptions, world });
+function terrainSample(x, z, { getTerrainSample, terrainOptions, world = DEFAULT_FRONTIER_WORLD } = {}) {
+  return typeof getTerrainSample === 'function' ? getTerrainSample(x, z) : sampleFrontier(x, z, { ...terrainOptions, world });
+}
+function provinceMix(sample) {
+  const influence = Math.max(0, Math.min(1, Number(sample?.provinceInfluence) || 0));
+  const weights = sample?.provinceWeights;
+  if (!(influence > 0) || !weights || typeof weights !== 'object') return null;
+  const lush = Math.max(0, Number(weights.lush) || 0);
+  const sunscar = Math.max(0, Number(weights.sunscar) || 0);
+  const ironspine = Math.max(0, Number(weights.ironspine) || 0);
+  const total = lush + sunscar + ironspine;
+  return total > 0 ? { influence, lush: lush / total, sunscar: sunscar / total, ironspine: ironspine / total } : null;
+}
+function heightAt(x, z, { getHeight, getTerrainSample, terrainOptions, world }) {
+  return typeof getHeight === 'function' ? getHeight(x, z) : terrainSample(x, z, { getTerrainSample, terrainOptions, world }).height;
+}
+function settleSunscarCenter(x, z, cx, cz, options) {
+  const mix = provinceMix(terrainSample(x, z, options));
+  if (!mix || mix.influence * mix.sunscar < .6) return { x, z };
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+  let best = { x, z, height: heightAt(x, z, options) };
+  for (const [ox, oz] of [[-8, 0], [8, 0], [0, -8], [0, 8], [-6, -6], [6, -6], [-6, 6], [6, 6]]) {
+    const px = x + ox, pz = z + oz;
+    if (px < cx * size + EDGE + 2 || px > (cx + 1) * size - EDGE - 2 || pz < cz * size + EDGE + 2 || pz > (cz + 1) * size - EDGE - 2) continue;
+    const sample = terrainSample(px, pz, options);
+    const candidateMix = provinceMix(sample);
+    if (!candidateMix || candidateMix.influence * candidateMix.sunscar < .6) continue;
+    const height = heightAt(px, pz, options);
+    const dx = (heightAt(px + SLOPE_SAMPLE, pz, options) - heightAt(px - SLOPE_SAMPLE, pz, options)) / (SLOPE_SAMPLE * 2);
+    const dz = (heightAt(px, pz + SLOPE_SAMPLE, options) - heightAt(px, pz - SLOPE_SAMPLE, options)) / (SLOPE_SAMPLE * 2);
+    if (Number.isFinite(height) && Math.hypot(dx, dz) <= MAX_SLOPE && height < best.height) best = { x: px, z: pz, height };
+  }
+  return { x: best.x, z: best.z };
+}
+function hasSunscarPocketCue(x, z, options) {
+  const mix = provinceMix(terrainSample(x, z, options));
+  if (!mix || mix.influence * mix.sunscar < .6) return true;
+  const height = heightAt(x, z, options);
+  const neighborHeights = [
+    heightAt(x - 8, z, options), heightAt(x + 8, z, options),
+    heightAt(x, z - 8, options), heightAt(x, z + 8, options),
+  ];
+  if (![height, ...neighborHeights].every(Number.isFinite)) return false;
+  const neighboringHigh = Math.max(...neighborHeights);
+  const localRelief = neighboringHigh - Math.min(height, ...neighborHeights);
+  return localRelief < .05 || neighboringHigh - height >= .25;
 }
 function outsideCampApron(x, z) {
   const b = FRONTIER_TERRAIN_CONFIG.campBounds;
@@ -73,13 +127,47 @@ function typeFor(sample, roll, berry) {
   return roll < .48 ? { type: 'tree' } : roll < .78 ? { type: 'rock' } : { type: 'fiber' };
 }
 
+function weightedProvince(mix, roll) {
+  return roll < mix.lush ? 'lush' : roll < mix.lush + mix.sunscar ? 'sunscar' : 'ironspine';
+}
+
+function regionalTypeFor(sample, rolls, assets) {
+  const legacy = typeFor(sample, rolls.type, assets.berry);
+  const mix = provinceMix(sample);
+  if (!mix || rolls.profile >= mix.influence) return legacy;
+  const province = weightedProvince(mix, rolls.province);
+  if (province === 'lush') {
+    if (assets.berry && rolls.detail < .28) return { type: 'fiber', visualAsset: assets.berry };
+    return rolls.type < .48 ? { type: 'tree' } : { type: 'fiber' };
+  }
+  if (province === 'sunscar') {
+    if (rolls.type < .74) {
+      if (assets.crystal && rolls.detail < .075) return { type: 'rock', visualAsset: assets.crystal };
+      if (assets.iron && rolls.detail >= .075 && rolls.detail < .105) return { type: 'rock', visualAsset: assets.iron };
+      return { type: 'rock' };
+    }
+    return { type: 'fiber', tint: '#b89545' };
+  }
+  if (rolls.type < .68) {
+    if (assets.iron && rolls.detail < .18) return { type: 'rock', visualAsset: assets.iron };
+    if (assets.crystal && rolls.detail >= .18 && rolls.detail < .23) return { type: 'rock', visualAsset: assets.crystal };
+    return { type: 'rock' };
+  }
+  return rolls.type < .91 ? { type: 'tree' } : { type: 'fiber' };
+}
+
 /** Pure, per-chunk generated forage. Saved depletion is intentionally excluded. */
-export function sampleFrontierForageChunk(cx, cz, { getHeight, visualAssets, terrainOptions, world = DEFAULT_FRONTIER_WORLD } = {}) {
+export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample, visualAssets, terrainOptions, world = DEFAULT_FRONTIER_WORLD } = {}) {
   if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
   const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
   const count = 6 + Math.floor(roll(0, 11) * 3);
   const berry = harvestableBerry(visualAssets);
+  const regionalAssets = {
+    berry,
+    crystal: harvestableAsset(visualAssets, FRONTIER_REGIONAL_RESOURCE_ASSETS.crystal),
+    iron: harvestableAsset(visualAssets, FRONTIER_REGIONAL_RESOURCE_ASSETS.iron),
+  };
   const placements = [];
   for (let index = 0; index < 32 && placements.length < count; index++) {
     const group = Math.floor(index / 3);
@@ -90,8 +178,10 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, visualAssets, ter
     const approachCenters = cx < 0
       ? [[-5, (cz + 1) * size - 20], [-15, (cz + 1) * size - 26], [-7, (cz + 1) * size - 33]]
       : [[5, (cz + 1) * size - 20], [15, (cz + 1) * size - 26], [7, (cz + 1) * size - 33]];
-    const centerX = northApproach ? approachCenters[group % approachCenters.length][0] : cx * size + EDGE + roll(group, 31) * (size - EDGE * 2);
-    const centerZ = northApproach ? approachCenters[group % approachCenters.length][1] : cz * size + EDGE + roll(group, 53) * (size - EDGE * 2);
+    const rawCenterX = northApproach ? approachCenters[group % approachCenters.length][0] : cx * size + EDGE + roll(group, 31) * (size - EDGE * 2);
+    const rawCenterZ = northApproach ? approachCenters[group % approachCenters.length][1] : cz * size + EDGE + roll(group, 53) * (size - EDGE * 2);
+    const center = northApproach ? { x: rawCenterX, z: rawCenterZ } : settleSunscarCenter(rawCenterX, rawCenterZ, cx, cz, { getHeight, getTerrainSample, terrainOptions, world });
+    const centerX = center.x, centerZ = center.z;
     const slot = index % 3;
     const angle = slot * Math.PI * 2 / 3 + roll(group, 137) * .35;
     const radius = 1.75 + roll(index, 151) * .35;
@@ -99,33 +189,40 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, visualAssets, ter
     const z = centerZ + Math.sin(angle) * radius;
     if (x < cx * size + EDGE || x > (cx + 1) * size - EDGE || z < cz * size + EDGE || z > (cz + 1) * size - EDGE) continue;
     if (!outsideCampApron(x, z)) continue;
-    const height = typeof getHeight === 'function' ? getHeight(x, z) : terrainSample(x, z, { terrainOptions, world }).height;
-    const dx = (typeof getHeight === 'function' ? getHeight(x + SLOPE_SAMPLE, z) - getHeight(x - SLOPE_SAMPLE, z) : terrainSample(x + SLOPE_SAMPLE, z, { terrainOptions, world }).height - terrainSample(x - SLOPE_SAMPLE, z, { terrainOptions, world }).height) / (SLOPE_SAMPLE * 2);
-    const dz = (typeof getHeight === 'function' ? getHeight(x, z + SLOPE_SAMPLE) - getHeight(x, z - SLOPE_SAMPLE) : terrainSample(x, z + SLOPE_SAMPLE, { terrainOptions, world }).height - terrainSample(x, z - SLOPE_SAMPLE, { terrainOptions, world }).height) / (SLOPE_SAMPLE * 2);
+    if (!hasSunscarPocketCue(x, z, { getHeight, getTerrainSample, terrainOptions, world })) continue;
+    const height = heightAt(x, z, { getHeight, getTerrainSample, terrainOptions, world });
+    const dx = (typeof getHeight === 'function' ? getHeight(x + SLOPE_SAMPLE, z) - getHeight(x - SLOPE_SAMPLE, z) : terrainSample(x + SLOPE_SAMPLE, z, { getTerrainSample, terrainOptions, world }).height - terrainSample(x - SLOPE_SAMPLE, z, { getTerrainSample, terrainOptions, world }).height) / (SLOPE_SAMPLE * 2);
+    const dz = (typeof getHeight === 'function' ? getHeight(x, z + SLOPE_SAMPLE) - getHeight(x, z - SLOPE_SAMPLE) : terrainSample(x, z + SLOPE_SAMPLE, { getTerrainSample, terrainOptions, world }).height - terrainSample(x, z - SLOPE_SAMPLE, { getTerrainSample, terrainOptions, world }).height) / (SLOPE_SAMPLE * 2);
     if (!Number.isFinite(height) || Math.hypot(dx, dz) > MAX_SLOPE) continue;
     const stagedBerry = northApproach && group === 0 && slot === 0 && berry;
-    const baseKind = stagedBerry ? { type: 'fiber', visualAsset: berry } : typeFor(terrainSample(x, z, { terrainOptions, world }), roll(index, 79), berry);
+    const sample = terrainSample(x, z, { getTerrainSample, terrainOptions, world });
+    const baseKind = stagedBerry ? { type: 'fiber', visualAsset: berry } : regionalTypeFor(sample, {
+      type: roll(index, 79), profile: roll(index, 181), province: roll(index, 183), detail: roll(index, 185),
+    }, regionalAssets);
     const kind = terraceMineral(cx, cz, index, baseKind, visualAssets);
-    const footprintRadius = FOOTPRINT_RADIUS[kind.type];
-    if (isSkybreakArea(x, z, footprintRadius) && !hasFootprintSupport(x, z, {
-      getHeight: (sx, sz) => typeof getHeight === 'function' ? getHeight(sx, sz) : terrainSample(sx, sz, { terrainOptions, world }).height,
-      radius: footprintRadius,
-      maxSlope: MAX_SLOPE,
-    })) continue;
     const uniformScale = kind.type === 'tree' ? .72 + roll(index, 107) * .08
       : kind.type === 'fiber' ? 1.08 + roll(index, 107) * .14
         : .9 + roll(index, 107) * .14;
-    placements.push({ ...kind, id: makeFrontierResourceId(cx, cz, index), chunkId: `${cx},${cz}`, placementIndex: index, regionId: 'camp', persistentFinite: true, pos: { x, y: height, z }, rotY: roll(index, 97) * Math.PI * 2, uniformScale, tint: kind.type === 'fiber' && !kind.visualAsset ? '#8eb65a' : undefined });
+    const regional = provinceMix(sample);
+    const footprintRadius = regional
+      ? (REGIONAL_ASSET_FOOTPRINT_RADIUS[kind.visualAsset?.id] ?? FOOTPRINT_RADIUS[kind.type]) * uniformScale
+      : FOOTPRINT_RADIUS[kind.type];
+    if ((regional || isSkybreakArea(x, z, footprintRadius)) && !hasFootprintSupport(x, z, {
+      getHeight: (sx, sz) => typeof getHeight === 'function' ? getHeight(sx, sz) : terrainSample(sx, sz, { getTerrainSample, terrainOptions, world }).height,
+      radius: footprintRadius,
+      maxSlope: MAX_SLOPE,
+    })) continue;
+    placements.push({ ...kind, id: makeFrontierResourceId(cx, cz, index), chunkId: `${cx},${cz}`, placementIndex: index, regionId: 'camp', persistentFinite: true, pos: { x, y: height, z }, rotY: roll(index, 97) * Math.PI * 2, uniformScale, tint: kind.tint ?? (kind.type === 'fiber' && !kind.visualAsset ? '#8eb65a' : undefined) });
   }
   for (const staged of SKYBREAK_STAGED_FORAGE.get(`${cx},${cz}`) ?? []) {
     if (placements.length >= MAX_FORAGE_PER_CHUNK) break;
-    const sample = terrainSample(staged.x, staged.z, { terrainOptions, world });
+    const sample = terrainSample(staged.x, staged.z, { getTerrainSample, terrainOptions, world });
     if (staged.surfaceKind && sample.surfaceKind !== staged.surfaceKind) continue;
     const height = typeof getHeight === 'function' ? getHeight(staged.x, staged.z) : sample.height;
     const uniformScale = staged.uniformScale ?? (staged.type === 'rock' ? 1.04 : staged.assetId ? 1.14 : 1.16);
     const radius = (STAGED_ASSET_FOOTPRINT_RADIUS[staged.assetId] ?? FOOTPRINT_RADIUS[staged.type]) * uniformScale;
     if (!Number.isFinite(height) || !hasFootprintSupport(staged.x, staged.z, {
-      getHeight: (sx, sz) => typeof getHeight === 'function' ? getHeight(sx, sz) : terrainSample(sx, sz, { terrainOptions, world }).height,
+      getHeight: (sx, sz) => typeof getHeight === 'function' ? getHeight(sx, sz) : terrainSample(sx, sz, { getTerrainSample, terrainOptions, world }).height,
       radius,
       maxSlope: MAX_SLOPE,
     })) continue;

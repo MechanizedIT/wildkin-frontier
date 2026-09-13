@@ -5,6 +5,8 @@ import { createTerrainColorSampler } from '../presentation/authoredTerrain.js';
 import { getSurfaceHeight } from './terrainSurfaceModel.js';
 import { createFrontierLandformVisual } from './frontierLandformVisual.js';
 import { isSkybreakArea } from './frontierLandform.js';
+import { createFrontierRegionSampler } from './frontierRegion.js';
+import { createFrontierTextureColorSampler } from './frontierTextureColor.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed, normalizeFrontierWorld } from './frontierWorld.js';
 import {
@@ -62,6 +64,8 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
   const positionZSeed = frontierDomainSeed(world, 'terrain-foliage', 61);
   const scaleSeed = frontierDomainSeed(world, 'terrain-foliage', 83);
   const yawSeed = frontierDomainSeed(world, 'terrain-foliage', 29);
+  const densitySeed = frontierDomainSeed(world, 'terrain-foliage', 113);
+  const tint = new THREE.Color();
   const getHeight = (x, z) => sampleFrontier(x, z, terrainOptions).height;
   let liveCount = 0;
   const shelfFronds = chunk.id === '0,-3' ? [
@@ -74,17 +78,28 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
     const x = frond ? frond[0] - chunk.origin.x : hash(index, chunk.origin.z, positionXSeed) * FRONTIER_TERRAIN_CONFIG.chunkSize;
     const z = frond ? frond[1] - chunk.origin.z : hash(index, chunk.origin.x, positionZSeed) * FRONTIER_TERRAIN_CONFIG.chunkSize;
     const worldX = chunk.origin.x + x, worldZ = chunk.origin.z + z;
+    const sample = sampleFrontier(worldX, worldZ, terrainOptions);
+    const influence = Math.max(0, Math.min(1, sample.provinceInfluence ?? 0));
+    const dry = influence * (sample.provinceWeights?.sunscar ?? 0);
+    const high = influence * (sample.provinceWeights?.ironspine ?? 0);
+    if (influence > 0 && hash(index, chunk.origin.x + chunk.origin.z, densitySeed) > 1 - dry * .92 - high * .65) continue;
     if (isSkybreakArea(worldX, worldZ, .45)
       && !hasFootprintSupport(worldX, worldZ, { getHeight, radius: .45, maxSlope: .65 })) continue;
     const scale = (frond ? 1.12 : .38) + hash(index, chunk.origin.x + chunk.origin.z, scaleSeed) * .38;
-    dummy.position.set(x, sampleFrontier(worldX, worldZ, terrainOptions).height, z);
+    dummy.position.set(x, sample.height, z);
     dummy.rotation.y = hash(index, chunk.origin.z, yawSeed) * Math.PI * 2;
     dummy.scale.setScalar(scale);
     dummy.updateMatrix();
-    grass.setMatrixAt(liveCount++, dummy.matrix);
+    grass.setMatrixAt(liveCount, dummy.matrix);
+    // Multiply the existing vertex palette; white keeps the starter exact.
+    // Warm red gain turns the shared green geometry into dry straw without
+    // another mesh/material/draw or a separately generated vegetation field.
+    tint.setRGB(1 + dry * 1.8 - high * .2, 1 + dry * .1 - high * .16, 1 - dry * .3 + high * .1);
+    grass.setColorAt(liveCount++, tint);
   }
   grass.count = liveCount;
   grass.instanceMatrix.needsUpdate = true;
+  if (grass.instanceColor) grass.instanceColor.needsUpdate = true;
   grass.name = 'frontier_groundcover';
   group.add(grass);
   return grass;
@@ -93,6 +108,7 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
 /** Owns only the bounded procedural terrain beyond the Camp landmark. */
 export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, visualAssets = [], world = DEFAULT_FRONTIER_WORLD } = {}) {
   const worldDescriptor = normalizeFrontierWorld(world);
+  const regionSampler = createFrontierRegionSampler(worldDescriptor);
   const root = new THREE.Group();
   root.name = 'frontier_chunks';
   parent?.add(root);
@@ -102,9 +118,10 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
   const campColor = campSurface ? createTerrainColorSampler(campSurface) : null;
   const terrainOptions = campSurface ? {
     world: worldDescriptor,
+    regionSampler,
     campHeight: (x, z) => getSurfaceHeight(campSurface, x, z),
     campColor: (x, z) => { const color = campColor(x, z); return [color.r, color.g, color.b]; },
-  } : { world: worldDescriptor };
+  } : { world: worldDescriptor, regionSampler };
   let center = null;
   let residencySnapshot = { center: null, chunks: [] };
   let disposed = false;
@@ -136,9 +153,11 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     group.name = `frontier_chunk_${chunk.id}`;
     group.position.set(chunk.origin.x, 0, chunk.origin.z);
     const bounds = { minX: chunk.origin.x, maxX: chunk.origin.x + FRONTIER_TERRAIN_CONFIG.chunkSize, minZ: chunk.origin.z, maxZ: chunk.origin.z + FRONTIER_TERRAIN_CONFIG.chunkSize };
+    const colorAt = createFrontierTextureColorSampler({ origin: chunk.origin, size: FRONTIER_TERRAIN_CONFIG.chunkSize,
+      sample: (x, z) => sampleFrontier(x, z, terrainOptions) });
     const texture = createBakedGroundTexture({
       bounds,
-      colorAt: (x, z) => sampleFrontier(x, z, terrainOptions).groundColorRGB,
+      colorAt,
       phase: { x: chunk.origin.x - FRONTIER_TERRAIN_CONFIG.campBounds.minX, z: chunk.origin.z - FRONTIER_TERRAIN_CONFIG.campBounds.minZ },
     });
     const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 1, metalness: 0, flatShading: true });

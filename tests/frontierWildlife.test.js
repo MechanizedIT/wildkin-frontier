@@ -76,6 +76,29 @@ test('generated side encounters deliberately match shipped catalog behavior', ()
   }
 });
 
+test('regional wildlife preserves zero-influence Mosslings and gives the Sunscar witness one bounded signature', () => {
+  const legacySample = () => ({ height: 4, habitatBlend: { wetland: .3, fernUpland: .7 }, surfaceKind: null });
+  const reservedSample = () => ({ ...legacySample(), provinceKind: 'sunscar', provinceInfluence: 0, provinceWeights: { lush: 0, sunscar: 1, ironspine: 0 } });
+  assert.deepEqual(
+    sampleFrontierWildlifeChunk(1, -1, { getTerrainSample: reservedSample }),
+    sampleFrontierWildlifeChunk(1, -1, { getTerrainSample: legacySample }),
+  );
+  const [witness] = sampleFrontierWildlifeChunk(-13, -7);
+  assert.deepEqual({ species: witness.speciesTag, signature: witness.regionalSignature, priority: witness.residentPriority },
+    { species: 'emberhorn', signature: true, priority: 90 });
+
+  const profileSample = kind => () => ({
+    height: 4,
+    habitatBlend: { wetland: kind === 'lush' ? 1 : 0, fernUpland: kind === 'lush' ? 0 : 1 },
+    surfaceKind: null,
+    provinceInfluence: 1,
+    provinceWeights: { lush: kind === 'lush' ? 1 : 0, sunscar: kind === 'sunscar' ? 1 : 0, ironspine: kind === 'ironspine' ? 1 : 0 },
+  });
+  assert.equal(sampleFrontierWildlifeChunk(6, -30, { getTerrainSample: profileSample('lush') })[0].speciesTag, 'tidefin');
+  assert.equal(sampleFrontierWildlifeChunk(6, -30, { getTerrainSample: profileSample('sunscar') })[0].speciesTag, 'emberhorn');
+  assert.equal(sampleFrontierWildlifeChunk(6, -30, { getTerrainSample: profileSample('ironspine') })[0].speciesTag, 'emberhorn');
+});
+
 test('runtime bounds live sources, retires unloaded chunks, and never restores a captured source', () => {
   let snapshot = residency(0, -2);
   const captured = new Set();
@@ -103,6 +126,19 @@ test('runtime does not exceed the four generated-resident cap', () => {
   const runtime = createFrontierWildlifeRuntime({ terrainRuntime: { getResidency: () => residency(0, -2) }, creatureSystem: creatures });
   runtime.update();
   assert.equal(creatures.actors.length, 4);
+  runtime.dispose();
+});
+
+test('runtime admits at most one ordinary regional signature while retaining lower-draw neighbors', () => {
+  const creatures = owner();
+  const runtime = createFrontierWildlifeRuntime({
+    terrainRuntime: { getResidency: () => residency(-13, -7), sample: sampleFrontier },
+    creatureSystem: creatures,
+  });
+  runtime.update();
+  assert.equal(creatures.actors.filter(actor => actor.state.regionalSignature).length, 1);
+  assert.ok(creatures.actors.some(actor => actor.state.speciesTag === 'mossling'));
+  assert.ok(creatures.actors.length <= 4);
   runtime.dispose();
 });
 

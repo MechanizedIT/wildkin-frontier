@@ -2,6 +2,7 @@ import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
 
 const MAX_LIVE_RESIDENTS = 4;
+const MAX_REGIONAL_SIGNATURE_RESIDENTS = 1;
 
 /** Maps immutable terrain residency to bounded generated Wildkin. */
 export function createFrontierWildlifeRuntime({ terrainRuntime, creatureSystem, visualAssets = [], isSourceCaptured = () => false } = {}) {
@@ -52,7 +53,15 @@ export function createFrontierWildlifeRuntime({ terrainRuntime, creatureSystem, 
     }
     candidates.sort((a, b) => (a.source.residentPriority ?? 100) - (b.source.residentPriority ?? 100)
       || a.distance - b.distance || a.source.originId.localeCompare(b.source.originId));
-    return candidates.slice(0, MAX_LIVE_RESIDENTS).map((entry) => entry.source);
+    const chosen = [];
+    let regionalSignatures = 0;
+    for (const { source } of candidates) {
+      if (source.regionalSignature && regionalSignatures >= MAX_REGIONAL_SIGNATURE_RESIDENTS) continue;
+      chosen.push(source);
+      if (source.regionalSignature) regionalSignatures++;
+      if (chosen.length >= MAX_LIVE_RESIDENTS) break;
+    }
+    return chosen;
   }
 
   function reconcile(wanted) {

@@ -4,11 +4,11 @@ Wildkin Frontier is an offline, single-player exploration and creature-life game
 
 Leave a physical Camp, make a short useful outing, study or bring home an individual Wildkin, and return to a world that remembers the result. The direction favors slow, dangerous exploration, recognizable regional geography, and care that happens in the world rather than through a separate creature inventory.
 
-**Local pre-alpha; not a release.** Current implementation and proof are maintained in [Current slice](docs/CURRENT_SLICE.md). Skybreak supplies the first tall plateau fixture, with lower berry/fiber pockets, an upper crystal deposit and a crown Mossling habitat. Its visual target and the wider regional generator remain unfinished.
+**Local pre-alpha; not a release.** Broad seeded provinces now extend beyond the protected Camp, starter route and Skybreak: lush rolling ground, pale Sunscar ribs/basins and taller Ironspine ridges share terrain and ecology rules. All1,191 tests and build/ZIP checks pass. Native walking, gathering and reload evidence is in the [province receipt](art/reviews/regional-provinces/receipt.md). Selected art remains5.5/10 HOLD: portrait terrain and discovery readability need more work. The previously delivered GitHub/Drive checkpoint remains `4298dd5` + `08e36a5`; this newer work is local.
 
-<img src="art/reviews/skybreak-ecology/r3-overview.png" alt="Selected Skybreak ecology review in a diagnostic overview" width="440"> <img src="art/reviews/skybreak-ecology/final-package-crown-portrait.png" alt="Final corrected Skybreak habitat in the portable portrait build" width="210">
+<img src="art/reviews/regional-provinces/r3-overhead.png" alt="Actual seeded Sunscar ridges and resource pockets in the selected diagnostic overhead" width="440"> <img src="art/reviews/regional-provinces/final-package-portrait.png" alt="Regional Emberhorn beside the tested resource pocket in the final portable build" width="210">
 
-Actual prototype captures: selected diagnostic composition on the left; final portable portrait gameplay on the right. The [ecology receipt](art/reviews/skybreak-ecology/receipt.md) records the later home-safety correction. The [visual fieldbook](docs/research/living-frontier/Living-Frontier-Visual-Fieldbook.pdf) also illustrates the proposed direction.
+Actual prototype captures: selected regional overhead on the left; a regional encounter in the final portable build on the right. The [province receipt](art/reviews/regional-provinces/receipt.md) includes the revealed atlas and separates functional proof from the held visual target. The [visual fieldbook](docs/research/living-frontier/Living-Frontier-Visual-Fieldbook.pdf) also illustrates the proposed direction.
 
 ## Play locally
 
@@ -30,11 +30,11 @@ Desktop controls: **WASD** move, **Shift** run, **C** sneak, **1–5** select a 
 - Individual Wildkin records through capture, Camp banking, roster selection, reload, and care. Mossling body tone is visibly expressed; separate eyes, markings, size changes, and modular body parts are not shipped.
 - One physical nursery and garden, active-play young/crop growth, ordinary compatible Mossling pairing, and earned optional parent body-tone guidance. The first current path is deliberately bounded.
 - Bounded terrain residency, shared terrain/collision sampling, a personal atlas, generated forage/scenery and existing Mossling, Tidefin, and Emberhorn encounters. A bounded climb and fall-risk foundation exists; broad climbing and swimming are later work.
-- A generation inspector for current samplers. It is a development diagnostic, not a player-facing geography system.
+- A generation inspector for current samplers. The active local slice adds irregular roughly 600 m seeded provinces with smooth weighted ecotones, terrain targets up to 84 m, regional ground color, admitted flora/resources, and at most one additional high-draw signature encounter per live wildlife set. Existing resident/count bounds remain unchanged. Final visual admission is pending.
 
 ## Proposed direction
 
-The next frontier is not a promise of a completed campaign. It is a practical plan for larger seeded regions with distinct landform, traversal, life, resources, and discovery grammar; no predictable global path grid or random palette soup. Skybreak is the first selected terrain fixture, with evidence tracked in [Current slice](docs/CURRENT_SLICE.md).
+The next frontier is not a promise of a completed campaign. The active local foundation now gives three province grammars distinct landform, color, ordinary life/resource recipes and sparse signature encounters; deeper traversal, ecology and discoveries still need later slices. It does not add physical water, weather, caves/overhangs, infinite-distance simulation, DNA systems or trade. Evidence is tracked in [Current slice](docs/CURRENT_SLICE.md).
 
 Later proposals include modular compatible Wildkin rigs and parts, broader field research and reproduction modes, habitat/food/camp systems, caves and overhang meshes, day/night and weather, DNA archives/cloning, community discoveries, and trusted online trade. These are not current gameplay systems. Mortality and elder rules remain undecided; current no-absence-penalty growth is provisional.
 

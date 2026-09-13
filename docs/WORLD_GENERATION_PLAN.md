@@ -1,12 +1,12 @@
 # A living world from one seed
 
-Provisional implementation plan, September 12, 2026. Owner direction: procedural exploration, varied habitats and individuals, dangerous travel, mobile/casual first with portrait primary. This describes the intended generator; it does not claim those layers already ship.
+Implementation plan, September 12, 2026. Owner direction: procedural exploration, varied habitats and individuals, dangerous slow travel, mobile/casual first with portrait primary. The local foundation now implements the first broad-province foundation described below; drainage, climate, physical water/weather, overhangs/caves and complete ecosystems remain proposed.
 
-Current local proof: one fixed Skybreak landform now distinguishes true caps, shoulders and lowland fingers for existing placement owners. It stages lower supplies, upper crystal and one Mossling home, with persistent source identities and bounded scenery. This local semantic label and staged recipe are not the broad climate/region/drainage generator below. See `art/reviews/skybreak-ecology/receipt.md` for exact evidence and held visual goals.
+Current local proof: Skybreak still distinguishes true caps, shoulders and lowland fingers and stages lower supplies, upper crystal and one Mossling home. Around its exact reserve, the local foundation adds a deterministic field of jittered roughly600m sites with smooth weighted ecotones and three height grammars: lush rolling ground, pale Sunscar ribs/basins and directional Ironspine ridges, clamped to0..84m. The same weights drive color and bounded ordinary forage/scenery/wildlife recipes. Selected R3 is5.5/10 HOLD; all1,191 tests and aggregate build/validation pass. Native/portable evidence is recorded in `art/reviews/regional-provinces/receipt.md`.
 
 **Latest explicit owner steering:** lean toward extreme geography and large biomes: tall narrow plateaus to jump between, different life/resources above and below, large mountains/deserts and unusual alien formations. Lay foundations for later weather and day/night. These are accepted direction; exact scales, algorithms and cave/architecture choices below remain provisional.
 
-[`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) develops six proposed regional grammars, progression principles and reusable ecology kits. Those families are production direction, not generated runtime content.
+[`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) develops six regional grammars, progression principles and reusable ecology kits. Lush, Sunscar and Ironspine now have generated foundation grammars in the local foundation; their deeper ecology/discoveries and the other three families remain proposed.
 
 ```mermaid
 flowchart TD
@@ -26,6 +26,8 @@ flowchart TD
 ## Terrain representation
 
 Keep the current heightfield: a function gives ground height at any horizontal world position. Sample it into local chunk meshes and Rapier surfaces as the player travels. We do not need to store a giant image of the entire world. Terrain, collision, map and object grounding must share that function.
+
+The active province field keeps the authored Camp/apron, starter route and selected Skybreak geometry exact, then fades toward a weighted regional target. Province metadata is separate from the legacy section/Camp identity so current outing, save and activation owners do not acquire a second meaning. A bounded globally aligned coarse grid accelerates mesh color sampling only (2m grid, at most27×27 samples); analytical height remains exact for rendered geometry, physics, support and atlas callers.
 
 Use three scales deliberately: broad regional ridges/basins, medium shoulders/hollows, and restrained surface detail. Starting ranges to try are roughly 120–300m for major forms and 40–80m for middle forms; these are provisional tuning, not accepted world scale. At a portrait camera, the nearby shoulder, silhouette and route matter more than tiny noisy bumps.
 
@@ -103,9 +105,9 @@ Water needs its own shared level, shoreline, safe-bank, swimming and spawn rules
 
 | Already in the project | Still to implement |
 | --- | --- |
-| Global height sampler, 50m streamed chunks, shared edges/collision, authored Camp reserve; one immutable descriptor injected through all current generation layers | More terrain families, climate and drainage layers using that descriptor |
-| Two blended habitat influences, rolling transition/terrace and one selected Skybreak plateau fixture | Broader climate fields and several distinct regional terrain profiles |
-| Bounded forage/scenery/wildlife, stable captured individuals, personal atlas | Discovery reservations, richer populations, regional trait distributions |
+| Global height sampler, 50m streamed chunks, shared edges/collision, exact Camp/starter/Skybreak reserve; one immutable descriptor injected through all current generation layers | Climate and drainage layers using that descriptor |
+| Three broad weighted terrain grammars—lush, Sunscar, Ironspine—with0..84m regional targets and continuous ecotones | Richer landform/detail passes and three additional regional families |
+| Bounded regional forage/scenery/wildlife recipes using admitted assets, stable captured individuals and personal atlas; existing caps unchanged | Discovery reservations, richer populations, regional trait distributions |
 | One fixed deterministic world edition | Safe alternate-world creation, generation namespaces, distant terrain and rebasing |
 | CLI inspector for same-world elevation, current wetland weight, slope and generated candidates | Climate moisture/temperature fields and regional recipe inspection |
 

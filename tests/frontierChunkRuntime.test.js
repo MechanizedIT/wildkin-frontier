@@ -14,6 +14,27 @@ function fixture(world) {
   return { runtime: createFrontierChunkRuntime({ parent, physicsWorld, world }), calls, parent };
 }
 
+test('regional terrain foliage stays bounded and dry while starter tint remains unchanged', () => {
+  const { runtime } = fixture();
+  runtime.update({ x: 0, z: -90 }, { activeSectionId: 'camp' });
+  const starter = runtime.root.getObjectByName('frontier_chunk_0,-2').getObjectByName('frontier_groundcover');
+  assert.ok(Array.from(starter.instanceColor.array).every(value => value === 1));
+  runtime.update({ x: -640, z: -335 }, { activeSectionId: 'camp' });
+  const sample = runtime.sample(-640, -335);
+  assert.equal(sample.provinceKind, 'sunscar');
+  assert.ok(sample.provinceInfluence > .99);
+  let count = 0, meshes = 0;
+  runtime.root.traverse(node => {
+    if (node.name !== 'frontier_groundcover') return;
+    count += node.count; meshes++;
+    assert.ok(node.count <= 96);
+    for (let i = 0; i < node.count; i++) assert.ok(node.instanceColor.getX(i) > node.instanceColor.getY(i), 'dry tint offsets the shared green base');
+  });
+  assert.equal(meshes, 25);
+  assert.ok(count > 0 && count < 25 * 48, 'dry ground keeps broad open space at unchanged mesh cap');
+  runtime.dispose();
+});
+
 test('loads a bounded five-by-five frontier window while reserving Camp chunks', () => {
   const { runtime, calls } = fixture();
   runtime.update({ x: 120, z: 120 }, { activeSectionId: 'camp' });

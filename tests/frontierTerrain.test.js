@@ -149,6 +149,54 @@ test('rolling color cue distinguishes the framed dry rise and wet bowl without r
   assert.ok(wet.groundColorRGB[2] - 0.27102618973310634 >= .02, 'wet bowl is visibly cooler');
 });
 
+test('a distant Sunscar province changes broad height and palette through the shared terrain sample', () => {
+  const arrival = sampleFrontier(-640, -335);
+  const trough = sampleFrontier(-640, -405);
+  const ridge = sampleFrontier(-640, -355);
+  assert.equal(arrival.provinceKind, 'sunscar');
+  assert.equal(arrival.provinceId, 'f1:region:c825941b:-2:-1');
+  assert.equal(arrival.provinceInfluence, 1);
+  assert.ok(arrival.provinceWeights.sunscar > .999);
+  assert.ok(ridge.height > 18 && ridge.height <= config.maxHeight, `ridge height ${ridge.height}`);
+  assert.ok(ridge.height - arrival.height > 8, 'a mineral rib rises visibly within 20m north of the fixed portrait witness');
+  assert.ok(ridge.groundColorRGB[0] > trough.groundColorRGB[0] + .25, 'pale ridge separates from mauve-tan trough');
+  assert.ok(trough.groundColorRGB[2] > trough.groundColorRGB[1] - .04, 'trough retains its mauve cast');
+});
+
+test('the fixed Sunscar view crosses multiple asymmetric ribs instead of one broad stripe', () => {
+  const crossSection = [];
+  for (let z = -455; z <= -215; z += 2) crossSection.push(sampleFrontier(-640, z).height);
+  const peaks = [];
+  for (let index = 1; index < crossSection.length - 1; index += 1) {
+    if (crossSection[index] > 14 && crossSection[index] > crossSection[index - 1]
+      && crossSection[index] >= crossSection[index + 1]) peaks.push(index);
+  }
+  assert.ok(peaks.length >= 2 && peaks.length <= 3, `expected two or three complete ribs, found ${peaks.length}`);
+  for (let index = 1; index < peaks.length; index += 1) {
+    const spacing = (peaks[index] - peaks[index - 1]) * 2;
+    assert.ok(spacing >= 75 && spacing <= 100, `rib spacing ${spacing}m`);
+  }
+  assert.ok(Math.max(...crossSection) - Math.min(...crossSection) > 12, 'ribs retain meaningful local relief');
+});
+
+test('the fixed north-facing Sunscar approach shows a raised but walkable near flank', () => {
+  const heights = [];
+  for (let z = -335; z >= -375; z -= 5) heights.push(sampleFrontier(-640, z).height);
+  const steps = heights.slice(1).map((height, index) => Math.abs(height - heights[index]) / 5);
+  assert.ok(heights[4] - heights[0] > 8, 'the crest becomes visible within the first 20m north');
+  assert.ok(Math.max(...steps.slice(0, 4)) < .75, `near flank grade ${Math.max(...steps.slice(0, 4))}`);
+  assert.ok(new Set(heights.map(height => height.toFixed(3))).size === heights.length, 'the basin-to-flank profile has no clipped flat steps');
+});
+
+test('province metadata does not reuse the authored section regionId field', () => {
+  const sample = sampleFrontier(870, -350);
+  assert.ok(sample.provinceId.startsWith('f1:region:'));
+  assert.ok(['lush', 'sunscar', 'ironspine'].includes(sample.provinceKind));
+  assert.equal(Object.hasOwn(sample, 'regionId'), false);
+  assert.ok(Number.isFinite(sample.provinceInfluence));
+  assert.ok(Math.abs(Object.values(sample.provinceWeights).reduce((sum, value) => sum + value, 0) - 1) < 1e-10);
+});
+
 function terrainSlope(x, z, distance = .8) {
   const dx = (sampleFrontier(x + distance, z).height - sampleFrontier(x - distance, z).height) / (distance * 2);
   const dz = (sampleFrontier(x, z + distance).height - sampleFrontier(x, z - distance).height) / (distance * 2);

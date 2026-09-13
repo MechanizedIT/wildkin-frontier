@@ -121,6 +121,11 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
   function addGroundClusters(spec, desiredCount) {
     const wet = spec.assetId.startsWith('asset_fen_');
     const staged = spec.id.includes(':stage-');
+    const regional = spec.groundCover;
+    const influence = Math.max(0, Math.min(1, finite(regional?.influence)));
+    const dry = influence * Math.max(0, Math.min(1, finite(regional?.dryWeight)));
+    const high = influence * Math.max(0, Math.min(1, finite(regional?.highWeight)));
+    desiredCount = Math.max(0, Math.min(desiredCount, Math.round(desiredCount * finite(regional?.density, 1))));
     const patchRadius = spec.kind === 'canopy' ? 6 : 4.5;
     const attempts = desiredCount * 5;
     for (let index = 0, accepted = 0; index < attempts && accepted < desiredCount && groundClusterCount < MAX_GROUND_CLUSTERS; index++) {
@@ -139,6 +144,11 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
       groundDummy.updateMatrix();
       groundMesh.setMatrixAt(groundClusterCount, groundDummy.matrix);
       const tone = new THREE.Color(wet ? '#6d9872' : '#86aa58').lerp(new THREE.Color(staged ? '#b0c970' : '#759b69'), worldHash(`${seed}:tone`, world) * .28);
+      // The existing geometry has its own green vertex color. Tint ratios
+      // compensate that base to express straw/mineral grass in dry provinces.
+      tone.r *= 1 + dry * 2.8 - high * .2;
+      tone.g *= 1 + dry * .05 - high * .2;
+      tone.b *= 1 - dry * .15 + high * .12;
       groundMesh.setColorAt(groundClusterCount, tone);
       groundClusterCount++; accepted++;
     }

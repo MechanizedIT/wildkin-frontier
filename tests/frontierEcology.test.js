@@ -5,7 +5,7 @@ import { createRuntimeResourcePlacements } from '../src/resources/resourceSystem
 import { getResourceType } from '../src/resources/resourceConfig.js';
 import { getHarvestInteractionPoint, getHarvestReach, isHarvestableInRange, isPlayerInsideColliderVolume } from '../src/resources/harvestLogic.js';
 import { describeVisualAssetCollider } from '../src/world/colliderDescriptor.js';
-import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
+import { FRONTIER_REGIONAL_RESOURCE_ASSETS, sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
 import { SKYBREAK_ROUTE } from '../src/world/frontierLandform.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
@@ -31,6 +31,40 @@ test('habitats select different broad forage mixes and reject injected steep ter
   const dry = sampleFrontierForageChunk(-4, 4, { getHeight: () => 1 });
   assert.notDeepEqual(wet.map(node => node.type), dry.map(node => node.type));
   assert.deepEqual(sampleFrontierForageChunk(3, 3, { getHeight: x => x * 2 }), []);
+});
+
+test('regional forage keeps legacy recipes at zero influence and makes the default Sunscar witness mineral-heavy', () => {
+  const legacySample = () => ({ height: 4, habitatBlend: { wetland: .35, fernUpland: .65 }, surfaceKind: null });
+  const reservedSample = () => ({ ...legacySample(), provinceKind: 'sunscar', provinceInfluence: 0, provinceWeights: { lush: 0, sunscar: 1, ironspine: 0 } });
+  assert.deepEqual(
+    sampleFrontierForageChunk(3, 2, { getTerrainSample: reservedSample }),
+    sampleFrontierForageChunk(3, 2, { getTerrainSample: legacySample }),
+    'zero regional influence retains the exact prior recipe',
+  );
+
+  const assets = WORLD_DATA.visualAssets.filter(asset => Object.values(FRONTIER_REGIONAL_RESOURCE_ASSETS).includes(asset.id));
+  const witness = sampleFrontierForageChunk(-13, -7, { visualAssets: assets });
+  assert.equal(witness.length, 6);
+  assert.ok(witness.filter(node => node.type === 'rock').length >= Math.ceil(witness.length * .75));
+  const admittedMinerals = witness.map(node => node.visualAsset?.id).filter(Boolean);
+  assert.ok(admittedMinerals.length >= 1);
+  assert.ok(admittedMinerals.every(assetId => [FRONTIER_REGIONAL_RESOURCE_ASSETS.crystal, FRONTIER_REGIONAL_RESOURCE_ASSETS.iron].includes(assetId)));
+  const fallback = sampleFrontierForageChunk(-13, -7);
+  assert.ok(fallback.every(node => node.visualAsset === undefined), 'missing admitted assets fall back to the same generic resource types');
+  assert.deepEqual(fallback.map(node => node.id), witness.map(node => node.id));
+
+  const profileSample = kind => () => ({
+    height: 4,
+    habitatBlend: { wetland: .5, fernUpland: .5 },
+    surfaceKind: null,
+    provinceInfluence: 1,
+    provinceWeights: { lush: kind === 'lush' ? 1 : 0, sunscar: kind === 'sunscar' ? 1 : 0, ironspine: kind === 'ironspine' ? 1 : 0 },
+  });
+  const lush = sampleFrontierForageChunk(4, -5, { getTerrainSample: profileSample('lush'), visualAssets: assets });
+  const ironspine = sampleFrontierForageChunk(4, -5, { getTerrainSample: profileSample('ironspine'), visualAssets: assets });
+  assert.ok(lush.filter(node => node.visualAsset?.id === FRONTIER_REGIONAL_RESOURCE_ASSETS.berries).length >= 2);
+  assert.ok(ironspine.some(node => node.visualAsset?.id === FRONTIER_REGIONAL_RESOURCE_ASSETS.iron));
+  assert.ok(ironspine.filter(node => node.type === 'rock').length > lush.filter(node => node.type === 'rock').length);
 });
 
 test('north Camp approach starts with a nearby deterministic forage group', () => {
