@@ -10,7 +10,7 @@ Chris has authorized continuous goal-mode development on main until he asks to s
 
 ## Current playable checkpoint
 
-The newest local checkpoint is the seeded continent/coast and automatic wading/surface swimming. Shared classification gates terrain/shelf collision, land content, ocean/atlas and supported resume. Native controls proved floorless swimming, gradually increasing landward currents, dry follower waiting, action suppression in SWIM and a normal return to shore. Developer/package literal reload matched complete canonical progress and restored supported dry feet. All1,300 tests and package gates pass;44.28MB unpacked/20.57MB ZIP. Independent behavior PASS, selected visual R3 **6.4/10 HOLD**. Read `art/reviews/frontier-coast/receipt.md` for exact fixtures, images and remaining shore/animation debt. Next: distributed habitat places and an earned early-alpha preview; the broad continent is not content complete.
+The newest local checkpoint adds59 seeded Lush groves and Mossling-opened caches to the existing continent/coast. Native full-health Bloom, visible lid delay, one-time supplies, two-resident Rapier/lifecycle checks and complete developer/package save parity pass. All1,319 tests and package gates pass;44.29MB unpacked/20.57MB ZIP. Independent source/scale PASS; selected visual R3 **7.7/10 HOLD**. Read `art/reviews/lush-groves/receipt.md` for fixtures, images and remaining canopy/ruin/ground-density polish. Next: define and play the connected early-alpha preview before another framework or roster expansion. Coast remains functional with6.4/10 visual debt.
 
 ### Previous useful-companion checkpoint
 

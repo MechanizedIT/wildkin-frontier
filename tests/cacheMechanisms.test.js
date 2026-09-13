@@ -28,6 +28,7 @@ test('cache doors open before tray and other instances remain closed', () => {
   f.completedPoiIds.push('a');
   f.presentation.update(.7, { sectionId: 'a' });
   assert.equal(f.presentation.access('a').busy, true);
+  assert.equal(f.presentation.access('a').reason, 'The vault is opening.');
   assert.ok(f.part('a', 'CacheDoorLeft').position.x < -.25);
   assert.equal(f.part('a', 'CacheTray').position.z, 0);
   assert.equal(f.part('b', 'CacheDoorLeft').position.x, -.25);
@@ -140,4 +141,42 @@ test('streamed lids register once, restore claims, and unregister without scene 
   assert.equal(presentation.unregister(chest.id, root), true);
   assert.equal(lid.rotation.x, 0);
   assert.equal(presentation.has(chest.id), false);
+});
+
+test('marked streamed lid follows saved seal, gates opening, and leaves ordinary and legacy lids claim-driven', () => {
+  const completedPoiIds = [], claims = new Set(), roots = new Map();
+  const marked = { id: 'f1:d:3:1:lush-root-cache', sectionId: 'camp', refillSeconds: null, opensOnSeal: true };
+  const ordinary = { id: 'field-chest', sectionId: 'camp', refillSeconds: null };
+  const legacy = { id: 'chest_mossling_secret', sectionId: 'camp', refillSeconds: null };
+  for (const chest of [marked, ordinary, legacy]) {
+    const root = new Group(), lid = new Group(); lid.name = 'ChestLidPivot'; root.add(lid); roots.set(chest.id, root);
+  }
+  const presentation = createCacheMechanisms({
+    registry: { data: { regions: [] }, getLootChestsForSection: () => [] },
+    progress: { getState: () => ({ completedPoiIds }), getLootChestAvailability: id => ({ available: !claims.has(id) }) },
+    getVisualRoot: id => roots.get(id),
+  });
+  for (const chest of [marked, ordinary, legacy]) presentation.register(chest, roots.get(chest.id));
+  presentation.update(0, { sectionId: 'camp' });
+  assert.equal(presentation.has(marked.id), true);
+  assert.equal(presentation.has(ordinary.id), false);
+  assert.equal(presentation.has(legacy.id), false, 'unmarked legacy ward ownership is unchanged');
+  completedPoiIds.push(marked.id);
+  assert.equal(presentation.access(marked.id).busy, true);
+  assert.equal(presentation.access(marked.id).reason, 'The cache is opening.');
+  presentation.update(.4, { sectionId: 'camp' });
+  assert.equal(presentation.access(marked.id).busy, true);
+  assert.ok(roots.get(marked.id).getObjectByName('ChestLidPivot').rotation.x < 0);
+  assert.equal(roots.get(ordinary.id).getObjectByName('ChestLidPivot').rotation.x, 0);
+  assert.equal(roots.get(legacy.id).getObjectByName('ChestLidPivot').rotation.x, 0);
+  presentation.update(.55, { sectionId: 'camp' });
+  assert.equal(presentation.access(marked.id).ok, true);
+  claims.add(marked.id); presentation.update(0, { sectionId: 'camp' });
+  assert.equal(presentation.access(marked.id).ok, true, 'an already opened and claimed grove remains settled');
+  claims.add(ordinary.id); presentation.update(.95, { sectionId: 'camp' });
+  assert.ok(roots.get(ordinary.id).getObjectByName('ChestLidPivot').rotation.x < -1.7);
+  claims.add(legacy.id); presentation.update(.95, { sectionId: 'camp' });
+  assert.ok(roots.get(legacy.id).getObjectByName('ChestLidPivot').rotation.x < -1.7);
+  presentation.reset(); presentation.update(0, { sectionId: 'camp' });
+  assert.ok(roots.get(marked.id).getObjectByName('ChestLidPivot').rotation.x < -1.7, 'saved seal restores open');
 });

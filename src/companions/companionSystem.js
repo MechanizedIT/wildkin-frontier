@@ -202,6 +202,23 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     const target = creatures.getActiveAliveCreatures().find(c => c.state.id === id);
     return fieldTaming.begin(id, identifyCompanion(target));
   }
+  function getRequiredCompanionId(chest) {
+    return chest?.requiredCompanionId ?? SECRET_COMPANION[chest?.id] ?? null;
+  }
+  function findNearbySealChest(species, pos) {
+    const sectionId = getSectionId();
+    const candidates = [...(registry.getLootChestsForSection?.(sectionId) ?? [])];
+    const legacy = registry.getLootChestById?.(species.secret);
+    if (legacy && !candidates.some(chest => chest?.id === legacy.id)) candidates.push(legacy);
+    const completed = new Set(progress.getState().completedPoiIds ?? []);
+    return candidates
+      .filter(chest => chest?.id && chest.sectionId === sectionId
+        && getRequiredCompanionId(chest) === species.id
+        && !completed.has(chest.id)
+        && Math.hypot(chest.pos.x - pos.x, chest.pos.z - pos.z) < 5.5)
+      .map(chest => ({ chest, distance: Math.hypot(chest.pos.x - pos.x, chest.pos.z - pos.z) }))
+      .sort((a, b) => a.distance - b.distance || (a.chest.id < b.chest.id ? -1 : a.chest.id > b.chest.id ? 1 : 0))[0]?.chest ?? null;
+  }
   function useAbility() {
     if (!isActive()) return { ok: false, message: "Companion abilities are available on expeditions." };
     if (playerController.getState().mode === "SWIM") return { ok: false, message: "Return to shore before calling a companion ability." };
@@ -211,11 +228,12 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     if (cooldown > 0) return { ok: false, message: `${species.abilityName} is ready in ${Math.ceil(cooldown)}s.` };
     const pos = playerController.getState().pos;
     let openedSeal = false, mineralStrike = null;
-    const chest = registry.getLootChestById(species.secret);
-    if (chest && chest.sectionId === getSectionId() && Math.hypot(chest.pos.x - pos.x, chest.pos.z - pos.z) < 5.5 && !progress.getState().completedPoiIds.includes(chest.id)) {
+    const chest = findNearbySealChest(species, pos);
+    if (chest) {
       openedSeal = progress.completePoi(chest.id);
       if (!openedSeal) return { ok: false, message: 'Could not save the awakened seal. Try again.' };
-      if (openedSeal) toast("Ancient seal awakened", hasCacheMechanism(chest.id) ? "The vault's mechanism is awakening." : `${species.name} has opened a path to the cache.`);
+      if (openedSeal) toast(chest.opensOnSeal === true ? 'Rootbound cache awakened' : 'Ancient seal awakened',
+        chest.opensOnSeal === true ? 'The cache is opening.' : hasCacheMechanism(chest.id) ? "The vault's mechanism is awakening." : `${species.name} has opened a path to the cache.`);
     }
     if (species.id === "mossling") {
       if (!openedSeal && playerCombat.getHealth() >= playerCombat.getMaxHealth()) return { ok: false, message: "Health is full. Bloom also awakens root seals." };
@@ -238,14 +256,15 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     pulse(pos, new THREE.Color(species.color).getHex());
     audio.playParkour?.("complete");
     if (mineralStrike?.interrupted) return { ok: true };
-    if (openedSeal) return { ok: true, message: hasCacheMechanism(chest.id) ? "The vault is opening." : "The cache is now accessible." };
+    if (openedSeal) return { ok: true, message: chest.opensOnSeal === true ? 'The cache is opening.' : hasCacheMechanism(chest.id) ? "The vault is opening." : "The cache is now accessible." };
     if (mineralStrike?.hits > 0) return { ok: true, message: `${species.abilityName} · ${mineralStrike.sources} outcrop${mineralStrike.sources === 1 ? '' : 's'} cracked.` };
     return species.id === 'tidefin' ? { ok: true } : { ok: true, message: `${species.name} · ${species.abilityName}` };
   }
   function lootAccess(chest) {
-    const required = SECRET_COMPANION[chest.id];
+    const required = getRequiredCompanionId(chest);
     if (!required || progress.getState().completedPoiIds.includes(chest.id)) return { ok: true };
     const species = COMPANION_BY_ID[required];
+    if (!species) return { ok: false, label: 'SEALED CACHE', reason: 'This cache seal cannot be awakened.' };
     return { ok: false, label: `${species.name.toUpperCase()} SEAL`, reason: `Bring a secured ${species.name} and use ${species.abilityName} near this cache.` };
   }
   function desiredRecords(careAnchor = null) {

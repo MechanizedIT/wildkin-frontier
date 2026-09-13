@@ -172,7 +172,7 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
   };
   const nearbyRegionalPlaces = [];
   if (hasRegionalPlaceAssets(visualAssets)) {
-    const placeOptions = { getHeight, getTerrainSample, terrainOptions, world };
+    const placeOptions = { getHeight, getTerrainSample, terrainOptions, visualAssets, world };
     for (let dz = -1; dz <= 1; dz += 1) for (let dx = -1; dx <= 1; dx += 1) {
       const place = sampleFrontierRegionalPlaceChunk(cx + dx, cz + dz, placeOptions);
       if (place) nearbyRegionalPlaces.push(place);

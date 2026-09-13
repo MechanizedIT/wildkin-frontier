@@ -1,6 +1,10 @@
 # Wildkin Frontier
 
-**Latest local checkpoint: a finite seeded continent with an ocean coast.** Walk into the shallows, swim at the surface, and follow the offshore current back toward land. Companions wait on dry ground; reloading restores your last supported shore position with the same outing and supplies. All1,300 tests and package checks pass. This is a functional foundation; shoreline art remains held at6.4/10, with richer landforms, dressing and swimming animation still needed. [Actual proof and limitations](art/reviews/frontier-coast/receipt.md).
+**Latest local checkpoint: discover a grove and put Mossling to work.** The current continent contains59 seeded Lush groves. Bring a secured Mossling, use Bloom to open the cache, then collect food, flowers and crystal for another outing. Each grove remembers its own opened seal and remaining supplies. All1,319 tests and package checks pass; the selected visual is7.7/10 HOLD, with canopy/ruin framing and denser ground detail still needing polish. [Actual screenshots, controls and limitations](art/reviews/lush-groves/receipt.md).
+
+<img src="art/reviews/lush-groves/r3-portrait.png" alt="Actual final portrait grove approach, with a small cache framed by existing trees, logs and a ruin" width="190"> <img src="art/reviews/lush-groves/collected-near.png" alt="Actual open cache after Bloom, with eight carried berries, six flowers and twenty-four crystal shards" width="190">
+
+**Continent foundation:** Walk into the shallows, swim at the surface, and follow the offshore current back toward land. Companions wait on dry ground; reloading restores your last supported shore position with the same outing and supplies. Shoreline art remains held at6.4/10, with richer landforms, dressing and swimming animation still needed. [Coast proof and limitations](art/reviews/frontier-coast/receipt.md).
 
 <img src="art/reviews/frontier-coast/continent-overview.png" alt="Diagnostic overview generated from the actual continent seed, with unrevealed geography explicitly shown for development" width="280"> <img src="art/reviews/frontier-coast/final-current-active.png" alt="Actual portrait swim with a wake, darker offshore water and the current pushes inland cue" width="180">
 

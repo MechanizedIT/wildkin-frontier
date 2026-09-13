@@ -126,8 +126,8 @@ await preloadVisualModels([
 ]);
 
 const authoredWorldRegistry = createWorldRegistry(effectiveWorldData);
-// The current save accepts one canonical seed. Register its admitted discovery
-// before save loading, even when the physical object is outside residency.
+// The current save accepts one canonical seed. Register its complete finite
+// discovery catalog before save loading, including objects outside residency.
 const discoveryDefinitions = authorEnabled ? [] : sampleFrontierDiscoveries({
   visualAssets: authoredWorldRegistry.data.visualAssets,
   lootTables: authoredWorldRegistry.data.lootTables,

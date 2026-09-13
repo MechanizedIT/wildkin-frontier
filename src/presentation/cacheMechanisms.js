@@ -70,11 +70,17 @@ export function createCacheMechanisms({ registry, progress, getVisualRoot, getAv
   }
   return {
     // Only automatic seal mechanisms replace companion wards/access timing.
-    has: (id) => mechanisms.get(id)?.kind === 'vault',
+    has: (id) => {
+      const m = mechanisms.get(id);
+      return m?.kind === 'vault' || (m?.kind === 'lid' && m.chest.opensOnSeal === true);
+    },
     access(id) {
       const m = mechanisms.get(id);
-      return m?.kind === 'vault' && m.initialized && m.amount < 1 - 1e-6
-        ? { ok: false, busy: true, label: 'OPENING', reason: 'The vault is opening.' }
+      const sealDriven = m?.kind === 'vault' || (m?.kind === 'lid' && m.chest.opensOnSeal === true);
+      const opening = sealDriven && progress.getState().completedPoiIds.includes(m.chest.id)
+        && (!m.initialized || m.amount < 1 - 1e-6);
+      return opening
+        ? { ok: false, busy: true, label: 'OPENING', reason: m.kind === 'lid' ? 'The cache is opening.' : 'The vault is opening.' }
         : { ok: true };
     },
     reset, register, unregister,
@@ -87,7 +93,8 @@ export function createCacheMechanisms({ registry, progress, getVisualRoot, getAv
         if (m.chest.sectionId !== sectionId) { m.initialized = false; continue; }
         const availability = getAvailability ? getAvailability(m.chest.id) : progress.getLootChestAvailability(m.chest.id, m.chest.refillSeconds, Date.now());
         const claimed = !availability.available;
-        const target = claimed || (m.kind === 'vault' && completed.includes(m.chest.id)) ? 1 : 0;
+        const opensOnSeal = m.kind === 'vault' || (m.kind === 'lid' && m.chest.opensOnSeal === true);
+        const target = claimed || (opensOnSeal && completed.includes(m.chest.id)) ? 1 : 0;
         if (!m.initialized || changedSection || reducedMotion) m.amount = target;
         else if (!paused) m.amount += Math.sign(target - m.amount) * Math.min(Math.abs(target - m.amount), Math.max(0, dt) / (m.kind === 'lid' ? LID_SECONDS : OPEN_SECONDS));
         m.initialized = true;

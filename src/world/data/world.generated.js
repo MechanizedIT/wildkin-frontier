@@ -173,6 +173,31 @@ export const WORLD_DATA = {
           "type": "item"
         }
       ]
+    },
+    {
+      "displayName": "Rootbound Grove Cache",
+      "id": "loot_lush_root_cache",
+      "rewards": [
+        {
+          "amount": 6,
+          "id": "berries",
+          "type": "resource"
+        },
+        {
+          "amount": 3,
+          "id": "wildflower",
+          "type": "resource"
+        },
+        {
+          "amount": 2,
+          "id": "crystal_shard",
+          "type": "resource"
+        },
+        {
+          "amount": 12,
+          "type": "xp"
+        }
+      ]
     }
   ],
   "playerVisual": {

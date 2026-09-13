@@ -1,0 +1,200 @@
+{
+  "baseCommit": "b000cab0391d4185a118734ab2ee17d28dd24050",
+  "selected": "R3",
+  "visual": {
+    "score": 7.7,
+    "status": "HOLD",
+    "priorScores": [
+      5.2,
+      7.4
+    ]
+  },
+  "sourceBehavior": "PASS",
+  "generatedDefinitions": {
+    "signal": 1,
+    "lushGroves": 59
+  },
+  "validation": {
+    "tests": 1319,
+    "failed": 0,
+    "testDurationSeconds": 73.8838336,
+    "verify": true,
+    "zip": true,
+    "unpackedMB": 44.29,
+    "zipMB": 20.57,
+    "completeDeveloperAndPortableSaveParity": true
+  },
+  "limitations": [
+    "One initial grove composition, not 59 distinct habitats.",
+    "Prepared approach and two-resident fixtures; no earned Camp-to-grove journey.",
+    "Canopy/ruin framing and ground density remain visual debt.",
+    "Physical phone and cold airplane startup unverified."
+  ],
+  "files": [
+    {
+      "path": "art/reviews/lush-groves/baseline-portrait.png",
+      "bytes": 132965,
+      "sha256": "37a0bf0db812a4e46b0bfee774aaf70a545a778d1d60cbe2a6235c48be747419"
+    },
+    {
+      "path": "art/reviews/lush-groves/collected-near.png",
+      "bytes": 168407,
+      "sha256": "9e176fb60643c2beb5a770f5f6446410d8dea84543ccb908c1849942a1c8e797"
+    },
+    {
+      "path": "art/reviews/lush-groves/open-unclaimed.png",
+      "bytes": 167168,
+      "sha256": "85710fae39c45fd3258b32384daeb6ba7e4aef65b7af38048a46d34e084d12c4"
+    },
+    {
+      "path": "art/reviews/lush-groves/opening-near.png",
+      "bytes": 168156,
+      "sha256": "932ec10dd1ccc857bfc1625e26064ea5f47fd6757a71c6b6b4c7b0dcd2ea41cb"
+    },
+    {
+      "path": "art/reviews/lush-groves/package-open.png",
+      "bytes": 169761,
+      "sha256": "8d7c1215e00e9cca4b7e9231351f9d7485745b3b51c26554c8942a2e906d2760"
+    },
+    {
+      "path": "art/reviews/lush-groves/r1-portrait.png",
+      "bytes": 142194,
+      "sha256": "8c4cadc79e6ac1482848863337c3d6c12efbcaf75dd471181bd6fce988956147"
+    },
+    {
+      "path": "art/reviews/lush-groves/r2-portrait.png",
+      "bytes": 153034,
+      "sha256": "9325cd879f8746666718dc3736ef5d350b3f93c4db6ed4684babefbb81a4a93a"
+    },
+    {
+      "path": "art/reviews/lush-groves/r3-portrait.png",
+      "bytes": 155191,
+      "sha256": "3d88fa26d25fdb7f4d65fba3ef6bf43c419578665a5e2e5a414c8f3074bdc9f3"
+    },
+    {
+      "path": "art/reviews/lush-groves/sealed-near.png",
+      "bytes": 168832,
+      "sha256": "2e8a24b7fe6ad6207f7082437197bfe6243ed25764fc813cc17e09fe48571350"
+    },
+    {
+      "path": "art/reviews/lush-groves/target-portrait.png",
+      "bytes": 1526828,
+      "sha256": "86a78ed218657fc05827c41248ce23a417c6d28cdab473880ac93384868b493e"
+    },
+    {
+      "path": "assets/models/alien-canopy-spread-v1/model.glb",
+      "bytes": 211172,
+      "sha256": "d6351470e06227f6f8dc14c768a19965fdc953b5fc4c1473102cc22e2afdbae3"
+    },
+    {
+      "path": "assets/models/alien-canopy-tall-v1/model.glb",
+      "bytes": 245472,
+      "sha256": "2ae3611a270ad6ae424367e46a128492bba391666a274dbd95fa4b744b8d82ba"
+    },
+    {
+      "path": "assets/models/alien-canopy-v1/model.glb",
+      "bytes": 256348,
+      "sha256": "397c87e18036b86409f58fa7f80492e5172c8791c8f68c641a1650239d8380d1"
+    },
+    {
+      "path": "assets/models/field-chest-v1/model.glb",
+      "bytes": 249784,
+      "sha256": "36f19f19badbe2dd61b4fcd0c12363d8ee1473374d01b937a2530cd9336cbc41"
+    },
+    {
+      "path": "dist/submission.zip",
+      "bytes": 21569577,
+      "sha256": "07c59bdf884c98960102d7bed999b8eeb46c2eda6d37fadbc8ecfdaec8a1ac92"
+    },
+    {
+      "path": "dist/submission/index.html",
+      "bytes": 16235913,
+      "sha256": "9c6fff32c75c294dfa46a519bcf4524939b2d57a7732b6fa1fe3a80510f7301d"
+    },
+    {
+      "path": "src/companions/companionSystem.js",
+      "bytes": 37389,
+      "sha256": "cdb689e9e2d0c305f909a81d05a1549a8490f902eda8e4ac5274d4fcc9faaabf"
+    },
+    {
+      "path": "src/main.js",
+      "bytes": 72144,
+      "sha256": "13dedad4d30e2fd631ed7c2f314ad43bdca784cd013d76f1d06b2a907ee0227b"
+    },
+    {
+      "path": "src/presentation/cacheMechanisms.js",
+      "bytes": 4953,
+      "sha256": "7324054e8ce9e29286249969cb056a664c03728bb7bddcd716decb746497143f"
+    },
+    {
+      "path": "src/world/data/world.generated.js",
+      "bytes": 11736186,
+      "sha256": "1e24a577f93f6823b23287b2664c03560d0725f366da32c22c339a4ddbd89e04"
+    },
+    {
+      "path": "src/world/data/world.json",
+      "bytes": 3274312,
+      "sha256": "bf18477943445d5788182496fab0121a7828f7a1625042e848ed44171bde813c"
+    },
+    {
+      "path": "src/world/frontierDiscovery.js",
+      "bytes": 8349,
+      "sha256": "f32a3d56430693eb1aa88b03ce026878d4ca5f7f3305aa8c213f14db517e2b40"
+    },
+    {
+      "path": "src/world/frontierDiscoveryRuntime.js",
+      "bytes": 8073,
+      "sha256": "ff4b36ee112b5f9883220a212dcf3ab57772cdae8795cdc5db4dc8f96a2f5e3f"
+    },
+    {
+      "path": "src/world/frontierEcology.js",
+      "bytes": 16337,
+      "sha256": "0dd682327082fedb02010a93fcbe93ae6de155e86cbd5f578255d0bf3cc2c5ee"
+    },
+    {
+      "path": "src/world/frontierRegionalPlace.js",
+      "bytes": 15058,
+      "sha256": "b906036e06337e4700cfb0aafd4bf9a5167b109edf8eb825aff52dcb60098b82"
+    },
+    {
+      "path": "src/world/frontierScenery.js",
+      "bytes": 35786,
+      "sha256": "d814dea7ee313b775707dcf74643512e8845f31afd92f00c6dc1d1493cbfcc05"
+    },
+    {
+      "path": "tests/cacheMechanisms.test.js",
+      "bytes": 10950,
+      "sha256": "48cac780a9dbe61b1b15e29b8122eea1c9635576359f204ffd8cb5469daef9cd"
+    },
+    {
+      "path": "tests/companionSealMechanics.test.js",
+      "bytes": 6061,
+      "sha256": "7fb457e6ed9026853ad410959e511e1795f4bc0d72e49b6dcdafe49f9c1df247"
+    },
+    {
+      "path": "tests/frontierDiscovery.test.js",
+      "bytes": 6453,
+      "sha256": "c4dd7336591255b6571f8c3c7afe36a5d1a4cdfd16207e3f2e37d79fba0f76b2"
+    },
+    {
+      "path": "tests/frontierDiscoveryRuntime.test.js",
+      "bytes": 13566,
+      "sha256": "1bd5868ab13b86a419dc25c9c9e882b1fe485e293f7137547b2187586afa308f"
+    },
+    {
+      "path": "tests/frontierRegionalPlace.test.js",
+      "bytes": 14910,
+      "sha256": "16623e4802c69e553791dfad297522d5ed9aeb2b70fc6528e1df14b2d6b33952"
+    },
+    {
+      "path": "tests/frontierScenery.test.js",
+      "bytes": 34577,
+      "sha256": "510239433960f5cdf42e5fea1d0b537add0f55d57e782c685b9851b8d0c3fc87"
+    },
+    {
+      "path": "tests/lushGroveLootLifecycle.test.js",
+      "bytes": 4990,
+      "sha256": "cd87011b9446f9ec2a1e131ecc0333a1c7cc2f8f5ce29d0ae0a3f057517c14d6"
+    }
+  ]
+}

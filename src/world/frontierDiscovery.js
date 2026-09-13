@@ -1,10 +1,11 @@
 import { sampleFrontierForageChunk } from './frontierEcology.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { sampleFrontierSceneryChunk } from './frontierScenery.js';
-import { sampleFrontier } from './frontierTerrain.js';
+import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from './frontierTerrain.js';
 import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
-import { hasFrontierLandFootprint } from './frontierContinent.js';
+import { FRONTIER_CONTINENT_CONFIG, hasFrontierLandFootprint } from './frontierContinent.js';
+import { sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 
 export const FRONTIER_SIGNAL_CACHE = Object.freeze({
   id: 'f1:d:3:1:0',
@@ -25,6 +26,21 @@ const ADMITTED_MODEL_PATH = Object.freeze({
   asset_fen_observatory: 'assets/models/fen-observatory-v1/model.glb',
 });
 const CLEARANCE = Object.freeze({ forage: 6, scenery: 5, wildlife: 10 });
+
+const MAX_HARMONIC_REACH = FRONTIER_CONTINENT_CONFIG.harmonics
+  .reduce((sum, harmonic) => sum + Math.abs(harmonic.amplitude), 0)
+  + FRONTIER_CONTINENT_CONFIG.smoothMaxWidth / 4;
+const xReach = FRONTIER_CONTINENT_CONFIG.outerRadii.x + MAX_HARMONIC_REACH;
+const zReach = FRONTIER_CONTINENT_CONFIG.outerRadii.z + MAX_HARMONIC_REACH;
+const chunkSize = FRONTIER_TERRAIN_CONFIG.chunkSize;
+
+/** Conservative finite scan bounds containing every possible default-continent place center. */
+export const FRONTIER_DISCOVERY_CHUNK_BOUNDS = Object.freeze({
+  minCx: Math.floor((FRONTIER_CONTINENT_CONFIG.center.x - xReach) / chunkSize),
+  maxCx: Math.floor((FRONTIER_CONTINENT_CONFIG.center.x + xReach) / chunkSize),
+  minCz: Math.floor((FRONTIER_CONTINENT_CONFIG.center.z - zReach) / chunkSize),
+  maxCz: Math.floor((FRONTIER_CONTINENT_CONFIG.center.z + zReach) / chunkSize),
+});
 
 function admittedAsset(visualAssets, id) {
   const asset = visualAssets?.find(candidate => candidate?.id === id);
@@ -52,37 +68,31 @@ function neighboringRecipes(cx, cz, options) {
   return { forage, scenery, wildlife };
 }
 
-/** The first fixed-world discovery. Later distributed secret grammars remain a separate slice. */
-export function sampleFrontierDiscoveries({
-  visualAssets = [], lootTables = [], world = DEFAULT_FRONTIER_WORLD,
-  getTerrainSample = (x, z) => sampleFrontier(x, z, { world }),
-  getHeight = (x, z) => getTerrainSample(x, z).height,
-  sampleForageChunk = sampleFrontierForageChunk,
-  sampleSceneryChunk = sampleFrontierSceneryChunk,
-  sampleWildlifeChunk = sampleFrontierWildlifeChunk,
-} = {}) {
-  if (world?.edition !== DEFAULT_FRONTIER_WORLD.edition || world?.seed !== DEFAULT_FRONTIER_WORLD.seed) return [];
+function sampleSignalCache({
+  visualAssets, lootTables, world, getTerrainSample, getHeight,
+  sampleForageChunk, sampleSceneryChunk, sampleWildlifeChunk,
+}) {
   const source = FRONTIER_SIGNAL_CACHE;
   const chestAsset = admittedAsset(visualAssets, source.chestAssetId);
   const receiverAsset = admittedAsset(visualAssets, source.receiverAssetId);
-  if (!chestAsset || !receiverAsset || !lootTables.some(table => table?.id === source.lootTableId)) return [];
+  if (!chestAsset || !receiverAsset || !lootTables.some(table => table?.id === source.lootTableId)) return null;
   const terrain = getTerrainSample(source.x, source.z);
   if (!Number.isFinite(terrain?.height) || terrain.provinceKind !== 'sunscar' || !(terrain.provinceInfluence >= .9)
-    || !hasFrontierLandFootprint(source.x, source.z, { radius: source.footprintRadius, getTerrainSample, world })) return [];
-  if (!hasFootprintSupport(source.x, source.z, { getHeight, radius: source.footprintRadius, maxSlope: .18 })) return [];
+    || !hasFrontierLandFootprint(source.x, source.z, { radius: source.footprintRadius, getTerrainSample, world })) return null;
+  if (!hasFootprintSupport(source.x, source.z, { getHeight, radius: source.footprintRadius, maxSlope: .18 })) return null;
   const chestX = source.x + source.chestOffset.x, chestZ = source.z + source.chestOffset.z;
   const chestCollision = chestAsset.collision.size;
   const chestRadius = Math.hypot(chestCollision.w, chestCollision.d) * .5;
   if (!hasFrontierLandFootprint(chestX, chestZ, { radius: chestRadius, getTerrainSample, world })
-    || !hasFootprintSupport(chestX, chestZ, { getHeight, radius: chestRadius, maxSlope: .18 })) return [];
+    || !hasFootprintSupport(chestX, chestZ, { getHeight, radius: chestRadius, maxSlope: .18 })) return null;
   const recipeOptions = { visualAssets, world, getTerrainSample, getHeight };
   const nearby = neighboringRecipes(3, 1, { sampleForageChunk, sampleSceneryChunk, sampleWildlifeChunk, recipeOptions });
   if (nearby.forage.some(entry => !clearsBothObjects(entry, CLEARANCE.forage, source, chestX, chestZ))
     || nearby.scenery.some(entry => !clearsBothObjects(entry, CLEARANCE.scenery, source, chestX, chestZ))
-    || nearby.wildlife.some(entry => !clearsBothObjects(entry, CLEARANCE.wildlife, source, chestX, chestZ))) return [];
+    || nearby.wildlife.some(entry => !clearsBothObjects(entry, CLEARANCE.wildlife, source, chestX, chestZ))) return null;
   const chestHeight = getHeight(chestX, chestZ);
-  if (!Number.isFinite(chestHeight)) return [];
-  return [Object.freeze({
+  if (!Number.isFinite(chestHeight)) return null;
+  return Object.freeze({
     id: source.id,
     placementKind: 'fixed-authored',
     chunkId: source.chunkId,
@@ -92,11 +102,72 @@ export function sampleFrontierDiscoveries({
     landmarkPos: Object.freeze({ x: source.x, y: terrain.height, z: source.z }),
     pos: Object.freeze({ x: chestX, y: chestHeight, z: chestZ }),
     rotY: 0,
+    uniformScale: 1,
     visualAssetId: source.chestAssetId,
     receiverAssetId: source.receiverAssetId,
     lootTableId: source.lootTableId,
     refillSeconds: null,
     triggerRadius: 1.4,
     collisionEnabled: true,
-  })];
+  });
+}
+
+function sampleRegionalDiscoveryCatalog({
+  visualAssets, lootTables, world, getTerrainSample, getHeight,
+  sampleRegionalPlaceChunk, chunkBounds,
+}) {
+  if (!admittedAsset(visualAssets, 'asset_chest')
+    || !lootTables.some(table => table?.id === 'loot_lush_root_cache')) return [];
+  const discoveries = [];
+  for (let cz = chunkBounds.minCz; cz <= chunkBounds.maxCz; cz += 1) {
+    for (let cx = chunkBounds.minCx; cx <= chunkBounds.maxCx; cx += 1) {
+      const place = sampleRegionalPlaceChunk(cx, cz, { visualAssets, world, getTerrainSample, getHeight });
+      if (place?.kind !== 'lush-root-cache' || !place.chest
+        || !Number.isFinite(place.chest.x) || !Number.isFinite(place.chest.z)) continue;
+      const y = getHeight(place.chest.x, place.chest.z);
+      if (!Number.isFinite(y)) continue;
+      discoveries.push(Object.freeze({
+        id: `f1:d:${cx}:${cz}:lush-root-cache`,
+        placementKind: 'generated-regional',
+        chunkId: `${cx},${cz}`,
+        sectionId: 'camp',
+        regionId: 'camp',
+        displayName: 'Lush Root Cache',
+        pos: Object.freeze({ x: place.chest.x, y, z: place.chest.z }),
+        rotY: place.chest.yaw,
+        uniformScale: place.chest.scale ?? 1,
+        visualAssetId: 'asset_chest',
+        lootTableId: 'loot_lush_root_cache',
+        refillSeconds: null,
+        triggerRadius: 1.4,
+        collisionEnabled: true,
+        requiredCompanionId: 'mossling',
+        opensOnSeal: true,
+      }));
+    }
+  }
+  return discoveries;
+}
+
+/** Enumerates every canonical finite-continent discovery before save normalization. */
+export function sampleFrontierDiscoveries({
+  visualAssets = [], lootTables = [], world = DEFAULT_FRONTIER_WORLD,
+  getTerrainSample = (x, z) => sampleFrontier(x, z, { world }),
+  getHeight = (x, z) => getTerrainSample(x, z).height,
+  sampleForageChunk = sampleFrontierForageChunk,
+  sampleSceneryChunk = sampleFrontierSceneryChunk,
+  sampleWildlifeChunk = sampleFrontierWildlifeChunk,
+  sampleRegionalPlaceChunk = sampleFrontierRegionalPlaceChunk,
+  chunkBounds = FRONTIER_DISCOVERY_CHUNK_BOUNDS,
+} = {}) {
+  if (world?.edition !== DEFAULT_FRONTIER_WORLD.edition || world?.seed !== DEFAULT_FRONTIER_WORLD.seed) return [];
+  const signal = sampleSignalCache({
+    visualAssets, lootTables, world, getTerrainSample, getHeight,
+    sampleForageChunk, sampleSceneryChunk, sampleWildlifeChunk,
+  });
+  const regional = sampleRegionalDiscoveryCatalog({
+    visualAssets, lootTables, world, getTerrainSample, getHeight,
+    sampleRegionalPlaceChunk, chunkBounds,
+  });
+  return signal ? [signal, ...regional] : regional;
 }

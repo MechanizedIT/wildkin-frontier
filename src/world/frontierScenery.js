@@ -345,7 +345,12 @@ function exclusionsFor(cx, cz, options) {
   for (let wz = cz - 1; wz <= cz + 1; wz++) for (let wx = cx - 1; wx <= cx + 1; wx++) {
     const sample = typeof options.sampleWildlifeChunk === 'function' ? options.sampleWildlifeChunk : sampleFrontierWildlifeChunk;
     wildlife.push(...cachedExclusionRecipe('wildlife', wx, wz, options,
-      () => sample(wx, wz, { getTerrainSample: (x, z) => terrainSample(x, z, options), terrainOptions: options.terrainOptions, world })));
+      () => sample(wx, wz, {
+        getTerrainSample: (x, z) => terrainSample(x, z, options),
+        terrainOptions: options.terrainOptions,
+        visualAssets: options.visualAssets,
+        world,
+      })));
   }
   return { forage, wildlife };
 }
@@ -411,7 +416,7 @@ function regionalPlaceScenerySpecs(place, options) {
   const chunkId = `${place.cx},${place.cz}`;
   const specs = [];
   for (const candidate of place.scenery) {
-    if (!candidate?.key || !candidate.assetId || candidate.kind !== 'low'
+    if (!candidate?.key || !candidate.assetId || (candidate.kind !== 'low' && candidate.kind !== 'canopy')
       || !Number.isFinite(candidate.x) || !Number.isFinite(candidate.y) || !Number.isFinite(candidate.z)
       || !Number.isFinite(candidate.scale) || candidate.scale <= 0 || !Number.isFinite(candidate.yaw)) return [];
     const groundCover = groundCoverFor(terrainSample(candidate.x, candidate.z, options));
@@ -421,7 +426,7 @@ function regionalPlaceScenerySpecs(place, options) {
       regionalPlaceId: place.id,
       assetId: candidate.assetId,
       x: candidate.x, y: candidate.y, z: candidate.z,
-      scale: candidate.scale, yaw: candidate.yaw, kind: 'low',
+      scale: candidate.scale, yaw: candidate.yaw, kind: candidate.kind,
       ...(groundCover ? { groundCover } : {}),
     }));
   }

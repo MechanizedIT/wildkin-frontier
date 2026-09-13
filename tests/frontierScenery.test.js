@@ -43,6 +43,22 @@ test('the Sunscar bloom decor enters scenery as one exact low-prop formation wit
   assert.ok(nearSelected.length <= FRONTIER_SCENERY_CONFIG.maxNear);
 });
 
+test('the Lush grove retains all seven mixed scenery slots as one capped nearby group', () => {
+  const options = { visualAssets: WORLD_DATA.visualAssets };
+  const place = sampleFrontierRegionalPlaceChunk(-5, 9, options);
+  const chunkSpecs = sampleFrontierSceneryChunk(-5, 9, options);
+  const formation = chunkSpecs.filter(spec => spec.regionalPlaceId === place.id);
+  assert.equal(formation.length, 7);
+  assert.deepEqual(formation.map(spec => spec.kind), ['canopy', 'canopy', 'canopy', 'low', 'low', 'low', 'low']);
+  assert.deepEqual(formation.map(spec => [spec.assetId, spec.x, spec.y, spec.z, spec.scale, spec.yaw]),
+    place.scenery.map(spec => [spec.assetId, spec.x, spec.y, spec.z, spec.scale, spec.yaw]));
+  const selected = selectFrontierScenery(chunkGrid(-5, 9), options);
+  const selectedFormation = selected.filter(spec => spec.regionalPlaceId === place.id);
+  assert.equal(selectedFormation.length, 7, 'the canopy-bearing grove survives as a whole group');
+  assert.ok(selected.length <= FRONTIER_SCENERY_CONFIG.maxTotal);
+  assert.ok(selected.filter(spec => spec.kind === 'canopy').length <= FRONTIER_SCENERY_CONFIG.maxCanopies);
+});
+
 test('one bounded adjacent-owner lookup excludes ordinary scenery and grass across a place boundary', () => {
   let placeCalls = 0;
   const place = Object.freeze({
@@ -93,7 +109,6 @@ test('place lookup cap bounds storage without changing over-cap exclusion semant
 });
 
 test('missing or malformed bloom assets leave no reservation, partial group, or ordinary recipe hole', () => {
-  const purePlace = sampleFrontierRegionalPlaceChunk(-5, -2);
   const crystal = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_crystal');
   const trail = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_trail_stones');
   const catalogs = [
@@ -104,21 +119,29 @@ test('missing or malformed bloom assets leave no reservation, partial group, or 
     WORLD_DATA.visualAssets.map(asset => asset.id === 'asset_trail_stones' ? { ...trail, parts: [] } : asset),
   ];
   for (const visualAssets of catalogs) {
-    let placeCalls = 0;
     const common = {
       visualAssets,
       sampleForageChunk: () => [], sampleWildlifeChunk: () => [],
     };
     const expected = sampleFrontierSceneryChunk(-5, -2, { ...common, sampleRegionalPlaceChunk: () => null });
-    const actual = sampleFrontierSceneryChunk(-5, -2, {
-      ...common,
-      sampleRegionalPlaceChunk: () => { placeCalls++; return purePlace; },
-    });
-    assert.equal(placeCalls, 0, 'invalid catalogs fail before reserving or sampling a place');
+    const actual = sampleFrontierSceneryChunk(-5, -2, common);
     assert.ok(actual.length > 0 && actual.length <= 6, 'ordinary scenery keeps its established recipe budget');
     assert.ok(actual.every(spec => !spec.regionalPlaceId));
     assert.deepEqual(actual, expected);
   }
+});
+
+test('family-specific asset admission keeps grove catalog and scenery reservations in sync', () => {
+  const withoutSunscarFlower = WORLD_DATA.visualAssets.filter(asset => asset.id !== 'asset_cloudflower');
+  const grove = sampleFrontierRegionalPlaceChunk(-5, 9, { visualAssets: withoutSunscarFlower });
+  assert.equal(grove?.kind, 'lush-root-cache');
+  assert.equal(sampleFrontierSceneryChunk(-5, 9, { visualAssets: withoutSunscarFlower })
+    .filter(spec => spec.regionalPlaceId === grove.id).length, 7);
+
+  const withoutLushCanopy = WORLD_DATA.visualAssets.filter(asset => asset.id !== 'asset_verge_canopy_spread');
+  assert.equal(sampleFrontierRegionalPlaceChunk(-5, 9, { visualAssets: withoutLushCanopy }), null);
+  assert.equal(sampleFrontierSceneryChunk(-5, 9, { visualAssets: withoutLushCanopy })
+    .some(spec => spec.regionalPlaceId?.endsWith(':lush-root-cache')), false);
 });
 
 test('one residency build shares a bounded exclusion-recipe cache across selection and ground cover', () => {

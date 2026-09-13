@@ -5,6 +5,7 @@ import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import {
   FRONTIER_REGIONAL_PLACE_RADIUS,
   FRONTIER_REGIONAL_PLACE_RESOURCE_SLOTS,
+  hasLushRootCacheAssets,
   hasRegionalPlaceAssets,
   sampleFrontierRegionalPlaceChunk,
 } from '../src/world/frontierRegionalPlace.js';
@@ -18,6 +19,77 @@ const FLAT_SUNSCAR = () => ({
   provinceKind: 'sunscar',
   provinceInfluence: 1,
   provinceWeights: { lush: 0, sunscar: 1, ironspine: 0 },
+});
+
+test('default Lush owner becomes one supported deterministic root cache without changing its owner recipe', () => {
+  const options = { visualAssets: WORLD_DATA.visualAssets };
+  const place = sampleFrontierRegionalPlaceChunk(-5, 9, options);
+  assert.deepEqual(sampleFrontierRegionalPlaceChunk(-5, 9, options), place);
+  assert.ok(Object.isFrozen(place) && Object.isFrozen(place.chest));
+  assert.deepEqual({ id: place.id, cx: place.cx, cz: place.cz, kind: place.kind, layout: place.layout, radius: place.radius }, {
+    id: 'f1:p:-5:9:lush-root-cache', cx: -5, cz: 9, kind: 'lush-root-cache', layout: 'root-grove', radius: 7,
+  });
+  assert.deepEqual(place.center, { x: -222.58139716172158, z: 479.47494398673877 });
+  assert.equal(place.yaw, .6658765729756316);
+  assert.deepEqual(place.resources, []);
+  assert.deepEqual(place.scenery.map(part => [part.assetId, part.kind, part.scale]), [
+    ['asset_verge_canopy_spread', 'canopy', .65],
+    ['asset_verge_canopy', 'canopy', .62],
+    ['asset_verge_canopy_tall', 'canopy', .42],
+    ['asset_fallen_log', 'low', .55], ['asset_fallen_log', 'low', .55],
+    ['asset_fen_stone', 'low', .42], ['asset_ruin_arch', 'low', .45],
+  ]);
+  assert.deepEqual(place.chest, {
+    x: -221.5929992648261, z: 480.7331449235579, yaw: .6658765729756316, scale: .7,
+  });
+  const expectedLocal = [
+    ['canopy-left', -2.2, 2.8, -.2], ['canopy-right', 1.9, 2.7, .15], ['canopy-rear', .15, -.5, .1],
+    ['log-left', -1.45, 3.25, -.55], ['log-right', 1.45, 3.35, .55],
+    ['stone', 1.35, 1, .2], ['ruin-arch', -1.4, 1.2, 0],
+  ];
+  const cos = Math.cos(place.yaw), sin = Math.sin(place.yaw);
+  for (const [key, x, z, yaw] of expectedLocal) {
+    const part = place.scenery.find(candidate => candidate.key.endsWith(`:${key}`));
+    const dx = part.x - place.center.x, dz = part.z - place.center.z;
+    assert.ok(Math.abs((dx * cos - dz * sin) - x) < 1e-12, `${key} local x`);
+    assert.ok(Math.abs((dx * sin + dz * cos) - z) < 1e-12, `${key} local z`);
+    assert.ok(Math.abs(part.yaw - (place.yaw + yaw)) < 1e-12, `${key} local yaw`);
+  }
+  for (const key of ['log-left', 'log-right']) {
+    const part = place.scenery.find(candidate => candidate.key.endsWith(`:${key}`));
+    const dx = part.x - place.center.x, dz = part.z - place.center.z;
+    const localX = dx * cos - dz * sin;
+    assert.ok(Math.abs(localX) > 1.525 * part.scale + .5, `${key} leaves the center approach lane open`);
+  }
+  const height = (x, z) => sampleFrontier(x, z).height;
+  assert.equal(hasFootprintSupport(place.center.x, place.center.z, {
+    getHeight: height, radius: FRONTIER_REGIONAL_PLACE_RADIUS, maxSlope: .28,
+  }), true);
+  for (const part of [...place.scenery, place.chest]) {
+    assert.equal(Number.isFinite(height(part.x, part.z)), true);
+  }
+  assert.equal(hasFootprintSupport(place.chest.x, place.chest.z, {
+    getHeight: height, radius: .851 * place.chest.scale, maxSlope: .28,
+  }), true, 'scaled chest footprint remains supported independently');
+});
+
+test('Lush root cache requires pure dry terrain, whole support, and its exact admitted stateless kit', () => {
+  assert.equal(hasLushRootCacheAssets(WORLD_DATA.visualAssets), true);
+  for (const id of ['asset_verge_canopy', 'asset_verge_canopy_spread', 'asset_verge_canopy_tall', 'asset_fallen_log', 'asset_fen_stone', 'asset_ruin_arch']) {
+    assert.equal(hasLushRootCacheAssets(WORLD_DATA.visualAssets.filter(asset => asset.id !== id)), false, id);
+  }
+  const lush = () => ({
+    ...FLAT_SUNSCAR(), provinceKind: 'lush', provinceWeights: { lush: 1, sunscar: 0, ironspine: 0 }, coastDistance: 100,
+  });
+  assert.equal(sampleFrontierRegionalPlaceChunk(-5, 9, {
+    visualAssets: WORLD_DATA.visualAssets, getTerrainSample: () => ({ ...lush(), provinceWeights: { lush: .799, sunscar: .201, ironspine: 0 } }), getHeight: () => 9,
+  }), null);
+  assert.equal(sampleFrontierRegionalPlaceChunk(-5, 9, {
+    visualAssets: WORLD_DATA.visualAssets, getTerrainSample: () => ({ ...lush(), coastDistance: 1 }), getHeight: () => 9,
+  }), null);
+  assert.equal(sampleFrontierRegionalPlaceChunk(-5, 9, {
+    visualAssets: WORLD_DATA.visualAssets, getTerrainSample: lush, getHeight: x => x,
+  }), null);
 });
 
 function macroPlaces(mx, mz, options) {

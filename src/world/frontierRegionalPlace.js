@@ -11,6 +11,7 @@ const CENTER_INSET = 15;
 const CENTER_SPAN = 20;
 const MAX_SLOPE = .28;
 const SUNSCAR_PURITY = .65;
+const LUSH_PURITY = .8;
 const STARTER_SCENERY_BUFFER = 107;
 const SIGNAL_CACHE = Object.freeze({ x: 170, z: 50, clearance: 30 });
 const ASSET_RADIUS = Object.freeze({
@@ -18,8 +19,16 @@ const ASSET_RADIUS = Object.freeze({
   asset_fen_stone: 1.14,
   asset_cloudflower: 1.02,
   asset_trail_stones: 1.57,
+  asset_verge_canopy: 1.45,
+  asset_verge_canopy_spread: 1.45,
+  asset_verge_canopy_tall: 1.45,
+  asset_fallen_log: 1.525,
+  asset_ruin_arch: 1.62,
+  asset_chest: .851,
 });
 const APPROACH = Object.freeze({ x: 0, z: 4.8, radius: 1.15 });
+const LUSH_APPROACH = Object.freeze({ x: 0, z: 8, radius: 1.15 });
+const LUSH_CHEST = Object.freeze({ x: 0, z: 1.6, yaw: 0, scale: .7 });
 
 const FAN_PARTS = Object.freeze([
   Object.freeze({ role: 'resource', index: 200, assetId: 'asset_crystal', type: 'rock', x: .08, z: .58, uniformScale: .72, yaw: .11 }),
@@ -42,6 +51,18 @@ const CLEFT_PARTS = Object.freeze([
   Object.freeze({ role: 'scenery', key: 'flower-front', assetId: 'asset_cloudflower', kind: 'low', x: -.55, z: 2.55, scale: .5, yaw: .44 }),
   Object.freeze({ role: 'scenery', key: 'trail-stones-left', assetId: 'asset_trail_stones', kind: 'low', x: -2.55, z: 3.1, scale: .56, yaw: -.58 }),
   Object.freeze({ role: 'scenery', key: 'trail-stones-right', assetId: 'asset_trail_stones', kind: 'low', x: 2.42, z: 2.72, scale: .56, yaw: .16 }),
+]);
+
+// Locked against art/reviews/lush-groves/target-portrait.png at the seeded
+// (-5,9) witness. These seven scenery slots keep the center and south approach open.
+const LUSH_ROOT_CACHE_PARTS = Object.freeze([
+  Object.freeze({ key: 'canopy-left', assetId: 'asset_verge_canopy_spread', kind: 'canopy', x: -2.2, z: 2.8, scale: .65, yaw: -.2 }),
+  Object.freeze({ key: 'canopy-right', assetId: 'asset_verge_canopy', kind: 'canopy', x: 1.9, z: 2.7, scale: .62, yaw: .15 }),
+  Object.freeze({ key: 'canopy-rear', assetId: 'asset_verge_canopy_tall', kind: 'canopy', x: .15, z: -.5, scale: .42, yaw: .1 }),
+  Object.freeze({ key: 'log-left', assetId: 'asset_fallen_log', kind: 'low', x: -1.45, z: 3.25, scale: .55, yaw: -.55 }),
+  Object.freeze({ key: 'log-right', assetId: 'asset_fallen_log', kind: 'low', x: 1.45, z: 3.35, scale: .55, yaw: .55 }),
+  Object.freeze({ key: 'stone', assetId: 'asset_fen_stone', kind: 'low', x: 1.35, z: 1, scale: .42, yaw: .2 }),
+  Object.freeze({ key: 'ruin-arch', assetId: 'asset_ruin_arch', kind: 'low', x: -1.4, z: 1.2, scale: .45, yaw: 0 }),
 ]);
 
 function roll(mx, mz, key, world) {
@@ -129,6 +150,10 @@ function usableParts(asset) {
 
 /** One admission contract shared by every system that reserves or emits a bloom. */
 export function hasRegionalPlaceAssets(visualAssets) {
+  return hasSunscarBloomAssets(visualAssets) || hasLushRootCacheAssets(visualAssets);
+}
+
+function hasSunscarBloomAssets(visualAssets) {
   if (!Array.isArray(visualAssets)) return false;
   const asset = id => visualAssets.find(candidate => candidate?.id === id);
   const crystal = asset('asset_crystal');
@@ -146,6 +171,25 @@ export function hasRegionalPlaceAssets(visualAssets) {
   });
 }
 
+/** Exact admitted kit for the generated Lush grove; stateful Rootfall is excluded. */
+export function hasLushRootCacheAssets(visualAssets) {
+  if (!Array.isArray(visualAssets)) return false;
+  const asset = id => visualAssets.find(candidate => candidate?.id === id);
+  const modeled = [
+    ['asset_verge_canopy', 'assets/models/alien-canopy-v1/model.glb'],
+    ['asset_verge_canopy_spread', 'assets/models/alien-canopy-spread-v1/model.glb'],
+    ['asset_verge_canopy_tall', 'assets/models/alien-canopy-tall-v1/model.glb'],
+  ].every(([id, path]) => {
+    const candidate = asset(id);
+    return candidate?.gameplay?.role === 'prop' && candidate?.model?.path === path
+      && candidate?.collision?.shape === 'box';
+  });
+  return modeled && ['asset_fallen_log', 'asset_fen_stone', 'asset_ruin_arch'].every(id => {
+    const candidate = asset(id);
+    return candidate?.gameplay?.role === 'prop' && usableParts(candidate);
+  });
+}
+
 /** Pure, deterministic crystal-bloom recipe returned only by its owner chunk. */
 export function sampleFrontierRegionalPlaceChunk(cx, cz, options = {}) {
   if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz)) return null;
@@ -158,8 +202,15 @@ export function sampleFrontierRegionalPlaceChunk(cx, cz, options = {}) {
   const centerX = cx * size + CENTER_INSET + roll(mx, mz, 3, world) * CENTER_SPAN;
   const centerZ = cz * size + CENTER_INSET + roll(mx, mz, 4, world) * CENTER_SPAN;
   const centerSample = sampleTerrain(centerX, centerZ, options, world);
-  if (centerSample?.provinceKind !== 'sunscar' || !(centerSample.provinceInfluence >= .95)
-    || !(centerSample.provinceWeights?.sunscar >= SUNSCAR_PURITY)
+  const sunscar = centerSample?.provinceKind === 'sunscar'
+    && centerSample.provinceInfluence >= .95
+    && centerSample.provinceWeights?.sunscar >= SUNSCAR_PURITY;
+  const lush = centerSample?.provinceKind === 'lush'
+    && centerSample.provinceInfluence >= .95
+    && centerSample.provinceWeights?.lush >= LUSH_PURITY;
+  if ((!sunscar && !lush)
+    || (options.visualAssets !== undefined
+      && !(sunscar ? hasSunscarBloomAssets(options.visualAssets) : hasLushRootCacheAssets(options.visualAssets)))
     || centerSample.surfaceKind || !clearsExactReserve(centerX, centerZ)
     || Math.hypot(centerX - SIGNAL_CACHE.x, centerZ - SIGNAL_CACHE.z) < SIGNAL_CACHE.clearance
     || !hasFrontierLandFootprint(centerX, centerZ, {
@@ -170,6 +221,38 @@ export function sampleFrontierRegionalPlaceChunk(cx, cz, options = {}) {
     || !supported(centerX, centerZ, FRONTIER_REGIONAL_PLACE_RADIUS, options, world)) return null;
 
   const yaw = roll(mx, mz, 5, world) * Math.PI * 2;
+  if (lush) {
+    const scenery = [];
+    for (const part of LUSH_ROOT_CACHE_PARTS) {
+      const offset = rotate(part.x, part.z, yaw);
+      const x = centerX + offset.x, z = centerZ + offset.z;
+      if (!supported(x, z, ASSET_RADIUS[part.assetId] * part.scale, options, world)) return null;
+      const y = getHeight(x, z, options, world);
+      if (!Number.isFinite(y)) return null;
+      scenery.push(Object.freeze({
+        key: `lush-root-cache:${cx}:${cz}:${part.key}`,
+        assetId: part.assetId, kind: part.kind, x, z, y,
+        scale: part.scale, yaw: yaw + part.yaw,
+      }));
+    }
+    const chestOffset = rotate(LUSH_CHEST.x, LUSH_CHEST.z, yaw);
+    const chestX = centerX + chestOffset.x, chestZ = centerZ + chestOffset.z;
+    if (!supported(chestX, chestZ, ASSET_RADIUS.asset_chest * LUSH_CHEST.scale, options, world)) return null;
+    const approachOffset = rotate(LUSH_APPROACH.x, LUSH_APPROACH.z, yaw);
+    const approachX = centerX + approachOffset.x, approachZ = centerZ + approachOffset.z;
+    if (!hasFrontierLandFootprint(approachX, approachZ, {
+      radius: LUSH_APPROACH.radius,
+      getTerrainSample: (x, z) => sampleTerrain(x, z, options, world),
+      world,
+    }) || !supported(approachX, approachZ, LUSH_APPROACH.radius, options, world)) return null;
+    return Object.freeze({
+      id: `f1:p:${cx}:${cz}:lush-root-cache`, cx, cz, kind: 'lush-root-cache',
+      center: Object.freeze({ x: centerX, z: centerZ }), yaw, layout: 'root-grove',
+      radius: FRONTIER_REGIONAL_PLACE_RADIUS,
+      resources: Object.freeze([]), scenery: Object.freeze(scenery),
+      chest: Object.freeze({ x: chestX, z: chestZ, yaw: yaw + LUSH_CHEST.yaw, scale: LUSH_CHEST.scale }),
+    });
+  }
   const layout = roll(mx, mz, 6, world) < .5 ? 'fan' : 'cleft';
   const parts = layout === 'fan' ? FAN_PARTS : CLEFT_PARTS;
   const resources = [], scenery = [];

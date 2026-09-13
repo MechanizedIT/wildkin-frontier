@@ -1,5 +1,21 @@
 # Early alpha — procedural frontier progress
 
+## New local loop: Mossling opens a grove cache
+
+Follow an open clearing between alien trees and mossy logs. Bring a secured Mossling, use Bloom to awaken the chest, watch its lid open, and collect supplies for the next outing. The current continent has59 supported locations using one initial grove composition. Existing Sunscar mineral blooms give Emberhorn a different kind of destination.
+
+<img src="../../../art/reviews/lush-groves/r3-portrait.png" alt="Actual final grove approach in portrait play" width="210"> <img src="../../../art/reviews/lush-groves/package-open.png" alt="Actual portable continuation with the opened cache and saved supplies" width="210">
+
+| Player action | Verified result |
+| --- | --- |
+| Call Bloom at full health | The grove seal saves and the lid visibly opens |
+| Try to collect during opening | Collection waits for the moving lid to finish |
+| Open the cache |6 berries,3 flowers,2 crystal shards and12 unbankedXP |
+| Return with more pack space | Only saved leftovers remain; XP does not repeat |
+| Stream away or reload | Each grove keeps its own seal, claim and remaining supplies |
+
+All1,319 tests and the integrated package gate pass. Developer and portable save continuation matched the complete selected payload. The selected visual is **7.7/10 HOLD** after three passes: canopy/ruin framing and ground density need more polish. Native testing used a disclosed Mossling/approach fixture; the earned Camp-to-grove route remains the next playtest. No new species, assets, menus or online service were added. [Exact evidence and limitations](../../../art/reviews/lush-groves/receipt.md). The published Drive PDFs retain their earlier checkpoint.
+
 ## New local foundation: a continent and its coast
 
 The seed now defines a finite irregular landmass surrounded by ocean. The same classification controls terrain, land-based resources and Wildkin, the atlas, the water surface and swimming. This implements the bounded-continent direction; three regional grammars exist, while about10 habitats/30 species remain a staged destination.

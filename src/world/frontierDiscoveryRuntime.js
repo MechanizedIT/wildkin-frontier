@@ -8,12 +8,14 @@ const BOX_INDICES = new Uint32Array([
   2, 7, 3, 2, 6, 7, 3, 4, 0, 3, 7, 4,
 ]);
 
-function collisionSurface(id, asset, position, rotationY = 0) {
+function collisionSurface(id, asset, position, rotationY = 0, uniformScale = 1) {
   const collision = asset?.collision;
   if (collision?.shape !== 'box') throw new Error(`Signal Cache asset ${asset?.id ?? 'unknown'} needs box collision`);
   const size = collision.size, offset = collision.offset ?? {};
-  const hx = size.w / 2, hy = size.h / 2, hz = size.d / 2;
-  const ox = offset.x ?? 0, oy = offset.y ?? hy, oz = offset.z ?? 0;
+  const hx = size.w * uniformScale / 2, hy = size.h * uniformScale / 2, hz = size.d * uniformScale / 2;
+  const ox = (offset.x ?? 0) * uniformScale;
+  const oy = (offset.y ?? size.h / 2) * uniformScale;
+  const oz = (offset.z ?? 0) * uniformScale;
   const cos = Math.cos(rotationY), sin = Math.sin(rotationY);
   const centerX = position.x + ox * cos + oz * sin;
   const centerZ = position.z - ox * sin + oz * cos;
@@ -34,93 +36,147 @@ function disposeVisualRoot(root) {
 }
 
 export function createFrontierDiscoveryVisual({ discovery, visualAssets = [] } = {}) {
-  const receiverAsset = visualAssets.find(asset => asset?.id === discovery?.receiverAssetId);
+  const chestScale = discovery?.uniformScale ?? 1;
+  if (!Number.isFinite(chestScale) || chestScale <= 0) throw new Error('Frontier discovery uniformScale must be positive');
+  const receiverAsset = discovery?.receiverAssetId
+    ? visualAssets.find(asset => asset?.id === discovery.receiverAssetId)
+    : null;
   const chestAsset = visualAssets.find(asset => asset?.id === discovery?.visualAssetId);
-  if (!receiverAsset || !chestAsset) throw new Error('Signal Cache visual assets missing');
+  if ((discovery?.receiverAssetId && !receiverAsset) || !chestAsset) throw new Error('Frontier discovery visual assets missing');
+  const anchor = receiverAsset ? discovery.landmarkPos : discovery.pos;
+  if (![anchor?.x, anchor?.y, anchor?.z].every(Number.isFinite)) throw new Error('Frontier discovery position missing');
   const group = new THREE.Group();
   group.name = `frontier_discovery_${discovery.id}`;
-  group.position.set(discovery.landmarkPos.x, discovery.landmarkPos.y, discovery.landmarkPos.z);
-  const receiverRoot = createVisualAssetVisual(receiverAsset);
-  receiverRoot.name = `${discovery.id}:receiver`;
-  receiverRoot.rotation.y = discovery.rotY ?? 0;
-  group.add(receiverRoot);
+  group.position.set(anchor.x, anchor.y, anchor.z);
+  const receiverRoot = receiverAsset ? createVisualAssetVisual(receiverAsset) : null;
+  if (receiverRoot) {
+    receiverRoot.name = `${discovery.id}:receiver`;
+    receiverRoot.rotation.y = discovery.rotY ?? 0;
+    group.add(receiverRoot);
+  }
   const chestRoot = createVisualAssetVisual(chestAsset);
   chestRoot.name = discovery.id;
   chestRoot.rotation.y = discovery.rotY ?? 0;
+  chestRoot.scale.setScalar(chestScale);
   chestRoot.position.set(
-    discovery.pos.x - discovery.landmarkPos.x,
-    discovery.pos.y - discovery.landmarkPos.y,
-    discovery.pos.z - discovery.landmarkPos.z,
+    discovery.pos.x - anchor.x,
+    discovery.pos.y - anchor.y,
+    discovery.pos.z - anchor.z,
   );
   group.add(chestRoot);
-  const terrainSurfaces = [
-    collisionSurface(`${discovery.id}:receiver`, receiverAsset, discovery.landmarkPos, discovery.rotY),
-    collisionSurface(`${discovery.id}:chest`, chestAsset, discovery.pos, discovery.rotY),
-  ];
+  const terrainSurfaces = [];
+  if (receiverAsset) terrainSurfaces.push(collisionSurface(`${discovery.id}:receiver`, receiverAsset, discovery.landmarkPos, discovery.rotY));
+  terrainSurfaces.push(collisionSurface(`${discovery.id}:chest`, chestAsset, discovery.pos, discovery.rotY, chestScale));
   let disposed = false;
   return { group, chestRoot, receiverRoot, terrainSurfaces, dispose() {
     if (disposed) return;
-    disposeVisualRoot(receiverRoot);
+    if (receiverRoot) disposeVisualRoot(receiverRoot);
     disposeVisualRoot(chestRoot);
     group.clear();
     disposed = true;
   } };
 }
 
-/** Streams the fixed discovery with terrain residency; save and reward state stay in existing owners. */
+/** Streams bounded discoveries with terrain residency; save and reward state stay in existing owners. */
 export function createFrontierDiscoveryRuntime({
   parent, terrainRuntime, physicsWorld, lootRegistry, discoveries = [], visualAssets = [],
   registerLootMechanism = () => {}, unregisterLootMechanism = () => {},
   onVisualAdded = () => {}, onVisualRemoving = () => {}, onGeometryChanged = () => {},
   createVisual = createFrontierDiscoveryVisual,
 } = {}) {
-  let lastResidency = null, resident = null, visual = null, disposed = false;
+  const definitionsByChunk = new Map();
+  const definitionOrder = new Map();
+  for (let index = 0; index < discoveries.length; index += 1) {
+    const discovery = discoveries[index];
+    if (!discovery?.id || !discovery?.chunkId || definitionOrder.has(discovery.id)) {
+      throw new Error(`invalid or duplicate frontier discovery ${discovery?.id ?? 'unknown'}`);
+    }
+    definitionOrder.set(discovery.id, index);
+    const chunkDefinitions = definitionsByChunk.get(discovery.chunkId) ?? [];
+    chunkDefinitions.push(discovery);
+    definitionsByChunk.set(discovery.chunkId, chunkDefinitions);
+  }
+  let lastResidency = null, disposed = false;
+  const residents = new Map();
 
-  function retire(removePhysics = true) {
-    if (!resident || !visual) return;
-    if (removePhysics) physicsWorld?.updateTerrainSurfaces({ remove: visual.terrainSurfaces.map(surface => surface.id) });
-    unregisterLootMechanism(resident.id, visual.chestRoot);
-    onVisualRemoving(visual.receiverRoot);
-    lootRegistry?.setResidentDiscoveryIds([]);
-    parent?.remove(visual.group);
-    visual.dispose();
-    resident = null; visual = null;
-    onGeometryChanged();
+  function orderedResidentIds() {
+    return [...residents.keys()].sort((a, b) => definitionOrder.get(a) - definitionOrder.get(b));
+  }
+
+  function retireEntries(entries, removePhysics = true) {
+    if (!entries.length) return;
+    if (removePhysics) physicsWorld?.updateTerrainSurfaces({
+      remove: entries.flatMap(entry => entry.visual.terrainSurfaces.map(surface => surface.id)),
+    });
+    for (const entry of entries) {
+      unregisterLootMechanism(entry.discovery.id, entry.visual.chestRoot);
+      if (entry.visual.receiverRoot) onVisualRemoving(entry.visual.receiverRoot);
+      parent?.remove(entry.visual.group);
+      entry.visual.dispose();
+      residents.delete(entry.discovery.id);
+    }
   }
 
   function update() {
     if (disposed) return;
     const residency = terrainRuntime?.getResidency?.();
     if (residency === lastResidency) return;
-    const chunkIds = new Set(residency?.chunks?.map(chunk => chunk.id) ?? []);
-    const next = discoveries.find(discovery => chunkIds.has(discovery.chunkId)) ?? null;
-    if (next?.id === resident?.id) { lastResidency = residency; return; }
-    if (!next) { retire(); lastResidency = residency; return; }
-    const nextVisual = createVisual({ discovery: next, visualAssets });
-    const remove = (visual?.terrainSurfaces ?? []).map(surface => surface.id);
+    const desired = new Map();
+    for (const chunk of residency?.chunks ?? []) {
+      for (const discovery of definitionsByChunk.get(chunk.id) ?? []) desired.set(discovery.id, discovery);
+    }
+    const removed = [...residents.values()].filter(entry => !desired.has(entry.discovery.id));
+    const additions = [...desired.values()]
+      .filter(discovery => !residents.has(discovery.id))
+      .sort((a, b) => definitionOrder.get(a.id) - definitionOrder.get(b.id));
+    if (!removed.length && !additions.length) { lastResidency = residency; return; }
+
+    const staged = [];
     try {
-      physicsWorld?.updateTerrainSurfaces({ remove, add: nextVisual.terrainSurfaces });
+      for (const discovery of additions) staged.push({ discovery, visual: createVisual({ discovery, visualAssets }) });
     } catch (error) {
-      nextVisual.dispose();
+      for (const entry of staged) entry.visual.dispose();
       throw error;
     }
-    retire(false);
-    parent?.add(nextVisual.group);
-    resident = next; visual = nextVisual;
-    lootRegistry?.setResidentDiscoveryIds([next.id]);
-    registerLootMechanism(next, nextVisual.chestRoot);
-    onVisualAdded(nextVisual.receiverRoot);
+    const remove = removed.flatMap(entry => entry.visual.terrainSurfaces.map(surface => surface.id));
+    const add = staged.flatMap(entry => entry.visual.terrainSurfaces);
+    try {
+      physicsWorld?.updateTerrainSurfaces({ remove, add });
+    } catch (error) {
+      for (const entry of staged) entry.visual.dispose();
+      throw error;
+    }
+
+    retireEntries(removed, false);
+    for (const entry of staged) {
+      parent?.add(entry.visual.group);
+      residents.set(entry.discovery.id, entry);
+      registerLootMechanism(entry.discovery, entry.visual.chestRoot);
+      if (entry.visual.receiverRoot) onVisualAdded(entry.visual.receiverRoot);
+    }
+    lootRegistry?.setResidentDiscoveryIds(orderedResidentIds());
     lastResidency = residency;
     onGeometryChanged();
   }
 
   function dispose() {
     if (disposed) return;
-    retire(); lastResidency = null; disposed = true;
+    const entries = [...residents.values()];
+    retireEntries(entries);
+    lootRegistry?.setResidentDiscoveryIds([]);
+    if (entries.length) onGeometryChanged();
+    lastResidency = null; disposed = true;
   }
   return {
     update, dispose,
-    getVisualRoot: id => resident?.id === id ? visual?.chestRoot ?? null : null,
-    getDebugState: () => ({ residentId: resident?.id ?? null, colliderCount: visual?.terrainSurfaces?.length ?? 0 }),
+    getVisualRoot: id => residents.get(id)?.visual.chestRoot ?? null,
+    getDebugState: () => {
+      const residentIds = orderedResidentIds();
+      return {
+        residentId: residentIds[0] ?? null,
+        residentIds,
+        colliderCount: [...residents.values()].reduce((sum, entry) => sum + entry.visual.terrainSurfaces.length, 0),
+      };
+    },
   };
 }

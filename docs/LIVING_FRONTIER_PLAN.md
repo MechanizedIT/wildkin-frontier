@@ -2,7 +2,7 @@
 
 September 12, 2026. Chris approved the procedural exploration / creature-life direction and resumed continuous goal-mode development from `11393c7`. This is an in-place pivot on local `main`, not an alternate game or a compatibility project. The earlier finite campaign is useful source material, not the destination.
 
-Current local checkpoint: broad seeded provinces now surround the preserved Camp/Skybreak route. Irregular roughly600m sites blend lush, Sunscar and Ironspine terrain, color and bounded life recipes. A continuous boundary walk, regional crystal gathering, highland footing and literal reload passed at full health. All1,191 tests and aggregate build/validation pass. Selected R3 art remains5.5/10 HOLD, especially in ordinary portrait play. Exact fixtures, package proof and remaining gaps: `art/reviews/regional-provinces/receipt.md`. This remains local work after the separately delivered `4298dd5` + `08e36a5` GitHub/Drive checkpoint.
+Current local checkpoint adds59 seeded Lush groves with persistent Mossling seals and useful supply caches after `b000cab`’s continent/coast. Source/native/portable checks and all1,319 tests/package gates pass. Grove R3 remains7.7/10 HOLD; coast6.4 and earlier province terrain5.5 remain visual debt. Current scope/priorities are in `CURRENT_SLICE.md` and `EARLY_ALPHA_PLAN.md`; exact new evidence is in `art/reviews/lush-groves/receipt.md`. The last separately delivered remote backup is `3371a9d`; subsequent local work does not update the published Drive PDFs automatically.
 
 ## Early-alpha priority
 
