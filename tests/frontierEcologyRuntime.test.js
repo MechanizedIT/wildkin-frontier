@@ -4,6 +4,10 @@ import * as THREE from 'three';
 import * as RAPIER from '@dimforge/rapier3d-compat';
 import { createResourceSystem } from '../src/resources/resourceSystem.js';
 import { createFrontierEcologyRuntime } from '../src/world/frontierEcologyRuntime.js';
+import { createFrontierProgress } from '../src/save/frontierProgress.js';
+import { sampleFrontier } from '../src/world/frontierTerrain.js';
+import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalPlace.js';
+import { WORLD_DATA } from '../src/world/data/world.js';
 
 await RAPIER.init();
 test('ecology runtime follows terrain residency without duplicate churn and retires residents', () => {
@@ -104,4 +108,72 @@ test('real Rapier generated forage restores a committed harvest after resident u
     snapshot = { center: { cx: 3, cz: 2 }, chunks: [{ id: '3,2', cx: 3, cz: 2, origin: { x: 150, z: 100 } }] }; runtime.update();
     assert.equal(resources.nodes.find(candidate => candidate.id === node.id).state.remainingChunks, remaining);
   } finally { runtime.dispose(); world.free(); }
+});
+
+test('seeded bloom crystal keeps scaled collision, failed-save safety and finite depletion through real residency and reload', () => {
+  const priorStorage = globalThis.localStorage;
+  let stored = null, fail = false;
+  globalThis.localStorage = {
+    getItem: () => stored,
+    setItem: (_key, value) => { if (fail) throw new Error('quota'); stored = value; },
+  };
+  let progress = createFrontierProgress(); progress.load();
+  const world = new RAPIER.World({ x: 0, y: 0, z: 0 });
+  const resources = createResourceSystem(new THREE.Scene(), { world, RAPIER }, [], {
+    readPersistentResource: id => progress.getFrontierEcologyState().resources[id],
+    commitPersistentResource: (id, remaining) => progress.commitFrontierResourceState(id, remaining),
+  });
+  const resident = () => ({ center: { cx: -5, cz: -2 }, chunks: [{ id: '-5,-2', cx: -5, cz: -2 }] });
+  let snapshot = resident();
+  const terrainRuntime = { getResidency: () => snapshot, getHeight: (x, z) => sampleFrontier(x, z).height, sample: sampleFrontier };
+  const runtime = createFrontierEcologyRuntime({ terrainRuntime, resourceSystem: resources, visualAssets: WORLD_DATA.visualAssets });
+  const id = 'f1:r:-5:-2:200';
+  try {
+    runtime.update();
+    let node = resources.getNodes().find(node => node.id === id);
+    const source = sampleFrontierRegionalPlaceChunk(-5, -2).resources.find(source => source.index === 200);
+    assert.ok(node, 'the real seeded recipe reaches resource residency');
+    assert.equal(node.type.resourceId, 'crystal_shard');
+    assert.equal(node.state.remainingChunks, 4);
+    assert.equal(node.persistentFinite, true);
+    assert.equal(node.state.uniformScale, source.uniformScale);
+    assert.equal(node.state.rotationY, source.yaw);
+    assert.ok(Math.abs(node.collider.halfExtents().x - 2.04 * source.uniformScale / 2) < 1e-5);
+    assert.ok(Math.abs(node.collider.rotation().y - Math.sin(source.yaw / 2)) < 1e-5);
+    let emitted = 0;
+    assert.equal(resources.applyHit(node, () => emitted++), true);
+    assert.equal(node.state.remainingChunks, 3);
+    assert.equal(emitted, 1);
+    const beforeSave = stored, beforeVisibility = node.chunkMeshes.map(mesh => mesh.visible);
+    fail = true;
+    assert.equal(resources.applyHit(node, () => emitted++), false);
+    assert.equal(stored, beforeSave);
+    assert.equal(node.state.remainingChunks, 3);
+    assert.deepEqual(node.chunkMeshes.map(mesh => mesh.visible), beforeVisibility);
+    assert.equal(emitted, 1, 'a rejected write grants no pickup');
+    fail = false;
+    snapshot = { center: null, chunks: [] }; runtime.update();
+    progress = createFrontierProgress(); progress.load();
+    snapshot = resident(); runtime.update();
+    node = resources.getNodes().find(node => node.id === id);
+    assert.equal(node.state.remainingChunks, 3);
+    assert.deepEqual(node.chunkMeshes.map(mesh => mesh.visible), beforeVisibility);
+    for (let hit = 0; hit < 3; hit++) assert.equal(resources.applyHit(node, () => emitted++), true);
+    assert.equal(emitted, 4);
+    snapshot = { center: null, chunks: [] }; runtime.update();
+    progress = createFrontierProgress(); progress.load();
+    snapshot = resident(); runtime.update();
+    node = resources.getNodes().find(node => node.id === id);
+    resources.update(100, { x: source.x, y: 20, z: source.z + 5 }, 'walk', 0, false);
+    assert.equal(node.state.remainingChunks, 0);
+    assert.equal(node.state.respawnRemaining, Infinity);
+    assert.equal(node.visualRoot.visible, false);
+    assert.equal(node.collider, null);
+    assert.equal(resources.applyHit(node, () => emitted++), false);
+    assert.equal(emitted, 4);
+  } finally {
+    runtime.dispose(); world.free();
+    if (priorStorage === undefined) delete globalThis.localStorage;
+    else globalThis.localStorage = priorStorage;
+  }
 });

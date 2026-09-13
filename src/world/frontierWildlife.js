@@ -3,6 +3,7 @@ import { createWildkinGenome } from '../creatures/wildkinGenome.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
+import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 
 const EDGE = 5;
 const SLOPE_SAMPLE = .8;
@@ -165,6 +166,21 @@ function makeRegionalPlacement(cx, cz, index, x, z, options) {
   return Object.freeze({ ...makeSideEncounter(cx, cz, index, x, z, speciesId, 90, options), regionalSignature: true });
 }
 
+function nearbyRegionalPlaces(cx, cz, options) {
+  if (!hasRegionalPlaceAssets(options.visualAssets)) return [];
+  const places = [];
+  for (let dz = -1; dz <= 1; dz += 1) for (let dx = -1; dx <= 1; dx += 1) {
+    const place = sampleFrontierRegionalPlaceChunk(cx + dx, cz + dz, options);
+    if (place) places.push(place);
+  }
+  return places;
+}
+
+function homeDiskIntersectsPlace(placement, places) {
+  const movementRadius = Math.max(0, placement.roamRadius ?? 0, placement.leashRadius ?? 0, placement.fleeLeashRadius ?? 0);
+  return places.some(place => Math.hypot(placement.homePos.x - place.center.x, placement.homePos.z - place.center.z) < movementRadius + place.radius);
+}
+
 /** Pure, stable Wildkin sources for a terrain chunk. */
 export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
@@ -179,6 +195,10 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
   const sampleOptions = { ...options, world };
   if (!starterShelf && !emberShelf && !skybreakCrown && roll(0, 13) >= .22) return [];
+  // Sample each neighboring owner at most once for this chunk. A place center
+  // is inset from its owner edge, but a creature's complete movement disk can
+  // still cross the seam from an adjacent chunk.
+  const places = nearbyRegionalPlaces(cx, cz, sampleOptions);
   const candidates = starterShelf
     ? [[7, -85], [20, -95], [17, -79]]
     : emberShelf
@@ -196,18 +216,23 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
       const sample = terrainSample(x, z, sampleOptions);
       if (!Number.isFinite(sample.height) || slopeAt(x, z, sampleOptions) > MAX_SLOPE
         || (skybreakCrown ? !hasSafeSkybreakHome(x, z, sampleOptions) : !hasSafeHome(x, z, sampleOptions))) continue;
-      if (starterShelf && index < 2) placements.push(makeMosslingPlacement(cx, cz, index, x, z, sampleOptions));
-      else if (starterShelf) placements.push(makeSideEncounter(cx, cz, index, x, z, 'tidefin', 2, sampleOptions));
-      else if (emberShelf) placements.push(makeSideEncounter(cx, cz, index, x, z, 'emberhorn', 3, sampleOptions));
+      let placement = null;
+      if (starterShelf && index < 2) placement = makeMosslingPlacement(cx, cz, index, x, z, sampleOptions);
+      else if (starterShelf) placement = makeSideEncounter(cx, cz, index, x, z, 'tidefin', 2, sampleOptions);
+      else if (emberShelf) placement = makeSideEncounter(cx, cz, index, x, z, 'emberhorn', 3, sampleOptions);
       else if (sample.surfaceKind === 'skybreak-cap') {
-        placements.push(Object.freeze({ ...makeMosslingPlacement(cx, cz, 100, x, z, sampleOptions), residentPriority: 4 }));
+        placement = Object.freeze({ ...makeMosslingPlacement(cx, cz, 100, x, z, sampleOptions), residentPriority: 4 });
       }
+      if (placement && !homeDiskIntersectsPlace(placement, places)) placements.push(placement);
     }
     return placements;
   }
   for (const [x, z] of candidates) {
     const sample = terrainSample(x, z, sampleOptions);
-    if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE && hasSafeHome(x, z, sampleOptions)) return [makeRegionalPlacement(cx, cz, 0, x, z, sampleOptions)];
+    if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE && hasSafeHome(x, z, sampleOptions)) {
+      const placement = makeRegionalPlacement(cx, cz, 0, x, z, sampleOptions);
+      if (!homeDiskIntersectsPlace(placement, places)) return [placement];
+    }
   }
   return [];
 }

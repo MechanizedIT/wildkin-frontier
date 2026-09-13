@@ -1,0 +1,46 @@
+{
+  "collider": false,
+  "health": 5,
+  "origins": [
+    "http://localhost:8081"
+  ],
+  "owned": 6,
+  "pack": {
+    "berries": 2,
+    "crystal_shard": 14,
+    "fiber": 2,
+    "iron_ore": 12,
+    "stone": 0,
+    "wildflower": 3,
+    "wood": 1
+  },
+  "remaining": 0,
+  "returnWalk": {
+    "done": true,
+    "elapsedMs": 2044.5999999940395,
+    "end": {
+      "x": -217.5818023681641,
+      "y": 15.339322090148926,
+      "z": -66.72505187988281
+    },
+    "healthEnd": 5,
+    "healthStart": 5,
+    "reason": "complete"
+  },
+  "visible": false,
+  "xp": 8,
+  "walkThrough": {
+    "done": true,
+    "elapsedMs": 921.3999999910592,
+    "end": {
+      "x": -223.0012969970703,
+      "y": 15.41521167755127,
+      "z": -71.45651245117188
+    },
+    "healthEnd": 5,
+    "healthStart": 5,
+    "reason": "complete"
+  },
+  "developerLogs": [],
+  "portableLogs": []
+}

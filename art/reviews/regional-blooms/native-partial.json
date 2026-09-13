@@ -1,0 +1,24 @@
+{
+  "health": 5,
+  "initialApproach": {
+    "elapsedMs": 1128.2000000029802,
+    "reason": "complete"
+  },
+  "owned": 6,
+  "pack": {
+    "berries": 2,
+    "crystal_shard": 12,
+    "fiber": 2,
+    "iron_ore": 12,
+    "stone": 0,
+    "wildflower": 3,
+    "wood": 1
+  },
+  "pos": {
+    "x": -220.606201171875,
+    "y": 15.43542194366455,
+    "z": -69.65888977050781
+  },
+  "remaining": 2,
+  "toolInput": "400ms ordinary W+A to enter reach, held F released after first observed hit; queued follow-through produced two total hits, both pickups collected."
+}

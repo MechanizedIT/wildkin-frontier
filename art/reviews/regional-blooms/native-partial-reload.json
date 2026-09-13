@@ -1,0 +1,14 @@
+{
+  "health": 5,
+  "owned": 6,
+  "pack": {
+    "berries": 2,
+    "crystal_shard": 12,
+    "fiber": 2,
+    "iron_ore": 12,
+    "stone": 0,
+    "wildflower": 3,
+    "wood": 1
+  },
+  "remaining": 2
+}

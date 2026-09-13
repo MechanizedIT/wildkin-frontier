@@ -1,0 +1,131 @@
+{
+  "recordedAt": "2026-09-13T07:10:18.875Z",
+  "baseCommit": "4029f66a9572e16595f71e4850c482ff0c040b6f",
+  "selected": "R3",
+  "scores": [
+    7,
+    7.6,
+    8
+  ],
+  "tests": {
+    "passed": 1233,
+    "failed": 0
+  },
+  "verify": "PASS",
+  "zip": "PASS",
+  "unpackedMiB": 44.2,
+  "zipMiB": 20.55,
+  "fixture": "Isolated developer/portable saves; staged site positions; ordinary input and literal reload; no physical-phone or cold offline claim",
+  "files": [
+    {
+      "path": "src/world/frontierRegionalPlace.js",
+      "bytes": 10262,
+      "sha256": "39c5b4d0aba357e85804f347594f933b62c289cd055ad3882bd2160de11e7edd"
+    },
+    {
+      "path": "src/world/frontierEcology.js",
+      "bytes": 15859,
+      "sha256": "3a7778e93210d47c763ab8f6013055c007b0c0d50cb263239068a65cc2929a00"
+    },
+    {
+      "path": "src/world/frontierScenery.js",
+      "bytes": 31859,
+      "sha256": "4f889ef4215e1efa30ca56264fd1da8e601cfd1efb5a9fa9c9759f108b8f613c"
+    },
+    {
+      "path": "src/world/frontierWildlife.js",
+      "bytes": 11556,
+      "sha256": "862ce8d0e6ed3dabaa72f5c3253f249395d5dcc15795e75200b0fa7fae4d86cb"
+    },
+    {
+      "path": "src/world/frontierWildlifeRuntime.js",
+      "bytes": 6171,
+      "sha256": "122696085cd242e59a74ae4d1fe8d51b77613de3b7fa05dcb8d4d5a300611e43"
+    },
+    {
+      "path": "tests/frontierRegionalPlace.test.js",
+      "bytes": 10474,
+      "sha256": "3a7dd175627ec26d07f28637166f18dd7216e2ae8d4450910facf81e421f3dec"
+    },
+    {
+      "path": "tests/frontierEcology.test.js",
+      "bytes": 15286,
+      "sha256": "6f8d2d3ee498bd1779d85feb0a96993c931b07718698caa2b7141367b3e1f4aa"
+    },
+    {
+      "path": "tests/frontierEcologyRuntime.test.js",
+      "bytes": 10176,
+      "sha256": "155862bfb0e82330955331eca996bce0e1e77a31a9d8fd1534d58e54311604c8"
+    },
+    {
+      "path": "tests/frontierScenery.test.js",
+      "bytes": 29989,
+      "sha256": "ece51803d7c3eb2146a3b9fb01a14031c994a098fb37cc38fa5dbf1e816e4fa1"
+    },
+    {
+      "path": "tests/frontierSceneryVisual.test.js",
+      "bytes": 11160,
+      "sha256": "c3d94418d811813a6a3ee651f9b8b3c38b463400c61c2b40d18b12cee5e321c8"
+    },
+    {
+      "path": "tests/frontierWildlife.test.js",
+      "bytes": 18277,
+      "sha256": "95bfc059aa1a0426be56da881608106c998523b782eee0aa1ae74b97ca4d3666"
+    },
+    {
+      "path": "src/world/data/world.js",
+      "bytes": 317,
+      "sha256": "f72520f4c5b50a4672a2dc649f775c0651d46ad169403497cc68d20d58cb26ec"
+    },
+    {
+      "path": "dist/submission/index.html",
+      "bytes": 16147667,
+      "sha256": "46269f7fafe46d00fdf0849b1998ee60995fdc394118c483ed4d23a1978f073c"
+    },
+    {
+      "path": "dist/submission.zip",
+      "bytes": 21550399,
+      "sha256": "a55ce272aeee4753e0388019ea9778dc55666889b58985af087ee1bc8adacbf1"
+    },
+    {
+      "path": "art/reviews/regional-blooms/asset-sheet.png",
+      "bytes": 46620,
+      "sha256": "734a03375144b36cd116247873adcb84d12c184d3b5ac4c25fd02e580b220952"
+    },
+    {
+      "path": "art/reviews/regional-blooms/baseline-portrait.png",
+      "bytes": 115438,
+      "sha256": "ba190b0e7c80be17631f3a7d57aed7931b301bfb97e8c555ac4cf2b93c20c5ca"
+    },
+    {
+      "path": "art/reviews/regional-blooms/cleft-portrait.png",
+      "bytes": 114921,
+      "sha256": "c55ff0de38afea969a4b5c16951eaf08d16549dc9c118a3b129ff52898cda166"
+    },
+    {
+      "path": "art/reviews/regional-blooms/portable-depleted-portrait.png",
+      "bytes": 121085,
+      "sha256": "bb0248e32206aac5338ec959b67ea65c773fbb9f6fbf92215b13d9a067360709"
+    },
+    {
+      "path": "art/reviews/regional-blooms/r1-portrait.png",
+      "bytes": 123545,
+      "sha256": "78ec84279f91e3f36ea6d7ffe4efa010b180421446646f6e5f757c629900c183"
+    },
+    {
+      "path": "art/reviews/regional-blooms/r2-portrait.png",
+      "bytes": 122624,
+      "sha256": "7b1433feede762e422df1133a278cdbaecdef61cf870cbfd6c65ed4cd08c8f00"
+    },
+    {
+      "path": "art/reviews/regional-blooms/r3-portrait.png",
+      "bytes": 125120,
+      "sha256": "f0cac3a0ffb9d03420d2a0f425ca8c02eee98e6e5ec7f98538ec17a6fe77100b"
+    },
+    {
+      "path": "art/reviews/regional-blooms/target.png",
+      "bytes": 1433078,
+      "sha256": "a870ad9db3ee4a7fd368ab7bee575832f110d20bee94ee1a6ee1a8dd9a019cc0"
+    }
+  ]
+}

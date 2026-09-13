@@ -4,6 +4,8 @@
 
 ## Current direction and evidence
 
+The active release target is now the staged [early alpha](EARLY_ALPHA_PLAN.md), not this historical campaign. Latest source checkpoint: selected Sunscar bloomR3 at8/10;1,233tests and verify/ZIP pass,44.20MB/20.55MB. Exact native/portable evidence and limits: `art/reviews/regional-blooms/receipt.md`.
+
 September13 local continuation: bounded detached terrain preparation and retained scenery recipes/exact point queries reduce measured maximum terrain85.3→20.1ms and scenery191.3→88.4ms. Existing support survives incoming collider-allocation failure. All1,218 tests and package checks pass;44.19MB unpacked/20.55MB ZIP. Frame-budget streaming, phone proof and broader secret variety remain unfinished; discovery R2 remains7/10 HOLD. Current evidence: `art/reviews/streaming-preparation/receipt.md`. The previously published illustrated checkpoint is separate from this local work.
 
 Use [Current slice](CURRENT_SLICE.md) for live implementation, test/package status, and the selected Skybreak/province foundations. Use [Living Frontier plan](LIVING_FRONTIER_PLAN.md) for the staged destination. Three broad seeded terrain/ecology grammars now extend beyond the protected starter area; selected province art remains5.5/10 HOLD. Current evidence belongs in the current slice and its receipts.

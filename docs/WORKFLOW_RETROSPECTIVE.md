@@ -1,5 +1,7 @@
 # Wildkin workflow retrospective
 
+September13 update: [ALPHA_WORKFLOW.md](ALPHA_WORKFLOW.md) records a two-batch trial after an independent comparison of Dream Loop, Rapid Alpha Producer and actual Wildkin receipts. Keep explicit ownership, feasible targets and focused failure/reload evidence. Reduce duplicate review, fragile route replay and micro-checkpoint ceremony. The trial is provisional; neither skill's general reputation proves effectiveness here, and aggregate test time alone has not been shown to dominate development.
+
 September 11, 2026. This records production lessons from the overnight work and physical-inventory cutover. It is a workflow review, not final package admission or owner approval of every art/balance choice.
 
 ## What worked

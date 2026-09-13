@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { FRONTIER_SCENERY_CONFIG, FRONTIER_SCENERY_POINT_MEMO_CAP, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter, createFrontierSceneryBuild, createFrontierSceneryRecipeCache } from '../src/world/frontierScenery.js';
+import { FRONTIER_SCENERY_CONFIG, FRONTIER_SCENERY_PLACE_LOOKUP_CAP, FRONTIER_SCENERY_POINT_MEMO_CAP, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter, createFrontierSceneryBuild, createFrontierSceneryRecipeCache } from '../src/world/frontierScenery.js';
 import { createFrontierSceneryVisual } from '../src/world/frontierSceneryVisual.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
 import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
 import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD } from '../src/world/frontierWorld.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
+import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalPlace.js';
 import { WORLD_DATA } from '../src/world/data/world.generated.js';
 
 const chunkGrid = (cx, cz) => {
@@ -15,13 +16,118 @@ const chunkGrid = (cx, cz) => {
   return { center: { cx, cz }, chunks };
 };
 
+test('the Sunscar bloom decor enters scenery as one exact low-prop formation within existing caps', () => {
+  const options = { visualAssets: WORLD_DATA.visualAssets };
+  const place = sampleFrontierRegionalPlaceChunk(-5, -2, options);
+  assert.ok(place);
+  const chunkSpecs = sampleFrontierSceneryChunk(-5, -2, options);
+  const formation = chunkSpecs.filter(spec => spec.regionalPlaceId === place.id);
+  assert.equal(formation.length, 7);
+  assert.deepEqual(formation.map(spec => ({
+    assetId: spec.assetId, x: spec.x, y: spec.y, z: spec.z, scale: spec.scale, yaw: spec.yaw,
+  })), place.scenery.map(spec => ({
+    assetId: spec.assetId, x: spec.x, y: spec.y, z: spec.z, scale: spec.scale, yaw: spec.yaw,
+  })), 'scenery consumes the authored world transforms without rotating or regrounding them');
+  assert.ok(chunkSpecs.some(spec => spec.id === 'f2c:s:-5:-2:seed-19'), 'safe foreground stones retain their established source recipe');
+  assert.ok(!chunkSpecs.some(spec => spec.id === 'f2c:s:-5:-2:seed-22'), 'the old overlapping foreground stones remain excluded by the bloom footprint');
+
+  const selected = selectFrontierScenery(chunkGrid(-5, -2), options);
+  const selectedFormation = selected.filter(spec => spec.regionalPlaceId === place.id);
+  assert.equal(selectedFormation.length, place.scenery.length, 'the nearby formation is admitted whole');
+  assert.ok(selected.length <= FRONTIER_SCENERY_CONFIG.maxTotal);
+  const nearSelected = selected.filter(spec => {
+    const [cx, cz] = spec.chunkId.split(',').map(Number);
+    return Math.max(Math.abs(cx + 5), Math.abs(cz + 2)) <= 1;
+  });
+  assert.ok(nearSelected.length <= FRONTIER_SCENERY_CONFIG.maxNear);
+});
+
+test('one bounded adjacent-owner lookup excludes ordinary scenery and grass across a place boundary', () => {
+  let placeCalls = 0;
+  const place = Object.freeze({
+    id: 'test-boundary-place', cx: -5, cz: -2, kind: 'sunscar-bloom',
+    center: Object.freeze({ x: -200.2, z: -70 }), radius: 7,
+    scenery: Object.freeze([]), resources: Object.freeze([]),
+  });
+  const flat = () => ({ height: 3, surfaceKind: 'ordinary', habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 0, provinceWeights: null });
+  const options = {
+    getHeight: () => 3, getTerrainSample: flat,
+    visualAssets: WORLD_DATA.visualAssets,
+    sampleForageChunk: () => [], sampleWildlifeChunk: () => [],
+    sampleRegionalPlaceChunk: (cx, cz) => { placeCalls++; return cx === -5 && cz === -2 ? place : null; },
+  };
+  const filter = createFrontierGroundCoverFilter(options);
+  for (let index = 0; index < 50; index++) assert.equal(filter(-199.9, -70), false);
+  assert.equal(placeCalls, 9, 'the adjacent 3x3 owner neighborhood is sampled once and then reused');
+  assert.ok(placeCalls <= FRONTIER_SCENERY_PLACE_LOOKUP_CAP);
+
+  const baseline = sampleFrontierSceneryChunk(-4, -2, { ...options, sampleRegionalPlaceChunk: () => null });
+  assert.ok(baseline.length > 0);
+  const centeredPlace = { ...place, cx: -4, center: { x: baseline[0].x, z: baseline[0].z }, radius: 7 };
+  const excluded = sampleFrontierSceneryChunk(-4, -2, {
+    ...options, sampleRegionalPlaceChunk: (cx, cz) => cx === -4 && cz === -2 ? centeredPlace : null,
+  });
+  assert.ok(excluded.every(spec => Math.hypot(spec.x - centeredPlace.center.x, spec.z - centeredPlace.center.z) >= centeredPlace.radius + .62));
+});
+
+test('place lookup cap bounds storage without changing over-cap exclusion semantics', () => {
+  let calls = 0;
+  const flat = () => ({ height: 3, surfaceKind: 'ordinary', habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 0, provinceWeights: null });
+  const place = Object.freeze({
+    id: 'over-cap-place', cx: 100, cz: 100, kind: 'sunscar-bloom',
+    center: Object.freeze({ x: 5025, z: 5025 }), radius: 7,
+    scenery: Object.freeze([]), resources: Object.freeze([]),
+  });
+  const options = {
+    getHeight: () => 3, getTerrainSample: flat,
+    visualAssets: WORLD_DATA.visualAssets,
+    sampleForageChunk: () => [], sampleWildlifeChunk: () => [],
+    sampleRegionalPlaceChunk: (cx, cz) => { calls++; return cx === 100 && cz === 100 ? place : null; },
+  };
+  const saturated = createFrontierGroundCoverFilter(options);
+  for (let index = 0; index < 9; index++) assert.equal(saturated((-20 - index * 4 + .5) * 50, -975), true);
+  assert.equal(calls, FRONTIER_SCENERY_PLACE_LOOKUP_CAP, 'nine disjoint neighborhoods fill the bounded cache');
+  assert.equal(saturated(5025, 5025), false, 'an uncached place beyond the cap still excludes its footprint');
+  assert.equal(createFrontierGroundCoverFilter(options)(5025, 5025), false, 'over-cap result matches a fresh lookup');
+});
+
+test('missing or malformed bloom assets leave no reservation, partial group, or ordinary recipe hole', () => {
+  const purePlace = sampleFrontierRegionalPlaceChunk(-5, -2);
+  const crystal = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_crystal');
+  const trail = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_trail_stones');
+  const catalogs = [
+    WORLD_DATA.visualAssets.filter(asset => asset.id !== 'asset_crystal'),
+    WORLD_DATA.visualAssets.map(asset => asset.id === 'asset_crystal'
+      ? { ...crystal, collision: { ...crystal.collision, size: { ...crystal.collision.size, w: 2 } } } : asset),
+    WORLD_DATA.visualAssets.filter(asset => asset.id !== 'asset_cloudflower'),
+    WORLD_DATA.visualAssets.map(asset => asset.id === 'asset_trail_stones' ? { ...trail, parts: [] } : asset),
+  ];
+  for (const visualAssets of catalogs) {
+    let placeCalls = 0;
+    const common = {
+      visualAssets,
+      sampleForageChunk: () => [], sampleWildlifeChunk: () => [],
+    };
+    const expected = sampleFrontierSceneryChunk(-5, -2, { ...common, sampleRegionalPlaceChunk: () => null });
+    const actual = sampleFrontierSceneryChunk(-5, -2, {
+      ...common,
+      sampleRegionalPlaceChunk: () => { placeCalls++; return purePlace; },
+    });
+    assert.equal(placeCalls, 0, 'invalid catalogs fail before reserving or sampling a place');
+    assert.ok(actual.length > 0 && actual.length <= 6, 'ordinary scenery keeps its established recipe budget');
+    assert.ok(actual.every(spec => !spec.regionalPlaceId));
+    assert.deepEqual(actual, expected);
+  }
+});
+
 test('one residency build shares a bounded exclusion-recipe cache across selection and ground cover', () => {
   let forageCalls = 0, wildlifeCalls = 0;
   const flatSample = () => ({ height: 3, surfaceKind: 'ordinary', habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 0, provinceWeights: null });
   const build = createFrontierSceneryBuild(chunkGrid(-13, -7), {
     getHeight: () => 3,
     getTerrainSample: flatSample,
-    visualAssets: [],
+    visualAssets: WORLD_DATA.visualAssets,
+    sampleRegionalPlaceChunk: () => null,
     sampleForageChunk: () => { forageCalls++; return []; },
     sampleWildlifeChunk: () => { wildlifeCalls++; return []; },
   });
@@ -42,7 +148,10 @@ test('one residency build shares a bounded exclusion-recipe cache across selecti
     assert.equal(forageCalls, 49);
     assert.equal(wildlifeCalls, 49);
     assert.ok(forageCalls <= 81 && wildlifeCalls <= 81, 'the private 9x9 source envelope is a hard bound');
-  } finally { visual.dispose(); }
+    const places = build.getRegionalPlaceLookupDebugState();
+    assert.ok(places.placeCount > 0 && places.placeCount <= FRONTIER_SCENERY_PLACE_LOOKUP_CAP);
+  } finally { visual.dispose(); build.releaseTerrainMemo(); }
+  assert.deepEqual(build.getRegionalPlaceLookupDebugState(), { placeCount: 0 }, 'build release clears the place lookup retained by the grass closure');
 });
 
 test('shared exclusion recipes preserve selected specs and clearance decisions', () => {

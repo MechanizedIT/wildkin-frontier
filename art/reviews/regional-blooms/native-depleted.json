@@ -1,0 +1,33 @@
+{
+  "colliderPresent": false,
+  "health": 5,
+  "owned": 6,
+  "pack": {
+    "berries": 2,
+    "crystal_shard": 14,
+    "fiber": 2,
+    "iron_ore": 12,
+    "stone": 0,
+    "wildflower": 3,
+    "wood": 1
+  },
+  "pickups": {
+    "active": 0,
+    "pendingSources": 0,
+    "pooled": 1
+  },
+  "pos": {
+    "x": -220.606201171875,
+    "y": 15.435422897338867,
+    "z": -69.65888977050781
+  },
+  "remaining": 0,
+  "render": {
+    "calls": 31,
+    "triangles": 63945
+  },
+  "scenery": 22,
+  "state": "RESPAWNING",
+  "visible": false,
+  "xp": 8
+}

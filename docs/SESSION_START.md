@@ -1,43 +1,33 @@
-# Start the next Wildkin Frontier session
+# Resume Wildkin Frontier
 
-**Resumed September12: Living Frontier pivot.** Chris approved continuous goal-mode work on procedural geography and creature life. Read CURRENT_SLICE and LIVING_FRONTIER_PLAN first. The stopped-session details below are baseline evidence, not the next-work mandate. Continue bounded slices until Chris asks to stop.
+Chris has authorized continuous goal-mode development on main until he asks to stop. The September 12 reboot handoff is historical. Latest bedtime priority: build a playable early alpha soon, with a bounded seeded continent, distinctive habitats and practically useful Wildkin; read the staged scope before implementing.
 
-**Latest checkpoint, September13: terrain preparation and scenery reuse.** Read `art/reviews/streaming-preparation/receipt.md`. Ordinary movement prepares at most one detached terrain piece per tick, with25 published/nine maximum prepared; complete-window publication follows successful collider installation. Incoming allocation failures preserve existing support. Scenery retains bounded overlapping recipes and releases exact-point memos after construction. On the matching native route, maximum terrain85.3→20.1ms and scenery191.3→88.4ms; hitches and phone proof remain open. All1,218 tests and verify/build/validate/ZIP pass;44.19MB/20.55MB. Work remains local after the already delivered GitHub/Drive request. Next: richer distinctive exploration places using the existing discovery lifecycle; define exact scope before production. The later paragraphs retain previous checkpoint history.
+## Read only what owns the next outcome
 
-**Latest checkpoint: seeded provinces.** Read `art/reviews/regional-provinces/receipt.md`. Three roughly600m province grammars now share terrain/color/ecology outside the exact starter reserve. R3 selected5.5/10 HOLD after4.5/5.0: portrait terrain still reads too sparsely. Native boundary crossing36.523s, crystal gathering6→10, highland footing near63m, unload/revisit and literal developer/portable reload passed at health5. All1,191 tests and verify/build/validate/ZIP pass;44.17MB/20.54MB.19 exact source/image/package hashes and all fixtures are in the receipt directory. This is local work following52904c2, after the already delivered4298dd5/08e36a5 GitHub/Drive request. Next: visible exploration/portrait landmarks and movement-time streaming stalls, with a bounded scope before production.
+1. `CURRENT_SLICE.md` → `EARLY_ALPHA_PLAN.md` → relevant entries in `CODE_MAP.md`. The larger destination and owner steering remain in `LIVING_FRONTIER_PLAN.md`.
+2. Use `.agents/skills/wildkin-development/SKILL.md` and the two-batch trial in `ALPHA_WORKFLOW.md`; it borrows selected Rapid Alpha Producer ideas and keeps Dream Loop for substantive visual work. One writer per shared file, economical independent workers, one consolidated review/repair packet, focused tests during changes and one integrated package gate. Three art rounds are a ceiling.
+3. Inspect Git/workers before editing. Preserve unrelated Verdant composer/test and local art experiments. Work directly on main; do not create a branch.
 
-1. Read docs/CURRENT_SLICE.md and docs/SESSION_HANDOFF_2026-09-12.md. Then use docs/CODE_MAP.md for the relevant owner; do not load the full build log or every historic plan.
-2. Check git status --short and git log -3 --oneline. Work directly on main. Preserve unrelated source experiments and existing user work.
-3. For playtesting, check port8080 first. After reboot, run npm run dev from C:/Users/cwood/Documents/mobile-rpg. Keep its terminal alive, or have Codex start the Node server as a hidden background process with local log files. No npm install is normally needed on this PC. Local address: http://localhost:8080/ . Re-read the PC's current private IPv4 for phone testing;192.168.4.96 was the last address, not a post-reboot guarantee. Port8081 is the optional packaged server, npm run serve:submission.
-4. Do not start Blender/TRELLIS or a browser farm. One necessary heavy job at a time, with current resource checks. The existing tools do not need reinstalling merely because the PC restarted.
+## Current playable checkpoint
 
-## Current result
+The selected Sunscar bloom R3 scored8.0/10 PASS after7.0/7.6. All 1,233 tests and verify/world/retained-campaign/build/validate/ZIP pass;44.20 MB unpacked/20.55 MB ZIP. Native ordinary harvest increased crystal10→12→14; partial depletion survived unloading and literal reload. Six owned Wildkin,12 iron,8 XP and health 5 were preserved. Exact portable continuation and limitations are recorded in `art/reviews/regional-blooms/receipt.md`.
 
-Living Frontier now adds generated Tidefin/Emberhorn encounters, terrace iron/crystal supply and cheaper upright grass. F2E reuse review8.0PASS; F2F selectedR3 at7.4HOLD with remaining sparse-world/dark-root debt. Native Tidefin snare/release, exact pending reload and Camp banking passed. Portrait guide/toast stretching is repaired. Final1,137tests and verify/build/validate/ZIP PASS;44.11MB/20.53MB. Native safe-route health5 and packaged Jump/five-individual identity passed. Receipts: `art/reviews/living-frontier-f2e/receipt.md`, `art/reviews/living-frontier-f2f/receipt.md`. Full native Emberhorn dodge/tether capture and physical-phone testing remain open.
+The deposit recipe, ecology/scenery/wildlife consumers and runtime catalog injection are integrated. Seven decor pieces stay together; canonical assets and all scaled footprints are validated. R3 is selected; do not reopen its target for minor polish. Earlier broad province art remains5.5/10 HOLD and Signal Cache art7/10 HOLD. Physical-phone proof remains open.
 
-**Current: world descriptor integrated and verified.** Progress loads one immutable identity before all terrain/content runtimes; default output and existing discoveries/individuals survive unchanged. Final1,145tests, verify/build/validate/ZIP PASS;44.11MB/20.53MB. Actual portable Jump and same five owned individuals passed. Receipt: `art/reviews/world-descriptor/receipt.md`. Alternate descriptors are generator tests only; saves still reject foreign seeds until complete provenance namespaces exist.
+## Next useful work
 
-**Latest checkpoint: five-slot portrait hotbar, shared growth clock and generation inspector.** R3 HUD9/10 PASS; narrow-screen secondary/nursery overlap corrected with native proof.1,147tests/verify passed, final CSS focused/native closure and rebuilt/validated ZIP44.12MB/20.53MB. Portable Jump, five owned identities, empty-item feedback and active/paused/resumed nursery growth passed. Receipts: `art/reviews/portrait-hotbar/receipt.md`, `art/reviews/frontier-inspector/receipt.md`.
+Follow the consolidated early-alpha plan: clarify a physical field/Camp need and useful existing companion payoff, then expand contrasting habitat content and the bounded continent foundation in the chosen order. Do not turn this into a quest framework or require30new species before a first playable candidate. No new production scope is implied by historical candidate instructions.
 
-**Latest: Skybreak cap/lowland ecology.** Read `art/reviews/skybreak-ecology/receipt.md`. R3 scored6.4/10 HOLD; final correctness moved the crown Mossling to a fully sampled gentle home and preserved its source ID. Native4berry/4crystal collection,8.598s lure/bond,23.650s descent,44.840s Camp return and sixth-individual banking/reopen passed at health5. Portable capture repeated in8.622s. Final1,168tests and verify/build/validate/ZIP pass;44.14MB/20.54MB. Actual final screenshots and fixture limits are retained. Terrain geometry and ordinary wildlife remain unchanged; target art and physical-phone performance remain held. Continue the active goal toward bounded seeded regional identity work; set exact scope/ownership in CURRENT_SLICE first.
+## Local execution and save safety
 
-The requested GitHub/Drive backup is already delivered:4298dd5 plus receipt08e36a5. Consult `docs/research/living-frontier/delivery-receipt.json`. This subsequent ecology slice uses the ordinary local-main workflow; no repeat publication was requested.
+- Check port8080 before starting a server. `npm run dev` serves the working tree; optional `npm run serve:submission` serves the packaged result on8081. Existing review development uses8082. After a reboot, servers must be restarted; use hidden background windows with local logs when needed.
+- Preserve Chris's8080 browser tab/save. The isolated review tabs on8082 and8081 contain disclosed position/save fixtures. Use the normal save export/import owner; do not overwrite browser storage during a live pagehide snapshot. Release held keys/timers and temporary viewport overrides after proof.
+- The current review save has six owned Wildkin,12 iron,14 crystal,8 XP,health 5 and the claimed Signal Cache. This is test evidence, not a fresh earned playthrough. Pending ground pickups must be collected before reload evidence is claimed.
+- For phone testing, read the PC's current LAN address; historical addresses are not guarantees. Emulated portrait is not a physical-phone pass.
+- Do not start a browser farm or regenerate held assets. The isolated Emberfall candidate still requires its own handoff before integration; old finite-campaign docs are historical.
 
-## Inherited restart checkpoint
+## Publication and overnight allowance
 
-Latest owner direction additionally favors extreme alien geography and large biomes: narrow plateau chains, mountains, deserts and distinct vertical habitats, with future weather/day-night. See WORLD_GENERATION_PLAN for the proposed separate cave instances and simple component-style architecture; these future systems are not yet implemented.
+The newest documentation/source backup is explicitly requested. Verify matching remote HEAD and record the exact commit before reporting it; use [skip ci] for the source backup. Continue locally afterward. Prior Drive delivery lives in `docs/research/living-frontier/delivery-receipt.json`; the new Markdown supplement records later progress without silently claiming those PDFs were refreshed again.
 
-The game has the camera pitch/terrain collision pass, selected Shatterfen V3 and Backpack shortcut editing. Aggregate **966/966**, world/campaign, build/validation and ZIP pass;43.84MB unpacked /20.46MB ZIP. Native and packaged camera checks pass their disclosed fixtures. Physical-phone comfort/performance remains open. Exact evidence: art/reviews/gameplay-camera-v1/checkpoint.json.
-
-The next unintegrated candidate is Emberfall. Its image target passes8.1, but its standalone terrain test has one failing west-descent/foundry merge. Do not treat it as shipped or rerun expensive art generation. Read docs/EMBERFALL_CANDIDATE_HANDOFF.md before editing it. The opt-in test's .candidate.mjs suffix keeps the normal suite honest and passing while retaining a reproducible failure.
-
-## Resume efficiently
-
-- Use .agents/skills/wildkin-development/SKILL.md. The session handoff explains how Dream Loop, map review, local model production and focused native proof fit together.
-- One writer per production file. Root integrates canonical world/generated data and owns aggregate/package checks. The preserved Emberfall target author, implementer and final visual judge must remain separate roles.
-- Baseline maps, targets, role ledgers and accepted models are tracked. Rootfall V4 and Shatterfen V3 were provisional producer selections under bedtime delegation; Verdant V3 rocks were explicitly accepted by Chris. Do not silently swap candidates or reopen those loops.
-- Tidefin V3 is still isolated. Its remaining problem is native motion/timing admission, not a missing model-generation run.
-- Existing saves remain useful. Use an isolated browser for diagnostic grants/positions and label them. Never equate fixture navigation or screenshot samples with earned progression, uninterrupted animation perception or a physical-phone test.
-- Run focused tests while developing. At the next integrated boundary, npm run verify includes the normal Node suite, world/campaign checks, build and validation; follow with npm run zip and the relevant packaged smoke. Avoid redundant aggregate runs on unchanged source.
-
-The original restart wrap was local-only; Chris has now explicitly requested the next GitHub backup. Record exact remote confirmation before claiming synchronization. RECOVERY.md covers clone/tool/source recovery; WORKFLOW_RETROSPECTIVE.md records failures worth avoiding.
+Chris authorized one banked reset if allowance runs out overnight. It remains unused at this checkpoint. Check fresh limits before any redemption; do not consume it early, buy credits, or assume recurring authorization.

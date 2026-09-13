@@ -8,6 +8,7 @@ import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
 import { createFrontierWildlifeRuntime } from '../src/world/frontierWildlifeRuntime.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
+import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalPlace.js';
 
 function residency(cx, cz) {
   const chunks = [];
@@ -97,6 +98,26 @@ test('regional wildlife preserves zero-influence Mosslings and gives the Sunscar
   assert.equal(sampleFrontierWildlifeChunk(6, -30, { getTerrainSample: profileSample('lush') })[0].speciesTag, 'tidefin');
   assert.equal(sampleFrontierWildlifeChunk(6, -30, { getTerrainSample: profileSample('sunscar') })[0].speciesTag, 'emberhorn');
   assert.equal(sampleFrontierWildlifeChunk(6, -30, { getTerrainSample: profileSample('ironspine') })[0].speciesTag, 'emberhorn');
+});
+
+test('regional wildlife rejects an intersecting full home disk and retries outside the whole bloom', () => {
+  const reserved = () => ({
+    height: 9, habitatBlend: { wetland: 0, fernUpland: 1 }, surfaceKind: null,
+    provinceKind: null, provinceInfluence: 0, provinceWeights: { lush: 0, sunscar: 0, ironspine: 0 },
+  });
+  const sunscar = () => ({
+    ...reserved(), provinceKind: 'sunscar', provinceInfluence: 1,
+    provinceWeights: { lush: 0, sunscar: 1, ironspine: 0 },
+  });
+  const place = sampleFrontierRegionalPlaceChunk(37, -150, { getTerrainSample: sunscar, getHeight: () => 9 });
+  const [unreserved] = sampleFrontierWildlifeChunk(37, -150, { getTerrainSample: reserved, visualAssets: WORLD_DATA.visualAssets });
+  const [placed] = sampleFrontierWildlifeChunk(37, -150, { getTerrainSample: sunscar, visualAssets: WORLD_DATA.visualAssets });
+  assert.ok(place && unreserved && placed);
+  const priorDistance = Math.hypot(unreserved.homePos.x - place.center.x, unreserved.homePos.z - place.center.z);
+  assert.ok(priorDistance < place.radius + unreserved.leashRadius, 'the prior stable home disk intersects the place');
+  assert.notDeepEqual(placed.homePos, unreserved.homePos, 'the candidate loop advances instead of admitting the intersecting home');
+  const movementRadius = Math.max(placed.roamRadius, placed.leashRadius, placed.fleeLeashRadius ?? 0);
+  assert.ok(Math.hypot(placed.homePos.x - place.center.x, placed.homePos.z - place.center.z) >= place.radius + movementRadius);
 });
 
 test('runtime bounds live sources, retires unloaded chunks, and never restores a captured source', () => {

@@ -4,15 +4,18 @@ Implementation plan, September 12, 2026. Owner direction: procedural exploration
 
 Current local proof: Skybreak still distinguishes true caps, shoulders and lowland fingers and stages lower supplies, upper crystal and one Mossling home. Around its exact reserve, the local foundation adds a deterministic field of jittered roughly600m sites with smooth weighted ecotones and three height grammars: lush rolling ground, pale Sunscar ribs/basins and directional Ironspine ridges, clamped to0..84m. The same weights drive color and bounded ordinary forage/scenery/wildlife recipes. Selected R3 is5.5/10 HOLD; all1,191 tests and aggregate build/validation pass. Native/portable evidence is recorded in `art/reviews/regional-provinces/receipt.md`.
 
-**Latest explicit owner steering:** lean toward extreme geography and large biomes: tall narrow plateaus to jump between, different life/resources above and below, large mountains/deserts and unusual alien formations. Lay foundations for later weather and day/night. These are accepted direction; exact scales, algorithms and cave/architecture choices below remain provisional.
+**Latest explicit owner steering:** build one seeded continent surrounded by ocean rather than promise a fully infinite Minecraft-like world. Boats may later open larger continents. Within the first continent, lean toward extreme geography and large biomes: tall narrow plateaus to jump between, different life/resources above and below, large mountains/deserts and unusual alien formations. Aim over time for about10 distinct habitats, commonly two to four associated Wildkin each and roughly30 species, with dozens of adaptations. The first alpha ships a smaller finished portion and does not wait for that content count. Lay foundations for later weather and day/night. These are accepted direction; exact coast, scales, algorithms and cave/architecture choices below remain provisional.
 
 September13 continuation: `frontierDiscovery` validates one authored receiver/chest location on canonical seeded ground, with both object support/clearance checks. Persistent loot identity is independent of visual residency, preserving one-time and partial rewards through load/unload. Distributed regional secrets remain next-content work. Ordinary movement now prepares at most one detached incoming terrain chunk per tick, capped at nine alongside the25 published residents. The runtime publishes a complete window only after successful collider installation; initial/resume/teleport support remains synchronous. Scenery retains overlapping pure recipe calculations within a bounded window. Incoming collider allocation failures preserve existing support and allow retry; unrecoverable engine removal/step failures are outside that guarantee. Current measurements and limits: `art/reviews/streaming-preparation/receipt.md`.
 
-[`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) develops six regional grammars, progression principles and reusable ecology kits. Lush, Sunscar and Ironspine now have generated foundation grammars in the local foundation; their deeper ecology/discoveries and the other three families remain proposed.
+The current Sunscar-place checkpoint adds a sparse crystal-bloom recipe without a visited-place ledger or new generation layer. Pure geometry chooses one raw owner per seeded4×4 macrocell; local priority thinning guarantees no more than one surviving whole group in any3×3 chunk window. A site needs strong Sunscar weight as well as full reserve fade, complete low-slope support and a wide buffer from starter scenery. One shared asset predicate gates ecology, scenery and wildlife. Ecology supplies one real finite persistent crystal at slot200 and an optional separated cleft crystal at201; scenery consumes seven support props atomically; neighboring forage, scenery, grass and full wildlife home disks respect the same place. Fan and cleft are two reusable compositions, not a promise of endlessly unique distant places. Visual, aggregate and package evidence remains pending at `art/reviews/regional-blooms/receipt.md`.
+
+[`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) develops an initial six regional grammars, progression principles and reusable ecology kits; it is a staged expansion, not the new ten-habitat ceiling. Lush, Sunscar and Ironspine now have generated foundation grammars in the local foundation; their deeper ecology/discoveries and the next three families remain proposed.
 
 ```mermaid
 flowchart TD
-  S[Saved world seed + generation edition] --> G[Broad ridges, valleys and basins]
+  S[Saved world seed + generation edition] --> O[Continent mask + coast boundary]
+  O --> G[Broad ridges, valleys and basins]
   G --> H[Drainage basins and continuous river courses]
   H --> C[Moisture, temperature and exposure]
   C --> B[Blended habitat profiles]
@@ -36,6 +39,14 @@ Use three scales deliberately: broad regional ridges/basins, medium shoulders/ho
 Those ranges describe local landforms, not biome size. The owner's newer extreme-world steering calls for regions large enough to contain several distinct outings, with substantial height contrasts and recognizable skyline shapes. Tune biome extent and vertical range against actual travel time and portrait sightlines. A small flat clearing remains a useful test fixture, not the visual destination for the world.
 
 The authored Camp remains a safe starting reserve with a blended apron. Reusable terrain stamps provide occasional cliff shelves, ramps and landmark foundations. A heightfield cannot represent several ground heights at the same horizontal position: cave interiors, arches and overhangs need separate geometry and deliberately authored collision. Fully editable voxel terrain is outside this foundation.
+
+## One bounded continent and coast
+
+Add a deterministic low-frequency continent mask to the immutable world descriptor before expanding the habitat catalog. It owns land, coastal transition and outside-ocean classification in absolute coordinates. Terrain, atlas bounds, habitat eligibility and future shoreline systems consume the same result. Do not let individual chunks decide whether they contain a coast, and do not infer world edges from the currently loaded window.
+
+The first alpha can expose a finished inland region while the continent beyond it remains deliberately unavailable, or admit one safe coastal overlook once its terrain and collision are proven. A simple distant ocean surface may establish the boundary visually, but it is not physical water: there is no swimming, buoyancy, current, boat travel, water spawning or underwater persistence until those contracts exist. Use cliffs, safe slopes or an explicit in-world turnback at reachable unfinished edges; never rely on an invisible fall into unsupported terrain.
+
+Choose the eventual continental extent from travel time, atlas usefulness and streaming measurements rather than the maximum coordinate validator. The runtime remains bounded around the player even though generation describes the whole island. Additional continents require a later world/travel identity and save-provenance design; they are not distant chunks silently appended to the first edition.
 
 Regular meshes cover50×50m with25×25 grid cells:676vertices and1,250triangles, with additional breakpoints in the terrace chunk. Skybreak adds four bounded1m-detail chunks atx=-1..0,z=-5..-4. Public ground queries in those chunks interpolate the exact rendered/Rapier triangle, and their perimeter follows the actual neighboring coarse edge curves. Grid connectivity is reusable; world-space samples supply height and color. Farther simplified silhouettes, arbitrary overhangs and new regional detail modes remain future work.
 
@@ -87,11 +98,19 @@ Generate broad moisture and temperature fields, influenced by macro elevation an
 
 These are candidate recipes, not implemented new biomes. Recombining density, palette, landform, plant family and creature population should create related places with different identities. More combinations alone will not prevent repetition; region-scale composition and recognizable rare discoveries are also necessary.
 
+The first alpha targets readable versions of the existing Lush, Sunscar and Ironspine foundations and deepens their actual relationships before adding a fourth habitat. It uses the admitted Mossling, Tidefin and Emberhorn plus at least two distributed regional-place families. Alpha growth can move to five or six habitats and roughly8–12 species. The continent target of about10 habitats and24–32 species is staged content, not a requirement to build30 independent rigs before a playable release.
+
+A habitat needs at least three readable differences among landform/silhouette, traversal, vegetation structure, resources, regional places and encounter behavior; palette changes alone do not qualify. A species needs distinct silhouette or body structure, recognizable movement, and a habitat or interaction role; individual body-tone variation does not qualify as a new species. Shared skeletons, animations and modular parts are encouraged when those identity checks still pass.
+
+Admission stays within the current measured architecture:25 published terrain chunks and at most nine prepared candidates; four live wildlife residents with at most one regional-signature resident;12 forage sources and34 scenery specs per chunk under their existing subcaps;8,192 saved frontier-resource records. Major place families share a provisional combined ceiling of one large whole group in any3×3 live chunk window, rather than each family independently claiming the full budget. Record worst-case meshes, colliders, triangles, saved records and construction time for each admitted habitat/species recipe. Prefer bounded replacement and regional selection over additive populations.
+
 ## Placement and life
 
 Choose landmark sites, essential local approaches and animal homes before final decoration. Reject or adapt sites using final slope, water/bank distance when physical water exists, clearance and route difficulty. Do not reserve a global network of clear corridors. Resources and plants grow in coherent patches with open pockets and deliberately clearable obstacles. Decorative grass can fill roaming ground, while solid rocks and trunks respect local interaction and safety clearances.
 
 Wildkin habitat preferences decide suitable homes and population mixes. Their regional recipe can then influence expressed traits without rerolling the same individual on every visit. Group movement, feeding, resting, predator pressure and ambient motion are later bounded behavior slices; current denser grass does not establish an ecosystem simulation.
+
+Regional-place reservations are derived from neighboring pure owner chunks rather than travel history. Resource candidates resolve their actual kind and scale before testing their full footprint against a place. Scenery and grass consume the whole admitted group, while wildlife rejects a source when its complete home movement disk intersects the place; the wildlife runtime therefore passes the same admitted visual-asset catalog used by the other recipe owners.
 
 Water needs its own shared level, shoreline, safe-bank, swimming and spawn rules. A blue-green terrain color or moisture score is not physical water. Start with a small reliable basin/bank slice before connected rivers; avoid a large erosion or fluid simulation in the mobile foundation.
 
@@ -102,18 +121,21 @@ Water needs its own shared level, shoreline, safe-bank, swimming and spawn rules
 - Regenerate ordinary world content from the descriptor; save player changes such as depletion, discoveries, captured origins and construction.
 - Namespace changed-generation records, or deliberately start a fresh world when generation changes. Existing coordinate-only IDs cannot safely be reused across unrelated seeds.
 - Keep25 published terrain residents and at most nine detached candidates for one anticipated adjacent window, preparing at most one per moving tick. Distant terrain, asynchronous assets and origin rebasing follow measured bottlenecks; do not claim unbounded runtime range before those are proven.
+- Generation outside the continent resolves to the shared ocean classification. Reachable coast must provide supported collision and a deliberate boundary until physical water exists; an ocean-colored ground sample is not sufficient.
 
 ## What ships, and what comes next
 
 | Already in the project | Still to implement |
 | --- | --- |
-| Global height sampler, 50m streamed chunks, shared edges/collision, exact Camp/starter/Skybreak reserve; detached preparation and complete-window publication; synchronous initial/resume/teleport support | Climate and drainage layers using the shared descriptor |
-| Three broad weighted terrain grammars—lush, Sunscar, Ironspine—with0..84m regional targets and continuous ecotones | Richer landform/detail passes and three additional regional families |
-| Bounded regional forage/scenery/wildlife recipes using admitted assets, stable captured individuals and personal atlas; retained scenery recipe overlap with exact output parity | Distributed discoveries, richer populations, regional trait distributions |
+| Global height sampler, 50m streamed chunks, shared edges/collision, exact Camp/starter/Skybreak reserve; detached preparation and complete-window publication; synchronous initial/resume/teleport support | Shared continent/coast mask first, then climate and drainage layers using the descriptor |
+| Three broad weighted terrain grammars—lush, Sunscar, Ironspine—with0..84m regional targets and continuous ecotones | Deepen those three, then stage seven more habitat identities toward the continent target |
+| Bounded regional forage/scenery/wildlife recipes using admitted assets, stable captured individuals and personal atlas; sparse Sunscar crystal-bloom candidate with shared admission and stable finite resource slots; retained scenery recipe overlap with exact output parity | Additional regional-place grammars, richer populations and regional trait distributions |
 | One fixed deterministic world edition | Safe alternate-world creation, generation namespaces, distant terrain and rebasing |
 | CLI inspector for same-world elevation, current wetland weight, slope and generated candidates | Climate moisture/temperature fields and regional recipe inspection |
 
 Descriptor injection is integrated: progress exposes one immutable identity from its strictly validated atlas/ecology metadata before runtime construction. Terrain, built-in grass, forage, wildlife, scenery and scenery grass use that identity with separate domains. Default output remains exact. Alternate descriptors are supported in isolated generator tests; saved alternate worlds are deliberately still rejected. Before exposing a seed selector, add top-level save authority and namespace atlas/resource/source IDs, then validate owned, captured, pending-run and breeding provenance at every transaction/import boundary. Runtime world identity stays immutable until page reconstruction; no live seed swap.
+
+The continent mask belongs in that descriptor/generation edition. Introducing it can deliberately reset the private pre-alpha world, but every terrain, atlas, ecology, wildlife and place owner must change coherently. Do not market the coordinate validator or deterministic off-island samples as playable infinite land.
 
 `tools/inspect-frontier.mjs` now writes a compact JSON report and four-panel SVG under `.dream-loop/frontier-inspector/`. It accepts bounded seed, center, extent and resolution options, uses the normalized world descriptor, actual Camp surface and current terrain/ecology/wildlife/scenery samplers, and shows elevation, local slope, terrain color plus candidates, and the existing `habitatBlend.wetland` weight over identical bounds. That wetland weight combines terrain noise and lowland height; it is not the proposed climate-moisture field. Use this diagnostic with [`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) to build one compelling connected sequence before expanding the palette.
 

@@ -4,6 +4,7 @@ import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
+import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 
 export const FRONTIER_SCENERY_CONFIG = Object.freeze({
   maxNear: 18,
@@ -35,7 +36,9 @@ const SOLID_ROUTE_CLEARANCE = 2.1;
 const GROUND_COVER_CLEARANCE = Object.freeze({ route: .65, forage: 1.4, wildlife: 1.4 });
 const EXCLUSION_RECIPE_CACHE = Symbol('frontier-scenery-exclusion-recipe-cache');
 const RECIPE_CACHE_ACCESS = Symbol('frontier-scenery-recipe-cache-access');
+const REGIONAL_PLACE_LOOKUP = Symbol('frontier-scenery-regional-place-lookup');
 export const FRONTIER_SCENERY_POINT_MEMO_CAP = 8192;
+export const FRONTIER_SCENERY_PLACE_LOOKUP_CAP = 81;
 const TERRACE_CLEARANCE = Object.freeze({ minX: 18, maxX: 46, minZ: -150, maxZ: -108 });
 const NORTH_ROUTE = Object.freeze([
   Object.freeze([0, -56]), Object.freeze([7, -68]), Object.freeze([7, -85]), Object.freeze([20, -95]), Object.freeze([24, -118]),
@@ -197,12 +200,61 @@ function hasSunscarPocketCue(x, z, options) {
 }
 
 function hasSafeFootprint(x, z, candidate, options) {
+  const radius = footprintRadius(candidate);
+  if (!provinceMix(terrainSample(x, z, options)) && !isSkybreakArea(x, z, radius)) return true;
+  return hasFootprintSupport(x, z, { getHeight: (sx, sz) => heightAt(sx, sz, options), radius, maxSlope: MAX_SLOPE });
+}
+
+function footprintRadius(candidate) {
   const categoryRadius = FOOTPRINT_RADIUS[candidate.kind] ?? FOOTPRINT_RADIUS.low;
   const assetRadius = ASSET_FOOTPRINT_RADIUS[candidate.assetId] ?? 0;
   const scale = Number.isFinite(candidate.scale) ? Math.max(0, candidate.scale) : 1;
-  const radius = Math.max(categoryRadius, assetRadius * scale);
-  if (!provinceMix(terrainSample(x, z, options)) && !isSkybreakArea(x, z, radius)) return true;
-  return hasFootprintSupport(x, z, { getHeight: (sx, sz) => heightAt(sx, sz, options), radius, maxSlope: MAX_SLOPE });
+  return Math.max(categoryRadius, assetRadius * scale);
+}
+
+function createRegionalPlaceLookup(options) {
+  const values = new Map();
+  const enabled = hasRegionalPlaceAssets(options.visualAssets);
+  const sample = typeof options.sampleRegionalPlaceChunk === 'function'
+    ? options.sampleRegionalPlaceChunk : sampleFrontierRegionalPlaceChunk;
+  const get = (cx, cz) => {
+    if (!enabled) return null;
+    const key = `${cx},${cz}`;
+    if (values.has(key)) return values.get(key);
+    const place = sample(cx, cz, {
+      getHeight: (x, z) => heightAt(x, z, options),
+      getTerrainSample: (x, z) => terrainSample(x, z, options),
+      terrainOptions: options.terrainOptions,
+      visualAssets: options.visualAssets,
+      world: options.world ?? DEFAULT_FRONTIER_WORLD,
+    }) ?? null;
+    if (values.size < FRONTIER_SCENERY_PLACE_LOOKUP_CAP) values.set(key, place);
+    return place;
+  };
+  const clear = () => values.clear();
+  const getDebugState = () => Object.freeze({ placeCount: values.size });
+  return Object.freeze({ get, clear, getDebugState });
+}
+
+function placeLookup(options) {
+  return options[REGIONAL_PLACE_LOOKUP] ?? createRegionalPlaceLookup(options);
+}
+
+function nearbyRegionalPlaces(cx, cz, options) {
+  const lookup = placeLookup(options), places = [];
+  for (let pz = cz - 1; pz <= cz + 1; pz++) for (let px = cx - 1; px <= cx + 1; px++) {
+    const place = lookup.get(px, pz);
+    if (place?.center && Number.isFinite(place.center.x) && Number.isFinite(place.center.z) && Number.isFinite(place.radius) && place.radius > 0) places.push(place);
+  }
+  return places;
+}
+
+function outsideRegionalPlaces(x, z, candidate, options) {
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+  const cx = Math.floor(x / size), cz = Math.floor(z / size);
+  const radius = footprintRadius(candidate);
+  return nearbyRegionalPlaces(cx, cz, options)
+    .every(place => Math.hypot(x - place.center.x, z - place.center.z) >= place.radius + radius);
 }
 
 function cachedExclusionRecipe(kind, cx, cz, options, sample) {
@@ -244,14 +296,17 @@ function isClear(x, z, candidate, exclusions, surfaceKind = null) {
 // Build-only filter: soft grass can occupy roaming ground, while the same
 // route, Camp, terrace and encounter sources preserve readable feet/access.
 export function createFrontierGroundCoverFilter(options = {}) {
+  const filterOptions = { ...options };
+  filterOptions[REGIONAL_PLACE_LOOKUP] = options[REGIONAL_PLACE_LOOKUP] ?? createRegionalPlaceLookup(filterOptions);
   const exclusions = new Map();
   const candidate = Object.freeze({ kind: 'ground-cover' });
   return (x, z) => {
     if (!Number.isFinite(x) || !Number.isFinite(z)) return false;
     const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
     const cx = Math.floor(x / size), cz = Math.floor(z / size), key = `${cx},${cz}`;
-    if (!exclusions.has(key)) exclusions.set(key, exclusionsFor(cx, cz, options));
-    return isClear(x, z, candidate, exclusions.get(key)) && hasSafeGround(x, z, options) && hasSafeFootprint(x, z, candidate, options);
+    if (!exclusions.has(key)) exclusions.set(key, exclusionsFor(cx, cz, filterOptions));
+    return isClear(x, z, candidate, exclusions.get(key)) && outsideRegionalPlaces(x, z, candidate, filterOptions)
+      && hasSafeGround(x, z, filterOptions) && hasSafeFootprint(x, z, candidate, filterOptions);
   };
 }
 
@@ -285,11 +340,34 @@ function makeSpec(cx, cz, key, candidate, options, sample = terrainSample(candid
   });
 }
 
+function regionalPlaceScenerySpecs(place, options) {
+  if (!place?.id || !Number.isSafeInteger(place.cx) || !Number.isSafeInteger(place.cz) || !Array.isArray(place.scenery)) return [];
+  const chunkId = `${place.cx},${place.cz}`;
+  const specs = [];
+  for (const candidate of place.scenery) {
+    if (!candidate?.key || !candidate.assetId || candidate.kind !== 'low'
+      || !Number.isFinite(candidate.x) || !Number.isFinite(candidate.y) || !Number.isFinite(candidate.z)
+      || !Number.isFinite(candidate.scale) || candidate.scale <= 0 || !Number.isFinite(candidate.yaw)) return [];
+    const groundCover = groundCoverFor(terrainSample(candidate.x, candidate.z, options));
+    specs.push(Object.freeze({
+      id: `f2c:p:${place.id}:${candidate.key}`,
+      chunkId,
+      regionalPlaceId: place.id,
+      assetId: candidate.assetId,
+      x: candidate.x, y: candidate.y, z: candidate.z,
+      scale: candidate.scale, yaw: candidate.yaw, kind: 'low',
+      ...(groundCover ? { groundCover } : {}),
+    }));
+  }
+  return specs;
+}
+
 export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
   const world = options.world ?? DEFAULT_FRONTIER_WORLD;
   const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
   const sampleOptions = { ...options, world };
+  sampleOptions[REGIONAL_PLACE_LOOKUP] = options[REGIONAL_PLACE_LOOKUP] ?? createRegionalPlaceLookup(sampleOptions);
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize, exclusions = exclusionsFor(cx, cz, sampleOptions), specs = [];
   const centerSample = terrainSample((cx + .5) * size, (cz + .5) * size, sampleOptions);
   const centerMix = provinceMix(centerSample);
@@ -302,10 +380,13 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
     const surfaceKind = terrainSample(candidate.x, candidate.z, sampleOptions).surfaceKind;
     if (surfaceKind === 'skybreak-shoulder') return;
     if (candidate.assetId === 'asset_cloudflower' && surfaceKind !== 'skybreak-cap') return;
-    if (!hasSunscarPocketCue(candidate.x, candidate.z, sampleOptions) || !hasSafeGround(candidate.x, candidate.z, sampleOptions) || !hasSafeFootprint(candidate.x, candidate.z, candidate, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions, surfaceKind)) return;
+    if (!outsideRegionalPlaces(candidate.x, candidate.z, candidate, sampleOptions)
+      || !hasSunscarPocketCue(candidate.x, candidate.z, sampleOptions) || !hasSafeGround(candidate.x, candidate.z, sampleOptions)
+      || !hasSafeFootprint(candidate.x, candidate.z, candidate, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions, surfaceKind)) return;
     specs.push(makeSpec(cx, cz, key, candidate, sampleOptions, terrainSample(candidate.x, candidate.z, sampleOptions)));
   };
   for (const candidate of STAGED.get(`${cx},${cz}`) ?? []) accept(`stage-${candidate.key}`, candidate, true);
+  const place = placeLookup(sampleOptions).get(cx, cz);
 
   // Three seeded patches make a visible verge/fen rhythm without filling the
   // walking lane with a uniform scatter. Slot zero is the patch silhouette;
@@ -329,6 +410,10 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
     const scale = regionalSceneryScale(sample, assetId, baseScale, roll(attempt, 163));
     accept(`seed-${attempt}`, { x, z, assetId, kind: canopy ? 'canopy' : 'low', scale, yaw: roll(attempt, 131) * Math.PI * 2 });
   }
+  // A coherent regional formation must not consume this chunk's established
+  // ordinary attempt budget. Safe old props remain eligible and compete only
+  // at the existing residency cap; footprint overlaps were already rejected.
+  specs.push(...regionalPlaceScenerySpecs(place, sampleOptions));
   return specs;
 }
 
@@ -348,9 +433,24 @@ export function selectFrontierScenery(residency, options = {}) {
   near.sort(stableSort); outer.sort((a, b) => a.centerDistance - b.centerDistance || a.spec.id.localeCompare(b.spec.id));
   const nearSpecs = near.map(entry => entry.spec), outerSpecs = outer.map(entry => entry.spec);
   const staged = nearSpecs.filter(spec => spec.id.includes(':stage-'));
-  const generalCanopies = nearSpecs.filter(spec => spec.kind === 'canopy' && !spec.id.includes(':stage-')).slice(0, Math.max(0, 4 - staged.filter(spec => spec.kind === 'canopy').length));
-  const preferred = new Set([...staged, ...generalCanopies]);
-  const chosenNear = [...preferred, ...nearSpecs.filter(spec => !preferred.has(spec) && spec.kind === 'low'), ...nearSpecs.filter(spec => !preferred.has(spec) && spec.kind === 'canopy')].slice(0, FRONTIER_SCENERY_CONFIG.maxNear);
+  const regionalGroups = new Map();
+  for (const spec of nearSpecs) if (spec.regionalPlaceId) {
+    if (!regionalGroups.has(spec.regionalPlaceId)) regionalGroups.set(spec.regionalPlaceId, []);
+    regionalGroups.get(spec.regionalPlaceId).push(spec);
+  }
+  const chosenNear = staged.slice(0, FRONTIER_SCENERY_CONFIG.maxNear);
+  for (const group of regionalGroups.values()) {
+    if (chosenNear.length + group.length <= FRONTIER_SCENERY_CONFIG.maxNear) chosenNear.push(...group);
+  }
+  const chosen = new Set(chosenNear);
+  const generalCanopies = nearSpecs.filter(spec => !chosen.has(spec) && !spec.regionalPlaceId && spec.kind === 'canopy' && !spec.id.includes(':stage-'))
+    .slice(0, Math.max(0, 4 - staged.filter(spec => spec.kind === 'canopy').length));
+  chosenNear.push(...generalCanopies.slice(0, Math.max(0, FRONTIER_SCENERY_CONFIG.maxNear - chosenNear.length)));
+  generalCanopies.forEach(spec => chosen.add(spec));
+  for (const kind of ['low', 'canopy']) for (const spec of nearSpecs) {
+    if (chosenNear.length >= FRONTIER_SCENERY_CONFIG.maxNear) break;
+    if (!chosen.has(spec) && !spec.regionalPlaceId && spec.kind === kind) { chosenNear.push(spec); chosen.add(spec); }
+  }
   const canopyRoom = Math.max(0, FRONTIER_SCENERY_CONFIG.maxCanopies - chosenNear.filter(spec => spec.kind === 'canopy').length);
   const chosenOuter = outerSpecs.slice(0, Math.min(FRONTIER_SCENERY_CONFIG.maxOuterDesired, FRONTIER_SCENERY_CONFIG.maxOuter, canopyRoom));
   return Object.freeze([...chosenNear, ...chosenOuter].slice(0, FRONTIER_SCENERY_CONFIG.maxTotal));
@@ -423,17 +523,21 @@ export function createFrontierSceneryBuild(residency, options = {}, recipeCache 
   recipeCache.prepare(center);
   const buildOptions = { ...options, getHeight: pointMemo.getHeight, getTerrainSample: pointMemo.getTerrainSample,
     [EXCLUSION_RECIPE_CACHE]: recipeCache };
+  const regionalPlaces = createRegionalPlaceLookup(buildOptions);
+  buildOptions[REGIONAL_PLACE_LOOKUP] = regionalPlaces;
+  const releaseBuildMemo = () => { pointMemo.clear(); regionalPlaces.clear(); };
   try {
     return Object.freeze({
       specs: selectFrontierScenery(residency, buildOptions),
       canPlaceGroundCover: createFrontierGroundCoverFilter(buildOptions),
       getHeight: pointMemo.getHeight,
       getTerrainSample: pointMemo.getTerrainSample,
-      releaseTerrainMemo: pointMemo.clear,
+      releaseTerrainMemo: releaseBuildMemo,
       getTerrainMemoDebugState: pointMemo.getDebugState,
+      getRegionalPlaceLookupDebugState: regionalPlaces.getDebugState,
     });
   } catch (error) {
-    pointMemo.clear();
+    releaseBuildMemo();
     throw error;
   }
 }

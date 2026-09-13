@@ -4,6 +4,10 @@ September 12, 2026. Chris approved the procedural exploration / creature-life di
 
 Current local checkpoint: broad seeded provinces now surround the preserved Camp/Skybreak route. Irregular roughly600m sites blend lush, Sunscar and Ironspine terrain, color and bounded life recipes. A continuous boundary walk, regional crystal gathering, highland footing and literal reload passed at full health. All1,191 tests and aggregate build/validation pass. Selected R3 art remains5.5/10 HOLD, especially in ordinary portrait play. Exact fixtures, package proof and remaining gaps: `art/reviews/regional-provinces/receipt.md`. This remains local work after the separately delivered `4298dd5` + `08e36a5` GitHub/Drive checkpoint.
 
+## Early-alpha priority
+
+Read [EARLY_ALPHA_PLAN.md](EARLY_ALPHA_PLAN.md) for the latest staged continent, habitat/species and companion-utility priorities. The current regional bloom is selectedR3 at8/10 with1,233tests and portable checks; [receipt](../art/reviews/regional-blooms/receipt.md). Earlier checkpoint paragraphs below retain their original measurements.
+
 ## The game we are building
 
 September13 local checkpoint now prepares terrain ahead of ordinary movement and reuses bounded overlapping scenery recipes/exact point samples. Matching native maximum updates fell terrain85.3→20.1ms and scenery191.3→88.4ms; hitches remain. Real incoming collider-allocation failure preserves old support. All1,218 tests and package checks pass. The existing Signal Cache preserves its one-time reward and physical presence; discovery R2 remains7/10 HOLD. These are foundations, not distributed procedural secrets or finished streaming. Current evidence: `art/reviews/streaming-preparation/receipt.md`; original discovery evidence: `art/reviews/frontier-discoveries/receipt.md`.
@@ -16,6 +20,8 @@ The refreshed illustrated research now lives in [docs/research/living-frontier](
 
 ## Explicit owner steering
 
+- September13 bedtime priority: reach a playable early alpha as soon as practical. Continue procedural geography, habitats, Wildkin and core outing/Camp mechanics overnight; prioritize a coherent playable loop over completing every proposed system. Chris delegated the next planning and workflow adjustment and authorized one banked usage reset if allowance runs out overnight. The reset remains unused as of the78%-used account check; this is one conditional authorization, not an ongoing reset mandate.
+- Use Rapid Alpha Producer alongside the existing Wildkin workflow. Batch related work around one player outcome, consolidate review findings, run focused proof while changing code and one aggregate/package gate at the integrated checkpoint. Three visual passes are a ceiling, not a required quota. Reuse locked targets and existing evidence; do not reopen a held art loop without a meaningful structural change. Save, collision, deterministic generation and offline correctness remain required.
 - Work continuously in goal mode until Chris asks to stop. Root makes routine design, implementation and orchestration decisions.
 - Work directly on `main`. No branch, legacy campaign fork, or backwards compatibility requirement. Keep useful existing systems and assets. Preserve unexplained working-tree experiments.
 - Latest September12 steering after waking: mobile/casual first, portrait as primary layout, with landscape/desktop support. See MOBILE_IDENTITY.md for Honeycomb research and the completed M1 portrait controls decision. The shared descriptor remains fixed-world save identity. Connected regional generation now has a local foundation: smooth weighted provinces share one terrain/life field while keeping Camp, the starter route and Skybreak exact. Bound rendering, streaming, simulation and storage; do not claim physical-phone proof from an emulated viewport.

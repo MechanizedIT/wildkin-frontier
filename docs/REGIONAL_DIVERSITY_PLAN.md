@@ -33,6 +33,8 @@ Use large core provinces joined by broad ecotones. A player should spend several
 
 The active third grammar, **lush rolling provinces**, reuses current wet/upland plants, canopy, forage and occasional Tidefin recipes over broad green shoulders. It is implemented as a foundation rather than a claim that the full Floodglass or Hollowbough family exists. Across all three active grammars, each live wildlife set allows at most one additional high-draw regional signature and keeps every established count cap.
 
+The first reusable local-place grammar is a Sunscar crystal bloom. The pure recipe requires at least65% Sunscar weight,95% reserve fade, a supported7m footprint at maximum0.28 slope and a107m starter-scenery buffer. Seeded4×4 macrocell candidates are priority-thinned so any3×3 chunk window contains at most one complete group. Ecology owns one finite persistent crystal at slot200 and, for clefts, an optional separated smaller crystal at201; scenery owns two Fen stones, three cloudflowers and two trail-stone groups as one admitted unit. Ordinary forage uses its final scaled footprint, scenery/grass use the whole reservation, and wildlife uses the full home movement disk. Fan and cleft make repeated places less mechanical, but two compositions do not make every distant bloom unique. Selected R3 scored 8/10; final native/portable evidence is recorded in `art/reviews/regional-blooms/receipt.md`.
+
 ## Reusable Wildkin body families
 
 The body family is a production kit for silhouette, locomotion and readable behavior. Regional traits can alter bounded tone, accents, size and ecology after their expression paths exist; they should not imply unbuilt anatomy.
@@ -61,7 +63,7 @@ Predator, prey and plant labels guide placement and behavior; they do not requir
 | Wind grass tuft | Exposed cap direction and safe landing edge cue | Plateaus, mountains | Proposed regional treatment using reusable grass geometry |
 | Shelf lichen | Grazer food bound to cool rock ledges | Mountains, plateau walls | Proposed |
 | Salt succulent | Water-bearing food in sheltered desert pockets | Salt basin | Proposed |
-| Crystal bloom | Rare mineral-biotic landmark, sparse by rule | Caves, mountain strata | Proposed; shipped crystal harvestable can seed the kit |
+| Crystal bloom | Rare mineral-biotic landmark, sparse by rule | Sunscar foundation now; caves and mountain strata remain proposed | Current checkpoint uses one or two real finite crystals, seven support props and seeded fan/cleft compositions; R3 selected 8/10 |
 | Root arch segment | Socketed overhang, climb route and resin source | Archlands | Proposed geometry/collision kit |
 | Lantern fungus | Light/readability marker and cave food base | Caves, wet hollows | Proposed |
 

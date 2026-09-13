@@ -1,0 +1,77 @@
+{
+  "camera": {
+    "pitch": 0.7330382858376184,
+    "yaw": 0.9577878522286514
+  },
+  "draws": 26,
+  "health": 5,
+  "nearbyResources": [
+    {
+      "id": "f1:r:-5:-2:2",
+      "pos": {
+        "x": -223.66344817341871,
+        "y": 14.114435197565983,
+        "z": -60.23713099971811
+      },
+      "remaining": 4
+    }
+  ],
+  "owned": 6,
+  "pack": {
+    "berries": 2,
+    "crystal_shard": 10,
+    "fiber": 2,
+    "iron_ore": 12,
+    "stone": 0,
+    "wildflower": 3,
+    "wood": 1
+  },
+  "pos": {
+    "x": -216.95816040039065,
+    "y": 15.327068328857422,
+    "z": -66.58646392822266
+  },
+  "scenery": {
+    "canopyCount": 4,
+    "clearanceRecipeCache": {
+      "forageCount": 55,
+      "wildlifeCount": 55
+    },
+    "colliderCount": 6,
+    "groundClusterCount": 71,
+    "groundClusterTriangleCount": 1136,
+    "groundDrawCount": 1,
+    "lowCount": 18,
+    "lowDrawCount": 1,
+    "lowTriangleCount": 8404,
+    "residentCount": 22,
+    "residentIds": [
+      "f2c:s:-5:-2:seed-17",
+      "f2c:s:-5:-2:seed-19",
+      "f2c:s:-5:-2:seed-22",
+      "f2c:s:-5:-2:seed-23",
+      "f2c:s:-5:-2:seed-28",
+      "f2c:s:-4:-2:seed-11",
+      "f2c:s:-4:-2:seed-12",
+      "f2c:s:-4:-2:seed-14",
+      "f2c:s:-4:-2:seed-20",
+      "f2c:s:-4:-2:seed-6",
+      "f2c:s:-5:-1:seed-0",
+      "f2c:s:-5:-1:seed-1",
+      "f2c:s:-5:-1:seed-3",
+      "f2c:s:-5:-1:seed-4",
+      "f2c:s:-5:-1:seed-5",
+      "f2c:s:-5:-1:seed-6",
+      "f2c:s:-5:-3:seed-0",
+      "f2c:s:-5:-3:seed-10",
+      "f2c:s:-3:-1:seed-0",
+      "f2c:s:-3:-3:seed-0",
+      "f2c:s:-7:-1:seed-10",
+      "f2c:s:-3:0:seed-3"
+    ],
+    "stoneSolidCount": 2,
+    "surfaceCount": 6
+  },
+  "terrain": 25,
+  "triangles": 63725
+}

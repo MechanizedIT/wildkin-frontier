@@ -3,6 +3,7 @@ import { makeFrontierResourceId } from './frontierEcologyState.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
+import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 
 const EDGE = 3;
 const CAMP_CLEARANCE = 6;
@@ -168,6 +169,15 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
     crystal: harvestableAsset(visualAssets, FRONTIER_REGIONAL_RESOURCE_ASSETS.crystal),
     iron: harvestableAsset(visualAssets, FRONTIER_REGIONAL_RESOURCE_ASSETS.iron),
   };
+  const nearbyRegionalPlaces = [];
+  if (hasRegionalPlaceAssets(visualAssets)) {
+    const placeOptions = { getHeight, getTerrainSample, terrainOptions, world };
+    for (let dz = -1; dz <= 1; dz += 1) for (let dx = -1; dx <= 1; dx += 1) {
+      const place = sampleFrontierRegionalPlaceChunk(cx + dx, cz + dz, placeOptions);
+      if (place) nearbyRegionalPlaces.push(place);
+    }
+  }
+  const regionalPlace = nearbyRegionalPlaces.find(place => place.cx === cx && place.cz === cz) ?? null;
   const placements = [];
   for (let index = 0; index < 32 && placements.length < count; index++) {
     const group = Math.floor(index / 3);
@@ -207,12 +217,34 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
     const footprintRadius = regional
       ? (REGIONAL_ASSET_FOOTPRINT_RADIUS[kind.visualAsset?.id] ?? FOOTPRINT_RADIUS[kind.type]) * uniformScale
       : FOOTPRINT_RADIUS[kind.type];
+    if (nearbyRegionalPlaces.some(place => (
+      Math.hypot(x - place.center.x, z - place.center.z) < place.radius + footprintRadius
+    ))) continue;
     if ((regional || isSkybreakArea(x, z, footprintRadius)) && !hasFootprintSupport(x, z, {
       getHeight: (sx, sz) => typeof getHeight === 'function' ? getHeight(sx, sz) : terrainSample(sx, sz, { getTerrainSample, terrainOptions, world }).height,
       radius: footprintRadius,
       maxSlope: MAX_SLOPE,
     })) continue;
     placements.push({ ...kind, id: makeFrontierResourceId(cx, cz, index), chunkId: `${cx},${cz}`, placementIndex: index, regionId: 'camp', persistentFinite: true, pos: { x, y: height, z }, rotY: roll(index, 97) * Math.PI * 2, uniformScale, tint: kind.tint ?? (kind.type === 'fiber' && !kind.visualAsset ? '#8eb65a' : undefined) });
+  }
+  for (const resource of regionalPlace?.resources ?? []) {
+    if (placements.length >= MAX_FORAGE_PER_CHUNK) break;
+    const visualAsset = harvestableAsset(visualAssets, resource.assetId);
+    const height = heightAt(resource.x, resource.z, { getHeight, getTerrainSample, terrainOptions, world });
+    if (!visualAsset || !Number.isFinite(height)) continue;
+    placements.push({
+      type: resource.type,
+      visualAsset,
+      id: makeFrontierResourceId(cx, cz, resource.index),
+      chunkId: `${cx},${cz}`,
+      placementIndex: resource.index,
+      regionId: 'camp',
+      persistentFinite: true,
+      regionalPlaceId: regionalPlace.id,
+      pos: { x: resource.x, y: height, z: resource.z },
+      rotY: resource.yaw,
+      uniformScale: resource.uniformScale,
+    });
   }
   for (const staged of SKYBREAK_STAGED_FORAGE.get(`${cx},${cz}`) ?? []) {
     if (placements.length >= MAX_FORAGE_PER_CHUNK) break;

@@ -1,6 +1,8 @@
 # Living Frontier research refresh
 
-September 12, 2026: repository-owned research, implementation evidence and owner direction.
+September13,2026: repository-owned research, implementation evidence and owner direction.
+
+**Newest:** [Early-alpha illustrated progress](Early-Alpha-Progress.md) adds actual seeded crystal-bloom layouts, the Signal Cache, province terrain and timing charts. The [early-alpha plan](../../EARLY_ALPHA_PLAN.md) consolidates the latest one-continent, habitat/species and useful-companion priorities. These supplements are newer than the dated PDFs below.
 
 Later local checkpoints, September13: [terrain preparation and scenery reuse](../../../art/reviews/streaming-preparation/receipt.md) records the current timing chart, portable screenshot, bounded ownership and validation. The preceding [Signal Cache receipt](../../../art/reviews/frontier-discoveries/receipt.md) adds actual approach/opened-chest screenshots and one-time reward proof. These follow the separately delivered PDFs below; those Drive files still represent their recorded publication checkpoint.
 

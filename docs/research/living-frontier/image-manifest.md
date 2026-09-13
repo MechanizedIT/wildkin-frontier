@@ -22,3 +22,7 @@
 - `actual/skybreak-final-crown-portrait.png`: actual final player view on the reached crown, camera oriented back toward the descent.
 - `actual/skybreak-final-cliff-portrait.png`: actual valley-floor view after the measured fall, with manual inspection pitch 5 degrees and health 1/5.
 - Skybreak R3 is a provisional best-of-three choice (4.9/10 HOLD); targets, previous passes and exact source hashes are in `art/reviews/skybreak/`.
+
+## September13 early-alpha supplement
+
+`Early-Alpha-Progress.md` links actual images directly from `art/reviews/regional-blooms/`, `frontier-discoveries/`, `regional-provinces/` and the measured streaming chart. Bloom target.png is generated reference only; r1/r2/r3, cleft-portrait and portable-depleted-portrait are actual game captures. The bloom checkpoint.json records exact source/package/image hashes. The original PDF image ledger above remains tied to its dated published files.

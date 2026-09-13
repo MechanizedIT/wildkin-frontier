@@ -9,6 +9,7 @@ import { FRONTIER_REGIONAL_RESOURCE_ASSETS, sampleFrontierForageChunk } from '..
 import { SKYBREAK_ROUTE } from '../src/world/frontierLandform.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
+import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalPlace.js';
 import { computeVisualAssetBounds } from '../src/world/visualFactory.js';
 
 test('frontier forage is deterministic, bounded, stable-IDed, and clear of Camp', () => {
@@ -193,4 +194,42 @@ test('Skybreak stages useful lowland supplies and a cap mineral with reserved pe
   assert.equal(sampleFrontier(32, -214).surfaceKind, 'skybreak-cap');
   assert.equal(sampleFrontierForageChunk(-1, -4).some(node => node.placementIndex >= 100), false, 'asset-backed supplies do not silently degrade to another resource');
   assert.equal(sampleFrontierForageChunk(0, -5).some(node => node.placementIndex >= 100), false, 'the cap crystal requires its admitted harvestable asset');
+});
+
+test('regional blooms reserve ordinary forage and add priority finite crystal residents without renumbering', () => {
+  const placeAssetIds = ['asset_crystal', 'asset_fen_stone', 'asset_cloudflower', 'asset_trail_stones'];
+  const placeAssets = WORLD_DATA.visualAssets.filter(asset => placeAssetIds.includes(asset.id));
+  const crystalAsset = placeAssets.find(asset => asset.id === 'asset_crystal');
+  const witnessPlace = sampleFrontierRegionalPlaceChunk(-5, -2);
+  const witness = sampleFrontierForageChunk(-5, -2, { visualAssets: placeAssets });
+  const placeNodes = witness.filter(node => node.regionalPlaceId === witnessPlace.id);
+  assert.deepEqual(placeNodes.map(node => [node.placementIndex, node.id, node.visualAsset.id, node.type, node.uniformScale]), [
+    [200, 'f1:r:-5:-2:200', 'asset_crystal', 'rock', .72],
+  ]);
+  const footprint = node => ({
+    asset_berry_bush: 1.29, asset_crystal: 1.3, asset_iron_ore_rock: .93,
+  }[node.visualAsset?.id] ?? { tree: 1.35, rock: .9, fiber: .55 }[node.type] ?? 0) * node.uniformScale;
+  assert.ok(witness.filter(node => node.placementIndex < 32).every(node => (
+    Math.hypot(node.pos.x - witnessPlace.center.x, node.pos.z - witnessPlace.center.z) >= witnessPlace.radius + footprint(node)
+  )), 'ordinary forage is excluded by its full footprint from the complete place');
+  const seamNeighbor = sampleFrontierForageChunk(-6, -2, { visualAssets: placeAssets });
+  assert.ok(seamNeighbor.every(node => (
+    Math.hypot(node.pos.x - witnessPlace.center.x, node.pos.z - witnessPlace.center.z) >= witnessPlace.radius + footprint(node)
+  )), 'an adjacent chunk applies the same neighboring-owner footprint exclusion');
+  assert.ok(witness.length <= 12);
+  const [runtime] = createRuntimeResourcePlacements(placeNodes);
+  assert.equal(runtime.resourceType.resourceId, 'crystal_shard');
+  assert.equal(runtime.resourceType.maxChunks, 4);
+  assert.equal(runtime.resourceType.solid, true);
+  assert.equal(runtime.collisionEnabled, true);
+  assert.equal(placeNodes[0].persistentFinite, true);
+
+  const cleftPlace = sampleFrontierRegionalPlaceChunk(-21, -16);
+  const cleft = sampleFrontierForageChunk(-21, -16, { visualAssets: placeAssets });
+  assert.equal(cleftPlace.layout, 'cleft');
+  assert.deepEqual(cleft.filter(node => node.regionalPlaceId === cleftPlace.id).map(node => node.placementIndex), [200, 201]);
+  assert.ok(cleft.length <= 12);
+  assert.ok(cleft.every(node => ![202, 203, 204, 205, 206, 207].includes(node.placementIndex)), 'reserved semantic slots remain unused');
+  assert.equal(sampleFrontierForageChunk(-5, -2).some(node => node.placementIndex >= 200), false, 'the place resource requires the admitted harvestable asset');
+  assert.equal(sampleFrontierForageChunk(-5, -2, { visualAssets: [crystalAsset] }).some(node => node.placementIndex >= 200), false, 'missing decor cannot leave a resource-only reservation');
 });

@@ -116,6 +116,25 @@ test('admitted Skybreak flowers and trail stones stay in the existing nonsolid l
   scenery.dispose();
 });
 
+test('a regional bloom formation stays in one low draw with only its two compact stone solids', () => {
+  const assets = [stone, cloudflower, trailStones];
+  const ids = [stone.id, stone.id, cloudflower.id, cloudflower.id, cloudflower.id, trailStones.id, trailStones.id];
+  const scenery = createFrontierSceneryVisual({
+    visualAssets: assets, canPlaceGroundCover: () => false,
+    specs: ids.map((assetId, index) => ({
+      id: `f2c:p:test-bloom:${index}`, regionalPlaceId: 'test-bloom', chunkId: '-5,-2',
+      assetId, x: -225 + index, y: 12, z: -70 + index * .2, scale: assetId === stone.id ? .6 : assetId === cloudflower.id ? .75 : .8,
+      yaw: index * .17, kind: 'low',
+    })),
+  });
+  assert.equal(scenery.stats.lowCount, 7);
+  assert.equal(scenery.stats.lowDrawCount, 1);
+  assert.equal(scenery.stats.stoneSolidCount, 2);
+  assert.equal(scenery.stats.surfaceCount, 2);
+  assert.equal(scenery.stats.groundDrawCount, 0);
+  scenery.dispose();
+});
+
 test('staged ground cover is bounded and uses the injected terrain height', async () => {
   await preloadFixture();
   const scenery = createFrontierSceneryVisual({

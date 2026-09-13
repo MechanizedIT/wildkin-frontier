@@ -46,7 +46,7 @@ export function createFrontierWildlifeRuntime({ terrainRuntime, creatureSystem, 
     const center = lastResidency?.center;
     const candidates = [];
     for (const chunk of chunks) {
-      const sources = cachedSources.get(chunk.id) ?? sampleFrontierWildlifeChunk(chunk.cx, chunk.cz, { getTerrainSample: terrainRuntime?.sample, world });
+      const sources = cachedSources.get(chunk.id) ?? sampleFrontierWildlifeChunk(chunk.cx, chunk.cz, { getTerrainSample: terrainRuntime?.sample, visualAssets, world });
       cachedSources.set(chunk.id, sources);
       const distance = Math.abs(chunk.cx - center.cx) + Math.abs(chunk.cz - center.cz);
       for (const source of sources) if (!isSourceCaptured(source.originId)) candidates.push({ source, distance });
