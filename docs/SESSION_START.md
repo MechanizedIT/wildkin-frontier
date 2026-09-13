@@ -8,9 +8,11 @@ Chris has authorized continuous goal-mode development on main until he asks to s
 2. Use `.agents/skills/wildkin-development/SKILL.md` and the two-batch trial in `ALPHA_WORKFLOW.md`; it borrows selected Rapid Alpha Producer ideas and keeps Dream Loop for substantive visual work. One writer per shared file, economical independent workers, one consolidated review/repair packet, focused tests during changes and one integrated package gate. Three art rounds are a ceiling.
 3. Inspect Git/workers before editing. Preserve unrelated Verdant composer/test and local art experiments. Work directly on main; do not create a branch.
 
-## Newest plant-readability checkpoint
+## Newest density foundation checkpoint
 
-Larger existing inland plants now read more clearly in portrait. R1 visual/source review passes8/10; all1,323 tests and package checks pass (44.29MB unpacked /20.57MB ZIP). Positions, density, rendering counts and guarded shore/Skybreak scales remain unchanged, and the complete earned Camp save matches developer/portable reload. Fuller scenery remains separate work: the proposed unchanged-budget placement shuffle projected no useful improvement and was not implemented. Read `art/reviews/ecotone-plants/receipt.md`. Next, measure actual-frame density and prepared-build cost before changing scenery budgets. The continuous goal remains active.
+Ordinary inland travel now has denser seeded reeds, lilies, mushrooms and stone patches. Shared geometry and12.5m render cells keep the extra props bounded. Source review passes; visual R1 remains **6.8/10 HOLD** because midground composition and repeated dry stones need work. All **1,337 tests** and package gates pass (**44.30MB unpacked /20.57MB ZIP**), and the complete earned Camp save matches developer and portable reload. Normal travel works, but boundary loading still hitches; this is a local foundation checkpoint, not an alpha release. Read `art/reviews/scenery-density/receipt.md`.
+
+Next priority: retain or progressively prepare deterministic scenery/ground clusters using the existing streaming owner, then measure ordinary boundary travel. Current profiling places about78–79ms of a120ms visual rebuild in ground placement checks, alongside128–150ms of new-chunk recipe work. Tiny height-query optimizations will not remove that pause. Keep one frame loop and transactional physics/publication. Fuller, more coherent midground patches remain a separate visual debt; no further density/seed tuning in this batch.
 
 ## Previous connected playable checkpoint
 
@@ -32,7 +34,7 @@ An isolated health fixture proved the actual Bloom button healed3→5, began a24
 
 ## Next useful work
 
-With useful companion roles and the coast/swim foundation closed, prioritize a coherent distributed habitat place using the existing terrain/resource/life owners, followed by an earned early-alpha preview. Retain the selected shore visual HOLD; boats, diving and water ecology remain later.
+Next priority: retain or progressively prepare deterministic scenery/ground clusters using the existing streaming owner, then measure ordinary boundary travel. Current profiling places about78–79ms of a120ms visual rebuild in ground placement checks, alongside128–150ms of new-chunk recipe work. Tiny height-query optimizations will not remove that pause. Keep one frame loop and transactional physics/publication. Fuller, more coherent midground patches remain a separate visual debt; no further density/seed tuning in this batch.
 
 ## Local execution and save safety
 

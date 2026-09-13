@@ -27,6 +27,7 @@ export function createFrontierSceneryRuntime({
     if (residency === lastResidency) return;
     const build = residency?.center ? createFrontierSceneryBuild(residency, {
       visualAssets, getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample, world,
+      heightMatchesTerrainSample: terrainRuntime.heightMatchesSample === true,
     }, recipeCache) : null;
     if (!build) recipeCache.clear();
     const nextSpecs = build?.specs ?? [];
@@ -69,6 +70,7 @@ export function createFrontierSceneryRuntime({
       canopyCount: specs.filter(spec => spec.kind === 'canopy').length,
       colliderCount: visual?.terrainSurfaces?.length ?? 0,
       clearanceRecipeCache: recipeCache.getDebugState(),
+      sceneryRecipeCache: recipeCache.getSceneryDebugState(),
       ...(visual?.stats ?? {}),
     };
   }

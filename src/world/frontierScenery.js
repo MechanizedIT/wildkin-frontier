@@ -6,12 +6,13 @@ import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 import { hasFrontierLandFootprint } from './frontierContinent.js';
+import { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
 
 export const FRONTIER_SCENERY_CONFIG = Object.freeze({
-  maxNear: 18,
+  maxNear: 2304,
   maxOuter: 16,
   maxOuterDesired: 8,
-  maxTotal: 34,
+  maxTotal: 2312,
   maxCanopies: 12,
 });
 
@@ -28,6 +29,7 @@ const ASSET_FOOTPRINT_RADIUS = Object.freeze({
   asset_fen_stone: 1.14,
   asset_mushroom_ring: 1.05,
   asset_fen_reed: .85,
+  asset_fen_lily: .93,
 });
 const CAMP_CLEARANCE = 6;
 const FORAGE_CLEARANCE = 3.2;
@@ -38,6 +40,7 @@ const SOLID_ROUTE_CLEARANCE = 2.1;
 const GROUND_COVER_CLEARANCE = Object.freeze({ route: .65, forage: 1.4, wildlife: 1.4 });
 const EXCLUSION_RECIPE_CACHE = Symbol('frontier-scenery-exclusion-recipe-cache');
 const RECIPE_CACHE_ACCESS = Symbol('frontier-scenery-recipe-cache-access');
+const RELEASE_CHUNK_POINT_MEMO = Symbol('frontier-scenery-release-chunk-point-memo');
 const REGIONAL_PLACE_LOOKUP = Symbol('frontier-scenery-regional-place-lookup');
 export const FRONTIER_SCENERY_POINT_MEMO_CAP = 8192;
 export const FRONTIER_SCENERY_PLACE_LOOKUP_CAP = 81;
@@ -352,11 +355,20 @@ function exclusionsFor(cx, cz, options) {
         world,
       })));
   }
-  return { forage, wildlife };
+  const fixedSites = world.edition === DEFAULT_FRONTIER_WORLD.edition && world.seed === DEFAULT_FRONTIER_WORLD.seed
+    ? [
+        { x: FRONTIER_SIGNAL_CACHE.x, z: FRONTIER_SIGNAL_CACHE.z, clearance: FRONTIER_SIGNAL_CACHE.sceneryClearance },
+        { x: FRONTIER_SIGNAL_CACHE.x + FRONTIER_SIGNAL_CACHE.chestOffset.x,
+          z: FRONTIER_SIGNAL_CACHE.z + FRONTIER_SIGNAL_CACHE.chestOffset.z, clearance: FRONTIER_SIGNAL_CACHE.sceneryClearance },
+      ]
+    : [];
+  return { forage, wildlife, fixedSites };
 }
 
 function isClear(x, z, candidate, exclusions, surfaceKind = null) {
   if (!outsideCampApron(x, z) || !routeIsClear(x, z, candidate)) return false;
+  const radius = footprintRadius(candidate);
+  if ((exclusions.fixedSites ?? []).some(site => Math.hypot(x - site.x, z - site.z) < site.clearance + radius)) return false;
   const groundCover = candidate.kind === 'ground-cover';
   if (exclusions.forage.some(node => Math.hypot(x - node.pos.x, z - node.pos.z) < (groundCover ? GROUND_COVER_CLEARANCE.forage : FORAGE_CLEARANCE))) return false;
   const capFlower = candidate.kind === 'low' && candidate.assetId === 'asset_cloudflower' && surfaceKind === 'skybreak-cap';
@@ -411,6 +423,33 @@ function makeSpec(cx, cz, key, candidate, options, sample = terrainSample(candid
   });
 }
 
+function admitScenerySpec(cx, cz, key, candidate, options, exclusions, specs, { curated = false, infill = false } = {}) {
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+  if (Math.floor(candidate.x / size) !== cx || Math.floor(candidate.z / size) !== cz) return false;
+  const edgeInset = infill ? footprintRadius(candidate) : EDGE;
+  if (!curated && (candidate.x < cx * size + edgeInset || candidate.x > (cx + 1) * size - edgeInset
+    || candidate.z < cz * size + edgeInset || candidate.z > (cz + 1) * size - edgeInset)) return false;
+  const sample = terrainSample(candidate.x, candidate.z, options);
+  if (sample.surfaceKind === 'skybreak-shoulder') return false;
+  if (candidate.assetId === 'asset_cloudflower' && sample.surfaceKind !== 'skybreak-cap') return false;
+  if (!outsideRegionalPlaces(candidate.x, candidate.z, candidate, options)
+    || !hasSunscarPocketCue(candidate.x, candidate.z, options) || !hasSafeGround(candidate.x, candidate.z, options)
+    || !hasSafeFootprint(candidate.x, candidate.z, candidate, options)
+    || !isClear(candidate.x, candidate.z, candidate, exclusions, sample.surfaceKind)) return false;
+  if (infill) {
+    const candidateSolid = candidate.assetId === 'asset_fen_stone';
+    const overlapsSolid = specs.some(spec => {
+      const existingSolid = spec.kind === 'canopy' || spec.assetId === 'asset_fen_stone';
+      return (candidateSolid || existingSolid)
+        && Math.hypot(candidate.x - spec.x, candidate.z - spec.z) < footprintRadius(candidate) + footprintRadius(spec);
+    });
+    if (overlapsSolid) return false;
+  }
+  const spec = makeSpec(cx, cz, key, candidate, options, sample);
+  specs.push(infill ? Object.freeze({ ...spec, id: `f2c:i:${cx}:${cz}:${key}` }) : spec);
+  return true;
+}
+
 function regionalPlaceScenerySpecs(place, options) {
   if (!place?.id || !Number.isSafeInteger(place.cx) || !Number.isSafeInteger(place.cz) || !Array.isArray(place.scenery)) return [];
   const chunkId = `${place.cx},${place.cz}`;
@@ -449,17 +488,8 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
     : 1;
   const canopyChance = centerMix ? 1 + (regionalCanopyChance - 1) * centerMix.influence : 1;
   const chunkCanopyAllowed = roll(0, 149) < canopyChance;
-  const accept = (key, candidate, curated = false) => {
-    if (Math.floor(candidate.x / size) !== cx || Math.floor(candidate.z / size) !== cz) return;
-    if (!curated && (candidate.x < cx * size + EDGE || candidate.x > (cx + 1) * size - EDGE || candidate.z < cz * size + EDGE || candidate.z > (cz + 1) * size - EDGE)) return;
-    const surfaceKind = terrainSample(candidate.x, candidate.z, sampleOptions).surfaceKind;
-    if (surfaceKind === 'skybreak-shoulder') return;
-    if (candidate.assetId === 'asset_cloudflower' && surfaceKind !== 'skybreak-cap') return;
-    if (!outsideRegionalPlaces(candidate.x, candidate.z, candidate, sampleOptions)
-      || !hasSunscarPocketCue(candidate.x, candidate.z, sampleOptions) || !hasSafeGround(candidate.x, candidate.z, sampleOptions)
-      || !hasSafeFootprint(candidate.x, candidate.z, candidate, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions, surfaceKind)) return;
-    specs.push(makeSpec(cx, cz, key, candidate, sampleOptions, terrainSample(candidate.x, candidate.z, sampleOptions)));
-  };
+  const accept = (key, candidate, curated = false) =>
+    admitScenerySpec(cx, cz, key, candidate, sampleOptions, exclusions, specs, { curated });
   for (const candidate of STAGED.get(`${cx},${cz}`) ?? []) accept(`stage-${candidate.key}`, candidate, true);
   const place = placeLookup(sampleOptions).get(cx, cz);
 
@@ -496,51 +526,148 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   return specs;
 }
 
+function sampleFrontierSceneryInfillChunk(cx, cz, ordinarySpecs, options = {}) {
+  if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
+  const world = options.world ?? DEFAULT_FRONTIER_WORLD;
+  const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
+  const sampleOptions = { ...options, world };
+  sampleOptions[REGIONAL_PLACE_LOOKUP] = options[REGIONAL_PLACE_LOOKUP] ?? createRegionalPlaceLookup(sampleOptions);
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+  const centerSample = terrainSample((cx + .5) * size, (cz + .5) * size, sampleOptions);
+  if (coastContourCandidates(cx, cz, centerSample, roll, sampleOptions).length) return [];
+  const centerMix = provinceMix(centerSample);
+  const effectiveLushWeight = centerMix ? centerMix.influence * centerMix.lush : 0;
+  const acceptedTarget = Math.round(64 + Math.max(0, Math.min(1, effectiveLushWeight)) * 192);
+  const exclusions = exclusionsFor(cx, cz, sampleOptions);
+  const specs = [...(Array.isArray(ordinarySpecs) ? ordinarySpecs : [])], infill = [];
+  const admittedAssets = Array.isArray(options.visualAssets)
+    ? new Set(options.visualAssets.filter(asset => Array.isArray(asset?.parts) && asset.parts.length).map(asset => asset.id))
+    : null;
+  const inset = FOOTPRINT_RADIUS.low, usable = size - inset * 2, columns = 16, rows = 16;
+  const cellWidth = usable / columns, cellDepth = usable / rows;
+  const offset = Math.floor(roll(0, 401) * 256);
+  for (let index = 0; index < 512 && infill.length < acceptedTarget; index++) {
+    const stratum = Math.floor(index / 256), cell = ((index % 256) * 73 + offset) % 256;
+    const column = cell % columns, row = Math.floor(cell / columns);
+    const rawX = cx * size + inset + (column + .08 + roll(index, 409 + stratum * 1009) * .84) * cellWidth;
+    const rawZ = cz * size + inset + (row + .08 + roll(index, 419 + stratum * 1013) * .84) * cellDepth;
+    const regionalCenter = settleSunscarPatchCenter(rawX, rawZ, cx, cz, sampleOptions);
+    const center = settleCoastPatchCenter(regionalCenter.x, regionalCenter.z, cx, cz, sampleOptions);
+    const sample = terrainSample(center.x, center.z, sampleOptions);
+    if (sample.surfaceKind) continue;
+    const assetId = lowAsset(sample, roll(index, 421), roll(index, 431), roll(index, 433), roll(index, 439));
+    if (admittedAssets && !admittedAssets.has(assetId)) continue;
+    const baseScale = .76 + roll(index, 443) * .3;
+    const candidate = {
+      x: center.x, z: center.z, assetId, kind: 'low',
+      scale: regionalSceneryScale(sample, assetId, baseScale, roll(index, 449)),
+      yaw: roll(index, 457) * Math.PI * 2,
+    };
+    if (!admitScenerySpec(cx, cz, index, candidate, sampleOptions, exclusions, specs, { infill: true })) continue;
+    infill.push(specs.at(-1));
+  }
+  return Object.freeze(infill);
+}
+
 export function selectFrontierScenery(residency, options = {}) {
   const center = residency?.center;
   if (!Number.isSafeInteger(center?.cx) || !Number.isSafeInteger(center?.cz)) return [];
   const chunks = [...new Map((residency.chunks ?? []).filter(chunk => Number.isSafeInteger(chunk?.cx) && Number.isSafeInteger(chunk?.cz)).map(chunk => [`${chunk.cx},${chunk.cz}`, chunk])).values()];
+  const hasStagedNearChunk = chunks.some(chunk => Math.max(Math.abs(chunk.cx - center.cx), Math.abs(chunk.cz - center.cz)) <= 1
+    && STAGED.has(`${chunk.cx},${chunk.cz}`));
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+  const centerSample = terrainSample((center.cx + .5) * size, (center.cz + .5) * size, options);
+  const protectedCoast = Number.isFinite(centerSample?.coastDistance) && Math.abs(centerSample.coastDistance) <= 38
+    && centerSample.inlandDirection;
+  const preserveLegacyWindow = hasStagedNearChunk || Boolean(centerSample?.surfaceKind) || Boolean(protectedCoast);
   const near = [], outer = [];
   for (const chunk of chunks) {
     const dx = chunk.cx - center.cx, dz = chunk.cz - center.cz;
     const distance = Math.max(Math.abs(dx), Math.abs(dz)), centerDistance = dx * dx + dz * dz;
-    const specs = sampleFrontierSceneryChunk(chunk.cx, chunk.cz, options);
-    if (distance <= 1) near.push(...specs.map(spec => ({ spec, centerDistance })));
-    else if (distance <= 2) outer.push(...specs.filter(spec => spec.kind === 'canopy').slice(0, 1).map(spec => ({ spec, centerDistance })));
+    const cacheAccess = options[EXCLUSION_RECIPE_CACHE]?.[RECIPE_CACHE_ACCESS];
+    try {
+      const sampledOrdinary = cacheAccess
+        ? cacheAccess.getScenery('ordinary', chunk.cx, chunk.cz,
+          () => sampleFrontierSceneryChunk(chunk.cx, chunk.cz, options))
+        : sampleFrontierSceneryChunk(chunk.cx, chunk.cz, options);
+      const ordinary = Array.isArray(sampledOrdinary) ? sampledOrdinary : [];
+      if (distance <= 1 && !preserveLegacyWindow) {
+        const sampledInfill = cacheAccess
+          ? cacheAccess.getScenery('infill', chunk.cx, chunk.cz,
+            () => sampleFrontierSceneryInfillChunk(chunk.cx, chunk.cz, ordinary, options))
+          : sampleFrontierSceneryInfillChunk(chunk.cx, chunk.cz, ordinary, options);
+        const specs = Array.isArray(sampledInfill) ? [...ordinary, ...sampledInfill] : ordinary;
+        near.push(...specs.map(spec => ({ spec, centerDistance })));
+      } else if (distance <= 1) {
+        near.push(...ordinary.map(spec => ({ spec, centerDistance })));
+      } else if (distance <= 2) {
+        outer.push(...ordinary.filter(spec => spec.kind === 'canopy').slice(0, 1).map(spec => ({ spec, centerDistance })));
+      }
+    } finally {
+      options[RELEASE_CHUNK_POINT_MEMO]?.();
+    }
   }
   const stableSort = (a, b) => Number(!a.spec.id.includes(':stage-')) - Number(!b.spec.id.includes(':stage-')) || a.centerDistance - b.centerDistance || a.spec.id.localeCompare(b.spec.id);
   near.sort(stableSort); outer.sort((a, b) => a.centerDistance - b.centerDistance || a.spec.id.localeCompare(b.spec.id));
   const nearSpecs = near.map(entry => entry.spec), outerSpecs = outer.map(entry => entry.spec);
+  const denseWindow = nearSpecs.some(spec => spec.id.startsWith('f2c:i:'));
+  const maxNear = denseWindow ? FRONTIER_SCENERY_CONFIG.maxNear : 18;
+  const maxTotal = denseWindow ? FRONTIER_SCENERY_CONFIG.maxTotal : 34;
   const staged = nearSpecs.filter(spec => spec.id.includes(':stage-'));
   const regionalGroups = new Map();
   for (const spec of nearSpecs) if (spec.regionalPlaceId) {
     if (!regionalGroups.has(spec.regionalPlaceId)) regionalGroups.set(spec.regionalPlaceId, []);
     regionalGroups.get(spec.regionalPlaceId).push(spec);
   }
-  const chosenNear = staged.slice(0, FRONTIER_SCENERY_CONFIG.maxNear);
+  const chosenNear = staged.slice(0, maxNear);
   for (const group of regionalGroups.values()) {
-    if (chosenNear.length + group.length <= FRONTIER_SCENERY_CONFIG.maxNear) chosenNear.push(...group);
+    if (chosenNear.length + group.length <= maxNear) chosenNear.push(...group);
   }
   const chosen = new Set(chosenNear);
   const generalCanopies = nearSpecs.filter(spec => !chosen.has(spec) && !spec.regionalPlaceId && spec.kind === 'canopy' && !spec.id.includes(':stage-'))
     .slice(0, Math.max(0, 4 - staged.filter(spec => spec.kind === 'canopy').length));
-  chosenNear.push(...generalCanopies.slice(0, Math.max(0, FRONTIER_SCENERY_CONFIG.maxNear - chosenNear.length)));
+  chosenNear.push(...generalCanopies.slice(0, Math.max(0, maxNear - chosenNear.length)));
   generalCanopies.forEach(spec => chosen.add(spec));
-  for (const kind of ['low', 'canopy']) for (const spec of nearSpecs) {
-    if (chosenNear.length >= FRONTIER_SCENERY_CONFIG.maxNear) break;
+  if (!denseWindow) for (const kind of ['low', 'canopy']) for (const spec of nearSpecs) {
+    if (chosenNear.length >= maxNear) break;
     if (!chosen.has(spec) && !spec.regionalPlaceId && spec.kind === kind) { chosenNear.push(spec); chosen.add(spec); }
+  }
+  const ordinaryChunkIds = [...new Set(nearSpecs.filter(spec => !chosen.has(spec) && !spec.regionalPlaceId).map(spec => spec.chunkId))]
+    .sort((a, b) => {
+      const [ax, az] = a.split(',').map(Number), [bx, bz] = b.split(',').map(Number);
+      const ad = (ax - center.cx) ** 2 + (az - center.cz) ** 2, bd = (bx - center.cx) ** 2 + (bz - center.cz) ** 2;
+      return ad - bd || ax - bx || az - bz;
+    });
+  if (denseWindow) for (const kind of ['low', 'canopy']) for (const infill of [false, true]) {
+    const buckets = new Map(ordinaryChunkIds.map(id => [id, nearSpecs.filter(spec =>
+      spec.chunkId === id && !chosen.has(spec) && !spec.regionalPlaceId && spec.kind === kind
+        && spec.id.startsWith('f2c:i:') === infill)]));
+    for (let depth = 0; chosenNear.length < maxNear; depth++) {
+      let found = false;
+      for (const id of ordinaryChunkIds) {
+        const spec = buckets.get(id)[depth];
+        if (!spec) continue;
+        found = true; chosenNear.push(spec); chosen.add(spec);
+        if (chosenNear.length >= maxNear) break;
+      }
+      if (!found) break;
+    }
   }
   const canopyRoom = Math.max(0, FRONTIER_SCENERY_CONFIG.maxCanopies - chosenNear.filter(spec => spec.kind === 'canopy').length);
   const chosenOuter = outerSpecs.slice(0, Math.min(FRONTIER_SCENERY_CONFIG.maxOuterDesired, FRONTIER_SCENERY_CONFIG.maxOuter, canopyRoom));
-  return Object.freeze([...chosenNear, ...chosenOuter].slice(0, FRONTIER_SCENERY_CONFIG.maxTotal));
+  return Object.freeze([...chosenNear, ...chosenOuter].slice(0, maxTotal));
 }
 
-/** Owns only pure, deterministic exclusion recipes for one expanded residency window. */
+/** Owns completed deterministic recipes for one expanded residency window. */
 export function createFrontierSceneryRecipeCache() {
-  const recipes = { forage: new Map(), wildlife: new Map() };
+  const recipes = {
+    forage: new Map(), wildlife: new Map(),
+    ordinaryScenery: new Map(), infillScenery: new Map(),
+  };
   let bounds = null;
   function clear() {
-    recipes.forage.clear(); recipes.wildlife.clear(); bounds = null;
+    for (const values of Object.values(recipes)) values.clear();
+    bounds = null;
   }
   function prepare(center) {
     if (!Number.isSafeInteger(center?.cx) || !Number.isSafeInteger(center?.cz)) { clear(); return; }
@@ -557,8 +684,25 @@ export function createFrontierSceneryRecipeCache() {
     if (!values.has(key)) values.set(key, sample());
     return values.get(key);
   }
-  function getDebugState() { return Object.freeze({ forageCount: recipes.forage.size, wildlifeCount: recipes.wildlife.size }); }
-  return Object.freeze({ prepare, clear, getDebugState, [RECIPE_CACHE_ACCESS]: Object.freeze({ get }) });
+  function getScenery(kind, cx, cz, sample) {
+    const values = recipes[kind === 'ordinary' ? 'ordinaryScenery' : kind === 'infill' ? 'infillScenery' : ''];
+    if (!values || !bounds || cx < bounds.minCx || cx > bounds.maxCx || cz < bounds.minCz || cz > bounds.maxCz) return sample();
+    const key = `${cx},${cz}`;
+    if (values.has(key)) return values.get(key);
+    const sampled = sample();
+    if (!Array.isArray(sampled)) return sampled;
+    const completed = Object.freeze([...sampled]);
+    values.set(key, completed);
+    return completed;
+  }
+  function getDebugState() {
+    return Object.freeze({ forageCount: recipes.forage.size, wildlifeCount: recipes.wildlife.size });
+  }
+  function getSceneryDebugState() {
+    return Object.freeze({ ordinaryCount: recipes.ordinaryScenery.size, infillCount: recipes.infillScenery.size });
+  }
+  return Object.freeze({ prepare, clear, getDebugState, getSceneryDebugState,
+    [RECIPE_CACHE_ACCESS]: Object.freeze({ get, getScenery }) });
 }
 
 function createPointMemo(options) {
@@ -573,9 +717,10 @@ function createPointMemo(options) {
     if (samples.size < FRONTIER_SCENERY_POINT_MEMO_CAP) samples.set(key, value);
     return value;
   };
-  const heightSource = typeof options.getHeight === 'function'
-    ? options.getHeight : (x, z) => getTerrainSample(x, z)?.height;
+  const reuseTerrainSampleHeight = options.heightMatchesTerrainSample === true || typeof options.getHeight !== 'function';
+  const heightSource = typeof options.getHeight === 'function' ? options.getHeight : null;
   const getHeight = (x, z) => {
+    if (reuseTerrainSampleHeight) return getTerrainSample(x, z)?.height;
     const key = keyFor(x, z);
     if (heights.has(key)) return heights.get(key);
     const value = heightSource(x, z);
@@ -601,7 +746,7 @@ export function createFrontierSceneryBuild(residency, options = {}, recipeCache 
   // clearance neighborhood fits in this fixed 9x9 source envelope.
   recipeCache.prepare(center);
   const buildOptions = { ...options, getHeight: pointMemo.getHeight, getTerrainSample: pointMemo.getTerrainSample,
-    [EXCLUSION_RECIPE_CACHE]: recipeCache };
+    [EXCLUSION_RECIPE_CACHE]: recipeCache, [RELEASE_CHUNK_POINT_MEMO]: pointMemo.clear };
   const regionalPlaces = createRegionalPlaceLookup(buildOptions);
   buildOptions[REGIONAL_PLACE_LOOKUP] = regionalPlaces;
   const releaseBuildMemo = () => { pointMemo.clear(); regionalPlaces.clear(); };

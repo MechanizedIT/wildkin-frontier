@@ -1,10 +1,10 @@
 # Wildkin Frontier
 
-## Latest local progress: readable inland plants
+## Latest local progress: denser seeded habitats
 
-Larger existing inland plants now read more clearly in portrait. R1 visual/source review passes8/10; all1,323 tests and package checks pass (44.29MB unpacked /20.57MB ZIP). Positions, density, rendering counts and guarded shore/Skybreak scales remain unchanged, and the complete earned Camp save matches developer/portable reload. Fuller scenery remains separate work: the proposed unchanged-budget placement shuffle projected no useful improvement and was not implemented. [Actual comparisons and limits](art/reviews/ecotone-plants/receipt.md).
+Ordinary inland travel now has denser seeded reeds, lilies, mushrooms and stone patches. Shared geometry and12.5m render cells keep the extra props bounded. Source review passes; visual R1 remains **6.8/10 HOLD** because midground composition and repeated dry stones need work. All **1,337 tests** and package gates pass (**44.30MB unpacked /20.57MB ZIP**), and the complete earned Camp save matches developer and portable reload. Normal travel works, but boundary loading still hitches; this is a local foundation checkpoint, not an alpha release. [Actual screenshots, measurements and limits](art/reviews/scenery-density/receipt.md).
 
-<img src="art/reviews/ecotone-plants/baseline-lush.png" alt="Actual sparse Lush view before larger ground plants" width="210"> <img src="art/reviews/ecotone-plants/final-lush.png" alt="Same portrait view with readable inland plants" width="210">
+<img src="art/reviews/scenery-density/baseline-lush.png" alt="Actual sparse Lush baseline" width="210"> <img src="art/reviews/scenery-density/final-lush.png" alt="Actual denser Lush scenery" width="210"> <img src="art/reviews/scenery-density/final-dry.png" alt="Actual dry transition" width="210">
 
 ## Previous connected checkpoint: an earned second outing
 
@@ -14,7 +14,7 @@ The previously earned Mossling, bed and garden now lead into a useful second tri
 
 Read-only catalog and terrain guidance identified the route; it did not move the player, grant supplies or advance simulation. This proves a guided earned outing, not unaided discovery. Physical return secured the twelve field XP (50→62). Harvest and replant left 17 berries, six flowers and two crystal shards; the same Mossling and complete progress survived developer and portable reload. All 1,322 tests and package checks pass (44.29 MB unpacked / 20.57 MB ZIP). The earlier59-grove mechanics and all1,319-test gate remain a prior checkpoint in the [grove receipt](art/reviews/lush-groves/receipt.md).
 
-The plant-size pass above addresses readability. The actual route still has roughly27m substantial-prop gaps; fuller scenery needs measured density, preparation and rendering budgets before another production pass. The roughly10-habitat/30-species direction remains staged, and danger pacing, physical-mobile evidence and refreshed report distribution remain limited.
+The earlier plant-size pass improved readability; the density foundation above fills more of the actual view. Streaming hitches and natural patch composition remain open. The roughly10-habitat/30-species direction remains staged, and danger pacing, physical-mobile evidence and refreshed report distribution remain limited.
 
 **Continent foundation:** Walk into the shallows, swim at the surface, and follow the offshore current back toward land. Companions wait on dry ground; reloading restores your last supported shore position with the same outing and supplies. Shoreline art remains held at6.4/10, with richer landforms, dressing and swimming animation still needed. [Coast proof and limitations](art/reviews/frontier-coast/receipt.md).
 

@@ -96,7 +96,7 @@ function campSample(x, z, options) {
   return { edge, t, x: cx, z: cz };
 }
 
-function sampleFrontierRaw(x, z, options = {}) {
+function sampleFrontierRaw(x, z, options = {}, heightOnly = false) {
   x = finite(x); z = finite(z);
   // Explicit legacy seed calls remain stable. A world descriptor instead owns
   // the terrain stream and keeps its random domain independent of content.
@@ -119,6 +119,9 @@ function sampleFrontierRaw(x, z, options = {}) {
   const baseHeight = camp === null ? terrain : camp.edge * (1 - camp.t) + terrain * camp.t;
   const landform = sampleFrontierLandform(x, z);
   const height = blendFrontierCoastHeight(baseHeight + landform.heightOffset, continent);
+  // Height-only callers stop at the exact expression that owns mesh/query Y.
+  // Keep this inside the raw sampler so full and reduced samples cannot drift.
+  if (heightOnly) return finite(height);
   const wetNoise = valueNoise(x + 180, z - 220, seed ^ 0x51ed270b, 80);
   const lowland = clamp((8.0 - height) / 4.5, 0, 1);
   const wetland = clamp(wetNoise * 0.65 + lowland * 0.55, 0, 1);
@@ -254,6 +257,15 @@ export function sampleFrontier(x, z, options = {}) {
   const { cx, cz } = worldToChunk(x, z);
   if (!isSkybreakDetailChunk(cx, cz)) return sample;
   return { ...sample, height: finite(detailedTriangleHeight(x, z, cx, cz, options)) };
+}
+
+export function sampleFrontierHeight(x, z, options = {}) {
+  x = finite(x); z = finite(z);
+  const { cx, cz } = worldToChunk(x, z);
+  // Skybreak queries intentionally follow the detailed triangle mesh, including
+  // its coarse-neighbor seam curves and authored terrace breakpoint.
+  if (isSkybreakDetailChunk(cx, cz)) return sampleFrontier(x, z, options).height;
+  return sampleFrontierRaw(x, z, options, true);
 }
 
 export function chunkKey(cx, cz) { return `${Math.trunc(cx)},${Math.trunc(cz)}`; }

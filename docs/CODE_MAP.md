@@ -143,3 +143,11 @@ September12 stopped candidate: `tools/compose-emberfall-ravine.mjs` is deliberat
 - F2E: frontierWildlife recipes carry explicit shipped species tuning and resident priority; frontierWildlifeRuntime reconciles membership only when residency/capture/actor membership changes. frontierEcology maps three existing terrace rock slots to admitted mineral harvestables. F2F: groundFoliage adds a16triangle helper; frontierSceneryVisual owns one bounded instanced grass draw; frontierScenery exports the shared build-only ground-cover clearance filter. styles/portrait.css owns compact guide/toast inset corrections. Next generation contract: WORLD_GENERATION_PLAN.md.
 
 - Inland ground-plant readability: `world/frontierChunkRuntime.js:addFoliage` blends regional scale gain while preserving exact protected scales/positions/density and shared geometry. Focused tests: `frontierChunkRuntime.test.js`; evidence: `art/reviews/ecotone-plants/receipt.md`. Ordinary inland grass still lacks the scenery layer's whole-place exclusions.
+
+## Dense scenery ownership checkpoint
+
+- `world/frontierFixedSites.js`: one Signal metadata record, used by discovery, ordinary/infill/ground and regional-place clearance.
+- `world/frontierScenery.js`:64–256 accepted infill per eligible near chunk; bounded ordinary/infill maps, exact protected selection, same-height memo opt-in and chunk-local release.
+- `world/frontierSceneryVisual.js`: unique asset geometry,12.5m cell instances,640 prioritized ground clusters, exact surfaces and all buffer disposal.
+- `world/frontierTerrain.js` / `frontierChunkRuntime.js`: shared-expression exact height-only queries and explicit same-height capability.
+- Matching scenery/runtime/visual and terrain/runtime tests cover the changed contracts. Full1,337-test gate passes. Source PASS, visual6.8HOLD; synchronous boundary preparation remains open. Evidence: `art/reviews/scenery-density/receipt.md`.

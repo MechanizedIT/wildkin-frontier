@@ -31,6 +31,7 @@ test('runtime ground cover leaves the staged crystal interaction clear using act
   assert.equal(checked, true);
   runtime.dispose();
   assert.deepEqual(runtime.getDebugState().clearanceRecipeCache, { forageCount: 0, wildlifeCount: 0 });
+  assert.deepEqual(runtime.getDebugState().sceneryRecipeCache, { ordinaryCount: 0, infillCount: 0 });
 });
 
 test('scenery replaces physics and camera registrations only when terrain residency changes', () => {
@@ -56,6 +57,9 @@ test('scenery replaces physics and camera registrations only when terrain reside
   assert.equal(created, 1);
   assert.ok(runtime.getDebugState().residentCount > 0);
   const firstCache = runtime.getDebugState().clearanceRecipeCache;
+  const firstSceneryCache = runtime.getDebugState().sceneryRecipeCache;
+  assert.equal(firstSceneryCache.ordinaryCount, 25);
+  assert.equal(firstSceneryCache.infillCount, 0, 'the protected starter fixture does not prepare infill');
   assert.ok(firstCache.forageCount > 0 && firstCache.forageCount <= 81);
   assert.ok(firstCache.wildlifeCount > 0 && firstCache.wildlifeCount <= 81);
   assert.equal(parent.children.length, 1);
@@ -63,6 +67,7 @@ test('scenery replaces physics and camera registrations only when terrain reside
   for (let i = 0; i < 60; i++) runtime.update();
   assert.equal(created, 1, 'no per-frame rebuild');
   assert.deepEqual(runtime.getDebugState().clearanceRecipeCache, firstCache, 'no per-frame source generation');
+  assert.deepEqual(runtime.getDebugState().sceneryRecipeCache, firstSceneryCache);
   assert.equal(invalidations, 1);
   snapshot = residency(1, -2);
   runtime.update();
@@ -77,10 +82,12 @@ test('scenery replaces physics and camera registrations only when terrain reside
   assert.equal(registered.size, 0);
   assert.equal(runtime.getDebugState().colliderCount, 0);
   assert.deepEqual(runtime.getDebugState().clearanceRecipeCache, { forageCount: 0, wildlifeCount: 0 });
+  assert.deepEqual(runtime.getDebugState().sceneryRecipeCache, { ordinaryCount: 0, infillCount: 0 });
   const finalBatches = batches.length;
   runtime.dispose(); runtime.dispose(); runtime.update();
   assert.equal(batches.length, finalBatches, 'empty repeated disposal creates no physics work');
   assert.deepEqual(runtime.getDebugState().clearanceRecipeCache, { forageCount: 0, wildlifeCount: 0 });
+  assert.deepEqual(runtime.getDebugState().sceneryRecipeCache, { ordinaryCount: 0, infillCount: 0 });
 });
 
 test('a failed scenery construction retains the old resident and can retry the same snapshot', () => {

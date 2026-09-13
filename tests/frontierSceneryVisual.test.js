@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { afterEach, test } from 'node:test';
 import * as THREE from 'three';
 import { clearModelAssetCacheForTests, getModelTemplate, preloadVisualModels } from '../src/assets/modelAssetRuntime.js';
-import { createFrontierSceneryVisual } from '../src/world/frontierSceneryVisual.js';
+import { createFrontierSceneryVisual, FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE } from '../src/world/frontierSceneryVisual.js';
 
 const canopy = {
   id: 'asset_verge_canopy',
@@ -31,6 +31,61 @@ const reed = { id: 'asset_fen_reed', parts: [triangle('#ff0000'), triangle('#00f
 const stone = { id: 'asset_fen_stone', parts: [triangle('#446688')] };
 const cloudflower = { id: 'asset_cloudflower', parts: [triangle('#ead7a8')] };
 const trailStones = { id: 'asset_trail_stones', parts: [triangle('#8a7662')] };
+
+function legacyLowAttributes(assets, specs) {
+  const values = { position: [], normal: [], color: [] };
+  for (const spec of specs) {
+    const asset = assets.find(candidate => candidate.id === spec.assetId);
+    const placement = new THREE.Matrix4().compose(
+      new THREE.Vector3(spec.x, spec.y, spec.z),
+      new THREE.Quaternion().setFromEuler(new THREE.Euler(0, spec.yaw, 0, 'XYZ')),
+      new THREE.Vector3(spec.scale, spec.scale, spec.scale),
+    );
+    for (const part of asset.parts) {
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(part.geometry.positions, 3));
+      geometry.setIndex(part.geometry.indices);
+      geometry.computeVertexNormals();
+      const normalized = geometry.toNonIndexed();
+      geometry.dispose();
+      const partTransform = new THREE.Matrix4().compose(
+        new THREE.Vector3(part.position.x, part.position.y, part.position.z),
+        new THREE.Quaternion().setFromEuler(new THREE.Euler(part.rotation.x, part.rotation.y, part.rotation.z, 'XYZ')),
+        new THREE.Vector3(part.scale.x, part.scale.y, part.scale.z),
+      );
+      normalized.applyMatrix4(placement.clone().multiply(partTransform));
+      values.position.push(...normalized.getAttribute('position').array);
+      values.normal.push(...normalized.getAttribute('normal').array);
+      const color = new THREE.Color(part.color);
+      for (let index = 0; index < normalized.getAttribute('position').count; index++) values.color.push(color.r, color.g, color.b);
+      normalized.dispose();
+    }
+  }
+  return Object.fromEntries(Object.entries(values).map(([name, entries]) => [name, Array.from(new Float32Array(entries))]));
+}
+
+function instancedLowAttributes(scenery, specs) {
+  const byId = new Map();
+  const matrix = new THREE.Matrix4(), normalMatrix = new THREE.Matrix3();
+  const position = new THREE.Vector3(), normal = new THREE.Vector3();
+  for (const mesh of scenery.group.children.filter(child => child.isInstancedMesh && child.name === 'frontier_scenery_low_props')) {
+    const positions = mesh.geometry.getAttribute('position');
+    const normals = mesh.geometry.getAttribute('normal');
+    const colors = mesh.geometry.getAttribute('color');
+    for (let instance = 0; instance < mesh.count; instance++) {
+      mesh.getMatrixAt(instance, matrix); normalMatrix.getNormalMatrix(matrix);
+      const values = { position: [], normal: [], color: Array.from(colors.array) };
+      for (let index = 0; index < positions.count; index++) {
+        position.fromBufferAttribute(positions, index).applyMatrix4(matrix);
+        normal.fromBufferAttribute(normals, index).applyNormalMatrix(normalMatrix);
+        values.position.push(position.x, position.y, position.z);
+        values.normal.push(normal.x, normal.y, normal.z);
+      }
+      byId.set(mesh.userData.frontierScenery.specIds[instance], values);
+    }
+  }
+  return Object.fromEntries(['position', 'normal', 'color'].map(name => [name, specs.flatMap(spec => byId.get(spec.id)[name])]));
+}
 
 function assertOutwardFaces(surface, center) {
   const vertex = (index) => new THREE.Vector3().fromArray(surface.vertices, index * 3);
@@ -62,7 +117,9 @@ test('scenery aligns external canopies and compact solid cores to world-space te
 
   assert.equal(scenery.group.position.length(), 0, 'world-space specs need no parent origin');
   assert.equal(scenery.canopyRoots.length, 1);
-  assert.deepEqual(scenery.stats, { canopyCount: 1, lowCount: 1, stoneSolidCount: 1, surfaceCount: 2, lowDrawCount: 1, lowTriangleCount: 1, groundDrawCount: 1, groundClusterCount: 26, groundClusterTriangleCount: 416 });
+  assert.deepEqual(scenery.stats, { canopyCount: 1, lowCount: 1, stoneSolidCount: 1, surfaceCount: 2,
+    lowDrawCount: 1, lowTriangleCount: 1, lowGeometryCount: 1, lowGeometryVertexCount: 3, lowInstanceCount: 1,
+    groundDrawCount: 1, groundClusterCount: 26, groundClusterTriangleCount: 416 });
   const trunk = scenery.terrainSurfaces.find(surface => surface.id === 'f2c:canopy-a:trunk');
   const solidStone = scenery.terrainSurfaces.find(surface => surface.id === 'f2c:stone-a:stone');
   assert.deepEqual(trunk.origin, { x: 0, z: 0 }); assert.equal(trunk.sectionId, 'camp');
@@ -86,19 +143,174 @@ test('low scenery keeps authored parts in one owned draw beside instanced ground
     specs: [{ id: 'reed-a', chunkId: '0,-2', assetId: reed.id, x: 7, y: 2, z: -90, scale: 2, yaw: Math.PI / 2, kind: 'low' }],
   });
   const mesh = scenery.group.getObjectByName('frontier_scenery_low_props');
-  assert.ok(mesh?.isMesh); assert.equal(mesh.material.vertexColors, true); assert.equal(scenery.stats.lowDrawCount, 1);
+  assert.ok(mesh?.isInstancedMesh); assert.equal(mesh.material.vertexColors, true); assert.equal(scenery.stats.lowDrawCount, 1);
   assert.equal(mesh.geometry.index, null, 'low geometry normalizes indexed authored parts for the foliage batch');
   assert.equal(mesh.geometry.getAttribute('position').count / 3, 2, 'ground cover stays outside the authored low-prop draw');
-  const positions = mesh.geometry.getAttribute('position');
-  assert.ok(Math.abs(positions.getX(0) - 7) < 1e-6 && Math.abs(positions.getZ(0) + 90) < 1e-6, 'placement transform is baked into the merged mesh');
+  const matrix = new THREE.Matrix4(); mesh.getMatrixAt(0, matrix);
+  const placed = new THREE.Vector3().fromBufferAttribute(mesh.geometry.getAttribute('position'), 0).applyMatrix4(matrix);
+  assert.ok(Math.abs(placed.x - 7) < 1e-6 && Math.abs(placed.z + 90) < 1e-6, 'the local recipe and instance matrix retain the world placement');
   const colors = mesh.geometry.getAttribute('color');
   assert.deepEqual([colors.getX(0), colors.getY(0), colors.getZ(0)], [1, 0, 0]);
   assert.deepEqual([colors.getX(3), colors.getY(3), colors.getZ(3)], [0, 1, 0]);
-  let geometryDisposed = false, materialDisposed = false;
+  const groundMesh = scenery.group.getObjectByName('frontier_scenery_ground_cover');
+  let geometryDisposed = false, materialDisposed = false, groundDisposals = 0;
   mesh.geometry.addEventListener('dispose', () => { geometryDisposed = true; });
   mesh.material.addEventListener('dispose', () => { materialDisposed = true; });
+  groundMesh.addEventListener('dispose', () => { groundDisposals++; });
   scenery.dispose(); scenery.dispose();
   assert.equal(geometryDisposed, true); assert.equal(materialDisposed, true);
+  assert.equal(groundDisposals, 1, 'the ground instance buffers are retired exactly once');
+});
+
+test('per-build low assets preserve legacy world geometry attributes and stone surfaces', () => {
+  const specs = [
+    { id: 'reed-equivalence-a', chunkId: '0,-2', assetId: reed.id, x: 7.25, y: 2.5, z: -90.75, scale: 1.3, yaw: .71, kind: 'low' },
+    { id: 'stone-equivalence', chunkId: '-1,0', assetId: stone.id, x: -4.2, y: 1.1, z: 6.8, scale: .8, yaw: -.43, kind: 'low' },
+    { id: 'reed-equivalence-b', chunkId: '0,0', assetId: reed.id, x: 3.4, y: -.2, z: 8.1, scale: .65, yaw: 2.17, kind: 'low' },
+  ];
+  const expected = legacyLowAttributes([reed, stone], specs);
+  const scenery = createFrontierSceneryVisual({ visualAssets: [reed, stone], specs, canPlaceGroundCover: () => false });
+  const actual = instancedLowAttributes(scenery, specs);
+  for (const name of ['position', 'normal', 'color']) {
+    assert.equal(actual[name].length, expected[name].length);
+    const tolerance = name === 'color' ? 0 : name === 'normal' ? 2e-6 : 2e-5;
+    for (let index = 0; index < expected[name].length; index++) {
+      assert.ok(Math.abs(actual[name][index] - expected[name][index]) <= tolerance, `${name}[${index}] stays within the Float32 instancing tolerance`);
+    }
+  }
+  assert.equal(scenery.stats.lowDrawCount, 3);
+  assert.equal(scenery.stats.lowGeometryCount, 2);
+  assert.equal(scenery.stats.lowGeometryVertexCount, 9);
+  assert.equal(scenery.stats.lowInstanceCount, 3);
+  assert.deepEqual(scenery.terrainSurfaces.map(surface => ({ id: surface.id, vertices: Array.from(surface.vertices), indices: Array.from(surface.indices) })), [{
+    id: 'f2c:stone-equivalence:stone',
+    vertices: [-4.404435634613037,1.100000023841858,6.362994194030762,-3.7354369163513184,1.100000023841858,6.669811248779297,
+      -3.9955642223358154,1.100000023841858,7.237005710601807,-4.664563179016113,1.100000023841858,6.9301886558532715,
+      -4.404435634613037,2.819999933242798,6.362994194030762,-3.7354369163513184,2.819999933242798,6.669811248779297,
+      -3.9955642223358154,2.819999933242798,7.237005710601807,-4.664563179016113,2.819999933242798,6.9301886558532715],
+    indices: [0,1,2,0,2,3,4,6,5,4,7,6,0,5,1,0,4,5,1,6,2,1,5,6,2,7,3,2,6,7,3,4,0,3,7,4],
+  }]);
+  scenery.dispose();
+});
+
+test('negative render-cell batches have complete native frustum bounds and share one asset geometry', () => {
+  const specs = [
+    { id: 'negative-west', chunkId: '-3,-2', assetId: reed.id, x: -124, y: 2, z: -86, scale: 1.2, yaw: .4, kind: 'low' },
+    { id: 'negative-east', chunkId: '-3,-2', assetId: reed.id, x: -119, y: 4, z: -82, scale: .7, yaw: -1.1, kind: 'low' },
+    { id: 'neighbor', chunkId: '-2,-2', assetId: reed.id, x: -96, y: 1, z: -78, scale: 1, yaw: .2, kind: 'low' },
+  ];
+  const scenery = createFrontierSceneryVisual({ visualAssets: [reed], specs, canPlaceGroundCover: () => false });
+  const meshes = scenery.group.children.filter(child => child.isInstancedMesh && child.name === 'frontier_scenery_low_props');
+  assert.equal(FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE, 12.5);
+  assert.equal(meshes.length, 2); assert.strictEqual(meshes[0].geometry, meshes[1].geometry);
+  const negative = meshes.find(mesh => mesh.userData.frontierScenery.renderCellId === '-10,-7');
+  assert.equal(negative.boundingBox.clone().expandByScalar(.001).containsPoint(new THREE.Vector3(-124, 2, -86)), true);
+  assert.equal(negative.boundingBox.clone().expandByScalar(.001).containsPoint(new THREE.Vector3(-119, 4, -82)), true);
+  assert.ok(negative.boundingBox.min.y <= 2 && negative.boundingBox.max.y >= 4.6);
+  assert.ok(negative.boundingSphere.radius > 3, 'the batch sphere spans both complete instances');
+  scenery.group.updateMatrixWorld(true);
+  const visibleCamera = new THREE.PerspectiveCamera(50, 1, .1, 100);
+  visibleCamera.position.set(-121, 18, -50); visibleCamera.lookAt(-121, 2, -84); visibleCamera.updateMatrixWorld(true);
+  const visibleFrustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(visibleCamera.projectionMatrix, visibleCamera.matrixWorldInverse));
+  assert.equal(visibleFrustum.intersectsObject(negative), true);
+  const awayCamera = new THREE.PerspectiveCamera(50, 1, .1, 100);
+  awayCamera.position.set(100, 18, 45); awayCamera.lookAt(100, 2, 80); awayCamera.updateMatrixWorld(true);
+  const awayFrustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(awayCamera.projectionMatrix, awayCamera.matrixWorldInverse));
+  assert.equal(awayFrustum.intersectsObject(negative), false);
+  scenery.dispose();
+});
+
+test('repeated render-cell batches retire instance buffers and shared asset geometry exactly once', () => {
+  const scenery = createFrontierSceneryVisual({ visualAssets: [reed], canPlaceGroundCover: () => false, specs: [
+    { id: 'shared-a', chunkId: '-1,0', assetId: reed.id, x: -25, y: 0, z: 10, scale: 1, yaw: 0, kind: 'low' },
+    { id: 'shared-b', chunkId: '0,0', assetId: reed.id, x: 25, y: 0, z: 10, scale: 1, yaw: 0, kind: 'low' },
+  ] });
+  const meshes = scenery.group.children.filter(child => child.isInstancedMesh && child.name === 'frontier_scenery_low_props');
+  assert.equal(scenery.stats.lowDrawCount, 2); assert.equal(scenery.stats.lowGeometryCount, 1);
+  assert.equal(scenery.stats.lowGeometryVertexCount, 6); assert.equal(scenery.stats.lowInstanceCount, 2);
+  let geometryDisposals = 0, instanceDisposals = 0;
+  meshes[0].geometry.addEventListener('dispose', () => { geometryDisposals++; });
+  for (const mesh of meshes) mesh.addEventListener('dispose', () => { instanceDisposals++; });
+  scenery.dispose(); scenery.dispose();
+  assert.equal(instanceDisposals, 2); assert.equal(geometryDisposals, 1);
+});
+
+test('temporary raw parts are disposed when local asset compilation fails', () => {
+  const originalApply = THREE.BufferGeometry.prototype.applyMatrix4;
+  const originalDispose = THREE.BufferGeometry.prototype.dispose;
+  const originalInstanceDispose = THREE.InstancedMesh.prototype.dispose;
+  const rawParts = new Set(), disposed = new Set();
+  let transforms = 0, groundDisposals = 0;
+  THREE.BufferGeometry.prototype.applyMatrix4 = function(matrix) {
+    rawParts.add(this);
+    if (++transforms === 2) throw new Error('compile-fixture');
+    return originalApply.call(this, matrix);
+  };
+  THREE.BufferGeometry.prototype.dispose = function() {
+    if (rawParts.has(this)) disposed.add(this);
+    return originalDispose.call(this);
+  };
+  THREE.InstancedMesh.prototype.dispose = function() {
+    if (this.name === 'frontier_scenery_ground_cover') groundDisposals++;
+    return originalInstanceDispose.call(this);
+  };
+  try {
+    assert.throws(() => createFrontierSceneryVisual({ visualAssets: [reed], canPlaceGroundCover: () => false,
+      specs: [{ id: 'prototype-failure', assetId: reed.id, x: 0, y: 0, z: 0, scale: 1, yaw: 0, kind: 'low' }] }), /compile-fixture/);
+  } finally {
+    THREE.BufferGeometry.prototype.applyMatrix4 = originalApply;
+    THREE.BufferGeometry.prototype.dispose = originalDispose;
+    THREE.InstancedMesh.prototype.dispose = originalInstanceDispose;
+  }
+  assert.equal(rawParts.size, 2);
+  assert.equal(disposed.size, rawParts.size, 'every temporary raw part is released on the exception path');
+  assert.equal(groundDisposals, 1, 'early compilation failure retires the ground instance buffers');
+});
+
+test('ground placement failure retires ground instance buffers exactly once', () => {
+  const originalSetColorAt = THREE.InstancedMesh.prototype.setColorAt;
+  const originalInstanceDispose = THREE.InstancedMesh.prototype.dispose;
+  let groundDisposals = 0;
+  THREE.InstancedMesh.prototype.setColorAt = function() { throw new Error('ground-fixture'); };
+  THREE.InstancedMesh.prototype.dispose = function() {
+    if (this.name === 'frontier_scenery_ground_cover') groundDisposals++;
+    return originalInstanceDispose.call(this);
+  };
+  try {
+    assert.throws(() => createFrontierSceneryVisual({ visualAssets: [reed],
+      specs: [{ id: 'ground-failure', assetId: reed.id, x: 0, y: 0, z: 0, scale: 1, yaw: 0, kind: 'low' }] }), /ground-fixture/);
+  } finally {
+    THREE.InstancedMesh.prototype.setColorAt = originalSetColorAt;
+    THREE.InstancedMesh.prototype.dispose = originalInstanceDispose;
+  }
+  assert.equal(groundDisposals, 1);
+});
+
+test('compiled geometry and a partial instance batch are released when matrix preparation fails', () => {
+  const originalSetMatrixAt = THREE.InstancedMesh.prototype.setMatrixAt;
+  const originalInstanceDispose = THREE.InstancedMesh.prototype.dispose;
+  let lowInstanceDisposals = 0, groundDisposals = 0, geometryDisposals = 0;
+  let lowMatrixCalls = 0;
+  THREE.InstancedMesh.prototype.setMatrixAt = function(index, matrix) {
+    if (this.count !== 1 || ++lowMatrixCalls === 1) return originalSetMatrixAt.call(this, index, matrix);
+    this.geometry.addEventListener('dispose', () => { geometryDisposals++; });
+    throw new Error('matrix-fixture');
+  };
+  THREE.InstancedMesh.prototype.dispose = function() {
+    if (this.name === 'frontier_scenery_ground_cover') groundDisposals++;
+    else lowInstanceDisposals++;
+    return originalInstanceDispose.call(this);
+  };
+  try {
+    assert.throws(() => createFrontierSceneryVisual({ visualAssets: [reed], canPlaceGroundCover: () => false,
+      specs: [{ id: 'matrix-failure', chunkId: '0,0', assetId: reed.id, x: 1, y: 2, z: 3, scale: 1, yaw: 0, kind: 'low' }] }), /matrix-fixture/);
+  } finally {
+    THREE.InstancedMesh.prototype.setMatrixAt = originalSetMatrixAt;
+    THREE.InstancedMesh.prototype.dispose = originalInstanceDispose;
+  }
+  assert.equal(lowInstanceDisposals, 1, 'the partial instance batch is released');
+  assert.equal(groundDisposals, 1, 'late batching failure retires the ground instance buffers');
+  assert.equal(geometryDisposals, 1, 'the compiled shared geometry is released');
 });
 
 test('admitted Skybreak flowers and trail stones stay in the existing nonsolid low-prop batch', () => {
@@ -110,13 +322,13 @@ test('admitted Skybreak flowers and trail stones stay in the existing nonsolid l
     ],
   });
   assert.equal(scenery.stats.lowCount, 2);
-  assert.equal(scenery.stats.lowDrawCount, 1);
+  assert.equal(scenery.stats.lowDrawCount, 2);
   assert.equal(scenery.stats.surfaceCount, 0, 'cloudflowers and trail stones do not add a collision surface');
   assert.equal(scenery.stats.stoneSolidCount, 0);
   scenery.dispose();
 });
 
-test('a regional bloom formation stays in one low draw with only its two compact stone solids', () => {
+test('a regional bloom formation batches each local asset with only its two compact stone solids', () => {
   const assets = [stone, cloudflower, trailStones];
   const ids = [stone.id, stone.id, cloudflower.id, cloudflower.id, cloudflower.id, trailStones.id, trailStones.id];
   const scenery = createFrontierSceneryVisual({
@@ -128,7 +340,7 @@ test('a regional bloom formation stays in one low draw with only its two compact
     })),
   });
   assert.equal(scenery.stats.lowCount, 7);
-  assert.equal(scenery.stats.lowDrawCount, 1);
+  assert.equal(scenery.stats.lowDrawCount, 3);
   assert.equal(scenery.stats.stoneSolidCount, 2);
   assert.equal(scenery.stats.surfaceCount, 2);
   assert.equal(scenery.stats.groundDrawCount, 0);
@@ -156,10 +368,32 @@ test('ground cover caps at 640 deterministic clusters in one instanced draw', ()
   const scenery = createFrontierSceneryVisual({ visualAssets: [reed], specs });
   assert.equal(scenery.stats.lowCount, 70);
   assert.equal(scenery.stats.groundClusterCount, 640);
-  assert.equal(scenery.stats.lowDrawCount, 1);
+  assert.equal(scenery.stats.lowDrawCount, 6);
   assert.equal(scenery.stats.groundDrawCount, 1);
   assert.equal(scenery.stats.groundClusterTriangleCount, 10240);
   scenery.dispose();
+});
+
+test('dense infill cannot displace established ordinary or whole-place ground dressing', () => {
+  const originalSpecs = [
+    { id: 'f2c:s:-5:9:seed-4', chunkId: '-5,9', assetId: reed.id, x: -223, y: 3, z: 480, scale: 1, yaw: .2, kind: 'low' },
+    { id: 'f2c:p:f1:p:-5:9:lush-root-cache:stone', regionalPlaceId: 'f1:p:-5:9:lush-root-cache', chunkId: '-5,9',
+      assetId: stone.id, x: -221, y: 3, z: 479, scale: .42, yaw: -.3, kind: 'low' },
+  ];
+  const baseline = createFrontierSceneryVisual({ visualAssets: [reed, stone], specs: originalSpecs });
+  const baselineGround = baseline.group.getObjectByName('frontier_scenery_ground_cover');
+  const baselineMatrices = Array.from(baselineGround.instanceMatrix.array.slice(0, baselineGround.count * 16));
+  const baselineColors = Array.from(baselineGround.instanceColor.array.slice(0, baselineGround.count * 3));
+  const infill = Array.from({ length: 60 }, (_, index) => ({
+    id: `f2c:i:-5:9:${index}`, chunkId: '-5,9', assetId: reed.id,
+    x: -240 + index * .2, y: 3, z: 460 + index * .1, scale: 1, yaw: 0, kind: 'low',
+  }));
+  const dense = createFrontierSceneryVisual({ visualAssets: [reed, stone], specs: [...originalSpecs, ...infill] });
+  const denseGround = dense.group.getObjectByName('frontier_scenery_ground_cover');
+  assert.equal(dense.stats.groundClusterCount, 640);
+  assert.deepEqual(Array.from(denseGround.instanceMatrix.array.slice(0, baselineGround.count * 16)), baselineMatrices);
+  assert.deepEqual(Array.from(denseGround.instanceColor.array.slice(0, baselineGround.count * 3)), baselineColors);
+  baseline.dispose(); dense.dispose();
 });
 
 test('injected ground-cover policy can exclude a whole patch without affecting low props', () => {

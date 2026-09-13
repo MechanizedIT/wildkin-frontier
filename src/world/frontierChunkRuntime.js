@@ -16,6 +16,7 @@ import {
   createFrontierChunk,
   isCampChunk,
   sampleFrontier,
+  sampleFrontierHeight,
 } from './frontierTerrain.js';
 
 export const FRONTIER_CHUNK_STREAMING_CONFIG = Object.freeze({
@@ -347,7 +348,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
   }
 
   function sample(x, z) { return sampleFrontier(x, z, terrainOptions); }
-  function getHeight(x, z) { return sample(x, z).height; }
+  function getHeight(x, z) { return sampleFrontierHeight(x, z, terrainOptions); }
   function getWater(x, z) { return sampleFrontierWater(x, z, terrainOptions); }
   // Stable lifecycle snapshot for nearby resident owners. It changes only when
   // the terrain residency does, and never exposes a gameplay mutation path.
@@ -362,5 +363,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     clearResidents(); parent?.remove(root);
     foliageGeometry.dispose(); foliageMaterial.dispose(); disposed = true;
   }
-  return { root, update, sample, getHeight, getWater, getResidency, getWorldDescriptor, getDebugState, dispose };
+  const api = { root, update, sample, getHeight, getWater, getResidency, getWorldDescriptor, getDebugState, dispose };
+  Object.defineProperty(api, 'heightMatchesSample', { value: true, enumerable: true });
+  return api;
 }

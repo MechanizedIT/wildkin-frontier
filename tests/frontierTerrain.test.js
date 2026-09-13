@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  config, chunkKey, worldToChunk, sampleFrontier, createFrontierChunk, isCampChunk, isSkybreakDetailChunk,
+  config, chunkKey, worldToChunk, sampleFrontier, sampleFrontierHeight, createFrontierChunk, isCampChunk, isSkybreakDetailChunk,
 } from '../src/world/frontierTerrain.js';
 import RAPIER from '@dimforge/rapier3d-compat';
 import { createPhysicsWorld } from '../src/physics/createPhysicsWorld.js';
@@ -74,6 +74,31 @@ test('world descriptors preserve the default terrain and alternate seeds stay se
   }
   assert.notDeepEqual(alternate, DEFAULT_FRONTIER_WORLD);
   assert.notDeepEqual(Array.from(west.vertices), Array.from(createFrontierChunk(-1, 3).vertices));
+});
+
+test('height-only sampling is strictly identical across ordinary seeds, Camp, coast, ocean, and negative coordinates', () => {
+  const alternateWorld = normalizeFrontierWorld({ edition: 1, seed: 0x13572468 });
+  const cases = [
+    { points: [[-125, 24], [87.5, -73], [-251.75, 412.125]], options: { seed: 77 } },
+    { points: [[-125, 24], [87.5, -73], [318.25, 219.75]], options: { seed: 9002 } },
+    { points: [[112, -184], [-640, -335], [-920, 710]], options: { world: alternateWorld } },
+    { points: [[-20, -20], [20, 20], [50.001, 12]], options: { campHeight: (x, z) => x < 0 ? -24 : 31 } },
+    { points: [[0, 0], [-700, -700], [-1750, -1625], [1600, 1600], [-1600, 850]], options: {} },
+  ];
+  for (const { points, options } of cases) for (const [x, z] of points) {
+    assert.equal(sampleFrontierHeight(x, z, options), sampleFrontier(x, z, options).height, `height at ${x},${z}`);
+  }
+});
+
+test('height-only sampling preserves exact detailed Skybreak corners, triangles, and seam curves', () => {
+  const points = [
+    [-50, -250], [0, -250], [-50, -200], [0, -200],
+    [-21.37, -238.62], [12.41, -228.77], [37.22, -199.46], [7.35, -195.64],
+    [-49.999, -221.25], [49.999, -178.25], [42.04, -200], [42.08, -150.001],
+  ];
+  for (const options of [{ seed: 77 }, { seed: 9002 }]) for (const [x, z] of points) {
+    assert.equal(sampleFrontierHeight(x, z, options), sampleFrontier(x, z, options).height, `detailed height at ${x},${z}`);
+  }
 });
 
 test('camp boundary honors callback and blends smoothly outside the footprint', () => {

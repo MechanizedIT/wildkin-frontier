@@ -4,7 +4,7 @@ September 13,2026. Chris's current direction is to reach an early alpha as soon 
 
 ## Current visual refinement
 
-Larger existing inland plants now read more clearly in portrait. R1 visual/source review passes8/10; all1,323 tests and package checks pass (44.29MB unpacked /20.57MB ZIP). Positions, density, rendering counts and guarded shore/Skybreak scales remain unchanged, and the complete earned Camp save matches developer/portable reload. Fuller scenery remains separate work: the proposed unchanged-budget placement shuffle projected no useful improvement and was not implemented. [Evidence](../art/reviews/ecotone-plants/receipt.md). Prioritize useful actual-camera coverage and a measured density budget next; keep the earned core loop and staged species target.
+Ordinary inland travel now has denser seeded reeds, lilies, mushrooms and stone patches. Shared geometry and12.5m render cells keep the extra props bounded. Source review passes; visual R1 remains **6.8/10 HOLD** because midground composition and repeated dry stones need work. All **1,337 tests** and package gates pass (**44.30MB unpacked /20.57MB ZIP**), and the complete earned Camp save matches developer and portable reload. Normal travel works, but boundary loading still hitches; this is a local foundation checkpoint, not an alpha release. [Actual screenshots, measurements and limits](../art/reviews/scenery-density/receipt.md).
 
 ## Earned preview — connected journey verified
 

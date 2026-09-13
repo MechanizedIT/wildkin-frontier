@@ -2,6 +2,7 @@ import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from './frontierTerrain.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 import { hasFrontierLandFootprint } from './frontierContinent.js';
+import { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
 
 export const FRONTIER_REGIONAL_PLACE_RADIUS = 7;
 export const FRONTIER_REGIONAL_PLACE_RESOURCE_SLOTS = Object.freeze({ main: 200, outer: 201 });
@@ -13,7 +14,6 @@ const MAX_SLOPE = .28;
 const SUNSCAR_PURITY = .65;
 const LUSH_PURITY = .8;
 const STARTER_SCENERY_BUFFER = 107;
-const SIGNAL_CACHE = Object.freeze({ x: 170, z: 50, clearance: 30 });
 const ASSET_RADIUS = Object.freeze({
   asset_crystal: 1.3,
   asset_fen_stone: 1.14,
@@ -212,7 +212,7 @@ export function sampleFrontierRegionalPlaceChunk(cx, cz, options = {}) {
     || (options.visualAssets !== undefined
       && !(sunscar ? hasSunscarBloomAssets(options.visualAssets) : hasLushRootCacheAssets(options.visualAssets)))
     || centerSample.surfaceKind || !clearsExactReserve(centerX, centerZ)
-    || Math.hypot(centerX - SIGNAL_CACHE.x, centerZ - SIGNAL_CACHE.z) < SIGNAL_CACHE.clearance
+    || Math.hypot(centerX - FRONTIER_SIGNAL_CACHE.x, centerZ - FRONTIER_SIGNAL_CACHE.z) < FRONTIER_SIGNAL_CACHE.regionalPlaceClearance
     || !hasFrontierLandFootprint(centerX, centerZ, {
       radius: FRONTIER_REGIONAL_PLACE_RADIUS,
       getTerrainSample: (x, z) => sampleTerrain(x, z, options, world),

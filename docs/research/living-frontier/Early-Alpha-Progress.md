@@ -1,12 +1,18 @@
 # Early alpha — procedural frontier progress
 
-## New local progress: readable ground plants
+## New local progress: denser seeded habitats
 
-Larger existing inland plants now read more clearly in portrait. R1 visual/source review passes8/10; all1,323 tests and package checks pass (44.29MB unpacked /20.57MB ZIP). Positions, density, rendering counts and guarded shore/Skybreak scales remain unchanged, and the complete earned Camp save matches developer/portable reload. Fuller scenery remains separate work: the proposed unchanged-budget placement shuffle projected no useful improvement and was not implemented.
+Ordinary inland travel now has denser seeded reeds, lilies, mushrooms and stone patches. Shared geometry and12.5m render cells keep the extra props bounded. Source review passes; visual R1 remains **6.8/10 HOLD** because midground composition and repeated dry stones need work. All **1,337 tests** and package gates pass (**44.30MB unpacked /20.57MB ZIP**), and the complete earned Camp save matches developer and portable reload. Normal travel works, but boundary loading still hitches; this is a local foundation checkpoint, not an alpha release.
 
-<img src="../../../art/reviews/ecotone-plants/baseline-lush.png" alt="Actual Lush travel before plant scaling" width="210"> <img src="../../../art/reviews/ecotone-plants/final-lush.png" alt="Actual same-view plants after scaling" width="210"> <img src="../../../art/reviews/ecotone-plants/grove-walk.png" alt="Open grove remains readable after a short normal-input walk" width="210">
+<img src="../../../art/reviews/scenery-density/baseline-lush.png" alt="Actual sparse Lush baseline" width="210"> <img src="../../../art/reviews/scenery-density/final-lush.png" alt="Actual denser Lush habitat" width="210"> <img src="../../../art/reviews/scenery-density/final-dry.png" alt="Actual stone-heavy transition" width="210">
 
-Two120-frame samples stayed33.4ms median with25draws and117,701triangles. This is laptop portrait emulation, not a physical-phone test. This restrained pass changes plant size, not overall world density. The screenshot-guided scenery audit ruled out two off-camera approaches before production; future density work needs an explicit budget. [Receipt, workflow findings and limits](../../../art/reviews/ecotone-plants/receipt.md). Existing PDFs and Drive links remain the earlier publication.
+<img src="../../../art/reviews/scenery-density/signal-clearance.png" alt="Clear Signal discovery" width="210"> <img src="../../../art/reviews/scenery-density/grove-approach.png" alt="Open grove approach" width="210">
+
+The seed now places more of the existing kit, with asset geometry shared across small cullable cells. More props do not automatically make a natural habitat: layered midground patches and repeated stone shapes remain the visual judge's main gaps. Normal travel works, but loading new ground/scenery can still pause a frame. [Actual screenshots, measurements and limits](../../../art/reviews/scenery-density/receipt.md).
+
+Next priority: retain or progressively prepare deterministic scenery/ground clusters using the existing streaming owner, then measure ordinary boundary travel. Current profiling places about78–79ms of a120ms visual rebuild in ground placement checks, alongside128–150ms of new-chunk recipe work. Tiny height-query optimizations will not remove that pause. Keep one frame loop and transactional physics/publication. Fuller, more coherent midground patches remain a separate visual debt; no further density/seed tuning in this batch.
+
+This local illustrated supplement is newer than the existing PDFs and Drive upload. The full staged creature/research/continent vision remains; this is groundwork for a playable alpha, not content-complete release.
 
 ## Previous earned round trip
 

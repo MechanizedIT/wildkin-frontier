@@ -9,6 +9,7 @@ const CANOPY_TRUNK = Object.freeze({ width: 1.1, height: 2.45, depth: 1.1 });
 // its physical core narrow enough to match the stone rather than becoming a
 // broad invisible obstacle around the moss and scattered foot pieces.
 const FEN_STONE_CORE = Object.freeze({ width: .92, height: 2.15, depth: .78 });
+export const FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE = 12.5;
 const MAX_GROUND_CLUSTERS = 640;
 const GROUND_CLUSTER_TRIANGLES = 16;
 const BOX_INDICES = new Uint32Array([
@@ -104,7 +105,9 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
   group.name = 'frontier_scenery';
   const terrainSurfaces = [];
   const canopyRoots = [];
-  const lowGeometries = [];
+  const lowAssetGeometries = new Map();
+  const lowBatches = new Map();
+  const lowMeshes = [];
   let canopyCount = 0;
   let lowCount = 0;
   let stoneSolidCount = 0;
@@ -115,8 +118,51 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
   const groundMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, flatShading: true, roughness: .92, metalness: 0, side: THREE.DoubleSide });
   const groundMesh = new THREE.InstancedMesh(groundGeometry, groundMaterial, MAX_GROUND_CLUSTERS);
   const groundDummy = new THREE.Object3D();
+  let groundDisposed = false;
   groundMesh.name = 'frontier_scenery_ground_cover';
   groundMesh.castShadow = groundMesh.receiveShadow = true;
+
+  function disposeGround() {
+    if (groundDisposed) return;
+    groundMesh.dispose();
+    groundGeometry.dispose();
+    groundMaterial.dispose();
+    groundDisposed = true;
+  }
+
+  function geometryFor(asset) {
+    if (lowAssetGeometries.has(asset)) return lowAssetGeometries.get(asset);
+    const parts = [];
+    try {
+      for (const part of asset.parts) {
+        const geometry = authoredPartGeometry(part);
+        if (!geometry) continue;
+        try {
+          geometry.applyMatrix4(partMatrix(part));
+          parts.push(addVertexColor(geometry, part.color));
+        } catch (error) {
+          geometry.dispose();
+          throw error;
+        }
+      }
+      const geometry = parts.length ? mergeGeometries(parts) : null;
+      if (geometry) {
+        geometry.computeBoundingBox();
+        geometry.computeBoundingSphere();
+        lowAssetGeometries.set(asset, geometry);
+      }
+      return geometry;
+    } finally {
+      parts.forEach(geometry => geometry.dispose());
+    }
+  }
+
+  function disposeLowAssets() {
+    lowMeshes.forEach(mesh => mesh.dispose());
+    lowAssetGeometries.forEach(geometry => geometry.dispose());
+    lowMeshes.length = 0;
+    lowAssetGeometries.clear();
+  }
 
   function addGroundClusters(spec, desiredCount) {
     const wet = spec.assetId.startsWith('asset_fen_');
@@ -154,64 +200,97 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
     }
   }
 
-  for (const rawSpec of specs) {
-    const spec = rawSpec ?? {};
-    if (!spec.id || !spec.assetId || !Number.isFinite(spec.x) || !Number.isFinite(spec.y) || !Number.isFinite(spec.z)) continue;
-    const asset = assetById(visualAssets, spec.assetId);
-    const scale = finite(spec.scale, 1);
-    const yaw = finite(spec.yaw);
-    if (scale <= 0 || !asset) continue;
+  try {
+    for (const rawSpec of specs) {
+      const spec = rawSpec ?? {};
+      if (!spec.id || !spec.assetId || !Number.isFinite(spec.x) || !Number.isFinite(spec.y) || !Number.isFinite(spec.z)) continue;
+      const asset = assetById(visualAssets, spec.assetId);
+      const scale = finite(spec.scale, 1);
+      const yaw = finite(spec.yaw);
+      if (scale <= 0 || !asset) continue;
 
-    if (spec.kind === 'canopy' && asset.model) {
-      const root = createExternalModelVisual(asset);
-      root.name = `frontier_scenery_${spec.id}`;
-      root.position.set(spec.x, spec.y, spec.z);
-      root.rotation.y = yaw;
-      root.scale.setScalar(scale);
-      group.add(root);
-      canopyRoots.push(root);
-      canopyCount++;
-      const modelScale = finite(asset.model?.scale, 1) * scale;
-      terrainSurfaces.push(surfaceBox({ id: `f2c:${spec.id}:trunk`, x: spec.x, y: spec.y, z: spec.z, yaw, scale: modelScale, size: CANOPY_TRUNK }));
-      continue;
-    }
+      if (spec.kind === 'canopy' && asset.model) {
+        const root = createExternalModelVisual(asset);
+        root.name = `frontier_scenery_${spec.id}`;
+        root.position.set(spec.x, spec.y, spec.z);
+        root.rotation.y = yaw;
+        root.scale.setScalar(scale);
+        group.add(root);
+        canopyRoots.push(root);
+        canopyCount++;
+        const modelScale = finite(asset.model?.scale, 1) * scale;
+        terrainSurfaces.push(surfaceBox({ id: `f2c:${spec.id}:trunk`, x: spec.x, y: spec.y, z: spec.z, yaw, scale: modelScale, size: CANOPY_TRUNK }));
+        continue;
+      }
 
-    if (spec.kind !== 'low' || !asset.parts?.length) continue;
-    const placement = placementMatrix({ ...spec, scale });
-    for (const part of asset.parts) {
-      const geometry = authoredPartGeometry(part);
-      if (!geometry) continue;
-      geometry.applyMatrix4(placement.clone().multiply(partMatrix(part)));
-      lowGeometries.push(addVertexColor(geometry, part.color));
+      if (spec.kind !== 'low' || !asset.parts?.length) continue;
+      if (!geometryFor(asset)) continue;
+      const cellX = Math.floor(spec.x / FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE);
+      const cellZ = Math.floor(spec.z / FRONTIER_SCENERY_LOW_RENDER_CELL_SIZE);
+      const renderCellId = `${cellX},${cellZ}`;
+      const batchKey = `${renderCellId}\u0000${asset.id}`;
+      if (!lowBatches.has(batchKey)) lowBatches.set(batchKey, { asset, renderCellId, specs: [] });
+      lowBatches.get(batchKey).specs.push({ ...spec, scale, yaw });
+      lowCount++;
+      if (spec.assetId === 'asset_fen_stone') {
+        terrainSurfaces.push(surfaceBox({ id: `f2c:${spec.id}:stone`, x: spec.x, y: spec.y, z: spec.z, yaw, scale, size: FEN_STONE_CORE }));
+        stoneSolidCount++;
+      }
     }
-    lowCount++;
-    if (spec.assetId === 'asset_fen_stone') {
-      terrainSurfaces.push(surfaceBox({ id: `f2c:${spec.id}:stone`, x: spec.x, y: spec.y, z: spec.z, yaw, scale, size: FEN_STONE_CORE }));
-      stoneSolidCount++;
-    }
+  } catch (error) {
+    disposeLowAssets();
+    for (const root of canopyRoots) disposeExternalModelInstance(root);
+    disposeGround();
+    group.clear();
+    throw error;
   }
 
   const patchSpecs = [...specs].filter(spec => spec?.id && Number.isFinite(spec.x) && Number.isFinite(spec.z))
-    .sort((a, b) => Number(b.id.includes(':stage-')) - Number(a.id.includes(':stage-')) || a.id.localeCompare(b.id));
-  for (const spec of patchSpecs) addGroundClusters(spec, spec.id.includes(':stage-') ? 28 : 13);
-  if (groundClusterCount) {
-    groundMesh.count = groundClusterCount;
-    groundMesh.instanceMatrix.needsUpdate = true;
-    groundMesh.instanceColor.needsUpdate = true;
-    group.add(groundMesh);
+    .sort((a, b) => Number(b.id.includes(':stage-')) - Number(a.id.includes(':stage-'))
+      || Number(a.id.startsWith('f2c:i:')) - Number(b.id.startsWith('f2c:i:'))
+      || a.id.localeCompare(b.id));
+  try {
+    for (const spec of patchSpecs) addGroundClusters(spec, spec.id.includes(':stage-') ? 28 : 13);
+    if (groundClusterCount) {
+      groundMesh.count = groundClusterCount;
+      groundMesh.instanceMatrix.needsUpdate = true;
+      groundMesh.instanceColor.needsUpdate = true;
+      group.add(groundMesh);
+    }
+  } catch (error) {
+    disposeLowAssets();
+    for (const root of canopyRoots) disposeExternalModelInstance(root);
+    disposeGround();
+    group.clear();
+    throw error;
   }
 
-  let lowMesh = null;
   let lowMaterial = null;
-  if (lowGeometries.length) {
-    const geometry = mergeGeometries(lowGeometries);
-    lowGeometries.forEach(item => item.dispose());
-    if (geometry) {
+  let lowTriangleCount = 0;
+  if (lowBatches.size) {
+    try {
       lowMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, flatShading: true, roughness: .92, metalness: 0 });
-      lowMesh = new THREE.Mesh(geometry, lowMaterial);
-      lowMesh.name = 'frontier_scenery_low_props';
-      lowMesh.castShadow = lowMesh.receiveShadow = true;
-      group.add(lowMesh);
+      for (const { asset, renderCellId, specs: batchSpecs } of lowBatches.values()) {
+        const geometry = lowAssetGeometries.get(asset);
+        const mesh = new THREE.InstancedMesh(geometry, lowMaterial, batchSpecs.length);
+        lowMeshes.push(mesh);
+        mesh.name = 'frontier_scenery_low_props';
+        mesh.userData.frontierScenery = { assetId: asset.id, renderCellId, specIds: batchSpecs.map(spec => spec.id) };
+        mesh.castShadow = mesh.receiveShadow = true;
+        for (let index = 0; index < batchSpecs.length; index++) mesh.setMatrixAt(index, placementMatrix(batchSpecs[index]));
+        mesh.instanceMatrix.needsUpdate = true;
+        mesh.computeBoundingBox();
+        mesh.computeBoundingSphere();
+        group.add(mesh);
+        lowTriangleCount += geometry.getAttribute('position').count / 3 * batchSpecs.length;
+      }
+    } catch (error) {
+      disposeLowAssets();
+      lowMaterial?.dispose();
+      for (const root of canopyRoots) disposeExternalModelInstance(root);
+      disposeGround();
+      group.clear();
+      throw error;
     }
   }
 
@@ -220,8 +299,11 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
     lowCount,
     stoneSolidCount,
     surfaceCount: terrainSurfaces.length,
-    lowDrawCount: lowMesh ? 1 : 0,
-    lowTriangleCount: lowMesh ? lowMesh.geometry.getAttribute('position').count / 3 : 0,
+    lowDrawCount: lowMeshes.length,
+    lowTriangleCount,
+    lowGeometryCount: lowAssetGeometries.size,
+    lowGeometryVertexCount: [...lowAssetGeometries.values()].reduce((sum, geometry) => sum + geometry.getAttribute('position').count, 0),
+    lowInstanceCount: lowMeshes.reduce((sum, mesh) => sum + mesh.count, 0),
     groundDrawCount: groundClusterCount ? 1 : 0,
     groundClusterCount,
     groundClusterTriangleCount: groundClusterCount * GROUND_CLUSTER_TRIANGLES,
@@ -235,10 +317,9 @@ export function createFrontierSceneryVisual({ specs = [], visualAssets = [], get
     dispose() {
       if (disposed) return;
       for (const root of canopyRoots) disposeExternalModelInstance(root);
-      lowMesh?.geometry.dispose();
+      disposeLowAssets();
       lowMaterial?.dispose();
-      groundGeometry.dispose();
-      groundMaterial.dispose();
+      disposeGround();
       group.clear();
       disposed = true;
     },

@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-13T18:04:53.047Z",
+  "status": "local-foundation",
+  "sourceReview": "PASS",
+  "visual": {
+    "round": 1,
+    "score": 6.8,
+    "status": "HOLD"
+  },
+  "tests": {
+    "total": 1337,
+    "pass": 1337,
+    "durationMs": 81518.9299,
+    "aggregateAttempts": 2
+  },
+  "package": {
+    "unpackedMB": 44.3,
+    "zipBytes": 21572423,
+    "sha256": "162635d969f2bdbbbe82f289ba857205621e53d2164f62186c3eff46b7b016c4"
+  },
+  "native": {
+    "medianMs": 33.30000001192093,
+    "p95Ms": 35.80000001192093,
+    "maxMs": 420.59999999403954,
+    "renderMedianMs": 4.800000011920929,
+    "sceneryChanges": [
+      {
+        "center": {
+          "cx": -4,
+          "cz": 7
+        },
+        "ms": 270.5
+      }
+    ],
+    "start": {
+      "x": -150,
+      "y": 10.672499656677246,
+      "z": 345
+    },
+    "end": {
+      "x": -158.72635437011718,
+      "y": 11.318558883666991,
+      "z": 363.3159924316406
+    },
+    "elapsedMs": 10000.600000023842
+  },
+  "saveParity": {
+    "developerExact": true,
+    "packageExact": true,
+    "packageContinueExact": true
+  },
+  "logs": {
+    "developer": [],
+    "package": [],
+    "packageOrigins": [
+      "http://127.0.0.1:8081"
+    ]
+  },
+  "remaining": [
+    "boundary-generation-and-ground-preparation-hitches",
+    "natural-midground-patch-composition",
+    "physical-phone-and-cold-offline-proof",
+    "broader-danger-and-unaided-discovery"
+  ],
+  "hashes": {
+    "src/world/frontierChunkRuntime.js": "f16622127c040cb92e9f0b4a92fe3b72c616d50d802711d8b1563e9b8c8fdc85",
+    "src/world/frontierTerrain.js": "b84275d6a73bf8b857a43c81c2c3215afe5368053c6db6702c2917a8e23a6f6f",
+    "src/world/frontierScenery.js": "da1fa3888dc67aa7df029fcbd7636418aa544d60faa72ba8968c37028590133e",
+    "src/world/frontierSceneryRuntime.js": "f06b60d43d6b04aba6712d83e0e7f64b4d52edd847b869751bb702ff45c8f400",
+    "src/world/frontierSceneryVisual.js": "c66aed5ef6e27788bb1a88776f68b7002b7c92bb2cb8be7454a06a969d1743cf",
+    "src/world/frontierFixedSites.js": "cf6fa2e714e77796df5635885b1bb3971f9220370cd71699ee4a71c2609c80a7",
+    "src/world/frontierDiscovery.js": "2909556b6891b2b6dd462b90024b4c7e275122e5c6e6628aed1caa4b43b19edc",
+    "src/world/frontierRegionalPlace.js": "85909b5aaaf2923739564de12da2797a56f639c3fd78f9497030efee2b1ac876",
+    "tests/frontierChunkRuntime.test.js": "bf7ea97e55c246cbed59c9d1ef8aa24480f9cbbc1ba4c1384251dd576cf5b276",
+    "tests/frontierTerrain.test.js": "55e421b0b555bfcf8227747f8152594eee97c0c5715f7f2a3d7d2552f0f59439",
+    "tests/frontierScenery.test.js": "7259d6df19efafa2a6acddd117dd98f2ae7d6675d7f32bc6edd4db43eb748f0d",
+    "tests/frontierSceneryRuntime.test.js": "74ae14527c23ef905ad783f760a239211647630f8c46b5850b9aa8dd33364acb",
+    "tests/frontierSceneryVisual.test.js": "c4f8c35ebad8ecac86aca4b94be0330f49d2ee7e902ea4c63ab11be59fe954f6",
+    "art/reviews/scenery-density/baseline-dry.png": "d5d6863c51905d502c753a5fa3b4398843ba0e6a290d9e8b0d7ebcb8e61c9191",
+    "art/reviews/scenery-density/baseline-lush.png": "568a166ffde097bf12f51d4bf12d0a04d900e3e0838cbfbd25195ca3df02aba1",
+    "art/reviews/scenery-density/final-dry.png": "6d0af16bf9643b1c452591c211f5ab380537063c7b6064ea3931c63751da783f",
+    "art/reviews/scenery-density/final-lush.png": "14cb7fc461b01be653df1b5d7bc3a6d668b176f63968f2ff865fb362b764bab3",
+    "art/reviews/scenery-density/generation-evidence.md": "2d83253fa4f9c7e05ba90e4aa70fe156bca43ac41bd7a814927c926c18dee3b8",
+    "art/reviews/scenery-density/grove-approach.png": "ced278f9578f4947aa3b6394c130dde92bd23136c1fd18387d705005d4d9702d",
+    "art/reviews/scenery-density/grove-native.json": "f5d79a38be453aa04bb647a6dbe0efeffba49caf65a47058bf76c9b54d2b4e0a",
+    "art/reviews/scenery-density/height-cost.md": "e45ab55ae25afbbfc276b482206334033fd4d20d31c27f030da238639a20cc16",
+    "art/reviews/scenery-density/instancing-cost.md": "351d79471872ac8fac6c04ebe8ed91be5838bc351804e7f791f1a53bd3880c34",
+    "art/reviews/scenery-density/native-boundary-dry.json": "23a8388e10dcdf7345858e694d67542854dfe27908538641c6add7604c1e233a",
+    "art/reviews/scenery-density/native-final-lush.json": "acedd71d330a848addd05d5629907f27871bab17e754c804076f6f128d65a071",
+    "art/reviews/scenery-density/package-camp.png": "b0f9516c94fdff272ff7bb8ea6f0f95296535368a316d78742b3ff60d0dfc154",
+    "art/reviews/scenery-density/r1-dry.png": "3e59967eb36a3341c9df5a8e6ead629b274126dedcaa65c1cfe19675e2dfc492",
+    "art/reviews/scenery-density/r1-lush.png": "0b99067ce54ad5070969044b0361e0295768b83a8dfa67352d38ccaa9493d6a2",
+    "art/reviews/scenery-density/receipt.md": "1a7e59059e45c10bcabb59c74d9bd1d509431ecade7f047235c53f5adfa7672e",
+    "art/reviews/scenery-density/signal-clearance.png": "f7682c03130108cb5fadc4edff50607aa326466063a470ad063a331f5d93b339",
+    "art/reviews/scenery-density/signal-native.json": "5a5ebd8a70345870849c36f2e83dc6ced704fca6b3ff7c6145842e2a645e2cc3",
+    "art/reviews/scenery-density/target.png": "989c0d9f32df4c6598e78d054e0e238528c5081d6685c0310b6c2b97bbba6b12",
+    "art/reviews/scenery-density/visual-cost.md": "c25eb6e1b093eb6fd3f7399b8571b5b510015a3bc8f744e33debbfec5fa12483"
+  }
+}

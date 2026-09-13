@@ -6,26 +6,14 @@ import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
 import { FRONTIER_CONTINENT_CONFIG, hasFrontierLandFootprint } from './frontierContinent.js';
 import { sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
-
-export const FRONTIER_SIGNAL_CACHE = Object.freeze({
-  id: 'f1:d:3:1:0',
-  chunkId: '3,1',
-  sectionId: 'camp',
-  x: 170,
-  z: 50,
-  chestOffset: Object.freeze({ x: 1.8, z: 2.8 }),
-  displayName: 'Sunscar Signal Cache',
-  chestAssetId: 'asset_chest',
-  receiverAssetId: 'asset_fen_observatory',
-  lootTableId: 'loot_secret_section_1',
-  footprintRadius: 4.5,
-});
+import { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
+export { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
 
 const ADMITTED_MODEL_PATH = Object.freeze({
   asset_chest: 'assets/models/field-chest-v1/model.glb',
   asset_fen_observatory: 'assets/models/fen-observatory-v1/model.glb',
 });
-const CLEARANCE = Object.freeze({ forage: 6, scenery: 5, wildlife: 10 });
+const CLEARANCE = Object.freeze({ forage: 6, scenery: FRONTIER_SIGNAL_CACHE.sceneryClearance, wildlife: 10 });
 
 const MAX_HARMONIC_REACH = FRONTIER_CONTINENT_CONFIG.harmonics
   .reduce((sum, harmonic) => sum + Math.abs(harmonic.amplitude), 0)

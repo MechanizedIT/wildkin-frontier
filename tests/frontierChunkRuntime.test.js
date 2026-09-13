@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import { createFrontierChunkRuntime } from '../src/world/frontierChunkRuntime.js';
-import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from '../src/world/frontierTerrain.js';
+import { FRONTIER_TERRAIN_CONFIG, sampleFrontier, sampleFrontierHeight } from '../src/world/frontierTerrain.js';
 import { getSurfaceHeight } from '../src/world/terrainSurfaceModel.js';
 import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/frontierWorld.js';
 import { isSkybreakArea } from '../src/world/frontierLandform.js';
@@ -272,9 +272,16 @@ test('inactive and Author states retire residents in one batch and hide the root
   runtime.dispose();
 });
 
-test('height query exactly delegates to the shared frontier sampler', () => {
+test('height query exactly delegates to the shared frontier height sampler', () => {
   const { runtime } = fixture();
-  for (const [x, z] of [[-125, 24], [87.5, -73]]) assert.equal(runtime.getHeight(x, z), sampleFrontier(x, z).height);
+  assert.equal(runtime.heightMatchesSample, true);
+  assert.deepEqual(Object.getOwnPropertyDescriptor(runtime, 'heightMatchesSample'), {
+    value: true, writable: false, enumerable: true, configurable: false,
+  });
+  for (const [x, z] of [[-125, 24], [87.5, -73]]) {
+    assert.equal(runtime.getHeight(x, z), sampleFrontierHeight(x, z));
+    assert.equal(runtime.getHeight(x, z), sampleFrontier(x, z).height);
+  }
   assert.equal(FRONTIER_TERRAIN_CONFIG.chunkSize, 50);
   runtime.dispose();
 });
