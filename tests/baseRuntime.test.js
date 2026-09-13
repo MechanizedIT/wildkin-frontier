@@ -91,3 +91,34 @@ test('Camp runtime preserves doorway opening and owns collider travel/removal/di
     assert.equal(occlusion.candidateCount,0);occlusion.dispose();
   }finally{try{base?.dispose();world.free();}catch{}clearModelAssetCacheForTests();global.window=oldWindow;global.document=oldDocument;}
 });
+
+test('Camp interaction chooses the nearest visible furniture or yard while stations retain priority',()=>{
+  const oldWindow=global.window,oldDocument=global.document;
+  const element=()=>({hidden:false,classList:{add(){},remove(){}},setAttribute(){},addEventListener(){},removeEventListener(){},append(){},remove(){},querySelector(){return element();}});
+  global.window={addEventListener(){},removeEventListener(){}};global.document={createElement:element,addEventListener(){},removeEventListener(){}};
+  let base;
+  try{
+    const barricade=new THREE.Group();barricade.add(new THREE.Mesh(new THREE.BoxGeometry(2.8,1.7,.4),new THREE.MeshLambertMaterial()));
+    const station=new THREE.Group();station.add(new THREE.Mesh(new THREE.BoxGeometry(1.97,1.277,.9965),new THREE.MeshLambertMaterial()));
+    registerModelTemplateForTests('assets/models/emergency-barricade-v1/model.glb',{scene:barricade,animations:[]});
+    registerModelTemplateForTests('assets/models/salvage-bench-v1/model.glb',{scene:station,animations:[]});
+    const registry=createWorldRegistry(WORLD_DATA),progress=createFrontierProgress({worldRegistry:registry,resourceDrops:WORLD_DATA.resourceDrops,isAuthorMode:true,inMemoryAuthor:true});
+    progress.collectResources({wood:60,stone:30,fiber:30});
+    for(const id of CAMP_DEBRIS_IDS.slice(0,2))assert.equal(progress.clearCampDebris(id).cleared,true);
+    assert.equal(progress.placeStructure({id:'build_overlap_bed',type:'bed',pos:{x:3.967,z:6.225},yaw:0}).placed,true);
+    assert.equal(progress.placeStructure({id:'build_overlap_garden',type:'berry_garden',pos:{x:4,z:9},yaw:0}).placed,true);
+    assert.equal(progress.placeStructure({id:'build_priority_station',type:'workbench',pos:{x:4,z:3},yaw:0}).placed,true);
+    const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(52,390/844,.1,120);
+    camera.position.set(3.5,7.55,1.1);camera.lookAt(3.354,1.42,7.96);camera.updateMatrixWorld();
+    base=createBaseSystem({app:element(),scene,camera,progress,registry,getPlayerState:()=>({pos:{x:3.354,y:.522,z:7.96}}),isCamp:()=>true});
+    base.update(.4);
+    const overlap={x:3.354,y:.522,z:7.96};
+    assert.equal(base.getNearbyInteraction(overlap).id,'build_overlap_garden','reported overlap favors the 1.23m garden over the 2.19m yard console');
+    assert.equal(base.getNearbyInteraction({x:1.9,y:.522,z:9.4}).type,'campYard','standing closest to the console keeps the yard action');
+    assert.equal(base.getNearbyInteraction(overlap,info=>info.type==='campYard').type,'campYard','an invisible furniture candidate falls back to the yard');
+    assert.equal(base.getNearbyInteraction(overlap,info=>info.type!=='campYard').id,'build_overlap_garden','an invisible yard candidate falls back to furniture');
+    const bed=base.getWildkinBed('build_overlap_bed');
+    assert.equal(base.getNearbyInteraction({...bed.anchorPos}).id,'build_overlap_bed','the same nearest-visible rule applies to the nursery');
+    assert.equal(base.getNearbyInteraction({x:4,y:.522,z:5.5},()=>true).id,'build_priority_station','a nearby crafting station retains priority over closer furniture');
+  }finally{base?.dispose();clearModelAssetCacheForTests();global.window=oldWindow;global.document=oldDocument;}
+});

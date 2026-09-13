@@ -95,6 +95,17 @@ export function getFrontierPurpose({
     });
   }
 
+  const structures = Array.isArray(state?.base?.structures) ? state.base.structures : [];
+  const hasBed = structures.some(record => record?.type === 'bed');
+  const hasGarden = structures.some(record => record?.type === 'berry_garden');
+  const establishedAway = !isCamp && activeSpeciesId === 'mossling' && hasBed && hasGarden
+    && (!!state?.campCare || !!state?.campBreeding);
+  if (establishedAway) return {
+    id: 'seek-rootbound-grove',
+    title: 'Seek a rootbound grove',
+    description: 'Search Lush green country for a living cache. At its root seal, Bloom works even at full health and reveals berries, wildflowers, crystal shards, and field XP.',
+  };
+
   const breeding = state?.campBreeding;
   if (breeding) {
     if ((Number(breeding.growthSeconds) || 0) >= CAMP_BREEDING_GROWTH_SECONDS) return campAction(isCamp, {
@@ -113,8 +124,7 @@ export function getFrontierPurpose({
     action: `Approach the berry garden and tap Harvest${cropHarvest?.yield ? ` for ${cropHarvest.yield} berries` : ''}.`,
   });
 
-  const structures = Array.isArray(state?.base?.structures) ? state.base.structures : [];
-  if (!structures.some(record => record?.type === 'bed')) return buildPurpose('bed', spendableResources, isCamp);
+  if (!hasBed) return buildPurpose('bed', spendableResources, isCamp);
 
   const care = state?.campCare;
   if (!care) {
@@ -145,7 +155,7 @@ export function getFrontierPurpose({
     description: isCamp ? 'Walk beyond Camp while the garden ripens.' : 'Keep exploring while your garden ripens at Camp.',
   };
 
-  if (!structures.some(record => record?.type === 'berry_garden')) return buildPurpose('berry_garden', spendableResources, isCamp);
+  if (!hasGarden) return buildPurpose('berry_garden', spendableResources, isCamp);
 
   if (count(cargo, 'berries') < 1) return {
     id: 'gather-plant-berry', title: 'Gather a planting berry',

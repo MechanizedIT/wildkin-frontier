@@ -194,13 +194,15 @@ export function createBaseSystem({app,scene,camera,progress,registry,physicsWorl
     getNearbyInteraction(pos,isVisible=()=>true){
       const station=stations.getNearbyInteraction(pos,isVisible);if(station)return station;
       if(!campActive())return null;
+      const furniture=getNearbyGardenInteraction(pos,isVisible);
       const base=progress.getBaseState(),anchor=defenses.getConsoleAnchor();
+      let yard=null;
       if(!base.layout.yardExpanded&&anchor&&Math.hypot(pos.x-anchor.x,pos.z-anchor.z)<=2.5&&Math.abs(pos.y-anchor.y)<=2.2){
-        const count=base.layout.clearedDebrisIds.length,ready=count===CAMP_DEBRIS_IDS.length;
-        const candidate={id:'camp-yard-console',type:'campYard',label:ready?'Secure yard':`Clear yard · ${count}/${CAMP_DEBRIS_IDS.length}`,cost:ready?CAMP_YARD_COST:null,detail:ready?'Spend these materials to extend the emergency barricades.':'Clear the three bundles at amber survey stakes beyond the opening.'};
-        if(isVisible(candidate))return candidate;
+        const distance=Math.hypot(pos.x-anchor.x,pos.z-anchor.z),count=base.layout.clearedDebrisIds.length,ready=count===CAMP_DEBRIS_IDS.length;
+        const candidate={id:'camp-yard-console',type:'campYard',label:ready?'Secure yard':`Clear yard · ${count}/${CAMP_DEBRIS_IDS.length}`,cost:ready?CAMP_YARD_COST:null,detail:ready?'Spend these materials to extend the emergency barricades.':'Clear the three bundles at amber survey stakes beyond the opening.',distance};
+        if(isVisible(candidate))yard=candidate;
       }
-      return getNearbyGardenInteraction(pos,isVisible);
+      return furniture&&(!yard||furniture.distance<=yard.distance)?furniture:yard;
     },
     getCampYardAnchor:()=>defenses.getConsoleAnchor(),
     getWildkinBed,

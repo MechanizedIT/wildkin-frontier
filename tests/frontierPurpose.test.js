@@ -146,17 +146,60 @@ test('settling, feeding, planting, growing, and harvesting form one recurring lo
 
   const growing = getFrontierPurpose({
     state: ownedState({ campCare: { nourishment: 3 }, campCrop: { growthSeconds: CAMP_CROP_GROWTH_SECONDS - 1 } }),
-    isCamp: false,
+    isCamp: false, activeSpeciesId: 'mossling',
   });
-  assert.equal(growing.id, 'explore-crop-growing');
+  assert.equal(growing.id, 'seek-rootbound-grove');
 
   const ripe = getFrontierPurpose({
     state: ownedState({ campCare: { nourishment: 3 }, campCrop: { growthSeconds: CAMP_CROP_GROWTH_SECONDS } }),
     cropHarvest: { yield: 4 },
-    isCamp: false,
+    isCamp: false, activeSpeciesId: 'mossling',
   });
-  assert.equal(ripe.id, 'return-harvest-berries');
-  assert.match(ripe.description, /4 berries/);
+  assert.equal(ripe.id, 'seek-rootbound-grove');
+  const campRipe = getFrontierPurpose({
+    state: ownedState({ campCare: { nourishment: 3 }, campCrop: { growthSeconds: CAMP_CROP_GROWTH_SECONDS } }),
+    cropHarvest: { yield: 4 }, isCamp: true,
+  });
+  assert.equal(campRipe.id, 'harvest-berries');
+  assert.match(campRipe.description, /4 berries/);
+});
+
+test('an established active Mossling gets one useful away purpose without turning ready Camp processes into chores', () => {
+  const completeBase = { structures: built('bed', 'berry_garden') };
+  const care = { wildkinId: mossling.id, bedId: 'build_1', nourishment: 3 };
+  const established = state({ ownedWildkin: [mossling], base: completeBase, campCare: care });
+  const purpose = getFrontierPurpose({ state: established, isCamp: false, activeSpeciesId: 'mossling', health: 5, maxHealth: 5,
+    ability: { speciesId: 'mossling', name: 'Bloom', ready: true } });
+  assert.equal(purpose.id, 'seek-rootbound-grove');
+  assert.equal(purpose.title, 'Seek a rootbound grove');
+  assert.match(purpose.description, /Lush green country.*living cache.*Bloom works even at full health.*berries.*wildflowers.*crystal shards.*field XP/);
+  assert.equal(purpose.abilityHint, undefined, 'far-away guidance does not highlight or teach Bloom as an immediate action');
+
+  const ripe = getFrontierPurpose({ state: { ...established, campCrop: { growthSeconds: CAMP_CROP_GROWTH_SECONDS } },
+    isCamp: false, activeSpeciesId: 'mossling' });
+  assert.equal(ripe.id, 'seek-rootbound-grove');
+  const readyYoung = getFrontierPurpose({ state: state({ ownedWildkin: [mossling], base: completeBase, campCare: null,
+    campBreeding: { growthSeconds: CAMP_BREEDING_GROWTH_SECONDS } }), isCamp: false, activeSpeciesId: 'mossling' });
+  assert.equal(readyYoung.id, 'seek-rootbound-grove');
+
+  assert.equal(getFrontierPurpose({ state: { ...established, campCrop: { growthSeconds: CAMP_CROP_GROWTH_SECONDS } },
+    isCamp: true, activeSpeciesId: 'mossling' }).id, 'harvest-berries');
+  assert.equal(getFrontierPurpose({ state: state({ ownedWildkin: [mossling], base: completeBase,
+    campBreeding: { growthSeconds: CAMP_BREEDING_GROWTH_SECONDS } }), isCamp: true, activeSpeciesId: 'mossling' }).id, 'welcome-young');
+});
+
+test('grove guidance requires the active secured Mossling and remains below bond and health safety priorities', () => {
+  const established = state({ ownedWildkin: [mossling], base: { structures: built('bed', 'berry_garden') },
+    campCare: { wildkinId: mossling.id, bedId: 'build_1', nourishment: 3 } });
+  assert.notEqual(getFrontierPurpose({ state: established, isCamp: false, activeSpeciesId: 'emberhorn' }).id, 'seek-rootbound-grove');
+  assert.notEqual(getFrontierPurpose({ state: established, isCamp: false, activeSpeciesId: null }).id, 'seek-rootbound-grove');
+  assert.equal(getFrontierPurpose({ state: established, isCamp: false, activeSpeciesId: 'mossling',
+    pendingCompanions: [{ id: 'pending', speciesId: 'mossling' }], health: 1, maxHealth: 5,
+    ability: { speciesId: 'mossling', ready: true } }).id, 'return-pending-bond');
+  assert.equal(getFrontierPurpose({ state: established, isCamp: false, activeSpeciesId: 'mossling', health: 3, maxHealth: 5,
+    ability: { speciesId: 'mossling', ready: true } }).id, 'use-bloom');
+  assert.equal(getFrontierPurpose({ state: established, isCamp: false, activeSpeciesId: 'mossling', health: 1, maxHealth: 5,
+    ability: { speciesId: 'mossling', ready: false } }).id, 'return-low-health');
 });
 
 test('active Camp processes and feeding outrank requests for optional or later structures', () => {
@@ -200,4 +243,17 @@ test('derivation does not mutate inputs or emit stale portal navigation language
   assert.deepEqual(input, before);
   assert.ok(purpose.title.length <= 28);
   assert.doesNotMatch(`${purpose.title} ${purpose.description}`, /Waypoint|Beacon|Extract/i);
+
+  const established = Object.freeze({
+    state: Object.freeze({
+      ownedWildkin: Object.freeze([mossling]), fieldSupplies: Object.freeze({}),
+      base: Object.freeze({ structures: Object.freeze(built('bed', 'berry_garden')) }),
+      campCare: Object.freeze({ wildkinId: mossling.id, bedId: 'build_1', nourishment: 3 }),
+      campCrop: Object.freeze({ growthSeconds: CAMP_CROP_GROWTH_SECONDS }), campBreeding: null,
+    }),
+    cargo: Object.freeze({ berries: 1 }), isCamp: false, activeSpeciesId: 'mossling', health: 5, maxHealth: 5,
+  });
+  const establishedBefore = structuredClone(established);
+  assert.equal(getFrontierPurpose(established).id, 'seek-rootbound-grove');
+  assert.deepEqual(established, establishedBefore);
 });

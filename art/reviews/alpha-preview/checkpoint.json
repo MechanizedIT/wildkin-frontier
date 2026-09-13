@@ -1,0 +1,272 @@
+{
+  "createdAt": "2026-09-13T13:08:34.314Z",
+  "baseCommit": "2ecf2d7a62709cb1f4d101c8b1e8552085dd63c4",
+  "outcome": "Guided earned Camp-to-grove-to-Camp journey, garden use and complete saved continuation verified.",
+  "verification": {
+    "tests": 1322,
+    "passed": 1322,
+    "testDurationMs": 76024.1926,
+    "aggregateRuns": 1,
+    "world": "PASS",
+    "campaign": "PASS",
+    "build": "PASS",
+    "validate": "PASS",
+    "zip": "PASS",
+    "unpackedMB": 44.29,
+    "zipBytes": 21569834
+  },
+  "reviews": {
+    "purpose": "PASS",
+    "baseSelector": "PASS",
+    "newVisualRounds": 0,
+    "priorGroveVisual": "7.7/10 HOLD",
+    "priorCoastVisual": "6.4/10 HOLD"
+  },
+  "native": {
+    "guided": true,
+    "debugGrants": false,
+    "debugPositionWrites": false,
+    "simulationStepping": false,
+    "bankedXpBefore": 50,
+    "bankedXpAfter": 62,
+    "ownedWildkin": 1,
+    "health": 5,
+    "finalResources": {
+      "wood": 1,
+      "fiber": 1,
+      "berries": 17,
+      "wildflower": 6,
+      "crystal_shard": 2
+    },
+    "activeRun": null,
+    "cropGrowthSeconds": 90,
+    "canonicalSaveParity": true,
+    "portableContinueParity": true,
+    "resourceOrigins": [
+      "http://127.0.0.1:8081"
+    ],
+    "logs": {
+      "developer": [],
+      "portable": []
+    },
+    "movement": {
+      "legs": 30,
+      "outwardLegs": 16,
+      "movementSeconds": 361.39180000010134,
+      "outwardSeconds": 178.02410000008348,
+      "returnSeconds": 183.36770000001786,
+      "sampledMetres": 1249.2142068204137,
+      "stops": [
+        {
+          "target": {
+            "x": 11,
+            "z": 36
+          },
+          "reason": "obstacle",
+          "elapsed": 4.411599999994039
+        },
+        {
+          "target": {
+            "x": -20,
+            "z": -20
+          },
+          "reason": "deadline",
+          "elapsed": 30.007600000023842
+        }
+      ],
+      "last": {
+        "x": 3.065927743911743,
+        "y": 0.5219999551773071,
+        "z": 7.395492076873779
+      }
+    },
+    "saves": [
+      {
+        "name": "final-save.json",
+        "sha256": "a31f0481b7c93c443b82442a122407f8eb354ee783e18a26ed7c8fa7638d313c",
+        "canonicalSha256": "50d724453b2fbe6147a6a201729193e1c390f99c4918ff0f52e92980678e0911"
+      },
+      {
+        "name": "developer-reload-save.json",
+        "sha256": "a31f0481b7c93c443b82442a122407f8eb354ee783e18a26ed7c8fa7638d313c",
+        "canonicalSha256": "50d724453b2fbe6147a6a201729193e1c390f99c4918ff0f52e92980678e0911"
+      },
+      {
+        "name": "package-reload-save.json",
+        "sha256": "a31f0481b7c93c443b82442a122407f8eb354ee783e18a26ed7c8fa7638d313c",
+        "canonicalSha256": "50d724453b2fbe6147a6a201729193e1c390f99c4918ff0f52e92980678e0911"
+      }
+    ]
+  },
+  "limitations": [
+    "Route guidance used the existing catalog and terrain queries; unaided discovery remains untested.",
+    "Movement timing excludes inspection pauses and UI actions.",
+    "Physical phone and cold-airplane-mode operation were not tested.",
+    "Sparse ecotone travel and prior grove/coast visual holds remain.",
+    "No new GitHub push, Drive publication or usage-reset redemption in this checkpoint."
+  ],
+  "evidenceHashes": [
+    {
+      "path": ".dream-loop/alpha-preview/journey-inputs.json",
+      "sha256": "8d1b251b26cfb5d67d45ec70969a0aca9790f84c76ecf13d29d66497db72b3cb"
+    },
+    {
+      "path": ".dream-loop/alpha-preview/outward-inputs.json",
+      "sha256": "150ebac2fda303daee215312f723438bef5556d3b8a6eac75a7d0673b41e8563"
+    },
+    {
+      "path": ".dream-loop/alpha-preview/journey-summary.json",
+      "sha256": "65331af3aa25c0ac33ee4c042dc70336dda94499859ca3638c317d6447172a14"
+    },
+    {
+      "path": ".dream-loop/alpha-preview/verify.log",
+      "sha256": "dbdbb8e592a3d23209cc3486665e901e82eb56c473eb1a2127d2aa11ad2eb7bd"
+    },
+    {
+      "path": ".dream-loop/alpha-preview/final-logs.json",
+      "sha256": "9ec04d71b390b7befb9cffaf0f165b331f7e92d5c7c7a480b5a1690d427cb36a"
+    }
+  ],
+  "files": [
+    {
+      "path": "src/progression/frontierPurpose.js",
+      "bytes": 7611,
+      "sha256": "1246870cbe05f13481041e15911793ba28b0a38dba72cd4fd8706f6b9ec9b529"
+    },
+    {
+      "path": "src/base/baseSystem.js",
+      "bytes": 20273,
+      "sha256": "b9f627467ab9ae785949b8f4ca4f575bbe7c7c6702468f0ab07c3f526f49f692"
+    },
+    {
+      "path": "tests/frontierPurpose.test.js",
+      "bytes": 12737,
+      "sha256": "e5c7521d304c5ee24f72bdf5c1d2956144b2e59aa39e9be0ac55f0af5128f3e1"
+    },
+    {
+      "path": "tests/baseRuntime.test.js",
+      "bytes": 12101,
+      "sha256": "3164dc30671fab0627333ba28b464f38dc303017eae141cf37caab0006ae60eb"
+    },
+    {
+      "path": "README.md",
+      "bytes": 18440,
+      "sha256": "12a0bfa211c857b4ad43278befad469994d74283cd5b400438e5117ea47e764f"
+    },
+    {
+      "path": "docs/CURRENT_SLICE.md",
+      "bytes": 82917,
+      "sha256": "0d699e7188d208bb0830d15d42625b90ab8fe4c0b71735005921c178b6a65da4"
+    },
+    {
+      "path": "docs/SESSION_START.md",
+      "bytes": 10573,
+      "sha256": "3a7676879440dd9f6f0235ef1b5c45c0534b141718693602ce2d1368e5002dea"
+    },
+    {
+      "path": "docs/EARLY_ALPHA_PLAN.md",
+      "bytes": 15774,
+      "sha256": "453695e916f664ec5f561e55ac543d8137d3445f2432802760dd74900c773bd4"
+    },
+    {
+      "path": "docs/BETA_RELEASE_PLAN.md",
+      "bytes": 8807,
+      "sha256": "daac94c6dbdf678a2a28a8cb25db2bbabdcdbcef6c8d1a18227bb5c808c7bae0"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "bytes": 101472,
+      "sha256": "748a9f45346dc7eb5ca834f16b70c162f323f3982ebb1a3f80a308fd0ca3ad99"
+    },
+    {
+      "path": "docs/CODE_MAP.md",
+      "bytes": 37556,
+      "sha256": "e4f0db3b9fd3e0c81fbe3a79753ad90b1b301c8124c7aa3692f8cabdad5dd702"
+    },
+    {
+      "path": "docs/ALPHA_WORKFLOW.md",
+      "bytes": 16203,
+      "sha256": "134cd0d9a6b38476c1850a22cb16abd065ef21ecb7007d958096494d4f018a3f"
+    },
+    {
+      "path": "docs/BUILD_LOG.md",
+      "bytes": 416396,
+      "sha256": "5dc7d31ba9520b59b4ba76b9fd78d7ac432261ba49e2d94dda564a5a97c99678"
+    },
+    {
+      "path": "docs/research/living-frontier/Early-Alpha-Progress.md",
+      "bytes": 21936,
+      "sha256": "311427e677bb2b2e121cc3314d17f8f000a608b2d4e91ae3026ecfed1188f28a"
+    },
+    {
+      "path": "docs/research/living-frontier/README.md",
+      "bytes": 3134,
+      "sha256": "0b6df663ceed971e90412df3963c1176a214cffbe28c625ee67540d4c4ea2d7b"
+    },
+    {
+      "path": "art/reviews/alpha-preview/camp-replanted.png",
+      "bytes": 177448,
+      "sha256": "025db7f1e0de0bde1f87680521e8d9a908fab27e7f88b951fce77a32fa306ff5"
+    },
+    {
+      "path": "art/reviews/alpha-preview/grove-arrival.png",
+      "bytes": 148247,
+      "sha256": "75c6286ec65fadeb7d1b4384bbcfb8454d46f49e221e25877370e0072d9f8098"
+    },
+    {
+      "path": "art/reviews/alpha-preview/grove-collected.png",
+      "bytes": 169271,
+      "sha256": "b13eefd8d77f3b0107850781924e9e22a177826138a59b8730936a143e4f199f"
+    },
+    {
+      "path": "art/reviews/alpha-preview/grove-journal.png",
+      "bytes": 59607,
+      "sha256": "d576b9acf58daabc16b24066685fc3c82b31c52aaa7aa01dd1e39e4f4bb5de77"
+    },
+    {
+      "path": "art/reviews/alpha-preview/home-haul.png",
+      "bytes": 77984,
+      "sha256": "7c59a7da51a440734cc354b4b453c2bc18565024cd02d6aeb5d9a2bb2d8f6057"
+    },
+    {
+      "path": "art/reviews/alpha-preview/open-country.png",
+      "bytes": 101200,
+      "sha256": "8de282f67d0cd6b5ab43c0bb707787c954e2c32c5a52b89a1777e3f298d97374"
+    },
+    {
+      "path": "art/reviews/alpha-preview/overlap-after.png",
+      "bytes": 175923,
+      "sha256": "cccf2e5da2cf227c92c3ea6da25df13f55511a73194ce6cee3ff652c66e92831"
+    },
+    {
+      "path": "art/reviews/alpha-preview/overlap-before.png",
+      "bytes": 177887,
+      "sha256": "fd9a8d4c9705bdc488c9499327d9ebecd6f47a5a96d67954ca5a034665fbeab3"
+    },
+    {
+      "path": "art/reviews/alpha-preview/package-camp.png",
+      "bytes": 182461,
+      "sha256": "efdfc803cad920f6d38b30fa9b49fb7311588eef7625d87c847d48c323294064"
+    },
+    {
+      "path": "art/reviews/alpha-preview/plant.png",
+      "bytes": 151277,
+      "sha256": "55db088856439dc56c3c3273b353a71b09dbb4c90a782924077f2bbd96584f0a"
+    },
+    {
+      "path": "art/reviews/alpha-preview/receipt.md",
+      "bytes": 8611,
+      "sha256": "44df2bf6eae6e63c0eb69af49ee39884f44ff3b58ed57a418d0208da1994909a"
+    },
+    {
+      "path": "art/reviews/alpha-preview/route.svg",
+      "bytes": 13740,
+      "sha256": "619a1ea124f868510ab87b8f193401d0103952b432085417a8aeba5335d0e1cb"
+    },
+    {
+      "path": "dist/submission.zip",
+      "bytes": 21569834,
+      "sha256": "32c0790c23ec09e51c5284ee4c3c7b2ecf5df8d5ac2418b8d707aeeec1288fc9"
+    }
+  ]
+}

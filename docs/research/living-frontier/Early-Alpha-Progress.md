@@ -1,6 +1,26 @@
 # Early alpha — procedural frontier progress
 
-## New local loop: Mossling opens a grove cache
+## New local progress: an earned round trip
+
+The previously earned one-Mossling save now connects Camp preparation to a useful habitat trip without adding a quest ledger. At the overlapping Camp spot, the nearer visible garden receives Harvest or Plant instead of the farther yard console; storage/stations and existing reach, action and save rules retain priority. Away from Camp, the derived plan points an established Mossling player toward Lush green country and explains full-health Bloom and the cache payoff.
+
+<img src="../../../art/reviews/alpha-preview/overlap-before.png" alt="Actual overlap before the farther yard console focus was corrected" width="210"> <img src="../../../art/reviews/alpha-preview/overlap-after.png" alt="Actual overlap after the nearer garden receives focus" width="210"> <img src="../../../art/reviews/alpha-preview/grove-journal.png" alt="Actual Journal showing the rootbound-grove purpose and payoff" width="210">
+
+The earned save began this leg with one secured Mossling and50 banked XP. A legitimate four-berry harvest followed by replant left8 carried berries. Ordinary input crossed open country, reached a rootbound grove at health5, used Bloom and collected the cache, adding6 berries,3 wildflowers,2 crystal shards and12 field XP.
+
+<img src="../../../art/reviews/alpha-preview/open-country.png" alt="Actual ordinary-input travel through open country toward the grove" width="210"> <img src="../../../art/reviews/alpha-preview/grove-arrival.png" alt="Actual earned Mossling arrival at the living cache" width="210"> <img src="../../../art/reviews/alpha-preview/grove-collected.png" alt="Actual opened cache and collected supplies" width="210">
+
+Read-only catalog and terrain guidance identified the route; it did not write player positions, grant resources or advance simulation. This is a guided earned outing, not proof that a new player would find the grove unaided. The physical return secured the twelve field XP, increasing banked XP from 50 to 62. The next harvest and replant left 17 berries, six wildflowers and two crystal shards. Developer and portable reload preserved the entire selected save, including the same Mossling, Camp, cache claim and surveyed map. All 1,322 tests and package checks pass; the ZIP is 20.57 MB. Exact controls and limits are in the [alpha-preview receipt](../../../art/reviews/alpha-preview/receipt.md).
+
+<img src="../../../art/reviews/alpha-preview/home-haul.png" alt="Actual return secures twelve XP and the collected supplies" width="210"> <img src="../../../art/reviews/alpha-preview/camp-replanted.png" alt="The earned garden after harvest and replant with returned supplies" width="210"> <img src="../../../art/reviews/alpha-preview/package-camp.png" alt="Portable continuation preserves the earned checkpoint" width="210">
+
+<img src="../../../art/reviews/alpha-preview/route.svg" alt="Recorded outward and return route between Camp and the grove" width="430">
+
+Thirty bounded movement legs took about six minutes and covered approximately 1.25 km, including fence/tree detours. Inspection pauses and UI actions are excluded; this is not an unaided completion-time claim.
+
+The next provisional visual priority is readable Sunscar/Lush ecotone travel using the existing grass, scenery and resident caps. The actual route exposed roughly27m gaps between substantial props and grass that reads too small in portrait play. This finding does not promise more assets, higher caps or a new biome. The roughly10-habitat/30-species direction remains staged; danger pacing, physical-mobile proof and refreshed report distribution remain limited.
+
+## Prior checkpoint: grove cache mechanics
 
 Follow an open clearing between alien trees and mossy logs. Bring a secured Mossling, use Bloom to awaken the chest, watch its lid open, and collect supplies for the next outing. The current continent has59 supported locations using one initial grove composition. Existing Sunscar mineral blooms give Emberhorn a different kind of destination.
 
@@ -14,7 +34,7 @@ Follow an open clearing between alien trees and mossy logs. Bring a secured Moss
 | Return with more pack space | Only saved leftovers remain; XP does not repeat |
 | Stream away or reload | Each grove keeps its own seal, claim and remaining supplies |
 
-All1,319 tests and the integrated package gate pass. Developer and portable save continuation matched the complete selected payload. The selected visual is **7.7/10 HOLD** after three passes: canopy/ruin framing and ground density need more polish. Native testing used a disclosed Mossling/approach fixture; the earned Camp-to-grove route remains the next playtest. No new species, assets, menus or online service were added. [Exact evidence and limitations](../../../art/reviews/lush-groves/receipt.md). The published Drive PDFs retain their earlier checkpoint.
+All1,319 tests and the integrated package gate passed at this earlier mechanics checkpoint. Developer and portable save continuation matched the complete selected payload. The selected visual is **7.7/10 HOLD** after three passes: canopy/ruin framing and ground density need more polish. Native testing used a disclosed Mossling/approach fixture. No new species, assets, menus or online service were added. [Exact evidence and limitations](../../../art/reviews/lush-groves/receipt.md). The published Drive PDFs retain their earlier checkpoint.
 
 ## New local foundation: a continent and its coast
 

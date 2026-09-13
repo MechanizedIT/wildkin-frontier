@@ -10,7 +10,7 @@ Chris has authorized continuous goal-mode development on main until he asks to s
 
 ## Current playable checkpoint
 
-The newest local checkpoint adds59 seeded Lush groves and Mossling-opened caches to the existing continent/coast. Native full-health Bloom, visible lid delay, one-time supplies, two-resident Rapier/lifecycle checks and complete developer/package save parity pass. All1,319 tests and package gates pass;44.29MB unpacked/20.57MB ZIP. Independent source/scale PASS; selected visual R3 **7.7/10 HOLD**. Read `art/reviews/lush-groves/receipt.md` for fixtures, images and remaining canopy/ruin/ground-density polish. Next: define and play the connected early-alpha preview before another framework or roster expansion. Coast remains functional with6.4/10 visual debt.
+The newest local checkpoint completes the earned one-Mossling Camp→grove→return→garden journey. The away plan now explains grove exploration, and nearer visible furniture competes fairly with the yard console. The return secured 12 XP for 62 total; harvest/replant left 17 berries, six flowers and two crystals. All 1,322 tests and package gates pass at 44.29 MB unpacked / 20.57 MB ZIP. Complete developer/portable save parity and independent review pass. Read `art/reviews/alpha-preview/receipt.md` for the guided route, screenshots and limits. Next: define an actual-camera ecotone travel target using the existing grass/scenery caps; native play exposed sparse stretches. No unaided discovery or physical-phone claim. Grove R3 remains7.7/10 HOLD and coast R3 remains6.4/10 HOLD.
 
 ### Previous useful-companion checkpoint
 
