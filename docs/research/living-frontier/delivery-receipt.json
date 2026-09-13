@@ -20,7 +20,7 @@
       "title": "Wildkin Frontier - Detailed Research Appendix.pdf",
       "mimeType": "application/pdf",
       "bytes": 82919,
-      "modifiedTime": "2026-09-13T02:31:13.880Z",
+      "modifiedTime": "2026-09-13T02:31:13.88Z",
       "parentIds": [
         "1PIDjoFtj8tyZaFf7g7DsVJEf-nZUhUO-"
       ],
@@ -31,7 +31,10 @@
   "github": {
     "repository": "https://github.com/MechanizedIT/wildkin-frontier",
     "branch": "main",
-    "status": "Local checkpoint ready; remote verification pending"
+    "status": "Pushed and independently verified with git ls-remote",
+    "codeAndReportCommit": "4298dd5052e4ff52ab1280f67c4c4dcaa8ab77b7",
+    "remoteVerifiedUTC": "2026-09-13T02:37:30.4546446Z",
+    "publicationMode": "Normal push to existing main; skip-ci commit message; no PR or deployment"
   },
   "contentQA": "review/qa.json",
   "gameEvidence": "../../../art/reviews/skybreak/receipt.md"
