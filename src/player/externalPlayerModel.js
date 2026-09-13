@@ -6,9 +6,19 @@ import { createExternalModelVisual, createVisualAnimationController, disposeExte
 const MODE_CLIPS = {
   IDLE: "idle", WALK: "walk", RUN: "run", SNEAK: "sneak", JUMP: "jump",
   FALL: "fall", DODGE: "dodge", CLIMB: "climb", MANTLE: "mantle",
+  WADE: "walk", SWIM: "climb",
 };
 const ONE_SHOT_MODES = new Set(["JUMP", "DODGE", "MANTLE"]);
-const TRAVERSAL_MODES = new Set(["CLIMB", "MANTLE"]);
+const PRIORITY_POSE_MODES = new Set(["CLIMB", "MANTLE", "SWIM"]);
+export const PLAYER_SWIM_VISUAL = Object.freeze({
+  // The admitted rig is 1.28m tall above a -0.52m foot pivot. Rotating its
+  // wrapper around the capsule center keeps physics upright while laying the
+  // head toward +Z, the player's facing direction. A slight retained rise
+  // keeps the head readable above the opaque surface.
+  pitchRadians: Math.PI * .475,
+  modelYOffset: -.08,
+  blendRate: 10,
+});
 
 export function createExternalPlayerModel(playerGroup, descriptor) {
   if (!descriptor?.model) throw new Error("playerVisual requires a model descriptor");
@@ -33,7 +43,7 @@ export function createExternalPlayerModel(playerGroup, descriptor) {
       mantleProgress,
       mantleLiftFraction,
     } = {}) {
-      const traversalMode = TRAVERSAL_MODES.has(mode);
+      const traversalMode = PRIORITY_POSE_MODES.has(mode);
       const stagedMantle = mode === "MANTLE"
         && Number.isFinite(mantleProgress)
         && Number.isFinite(mantleLiftFraction)
@@ -65,7 +75,8 @@ export function createExternalPlayerModel(playerGroup, descriptor) {
       // The controller forwards signed vertical velocity only for CLIMB: an
       // upward grip uses the authored loop forward and a downward grip uses it
       // in reverse. Every ordinary locomotion mode keeps its old unsigned API.
-      animator?.setLocomotionSpeed(stagedMantle ? 0 : speed, { allowReverse: mode === "CLIMB" });
+      const visualSpeed = mode === "SWIM" ? Math.max(.55, Number(speed) || 0) : speed;
+      animator?.setLocomotionSpeed(stagedMantle ? 0 : visualSpeed, { allowReverse: mode === "CLIMB" });
       if (mode === "MANTLE" && Number.isFinite(mantleDuration) && mantleDuration > 0) {
         const clipDuration = animator?.active?.getClip?.().duration;
         if (Number.isFinite(clipDuration) && clipDuration > 0) {
@@ -76,6 +87,11 @@ export function createExternalPlayerModel(playerGroup, descriptor) {
         }
       }
       animator?.update(dt);
+      const targetPitch = mode === "SWIM" ? PLAYER_SWIM_VISUAL.pitchRadians : 0;
+      const targetY = mode === "SWIM" ? PLAYER_SWIM_VISUAL.modelYOffset : 0;
+      const visualBlend = 1 - Math.exp(-PLAYER_SWIM_VISUAL.blendRate * Math.max(0, dt));
+      model.rotation.x += (targetPitch - model.rotation.x) * visualBlend;
+      model.position.y += (targetY - model.position.y) * visualBlend;
       if (animator?.activeState === "climb") lastClimbPhase = animator.active.time;
       previousMode = mode;
     },
@@ -85,7 +101,7 @@ export function createExternalPlayerModel(playerGroup, descriptor) {
       actionRemaining = animator?.active?.getClip().duration ?? 0;
       return !!animator;
     },
-    dispose() { actionRemaining = 0; lastClimbPhase = 0; disposeExternalModelInstance(model); },
+    dispose() { actionRemaining = 0; lastClimbPhase = 0; model.rotation.x = 0; model.position.y = 0; disposeExternalModelInstance(model); },
   };
   playerGroup.userData.externalPlayerModel = adapter;
   return adapter;

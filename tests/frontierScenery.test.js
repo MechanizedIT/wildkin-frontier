@@ -8,6 +8,7 @@ import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD } from '../src/world/frontierWorld.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalPlace.js';
+import { hasFrontierLandFootprint } from '../src/world/frontierContinent.js';
 import { WORLD_DATA } from '../src/world/data/world.generated.js';
 
 const chunkGrid = (cx, cz) => {
@@ -230,9 +231,12 @@ test('one exact point memo removes repeated terrain work without changing select
     assert.deepEqual(Array.from(ground(memoVisual).instanceColor.array), Array.from(ground(rawVisual).instanceColor.array));
     const total = maps => [...maps.heightKeys.values(), ...maps.sampleKeys.values()].reduce((sum, count) => sum + count, 0);
     assert.equal([...memo.heightKeys.values()].every(count => count === 1), true);
-    assert.equal([...memo.sampleKeys.values()].every(count => count === 1), true);
+    assert.ok(Math.max(...memo.sampleKeys.values()) <= 9, 'bounded over-cap footprint probes may recompute without changing output');
     assert.ok(total(raw) - total(memo) > 2_000, 'the fixture removes substantial exact duplicate terrain work');
-    assert.deepEqual(build.getTerrainMemoDebugState(), { heightCount: memo.heightKeys.size, sampleCount: memo.sampleKeys.size });
+    assert.deepEqual(build.getTerrainMemoDebugState(), {
+      heightCount: memo.heightKeys.size,
+      sampleCount: Math.min(FRONTIER_SCENERY_POINT_MEMO_CAP, memo.sampleKeys.size),
+    });
   } finally {
     rawVisual.dispose(); memoVisual.dispose(); build.releaseTerrainMemo();
   }
@@ -309,6 +313,44 @@ test('alternate-world grass exclusions honor that world’s forage and wildlife 
   assert.ok(forage.length && wildlife.length);
   assert.ok(forage.every(node => filter(node.pos.x, node.pos.z) === false));
   assert.ok(wildlife.every(node => filter(node.homePos.x, node.homePos.z) === false));
+});
+
+test('ordinary scenery keeps its attempt budget but emits no wet-footprint props', () => {
+  const wet = () => ({ height: -2, coastDistance: -1, habitatBlend: { wetland: 0, fernUpland: 1 }, surfaceKind: null });
+  assert.deepEqual(sampleFrontierSceneryChunk(12, 12, { getTerrainSample: wet, getHeight: () => -2 }), []);
+});
+
+test('coastal stone slots follow the dry contour, frame a central exit, and skip unavailable kit pieces', () => {
+  const specs = sampleFrontierSceneryChunk(6, 2, { visualAssets: WORLD_DATA.visualAssets });
+  const contour = specs.filter(spec => /^f2c:s:6:2:seed-[0-4]$/.test(spec.id));
+  assert.equal(contour.length, 5);
+  assert.deepEqual(contour.map(spec => spec.assetId), [
+    'asset_fen_stone', 'asset_trail_stones', 'asset_trail_stones', 'asset_fen_stone', 'asset_trail_stones',
+  ]);
+  const center = sampleFrontier(325, 125), inward = center.inlandDirection;
+  const anchor = { x: 325 + inward.x * (8 - center.coastDistance), z: 125 + inward.z * (8 - center.coastDistance) };
+  const tangent = { x: -inward.z, z: inward.x };
+  const offsets = contour.map(spec => (spec.x - anchor.x) * tangent.x + (spec.z - anchor.z) * tangent.z);
+  const westCluster = offsets.filter(offset => offset < 0), eastCluster = offsets.filter(offset => offset > 0);
+  assert.deepEqual([westCluster.length, eastCluster.length], [3, 2]);
+  assert.ok(Math.min(...eastCluster) - Math.max(...westCluster) >= 12,
+    'two readable subclusters preserve a central shore exit wider than three metres');
+  assert.ok(Math.max(...offsets) - Math.min(...offsets) >= 12, 'the formation reads along the shoreline rather than as one pile');
+  assert.ok(contour.filter(spec => spec.assetId === 'asset_fen_stone')
+    .every(spec => spec.scale >= 2.2 && spec.scale <= 2.8), 'Fen stones carry the readable one-metre-class silhouettes');
+  for (const spec of contour) {
+    const radius = (spec.assetId === 'asset_fen_stone' ? 1.14 : 1.4) * spec.scale;
+    const terrain = sampleFrontier(spec.x, spec.z);
+    assert.ok(terrain.coastDistance >= 4 && terrain.coastDistance <= 12);
+    assert.equal(hasFrontierLandFootprint(spec.x, spec.z, { radius }), true);
+    assert.equal(hasFootprintSupport(spec.x, spec.z, { getHeight: (x, z) => sampleFrontier(x, z).height,
+      radius, maxSlope: .32 }), true);
+  }
+  const withoutFen = sampleFrontierSceneryChunk(6, 2, {
+    visualAssets: WORLD_DATA.visualAssets.filter(asset => asset.id !== 'asset_fen_stone'),
+  });
+  assert.equal(withoutFen.some(spec => spec.assetId === 'asset_fen_stone'), false);
+  assert.ok(withoutFen.filter(spec => spec.assetId === 'asset_trail_stones').length >= 2);
 });
 
 test('chunk recipes are deterministic, terrain-grounded, and habitat-dithered', () => {

@@ -14,7 +14,8 @@ export function createPlayerVisuals(playerMesh) {
   function sync(dt, state) {
     if (externalModel) {
       externalModel.update(dt, state.mode, state.speed, { mantleDuration:state.mantleDuration,
-        mantleProgress:state.mantleProgress, mantleLiftFraction:state.mantleLiftFraction });
+        mantleProgress:state.mantleProgress, mantleLiftFraction:state.mantleLiftFraction,
+        waterDepth:state.waterDepth, currentStrength:state.currentStrength });
       return;
     }
     timeAcc += dt;
@@ -71,6 +72,14 @@ export function createPlayerVisuals(playerMesh) {
         lean = -0.18;
         heightScale = 0.98;
         break;
+      case "WADE":
+        bobFreq = 3.4;
+        bobAmp = 0.025;
+        break;
+      case "SWIM":
+        bobFreq = 2.6;
+        bobAmp = 0.012;
+        break;
       default:
         bobFreq = 1.1;
         bobAmp = 0.04;
@@ -95,6 +104,7 @@ export function createPlayerVisuals(playerMesh) {
     if (mode === "MANTLE") targetLean = -0.10;
     if (mode === "JUMP") targetLean = 0.12;
     if (mode === "FALL") targetLean = 0.08;
+    if (mode === "SWIM") targetLean = 0;
     const currentLean = playerMesh.rotation.x;
     const leanLerp = 1 - Math.exp(-10 * dt);
     playerMesh.rotation.x += (targetLean - currentLean) * leanLerp;
@@ -123,7 +133,7 @@ export function createPlayerVisuals(playerMesh) {
     }
 
     // Limb motion is visual-only. Keep the Field Tool's right-hand chain untouched.
-    const moving = mode === "WALK" || mode === "RUN" || mode === "SNEAK";
+    const moving = mode === "WALK" || mode === "RUN" || mode === "SNEAK" || mode === "WADE";
     const stride = moving ? Math.sin(bobPhase) * (mode === "RUN" ? 0.54 : mode === "WALK" ? 0.34 : 0.18) : 0;
     const limbBlend = 1 - Math.exp(-14 * dt);
     if (leftLeg) leftLeg.rotation.x += (stride - leftLeg.rotation.x) * limbBlend;

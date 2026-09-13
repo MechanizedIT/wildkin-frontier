@@ -7,14 +7,14 @@ import { createFieldTaming, getFieldTamingRange } from "./fieldTaming.js";
 import { createFieldTamingVisual, createObservationMarker, findFieldPlacement } from "./fieldTamingVisual.js";
 import { getSurfaceHeight } from "../world/terrainSurfaceModel.js";
 import { createCompanionPhysics, COMPANION_PHYSICS_TUNING } from "./companionPhysics.js";
-import { deriveCompanionFollowIntent, getCompanionFormationAnchor, MOSSLING_FOLLOW_TUNING } from "./companionFollowIntent.js";
+import { COMPANION_FOLLOW_TUNING, deriveCompanionFollowIntent, getCompanionFormationAnchor, MOSSLING_FOLLOW_TUNING } from "./companionFollowIntent.js";
 import { MOSSLING_MOTION } from "../creatures/mosslingMotion.js";
 import { createCreatureObservation } from './creatureObservation.js';
 import { createWildkinGenome, normalizeWildkinGenome } from '../creatures/wildkinGenome.js';
 import { cloneWildkinIndividual, MAX_PENDING_WILDKIN, normalizeWildkinIndividual } from '../creatures/wildkinIndividual.js';
 import { applyWildkinAppearance } from '../creatures/wildkinAppearance.js';
 
-export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, getCampCareAnchor = () => null, getCampYoungAnchor = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {}, strikeMinerals = () => ({ hits: 0, sources: 0, depleted: 0, interrupted: false }) }) {
+export function createCompanionSystem({ app, scene, camera = null, registry, progress, creatures, playerController, playerCombat, physicsWorld, playerCollider = null, hasCacheMechanism = () => false, isActive, getSectionId, getRunId = () => null, getTerrainHeight = null, getSurfaceWater = () => null, getCampCareAnchor = () => null, getCampYoungAnchor = () => null, onBlockingChanged, toast, pulse, audio, onAbility = () => {}, strikeMinerals = () => ({ hits: 0, sources: 0, depleted: 0, interrupted: false }) }) {
   let pending = [], cooldown = 0, elapsed = 0, fixedElapsed = 0;
   let interactionTargetId = null;
   const followers = new Map();
@@ -23,6 +23,39 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
   const fieldVisual = createFieldTamingVisual(scene);
   const observationMarker = createObservationMarker(scene);
   const observationPoint = new THREE.Vector3();
+  const followerShoreClearance = COMPANION_PHYSICS_TUNING.radius + .12;
+  const isPlayerWaterborne = player => player?.waterborne === true || player?.mode === "WADE" || player?.mode === "SWIM";
+
+  function isDryFollowerPoint(position) {
+    if (!position || ![position.x, position.z].every(Number.isFinite)) return false;
+    const probes = [[0, 0], [followerShoreClearance, 0], [-followerShoreClearance, 0],
+      [0, followerShoreClearance], [0, -followerShoreClearance]];
+    try {
+      return probes.every(([x, z]) => !getSurfaceWater({ x: position.x + x, y: position.y, z: position.z + z }));
+    } catch { return false; }
+  }
+
+  function isDryFollowerPath(from, to) {
+    if (!isDryFollowerPoint(from) || !isDryFollowerPoint(to)) return false;
+    const distance = Math.hypot(to.x - from.x, to.z - from.z);
+    const steps = Math.min(48, Math.ceil(distance / Math.max(.7, followerShoreClearance * 2)));
+    for (let step = 1; step < steps; step++) {
+      const t = step / steps;
+      if (!isDryFollowerPoint({ x: from.x + (to.x - from.x) * t, y: from.y + ((to.y ?? from.y) - from.y) * t,
+        z: from.z + (to.z - from.z) * t })) return false;
+    }
+    return true;
+  }
+
+  function getDryFormationAnchor(player, slotIndex, slotCount) {
+    const lastDry = player?.lastDryPosition;
+    const origin = isPlayerWaterborne(player) && lastDry && [lastDry.x, lastDry.y, lastDry.z].every(Number.isFinite)
+      ? lastDry : player?.pos;
+    if (!origin) return null;
+    const formation = getCompanionFormationAnchor(origin, player?.facing ?? 0, slotIndex, slotCount);
+    if (isDryFollowerPoint(formation)) return formation;
+    return isDryFollowerPoint(origin) ? { x: origin.x, y: origin.y, z: origin.z } : null;
+  }
   const observation = createCreatureObservation({
     getPlayer: playerController.getState, getCreatures: creatures.getActiveAliveCreatures,
     getProgress: progress.getState, discoverSpecies: progress.discoverSpecies, earnClue: progress.earnObservationClue,
@@ -135,6 +168,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
   }
   function getNearbyInteraction(pos) {
     if (!isActive()) return null;
+    if (playerController.getState().mode === "SWIM") return null;
     const active = fieldTaming.getState();
     if (active) {
       // The persistent guide explains waiting. A second, non-actionable world
@@ -164,11 +198,13 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     return best;
   }
   function beginBond(id) {
+    if (playerController.getState().mode === "SWIM") return false;
     const target = creatures.getActiveAliveCreatures().find(c => c.state.id === id);
     return fieldTaming.begin(id, identifyCompanion(target));
   }
   function useAbility() {
     if (!isActive()) return { ok: false, message: "Companion abilities are available on expeditions." };
+    if (playerController.getState().mode === "SWIM") return { ok: false, message: "Return to shore before calling a companion ability." };
     const active = getActiveRecord();
     const species = COMPANION_BY_ID[active?.speciesId];
     if (!species) return { ok: false, message: "Secure a bonded Wildkin, then select it at Camp." };
@@ -249,13 +285,15 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       },
     });
   }
-  function ensureFollower(record, player, sectionId, slotIndex, slotCount, { young = false } = {}) {
+  function ensureFollower(record, player, sectionId, slotIndex, slotCount, { young = false, spawnAnchor = null } = {}) {
     let follower = followers.get(record.id);
     if (follower) {
       if (!young && follower.young) {
         follower.young = false;
         follower.group.scale.setScalar(.7);
-        follower.physics = createFollowerPhysics(getSpawnPosition(player.pos, sectionId));
+        const startAnchor = spawnAnchor ?? getDryFormationAnchor(player, slotIndex, slotCount);
+        if (!startAnchor) return null;
+        follower.physics = createFollowerPhysics(getSpawnPosition(startAnchor, sectionId));
         follower.docked = false;
         follower.growthStage = null;
         follower.growthScale = 1;
@@ -273,7 +311,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     group.scale.setScalar(young ? .7 * .7 : .7);
     group.userData.modelAnimator = createVisualAnimationController(group);
     scene.add(group);
-    const startAnchor = getCompanionFormationAnchor(player.pos, player.facing, slotIndex, slotCount);
+    const startAnchor = spawnAnchor ?? getDryFormationAnchor(player, slotIndex, slotCount);
+    if (!young && !startAnchor) { group.removeFromParent(); disposeExternalModelInstance(group); return null; }
     const start = getSpawnPosition(startAnchor, sectionId);
     const physics = young ? null : createFollowerPhysics(start);
     follower = {
@@ -302,6 +341,8 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     follower.group.rotation.y = follower.facing;
   }
   function respawnFollower(follower, playerPos, sectionId) {
+    const current = follower.physics?.getPosition() ?? follower.group.position;
+    if (!isDryFollowerPath(current, playerPos)) return false;
     follower.docked = false;
     if (follower.physics && !follower.physics.enabled) follower.physics.setEnabled(true);
     const start = getSpawnPosition(playerPos, sectionId);
@@ -314,6 +355,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     follower.grounded = false;
     follower.blockedSeconds = 0;
     syncFollowerVisual(follower);
+    return true;
   }
   function dockFollower(follower, anchor, sectionId) {
     const point = anchor.anchorPos;
@@ -383,20 +425,36 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       y: (follower.grounded ? -0.08 : follower.verticalVelocity) * dt,
       z: step > 0 ? dz / distance * step : 0,
     };
+    const desiredPoint = { x: current.x + desired.x, y: current.y + desired.y, z: current.z + desired.z };
+    if (!isDryFollowerPoint(desiredPoint)) desired = { x: 0, y: desired.y, z: 0 };
     // Persist a tangent choice for a short beat. Alternating a side every
     // fixed step makes a character jitter against a corner; keeping it lets
     // the companion actually round a tree or ruin before reassessing.
     if (follower.blockedSeconds > 0 && step > 0) {
-      desired = { x: -desired.z * follower.steerSide, y: desired.y, z: desired.x * follower.steerSide };
+      const steer = { x: -desired.z * follower.steerSide, y: desired.y, z: desired.x * follower.steerSide };
+      const steerPoint = { x: current.x + steer.x, y: current.y + steer.y, z: current.z + steer.z };
+      desired = isDryFollowerPoint(steerPoint) ? steer : { x: 0, y: desired.y, z: 0 };
     }
     let result = follower.physics?.move(desired) ?? { corrected: desired };
+    const afterMove = follower.physics?.getPosition();
+    if (afterMove && !isDryFollowerPoint(afterMove)) {
+      follower.physics.setPosition(current);
+      result = { corrected: { x: 0, y: 0, z: 0 }, grounded: follower.grounded };
+    }
     let moved = Math.hypot(result.corrected.x, result.corrected.z);
     // A short, stable sidestep makes a companion route around a tree or cliff
     // instead of facing it forever. This is steering, not a navmesh.
     if (moved < step * 0.32 && step > 0.01 && follower.blockedSeconds <= 0) {
       follower.blockedSeconds = 0.7;
       const steer = { x: -desired.z * follower.steerSide, y: 0, z: desired.x * follower.steerSide };
-      result = follower.physics?.move(steer) ?? { corrected: steer };
+      const steerPoint = { x: current.x + steer.x, y: current.y, z: current.z + steer.z };
+      result = isDryFollowerPoint(steerPoint) ? (follower.physics?.move(steer) ?? { corrected: steer })
+        : { corrected: { x: 0, y: 0, z: 0 }, grounded: follower.grounded };
+      const afterSteer = follower.physics?.getPosition();
+      if (afterSteer && !isDryFollowerPoint(afterSteer)) {
+        follower.physics.setPosition(current);
+        result = { corrected: { x: 0, y: 0, z: 0 }, grounded: follower.grounded };
+      }
       moved = Math.hypot(result.corrected.x, result.corrected.z);
     }
     if (follower.blockedSeconds > 0) {
@@ -412,7 +470,10 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     follower.lastSpeed = moved / Math.max(dt, 1e-4);
   }
   function updateFixed(dt, { sectionId, paused = false, hidden = false } = {}) {
-    observation.update(dt, { sectionId, runId: getRunId(), active: isActive() && (playerCombat?.getHealth() ?? 1) > 0, paused, hidden, taming: !!fieldTaming.getState() });
+    const player = playerController.getState();
+    const swimming = player.mode === "SWIM";
+    if (swimming) fieldTaming.clear();
+    observation.update(dt, { sectionId, runId: getRunId(), active: isActive() && (playerCombat?.getHealth() ?? 1) > 0, paused: paused || swimming, hidden, taming: !!fieldTaming.getState() });
     if (hidden || !isActive()) fieldTaming.clear();
     if (paused) return;
     fieldTaming.update(dt, { hidden });
@@ -424,30 +485,44 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     const youngRecord = youngAnchor?.offspring?.id && !records.some(record => record.id === youngAnchor.offspring.id)
       ? youngAnchor.offspring : null;
     const ids = [...records.map(record => record.id), ...(youngRecord ? [youngRecord.id] : [])];
-    const player = playerController.getState();
     for (const [id, follower] of followers) {
       if (!ids.includes(id) && follower.docked) follower.docked = false;
       if (!ids.includes(id) || hidden) setFollowerVisible(follower, false);
     }
     for (let i = 0; i < records.length; i++) {
-      const follower = ensureFollower(records[i], player, sectionId, i, records.length);
+      const dryAnchor = getDryFormationAnchor(player, i, records.length);
+      const careMatch = careAnchor?.wildkinId === records[i].id && careAnchor.anchorPos
+        && [careAnchor.anchorPos.x, careAnchor.anchorPos.y, careAnchor.anchorPos.z].every(Number.isFinite);
+      const follower = ensureFollower(records[i], player, sectionId, i, records.length,
+        { spawnAnchor: careMatch ? careAnchor.anchorPos : dryAnchor });
       if (!follower || hidden) continue;
-      if (careAnchor?.wildkinId === follower.id && careAnchor.anchorPos
-        && [careAnchor.anchorPos.x, careAnchor.anchorPos.y, careAnchor.anchorPos.z].every(Number.isFinite)) {
+      if (careMatch) {
         dockFollower(follower, careAnchor, sectionId);
         continue;
       }
       if (follower.docked || follower.sectionId !== sectionId) {
-        const arrivalAnchor = getCompanionFormationAnchor(player.pos, player.facing, i, ids.length);
-        respawnFollower(follower, arrivalAnchor, sectionId);
+        const arrivalAnchor = getDryFormationAnchor(player, i, ids.length);
+        if (!arrivalAnchor || !respawnFollower(follower, arrivalAnchor, sectionId)) {
+          setFollowerVisible(follower, false);
+          continue;
+        }
       }
       setFollowerVisible(follower, true);
       const position = follower.physics?.getPosition() ?? follower.group.position;
-      const intent = deriveCompanionFollowIntent({
-        position, player: player.pos, playerFacing: player.facing,
-        slotIndex: i, slotCount: records.length, elapsed: fixedElapsed, state: follower.state,
-        tuning: follower.speciesId === "mossling" ? MOSSLING_FOLLOW_TUNING : undefined,
-      });
+      let intent;
+      if (isPlayerWaterborne(player)) {
+        const distance = dryAnchor ? Math.hypot(position.x - dryAnchor.x, position.z - dryAnchor.z) : 0;
+        intent = { mode: "SHORE_WAIT", target: dryAnchor ?? position, anchor: dryAnchor ?? position,
+          speed: distance > COMPANION_FOLLOW_TUNING.settleRadius ? COMPANION_FOLLOW_TUNING.recoverSpeed : 0,
+          distance, shouldTeleport: false,
+          nextState: { ...follower.state, mode: "SHORE_WAIT", settledPoint: dryAnchor ?? position } };
+      } else {
+        intent = deriveCompanionFollowIntent({
+          position, player: player.pos, playerFacing: player.facing,
+          slotIndex: i, slotCount: records.length, elapsed: fixedElapsed, state: follower.state,
+          tuning: follower.speciesId === "mossling" ? MOSSLING_FOLLOW_TUNING : undefined,
+        });
+      }
       follower.state = intent.nextState;
       moveFollower(follower, intent, dt);
       syncFollowerVisual(follower);

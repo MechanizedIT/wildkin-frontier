@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 import * as THREE from "three";
 import { createPlayer } from "../src/player/createPlayer.js";
+import { PLAYER_SWIM_VISUAL } from "../src/player/externalPlayerModel.js";
 import { createPlayerVisuals } from "../src/player/playerVisuals.js";
 import { createFieldTool } from "../src/tools/fieldTool.js";
 import { clearModelAssetCacheForTests, registerModelTemplateForTests } from "../src/assets/modelAssetRuntime.js";
@@ -101,5 +102,34 @@ describe("opt-in external player visual", () => {
     assert.ok(Math.abs(adapter.animator.active.getEffectiveTimeScale() - 0.2 / (0.4 * 0.45)) < 1e-9, "the authored mantle completes over only the post-lift travel");
     adapter.update(0.01, "WALK", 3.3);
     assert.equal(adapter.animator.activeState, "walk", "ordinary locomotion still resumes after traversal");
+  });
+
+  it("uses the climb loop as a provisional prone swim pose and blends the visual child upright", () => {
+    registerModelTemplateForTests(descriptor.model.path, template());
+    const player = createPlayer(descriptor);
+    const adapter = player.userData.externalPlayerModel;
+    adapter.playAction("hurt");
+    const headDirection = new THREE.Object3D();
+    headDirection.position.y = .76;
+    adapter.model.add(headDirection);
+    adapter.update(1, "SWIM", 0);
+    assert.equal(adapter.animator.activeState, "climb", "water entry immediately owns the pose over a hurt fallback");
+    assert.ok(adapter.animator.active.getEffectiveTimeScale() > 0, "treading water keeps the provisional loop moving");
+    assert.ok(Math.abs(adapter.model.rotation.x - PLAYER_SWIM_VISUAL.pitchRadians) < 1e-3,
+      "the model child settles almost horizontal at the water surface");
+    assert.ok(Math.abs(adapter.model.position.y - PLAYER_SWIM_VISUAL.modelYOffset) < 1e-4,
+      "the prone torso is lowered into the waterline");
+    assert.equal(player.rotation.x, 0, "the authoritative outer capsule transform remains upright");
+    player.updateMatrixWorld(true);
+    const headWorld = headDirection.getWorldPosition(new THREE.Vector3());
+    assert.ok(headWorld.z > .74, "the upper body lies toward the player's +Z facing direction");
+    const headRelativeY = headWorld.y - player.position.y;
+    assert.ok(headRelativeY > -.04 && headRelativeY < .02, "the raised head remains close to the capsule's surface plane");
+    const swimmingPitch = adapter.model.rotation.x;
+    const swimmingY = adapter.model.position.y;
+    adapter.update(0.2, "WADE", 1);
+    assert.equal(adapter.animator.activeState, "walk");
+    assert.ok(adapter.model.rotation.x < swimmingPitch, "shore exit blends the visual child back upright");
+    assert.ok(adapter.model.position.y > swimmingY, "shore exit also removes the temporary waterline offset");
   });
 });

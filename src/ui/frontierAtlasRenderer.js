@@ -7,14 +7,23 @@ const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 const EMPTY_ATLAS = Object.freeze({ chunks: Object.freeze({}) });
 
 export function frontierAtlasColor(sample) {
+  const coastDistance = Number(sample?.coastDistance);
+  const ocean = sample?.land === false || (Number.isFinite(coastDistance) && coastDistance < 0);
+  if (ocean) {
+    const depth = clamp(Number(sample?.waterDepth) || 0, 0, 5) / 5;
+    const channel = (shallow, deep) => Math.round(shallow + (deep - shallow) * depth);
+    return `rgb(${channel(50, 14)},${channel(172, 55)},${channel(178, 77)})`;
+  }
   const [r = .12, g = .24, b = .19] = sample?.groundColorRGB ?? [];
   const height = sample?.height ?? 4;
   // Preserve the original starter-ground curve exactly through its 0.16 cap
   // at 4.48m, then retain readable contrast across the taller provinces.
   const legacyLift = clamp(height / 28, 0, .16);
   const provinceLift = clamp((height - 4.48) / (84 - 4.48), 0, 1) * .12;
-  const channel = value => Math.round(clamp(value + legacyLift + provinceLift, 0, 1) * 255);
-  return `rgb(${channel(r)},${channel(g)},${channel(b)})`;
+  const coast = Number.isFinite(coastDistance) ? clamp(coastDistance / 12, 0, 1) : 1;
+  const shore = [202 / 255, 170 / 255, 105 / 255];
+  const channel = (value, index) => Math.round(clamp((shore[index] + (value - shore[index]) * coast) + legacyLift + provinceLift, 0, 1) * 255);
+  return `rgb(${channel(r, 0)},${channel(g, 1)},${channel(b, 2)})`;
 }
 
 // This only walks chunks that can be displayed. Persisted coverage can grow without

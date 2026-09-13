@@ -4,6 +4,7 @@ import { sampleFrontierSceneryChunk } from './frontierScenery.js';
 import { sampleFrontier } from './frontierTerrain.js';
 import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
+import { hasFrontierLandFootprint } from './frontierContinent.js';
 
 export const FRONTIER_SIGNAL_CACHE = Object.freeze({
   id: 'f1:d:3:1:0',
@@ -66,12 +67,14 @@ export function sampleFrontierDiscoveries({
   const receiverAsset = admittedAsset(visualAssets, source.receiverAssetId);
   if (!chestAsset || !receiverAsset || !lootTables.some(table => table?.id === source.lootTableId)) return [];
   const terrain = getTerrainSample(source.x, source.z);
-  if (!Number.isFinite(terrain?.height) || terrain.provinceKind !== 'sunscar' || !(terrain.provinceInfluence >= .9)) return [];
+  if (!Number.isFinite(terrain?.height) || terrain.provinceKind !== 'sunscar' || !(terrain.provinceInfluence >= .9)
+    || !hasFrontierLandFootprint(source.x, source.z, { radius: source.footprintRadius, getTerrainSample, world })) return [];
   if (!hasFootprintSupport(source.x, source.z, { getHeight, radius: source.footprintRadius, maxSlope: .18 })) return [];
   const chestX = source.x + source.chestOffset.x, chestZ = source.z + source.chestOffset.z;
   const chestCollision = chestAsset.collision.size;
   const chestRadius = Math.hypot(chestCollision.w, chestCollision.d) * .5;
-  if (!hasFootprintSupport(chestX, chestZ, { getHeight, radius: chestRadius, maxSlope: .18 })) return [];
+  if (!hasFrontierLandFootprint(chestX, chestZ, { radius: chestRadius, getTerrainSample, world })
+    || !hasFootprintSupport(chestX, chestZ, { getHeight, radius: chestRadius, maxSlope: .18 })) return [];
   const recipeOptions = { visualAssets, world, getTerrainSample, getHeight };
   const nearby = neighboringRecipes(3, 1, { sampleForageChunk, sampleSceneryChunk, sampleWildlifeChunk, recipeOptions });
   if (nearby.forage.some(entry => !clearsBothObjects(entry, CLEARANCE.forage, source, chestX, chestZ))

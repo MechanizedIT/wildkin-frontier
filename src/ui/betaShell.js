@@ -56,7 +56,7 @@ export function getCompanionAbilityPresentation(model = {}, { opened = false, we
   const remaining = tidefin ? Math.max(0, Number(ability?.activeRemaining) || 0) : 0;
   const active = remaining > 0;
   const seconds = active ? Math.max(1, Math.ceil(Math.min(remaining, Number(ability?.activeDuration) || 3))) : 0;
-  const visible = Boolean(ability) && !model.isCamp && !opened && !welcome && !guideActive;
+  const visible = Boolean(ability) && !model.isCamp && !model.swimming && !opened && !welcome && !guideActive;
   const cooldown = !active && !ability?.ready ? Math.max(0, Math.ceil(Number(ability?.cooldown) || 0)) : 0;
   return {
     visible,
@@ -283,28 +283,39 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
       button.textContent=attempt?'×':'Notes';
     }
   }
-  let climbing = false;
+  let climbing = false, swimming = false;
   const jumpButton = hud.querySelector('.beta-jump'), dodgeButton = hud.querySelector('.beta-dodge');
+  function refreshMovementActions() {
+    const unavailable = climbing || swimming;
+    hud.querySelector('.beta-action-cluster').style.setProperty('pointer-events', unavailable ? 'none' : '', 'important');
+    jumpButton.disabled = unavailable; dodgeButton.disabled = unavailable;
+    jumpButton.style.visibility = unavailable ? 'hidden' : '';
+    dodgeButton.style.visibility = unavailable ? 'hidden' : '';
+    fieldToolButton.disabled = unavailable || contextualVisible;
+    fieldToolButton.style.visibility = unavailable ? 'hidden' : '';
+    if (unavailable) endFieldTool();
+  }
   function setClimbing(value) {
     const next = !!value;
     if (next === climbing) return;
     climbing = next;
     root.classList.toggle('is-climbing', next);
-    hud.querySelector('.beta-action-cluster').style.setProperty('pointer-events', next ? 'none' : '', 'important');
-    jumpButton.disabled = next; dodgeButton.disabled = next;
-    jumpButton.style.visibility = next ? 'hidden' : '';
-    dodgeButton.style.visibility = next ? 'hidden' : '';
-    fieldToolButton.disabled = next || contextualVisible;
-    fieldToolButton.style.visibility = next ? 'hidden' : '';
-    if (next) endFieldTool();
+    refreshMovementActions();
+  }
+  function setSwimming(value) {
+    const next = !!value;
+    if (next === swimming) return;
+    swimming = next;
+    root.classList.toggle('is-swimming', next);
+    refreshMovementActions();
   }
   function setContextualVisible(value) {
     const next = !!value;
     if (next === contextualVisible) return;
     contextualVisible = next;
     root.classList.toggle('contextual-primary-active', next);
-    fieldToolButton.disabled = next || climbing;
+    fieldToolButton.disabled = next || climbing || swimming;
     if (next) { suppressOpeningClick = true; endFieldTool(); }
   }
-  return { update, open, openBuildCatalog, close, isOpen, getState: () => ({ open: opened, welcome, tab: activeTab }), showWelcome, toast, setContextualVisible, setClimbing, destroy() { fullscreen.destroy(); clearTimeout(toastTimer); endFieldTool(); window.removeEventListener("pointerup", onWindowPointerEnd); window.removeEventListener("pointercancel", onWindowPointerEnd); window.removeEventListener("blur", endFieldTool); window.removeEventListener("resize", onResize); document.removeEventListener("visibilitychange", onVisibilityChange); window.removeEventListener("keydown", keydown); root.remove(); } };
+  return { update, open, openBuildCatalog, close, isOpen, getState: () => ({ open: opened, welcome, tab: activeTab }), showWelcome, toast, setContextualVisible, setClimbing, setSwimming, destroy() { fullscreen.destroy(); clearTimeout(toastTimer); endFieldTool(); window.removeEventListener("pointerup", onWindowPointerEnd); window.removeEventListener("pointercancel", onWindowPointerEnd); window.removeEventListener("blur", endFieldTool); window.removeEventListener("resize", onResize); document.removeEventListener("visibilitychange", onVisibilityChange); window.removeEventListener("keydown", keydown); root.remove(); } };
 }

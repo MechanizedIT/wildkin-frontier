@@ -1,5 +1,23 @@
 # Early alpha — procedural frontier progress
 
+## New local foundation: a continent and its coast
+
+The seed now defines a finite irregular landmass surrounded by ocean. The same classification controls terrain, land-based resources and Wildkin, the atlas, the water surface and swimming. This implements the bounded-continent direction; three regional grammars exist, while about10 habitats/30 species remain a staged destination.
+
+![Actual seeded continent; diagnostic unrevealed geography, not the player atlas](../../../art/reviews/frontier-coast/continent-overview.png)
+
+| Player action | Current result |
+| --- | --- |
+| Walk into the sea | Slow wading, then automatic surface swimming |
+| Swim farther offshore | Visible currents increasingly push toward land |
+| Bring a companion | It waits on dry shore and can follow again after your return |
+| Reload during a swim | Resume on supported dry land with the same outing and supplies |
+| Explore the edge | The personal atlas reveals the coast and water you actually visited |
+
+<img src="../../../art/reviews/frontier-coast/final-current-active.png" alt="Actual portrait current and swimmer wake" width="210"> <img src="../../../art/reviews/frontier-coast/final-atlas-portrait.png" alt="Actual explored coastal atlas with surrounding geography still hidden" width="210">
+
+Independent behavior review passed; all1,300 tests and package checks passed. Selected visual R3 remains **6.4/10 HOLD**: the wake/deep-water band is readable, but stronger shore landforms, visible rocks, vegetation and a richer swim animation are still needed. Tests used a disclosed exploration-save fixture and desktop portrait emulation. Boats, diving, aquatic species and a physical-phone release are not claimed. [Detailed receipt](../../../art/reviews/frontier-coast/receipt.md). This local supplement does not replace the previously uploaded PDFs.
+
 September 13,2026. This supplement follows the published Visual Fieldbook and Research Appendix. Images labeled **actual** come from the running prototype. The original PDFs retain their recorded publication checkpoint; this page carries newer implementation evidence.
 
 ## The experience we are working toward

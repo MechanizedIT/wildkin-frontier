@@ -58,6 +58,15 @@ test('atlas height tint preserves starter colors and extends bounded contrast th
   }
 });
 
+test('atlas uses the shared coast fields for a readable shore, shallow water and deep ocean', () => {
+  const ground = { height: 0, groundColorRGB: [.2, .4, .2], land: true };
+  assert.equal(frontierAtlasColor({ ...ground, coastDistance: 0 }), 'rgb(202,170,105)', 'the waterline is a distinct warm shore');
+  assert.equal(frontierAtlasColor({ ...ground, coastDistance: 12 }), 'rgb(51,102,51)', 'the shore band returns to the ordinary terrain palette');
+  assert.equal(frontierAtlasColor({ ...ground, land: false, coastDistance: -2, waterDepth: 0 }), 'rgb(50,172,178)', 'shallow water remains bright');
+  assert.equal(frontierAtlasColor({ ...ground, land: false, coastDistance: -40, waterDepth: 5 }), 'rgb(14,55,77)', 'deep water is visibly darker');
+  assert.equal(frontierAtlasColor({ ...ground, land: false, coastDistance: -80, waterDepth: 500 }), 'rgb(14,55,77)', 'malformed depth cannot exceed the bounded palette');
+});
+
 test('heading marker maps controller +Z yaw zero to atlas south', () => {
   assert.equal(playerYawToAtlasAngle(0), Math.PI, 'controller yaw zero faces +Z, drawn down on a north-up atlas');
   assert.equal(playerYawToAtlasAngle(Math.PI / 2), Math.PI / 2, 'controller east faces right');

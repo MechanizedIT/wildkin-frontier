@@ -30,6 +30,9 @@ test('Signal Cache fails closed without exact admitted assets, loot, province, s
   assert.deepEqual(sampleFrontierDiscoveries({ ...options, world: { edition: 1, seed: 2 } }), []);
   assert.deepEqual(sampleFrontierDiscoveries({ ...options, getTerrainSample: () => ({ height: 4, provinceKind: 'lush', provinceInfluence: 1 }), getHeight: () => 4 }), []);
   assert.deepEqual(sampleFrontierDiscoveries({ ...options, getTerrainSample: () => ({ height: 4, provinceKind: 'sunscar', provinceInfluence: 1 }), getHeight: x => x }), []);
+  assert.deepEqual(sampleFrontierDiscoveries({ ...options,
+    getTerrainSample: () => ({ height: 4, coastDistance: -1, provinceKind: 'sunscar', provinceInfluence: 1 }),
+    getHeight: () => 4 }), [], 'the whole landmark fails closed at the waterline');
   const flat = () => ({ height: 4, provinceKind: 'sunscar', provinceInfluence: 1, habitatBlend: { wetland: 0, fernUpland: 1 } });
   assert.deepEqual(sampleFrontierDiscoveries({ ...options, getTerrainSample: flat, getHeight: () => 4,
     sampleForageChunk: () => [{ pos: { x: 170, z: 50 } }], sampleSceneryChunk: () => [], sampleWildlifeChunk: () => [] }), []);

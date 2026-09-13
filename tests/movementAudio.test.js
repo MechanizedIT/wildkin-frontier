@@ -57,3 +57,13 @@ test("held dodge emits only on entry", () => {
   movement.update(1 / 60, state("DODGE", true, 0));
   assert.deepEqual(calls, [["dodge"]]);
 });
+
+test("surface swimming ends airborne tracking without a false landing cue", () => {
+  const { calls, movement } = harness();
+  movement.update(1 / 60, state("FALL", false, -5));
+  movement.update(1 / 60, { mode: "SWIM", grounded: false, verticalVelocity: 0, waterborne: true });
+  for (let index = 0; index < 20; index++) movement.update(1 / 60,
+    { mode: "SWIM", grounded: false, verticalVelocity: 0, waterborne: true });
+  movement.update(1 / 60, { mode: "WADE", grounded: true, verticalVelocity: 0, waterborne: true });
+  assert.deepEqual(calls, []);
+});

@@ -5,7 +5,9 @@ export function createMovementAudio({ gameAudio } = {}) {
   let previous = null;
   let airTime = 0;
 
-  const isAirborne = state => state?.mode === "JUMP" || state?.mode === "FALL" || state?.grounded === false;
+  const isWaterborne = state => state?.waterborne === true || state?.mode === "SWIM" || state?.mode === "WADE";
+  const isAirborne = state => !isWaterborne(state)
+    && (state?.mode === "JUMP" || state?.mode === "FALL" || state?.grounded === false);
   const clamp01 = value => Math.max(0, Math.min(1, Number(value) || 0));
 
   function update(dt, currentPlayerState) {
@@ -14,6 +16,7 @@ export function createMovementAudio({ gameAudio } = {}) {
       mode: currentPlayerState.mode,
       grounded: currentPlayerState.grounded !== false,
       verticalVelocity: Number(currentPlayerState.verticalVelocity) || 0,
+      waterborne: isWaterborne(currentPlayerState),
     };
     // Establishing a snapshot is intentionally silent: reload, teleport, and
     // reset should not sound like a fresh jump or landing.
@@ -27,7 +30,7 @@ export function createMovementAudio({ gameAudio } = {}) {
     const airborne = isAirborne(current);
     if (airborne) airTime += Math.max(0, Number(dt) || 0);
 
-    if (previous.mode !== "JUMP" && current.mode === "JUMP") {
+    if (!current.waterborne && previous.mode !== "JUMP" && current.mode === "JUMP") {
       gameAudio?.playJump?.();
     } else if (previous.mode !== "DODGE" && current.mode === "DODGE") {
       gameAudio?.playDodge?.();
@@ -46,11 +49,13 @@ export function createMovementAudio({ gameAudio } = {}) {
     } else if (!airborne) {
       airTime = 0;
     }
+    if (current.waterborne) airTime = 0;
     previous = current;
   }
 
   function reset(state) {
-    previous = state ? { mode:state.mode, grounded:state.grounded !== false, verticalVelocity:Number(state.verticalVelocity) || 0 } : null;
+    previous = state ? { mode:state.mode, grounded:state.grounded !== false, verticalVelocity:Number(state.verticalVelocity) || 0,
+      waterborne:isWaterborne(state) } : null;
     airTime = 0;
   }
 

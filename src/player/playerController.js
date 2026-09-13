@@ -4,6 +4,13 @@ import { createTraversalController } from "../movement/traversalController.js";
 import { createPlayerVisuals } from "./playerVisuals.js";
 import { createClimbingController, CLIMBING_CONFIG } from '../movement/climbingController.js';
 import { calculateFallImpact } from "./fallImpact.js";
+import {
+  SURFACE_SWIM_CONFIG,
+  normalizeSurfaceWater,
+  resolveSurfaceSwimVelocity,
+  surfaceBuoyancyDelta,
+  surfaceWaterMode,
+} from "../movement/surfaceSwim.js";
 
 // Phase 1.2 — Rapier KinematicCharacterController migration.
 // Wildkin owns intent/speeds/accel/facing/dodge/jump/climb. Rapier owns collision/slide/grounding.
@@ -32,7 +39,11 @@ export function resolveJumpPadLaunchVelocity(horizontalVelocity = {}, verticalLa
   };
 }
 
-export function createPlayerController(playerMesh, playground, camera, moveCfg, characterPhysics, { climbProbe = null } = {}) {
+export function createPlayerController(playerMesh, playground, camera, moveCfg, characterPhysics, {
+  climbProbe = null,
+  getSurfaceWater = () => null,
+  surfaceSwimConfig = SURFACE_SWIM_CONFIG,
+} = {}) {
   const state = {
     mode: "IDLE",
     pos: new THREE.Vector3().copy(playerMesh.position),
@@ -56,6 +67,10 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     climbTime: 0,
     climbVelocity: 0,
     mantleData: null,
+    waterDepth: 0,
+    currentStrength: 0,
+    waterborne: false,
+    lastDryPosition: null,
   };
   let moveSpeedMultiplier = 1;
 
@@ -88,6 +103,77 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   function getFeetY() {
     const totalHeight = Number(characterPhysics?.cfg?.capsuleTotalHeight) || 0;
     return state.pos.y - totalHeight / 2;
+  }
+
+  const capsuleHalfExtent = () => (Number(characterPhysics?.cfg?.capsuleTotalHeight) || 1.04) / 2;
+
+  function sampleWater(position = state.pos) {
+    try { return normalizeSurfaceWater(getSurfaceWater(position)); }
+    catch { return null; }
+  }
+
+  function rememberDrySupport(water = sampleWater()) {
+    if (state.grounded && !water) state.lastDryPosition = {
+      x: state.pos.x,
+      y: state.pos.y - capsuleHalfExtent(),
+      z: state.pos.z,
+    };
+  }
+
+  function clearWaterState() {
+    state.waterDepth = 0;
+    state.currentStrength = 0;
+    state.waterborne = false;
+  }
+
+  function enterSurfaceSwim(water) {
+    climbing?.reset();
+    traversal.reset();
+    state.mode = "SWIM";
+    state.grounded = false;
+    state.waterborne = true;
+    state.waterDepth = water.depth;
+    state.currentStrength = 0;
+    state.verticalVelocity = 0;
+    state.jumpData = null;
+    state.fallHVel = null;
+    state.airCap = 0;
+    state.dodgeTime = 0;
+    state.climbable = null;
+    state.mantleData = null;
+    state.jumpBufferRemaining = 0;
+    state.coyoteRemaining = 0;
+    cancelAirborneTracking();
+    pendingLandingImpact = null;
+  }
+
+  function refreshSurfaceMode() {
+    const water = sampleWater();
+    const next = surfaceWaterMode({ water, positionY: state.pos.y, capsuleHalfExtent: capsuleHalfExtent(),
+      grounded: state.grounded, previousMode: state.mode, config: surfaceSwimConfig });
+    if (next === "SWIM") {
+      if (state.mode !== "SWIM") enterSurfaceSwim(water);
+      else { state.waterborne = true; state.waterDepth = water.depth; }
+      return water;
+    }
+    if (next === "WADE") {
+      state.mode = "WADE";
+      state.waterborne = true;
+      state.waterDepth = water.depth;
+      state.currentStrength = 0;
+      return water;
+    }
+    if (state.mode === "SWIM") {
+      state.mode = state.grounded ? "IDLE" : "FALL";
+      if (!state.grounded) {
+        state.fallHVel = { x: state.vel.x, z: state.vel.z };
+        state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, state.speed);
+        beginAirborneTracking();
+      }
+    } else if (state.mode === "WADE") state.mode = state.speed < .05 ? "IDLE" : "WALK";
+    clearWaterState();
+    rememberDrySupport(water);
+    return water;
   }
 
   function beginAirborneTracking(feetY = getFeetY()) {
@@ -179,6 +265,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   }
 
   function launchFromJumpPad({ verticalLaunch, horizontalLaunch = 0, direction = null }) {
+    if (state.mode === "SWIM") return false;
     if (!Number.isFinite(verticalLaunch) || verticalLaunch <= 0) return false;
     const horizontal = state.mode === "JUMP" && state.jumpData
       ? state.jumpData.hVel
@@ -228,13 +315,14 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
   function resetJumpState() {
     climbing?.reset();
     cancelPendingJump();
-    if (["JUMP","FALL","CLIMB","MANTLE"].includes(state.mode)) state.mode = "IDLE";
+    if (["JUMP","FALL","CLIMB","MANTLE","SWIM","WADE"].includes(state.mode)) state.mode = "IDLE";
     state.jumpData = null;
     state.fallHVel = null;
     state.airCap = 0;
     state.verticalVelocity = 0;
     cancelAirborneTracking();
     pendingLandingImpact = null;
+    clearWaterState();
   }
 
   function updateJumpRequestWindow(dt, intent) {
@@ -288,7 +376,9 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     visuals.sync(dt, { mode: visualMode, speed: visualMode === "CLIMB" ? state.climbVelocity : state.speed,
       mantleDuration:state.mantleData?.duration,
       mantleProgress:state.mantleData ? state.mantleData.time/state.mantleData.duration : undefined,
-      mantleLiftFraction:CLIMBING_CONFIG.mantleLiftFraction });
+      mantleLiftFraction:CLIMBING_CONFIG.mantleLiftFraction,
+      waterDepth:state.waterDepth,
+      currentStrength:state.currentStrength });
   }
 
   function prepareRender(alpha) {
@@ -325,7 +415,54 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     state.grounded = res.grounded;
     if (state.grounded && state.verticalVelocity < 0) state.verticalVelocity = 0;
     syncPosFromPhysics();
+    refreshSurfaceMode();
     return res;
+  }
+
+  function updateSurfaceSwim(dt, intent, combatOpts, water) {
+    const worldDir = intentToWorldDir(intent);
+    const motion = resolveSurfaceSwimVelocity({
+      water,
+      inputDirection: worldDir,
+      inputMagnitude: intent?.moveMagnitude ?? worldDir.len,
+      velocity: state.vel,
+      knockback: combatOpts?.knockback,
+      dt,
+      config: surfaceSwimConfig,
+    });
+    const vertical = surfaceBuoyancyDelta({ water, positionY: state.pos.y, dt, config: surfaceSwimConfig });
+    const result = characterPhysics.move({ x: motion.x * dt, y: vertical, z: motion.z * dt });
+    syncPosFromPhysics();
+    state.grounded = result.grounded;
+    state.vel.set(motion.x, 0, motion.z);
+    state.speed = Math.hypot(motion.x, motion.z);
+    state.verticalVelocity = dt > 0 ? vertical / dt : 0;
+    state.currentStrength = motion.currentStrength;
+    const movedWater = sampleWater();
+    const next = surfaceWaterMode({ water: movedWater, positionY: state.pos.y, capsuleHalfExtent: capsuleHalfExtent(),
+      grounded: state.grounded, previousMode: "SWIM", config: surfaceSwimConfig });
+    if (next === "WADE") {
+      state.mode = "WADE";
+      state.waterborne = true;
+      state.waterDepth = movedWater.depth;
+      state.currentStrength = 0;
+      state.verticalVelocity = 0;
+    } else if (next === "SWIM") {
+      state.mode = "SWIM";
+      state.waterborne = true;
+      state.waterDepth = movedWater.depth;
+    } else {
+      state.mode = state.grounded ? (state.speed < .05 ? "IDLE" : "WALK") : "FALL";
+      clearWaterState();
+      if (!state.grounded) {
+        state.fallHVel = { x: state.vel.x, z: state.vel.z };
+        state.airCap = Math.max(moveCfg.airMinSpeedCap ?? moveCfg.walkSpeed, state.speed);
+        beginAirborneTracking();
+      }
+      rememberDrySupport(movedWater);
+    }
+    if (state.speed > .1) state.facing = Math.atan2(motion.x, motion.z);
+    syncMesh(dt);
   }
 
   // Shared airborne horizontal control (Phase 1.2 refinement)
@@ -369,6 +506,12 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     previousPhysicsPose.position.copy(currentPhysicsPose.position);
     previousPhysicsPose.facing = currentPhysicsPose.facing;
 
+    const startingWater = refreshSurfaceMode();
+    if (state.mode === "SWIM") {
+      updateSurfaceSwim(fixedDt, intent, combatOpts, startingWater);
+      return;
+    }
+
     // Phase 3: handle knockback if provided via combatOpts
     if (combatOpts && combatOpts.knockback && combatOpts.knockback.remaining > 0) {
       const wasGrounded = state.grounded;
@@ -380,6 +523,8 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       const res = characterPhysics.move(desired);
       syncPosFromPhysics();
       state.grounded = res.grounded;
+      refreshSurfaceMode();
+      if (state.mode === "SWIM") { syncMesh(fixedDt); return; }
       if (wasGrounded && !res.grounded) {
         state.mode = "FALL";
         state.jumpData = null;
@@ -424,6 +569,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       if (!jd.lockHorizontal) applyAirborneHorizontalControl(fixedDt, worldDir, jd.hVel);
       state.verticalVelocity -= (moveCfg.jumpGravity ?? 12) * fixedDt;
       const res = rapierMove(jd.hVel.x, jd.hVel.z, state.verticalVelocity, fixedDt);
+      if (state.mode === "SWIM") { syncMesh(fixedDt); return; }
       updateAirbornePeak();
       const hvLen = Math.hypot(jd.hVel.x, jd.hVel.z);
       if (hvLen > 0.1) state.facing = Math.atan2(jd.hVel.x, jd.hVel.z);
@@ -466,6 +612,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       state.verticalVelocity += (moveCfg.gravity ?? -12) * fixedDt;
       const hvLenBefore = Math.hypot(state.fallHVel.x, state.fallHVel.z);
       const res = rapierMove(state.fallHVel.x, state.fallHVel.z, state.verticalVelocity, fixedDt);
+      if (state.mode === "SWIM") { syncMesh(fixedDt); return; }
       updateAirbornePeak();
       const hvLen = Math.hypot(state.fallHVel.x, state.fallHVel.z);
       if (hvLen > 0.1) state.facing = Math.atan2(state.fallHVel.x, state.fallHVel.z);
@@ -499,6 +646,8 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       const res = characterPhysics.move(desired);
       syncPosFromPhysics();
       state.grounded = res.grounded;
+      refreshSurfaceMode();
+      if (state.mode === "SWIM") { syncMesh(fixedDt); return; }
       if (state.grounded && state.verticalVelocity < 0) state.verticalVelocity = 0;
       state.facing = Math.atan2(state.dodgeDir.x, state.dodgeDir.z);
       state.speed = moveCfg.dodgeSpeed;
@@ -530,7 +679,9 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
 
     // --- Jump (authored) — preserves actual horizontal velocity and uses shared air model ---
     const band = classifyMovementBand(intent.moveMagnitude, moveCfg);
-    const targetSpeed = getBandSpeed(band, moveCfg) * moveSpeedMultiplier;
+    const wading = state.mode === "WADE";
+    const targetSpeed = getBandSpeed(band, moveCfg) * moveSpeedMultiplier
+      * (wading ? surfaceSwimConfig.wadeSpeedMultiplier : 1);
     const effSpeed = Math.max(state.speed, targetSpeed);
     const jumpHit = traversal.tryStartJump(worldDir, state.pos, effSpeed, intent.moveMagnitude);
     if (jumpHit) {
@@ -651,7 +802,8 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       }
     }
 
-    if (state.speed < 0.05) state.mode = "IDLE";
+    if (wading) state.mode = "WADE";
+    else if (state.speed < 0.05) state.mode = "IDLE";
     else if (band === "sneak") state.mode = "SNEAK";
     else if (band === "walk") state.mode = "WALK";
     else if (band === "run") state.mode = "RUN";
@@ -664,6 +816,7 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     }
 
     rapierMove(state.vel.x, state.vel.z, state.verticalVelocity, fixedDt);
+    if (state.mode === "SWIM") { syncMesh(fixedDt); return; }
 
     // Transition to FALL if we just left ground without authored JUMP (walk/fall off ledge)
     if (!state.grounded && wasGrounded && state.mode !== "JUMP") {
@@ -687,13 +840,18 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
       facing: state.facing,
       pos: state.pos.clone(),
       dodgeCooldown: state.dodgeCooldown,
-      traversalMode: state.mode === "JUMP" || state.mode === "FALL" || state.mode === "CLIMB" || state.mode === "MANTLE" ? state.mode : trav.mode,
+      traversalMode: ["JUMP","FALL","CLIMB","MANTLE","SWIM"].includes(state.mode) ? state.mode : trav.mode,
       grounded: state.grounded,
       verticalVelocity: state.verticalVelocity,
       climbVelocity: state.climbVelocity,
+      waterborne: state.waterborne,
+      waterDepth: state.waterDepth,
+      currentStrength: state.currentStrength,
+      lastDryPosition: state.lastDryPosition ? { ...state.lastDryPosition } : null,
     };
   }
 
+  rememberDrySupport();
   snapRenderPose();
   return { update, getState, getRenderPose, prepareRender, snapRenderPose, state, traversal, visuals, syncPosFromPhysics, launchFromJumpPad, cancelPendingJump, resetJumpState, consumeLandingImpact, setMoveSpeedMultiplier,
     getClimbInteraction:(dt,options)=>climbing?.interaction(dt,options)??null,

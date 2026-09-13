@@ -6,7 +6,7 @@ export function createExpeditionPersistence({progress,session,getPlayerState,get
   let safe=initialFeet ? {runId:session.getRunId(),sectionId:getSectionId(),feet:{...initialFeet}} : null, elapsed=0,wasBlocked=false,pendingResolution=null;
   function refreshSafe(){
     const state=getPlayerState();
-    if(!session.isActive() || !state.grounded || ['CLIMB','MANTLE','JUMP'].includes(state.mode))return;
+    if(!session.isActive() || !state.grounded || state.waterborne || ['CLIMB','MANTLE','JUMP','WADE','SWIM'].includes(state.mode))return;
     const feet=validateFeet({x:state.pos.x,y:state.pos.y-capsuleExtent,z:state.pos.z});
     safe=feet?{runId:session.getRunId(),sectionId:getSectionId(),feet}:null;
   }

@@ -54,9 +54,10 @@ test('reserve and ecotone chunks fall back to exact color samples', () => {
 
 test('high regional colors remain finite and within the analytical error bound', () => {
   let witness = null;
-  for (let z = 500; z <= 1000; z += 25) for (let x = 100; x <= 600; x += 25) {
+  for (let z = -1650; z <= -1450; z += 25) for (let x = -1700; x <= -1450; x += 25) {
     const sample = sampleFrontier(x, z);
-    if (sample.provinceKind === 'ironspine' && (!witness || sample.height > witness.height)) witness = { x, z, height: sample.height };
+    if (sample.land && sample.coastDistance >= 90 && sample.provinceKind === 'ironspine'
+      && (!witness || sample.height > witness.height)) witness = { x, z, height: sample.height };
   }
   assert.ok(witness && witness.height > 60);
   const origin = { x: Math.floor(witness.x / 50) * 50, z: Math.floor(witness.z / 50) * 50 };

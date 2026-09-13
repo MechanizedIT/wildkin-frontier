@@ -5,6 +5,7 @@ import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
+import { hasFrontierLandFootprint } from './frontierContinent.js';
 
 export const FRONTIER_SCENERY_CONFIG = Object.freeze({
   maxNear: 18,
@@ -24,6 +25,7 @@ const FOOTPRINT_RADIUS = Object.freeze({ canopy: 1.45, low: .62, 'ground-cover':
 const ASSET_FOOTPRINT_RADIUS = Object.freeze({
   asset_cloudflower: .75,
   asset_trail_stones: 1.4,
+  asset_fen_stone: 1.14,
   asset_mushroom_ring: 1.05,
   asset_fen_reed: .85,
 });
@@ -177,6 +179,65 @@ function settleSunscarPatchCenter(x, z, cx, cz, options) {
   return { x: best.x, z: best.z };
 }
 
+function settleCoastPatchCenter(x, z, cx, cz, options) {
+  const sample = terrainSample(x, z, options);
+  if (!Number.isFinite(sample?.coastDistance) || sample.coastDistance >= 9 || !sample.inlandDirection) return { x, z };
+  const distance = 9 - sample.coastDistance;
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+  return {
+    x: Math.max(cx * size + EDGE + 2, Math.min((cx + 1) * size - EDGE - 2, x + sample.inlandDirection.x * distance)),
+    z: Math.max(cz * size + EDGE + 2, Math.min((cz + 1) * size - EDGE - 2, z + sample.inlandDirection.z * distance)),
+  };
+}
+
+function settleCoastContourPoint(x, z, targetDistance, cx, cz, options) {
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+  let point = { x, z };
+  for (let pass = 0; pass < 2; pass += 1) {
+    const sample = terrainSample(point.x, point.z, options);
+    if (!Number.isFinite(sample?.coastDistance) || !sample.inlandDirection) break;
+    const correction = targetDistance - sample.coastDistance;
+    point = {
+      x: Math.max(cx * size + EDGE + 2, Math.min((cx + 1) * size - EDGE - 2,
+        point.x + sample.inlandDirection.x * correction)),
+      z: Math.max(cz * size + EDGE + 2, Math.min((cz + 1) * size - EDGE - 2,
+        point.z + sample.inlandDirection.z * correction)),
+    };
+  }
+  return point;
+}
+
+function coastContourCandidates(cx, cz, centerSample, roll, options) {
+  if (!Number.isFinite(centerSample?.coastDistance) || Math.abs(centerSample.coastDistance) > 38
+    || !centerSample.inlandDirection) return [];
+  const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
+  const centerX = (cx + .5) * size, centerZ = (cz + .5) * size;
+  const inland = centerSample.inlandDirection;
+  const anchorX = centerX + inland.x * (8 - centerSample.coastDistance);
+  const anchorZ = centerZ + inland.z * (8 - centerSample.coastDistance);
+  const tangent = { x: -inland.z, z: inland.x };
+  const recipe = [
+    ['asset_fen_stone', -8, 9.5, 2.2, 2.8],
+    ['asset_trail_stones', -11, 7, 1.2, 1.6],
+    ['asset_trail_stones', -4, 7, 1.2, 1.6],
+    ['asset_fen_stone', 17, 9.5, 2.2, 2.8],
+    ['asset_trail_stones', 13, 7, 1.2, 1.6],
+  ];
+  return recipe.flatMap(([assetId, tangentOffset, targetDistance, minScale, maxScale], attempt) => {
+    if (Array.isArray(options.visualAssets) && options.visualAssets.length) {
+      const asset = options.visualAssets.find(candidate => candidate?.id === assetId);
+      if (!asset || (!asset.model?.path && !(Array.isArray(asset.parts) && asset.parts.length))) return [];
+    }
+    const point = settleCoastContourPoint(anchorX + tangent.x * tangentOffset,
+      anchorZ + tangent.z * tangentOffset, targetDistance, cx, cz, options);
+    const finalSample = terrainSample(point.x, point.z, options);
+    if (!(finalSample.coastDistance >= 4 && finalSample.coastDistance <= 12)) return [];
+    return [{ attempt, assetId, x: point.x, z: point.z, kind: 'low',
+      scale: minScale + roll(attempt, 127) * (maxScale - minScale),
+      yaw: Math.atan2(tangent.x, tangent.z) + (roll(attempt, 131) - .5) * .7 }];
+  });
+}
+
 function regionalSceneryScale(sample, assetId, baseScale, variationRoll) {
   const mix = provinceMix(sample);
   const dry = mix ? mix.influence * mix.sunscar : 0;
@@ -201,6 +262,11 @@ function hasSunscarPocketCue(x, z, options) {
 
 function hasSafeFootprint(x, z, candidate, options) {
   const radius = footprintRadius(candidate);
+  if (!hasFrontierLandFootprint(x, z, {
+    radius,
+    getTerrainSample: (sx, sz) => terrainSample(sx, sz, options),
+    world: options.world ?? DEFAULT_FRONTIER_WORLD,
+  })) return false;
   if (!provinceMix(terrainSample(x, z, options)) && !isSkybreakArea(x, z, radius)) return true;
   return hasFootprintSupport(x, z, { getHeight: (sx, sz) => heightAt(sx, sz, options), radius, maxSlope: MAX_SLOPE });
 }
@@ -371,7 +437,11 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize, exclusions = exclusionsFor(cx, cz, sampleOptions), specs = [];
   const centerSample = terrainSample((cx + .5) * size, (cz + .5) * size, sampleOptions);
   const centerMix = provinceMix(centerSample);
-  const regionalCanopyChance = centerMix ? centerMix.lush * .88 + centerMix.sunscar * .015 + centerMix.ironspine * .2 : 1;
+  const coastWeight = Number.isFinite(centerSample?.coastDistance)
+    ? Math.max(0, Math.min(1, 1 - centerSample.coastDistance / 55)) : 0;
+  const regionalCanopyChance = centerMix
+    ? Math.max(centerMix.lush * .88 + centerMix.sunscar * .015 + centerMix.ironspine * .2, coastWeight * .48)
+    : 1;
   const canopyChance = centerMix ? 1 + (regionalCanopyChance - 1) * centerMix.influence : 1;
   const chunkCanopyAllowed = roll(0, 149) < canopyChance;
   const accept = (key, candidate, curated = false) => {
@@ -388,14 +458,18 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   for (const candidate of STAGED.get(`${cx},${cz}`) ?? []) accept(`stage-${candidate.key}`, candidate, true);
   const place = placeLookup(sampleOptions).get(cx, cz);
 
+  const coastCandidates = coastContourCandidates(cx, cz, centerSample, roll, sampleOptions);
+  for (const candidate of coastCandidates) accept(`seed-${candidate.attempt}`, candidate);
+
   // Three seeded patches make a visible verge/fen rhythm without filling the
   // walking lane with a uniform scatter. Slot zero is the patch silhouette;
   // later slots build its low habitat detail.
-  for (let attempt = 0; attempt < 30 && specs.length < 6; attempt++) {
+  for (let attempt = coastCandidates.length ? 5 : 0; attempt < 30 && specs.length < 6; attempt++) {
     const group = attempt % 3, slot = Math.floor(attempt / 3);
     const rawCenterX = cx * size + 10 + roll(group, 31) * (size - 20);
     const rawCenterZ = cz * size + 10 + roll(group, 53) * (size - 20);
-    const center = settleSunscarPatchCenter(rawCenterX, rawCenterZ, cx, cz, sampleOptions);
+    const regionalCenter = settleSunscarPatchCenter(rawCenterX, rawCenterZ, cx, cz, sampleOptions);
+    const center = settleCoastPatchCenter(regionalCenter.x, regionalCenter.z, cx, cz, sampleOptions);
     const centerX = center.x, centerZ = center.z;
     const angle = roll(attempt, 71) * Math.PI * 2, radius = slot ? 2.2 + roll(attempt, 83) * 5.8 : 0;
     const x = centerX + Math.cos(angle) * radius, z = centerZ + Math.sin(angle) * radius;

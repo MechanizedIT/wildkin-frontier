@@ -1,5 +1,9 @@
 # Wildkin Frontier
 
+**Latest local checkpoint: a finite seeded continent with an ocean coast.** Walk into the shallows, swim at the surface, and follow the offshore current back toward land. Companions wait on dry ground; reloading restores your last supported shore position with the same outing and supplies. All1,300 tests and package checks pass. This is a functional foundation; shoreline art remains held at6.4/10, with richer landforms, dressing and swimming animation still needed. [Actual proof and limitations](art/reviews/frontier-coast/receipt.md).
+
+<img src="art/reviews/frontier-coast/continent-overview.png" alt="Diagnostic overview generated from the actual continent seed, with unrevealed geography explicitly shown for development" width="280"> <img src="art/reviews/frontier-coast/final-current-active.png" alt="Actual portrait swim with a wake, darker offshore water and the current pushes inland cue" width="180">
+
 Wildkin Frontier is an offline, single-player exploration and creature-life game in active local development. Portrait mobile is the primary play surface: five always-visible quick slots sit at the bottom, the movement stick sits above them on the left, and the selected-slot action with Jump and Dodge sits above the right side. Landscape and desktop remain supported.
 
 Leave a physical Camp, make a short useful outing, study or bring home an individual Wildkin, and return to a world that remembers the result. The direction favors slow, dangerous exploration, recognizable regional geography, and care that happens in the world rather than through a separate creature inventory.
@@ -20,7 +24,7 @@ Seeded Sunscar crystal blooms form compact harvestable places with saved partial
 
 <img src="art/reviews/regional-blooms/r3-portrait.png" alt="Actual selected Sunscar bloom in portrait play" width="210"> <img src="art/reviews/regional-blooms/cleft-portrait.png" alt="Actual second seeded crystal arrangement" width="210">
 
-The working release direction is one seeded continent with an ocean boundary and useful companion roles. Roughly10 habitats and30 species are a staged content target; the first alpha starts with a smaller finished set. Coastline/ocean, boats and the larger roster are not implemented. See the [early-alpha priorities](docs/EARLY_ALPHA_PLAN.md) and [illustrated progress supplement](docs/research/living-frontier/Early-Alpha-Progress.md).
+The working release direction is one seeded continent with an ocean boundary and useful companion roles. Roughly10 habitats and30 species are a staged content target; the first alpha starts with a smaller finished set. The coast/ocean and surface-swim foundation exists; boats and the larger roster remain planned. See the [early-alpha priorities](docs/EARLY_ALPHA_PLAN.md) and [illustrated progress supplement](docs/research/living-frontier/Early-Alpha-Progress.md).
 
 <img src="art/reviews/frontier-discoveries/r2-near-portrait.png" alt="Actual portrait approach to the Signal Cache receiver and chest" width="210"> <img src="art/reviews/frontier-discoveries/native-opened.png" alt="Actual opened chest after collecting its one-time reward" width="210">
 
@@ -51,7 +55,7 @@ Desktop controls: **WASD** move, **Shift** run, **C** sneak, **1–5** select a 
 - Emberhorn Cragbreaker applies the existing resource transaction to a bounded nearby mineral set. This makes ordinary outcrops and current Sunscar blooms useful job sites without adding another mineral formation or reward ledger.
 - Tidefin Tidal Ward provides three readable protected seconds through the existing ability button and combat owner. The current northern Emberhorn route proves a timed safe approach without adding a hazard, species or reward system.
 - One physical nursery and garden, active-play young/crop growth, ordinary compatible Mossling pairing, and earned optional parent body-tone guidance. The first current path is deliberately bounded.
-- Bounded terrain residency, shared terrain/collision sampling, a personal atlas, generated forage/scenery and existing Mossling, Tidefin, and Emberhorn encounters. Terrain retains25 published pieces plus at most nine detached candidates, preparing one per moving tick and publishing a complete neighborhood after collider installation. A bounded climb and fall-risk foundation exists; broad climbing and swimming are later work.
+- Bounded terrain residency, shared terrain/collision sampling, a personal atlas, generated forage/scenery and existing Mossling, Tidefin, and Emberhorn encounters. Terrain retains25 published pieces plus at most nine detached candidates, preparing one per moving tick and publishing a complete neighborhood after collider installation. Bounded climbing, fall risk and surface swimming exist; broader traversal, boats and diving remain later work.
 - A generation inspector for current samplers, plus irregular roughly600m seeded provinces with smooth weighted ecotones, terrain targets up to84m, regional ground color, admitted flora/resources, and at most one additional high-draw signature encounter per live wildlife set. Existing resident/count bounds remain unchanged. Final visual admission is pending.
 
 ## Proposed direction

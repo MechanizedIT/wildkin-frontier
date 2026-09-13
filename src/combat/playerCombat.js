@@ -57,7 +57,7 @@ export function createPlayerCombat(opts) {
     const st = getPlayerState();
     if (!st) return true;
     // Cannot attack during climb/jump? Allow but combat vs traversal: movement bands? For now allow only when grounded-ish? Spec says don't root movement, allow attack in any state? But probably block during climb/mantle/jump? We'll allow IDLE/SNEAK/WALK/RUN/FALL/JUMP/DODGE? Actually DODGE may cancel. We'll check mode.
-    const blockedModes = new Set(["CLIMB", "MANTLE"]);
+    const blockedModes = new Set(["CLIMB", "MANTLE", "SWIM"]);
     if (blockedModes.has(st.mode)) return false;
     if (blockedModes.has(st.traversalMode)) return false;
     return true;
@@ -242,6 +242,7 @@ export function createPlayerCombat(opts) {
 
     // Check dodge invuln activation: if player state switched to DODGE, activate dodge invuln
     const st = getPlayerState();
+    if (st?.mode === 'SWIM' && attackActive) { attackActive = false; facingLocked = false; }
     if (st && st.mode === "DODGE") {
       // Activate dodge invuln at start of dodge (main portion)
       // Keep dodgeInvuln at configured duration while in dodge; refresh if just entered

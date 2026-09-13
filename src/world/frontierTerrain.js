@@ -1,5 +1,6 @@
 // Deterministic, dependency-free terrain foundation for the streamed frontier.
 import { ROCKY_TERRACE, sampleFrontierLandform } from './frontierLandform.js';
+import { blendFrontierCoastHeight, createFrontierContinentSampler, sampleFrontierContinent } from './frontierContinent.js';
 import { sampleFrontierRegion } from './frontierRegion.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 
@@ -10,6 +11,7 @@ export const FRONTIER_TERRAIN_CONFIG = Object.freeze({
   campBounds: Object.freeze({ minX: -50, maxX: 50, minZ: -50, maxZ: 50 }),
   campBlendDistance: 58,
   minHeight: 0,
+  minBedHeight: -14,
   legacyMaxHeight: 16,
   maxHeight: 84,
   defaultSeed: DEFAULT_FRONTIER_WORLD.seed,
@@ -107,13 +109,16 @@ function sampleFrontierRaw(x, z, options = {}) {
   const region = typeof options.regionSampler === 'function'
     ? options.regionSampler(x, z)
     : sampleFrontierRegion(x, z, options);
+  const continent = typeof options.continentSampler === 'function'
+    ? options.continentSampler(x, z)
+    : sampleFrontierContinent(x, z, { world: options.world ?? DEFAULT_FRONTIER_WORLD });
   // The region target replaces ordinary rolling terrain only beyond the exact
   // Camp/starter/Skybreak reserve. Camp and local landforms still compose later.
   const terrain = blend(globalHeight(x, z, seed, rollingTransition), region.height, region.influence);
   const camp = campSample(x, z, options);
   const baseHeight = camp === null ? terrain : camp.edge * (1 - camp.t) + terrain * camp.t;
   const landform = sampleFrontierLandform(x, z);
-  const height = baseHeight + landform.heightOffset;
+  const height = blendFrontierCoastHeight(baseHeight + landform.heightOffset, continent);
   const wetNoise = valueNoise(x + 180, z - 220, seed ^ 0x51ed270b, 80);
   const lowland = clamp((8.0 - height) / 4.5, 0, 1);
   const wetland = clamp(wetNoise * 0.65 + lowland * 0.55, 0, 1);
@@ -145,6 +150,16 @@ function sampleFrontierRaw(x, z, options = {}) {
     green += (landform.colorRGB[1] - green) * t;
     blue += (landform.colorRGB[2] - blue) * t;
   }
+  // The exposed shelf reads as one continuous warm, dry shore while the
+  // established province palette returns unchanged across the inland blend.
+  const coastTone = continent.coastDistance >= 0
+    ? 1 - smooth(clamp(continent.coastDistance / 90, 0, 1))
+    : 1;
+  const coastColor = continent.land ? [.48, .275, .09] : [.34, .235, .11];
+  const coastColorBlend = coastTone * (continent.land ? .68 : .82);
+  red = blend(red, coastColor[0], coastColorBlend);
+  green = blend(green, coastColor[1], coastColorBlend);
+  blue = blend(blue, coastColor[2], coastColorBlend);
   return {
     // Camp authoring owns its exact finite height, including deliberate raised or sunk values.
     height: finite(height),
@@ -155,6 +170,13 @@ function sampleFrontierRaw(x, z, options = {}) {
     provinceKind: region.kind,
     provinceInfluence: region.influence,
     provinceWeights: region.weights,
+    coastDistance: continent.coastDistance,
+    seaLevel: continent.seaLevel,
+    land: continent.land,
+    contentLand: continent.contentLand,
+    hasTerrain: continent.hasTerrain,
+    waterDepth: continent.waterDepth,
+    inlandDirection: continent.inlandDirection,
   };
 }
 
@@ -239,6 +261,9 @@ export function chunkKey(cx, cz) { return `${Math.trunc(cx)},${Math.trunc(cz)}`;
 export function isCampChunk(cx, cz) { return cx === -1 || cx === 0 ? (cz === -1 || cz === 0) : false; }
 export function createFrontierChunk(cx, cz, options = {}) {
   cx = Math.trunc(cx); cz = Math.trunc(cz);
+  const sampleOptions = typeof options.continentSampler === 'function'
+    ? options
+    : { ...options, continentSampler: createFrontierContinentSampler(options.world ?? DEFAULT_FRONTIER_WORLD) };
   const detailed = isSkybreakDetailChunk(cx, cz);
   const n = detailed ? config.skybreakSegments : config.segments;
   const step = config.chunkSize / n;
@@ -255,25 +280,28 @@ export function createFrontierChunk(cx, cz, options = {}) {
   const nxCount = xs.length, nzCount = zs.length;
   const count = nxCount * nzCount, vertices = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
+  const terrainMask = new Uint8Array(count);
   for (let iz = 0; iz < nzCount; iz++) for (let ix = 0; ix < nxCount; ix++) {
     const i = iz * nxCount + ix, x = origin.x + xs[ix], z = origin.z + zs[iz];
-    const sample = sampleFrontierRaw(x, z, options);
-    const height = detailed ? detailedVertexHeight(x, z, options) : sample.height;
+    const sample = sampleFrontierRaw(x, z, sampleOptions);
+    const height = detailed ? detailedVertexHeight(x, z, sampleOptions) : sample.height;
     vertices[i * 3] = xs[ix]; vertices[i * 3 + 1] = height; vertices[i * 3 + 2] = zs[iz];
     colors.set(sample.groundColorRGB, i * 3);
+    terrainMask[i] = sample.hasTerrain ? 1 : 0;
   }
-  const indices = new Uint32Array((nxCount - 1) * (nzCount - 1) * 6);
-  let cursor = 0;
+  const indexValues = [];
   for (let iz = 0; iz < nzCount - 1; iz++) for (let ix = 0; ix < nxCount - 1; ix++) {
     const a = iz * nxCount + ix, b = a + 1, c = a + nxCount, d = c + 1;
-    indices.set([a, c, b, b, c, d], cursor); cursor += 6;
+    if (terrainMask[a] && terrainMask[c] && terrainMask[b]) indexValues.push(a, c, b);
+    if (terrainMask[b] && terrainMask[c] && terrainMask[d]) indexValues.push(b, c, d);
   }
+  const indices = Uint32Array.from(indexValues);
   const normals = new Float32Array(count * 3);
   for (let iz = 0; iz < nzCount; iz++) for (let ix = 0; ix < nxCount; ix++) {
     const i = iz * nxCount + ix, wx = origin.x + xs[ix], wz = origin.z + zs[iz];
     // Sample in world space so an edge vertex has the same gradient in either chunk.
-    const l = sampleFrontier(wx - normalStep, wz, options).height, r = sampleFrontier(wx + normalStep, wz, options).height;
-    const d = sampleFrontier(wx, wz - normalStep, options).height, u = sampleFrontier(wx, wz + normalStep, options).height;
+    const l = sampleFrontier(wx - normalStep, wz, sampleOptions).height, r = sampleFrontier(wx + normalStep, wz, sampleOptions).height;
+    const d = sampleFrontier(wx, wz - normalStep, sampleOptions).height, u = sampleFrontier(wx, wz + normalStep, sampleOptions).height;
     const nx = (l - r) / (2 * normalStep), nz = (d - u) / (2 * normalStep), length = Math.hypot(nx, 1, nz) || 1;
     normals.set([nx / length, 1 / length, nz / length], i * 3);
   }

@@ -39,6 +39,8 @@ import WORLD_DATA from "./world/data/world.js";
 import { createWorldRegistry } from "./world/worldRegistry.js";
 import { createSectionRuntime } from "./world/sectionRuntime.js";
 import { createFrontierChunkRuntime } from "./world/frontierChunkRuntime.js";
+import { createFrontierOceanRuntime } from './world/frontierOceanRuntime.js';
+import { isSurfaceSwimming } from './movement/surfaceSwim.js';
 import { createFrontierEcologyRuntime } from "./world/frontierEcologyRuntime.js";
 import { createFrontierWildlifeRuntime } from './world/frontierWildlifeRuntime.js';
 import { createFrontierSceneryRuntime } from './world/frontierSceneryRuntime.js';
@@ -51,7 +53,7 @@ import { createWorldHazardSystem } from "./world/worldHazardSystem.js";
 import { createLootSystem } from "./world/lootSystem.js";
 import { createExpeditionSession } from "./session/expeditionSession.js";
 import { createExpeditionPersistence } from './session/expeditionPersistence.js';
-import { findSupportedResumeFeet } from './session/resumePosition.js';
+import { findSupportedResumeFeet, frontierCoastResumeCandidates } from './session/resumePosition.js';
 import { commitFrontierOutingStart, createFrontierOuting } from './session/frontierOuting.js';
 import { FRONTIER_TERRAIN_CONFIG } from './world/frontierTerrain.js';
 import { createFrontierProgress } from "./save/frontierProgress.js";
@@ -178,6 +180,7 @@ const frontierChunks = createFrontierChunkRuntime({
   world: frontierProgress.getWorldDescriptor(),
 });
 playground.setTerrainHeightProvider('camp', frontierChunks.getHeight);
+const frontierOcean = createFrontierOceanRuntime({ parent: playground.group, sample: frontierChunks.sample });
 function resolveSpawnCapsuleCenter(feetY){
   // authored support Y is feet elevation; derive capsule center via collider half extents + small clearance
   return feetY + RAPIER_CONFIG.capsuleHalfHeight + RAPIER_CONFIG.capsuleRadius + 0.02;
@@ -243,7 +246,8 @@ const touchMovement = createTouchMovement(app, MOVEMENT_CONFIG, INPUT_CONFIG);
 const keyboardInput = createKeyboardInput(MOVEMENT_CONFIG, app);
 
 const climbProbe = createClimbProbe({ characterPhysics, physicsWorld });
-const playerController = createPlayerController(player, playground, camera, MOVEMENT_CONFIG, characterPhysics, { climbProbe });
+const getSurfaceWater = position => sectionRuntime.getActiveSectionId() === 'camp' ? frontierChunks.getWater(position.x, position.z) : null;
+const playerController = createPlayerController(player, playground, camera, MOVEMENT_CONFIG, characterPhysics, { climbProbe, getSurfaceWater });
 player.position.set(startPos.x, startPos.y, startPos.z);
 playerController.state.facing = campStartFacing;
 playerController.snapRenderPose();
@@ -992,6 +996,7 @@ betaGame = createBetaGame({
   creatures: creatureSystem, playerController, playerCombat, pickupSystem, xpMoteSystem, resourceSystem,
   physicsWorld, characterPhysics, playerCollider: characterPhysics.collider,
   getTerrainHeight: frontierChunks.getHeight,
+  getSurfaceWater,
   onInteractionGeometryChanged: () => contextualInteraction?.invalidate(),
   audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
   getSectionId: () => sectionRuntime.getActiveSectionId(),
@@ -1049,7 +1054,7 @@ const validateResumeFeet=feet=>{
   return findSupportedResumeFeet({
     feet,
     section:worldRegistry.getSectionById(sectionId),
-    isPositionAllowed:sectionId==='camp' ? candidate=>Math.abs(candidate.x)<=1_000_000&&Math.abs(candidate.z)<=1_000_000 : undefined,
+    isPositionAllowed:sectionId==='camp' ? candidate=>Math.abs(candidate.x)<=1_000_000&&Math.abs(candidate.z)<=1_000_000&&!frontierChunks.getWater(candidate.x,candidate.z) : undefined,
     killVolumes:worldRegistry.getKillVolumesForSection(sectionId),
     characterPhysics,
     ignoreCollider:betaGame.companions.isFollowerCollider,
@@ -1068,7 +1073,7 @@ if(savedRun && !authorEnabled){
     frontierDiscoveries.update();
     frontierEcology.update();
     frontierWildlife.update();
-    const candidates=[savedRun.feet,...worldRegistry.getAllWaypoints().filter(w=>w.regionId===savedRun.sectionId&&frontierProgress.isUnlockedWaypoint(w.id)).map(w=>worldRegistry.getWaypointSpawnPosition(w.id)),...worldRegistry.getEntryPointsForSection(savedRun.sectionId).map(e=>e.pos)];
+    const candidates=[...frontierCoastResumeCandidates(savedRun.feet,frontierChunks.sample(savedRun.feet.x,savedRun.feet.z),campSpawn),...worldRegistry.getAllWaypoints().filter(w=>w.regionId===savedRun.sectionId&&frontierProgress.isUnlockedWaypoint(w.id)).map(w=>worldRegistry.getWaypointSpawnPosition(w.id)),...worldRegistry.getEntryPointsForSection(savedRun.sectionId).map(e=>e.pos)];
     resumedFeet=candidates.map(validateResumeFeet).find(Boolean) ?? null;
   }
   if(resumedFeet){
@@ -1132,6 +1137,8 @@ function tick() {
   const authorSuppress = authorCtx && authorCtx.isEditMode && authorCtx.isEditMode();
   // Load support before player/camera queries; no separate streaming loop.
   frontierChunks.update(playerController.state.pos, { activeSectionId: sectionRuntime.getActiveSectionId(), authorMode: !!authorSuppress, prepare: true });
+  frontierOcean.syncResidency(frontierChunks.getResidency());
+  frontierOcean.update(dt, { playerPosition: playerController.state.pos, swimming: isSurfaceSwimming(playerController.state), hidden: !!authorSuppress || sectionRuntime.getActiveSectionId() !== 'camp', paused: isAnyBlockingModal() });
   frontierScenery.update();
   frontierDiscoveries.update();
   frontierEcology.update();
@@ -1166,7 +1173,11 @@ function tick() {
     touchMovement.consumeJump?.();
     keyboardInput.consumeJump?.();
   }
-  const equipmentInput = betaGame?.equipment.routeInput({ requested: pendingAttackLatch, held: intent.attackHeld, down: keyboardInput.isAttackDown() || intent.attackHeld, blocked: blocked || playerController.isClimbing() }) ?? { toolAllowed: true };
+  const equipmentInput = betaGame?.equipment.routeInput({ requested: pendingAttackLatch, held: intent.attackHeld, down: keyboardInput.isAttackDown() || intent.attackHeld, blocked: blocked || playerController.isClimbing() || isSurfaceSwimming(playerController.getState()) }) ?? { toolAllowed: true };
+  if (isSurfaceSwimming(playerController.getState())) {
+    pendingAttackLatch = false; wasAttackRequested = false;
+    keyboardInput.consumeAttack(); touchMovement.consumeAttack?.();
+  }
   if (equipmentInput.handled) { pendingAttackLatch = false; wasAttackRequested = false; keyboardInput.consumeAttack(); }
   const effectiveIntent = blocked ? { moveX: 0, moveY: 0, moveMagnitude: 0, movementBand: "idle", jumpRequested: false, dodgeRequested: false, attackRequested: false, attackHeld: false } : intent;
 
@@ -1203,7 +1214,7 @@ function tick() {
         return hits.map(h => alive.find(a => a.state.id === h.id)).filter(Boolean);
       };
 
-      const fieldCanAttack = equipmentInput.toolAllowed && !blocked && (playerController.getState().mode !== "CLIMB" && playerController.getState().mode !== "MANTLE") && betaGame.canUseFieldTool();
+      const fieldCanAttack = equipmentInput.toolAllowed && !blocked && !isSurfaceSwimming(pStBefore) && (pStBefore.mode !== "CLIMB" && pStBefore.mode !== "MANTLE") && betaGame.canUseFieldTool();
       const effectiveAttackRequested = equipmentInput.toolAllowed && pendingAttackLatch && !blocked;
       const effectiveAttackHeld = !!intent.attackHeld && fieldCanAttack;
       const getManualHarvestTargets = () => resourceSystem.getManualTargets(pStBefore.pos);
@@ -1267,6 +1278,7 @@ function tick() {
       };
 
       playerController.update(fixedDt, effectiveIntent, combatOpts);
+      if (isSurfaceSwimming(playerController.getState())) fieldTool.hardReset();
       const landingImpact = playerController.consumeLandingImpact();
       if (landingImpact) playerCombat.takeDamage(landingImpact.damage, null);
       movementStepped = true;
@@ -1350,6 +1362,7 @@ function tick() {
 
   const pState = playerController.getState();
   betaGame?.shell.setClimbing?.(playerController.isClimbing());
+  betaGame?.shell.setSwimming?.(isSurfaceSwimming(pState));
   if(!authorSuppress)expeditionPersistence?.update(dt,isAnyBlockingModal());
   playerController.prepareRender(fixedDt > 0 ? accumulator / fixedDt : 1);
   playerProjectedShadow.update({ hidden: authorSuppress });
@@ -1411,7 +1424,7 @@ tick();
 window.__game = {
   scene, camera, renderer, player, playground, playerController, playerProjectedShadow, touchMovement, keyboardInput, cameraFollow, cameraOrbit, THREE, MOVEMENT_CONFIG, RAPIER, physicsWorld, characterPhysics, physicsDebug, resourceSystem, pickupSystem, fieldTool, inventoryHud, gameAudio, particleSystem, autoHarvestToggle, combatHud, creatureSystem, projectileSystem, xpMoteSystem, playerCombat, combatSession,
   worldRegistry, regionManager, sectionRuntime, portalGateSystem, worldHazardSystem, lootSystem, expeditionSession, frontierProgress, frontierMap, anchorPrompt, runResultCard, matterResonatorPanel, frontierIndicators, frontierAnchorSystem, authorMode, authorCtx,
-  frontierChunks, frontierEcology, frontierWildlife, frontierScenery, frontierDiscoveries, frontierAtlasSurvey, frontierOuting,
+  frontierChunks, frontierOcean, frontierEcology, frontierWildlife, frontierScenery, frontierDiscoveries, frontierAtlasSurvey, frontierOuting,
   beginExpedition, beginExpeditionFromDefaultEntry, transitionThroughPortalGate, handleExtractionFlow, handleDeathFlow, resetTransientWorldToCamp,
   betaGame,
   getPlayerLevel: () => getPlayerLevel(frontierProgress.getBankedXp()),

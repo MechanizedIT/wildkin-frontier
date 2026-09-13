@@ -97,6 +97,9 @@ test('places fail closed on province, surface, whole support, exact reserve, and
   }) }), null, 'reserve fade alone cannot admit a mixed-province place');
   assert.equal(sampleFrontierRegionalPlaceChunk(-5, -2, { getTerrainSample: () => ({ ...FLAT_SUNSCAR(), surfaceKind: 'ledge' }) }), null);
   assert.equal(sampleFrontierRegionalPlaceChunk(-5, -2, { getTerrainSample: FLAT_SUNSCAR, getHeight: x => x }), null);
+  assert.equal(sampleFrontierRegionalPlaceChunk(-5, -2, {
+    getTerrainSample: () => ({ ...FLAT_SUNSCAR(), coastDistance: 1 }), getHeight: () => 9,
+  }), null, 'the full seven-metre place stays beyond the dry shoreline margin');
   assert.equal(macroPlaces(-1, -1, { getTerrainSample: FLAT_SUNSCAR, getHeight: () => 9 }).length, 0, 'the protected Camp/Skybreak corridor remains exact even with injected regional terrain');
   for (let cz = -2; cz <= 3; cz += 1) for (let cx = 1; cx <= 5; cx += 1) {
     const place = sampleFrontierRegionalPlaceChunk(cx, cz, { getTerrainSample: FLAT_SUNSCAR, getHeight: () => 9 });

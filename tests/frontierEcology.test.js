@@ -34,6 +34,11 @@ test('habitats select different broad forage mixes and reject injected steep ter
   assert.deepEqual(sampleFrontierForageChunk(3, 3, { getHeight: x => x * 2 }), []);
 });
 
+test('forage attempts retain their IDs and budget while rejecting wet footprints', () => {
+  const wet = () => ({ height: -2, coastDistance: -1, habitatBlend: { wetland: 0, fernUpland: 1 }, surfaceKind: null });
+  assert.deepEqual(sampleFrontierForageChunk(12, 12, { getTerrainSample: wet, getHeight: () => -2 }), []);
+});
+
 test('regional forage keeps legacy recipes at zero influence and makes the default Sunscar witness mineral-heavy', () => {
   const legacySample = () => ({ height: 4, habitatBlend: { wetland: .35, fernUpland: .65 }, surfaceKind: null });
   const reservedSample = () => ({ ...legacySample(), provinceKind: 'sunscar', provinceInfluence: 0, provinceWeights: { lush: 0, sunscar: 1, ironspine: 0 } });

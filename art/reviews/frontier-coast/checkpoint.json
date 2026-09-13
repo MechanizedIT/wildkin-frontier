@@ -1,0 +1,307 @@
+{
+  "checkpoint": "frontier-coast",
+  "baseCommit": "649553888507f6593ad258122e5548342819c96d",
+  "createdAtUTC": "2026-09-13T11:15:21.033239+00:00",
+  "behavior": "PASS",
+  "visual": {
+    "selected": "R3",
+    "score": 6.4,
+    "verdict": "HOLD",
+    "rounds": [
+      5.5,
+      6.1,
+      6.4
+    ]
+  },
+  "validation": {
+    "tests": 1300,
+    "passed": 1300,
+    "failed": 0,
+    "durationSeconds": 71.8577072,
+    "verify": "PASS",
+    "zip": "PASS",
+    "unpackedMB": 44.28,
+    "zipMB": 20.57,
+    "developerCanonicalReload": true,
+    "packageCanonicalReload": true,
+    "packagedEntrySeconds": 9.908,
+    "physicalPhone": false,
+    "coldAirplaneMode": false
+  },
+  "fixture": "Agent-owned exploration save with existing Tidefin; staged coast start and camera. Normal input events drive runtime journeys. User localhost8080 untouched.",
+  "rawEvidenceDirectory": ".dream-loop/frontier-coast",
+  "files": {
+    "art/reviews/frontier-coast/baseline-portrait.png": {
+      "bytes": 105929,
+      "sha256": "18d311d6942ce075a169fb65eb3cf77f446197011e6cb762fa3068990ba67836",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/candidate-r1-portrait.png": {
+      "bytes": 107765,
+      "sha256": "4c53133b6727dc74bc224eee83501694b029d01534c78d58588792871e00a4a1",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/candidate-r1-swim.png": {
+      "bytes": 56336,
+      "sha256": "8f5a08fe50a67ae3d25019f676db72b369951b6fd1158d6afb4dcd9803801654",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/candidate-r2-portrait.png": {
+      "bytes": 99953,
+      "sha256": "1cbf199a542e587b17447138c7e1e2be02a251697931bc172c07cc7fca926ac9",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/candidate-r2-swim.png": {
+      "bytes": 57104,
+      "sha256": "46940169d99608bd16c6d0b41085d1f40da7bd8f18105b533e50cdeb6cc3c4c3",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/candidate-r3-portrait.png": {
+      "bytes": 103643,
+      "sha256": "c68148a15497969a47cd22dbfd06382f567672b503f21471c1ff5dae994c7894",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/candidate-r3-swim.png": {
+      "bytes": 58895,
+      "sha256": "71027a16720c4d525b58a2ac46ca99f179b8227007060be88451b26d3cb0e268",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/continent-overview.png": {
+      "bytes": 70002,
+      "sha256": "bd89f6b4853a8c89798cf81b4a1353947a9d566f768df9a70024a265c139c753",
+      "dimensions": [
+        563,
+        750
+      ]
+    },
+    "art/reviews/frontier-coast/continent-overview.svg": {
+      "bytes": 551706,
+      "sha256": "c7d99c0e48e69c7e0c676f1d00bddb68d3f314980d68b015540ce0eea0f4989a"
+    },
+    "art/reviews/frontier-coast/final-atlas-portrait.png": {
+      "bytes": 31220,
+      "sha256": "e5fb637fbbce063eb1e132e759baf22c8e2578711f8150227cc7fb8944747cbe",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/final-current-active.png": {
+      "bytes": 53885,
+      "sha256": "389ae84aeeddaddc7636d3fd74d92965f15c22a56622602639a9b7432f8edd30",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/final-current-portrait.png": {
+      "bytes": 55952,
+      "sha256": "481fd20635f537ec17eeda5a7143f54a686c22bec867efb9b42525ab890e75fe",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/generate-continent-overview.mjs": {
+      "bytes": 10864,
+      "sha256": "cc25a07b335a63af96f286f9f76ae8ad460ea963bc53fd73fdefac803b3f2f03"
+    },
+    "art/reviews/frontier-coast/package-swim-portrait.png": {
+      "bytes": 59239,
+      "sha256": "50f1c2443b6a1362a13ed4e08e7add80b130dd1f89c55ed1c6c870c439095aa1",
+      "dimensions": [
+        309,
+        686
+      ]
+    },
+    "art/reviews/frontier-coast/receipt.md": {
+      "bytes": 8226,
+      "sha256": "d4df0cfdfc7e0c09e5fa09e1ddf8ede63f65e7e02e762a437d71c20d0c8102fd"
+    },
+    "art/reviews/frontier-coast/target-portrait.png": {
+      "bytes": 1595197,
+      "sha256": "d9cbb57937822e64fd4b3a98e6f2b24e2dd5b1c912dcdab2159e904c4d6df77d",
+      "dimensions": [
+        841,
+        1870
+      ]
+    },
+    "dist/submission.zip": {
+      "bytes": 21567190,
+      "sha256": "c987e1a945bfc0abcad6dd6abe2d184260193dd80afab104309cd595818350b2"
+    },
+    "dist/submission/index.html": {
+      "bytes": 16223442,
+      "sha256": "48f41ee14c9477494c1bc5ff2bc44dc1027e09a9731fa21d8294419c2119b92d"
+    },
+    "src/audio/movementAudio.js": {
+      "bytes": 2472,
+      "sha256": "cd81f0eec2fc3299a85387f15fc531e79212f0039220b47ec21badd9127d3747"
+    },
+    "src/combat/playerCombat.js": {
+      "bytes": 14401,
+      "sha256": "4d4a471e06168b6acd16bf2a3659bee0c359de90e47b2f174e5e5e0bf002c65d"
+    },
+    "src/companions/companionSystem.js": {
+      "bytes": 36265,
+      "sha256": "4f3ff1449d591f97b70aeb36fbaf78bcfbe40388dceada8261c9c57f1cd9583d"
+    },
+    "src/game/createBetaGame.js": {
+      "bytes": 30436,
+      "sha256": "af1a83f227f54cc8ec9bd4063548e5385f6a92aeece9870d920c1590179e4f58"
+    },
+    "src/main.js": {
+      "bytes": 72144,
+      "sha256": "3837887f8ecb5e27022c3409da379c15549113d81ffc4de198a12d36dd4c59a4"
+    },
+    "src/movement/surfaceSwim.js": {
+      "bytes": 5102,
+      "sha256": "dcf40b08b16c2a192105410a44f3093685f0caaa7311cbe08fb22cd2771c6410"
+    },
+    "src/player/externalPlayerModel.js": {
+      "bytes": 5317,
+      "sha256": "b1d5fd8f91834c195e86933fa9672929d845ad759cd21fbd89e7c778433dd233"
+    },
+    "src/player/playerController.js": {
+      "bytes": 35458,
+      "sha256": "8ce7b060b35682837c896af81f0b53b283fb6f9a2f63556873397a476a5f62f0"
+    },
+    "src/player/playerVisuals.js": {
+      "bytes": 4829,
+      "sha256": "f0c507f2d590aca8bdc9b4e74b06767d387ef857a4642201e3dd67214ca8080d"
+    },
+    "src/session/expeditionPersistence.js": {
+      "bytes": 2866,
+      "sha256": "fb8783e389d6cb6e262f1ca95d19d25a4e4b250feb669150eed4fa895d38345f"
+    },
+    "src/session/resumePosition.js": {
+      "bytes": 3202,
+      "sha256": "f91a0320c9fd35fd1e418b4af8ce323ef12ecdb565654d7c677e62d21acb20aa"
+    },
+    "src/tools/fieldTool.js": {
+      "bytes": 31950,
+      "sha256": "2a722cf33c357257ae612cbafaf6c970b3aa45dd24e33aae43eba477b80c7204"
+    },
+    "src/ui/betaShell.js": {
+      "bytes": 38152,
+      "sha256": "752028e2e4706ecab4d6cd5c82dcd7abe2871a35aca42bfeadaf20be50c99e7a"
+    },
+    "src/ui/frontierAtlasRenderer.js": {
+      "bytes": 8554,
+      "sha256": "6983e901eb8b895b4778c208e4a12034e4f41b6b3c05ecf3e2ff011fffe46aa5"
+    },
+    "src/world/frontierChunkRuntime.js": {
+      "bytes": 18086,
+      "sha256": "eb18552d9ce92a31c6163e12eef9c660c77992b3092ea35adde0a29960753b0d"
+    },
+    "src/world/frontierContinent.js": {
+      "bytes": 8382,
+      "sha256": "e394ded27ffc4ada0b32c9116e6e681f1de3b04eafdb5bb138ff3571fbd7fcac"
+    },
+    "src/world/frontierDiscovery.js": {
+      "bytes": 5158,
+      "sha256": "8cfb622dbf409546221b3f6be071155972380daa1e03751583692d7e874f88d8"
+    },
+    "src/world/frontierEcology.js": {
+      "bytes": 16323,
+      "sha256": "10141cbdf6b4ce4bea6b46dae09dfab6a417c894b317c733476856b44728ac0e"
+    },
+    "src/world/frontierOceanRuntime.js": {
+      "bytes": 16020,
+      "sha256": "fd9829b0057b714f3b01b2a74ead7e548ec4b6b7f822f3cddee49ec595650f61"
+    },
+    "src/world/frontierRegionalPlace.js": {
+      "bytes": 10519,
+      "sha256": "e07ecb78ac612b7610de773c69c36de4bd323aa60d5fa6990e2a8c99c7db87b0"
+    },
+    "src/world/frontierScenery.js": {
+      "bytes": 35669,
+      "sha256": "d9dbcb3e241cc69deb927c58def8a4035a625b9476a22e9604c31a6630b1e8f1"
+    },
+    "src/world/frontierTerrain.js": {
+      "bytes": 15987,
+      "sha256": "6a205bd76b917766d930a7d050d4bd7e1540aaf8d41088646788966f8b341c11"
+    },
+    "src/world/frontierWildlife.js": {
+      "bytes": 12111,
+      "sha256": "00dd0fb9e8e4e0dc6f4e44da50783bbc91744116e2649c44b553d6bf2cec4b9e"
+    },
+    "tests/companionShoreline.test.js": {
+      "bytes": 8154,
+      "sha256": "ee032cf67ffc729384fd00a337f49c4ead8730197ad3c1f7608608469beeac47"
+    },
+    "tests/externalPlayerModel.test.js": {
+      "bytes": 8611,
+      "sha256": "481a812b4b270f566ad66f3ef4f656650ff99c5f2fb4f99af28f9e5b3987eb6c"
+    },
+    "tests/frontierAtlasRenderer.test.js": {
+      "bytes": 5392,
+      "sha256": "5d86469776c022b9e9c607f9d647fd626486af69af4509194d3de86fee710cc6"
+    },
+    "tests/frontierCoastIntegration.test.js": {
+      "bytes": 8514,
+      "sha256": "ed87ed4e26682f5147c9d71103525a206ffc2e7ca880f5d353e18216792a667a"
+    },
+    "tests/frontierContinent.test.js": {
+      "bytes": 5409,
+      "sha256": "8c377ef504ef76008a5b9cce806a29d8b5aff4cf2331afcb15dd1e3fec47f6f1"
+    },
+    "tests/frontierDiscovery.test.js": {
+      "bytes": 3899,
+      "sha256": "1778b44bf7cf3e750425de722317ef18f94a6dafea9166707b60eb3a9d48c259"
+    },
+    "tests/frontierEcology.test.js": {
+      "bytes": 15610,
+      "sha256": "2655ab6bbf9d2e9f36d468c6998c730ee8088bbee38566a2805c0ec0f7706e58"
+    },
+    "tests/frontierOceanRuntime.test.js": {
+      "bytes": 6676,
+      "sha256": "7eec26d9281d83e2c5a8fb104947bfc7b8a5a802088beb3e8563c4f81a5f1a3b"
+    },
+    "tests/frontierRegionalPlace.test.js": {
+      "bytes": 10704,
+      "sha256": "ed7e58fb77835e642a00cb7cff6e114e906ff1a71caf53d7ceeed6d9fcb530fa"
+    },
+    "tests/frontierScenery.test.js": {
+      "bytes": 32807,
+      "sha256": "1ba42abbd9f620cdd79c18a90c4273a279fbaa8c5d074bdf0448ad3620c0c4d4"
+    },
+    "tests/frontierTextureColor.test.js": {
+      "bytes": 3944,
+      "sha256": "ed94c5bc1b4d5153fe31900509fd96cf3e46509ec878db3f392b313b9ac611e3"
+    },
+    "tests/frontierWildlife.test.js": {
+      "bytes": 18581,
+      "sha256": "671cb18cb4a92faa6d7dff4c400f149c0afb714f3b56cac1d680bff3e30b6c75"
+    },
+    "tests/movementAudio.test.js": {
+      "bytes": 2842,
+      "sha256": "e756114dd33dfaaa3da51e840f680f5702997d6c0f3e96b49184600a1bf41a1d"
+    },
+    "tests/surfaceSwim.test.js": {
+      "bytes": 8065,
+      "sha256": "5df172c5b3514e80164d4a77d1882e38ab7cde0ba2717071b1e92242efd4afe8"
+    }
+  }
+}

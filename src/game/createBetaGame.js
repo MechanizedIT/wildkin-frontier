@@ -5,6 +5,7 @@ import { getObservationJournal } from '../companions/observationCatalog.js';
 import { createBetaShell } from "../ui/betaShell.js";
 import { deriveCampaignProgress, getNextCampaignObjective } from "../progression/campaignProgress.js";
 import { getFrontierPurpose } from '../progression/frontierPurpose.js';
+import { isSurfaceSwimming } from '../movement/surfaceSwim.js';
 import { getPlayerLevel } from "../progression/playerLevel.js";
 import { createFrontierAtmosphere } from "../presentation/frontierAtmosphere.js";
 import { createContactShadows } from "../presentation/contactShadows.js";
@@ -46,7 +47,7 @@ export function createBetaGame(deps) {
   const observatoryMechanisms = createObservatoryMechanisms({ scene, registry, progress });
   const playerOcclusion = initializePlayerOcclusion({ scene, camera: deps.camera, getPlayerPosition: () => playerController.getState().pos });
   const guardianEncounter = createGuardianEncounter({ scene, getGuardian: () => creatures.getCreatures().find(c => c.state.id === "wildkin_guardian"), getPlayerState: () => playerController.getState(), playerCombat, audio, onPulse: ({ target }) => pulse(target, 0xffbd63), onWarning: text => toast("Heartwood Guardian", text) });
-  const companions = createCompanionSystem({ app, scene, camera: deps.camera, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, getTerrainHeight: deps.getTerrainHeight, getCampCareAnchor: () => {
+  const companions = createCompanionSystem({ app, scene, camera: deps.camera, registry, progress, creatures, playerController, playerCombat, physicsWorld: deps.physicsWorld, playerCollider: deps.playerCollider, getTerrainHeight: deps.getTerrainHeight, getSurfaceWater: deps.getSurfaceWater, getCampCareAnchor: () => {
     if (!canCareAtCamp()) return null;
     const care = progress.getCampCare(), bed = care && base.getWildkinBed(care.bedId);
     return bed ? { ...bed, wildkinId: care.wildkinId } : null;
@@ -114,6 +115,12 @@ export function createBetaGame(deps) {
     combatHud.updateProgress(progress.getBankedXp());
   }
   function objectiveModel(s, cargo, pending, ability) {
+    const movement = playerController.getState();
+    if (isSurfaceSwimming(movement)) return {
+      frontier: true,
+      title: movement.currentStrength > .1 ? 'Current pushes inland' : 'Swim toward shore',
+      description: 'Use the movement stick to swim. The pale offshore currents carry you toward land; leave the water along a low sandy edge.',
+    };
     if (getSectionId() === 'camp' && !corePending) {
       return { ...getFrontierPurpose({ state: s, cargo, isCamp: isCamp(), pendingCompanions: pending,
         spendableResources: progress.getSpendableResources(),
@@ -156,7 +163,7 @@ export function createBetaGame(deps) {
       skills: {nodes:SKILL_CATALOG,unlocked:s.skillUnlocks,points:s.skillPointsAvailable,level:getPlayerLevel(s.bankedXp)},
       companions: roster,
       pendingCompanions: pending, captureCapacity: progress.getModifiers().captureCapacity, objective: objectiveModel(s, cargo, pending, ability), medkits: s.craftedConsumables.medkit ?? 0,
-      ability, settings, campaignComplete: s.campaignCompleted,
+      ability, settings, swimming: isSurfaceSwimming(playerController.getState()), campaignComplete: s.campaignCompleted,
       base: base.getModel(), fieldTaming: companions.getFieldTamingState?.() ?? null,
       observation: companions.getObservationState(),
       objectives: deriveCampaignProgress(s).map(({id,title,completed}) => ({id,title,completed})) };
@@ -259,6 +266,7 @@ export function createBetaGame(deps) {
     openSanctuary: () => shell.open('wildkin'),
     openStorage: id => {base.close();return physicalInventory.openObject(id);},
     getNearbyInteraction(pos,isVisible=()=>true){
+      if (isSurfaceSwimming(playerController.getState())) return null;
       if(isCamp()){
         const storage=physicalInventory.getNearbyInteraction(pos,isVisible);
         if(storage)return storage;
@@ -274,7 +282,7 @@ export function createBetaGame(deps) {
       return rootfallInfo&&isVisible(rootfallInfo)?rootfallInfo:companions.getNearbyInteraction(pos);
     },
     beginBond: companions.beginBond,
-    canUseFieldTool: () => session.isActive() || isCamp(),
+    canUseFieldTool: () => !isSurfaceSwimming(playerController.getState()) && (session.isActive() || isCamp()),
     beforeHarvestHit: node=>campClearing.beforeHit(node)&&rootfall.beforeHit(node),
     afterHarvestHit(node){campClearing.afterHit(node);rootfall.afterHit(node);},
     activateCampYard() { const result=base.onAction('expandBase');if(result?.message)toast('Camp work yard',result.message);shell.update();return result; },

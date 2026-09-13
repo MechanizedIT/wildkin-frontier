@@ -2,6 +2,7 @@
 import * as THREE from "three";
 import { HARVEST_CONFIG, isHarvestCompatibleMode } from "../resources/resourceConfig.js";
 import { COMBAT_CONFIG } from "../combat/combatConfig.js";
+import { isSurfaceSwimming } from '../movement/surfaceSwim.js';
 
 export const SWING_CONFIG = {
   idlePitch: 0.76,
@@ -264,7 +265,7 @@ export function createFieldTool(playerGroup, gameAudio = null, { onSwingStart = 
     if (!next) trailGroup.visible = false;
   }
   function update(dt, playerPos, playerState, getTargetsOrOpts, onImpactMaybe, autoHarvestEnabledArg) {
-    const climbing = playerState?.mode === 'CLIMB' || playerState?.mode === 'MANTLE';
+    const climbing = playerState?.mode === 'CLIMB' || playerState?.mode === 'MANTLE' || isSurfaceSwimming(playerState);
     toolGroup.visible = equipped && !climbing;
     if (climbing) { if (isSwinging) hardReset(); trailGroup.visible = false; return; }
     if (!equipped) return;

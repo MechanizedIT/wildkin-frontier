@@ -4,6 +4,7 @@ import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
+import { hasFrontierLandFootprint } from './frontierContinent.js';
 
 const EDGE = 3;
 const CAMP_CLEARANCE = 6;
@@ -217,6 +218,11 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
     const footprintRadius = regional
       ? (REGIONAL_ASSET_FOOTPRINT_RADIUS[kind.visualAsset?.id] ?? FOOTPRINT_RADIUS[kind.type]) * uniformScale
       : FOOTPRINT_RADIUS[kind.type];
+    if (!hasFrontierLandFootprint(x, z, {
+      radius: footprintRadius,
+      getTerrainSample: (sx, sz) => terrainSample(sx, sz, { getTerrainSample, terrainOptions, world }),
+      world,
+    })) continue;
     if (nearbyRegionalPlaces.some(place => (
       Math.hypot(x - place.center.x, z - place.center.z) < place.radius + footprintRadius
     ))) continue;
@@ -253,7 +259,11 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
     const height = typeof getHeight === 'function' ? getHeight(staged.x, staged.z) : sample.height;
     const uniformScale = staged.uniformScale ?? (staged.type === 'rock' ? 1.04 : staged.assetId ? 1.14 : 1.16);
     const radius = (STAGED_ASSET_FOOTPRINT_RADIUS[staged.assetId] ?? FOOTPRINT_RADIUS[staged.type]) * uniformScale;
-    if (!Number.isFinite(height) || !hasFootprintSupport(staged.x, staged.z, {
+    if (!Number.isFinite(height) || !hasFrontierLandFootprint(staged.x, staged.z, {
+      radius,
+      getTerrainSample: (sx, sz) => terrainSample(sx, sz, { getTerrainSample, terrainOptions, world }),
+      world,
+    }) || !hasFootprintSupport(staged.x, staged.z, {
       getHeight: (sx, sz) => typeof getHeight === 'function' ? getHeight(sx, sz) : terrainSample(sx, sz, { getTerrainSample, terrainOptions, world }).height,
       radius,
       maxSlope: MAX_SLOPE,

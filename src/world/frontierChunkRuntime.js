@@ -9,6 +9,7 @@ import { createFrontierRegionSampler } from './frontierRegion.js';
 import { createFrontierTextureColorSampler } from './frontierTextureColor.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed, normalizeFrontierWorld } from './frontierWorld.js';
+import { createFrontierContinentSampler, sampleFrontierWater, hasFrontierLandFootprint } from './frontierContinent.js';
 import {
   FRONTIER_TERRAIN_CONFIG,
   chunkKey,
@@ -86,6 +87,8 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
     const z = frond ? frond[1] - chunk.origin.z : hash(index, chunk.origin.x, positionZSeed) * FRONTIER_TERRAIN_CONFIG.chunkSize;
     const worldX = chunk.origin.x + x, worldZ = chunk.origin.z + z;
     const sample = sampleFrontier(worldX, worldZ, terrainOptions);
+    if (sample.contentLand === false || (sample.coastDistance < 40
+      && !hasFrontierLandFootprint(worldX, worldZ, { radius: .45, continentSampler: terrainOptions.continentSampler }))) continue;
     const influence = Math.max(0, Math.min(1, sample.provinceInfluence ?? 0));
     const dry = influence * (sample.provinceWeights?.sunscar ?? 0);
     const high = influence * (sample.provinceWeights?.ironspine ?? 0);
@@ -116,6 +119,7 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
 export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, visualAssets = [], world = DEFAULT_FRONTIER_WORLD } = {}) {
   const worldDescriptor = normalizeFrontierWorld(world);
   const regionSampler = createFrontierRegionSampler(worldDescriptor);
+  const continentSampler = createFrontierContinentSampler(worldDescriptor);
   const root = new THREE.Group();
   root.name = 'frontier_chunks';
   parent?.add(root);
@@ -127,9 +131,10 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
   const terrainOptions = campSurface ? {
     world: worldDescriptor,
     regionSampler,
+    continentSampler,
     campHeight: (x, z) => getSurfaceHeight(campSurface, x, z),
     campColor: (x, z) => { const color = campColor(x, z); return [color.r, color.g, color.b]; },
-  } : { world: worldDescriptor, regionSampler };
+  } : { world: worldDescriptor, regionSampler, continentSampler };
   let center = null;
   let residencySnapshot = { center: null, chunks: [] };
   let lastPosition = null;
@@ -148,6 +153,14 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
 
   function createResident(cx, cz) {
     const chunk = createFrontierChunk(cx, cz, terrainOptions);
+    // Deep ocean keeps a cheap residency record for neighboring content owners,
+    // but contributes neither a walking floor nor empty Rapier trimeshes.
+    if (chunk.indices.length === 0) {
+      const group = new THREE.Group();
+      group.name = `frontier_chunk_${chunk.id}`;
+      group.position.set(chunk.origin.x, 0, chunk.origin.z);
+      return { chunk, group, geometry: null, foliage: null, texture: null, material: null, stoneMaterial: null, landform: null };
+    }
     const geometry = new THREE.BufferGeometry();
     let foliage = null, texture = null, material = null, stoneMaterial = null, landform = null;
     try {
@@ -198,12 +211,12 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
 
   function disposeResident(resident) {
     resident.group.removeFromParent();
-    resident.geometry.dispose();
-    resident.foliage.dispose();
+    resident.geometry?.dispose();
+    resident.foliage?.dispose();
     resident.texture?.dispose();
-    resident.material.dispose();
+    resident.material?.dispose();
     resident.stoneMaterial?.dispose();
-    resident.landform.dispose();
+    resident.landform?.dispose();
   }
 
   function clearPrepared() {
@@ -215,7 +228,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
   function clearResidents() {
     clearPrepared();
     if (!residents.size && center === null) { lastPosition = null; return; }
-    const remove = [...residents.values()].flatMap(resident => [resident.chunk.id, ...resident.landform.terrainSurfaces.map(surface => surface.id)]);
+    const remove = [...residents.values()].flatMap(resident => [resident.chunk.id, ...(resident.landform?.terrainSurfaces ?? []).map(surface => surface.id)]);
     if (remove.length) physicsWorld?.updateTerrainSurfaces({ remove });
     for (const resident of residents.values()) {
       disposeResident(resident);
@@ -293,7 +306,8 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
           resident = prepared.get(id) ?? createResident(cx, cz);
           prepared.delete(id);
           candidates.push(resident);
-          add.push({ ...resident.chunk, sectionId: 'camp' }, ...resident.landform.terrainSurfaces);
+          if (resident.chunk.indices.length) add.push({ ...resident.chunk, sectionId: 'camp' });
+          add.push(...(resident.landform?.terrainSurfaces ?? []));
         }
         nextResidents.set(id, resident);
       }
@@ -304,7 +318,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     }
     const remove = [];
     for (const [id, resident] of residents) if (!wanted.has(id)) {
-      remove.push(id, ...resident.landform.terrainSurfaces.map(surface => surface.id));
+      remove.push(id, ...(resident.landform?.terrainSurfaces ?? []).map(surface => surface.id));
     }
     try {
       // Physics stages the complete replacement before it retires old support.
@@ -325,6 +339,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
 
   function sample(x, z) { return sampleFrontier(x, z, terrainOptions); }
   function getHeight(x, z) { return sample(x, z).height; }
+  function getWater(x, z) { return sampleFrontierWater(x, z, terrainOptions); }
   // Stable lifecycle snapshot for nearby resident owners. It changes only when
   // the terrain residency does, and never exposes a gameplay mutation path.
   function getResidency() {
@@ -338,5 +353,5 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     clearResidents(); parent?.remove(root);
     foliageGeometry.dispose(); foliageMaterial.dispose(); disposed = true;
   }
-  return { root, update, sample, getHeight, getResidency, getWorldDescriptor, getDebugState, dispose };
+  return { root, update, sample, getHeight, getWater, getResidency, getWorldDescriptor, getDebugState, dispose };
 }

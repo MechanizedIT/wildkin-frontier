@@ -36,6 +36,11 @@ function owner() {
   };
 }
 
+test('wildlife rejects a home whose complete movement disk reaches the wet margin', () => {
+  const wet = () => ({ height: 4, coastDistance: 1, habitatBlend: { wetland: 0, fernUpland: 1 }, surfaceKind: null });
+  assert.deepEqual(sampleFrontierWildlifeChunk(12, 12, { getTerrainSample: wet }), []);
+});
+
 test('starter wildlife keeps the first two Mossling identities and adds stable side encounters', () => {
   const [first, second, tidefin] = sampleFrontierWildlifeChunk(0, -2);
   const [again] = sampleFrontierWildlifeChunk(0, -2);

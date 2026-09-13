@@ -1,5 +1,19 @@
+import { FRONTIER_CONTINENT_CONFIG } from '../world/frontierContinent.js';
+
 // Restore queries use the same Rapier world and capsule as movement. They never
 // move the player as a probe or accept a missing/failed collision query.
+export function frontierCoastResumeCandidates(feet, terrain, campSpawn) {
+  const candidates = [feet];
+  // A private-alpha coast revision can lower old land or replace it with sea.
+  // These are only candidates: the ordinary Rapier validator still owns proof.
+  if (terrain?.land !== false && Number.isFinite(terrain?.height)
+    && Number.isFinite(terrain?.coastDistance) && terrain.coastDistance < FRONTIER_CONTINENT_CONFIG.inlandExactDistance) {
+    candidates.push({ x: feet.x, y: terrain.height, z: feet.z });
+  }
+  if ((terrain?.land === false || terrain?.coastDistance < FRONTIER_CONTINENT_CONFIG.inlandExactDistance) && campSpawn) candidates.push(campSpawn);
+  return candidates;
+}
+
 export function findSupportedResumeFeet({ feet, section, bounds = section?.bounds, isPositionAllowed, killVolumes = [], characterPhysics, ignoreCollider = () => false }) {
   if (!feet || ![feet.x,feet.y,feet.z].every(Number.isFinite)) return null;
   if (typeof isPositionAllowed === 'function') {

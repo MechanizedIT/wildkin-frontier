@@ -4,6 +4,7 @@ import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
+import { hasFrontierLandFootprint } from './frontierContinent.js';
 
 const EDGE = 5;
 const SLOPE_SAMPLE = .8;
@@ -181,6 +182,15 @@ function homeDiskIntersectsPlace(placement, places) {
   return places.some(place => Math.hypot(placement.homePos.x - place.center.x, placement.homePos.z - place.center.z) < movementRadius + place.radius);
 }
 
+function homeDiskIsLand(placement, options) {
+  const movementRadius = Math.max(0, placement.roamRadius ?? 0, placement.leashRadius ?? 0, placement.fleeLeashRadius ?? 0);
+  return hasFrontierLandFootprint(placement.homePos.x, placement.homePos.z, {
+    radius: movementRadius,
+    getTerrainSample: (x, z) => terrainSample(x, z, options),
+    world: options.world ?? DEFAULT_FRONTIER_WORLD,
+  });
+}
+
 /** Pure, stable Wildkin sources for a terrain chunk. */
 export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   if (!Number.isSafeInteger(cx) || !Number.isSafeInteger(cz) || isCampChunk(cx, cz)) return [];
@@ -223,7 +233,7 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
       else if (sample.surfaceKind === 'skybreak-cap') {
         placement = Object.freeze({ ...makeMosslingPlacement(cx, cz, 100, x, z, sampleOptions), residentPriority: 4 });
       }
-      if (placement && !homeDiskIntersectsPlace(placement, places)) placements.push(placement);
+      if (placement && homeDiskIsLand(placement, sampleOptions) && !homeDiskIntersectsPlace(placement, places)) placements.push(placement);
     }
     return placements;
   }
@@ -231,7 +241,7 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
     const sample = terrainSample(x, z, sampleOptions);
     if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE && hasSafeHome(x, z, sampleOptions)) {
       const placement = makeRegionalPlacement(cx, cz, 0, x, z, sampleOptions);
-      if (!homeDiskIntersectsPlace(placement, places)) return [placement];
+      if (homeDiskIsLand(placement, sampleOptions) && !homeDiskIntersectsPlace(placement, places)) return [placement];
     }
   }
   return [];

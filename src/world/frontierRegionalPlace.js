@@ -1,6 +1,7 @@
 import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from './frontierTerrain.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
+import { hasFrontierLandFootprint } from './frontierContinent.js';
 
 export const FRONTIER_REGIONAL_PLACE_RADIUS = 7;
 export const FRONTIER_REGIONAL_PLACE_RESOURCE_SLOTS = Object.freeze({ main: 200, outer: 201 });
@@ -161,6 +162,11 @@ export function sampleFrontierRegionalPlaceChunk(cx, cz, options = {}) {
     || !(centerSample.provinceWeights?.sunscar >= SUNSCAR_PURITY)
     || centerSample.surfaceKind || !clearsExactReserve(centerX, centerZ)
     || Math.hypot(centerX - SIGNAL_CACHE.x, centerZ - SIGNAL_CACHE.z) < SIGNAL_CACHE.clearance
+    || !hasFrontierLandFootprint(centerX, centerZ, {
+      radius: FRONTIER_REGIONAL_PLACE_RADIUS,
+      getTerrainSample: (x, z) => sampleTerrain(x, z, options, world),
+      world,
+    })
     || !supported(centerX, centerZ, FRONTIER_REGIONAL_PLACE_RADIUS, options, world)) return null;
 
   const yaw = roll(mx, mz, 5, world) * Math.PI * 2;
