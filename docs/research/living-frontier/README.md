@@ -26,3 +26,12 @@ The portable image copies live in `images/actual/` and `images/concept/`. The re
 Original morning research remains preserved outside the repo at `C:/Users/cwood/Documents/Wildkin-Research/2026-09-12/`.
 
 Existing phone links: [Google Drive Visual Fieldbook](https://drive.google.com/file/d/1CxksdXis14pKQ_3KyKvUHKMLhNly8D5y/view) and [Google Drive Detailed Appendix](https://drive.google.com/file/d/14Hbboycp5oFvID5TwbVpPR2uA_uvJph5/view). Delivery verification belongs in `delivery-receipt.json` after the authorized update succeeds; a link alone does not prove synchronization.
+
+
+## Caldera working candidate — September13
+
+Caldera now has volcanic terrain, finite crystal/iron and a territorial Emberhorn outing. Normal controls proved gathering, warning/retreat, streamed depletion and exact developer/portable continuation. **1,378 tests and package gates pass** (44.36 MB unpacked /20.59 MB ZIP). Visual R3 remains **HOLD 3.8/10**; ten allocated habitats are still not ten finished habitats. [Illustrated local report](../../../art/reviews/caldera/receipt.md).
+
+<img src="../../../art/reviews/caldera/r3.png" width="200" alt="Actual held Caldera scenery"> <img src="../../../art/reviews/caldera/warning-r3.png" width="200" alt="Actual Emberhorn encounter">
+
+Exploration leads; collecting and satisfying base/factory construction are overlapping motivations. The next priority is a more useful portrait exploration view. These newer local artifacts have not replaced the earlier dated Drive PDFs.

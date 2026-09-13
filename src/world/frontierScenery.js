@@ -7,6 +7,7 @@ import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 import { hasFrontierLandFootprint } from './frontierContinent.js';
 import { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
+import { overlapsFrontierCalderaClearLane } from './frontierCaldera.js';
 
 export const FRONTIER_SCENERY_CONFIG = Object.freeze({
   maxNear: 2304,
@@ -30,6 +31,14 @@ const ASSET_FOOTPRINT_RADIUS = Object.freeze({
   asset_mushroom_ring: 1.05,
   asset_fen_reed: .85,
   asset_fen_lily: .93,
+  asset_ember_spire: 1.7,
+  asset_ember_bloom: 1.02,
+  asset_pebble_cluster: .66,
+});
+const CALDERA_ASSET_IDS = Object.freeze(new Set(['asset_ember_spire', 'asset_ember_bloom', 'asset_pebble_cluster']));
+const RESOURCE_FOOTPRINT_RADIUS = Object.freeze({ tree: 1.35, rock: .9, fiber: .55 });
+const RESOURCE_ASSET_FOOTPRINT_RADIUS = Object.freeze({
+  asset_berry_bush: 1.29, asset_crystal: 1.3, asset_iron_ore_rock: .93,
 });
 const CAMP_CLEARANCE = 6;
 const FORAGE_CLEARANCE = 3.2;
@@ -39,6 +48,7 @@ const ROUTE_CLEARANCE = 1.15;
 const SOLID_ROUTE_CLEARANCE = 2.1;
 const GROUND_COVER_CLEARANCE = Object.freeze({ route: .65, forage: 1.4, wildlife: 1.4 });
 const EXCLUSION_RECIPE_CACHE = Symbol('frontier-scenery-exclusion-recipe-cache');
+const INCOMPLETE_FIXED_SCENERY = Symbol('frontier-scenery-incomplete-fixed-group');
 const RECIPE_CACHE_ACCESS = Symbol('frontier-scenery-recipe-cache-access');
 const RELEASE_CHUNK_POINT_MEMO = Symbol('frontier-scenery-release-chunk-point-memo');
 const REGIONAL_PLACE_LOOKUP = Symbol('frontier-scenery-regional-place-lookup');
@@ -95,6 +105,24 @@ const STAGED = Object.freeze(new Map([
     Object.freeze({ key: 'skybreak-east-stones-low-center', assetId: 'asset_trail_stones', x: 22, z: -164, scale: 1.15, yaw: .26, kind: 'low' }),
     Object.freeze({ key: 'skybreak-east-stones-low-east', assetId: 'asset_trail_stones', x: 24, z: -164, scale: 1.1, yaw: .04, kind: 'low' }),
   ])],
+  // The south breach is framed at the normal portrait arrival distance. The
+  // terrain remains the solid rim; every prop here stays in the existing
+  // nonblocking streamed low batch and outside the four-metre travel lane.
+  ['16,-40', Object.freeze([
+    Object.freeze({ key: 'caldera-spire-left', assetId: 'asset_ember_spire', x: 847.05, z: -1968.5, scale: .55, yaw: -.16, kind: 'low' }),
+    Object.freeze({ key: 'caldera-bloom-left-front', assetId: 'asset_ember_bloom', x: 846.85, z: -1968.6, scale: .7, yaw: .28, kind: 'low' }),
+    Object.freeze({ key: 'caldera-bloom-left-back', assetId: 'asset_ember_bloom', x: 847.25, z: -1968.2, scale: .55, yaw: -.42, kind: 'low' }),
+    Object.freeze({ key: 'caldera-rubble-left', assetId: 'asset_pebble_cluster', x: 846.8, z: -1968.7, scale: 1.2, yaw: .72, kind: 'low' }),
+  ])],
+  ['17,-40', Object.freeze([
+    Object.freeze({ key: 'caldera-spire-right', assetId: 'asset_ember_spire', x: 852.85, z: -1969.5, scale: .45, yaw: .24, kind: 'low' }),
+    Object.freeze({ key: 'caldera-bloom-right-front', assetId: 'asset_ember_bloom', x: 853.05, z: -1969.7, scale: .5, yaw: -.18, kind: 'low' }),
+    Object.freeze({ key: 'caldera-bloom-right-back', assetId: 'asset_ember_bloom', x: 852.65, z: -1969.9, scale: .42, yaw: .46, kind: 'low' }),
+    Object.freeze({ key: 'caldera-rubble-right', assetId: 'asset_pebble_cluster', x: 852.75, z: -1969.2, scale: .65, yaw: -.64, kind: 'low' }),
+  ])],
+  ['17,-41', Object.freeze([
+    Object.freeze({ key: 'caldera-spire-rear', assetId: 'asset_ember_spire', x: 874, z: -2025, scale: 1, yaw: .35, kind: 'low' }),
+  ])],
 ]));
 
 function random(cx, cz, index, salt = 0, world = DEFAULT_FRONTIER_WORLD) {
@@ -138,19 +166,27 @@ function provinceMix(sample) {
   return total > 0 ? { influence, lush: lush / total, sunscar: sunscar / total, ironspine: ironspine / total } : null;
 }
 
+function calderaWeight(sample) {
+  return Math.max(0, Math.min(1, Number(sample?.calderaWeight ?? sample?.habitatWeights?.['emberglass-caldera']) || 0));
+}
+
 function weightedProvince(mix, roll) {
   return roll < mix.lush ? 'lush' : roll < mix.lush + mix.sunscar ? 'sunscar' : 'ironspine';
 }
 
 function groundCoverFor(sample) {
   const mix = provinceMix(sample);
-  if (!mix) return null;
-  const regionalDensity = mix.lush + mix.sunscar * .18 + mix.ironspine * .4;
+  const emberglass = calderaWeight(sample);
+  if (!mix && !(emberglass > 0)) return null;
+  const regionalDensity = mix ? mix.lush + mix.sunscar * .18 + mix.ironspine * .4 : 1;
+  const regionalInfluence = mix?.influence ?? 0;
+  const baseDensity = 1 + (regionalDensity - 1) * regionalInfluence;
   return Object.freeze({
-    density: 1 + (regionalDensity - 1) * mix.influence,
-    dryWeight: mix.sunscar,
-    highWeight: mix.ironspine,
-    influence: mix.influence,
+    density: baseDensity * (1 - emberglass * .7),
+    dryWeight: mix?.sunscar ?? 0,
+    highWeight: mix?.ironspine ?? 0,
+    influence: regionalInfluence,
+    calderaWeight: emberglass,
   });
 }
 
@@ -263,14 +299,15 @@ function hasSunscarPocketCue(x, z, options) {
   return localRelief < .05 || neighboringHigh - height >= .25;
 }
 
-function hasSafeFootprint(x, z, candidate, options) {
+function hasSafeFootprint(x, z, candidate, options, sample = null) {
   const radius = footprintRadius(candidate);
+  const centerSample = sample ?? terrainSample(x, z, options);
   if (!hasFrontierLandFootprint(x, z, {
     radius,
-    getTerrainSample: (sx, sz) => terrainSample(sx, sz, options),
+    getTerrainSample: (sx, sz) => sx === x && sz === z ? centerSample : terrainSample(sx, sz, options),
     world: options.world ?? DEFAULT_FRONTIER_WORLD,
   })) return false;
-  if (!provinceMix(terrainSample(x, z, options)) && !isSkybreakArea(x, z, radius)) return true;
+  if (!provinceMix(centerSample) && !isSkybreakArea(x, z, radius)) return true;
   return hasFootprintSupport(x, z, { getHeight: (sx, sz) => heightAt(sx, sz, options), radius, maxSlope: MAX_SLOPE });
 }
 
@@ -365,14 +402,28 @@ function exclusionsFor(cx, cz, options) {
   return { forage, wildlife, fixedSites };
 }
 
-function isClear(x, z, candidate, exclusions, surfaceKind = null) {
+function isClear(x, z, candidate, exclusions, surfaceKind = null, sample = null) {
   if (!outsideCampApron(x, z) || !routeIsClear(x, z, candidate)) return false;
   const radius = footprintRadius(candidate);
   if ((exclusions.fixedSites ?? []).some(site => Math.hypot(x - site.x, z - site.z) < site.clearance + radius)) return false;
   const groundCover = candidate.kind === 'ground-cover';
-  if (exclusions.forage.some(node => Math.hypot(x - node.pos.x, z - node.pos.z) < (groundCover ? GROUND_COVER_CLEARANCE.forage : FORAGE_CLEARANCE))) return false;
+  const strongCaldera = calderaWeight(sample) >= .6;
+  if (exclusions.forage.some(node => {
+    if (groundCover) return Math.hypot(x - node.pos.x, z - node.pos.z) < GROUND_COVER_CLEARANCE.forage;
+    if (!strongCaldera) return Math.hypot(x - node.pos.x, z - node.pos.z) < FORAGE_CLEARANCE;
+    const assetId = node.visualAsset?.id;
+    const baseRadius = RESOURCE_ASSET_FOOTPRINT_RADIUS[assetId] ?? RESOURCE_FOOTPRINT_RADIUS[node.type] ?? 0;
+    const resourceRadius = baseRadius * (Number.isFinite(node.uniformScale) ? node.uniformScale : 1);
+    return Math.hypot(x - node.pos.x, z - node.pos.z) < radius + resourceRadius;
+  })) return false;
   const capFlower = candidate.kind === 'low' && candidate.assetId === 'asset_cloudflower' && surfaceKind === 'skybreak-cap';
-  if (exclusions.wildlife.some(animal => Math.hypot(x - animal.homePos.x, z - animal.homePos.z) < (groundCover ? GROUND_COVER_CLEARANCE.wildlife : capFlower ? 3.1 : animal.roamRadius + 2.5))) return false;
+  if (exclusions.wildlife.some(animal => {
+    const clearance = groundCover ? GROUND_COVER_CLEARANCE.wildlife : capFlower ? 3.1
+      : strongCaldera
+        ? radius + Math.max(0, animal.roamRadius ?? 0, animal.leashRadius ?? 0, animal.fleeLeashRadius ?? 0)
+        : animal.roamRadius + 2.5;
+    return Math.hypot(x - animal.homePos.x, z - animal.homePos.z) < clearance;
+  })) return false;
   return true;
 }
 
@@ -388,14 +439,21 @@ export function createFrontierGroundCoverFilter(options = {}) {
     const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
     const cx = Math.floor(x / size), cz = Math.floor(z / size), key = `${cx},${cz}`;
     if (!exclusions.has(key)) exclusions.set(key, exclusionsFor(cx, cz, filterOptions));
-    return isClear(x, z, candidate, exclusions.get(key)) && outsideRegionalPlaces(x, z, candidate, filterOptions)
-      && hasSafeGround(x, z, filterOptions) && hasSafeFootprint(x, z, candidate, filterOptions);
+    const sample = terrainSample(x, z, filterOptions);
+    if (calderaWeight(sample) > 0 && overlapsFrontierCalderaClearLane(x, z, FOOTPRINT_RADIUS['ground-cover'])) return false;
+    return isClear(x, z, candidate, exclusions.get(key), sample.surfaceKind, sample)
+      && outsideRegionalPlaces(x, z, candidate, filterOptions)
+      && hasSafeGround(x, z, filterOptions) && hasSafeFootprint(x, z, candidate, filterOptions, sample);
   };
 }
 
 function lowAsset(sample, habitatRoll, detailRoll, profileRoll = 1, provinceRoll = 0) {
   if (sample.surfaceKind === 'skybreak-cap') return 'asset_cloudflower';
   if (sample.surfaceKind === 'skybreak-lowland') return detailRoll < .56 ? 'asset_fen_reed' : 'asset_mushroom_ring';
+  const emberglass = calderaWeight(sample);
+  if (emberglass > 0 && profileRoll < emberglass) {
+    return detailRoll < .64 ? 'asset_pebble_cluster' : detailRoll < .95 ? 'asset_ember_bloom' : 'asset_ember_spire';
+  }
   const mix = provinceMix(sample);
   if (mix && profileRoll < mix.influence) {
     const province = weightedProvince(mix, provinceRoll);
@@ -423,6 +481,20 @@ function makeSpec(cx, cz, key, candidate, options, sample = terrainSample(candid
   });
 }
 
+function admittedCalderaAsset(assetId, visualAssets) {
+  if (!CALDERA_ASSET_IDS.has(assetId) || !Array.isArray(visualAssets)) return null;
+  const asset = visualAssets.find(entry => entry?.id === assetId);
+  if (asset?.gameplay?.role !== 'prop' || !Array.isArray(asset.parts)) return null;
+  const renderable = asset.parts.some(part => part?.shape === 'mesh'
+    && Array.isArray(part.geometry?.positions) && part.geometry.positions.length >= 9
+    && Array.isArray(part.geometry?.indices) && part.geometry.indices.length >= 3);
+  return renderable ? asset : null;
+}
+
+function hasCompleteCalderaKit(visualAssets) {
+  return [...CALDERA_ASSET_IDS].every(assetId => admittedCalderaAsset(assetId, visualAssets));
+}
+
 function admitScenerySpec(cx, cz, key, candidate, options, exclusions, specs, { curated = false, infill = false } = {}) {
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
   if (Math.floor(candidate.x / size) !== cx || Math.floor(candidate.z / size) !== cz) return false;
@@ -430,12 +502,15 @@ function admitScenerySpec(cx, cz, key, candidate, options, exclusions, specs, { 
   if (!curated && (candidate.x < cx * size + edgeInset || candidate.x > (cx + 1) * size - edgeInset
     || candidate.z < cz * size + edgeInset || candidate.z > (cz + 1) * size - edgeInset)) return false;
   const sample = terrainSample(candidate.x, candidate.z, options);
+  if (CALDERA_ASSET_IDS.has(candidate.assetId) && !admittedCalderaAsset(candidate.assetId, options.visualAssets)) return false;
+  if (calderaWeight(sample) > 0
+    && overlapsFrontierCalderaClearLane(candidate.x, candidate.z, footprintRadius(candidate))) return false;
   if (sample.surfaceKind === 'skybreak-shoulder') return false;
   if (candidate.assetId === 'asset_cloudflower' && sample.surfaceKind !== 'skybreak-cap') return false;
   if (!outsideRegionalPlaces(candidate.x, candidate.z, candidate, options)
     || !hasSunscarPocketCue(candidate.x, candidate.z, options) || !hasSafeGround(candidate.x, candidate.z, options)
-    || !hasSafeFootprint(candidate.x, candidate.z, candidate, options)
-    || !isClear(candidate.x, candidate.z, candidate, exclusions, sample.surfaceKind)) return false;
+    || !hasSafeFootprint(candidate.x, candidate.z, candidate, options, sample)
+    || !isClear(candidate.x, candidate.z, candidate, exclusions, sample.surfaceKind, sample)) return false;
   if (infill) {
     const candidateSolid = candidate.assetId === 'asset_fen_stone';
     const overlapsSolid = specs.some(spec => {
@@ -486,11 +561,18 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   const regionalCanopyChance = centerMix
     ? Math.max(centerMix.lush * .88 + centerMix.sunscar * .015 + centerMix.ironspine * .2, coastWeight * .48)
     : 1;
-  const canopyChance = centerMix ? 1 + (regionalCanopyChance - 1) * centerMix.influence : 1;
+  const canopyChance = (centerMix ? 1 + (regionalCanopyChance - 1) * centerMix.influence : 1)
+    * (1 - calderaWeight(centerSample));
   const chunkCanopyAllowed = roll(0, 149) < canopyChance;
   const accept = (key, candidate, curated = false) =>
     admitScenerySpec(cx, cz, key, candidate, sampleOptions, exclusions, specs, { curated });
-  for (const candidate of STAGED.get(`${cx},${cz}`) ?? []) accept(`stage-${candidate.key}`, candidate, true);
+  const stagedCandidates = STAGED.get(`${cx},${cz}`) ?? [];
+  const fixedCalderaReady = !stagedCandidates.some(candidate => CALDERA_ASSET_IDS.has(candidate.assetId))
+    || hasCompleteCalderaKit(sampleOptions.visualAssets);
+  for (const candidate of stagedCandidates) {
+    if (CALDERA_ASSET_IDS.has(candidate.assetId) && !fixedCalderaReady) continue;
+    accept(`stage-${candidate.key}`, candidate, true);
+  }
   const place = placeLookup(sampleOptions).get(cx, cz);
 
   const coastCandidates = coastContourCandidates(cx, cz, centerSample, roll, sampleOptions);
@@ -523,6 +605,7 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   // ordinary attempt budget. Safe old props remain eligible and compete only
   // at the existing residency cap; footprint overlaps were already rejected.
   specs.push(...regionalPlaceScenerySpecs(place, sampleOptions));
+  if (!fixedCalderaReady) Object.defineProperty(specs, INCOMPLETE_FIXED_SCENERY, { value: true });
   return specs;
 }
 
@@ -718,7 +801,7 @@ export function createFrontierSceneryRecipeCache() {
     const key = `${cx},${cz}`;
     if (values.has(key)) return values.get(key);
     const sampled = sample();
-    if (!Array.isArray(sampled)) return sampled;
+    if (!Array.isArray(sampled) || sampled[INCOMPLETE_FIXED_SCENERY]) return sampled;
     const completed = Object.freeze([...sampled]);
     values.set(key, completed);
     return completed;
@@ -734,7 +817,7 @@ export function createFrontierSceneryRecipeCache() {
   function setScenery(kind, cx, cz, completedRecipe) {
     const values = recipes[kind === 'ordinary' ? 'ordinaryScenery' : kind === 'infill' ? 'infillScenery' : ''];
     if (!values || !bounds || cx < bounds.minCx || cx > bounds.maxCx || cz < bounds.minCz || cz > bounds.maxCz
-      || !Array.isArray(completedRecipe)) return false;
+      || !Array.isArray(completedRecipe) || completedRecipe[INCOMPLETE_FIXED_SCENERY]) return false;
     const key = `${cx},${cz}`;
     if (!values.has(key)) values.set(key, Object.freeze([...completedRecipe]));
     return true;
@@ -826,7 +909,9 @@ export function createFrontierSceneryPrepareJob(residency, options = {}, recipeC
         if (task.kind === 'ordinary') {
           const recipe = sampleFrontierSceneryChunk(task.cx, task.cz, buildOptions);
           work++; totalWork++;
-          cacheAccess.setScenery('ordinary', task.cx, task.cz, recipe);
+          if (!cacheAccess.setScenery('ordinary', task.cx, task.cz, recipe)) {
+            throw new Error(`Frontier scenery fixed group is incomplete for ${task.cx},${task.cz}`);
+          }
           preparedOrdinary++; taskIndex++; pointMemo.clear();
           continue;
         }

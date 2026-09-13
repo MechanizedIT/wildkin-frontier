@@ -225,6 +225,22 @@ test('active Camp processes and feeding outrank requests for optional or later s
   assert.equal(getFrontierPurpose({ state: hungryWithoutGarden, cargo: { berries: 1 }, isCamp: true }).id, 'feed-mossling');
 });
 
+test('Caldera exploration follows the actual habitat while urgent care and pending bonds retain priority', () => {
+  const input = Object.freeze({ state: state(), isCamp: false, health: 5, maxHealth: 5,
+    habitatId: 'emberglass-caldera', habitatFeatureKind: null });
+  assert.equal(getFrontierPurpose(input).id, 'explore-caldera-shelves');
+  const inside = { ...input, habitatFeatureKind: 'emberglass-caldera' };
+  assert.equal(getFrontierPurpose(inside).id, 'explore-caldera-breach');
+  assert.match(getFrontierPurpose(inside).description, /crystal and iron.*retreat/);
+  assert.notEqual(getFrontierPurpose({ ...inside, isCamp: true }).id, 'explore-caldera-breach');
+  assert.notEqual(getFrontierPurpose({ ...inside, habitatId: 'heartwood-basin' }).id, 'explore-caldera-breach');
+  assert.equal(getFrontierPurpose({ ...inside, health: 1 }).id, 'return-low-health');
+  assert.equal(getFrontierPurpose({ ...inside, health: 3, activeSpeciesId: 'mossling',
+    ability: { speciesId: 'mossling', ready: true } }).id, 'use-bloom');
+  assert.equal(getFrontierPurpose({ ...inside, pendingCompanions: [{ id: 'new_bond' }] }).id, 'return-pending-bond');
+  assert.equal(input.habitatFeatureKind, null);
+});
+
 test('derivation does not mutate inputs or emit stale portal navigation language', () => {
   const input = Object.freeze({
     state: Object.freeze({

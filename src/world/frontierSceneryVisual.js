@@ -150,6 +150,7 @@ function groundPatchKey(spec, desiredCount, world) {
     normalized.edition, normalized.seed, spec.id, spec.assetId, spec.kind,
     spec.x, spec.y, spec.z, desiredCount,
     finite(regional?.density, 1), finite(regional?.influence), finite(regional?.dryWeight), finite(regional?.highWeight),
+    finite(regional?.calderaWeight),
   ]);
 }
 
@@ -246,6 +247,7 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
     const influence = Math.max(0, Math.min(1, finite(regional?.influence)));
     const dry = influence * Math.max(0, Math.min(1, finite(regional?.dryWeight)));
     const high = influence * Math.max(0, Math.min(1, finite(regional?.highWeight)));
+    const caldera = Math.max(0, Math.min(1, finite(regional?.calderaWeight)));
     desiredCount = Math.max(0, Math.min(desiredCount, Math.round(desiredCount * finite(regional?.density, 1))));
     const patchRadius = spec.kind === 'canopy' ? 6 : 4.5;
     const matrices = new Float32Array(desiredCount * 16);
@@ -266,7 +268,7 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
       const scale = (wet ? .60 : .66) + worldHash(`${seed}:scale`, world) * .24;
       groundDummy.position.set(x, y, z);
       groundDummy.rotation.y = worldHash(`${seed}:yaw`, world) * Math.PI * 2;
-      groundDummy.scale.setScalar(scale);
+      groundDummy.scale.set(scale * (1 - caldera * .14), scale * (1 - caldera * .58), scale * (1 - caldera * .14));
       groundDummy.updateMatrix();
       groundDummy.matrix.toArray(matrices, accepted * 16);
       const tone = new THREE.Color(wet ? '#6d9872' : '#86aa58').lerp(new THREE.Color(staged ? '#b0c970' : '#759b69'), worldHash(`${seed}:tone`, world) * .28);
@@ -275,6 +277,7 @@ function* buildFrontierSceneryVisual({ specs = [], visualAssets = [], getHeight,
       tone.r *= 1 + dry * 2.8 - high * .2;
       tone.g *= 1 + dry * .05 - high * .2;
       tone.b *= 1 - dry * .15 + high * .12;
+      tone.lerp(new THREE.Color('#8a3f1f'), caldera * .9);
       tone.toArray(colors, accepted * 3);
       accepted++;
     }

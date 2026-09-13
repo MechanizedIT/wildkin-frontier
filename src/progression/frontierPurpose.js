@@ -52,6 +52,7 @@ function buildPurpose(type, cargo, isCamp) {
 export function getFrontierPurpose({
   state = null, cargo = {}, spendableResources = cargo, isCamp = false, pendingCompanions = [],
   health = 0, maxHealth = 0, ability = null, activeSpeciesId = null, cropHarvest = null,
+  habitatId = null, habitatFeatureKind = null,
 } = {}) {
   if (Array.isArray(pendingCompanions) && pendingCompanions.length > 0) return {
     id: 'return-pending-bond',
@@ -71,6 +72,18 @@ export function getFrontierPurpose({
     title: 'Return to Camp safely',
     description: 'Go to the Camp arch, tap RETURN TO CAMP, then confirm Return to Camp before exploring farther.',
   };
+
+  if (!isCamp && habitatId === 'emberglass-caldera') return habitatFeatureKind === 'emberglass-caldera'
+    ? {
+      id: 'explore-caldera-breach',
+      title: 'Explore the breach',
+      description: 'Look for crystal and iron beside the broken rim. Watch the horned Wildkin, leave room to retreat, and choose when to approach.',
+    }
+    : {
+      id: 'explore-caldera-shelves',
+      title: 'Explore volcanic shelves',
+      description: 'Follow the dark shelves and broken volcanic stone. Look for useful minerals and give territorial Wildkin space.',
+    };
 
   const owned = Array.isArray(state?.ownedWildkin) ? state.ownedWildkin : [];
   const ownsMossling = owned.some(record => record?.speciesId === 'mossling');

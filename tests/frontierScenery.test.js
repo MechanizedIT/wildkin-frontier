@@ -1,23 +1,158 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import * as THREE from 'three';
 import { FRONTIER_SCENERY_CONFIG, FRONTIER_SCENERY_PLACE_LOOKUP_CAP, FRONTIER_SCENERY_POINT_MEMO_CAP, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter, createFrontierSceneryBuild, createFrontierSceneryPrepareJob, createFrontierSceneryRecipeCache } from '../src/world/frontierScenery.js';
 import { createFrontierSceneryVisual } from '../src/world/frontierSceneryVisual.js';
 import { sampleFrontier, sampleFrontierHeight } from '../src/world/frontierTerrain.js';
-import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
-import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
+import { FRONTIER_CALDERA_RESOURCE_ANCHORS, sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
+import { FRONTIER_CALDERA_WILDLIFE_ANCHOR, sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD } from '../src/world/frontierWorld.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalPlace.js';
 import { hasFrontierLandFootprint } from '../src/world/frontierContinent.js';
 import { FRONTIER_SIGNAL_CACHE } from '../src/world/frontierFixedSites.js';
+import { overlapsFrontierCalderaClearLane } from '../src/world/frontierCaldera.js';
 import { WORLD_DATA } from '../src/world/data/world.generated.js';
+import { CAMERA_CONFIG, createCamera } from '../src/game/createCamera.js';
+import { CAMERA_CONFIG_FOLLOW } from '../src/game/config.js';
+import { createCameraFollow } from '../src/camera/cameraFollow.js';
 
 const chunkGrid = (cx, cz) => {
   const chunks = [];
   for (let z = cz - 2; z <= cz + 2; z++) for (let x = cx - 2; x <= cx + 2; x++) chunks.push({ id: `${x},${z}`, cx: x, cz: z });
   return { center: { cx, cz }, chunks };
 };
+
+test('the Caldera breach composition frames the portrait lane with supported admitted low props', () => {
+  const options = { visualAssets: WORLD_DATA.visualAssets };
+  const chunks = [[16, -40], [17, -40], [17, -41]];
+  const staged = chunks.flatMap(([cx, cz]) => sampleFrontierSceneryChunk(cx, cz, options))
+    .filter(spec => spec.id.includes(':stage-caldera-'));
+  assert.deepEqual(staged.map(spec => [spec.id, spec.assetId]), [
+    ['f2c:s:16:-40:stage-caldera-spire-left', 'asset_ember_spire'],
+    ['f2c:s:16:-40:stage-caldera-bloom-left-front', 'asset_ember_bloom'],
+    ['f2c:s:16:-40:stage-caldera-bloom-left-back', 'asset_ember_bloom'],
+    ['f2c:s:16:-40:stage-caldera-rubble-left', 'asset_pebble_cluster'],
+    ['f2c:s:17:-40:stage-caldera-spire-right', 'asset_ember_spire'],
+    ['f2c:s:17:-40:stage-caldera-bloom-right-front', 'asset_ember_bloom'],
+    ['f2c:s:17:-40:stage-caldera-bloom-right-back', 'asset_ember_bloom'],
+    ['f2c:s:17:-40:stage-caldera-rubble-right', 'asset_pebble_cluster'],
+    ['f2c:s:17:-41:stage-caldera-spire-rear', 'asset_ember_spire'],
+  ]);
+  const radiusFor = spec => Math.max(.62,
+    { asset_ember_spire: 1.7, asset_ember_bloom: 1.02, asset_pebble_cluster: .66 }[spec.assetId] * spec.scale);
+  assert.ok(staged.every(spec => !overlapsFrontierCalderaClearLane(spec.x, spec.z, radiusFor(spec))),
+    'every complete prop footprint stays outside the four-metre breach lane');
+  assert.ok(staged.every(spec => hasFootprintSupport(spec.x, spec.z, {
+    getHeight: sampleFrontierHeight, radius: radiusFor(spec), maxSlope: .12,
+  })), 'every fixed Caldera prop has complete support on the bowl or breach bench');
+  assert.ok(staged.every(spec => Object.values(FRONTIER_CALDERA_RESOURCE_ANCHORS).every(resource => (
+    Math.hypot(spec.x - resource.x, spec.z - resource.z) >= radiusFor(spec) + resource.footprintRadius * resource.uniformScale
+  ))), 'the fixed composition clears both authoritative mineral footprints');
+  assert.ok(staged.every(spec => Math.hypot(spec.x - FRONTIER_CALDERA_WILDLIFE_ANCHOR.x,
+    spec.z - FRONTIER_CALDERA_WILDLIFE_ANCHOR.z) >= radiusFor(spec) + FRONTIER_CALDERA_WILDLIFE_ANCHOR.movementRadius),
+  'the fixed composition clears the authoritative Emberhorn movement disk');
+  const near = staged.filter(spec => !spec.id.endsWith('stage-caldera-spire-rear'));
+  assert.deepEqual(near.map(spec => [spec.x, spec.z, spec.scale]), [
+    [847.05, -1968.5, .55], [846.85, -1968.6, .7], [847.25, -1968.2, .55], [846.8, -1968.7, 1.2],
+    [852.85, -1969.5, .45], [853.05, -1969.7, .5], [852.65, -1969.9, .42], [852.75, -1969.2, .65],
+  ]);
+  const witness = { x: 850, z: -1962, y: sampleFrontierHeight(850, -1962) };
+  const camera = createCamera(412 / 915);
+  createCameraFollow(camera, { position: new THREE.Vector3(witness.x, witness.y + .52, witness.z) },
+    CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG).snap();
+  camera.updateMatrixWorld();
+  const modelHeight = { asset_ember_spire: 3.5, asset_ember_bloom: 1.4024, asset_pebble_cluster: .34 };
+  const project = (spec, top = false) => new THREE.Vector3(spec.x,
+    spec.y + (top ? modelHeight[spec.assetId] * spec.scale : 0), spec.z).project(camera);
+  assert.ok(near.every(spec => [project(spec), project(spec, true)].every(point => (
+    Math.abs(point.x) <= 1 && Math.abs(point.y) <= 1 && Math.abs(point.z) <= 1
+  ))), 'every near prop foot and top stays in the true ordinary 42-degree 412x915 portrait frustum');
+  assert.ok(near.every(spec => spec.groundCover?.calderaWeight > .95 && spec.groundCover.density < .15),
+    'near dressing carries sparse Caldera ground-patch metadata into the visual cache path');
+  assert.equal(createFrontierGroundCoverFilter(options)(850, -1968), false,
+    'scenery ground patches leave the central Caldera route quiet');
+  const flatNonCaldera = () => ({ height: 10, contentLand: true, coastDistance: 100, surfaceKind: null,
+    habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 0, calderaWeight: 0,
+    habitatWeights: { 'emberglass-caldera': 0 } });
+  assert.equal(createFrontierGroundCoverFilter({ getHeight: () => 10, getTerrainSample: flatNonCaldera,
+    visualAssets: [], sampleForageChunk: () => [], sampleWildlifeChunk: () => [], sampleRegionalPlaceChunk: () => null })(850, -1968), true,
+  'the same world coordinates do not impose a Caldera lane on a zero-weight sibling terrain contract');
+
+  const selected = selectFrontierScenery(chunkGrid(17, -40), options);
+  assert.ok(staged.every(spec => selected.some(candidate => candidate.id === spec.id)), 'the fixed formation is admitted whole');
+  assert.ok(selected.every(spec => ['asset_ember_spire', 'asset_ember_bloom', 'asset_pebble_cluster'].includes(spec.assetId)),
+    'the strong Caldera view contains no inherited purple mushroom, reed, lily, or canopy recipe');
+  assert.ok(selected.length <= FRONTIER_SCENERY_CONFIG.maxTotal);
+});
+
+test('Caldera scenery requires one complete exact prop mesh kit while ordinary dressing admits each asset independently', () => {
+  const assetIds = ['asset_ember_spire', 'asset_ember_bloom', 'asset_pebble_cluster'];
+  const ownerChunks = [[16, -40], [17, -40], [17, -41]];
+  const staged = visualAssets => ownerChunks.flatMap(([cx, cz]) => sampleFrontierSceneryChunk(cx, cz, { visualAssets }))
+    .filter(spec => spec.id.includes(':stage-caldera-'));
+  assert.equal(staged(WORLD_DATA.visualAssets).length, 9);
+  for (const assetId of assetIds) {
+    const withoutAsset = WORLD_DATA.visualAssets.filter(asset => asset.id !== assetId);
+    assert.equal(staged(withoutAsset).length, 0, `${assetId} absence rejects the complete staged formation`);
+    const wrongRole = WORLD_DATA.visualAssets.map(asset => asset.id === assetId
+      ? { ...asset, gameplay: { ...asset.gameplay, role: 'harvestable' } } : asset);
+    assert.equal(staged(wrongRole).length, 0, `${assetId} wrong role rejects the complete staged formation`);
+    const malformedMesh = WORLD_DATA.visualAssets.map(asset => asset.id === assetId ? { ...asset, parts: [{}] } : asset);
+    assert.equal(staged(malformedMesh).length, 0, `${assetId} malformed parts reject the complete staged formation`);
+  }
+  const withoutSpire = WORLD_DATA.visualAssets.filter(asset => asset.id !== 'asset_ember_spire');
+  const ordinary = sampleFrontierSceneryChunk(15, -42, { visualAssets: withoutSpire })
+    .filter(spec => !spec.id.includes(':stage-caldera-') && assetIds.includes(spec.assetId));
+  assert.ok(ordinary.length > 0 && ordinary.every(spec => spec.assetId !== 'asset_ember_spire'),
+    'ordinary Caldera props retain individually admitted bloom and rubble when the spire is unavailable');
+
+  const selected = selectFrontierScenery(chunkGrid(17, -40), { visualAssets: WORLD_DATA.visualAssets });
+  assert.ok(staged(WORLD_DATA.visualAssets).every(spec => selected.some(candidate => candidate.id === spec.id)),
+    'canonical residency selects the whole nine-member staged formation');
+
+  const cache = createFrontierSceneryRecipeCache();
+  const incompleteBuild = createFrontierSceneryBuild(chunkGrid(17, -40), { visualAssets: withoutSpire }, cache);
+  assert.equal(incompleteBuild.specs.some(spec => spec.id.includes(':stage-caldera-')), false);
+  assert.equal(cache.getSceneryDebugState().ordinaryCount, 22,
+    'the three incomplete fixed-group owner recipes are not cached as completed arrays');
+  incompleteBuild.releaseTerrainMemo();
+  const repairedBuild = createFrontierSceneryBuild(chunkGrid(17, -40), { visualAssets: WORLD_DATA.visualAssets }, cache);
+  assert.equal(repairedBuild.specs.filter(spec => spec.id.includes(':stage-caldera-')).length, 9,
+    'the same cache retries all fixed-group owner recipes after the complete kit is restored');
+  assert.equal(cache.getSceneryDebugState().ordinaryCount, 25);
+  repairedBuild.releaseTerrainMemo();
+});
+
+test('Caldera scenery clears scaled resources plus the full Emberhorn leash', () => {
+
+  const terrain = () => ({
+    height: 10, contentLand: true, coastDistance: 100, surfaceKind: null,
+    habitatBlend: { wetland: 0, fernUpland: 1 }, provinceInfluence: 1,
+    provinceWeights: { lush: 0, sunscar: 0, ironspine: 1 }, calderaWeight: 1,
+    habitatWeights: { 'emberglass-caldera': 1 },
+  });
+  const base = {
+    visualAssets: WORLD_DATA.visualAssets, getHeight: () => 10, getTerrainSample: terrain,
+    sampleRegionalPlaceChunk: () => null,
+  };
+  const nearScaledCrystal = sampleFrontierSceneryChunk(16, -40, {
+    ...base,
+    sampleForageChunk: () => [{ type: 'rock', visualAsset: { id: 'asset_crystal' }, uniformScale: 1,
+      pos: { x: 848.75, z: -1968.5 } }],
+    sampleWildlifeChunk: () => [],
+  });
+  assert.equal(nearScaledCrystal.some(spec => spec.id.endsWith('stage-caldera-spire-left')), false,
+    'the spire clears the crystal by both complete scaled footprints rather than the legacy point allowance');
+  const nearLeash = sampleFrontierSceneryChunk(16, -40, {
+    ...base,
+    sampleForageChunk: () => [],
+    sampleWildlifeChunk: () => [{ homePos: { x: 847.05, z: -1978.8 }, roamRadius: 4.5, leashRadius: 10 }],
+  });
+  assert.equal(nearLeash.some(spec => spec.id.endsWith('stage-caldera-spire-left')), false,
+    'the spire clears the full ten-metre Emberhorn leash plus its own rendered footprint');
+});
 
 test('the Sunscar bloom decor enters scenery as one exact low-prop formation within existing caps', () => {
   const witnessChunk = { cx: -35, cz: 4 };

@@ -128,3 +128,12 @@ test('the three retained base grammars keep distinct morphology and palettes', (
   assert.ok(ironHigh.height > 40, 'Ironspine retains broad vertical structure');
   assert.ok(ironHigh.colorRGB[2] > lush.colorRGB[2] + .1, 'Ironspine remains mineral-blue');
 });
+
+test('Caldera profile leaves a zero-weight habitat core numerically unchanged', () => {
+  const rootbound = sampleFrontierRegion(-425, 650);
+  assert.equal(rootbound.calderaWeight, 0);
+  assert.equal(rootbound.calderaFeature, null);
+  assert.equal(rootbound.height, 9.955295973644231);
+  assert.deepEqual(rootbound.colorRGB, [0.18, 0.43, 0.2]);
+  assert.deepEqual(rootbound.weights, { lush: 1, sunscar: 0, ironspine: 0 });
+});

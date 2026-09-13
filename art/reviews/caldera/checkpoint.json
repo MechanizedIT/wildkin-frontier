@@ -1,0 +1,570 @@
+{
+  "at": "2026-09-13T21:18:00.497Z",
+  "baseCommit": "b02642434d881fce2a30cef24d6ab7b5d9de09fd",
+  "source": {
+    "src/main.js": "c4301a65c771b7a1c2bd0a0a6dad3ebae0c52a2b3e6ddb35aedeef738398b993",
+    "src/game/createBetaGame.js": "d530f633e8fdb7ac5cb24b2dc0f037ead2fd27d33a156bd08d05ce01dde5b099",
+    "src/progression/frontierPurpose.js": "835ea6f51877e931757259508cfeed0d3e9d8ca2a0480e66144b9fcbc44fc712",
+    "src/world/frontierCaldera.js": "fc54292265ed37107182f56c464cfdbe500646d1db2cc1ed5fb5e8c98b30ce12",
+    "src/world/frontierChunkRuntime.js": "8cd4c0491ebf00fd7da7f5729799789d5cf4eb6f89926c4086da03ac891073f3",
+    "src/world/frontierEcology.js": "b9750de2cbb6aad4351b4e6a3bbb7b85766dd2167b0e52fb120cc87a0d758c24",
+    "src/world/frontierRegion.js": "36babcf6f508eb231ae981b4a08bc6459e50fd51ee12ae05f880dd98b66e736b",
+    "src/world/frontierScenery.js": "2c335d7131380d3edc39da6a500e1781af187603decf144949a094a4509463eb",
+    "src/world/frontierSceneryVisual.js": "e47f11203e201de4df793604a59069ce8b59909834aac6b63ca864b62ab3f2ce",
+    "src/world/frontierTerrain.js": "e3dac822043d1b7654982b2c3600322fbb410255a907111c44d766a205d6936b",
+    "src/world/frontierWildlife.js": "114322f4168669f8d4d472138d5a2daca1389d19bbb0f1fe3686d253a8eca27f",
+    "tests/frontierCaldera.test.js": "3dc1c30d3c8981eb39b2503a9a511e1d4ea38e90639d8fc21e3d7d513928f995",
+    "tests/frontierChunkRuntime.test.js": "b679a1e622df4589768e78f84295c94c928115c29e82516e751017988af580da",
+    "tests/frontierEcology.test.js": "04f368ede536051c4344f68e69fbdf7f4dfdc8b7c15f2e3ed0841fe196dc6529",
+    "tests/frontierPurpose.test.js": "c47408dde0e092f50dd7685e577dfbe401e4784f6af1871f4457e1101dea2765",
+    "tests/frontierRegion.test.js": "e38a321e76c385ee728d7915d6a5607570d4aab82f86989dbf5e0fd81cb5e4e8",
+    "tests/frontierScenery.test.js": "cf0e1aafbff750d5f202b976943641db247b72cc8c89ceec6a3bcdd2082bcc54",
+    "tests/frontierSceneryVisual.test.js": "e2e797a01b1cd98a04d3e8d2c937b48ed503e09b8356d04d67e598089e3527da",
+    "tests/frontierWildlife.test.js": "bd9c1d4aa77bce377ecbff93e4343bc772898ea9a81ca5522a2fe0cdc9dc1086"
+  },
+  "verification": {
+    "tests": 1378,
+    "passed": 1378,
+    "failed": 0,
+    "durationMs": 85334.6316,
+    "world": true,
+    "campaign": true,
+    "build": true,
+    "validate": true,
+    "zip": true,
+    "unpackedMB": 44.36,
+    "zipMB": 20.59,
+    "zipBytes": 21586115,
+    "zipSha256": "d8af316bdd6778be372c5a951f09a6ef89346fd023be6c3e2cfabfc3754b7f0c"
+  },
+  "visual": {
+    "rounds": [
+      1.5,
+      4,
+      3.8
+    ],
+    "verdict": "HOLD",
+    "ceilingReached": true
+  },
+  "native": {
+    "fixture": "Earned Camp envelope plus a disclosed active outing at the Caldera south breach; no earned cross-continent journey.",
+    "tap": {
+      "forcedPauseMs": 80,
+      "firstFrame": [
+        {
+          "frame": 0,
+          "t": 257173,
+          "requested": true,
+          "held": false
+        },
+        {
+          "frame": 0,
+          "t": 257174.69999998808,
+          "requested": false,
+          "held": false
+        },
+        {
+          "frame": 0,
+          "t": 257175.30000001192,
+          "requested": false,
+          "held": false
+        },
+        {
+          "frame": 0,
+          "t": 257175.80000001192,
+          "requested": false,
+          "held": false
+        }
+      ],
+      "deliveredEdges": 1,
+      "before": [
+        {
+          "id": "f1:r:16:-40:300",
+          "position": {
+            "x": 846.5,
+            "y": 10.351877526163111,
+            "z": -1976
+          },
+          "remaining": 4,
+          "state": "READY"
+        },
+        {
+          "id": "f1:r:17:-40:301",
+          "position": {
+            "x": 854,
+            "y": 10.297088505119133,
+            "z": -1980
+          },
+          "remaining": 5,
+          "state": "READY"
+        }
+      ],
+      "after": [
+        {
+          "id": "f1:r:16:-40:300",
+          "position": {
+            "x": 846.5,
+            "y": 10.351877526163111,
+            "z": -1976
+          },
+          "remaining": 3,
+          "state": "READY"
+        },
+        {
+          "id": "f1:r:17:-40:301",
+          "position": {
+            "x": 854,
+            "y": 10.297088505119133,
+            "z": -1980
+          },
+          "remaining": 5,
+          "state": "READY"
+        }
+      ]
+    },
+    "hold": {
+      "keyDownMs": 1100,
+      "before": [
+        {
+          "id": "f1:r:16:-40:300",
+          "position": {
+            "x": 846.5,
+            "y": 10.351877526163111,
+            "z": -1976
+          },
+          "remaining": 3,
+          "state": "READY"
+        },
+        {
+          "id": "f1:r:17:-40:301",
+          "position": {
+            "x": 854,
+            "y": 10.297088505119133,
+            "z": -1980
+          },
+          "remaining": 5,
+          "state": "READY"
+        }
+      ],
+      "after": [
+        {
+          "id": "f1:r:16:-40:300",
+          "position": {
+            "x": 846.5,
+            "y": 10.351877526163111,
+            "z": -1976
+          },
+          "remaining": 3,
+          "state": "READY"
+        },
+        {
+          "id": "f1:r:17:-40:301",
+          "position": {
+            "x": 854,
+            "y": 10.297088505119133,
+            "z": -1980
+          },
+          "remaining": 3,
+          "state": "READY"
+        }
+      ],
+      "pack": {
+        "wood": 1,
+        "stone": 0,
+        "fiber": 1,
+        "berries": 17,
+        "iron_ore": 2,
+        "crystal_shard": 2,
+        "wildflower": 6
+      }
+    },
+    "warning": {
+      "reason": "warned",
+      "state": {
+        "pos": {
+          "x": 851.119140625,
+          "y": 10.864164352416992,
+          "z": -1978.8936767578125
+        },
+        "mode": "IDLE",
+        "grounded": true,
+        "health": 5,
+        "pack": {
+          "wood": 1,
+          "stone": 0,
+          "fiber": 1,
+          "berries": 17,
+          "iron_ore": 2,
+          "crystal_shard": 3,
+          "wildflower": 6
+        },
+        "resources": [
+          {
+            "id": "f1:r:16:-40:300",
+            "position": {
+              "x": 846.5,
+              "y": 10.351877526163111,
+              "z": -1976
+            },
+            "remaining": 3,
+            "state": "READY"
+          },
+          {
+            "id": "f1:r:17:-40:301",
+            "position": {
+              "x": 854,
+              "y": 10.297088505119133,
+              "z": -1980
+            },
+            "remaining": 3,
+            "state": "READY"
+          }
+        ],
+        "targets": [],
+        "ember": {
+          "pos": {
+            "x": 851.1514876235742,
+            "y": 10.823912812280469,
+            "z": -1983.8248546095565
+          },
+          "ai": "WARN",
+          "detected": true,
+          "notice": 1.266666666666667,
+          "warned": true,
+          "health": 12
+        },
+        "terrain": "emberglass-caldera"
+      }
+    },
+    "legs": [
+      {
+        "file": "entry-r3-walk.json",
+        "reason": "arrived",
+        "samples": 55,
+        "elapsedMs": 5506.5999999940395,
+        "start": {
+          "x": 850,
+          "y": 11.780326843261719,
+          "z": -1962
+        },
+        "end": {
+          "x": 850,
+          "y": 11.022815704345703,
+          "z": -1973.5230712890625
+        },
+        "minHealth": 5,
+        "allGrounded": true,
+        "maxTerrainResidents": 0,
+        "endResources": [
+          {
+            "id": "f1:r:16:-40:300",
+            "position": {
+              "x": 846.5,
+              "y": 10.351877526163111,
+              "z": -1976
+            },
+            "remaining": 4,
+            "state": "READY"
+          },
+          {
+            "id": "f1:r:17:-40:301",
+            "position": {
+              "x": 854,
+              "y": 10.297088505119133,
+              "z": -1980
+            },
+            "remaining": 5,
+            "state": "READY"
+          }
+        ]
+      },
+      {
+        "file": "iron-retreat.json",
+        "reason": "arrived",
+        "samples": 45,
+        "elapsedMs": 4507.0999999940395,
+        "start": {
+          "x": 855.1356811523438,
+          "y": 10.831321716308594,
+          "z": -1979.3729248046875
+        },
+        "end": {
+          "x": 850.051025390625,
+          "y": 11.086424827575684,
+          "z": -1972.18701171875
+        },
+        "minHealth": 5,
+        "allGrounded": true,
+        "maxTerrainResidents": 0,
+        "endResources": [
+          {
+            "id": "f1:r:16:-40:300",
+            "position": {
+              "x": 846.5,
+              "y": 10.351877526163111,
+              "z": -1976
+            },
+            "remaining": 3,
+            "state": "READY"
+          },
+          {
+            "id": "f1:r:17:-40:301",
+            "position": {
+              "x": 854,
+              "y": 10.297088505119133,
+              "z": -1980
+            },
+            "remaining": 3,
+            "state": "READY"
+          }
+        ]
+      },
+      {
+        "file": "danger-retreat.json",
+        "reason": "arrived",
+        "samples": 82,
+        "elapsedMs": 8200.40000000596,
+        "start": {
+          "x": 851.119140625,
+          "y": 10.864161491394043,
+          "z": -1978.8936767578125
+        },
+        "end": {
+          "x": 850.1533203125,
+          "y": 11.76905345916748,
+          "z": -1962.1517333984375
+        },
+        "minHealth": 5,
+        "allGrounded": true,
+        "maxTerrainResidents": 0,
+        "endResources": [
+          {
+            "id": "f1:r:16:-40:300",
+            "position": {
+              "x": 846.5,
+              "y": 10.351877526163111,
+              "z": -1976
+            },
+            "remaining": 3,
+            "state": "READY"
+          },
+          {
+            "id": "f1:r:17:-40:301",
+            "position": {
+              "x": 854,
+              "y": 10.297088505119133,
+              "z": -1980
+            },
+            "remaining": 3,
+            "state": "READY"
+          }
+        ]
+      },
+      {
+        "file": "unload-walk.json",
+        "reason": "arrived",
+        "samples": 385,
+        "elapsedMs": 38800.90000000596,
+        "start": {
+          "x": 850.1533203125,
+          "y": 11.7726411819458,
+          "z": -1962.104736328125
+        },
+        "end": {
+          "x": 850.1489868164062,
+          "y": 11.26813793182373,
+          "z": -1880.1126708984375
+        },
+        "minHealth": 5,
+        "allGrounded": true,
+        "maxTerrainResidents": 25,
+        "endResources": []
+      },
+      {
+        "file": "return-walk.json",
+        "reason": "arrived",
+        "samples": 384,
+        "elapsedMs": 38604.89999997616,
+        "start": {
+          "x": 850.1489868164062,
+          "y": 11.267154693603516,
+          "z": -1880.0654296875
+        },
+        "end": {
+          "x": 850.1483154296875,
+          "y": 11.800873756408691,
+          "z": -1961.7357177734375
+        },
+        "minHealth": 5,
+        "allGrounded": true,
+        "maxTerrainResidents": 25,
+        "endResources": [
+          {
+            "id": "f1:r:16:-40:300",
+            "position": {
+              "x": 846.5,
+              "y": 10.351877526163111,
+              "z": -1976
+            },
+            "remaining": 3,
+            "state": "READY"
+          },
+          {
+            "id": "f1:r:17:-40:301",
+            "position": {
+              "x": 854,
+              "y": 10.297088505119133,
+              "z": -1980
+            },
+            "remaining": 3,
+            "state": "READY"
+          }
+        ]
+      }
+    ],
+    "returned": {
+      "pos": {
+        "x": 850.1483154296875,
+        "y": 11.797266960144043,
+        "z": -1961.782958984375
+      },
+      "mode": "IDLE",
+      "grounded": true,
+      "health": 5,
+      "pack": {
+        "wood": 1,
+        "stone": 0,
+        "fiber": 1,
+        "berries": 17,
+        "iron_ore": 2,
+        "crystal_shard": 3,
+        "wildflower": 6
+      },
+      "resources": [
+        {
+          "id": "f1:r:16:-40:300",
+          "position": {
+            "x": 846.5,
+            "y": 10.351877526163111,
+            "z": -1976
+          },
+          "remaining": 3,
+          "state": "READY"
+        },
+        {
+          "id": "f1:r:17:-40:301",
+          "position": {
+            "x": 854,
+            "y": 10.297088505119133,
+            "z": -1980
+          },
+          "remaining": 3,
+          "state": "READY"
+        }
+      ],
+      "targets": [],
+      "ember": {
+        "pos": {
+          "x": 851.254349113442,
+          "y": 10.816347588908684,
+          "z": -1988.6851909698453
+        },
+        "ai": "ROAM",
+        "detected": false,
+        "notice": 0,
+        "warned": false,
+        "health": 12
+      },
+      "terrain": "emberglass-caldera",
+      "residency": {
+        "cx": 17,
+        "cz": -40
+      },
+      "terrainCount": 25
+    },
+    "developerReload": {
+      "beforeContinueExact": true,
+      "afterContinueExact": true,
+      "state": {
+        "pos": {
+          "x": 850.1483154296875,
+          "y": 11.797208786010742,
+          "z": -1961.782958984375
+        },
+        "health": 5,
+        "nodes": [
+          {
+            "id": "f1:r:16:-40:300",
+            "remaining": 3
+          },
+          {
+            "id": "f1:r:17:-40:301",
+            "remaining": 3
+          }
+        ],
+        "pack": {
+          "wood": 1,
+          "stone": 0,
+          "fiber": 1,
+          "berries": 17,
+          "iron_ore": 2,
+          "crystal_shard": 3,
+          "wildflower": 6
+        }
+      },
+      "logs": []
+    },
+    "portableReload": {
+      "beforeContinueExact": true,
+      "afterContinueExact": true,
+      "state": {
+        "pos": {
+          "x": 850.1483154296875,
+          "y": 11.797208786010742,
+          "z": -1961.782958984375
+        },
+        "health": 5,
+        "nodes": [
+          {
+            "id": "f1:r:16:-40:300",
+            "remaining": 3
+          },
+          {
+            "id": "f1:r:17:-40:301",
+            "remaining": 3
+          }
+        ],
+        "pack": {
+          "wood": 1,
+          "stone": 0,
+          "fiber": 1,
+          "berries": 17,
+          "iron_ore": 2,
+          "crystal_shard": 3,
+          "wildflower": 6
+        },
+        "origins": [
+          "http://127.0.0.1:8081"
+        ]
+      },
+      "logs": []
+    },
+    "earnedCamp": {
+      "exact": {
+        "developerReload": true,
+        "developerContinue": true,
+        "portableReload": true,
+        "portableContinue": true
+      },
+      "developerLogs": [],
+      "portableLogs": [],
+      "description": "The entire previously earned Camp envelope matches, including the selected Mossling, bed, garden, care, inventory, XP, atlas and ecology."
+    },
+    "limits": [
+      "Laptop with emulated portrait viewport; no physical-phone performance claim.",
+      "One R2 attempt ended in defeat while the player was left idle during code inspection; final R3 warning/retreat succeeded.",
+      "No new cold-offline test or alpha release.",
+      "Ordinary movement was automated with keyboard events and read-only position guidance; input delay was deliberately injected for the tap regression."
+    ]
+  }
+}

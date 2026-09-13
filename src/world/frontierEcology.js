@@ -5,11 +5,13 @@ import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 import { hasFrontierLandFootprint } from './frontierContinent.js';
+import { FRONTIER_CALDERA_CONFIG, overlapsFrontierCalderaClearLane, sampleFrontierCalderaFeature } from './frontierCaldera.js';
 
 const EDGE = 3;
 const CAMP_CLEARANCE = 6;
 const SLOPE_SAMPLE = .8;
 const MAX_SLOPE = .42;
+const CALDERA_FIXED_MAX_SLOPE = .18;
 const FOOTPRINT_RADIUS = Object.freeze({ tree: 1.35, rock: .9, fiber: .55 });
 const STAGED_ASSET_FOOTPRINT_RADIUS = Object.freeze({
   asset_berry_bush: 1.29,
@@ -24,6 +26,16 @@ export const FRONTIER_REGIONAL_RESOURCE_ASSETS = Object.freeze({
   berries: 'asset_berry_bush',
   crystal: 'asset_crystal',
   iron: 'asset_iron_ore_rock',
+});
+export const FRONTIER_CALDERA_RESOURCE_ANCHORS = Object.freeze({
+  crystal: Object.freeze({
+    index: 300, cx: 16, cz: -40, x: 846.5, z: -1976,
+    type: 'rock', assetId: 'asset_crystal', uniformScale: 1, footprintRadius: 1.3,
+  }),
+  iron: Object.freeze({
+    index: 301, cx: 17, cz: -40, x: 854, z: -1980,
+    type: 'rock', assetId: 'asset_iron_ore_rock', uniformScale: 1, footprintRadius: .93,
+  }),
 });
 const MAX_FORAGE_PER_CHUNK = 12;
 // Indices 0..31 belong to the ordinary coordinate-seeded attempts. These fixed
@@ -64,6 +76,9 @@ function provinceMix(sample) {
   const ironspine = Math.max(0, Number(weights.ironspine) || 0);
   const total = lush + sunscar + ironspine;
   return total > 0 ? { influence, lush: lush / total, sunscar: sunscar / total, ironspine: ironspine / total } : null;
+}
+function calderaWeight(sample) {
+  return Math.max(0, Math.min(1, Number(sample?.habitatWeights?.[FRONTIER_CALDERA_CONFIG.habitatId]) || 0));
 }
 function heightAt(x, z, { getHeight, getTerrainSample, terrainOptions, world }) {
   return typeof getHeight === 'function' ? getHeight(x, z) : terrainSample(x, z, { getTerrainSample, terrainOptions, world }).height;
@@ -111,6 +126,12 @@ function harvestableAsset(visualAssets, assetId) {
   const asset = (visualAssets ?? []).find(candidate => candidate?.id === assetId);
   return asset?.gameplay?.role === 'harvestable' && asset.gameplay.harvestable ? asset : null;
 }
+function harvestableColliderAsset(visualAssets, assetId) {
+  const asset = harvestableAsset(visualAssets, assetId);
+  const size = asset?.collision?.size;
+  return asset?.collision?.shape === 'box'
+    && [size?.w, size?.h, size?.d].every(value => Number.isFinite(value) && value > 0) ? asset : null;
+}
 function terraceMineral(cx, cz, index, kind, visualAssets) {
   if (cx !== 0 || cz !== -3 || kind.type !== 'rock') return kind;
   const assetId = TERRACE_MINERAL_ASSET_BY_INDEX[index];
@@ -135,6 +156,15 @@ function weightedProvince(mix, roll) {
 
 function regionalTypeFor(sample, rolls, assets) {
   const legacy = typeFor(sample, rolls.type, assets.berry);
+  const caldera = calderaWeight(sample);
+  if (caldera > 0 && rolls.profile < caldera) {
+    if (rolls.type < .84) {
+      if (assets.iron && rolls.detail < .16) return { type: 'rock', visualAsset: assets.iron };
+      if (assets.crystal && rolls.detail >= .16 && rolls.detail < .23) return { type: 'rock', visualAsset: assets.crystal };
+      return { type: 'rock' };
+    }
+    return { type: 'fiber', tint: '#a46542' };
+  }
   const mix = provinceMix(sample);
   if (!mix || rolls.profile >= mix.influence) return legacy;
   const province = weightedProvince(mix, rolls.province);
@@ -156,6 +186,50 @@ function regionalTypeFor(sample, rolls, assets) {
     return { type: 'rock' };
   }
   return rolls.type < .91 ? { type: 'tree' } : { type: 'fiber' };
+}
+
+function overlapsCalderaCore(x, z, radius) {
+  const dx = x - FRONTIER_CALDERA_CONFIG.center.x;
+  const dz = z - FRONTIER_CALDERA_CONFIG.center.z;
+  return Math.hypot(dx, dz) < Math.max(FRONTIER_CALDERA_CONFIG.outerRadius.x, FRONTIER_CALDERA_CONFIG.outerRadius.z) + radius;
+}
+
+function fixedCalderaResourceForChunk(cx, cz) {
+  return Object.values(FRONTIER_CALDERA_RESOURCE_ANCHORS).find(anchor => anchor.cx === cx && anchor.cz === cz) ?? null;
+}
+
+function sampleFixedCalderaResource(anchor, options, nearbyRegionalPlaces) {
+  const visualAsset = harvestableColliderAsset(options.visualAssets, anchor.assetId);
+  if (!visualAsset || overlapsFrontierCalderaClearLane(anchor.x, anchor.z, anchor.footprintRadius)) return null;
+  const sample = terrainSample(anchor.x, anchor.z, options);
+  const feature = sampleFrontierCalderaFeature(anchor.x, anchor.z);
+  if (!Number.isFinite(sample.height) || sample.habitatId !== FRONTIER_CALDERA_CONFIG.habitatId
+    || !['bowl', 'breach'].includes(feature.zone)) return null;
+  if (!hasFrontierLandFootprint(anchor.x, anchor.z, {
+    radius: anchor.footprintRadius,
+    getTerrainSample: (x, z) => terrainSample(x, z, options),
+    world: options.world,
+  }) || !hasFootprintSupport(anchor.x, anchor.z, {
+    getHeight: (x, z) => heightAt(x, z, options),
+    radius: anchor.footprintRadius,
+    maxSlope: CALDERA_FIXED_MAX_SLOPE,
+  })) return null;
+  if (nearbyRegionalPlaces.some(place => (
+    Math.hypot(anchor.x - place.center.x, anchor.z - place.center.z) < place.radius + anchor.footprintRadius
+  ))) return null;
+  return {
+    type: anchor.type,
+    visualAsset,
+    id: makeFrontierResourceId(anchor.cx, anchor.cz, anchor.index),
+    chunkId: `${anchor.cx},${anchor.cz}`,
+    placementIndex: anchor.index,
+    regionId: 'camp',
+    persistentFinite: true,
+    calderaFeature: true,
+    pos: { x: anchor.x, y: sample.height, z: anchor.z },
+    rotY: anchor.index === 300 ? -.18 : .24,
+    uniformScale: anchor.uniformScale,
+  };
 }
 
 /** Pure, per-chunk generated forage. Saved depletion is intentionally excluded. */
@@ -223,6 +297,7 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
       getTerrainSample: (sx, sz) => terrainSample(sx, sz, { getTerrainSample, terrainOptions, world }),
       world,
     })) continue;
+    if (overlapsCalderaCore(x, z, footprintRadius) || overlapsFrontierCalderaClearLane(x, z, footprintRadius)) continue;
     if (nearbyRegionalPlaces.some(place => (
       Math.hypot(x - place.center.x, z - place.center.z) < place.radius + footprintRadius
     ))) continue;
@@ -283,6 +358,13 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, getTerrainSample,
       uniformScale,
       tint: staged.type === 'fiber' && !visualAsset ? '#8eb65a' : undefined,
     });
+  }
+  const calderaAnchor = fixedCalderaResourceForChunk(cx, cz);
+  if (calderaAnchor && placements.length < MAX_FORAGE_PER_CHUNK) {
+    const fixed = sampleFixedCalderaResource(calderaAnchor, {
+      getHeight, getTerrainSample, visualAssets, terrainOptions, world,
+    }, nearbyRegionalPlaces);
+    if (fixed) placements.push(fixed);
   }
   return placements;
 }

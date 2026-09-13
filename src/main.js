@@ -996,6 +996,7 @@ betaGame = createBetaGame({
   creatures: creatureSystem, playerController, playerCombat, pickupSystem, xpMoteSystem, resourceSystem,
   physicsWorld, characterPhysics, playerCollider: characterPhysics.collider,
   getTerrainHeight: frontierChunks.getHeight,
+  getTerrainSample: frontierChunks.sample,
   getSurfaceWater,
   onInteractionGeometryChanged: () => contextualInteraction?.invalidate(),
   audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
@@ -1215,7 +1216,10 @@ function tick() {
       };
 
       const fieldCanAttack = equipmentInput.toolAllowed && !blocked && !isSurfaceSwimming(pStBefore) && (pStBefore.mode !== "CLIMB" && pStBefore.mode !== "MANTLE") && betaGame.canUseFieldTool();
-      const effectiveAttackRequested = equipmentInput.toolAllowed && pendingAttackLatch && !blocked;
+      // A catch-up frame can run several physics steps. Deliver the latched
+      // tap once; replaying it while the tool is busy queues a second swing.
+      // The post-loop consume still preserves taps on zero-substep frames.
+      const effectiveAttackRequested = equipmentInput.toolAllowed && pendingAttackLatch && substeps === 0 && !blocked;
       const effectiveAttackHeld = !!intent.attackHeld && fieldCanAttack;
       const getManualHarvestTargets = () => resourceSystem.getManualTargets(pStBefore.pos);
       const handleUnifiedImpact = ({ resourceHits, combatHits }) => {

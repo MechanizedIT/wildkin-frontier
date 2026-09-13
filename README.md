@@ -1,5 +1,9 @@
 # Wildkin Frontier
 
+**Caldera foundation checkpoint — September 13:** Caldera now has volcanic terrain, finite crystal/iron and a territorial Emberhorn outing. Normal controls proved gathering, warning/retreat, streamed depletion and exact developer/portable continuation. **1,378 tests and package gates pass** (44.36 MB unpacked /20.59 MB ZIP). Visual R3 remains **HOLD 3.8/10**; ten allocated habitats are still not ten finished habitats. [Evidence](art/reviews/caldera/receipt.md).
+
+Next: improve what the ordinary portrait camera and HUD let an explorer see. Measure full transformed asset bounds against actual HUD rectangles at the breach, Camp and a familiar grove; lock an attainable native blockout before changing presentation. Keep controls, collision and gameplay state under their existing owners. Finish this focused view before expanding more habitat content.
+
 ## Latest local progress: ten fixed habitat areas
 
 **Latest owner direction:** Early alpha now requires **ten distinct, nonrepeating habitats** on a large irregular continent. The [polished target and hybrid plan](docs/CONTINENT_ALPHA_TARGET.md) aim for roughly6×7km: deliberately designed regions with seeded local detail. The coastline is implemented; the ten distinct habitat experiences remain in production.

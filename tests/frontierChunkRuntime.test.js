@@ -57,6 +57,21 @@ test('regional terrain foliage stays bounded and dry while starter tint remains 
   });
   assert.ok(inlandDry.every(instance => instance.scale >= .59 && instance.scale <= 1.24), 'inland dry grass uses the readable regional range');
   assert.ok(inlandDry.some(instance => instance.scale > .76), 'inland dry grass can exceed the old maximum');
+  runtime.update({ x: 850, z: -1962 }, { activeSectionId: 'camp' });
+  let scorchedTufts = 0;
+  runtime.root.traverse(node => {
+    if (node.name !== 'frontier_groundcover') return;
+    assert.ok(node.count <= 96, 'Caldera uses the same bounded foliage mesh');
+    const colors = node.geometry.getAttribute('color');
+    for (let i = 0; i < node.count; i++) {
+      for (let v = 0; v < colors.count; v++) {
+        assert.ok(colors.getX(v) * node.instanceColor.getX(i)
+          > colors.getY(v) * node.instanceColor.getY(i), 'actual multiplied leaf palette is warm straw');
+      }
+      scorchedTufts++;
+    }
+  });
+  assert.ok(scorchedTufts > 0, 'sparse surviving tufts remain in the volcanic habitat');
   runtime.dispose();
 });
 

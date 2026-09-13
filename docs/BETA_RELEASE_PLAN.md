@@ -1,14 +1,18 @@
 # Wildkin Frontier — Historical Beta Candidate Plan
 
+**Caldera foundation checkpoint — September 13:** Caldera now has volcanic terrain, finite crystal/iron and a territorial Emberhorn outing. Normal controls proved gathering, warning/retreat, streamed depletion and exact developer/portable continuation. **1,378 tests and package gates pass** (44.36 MB unpacked /20.59 MB ZIP). Visual R3 remains **HOLD 3.8/10**; ten allocated habitats are still not ten finished habitats. [Evidence](../art/reviews/caldera/receipt.md).
+
+Next: improve what the ordinary portrait camera and HUD let an explorer see. Measure full transformed asset bounds against actual HUD rectangles at the breach, Camp and a familiar grove; lock an attainable native blockout before changing presentation. Keep controls, collision and gameplay state under their existing owners. Finish this focused view before expanding more habitat content.
+
 **Latest finite-geography checkpoint:** The continent now has **ten fixed, named habitat areas**, replacing the repeating province field. All ten have connected land in the sampled topology review. Terrain transitions, resources and scenery use the new geography, while Camp and the earned Mossling/grove save remain intact. **1,361 tests and package checks pass** (44.33 MB unpacked /20.58 MB ZIP). These are ten allocations using three temporary terrain grammars, **not ten finished habitats**. [Receipt](../art/reviews/finite-habitats/receipt.md).
 
-Next: build Emberglass Caldera's broad volcanic terrain and a distinct breached-crater outing with layered scenery, useful minerals and existing Wildkin danger. Lock a feasible normal-portrait target before production. Continue improving the remaining habitats and exploration/collection/Camp loops; the ten-habitat alpha requirement remains open.
+Next: improve what the ordinary portrait camera and HUD let an explorer see. Measure full transformed asset bounds against actual HUD rectangles at the breach, Camp and a familiar grove; lock an attainable native blockout before changing presentation. Keep controls, collision and gameplay state under their existing owners. Finish this focused view before expanding more habitat content.
 
 ## Current continent checkpoint
 
 The continent now spans **6 × 7 km**, with approximately **29 km² of land**, a broad eastern gulf and unequal peninsulas. The third silhouette review passed **8.3/10**. Normal controls crossed the new shore from walking to swimming and back to dry ground; residents stayed bounded. All **1,357 tests** and package checks pass (44.33 MB unpacked / 20.58 MB ZIP), and the earned Camp survives developer and portable reload exactly. There are still **three terrain grammars**, not ten completed habitats. [Evidence](../art/reviews/continent-v2/receipt.md).
 
-Next: build Emberglass Caldera's broad volcanic terrain and a distinct breached-crater outing with layered scenery, useful minerals and existing Wildkin danger. Lock a feasible normal-portrait target before production. Continue improving the remaining habitats and exploration/collection/Camp loops; the ten-habitat alpha requirement remains open.
+Next: improve what the ordinary portrait camera and HUD let an explorer see. Measure full transformed asset bounds against actual HUD rectangles at the breach, Camp and a familiar grove; lock an attainable native blockout before changing presentation. Keep controls, collision and gameplay state under their existing owners. Finish this focused view before expanding more habitat content.
 
 **Current owner update:** Latest September13 owner direction: early alpha requires at least10unique, nonrepeating habitats on a quite large continent with an irregular silhouette. Root provisionally selects an approximately6×7km hybrid world: deliberate coastline/regions/landmarks and seeded local detail. The current3terrain grammars and3useful species are foundations, not completion of that requirement; roughly30species remains staged. The frozen target and bounded production plan are in `CONTINENT_ALPHA_TARGET.md`.
 

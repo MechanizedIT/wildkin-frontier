@@ -5,6 +5,7 @@ import { isSkybreakArea } from './frontierLandform.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { hasRegionalPlaceAssets, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 import { hasFrontierLandFootprint } from './frontierContinent.js';
+import { FRONTIER_CALDERA_CONFIG, sampleFrontierCalderaFeature } from './frontierCaldera.js';
 
 const EDGE = 5;
 const SLOPE_SAMPLE = .8;
@@ -12,6 +13,14 @@ const MAX_SLOPE = .32;
 const HOME_FOOTPRINT_RADIUS = 4.9;
 const SKYBREAK_HOME_RADIUS = 3.1;
 const SKYBREAK_HOME_GRID = .5;
+const CALDERA_HOME_GRID = 2;
+
+export const FRONTIER_CALDERA_WILDLIFE_ANCHOR = Object.freeze({
+  index: 300, cx: 17, cz: -40,
+  x: FRONTIER_CALDERA_CONFIG.bowlRefuge.x,
+  z: FRONTIER_CALDERA_CONFIG.bowlRefuge.z,
+  speciesId: 'emberhorn', movementRadius: FRONTIER_CALDERA_CONFIG.bowlRefuge.radius,
+});
 
 // These two recipes deliberately mirror the admitted wildkin catalog. The
 // generated creature path does not otherwise hydrate gameplay from its visual
@@ -51,6 +60,9 @@ function provinceMix(sample) {
   const ironspine = Math.max(0, Number(weights.ironspine) || 0);
   const total = lush + sunscar + ironspine;
   return total > 0 ? { influence, lush: lush / total, sunscar: sunscar / total, ironspine: ironspine / total } : null;
+}
+function calderaWeight(sample) {
+  return Math.max(0, Math.min(1, Number(sample?.habitatWeights?.[FRONTIER_CALDERA_CONFIG.habitatId]) || 0));
 }
 
 function weightedProvince(mix, roll) {
@@ -94,6 +106,33 @@ function hasSafeSkybreakHome(x, z, options) {
   return hasFootprintSupport(x, z, {
     getHeight: (sx, sz) => terrainSample(sx, sz, options).height,
     radius: SKYBREAK_HOME_RADIUS,
+    maxSlope: MAX_SLOPE,
+  });
+}
+
+function hasSafeCalderaHome(x, z, options) {
+  const radius = FRONTIER_CALDERA_WILDLIFE_ANCHOR.movementRadius;
+  const steps = Math.ceil(radius / CALDERA_HOME_GRID);
+  for (let ix = -steps; ix <= steps; ix += 1) {
+    for (let iz = -steps; iz <= steps; iz += 1) {
+      const dx = ix * CALDERA_HOME_GRID, dz = iz * CALDERA_HOME_GRID;
+      if (dx * dx + dz * dz > radius * radius) continue;
+      const sx = x + dx, sz = z + dz;
+      const sample = terrainSample(sx, sz, options);
+      const feature = sampleFrontierCalderaFeature(sx, sz);
+      if (!Number.isFinite(sample.height) || sample.habitatId !== FRONTIER_CALDERA_CONFIG.habitatId
+        || !['bowl', 'breach'].includes(feature.zone)) return false;
+      for (const [ox, oz] of [[CALDERA_HOME_GRID, 0], [0, CALDERA_HOME_GRID]]) {
+        if ((dx + ox) ** 2 + (dz + oz) ** 2 > radius * radius) continue;
+        const neighbor = terrainSample(sx + ox, sz + oz, options);
+        if (!Number.isFinite(neighbor.height)
+          || Math.abs(neighbor.height - sample.height) / CALDERA_HOME_GRID > MAX_SLOPE) return false;
+      }
+    }
+  }
+  return hasFootprintSupport(x, z, {
+    getHeight: (sx, sz) => terrainSample(sx, sz, options).height,
+    radius,
     maxSlope: MAX_SLOPE,
   });
 }
@@ -156,6 +195,10 @@ function makeSideEncounter(cx, cz, index, x, z, speciesId, residentPriority, opt
 
 function makeRegionalPlacement(cx, cz, index, x, z, options) {
   const sample = terrainSample(x, z, options);
+  const caldera = calderaWeight(sample);
+  if (caldera > 0 && random(cx, cz, index, 181, options.world) < caldera) {
+    return Object.freeze({ ...makeSideEncounter(cx, cz, index, x, z, 'emberhorn', 90, options), regionalSignature: true });
+  }
   const mix = provinceMix(sample);
   if (!mix || random(cx, cz, index, 181, options.world) >= mix.influence) return makeMosslingPlacement(cx, cz, index, x, z, options);
   const province = weightedProvince(mix, random(cx, cz, index, 183, options.world));
@@ -165,6 +208,36 @@ function makeRegionalPlacement(cx, cz, index, x, z, options) {
       : detail < .42 ? 'emberhorn' : null;
   if (!speciesId) return makeMosslingPlacement(cx, cz, index, x, z, options);
   return Object.freeze({ ...makeSideEncounter(cx, cz, index, x, z, speciesId, 90, options), regionalSignature: true });
+}
+
+function admittedWildkinAsset(visualAssets, speciesId) {
+  const asset = (visualAssets ?? []).find(candidate => candidate?.id === `asset_wildkin_${speciesId}`);
+  const recipe = asset?.gameplay?.wildkin;
+  return asset?.gameplay?.role === 'wildkin' && recipe?.speciesTag === speciesId ? asset : null;
+}
+
+function movementDiskIntersectsCalderaCore(placement) {
+  const radius = Math.max(0, placement.roamRadius ?? 0, placement.leashRadius ?? 0, placement.fleeLeashRadius ?? 0);
+  return Math.hypot(
+    placement.homePos.x - FRONTIER_CALDERA_CONFIG.center.x,
+    placement.homePos.z - FRONTIER_CALDERA_CONFIG.center.z,
+  ) < Math.max(FRONTIER_CALDERA_CONFIG.outerRadius.x, FRONTIER_CALDERA_CONFIG.outerRadius.z) + radius;
+}
+
+function makeFixedCalderaEncounter(options) {
+  const anchor = FRONTIER_CALDERA_WILDLIFE_ANCHOR;
+  if (!admittedWildkinAsset(options.visualAssets, anchor.speciesId)) return null;
+  const sample = terrainSample(anchor.x, anchor.z, options);
+  if (!Number.isFinite(sample.height) || sample.habitatId !== FRONTIER_CALDERA_CONFIG.habitatId
+    || !hasSafeCalderaHome(anchor.x, anchor.z, options)) return null;
+  const placement = makeSideEncounter(anchor.cx, anchor.cz, anchor.index, anchor.x, anchor.z, anchor.speciesId, 1, options);
+  if (!homeDiskIsLand(placement, options)) return null;
+  return Object.freeze({
+    ...placement,
+    facingYaw: Math.PI,
+    regionalSignature: true,
+    calderaFeature: true,
+  });
 }
 
 function nearbyRegionalPlaces(cx, cz, options) {
@@ -204,6 +277,10 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   const world = options.world ?? DEFAULT_FRONTIER_WORLD;
   const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
   const sampleOptions = { ...options, world };
+  if (cx === FRONTIER_CALDERA_WILDLIFE_ANCHOR.cx && cz === FRONTIER_CALDERA_WILDLIFE_ANCHOR.cz) {
+    const fixed = makeFixedCalderaEncounter(sampleOptions);
+    return fixed ? [fixed] : [];
+  }
   if (!starterShelf && !emberShelf && !skybreakCrown && roll(0, 13) >= .22) return [];
   // Sample each neighboring owner at most once for this chunk. A place center
   // is inset from its owner edge, but a creature's complete movement disk can
@@ -241,7 +318,8 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
     const sample = terrainSample(x, z, sampleOptions);
     if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE && hasSafeHome(x, z, sampleOptions)) {
       const placement = makeRegionalPlacement(cx, cz, 0, x, z, sampleOptions);
-      if (homeDiskIsLand(placement, sampleOptions) && !homeDiskIntersectsPlace(placement, places)) return [placement];
+      if (homeDiskIsLand(placement, sampleOptions) && !homeDiskIntersectsPlace(placement, places)
+        && !movementDiskIntersectsCalderaCore(placement)) return [placement];
     }
   }
   return [];

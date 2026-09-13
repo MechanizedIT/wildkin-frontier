@@ -5,7 +5,9 @@ import { createRuntimeResourcePlacements } from '../src/resources/resourceSystem
 import { getResourceType } from '../src/resources/resourceConfig.js';
 import { getHarvestInteractionPoint, getHarvestReach, isHarvestableInRange, isPlayerInsideColliderVolume } from '../src/resources/harvestLogic.js';
 import { describeVisualAssetCollider } from '../src/world/colliderDescriptor.js';
-import { FRONTIER_REGIONAL_RESOURCE_ASSETS, sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
+import { FRONTIER_CALDERA_RESOURCE_ANCHORS, FRONTIER_REGIONAL_RESOURCE_ASSETS, sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
+import { createFrontierEcologyState, normalizeFrontierEcologyState } from '../src/world/frontierEcologyState.js';
+import { overlapsFrontierCalderaClearLane } from '../src/world/frontierCaldera.js';
 import { SKYBREAK_ROUTE } from '../src/world/frontierLandform.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
@@ -121,6 +123,75 @@ test('missing or non-harvestable mineral assets preserve the ordinary rock recip
     assert.equal(actual.visualAsset, undefined);
     assert.equal(actual.id, expected.id);
     assert.deepEqual(actual.pos, expected.pos);
+  }
+});
+
+test('Caldera stages two distinct supported harvestables with finite IDs outside the breach lane', () => {
+  const assets = WORLD_DATA.visualAssets.filter(asset => ['asset_crystal', 'asset_iron_ore_rock'].includes(asset.id));
+  const nodes = Object.values(FRONTIER_CALDERA_RESOURCE_ANCHORS).flatMap(anchor => (
+    sampleFrontierForageChunk(anchor.cx, anchor.cz, { visualAssets: assets }).filter(node => node.calderaFeature)
+  ));
+  assert.deepEqual(nodes.map(node => [node.id, node.placementIndex, node.type, node.visualAsset.id, node.pos.x, node.pos.z]), [
+    ['f1:r:16:-40:300', 300, 'rock', 'asset_crystal', 846.5, -1976],
+    ['f1:r:17:-40:301', 301, 'rock', 'asset_iron_ore_rock', 854, -1980],
+  ]);
+  assert.equal(new Set(nodes.map(node => node.id)).size, 2);
+  const height = (x, z) => sampleFrontier(x, z).height;
+  for (const node of nodes) {
+    const anchor = Object.values(FRONTIER_CALDERA_RESOURCE_ANCHORS).find(candidate => candidate.index === node.placementIndex);
+    assert.equal(sampleFrontier(node.pos.x, node.pos.z).habitatId, 'emberglass-caldera');
+    assert.equal(overlapsFrontierCalderaClearLane(node.pos.x, node.pos.z, anchor.footprintRadius), false);
+    assert.equal(hasFootprintSupport(node.pos.x, node.pos.z, {
+      getHeight: height, radius: anchor.footprintRadius, maxSlope: .18,
+    }), true, node.id);
+  }
+  const runtime = createRuntimeResourcePlacements(nodes);
+  assert.deepEqual(runtime.map(node => [node.id, node.resourceType.resourceId, node.resourceType.maxChunks]), [
+    ['f1:r:16:-40:300', 'crystal_shard', 4],
+    ['f1:r:17:-40:301', 'iron_ore', 5],
+  ]);
+  assert.ok(runtime.every(node => node.resourceType.solid && node.resourceType.assetCollision === node.visualAsset.collision));
+
+  const saved = createFrontierEcologyState();
+  saved.resources[nodes[0].id] = 2;
+  saved.resources[nodes[1].id] = 0;
+  assert.deepEqual(normalizeFrontierEcologyState(saved).resources, {
+    'f1:r:16:-40:300': 2,
+    'f1:r:17:-40:301': 0,
+  }, 'partial and exhausted fixed sources use the existing normalized depletion ledger');
+});
+
+test('Caldera fixed minerals fail closed while broad ordinary ecology becomes sparse rock and rust forage', () => {
+  const crystal = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_crystal');
+  const iron = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_iron_ore_rock');
+  assert.deepEqual(sampleFrontierForageChunk(16, -40), [], 'a missing fixed asset does not degrade into a generic node');
+  assert.deepEqual(sampleFrontierForageChunk(17, -40, {
+    visualAssets: [{ ...iron, collision: null }],
+  }), [], 'a fixed mineral without its source-owned collider is not admitted');
+  assert.deepEqual(sampleFrontierForageChunk(16, -40, {
+    visualAssets: [{ ...crystal, gameplay: { role: 'prop' } }],
+  }), [], 'a non-harvestable fixed asset is not admitted');
+
+  const sample = calderaWeight => () => ({
+    height: 10, coastDistance: 100, land: true, contentLand: true, hasTerrain: true,
+    habitatBlend: { wetland: .2, fernUpland: .8 }, surfaceKind: null,
+    provinceInfluence: 1, provinceWeights: { lush: 0, sunscar: 0, ironspine: 1 },
+    habitatId: 'emberglass-caldera', habitatWeights: { 'emberglass-caldera': calderaWeight },
+  });
+  const assets = [crystal, iron];
+  const full = sampleFrontierForageChunk(6, -30, { getTerrainSample: sample(1), visualAssets: assets });
+  const zero = sampleFrontierForageChunk(6, -30, { getTerrainSample: sample(0), visualAssets: assets });
+  const legacy = sampleFrontierForageChunk(6, -30, {
+    getTerrainSample: () => ({ ...sample(0)(), habitatWeights: undefined }), visualAssets: assets,
+  });
+  assert.ok(full.length >= 6 && full.length <= 8);
+  assert.equal(full.some(node => node.type === 'tree'), false, 'full Caldera influence removes the temporary forest resource read');
+  assert.ok(full.filter(node => node.type === 'rock').length >= Math.ceil(full.length * .75));
+  assert.ok(full.some(node => node.tint === '#a46542'), 'non-mineral forage keeps a broad rust identity');
+  assert.deepEqual(zero, legacy, 'zero Caldera weight preserves the exact prior recipe');
+  for (const [cx, cz] of [[16, -40], [17, -40]]) {
+    assert.ok(sampleFrontierForageChunk(cx, cz, { visualAssets: assets }).every(node => node.placementIndex >= 300),
+      'ordinary resources are excluded from the authored crater core');
   }
 });
 

@@ -114,7 +114,7 @@ export function createBetaGame(deps) {
     }
     combatHud.updateProgress(progress.getBankedXp());
   }
-  function objectiveModel(s, cargo, pending, ability) {
+  function objectiveModel(s, cargo, pending, ability, terrain) {
     const movement = playerController.getState();
     if (isSurfaceSwimming(movement)) return {
       frontier: true,
@@ -125,6 +125,8 @@ export function createBetaGame(deps) {
       return { ...getFrontierPurpose({ state: s, cargo, isCamp: isCamp(), pendingCompanions: pending,
         spendableResources: progress.getSpendableResources(),
         health: playerCombat.getHealth(), maxHealth: playerCombat.getMaxHealth(), ability,
+        habitatId: terrain?.contentLand !== false ? terrain?.habitatId : null,
+        habitatFeatureKind: terrain?.habitatFeatureKind,
         activeSpeciesId: progress.getActiveWildkin()?.speciesId, cropHarvest: progress.getCampCropHarvest() }), frontier: true };
     }
     if (s.campaignCompleted) return { title: "Explore the wilds", description: "Discover every Wildkin and awaken the four seals." };
@@ -158,11 +160,15 @@ export function createBetaGame(deps) {
     for (const species of COMPANIONS) if (!represented.has(species.id)) roster.push({ ...species, id: `species:${species.id}`, speciesId: species.id,
       secured: false, active: false, pending: false, discovered: s.discoveredSpecies.includes(species.id),
       journalEntries: getObservationJournal(species.id, s), observedStages: s.observationClues[species.id] ?? 0 });
-    return { isCamp: isCamp(), regionName: getSectionId() === 'camp' && session.isActive() ? 'Frontier' : registry.getSectionById(getSectionId())?.displayName ?? registry.getSectionById(getSectionId())?.name ?? "Camp",
+    const position = playerController.getState().pos;
+    const inFrontier = getSectionId() === 'camp' && session.isActive();
+    const terrain = inFrontier ? deps.getTerrainSample?.(position.x, position.z) : null;
+    const habitatName = terrain?.contentLand !== false ? terrain?.habitatName : null;
+    return { isCamp: isCamp(), regionName: inFrontier ? habitatName || 'Frontier' : registry.getSectionById(getSectionId())?.displayName ?? registry.getSectionById(getSectionId())?.name ?? "Camp",
       bankedXp: s.bankedXp, playerLevel: getPlayerLevel(s.bankedXp), health: playerCombat.getHealth(), maxHealth: playerCombat.getMaxHealth(), cargo, carriedXp: xpMoteSystem.getXp(), progress: s,
       skills: {nodes:SKILL_CATALOG,unlocked:s.skillUnlocks,points:s.skillPointsAvailable,level:getPlayerLevel(s.bankedXp)},
       companions: roster,
-      pendingCompanions: pending, captureCapacity: progress.getModifiers().captureCapacity, objective: objectiveModel(s, cargo, pending, ability), medkits: s.craftedConsumables.medkit ?? 0,
+      pendingCompanions: pending, captureCapacity: progress.getModifiers().captureCapacity, objective: objectiveModel(s, cargo, pending, ability, terrain), medkits: s.craftedConsumables.medkit ?? 0,
       ability, settings, swimming: isSurfaceSwimming(playerController.getState()), campaignComplete: s.campaignCompleted,
       base: base.getModel(), fieldTaming: companions.getFieldTamingState?.() ?? null,
       observation: companions.getObservationState(),

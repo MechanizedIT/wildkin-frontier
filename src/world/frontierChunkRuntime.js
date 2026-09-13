@@ -152,6 +152,12 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world, vis
     // Warm red gain turns the shared green geometry into dry straw without
     // another mesh/material/draw or a separately generated vegetation field.
     tint.setRGB(1 + dry * 1.8 - high * .2, 1 + dry * .1 - high * .16, 1 - dry * .3 + high * .1);
+    // The Caldera shares this bounded foliage mesh, but its surviving tufts
+    // should read as scorched straw rather than the inherited green upland.
+    const caldera = Math.max(0, Math.min(1, sample.calderaWeight ?? 0));
+    tint.r += (1.45 - tint.r) * caldera;
+    tint.g += (.48 - tint.g) * caldera;
+    tint.b += (.4 - tint.b) * caldera;
     grass.setColorAt(liveCount++, tint);
   }
   grass.count = liveCount;

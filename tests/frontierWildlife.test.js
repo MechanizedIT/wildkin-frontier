@@ -4,11 +4,13 @@ import * as THREE from 'three';
 import WORLD_DATA from '../src/world/data/world.js';
 import { createCreatureSystem } from '../src/creatures/creatureSystem.js';
 import { createWildkinGenome } from '../src/creatures/wildkinGenome.js';
-import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
+import { FRONTIER_CALDERA_WILDLIFE_ANCHOR, sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
 import { createFrontierWildlifeRuntime } from '../src/world/frontierWildlifeRuntime.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
 import { sampleFrontierRegionalPlaceChunk } from '../src/world/frontierRegionalPlace.js';
+import { FRONTIER_CALDERA_RESOURCE_ANCHORS } from '../src/world/frontierEcology.js';
+import { sampleFrontierCalderaFeature } from '../src/world/frontierCaldera.js';
 
 function residency(cx, cz) {
   const chunks = [];
@@ -125,6 +127,101 @@ test('regional wildlife rejects an intersecting full home disk and retries outsi
   assert.notDeepEqual(placed.homePos, unreserved.homePos, 'the candidate loop advances instead of admitting the intersecting home');
   const movementRadius = Math.max(placed.roamRadius, placed.leashRadius, placed.fleeLeashRadius ?? 0);
   assert.ok(Math.hypot(placed.homePos.x - place.center.x, placed.homePos.z - place.center.z) >= place.radius + movementRadius);
+});
+
+test('Caldera admits one stable territorial Emberhorn on its complete supported bowl disk', () => {
+  const emberAsset = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_wildkin_emberhorn');
+  const [source] = sampleFrontierWildlifeChunk(
+    FRONTIER_CALDERA_WILDLIFE_ANCHOR.cx,
+    FRONTIER_CALDERA_WILDLIFE_ANCHOR.cz,
+    { visualAssets: [emberAsset] },
+  );
+  assert.deepEqual({
+    id: source.originId, species: source.speciesTag, temperament: source.temperament,
+    x: source.homePos.x, z: source.homePos.z, priority: source.residentPriority,
+    roam: source.roamRadius, notice: source.noticeRadius, leash: source.leashRadius,
+    health: source.configOverrides.health, speed: source.configOverrides.moveSpeed,
+    damage: source.configOverrides.damage, signature: source.regionalSignature,
+  }, {
+    id: 'f1:w:17:-40:300', species: 'emberhorn', temperament: 'TERRITORIAL',
+    x: 850, z: -1986, priority: 1,
+    roam: 4.5, notice: 7, leash: 10,
+    health: 12, speed: 2.1, damage: 2, signature: true,
+  });
+  assert.equal(source.visualAssetId, emberAsset.id);
+  assert.equal(source.calderaFeature, true);
+  assert.equal(hasFootprintSupport(source.homePos.x, source.homePos.z, {
+    getHeight: (x, z) => sampleFrontier(x, z).height,
+    radius: FRONTIER_CALDERA_WILDLIFE_ANCHOR.movementRadius,
+    maxSlope: .32,
+  }), true);
+  for (let dx = -10; dx <= 10; dx += 2) for (let dz = -10; dz <= 10; dz += 2) {
+    if (dx * dx + dz * dz > 100) continue;
+    const x = source.homePos.x + dx, z = source.homePos.z + dz;
+    const sample = sampleFrontier(x, z);
+    assert.equal(sample.habitatId, 'emberglass-caldera');
+    assert.ok(['bowl', 'breach'].includes(sampleFrontierCalderaFeature(x, z).zone));
+    assert.ok(sample.coastDistance > 10, 'the complete encounter disk remains dry land');
+  }
+  const ironDistance = Math.hypot(
+    source.homePos.x - FRONTIER_CALDERA_RESOURCE_ANCHORS.iron.x,
+    source.homePos.z - FRONTIER_CALDERA_RESOURCE_ANCHORS.iron.z,
+  );
+  assert.ok(ironDistance > source.noticeRadius && ironDistance < source.leashRadius,
+    'the nearer useful mineral enters readable danger after the ordinary approach');
+});
+
+test('Caldera encounter fails closed, replaces broad generic wildlife, and keeps the fixed core unique', () => {
+  const emberAsset = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_wildkin_emberhorn');
+  assert.deepEqual(sampleFrontierWildlifeChunk(17, -40), [], 'missing admitted Emberhorn art leaves no invisible fixed threat');
+  assert.deepEqual(sampleFrontierWildlifeChunk(17, -40, {
+    visualAssets: [{ ...emberAsset, gameplay: { role: 'prop' } }],
+  }), [], 'the fixed source requires the admitted Wildkin recipe');
+
+  const regionalSample = calderaWeight => () => ({
+    height: 10, coastDistance: 100, land: true, contentLand: true, hasTerrain: true,
+    habitatBlend: { wetland: 1, fernUpland: 0 }, surfaceKind: null,
+    provinceInfluence: 1, provinceWeights: { lush: 1, sunscar: 0, ironspine: 0 },
+    habitatId: 'emberglass-caldera', habitatWeights: { 'emberglass-caldera': calderaWeight },
+  });
+  const full = sampleFrontierWildlifeChunk(6, -30, { getTerrainSample: regionalSample(1) });
+  const zero = sampleFrontierWildlifeChunk(6, -30, { getTerrainSample: regionalSample(0) });
+  const legacy = sampleFrontierWildlifeChunk(6, -30, {
+    getTerrainSample: () => ({ ...regionalSample(0)(), habitatWeights: undefined }),
+  });
+  assert.equal(full[0].speciesTag, 'emberhorn');
+  assert.equal(full[0].regionalSignature, true);
+  assert.deepEqual(zero, legacy, 'zero Caldera weight preserves the exact prior wildlife recipe');
+
+  const fixed = sampleFrontierWildlifeChunk(17, -40, { visualAssets: [emberAsset] });
+  assert.deepEqual(fixed.map(source => source.originId), ['f1:w:17:-40:300']);
+  for (const [cx, cz] of [[16, -40], [17, -39], [16, -39]]) {
+    const ordinary = sampleFrontierWildlifeChunk(cx, cz, {
+      getTerrainSample: (x, z) => sampleFrontier(x, z), visualAssets: [emberAsset],
+    });
+    assert.ok(ordinary.every(source => !source.calderaFeature));
+    assert.ok(ordinary.every(source => Math.hypot(source.homePos.x - 850, source.homePos.z + 2000) >= 64 + source.leashRadius),
+      'neighboring ordinary movement disks stay outside the fixed crater core');
+  }
+});
+
+test('Caldera fixed Emberhorn wins residency and stays absent after capture', () => {
+  const emberAsset = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_wildkin_emberhorn');
+  const captured = new Set();
+  const creatures = owner();
+  const runtime = createFrontierWildlifeRuntime({
+    terrainRuntime: { getResidency: () => residency(17, -40), sample: sampleFrontier },
+    creatureSystem: creatures,
+    visualAssets: [emberAsset],
+    isSourceCaptured: id => captured.has(id),
+  });
+  runtime.update();
+  assert.ok(creatures.actors.length <= 4);
+  assert.ok(creatures.actors.some(actor => actor.state.originId === 'f1:w:17:-40:300'));
+  captured.add('f1:w:17:-40:300');
+  runtime.update();
+  assert.equal(creatures.actors.some(actor => actor.state.originId === 'f1:w:17:-40:300'), false);
+  runtime.dispose();
 });
 
 test('runtime bounds live sources, retires unloaded chunks, and never restores a captured source', () => {

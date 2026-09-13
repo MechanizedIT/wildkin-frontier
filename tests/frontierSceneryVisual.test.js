@@ -23,6 +23,28 @@ test('regional groundcover reduces density and warms tint within the same visual
   lush.dispose(); dry.dispose();
 });
 
+test('Caldera ground patches are sparse low burnt tufts and carry their treatment through the cache key', () => {
+  const owner = {}, cache = createFrontierGroundPatchCache({ owner });
+  const spec = { id: 'caldera-patch', assetId: 'asset_fen_reed', x: 847, y: 11, z: -1969,
+    scale: 1, yaw: 0, kind: 'low', groundCover: { density: .12, influence: 1, highWeight: 1, calderaWeight: 0 } };
+  let placeCalls = 0;
+  const ordinary = createFrontierSceneryVisual({ specs: [spec], visualAssets: [reed], groundPatchCache: cache,
+    groundPatchOwner: owner, canPlaceGroundCover: () => { placeCalls++; return true; }, getHeight: () => 11 });
+  const caldera = createFrontierSceneryVisual({ specs: [{ ...spec, groundCover: { ...spec.groundCover, calderaWeight: 1 } }],
+    visualAssets: [reed], groundPatchCache: cache, groundPatchOwner: owner,
+    canPlaceGroundCover: () => { placeCalls++; return true; }, getHeight: () => 11 });
+  assert.equal(ordinary.stats.groundClusterCount, 2);
+  assert.equal(caldera.stats.groundClusterCount, 2);
+  assert.equal(placeCalls, 4, 'Caldera weight changes the complete patch cache key');
+  const mesh = caldera.group.getObjectByName('frontier_scenery_ground_cover');
+  const matrix = new THREE.Matrix4(), position = new THREE.Vector3(), rotation = new THREE.Quaternion(), scale = new THREE.Vector3();
+  mesh.getMatrixAt(0, matrix); matrix.decompose(position, rotation, scale);
+  assert.ok(scale.y < scale.x * .55, 'full Caldera treatment lowers the existing tuft silhouette');
+  assert.ok(mesh.instanceColor.getX(0) > mesh.instanceColor.getY(0) * 2,
+    'full Caldera treatment replaces green with a warm burnt tint');
+  ordinary.dispose(); caldera.dispose();
+});
+
 const triangle = (color, offset = 0) => ({
   shape: 'mesh', color,
   position: { x: offset, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 },

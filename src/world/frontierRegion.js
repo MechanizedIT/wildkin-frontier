@@ -1,4 +1,5 @@
 import { FRONTIER_REGION_CATALOG } from './frontierRegionCatalog.js';
+import { FRONTIER_CALDERA_CONFIG, sampleFrontierCalderaProfile } from './frontierCaldera.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed, normalizeFrontierWorld } from './frontierWorld.js';
 
 export const FRONTIER_REGION_CONFIG = Object.freeze({
@@ -134,6 +135,8 @@ function sampleResolved(x, z, seed) {
       habitatId: owner.habitatId,
       habitatName: owner.name,
       habitatWeights,
+      calderaWeight: habitatWeights[FRONTIER_CALDERA_CONFIG.habitatId] ?? 0,
+      calderaFeature: null,
     };
   }
 
@@ -144,24 +147,33 @@ function sampleResolved(x, z, seed) {
     sunscar: weights.sunscar > 0 ? sunscarHeight(x, z, seed) : 0,
     ironspine: weights.ironspine > 0 ? ironspineHeight(x, z, seed) : 0,
   };
-  const height = clamp(heights.lush * weights.lush + heights.sunscar * weights.sunscar
+  const baseHeight = clamp(heights.lush * weights.lush + heights.sunscar * weights.sunscar
     + heights.ironspine * weights.ironspine, FRONTIER_REGION_CONFIG.minHeight, FRONTIER_REGION_CONFIG.maxHeight);
   const sunscarColor = blendRGB(SUNSCAR_TROUGH, SUNSCAR_RIDGE, smooth((heights.sunscar - 5) / 13));
-  const colorRGB = [
+  const baseColorRGB = [
     PALETTES.lush[0] * weights.lush + sunscarColor[0] * weights.sunscar + PALETTES.ironspine[0] * weights.ironspine,
     PALETTES.lush[1] * weights.lush + sunscarColor[1] * weights.sunscar + PALETTES.ironspine[1] * weights.ironspine,
     PALETTES.lush[2] * weights.lush + sunscarColor[2] * weights.sunscar + PALETTES.ironspine[2] * weights.ironspine,
   ];
+  const calderaWeight = habitatWeights[FRONTIER_CALDERA_CONFIG.habitatId] ?? 0;
+  const caldera = calderaWeight > 0
+    ? sampleFrontierCalderaProfile(x, z, { seed, baseHeight, habitatWeight: calderaWeight })
+    : null;
+  const colorRGB = caldera?.colorRGB
+    ? blendRGB(baseColorRGB, caldera.colorRGB, calderaWeight)
+    : baseColorRGB;
   return {
     id: `f1:habitat:${owner.habitatId}`,
     kind: owner.baseKind,
     influence,
-    height,
+    height: caldera?.height ?? baseHeight,
     colorRGB,
     weights,
     habitatId: owner.habitatId,
     habitatName: owner.name,
     habitatWeights,
+    calderaWeight,
+    calderaFeature: caldera?.feature ?? null,
   };
 }
 

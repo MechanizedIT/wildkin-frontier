@@ -1,5 +1,9 @@
 # Living Frontier — implementation plan
 
+**Caldera foundation checkpoint — September 13:** Caldera now has volcanic terrain, finite crystal/iron and a territorial Emberhorn outing. Normal controls proved gathering, warning/retreat, streamed depletion and exact developer/portable continuation. **1,378 tests and package gates pass** (44.36 MB unpacked /20.59 MB ZIP). Visual R3 remains **HOLD 3.8/10**; ten allocated habitats are still not ten finished habitats. [Evidence](../art/reviews/caldera/receipt.md).
+
+Next: improve what the ordinary portrait camera and HUD let an explorer see. Measure full transformed asset bounds against actual HUD rectangles at the breach, Camp and a familiar grove; lock an attainable native blockout before changing presentation. Keep controls, collision and gameplay state under their existing owners. Finish this focused view before expanding more habitat content.
+
 **Player motivations:** Exploration is the lead experience, with three overlapping motivations: discover unusual places and map the unknown; collect, raise and shape individual Wildkin; or build a satisfying productive Camp. Base building and crafting can be enjoyable goals in their own right while also enabling expeditions. Later physical machines, recipe chains and logistics draw on Create/BuildCraft/Tekkit inspiration; they should offer visible cause and effect rather than mandatory maintenance. No single motivation should require players to exhaust the others before making useful progress.
 
 **Exploration-first direction:** Chris identifies discovery/exploration, Wildkin collecting and base building/crafting as overlapping motivations. Creatures, equipment and Camp aid exploration; later physical machines/logistics can support factory-style building. Avoid routine care obligations displacing chosen expeditions. See EARLY_ALPHA_PLAN.md for current scope.

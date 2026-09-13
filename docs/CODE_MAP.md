@@ -155,3 +155,13 @@ September12 stopped candidate: `tools/compose-emberfall-ravine.mjs` is deliberat
 - `world/frontierSceneryVisual.js`: unique asset geometry,12.5m cell instances,640 prioritized ground clusters, exact surfaces and all buffer disposal.
 - `world/frontierTerrain.js` / `frontierChunkRuntime.js`: shared-expression exact height-only queries and explicit same-height capability.
 - Matching scenery/runtime/visual and terrain/runtime tests cover the changed contracts. The subsequent preload checkpoint passed1,350 tests in77.391s and one aggregate/package gate. Native boundary B reduced scenery270.5→16.6ms and maximum frame420.6→161ms; ecology86.6ms and terrain preparation20–27ms remain. Source PASS and the prior visual6.8HOLD are unchanged. Evidence: `art/reviews/scenery-preload/receipt.md` (density baseline: `art/reviews/scenery-density/receipt.md`).
+
+
+## Caldera and catch-up input owners
+
+- src/world/frontierCaldera.js: pure volcanic shelves, crater/buttresses/toes, route/refuge geometry and palette.
+- src/world/frontierRegion.js / frontierTerrain.js: blend and shared terrain/query/mesh metadata.
+- src/world/frontierEcology.js / frontierWildlife.js: finite mineral and territorial actor IDs through existing runtime owners.
+- src/world/frontierScenery.js / frontierSceneryVisual.js / frontierChunkRuntime.js: admitted dressing, bounded cache identity and both Caldera foliage paths.
+- src/progression/frontierPurpose.js / src/game/createBetaGame.js / src/main.js: current-position field plan and first-substep-only attack edge wiring.
+- art/reviews/caldera/receipt.md: actual native proof and final visual HOLD 3.8.
