@@ -12,6 +12,20 @@ Each Wildkin should change what the player can do. The first proposed roles buil
 
 Large regions, extreme heights and distinct upper/lower habitats remain the destination. Rivers should follow terrain, while dense areas may need clearing; the world should not become a predictable web of paths. New content should differ in silhouette, traversal, resources, behavior and discoveries—not merely color.
 
+## Actual: a useful first outing
+
+<img src="../../../art/reviews/alpha-outing/purpose-portrait.png" alt="Actual compact purpose card during a fresh first outing" width="250"> <img src="../../../art/reviews/alpha-outing/bond-ready-portrait.png" alt="Actual bond-ready priority cue during the Mossling retry" width="250">
+
+A compact plan now points to the next action already supported by the game: gather the exact berry-lure ingredients, craft at Camp, approach a quiet Mossling, physically return and secure the bond, then gather for its bed. The plan is derived from existing inventory, bond, care, crop, health and ability state; it creates no quest ledger or extra reward authority. Craft/build guidance includes selected reachable storage, while feeding and planting still require a berry in the backpack.
+
+The fresh native journey began with no resources or owned Wildkin and secured exact Mossling `wildkin_wvwyyt` after one timed attempt expired during inspection. The earned Mossling was settled in a bed, fed three carried berries and given a nearby planted garden. The actual HARVEST prompt showed4berries/Bloom+1; harvesting changed pack berries2→6, cleared the crop and returned the purpose to Plant a berry. Final earned state is one cared-for Mossling, its bed and garden,6berries,1wood,1fiber,3wildflowers,50XP and full health5.
+
+<img src="../../../art/reviews/alpha-outing/garden-bonus-portrait.png" alt="Actual earned Mossling bed and Bloom-tended garden together in portrait play" width="250"> <img src="../../../art/reviews/alpha-outing/bloom-hint-portrait.png" alt="Actual Bloom purpose hint in an isolated health fixture" width="250">
+
+The earned outing stayed at full health, so Bloom was checked in a clearly separate health fixture. The actual button healed3→5, started a24-second cooldown, cleared its hint and exposed the ready-crop return purpose. Developer literal reload and packaged import plus literal reload then matched the owned individual/genome, base, care, null crop, pack, atlas, ecology,50XP, health5 and Plant a berry purpose exactly. The final pack held6berries,1wood,1fiber and3wildflowers. Packaged resources came only from `http://127.0.0.1:8081`; its console was empty. The developer console had no errors since final reload, with one older unattributed pre-candidate error retained in history.
+
+Bed placement succeeded in portrait after moving to the free apron. Garden placement required a temporary1280×800 landscape viewport for normal ground aim/Place, followed by a return to portrait for Plant. The first-outing gameplay and persistence foundation is complete, but this is not a complete unaided portrait journey; construction preview/framing is the next release gap. No physical-phone or airplane-mode cold-start claim is included. [Evidence and limits](../../../art/reviews/alpha-outing/receipt.md).
+
 ## Actual: a place worth investigating
 
 <img src="../../../art/reviews/regional-blooms/r3-portrait.png" alt="Actual selected compact Sunscar crystal bloom in portrait play" width="250"> <img src="../../../art/reviews/regional-blooms/cleft-portrait.png" alt="Actual second seeded cleft deposit with two harvestable crystal sources" width="250">

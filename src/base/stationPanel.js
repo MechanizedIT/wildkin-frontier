@@ -5,7 +5,7 @@ import { iconMarkup, resourceLabel } from '../ui/itemIcons.js';
 const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const itemIcon = (id, size) => EQUIPMENT_BY_ID[id] ? equipmentIcon(id, size) : iconMarkup(id, {size});
-const protectedSelectors = '#combat-hud,#frontier-map-button,.beta-hud-actions,.beta-action-cluster,.beta-quick,#joystick-origin,.viewport-fullscreen,.beta-field-guide,.beta-toast,#activation-toast';
+const protectedSelectors = '#combat-hud,#frontier-map-button,.beta-objective,.beta-hud-actions,.beta-action-cluster,.beta-quick,#joystick-origin,.viewport-fullscreen,.beta-field-guide,.beta-toast,#activation-toast';
 
 function costMarkup(cost) {
   return Object.entries(cost ?? {}).map(([id, value]) => {

@@ -10,13 +10,13 @@ Chris has authorized continuous goal-mode development on main until he asks to s
 
 ## Current playable checkpoint
 
-The selected Sunscar bloom R3 scored8.0/10 PASS after7.0/7.6. All 1,233 tests and verify/world/retained-campaign/build/validate/ZIP pass;44.20 MB unpacked/20.55 MB ZIP. Native ordinary harvest increased crystal10→12→14; partial depletion survived unloading and literal reload. Six owned Wildkin,12 iron,8 XP and health 5 were preserved. Exact portable continuation and limitations are recorded in `art/reviews/regional-blooms/receipt.md`.
+The first-outing batch now derives a compact field/Camp plan from existing progression instead of adding quest state. A fresh native save with zero resources and zero owned Wildkin gathered and returned supplies, crafted a lure, bonded exact Mossling `wildkin_wvwyyt`, physically returned and secured it, settled it in a bed, fed three berries, built a garden beside the bed, planted and harvested it. The actual HARVEST prompt showed4berries/Bloom+1; harvesting changed pack berries2→6, cleared the crop and advanced purpose to Plant a berry. Final earned state: one Mossling, care3, bed+garden,6berries,1wood,1fiber,3wildflowers,50XP and health5. Evidence and limits: `art/reviews/alpha-outing/receipt.md`.
 
-The deposit recipe, ecology/scenery/wildlife consumers and runtime catalog injection are integrated. Seven decor pieces stay together; canonical assets and all scaled footprints are validated. R3 is selected; do not reopen its target for minor polish. Earlier broad province art remains5.5/10 HOLD and Signal Cache art7/10 HOLD. Physical-phone proof remains open.
+An isolated health fixture proved the actual Bloom button healed3→5, began a24-second cooldown, cleared the hint and revealed the ripe-berry return purpose; the earned outing itself remained at full health. Developer literal reload and packaged import plus literal reload matched the owned individual/genome, base, care, null crop, pack, atlas, ecology,50XP, health5 and Plant a berry purpose exactly. Packaged resource origins were only `http://127.0.0.1:8081`; the packaged console was empty. Developer console had no errors since the final reload, though one older07:18 pre-candidate error remains unattributed in history. All1,243 tests and verify/world/retained-campaign/build/validate/ZIP pass;44.22MB unpacked/20.55MB ZIP. Bed placement succeeded in portrait after moving onto the free apron. Garden placement required a temporary1280×800 landscape viewport and normal ground aim/Place, then the view returned to portrait for Plant; portrait construction is the next release gap. No physical-phone or airplane-mode cold-start claim.
 
 ## Next useful work
 
-Follow the consolidated early-alpha plan: clarify a physical field/Camp need and useful existing companion payoff, then expand contrasting habitat content and the bounded continent foundation in the chosen order. Do not turn this into a quest framework or require30new species before a first playable candidate. No new production scope is implied by historical candidate instructions.
+The next batch should fix portrait construction's initial legal preview and temporary framing through the existing camera owner before adding more content. Then follow the consolidated early-alpha plan into contrasting habitat content and the bounded continent foundation. Do not turn the derived purpose into a quest framework.
 
 ## Local execution and save safety
 
@@ -28,6 +28,6 @@ Follow the consolidated early-alpha plan: clarify a physical field/Camp need and
 
 ## Publication and overnight allowance
 
-The newest documentation/source backup is explicitly requested. Verify matching remote HEAD and record the exact commit before reporting it; use [skip ci] for the source backup. Continue locally afterward. Prior Drive delivery lives in `docs/research/living-frontier/delivery-receipt.json`; the new Markdown supplement records later progress without silently claiming those PDFs were refreshed again.
+Source backup `3371a9d` is verified; the first-outing batch remains local until its active journey closes. Prior Drive delivery lives in `docs/research/living-frontier/delivery-receipt.json`; the Markdown supplement records later progress without claiming those PDFs were refreshed.
 
 Chris authorized one banked reset if allowance runs out overnight. It remains unused at this checkpoint. Check fresh limits before any redemption; do not consume it early, buy credits, or assume recurring authorization.

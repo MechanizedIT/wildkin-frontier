@@ -26,6 +26,29 @@ export function ingredientGuidance(cost, costLabel, available = {}, cargo = {}, 
   return missing.length ? 'Need '+missing.join(' + ') : (isCamp ? 'Ready: ' : 'Bring to Camp: ')+costLabel;
 }
 
+export function getFrontierPurposePresentation(model = {}) {
+  const objective = model.objective?.frontier ? model.objective : null;
+  const shownObjective = model.objective ?? null;
+  const observing = Boolean(model.observation && !model.observation.complete);
+  const guideActive = Boolean(model.fieldTaming) || observing;
+  const activeCompanion = (model.companions ?? []).find((companion) => companion.active);
+  const highlightAbility = Boolean(
+    objective?.abilityHint === 'mossling'
+    && !guideActive
+    && !model.isCamp
+    && model.ability?.ready
+    && model.ability?.name === 'Bloom'
+    && activeCompanion?.speciesId === 'mossling'
+  );
+  return {
+    visible: Boolean(shownObjective) && !guideActive,
+    frontier: Boolean(objective),
+    kicker: `${model.regionName || 'Frontier'} · Field plan`,
+    title: shownObjective?.title || '',
+    highlightAbility,
+  };
+}
+
 export function createBetaShell({ app, getModel, onAction = () => null, onBlockingChanged = () => {}, canOpen = () => true, openInventory = null } = {}) {
   if (!app) return { update() {}, open() {}, close() {}, isOpen: () => false, showWelcome() {}, toast() {}, setContextualVisible() {}, destroy() {} };
   const root = document.createElement("div"); root.id = "beta-shell"; root.setAttribute("aria-live", "polite");
@@ -34,7 +57,7 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
   // The field HUD deliberately has one main action.  Skills remain in Pack so
   // a player can read the right side as camera space and only reach for the
   // compact, individually framed actions needed in the current encounter.
-  hud.innerHTML = `<div class="beta-objective"></div><div class="beta-hud-actions equipment-toolbar" aria-label="Equipment quick slots"><span class="equipment-selected-name"></span><div id="portrait-tool-belt" class="equipment-slots"></div><button class="beta-hud-button" data-action="open" data-tab="inventory" aria-label="Open backpack">${icon("backpack")}<span>PACK</span><b class="beta-cargo-count">0</b></button></div><div class="beta-quick" aria-label="Companion ability"><button data-action="ability" class="beta-ability">${icon("paw")}<span class="ability-label">ABILITY</span></button></div><div class="beta-action-cluster" aria-label="Field actions"><button type="button" class="beta-field-tool beta-direct-action" aria-label="Hold Attack or Field Tool">${icon("axe")}<span>ATTACK</span></button><button type="button" class="beta-dodge beta-direct-action" aria-label="Dodge"><span class="beta-dodge-glyph" aria-hidden="true">↗</span><span>DODGE</span></button><button type="button" class="beta-jump beta-direct-action" aria-label="Jump"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 14 16 5l9 9M16 6v17M5 27h22" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>JUMP</span></button></div>`;
+  hud.innerHTML = `<button type="button" class="beta-objective" data-action="open" data-tab="journal" aria-label="Open field plan" hidden></button><div class="beta-hud-actions equipment-toolbar" aria-label="Equipment quick slots"><span class="equipment-selected-name"></span><div id="portrait-tool-belt" class="equipment-slots"></div><button class="beta-hud-button" data-action="open" data-tab="inventory" aria-label="Open backpack">${icon("backpack")}<span>PACK</span><b class="beta-cargo-count">0</b></button></div><div class="beta-quick" aria-label="Companion ability"><button data-action="ability" class="beta-ability">${icon("paw")}<span class="ability-label">ABILITY</span></button></div><div class="beta-action-cluster" aria-label="Field actions"><button type="button" class="beta-field-tool beta-direct-action" aria-label="Hold Attack or Field Tool">${icon("axe")}<span>ATTACK</span></button><button type="button" class="beta-dodge beta-direct-action" aria-label="Dodge"><span class="beta-dodge-glyph" aria-hidden="true">↗</span><span>DODGE</span></button><button type="button" class="beta-jump beta-direct-action" aria-label="Jump"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 14 16 5l9 9M16 6v17M5 27h22" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>JUMP</span></button></div>`;
   const toastEl = document.createElement("div"); toastEl.className = "beta-toast"; toastEl.hidden = true;
   const fieldGuide = document.createElement('div'); fieldGuide.className = 'beta-field-guide'; fieldGuide.hidden = true;
   fieldGuide.innerHTML = '<div><strong></strong><span></span><progress class="observation-progress" max="1" value="0" aria-label="Observation progress" hidden></progress></div><button data-action="cancelTaming" aria-label="Stop taming attempt">×</button>';
@@ -131,7 +154,7 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
       <div class="wildkin-list" role="group" aria-label="Wildkin species">${companions.map(c => `<button data-companion-id="${esc(c.id)}" aria-pressed="${selected?.id === c.id}" class="wildkin-chip ${selected?.id === c.id ? "is-selected" : ""} ${c.secured ? "is-secured" : ""}" style="--wildkin:${esc(c.color || "#36c896")}">${icon(c.speciesId ?? c.id, { size: 30, label: c.name })}<span>${esc(c.name)} ${sexBadge(c.sex)}</span>${c.secured ? '<b aria-label="Secured">✓</b>' : ""}</button>`).join("")}</div>
       ${selected ? `<article class="wildkin-detail" style="--wildkin:${esc(selected.color || "#36c896")}"><div class="wildkin-detail__heading">${icon(selected.speciesId ?? selected.id, { size: 40, label: selected.name })}<div><p class="beta-kicker">${status}</p><h3>${esc(selected.name)} ${sexBadge(selected.sex)}</h3>${selected.lineage ? `<small class="wildkin-lineage">Generation ${selected.lineage.generation}</small>` : ""}</div></div><p class="wildkin-habitat">${esc(selected.secured ? selected.abilityDescription : selected.habitat || "Follow its frontier signal.")}</p>${!selected.secured && selected.taming ? `<div class="wildkin-taming"><strong>How to tame</strong><p class="wildkin-taming-guide">${esc(selected.taming.guide)}</p><small>Gear: ${esc(getFieldCraftLocation(selected.taming.supply))}.</small></div>` : ""}<section class="wildkin-field-notes" aria-label="Field notes"><h4>Field notes</h4>${selected.journalEntries?.length ? selected.journalEntries.map(note=>`<article><strong>${esc(note.title)}</strong><p>${esc(note.text)}</p></article>`).join("") : "<p>Watch quietly in the field to learn its habits.</p>"}${!selected.secured && (selected.journalEntries?.length??0)<2 ? `<small>${selected.journalEntries?.length??0}/2 notes · Keep watching to learn more.</small>` : ""}</section>${selected.secured ? `<button data-action="selectCompanion" data-id="${esc(selected.id)}" ${selected.active ? "disabled" : ""}>${selected.active ? "ACTIVE" : "SELECT"}</button>` : ""}</article>` : ""}</section>`;
   }
-  function journal(model) { return `<section class="journal-panel"><p class="beta-kicker">NEXT EXPEDITION</p><h2>${esc(model.objective?.title || "Answer the frontier call")}</h2><p>${esc(model.objective?.description || "Step through the gate and bring something home.")}</p><button class="beta-gold-button" data-action="openMap">${icon("map")} OPEN MAP</button><div class="journal-stats"><span><b>LV ${model.playerLevel ?? 1}</b> FRONTIER</span><span><b>${model.bankedXp ?? 0}</b> SECURED XP</span></div></section>`; }
+  function journal(model) { return `<section class="journal-panel"><p class="beta-kicker">${model.objective?.frontier ? 'FIELD PLAN' : 'NEXT EXPEDITION'}</p><h2>${esc(model.objective?.title || "Answer the frontier call")}</h2><p>${esc(model.objective?.description || "Step through the gate and bring something home.")}</p><button class="beta-gold-button" data-action="openMap">${icon("map")} OPEN MAP</button><div class="journal-stats"><span><b>LV ${model.playerLevel ?? 1}</b> FRONTIER</span><span><b>${model.bankedXp ?? 0}</b> SECURED XP</span></div></section>`; }
   function morePanel() { return `<section class="more-panel"><p class="beta-kicker">FRONTIER MENU</p><h2>More</h2><p>Camp systems, companions, and settings.</p><button data-tab="workshop">${icon("axe", { size: 30 })}<span><b>Workshop</b><small>Spend secured materials</small></span><i>›</i></button><button data-tab="wildkin">${icon("paw", { size: 30 })}<span><b>Wildkin</b><small>Choose your companion</small></span><i>›</i></button><button data-tab="settings">${icon("settings", { size: 30 })}<span><b>Settings</b><small>Sound, motion, and saves</small></span><i>›</i></button></section>`; }
   function settings(model) { const autoHarvest = document.querySelector('#auto-harvest-toggle button'); const autoHarvestEnabled = autoHarvest?.getAttribute('aria-pressed') === 'true'; return `<section class="settings-panel"><p class="beta-kicker">EXPEDITION SETTINGS</p><h2>Settings</h2><label><span>Sound</span><input data-action="mute" type="checkbox" ${model.settings?.muted ? "" : "checked"}></label><label><span>Reduced motion</span><input data-action="reducedMotion" type="checkbox" ${model.settings?.reducedMotion ? "checked" : ""}></label><div class="controls-card"><b>CONTROLS</b><div class="desktop-controls"><p>WASD moves camera-relative · Shift run · C sneak · Space jump · R dodge</p><p>1–5 equip · F use / hold tool · E interact · Q ability · H medkit</p><p>Drag to orbit · Wheel to zoom · B backpack · K skills · M map</p></div><div class="touch-controls"><p class="portrait-touch-help">Use the fixed left stick to move. Your nearby action is beside your right thumb; tap your equipped item to choose a tool, and use Pack for your gear. Pinch to zoom and drag to inspect.</p><p class="landscape-touch-help">Nudge the left stick to sneak; push farther to run. Drag the open right side to orbit and pinch there with two fingers to zoom. Tap world labels to interact.</p></div></div><button data-action="fullscreen">FULLSCREEN</button><button data-action="toggleAutoHarvest" aria-pressed="${autoHarvestEnabled}">AUTO HARVEST: ${autoHarvestEnabled ? 'ON' : 'OFF'}</button><button data-action="exportSave">EXPORT SAVE</button>${pendingImport ? `<div class="restore-card"><strong>Restore ${esc(pendingImport.name)}?</strong><p>This replaces the current Camp save.</p><button data-action="cancel-import">CANCEL</button><button data-action="confirm-import">RESTORE</button></div>` : `<label class="beta-import">RESTORE SAVE<input data-action="import-save" type="file" accept="application/json,.json"></label>`}</section>`; }
   function body(model) {
@@ -160,7 +183,45 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
       }
     }
   }
-  function render(force = false) { const model = getModel?.() ?? {}; const next = JSON.stringify({ welcome, opened, activeTab, inventoryTab, selectedItem, selectedSkill, selectedEquipment, pendingImport: pendingImport?.name, camp: model.isCamp, region: model.regionName, cargo: model.cargo, xp: model.bankedXp, progress: model.progress, skills: model.skills, companions: model.companions, settings: model.settings }); if (force || next !== signature) { signature = next; modal.innerHTML = body(model); const main = modal.querySelector("main"); if (main) { const syncScrollCue = () => { const scrollable = main.scrollHeight > main.clientHeight + 1; main.classList.toggle("is-scrollable", scrollable); main.classList.toggle("is-at-end", !scrollable || main.scrollTop + main.clientHeight >= main.scrollHeight - 2); }; syncScrollCue(); main.addEventListener("scroll", syncScrollCue, { passive: true }); } } const objective = hud.querySelector(".beta-objective"); if (objective) objective.innerHTML = `<small>${esc(model.regionName || "CAMP")}</small><strong>${esc(model.objective?.title || "Find the frontier signal")}</strong>`; updateEquipmentHud(model); hud.querySelector(".beta-cargo-count").textContent = Object.values(model.cargo ?? {}).reduce((sum, count) => sum + (Number(count) || 0), 0); const ability = hud.querySelector(".beta-ability"); ability.disabled = !model.ability?.ready || model.isCamp; ability.closest(".beta-quick")?.classList.toggle("camp-ability", !!model.isCamp); ability.dataset.cooldown = !model.isCamp && model.ability && !model.ability.ready ? Math.ceil(model.ability.cooldown || 0) : ""; ability.setAttribute("aria-label", model.ability?.name ?? "Companion ability"); const activeCompanion = (model.companions ?? []).find((companion) => companion.active); const companionIconId = activeCompanion?.speciesId ?? "paw"; const companionIconKey = `${activeCompanion?.id ?? "none"}|${companionIconId}`; if (ability.dataset.companionIconId !== companionIconKey) { ability.querySelector(".item-icon")?.replaceWith(document.createRange().createContextualFragment(icon(companionIconId, { size: 32, label: activeCompanion?.name ?? "Companion ability" }))); ability.dataset.companionIconId = companionIconKey; } ability.querySelector(".ability-label").textContent = !model.ability ? "ABILITY" : model.ability.ready ? model.ability.name : `${model.ability.name} ${Math.ceil(model.ability.cooldown || 0)}s`; }
+  function render(force = false) {
+    const model = getModel?.() ?? {};
+    const next = JSON.stringify({ welcome, opened, activeTab, inventoryTab, selectedItem, selectedSkill, selectedEquipment, pendingImport: pendingImport?.name, camp: model.isCamp, region: model.regionName, objective: model.objective, cargo: model.cargo, xp: model.bankedXp, progress: model.progress, skills: model.skills, companions: model.companions, settings: model.settings });
+    if (force || next !== signature) {
+      signature = next;
+      modal.innerHTML = body(model);
+      const main = modal.querySelector("main");
+      if (main) {
+        const syncScrollCue = () => { const scrollable = main.scrollHeight > main.clientHeight + 1; main.classList.toggle("is-scrollable", scrollable); main.classList.toggle("is-at-end", !scrollable || main.scrollTop + main.clientHeight >= main.scrollHeight - 2); };
+        syncScrollCue();
+        main.addEventListener("scroll", syncScrollCue, { passive: true });
+      }
+    }
+    const purpose = getFrontierPurposePresentation(model);
+    const objective = hud.querySelector(".beta-objective");
+    if (objective) {
+      objective.hidden = !purpose.visible || opened || welcome;
+      objective.classList.toggle('is-frontier-purpose', purpose.frontier);
+      objective.setAttribute('aria-hidden', objective.hidden ? 'true' : 'false');
+      objective.setAttribute('aria-label', purpose.title ? `Field plan: ${purpose.title}. Open Journal.` : 'Open field plan');
+      objective.innerHTML = `<small>${esc(purpose.kicker)}</small><strong>${esc(purpose.title)}</strong>`;
+    }
+    updateEquipmentHud(model);
+    hud.querySelector(".beta-cargo-count").textContent = Object.values(model.cargo ?? {}).reduce((sum, count) => sum + (Number(count) || 0), 0);
+    const ability = hud.querySelector(".beta-ability");
+    ability.disabled = !model.ability?.ready || model.isCamp;
+    ability.classList.toggle('is-purpose-highlight', purpose.highlightAbility && !opened && !welcome);
+    ability.closest(".beta-quick")?.classList.toggle("camp-ability", !!model.isCamp);
+    ability.dataset.cooldown = !model.isCamp && model.ability && !model.ability.ready ? Math.ceil(model.ability.cooldown || 0) : "";
+    ability.setAttribute("aria-label", model.ability?.name ?? "Companion ability");
+    const activeCompanion = (model.companions ?? []).find((companion) => companion.active);
+    const companionIconId = activeCompanion?.speciesId ?? "paw";
+    const companionIconKey = `${activeCompanion?.id ?? "none"}|${companionIconId}`;
+    if (ability.dataset.companionIconId !== companionIconKey) {
+      ability.querySelector(".item-icon")?.replaceWith(document.createRange().createContextualFragment(icon(companionIconId, { size: 32, label: activeCompanion?.name ?? "Companion ability" })));
+      ability.dataset.companionIconId = companionIconKey;
+    }
+    ability.querySelector(".ability-label").textContent = !model.ability ? "ABILITY" : model.ability.ready ? model.ability.name : `${model.ability.name} ${Math.ceil(model.ability.cooldown || 0)}s`;
+  }
   root.addEventListener("click", (event) => { const item = event.target.closest("[data-resource-id],[data-skill-id],[data-companion-id],button"); if (!item || item.classList.contains("beta-direct-action")) return; event.preventDefault(); if (item.dataset.equipmentId) { selectedEquipment = item.dataset.equipmentId; render(true); return; }
     if (item.dataset.assignSlot !== undefined) { result('assignQuickSlot', { slot: Number(item.dataset.assignSlot), id: selectedEquipment }); return; }
     if (item.dataset.resourceId) { selectedItem = item.dataset.resourceId; render(true); return; } if (item.dataset.skillId) { selectedSkill = item.dataset.skillId; render(true); return; } if (item.dataset.companionId) { selectedItem = item.dataset.companionId; render(true); return; } const action = item.dataset.action; if (action === "open") { open(item.dataset.tab || "journal"); return; } if (item.dataset.tab) { if(item.dataset.tab === 'equipment' && openInventory){open('equipment');return;} activeTab = item.dataset.tab; render(true); return; } if (action === "close") { close(); return; } if (action === "start") { result("start"); close(); return; } if (action === "fullscreen") { fullscreen.button.click(); return; } if (action === "toggleAutoHarvest") { document.querySelector('#auto-harvest-toggle button')?.click(); render(true); return; } if (action === "cancel-import") { pendingImport = null; render(true); return; } if (action === "confirm-import") { const file = pendingImport; pendingImport = null; result("import-save", file); render(true); return; } if (action === "selectCompanion") result(action, item.dataset.id || null); else if (action) { if(action==='selectQuickSlot') endFieldTool(); result(action, item.dataset.id); } render(true); });

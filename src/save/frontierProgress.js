@@ -113,6 +113,7 @@ export function createFrontierProgress(opts = {}) {
   const isAuthorMode = !!opts.isAuthorMode;
   const resourceDrops = opts.resourceDrops;
   const itemCatalog = createItemCatalog(resourceDrops);
+  const onPackResourcesChanged = typeof opts.onPackResourcesChanged === 'function' ? opts.onPackResourcesChanged : null;
   let canAccessContainer = opts.canAccessContainer ?? (() => false);
   let getCraftStorageId = opts.getCraftStorageId ?? (() => null);
   let runSnapshotProvider = null;
@@ -715,7 +716,17 @@ export function createFrontierProgress(opts = {}) {
 
   function commitBank(snapshot, result, runPatch) {
     const write = save(runPatch);
-    if (write.saved) return { ok: true, ...result, ...(result.state ? {state:getState()} : {}) };
+    if (write.saved) {
+      if (onPackResourcesChanged) {
+        const previous = getPackResources(snapshot.state.inventory, itemCatalog);
+        const current = getPackResourceCounts();
+        const changed = Object.keys(current).some(id => current[id] !== previous[id]);
+        if (changed) {
+          try { onPackResourcesChanged(current); } catch { /* Presentation observers cannot undo a committed save. */ }
+        }
+      }
+      return { ok: true, ...result, ...(result.state ? {state:getState()} : {}) };
+    }
     state = snapshot.state;
     bankedRunIds = snapshot.bankedRunIds;
     lastBankToken = snapshot.lastBankToken;

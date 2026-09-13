@@ -4,6 +4,7 @@ import { COMPANIONS } from "../companions/companionCatalog.js";
 import { getObservationJournal } from '../companions/observationCatalog.js';
 import { createBetaShell } from "../ui/betaShell.js";
 import { deriveCampaignProgress, getNextCampaignObjective } from "../progression/campaignProgress.js";
+import { getFrontierPurpose } from '../progression/frontierPurpose.js';
 import { getPlayerLevel } from "../progression/playerLevel.js";
 import { createFrontierAtmosphere } from "../presentation/frontierAtmosphere.js";
 import { createContactShadows } from "../presentation/contactShadows.js";
@@ -112,14 +113,19 @@ export function createBetaGame(deps) {
     }
     combatHud.updateProgress(progress.getBankedXp());
   }
-  function objectiveModel() {
-    const s = progress.getState();
+  function objectiveModel(s, cargo, pending, ability) {
+    if (getSectionId() === 'camp' && !corePending) {
+      return { ...getFrontierPurpose({ state: s, cargo, isCamp: isCamp(), pendingCompanions: pending,
+        spendableResources: progress.getSpendableResources(),
+        health: playerCombat.getHealth(), maxHealth: playerCombat.getMaxHealth(), ability,
+        activeSpeciesId: progress.getActiveWildkin()?.speciesId, cropHarvest: progress.getCampCropHarvest() }), frontier: true };
+    }
     if (s.campaignCompleted) return { title: "Explore the wilds", description: "Discover every Wildkin and awaken the four seals." };
     if (corePending) return { title: "Bring the Core home", description: "Extract to secure the Heartwood Core." };
-    if (companions.getPending().length) return { title: "Bring your Wildkin home", description: "Extract to secure your new bond." };
+    if (pending.length) return { title: "Bring your Wildkin home", description: "Extract to secure your new bond." };
     if (!s.hasDepartedOnce && isCamp()) return { title: "Tap Travel at the arch", description: "Follow the path. Tap Travel at the glowing arch." };
     if (session.isActive() && !s.completedObjectives.includes("first_extract")) {
-      const carrying = Object.values(pickupSystem.getInventory()).some(count => count > 0);
+      const carrying = Object.values(cargo).some(count => count > 0);
       return { title: carrying ? "Secure your haul" : "Gather nearby", description: carrying ? "Approach a blue Waypoint or amber Beacon and tap Extract to bring your haul home. Open Map for your nearest known return point." : "Gather nearby resources with your Omni-tool. Then return at a blue Waypoint or amber Beacon." };
     }
     const next = getNextCampaignObjective(s);
@@ -129,6 +135,7 @@ export function createBetaGame(deps) {
   function getModel() {
     const s = progress.getState();
     const pending = companions.getPending();
+    const cargo = pickupSystem.getInventory(), ability = companions.getAbility();
     const owned = progress.getOwnedWildkin();
     const securedIds = new Set(owned.map(record => record.id));
     const ordinals = new Map(), represented = new Set();
@@ -144,12 +151,12 @@ export function createBetaGame(deps) {
     for (const species of COMPANIONS) if (!represented.has(species.id)) roster.push({ ...species, id: `species:${species.id}`, speciesId: species.id,
       secured: false, active: false, pending: false, discovered: s.discoveredSpecies.includes(species.id),
       journalEntries: getObservationJournal(species.id, s), observedStages: s.observationClues[species.id] ?? 0 });
-    return { isCamp: isCamp(), regionName: registry.getSectionById(getSectionId())?.displayName ?? registry.getSectionById(getSectionId())?.name ?? "Camp",
-      bankedXp: s.bankedXp, playerLevel: getPlayerLevel(s.bankedXp), health: playerCombat.getHealth(), maxHealth: playerCombat.getMaxHealth(), cargo: pickupSystem.getInventory(), carriedXp: xpMoteSystem.getXp(), progress: s,
+    return { isCamp: isCamp(), regionName: getSectionId() === 'camp' && session.isActive() ? 'Frontier' : registry.getSectionById(getSectionId())?.displayName ?? registry.getSectionById(getSectionId())?.name ?? "Camp",
+      bankedXp: s.bankedXp, playerLevel: getPlayerLevel(s.bankedXp), health: playerCombat.getHealth(), maxHealth: playerCombat.getMaxHealth(), cargo, carriedXp: xpMoteSystem.getXp(), progress: s,
       skills: {nodes:SKILL_CATALOG,unlocked:s.skillUnlocks,points:s.skillPointsAvailable,level:getPlayerLevel(s.bankedXp)},
       companions: roster,
-      pendingCompanions: pending, captureCapacity: progress.getModifiers().captureCapacity, objective: objectiveModel(), medkits: s.craftedConsumables.medkit ?? 0,
-      ability: companions.getAbility(), settings, campaignComplete: s.campaignCompleted,
+      pendingCompanions: pending, captureCapacity: progress.getModifiers().captureCapacity, objective: objectiveModel(s, cargo, pending, ability), medkits: s.craftedConsumables.medkit ?? 0,
+      ability, settings, campaignComplete: s.campaignCompleted,
       base: base.getModel(), fieldTaming: companions.getFieldTamingState?.() ?? null,
       observation: companions.getObservationState(),
       objectives: deriveCampaignProgress(s).map(({id,title,completed}) => ({id,title,completed})) };

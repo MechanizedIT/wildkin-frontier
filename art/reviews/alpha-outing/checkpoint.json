@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-13",
+  "baseCommit": "3371a9de2d5b611ef3dba62f9d55c83bf175e5eb",
+  "trial": 1,
+  "startedUtc": "2026-09-13T07:16:00Z",
+  "gameplayAndChecksCompletedUtc": "2026-09-13T08:22:22Z",
+  "outcome": "Derived field purpose and committed inventory HUD feedback connect earned Mossling bonding, Camp care and a four-berry garden harvest.",
+  "validation": { "tests": 1243, "passed": 1243, "aggregateRuns": 1, "testDurationSeconds": 65.103, "unpackedMB": 44.22, "zipMB": 20.55, "developerPackageStateMatch": true },
+  "native": { "startedEmpty": true, "positionOrInventoryGrants": false, "coordinateAndCameraAssisted": true, "gardenPlacementLandscapeWorkaround": true, "expiredTameAttempts": 1, "earnedWildkinId": "wildkin_wvwyyt", "berriesBeforeHarvest": 2, "berriesAfterHarvest": 6, "careNourishment": 3, "cropAfterHarvest": null, "health": 5, "xp": 50 },
+  "bloomFixture": { "healthStaged": 3, "healthAfterActualAbility": 5, "cooldownSeconds": 24, "earnedCombatInjury": false },
+  "limits": ["Portrait construction framing remains a release gap", "No physical-phone validation", "No airplane-mode cold-start claim", "One older pre-candidate developer animation TypeError retained; no error after final reload"],
+  "next": "Choose a legal initial construction preview and frame it in portrait through existing camera ownership; reuse the earned Camp fixture."
+}

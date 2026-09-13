@@ -45,8 +45,46 @@ stable thumb zones. Landscape retains the HUD defined in beta.css. */
     height:3px!important;
     margin-top:3px
   }
-  #app .beta-objective,#app #beta-shell .viewport-fullscreen,#app #auto-harvest-toggle{
+  #app #beta-shell .viewport-fullscreen,#app #auto-harvest-toggle{
     display:none!important
+  }
+  #app .beta-objective{
+    display:none!important;
+    box-sizing:border-box;
+    top:calc(max(14px,env(safe-area-inset-top)) + 76px)!important;
+    left:max(14px,env(safe-area-inset-left))!important;
+    width:min(210px,calc(100vw - 134px))!important;
+    max-width:min(210px,calc(100vw - 134px))!important;
+    min-height:48px;
+    padding:7px 10px!important;
+    overflow:hidden;
+    text-shadow:none!important
+  }
+  #app .beta-objective.is-frontier-purpose{
+    display:block!important
+  }
+  #app .beta-objective[hidden]{
+    display:none!important
+  }
+  #app .beta-objective small{
+    overflow:hidden;
+    color:#75e8c7!important;
+    font-size:9px!important;
+    line-height:1.1!important;
+    text-overflow:ellipsis;
+    text-transform:uppercase;
+    white-space:nowrap
+  }
+  #app .beta-objective strong{
+    display:-webkit-box;
+    margin-top:4px!important;
+    overflow:hidden;
+    color:#fff7e2;
+    font-size:14px!important;
+    line-height:1.15!important;
+    text-overflow:ellipsis;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2
   }
   #app #frontier-map-button.frontier-atlas-button{
     width:92px!important;

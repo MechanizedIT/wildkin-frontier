@@ -158,7 +158,13 @@ window.addEventListener("orientationchange", () => {
 
 // Load the saved generation identity before any frontier sampling or residency.
 const resourceDrops = worldRegistry.data.resourceDrops;
-const frontierProgress = createFrontierProgress({ worldRegistry, isAuthorMode: authorEnabled, resourceDrops });
+let refreshCarriedResourceHud = () => {};
+const frontierProgress = createFrontierProgress({
+  worldRegistry,
+  isAuthorMode: authorEnabled,
+  resourceDrops,
+  onPackResourcesChanged: inventory => refreshCarriedResourceHud(inventory),
+});
 frontierProgress.load();
 
 const physicsWorld = createPhysicsWorld(RAPIER, playground);
@@ -296,17 +302,19 @@ let autoHarvestEnabled = true;
 autoHarvestToggle.onToggle((v) => { autoHarvestEnabled = v; });
 
 pickupSystem = createPickupSystem(scene, physicsWorld, playground, (inv, resId) => {
-  inventoryHud.update(inv, xpMoteSystem?.getXp?.() ?? 0);
+  refreshCarriedResourceHud(inv);
   if (resId) inventoryHud.pulse(resId);
-  expeditionSession.setCargo(inv);
 }, { resourceDrops, visualAssets: worldRegistry.data.visualAssets ?? [],
   inventory:{getResources:()=>frontierProgress.getPackResourceCounts(),collect:(resources,options)=>frontierProgress.collectResources(resources,options),spend:cost=>frontierProgress.spendResources(cost)},
   onCollectionBlocked:reason=>betaGame?.shell.toast(reason==='full'?'Backpack full':'Could not save',reason==='full'?'Make room in your pack. The material is still here.':'Your items were kept. Retry when browser storage is available.'),
 });
 pickupSystem.setPlayerCollider(characterPhysics.collider);
 pickupSystem.setMagnetTuning(getMatterAttractorPickupTuning(frontierProgress.hasMatterAttractorI()));
-inventoryHud.update(pickupSystem.getInventory());
-expeditionSession.setCargo(pickupSystem.getInventory());
+refreshCarriedResourceHud = (inventory = pickupSystem.getInventory()) => {
+  inventoryHud.update(inventory, xpMoteSystem?.getXp?.() ?? 0);
+  expeditionSession.setCargo(inventory);
+};
+refreshCarriedResourceHud();
 
 resourceSystem = createResourceSystem(scene, physicsWorld, placementsFromWorld, {
   hasPendingYield: node => pickupSystem.hasPendingYield(node),
