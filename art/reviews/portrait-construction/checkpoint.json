@@ -1,0 +1,374 @@
+{
+  "date_utc": "2026-09-13T08:48:54.6510508Z",
+  "parent_commit": "2c395aa2bce7fcfb643db247fa47bbb2027e6cf8",
+  "scope": "Portrait construction and physical Camp care handoff",
+  "review": {
+    "rounds": 1,
+    "score": 8.5,
+    "basis": "Actual camera target and native bed/garden interaction captures",
+    "status": "PASS",
+    "repair_rounds": 0
+  },
+  "validation": {
+    "failed": 0,
+    "portable_origins": [
+      "http://127.0.0.1:8081"
+    ],
+    "cold_offline": "not tested",
+    "test_duration_ms": 65684.4344,
+    "portable_console": [],
+    "physical_phone": "not tested",
+    "unpacked_mb": 44.22,
+    "tests": 1252,
+    "aggregate_runs": 1,
+    "zip_mb": 20.56,
+    "zip_sha256": "b22114bd6eefe8d675855c8c3e4871489e305c767a533d86d71050c1ee31e94f"
+  },
+  "source_sha256": {
+    "src/base/basePlacement.js": "70db7632580988869eb220c250a91dc34528163cd921817b92707b7549f92219",
+    "src/base/baseSystem.js": "f8c109d893159c536d4e8ce55de7fba7374a0d48553f115bcdfd5e2bdc6027d1",
+    "src/camera/constructionView.js": "4ac87648af06efab783c1c368b97f73e5a2b62509a013fa59eea9f56282955cc",
+    "src/game/createBetaGame.js": "8aa22170b250764d20c9f4be0d785521d307733699851b34af50c6a29a75a8be",
+    "src/main.js": "6b094d30059d6945cb332c73a663ddcf2692d3b7f5194cf7260feef87f437ed7",
+    "tests/baseInitialPlacement.test.js": "94fe6cdf5aad92859a69e6e91cb5f49e17508222c9985c8716b9e18fdf3563ac",
+    "tests/basePlacementLifecycle.test.js": "ce9d0567c4d297d519d6f3bfef4efb8713edbdaf04c6345d1c0d45234c5c49dd",
+    "tests/constructionView.test.js": "d5172ee73b9617bb2901b3027786dbee5bf7186e167a89b40665b469821e7adb"
+  },
+  "native": {
+    "developer_reload": {
+      "atlas": {
+        "chunks": {
+          "f1:a:-1:-1": 25977624,
+          "f1:a:-1:-2": 25977616,
+          "f1:a:-1:0": 32404380,
+          "f1:a:-1:1": 8388607,
+          "f1:a:-1:2": 1123,
+          "f1:a:-2:1": 25690112,
+          "f1:a:-2:2": 25368,
+          "f1:a:0:-1": 3247203,
+          "f1:a:0:-2": 3382371,
+          "f1:a:0:0": 3247203,
+          "f1:a:0:1": 236771
+        },
+        "edition": 1,
+        "seed": 1327115068
+      },
+      "base": {
+        "layout": {
+          "clearedDebrisIds": [
+            "camp_yard_debris_west",
+            "camp_yard_debris_east"
+          ],
+          "legacyApron": false,
+          "version": 1,
+          "yardExpanded": false
+        },
+        "structures": [
+          {
+            "id": "build_fd3cef74-9d4e-4adc-bc6f-f6cc7eaa461e",
+            "pos": {
+              "x": 3,
+              "y": 0,
+              "z": 2
+            },
+            "supportId": null,
+            "type": "bed",
+            "yaw": 0
+          },
+          {
+            "id": "build_69d65e1a-fca5-4fbd-a180-c20c4d639b01",
+            "pos": {
+              "x": 2.3,
+              "y": 0,
+              "z": 4.3
+            },
+            "supportId": null,
+            "type": "berry_garden",
+            "yaw": 0
+          }
+        ],
+        "tier": 0
+      },
+      "care": {
+        "bedId": "build_fd3cef74-9d4e-4adc-bc6f-f6cc7eaa461e",
+        "nourishment": 3,
+        "version": 1,
+        "wildkinId": "wildkin_wvwyyt"
+      },
+      "crop": {
+        "growthSeconds": 90,
+        "plotId": "build_69d65e1a-fca5-4fbd-a180-c20c4d639b01",
+        "version": 1
+      },
+      "ecology": {
+        "edition": 1,
+        "resources": {
+          "f1:r:-1:1:0": 0,
+          "f1:r:-1:1:5": 0,
+          "f1:r:-2:2:1": 0,
+          "f1:r:0:1:3": 0,
+          "f1:r:0:1:5": 0
+        },
+        "seed": 1327115068
+      },
+      "health": 5,
+      "owned": [
+        {
+          "acquiredRunId": "7681b4ff-108a-4b4d-a311-762d5acda552",
+          "genome": {
+            "baseColor": "lichen",
+            "crestVariant": 2,
+            "ecotype": "fen",
+            "eyeColor": "teal",
+            "marking": "none",
+            "sizeBand": "standard",
+            "species": "mossling",
+            "tailVariant": 0,
+            "version": 1
+          },
+          "id": "wildkin_wvwyyt",
+          "lineage": null,
+          "originId": "f1:w:0:-2:0",
+          "sex": "female",
+          "speciesId": "mossling",
+          "version": 1
+        }
+      ],
+      "pack": {
+        "berries": 2,
+        "crystal_shard": 0,
+        "fiber": 1,
+        "iron_ore": 0,
+        "stone": 0,
+        "wildflower": 3,
+        "wood": 1
+      },
+      "purpose": {
+        "description": "Approach the berry garden and tap Harvest for 4 berries.",
+        "frontier": true,
+        "id": "harvest-berries",
+        "title": "Harvest ripe berries"
+      },
+      "xp": 50
+    },
+    "fixture": "Previously earned Camp; old bed released and bed/garden removed through existing owners for normal refunds. No new position or material grants.",
+    "lifecycle": {
+      "landscape": {
+        "closed": {
+          "active": false,
+          "pitch": 0.5585053606381855,
+          "yaw": 0.3999999999999999,
+          "zoom": 0.82
+        },
+        "opened": {
+          "active": true,
+          "pitch": 0.5585053606381855,
+          "yaw": 0.3999999999999999,
+          "zoom": 0.82
+        },
+        "rotated": {
+          "active": false,
+          "pitch": 0.5585053606381855,
+          "yaw": 0.3999999999999999,
+          "zoom": 0.82
+        }
+      },
+      "lifecycle": {
+        "before": {
+          "pitch": 0.6,
+          "yaw": 0.3999999999999999,
+          "zoom": 0.82
+        },
+        "cancel": {
+          "active": false,
+          "pitch": 0.6,
+          "yaw": 0.3999999999999999,
+          "zoom": 0.82
+        },
+        "cases": [
+          {
+            "active": false,
+            "kind": "blur",
+            "pitch": 0.6,
+            "yaw": 0.3999999999999999,
+            "zoom": 0.82
+          },
+          {
+            "active": false,
+            "kind": "resize",
+            "pitch": 0.6,
+            "yaw": 0.3999999999999999,
+            "zoom": 0.82
+          },
+          {
+            "active": false,
+            "kind": "orientationchange",
+            "pitch": 0.6,
+            "yaw": 0.3999999999999999,
+            "zoom": 0.82
+          },
+          {
+            "active": false,
+            "kind": "viewport",
+            "pitch": 0.6,
+            "yaw": 0.3999999999999999,
+            "zoom": 0.82
+          },
+          {
+            "active": false,
+            "kind": "author",
+            "pitch": 0.6,
+            "yaw": 0.3999999999999999,
+            "zoom": 0.82
+          },
+          {
+            "active": false,
+            "kind": "repeat",
+            "pitch": 0.6,
+            "yaw": 0.3999999999999999,
+            "zoom": 0.82
+          },
+          {
+            "active": false,
+            "kind": "reset",
+            "pitch": 0.6,
+            "yaw": 0.3999999999999999,
+            "zoom": 0.82
+          }
+        ]
+      },
+      "portrait": {
+        "active": false,
+        "pitch": 0.6,
+        "yaw": 0.3999999999999999,
+        "zoom": 0.82
+      }
+    },
+    "portable_reload": {
+      "atlas": {
+        "chunks": {
+          "f1:a:-1:-1": 25977624,
+          "f1:a:-1:-2": 25977616,
+          "f1:a:-1:0": 32404380,
+          "f1:a:-1:1": 8388607,
+          "f1:a:-1:2": 1123,
+          "f1:a:-2:1": 25690112,
+          "f1:a:-2:2": 25368,
+          "f1:a:0:-1": 3247203,
+          "f1:a:0:-2": 3382371,
+          "f1:a:0:0": 3247203,
+          "f1:a:0:1": 236771
+        },
+        "edition": 1,
+        "seed": 1327115068
+      },
+      "base": {
+        "layout": {
+          "clearedDebrisIds": [
+            "camp_yard_debris_west",
+            "camp_yard_debris_east"
+          ],
+          "legacyApron": false,
+          "version": 1,
+          "yardExpanded": false
+        },
+        "structures": [
+          {
+            "id": "build_fd3cef74-9d4e-4adc-bc6f-f6cc7eaa461e",
+            "pos": {
+              "x": 3,
+              "y": 0,
+              "z": 2
+            },
+            "supportId": null,
+            "type": "bed",
+            "yaw": 0
+          },
+          {
+            "id": "build_69d65e1a-fca5-4fbd-a180-c20c4d639b01",
+            "pos": {
+              "x": 2.3,
+              "y": 0,
+              "z": 4.3
+            },
+            "supportId": null,
+            "type": "berry_garden",
+            "yaw": 0
+          }
+        ],
+        "tier": 0
+      },
+      "care": {
+        "bedId": "build_fd3cef74-9d4e-4adc-bc6f-f6cc7eaa461e",
+        "nourishment": 3,
+        "version": 1,
+        "wildkinId": "wildkin_wvwyyt"
+      },
+      "crop": {
+        "growthSeconds": 90,
+        "plotId": "build_69d65e1a-fca5-4fbd-a180-c20c4d639b01",
+        "version": 1
+      },
+      "ecology": {
+        "edition": 1,
+        "resources": {
+          "f1:r:-1:1:0": 0,
+          "f1:r:-1:1:5": 0,
+          "f1:r:-2:2:1": 0,
+          "f1:r:0:1:3": 0,
+          "f1:r:0:1:5": 0
+        },
+        "seed": 1327115068
+      },
+      "health": 5,
+      "owned": [
+        {
+          "acquiredRunId": "7681b4ff-108a-4b4d-a311-762d5acda552",
+          "genome": {
+            "baseColor": "lichen",
+            "crestVariant": 2,
+            "ecotype": "fen",
+            "eyeColor": "teal",
+            "marking": "none",
+            "sizeBand": "standard",
+            "species": "mossling",
+            "tailVariant": 0,
+            "version": 1
+          },
+          "id": "wildkin_wvwyyt",
+          "lineage": null,
+          "originId": "f1:w:0:-2:0",
+          "sex": "female",
+          "speciesId": "mossling",
+          "version": 1
+        }
+      ],
+      "pack": {
+        "berries": 2,
+        "crystal_shard": 0,
+        "fiber": 1,
+        "iron_ore": 0,
+        "stone": 0,
+        "wildflower": 3,
+        "wood": 1
+      },
+      "purpose": {
+        "description": "Approach the berry garden and tap Harvest for 4 berries.",
+        "frontier": true,
+        "id": "harvest-berries",
+        "title": "Harvest ripe berries"
+      },
+      "xp": 50
+    }
+  },
+  "evidence": [
+    "baseline.png",
+    "target.png",
+    "bed-care-r1.png",
+    "garden-placed-r1.png",
+    "garden-plant-r1.png",
+    "receipt.md"
+  ],
+  "remote": "No publication in this batch; verified remote checkpoint remains3371a9d",
+  "next": "Choose one repeated field job for an existing useful Wildkin under current scope."
+}

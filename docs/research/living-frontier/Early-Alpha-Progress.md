@@ -24,7 +24,15 @@ The fresh native journey began with no resources or owned Wildkin and secured ex
 
 The earned outing stayed at full health, so Bloom was checked in a clearly separate health fixture. The actual button healed3→5, started a24-second cooldown, cleared its hint and exposed the ready-crop return purpose. Developer literal reload and packaged import plus literal reload then matched the owned individual/genome, base, care, null crop, pack, atlas, ecology,50XP, health5 and Plant a berry purpose exactly. The final pack held6berries,1wood,1fiber and3wildflowers. Packaged resources came only from `http://127.0.0.1:8081`; its console was empty. The developer console had no errors since final reload, with one older unattributed pre-candidate error retained in history.
 
-Bed placement succeeded in portrait after moving to the free apron. Garden placement required a temporary1280×800 landscape viewport for normal ground aim/Place, followed by a return to portrait for Plant. The first-outing gameplay and persistence foundation is complete, but this is not a complete unaided portrait journey; construction preview/framing is the next release gap. No physical-phone or airplane-mode cold-start claim is included. [Evidence and limits](../../../art/reviews/alpha-outing/receipt.md).
+## Actual: clear portrait construction
+
+<img src="../../../art/reviews/portrait-construction/bed-care-r1.png" alt="Actual portrait bed placement followed by physical Mossling care" width="250"> <img src="../../../art/reviews/portrait-construction/garden-plant-r1.png" alt="Actual portrait garden placement followed by Plant" width="250">
+
+Construction now tests at most40 deterministic nearby positions through the unchanged validator used by payment, placement and reload; all11 current build families use the same rule. The existing camera owner rotates only during portrait construction. Cancel or external closure restores the prior view; successful Place retains the useful yaw and restores temporary pitch/zoom.
+
+Native play reused the earned/refunded Camp fixture. Normal UI completed bed Build→Place→Settle→Feed three times and garden Build→Place at(2.3,0,4.3)→walk600ms/1.29m→Plant with no landscape, position or camera override. The garden is3.253m from the starting position: the rounded3.2m-ring candidate sits just outside interaction reach, and the ordinary short walk closed it. Independent review scored8.5/10 PASS. Visible Cancel and seven external owner/event paths restored exact camera state; landscape open retained its view and returning to portrait restored the prior portrait pitch.
+
+Developer and packaged reload matched individual/genome, base/care/crop, pack, atlas/ecology,50XP, health5 and purpose exactly. The final fixture retained a ready90-second Bloom+1/yield4 crop and pack1wood,1fiber,2berries,3wildflowers. All1,252 tests passed in65.684seconds; verify/world/retained-campaign/build/validate/ZIP pass at44.22MB unpacked/20.56MB ZIP. This closes the earlier landscape workaround, but it is not a fresh outing or physical-phone claim. [Evidence and limits](../../../art/reviews/portrait-construction/receipt.md).
 
 ## Actual: a place worth investigating
 

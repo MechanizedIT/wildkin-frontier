@@ -97,6 +97,37 @@ export function validatePlacement(record,{tier=0,layout=null,structures=[],playe
   }
   return {ok:true,pos:{x:record.pos.x,y,z:record.pos.z},supportId};
 }
+
+const INITIAL_PLACEMENT_CONFIG = Object.freeze({
+  legacyOffset: 2.5,
+  radii: Object.freeze([2, 2.5, 3, 3.2, 4]),
+});
+
+// Finds a legal opening target without weakening any ordinary placement rule.
+// The caller still owns preview/camera state and retains its red target on null.
+export function findInitialPlacement({type, yaw = 0, pos} = {}, options = {}) {
+  const definition = BASE_PIECE_BY_ID[type];
+  if (!definition || !pos || !Number.isFinite(pos.x) || !Number.isFinite(pos.z)) return null;
+  const directions = [[1,0],[1,1],[1,-1],[0,1],[0,-1],[-1,1],[-1,-1],[-1,0]];
+  const seen = new Set();
+  const candidates = [{x: pos.x + INITIAL_PLACEMENT_CONFIG.legacyOffset, z: pos.z}];
+  for (const radius of INITIAL_PLACEMENT_CONFIG.radii) for (const [dx,dz] of directions) {
+    const scale = dx && dz ? radius / Math.SQRT2 : radius;
+    candidates.push({x: pos.x + dx * scale, z: pos.z + dz * scale});
+  }
+  for (const candidate of candidates) {
+    const candidatePos = {
+      x: Math.round(candidate.x * 10) / 10,
+      z: Math.round(candidate.z * 10) / 10,
+    };
+    const key = `${candidatePos.x},${candidatePos.z}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const result = validatePlacement({type, yaw, pos: candidatePos}, options);
+    if (result.ok) return result;
+  }
+  return null;
+}
 export function normalizeFieldSupplies(raw) {return Object.fromEntries(FIELD_RECIPES.map(r=>[r.id,Number.isFinite(raw?.[r.id])?Math.min(BASE_CONFIG.maxSupply,Math.max(0,Math.floor(raw[r.id]))):0]));}
 export function cloneBase(base){return {tier:base.tier,...(base.layout?{layout:cloneCampLayout(base.layout)}:{}),structures:base.structures.map(p=>({...p,pos:{...p.pos}}))};}
 export function normalizeBase(raw,{reserved=[],surface=null}={}){

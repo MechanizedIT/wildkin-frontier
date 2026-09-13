@@ -65,7 +65,7 @@ export function createBetaGame(deps) {
   const onVisualRemoving = visual => { playerOcclusion.unregister(visual); deps.onInteractionGeometryChanged?.(); };
   const rootfallPresentation=createRootfallPresentation({scene,registry,physicsWorld:deps.physicsWorld,onVisualAdded,onVisualRemoving});
   rootfallPresentation.update(rootfall.getState());
-  const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,toast,initialHidden:authorEnabled,onVisualAdded,onVisualRemoving});
+  const base = createBaseSystem({app,scene,camera:deps.camera,progress,registry,physicsWorld:deps.physicsWorld,getPlayerState:()=>playerController.getState(),isCamp,onBlockingChanged,onPlacementViewChange:deps.onPlacementViewChange,toast,initialHidden:authorEnabled,onVisualAdded,onVisualRemoving});
   function canCareAtCamp() {
     const p = playerController.getState().pos, b = FRONTIER_TERRAIN_CONFIG.campBounds;
     return !authorEnabled && session.isCamp() && deps.getSectionId() === 'camp'

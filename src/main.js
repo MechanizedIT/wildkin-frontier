@@ -6,6 +6,7 @@ import { createScene } from "./game/createScene.js";
 import { createPlayerProjectedShadow } from "./presentation/playerProjectedShadow.js";
 import { createPlayerController } from "./player/playerController.js";
 import { createCameraFollow } from "./camera/cameraFollow.js";
+import { createConstructionView } from "./camera/constructionView.js";
 import { createCameraCollisionProbe } from "./camera/cameraCollision.js";
 import { createTouchMovement } from "./input/touchMovement.js";
 import { createKeyboardInput } from "./input/keyboardInput.js";
@@ -250,6 +251,7 @@ const cameraCollisionProbe = createCameraCollisionProbe({ RAPIER, physicsWorld, 
 const cameraFollow = createCameraFollow(camera, player, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG, { collisionProbe: cameraCollisionProbe });
 cameraFollow.snap();
 const cameraOrbit = createGameCameraOrbit(app, cameraFollow, CAMERA_CONFIG_FOLLOW);
+const onPlacementViewChange = createConstructionView({ camera, follow: cameraFollow, getPlayerPosition: () => playerController.getState().pos });
 
 function placePlayerAtFeetTransform(feetPosition, facingYaw = 0) {
   frontierChunks.update(feetPosition, { activeSectionId: sectionRuntime.getActiveSectionId() });
@@ -977,6 +979,7 @@ betaGame = createBetaGame({
   audio: gameAudio, activationToast, combatHud, authorEnabled, fieldTool,
   getSectionId: () => sectionRuntime.getActiveSectionId(),
   onBlockingChanged: () => { syncInputBlock(); refreshMapAvailability(); },
+  onPlacementViewChange,
   getLootVisualRoot: (id) => frontierDiscoveries?.getVisualRoot(id) ?? playground.getLootVisualRoot(id),
   getLootAvailability: (id) => lootSystem.getAvailability(id),
   repairPortalGate:id=>portalGateSystem.repair(id),
