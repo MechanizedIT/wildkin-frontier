@@ -886,7 +886,11 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
           st.facing = Math.atan2(dx, dz);
         }
         // after warnDuration, go to CHASE if still intruding
-        if (st.aiTimer >= (TEMPERAMENT_CONFIG.TERRITORIAL.warnDuration ?? 1.0)) {
+        // Target eligibility and warning completion must observe the same
+        // clock. aiTimer begins on the entry frame, while warnTime begins on
+        // the next fixed step; comparing the former let WARN expire one step
+        // before selectPlayerOrWildkinTarget could accept the latter.
+        if (st.warnTime >= (TEMPERAMENT_CONFIG.TERRITORIAL.warnDuration ?? 1.0)) {
           // if still personal space intrusion, attack
           if (hasTarget) { st.aiState = "CHASE"; st.aiTimer = 0; }
           else { st.aiState = "ROAM"; st.hasWarned = false; st.warnTime = 0; st.isAggroed = false; }
@@ -1046,7 +1050,7 @@ export function createCreatureSystem(scene, physicsWorld, playground, opts = {})
           const dz = targetPos.z - st.pos.z;
           st.facing = Math.atan2(dx, dz);
         }
-        if (st.aiTimer >= (TEMPERAMENT_CONFIG.TERRITORIAL.warnDuration ?? 1.0)) {
+        if (st.warnTime >= (TEMPERAMENT_CONFIG.TERRITORIAL.warnDuration ?? 1.0)) {
           if (hasTarget) { st.aiState = "REPOSITION"; st.aiTimer = 0; }
           else { st.aiState = "ROAM"; st.hasWarned = false; }
         }

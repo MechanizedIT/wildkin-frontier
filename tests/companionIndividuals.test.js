@@ -153,7 +153,7 @@ test('followers key by individual ID, resolve species assets and spawn on inject
   assert.deepEqual(followers.map(follower => follower.id).sort(), ['moss_a', 'moss_b']);
   assert.ok(followers.every(follower => follower.speciesId === 'mossling'));
   assert.ok(followers.every(follower => follower.position[1] > 6.9), 'generated terrain height seeds both capsules');
-  assert.deepEqual(system.getAbility(), { individualId: 'moss_a', speciesId: 'mossling', name: 'Bloom', ready: true, cooldown: 0 });
+  assert.deepEqual(system.getAbility(), { individualId: 'moss_a', speciesId: 'mossling', name: 'Bloom', ready: true, cooldown: 0, activeRemaining: 0, activeDuration: 0 });
   system.dispose();
 });
 

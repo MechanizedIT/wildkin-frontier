@@ -184,7 +184,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     if (species.id === "mossling") {
       if (!openedSeal && playerCombat.getHealth() >= playerCombat.getMaxHealth()) return { ok: false, message: "Health is full. Bloom also awakens root seals." };
       playerCombat.heal(2);
-    } else if (species.id === "tidefin") playerCombat.grantInvulnerability(3);
+    } else if (species.id === "tidefin") playerCombat.grantWard(species.activeDuration);
     else if (species.id === "emberhorn") {
       for (const c of creatures.getActiveAliveCreatures()) {
         if (Math.hypot(c.state.pos.x - pos.x, c.state.pos.z - pos.z) < 4.5) {
@@ -202,10 +202,9 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
     pulse(pos, new THREE.Color(species.color).getHex());
     audio.playParkour?.("complete");
     if (mineralStrike?.interrupted) return { ok: true };
-    const mineralMessage = mineralStrike?.hits > 0
-      ? `${species.abilityName} · ${mineralStrike.sources} outcrop${mineralStrike.sources === 1 ? '' : 's'} cracked.`
-      : null;
-    return { ok: true, message: openedSeal ? (hasCacheMechanism(chest.id) ? "The vault is opening." : "The cache is now accessible.") : mineralMessage ?? `${species.name} · ${species.abilityName}` };
+    if (openedSeal) return { ok: true, message: hasCacheMechanism(chest.id) ? "The vault is opening." : "The cache is now accessible." };
+    if (mineralStrike?.hits > 0) return { ok: true, message: `${species.abilityName} · ${mineralStrike.sources} outcrop${mineralStrike.sources === 1 ? '' : 's'} cracked.` };
+    return species.id === 'tidefin' ? { ok: true } : { ok: true, message: `${species.name} · ${species.abilityName}` };
   }
   function lootAccess(chest) {
     const required = SECRET_COMPANION[chest.id];
@@ -534,7 +533,7 @@ export function createCompanionSystem({ app, scene, camera = null, registry, pro
       physicsEnabled: follower.physics?.enabled ?? null,
       young: !!follower.young, growthStage: follower.growthStage, growthScale: follower.growthScale, scale: follower.group.scale.x,
     })),
-    getAbility: () => { const active = getActiveRecord(); const species = COMPANION_BY_ID[active?.speciesId]; return species ? { individualId: active.id, speciesId: species.id, name: species.abilityName, ready: cooldown <= 0, cooldown } : null; },
+    getAbility: () => { const active = getActiveRecord(); const species = COMPANION_BY_ID[active?.speciesId]; return species ? { individualId: active.id, speciesId: species.id, name: species.abilityName, ready: cooldown <= 0, cooldown, activeRemaining:species.id==='tidefin'?(playerCombat.getWardRemaining?.()??0):0, activeDuration:species.activeDuration??0 } : null; },
     isFollowerCollider: (candidate) => {
       if (!candidate) return false;
       for (const follower of followers.values()) {

@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "createdUtc": "2026-09-13T10:19:31.321Z",
+  "baseCommit": "1ca875c5a2cfe2ac5ebd0f8fbfbdb371bcb501f6",
+  "scope": "Readable Tidefin protection and synchronized territorial warning completion; candidate identified by exact hashes",
+  "verdict": "PASS",
+  "independentReviewer": "/root/regional_place_audit",
+  "sourceHashes": {
+    "src/combat/playerCombat.js": "ccd4aaffe7f60a581f2493c76fba873aa678a6e4c613488a54d1f3b326f75945",
+    "src/companions/companionCatalog.js": "8261178e52540232c279684c0108b8cf37a190df1ba9f7e3c5e4a9a1aa0b964f",
+    "src/companions/companionSystem.js": "5e254a7f0944a8564af1b1f514bd6aacd81876a4a97f3b037c2b99c69094d5fb",
+    "src/creatures/creatureSystem.js": "908fc2a924b924e754c02f7bc361af20dd2f744573753ac0d7d1e9da9f05d67f",
+    "src/game/createBetaGame.js": "e3648fefd514d90631a5b412863ab088e7331a153ff83a85a0e06df33f54523e",
+    "src/presentation/companionAbilityFx.js": "f85850d4a6afc16765ee9a197a4fb81b7b57d193fcd83d7a384806399c70385f",
+    "src/ui/betaShell.js": "7f844c37b33d6417c945cdd836f0a0f5ac2eabff6cab426c2afbe6213509b438",
+    "styles/beta.css": "a4b2f5d8e27c715a1bdd38eef9b6b087bf0c315ffb109577aecd084d1521c7a5",
+    "tests/tidalWard.test.js": "5c118a727e3a0be72f10c99deb1948d255e7be30564be89afbee0e60a0a5970d",
+    "tests/companionAbilityFx.test.js": "fc26142698b764bdab6869d19d2def5656619e4b3604f376bd52c14214d65dfa",
+    "tests/territorialWarning.test.js": "125055fa915ff973240ec658ad20aac07c8cc778c48c6ca7846fdef5cea79803",
+    "tests/frontierPurposeHud.test.js": "7d13ebf657fe96f38b13ccfacdb12289c1d2ad0c46c32ca67a719a0eda3a79b3",
+    "tests/companionIndividuals.test.js": "9dd6162d02d662904f40c9862b1c4536f8d1303f8b1d9aa1db3f52b697315e84",
+    "tests/emberhornAbility.test.js": "868eaaae4d26f0cdedaa98416f091bd18685a9b912c3823b4296c07b1fd06969",
+    "tests/rootfallStateContracts.test.js": "e56443dc7cdf8b02bd75c03d8e0b5aa2548ad02499d7f613d576a8ef6a19f83f"
+  },
+  "screenshots": [
+    {
+      "path": "art/reviews/tidal-ward/active-1s-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "ac8d2af57b2afb09e85efa7a008fc7fbe40dee6cff493e9894e72d704262082a"
+    },
+    {
+      "path": "art/reviews/tidal-ward/active-2s-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "9a274761b8df8e17737f4956017ac6f26c0f79a212fb2a2d472ee71730fc39f2"
+    },
+    {
+      "path": "art/reviews/tidal-ward/active-3s-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "0eb5f62dfa84a715e8008e94765792c8af514564fdb0d8b3898e38cf680d7431"
+    },
+    {
+      "path": "art/reviews/tidal-ward/baseline-active.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "c80c3b07043807b552375823ea98c84a24a18e6bb19d6bb0a10222acbd1b8725"
+    },
+    {
+      "path": "art/reviews/tidal-ward/baseline-expired.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "6136beb3f4123ac11d778178cbc3c42e92dc787f84de157b05db536a8398c418"
+    },
+    {
+      "path": "art/reviews/tidal-ward/cooldown-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "eec1fa4b8ae277167d17f34097052c22f1e8e9e2a44c080c8dea810d31cef239"
+    },
+    {
+      "path": "art/reviews/tidal-ward/portable-camp-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "9be4c9a1c335203ce892cb341fde6c44bcd55a6453ba2ca6579c3b4776e8c8a1"
+    },
+    {
+      "path": "art/reviews/tidal-ward/protected-approach-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "9215083ef2c7f9881c761f7b3fd2b5eb15be896f5aae58c89e50204577b1a4af"
+    },
+    {
+      "path": "art/reviews/tidal-ward/target-portrait.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "de62bf4c4391c6804413a4d34cba8b28f2263b3413e97f571c2f422562765398"
+    },
+    {
+      "path": "art/reviews/tidal-ward/unwarded-retreat-r1.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "08540bd2cfcdff0dadf28fd3f7c1243a670f0097689ef3552dc77dd6adccf26f"
+    },
+    {
+      "path": "art/reviews/tidal-ward/warning-diagnostic.png",
+      "width": 309,
+      "height": 686,
+      "sha256": "795097390dbc9b975c9af9c9aa43f09e710f25b5e4fb529b417130b475b5b960"
+    }
+  ],
+  "target": {
+    "scope": "Existing ability button only: readable cyan WARD and3s on separate lines, unchanged position and size. Actual DOM prototype, no generated art.",
+    "target": "art/reviews/tidal-ward/target-portrait.png",
+    "baselineToast": "The existing toast remains in this target capture. Production separately removes routine ward-success toast so hearts stay visible.",
+    "rejectedCaptures": [
+      "escaped CSS newline rendered literal A",
+      "later whole-view capture was incorrectly cropped"
+    ],
+    "runtimePreviewRemoved": true
+  },
+  "validation": {
+    "tests": 1270,
+    "failures": 0,
+    "testDurationMs": 66775.2989,
+    "verify": "PASS",
+    "world": "PASS",
+    "campaign": "PASS",
+    "build": "PASS",
+    "validate": "PASS",
+    "zip": "PASS",
+    "unpackedMB": 44.23,
+    "zipMB": 20.56,
+    "aggregateRuns": 1
+  },
+  "native": {
+    "fixture": "Prepared Tidefin, supported north-ridge position and restored single iron source; ordinary synthetic input. Ward click is timed from observed WINDUP, not a human reflex test.",
+    "hud": [
+      {
+        "name": "active-3s",
+        "health": 5,
+        "ward": 2.7333333333333343,
+        "ability": {
+          "individualId": "wildkin_1v340z8",
+          "speciesId": "tidefin",
+          "name": "Tidal Ward",
+          "ready": false,
+          "cooldown": 25.73333333333335,
+          "activeRemaining": 2.7333333333333343,
+          "activeDuration": 3
+        },
+        "aria": "Tidal Ward active. Protected for 3 seconds remaining.",
+        "disabled": true,
+        "toastVisible": false
+      },
+      {
+        "name": "active-2s",
+        "health": 5,
+        "ward": 1.600000000000005,
+        "ability": {
+          "individualId": "wildkin_1v340z8",
+          "speciesId": "tidefin",
+          "name": "Tidal Ward",
+          "ready": false,
+          "cooldown": 24.60000000000008,
+          "activeRemaining": 1.600000000000005,
+          "activeDuration": 3
+        },
+        "aria": "Tidal Ward active. Protected for 2 seconds remaining.",
+        "disabled": true,
+        "toastVisible": false
+      },
+      {
+        "name": "active-1s",
+        "health": 5,
+        "ward": 0.4000000000000056,
+        "ability": {
+          "individualId": "wildkin_1v340z8",
+          "speciesId": "tidefin",
+          "name": "Tidal Ward",
+          "ready": false,
+          "cooldown": 23.400000000000148,
+          "activeRemaining": 0.4000000000000056,
+          "activeDuration": 3
+        },
+        "aria": "Tidal Ward active. Protected for 1 second remaining.",
+        "disabled": true,
+        "toastVisible": false
+      },
+      {
+        "name": "cooldown",
+        "health": 5,
+        "ward": 0,
+        "ability": {
+          "individualId": "wildkin_1v340z8",
+          "speciesId": "tidefin",
+          "name": "Tidal Ward",
+          "ready": false,
+          "cooldown": 22.166666666666885,
+          "activeRemaining": 0,
+          "activeDuration": 3
+        },
+        "aria": "Tidal Ward, 23 seconds until ready.",
+        "disabled": true,
+        "toastVisible": false
+      }
+    ],
+    "unwarded": {
+      "healthStart": 5,
+      "healthEnd": 3,
+      "contact": {
+        "ms": 3426.699999988079,
+        "phase": "wait-for-charge",
+        "ai": "LUNGE",
+        "player": {
+          "x": -0.004208676517009735,
+          "y": 6.48692512512207,
+          "z": -107.95884704589844
+        },
+        "enemy": {
+          "x": 0.008424638246651739,
+          "y": 6.467917270027101,
+          "z": -108.61372493207455
+        },
+        "health": 3,
+        "ward": 0,
+        "lungeHit": true,
+        "lungeDamaged": true
+      },
+      "reason": "unwarded-hit-and-retreat"
+    },
+    "protected": {
+      "healthStart": 5,
+      "healthEnd": 5,
+      "activation": {
+        "ms": 2751.5999999940395,
+        "phase": "wait-for-charge",
+        "ai": "WINDUP",
+        "player": {
+          "x": 0.00025950378039851785,
+          "y": 6.486114978790283,
+          "z": -108.2016372680664
+        },
+        "enemy": {
+          "x": 0.05868274543900043,
+          "y": 6.477259159088135,
+          "z": -109.37677871063352
+        },
+        "health": 5,
+        "ward": 3,
+        "lungeHit": false,
+        "lungeDamaged": false
+      },
+      "contact": {
+        "ms": 3401.7000000178814,
+        "phase": "wait-for-charge",
+        "ai": "LUNGE",
+        "player": {
+          "x": 0.00025950378039851785,
+          "y": 6.486114978790283,
+          "z": -108.2016372680664
+        },
+        "enemy": {
+          "x": 0.03286235127598047,
+          "y": 6.4700517654418945,
+          "z": -108.85740233957767
+        },
+        "health": 5,
+        "ward": 2.366666666666669,
+        "lungeHit": true,
+        "lungeDamaged": false
+      },
+      "reason": "protected-approach"
+    },
+    "harvest": {
+      "action": {
+        "done": true,
+        "before": 5,
+        "packBefore": {
+          "wood": 1,
+          "stone": 0,
+          "fiber": 2,
+          "berries": 2,
+          "iron_ore": 17,
+          "crystal_shard": 22,
+          "wildflower": 3
+        },
+        "healthBefore": 5,
+        "remaining": 0,
+        "visible": false,
+        "collider": false,
+        "pack": {
+          "wood": 1,
+          "stone": 0,
+          "fiber": 2,
+          "berries": 2,
+          "iron_ore": 19,
+          "crystal_shard": 22,
+          "wildflower": 3
+        },
+        "health": 5,
+        "pickups": 1
+      },
+      "currentPack": {
+        "wood": 1,
+        "stone": 0,
+        "fiber": 2,
+        "berries": 2,
+        "iron_ore": 22,
+        "crystal_shard": 22,
+        "wildflower": 3
+      },
+      "pickups": [],
+      "health": 5
+    },
+    "returnToCampEdge": {
+      "reason": "complete",
+      "elapsedMs": 24968.90000000596,
+      "healthStart": 5,
+      "healthEnd": 5
+    },
+    "campApproach": {
+      "reason": "complete",
+      "elapsedMs": 11694.300000011921,
+      "healthStart": 5,
+      "healthEnd": 5
+    },
+    "banking": {
+      "xpAdded": 8,
+      "bankedXp": 58,
+      "activeRun": null,
+      "iron": 22,
+      "crystal": 22,
+      "ownedIndividuals": 7
+    },
+    "saveParity": {
+      "developerExact": true,
+      "portableExact": true,
+      "bankedXp": 58,
+      "activeRun": null,
+      "ward": 0,
+      "invulnerable": false
+    },
+    "packageOrigins": [
+      "http://127.0.0.1:8081"
+    ],
+    "finalWarningErrorLogs": {
+      "developer": [],
+      "package": []
+    }
+  },
+  "limits": [
+    "Prepared selected-Tidefin/position/restored-ore controls save, not earned capture",
+    "Ward button triggered automatically from observed WINDUP, not a human reflex test",
+    "Native reload follows expired Ward and Camp return; active reset covered by runtime tests",
+    "No physical-phone or airplane-mode cold-start claim",
+    "No new art admission; earlier terrain HOLD debt remains",
+    "All ability cooldowns remain transient/reload-ready",
+    "No new GitHub push or Drive publication"
+  ],
+  "rawEvidenceHashes": {
+    ".dream-loop/tidal-ward/unwarded-trial.json": "0c16f02d1de0197bd6cd9461e7761b998b7229a9377e7d227a96a4822ebf9bd0",
+    ".dream-loop/tidal-ward/protected-trial.json": "06db1efaaff025ca109f68fc5e366d8abd559d5a8bc53dae91587b1d65048b8e",
+    ".dream-loop/tidal-ward/hud-sequence.json": "8b4c373ff69561b66f58e8176bdc18e636dad1b05c9ad2cf1b67d35f99e2fb67",
+    ".dream-loop/tidal-ward/harvest.json": "dad4c5927c824ba777141922cc83ec77f5e7768226a8136907559e16d49181b8",
+    ".dream-loop/tidal-ward/return-route.json": "48a4f52772fa6b7d9e984b961088c15cde5a66c80fcf52003fe43ddaac5c5532",
+    ".dream-loop/tidal-ward/camp-approach.json": "0bad8b66a761c3e6bed3ddf32cde886c5ed9dd497b156dd859b855509fb06fe8",
+    ".dream-loop/tidal-ward/final-save.json": "1474889f4234f4d532766a14a9698a6a3eae545425e7e52884ce8057b8261175",
+    ".dream-loop/tidal-ward/developer-reload.json": "00159d6c3c59d7ae8bf6c779422e5762a320849a8a78e10c9e03b31513bb99ac",
+    ".dream-loop/tidal-ward/portable-reload.json": "85d3ba5ab2179ec0d6c6be37e06c2d84f28583892b74c81bb6fcb54ded701513",
+    ".dream-loop/tidal-ward/save-parity.json": "09443b63302403e36db95fee568cf9a0fcc4dab1a9fefd05a5056c7da6630646",
+    ".dream-loop/tidal-ward/ai-transition-probe.json": "b8f80a6d1ab81920141603573ae6668fffe2c4968b158f2acab1e1a88dbf5ec7"
+  }
+}

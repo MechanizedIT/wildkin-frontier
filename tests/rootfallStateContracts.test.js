@@ -145,7 +145,7 @@ for (const speciesId of ['mossling', 'tidefin', 'emberhorn', 'skydancer']) {
       registry: { getLootChestById: id => id === chest.id ? chest : null },
       creatures: { getActiveAliveCreatures: () => [], setBondingTarget: () => {} },
       playerController: { getState: () => ({ pos: { x: 0, y: .5, z: 0 }, grounded: true }), launchFromJumpPad: () => { effects++; } },
-      playerCombat: { getHealth: () => 2, getMaxHealth: () => 4, heal: () => { effects++; }, grantInvulnerability: () => { effects++; } },
+      playerCombat: { getHealth: () => 2, getMaxHealth: () => 4, heal: () => { effects++; }, grantWard: () => { effects++; } },
       isActive: () => true, getSectionId: () => 'verge', toast: (...args) => messages.push(args),
       pulse: () => { effects++; }, audio: { playParkour: () => { effects++; } }, onAbility: () => { effects++; } });
     t.after(() => system.dispose());

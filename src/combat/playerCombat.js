@@ -21,6 +21,7 @@ export function createPlayerCombat(opts) {
   let maxHealth = COMBAT_CONFIG.playerMaxHealth;
   let postHitInvuln = 0;
   let dodgeInvuln = 0;
+  let wardRemaining = 0;
   let recentAttackTime = -999;
   let recentDamageTime = -999;
   let isDead = false;
@@ -114,6 +115,7 @@ export function createPlayerCombat(opts) {
   function isInvulnerable() {
     if (postHitInvuln > 0) return true;
     if (dodgeInvuln > 0) return true;
+    if (wardRemaining > 0) return true;
     return false;
   }
 
@@ -193,6 +195,15 @@ export function createPlayerCombat(opts) {
     return true;
   }
 
+  function grantWard(seconds) {
+    const duration = Number(seconds);
+    if (!Number.isFinite(duration) || duration <= 0) return false;
+    wardRemaining = Math.max(wardRemaining, Math.min(5, duration));
+    return true;
+  }
+
+  function getWardRemaining() { return wardRemaining; }
+
   function tryApplyAttackHits(playerPos, playerFacing) {
     if (!attackActive || impactFired) return [];
     const creatures = getCreatures();
@@ -219,6 +230,7 @@ export function createPlayerCombat(opts) {
     // Update invuln timers
     if (postHitInvuln > 0) postHitInvuln = Math.max(0, postHitInvuln - dt);
     if (dodgeInvuln > 0) dodgeInvuln = Math.max(0, dodgeInvuln - dt);
+    if (wardRemaining > 0) wardRemaining = Math.max(0, wardRemaining - dt);
     if (flashTime > 0) flashTime = Math.max(0, flashTime - dt);
     if (screenPulse > 0) screenPulse = Math.max(0, screenPulse - dt);
 
@@ -338,6 +350,7 @@ export function createPlayerCombat(opts) {
     health = nextHealth;
     postHitInvuln = 0;
     dodgeInvuln = 0;
+    wardRemaining = 0;
     recentAttackTime = -999;
     recentDamageTime = -999;
     isDead = false;
@@ -390,6 +403,8 @@ export function createPlayerCombat(opts) {
     takeDamage,
     heal,
     grantInvulnerability,
+    grantWard,
+    getWardRemaining,
     isInvulnerable,
     isDodgingInvuln,
     isDead: isPlayerDead,
@@ -399,7 +414,7 @@ export function createPlayerCombat(opts) {
     restoreHealth,
     tryApplyAttackHits,
     getState: () => ({
-      health, maxHealth, postHitInvuln, dodgeInvuln, attackActive, attackProgress, attackCooldown, impactFired, knockbackRemaining, isDead, recentAttackTime, recentDamageTime, elapsed, facingLocked,
+      health, maxHealth, postHitInvuln, dodgeInvuln, wardRemaining, attackActive, attackProgress, attackCooldown, impactFired, knockbackRemaining, isDead, recentAttackTime, recentDamageTime, elapsed, facingLocked,
     }),
     _internal: { get elapsed() { return elapsed; }, get recentAttackTime() { return recentAttackTime; }, get recentDamageTime() { return recentDamageTime; } },
   };

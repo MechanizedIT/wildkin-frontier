@@ -18,7 +18,7 @@ function fixture({ speciesId='emberhorn', active=true, chest=null, completeSeal=
   const system=createCompanionSystem({scene:new THREE.Scene(),progress,creatures,
     registry:{getLootChestById:id=>chest&&id===species.secret?chest:null},
     playerController:{getState:()=>({pos:{x:0,y:.5,z:0},grounded:true}),launchFromJumpPad(){}},
-    playerCombat:{getHealth:()=>2,getMaxHealth:()=>5,heal(){},grantInvulnerability(){calls.ward++;}},
+    playerCombat:{getHealth:()=>2,getMaxHealth:()=>5,heal(){},grantWard(){calls.ward++;}},
     isActive:()=>active,getSectionId:()=> 'field',toast(){},pulse(){calls.pulse++;},audio:{playParkour(){calls.audio++;}},onAbility(){calls.ability++;},
     strikeMinerals(pos){calls.strike++;assert.deepEqual(pos,{x:0,y:.5,z:0});return strikeResult;},
   });

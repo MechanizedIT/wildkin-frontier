@@ -38,12 +38,19 @@ export function createCompanionAbilityFx({ scene } = {}) {
     else if (kind.includes("ember")) entry.ringB.visible = true;
     else entry.wisps.forEach((mesh) => { mesh.visible = true; });
   }
-  function update(dt, { playerPosition = null, hidden = false, reducedMotion = false } = {}) {
+  function update(dt, { playerPosition = null, hidden = false, reducedMotion = false, wardRemaining } = {}) {
     const step = Math.min(Math.max(dt || 0, 0), .1);
     for (const entry of pool) {
       if (!entry.active) continue;
+      const authoritativeWard = entry.kind.includes("tide") && Number.isFinite(wardRemaining);
+      if (authoritativeWard) {
+        const remaining = Math.max(0, Math.min(entry.duration, wardRemaining));
+        if (remaining <= 0) { clear(entry); continue; }
+        entry.age = entry.duration - remaining;
+      }
       if (hidden) { entry.group.visible = false; continue; }
-      entry.group.visible = true; entry.age += step;
+      entry.group.visible = true;
+      if (!authoritativeWard) entry.age += step;
       if (entry.age >= entry.duration) { clear(entry); continue; }
       const t = entry.age / entry.duration;
       if (entry.kind.includes("tide")) {

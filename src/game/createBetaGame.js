@@ -338,7 +338,7 @@ export function createBetaGame(deps) {
       base.update(dt,{hidden,paused,reducedMotion:settings.reducedMotion});
       combatFeedback.update(dt, { hidden: paused || hidden });
       playerOcclusion.update(dt, { hidden: paused || hidden });
-      abilityFx.update(paused ? 0 : dt, { playerPosition: playerController.getState().pos, hidden: paused || hidden, reducedMotion: settings.reducedMotion });
+      abilityFx.update(paused ? 0 : dt, { playerPosition: playerController.getState().pos, hidden: paused || hidden, reducedMotion: settings.reducedMotion, wardRemaining: playerCombat.getWardRemaining() });
       guardianEncounter.update(dt, { sectionId, paused, hidden });
       audio.updateAmbience?.(dt, { sectionId, paused: paused || hidden });
       companions.update(dt, { sectionId, paused, hidden });

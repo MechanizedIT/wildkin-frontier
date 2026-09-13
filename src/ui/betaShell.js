@@ -49,6 +49,30 @@ export function getFrontierPurposePresentation(model = {}) {
   };
 }
 
+export function getCompanionAbilityPresentation(model = {}, { opened = false, welcome = false } = {}) {
+  const ability = model.ability ?? null;
+  const guideActive = Boolean(model.fieldTaming || (model.observation && !model.observation.complete));
+  const tidefin = ability?.speciesId === 'tidefin' || ability?.name === 'Tidal Ward';
+  const remaining = tidefin ? Math.max(0, Number(ability?.activeRemaining) || 0) : 0;
+  const active = remaining > 0;
+  const seconds = active ? Math.max(1, Math.ceil(Math.min(remaining, Number(ability?.activeDuration) || 3))) : 0;
+  const visible = Boolean(ability) && !model.isCamp && !opened && !welcome && !guideActive;
+  const cooldown = !active && !ability?.ready ? Math.max(0, Math.ceil(Number(ability?.cooldown) || 0)) : 0;
+  return {
+    visible,
+    active,
+    disabled: !ability?.ready || active,
+    wardSeconds: seconds,
+    cooldown,
+    label: !ability ? 'ABILITY' : active || ability.ready ? ability.name : `${ability.name} ${cooldown}s`,
+    ariaLabel: active
+      ? `Tidal Ward active. Protected for ${seconds} ${seconds === 1 ? 'second' : 'seconds'} remaining.`
+      : ability?.ready ? `${ability.name} ready.`
+        : ability ? `${ability.name}, ${cooldown} ${cooldown === 1 ? 'second' : 'seconds'} until ready.`
+          : 'Companion ability',
+  };
+}
+
 export function createBetaShell({ app, getModel, onAction = () => null, onBlockingChanged = () => {}, canOpen = () => true, openInventory = null } = {}) {
   if (!app) return { update() {}, open() {}, close() {}, isOpen: () => false, showWelcome() {}, toast() {}, setContextualVisible() {}, destroy() {} };
   const root = document.createElement("div"); root.id = "beta-shell"; root.setAttribute("aria-live", "polite");
@@ -57,7 +81,7 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
   // The field HUD deliberately has one main action.  Skills remain in Pack so
   // a player can read the right side as camera space and only reach for the
   // compact, individually framed actions needed in the current encounter.
-  hud.innerHTML = `<button type="button" class="beta-objective" data-action="open" data-tab="journal" aria-label="Open field plan" hidden></button><div class="beta-hud-actions equipment-toolbar" aria-label="Equipment quick slots"><span class="equipment-selected-name"></span><div id="portrait-tool-belt" class="equipment-slots"></div><button class="beta-hud-button" data-action="open" data-tab="inventory" aria-label="Open backpack">${icon("backpack")}<span>PACK</span><b class="beta-cargo-count">0</b></button></div><div class="beta-quick" aria-label="Companion ability"><button data-action="ability" class="beta-ability">${icon("paw")}<span class="ability-label">ABILITY</span></button></div><div class="beta-action-cluster" aria-label="Field actions"><button type="button" class="beta-field-tool beta-direct-action" aria-label="Hold Attack or Field Tool">${icon("axe")}<span>ATTACK</span></button><button type="button" class="beta-dodge beta-direct-action" aria-label="Dodge"><span class="beta-dodge-glyph" aria-hidden="true">↗</span><span>DODGE</span></button><button type="button" class="beta-jump beta-direct-action" aria-label="Jump"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 14 16 5l9 9M16 6v17M5 27h22" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>JUMP</span></button></div>`;
+  hud.innerHTML = `<button type="button" class="beta-objective" data-action="open" data-tab="journal" aria-label="Open field plan" hidden></button><div class="beta-hud-actions equipment-toolbar" aria-label="Equipment quick slots"><span class="equipment-selected-name"></span><div id="portrait-tool-belt" class="equipment-slots"></div><button class="beta-hud-button" data-action="open" data-tab="inventory" aria-label="Open backpack">${icon("backpack")}<span>PACK</span><b class="beta-cargo-count">0</b></button></div><div class="beta-quick" aria-label="Companion ability"><button data-action="ability" class="beta-ability">${icon("paw")}<span class="ability-label">ABILITY</span><span class="ability-ward-readout" aria-hidden="true"><b>WARD</b><small>3s</small></span></button></div><div class="beta-action-cluster" aria-label="Field actions"><button type="button" class="beta-field-tool beta-direct-action" aria-label="Hold Attack or Field Tool">${icon("axe")}<span>ATTACK</span></button><button type="button" class="beta-dodge beta-direct-action" aria-label="Dodge"><span class="beta-dodge-glyph" aria-hidden="true">↗</span><span>DODGE</span></button><button type="button" class="beta-jump beta-direct-action" aria-label="Jump"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 14 16 5l9 9M16 6v17M5 27h22" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>JUMP</span></button></div>`;
   const toastEl = document.createElement("div"); toastEl.className = "beta-toast"; toastEl.hidden = true;
   const fieldGuide = document.createElement('div'); fieldGuide.className = 'beta-field-guide'; fieldGuide.hidden = true;
   fieldGuide.innerHTML = '<div><strong></strong><span></span><progress class="observation-progress" max="1" value="0" aria-label="Observation progress" hidden></progress></div><button data-action="cancelTaming" aria-label="Stop taming attempt">×</button>';
@@ -208,11 +232,15 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
     updateEquipmentHud(model);
     hud.querySelector(".beta-cargo-count").textContent = Object.values(model.cargo ?? {}).reduce((sum, count) => sum + (Number(count) || 0), 0);
     const ability = hud.querySelector(".beta-ability");
-    ability.disabled = !model.ability?.ready || model.isCamp;
+    const abilityPresentation = getCompanionAbilityPresentation(model, { opened, welcome });
+    const abilityContainer = ability.closest(".beta-quick");
+    abilityContainer.hidden = !abilityPresentation.visible;
+    ability.disabled = abilityPresentation.disabled;
+    ability.classList.toggle('is-ward-active', abilityPresentation.active);
     ability.classList.toggle('is-purpose-highlight', purpose.highlightAbility && !opened && !welcome);
-    ability.closest(".beta-quick")?.classList.toggle("camp-ability", !!model.isCamp);
-    ability.dataset.cooldown = !model.isCamp && model.ability && !model.ability.ready ? Math.ceil(model.ability.cooldown || 0) : "";
-    ability.setAttribute("aria-label", model.ability?.name ?? "Companion ability");
+    abilityContainer?.classList.toggle("camp-ability", !!model.isCamp);
+    ability.dataset.cooldown = abilityPresentation.visible && abilityPresentation.cooldown ? abilityPresentation.cooldown : "";
+    ability.setAttribute("aria-label", abilityPresentation.ariaLabel);
     const activeCompanion = (model.companions ?? []).find((companion) => companion.active);
     const companionIconId = activeCompanion?.speciesId ?? "paw";
     const companionIconKey = `${activeCompanion?.id ?? "none"}|${companionIconId}`;
@@ -220,7 +248,8 @@ export function createBetaShell({ app, getModel, onAction = () => null, onBlocki
       ability.querySelector(".item-icon")?.replaceWith(document.createRange().createContextualFragment(icon(companionIconId, { size: 32, label: activeCompanion?.name ?? "Companion ability" })));
       ability.dataset.companionIconId = companionIconKey;
     }
-    ability.querySelector(".ability-label").textContent = !model.ability ? "ABILITY" : model.ability.ready ? model.ability.name : `${model.ability.name} ${Math.ceil(model.ability.cooldown || 0)}s`;
+    ability.querySelector(".ability-label").textContent = abilityPresentation.label;
+    ability.querySelector(".ability-ward-readout small").textContent = `${abilityPresentation.wardSeconds || 3}s`;
   }
   root.addEventListener("click", (event) => { const item = event.target.closest("[data-resource-id],[data-skill-id],[data-companion-id],button"); if (!item || item.classList.contains("beta-direct-action")) return; event.preventDefault(); if (item.dataset.equipmentId) { selectedEquipment = item.dataset.equipmentId; render(true); return; }
     if (item.dataset.assignSlot !== undefined) { result('assignQuickSlot', { slot: Number(item.dataset.assignSlot), id: selectedEquipment }); return; }
