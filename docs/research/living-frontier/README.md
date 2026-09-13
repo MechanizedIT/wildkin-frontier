@@ -1,5 +1,11 @@
 # Living Frontier research refresh
 
+**Latest local continent update:** [Illustrated progress](Early-Alpha-Progress.md) pairs the generated target with the actual 6 × 7 km outline, native shore screenshots and preserved portable Camp. It records exploration-first priorities, ten unique early-alpha habitats and the later physical factory direction. Earlier Drive PDFs remain dated publications.
+
+**New direction, not yet implemented:** ten unique habitats are now an early-alpha requirement, on a larger irregular continent. [The frozen target and hybrid implementation plan](../../CONTINENT_ALPHA_TARGET.md) distinguish proposed geography from current source.
+
+<img src="../../../art/targets/continent-v2/target.png" alt="Polished irregular-continent design target, not current gameplay" width="430">
+
 September13,2026: repository-owned research, implementation evidence and owner direction.
 
 **Newest scenery preparation checkpoint:** [Illustrated progress](Early-Alpha-Progress.md) includes actual travel/Camp screenshots,270.5→16.6ms scenery crossing work,420.6→161ms slowest frame, all1,350 tests and exact developer/portable saved continuation. Density is unchanged; source PASS, prior visual6.8HOLD and residual loading hitches remain explicit. This local supplement does not update prior Drive/PDF publication.

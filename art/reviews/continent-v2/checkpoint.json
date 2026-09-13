@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-13T19:29:50.314Z",
+  "baseCommit": "784796107fec9c2b105af5fd45f6a93e1824e17c",
+  "gate": {
+    "passed": true,
+    "tests": 1357,
+    "testSeconds": 83.41083,
+    "unpackedMB": "44.33",
+    "zipMB": "20.58",
+    "zipBytes": 21579598,
+    "zipPath": "dist/submission.zip",
+    "aggregateAttempts": 2
+  },
+  "visual": {
+    "rounds": [
+      6.5,
+      7.8,
+      8.3
+    ],
+    "scope": "silhouette and scale only",
+    "selected": 3
+  },
+  "sources": {
+    "src/world/frontierContinent.js": "28d35d7cc392eb4db2c30796b17d084c9e9376a85a44c8f7c1f0fe3b9ed916d3",
+    "src/world/frontierDiscovery.js": "3638d177135355c613f6dbda8d0cfa0299bc5ab667150c8208c465ce87f1e462",
+    "src/world/frontierRegionalPlace.js": "93a894932615c89bb557e317e9c133217d546e9b2f143e3cfa393ecbdc586186",
+    "tests/frontierContinent.test.js": "808dce16ea35818f9c64bf0e9494b91ca5075f4b6bead481dd747907e448c41b",
+    "tests/frontierDiscovery.test.js": "e98b83db68f38137f7a552cddbf46730d188d4f0717eae00a04b3363ef946f2f",
+    "tests/frontierRegionalPlace.test.js": "026f164f957ec38ca88049e2082fe39d67442060c49ff8e20c26446790880904",
+    "tests/lushGroveLootLifecycle.test.js": "e9c0bbe940c30ec61ba01651f0a728e70fe9a5300dc21ac5ff474c14adfac29b",
+    "tests/frontierScenery.test.js": "cb091f3343d12b99bc072f22af916ee600b0096b08558f8d7fa580b5bea72f8f",
+    "tests/frontierInspectorTool.test.js": "a303b8a4fa9d949583de428de0c312d995a76d31ee73d5e1ef945778f148ad5a",
+    "tools/inspect-frontier.mjs": "16b5d6149cd3d54b587480efdffb48ffd6f9425b677181946fffc2c62426f092"
+  },
+  "targetSha256": "a035579bcc629cac2876e0053409fcb3be269996838c7340ccc0aff958b43001",
+  "evidence": {
+    "art/reviews/continent-v2/browser-proof.json": "ebd0d6778b48560495d11e348ea2d3d35cdcce3293f1f510a373b03cef3b1cbe",
+    "art/reviews/continent-v2/camp-dev.png": "f3794da0f6aaa7060d773ac7a4c2c1ace134adae6dc1607a2465c3c78237f883",
+    "art/reviews/continent-v2/continent-overview.svg": "c5f6c335076fa65f6ac7fca8fed249a70431f48fe22eb6219fce6803b430d624",
+    "art/reviews/continent-v2/geometry-evidence.md": "2b8efb72eddf5b3fd952a3a6f57cd2fca89a3f8ab8763147f249754d7f93829f",
+    "art/reviews/continent-v2/independent-r3-review.md": "da6e03ecb7f005f0cdab3a70d878f1afaffaafbb1134db99228920d5988ffe53",
+    "art/reviews/continent-v2/native-lush.json": "5e13fcc894220c50e825b78babc76a1976a41e82742789338c9a484aa14ac3b4",
+    "art/reviews/continent-v2/native-outward.json": "cdcf389192cc0e395cc5de6ae5d059f0d51a1c95d0c166bd2a03f975b164ecd0",
+    "art/reviews/continent-v2/native-return.json": "502b3a8e6568565948d33ce705864c5be37162f6fda54d1d82febd77f6a16072",
+    "art/reviews/continent-v2/new-peninsula-current.png": "4a1264978706229bbec6358ab44eea7eb08ac3ac4a86481cc9f34fcb6c69473e",
+    "art/reviews/continent-v2/new-peninsula-return.png": "2b2eafde8c9ef7e6b1cd8939937fc560ea704242ba4c2ab39c216f500c2e7e9a",
+    "art/reviews/continent-v2/new-peninsula-shore.png": "c911b8bdf950a0733267c042e1286cdee0c1b9d71ba0f9f15dc1b518848e82bb",
+    "art/reviews/continent-v2/next-regions-audit.md": "cd3de53d467b6cd6a34217bb98c7004c1c050806080ced6f6df12b13680c4a6a",
+    "art/reviews/continent-v2/overview-evidence.md": "5b516da1cff9bfe354034588c37bcd2214e5dc9fd26357cfb61fd50a84cfa889",
+    "art/reviews/continent-v2/overview-r1.png": "10df6857754602e06b36a19a8a97cd21d1233012285e239df651951ae107b962",
+    "art/reviews/continent-v2/overview-r2.png": "5e07f63ec16a67fc81c54d6ea1f1f8e63777c618d1271573423e11506f4edb1c",
+    "art/reviews/continent-v2/overview-r3.png": "25edf95dd25c022918a0bd2400d1b38ee3501bfa6e99a9e2cebeee75aec1d584",
+    "art/reviews/continent-v2/package-camp.png": "ba0c5961e8dd3f49b23b25cb196ecd22d06662b55cb5834b18fa934b8c3849bc",
+    "art/reviews/continent-v2/receipt.md": "9abcb2344f1c8be4baf16e80d58fca4306d02b449345c1efe74cdb55dfe79945",
+    "art/reviews/continent-v2/scale-capacity.json": "fc2c0d2b8f54da335ce63abe92d98d6269e1d69c0cf06767da6a5d733d3173af"
+  },
+  "zipSha256": "293f8537d953658b7123a65be3937c2bdfb2f5294c2281c7a09f5f28413c0137",
+  "acceptedOwnerDirections": [
+    "exploration first with overlapping collectors and base/crafting builders",
+    "ten unique nonrepeating early-alpha habitats",
+    "large irregular continent",
+    "physical factory-style building as a later path"
+  ],
+  "provisionalChoices": [
+    "6 by 7 km outline",
+    "hybrid authored regions and seeded local detail",
+    "next Emberglass Caldera outing"
+  ],
+  "goalStatus": "active"
+}

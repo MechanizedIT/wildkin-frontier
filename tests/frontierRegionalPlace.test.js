@@ -5,6 +5,7 @@ import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import {
   FRONTIER_REGIONAL_PLACE_RADIUS,
   FRONTIER_REGIONAL_PLACE_RESOURCE_SLOTS,
+  FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS,
   hasLushRootCacheAssets,
   hasRegionalPlaceAssets,
   sampleFrontierRegionalPlaceChunk,
@@ -19,6 +20,27 @@ const FLAT_SUNSCAR = () => ({
   provinceKind: 'sunscar',
   provinceInfluence: 1,
   provinceWeights: { lush: 0, sunscar: 1, ironspine: 0 },
+});
+
+test('Lush grove compositions stay in their registered catalog domain while outer mineral places remain available', () => {
+  assert.deepEqual(FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS, { minCx: -42, maxCx: 13, minCz: -57, maxCz: 20 });
+  assert.ok(Object.isFrozen(FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS));
+  const lush = () => ({ ...FLAT_SUNSCAR(), provinceKind: 'lush', provinceWeights: { lush: 1, sunscar: 0, ironspine: 0 }, coastDistance: 100 });
+  const options = { visualAssets: WORLD_DATA.visualAssets, getHeight: () => 9 };
+  const outsideWindows = [
+    { x: 14, z: 5 }, { x: -60, z: -40 }, { x: -40, z: -75 }, { x: -20, z: 21 },
+  ];
+  for (const start of outsideWindows) {
+    let mineralPlaces = 0;
+    for (let dz = 0; dz < 16; dz++) for (let dx = 0; dx < 16; dx++) {
+      const cx = start.x + dx, cz = start.z + dz;
+      assert.equal(sampleFrontierRegionalPlaceChunk(cx, cz, { ...options, getTerrainSample: lush }), null,
+        `no unregistered root cache at ${cx},${cz}`);
+      if (sampleFrontierRegionalPlaceChunk(cx, cz, { ...options, getTerrainSample: FLAT_SUNSCAR })) mineralPlaces++;
+    }
+    assert.ok(mineralPlaces > 0, `ordinary mineral places continue beyond ${start.x},${start.z}`);
+  }
+  assert.equal(sampleFrontierRegionalPlaceChunk(-5, 9, { ...options, getTerrainSample: lush })?.kind, 'lush-root-cache');
 });
 
 test('default Lush owner becomes one supported deterministic root cache without changing its owner recipe', () => {

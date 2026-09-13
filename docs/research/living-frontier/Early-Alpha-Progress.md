@@ -1,5 +1,21 @@
 # Early alpha — procedural frontier progress
 
+## A larger continent for exploration
+
+The continent now spans **6 × 7 km**, with approximately **29 km² of land**, a broad eastern gulf and unequal peninsulas. The third silhouette review passed **8.3/10**. Normal controls crossed the new shore from walking to swimming and back to dry ground; residents stayed bounded. All **1,357 tests** and package checks pass (44.33 MB unpacked / 20.58 MB ZIP), and the earned Camp survives developer and portable reload exactly. There are still **three terrain grammars**, not ten completed habitats.
+
+<img src="../../../art/targets/continent-v2/target.png" alt="Generated design target, not current gameplay" width="380"> <img src="../../../art/reviews/continent-v2/overview-r3.png" alt="Actual source-derived continent with three current terrain grammars" width="380">
+
+<img src="../../../art/reviews/continent-v2/new-peninsula-shore.png" alt="Actual new-peninsula shore" width="210"> <img src="../../../art/reviews/continent-v2/new-peninsula-current.png" alt="Actual surface swimming in the gulf" width="210"> <img src="../../../art/reviews/continent-v2/package-camp.png" alt="Actual earned Camp preserved in the portable game" width="210">
+
+Exploration leads; collecting and productive base building are independent reasons to inhabit this world. Ten unique habitats are required for early alpha. Physical factory-style machines and logistics are a later path for builders. Next: allocate ten connected, nonrepeating habitat regions, then build a genuinely distinct Emberglass Caldera outing with a readable breached rim, layered scenery, useful minerals and existing Wildkin danger. Keep compact Camp/Skybreak/Signal/earned-grove witnesses where practical; this pre-alpha does not require preserving all unvisited generated geography. Use the existing terrain, scenery, resource, encounter and save owners. A region label alone is not a completed habitat.
+
+[Measurements, controls and limits](../../../art/reviews/continent-v2/receipt.md). This repository supplement does not replace the earlier dated Drive PDFs.
+
+**New direction, not yet implemented:** ten unique habitats are now an early-alpha requirement, on a larger irregular continent. [The frozen target and hybrid implementation plan](../../CONTINENT_ALPHA_TARGET.md) distinguish proposed geography from current source.
+
+<img src="../../../art/targets/continent-v2/target.png" alt="Polished irregular-continent design target, not current gameplay" width="430">
+
 ## New local progress: scenery loads before the crossing
 
 Dense scenery now prepares ahead of an ordinary chunk crossing through the existing frame loop. In the same Lush laptop witness, scenery boundary work fell **270.5→16.6 ms** and the slowest whole frame fell **420.6→161 ms**. Density and deterministic placement are unchanged. All **1,350 tests** and package gates pass (**44.32 MB unpacked /20.58 MB ZIP**); the complete earned Camp save matches developer reload, portable reload and Continue. Source review passes. The earlier **6.8/10 visual HOLD** remains, and loading hitches still prevent an alpha-release claim.

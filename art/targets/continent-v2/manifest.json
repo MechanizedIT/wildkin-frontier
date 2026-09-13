@@ -1,0 +1,24 @@
+{
+  "createdAt": "2026-09-13T18:46:49.310Z",
+  "status": "frozen-agent-provisional-target",
+  "ownerRequests": [
+    "large non-round continent",
+    "polished target image",
+    "ten unique nonrepeating early-alpha habitats",
+    "fuller natural scenery",
+    "hybrid handcrafted geography allowed"
+  ],
+  "sourceImage": "C:/Users/cwood/.codex/generated_images/01a09573-9ab7-7860-8510-3f748d059f4d/exec-deb2bd49-76f9-4a5c-aea4-93638bb3c9ab.png",
+  "dimensions": {
+    "width": 1122,
+    "height": 1402
+  },
+  "targetSha256": "a035579bcc629cac2876e0053409fcb3be269996838c7340ccc0aff958b43001",
+  "baselineSha256": "bd89f6b4853a8c89798cf81b4a1353947a9d566f768df9a70024a265c139c753",
+  "engineeringExtentMetres": {
+    "width": 6000,
+    "height": 7000
+  },
+  "implemented": false,
+  "scaleBarCalibrated": false
+}

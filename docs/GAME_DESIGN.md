@@ -1,5 +1,9 @@
 # Game Design — Wildkin Frontier
 
+**Player motivations:** Exploration is the lead experience, with three overlapping motivations: discover unusual places and map the unknown; collect, raise and shape individual Wildkin; or build a satisfying productive Camp. Base building and crafting can be enjoyable goals in their own right while also enabling expeditions. Later physical machines, recipe chains and logistics draw on Create/BuildCraft/Tekkit inspiration; they should offer visible cause and effect rather than mandatory maintenance. No single motivation should require players to exhaust the others before making useful progress.
+
+**Exploration-first direction:** Chris identifies discovery/exploration, Wildkin collecting and base building/crafting as overlapping motivations. Creatures, equipment and Camp aid exploration; later physical machines/logistics can support factory-style building. Avoid routine care obligations displacing chosen expeditions. See EARLY_ALPHA_PLAN.md for current scope.
+
 > **Active direction: Living Frontier.** Wildkin Frontier is a portrait-mobile-first, offline single-player exploration and creature-life game. Five visible quick slots sit at the bottom of portrait play, with movement above them on the left and selected/context actions above them on the right. Landscape and desktop remain supported. [Current slice](CURRENT_SLICE.md) owns live implementation and evidence; [Living Frontier plan](LIVING_FRONTIER_PLAN.md) owns the staged destination.
 
 Tidefin's Tidal Ward now shows its three seconds of real protection on the ability button and dome, then the remaining portion of its26-second cooldown. A controlled northern-ridge outing verified a blocked territorial charge, five gathered iron and an unharmed physical return to Camp. Rusher/spitter warning completion was repaired so continued intrusion can actually escalate. Players can still detour or capture that threat; Ward is a useful option, not a mandatory species key. The actual prepared fixture, automated activation timing and reload proof are in `art/reviews/tidal-ward/receipt.md`.
@@ -22,7 +26,7 @@ The current early-alpha world is one finite seeded continent centered at(-700,-9
 
 The next completed place family is the Lush rootbound grove:59 supported seeded locations currently use one initial canopy/log/stone/ruin composition. A secured Mossling can use Bloom at full health to awaken the nearest unopened grove cache. The saved seal drives a visible hinged lid; collecting waits until it finishes. Each cache holds6 berries,3 flowers,2 crystal shards and12 unbankedXP, with persistent individual leftovers and no repeated rewards. This gives Mossling a physical exploration role beside Sunscar mining, while later visual/content variation remains necessary. Native opening, two-site streaming/physics and complete developer/package continuation pass with1,319 tests; selected R3 is7.7/10 HOLD. Evidence: `art/reviews/lush-groves/receipt.md`.
 
-The owner proposed roughly10habitats and30species as a later content target; the first alpha uses a smaller useful set. Each Wildkin needs a practical exploration or Camp role. Read `EARLY_ALPHA_PLAN.md` for current/near/later priorities.
+Chris now requires at least10unique, nonrepeating habitats for early alpha and permits handcrafted geography. Root provisionally chooses a roughly6×7km deliberately composed mainland with seeded local detail; see `CONTINENT_ALPHA_TARGET.md`. Roughly30species remains staged, and each needs a practical exploration or Camp role. The current3terrain grammars/3useful Wildkin are foundations, not the ten-habitat completion claim.
 
 ## Proposed systems, clearly separate from the build
 

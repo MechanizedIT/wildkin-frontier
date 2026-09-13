@@ -1,5 +1,9 @@
 # Resume Wildkin Frontier
 
+**Exploration-first direction:** Chris identifies discovery/exploration, Wildkin collecting and base building/crafting as overlapping motivations. Creatures, equipment and Camp aid exploration; later physical machines/logistics can support factory-style building. Avoid routine care obligations displacing chosen expeditions. See EARLY_ALPHA_PLAN.md for current scope.
+
+**Current owner update:** Latest September13 owner direction: early alpha requires at least10unique, nonrepeating habitats on a quite large continent with an irregular silhouette. Root provisionally selects an approximately6×7km hybrid world: deliberate coastline/regions/landmarks and seeded local detail. The current3terrain grammars and3useful species are foundations, not completion of that requirement; roughly30species remains staged. The frozen target and bounded production plan are in `CONTINENT_ALPHA_TARGET.md`.
+
 Chris has authorized continuous goal-mode development on main until he asks to stop. The September 12 reboot handoff is historical. Latest bedtime priority: build a playable early alpha soon, with a bounded seeded continent, distinctive habitats and practically useful Wildkin; read the staged scope before implementing.
 
 ## Read only what owns the next outcome
@@ -8,11 +12,19 @@ Chris has authorized continuous goal-mode development on main until he asks to s
 2. Use `.agents/skills/wildkin-development/SKILL.md` and the two-batch trial in `ALPHA_WORKFLOW.md`; it borrows selected Rapid Alpha Producer ideas and keeps Dream Loop for substantive visual work. One writer per shared file, economical independent workers, one consolidated review/repair packet, focused tests during changes and one integrated package gate. Three art rounds are a ceiling.
 3. Inspect Git/workers before editing. Preserve unrelated Verdant composer/test and local art experiments. Work directly on main; do not create a branch.
 
-## Newest scenery preparation checkpoint
+## Newest continent checkpoint
+
+The continent now spans **6 × 7 km**, with approximately **29 km² of land**, a broad eastern gulf and unequal peninsulas. The third silhouette review passed **8.3/10**. Normal controls crossed the new shore from walking to swimming and back to dry ground; residents stayed bounded. All **1,357 tests** and package checks pass (44.33 MB unpacked / 20.58 MB ZIP), and the earned Camp survives developer and portable reload exactly. There are still **three terrain grammars**, not ten completed habitats. [Receipt and actual images](../art/reviews/continent-v2/receipt.md).
+
+Next: allocate ten connected, nonrepeating habitat regions, then build a genuinely distinct Emberglass Caldera outing with a readable breached rim, layered scenery, useful minerals and existing Wildkin danger. Keep compact Camp/Skybreak/Signal/earned-grove witnesses where practical; this pre-alpha does not require preserving all unvisited generated geography. Use the existing terrain, scenery, resource, encounter and save owners. A region label alone is not a completed habitat.
+
+Use CURRENT_SLICE for the next production contract. The prior outline/scale planning is complete; do not restart that audit. GitHub and Drive remain at their last separately published checkpoints. Current source is local on main.
+
+## Earlier scenery preparation checkpoint
 
 Dense scenery now prepares ahead of an ordinary chunk crossing through the existing frame loop. In the same Lush laptop witness, scenery boundary work fell **270.5→16.6 ms** and the slowest whole frame fell **420.6→161 ms**. Density and deterministic placement are unchanged. All **1,350 tests** and package gates pass (**44.32 MB unpacked /20.58 MB ZIP**); the complete earned Camp save matches developer reload, portable reload and Continue. Source review passes. The earlier **6.8/10 visual HOLD** remains, and loading hitches still prevent an alpha-release claim. [Evidence and limits](../art/reviews/scenery-preload/receipt.md).
 
-Chris reviewed the continent overview on September13 and explicitly asked for a quite large continent that is neither egg-shaped nor round, while continuing development. Next: measure the existing extent, then define a larger mainland with major peninsulas, deep bays and an uneven outline. Choose concrete dimensions and a feasible seed-generated overview before production. Keep streaming residency bounded and preserve coherent terrain, shoreline, land placement, atlas and swim/resume behavior. Exact dimensions and coast construction remain provisional until this audit; this request changes geography, not the current three-species content count.
+The September 13 request for a large non-round continent is implemented by the current coast checkpoint. Its target and ten-habitat direction are in CONTINENT_ALPHA_TARGET.md.
 
 ## Previous connected playable checkpoint
 

@@ -1,0 +1,92 @@
+{
+  "sampleSpacingMetres": 25,
+  "nominalBounds": {
+    "minX": -3700,
+    "maxX": 2300,
+    "minZ": -4400,
+    "maxZ": 2600
+  },
+  "sampledBounds": {
+    "minX": -3700,
+    "maxX": 2300,
+    "minZ": -4400,
+    "maxZ": 2600
+  },
+  "approximateLandAreaKm2": 28.95,
+  "areaSamplingMs": 117.79290000000003,
+  "atlas": {
+    "chunkSize": 50,
+    "revealRadius": 18,
+    "samplePaddingMetres": 109.35533905932738,
+    "conservativeLegacyChunks": 4640,
+    "conservativeLandAndShelfChunks": 12914,
+    "capacity": 16384,
+    "headroom": 3470,
+    "method": "Exact polygon distance with cell half-diagonal plus shelf, full union width and atlas reveal radius; legacy radial envelope covered by the entire conservative catalog rectangle plus one chunk. This bounds land/shelf survey coverage, not arbitrary unbounded ocean excursions."
+  },
+  "catalog": {
+    "count": 86,
+    "groves": 85,
+    "elapsedMs": 580.0926,
+    "scanChunks": 4368,
+    "missingOldIds": [],
+    "changedOldDefinitions": [
+      {
+        "id": "f1:d:-22:-52:lush-root-cache",
+        "oldPos": {
+          "x": -1073.693698979666,
+          "y": 8.441589032515285,
+          "z": -2578.0121170597217
+        },
+        "newPos": {
+          "x": -1073.693698979666,
+          "y": 8.445553320582864,
+          "z": -2578.0121170597217
+        }
+      },
+      {
+        "id": "f1:d:5:-33:lush-root-cache",
+        "oldPos": {
+          "x": 281.96914008610577,
+          "y": 12.600098433416374,
+          "z": -1628.8243766512417
+        },
+        "newPos": {
+          "x": 281.96914008610577,
+          "y": 12.600672751496175,
+          "z": -1628.8243766512417
+        }
+      }
+    ],
+    "addedIds": [
+      "f1:d:-13:-57:lush-root-cache",
+      "f1:d:13:-57:lush-root-cache",
+      "f1:d:-21:-56:lush-root-cache",
+      "f1:d:-5:-55:lush-root-cache",
+      "f1:d:5:-54:lush-root-cache",
+      "f1:d:8:-54:lush-root-cache",
+      "f1:d:-9:-53:lush-root-cache",
+      "f1:d:13:-52:lush-root-cache",
+      "f1:d:-2:-51:lush-root-cache",
+      "f1:d:7:-50:lush-root-cache",
+      "f1:d:-1:-46:lush-root-cache",
+      "f1:d:-41:-37:lush-root-cache",
+      "f1:d:-36:-35:lush-root-cache",
+      "f1:d:13:-34:lush-root-cache",
+      "f1:d:-39:-33:lush-root-cache",
+      "f1:d:9:-33:lush-root-cache",
+      "f1:d:-42:-30:lush-root-cache",
+      "f1:d:-35:-30:lush-root-cache",
+      "f1:d:11:-30:lush-root-cache",
+      "f1:d:10:-27:lush-root-cache",
+      "f1:d:-38:-25:lush-root-cache",
+      "f1:d:10:-22:lush-root-cache",
+      "f1:d:-39:-21:lush-root-cache",
+      "f1:d:-42:-17:lush-root-cache",
+      "f1:d:-38:17:lush-root-cache",
+      "f1:d:-39:20:lush-root-cache"
+    ],
+    "persistedClaimCapacity": 200
+  },
+  "sourceSha256": "28d35d7cc392eb4db2c30796b17d084c9e9376a85a44c8f7c1f0fe3b9ed916d3"
+}

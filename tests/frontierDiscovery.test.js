@@ -8,6 +8,7 @@ import {
 import { sampleFrontier } from '../src/world/frontierTerrain.js';
 import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
 import { WORLD_DATA } from '../src/world/data/world.generated.js';
+import { FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS } from '../src/world/frontierRegionalPlace.js';
 
 test('fixed Signal Cache is admitted, deterministic, supported, and clear of generated life', () => {
   const first = sampleFrontierDiscoveries({ visualAssets: WORLD_DATA.visualAssets, lootTables: WORLD_DATA.lootTables });
@@ -96,7 +97,8 @@ test('finite catalog eagerly enumerates stable grove identities independently of
   }]);
 });
 
-test('canonical continent catalog has finite derived bounds and visits each chunk exactly once', () => {
+test('canonical catalog shares the finite grove admission domain and visits each chunk exactly once', () => {
+  assert.equal(FRONTIER_DISCOVERY_CHUNK_BOUNDS, FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS);
   assert.deepEqual(FRONTIER_DISCOVERY_CHUNK_BOUNDS, { minCx: -42, maxCx: 13, minCz: -57, maxCz: 20 });
   const chest = WORLD_DATA.visualAssets.find(asset => asset.id === 'asset_chest');
   let calls = 0;

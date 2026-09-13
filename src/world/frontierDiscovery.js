@@ -1,11 +1,11 @@
 import { sampleFrontierForageChunk } from './frontierEcology.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { sampleFrontierSceneryChunk } from './frontierScenery.js';
-import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from './frontierTerrain.js';
+import { sampleFrontier } from './frontierTerrain.js';
 import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD } from './frontierWorld.js';
-import { FRONTIER_CONTINENT_CONFIG, hasFrontierLandFootprint } from './frontierContinent.js';
-import { sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
+import { hasFrontierLandFootprint } from './frontierContinent.js';
+import { FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS, sampleFrontierRegionalPlaceChunk } from './frontierRegionalPlace.js';
 import { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
 export { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
 
@@ -15,20 +15,8 @@ const ADMITTED_MODEL_PATH = Object.freeze({
 });
 const CLEARANCE = Object.freeze({ forage: 6, scenery: FRONTIER_SIGNAL_CACHE.sceneryClearance, wildlife: 10 });
 
-const MAX_HARMONIC_REACH = FRONTIER_CONTINENT_CONFIG.harmonics
-  .reduce((sum, harmonic) => sum + Math.abs(harmonic.amplitude), 0)
-  + FRONTIER_CONTINENT_CONFIG.smoothMaxWidth / 4;
-const xReach = FRONTIER_CONTINENT_CONFIG.outerRadii.x + MAX_HARMONIC_REACH;
-const zReach = FRONTIER_CONTINENT_CONFIG.outerRadii.z + MAX_HARMONIC_REACH;
-const chunkSize = FRONTIER_TERRAIN_CONFIG.chunkSize;
-
-/** Conservative finite scan bounds containing every possible default-continent place center. */
-export const FRONTIER_DISCOVERY_CHUNK_BOUNDS = Object.freeze({
-  minCx: Math.floor((FRONTIER_CONTINENT_CONFIG.center.x - xReach) / chunkSize),
-  maxCx: Math.floor((FRONTIER_CONTINENT_CONFIG.center.x + xReach) / chunkSize),
-  minCz: Math.floor((FRONTIER_CONTINENT_CONFIG.center.z - zReach) / chunkSize),
-  maxCz: Math.floor((FRONTIER_CONTINENT_CONFIG.center.z + zReach) / chunkSize),
-});
+/** Catalog scope follows admitted grove compositions, not the full mainland bounds. */
+export const FRONTIER_DISCOVERY_CHUNK_BOUNDS = FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS;
 
 function admittedAsset(visualAssets, id) {
   const asset = visualAssets?.find(candidate => candidate?.id === id);

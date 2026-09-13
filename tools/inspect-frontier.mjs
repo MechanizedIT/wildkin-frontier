@@ -8,26 +8,28 @@ import { WORLD_DATA } from '../src/world/data/world.js';
 import { createTerrainColorSampler } from '../src/presentation/authoredTerrain.js';
 import { getSurfaceHeight } from '../src/world/terrainSurfaceModel.js';
 import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from '../src/world/frontierTerrain.js';
-import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
-import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
-import { sampleFrontierSceneryChunk } from '../src/world/frontierScenery.js';
+import { sampleFrontierContinent } from '../src/world/frontierContinent.js';
 import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/frontierWorld.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUTPUT_DIR = path.join(ROOT, '.dream-loop', 'frontier-inspector');
 const DEFAULTS = Object.freeze({ centerX: 0, centerZ: -100, extentX: 300, extentZ: 300, resolution: 96 });
+const OVERVIEW_DEFAULTS = Object.freeze({ centerX: -700, centerZ: -900, extentX: 8000, extentZ: 8000, resolution: 180 });
 const LIMITS = Object.freeze({ minExtent: 50, maxExtent: 1600, minResolution: 24, maxResolution: 180 });
+const OVERVIEW_LIMITS = Object.freeze({ minExtent: 1000, maxExtent: 8000, minResolution: 24, maxResolution: 180 });
 const worldKey = world => `f${world.edition}_${world.seed.toString(16)}`;
 
 function usage() {
   return `Usage: node tools/inspect-frontier.mjs [options]\n\n` +
+    `  --overview             Bounded full-continent terrain/province overview (no life enumeration)\n` +
     `  --seed <uint32|0xhex>  World seed (default 0x${DEFAULT_FRONTIER_WORLD.seed.toString(16)})\n` +
-    `  --center-x <number>    Map center X (default ${DEFAULTS.centerX})\n` +
-    `  --center-z <number>    Map center Z (default ${DEFAULTS.centerZ})\n` +
-    `  --extent <metres>      Set both map dimensions (default ${DEFAULTS.extentX})\n` +
-    `  --extent-x <metres>    East/west dimension, ${LIMITS.minExtent}-${LIMITS.maxExtent}\n` +
-    `  --extent-z <metres>    North/south dimension, ${LIMITS.minExtent}-${LIMITS.maxExtent}\n` +
-    `  --resolution <cells>   Samples per dimension, ${LIMITS.minResolution}-${LIMITS.maxResolution}\n` +
+    `  --center-x <number>    Map center X (local ${DEFAULTS.centerX}; overview ${OVERVIEW_DEFAULTS.centerX})\n` +
+    `  --center-z <number>    Map center Z (local ${DEFAULTS.centerZ}; overview ${OVERVIEW_DEFAULTS.centerZ})\n` +
+    `  --extent <metres>      Set both map dimensions (local ${DEFAULTS.extentX}; overview ${OVERVIEW_DEFAULTS.extentX})\n` +
+    `  --extent-x <metres>    East/west dimension (overview maximum ${OVERVIEW_LIMITS.maxExtent})\n` +
+    `  --extent-z <metres>    North/south dimension (overview maximum ${OVERVIEW_LIMITS.maxExtent})\n` +
+    `  --resolution <cells>   Samples on the X axis, at most ${LIMITS.maxResolution}\n` +
+    `  --output-dir <path>    Output directory (default .dream-loop/frontier-inspector)\n` +
     `  --help                 Show this help\n`;
 }
 
@@ -44,10 +46,13 @@ function parseSeed(value) {
 }
 
 function parseArgs(argv) {
-  const result = { ...DEFAULTS, seed: DEFAULT_FRONTIER_WORLD.seed };
+  const overview = argv.includes('--overview');
+  const limits = overview ? OVERVIEW_LIMITS : LIMITS;
+  const result = { ...(overview ? OVERVIEW_DEFAULTS : DEFAULTS), seed: DEFAULT_FRONTIER_WORLD.seed, overview, outputDir: OUTPUT_DIR };
   for (let index = 0; index < argv.length; index++) {
     const key = argv[index];
     if (key === '--help') return { help: true };
+    if (key === '--overview') continue;
     const value = argv[++index];
     if (value === undefined) throw new Error(`${key} needs a value`);
     if (key === '--seed') result.seed = parseSeed(value);
@@ -57,13 +62,14 @@ function parseArgs(argv) {
     else if (key === '--extent-x') result.extentX = number(value, key);
     else if (key === '--extent-z') result.extentZ = number(value, key);
     else if (key === '--resolution') result.resolution = number(value, key);
+    else if (key === '--output-dir') result.outputDir = path.resolve(ROOT, value);
     else throw new Error(`unknown option ${key}`);
   }
-  if (!Number.isInteger(result.resolution) || result.resolution < LIMITS.minResolution || result.resolution > LIMITS.maxResolution) {
-    throw new Error(`--resolution must be an integer from ${LIMITS.minResolution} to ${LIMITS.maxResolution}`);
+  if (!Number.isInteger(result.resolution) || result.resolution < limits.minResolution || result.resolution > limits.maxResolution) {
+    throw new Error(`--resolution must be an integer from ${limits.minResolution} to ${limits.maxResolution}`);
   }
-  for (const key of ['extentX', 'extentZ']) if (result[key] < LIMITS.minExtent || result[key] > LIMITS.maxExtent) {
-    throw new Error(`${key === 'extentX' ? '--extent-x' : '--extent-z'} must be from ${LIMITS.minExtent} to ${LIMITS.maxExtent}`);
+  for (const key of ['extentX', 'extentZ']) if (result[key] < limits.minExtent || result[key] > limits.maxExtent) {
+    throw new Error(`${key === 'extentX' ? '--extent-x' : '--extent-z'} must be from ${limits.minExtent} to ${limits.maxExtent}`);
   }
   return result;
 }
@@ -84,18 +90,18 @@ function pngChunk(type, data) {
   return Buffer.concat([length, name, data, checksum]);
 }
 
-function pngDataUrl(width, height, rgba) {
+function pngBuffer(width, height, rgba) {
   const header = Buffer.alloc(13);
   header.writeUInt32BE(width, 0); header.writeUInt32BE(height, 4);
   header[8] = 8; header[9] = 6;
   const rows = Buffer.alloc(height * (width * 4 + 1));
   for (let y = 0; y < height; y++) Buffer.from(rgba.buffer, rgba.byteOffset + y * width * 4, width * 4).copy(rows, y * (width * 4 + 1) + 1);
-  const png = Buffer.concat([
+  return Buffer.concat([
     Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
     pngChunk('IHDR', header), pngChunk('IDAT', zlib.deflateSync(rows, { level: 9 })), pngChunk('IEND', Buffer.alloc(0)),
   ]);
-  return `data:image/png;base64,${png.toString('base64')}`;
 }
+function pngDataUrl(width, height, rgba) { return `data:image/png;base64,${pngBuffer(width, height, rgba).toString('base64')}`; }
 
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -124,18 +130,143 @@ function counts(values, key) {
 }
 function esc(value) { return String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;'); }
 
-function main() {
-  const config = parseArgs(process.argv.slice(2));
-  if (config.help) { process.stdout.write(usage()); return; }
-  const world = normalizeFrontierWorld({ edition: DEFAULT_FRONTIER_WORLD.edition, seed: config.seed });
+function scaleRgbaNearest(source, width, height, targetWidth, targetHeight) {
+  const target = new Uint8Array(targetWidth * targetHeight * 4);
+  for (let y = 0; y < targetHeight; y++) for (let x = 0; x < targetWidth; x++) {
+    const sourceX = Math.min(width - 1, Math.floor(x * width / targetWidth));
+    const sourceY = Math.min(height - 1, Math.floor(y * height / targetHeight));
+    target.set(source.subarray((sourceY * width + sourceX) * 4, (sourceY * width + sourceX) * 4 + 4), (y * targetWidth + x) * 4);
+  }
+  return target;
+}
+
+function terrainOptionsFor(world) {
   const campRegion = (WORLD_DATA.regions ?? []).find(region => region?.id === 'camp');
   const campSurface = campRegion?.surface ?? null;
   const campPaint = campSurface ? createTerrainColorSampler(campSurface) : null;
-  const terrainOptions = campSurface ? {
-    world,
-    campHeight: (x, z) => getSurfaceHeight(campSurface, x, z),
-    campColor: (x, z) => { const color = campPaint(x, z); return [color.r, color.g, color.b]; },
-  } : { world };
+  return {
+    campSurface,
+    terrainOptions: campSurface ? {
+      world,
+      campHeight: (x, z) => getSurfaceHeight(campSurface, x, z),
+      campColor: (x, z) => { const color = campPaint(x, z); return [color.r, color.g, color.b]; },
+    } : { world },
+  };
+}
+
+function runOverview(config) {
+  const world = normalizeFrontierWorld({ edition: DEFAULT_FRONTIER_WORLD.edition, seed: config.seed });
+  const { terrainOptions, campSurface } = terrainOptionsFor(world);
+  const minX = config.centerX - config.extentX / 2, maxX = config.centerX + config.extentX / 2;
+  const minZ = config.centerZ - config.extentZ / 2, maxZ = config.centerZ + config.extentZ / 2;
+  const width = config.resolution;
+  const height = Math.max(OVERVIEW_LIMITS.minResolution, Math.round(width * config.extentZ / config.extentX));
+  if (height > OVERVIEW_LIMITS.maxResolution) throw new Error(`derived Z resolution ${height} exceeds ${OVERVIEW_LIMITS.maxResolution}; reduce --resolution or the extent ratio`);
+
+  const terrainPixels = new Uint8Array(width * height * 4);
+  const provincePixels = new Uint8Array(width * height * 4);
+  const coastDistances = [], elevations = [], provinceKinds = [], provinceInfluences = [];
+  const landPoints = [], provinceWeights = { lush: [], sunscar: [], ironspine: [] };
+  const coastKinds = [];
+  const provinceColors = { lush: [.18, .62, .30], sunscar: [.90, .62, .30], ironspine: [.50, .57, .64] };
+  for (let row = 0; row < height; row++) for (let column = 0; column < width; column++) {
+    const x = lerp(minX, maxX, (column + .5) / width), z = lerp(minZ, maxZ, (row + .5) / height);
+    const continent = sampleFrontierContinent(x, z, { world });
+    const terrain = sampleFrontier(x, z, terrainOptions);
+    const index = row * width + column;
+    coastDistances.push(continent.coastDistance); coastKinds.push(continent.kind);
+    elevations.push(terrain.height); provinceKinds.push(terrain.provinceKind ?? 'reserved');
+    provinceInfluences.push(terrain.provinceInfluence ?? 0);
+    for (const kind of Object.keys(provinceWeights)) provinceWeights[kind].push(terrain.provinceWeights?.[kind] ?? 0);
+    if (continent.land) landPoints.push({ x, z });
+
+    let terrainColor;
+    if (continent.land) terrainColor = (terrain.groundColorRGB ?? [.18, .43, .2]).map(channel => Math.round(clamp(channel) * 255));
+    else {
+      const shelf = clamp(1 - continent.waterDepth / 12);
+      terrainColor = ramp([[.025, .09, .17], [.035, .22, .31], [.12, .39, .42]], shelf);
+    }
+    terrainPixels.set([...terrainColor, 255], index * 4);
+
+    let provinceColor = terrainColor;
+    if (continent.land) {
+      const blend = Object.keys(provinceColors).map(kind => provinceColors[kind].map(channel => channel * (terrain.provinceWeights?.[kind] ?? 0)))
+        .reduce((total, color) => total.map((channel, channelIndex) => channel + color[channelIndex]), [0, 0, 0]);
+      const influence = terrain.provinceInfluence ?? 0;
+      provinceColor = blend.map((channel, channelIndex) => Math.round(lerp([.16, .26, .20][channelIndex], channel, .18 + influence * .82) * 255));
+    }
+    provincePixels.set([...provinceColor, 255], index * 4);
+  }
+
+  const landBounds = landPoints.length ? {
+    minX: rounded(Math.min(...landPoints.map(point => point.x))), maxX: rounded(Math.max(...landPoints.map(point => point.x))),
+    minZ: rounded(Math.min(...landPoints.map(point => point.z))), maxZ: rounded(Math.max(...landPoints.map(point => point.z))),
+  } : null;
+  const sampleAreaKm2 = config.extentX / width * config.extentZ / height / 1_000_000;
+  const landSamples = landPoints.length;
+  const report = {
+    format: 'living-frontier-continent-overview-v1',
+    label: 'Current continent outline with three implemented terrain grammars; not ten completed habitats',
+    world: { edition: world.edition, seed: world.seed, key: worldKey(world) },
+    bounds: { minX, maxX, minZ, maxZ },
+    sampling: {
+      width, height, sampleCount: width * height, maxSamplesPerAxis: OVERVIEW_LIMITS.maxResolution,
+      sourceOwners: ['frontierContinent', 'frontierTerrain', 'frontierRegion-via-terrain'],
+      lifeEnumeration: false, campSurface: campSurface ? 'authored-world-registry' : 'flat-fallback', limits: OVERVIEW_LIMITS,
+    },
+    metrics: {
+      approximateLandAreaKm2: rounded(landSamples * sampleAreaKm2),
+      landSamples, waterSamples: width * height - landSamples, sampledLandBounds: landBounds,
+      elevationMetres: roundedSummary(elevations), coastDistanceMetres: roundedSummary(coastDistances),
+      coastKinds: counts(coastKinds, value => value),
+      provinces: {
+        implementedGrammars: ['lush', 'sunscar', 'ironspine'],
+        dominantKindSamples: counts(provinceKinds, value => value), influence: roundedSummary(provinceInfluences),
+        meanWeights: Object.fromEntries(Object.entries(provinceWeights).map(([kind, values]) => [kind, roundedSummary(values).mean])),
+      },
+    },
+    grids: {
+      coastDistance: coastDistances.map(value => rounded(value)), elevation: elevations.map(value => rounded(value)),
+      province: { kind: provinceKinds, influence: provinceInfluences.map(value => rounded(value)),
+        weights: Object.fromEntries(Object.entries(provinceWeights).map(([kind, values]) => [kind, values.map(value => rounded(value))])) },
+    },
+  };
+  report.measurementSha256 = crypto.createHash('sha256').update(JSON.stringify({
+    world: report.world, bounds: report.bounds, sampling: { width, height, sourceOwners: report.sampling.sourceOwners }, grids: report.grids,
+  })).digest('hex');
+
+  const targetWidth = 1080, targetHeight = Math.max(1, Math.round(targetWidth * height / width));
+  const outputDir = config.outputDir;
+  fs.mkdirSync(outputDir, { recursive: true });
+  const pngPath = path.join(outputDir, 'continent-overview.png');
+  fs.writeFileSync(pngPath, pngBuffer(targetWidth, targetHeight, scaleRgbaNearest(terrainPixels, width, height, targetWidth, targetHeight)));
+  const mapWidth = 560, mapHeight = Math.round(mapWidth * height / width);
+  const campX = (0 - minX) / (maxX - minX) * mapWidth, campY = (0 - minZ) / (maxZ - minZ) * mapHeight;
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="${mapHeight + 190}" viewBox="0 0 1280 ${mapHeight + 190}">
+<rect width="100%" height="100%" fill="#0b1518"/><style>text{font-family:system-ui,-apple-system,Segoe UI,sans-serif}.title{fill:#f5efd9;font-size:30px;font-weight:700}.meta{fill:#9fb7b2;font-size:15px}.panel{fill:#f5efd9;font-size:20px;font-weight:700}.frame{fill:none;stroke:#87aaa6;stroke-width:1}.camp{fill:#ffe09b;stroke:#382f20;stroke-width:2}.key{fill:#c6d4cf;font-size:13px}</style>
+<text x="60" y="48" class="title">Living Frontier · bounded continent overview</text>
+<text x="60" y="76" class="meta">${esc(worldKey(world))} · ${width}×${height} samples · ${rounded(config.extentX / 1000, 1)}×${rounded(config.extentZ / 1000, 1)} km bounds · continent/terrain/province only</text>
+<text x="60" y="100" class="meta">Current three terrain grammars: Lush, Sunscar, Ironspine. This does not depict ten completed habitats.</text>
+<text x="60" y="137" class="panel">Terrain and coast</text><text x="660" y="137" class="panel">Province grammar blend</text>
+<image x="60" y="155" width="${mapWidth}" height="${mapHeight}" image-rendering="pixelated" href="${pngDataUrl(width, height, terrainPixels)}"/><rect x="60" y="155" width="${mapWidth}" height="${mapHeight}" class="frame"/>
+<image x="660" y="155" width="${mapWidth}" height="${mapHeight}" image-rendering="pixelated" href="${pngDataUrl(width, height, provincePixels)}"/><rect x="660" y="155" width="${mapWidth}" height="${mapHeight}" class="frame"/>
+<circle cx="${60 + campX}" cy="${155 + campY}" r="6" class="camp"/><circle cx="${660 + campX}" cy="${155 + campY}" r="6" class="camp"/><text x="${72 + campX}" y="${159 + campY}" class="key">Camp</text>
+</svg>\n`;
+  const svgPath = path.join(outputDir, 'continent-overview.svg');
+  const jsonPath = path.join(outputDir, 'continent-overview.json');
+  fs.writeFileSync(svgPath, svg); fs.writeFileSync(jsonPath, `${JSON.stringify(report)}\n`);
+  console.log(`[frontier-inspector] wrote ${path.relative(ROOT, pngPath)} (${Math.round(fs.statSync(pngPath).size / 1024)} KiB)`);
+  console.log(`[frontier-inspector] wrote ${path.relative(ROOT, svgPath)} (${Math.round(Buffer.byteLength(svg) / 1024)} KiB)`);
+  console.log(`[frontier-inspector] wrote ${path.relative(ROOT, jsonPath)} (${Math.round(Buffer.byteLength(JSON.stringify(report)) / 1024)} KiB)`);
+  console.log(`[frontier-inspector] overview ${worldKey(world)} ${width}x${height}, ~${report.metrics.approximateLandAreaKm2} km² sampled land, three terrain grammars, no life enumeration`);
+}
+
+async function main() {
+  const config = parseArgs(process.argv.slice(2));
+  if (config.help) { process.stdout.write(usage()); return; }
+  if (config.overview) { runOverview(config); return; }
+  const world = normalizeFrontierWorld({ edition: DEFAULT_FRONTIER_WORLD.edition, seed: config.seed });
+  const { terrainOptions, campSurface } = terrainOptionsFor(world);
   const minX = config.centerX - config.extentX / 2, maxX = config.centerX + config.extentX / 2;
   const minZ = config.centerZ - config.extentZ / 2, maxZ = config.centerZ + config.extentZ / 2;
   const width = config.resolution, height = Math.max(LIMITS.minResolution, Math.round(config.resolution * config.extentZ / config.extentX));
@@ -153,6 +284,11 @@ function main() {
     for (const kind of Object.keys(provinceWeights)) provinceWeights[kind].push(sample.provinceWeights?.[kind] ?? 0);
   }
 
+  // The full-continent overview returns before detailed local-life owners are
+  // loaded. The local inspector preserves its existing complete view.
+  const [{ sampleFrontierForageChunk }, { sampleFrontierWildlifeChunk }, { sampleFrontierSceneryChunk }] = await Promise.all([
+    import('../src/world/frontierEcology.js'), import('../src/world/frontierWildlife.js'), import('../src/world/frontierScenery.js'),
+  ]);
   const forage = [], wildlife = [], scenery = [], size = FRONTIER_TERRAIN_CONFIG.chunkSize;
   for (let cz = Math.floor(minZ / size); cz <= Math.floor((maxZ - Number.EPSILON) / size); cz++) {
     for (let cx = Math.floor(minX / size); cx <= Math.floor((maxX - Number.EPSILON) / size); cx++) {
@@ -297,8 +433,8 @@ ${legend(960,page.panelY[2]+page.plot+40,influenceStops,'0 authored reserve','1 
   };
   const stableMeasurement = JSON.stringify({ world: report.world, bounds: report.bounds, sampling: { width, height, slopeStep: .8 }, grids: report.grids, placements: report.placements });
   report.measurementSha256 = crypto.createHash('sha256').update(stableMeasurement).digest('hex');
-  fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-  const svgPath = path.join(OUTPUT_DIR, 'frontier-inspector.svg'), jsonPath = path.join(OUTPUT_DIR, 'frontier-inspector.json');
+  fs.mkdirSync(config.outputDir, { recursive: true });
+  const svgPath = path.join(config.outputDir, 'frontier-inspector.svg'), jsonPath = path.join(config.outputDir, 'frontier-inspector.json');
   fs.writeFileSync(svgPath, svg);
   fs.writeFileSync(jsonPath, `${JSON.stringify(report)}\n`);
   console.log(`[frontier-inspector] wrote ${path.relative(ROOT, svgPath)} (${Math.round(Buffer.byteLength(svg)/1024)} KiB)`);
@@ -306,5 +442,5 @@ ${legend(960,page.panelY[2]+page.plot+40,influenceStops,'0 authored reserve','1 
   console.log(`[frontier-inspector] ${report.world.key} ${width}x${height}, elevation ${report.metrics.elevationMetres.min}..${report.metrics.elevationMetres.max}m, ${visibleForage.length}/${visibleWildlife.length}/${visibleScenery.length} forage/wildlife/scenery`);
 }
 
-try { main(); }
+try { await main(); }
 catch (error) { console.error(`[frontier-inspector] ${error.message}`); process.exitCode = 1; }

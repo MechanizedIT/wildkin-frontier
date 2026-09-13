@@ -1,0 +1,6126 @@
+{
+  "running": false,
+  "samples": [
+    {
+      "ms": 0.09999999403953552,
+      "mode": "IDLE",
+      "position": {
+        "x": 1810.260009765625,
+        "y": -0.37283241748809814,
+        "z": 987.0700073242188
+      },
+      "grounded": true,
+      "coastDistance": 8.00843434013052,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 108,
+      "mode": "WALK",
+      "position": {
+        "x": 1810.397216796875,
+        "y": -0.40762847661972046,
+        "z": 986.8970336914062
+      },
+      "grounded": true,
+      "coastDistance": 7.787650231591682,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 202,
+      "mode": "WALK",
+      "position": {
+        "x": 1810.486083984375,
+        "y": -0.43033307790756226,
+        "z": 986.7849731445312
+      },
+      "grounded": true,
+      "coastDistance": 7.6446295019679935,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 310.80000001192093,
+      "mode": "WALK",
+      "position": {
+        "x": 1810.663818359375,
+        "y": -0.47574174404144287,
+        "z": 986.5608520507812
+      },
+      "grounded": true,
+      "coastDistance": 7.358588042720758,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 409.5,
+      "mode": "WALK",
+      "position": {
+        "x": 1810.797119140625,
+        "y": -0.5097965002059937,
+        "z": 986.3927612304688
+      },
+      "grounded": true,
+      "coastDistance": 7.144056948285181,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 509.59999999403954,
+      "mode": "WALK",
+      "position": {
+        "x": 1810.930419921875,
+        "y": -0.5438541173934937,
+        "z": 986.2246704101562
+      },
+      "grounded": true,
+      "coastDistance": 6.929525853849692,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 608.8000000119209,
+      "mode": "WALK",
+      "position": {
+        "x": 1811.063720703125,
+        "y": -0.5779063701629639,
+        "z": 986.0565795898438
+      },
+      "grounded": true,
+      "coastDistance": 6.714994759414115,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 701.9000000059605,
+      "mode": "WALK",
+      "position": {
+        "x": 1811.152587890625,
+        "y": -0.6003125905990601,
+        "z": 985.9445190429688
+      },
+      "grounded": true,
+      "coastDistance": 6.571974029790426,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 809.4000000059605,
+      "mode": "WALK",
+      "position": {
+        "x": 1811.330322265625,
+        "y": -0.6413544416427612,
+        "z": 985.7203979492188
+      },
+      "grounded": true,
+      "coastDistance": 6.285932570543049,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 907.9000000059605,
+      "mode": "WALK",
+      "position": {
+        "x": 1811.463623046875,
+        "y": -0.6721349954605103,
+        "z": 985.5523071289062
+      },
+      "grounded": true,
+      "coastDistance": 6.071401476107561,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1011.4000000059605,
+      "mode": "WALK",
+      "position": {
+        "x": 1811.596923828125,
+        "y": -0.7029143571853638,
+        "z": 985.3842163085938
+      },
+      "grounded": true,
+      "coastDistance": 5.8568703816719845,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1108.4000000059605,
+      "mode": "WALK",
+      "position": {
+        "x": 1811.730224609375,
+        "y": -0.7336946725845337,
+        "z": 985.2161254882812
+      },
+      "grounded": true,
+      "coastDistance": 5.642339287236407,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1209,
+      "mode": "WALK",
+      "position": {
+        "x": 1811.8857421875,
+        "y": -0.7696040868759155,
+        "z": 985.02001953125
+      },
+      "grounded": true,
+      "coastDistance": 5.392053010394948,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1308.199999988079,
+      "mode": "WALK",
+      "position": {
+        "x": 1811.996826171875,
+        "y": -0.7952537536621094,
+        "z": 984.8799438476562
+      },
+      "grounded": true,
+      "coastDistance": 5.21327709836543,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1402.300000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1812.085693359375,
+        "y": -0.8151334524154663,
+        "z": 984.7678833007812
+      },
+      "grounded": true,
+      "coastDistance": 5.070256368741652,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1508.800000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1812.263427734375,
+        "y": -0.8541485071182251,
+        "z": 984.5437622070312
+      },
+      "grounded": true,
+      "coastDistance": 4.784214909494276,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1609.5,
+      "mode": "WALK",
+      "position": {
+        "x": 1812.396728515625,
+        "y": -0.8834086656570435,
+        "z": 984.3756713867188
+      },
+      "grounded": true,
+      "coastDistance": 4.569683815058787,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1707.5,
+      "mode": "WALK",
+      "position": {
+        "x": 1812.530029296875,
+        "y": -0.9126715660095215,
+        "z": 984.2075805664062
+      },
+      "grounded": true,
+      "coastDistance": 4.3551527206232095,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1810.5999999940395,
+      "mode": "WALK",
+      "position": {
+        "x": 1812.663330078125,
+        "y": -0.9419335126876831,
+        "z": 984.0394897460938
+      },
+      "grounded": true,
+      "coastDistance": 4.140621626187722,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 1908.5999999940395,
+      "mode": "WALK",
+      "position": {
+        "x": 1812.796630859375,
+        "y": -0.9700673818588257,
+        "z": 983.8713989257812
+      },
+      "grounded": true,
+      "coastDistance": 3.9260905317521444,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2008,
+      "mode": "WALK",
+      "position": {
+        "x": 1812.929931640625,
+        "y": -0.997310996055603,
+        "z": 983.7033081054688
+      },
+      "grounded": true,
+      "coastDistance": 3.711559437316567,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2110.300000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1813.063232421875,
+        "y": -1.024553656578064,
+        "z": 983.5352172851562
+      },
+      "grounded": true,
+      "coastDistance": 3.497028342881079,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2207.5,
+      "mode": "WALK",
+      "position": {
+        "x": 1813.196533203125,
+        "y": -1.051794171333313,
+        "z": 983.3671264648438
+      },
+      "grounded": true,
+      "coastDistance": 3.2824972484455905,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2308.9000000059605,
+      "mode": "WALK",
+      "position": {
+        "x": 1813.329833984375,
+        "y": -1.079035997390747,
+        "z": 983.1990356445312
+      },
+      "grounded": true,
+      "coastDistance": 3.0679661540100134,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2409.199999988079,
+      "mode": "WALK",
+      "position": {
+        "x": 1813.463134765625,
+        "y": -1.1062779426574707,
+        "z": 983.0309448242188
+      },
+      "grounded": true,
+      "coastDistance": 2.8534350595744358,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2508.199999988079,
+      "mode": "WALK",
+      "position": {
+        "x": 1813.596435546875,
+        "y": -1.1335210800170898,
+        "z": 982.8628540039062
+      },
+      "grounded": true,
+      "coastDistance": 2.6389039651389474,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2602.300000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1813.685302734375,
+        "y": -1.1516869068145752,
+        "z": 982.7507934570312
+      },
+      "grounded": true,
+      "coastDistance": 2.495883235515259,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2709.5,
+      "mode": "WALK",
+      "position": {
+        "x": 1813.863037109375,
+        "y": -1.18800687789917,
+        "z": 982.5266723632812
+      },
+      "grounded": true,
+      "coastDistance": 2.2098417762678824,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2808,
+      "mode": "WALK",
+      "position": {
+        "x": 1813.996337890625,
+        "y": -1.215248942375183,
+        "z": 982.3585815429688
+      },
+      "grounded": true,
+      "coastDistance": 1.9953106818323048,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 2911.199999988079,
+      "mode": "WALK",
+      "position": {
+        "x": 1814.129638671875,
+        "y": -1.2418739795684814,
+        "z": 982.1904907226562
+      },
+      "grounded": true,
+      "coastDistance": 1.7807795873968164,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3007.5999999940395,
+      "mode": "WALK",
+      "position": {
+        "x": 1814.262939453125,
+        "y": -1.2683215141296387,
+        "z": 982.0223999023438
+      },
+      "grounded": true,
+      "coastDistance": 1.5662484929613807,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3100.4000000059605,
+      "mode": "WALK",
+      "position": {
+        "x": 1814.351806640625,
+        "y": -1.2818907499313354,
+        "z": 981.9103393554688
+      },
+      "grounded": true,
+      "coastDistance": 1.4232277633376922,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3208.199999988079,
+      "mode": "WALK",
+      "position": {
+        "x": 1814.529541015625,
+        "y": -1.3035435676574707,
+        "z": 981.6862182617188
+      },
+      "grounded": true,
+      "coastDistance": 1.1371863040903152,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3302.4000000059605,
+      "mode": "WALK",
+      "position": {
+        "x": 1814.618408203125,
+        "y": -1.314392328262329,
+        "z": 981.5741577148438
+      },
+      "grounded": true,
+      "coastDistance": 0.9941655744666267,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3408.9000000059605,
+      "mode": "WALK",
+      "position": {
+        "x": 1814.796142578125,
+        "y": -1.3360283374786377,
+        "z": 981.3500366210938
+      },
+      "grounded": true,
+      "coastDistance": 0.7081241152192496,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3507.800000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1814.929443359375,
+        "y": -1.352266788482666,
+        "z": 981.1819458007812
+      },
+      "grounded": true,
+      "coastDistance": 0.4935930207836723,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3608.300000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1815.062744140625,
+        "y": -1.3685071468353271,
+        "z": 981.0138549804688
+      },
+      "grounded": true,
+      "coastDistance": 0.279061926348184,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3708.0999999940395,
+      "mode": "WALK",
+      "position": {
+        "x": 1815.196044921875,
+        "y": -1.384747862815857,
+        "z": 980.8457641601562
+      },
+      "grounded": true,
+      "coastDistance": 0.06453083191260671,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3810.199999988079,
+      "mode": "WALK",
+      "position": {
+        "x": 1815.329345703125,
+        "y": -1.401015043258667,
+        "z": 980.6776733398438
+      },
+      "grounded": true,
+      "coastDistance": -0.15000026252288154,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 3910.800000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1815.462646484375,
+        "y": -1.4184515476226807,
+        "z": 980.5095825195312
+      },
+      "grounded": true,
+      "coastDistance": -0.36453135695845884,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4001.800000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1815.551513671875,
+        "y": -1.4306156635284424,
+        "z": 980.3975219726562
+      },
+      "grounded": true,
+      "coastDistance": -0.5075520865821473,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4108.699999988079,
+      "mode": "WALK",
+      "position": {
+        "x": 1815.729248046875,
+        "y": -1.454943060874939,
+        "z": 980.1734008789062
+      },
+      "grounded": true,
+      "coastDistance": -0.7935935458295243,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4202.5,
+      "mode": "WALK",
+      "position": {
+        "x": 1815.818115234375,
+        "y": -1.467107892036438,
+        "z": 980.0613403320312
+      },
+      "grounded": true,
+      "coastDistance": -0.936614275453213,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4308.5999999940395,
+      "mode": "WALK",
+      "position": {
+        "x": 1815.995849609375,
+        "y": -1.4835553169250488,
+        "z": 979.8372192382812
+      },
+      "grounded": true,
+      "coastDistance": -1.22265573470059,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4408.0999999940395,
+      "mode": "WALK",
+      "position": {
+        "x": 1816.129150390625,
+        "y": -1.4957349300384521,
+        "z": 979.6691284179688
+      },
+      "grounded": true,
+      "coastDistance": -1.4371868291361674,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4508.5999999940395,
+      "mode": "WALK",
+      "position": {
+        "x": 1816.262451171875,
+        "y": -1.5083427429199219,
+        "z": 979.5010375976562
+      },
+      "grounded": true,
+      "coastDistance": -1.6517179235716555,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4607.800000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1816.395751953125,
+        "y": -1.5209503173828125,
+        "z": 979.3329467773438
+      },
+      "grounded": true,
+      "coastDistance": -1.8662490180072329,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4702.0999999940395,
+      "mode": "WALK",
+      "position": {
+        "x": 1816.484619140625,
+        "y": -1.5293552875518799,
+        "z": 979.2208862304688
+      },
+      "grounded": true,
+      "coastDistance": -2.0092697476309214,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4808.5999999940395,
+      "mode": "WALK",
+      "position": {
+        "x": 1816.662353515625,
+        "y": -1.546165943145752,
+        "z": 978.9967651367188
+      },
+      "grounded": true,
+      "coastDistance": -2.2953112068782984,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 4908.800000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1816.795654296875,
+        "y": -1.5587739944458008,
+        "z": 978.8286743164062
+      },
+      "grounded": true,
+      "coastDistance": -2.5098423013137867,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5011.300000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1816.928955078125,
+        "y": -1.571385145187378,
+        "z": 978.6605834960938
+      },
+      "grounded": true,
+      "coastDistance": -2.724373395749364,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5108,
+      "mode": "WALK",
+      "position": {
+        "x": 1817.062255859375,
+        "y": -1.5839903354644775,
+        "z": 978.4924926757812
+      },
+      "grounded": true,
+      "coastDistance": -2.9389044901848522,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5208.199999988079,
+      "mode": "WALK",
+      "position": {
+        "x": 1817.195556640625,
+        "y": -1.596602439880371,
+        "z": 978.3244018554688
+      },
+      "grounded": true,
+      "coastDistance": -3.1534355846204294,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5310.300000011921,
+      "mode": "WALK",
+      "position": {
+        "x": 1817.328857421875,
+        "y": -1.6092064380645752,
+        "z": 978.1563110351562
+      },
+      "grounded": true,
+      "coastDistance": -3.3679666790559173,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5401,
+      "mode": "WALK",
+      "position": {
+        "x": 1817.417724609375,
+        "y": -1.6176116466522217,
+        "z": 978.0442504882812
+      },
+      "grounded": true,
+      "coastDistance": -3.510987408679695,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5507.5,
+      "mode": "WALK",
+      "position": {
+        "x": 1817.595458984375,
+        "y": -1.6394481658935547,
+        "z": 977.8201293945312
+      },
+      "grounded": true,
+      "coastDistance": -3.797028867926931,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5607.800000011921,
+      "mode": "WADE",
+      "position": {
+        "x": 1817.6888427734375,
+        "y": -1.6519243717193604,
+        "z": 977.70263671875
+      },
+      "grounded": true,
+      "coastDistance": -3.9471123760007347,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5710.699999988079,
+      "mode": "WADE",
+      "position": {
+        "x": 1817.7716064453125,
+        "y": -1.6629741191864014,
+        "z": 977.5986328125
+      },
+      "grounded": true,
+      "coastDistance": -4.0800282328742306,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5808.0999999940395,
+      "mode": "WADE",
+      "position": {
+        "x": 1817.8543701171875,
+        "y": -1.6740233898162842,
+        "z": 977.49462890625
+      },
+      "grounded": true,
+      "coastDistance": -4.212944089747869,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 5900.5999999940395,
+      "mode": "WADE",
+      "position": {
+        "x": 1817.9095458984375,
+        "y": -1.6813898086547852,
+        "z": 977.42529296875
+      },
+      "grounded": true,
+      "coastDistance": -4.301554660996973,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6009.5999999940395,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.0198974609375,
+        "y": -1.6961472034454346,
+        "z": 977.28662109375
+      },
+      "grounded": true,
+      "coastDistance": -4.478775803495234,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6102,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.0750732421875,
+        "y": -1.704171895980835,
+        "z": 977.21728515625
+      },
+      "grounded": true,
+      "coastDistance": -4.567386374744248,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6209.300000011921,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.1854248046875,
+        "y": -1.7202191352844238,
+        "z": 977.07861328125
+      },
+      "grounded": true,
+      "coastDistance": -4.744607517242367,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6310.5999999940395,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.2681884765625,
+        "y": -1.732254981994629,
+        "z": 976.974609375
+      },
+      "grounded": true,
+      "coastDistance": -4.877523374116095,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6402,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.3233642578125,
+        "y": -1.7402780055999756,
+        "z": 976.9052734375
+      },
+      "grounded": true,
+      "coastDistance": -4.966133945365109,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6510.5,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.4337158203125,
+        "y": -1.7563252449035645,
+        "z": 976.7666015625
+      },
+      "grounded": true,
+      "coastDistance": -5.143355087863228,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6611.9000000059605,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.5164794921875,
+        "y": -1.7683608531951904,
+        "z": 976.66259765625
+      },
+      "grounded": true,
+      "coastDistance": -5.276270944736866,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6708.199999988079,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.5992431640625,
+        "y": -1.7803959846496582,
+        "z": 976.55859375
+      },
+      "grounded": true,
+      "coastDistance": -5.409186801610504,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6808.300000011921,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.6820068359375,
+        "y": -1.7924315929412842,
+        "z": 976.45458984375
+      },
+      "grounded": true,
+      "coastDistance": -5.542102658484089,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 6902,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.7371826171875,
+        "y": -1.8004553318023682,
+        "z": 976.38525390625
+      },
+      "grounded": true,
+      "coastDistance": -5.630713229733193,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7009.300000011921,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.8475341796875,
+        "y": -1.8165028095245361,
+        "z": 976.24658203125
+      },
+      "grounded": true,
+      "coastDistance": -5.807934372231365,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7109.5999999940395,
+      "mode": "WADE",
+      "position": {
+        "x": 1818.9302978515625,
+        "y": -1.8285400867462158,
+        "z": 976.142578125
+      },
+      "grounded": true,
+      "coastDistance": -5.94085022910495,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7208.0999999940395,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.0130615234375,
+        "y": -1.8405742645263672,
+        "z": 976.03857421875
+      },
+      "grounded": true,
+      "coastDistance": -6.073766085978588,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7311.4000000059605,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.0958251953125,
+        "y": -1.8525638580322266,
+        "z": 975.9345703125
+      },
+      "grounded": true,
+      "coastDistance": -6.206681942852226,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7401.699999988079,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.1510009765625,
+        "y": -1.8605115413665771,
+        "z": 975.865234375
+      },
+      "grounded": true,
+      "coastDistance": -6.29529251410133,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7509.199999988079,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.2613525390625,
+        "y": -1.8764057159423828,
+        "z": 975.7265625
+      },
+      "grounded": true,
+      "coastDistance": -6.472513656599449,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7608.5999999940395,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.3441162109375,
+        "y": -1.88832688331604,
+        "z": 975.62255859375
+      },
+      "grounded": true,
+      "coastDistance": -6.605429513473087,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7707.5,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.4268798828125,
+        "y": -1.9002482891082764,
+        "z": 975.5185546875
+      },
+      "grounded": true,
+      "coastDistance": -6.738345370346583,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7807.699999988079,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.5096435546875,
+        "y": -1.91217041015625,
+        "z": 975.41455078125
+      },
+      "grounded": true,
+      "coastDistance": -6.871261227220221,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 7908.300000011921,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.5924072265625,
+        "y": -1.9240906238555908,
+        "z": 975.310546875
+      },
+      "grounded": true,
+      "coastDistance": -7.004177084093948,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8007.9000000059605,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.6751708984375,
+        "y": -1.9360125064849854,
+        "z": 975.20654296875
+      },
+      "grounded": true,
+      "coastDistance": -7.137092940967444,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8107.300000011921,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.7579345703125,
+        "y": -1.9479327201843262,
+        "z": 975.1025390625
+      },
+      "grounded": true,
+      "coastDistance": -7.270008797841082,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8203.09999999404,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.8131103515625,
+        "y": -1.9558813571929932,
+        "z": 975.033203125
+      },
+      "grounded": true,
+      "coastDistance": -7.358619369090186,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8302,
+      "mode": "WADE",
+      "position": {
+        "x": 1819.8958740234375,
+        "y": -1.9678025245666504,
+        "z": 974.92919921875
+      },
+      "grounded": true,
+      "coastDistance": -7.491535225963824,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8409.59999999404,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.0062255859375,
+        "y": -1.9836976528167725,
+        "z": 974.79052734375
+      },
+      "grounded": true,
+      "coastDistance": -7.668756368461943,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8510,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.0889892578125,
+        "y": -1.994640827178955,
+        "z": 974.6865234375
+      },
+      "grounded": true,
+      "coastDistance": -7.80167222533558,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8610.59999999404,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.1717529296875,
+        "y": -2.0054304599761963,
+        "z": 974.58251953125
+      },
+      "grounded": true,
+      "coastDistance": -7.934588082209219,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8707.40000000596,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.2545166015625,
+        "y": -2.016221284866333,
+        "z": 974.478515625
+      },
+      "grounded": true,
+      "coastDistance": -8.067503939082803,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8802.09999999404,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.3096923828125,
+        "y": -2.0234148502349854,
+        "z": 974.4091796875
+      },
+      "grounded": true,
+      "coastDistance": -8.15611451033182,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 8909.5,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.433837890625,
+        "y": -2.0396008491516113,
+        "z": 974.253173828125
+      },
+      "grounded": true,
+      "coastDistance": -8.35548829564232,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9008.5,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.5028076171875,
+        "y": -2.0485928058624268,
+        "z": 974.16650390625
+      },
+      "grounded": true,
+      "coastDistance": -8.466251509703575,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9109.09999999404,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.5855712890625,
+        "y": -2.0593841075897217,
+        "z": 974.0625
+      },
+      "grounded": true,
+      "coastDistance": -8.599167366577214,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9207.699999988079,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.6683349609375,
+        "y": -2.069375991821289,
+        "z": 973.95849609375
+      },
+      "grounded": true,
+      "coastDistance": -8.73208322345094,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9307.800000011921,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.7510986328125,
+        "y": -2.0767030715942383,
+        "z": 973.8544921875
+      },
+      "grounded": true,
+      "coastDistance": -8.864999080324436,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9409.09999999404,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.8338623046875,
+        "y": -2.0840301513671875,
+        "z": 973.75048828125
+      },
+      "grounded": true,
+      "coastDistance": -8.997914937198075,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9509.5,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.930419921875,
+        "y": -2.092578649520874,
+        "z": 973.629150390625
+      },
+      "grounded": true,
+      "coastDistance": -9.152983436883954,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9607.59999999404,
+      "mode": "WADE",
+      "position": {
+        "x": 1820.9993896484375,
+        "y": -2.0986838340759277,
+        "z": 973.54248046875
+      },
+      "grounded": true,
+      "coastDistance": -9.263746650945297,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9702,
+      "mode": "WADE",
+      "position": {
+        "x": 1821.0545654296875,
+        "y": -2.1035690307617188,
+        "z": 973.47314453125
+      },
+      "grounded": true,
+      "coastDistance": -9.352357222194454,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9808.09999999404,
+      "mode": "WADE",
+      "position": {
+        "x": 1821.1649169921875,
+        "y": -2.113337755203247,
+        "z": 973.33447265625
+      },
+      "grounded": true,
+      "coastDistance": -9.529578364692574,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 9907.699999988079,
+      "mode": "WADE",
+      "position": {
+        "x": 1821.2476806640625,
+        "y": -2.1206648349761963,
+        "z": 973.23046875
+      },
+      "grounded": true,
+      "coastDistance": -9.662494221566211,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10010.199999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.3265380859375,
+        "y": -1.9855502843856812,
+        "z": 973.1312866210938
+      },
+      "grounded": false,
+      "coastDistance": -9.789204855509867,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10107.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.3846435546875,
+        "y": -1.8600000143051147,
+        "z": 973.0578002929688
+      },
+      "grounded": false,
+      "coastDistance": -9.882887516723525,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10202.199999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.4232177734375,
+        "y": -1.8600000143051147,
+        "z": 973.0089721679688
+      },
+      "grounded": false,
+      "coastDistance": -9.945113942727277,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10309.300000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.5003662109375,
+        "y": -1.8600000143051147,
+        "z": 972.9113159179688
+      },
+      "grounded": false,
+      "coastDistance": -10.069566794734689,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10407.300000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.5582275390625,
+        "y": -1.8600000143051147,
+        "z": 972.8380737304688
+      },
+      "grounded": false,
+      "coastDistance": -10.162906433740245,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10507.800000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.6160888671875,
+        "y": -1.8600000143051147,
+        "z": 972.7648315429688
+      },
+      "grounded": false,
+      "coastDistance": -10.25624607274571,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10609.800000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.6739501953125,
+        "y": -1.8600000143051147,
+        "z": 972.6915893554688
+      },
+      "grounded": false,
+      "coastDistance": -10.349585711751407,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10701.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.7125244140625,
+        "y": -1.8600000143051147,
+        "z": 972.6427612304688
+      },
+      "grounded": false,
+      "coastDistance": -10.411812137755069,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10807.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.7896728515625,
+        "y": -1.8600000143051147,
+        "z": 972.5451049804688
+      },
+      "grounded": false,
+      "coastDistance": -10.53626498976243,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 10901.800000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.8282470703125,
+        "y": -1.8600000143051147,
+        "z": 972.4962768554688
+      },
+      "grounded": false,
+      "coastDistance": -10.598491415766091,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11007.699999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.9053955078125,
+        "y": -1.8600000143051147,
+        "z": 972.3986206054688
+      },
+      "grounded": false,
+      "coastDistance": -10.722944267773592,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11107.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1821.9632568359375,
+        "y": -1.8600000143051147,
+        "z": 972.3253784179688
+      },
+      "grounded": false,
+      "coastDistance": -10.81628390677906,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11208.300000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.0211181640625,
+        "y": -1.8600000143051147,
+        "z": 972.2521362304688
+      },
+      "grounded": false,
+      "coastDistance": -10.909623545784614,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11310.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.088623046875,
+        "y": -1.8600000143051147,
+        "z": 972.1666870117188
+      },
+      "grounded": false,
+      "coastDistance": -11.01851979129124,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11408.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.1368408203125,
+        "y": -1.8600000143051147,
+        "z": 972.1056518554688
+      },
+      "grounded": false,
+      "coastDistance": -11.096302823795776,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11507.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.1947021484375,
+        "y": -1.8600000143051147,
+        "z": 972.0324096679688
+      },
+      "grounded": false,
+      "coastDistance": -11.189642462801244,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11609.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.2525634765625,
+        "y": -1.8600000143051147,
+        "z": 971.9591674804688
+      },
+      "grounded": false,
+      "coastDistance": -11.28298210180694,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11709.800000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.3104248046875,
+        "y": -1.8600000143051147,
+        "z": 971.8859252929688
+      },
+      "grounded": false,
+      "coastDistance": -11.376321740812406,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11808.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.3682861328125,
+        "y": -1.8600000143051147,
+        "z": 971.8126831054688
+      },
+      "grounded": false,
+      "coastDistance": -11.469661379817962,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 11901.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.4068603515625,
+        "y": -1.8600000143051147,
+        "z": 971.7638549804688
+      },
+      "grounded": false,
+      "coastDistance": -11.531887805821624,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12007.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.4840087890625,
+        "y": -1.8600000143051147,
+        "z": 971.6661987304688
+      },
+      "grounded": false,
+      "coastDistance": -11.656340657829125,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12108.300000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.5418701171875,
+        "y": -1.8600000143051147,
+        "z": 971.5929565429688
+      },
+      "grounded": false,
+      "coastDistance": -11.74968029683459,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12201.199999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.5804443359375,
+        "y": -1.8600000143051147,
+        "z": 971.5441284179688
+      },
+      "grounded": false,
+      "coastDistance": -11.811906722838343,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12309.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.6575927734375,
+        "y": -1.8600000143051147,
+        "z": 971.4464721679688
+      },
+      "grounded": false,
+      "coastDistance": -11.936359574845754,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12408,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.7154541015625,
+        "y": -1.8600000143051147,
+        "z": 971.3732299804688
+      },
+      "grounded": false,
+      "coastDistance": -12.02969921385131,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12507.699999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.7733154296875,
+        "y": -1.8600000143051147,
+        "z": 971.2999877929688
+      },
+      "grounded": false,
+      "coastDistance": -12.123038852856919,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12602.199999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.8118896484375,
+        "y": -1.8600000143051147,
+        "z": 971.2511596679688
+      },
+      "grounded": false,
+      "coastDistance": -12.185265278860669,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12708.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.8890380859375,
+        "y": -1.8600000143051147,
+        "z": 971.1535034179688
+      },
+      "grounded": false,
+      "coastDistance": -12.309718130867939,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12810.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1822.9468994140625,
+        "y": -1.8600000143051147,
+        "z": 971.0802612304688
+      },
+      "grounded": false,
+      "coastDistance": -12.403057769873636,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 12908,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.0047607421875,
+        "y": -1.8600000143051147,
+        "z": 971.0070190429688
+      },
+      "grounded": false,
+      "coastDistance": -12.496397408879103,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13007.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.0626220703125,
+        "y": -1.8600000143051147,
+        "z": 970.9337768554688
+      },
+      "grounded": false,
+      "coastDistance": -12.58973704788466,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13107.699999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.1204833984375,
+        "y": -1.8600000143051147,
+        "z": 970.8605346679688
+      },
+      "grounded": false,
+      "coastDistance": -12.683076686890265,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13207.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.1783447265625,
+        "y": -1.8600000143051147,
+        "z": 970.7872924804688
+      },
+      "grounded": false,
+      "coastDistance": -12.776416325895822,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13309.300000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.2362060546875,
+        "y": -1.8600000143051147,
+        "z": 970.7140502929688
+      },
+      "grounded": false,
+      "coastDistance": -12.86975596490129,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13407.800000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.2940673828125,
+        "y": -1.8600000143051147,
+        "z": 970.6408081054688
+      },
+      "grounded": false,
+      "coastDistance": -12.963095603906844,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13508.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.3519287109375,
+        "y": -1.8600000143051147,
+        "z": 970.5675659179688
+      },
+      "grounded": false,
+      "coastDistance": -13.056435242912451,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13607.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.4097900390625,
+        "y": -1.8600000143051147,
+        "z": 970.4943237304688
+      },
+      "grounded": false,
+      "coastDistance": -13.149774881918006,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13707.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.4676513671875,
+        "y": -1.8600000143051147,
+        "z": 970.4210815429688
+      },
+      "grounded": false,
+      "coastDistance": -13.243114520923472,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13808.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.5255126953125,
+        "y": -1.8600000143051147,
+        "z": 970.3478393554688
+      },
+      "grounded": false,
+      "coastDistance": -13.33645415992917,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 13908.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.5833740234375,
+        "y": -1.8600000143051147,
+        "z": 970.2745971679688
+      },
+      "grounded": false,
+      "coastDistance": -13.429793798934636,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14000.800000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.6219482421875,
+        "y": -1.8600000143051147,
+        "z": 970.2257690429688
+      },
+      "grounded": false,
+      "coastDistance": -13.492020224938386,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14108.699999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.6990966796875,
+        "y": -1.8600000143051147,
+        "z": 970.1281127929688
+      },
+      "grounded": false,
+      "coastDistance": -13.6164730769458,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14207.300000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.7569580078125,
+        "y": -1.8600000143051147,
+        "z": 970.0548706054688
+      },
+      "grounded": false,
+      "coastDistance": -13.709812715951355,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14310.300000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.8148193359375,
+        "y": -1.8600000143051147,
+        "z": 969.9816284179688
+      },
+      "grounded": false,
+      "coastDistance": -13.80315235495682,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14407.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.8726806640625,
+        "y": -1.8600000143051147,
+        "z": 969.9083862304688
+      },
+      "grounded": false,
+      "coastDistance": -13.896491993962517,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14500.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.9112548828125,
+        "y": -1.8600000143051147,
+        "z": 969.8595581054688
+      },
+      "grounded": false,
+      "coastDistance": -13.958718419966269,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14608.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1823.9884033203125,
+        "y": -1.8600000143051147,
+        "z": 969.7619018554688
+      },
+      "grounded": false,
+      "coastDistance": -14.083171271973539,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14708.699999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.0462646484375,
+        "y": -1.8600000143051147,
+        "z": 969.6886596679688
+      },
+      "grounded": false,
+      "coastDistance": -14.176510910979237,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14811.199999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.1041259765625,
+        "y": -1.8600000143051147,
+        "z": 969.6154174804688
+      },
+      "grounded": false,
+      "coastDistance": -14.269850549984701,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 14908.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.1619873046875,
+        "y": -1.8600000143051147,
+        "z": 969.5421752929688
+      },
+      "grounded": false,
+      "coastDistance": -14.363190188990169,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15010.800000011921,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.2198486328125,
+        "y": -1.8600000143051147,
+        "z": 969.4689331054688
+      },
+      "grounded": false,
+      "coastDistance": -14.456529827995865,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15107.199999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.2777099609375,
+        "y": -1.8600000143051147,
+        "z": 969.3956909179688
+      },
+      "grounded": false,
+      "coastDistance": -14.54986946700142,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15208,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.3355712890625,
+        "y": -1.8600000143051147,
+        "z": 969.3224487304688
+      },
+      "grounded": false,
+      "coastDistance": -14.643209106006887,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15308,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.3934326171875,
+        "y": -1.8600000143051147,
+        "z": 969.2492065429688
+      },
+      "grounded": false,
+      "coastDistance": -14.736548745012495,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15407.699999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.4512939453125,
+        "y": -1.8600000143051147,
+        "z": 969.1759643554688
+      },
+      "grounded": false,
+      "coastDistance": -14.82988838401805,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15507,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.5091552734375,
+        "y": -1.8600000143051147,
+        "z": 969.1027221679688
+      },
+      "grounded": false,
+      "coastDistance": -14.923228023023517,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15608.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.5670166015625,
+        "y": -1.8600000143051147,
+        "z": 969.0294799804688
+      },
+      "grounded": false,
+      "coastDistance": -15.016567662029214,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15709.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.6248779296875,
+        "y": -1.8600000143051147,
+        "z": 968.9562377929688
+      },
+      "grounded": false,
+      "coastDistance": -15.10990730103468,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15807.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.6827392578125,
+        "y": -1.8600000143051147,
+        "z": 968.8829956054688
+      },
+      "grounded": false,
+      "coastDistance": -15.203246940040236,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 15906.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.7406005859375,
+        "y": -1.8600000143051147,
+        "z": 968.8097534179688
+      },
+      "grounded": false,
+      "coastDistance": -15.29658657904579,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16007.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.7984619140625,
+        "y": -1.8600000143051147,
+        "z": 968.7365112304688
+      },
+      "grounded": false,
+      "coastDistance": -15.389926218051398,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16107.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.8563232421875,
+        "y": -1.8600000143051147,
+        "z": 968.6632690429688
+      },
+      "grounded": false,
+      "coastDistance": -15.483265857056866,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16208.199999988079,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.9141845703125,
+        "y": -1.8600000143051147,
+        "z": 968.5900268554688
+      },
+      "grounded": false,
+      "coastDistance": -15.57660549606242,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16307.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1824.9720458984375,
+        "y": -1.8600000143051147,
+        "z": 968.5167846679688
+      },
+      "grounded": false,
+      "coastDistance": -15.669945135068028,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16406.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.0299072265625,
+        "y": -1.8600000143051147,
+        "z": 968.4435424804688
+      },
+      "grounded": false,
+      "coastDistance": -15.763284774073583,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16508,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.0877685546875,
+        "y": -1.8600000143051147,
+        "z": 968.3703002929688
+      },
+      "grounded": false,
+      "coastDistance": -15.85662441307905,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16607.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.1456298828125,
+        "y": -1.8600000143051147,
+        "z": 968.2970581054688
+      },
+      "grounded": false,
+      "coastDistance": -15.949964052084747,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16707.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.2034912109375,
+        "y": -1.8600000143051147,
+        "z": 968.2238159179688
+      },
+      "grounded": false,
+      "coastDistance": -16.043303691090212,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16808.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.2613525390625,
+        "y": -1.8600000143051147,
+        "z": 968.1505737304688
+      },
+      "grounded": false,
+      "coastDistance": -16.13664333009577,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 16907.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.3192138671875,
+        "y": -1.8600000143051147,
+        "z": 968.0773315429688
+      },
+      "grounded": false,
+      "coastDistance": -16.229982969101375,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17009.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.3770751953125,
+        "y": -1.8600000143051147,
+        "z": 968.0040893554688
+      },
+      "grounded": false,
+      "coastDistance": -16.32332260810693,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17107,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.4349365234375,
+        "y": -1.8600000143051147,
+        "z": 967.9308471679688
+      },
+      "grounded": false,
+      "coastDistance": -16.4166622471124,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17207.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.4927978515625,
+        "y": -1.8600000143051147,
+        "z": 967.8576049804688
+      },
+      "grounded": false,
+      "coastDistance": -16.510001886118093,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17301.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.541015625,
+        "y": -1.8600000143051147,
+        "z": 967.7965698242188
+      },
+      "grounded": false,
+      "coastDistance": -16.58778491862263,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17407.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.6085205078125,
+        "y": -1.8600000143051147,
+        "z": 967.7111206054688
+      },
+      "grounded": false,
+      "coastDistance": -16.696681164129117,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17507.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.6663818359375,
+        "y": -1.8600000143051147,
+        "z": 967.6378784179688
+      },
+      "grounded": false,
+      "coastDistance": -16.790020803134723,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17606.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.7242431640625,
+        "y": -1.8600000143051147,
+        "z": 967.5646362304688
+      },
+      "grounded": false,
+      "coastDistance": -16.88336044214028,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17708,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.7821044921875,
+        "y": -1.8600000143051147,
+        "z": 967.4913940429688
+      },
+      "grounded": false,
+      "coastDistance": -16.976700081145744,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17800.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.8206787109375,
+        "y": -1.8600000143051147,
+        "z": 967.4425659179688
+      },
+      "grounded": false,
+      "coastDistance": -17.038926507149498,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 17909.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.8978271484375,
+        "y": -1.8600000143051147,
+        "z": 967.3449096679688
+      },
+      "grounded": false,
+      "coastDistance": -17.16337935915691,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18002.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1825.9364013671875,
+        "y": -1.8600000143051147,
+        "z": 967.2960815429688
+      },
+      "grounded": false,
+      "coastDistance": -17.22560578516066,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18110.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.0135498046875,
+        "y": -1.8600000143051147,
+        "z": 967.1984252929688
+      },
+      "grounded": false,
+      "coastDistance": -17.35005863716793,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18208,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.0714111328125,
+        "y": -1.8600000143051147,
+        "z": 967.1251831054688
+      },
+      "grounded": false,
+      "coastDistance": -17.443398276173628,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18307.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.1292724609375,
+        "y": -1.8600000143051147,
+        "z": 967.0519409179688
+      },
+      "grounded": false,
+      "coastDistance": -17.536737915179184,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18407.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.1871337890625,
+        "y": -1.8600000143051147,
+        "z": 966.9786987304688
+      },
+      "grounded": false,
+      "coastDistance": -17.63007755418465,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18501,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.2257080078125,
+        "y": -1.8600000143051147,
+        "z": 966.9298706054688
+      },
+      "grounded": false,
+      "coastDistance": -17.692303980188402,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18607.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.3028564453125,
+        "y": -1.8600000143051147,
+        "z": 966.8322143554688
+      },
+      "grounded": false,
+      "coastDistance": -17.816756832195814,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18701.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.3414306640625,
+        "y": -1.8600000143051147,
+        "z": 966.7833862304688
+      },
+      "grounded": false,
+      "coastDistance": -17.878983258199565,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18809.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.4185791015625,
+        "y": -1.8600000143051147,
+        "z": 966.6857299804688
+      },
+      "grounded": false,
+      "coastDistance": -18.003436110206977,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 18907.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.4764404296875,
+        "y": -1.8600000143051147,
+        "z": 966.6124877929688
+      },
+      "grounded": false,
+      "coastDistance": -18.096775749212444,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19008.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.5343017578125,
+        "y": -1.8600000143051147,
+        "z": 966.5392456054688
+      },
+      "grounded": false,
+      "coastDistance": -18.190115388217997,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19107.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.5921630859375,
+        "y": -1.8600000143051147,
+        "z": 966.4660034179688
+      },
+      "grounded": false,
+      "coastDistance": -18.283455027223695,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19201.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.6307373046875,
+        "y": -1.8600000143051147,
+        "z": 966.4171752929688
+      },
+      "grounded": false,
+      "coastDistance": -18.345681453227357,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19310.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.7078857421875,
+        "y": -1.8600000143051147,
+        "z": 966.3195190429688
+      },
+      "grounded": false,
+      "coastDistance": -18.470134305234716,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19402.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.7464599609375,
+        "y": -1.8600000143051147,
+        "z": 966.2706909179688
+      },
+      "grounded": false,
+      "coastDistance": -18.532360731238377,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19507.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.8236083984375,
+        "y": -1.8600000143051147,
+        "z": 966.1730346679688
+      },
+      "grounded": false,
+      "coastDistance": -18.656813583245878,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19606.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.8814697265625,
+        "y": -1.8600000143051147,
+        "z": 966.0997924804688
+      },
+      "grounded": false,
+      "coastDistance": -18.750153222251345,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19708.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.9393310546875,
+        "y": -1.8600000143051147,
+        "z": 966.0265502929688
+      },
+      "grounded": false,
+      "coastDistance": -18.84349286125695,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19808.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1826.9971923828125,
+        "y": -1.8600000143051147,
+        "z": 965.9533081054688
+      },
+      "grounded": false,
+      "coastDistance": -18.93683250026251,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 19908.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.0550537109375,
+        "y": -1.8600000143051147,
+        "z": 965.8800659179688
+      },
+      "grounded": false,
+      "coastDistance": -19.030172139268064,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20006.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.1129150390625,
+        "y": -1.8600000143051147,
+        "z": 965.8068237304688
+      },
+      "grounded": false,
+      "coastDistance": -19.12351177827353,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20107.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.1707763671875,
+        "y": -1.8600000143051147,
+        "z": 965.7335815429688
+      },
+      "grounded": false,
+      "coastDistance": -19.216851417279226,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20207.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.2286376953125,
+        "y": -1.8600000143051147,
+        "z": 965.6603393554688
+      },
+      "grounded": false,
+      "coastDistance": -19.310191056284694,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20300.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.2672119140625,
+        "y": -1.8600000143051147,
+        "z": 965.6115112304688
+      },
+      "grounded": false,
+      "coastDistance": -19.372417482288444,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20407.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.3443603515625,
+        "y": -1.8600000143051147,
+        "z": 965.5138549804688
+      },
+      "grounded": false,
+      "coastDistance": -19.496870334295856,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20507.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.4022216796875,
+        "y": -1.8600000143051147,
+        "z": 965.4406127929688
+      },
+      "grounded": false,
+      "coastDistance": -19.590209973301413,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20606.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.4600830078125,
+        "y": -1.8600000143051147,
+        "z": 965.3673706054688
+      },
+      "grounded": false,
+      "coastDistance": -19.68354961230688,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20708.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.5179443359375,
+        "y": -1.8600000143051147,
+        "z": 965.2941284179688
+      },
+      "grounded": false,
+      "coastDistance": -19.776889251312575,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20808.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.5758056640625,
+        "y": -1.8600000143051147,
+        "z": 965.2208862304688
+      },
+      "grounded": false,
+      "coastDistance": -19.870228890318042,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 20909.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.643310546875,
+        "y": -1.8600000143051147,
+        "z": 965.1354370117188
+      },
+      "grounded": false,
+      "coastDistance": -19.97912513582453,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21008.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.6915283203125,
+        "y": -1.8600000143051147,
+        "z": 965.0744018554688
+      },
+      "grounded": false,
+      "coastDistance": -20.056908168329205,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21107.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.7493896484375,
+        "y": -1.8600000143051147,
+        "z": 965.0011596679688
+      },
+      "grounded": false,
+      "coastDistance": -20.15024780733476,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21207,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.8072509765625,
+        "y": -1.8600000143051147,
+        "z": 964.9279174804688
+      },
+      "grounded": false,
+      "coastDistance": -20.243587446340225,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21301.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.8458251953125,
+        "y": -1.8600000143051147,
+        "z": 964.8790893554688
+      },
+      "grounded": false,
+      "coastDistance": -20.305813872343975,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21410.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.9229736328125,
+        "y": -1.8600000143051147,
+        "z": 964.7814331054688
+      },
+      "grounded": false,
+      "coastDistance": -20.43026672435139,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21507.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1827.9808349609375,
+        "y": -1.8600000143051147,
+        "z": 964.7081909179688
+      },
+      "grounded": false,
+      "coastDistance": -20.523606363356944,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21610,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.0386962890625,
+        "y": -1.8600000143051147,
+        "z": 964.6349487304688
+      },
+      "grounded": false,
+      "coastDistance": -20.616946002362553,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21707.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.0965576171875,
+        "y": -1.8600000143051147,
+        "z": 964.5617065429688
+      },
+      "grounded": false,
+      "coastDistance": -20.710285641368106,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21810.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.1544189453125,
+        "y": -1.8600000143051147,
+        "z": 964.4884643554688
+      },
+      "grounded": false,
+      "coastDistance": -20.803625280373577,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 21909.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.2122802734375,
+        "y": -1.8600000143051147,
+        "z": 964.4152221679688
+      },
+      "grounded": false,
+      "coastDistance": -20.896964919379272,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22007.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.2701416015625,
+        "y": -1.8600000143051147,
+        "z": 964.3419799804688
+      },
+      "grounded": false,
+      "coastDistance": -20.99030455838474,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22107,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.3280029296875,
+        "y": -1.8600000143051147,
+        "z": 964.2687377929688
+      },
+      "grounded": false,
+      "coastDistance": -21.083644197390203,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22206.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.3858642578125,
+        "y": -1.8600000143051147,
+        "z": 964.1954956054688
+      },
+      "grounded": false,
+      "coastDistance": -21.1769838363959,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22300.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.4244384765625,
+        "y": -1.8600000143051147,
+        "z": 964.1466674804688
+      },
+      "grounded": false,
+      "coastDistance": -21.23921026239951,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22407.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.5015869140625,
+        "y": -1.8600000143051147,
+        "z": 964.0490112304688
+      },
+      "grounded": false,
+      "coastDistance": -21.363663114406922,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22509.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.5594482421875,
+        "y": -1.8600000143051147,
+        "z": 963.9757690429688
+      },
+      "grounded": false,
+      "coastDistance": -21.45700275341248,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22608.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.6173095703125,
+        "y": -1.8600000143051147,
+        "z": 963.9025268554688
+      },
+      "grounded": false,
+      "coastDistance": -21.550342392418084,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22707.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.6751708984375,
+        "y": -1.8600000143051147,
+        "z": 963.8292846679688
+      },
+      "grounded": false,
+      "coastDistance": -21.64368203142364,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22807.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.7330322265625,
+        "y": -1.8600000143051147,
+        "z": 963.7560424804688
+      },
+      "grounded": false,
+      "coastDistance": -21.737021670429108,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 22909.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.7908935546875,
+        "y": -1.8600000143051147,
+        "z": 963.6828002929688
+      },
+      "grounded": false,
+      "coastDistance": -21.830361309434803,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23006.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.8487548828125,
+        "y": -1.8600000143051147,
+        "z": 963.6095581054688
+      },
+      "grounded": false,
+      "coastDistance": -21.92370094844027,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23107,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.9066162109375,
+        "y": -1.8600000143051147,
+        "z": 963.5363159179688
+      },
+      "grounded": false,
+      "coastDistance": -22.017040587445827,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23209.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1828.9644775390625,
+        "y": -1.8600000143051147,
+        "z": 963.4630737304688
+      },
+      "grounded": false,
+      "coastDistance": -22.110380226451433,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23307.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.0223388671875,
+        "y": -1.8600000143051147,
+        "z": 963.3898315429688
+      },
+      "grounded": false,
+      "coastDistance": -22.20371986545699,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23402.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.0609130859375,
+        "y": -1.8600000143051147,
+        "z": 963.3410034179688
+      },
+      "grounded": false,
+      "coastDistance": -22.26594629146065,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23507,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.1380615234375,
+        "y": -1.8600000143051147,
+        "z": 963.2433471679688
+      },
+      "grounded": false,
+      "coastDistance": -22.39039914346815,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23607.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.1959228515625,
+        "y": -1.8600000143051147,
+        "z": 963.1701049804688
+      },
+      "grounded": false,
+      "coastDistance": -22.48373878247362,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23709.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.2537841796875,
+        "y": -1.8600000143051147,
+        "z": 963.0968627929688
+      },
+      "grounded": false,
+      "coastDistance": -22.577078421479175,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23807.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.3116455078125,
+        "y": -1.8600000143051147,
+        "z": 963.0236206054688
+      },
+      "grounded": false,
+      "coastDistance": -22.67041806048478,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 23907.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.3695068359375,
+        "y": -1.8600000143051147,
+        "z": 962.9503784179688
+      },
+      "grounded": false,
+      "coastDistance": -22.763757699490338,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24009,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.4273681640625,
+        "y": -1.8600000143051147,
+        "z": 962.8771362304688
+      },
+      "grounded": false,
+      "coastDistance": -22.857097338495805,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24106.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.4852294921875,
+        "y": -1.8600000143051147,
+        "z": 962.8038940429688
+      },
+      "grounded": false,
+      "coastDistance": -22.9504369775015,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24207.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.5430908203125,
+        "y": -1.8600000143051147,
+        "z": 962.7306518554688
+      },
+      "grounded": false,
+      "coastDistance": -23.043776616506968,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24309.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.6009521484375,
+        "y": -1.8600000143051147,
+        "z": 962.6574096679688
+      },
+      "grounded": false,
+      "coastDistance": -23.13711625551252,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24409,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.6588134765625,
+        "y": -1.8600000143051147,
+        "z": 962.5841674804688
+      },
+      "grounded": false,
+      "coastDistance": -23.230455894518133,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24508.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.7166748046875,
+        "y": -1.8600000143051147,
+        "z": 962.5109252929688
+      },
+      "grounded": false,
+      "coastDistance": -23.323795533523686,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24606.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.7745361328125,
+        "y": -1.8600000143051147,
+        "z": 962.4376831054688
+      },
+      "grounded": false,
+      "coastDistance": -23.41713517252915,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24701.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.8131103515625,
+        "y": -1.8600000143051147,
+        "z": 962.3888549804688
+      },
+      "grounded": false,
+      "coastDistance": -23.4793615985329,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24809.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.8902587890625,
+        "y": -1.8600000143051147,
+        "z": 962.2911987304688
+      },
+      "grounded": false,
+      "coastDistance": -23.603814450540312,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 24902.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1829.9288330078125,
+        "y": -1.8600000143051147,
+        "z": 962.2423706054688
+      },
+      "grounded": false,
+      "coastDistance": -23.666040876544066,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25007.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.0059814453125,
+        "y": -1.8600000143051147,
+        "z": 962.1447143554688
+      },
+      "grounded": false,
+      "coastDistance": -23.790493728551336,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25109.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.0638427734375,
+        "y": -1.8600000143051147,
+        "z": 962.0714721679688
+      },
+      "grounded": false,
+      "coastDistance": -23.883833367557035,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25209.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.1217041015625,
+        "y": -1.8600000143051147,
+        "z": 961.9982299804688
+      },
+      "grounded": false,
+      "coastDistance": -23.9771730065625,
+      "current": 0,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25309.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.1795654296875,
+        "y": -1.8600000143051147,
+        "z": 961.9249877929688
+      },
+      "grounded": false,
+      "coastDistance": -24.070512645568055,
+      "current": 0.0000205095043451474,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25406.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.2374267578125,
+        "y": -1.8600000143051147,
+        "z": 961.8517456054688
+      },
+      "grounded": false,
+      "coastDistance": -24.16385228457366,
+      "current": 0.00014889847658219367,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25507.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.2952880859375,
+        "y": -1.8600000143051147,
+        "z": 961.7785034179688
+      },
+      "grounded": false,
+      "coastDistance": -24.257191923579217,
+      "current": 0.0003941478719016722,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25601.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.3338623046875,
+        "y": -1.8600000143051147,
+        "z": 961.7296752929688
+      },
+      "grounded": false,
+      "coastDistance": -24.31941834958297,
+      "current": 0.0006220495747005907,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25709.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.4110107421875,
+        "y": -1.8600000143051147,
+        "z": 961.6323852539062
+      },
+      "grounded": false,
+      "coastDistance": -24.443584454550027,
+      "current": 0.0012296493659824628,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25807.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.4688720703125,
+        "y": -1.8600000143051147,
+        "z": 961.5595092773438
+      },
+      "grounded": false,
+      "coastDistance": -24.53663734651514,
+      "current": 0.001816884860563455,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 25908.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.5267333984375,
+        "y": -1.8600000143051147,
+        "z": 961.4866943359375
+      },
+      "grounded": false,
+      "coastDistance": -24.629642447307063,
+      "current": 0.0025160807807276414,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26008,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.5845947265625,
+        "y": -1.8600000143051147,
+        "z": 961.4141845703125
+      },
+      "grounded": false,
+      "coastDistance": -24.722408592232053,
+      "current": 0.0033235273926475856,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26107.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.6419677734375,
+        "y": -1.8600000143051147,
+        "z": 961.3417358398438
+      },
+      "grounded": false,
+      "coastDistance": -24.814823230954435,
+      "current": 0.0042377897458919815,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26209.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.6990966796875,
+        "y": -1.8600000143051147,
+        "z": 961.2695922851562
+      },
+      "grounded": false,
+      "coastDistance": -24.906847056295526,
+      "current": 0.005253711453425829,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26309.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.7562255859375,
+        "y": -1.8600000143051147,
+        "z": 961.1976318359375
+      },
+      "grounded": false,
+      "coastDistance": -24.998727508116346,
+      "current": 0.006373847704815296,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26408,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.8133544921875,
+        "y": -1.8600000143051147,
+        "z": 961.1259155273438
+      },
+      "grounded": false,
+      "coastDistance": -25.090416795243662,
+      "current": 0.0075955385763838874,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26502.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.85107421875,
+        "y": -1.8600000143051147,
+        "z": 961.0783081054688
+      },
+      "grounded": false,
+      "coastDistance": -25.151155896478823,
+      "current": 0.008462142442219527,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26607.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.92626953125,
+        "y": -1.8600000143051147,
+        "z": 960.9833984375
+      },
+      "grounded": false,
+      "coastDistance": -25.272243285567672,
+      "current": 0.010321725475591657,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26707.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1830.982666015625,
+        "y": -1.8600000143051147,
+        "z": 960.91259765625
+      },
+      "grounded": false,
+      "coastDistance": -25.362760132550694,
+      "current": 0.011826947348686773,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26807.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.0384521484375,
+        "y": -1.8600000143051147,
+        "z": 960.8421630859375
+      },
+      "grounded": false,
+      "coastDistance": -25.45261058870695,
+      "current": 0.013418676699505848,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 26907.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.0941162109375,
+        "y": -1.8600000143051147,
+        "z": 960.7720947265625
+      },
+      "grounded": false,
+      "coastDistance": -25.542098369065716,
+      "current": 0.015097014590452472,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27007.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.1495361328125,
+        "y": -1.8600000143051147,
+        "z": 960.702392578125
+      },
+      "grounded": false,
+      "coastDistance": -25.631147544869677,
+      "current": 0.016861195573253808,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27107.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.2044677734375,
+        "y": -1.8600000143051147,
+        "z": 960.633056640625
+      },
+      "grounded": false,
+      "coastDistance": -25.71960625860433,
+      "current": 0.018702704936490577,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27209,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.25927734375,
+        "y": -1.8600000143051147,
+        "z": 960.5641479492188
+      },
+      "grounded": false,
+      "coastDistance": -25.80765450536793,
+      "current": 0.020626021410921923,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27308.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.3134765625,
+        "y": -1.8600000143051147,
+        "z": 960.4957275390625
+      },
+      "grounded": false,
+      "coastDistance": -25.894940778958063,
+      "current": 0.022618640450564862,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27408.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.36767578125,
+        "y": -1.8600000143051147,
+        "z": 960.427734375
+      },
+      "grounded": false,
+      "coastDistance": -25.981892514334508,
+      "current": 0.02468726419187442,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27506.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.421142578125,
+        "y": -1.8600000143051147,
+        "z": 960.3601684570312
+      },
+      "grounded": false,
+      "coastDistance": -26.068054138953713,
+      "current": 0.026821564153903164,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27608.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.474609375,
+        "y": -1.8600000143051147,
+        "z": 960.2930297851562
+      },
+      "grounded": false,
+      "coastDistance": -26.1538812253592,
+      "current": 0.029026614121076117,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27707.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.52734375,
+        "y": -1.8600000143051147,
+        "z": 960.2264404296875
+      },
+      "grounded": false,
+      "coastDistance": -26.2388226186607,
+      "current": 0.03129092907920833,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27807.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.5799560546875,
+        "y": -1.8600000143051147,
+        "z": 960.1603393554688
+      },
+      "grounded": false,
+      "coastDistance": -26.323305753817863,
+      "current": 0.03361876937805034,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 27901.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.6146240234375,
+        "y": -1.8600000143051147,
+        "z": 960.1165771484375
+      },
+      "grounded": false,
+      "coastDistance": -26.379135792198174,
+      "current": 0.03519787552787726,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28007.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.68359375,
+        "y": -1.8600000143051147,
+        "z": 960.0296630859375
+      },
+      "grounded": false,
+      "coastDistance": -26.490090170952936,
+      "current": 0.038435878889570195,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28107.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.73486328125,
+        "y": -1.8600000143051147,
+        "z": 959.965087890625
+      },
+      "grounded": false,
+      "coastDistance": -26.572543310445536,
+      "current": 0.040922943317660526,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28207.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.7855224609375,
+        "y": -1.8600000143051147,
+        "z": 959.901123046875
+      },
+      "grounded": false,
+      "coastDistance": -26.654138894418,
+      "current": 0.043456992855287625,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28308.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.8359375,
+        "y": -1.8600000143051147,
+        "z": 959.837646484375
+      },
+      "grounded": false,
+      "coastDistance": -26.735200291488763,
+      "current": 0.046040370762743275,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28400.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.869140625,
+        "y": -1.8600000143051147,
+        "z": 959.795654296875
+      },
+      "grounded": false,
+      "coastDistance": -26.788733240753682,
+      "current": 0.04778178589336668,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28509.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.9351806640625,
+        "y": -1.8600000143051147,
+        "z": 959.7125244140625
+      },
+      "grounded": false,
+      "coastDistance": -26.894902276584336,
+      "current": 0.051324467393040835,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28607.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1831.9842529296875,
+        "y": -1.8600000143051147,
+        "z": 959.6508178710938
+      },
+      "grounded": false,
+      "coastDistance": -26.973742513297076,
+      "current": 0.054023629035920125,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28706.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.0325927734375,
+        "y": -1.8600000143051147,
+        "z": 959.5897216796875
+      },
+      "grounded": false,
+      "coastDistance": -27.0516492657324,
+      "current": 0.05675495057848412,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28810.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.0806884765625,
+        "y": -1.8600000143051147,
+        "z": 959.5291748046875
+      },
+      "grounded": false,
+      "coastDistance": -27.128974040092608,
+      "current": 0.05952247044221972,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 28909.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.1282958984375,
+        "y": -1.8600000143051147,
+        "z": 959.4692993164062
+      },
+      "grounded": false,
+      "coastDistance": -27.20546939651662,
+      "current": 0.0623157886598713,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29007,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.17529296875,
+        "y": -1.8600000143051147,
+        "z": 959.4100341796875
+      },
+      "grounded": false,
+      "coastDistance": -27.281107197420365,
+      "current": 0.06513529846797943,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29101,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.20654296875,
+        "y": -1.8600000143051147,
+        "z": 959.370849609375
+      },
+      "grounded": false,
+      "coastDistance": -27.3312268925933,
+      "current": 0.06703077867916388,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29206.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.26806640625,
+        "y": -1.8600000143051147,
+        "z": 959.2933349609375
+      },
+      "grounded": false,
+      "coastDistance": -27.430189776453805,
+      "current": 0.07084508392730812,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29307.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.3135986328125,
+        "y": -1.8600000143051147,
+        "z": 959.2359619140625
+      },
+      "grounded": false,
+      "coastDistance": -27.5034349058954,
+      "current": 0.07372806652528889,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29408.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.358642578125,
+        "y": -1.8600000143051147,
+        "z": 959.17919921875
+      },
+      "grounded": false,
+      "coastDistance": -27.575898408574318,
+      "current": 0.07662852831287931,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29506.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.4033203125,
+        "y": -1.8600000143051147,
+        "z": 959.123046875
+      },
+      "grounded": false,
+      "coastDistance": -27.647656213247412,
+      "current": 0.07954247914439691,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29609.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.447265625,
+        "y": -1.8600000143051147,
+        "z": 959.0675659179688
+      },
+      "grounded": false,
+      "coastDistance": -27.718432742469727,
+      "current": 0.08246667316626446,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29707.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.4908447265625,
+        "y": -1.8600000143051147,
+        "z": 959.0126953125
+      },
+      "grounded": false,
+      "coastDistance": -27.7885035736865,
+      "current": 0.08540543230635317,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29807.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.533935546875,
+        "y": -1.8600000143051147,
+        "z": 958.9584350585938
+      },
+      "grounded": false,
+      "coastDistance": -27.857792778140226,
+      "current": 0.08835375946059776,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 29906.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.576416015625,
+        "y": -1.8600000143051147,
+        "z": 958.9048461914062
+      },
+      "grounded": false,
+      "coastDistance": -27.926176635900394,
+      "current": 0.09129908605435912,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30008.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.618408203125,
+        "y": -1.8600000143051147,
+        "z": 958.8519287109375
+      },
+      "grounded": false,
+      "coastDistance": -27.993731075724323,
+      "current": 0.09425338280929303,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30107.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.659912109375,
+        "y": -1.8600000143051147,
+        "z": 958.7996215820312
+      },
+      "grounded": false,
+      "coastDistance": -28.06050388878534,
+      "current": 0.09721165334232389,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30206.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.700927734375,
+        "y": -1.8600000143051147,
+        "z": 958.7479858398438
+      },
+      "grounded": false,
+      "coastDistance": -28.126447283910036,
+      "current": 0.10016662003901484,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30311.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.7413330078125,
+        "y": -1.8600000143051147,
+        "z": 958.6969604492188
+      },
+      "grounded": false,
+      "coastDistance": -28.191533123514592,
+      "current": 0.10311987712999415,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30407.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.7813720703125,
+        "y": -1.8600000143051147,
+        "z": 958.6466064453125
+      },
+      "grounded": false,
+      "coastDistance": -28.255865473940133,
+      "current": 0.10607543097426568,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30506.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.8209228515625,
+        "y": -1.8600000143051147,
+        "z": 958.5968627929688
+      },
+      "grounded": false,
+      "coastDistance": -28.31941619760268,
+      "current": 0.10902474532328525,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30606.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.8597412109375,
+        "y": -1.8600000143051147,
+        "z": 958.5477905273438
+      },
+      "grounded": false,
+      "coastDistance": -28.381985645814392,
+      "current": 0.11196391491324298,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30706.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.898193359375,
+        "y": -1.8600000143051147,
+        "z": 958.4993286132812
+      },
+      "grounded": false,
+      "coastDistance": -28.443849396020564,
+      "current": 0.11489848568444887,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30807.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.936279296875,
+        "y": -1.8600000143051147,
+        "z": 958.4515380859375
+      },
+      "grounded": false,
+      "coastDistance": -28.504959657047632,
+      "current": 0.11782568946086389,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 30901,
+      "mode": "SWIM",
+      "position": {
+        "x": 1832.961181640625,
+        "y": -1.8600000143051147,
+        "z": 958.4199829101562
+      },
+      "grounded": false,
+      "coastDistance": -28.5451571601697,
+      "current": 0.11977002011612872,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31007.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.010498046875,
+        "y": -1.8600000143051147,
+        "z": 958.3578491210938
+      },
+      "grounded": false,
+      "coastDistance": -28.62448379261067,
+      "current": 0.12364257370182122,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31102,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.034912109375,
+        "y": -1.8600000143051147,
+        "z": 958.3272094726562
+      },
+      "grounded": false,
+      "coastDistance": -28.663660713102896,
+      "current": 0.12556996389818695,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31208.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.0828857421875,
+        "y": -1.8600000143051147,
+        "z": 958.2667236328125
+      },
+      "grounded": false,
+      "coastDistance": -28.740861767532543,
+      "current": 0.12940592552729682,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31308.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.1182861328125,
+        "y": -1.8600000143051147,
+        "z": 958.2221069335938
+      },
+      "grounded": false,
+      "coastDistance": -28.797816454883776,
+      "current": 0.13226686665068624,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31407.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.1533203125,
+        "y": -1.8600000143051147,
+        "z": 958.1780395507812
+      },
+      "grounded": false,
+      "coastDistance": -28.85411323540284,
+      "current": 0.135116172920198,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31507.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.187744140625,
+        "y": -1.8600000143051147,
+        "z": 958.1346435546875
+      },
+      "grounded": false,
+      "coastDistance": -28.909504669228205,
+      "current": 0.13794108882539163,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31607.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.2216796875,
+        "y": -1.8600000143051147,
+        "z": 958.0918579101562
+      },
+      "grounded": false,
+      "coastDistance": -28.964114476290803,
+      "current": 0.14075199266139932,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31707.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.2552490234375,
+        "y": -1.8600000143051147,
+        "z": 958.0496826171875
+      },
+      "grounded": false,
+      "coastDistance": -29.018018585347495,
+      "current": 0.14354783395786855,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31807.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.2882080078125,
+        "y": -1.8600000143051147,
+        "z": 958.0081176757812
+      },
+      "grounded": false,
+      "coastDistance": -29.071065138884276,
+      "current": 0.1463131841565638,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 31901.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.3099365234375,
+        "y": -1.8600000143051147,
+        "z": 957.980712890625
+      },
+      "grounded": false,
+      "coastDistance": -29.10603869452729,
+      "current": 0.14815209703608248,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32006.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.352783203125,
+        "y": -1.8600000143051147,
+        "z": 957.9267578125
+      },
+      "grounded": false,
+      "coastDistance": -29.17493708559963,
+      "current": 0.15179612805594297,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32108.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.38427734375,
+        "y": -1.8600000143051147,
+        "z": 957.886962890625
+      },
+      "grounded": false,
+      "coastDistance": -29.22568655002102,
+      "current": 0.1544997338465985,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32206.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.4154052734375,
+        "y": -1.8600000143051147,
+        "z": 957.8477783203125
+      },
+      "grounded": false,
+      "coastDistance": -29.275730316436594,
+      "current": 0.1571872221064104,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32307.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.4461669921875,
+        "y": -1.8600000143051147,
+        "z": 957.8091430664062
+      },
+      "grounded": false,
+      "coastDistance": -29.325116176020046,
+      "current": 0.15984957841821484,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32407.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.4761962890625,
+        "y": -1.8600000143051147,
+        "z": 957.7711181640625
+      },
+      "grounded": false,
+      "coastDistance": -29.373568551326137,
+      "current": 0.1624843347443048,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32507.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.5059814453125,
+        "y": -1.8600000143051147,
+        "z": 957.733642578125
+      },
+      "grounded": false,
+      "coastDistance": -29.421438948557196,
+      "current": 0.16510039207621158,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32601.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.5255126953125,
+        "y": -1.8600000143051147,
+        "z": 957.708984375
+      },
+      "grounded": false,
+      "coastDistance": -29.452895183767104,
+      "current": 0.16682587192759704,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32707.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.5640869140625,
+        "y": -1.8600000143051147,
+        "z": 957.660400390625
+      },
+      "grounded": false,
+      "coastDistance": -29.51493044507726,
+      "current": 0.17025199820382592,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32802,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.5831298828125,
+        "y": -1.8600000143051147,
+        "z": 957.636474609375
+      },
+      "grounded": false,
+      "coastDistance": -29.5455094711775,
+      "current": 0.17194802991762445,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 32906.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.6204833984375,
+        "y": -1.8600000143051147,
+        "z": 957.58935546875
+      },
+      "grounded": false,
+      "coastDistance": -29.605638456753645,
+      "current": 0.17530490291954928,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33006.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.6480712890625,
+        "y": -1.8600000143051147,
+        "z": 957.5546875
+      },
+      "grounded": false,
+      "coastDistance": -29.64994374237827,
+      "current": 0.17779570076632079,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33107.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.6751708984375,
+        "y": -1.8600000143051147,
+        "z": 957.5205078125
+      },
+      "grounded": false,
+      "coastDistance": -29.6935629835866,
+      "current": 0.18025326335980008,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33206.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.7017822265625,
+        "y": -1.8600000143051147,
+        "z": 957.4869384765625
+      },
+      "grounded": false,
+      "coastDistance": -29.736400598032162,
+      "current": 0.1826854257980796,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33309.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.7281494140625,
+        "y": -1.8600000143051147,
+        "z": 957.453857421875
+      },
+      "grounded": false,
+      "coastDistance": -29.778704025576022,
+      "current": 0.18509155784514417,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33406.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.75390625,
+        "y": -1.8600000143051147,
+        "z": 957.4212646484375
+      },
+      "grounded": false,
+      "coastDistance": -29.820245479946593,
+      "current": 0.18747217076148184,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33508.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.7794189453125,
+        "y": -1.8600000143051147,
+        "z": 957.3892211914062
+      },
+      "grounded": false,
+      "coastDistance": -29.86120495624204,
+      "current": 0.18982717065821528,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33607,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.8043212890625,
+        "y": -1.8600000143051147,
+        "z": 957.357666015625
+      },
+      "grounded": false,
+      "coastDistance": -29.901402459364107,
+      "current": 0.19214399149147496,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33708.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.8289794921875,
+        "y": -1.8600000143051147,
+        "z": 957.32666015625
+      },
+      "grounded": false,
+      "coastDistance": -29.941017984411285,
+      "current": 0.19444393260337897,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33801.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.8450927734375,
+        "y": -1.8600000143051147,
+        "z": 957.3062133789062
+      },
+      "grounded": false,
+      "coastDistance": -29.96705062345403,
+      "current": 0.1959566319225054,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 33906.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.876953125,
+        "y": -1.8600000143051147,
+        "z": 957.2660522460938
+      },
+      "grounded": false,
+      "coastDistance": -30.018314621187596,
+      "current": 0.19895166332813455,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34006.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.900390625,
+        "y": -1.8600000143051147,
+        "z": 957.2365112304688
+      },
+      "grounded": false,
+      "coastDistance": -30.05602387050085,
+      "current": 0.20116001496663788,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34107.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.9234619140625,
+        "y": -1.8600000143051147,
+        "z": 957.2073974609375
+      },
+      "grounded": false,
+      "coastDistance": -30.09317079532852,
+      "current": 0.20334798075277397,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34207.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.9461669921875,
+        "y": -1.8600000143051147,
+        "z": 957.1787719726562
+      },
+      "grounded": false,
+      "coastDistance": -30.129707604497256,
+      "current": 0.20550339791617417,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34308.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.968505859375,
+        "y": -1.8600000143051147,
+        "z": 957.150634765625
+      },
+      "grounded": false,
+      "coastDistance": -30.165634298007205,
+      "current": 0.20763759805973547,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34407,
+      "mode": "SWIM",
+      "position": {
+        "x": 1833.990478515625,
+        "y": -1.8600000143051147,
+        "z": 957.1229858398438
+      },
+      "grounded": false,
+      "coastDistance": -30.200950875858318,
+      "current": 0.20973551922522587,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34507,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.0120849609375,
+        "y": -1.8600000143051147,
+        "z": 957.0957641601562
+      },
+      "grounded": false,
+      "coastDistance": -30.235705129223927,
+      "current": 0.21181141912768633,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34608.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.0333251953125,
+        "y": -1.8600000143051147,
+        "z": 957.0689697265625
+      },
+      "grounded": false,
+      "coastDistance": -30.269897058104082,
+      "current": 0.21385587822781615,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34706.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.05419921875,
+        "y": -1.8600000143051147,
+        "z": 957.0426635742188
+      },
+      "grounded": false,
+      "coastDistance": -30.30347887132531,
+      "current": 0.21587759289801844,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34809.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.07470703125,
+        "y": -1.8600000143051147,
+        "z": 957.0167846679688
+      },
+      "grounded": false,
+      "coastDistance": -30.336498360061032,
+      "current": 0.217864231431252,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 34907.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.094970703125,
+        "y": -1.8600000143051147,
+        "z": 956.9913330078125
+      },
+      "grounded": false,
+      "coastDistance": -30.369031453068477,
+      "current": 0.21983200707514422,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35006.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.11474609375,
+        "y": -1.8600000143051147,
+        "z": 956.96630859375
+      },
+      "grounded": false,
+      "coastDistance": -30.40092629283333,
+      "current": 0.2217622789032219,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35107,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.1343994140625,
+        "y": -1.8600000143051147,
+        "z": 956.941650390625
+      },
+      "grounded": false,
+      "coastDistance": -30.432458456800465,
+      "current": 0.2236805764716631,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35207.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.1534423828125,
+        "y": -1.8600000143051147,
+        "z": 956.9174194335938
+      },
+      "grounded": false,
+      "coastDistance": -30.46327643876764,
+      "current": 0.22555608684427816,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35307.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.1724853515625,
+        "y": -1.8600000143051147,
+        "z": 956.8936157226562
+      },
+      "grounded": false,
+      "coastDistance": -30.493759882521132,
+      "current": 0.22741617834865452,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35407.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.19091796875,
+        "y": -1.8600000143051147,
+        "z": 956.8702392578125
+      },
+      "grounded": false,
+      "coastDistance": -30.523529144274523,
+      "current": 0.22924500206346005,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35507.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.209228515625,
+        "y": -1.8600000143051147,
+        "z": 956.8472290039062
+      },
+      "grounded": false,
+      "coastDistance": -30.552935730230388,
+      "current": 0.23104862885002475,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35606.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.2271728515625,
+        "y": -1.8600000143051147,
+        "z": 956.8246459960938
+      },
+      "grounded": false,
+      "coastDistance": -30.581779991700838,
+      "current": 0.2328268046772916,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35708.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.2447509765625,
+        "y": -1.8600000143051147,
+        "z": 956.8024291992188
+      },
+      "grounded": false,
+      "coastDistance": -30.61010971985911,
+      "current": 0.23457287168337926,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35807.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.26220703125,
+        "y": -1.8600000143051147,
+        "z": 956.7805786132812
+      },
+      "grounded": false,
+      "coastDistance": -30.63807677221981,
+      "current": 0.23630529767701275,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 35901.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.2734375,
+        "y": -1.8600000143051147,
+        "z": 956.7661743164062
+      },
+      "grounded": false,
+      "coastDistance": -30.656340934807126,
+      "current": 0.2374338154664112,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36008.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.2958984375,
+        "y": -1.8600000143051147,
+        "z": 956.7379760742188
+      },
+      "grounded": false,
+      "coastDistance": -30.692391348247728,
+      "current": 0.23967212319963174,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36106.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.312255859375,
+        "y": -1.8600000143051147,
+        "z": 956.7172241210938
+      },
+      "grounded": false,
+      "coastDistance": -30.718814800672,
+      "current": 0.2413201465116463,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36200.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.322998046875,
+        "y": -1.8600000143051147,
+        "z": 956.7035522460938
+      },
+      "grounded": false,
+      "coastDistance": -30.73620175414957,
+      "current": 0.2424013870899939,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36307.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.344482421875,
+        "y": -1.8600000143051147,
+        "z": 956.6767578125
+      },
+      "grounded": false,
+      "coastDistance": -30.770545540544173,
+      "current": 0.24454741517344591,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36401.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.354736328125,
+        "y": -1.8600000143051147,
+        "z": 956.66357421875
+      },
+      "grounded": false,
+      "coastDistance": -30.78724644960559,
+      "current": 0.24559491580089535,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36508.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.375244140625,
+        "y": -1.8600000143051147,
+        "z": 956.6376953125
+      },
+      "grounded": false,
+      "coastDistance": -30.8202659383414,
+      "current": 0.2476665045663796,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36608.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.390380859375,
+        "y": -1.8600000143051147,
+        "z": 956.61865234375
+      },
+      "grounded": false,
+      "coastDistance": -30.844591950338295,
+      "current": 0.24919637598615893,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36706.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.405029296875,
+        "y": -1.8600000143051147,
+        "z": 956.5999755859375
+      },
+      "grounded": false,
+      "coastDistance": -30.86832750026597,
+      "current": 0.25069018167730667,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36810,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.419677734375,
+        "y": -1.8600000143051147,
+        "z": 956.5816040039062
+      },
+      "grounded": false,
+      "coastDistance": -30.891824094326623,
+      "current": 0.2521716035457365,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 36906.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.4339599609375,
+        "y": -1.8600000143051147,
+        "z": 956.5635375976562
+      },
+      "grounded": false,
+      "coastDistance": -30.914853946248524,
+      "current": 0.2536309656468946,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37007.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.4478759765625,
+        "y": -1.8600000143051147,
+        "z": 956.5457763671875
+      },
+      "grounded": false,
+      "coastDistance": -30.93741705603182,
+      "current": 0.25505852954983993,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37107.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.4617919921875,
+        "y": -1.8600000143051147,
+        "z": 956.5283203125
+      },
+      "grounded": false,
+      "coastDistance": -30.959741209948128,
+      "current": 0.25647333198663397,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37207.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.475341796875,
+        "y": -1.8600000143051147,
+        "z": 956.5111694335938
+      },
+      "grounded": false,
+      "coastDistance": -30.981598621725745,
+      "current": 0.25786565794289307,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37309.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.488525390625,
+        "y": -1.8600000143051147,
+        "z": 956.4943237304688
+      },
+      "grounded": false,
+      "coastDistance": -31.002989291364603,
+      "current": 0.25922269999579417,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37406.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.501708984375,
+        "y": -1.8600000143051147,
+        "z": 956.4778442382812
+      },
+      "grounded": false,
+      "coastDistance": -31.024093213963113,
+      "current": 0.2605666233331794,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37507.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.5146484375,
+        "y": -1.8600000143051147,
+        "z": 956.4616088867188
+      },
+      "grounded": false,
+      "coastDistance": -31.04485411435352,
+      "current": 0.26189555534648035,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37609,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.527099609375,
+        "y": -1.8600000143051147,
+        "z": 956.4456787109375
+      },
+      "grounded": false,
+      "coastDistance": -31.065072343848176,
+      "current": 0.2631869933470402,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37710.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.53955078125,
+        "y": -1.8600000143051147,
+        "z": 956.4299926757812
+      },
+      "grounded": false,
+      "coastDistance": -31.085099408649008,
+      "current": 0.2644680535238794,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37810.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.552001953125,
+        "y": -1.8600000143051147,
+        "z": 956.4146118164062
+      },
+      "grounded": false,
+      "coastDistance": -31.104887517583137,
+      "current": 0.2657325621124736,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 37911.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.563720703125,
+        "y": -1.8600000143051147,
+        "z": 956.3995361328125
+      },
+      "grounded": false,
+      "coastDistance": -31.1239810981067,
+      "current": 0.266962245124072,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38007.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.575439453125,
+        "y": -1.8600000143051147,
+        "z": 956.3846435546875
+      },
+      "grounded": false,
+      "coastDistance": -31.142931305110082,
+      "current": 0.2681794848498906,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38106.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.587158203125,
+        "y": -1.8600000143051147,
+        "z": 956.3699951171875
+      },
+      "grounded": false,
+      "coastDistance": -31.161690347419867,
+      "current": 0.2693829561686032,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38207.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.5985107421875,
+        "y": -1.8600000143051147,
+        "z": 956.355712890625
+      },
+      "grounded": false,
+      "coastDistance": -31.17993485641757,
+      "current": 0.27056283156729327,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38307.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.6094970703125,
+        "y": -1.8600000143051147,
+        "z": 956.3416137695312
+      },
+      "grounded": false,
+      "coastDistance": -31.197808205623275,
+      "current": 0.2717153886452973,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38400.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.6168212890625,
+        "y": -1.8600000143051147,
+        "z": 956.3323364257812
+      },
+      "grounded": false,
+      "coastDistance": -31.209628189413735,
+      "current": 0.27247631704420794,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38509.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.6314697265625,
+        "y": -1.8600000143051147,
+        "z": 956.314208984375
+      },
+      "grounded": false,
+      "coastDistance": -31.23293361878079,
+      "current": 0.27398146466095785,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38601.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.638427734375,
+        "y": -1.8600000143051147,
+        "z": 956.3052978515625
+      },
+      "grounded": false,
+      "coastDistance": -31.24423906925922,
+      "current": 0.27471893384228385,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38706.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.652099609375,
+        "y": -1.8600000143051147,
+        "z": 956.2877197265625
+      },
+      "grounded": false,
+      "coastDistance": -31.266506948007603,
+      "current": 0.276157354900982,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38802,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.658935546875,
+        "y": -1.8600000143051147,
+        "z": 956.2791748046875
+      },
+      "grounded": false,
+      "coastDistance": -31.2774497226884,
+      "current": 0.2768680713410785,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 38907.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.672607421875,
+        "y": -1.8600000143051147,
+        "z": 956.2622680664062
+      },
+      "grounded": false,
+      "coastDistance": -31.29919189852978,
+      "current": 0.2782786332586362,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39006.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.6822509765625,
+        "y": -1.8600000143051147,
+        "z": 956.2498168945312
+      },
+      "grounded": false,
+      "coastDistance": -31.314939669724165,
+      "current": 0.2793042081168067,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39106.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.6917724609375,
+        "y": -1.8600000143051147,
+        "z": 956.2376708984375
+      },
+      "grounded": false,
+      "coastDistance": -31.330372556294535,
+      "current": 0.28030855168978597,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39207,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7012939453125,
+        "y": -1.8600000143051147,
+        "z": 956.2256469726562
+      },
+      "grounded": false,
+      "coastDistance": -31.34570986051801,
+      "current": 0.2813076701099441,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39308.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7108154296875,
+        "y": -1.8600000143051147,
+        "z": 956.2139282226562
+      },
+      "grounded": false,
+      "coastDistance": -31.360808208874605,
+      "current": 0.2822891083279754,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39408.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7198486328125,
+        "y": -1.8600000143051147,
+        "z": 956.202392578125
+      },
+      "grounded": false,
+      "coastDistance": -31.375459468681925,
+      "current": 0.28325042504044995,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39508.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7286376953125,
+        "y": -1.8600000143051147,
+        "z": 956.1910400390625
+      },
+      "grounded": false,
+      "coastDistance": -31.389815497454617,
+      "current": 0.28418533046895944,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39608.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7374267578125,
+        "y": -1.8600000143051147,
+        "z": 956.179931640625
+      },
+      "grounded": false,
+      "coastDistance": -31.4039803615338,
+      "current": 0.2851117178207037,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39709.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7462158203125,
+        "y": -1.8600000143051147,
+        "z": 956.1689453125
+      },
+      "grounded": false,
+      "coastDistance": -31.418049643266137,
+      "current": 0.2860295587761194,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39800.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7520751953125,
+        "y": -1.8600000143051147,
+        "z": 956.1618041992188
+      },
+      "grounded": false,
+      "coastDistance": -31.427285790900854,
+      "current": 0.28663565068281727,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 39907.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7630615234375,
+        "y": -1.8600000143051147,
+        "z": 956.1476440429688
+      },
+      "grounded": false,
+      "coastDistance": -31.445206931279984,
+      "current": 0.28781154710077234,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40007,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7711181640625,
+        "y": -1.8600000143051147,
+        "z": 956.1373901367188
+      },
+      "grounded": false,
+      "coastDistance": -31.458247146388207,
+      "current": 0.28866750031297156,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40106.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7791748046875,
+        "y": -1.8600000143051147,
+        "z": 956.1271362304688
+      },
+      "grounded": false,
+      "coastDistance": -31.47128736149629,
+      "current": 0.2895209999217165,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40207,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7872314453125,
+        "y": -1.8600000143051147,
+        "z": 956.1172485351562
+      },
+      "grounded": false,
+      "coastDistance": -31.484040829564254,
+      "current": 0.2903595091452494,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40309.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.7952880859375,
+        "y": -1.8600000143051147,
+        "z": 956.1073608398438
+      },
+      "grounded": false,
+      "coastDistance": -31.496794297632125,
+      "current": 0.2911955252217474,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40407,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8026123046875,
+        "y": -1.8600000143051147,
+        "z": 956.0978393554688
+      },
+      "grounded": false,
+      "coastDistance": -31.50880544611609,
+      "current": 0.2919915789115846,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40509.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8099365234375,
+        "y": -1.8600000143051147,
+        "z": 956.0883178710938
+      },
+      "grounded": false,
+      "coastDistance": -31.52081659459992,
+      "current": 0.29278007893450386,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40607.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8172607421875,
+        "y": -1.8600000143051147,
+        "z": 956.0791015625
+      },
+      "grounded": false,
+      "coastDistance": -31.53258878721696,
+      "current": 0.2935565735705921,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40707.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8245849609375,
+        "y": -1.8600000143051147,
+        "z": 956.0699462890625
+      },
+      "grounded": false,
+      "coastDistance": -31.544313188660574,
+      "current": 0.294327320134884,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40807.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8319091796875,
+        "y": -1.8600000143051147,
+        "z": 956.06103515625
+      },
+      "grounded": false,
+      "coastDistance": -31.55584642541082,
+      "current": 0.29508915870447555,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 40908.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8387451171875,
+        "y": -1.8600000143051147,
+        "z": 956.05224609375
+      },
+      "grounded": false,
+      "coastDistance": -31.566980364784985,
+      "current": 0.29582706880505394,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41000.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8431396484375,
+        "y": -1.8600000143051147,
+        "z": 956.04638671875
+      },
+      "grounded": false,
+      "coastDistance": -31.574301752691508,
+      "current": 0.2963092706619808,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41106.80000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8519287109375,
+        "y": -1.8600000143051147,
+        "z": 956.03515625
+      },
+      "grounded": false,
+      "coastDistance": -31.588562199117444,
+      "current": 0.29725222751390085,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41207.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8585205078125,
+        "y": -1.8600000143051147,
+        "z": 956.0267333984375
+      },
+      "grounded": false,
+      "coastDistance": -31.59925753393695,
+      "current": 0.29795758790721744,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41308.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8651123046875,
+        "y": -1.8600000143051147,
+        "z": 956.0186767578125
+      },
+      "grounded": false,
+      "coastDistance": -31.609666121715957,
+      "current": 0.29864760501110665,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41408.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8717041015625,
+        "y": -1.8600000143051147,
+        "z": 956.0106201171875
+      },
+      "grounded": false,
+      "coastDistance": -31.620074709495103,
+      "current": 0.2993348752969806,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41506.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8778076171875,
+        "y": -1.8600000143051147,
+        "z": 956.0027465820312
+      },
+      "grounded": false,
+      "coastDistance": -31.630036208724977,
+      "current": 0.30000117971244156,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41609,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8836669921875,
+        "y": -1.8600000143051147,
+        "z": 955.9950561523438
+      },
+      "grounded": false,
+      "coastDistance": -31.639702476920224,
+      "current": 0.3006401603349169,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41707.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8895263671875,
+        "y": -1.8600000143051147,
+        "z": 955.9873657226562
+      },
+      "grounded": false,
+      "coastDistance": -31.649368745115467,
+      "current": 0.3012794874522592,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41809.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.8953857421875,
+        "y": -1.8600000143051147,
+        "z": 955.9800415039062
+      },
+      "grounded": false,
+      "coastDistance": -31.65874826627036,
+      "current": 0.3019033426595343,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 41907.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.9012451171875,
+        "y": -1.8600000143051147,
+        "z": 955.9727172851562
+      },
+      "grounded": false,
+      "coastDistance": -31.668127787425256,
+      "current": 0.3025243601649396,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42007.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.9071044921875,
+        "y": -1.8600000143051147,
+        "z": 955.9654541015625
+      },
+      "grounded": false,
+      "coastDistance": -31.677459517406813,
+      "current": 0.3031457006670036,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42106.59999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.9129638671875,
+        "y": -1.8600000143051147,
+        "z": 955.95849609375
+      },
+      "grounded": false,
+      "coastDistance": -31.686552291521355,
+      "current": 0.30374835311655857,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42201.19999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.91650390625,
+        "y": -1.8600000143051147,
+        "z": 955.953857421875
+      },
+      "grounded": false,
+      "coastDistance": -31.692386354659426,
+      "current": 0.3041402183440193,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42308.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.92333984375,
+        "y": -1.8600000143051147,
+        "z": 955.9447021484375
+      },
+      "grounded": false,
+      "coastDistance": -31.703807041073947,
+      "current": 0.304901004468988,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42407.09999999404,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.928466796875,
+        "y": -1.8600000143051147,
+        "z": 955.9381103515625
+      },
+      "grounded": false,
+      "coastDistance": -31.712157495604725,
+      "current": 0.30545524990275835,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42507.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.93359375,
+        "y": -1.8600000143051147,
+        "z": 955.9315185546875
+      },
+      "grounded": false,
+      "coastDistance": -31.72050795013536,
+      "current": 0.30600974735279995,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42606.90000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.938720703125,
+        "y": -1.8600000143051147,
+        "z": 955.925048828125
+      },
+      "grounded": false,
+      "coastDistance": -31.728762822319386,
+      "current": 0.3065613204231728,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42706.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.94384765625,
+        "y": -1.8600000143051147,
+        "z": 955.9188232421875
+      },
+      "grounded": false,
+      "coastDistance": -31.73682652980967,
+      "current": 0.3070972559444417,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42807.40000000596,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.948974609375,
+        "y": -1.8600000143051147,
+        "z": 955.91259765625
+      },
+      "grounded": false,
+      "coastDistance": -31.744890237300094,
+      "current": 0.30763342438863883,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 42908.30000001192,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.9539794921875,
+        "y": -1.8600000143051147,
+        "z": 955.9064331054688
+      },
+      "grounded": false,
+      "coastDistance": -31.75283022485982,
+      "current": 0.3081698250763515,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 43007.5,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.9583740234375,
+        "y": -1.8600000143051147,
+        "z": 955.9005737304688
+      },
+      "grounded": false,
+      "coastDistance": -31.760151612766343,
+      "current": 0.3086570469893221,
+      "health": 5,
+      "terrain": 25
+    },
+    {
+      "ms": 43007.69999998808,
+      "mode": "SWIM",
+      "position": {
+        "x": 1834.9583740234375,
+        "y": -1.8600000143051147,
+        "z": 955.9005737304688
+      },
+      "grounded": false,
+      "coastDistance": -31.760151612766343,
+      "current": 0.3086570469893221,
+      "health": 5,
+      "terrain": 25
+    }
+  ],
+  "scenery": {
+    "residentCount": 18,
+    "residentIds": [
+      "f2c:s:35:18:seed-6",
+      "f2c:s:36:19:seed-0",
+      "f2c:s:36:19:seed-1",
+      "f2c:s:36:19:seed-10",
+      "f2c:s:36:19:seed-11",
+      "f2c:s:36:19:seed-17",
+      "f2c:s:36:19:seed-8",
+      "f2c:s:35:19:seed-0",
+      "f2c:s:35:19:seed-1",
+      "f2c:s:35:19:seed-2",
+      "f2c:s:35:19:seed-3",
+      "f2c:s:35:19:seed-6",
+      "f2c:s:35:19:seed-7",
+      "f2c:s:36:20:seed-0",
+      "f2c:s:36:20:seed-1",
+      "f2c:s:36:20:seed-2",
+      "f2c:s:36:20:seed-4",
+      "f2c:s:35:18:seed-0"
+    ],
+    "canopyCount": 1,
+    "colliderCount": 7,
+    "clearanceRecipeCache": {
+      "forageCount": 49,
+      "wildlifeCount": 49
+    },
+    "sceneryRecipeCache": {
+      "ordinaryCount": 25,
+      "infillCount": 0
+    },
+    "groundPatchCache": {
+      "entryCount": 18,
+      "maxEntries": 512,
+      "maxPatchRecords": 5
+    },
+    "streaming": {
+      "preparedPublications": 0,
+      "unfinishedPublications": 0,
+      "synchronousPublications": 2,
+      "cancelled": 0,
+      "preparationFailures": 0,
+      "lastWorkMs": 0,
+      "maxWorkMs": 0,
+      "phase": null,
+      "target": null
+    },
+    "lowCount": 17,
+    "stoneSolidCount": 6,
+    "surfaceCount": 7,
+    "lowDrawCount": 15,
+    "lowTriangleCount": 9796,
+    "lowGeometryCount": 3,
+    "lowGeometryVertexCount": 8394,
+    "lowInstanceCount": 17,
+    "groundDrawCount": 1,
+    "groundClusterCount": 81,
+    "groundClusterTriangleCount": 1296
+  },
+  "ocean": {
+    "windowKey": "36,19",
+    "visible": true,
+    "drawCount": 3,
+    "waterVertices": 2601,
+    "foamSegments": 89,
+    "currentStreaks": 12,
+    "wakeSegments": 18,
+    "wakeCapacity": 18,
+    "rebuilds": 1,
+    "sampleCalls": 2601,
+    "elapsed": 82.73260000002333
+  }
+}

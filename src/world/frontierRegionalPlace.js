@@ -7,6 +7,13 @@ import { FRONTIER_SIGNAL_CACHE } from './frontierFixedSites.js';
 export const FRONTIER_REGIONAL_PLACE_RADIUS = 7;
 export const FRONTIER_REGIONAL_PLACE_RESOURCE_SLOTS = Object.freeze({ main: 200, outer: 201 });
 
+// The current finite chest catalog covers this established exploration region.
+// Keep Lush composition admission and eager discovery registration on one domain
+// while the mainland grows. Mineral blooms retain their ordinary world scope.
+export const FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS = Object.freeze({
+  minCx: -42, maxCx: 13, minCz: -57, maxCz: 20,
+});
+
 const MACRO_SIZE = 4;
 const CENTER_INSET = 15;
 const CENTER_SPAN = 20;
@@ -207,7 +214,9 @@ export function sampleFrontierRegionalPlaceChunk(cx, cz, options = {}) {
     && centerSample.provinceWeights?.sunscar >= SUNSCAR_PURITY;
   const lush = centerSample?.provinceKind === 'lush'
     && centerSample.provinceInfluence >= .95
-    && centerSample.provinceWeights?.lush >= LUSH_PURITY;
+    && centerSample.provinceWeights?.lush >= LUSH_PURITY
+    && cx >= FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS.minCx && cx <= FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS.maxCx
+    && cz >= FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS.minCz && cz <= FRONTIER_GROVE_CATALOG_CHUNK_BOUNDS.maxCz;
   if ((!sunscar && !lush)
     || (options.visualAssets !== undefined
       && !(sunscar ? hasSunscarBloomAssets(options.visualAssets) : hasLushRootCacheAssets(options.visualAssets)))

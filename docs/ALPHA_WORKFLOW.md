@@ -105,3 +105,8 @@ Two disjoint workers owned resumable recipe and visual/cache work; root owned in
 ## Continuing alpha passes — owner steering September13
 
 Chris explicitly asked to keep replanning after each completed plan: revisit core loops and mechanics, improve natural presentation and UI/UX, and consider one useful secondary feature per pass. Start each pass from current play and the release gaps; an optional feature is considered, not a quota that displaces a broken core loop. Use a polished, feasible continent image as the next geography target, compare the actual sampled outline against it, and retain the existing three-round ceiling. The latest large/non-round continent request takes immediate planning priority; measured ecology loading remains queued debt.
+
+
+## Larger continent lesson
+
+Use a generated map as a frozen macro reference, then compare the real sampler at the same extent; separate silhouette admission from vegetation and gameplay admission. Three structural rounds were sufficient (6.5/7.8/8.3). Inspect finite catalogs and atlas capacity before multiplying land area. Eager startup scans and persistence caps can scale independently of live residents. Preserve meaningful support/selection tests when geography intentionally changes; do not blindly update hashes. Native fixtures prove new coast controls while the original earned Camp remains a separate exact-save witness. Pre-alpha region production may regenerate unvisited geography rather than accumulating compatibility layers.

@@ -1,8 +1,14 @@
 # Wildkin Frontier
 
-## Latest local progress: prepare scenery before crossings
+## Latest local progress: a larger, irregular continent
 
-**Latest owner direction:** The continent should be quite large with an irregular outline. Larger bays and peninsulas are the next geography priority; the pictured oval foundation is not the intended final shape. See the current slice for the bounded implementation scope.
+**Latest owner direction:** Early alpha now requires **ten distinct, nonrepeating habitats** on a large irregular continent. The [polished target and hybrid plan](docs/CONTINENT_ALPHA_TARGET.md) aim for roughly6×7km: deliberately designed regions with seeded local detail. The coastline is implemented; the ten distinct habitat experiences remain in production.
+
+The continent now spans **6 × 7 km**, with approximately **29 km² of land**, a broad eastern gulf and unequal peninsulas. The third silhouette review passed **8.3/10**. Normal controls crossed the new shore from walking to swimming and back to dry ground; residents stayed bounded. All **1,357 tests** and package checks pass (44.33 MB unpacked / 20.58 MB ZIP), and the earned Camp survives developer and portable reload exactly. There are still **three terrain grammars**, not ten completed habitats. [Actual overview, play and limits](art/reviews/continent-v2/receipt.md).
+
+<img src="art/reviews/continent-v2/overview-r3.png" alt="Actual sampled larger continent, still using three terrain grammars" width="440">
+
+## Earlier streaming improvement
 
 Dense scenery now prepares ahead of an ordinary chunk crossing through the existing frame loop. In the same Lush laptop witness, scenery boundary work fell **270.5→16.6 ms** and the slowest whole frame fell **420.6→161 ms**. Density and deterministic placement are unchanged. All **1,350 tests** and package gates pass (**44.32 MB unpacked /20.58 MB ZIP**); the complete earned Camp save matches developer reload, portable reload and Continue. Source review passes. The earlier **6.8/10 visual HOLD** remains, and loading hitches still prevent an alpha-release claim. [Evidence and limits](art/reviews/scenery-preload/receipt.md).
 
@@ -16,7 +22,7 @@ The previously earned Mossling, bed and garden now lead into a useful second tri
 
 Read-only catalog and terrain guidance identified the route; it did not move the player, grant supplies or advance simulation. This proves a guided earned outing, not unaided discovery. Physical return secured the twelve field XP (50→62). Harvest and replant left 17 berries, six flowers and two crystal shards; the same Mossling and complete progress survived developer and portable reload. All 1,322 tests and package checks pass (44.29 MB unpacked / 20.57 MB ZIP). The earlier59-grove mechanics and all1,319-test gate remain a prior checkpoint in the [grove receipt](art/reviews/lush-groves/receipt.md).
 
-The earlier plant-size pass improved readability; the density foundation above fills more of the actual view. Streaming hitches and natural patch composition remain open. The roughly10-habitat/30-species direction remains staged, and danger pacing, physical-mobile evidence and refreshed report distribution remain limited.
+The earlier plant-size pass improved readability; the density foundation above fills more of the actual view. Streaming hitches and natural patch composition remain open. Ten unique habitats are required for early alpha; the roughly 30-species roster remains staged, and danger pacing, physical-mobile evidence and refreshed report distribution remain limited.
 
 **Continent foundation:** Walk into the shallows, swim at the surface, and follow the offshore current back toward land. Companions wait on dry ground; reloading restores your last supported shore position with the same outing and supplies. Shoreline art remains held at6.4/10, with richer landforms, dressing and swimming animation still needed. [Coast proof and limitations](art/reviews/frontier-coast/receipt.md).
 
@@ -42,7 +48,7 @@ Seeded Sunscar crystal blooms form compact harvestable places with saved partial
 
 <img src="art/reviews/regional-blooms/r3-portrait.png" alt="Actual selected Sunscar bloom in portrait play" width="210"> <img src="art/reviews/regional-blooms/cleft-portrait.png" alt="Actual second seeded crystal arrangement" width="210">
 
-The working release direction is one seeded continent with an ocean boundary and useful companion roles. Roughly10 habitats and30 species are a staged content target; the first alpha starts with a smaller finished set. The coast/ocean and surface-swim foundation exists; boats and the larger roster remain planned. See the [early-alpha priorities](docs/EARLY_ALPHA_PLAN.md) and [illustrated progress supplement](docs/research/living-frontier/Early-Alpha-Progress.md).
+The working release direction is one seeded continent with an ocean boundary and useful companion roles. Ten unique habitats are now required for the first alpha; roughly30species remains a separate staged target. The coast/ocean and surface-swim foundation exists; boats and the larger roster remain planned. See the [early-alpha priorities](docs/EARLY_ALPHA_PLAN.md) and [illustrated progress supplement](docs/research/living-frontier/Early-Alpha-Progress.md).
 
 <img src="art/reviews/frontier-discoveries/r2-near-portrait.png" alt="Actual portrait approach to the Signal Cache receiver and chest" width="210"> <img src="art/reviews/frontier-discoveries/native-opened.png" alt="Actual opened chest after collecting its one-time reward" width="210">
 

@@ -1,0 +1,17 @@
+# Fuller scenery: use existing tools at measured bottlenecks
+
+September13,2026. Chris wants fuller natural scenes and permits useful open-source tools/libraries. He also cautioned against spending the early alpha on premature optimization. The latest native image still has bare areas and repeated props; the independent density score is6.8HOLD. More layered patch composition, material/ground variation, midground structure and readable routes are current visual work, not a reason to wait for a new renderer.
+
+The current source uses vendored Three.jsr160 and Rapier. Low scenery already uses shared `InstancedMesh` geometry in12.5m cullable cells; ground cover uses one instanced batch. Latest measured scenery crossing work fell270.5→16.6ms, while the whole frame still reached161ms. Resource/ecology loading accounts for86.6ms; terrain preparation takes20–27ms per chunk. These are single laptop observations, not phone benchmarks.
+
+| Option | Appropriate reason to use it | Current decision |
+| --- | --- | --- |
+| Three.js instancing | Many copies of the same geometry/material with separate transforms | Already used; continue spatial cells, deliberate bounds and geometry reuse. [Official docs](https://threejs.org/docs/pages/InstancedMesh.html) |
+| Three.js BatchedMesh | Different geometries sharing materials; fewer draw submissions | Present in vendoredr160. Current online docs describe a newer API, so verify version-specific behavior before adopting. Test one mixed-prop group only if submission cost dominates. [Official docs](https://threejs.org/docs/pages/BatchedMesh.html) |
+| InstancedMesh2 | Per-instance culling, LOD, sorting and faster picking beyond the current cell approach | Candidate library, not installed or compatibility-admitted. Check current Three version, license, material/shadow support, mobile benefit and lifecycle cost before a bounded trial. [Maintainer repository](https://github.com/agargaro/instanced-mesh) |
+| Worker for pure generation | Keep a measured long terrain/recipe task off the input/render thread | Possible later; transfer typed results and keep authoritative saves, scene graphs and physics ownership explicit. First reuse completed work and measure generation versus live construction. |
+| Wasm for heavy computation | A demonstrated CPU kernel benefits enough to justify compilation and data-transfer overhead | Rapier already provides Wasm physics. No general rewrite selected. [Rapier guide](https://rapier.rs/docs/user_guides/templates/getting_started_js/) |
+
+The supplied Google summary is background, not an implementation specification. Bottlenecks vary between CPU work, GPU shading/overdraw, geometry, memory and draw submission; language choice alone does not identify ours. The linked `three.wasm` repository is an archived small cube demonstration, not a replacement Three.js engine. [Creator repository](https://github.com/mrdoob/three.wasm). Glas is an experimental AssemblyScript/WebGL project rather than an admitted dependency for this game. [Project repository](https://github.com/lume/glas).
+
+Build a representative fuller habitat, measure actual travel and rendering, use the smallest existing mechanism that removes its dominant cost, then return to content and play. Keep near/far detail, shadows, transparency, GPU memory and culling bounds deliberate. Do not use raw resident object counts or average FPS as proof of smooth streaming. No dependency, worker or Wasm module was added by this research note.

@@ -1,5 +1,13 @@
 # Wildkin Frontier — Historical Beta Candidate Plan
 
+## Current continent checkpoint
+
+The continent now spans **6 × 7 km**, with approximately **29 km² of land**, a broad eastern gulf and unequal peninsulas. The third silhouette review passed **8.3/10**. Normal controls crossed the new shore from walking to swimming and back to dry ground; residents stayed bounded. All **1,357 tests** and package checks pass (44.33 MB unpacked / 20.58 MB ZIP), and the earned Camp survives developer and portable reload exactly. There are still **three terrain grammars**, not ten completed habitats. [Evidence](../art/reviews/continent-v2/receipt.md).
+
+Next: allocate ten connected, nonrepeating habitat regions, then build a genuinely distinct Emberglass Caldera outing with a readable breached rim, layered scenery, useful minerals and existing Wildkin danger. Keep compact Camp/Skybreak/Signal/earned-grove witnesses where practical; this pre-alpha does not require preserving all unvisited generated geography. Use the existing terrain, scenery, resource, encounter and save owners. A region label alone is not a completed habitat.
+
+**Current owner update:** Latest September13 owner direction: early alpha requires at least10unique, nonrepeating habitats on a quite large continent with an irregular silhouette. Root provisionally selects an approximately6×7km hybrid world: deliberate coastline/regions/landmarks and seeded local detail. The current3terrain grammars and3useful species are foundations, not completion of that requirement; roughly30species remains staged. The frozen target and bounded production plan are in `CONTINENT_ALPHA_TARGET.md`.
+
 > **Historical reference.** The finite campaign described below is retained as source history and reusable design material. It is not the active product promise. The active direction is the portrait-mobile-first Living Frontier: an offline, single-player exploration and creature-life game with a physical Camp, short dangerous outings, individual Wildkin, and staged seeded regional geography.
 
 ## Current direction and evidence

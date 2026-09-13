@@ -538,16 +538,18 @@ test('ordinary scenery keeps its attempt budget but emits no wet-footprint props
 test('coastal stone slots follow the dry contour, frame a central exit, and skip unavailable kit pieces', () => {
   const specs = sampleFrontierSceneryChunk(6, 2, { visualAssets: WORLD_DATA.visualAssets });
   const contour = specs.filter(spec => /^f2c:s:6:2:seed-[0-4]$/.test(spec.id));
-  assert.equal(contour.length, 5);
-  assert.deepEqual(contour.map(spec => spec.assetId), [
-    'asset_fen_stone', 'asset_trail_stones', 'asset_trail_stones', 'asset_fen_stone', 'asset_trail_stones',
+  assert.deepEqual(contour.map(spec => [spec.id, spec.assetId]), [
+    ['f2c:s:6:2:seed-0', 'asset_fen_stone'],
+    ['f2c:s:6:2:seed-2', 'asset_trail_stones'],
+    ['f2c:s:6:2:seed-3', 'asset_fen_stone'],
+    ['f2c:s:6:2:seed-4', 'asset_trail_stones'],
   ]);
   const center = sampleFrontier(325, 125), inward = center.inlandDirection;
   const anchor = { x: 325 + inward.x * (8 - center.coastDistance), z: 125 + inward.z * (8 - center.coastDistance) };
   const tangent = { x: -inward.z, z: inward.x };
   const offsets = contour.map(spec => (spec.x - anchor.x) * tangent.x + (spec.z - anchor.z) * tangent.z);
   const westCluster = offsets.filter(offset => offset < 0), eastCluster = offsets.filter(offset => offset > 0);
-  assert.deepEqual([westCluster.length, eastCluster.length], [3, 2]);
+  assert.deepEqual([westCluster.length, eastCluster.length], [2, 2]);
   assert.ok(Math.min(...eastCluster) - Math.max(...westCluster) >= 12,
     'two readable subclusters preserve a central shore exit wider than three metres');
   assert.ok(Math.max(...offsets) - Math.min(...offsets) >= 12, 'the formation reads along the shoreline rather than as one pile');
@@ -761,11 +763,10 @@ test('default-world scenery and ground cover preserve the fixed Signal receiver 
     'the fixed edition-one site does not reserve alternate generated worlds');
 });
 
-test('protected starter, Skybreak and coast residencies retain their exact legacy selections', () => {
+test('protected starter and Skybreak retain exact legacy selections while the expanded coast stays dry and deterministic', () => {
   const fixtures = [
     ['starter', 0, -2, 26, '0c740db352a0f532b203b5c85fe0433002a55531fcde4d3e175d0cc50af886b6'],
     ['Skybreak', 0, -4, 26, 'df0945c1bfd1579cb86b8591fd844d8846ed7a4cb5d87c55a16c0a624708dc16'],
-    ['coast', 6, 2, 20, '8f1cf5b2207864a29d78befa3d93c8763054b334986987c6b15c96735809e514'],
   ];
   for (const [name, cx, cz, count, expectedHash] of fixtures) {
     const ids = selectFrontierScenery(chunkGrid(cx, cz)).map(spec => spec.id);
@@ -773,4 +774,16 @@ test('protected starter, Skybreak and coast residencies retain their exact legac
     assert.equal(ids.length, count);
     assert.equal(createHash('sha256').update(JSON.stringify(ids)).digest('hex'), expectedHash);
   }
+
+  const coastResidency = chunkGrid(6, 2);
+  const coast = selectFrontierScenery(coastResidency);
+  const coastIds = coast.map(spec => spec.id);
+  assert.equal(coastIds.some(id => id.startsWith('f2c:i:')), false, 'the authored coast window remains outside dense infill');
+  assert.equal(coastIds.length, 20);
+  assert.deepEqual(selectFrontierScenery({ ...coastResidency, chunks: [...coastResidency.chunks].reverse() })
+    .map(spec => spec.id), coastIds, 'expanded-coast selection remains deterministic across residency enumeration');
+  const expandedLandSpec = coast.find(spec => spec.id === 'f2c:s:6:4:seed-6');
+  assert.ok(expandedLandSpec, 'the broader authored coast legitimately admits its newly dry southern-window stone');
+  const expandedRadius = (expandedLandSpec.assetId === 'asset_fen_stone' ? 1.14 : 1.4) * expandedLandSpec.scale;
+  assert.equal(hasFrontierLandFootprint(expandedLandSpec.x, expandedLandSpec.z, { radius: expandedRadius }), true);
 });

@@ -1,0 +1,45 @@
+{
+  "date": "2026-09-13T19:29:38.595Z",
+  "fixture": "earned Camp restored through progress import; new-peninsula controls used a separate disclosed position fixture",
+  "devCampExact": true,
+  "packageCampExact": true,
+  "packageContinueExact": true,
+  "devLogs": [],
+  "packageLogs": [],
+  "packageOrigins": [
+    "http://127.0.0.1:8081"
+  ],
+  "packageNewPeninsulaDistance": 24.514567513988325,
+  "shoreReload": {
+    "grounded": true,
+    "mode": "IDLE",
+    "position": {
+      "x": 1808.85791015625,
+      "y": 0.028187360614538193,
+      "z": 988.8494873046875
+    },
+    "differences": [
+      {
+        "path": ".progress.activeRun.feet.y",
+        "before": -0.5118126567959371,
+        "after": -0.5118126325815502
+      },
+      {
+        "path": ".progress.atlas.chunks.f1:a:36:20",
+        "after": 3
+      }
+    ]
+  },
+  "portrait": {
+    "width": 412,
+    "height": 915,
+    "deviceScaleFactor": 1.25,
+    "screenshotWidth": 309,
+    "screenshotHeight": 686
+  },
+  "limits": [
+    "laptop viewport; no physical phone",
+    "local origins, not cold airplane-mode",
+    "shore journey staged; original earned Camp save is a separate witness"
+  ]
+}

@@ -43,6 +43,20 @@ function runtime(id = groveIds[0]) {
   return { registry, progress, loot, chest };
 }
 
+test('every finite discovery claim and grove seal survives the real save normalization and reload', t => {
+  disk(t);
+  const ids = definitions.map(source => source.id);
+  let run = runtime();
+  const envelope = run.progress.exportSave().payload;
+  envelope.progress.claimedLootChestIds = [...ids];
+  envelope.progress.completedPoiIds = [...groveIds];
+  assert.equal(run.progress.importSave(JSON.stringify(envelope)).ok, true);
+  run = runtime();
+  const restored = run.progress.exportSave().payload.progress;
+  assert.deepEqual(restored.claimedLootChestIds, ids, 'later catalog entries cannot disappear at the persistence cap');
+  assert.deepEqual(restored.completedPoiIds, groveIds, 'all saved open seals survive reconstruction');
+});
+
 test('distributed grove partial food/flower/crystal rewards and seals survive unloaded reload independently', t => {
   disk(t);
   assert.ok(groveIds.length >= 2, 'real finite catalog supplies multiple distinct groves');
