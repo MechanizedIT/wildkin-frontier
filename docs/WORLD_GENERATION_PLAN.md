@@ -2,6 +2,8 @@
 
 Provisional implementation plan, September 12, 2026. Owner direction: procedural exploration, varied habitats and individuals, dangerous travel, mobile/casual first with portrait primary. This describes the intended generator; it does not claim those layers already ship.
 
+Current local proof: one fixed Skybreak landform now distinguishes true caps, shoulders and lowland fingers for existing placement owners. It stages lower supplies, upper crystal and one Mossling home, with persistent source identities and bounded scenery. This local semantic label and staged recipe are not the broad climate/region/drainage generator below. See `art/reviews/skybreak-ecology/receipt.md` for exact evidence and held visual goals.
+
 **Latest explicit owner steering:** lean toward extreme geography and large biomes: tall narrow plateaus to jump between, different life/resources above and below, large mountains/deserts and unusual alien formations. Lay foundations for later weather and day/night. These are accepted direction; exact scales, algorithms and cave/architecture choices below remain provisional.
 
 [`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) develops six proposed regional grammars, progression principles and reusable ecology kits. Those families are production direction, not generated runtime content.

@@ -4,7 +4,7 @@
 
 ## Current direction and evidence
 
-Use [Current slice](CURRENT_SLICE.md) for live implementation, test/package status, and the selected Skybreak prototype. Use [Living Frontier plan](LIVING_FRONTIER_PLAN.md) for the staged destination. Skybreak R3 is selected as usable groundwork with the visual target still on HOLD; current evidence belongs in the current slice and its receipt.
+Use [Current slice](CURRENT_SLICE.md) for live implementation, test/package status, and the selected Skybreak prototype. Use [Living Frontier plan](LIVING_FRONTIER_PLAN.md) for the staged destination. Skybreak terrain and cap/lowland ecology are selected as usable groundwork with both visual targets still on HOLD; current evidence belongs in the current slice and their receipts.
 
 The current build includes the five-slot portrait hotbar, separate Pack access, a personal atlas, individual Wildkin capture/banking/reload, body-tone expression, a physical nursery/garden, active-play growth, pairing with earned optional body-tone guidance, bounded terrain residency, and a shared world descriptor. It does not yet ship the proposed modular anatomy, broad reproduction system, cave/overhang regions, swimming, weather, DNA archive, community mapping, or online trade.
 

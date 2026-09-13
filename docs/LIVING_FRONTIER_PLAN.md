@@ -2,6 +2,8 @@
 
 September 12, 2026. Chris approved the procedural exploration / creature-life direction and resumed continuous goal-mode development from `11393c7`. This is an in-place pivot on local `main`, not an alternate game or a compatibility project. The earlier finite campaign is useful source material, not the destination.
 
+Current local checkpoint: one Skybreak cap/lowland outing now supports gathered supplies, upper crystal, a captured crown Mossling and physical Camp return through existing persistent owners. Terrain and ecology visual targets remain held after their three passes. This is a useful staged fixture; broad seeded regional identity and full regional variety remain next. Exact native, portable and validation evidence lives in `CURRENT_SLICE.md` and `art/reviews/skybreak-ecology/receipt.md`.
+
 ## The game we are building
 
 A dangerous alien frontier surrounds the crashed research Camp. Walk out, read the landscape, harvest supplies, investigate a clue, understand an unfamiliar Wildkin and decide when to return. At Camp, build useful spaces, grow suitable food, study inherited traits and raise a distinctive family. Physical actions and visible creatures carry the experience; the Journal and atlas explain discoveries without taking over play.

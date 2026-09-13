@@ -4,11 +4,11 @@ Wildkin Frontier is an offline, single-player exploration and creature-life game
 
 Leave a physical Camp, make a short useful outing, study or bring home an individual Wildkin, and return to a world that remembers the result. The direction favors slow, dangerous exploration, recognizable regional geography, and care that happens in the world rather than through a separate creature inventory.
 
-**Local pre-alpha; not a release.** Current implementation and proof are maintained in [Current slice](docs/CURRENT_SLICE.md). Skybreak now supplies the first tall plateau fixture: its ascent/descent and fall risk are tested, while the visual target and regional ecology remain unfinished.
+**Local pre-alpha; not a release.** Current implementation and proof are maintained in [Current slice](docs/CURRENT_SLICE.md). Skybreak supplies the first tall plateau fixture, with lower berry/fiber pockets, an upper crystal deposit and a crown Mossling habitat. Its visual target and the wider regional generator remain unfinished.
 
-<img src="art/reviews/skybreak/r3-overview.png" alt="Actual Skybreak terrain prototype in a diagnostic overview" width="440"> <img src="art/reviews/skybreak/final-crown-portrait.png" alt="Actual portrait gameplay on the Skybreak crown" width="210">
+<img src="art/reviews/skybreak-ecology/r3-overview.png" alt="Selected Skybreak ecology review in a diagnostic overview" width="440"> <img src="art/reviews/skybreak-ecology/final-package-crown-portrait.png" alt="Final corrected Skybreak habitat in the portable portrait build" width="210">
 
-Actual prototype captures: fixed diagnostic overview on the left; portrait gameplay on the right. The [visual fieldbook](docs/research/living-frontier/Living-Frontier-Visual-Fieldbook.pdf) also illustrates the proposed direction.
+Actual prototype captures: selected diagnostic composition on the left; final portable portrait gameplay on the right. The [ecology receipt](art/reviews/skybreak-ecology/receipt.md) records the later home-safety correction. The [visual fieldbook](docs/research/living-frontier/Living-Frontier-Visual-Fieldbook.pdf) also illustrates the proposed direction.
 
 ## Play locally
 

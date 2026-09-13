@@ -29,6 +29,12 @@ const SKYBREAK_TERRACE_AXES = Object.freeze({ xs: SKYBREAK_TERRACE_X_AXIS, zs: S
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const finite = (value, fallback = 0) => Number.isFinite(value) ? value : fallback;
 
+function surfaceKindFor(landformKind) {
+  if (landformKind === 'skybreak-crown' || landformKind === 'skybreak-table') return 'skybreak-cap';
+  if (landformKind === 'skybreak-buttress' || landformKind === 'skybreak-cliff') return 'skybreak-shoulder';
+  return landformKind === 'skybreak-lowland' ? 'skybreak-lowland' : null;
+}
+
 // A coordinate-seeded integer hash keeps the function independent of chunk order.
 function hash2(x, z, seed) {
   let h = (Math.imul(x | 0, 0x45d9f3b) ^ Math.imul(z | 0, 0x119de1f3) ^ (seed | 0)) | 0;
@@ -131,6 +137,7 @@ function sampleFrontierRaw(x, z, options = {}) {
     height: finite(height),
     habitatBlend: { fernUpland: upland, wetland },
     groundColorRGB: [clamp(red, 0, 1), clamp(green, 0, 1), clamp(blue, 0, 1)],
+    surfaceKind: surfaceKindFor(landform.kind),
   };
 }
 

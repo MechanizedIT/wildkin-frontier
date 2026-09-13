@@ -6,7 +6,7 @@ import {
 import RAPIER from '@dimforge/rapier3d-compat';
 import { createPhysicsWorld } from '../src/physics/createPhysicsWorld.js';
 import { createCharacterPhysics } from '../src/physics/createCharacterPhysics.js';
-import { sampleFrontierLandform } from '../src/world/frontierLandform.js';
+import { SKYBREAK_ANCHORS, SKYBREAK_BOUNDS, sampleFrontierLandform } from '../src/world/frontierLandform.js';
 import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/frontierWorld.js';
 
 await RAPIER.init();
@@ -115,6 +115,24 @@ test('rolling transition preserves the established north terrace heights and col
     assert.equal(sample.height, expectedHeight, `protected height at ${x},${z}`);
     assert.deepEqual(sample.groundColorRGB, expectedColor, `protected color at ${x},${z}`);
   }
+});
+
+test('Skybreak surface kinds add bounded placement semantics without changing terrain numerics', () => {
+  const cap = sampleFrontier(SKYBREAK_ANCHORS.crown.x, SKYBREAK_ANCHORS.crown.z);
+  assert.equal(cap.surfaceKind, 'skybreak-cap');
+  assert.equal(sampleFrontier(SKYBREAK_ANCHORS.entryShelf.x, SKYBREAK_ANCHORS.entryShelf.z).surfaceKind, 'skybreak-cap');
+  assert.equal(sampleFrontier(-18, -184).surfaceKind, 'skybreak-shoulder');
+  assert.equal(sampleFrontier(39, -173).surfaceKind, 'skybreak-shoulder');
+  assert.equal(sampleFrontier(20, -161).surfaceKind, 'skybreak-lowland');
+  assert.equal(sampleFrontier(10, -153).surfaceKind, null, 'open ground inside the conservative envelope is not invented lowland');
+  assert.equal(sampleFrontier(SKYBREAK_BOUNDS.minX - .01, (SKYBREAK_BOUNDS.minZ + SKYBREAK_BOUNDS.maxZ) / 2).surfaceKind, null, 'outside the selected landform remains unclassified');
+  assert.equal(sampleFrontier(0, 0).surfaceKind, null, 'Camp stays unclassified');
+  assert.equal(sampleFrontier(32, -133).surfaceKind, null, 'the older terrace keeps no Skybreak classification');
+  assert.deepEqual({ height: cap.height, habitatBlend: cap.habitatBlend, groundColorRGB: cap.groundColorRGB }, {
+    height: 34.97317886352539,
+    habitatBlend: { fernUpland: 0.6882182924140188, wetland: 0.3117817075859813 },
+    groundColorRGB: [0.2013102526199903, 0.3972535216471834, 0.16559947587781892],
+  }, 'surface semantics do not change height, habitat, or color');
 });
 
 test('rolling color cue distinguishes the framed dry rise and wet bowl without replacing terrain state', () => {

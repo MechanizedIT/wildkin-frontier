@@ -17,6 +17,15 @@ const EDGE = 4;
 const MAX_SLOPE = .32;
 const SLOPE_STEP = .8;
 const FOOTPRINT_RADIUS = Object.freeze({ canopy: 1.45, low: .62, 'ground-cover': .38 });
+// Low props are authored meshes rather than point sprites. Retain the
+// established category minimum, then expand it to the actual scaled planform
+// so a larger landmark cannot pass a small-prop support check on a cliff lip.
+const ASSET_FOOTPRINT_RADIUS = Object.freeze({
+  asset_cloudflower: .75,
+  asset_trail_stones: 1.4,
+  asset_mushroom_ring: 1.05,
+  asset_fen_reed: .85,
+});
 const CAMP_CLEARANCE = 6;
 const FORAGE_CLEARANCE = 3.2;
 // Solid trunks and stones keep a true walk lane. Soft foliage may frame that
@@ -46,6 +55,34 @@ const STAGED = Object.freeze(new Map([
     Object.freeze({ key: 'fen-6', assetId: 'asset_fen_stone', x: 9.2, z: -78.8, scale: .32, kind: 'low' }),
     Object.freeze({ key: 'fen-7', assetId: 'asset_fen_reed', x: 9, z: -80, scale: .38, kind: 'low' }),
     Object.freeze({ key: 'fen-8', assetId: 'asset_fen_lily', x: 8.7, z: -79.9, scale: .46, kind: 'low' }),
+  ])],
+  // Skybreak uses the same admitted low-poly assets, but its ecology is tied to
+  // the actual sampled surface. The lowland thicket frames the early supplies;
+  // cap flowers and loose east-side stones make the climb readable without
+  // painting a path across the landform.
+  ['-1,-4', Object.freeze([
+    Object.freeze({ key: 'skybreak-berry-leaves', assetId: 'asset_verge_canopy_spread', x: -26, z: -169, scale: 1.1, yaw: .28, kind: 'canopy' }),
+    Object.freeze({ key: 'skybreak-berry-reeds', assetId: 'asset_fen_reed', x: -26, z: -170, scale: 1.2, yaw: -.42, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-berry-mushrooms', assetId: 'asset_mushroom_ring', x: -25, z: -170, scale: 1.18, yaw: .16, kind: 'low' }),
+  ])],
+  ['0,-5', Object.freeze([
+    Object.freeze({ key: 'skybreak-crown-cloudflower-west', assetId: 'asset_cloudflower', x: 13, z: -232, scale: 1.3, yaw: .18, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-crown-cloudflower-center', assetId: 'asset_cloudflower', x: 13.5, z: -231.5, scale: 1.35, yaw: -.1, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-crown-cloudflower-east', assetId: 'asset_cloudflower', x: 15, z: -231, scale: 1.28, yaw: .32, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-east-stones-high-west', assetId: 'asset_trail_stones', x: 32, z: -218, scale: 1.1, yaw: -.24, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-east-stones-high-center', assetId: 'asset_trail_stones', x: 34, z: -218, scale: 1.14, yaw: .42, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-east-stones-high-east', assetId: 'asset_trail_stones', x: 36, z: -218, scale: 1.1, yaw: .08, kind: 'low' }),
+  ])],
+  ['0,-4', Object.freeze([
+    Object.freeze({ key: 'skybreak-fiber-leaves', assetId: 'asset_verge_canopy_spread', x: 42, z: -170, scale: 1.1, yaw: -.36, kind: 'canopy' }),
+    Object.freeze({ key: 'skybreak-fiber-reeds', assetId: 'asset_fen_reed', x: 42, z: -162, scale: 1.24, yaw: .42, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-fiber-mushrooms', assetId: 'asset_mushroom_ring', x: 44, z: -169, scale: 1.16, yaw: -.12, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-east-stones-mid-west', assetId: 'asset_trail_stones', x: 41, z: -187, scale: 1.1, yaw: .68, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-east-stones-mid-center', assetId: 'asset_trail_stones', x: 41, z: -185, scale: 1.16, yaw: -.3, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-east-stones-mid-east', assetId: 'asset_trail_stones', x: 43, z: -185, scale: 1.1, yaw: .18, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-east-stones-low-west', assetId: 'asset_trail_stones', x: 24, z: -166, scale: 1.1, yaw: -.28, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-east-stones-low-center', assetId: 'asset_trail_stones', x: 22, z: -164, scale: 1.15, yaw: .26, kind: 'low' }),
+    Object.freeze({ key: 'skybreak-east-stones-low-east', assetId: 'asset_trail_stones', x: 24, z: -164, scale: 1.1, yaw: .04, kind: 'low' }),
   ])],
 ]));
 
@@ -92,14 +129,26 @@ function hasSafeGround(x, z, options) {
 }
 
 function hasSafeFootprint(x, z, candidate, options) {
-  const radius = FOOTPRINT_RADIUS[candidate.kind] ?? FOOTPRINT_RADIUS.low;
+  const categoryRadius = FOOTPRINT_RADIUS[candidate.kind] ?? FOOTPRINT_RADIUS.low;
+  const assetRadius = ASSET_FOOTPRINT_RADIUS[candidate.assetId] ?? 0;
+  const scale = Number.isFinite(candidate.scale) ? Math.max(0, candidate.scale) : 1;
+  const radius = Math.max(categoryRadius, assetRadius * scale);
   if (!isSkybreakArea(x, z, radius)) return true;
   return hasFootprintSupport(x, z, { getHeight: (sx, sz) => heightAt(sx, sz, options), radius, maxSlope: MAX_SLOPE });
 }
 
 function exclusionsFor(cx, cz, options) {
   const world = options.world ?? DEFAULT_FRONTIER_WORLD;
-  const forage = sampleFrontierForageChunk(cx, cz, { getHeight: (x, z) => heightAt(x, z, options), terrainOptions: options.terrainOptions, world });
+  const forage = [];
+  // Specs close to a chunk edge can visually reach an adjacent resource. Keep
+  // the same local neighborhood as wildlife so chunk ownership never creates
+  // a seam in interaction clearance.
+  for (let fz = cz - 1; fz <= cz + 1; fz++) for (let fx = cx - 1; fx <= cx + 1; fx++) {
+    forage.push(...sampleFrontierForageChunk(fx, fz, {
+      getHeight: (x, z) => heightAt(x, z, options), terrainOptions: options.terrainOptions,
+      visualAssets: options.visualAssets, world,
+    }));
+  }
   const wildlife = [];
   for (let wz = cz - 1; wz <= cz + 1; wz++) for (let wx = cx - 1; wx <= cx + 1; wx++) {
     wildlife.push(...sampleFrontierWildlifeChunk(wx, wz, { getTerrainSample: (x, z) => terrainSample(x, z, options), terrainOptions: options.terrainOptions, world }));
@@ -107,11 +156,12 @@ function exclusionsFor(cx, cz, options) {
   return { forage, wildlife };
 }
 
-function isClear(x, z, candidate, exclusions) {
+function isClear(x, z, candidate, exclusions, surfaceKind = null) {
   if (!outsideCampApron(x, z) || !routeIsClear(x, z, candidate)) return false;
   const groundCover = candidate.kind === 'ground-cover';
   if (exclusions.forage.some(node => Math.hypot(x - node.pos.x, z - node.pos.z) < (groundCover ? GROUND_COVER_CLEARANCE.forage : FORAGE_CLEARANCE))) return false;
-  if (exclusions.wildlife.some(animal => Math.hypot(x - animal.homePos.x, z - animal.homePos.z) < (groundCover ? GROUND_COVER_CLEARANCE.wildlife : animal.roamRadius + 2.5))) return false;
+  const capFlower = candidate.kind === 'low' && candidate.assetId === 'asset_cloudflower' && surfaceKind === 'skybreak-cap';
+  if (exclusions.wildlife.some(animal => Math.hypot(x - animal.homePos.x, z - animal.homePos.z) < (groundCover ? GROUND_COVER_CLEARANCE.wildlife : capFlower ? 3.1 : animal.roamRadius + 2.5))) return false;
   return true;
 }
 
@@ -130,6 +180,8 @@ export function createFrontierGroundCoverFilter(options = {}) {
 }
 
 function lowAsset(sample, habitatRoll, detailRoll) {
+  if (sample.surfaceKind === 'skybreak-cap') return 'asset_cloudflower';
+  if (sample.surfaceKind === 'skybreak-lowland') return detailRoll < .56 ? 'asset_fen_reed' : 'asset_mushroom_ring';
   const wet = habitatRoll < (sample.habitatBlend?.wetland ?? 0);
   if (wet) return detailRoll < .48 ? 'asset_fen_reed' : detailRoll < .78 ? 'asset_fen_lily' : 'asset_fen_stone';
   return detailRoll < .68 ? 'asset_mushroom_ring' : 'asset_trail_stones';
@@ -157,7 +209,10 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   const accept = (key, candidate, curated = false) => {
     if (Math.floor(candidate.x / size) !== cx || Math.floor(candidate.z / size) !== cz) return;
     if (!curated && (candidate.x < cx * size + EDGE || candidate.x > (cx + 1) * size - EDGE || candidate.z < cz * size + EDGE || candidate.z > (cz + 1) * size - EDGE)) return;
-    if (!hasSafeGround(candidate.x, candidate.z, sampleOptions) || !hasSafeFootprint(candidate.x, candidate.z, candidate, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions)) return;
+    const surfaceKind = terrainSample(candidate.x, candidate.z, sampleOptions).surfaceKind;
+    if (surfaceKind === 'skybreak-shoulder') return;
+    if (candidate.assetId === 'asset_cloudflower' && surfaceKind !== 'skybreak-cap') return;
+    if (!hasSafeGround(candidate.x, candidate.z, sampleOptions) || !hasSafeFootprint(candidate.x, candidate.z, candidate, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions, surfaceKind)) return;
     specs.push(makeSpec(cx, cz, key, candidate, sampleOptions));
   };
   for (const candidate of STAGED.get(`${cx},${cz}`) ?? []) accept(`stage-${candidate.key}`, candidate, true);
@@ -171,7 +226,9 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
     const centerZ = cz * size + 10 + roll(group, 53) * (size - 20);
     const angle = roll(attempt, 71) * Math.PI * 2, radius = slot ? 2.2 + roll(attempt, 83) * 5.8 : 0;
     const x = centerX + Math.cos(angle) * radius, z = centerZ + Math.sin(angle) * radius;
-    const sample = terrainSample(x, z, sampleOptions), canopy = !specs.some(spec => spec.kind === 'canopy');
+    const sample = terrainSample(x, z, sampleOptions);
+    if (sample.surfaceKind === 'skybreak-shoulder') continue;
+    const canopy = sample.surfaceKind === 'skybreak-cap' ? false : !specs.some(spec => spec.kind === 'canopy');
     const canopyRoll = roll(attempt, 97);
     const assetId = canopy
       ? (canopyRoll < .34 ? 'asset_verge_canopy' : canopyRoll < .67 ? 'asset_verge_canopy_tall' : 'asset_verge_canopy_spread')

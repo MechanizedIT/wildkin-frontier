@@ -6,6 +6,8 @@ import { createCreatureSystem } from '../src/creatures/creatureSystem.js';
 import { createWildkinGenome } from '../src/creatures/wildkinGenome.js';
 import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
 import { createFrontierWildlifeRuntime } from '../src/world/frontierWildlifeRuntime.js';
+import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
+import { sampleFrontier } from '../src/world/frontierTerrain.js';
 
 function residency(cx, cz) {
   const chunks = [];
@@ -161,4 +163,97 @@ test('staged Mossling flee remains autonomous but turns back at its local bounda
   assert.ok(Math.hypot(state.pos.x - state.homePos.x, state.pos.z - state.homePos.z) <= 3.9, 'one movement step may cross the 3.5 local boundary before RETURN takes over');
   assert.equal(state.aiState, 'RETURN');
   system.dispose();
+});
+
+test('Skybreak crown has one stable ordinary-expression Mossling with a supported home', () => {
+  const [mossling] = sampleFrontierWildlifeChunk(0, -5);
+  assert.deepEqual({
+    id: mossling.originId,
+    species: mossling.speciesTag,
+    asset: mossling.visualAssetId,
+    priority: mossling.residentPriority,
+    x: mossling.homePos.x,
+    z: mossling.homePos.z,
+  }, {
+    id: 'f1:w:0:-5:100',
+    species: 'mossling',
+    asset: 'asset_wildkin_mossling',
+    priority: 4,
+    x: 9.5,
+    z: -231.5,
+  });
+  assert.deepEqual({ roam: mossling.roamRadius, leash: mossling.leashRadius, fleeLeash: mossling.fleeLeashRadius },
+    { roam: 2.4, leash: 2.8, fleeLeash: 2.2 });
+  const [ordinary] = sampleFrontierWildlifeChunk(1, -1);
+  assert.deepEqual({ roam: ordinary.roamRadius, leash: ordinary.leashRadius, fleeLeash: ordinary.fleeLeashRadius },
+    { roam: 4.4, leash: 8.5, fleeLeash: null }, 'ordinary generated Mosslings retain their established ranges');
+  assert.deepEqual(mossling.genome, createWildkinGenome(mossling.originId, 'grove'), 'cap placement uses the current normal genome expression path');
+  assert.equal(sampleFrontier(9.5, -231.5).surfaceKind, 'skybreak-cap');
+  assert.equal(hasFootprintSupport(9.5, -231.5, {
+    getHeight: (x, z) => sampleFrontier(x, z).height,
+    radius: 3.1,
+    maxSlope: .32,
+  }), true);
+  let steepestStep = 0;
+  for (let dx = -3; dx <= 3; dx += .5) for (let dz = -3; dz <= 3; dz += .5) {
+    if (dx * dx + dz * dz > 3.1 ** 2) continue;
+    const x = mossling.homePos.x + dx, z = mossling.homePos.z + dz;
+    const center = sampleFrontier(x, z);
+    assert.equal(center.surfaceKind, 'skybreak-cap', `movement disk remains on the cap at ${x},${z}`);
+    for (const [ox, oz] of [[.5, 0], [0, .5]]) {
+      steepestStep = Math.max(steepestStep, Math.abs(sampleFrontier(x + ox, z + oz).height - center.height) / .5);
+    }
+  }
+  assert.ok(steepestStep <= .32, `every half-metre controller step stays walkable (${steepestStep.toFixed(3)})`);
+  assert.deepEqual(sampleFrontierWildlifeChunk(0, -5, {
+    getTerrainSample: (x, z) => ({
+      height: Math.abs(x - 10.5) < .01 && Math.abs(z + 231.5) < .01 ? 2 : 0,
+      habitatBlend: { wetland: 0, fernUpland: 1 },
+      surfaceKind: 'skybreak-cap',
+    }),
+  }), [], 'an unsafe interior step rejects the cap home even when its center and outer ring are level');
+  assert.deepEqual(sampleFrontierWildlifeChunk(0, -5, {
+    getTerrainSample: () => ({ height: 10, habitatBlend: { wetland: 0, fernUpland: 1 }, surfaceKind: 'skybreak-lowland' }),
+  }), [], 'the staged source cannot drift onto a non-cap surface');
+});
+
+test('Skybreak crown Mossling flees toward the cliff only to its supported return boundary', () => {
+  const source = sampleFrontierWildlifeChunk(0, -5)[0];
+  const system = createCreatureSystem(new THREE.Scene(), null, null, { spawns: [source] });
+  const state = system._creatures[0].state;
+  state.aiState = 'FLEE';
+  state.fleeTime = 3.5;
+  state.fleeThreatPos = { x: 11.8, y: sampleFrontier(11.8, -230).height + .52, z: -230 };
+  system.setPlayerPos({ x: 80, y: state.pos.y, z: -230 });
+  system.setPlayerState({ mode: 'IDLE', speed: 0 });
+  let farthest = 0;
+  let returned = false;
+  for (let frame = 0; frame < 120; frame += 1) {
+    system.update(.1);
+    farthest = Math.max(farthest, Math.hypot(state.pos.x - state.homePos.x, state.pos.z - state.homePos.z));
+    if (state.aiState === 'RETURN') returned = true;
+    if (returned && state.aiState === 'ROAM' && Math.hypot(state.pos.x - state.homePos.x, state.pos.z - state.homePos.z) < 1.2) break;
+  }
+  assert.ok(farthest < 2.7, `flee stayed within the continuously supported cap interior (${farthest.toFixed(3)}m)`);
+  assert.equal(returned, true, 'crossing the cap flee boundary enters the existing return behavior');
+  assert.ok(Math.hypot(state.pos.x - state.homePos.x, state.pos.z - state.homePos.z) < 1.2, 'return reaches the supported home interior');
+  assert.equal(state.aiState, 'ROAM', 'the cap resident completes return instead of remaining permanently stuck');
+  system.dispose();
+});
+
+test('Skybreak crown source participates in bounded neighbor selection and stays absent after capture', () => {
+  const creatures = owner();
+  const captured = new Set();
+  const runtime = createFrontierWildlifeRuntime({
+    terrainRuntime: { getResidency: () => residency(0, -5) },
+    creatureSystem: creatures,
+    isSourceCaptured: id => captured.has(id),
+  });
+  runtime.update();
+  assert.ok(creatures.actors.length <= 4);
+  assert.ok(creatures.actors.some(actor => actor.state.originId === 'f1:w:0:-5:100'), 'the cap source wins a bounded resident slot');
+  captured.add('f1:w:0:-5:100');
+  runtime.update();
+  assert.equal(creatures.actors.some(actor => actor.state.originId === 'f1:w:0:-5:100'), false);
+  runtime.dispose();
 });

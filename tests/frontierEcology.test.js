@@ -2,7 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import WORLD_DATA from '../src/world/data/world.js';
 import { createRuntimeResourcePlacements } from '../src/resources/resourceSystem.js';
+import { getResourceType } from '../src/resources/resourceConfig.js';
+import { getHarvestInteractionPoint, getHarvestReach, isHarvestableInRange, isPlayerInsideColliderVolume } from '../src/resources/harvestLogic.js';
+import { describeVisualAssetCollider } from '../src/world/colliderDescriptor.js';
 import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
+import { SKYBREAK_ROUTE } from '../src/world/frontierLandform.js';
+import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
+import { sampleFrontier } from '../src/world/frontierTerrain.js';
+import { computeVisualAssetBounds } from '../src/world/visualFactory.js';
 
 test('frontier forage is deterministic, bounded, stable-IDed, and clear of Camp', () => {
   const first = sampleFrontierForageChunk(3, 2), second = sampleFrontierForageChunk(3, 2);
@@ -75,4 +82,81 @@ test('missing or non-harvestable mineral assets preserve the ordinary rock recip
     assert.equal(actual.id, expected.id);
     assert.deepEqual(actual.pos, expected.pos);
   }
+});
+
+test('Skybreak stages useful lowland supplies and a cap mineral with reserved persistent IDs', () => {
+  const assets = WORLD_DATA.visualAssets.filter(asset => ['asset_berry_bush', 'asset_crystal'].includes(asset.id));
+  const chunks = [[-1, -4], [0, -4], [0, -5]].map(([cx, cz]) => sampleFrontierForageChunk(cx, cz, { visualAssets: assets }));
+  assert.ok(chunks.every(nodes => nodes.length <= 12), 'ordinary and staged forage remain bounded per chunk');
+  const staged = chunks.flat().filter(node => node.placementIndex >= 100);
+  assert.deepEqual(staged.map(node => [node.id, node.type, node.visualAsset?.id, node.pos.x, node.pos.z]), [
+    ['f1:r:-1:-4:100', 'fiber', 'asset_berry_bush', -20, -166],
+    ['f1:r:-1:-4:101', 'fiber', 'asset_berry_bush', -22.8, -167],
+    ['f1:r:0:-4:100', 'fiber', undefined, 42, -166],
+    ['f1:r:0:-5:100', 'rock', 'asset_crystal', 32, -214],
+  ]);
+  assert.deepEqual(staged.map(node => [node.id, node.uniformScale]), [
+    ['f1:r:-1:-4:100', 1.5],
+    ['f1:r:-1:-4:101', 1.5],
+    ['f1:r:0:-4:100', 1.16],
+    ['f1:r:0:-5:100', 1.8],
+  ]);
+  const runtime = createRuntimeResourcePlacements(staged);
+  assert.deepEqual(runtime.map(node => {
+    const resourceType = node.resourceType ?? getResourceType(node.type);
+    return [node.id, resourceType.resourceId, resourceType.maxChunks];
+  }), [
+    ['f1:r:-1:-4:100', 'berries', 4],
+    ['f1:r:-1:-4:101', 'berries', 4],
+    ['f1:r:0:-4:100', 'fiber', 3],
+    ['f1:r:0:-5:100', 'crystal_shard', 4],
+  ]);
+  const h = (x, z) => sampleFrontier(x, z).height;
+  for (const node of staged) {
+    const bounds = node.visualAsset ? computeVisualAssetBounds(node.visualAsset) : null;
+    const visualRadius = bounds ? Math.hypot(bounds.size.w, bounds.size.d) * .5 * node.uniformScale : .55 * node.uniformScale;
+    const collision = node.visualAsset?.collision;
+    const collisionRadius = collision ? Math.hypot(collision.size.w, collision.size.d) * .5 * node.uniformScale : 0;
+    const radius = Math.max(visualRadius, collisionRadius);
+    assert.equal(hasFootprintSupport(node.pos.x, node.pos.z, { getHeight: h, radius, maxSlope: .42 }), true, node.id);
+  }
+  const berries = staged.filter(node => node.visualAsset?.id === 'asset_berry_bush');
+  const distanceToRoute = ({ x, z }) => Math.min(...SKYBREAK_ROUTE.slice(1).map((end, index) => {
+    const start = SKYBREAK_ROUTE[index];
+    const dx = end.x - start.x, dz = end.z - start.z;
+    const t = Math.max(0, Math.min(1, ((x - start.x) * dx + (z - start.z) * dz) / (dx * dx + dz * dz)));
+    return Math.hypot(x - start.x - dx * t, z - start.z - dz * t);
+  }));
+  assert.ok(Math.abs(Math.hypot(berries[0].pos.x - berries[1].pos.x, berries[0].pos.z - berries[1].pos.z) - 2.973) < .001, 'berry pair forms one foreground pocket');
+  assert.ok(berries.every(node => distanceToRoute(node.pos) > 18), 'full berry thicket stays clear of the ascent route');
+  assert.ok(distanceToRoute(staged.find(node => node.id === 'f1:r:0:-4:100').pos) > 8, 'east fiber stays clear of the return route');
+  const berryBounds = computeVisualAssetBounds(berries[0].visualAsset);
+  assert.deepEqual([
+    Number((berryBounds.size.w * berries[0].uniformScale).toFixed(3)),
+    Number((berryBounds.size.h * berries[0].uniformScale).toFixed(3)),
+    Number((berryBounds.size.d * berries[0].uniformScale).toFixed(3)),
+  ], [3.014, 1.846, 2.43]);
+  const crystal = runtime.find(node => node.id === 'f1:r:0:-5:100');
+  const descriptor = describeVisualAssetCollider({
+    collision: crystal.visualAsset.collision,
+    uniformScale: crystal.uniformScale,
+    position: crystal.pos,
+    rotationY: crystal.rotY,
+  });
+  assert.deepEqual(Object.fromEntries(Object.entries(descriptor.size).map(([key, value]) => [key, Number(value.toFixed(3))])), { width: 3.672, height: 2.79, depth: 2.88 });
+  assert.ok(Math.abs(crystal.pos.y - (descriptor.position.y + descriptor.offset.y - descriptor.size.height * .5)) < 1e-9, 'scaled crystal collider stays grounded');
+  const crystalNode = {
+    type: crystal.resourceType,
+    collisionEnabled: crystal.collisionEnabled,
+    state: { position: crystal.pos, rotationY: crystal.rotY, uniformScale: crystal.uniformScale, nodeState: 'READY', remainingChunks: 4 },
+  };
+  const approach = { x: 33.879, z: -214.684 };
+  approach.y = h(approach.x, approach.z) + .52;
+  assert.equal(isPlayerInsideColliderVolume(approach, crystalNode), false, 'ordinary approach stays outside the scaled collider');
+  assert.equal(getHarvestReach(crystalNode), 1.05, 'enlargement retains the ordinary solid-surface strike reach');
+  assert.equal(isHarvestableInRange(crystalNode, approach), true, 'fixed cap crystal remains harvestable from supported ground');
+  assert.ok(getHarvestInteractionPoint(crystalNode, approach).y >= crystal.pos.y, 'strike point stays above the terrain-grounded base');
+  assert.equal(sampleFrontier(32, -214).surfaceKind, 'skybreak-cap');
+  assert.equal(sampleFrontierForageChunk(-1, -4).some(node => node.placementIndex >= 100), false, 'asset-backed supplies do not silently degrade to another resource');
+  assert.equal(sampleFrontierForageChunk(0, -5).some(node => node.placementIndex >= 100), false, 'the cap crystal requires its admitted harvestable asset');
 });

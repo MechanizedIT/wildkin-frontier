@@ -5,6 +5,8 @@ import { sampleFrontier } from '../src/world/frontierTerrain.js';
 import { sampleFrontierForageChunk } from '../src/world/frontierEcology.js';
 import { sampleFrontierWildlifeChunk } from '../src/world/frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD } from '../src/world/frontierWorld.js';
+import { hasFootprintSupport } from '../src/world/frontierPlacement.js';
+import { WORLD_DATA } from '../src/world/data/world.generated.js';
 
 const chunkGrid = (cx, cz) => {
   const chunks = [];
@@ -89,6 +91,38 @@ test('the curated north route keeps three west/north canopies and eight damp eas
   assert.deepEqual({ assetId: nearTree.assetId, x: nearTree.x, z: -78.5, scale: nearTree.scale }, { assetId: 'asset_verge_canopy', x: 4.85, z: -78.5, scale: .82 });
 });
 
+test('Skybreak stages a supported supply thicket, cap-only cloudflowers, and three loose east descent stone groups', () => {
+  const chunks = [[-1, -4], [0, -5], [0, -4]];
+  const options = { visualAssets: WORLD_DATA.visualAssets };
+  const staged = chunks.flatMap(([cx, cz]) => sampleFrontierSceneryChunk(cx, cz, options).filter(spec => spec.id.includes(':stage-skybreak-')));
+  assert.equal(staged.length, 18);
+  assert.ok(staged.every(spec => spec.id.includes(':stage-skybreak-')));
+  assert.equal(staged.filter(spec => spec.id.includes('berry') || spec.id.includes('fiber')).length, 6);
+  assert.deepEqual(staged.filter(spec => spec.id.includes('berry')).map(spec => spec.assetId).sort(), ['asset_fen_reed', 'asset_mushroom_ring', 'asset_verge_canopy_spread']);
+  const cloudflowers = staged.filter(spec => spec.assetId === 'asset_cloudflower');
+  assert.equal(cloudflowers.length, 3);
+  assert.ok(cloudflowers.every(spec => sampleFrontier(spec.x, spec.z).surfaceKind === 'skybreak-cap'));
+  const mossling = sampleFrontierWildlifeChunk(0, -5).find(animal => animal.homePos.x === 9.5 && animal.homePos.z === -231.5);
+  assert.ok(mossling, 'the staged crown resident anchors the soft-flower exception');
+  const distanceFromMossling = (spec) => Math.hypot(spec.x - mossling.homePos.x, spec.z - mossling.homePos.z);
+  assert.ok(cloudflowers.every(spec => distanceFromMossling(spec) >= 3.1));
+  assert.ok(cloudflowers.some(spec => distanceFromMossling(spec) < mossling.roamRadius + 2.5), 'only cap flowers may share the resident’s ordinary roaming ground');
+  assert.ok(staged.filter(spec => !cloudflowers.includes(spec)).every(spec => distanceFromMossling(spec) >= mossling.roamRadius + 2.5), 'solid and non-cap scenery retain the established wildlife guard');
+  const trailGroups = staged.filter(spec => spec.assetId === 'asset_trail_stones');
+  assert.equal(trailGroups.length, 9);
+  assert.ok(trailGroups.every(spec => spec.kind === 'low'));
+  assert.deepEqual([...new Set(trailGroups.map(spec => spec.id.match(/stones-(high|mid|low)/)?.[1]))].sort(), ['high', 'low', 'mid']);
+  const radiusFor = { asset_cloudflower: .75, asset_trail_stones: 1.4, asset_mushroom_ring: 1.05, asset_fen_reed: .85 };
+  const height = (x, z) => sampleFrontier(x, z).height;
+  for (const spec of staged) {
+    const radius = Math.max(spec.kind === 'canopy' ? 1.45 : .62, (radiusFor[spec.assetId] ?? 0) * spec.scale);
+    assert.equal(hasFootprintSupport(spec.x, spec.z, { getHeight: height, radius, maxSlope: .32 }), true, `${spec.id} retains full scaled footprint support`);
+  }
+  const resources = chunks.flatMap(([cx, cz]) => sampleFrontierForageChunk(cx, cz, options));
+  for (const spec of staged) for (const resource of resources) assert.ok(Math.hypot(spec.x - resource.pos.x, spec.z - resource.pos.z) >= 3.2, `${spec.id} clears staged resource ${resource.id}`);
+  for (const [cx, cz] of chunks) assert.ok(sampleFrontierSceneryChunk(cx, cz, options).length <= 9, `${cx},${cz} retains the Skybreak per-chunk recipe cap`);
+});
+
 test('accepted scenery stays clear of forage, wildlife roaming, Camp apron, route, and terrace', () => {
   const specs = [-3, -2, -1].flatMap(cz => [-1, 0, 1].flatMap(cx => sampleFrontierSceneryChunk(cx, cz)));
   const route = [[0, -56], [7, -68], [7, -85], [20, -95], [24, -118]];
@@ -104,7 +138,9 @@ test('accepted scenery stays clear of forage, wildlife roaming, Camp apron, rout
     assert.ok(!(spec.x >= 18 && spec.x <= 46 && spec.z >= -150 && spec.z <= -108));
     const routeClearance = spec.kind === 'canopy' || spec.assetId === 'asset_fen_stone' ? 2.1 : 1.15;
     for (let i = 1; i < route.length; i++) assert.ok(segmentDistance(spec, route[i - 1], route[i]) >= routeClearance);
-    for (const node of sampleFrontierForageChunk(cx, cz)) assert.ok(Math.hypot(spec.x - node.pos.x, spec.z - node.pos.z) >= 3.2);
+    for (let fz = cz - 1; fz <= cz + 1; fz++) for (let fx = cx - 1; fx <= cx + 1; fx++) {
+      for (const node of sampleFrontierForageChunk(fx, fz)) assert.ok(Math.hypot(spec.x - node.pos.x, spec.z - node.pos.z) >= 3.2, `${spec.id} clears neighboring forage ${node.id}`);
+    }
     for (let wz = cz - 1; wz <= cz + 1; wz++) for (let wx = cx - 1; wx <= cx + 1; wx++) {
       for (const animal of sampleFrontierWildlifeChunk(wx, wz)) assert.ok(Math.hypot(spec.x - animal.homePos.x, spec.z - animal.homePos.z) >= animal.roamRadius + 2.5);
     }

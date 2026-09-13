@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
 import { createFrontierSceneryRuntime } from '../src/world/frontierSceneryRuntime.js';
+import { sampleFrontier } from '../src/world/frontierTerrain.js';
+import WORLD_DATA from '../src/world/data/world.js';
 
 const visualAssets = ['asset_verge_canopy', 'asset_verge_canopy_spread', 'asset_verge_canopy_tall', 'asset_fen_reed', 'asset_fen_lily', 'asset_fen_stone', 'asset_mushroom_ring'].map(id => ({ id }));
 function residency(cx, cz) {
@@ -9,6 +11,26 @@ function residency(cx, cz) {
   for (let z = cz - 2; z <= cz + 2; z++) for (let x = cx - 2; x <= cx + 2; x++) chunks.push({ id: `${x},${z}`, cx: x, cz: z });
   return Object.freeze({ center: { cx, cz }, chunks });
 }
+
+test('runtime ground cover leaves the staged crystal interaction clear using actual asset roles', () => {
+  let checked = false;
+  const runtime = createFrontierSceneryRuntime({
+    visualAssets: WORLD_DATA.visualAssets,
+    terrainRuntime: {
+      getResidency: () => residency(0, -5),
+      getHeight: (x, z) => sampleFrontier(x, z).height,
+      sample: sampleFrontier,
+    },
+    createVisual({ canPlaceGroundCover }) {
+      checked = true;
+      assert.equal(canPlaceGroundCover(32, -214), false, 'real staged crystal must exclude grass, even though its point is flat and outside old route guards');
+      return { group: new THREE.Group(), terrainSurfaces: [], canopyRoots: [], dispose() {} };
+    },
+  });
+  runtime.update();
+  assert.equal(checked, true);
+  runtime.dispose();
+});
 
 test('scenery replaces physics and camera registrations only when terrain residency changes', () => {
   let snapshot = residency(0, -2), created = 0, disposed = 0, invalidations = 0;

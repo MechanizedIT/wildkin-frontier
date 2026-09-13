@@ -30,7 +30,7 @@ export function createFrontierSceneryRuntime({
     // Construct before retiring the previous resident, so a construction error
     // leaves the old scene coherent and the same residency retryable.
     const next = nextSpecs.length ? createVisual({ specs: nextSpecs, visualAssets, getHeight: terrainRuntime.getHeight,
-      canPlaceGroundCover: createFrontierGroundCoverFilter({ getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample, world }), world,
+      canPlaceGroundCover: createFrontierGroundCoverFilter({ visualAssets, getHeight: terrainRuntime.getHeight, getTerrainSample: terrainRuntime.sample, world }), world,
     }) : null;
     const remove = (visual?.terrainSurfaces ?? []).map(surface => surface.id);
     const add = next?.terrainSurfaces ?? [];

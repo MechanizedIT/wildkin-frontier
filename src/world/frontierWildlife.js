@@ -7,10 +7,9 @@ import { hasFootprintSupport } from './frontierPlacement.js';
 const EDGE = 5;
 const SLOPE_SAMPLE = .8;
 const MAX_SLOPE = .32;
-// Skybreak homes need a whole ordinary Mossling roam circle plus its body
-// margin, rather than merely a locally level spawn point. This establishes
-// safe ordinary roaming around home; pursuit/flee paths remain dynamic.
 const HOME_FOOTPRINT_RADIUS = 4.9;
+const SKYBREAK_HOME_RADIUS = 3.1;
+const SKYBREAK_HOME_GRID = .5;
 
 // These two recipes deliberately mirror the admitted wildkin catalog. The
 // generated creature path does not otherwise hydrate gameplay from its visual
@@ -56,6 +55,31 @@ function hasSafeHome(x, z, options) {
   });
 }
 
+// The cap is locally rippled despite having a level center and outer ring.
+// Check each half-metre step across the complete movement disk and its next
+// outward step so the creature controller never has to return across a lip.
+function hasSafeSkybreakHome(x, z, options) {
+  const steps = Math.ceil(SKYBREAK_HOME_RADIUS / SKYBREAK_HOME_GRID);
+  for (let ix = -steps; ix <= steps; ix += 1) {
+    for (let iz = -steps; iz <= steps; iz += 1) {
+      const dx = ix * SKYBREAK_HOME_GRID, dz = iz * SKYBREAK_HOME_GRID;
+      if (dx * dx + dz * dz > SKYBREAK_HOME_RADIUS * SKYBREAK_HOME_RADIUS) continue;
+      const sx = x + dx, sz = z + dz;
+      const sample = terrainSample(sx, sz, options);
+      if (!Number.isFinite(sample.height) || sample.surfaceKind !== 'skybreak-cap') return false;
+      for (const [ox, oz] of [[SKYBREAK_HOME_GRID, 0], [0, SKYBREAK_HOME_GRID]]) {
+        const neighbor = terrainSample(sx + ox, sz + oz, options);
+        if (!Number.isFinite(neighbor.height) || Math.abs(neighbor.height - sample.height) / SKYBREAK_HOME_GRID > MAX_SLOPE) return false;
+      }
+    }
+  }
+  return hasFootprintSupport(x, z, {
+    getHeight: (sx, sz) => terrainSample(sx, sz, options).height,
+    radius: SKYBREAK_HOME_RADIUS,
+    maxSlope: MAX_SLOPE,
+  });
+}
+
 function habitatEcotype(sample) {
   return sample.habitatBlend.wetland >= sample.habitatBlend.fernUpland ? 'fen' : 'grove';
 }
@@ -78,6 +102,7 @@ function placementBase(cx, cz, index, x, z, options) {
 function makeMosslingPlacement(cx, cz, index, x, z, options) {
   const { sample, originId, base } = placementBase(cx, cz, index, x, z, options);
   const stagedShelf = cx === 0 && cz === -2;
+  const skybreakCrown = cx === 0 && cz === -5;
   return Object.freeze({
     ...base,
     type: 'rusher',
@@ -85,10 +110,12 @@ function makeMosslingPlacement(cx, cz, index, x, z, options) {
     temperament: 'SKITTISH',
     facingYaw: random(cx, cz, index, 71, options.world) * Math.PI * 2,
     // Only the first clearing receives a tight, readable scare/return loop.
+    // The cap source uses tighter movement inside its continuously checked 3.1m
+    // crown disk so its first escape step turns back before any local lip.
     // Other generated Mosslings retain the ordinary broader wildlife range.
-    roamRadius: stagedShelf ? 2.6 : 4.4,
-    leashRadius: stagedShelf ? 4.2 : 8.5,
-    fleeLeashRadius: stagedShelf ? 3.5 : null,
+    roamRadius: stagedShelf ? 2.6 : skybreakCrown ? 2.4 : 4.4,
+    leashRadius: stagedShelf ? 4.2 : skybreakCrown ? 2.8 : 8.5,
+    fleeLeashRadius: stagedShelf ? 3.5 : skybreakCrown ? 2.2 : null,
     noticeRadius: 7,
     personalSpace: 2.1,
     visualAssetId: 'asset_wildkin_mossling',
@@ -117,28 +144,35 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   // wetland shelf: (10,-85) currently samples a .116 slope.
   const starterShelf = cx === 0 && cz === -2;
   const emberShelf = cx === 0 && cz === -3;
+  const skybreakCrown = cx === 0 && cz === -5;
   // Other chunks stay sparse and coordinate-seeded; no population simulation.
   const world = options.world ?? DEFAULT_FRONTIER_WORLD;
   const roll = (index, salt = 0) => random(cx, cz, index, salt, world);
   const sampleOptions = { ...options, world };
-  if (!starterShelf && !emberShelf && roll(0, 13) >= .22) return [];
+  if (!starterShelf && !emberShelf && !skybreakCrown && roll(0, 13) >= .22) return [];
   const candidates = starterShelf
     ? [[7, -85], [20, -95], [17, -79]]
     : emberShelf
       ? [[0, -111]]
-    : Array.from({ length: 8 }, (_, attempt) => [
+      : skybreakCrown
+        ? [[9.5, -231.5]]
+      : Array.from({ length: 8 }, (_, attempt) => [
         cx * size + EDGE + roll(attempt, 31) * (size - EDGE * 2),
         cz * size + EDGE + roll(attempt, 53) * (size - EDGE * 2),
       ]);
-  if (starterShelf || emberShelf) {
+  if (starterShelf || emberShelf || skybreakCrown) {
     const placements = [];
     for (let index = 0; index < candidates.length; index += 1) {
       const [x, z] = candidates[index];
       const sample = terrainSample(x, z, sampleOptions);
-      if (!Number.isFinite(sample.height) || slopeAt(x, z, sampleOptions) > MAX_SLOPE || !hasSafeHome(x, z, sampleOptions)) continue;
+      if (!Number.isFinite(sample.height) || slopeAt(x, z, sampleOptions) > MAX_SLOPE
+        || (skybreakCrown ? !hasSafeSkybreakHome(x, z, sampleOptions) : !hasSafeHome(x, z, sampleOptions))) continue;
       if (starterShelf && index < 2) placements.push(makeMosslingPlacement(cx, cz, index, x, z, sampleOptions));
       else if (starterShelf) placements.push(makeSideEncounter(cx, cz, index, x, z, 'tidefin', 2, sampleOptions));
-      else placements.push(makeSideEncounter(cx, cz, index, x, z, 'emberhorn', 3, sampleOptions));
+      else if (emberShelf) placements.push(makeSideEncounter(cx, cz, index, x, z, 'emberhorn', 3, sampleOptions));
+      else if (sample.surfaceKind === 'skybreak-cap') {
+        placements.push(Object.freeze({ ...makeMosslingPlacement(cx, cz, 100, x, z, sampleOptions), residentPriority: 4 }));
+      }
     }
     return placements;
   }

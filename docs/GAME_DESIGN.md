@@ -8,7 +8,7 @@ The playable foundation is a physical Camp and short outing loop: leave Camp, ex
 
 Current creature life is intentionally small and explicit. Individual records survive capture, banking, selection, reload, and care. Mossling body tone is the only visibly expressed inherited variation. One physical nursery and garden support active-play young/crop growth, ordinary compatible Mossling pairing, and earned optional parent body-tone guidance. Current growth has no absence penalty; that choice and mortality/elder rules are provisional.
 
-A bounded natural climb and fall-risk foundation, generated terrain/scenery, existing encounters, portrait controls, and the five-slot hotbar are in the build. Skybreak R3 is selected as usable terrain groundwork after three visual passes; its 4.9/10 HOLD leaves the art target and vertical ecology unfinished. For exact scope and verification, use [Current slice](CURRENT_SLICE.md) and its review receipt.
+A bounded natural climb and fall-risk foundation, generated terrain/scenery, existing encounters, portrait controls, and the five-slot hotbar are in the build. Skybreak R3 is selected as usable terrain groundwork at4.9/10 HOLD. Its first ecology pass adds lower berry/fiber pockets, an east-cap crystal and a crown Mossling home; the selected ecology composition remains6.4/10 HOLD. This is one staged useful outing, not a finished regional ecosystem. For exact scope and verification, use [Current slice](CURRENT_SLICE.md) and its review receipts.
 
 ## Proposed systems, clearly separate from the build
 

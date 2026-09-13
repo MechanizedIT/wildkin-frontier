@@ -16,6 +16,8 @@ const triangle = (color, offset = 0) => ({
 });
 const reed = { id: 'asset_fen_reed', parts: [triangle('#ff0000'), triangle('#00ff00', 1)] };
 const stone = { id: 'asset_fen_stone', parts: [triangle('#446688')] };
+const cloudflower = { id: 'asset_cloudflower', parts: [triangle('#ead7a8')] };
+const trailStones = { id: 'asset_trail_stones', parts: [triangle('#8a7662')] };
 
 function assertOutwardFaces(surface, center) {
   const vertex = (index) => new THREE.Vector3().fromArray(surface.vertices, index * 3);
@@ -84,6 +86,21 @@ test('low scenery keeps authored parts in one owned draw beside instanced ground
   mesh.material.addEventListener('dispose', () => { materialDisposed = true; });
   scenery.dispose(); scenery.dispose();
   assert.equal(geometryDisposed, true); assert.equal(materialDisposed, true);
+});
+
+test('admitted Skybreak flowers and trail stones stay in the existing nonsolid low-prop batch', () => {
+  const scenery = createFrontierSceneryVisual({
+    visualAssets: [cloudflower, trailStones],
+    specs: [
+      { id: 'skybreak-cap-flower', chunkId: '0,-5', assetId: cloudflower.id, x: 18, y: 35, z: -221, scale: .8, yaw: 0, kind: 'low' },
+      { id: 'skybreak-east-stones', chunkId: '0,-5', assetId: trailStones.id, x: 36, y: 28, z: -220, scale: .6, yaw: 0, kind: 'low' },
+    ],
+  });
+  assert.equal(scenery.stats.lowCount, 2);
+  assert.equal(scenery.stats.lowDrawCount, 1);
+  assert.equal(scenery.stats.surfaceCount, 0, 'cloudflowers and trail stones do not add a collision surface');
+  assert.equal(scenery.stats.stoneSolidCount, 0);
+  scenery.dispose();
 });
 
 test('staged ground cover is bounded and uses the injected terrain height', async () => {

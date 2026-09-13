@@ -9,6 +9,25 @@ const CAMP_CLEARANCE = 6;
 const SLOPE_SAMPLE = .8;
 const MAX_SLOPE = .42;
 const FOOTPRINT_RADIUS = Object.freeze({ tree: 1.35, rock: .9, fiber: .55 });
+const STAGED_ASSET_FOOTPRINT_RADIUS = Object.freeze({
+  asset_berry_bush: 1.29,
+  asset_crystal: 1.3,
+});
+const MAX_FORAGE_PER_CHUNK = 12;
+// Indices 0..31 belong to the ordinary coordinate-seeded attempts. These fixed
+// sources use a disjoint saved-ID range so existing depletion records never move.
+const SKYBREAK_STAGED_FORAGE = Object.freeze(new Map([
+  ['-1,-4', Object.freeze([
+    Object.freeze({ index: 100, x: -20, z: -166, type: 'fiber', assetId: 'asset_berry_bush', uniformScale: 1.5 }),
+    Object.freeze({ index: 101, x: -22.8, z: -167, type: 'fiber', assetId: 'asset_berry_bush', uniformScale: 1.5 }),
+  ])],
+  ['0,-4', Object.freeze([
+    Object.freeze({ index: 100, x: 42, z: -166, type: 'fiber' }),
+  ])],
+  ['0,-5', Object.freeze([
+    Object.freeze({ index: 100, x: 32, z: -214, type: 'rock', assetId: 'asset_crystal', surfaceKind: 'skybreak-cap', uniformScale: 1.8 }),
+  ])],
+]));
 const TERRACE_MINERAL_ASSET_BY_INDEX = Object.freeze({
   2: 'asset_iron_ore_rock',
   4: 'asset_crystal',
@@ -30,6 +49,10 @@ function outsideCampApron(x, z) {
 }
 function harvestableBerry(visualAssets) {
   const asset = (visualAssets ?? []).find(candidate => candidate?.id === 'asset_berry_bush');
+  return asset?.gameplay?.role === 'harvestable' && asset.gameplay.harvestable ? asset : null;
+}
+function harvestableAsset(visualAssets, assetId) {
+  const asset = (visualAssets ?? []).find(candidate => candidate?.id === assetId);
   return asset?.gameplay?.role === 'harvestable' && asset.gameplay.harvestable ? asset : null;
 }
 function terraceMineral(cx, cz, index, kind, visualAssets) {
@@ -93,6 +116,34 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, visualAssets, ter
       : kind.type === 'fiber' ? 1.08 + roll(index, 107) * .14
         : .9 + roll(index, 107) * .14;
     placements.push({ ...kind, id: makeFrontierResourceId(cx, cz, index), chunkId: `${cx},${cz}`, placementIndex: index, regionId: 'camp', persistentFinite: true, pos: { x, y: height, z }, rotY: roll(index, 97) * Math.PI * 2, uniformScale, tint: kind.type === 'fiber' && !kind.visualAsset ? '#8eb65a' : undefined });
+  }
+  for (const staged of SKYBREAK_STAGED_FORAGE.get(`${cx},${cz}`) ?? []) {
+    if (placements.length >= MAX_FORAGE_PER_CHUNK) break;
+    const sample = terrainSample(staged.x, staged.z, { terrainOptions, world });
+    if (staged.surfaceKind && sample.surfaceKind !== staged.surfaceKind) continue;
+    const height = typeof getHeight === 'function' ? getHeight(staged.x, staged.z) : sample.height;
+    const uniformScale = staged.uniformScale ?? (staged.type === 'rock' ? 1.04 : staged.assetId ? 1.14 : 1.16);
+    const radius = (STAGED_ASSET_FOOTPRINT_RADIUS[staged.assetId] ?? FOOTPRINT_RADIUS[staged.type]) * uniformScale;
+    if (!Number.isFinite(height) || !hasFootprintSupport(staged.x, staged.z, {
+      getHeight: (sx, sz) => typeof getHeight === 'function' ? getHeight(sx, sz) : terrainSample(sx, sz, { terrainOptions, world }).height,
+      radius,
+      maxSlope: MAX_SLOPE,
+    })) continue;
+    const visualAsset = staged.assetId ? harvestableAsset(visualAssets, staged.assetId) : null;
+    if (staged.assetId && !visualAsset) continue;
+    placements.push({
+      type: staged.type,
+      visualAsset: visualAsset ?? undefined,
+      id: makeFrontierResourceId(cx, cz, staged.index),
+      chunkId: `${cx},${cz}`,
+      placementIndex: staged.index,
+      regionId: 'camp',
+      persistentFinite: true,
+      pos: { x: staged.x, y: height, z: staged.z },
+      rotY: roll(staged.index, 97) * Math.PI * 2,
+      uniformScale,
+      tint: staged.type === 'fiber' && !visualAsset ? '#8eb65a' : undefined,
+    });
   }
   return placements;
 }
