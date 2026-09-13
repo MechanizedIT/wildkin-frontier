@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { createCamera, CAMERA_CONFIG } from '../src/game/createCamera.js';
 import { CAMERA_CONFIG_FOLLOW } from '../src/game/config.js';
 import { createCameraFollow } from '../src/camera/cameraFollow.js';
-import { createConstructionView } from '../src/camera/constructionView.js';
+import { CONSTRUCTION_VIEW_CONFIG, createConstructionView } from '../src/camera/constructionView.js';
 
 function fixture(aspect = 412 / 915) {
   const camera = createCamera(aspect), player = new THREE.Group();
@@ -22,6 +22,11 @@ test('portrait construction frames a nearby bed and restores cancel exactly with
   const { camera, player, follow, read, view } = fixture(), before = read(), position = player.position.clone();
   view(begin); view(begin);
   near(follow.getYaw(), -Math.PI / 2);
+  near(follow.getPitch(), 42 * Math.PI / 180);
+  near(follow.getZoom(), .8);
+  near(follow._debug().requestedDistance, CAMERA_CONFIG.distance * 1.2);
+  assert.ok(Math.abs(follow._debug().requestedDistance - 9.273) < .001, `expected retained 9.273m construction distance, got ${follow._debug().requestedDistance}`);
+  assert.equal(CONSTRUCTION_VIEW_CONFIG.zoom, .8);
   camera.updateMatrixWorld();
   const preview = new THREE.Vector3(3, .55, 2).project(camera);
   assert.ok(Math.abs(preview.x) < .05 && preview.y > 0 && preview.y < .65, 'bed is centered in the open upper play area');

@@ -2,19 +2,33 @@
 
 Updated September13,2026. **Continuous goal-mode development; priority is a playable early alpha.** Latest September13 owner direction: early alpha requires at least10unique, nonrepeating habitats on a quite large continent with an irregular silhouette. Root provisionally selects an approximately6×7km hybrid world: deliberate coastline/regions/landmarks and seeded local detail. The three prior terrain grammars, new Caldera candidate and three useful species are foundations, not completion of that requirement; roughly30species remains staged. The frozen target and bounded production plan are in `CONTINENT_ALPHA_TARGET.md`.
 
-## Active slice: make the portrait exploration view useful
+## Active slice: establish a feasible Fungal Hollow habitat
+
+Next: establish Fungal Hollow as a distinct, fuller habitat using the admitted kit. Audit its actual terrain and complete asset bounds, then prove a native blockout in the new ordinary camera before locking production. Ten finished habitats remain the early-alpha requirement.
+
+Root owns a native rough composition and next production contract. Disjoint read-only audits inventory admitted fungal assets and sample current habitat/terrain support. Reuse the existing terrain, scenery, ecology, discovery, physics and residency owners. No new habitat production is admitted until its visible kit and usable approach are demonstrated in the actual36°/11.591m portrait camera. Do not expand resident budgets, add models or build another framework merely to fill the screen. The continuous goal remains active.
+
+The [next blockout plan](FUNGAL_HOLLOW_NEXT.md) records the admitted kit, sampled inland approach, render-cost estimate and rejected extra species-key proposal. It is provisional, not runtime completion.
+
+## Completed checkpoint: portrait exploration view
+
+Portrait exploration now shows more of the terrain ahead, with resource counts appearing briefly after pickups. Camp placement keeps its previous close view, landscape stays unchanged, and the exact earned Camp survives developer/portable reload. **1,379 tests and package gates pass** (44.36 MB unpacked /20.59 MB ZIP). Presentation R1 passes8.8/10; fuller habitat art remains unfinished. [Evidence](../art/reviews/exploration-view/receipt.md).
+
+### Completed production contract — September 13, portrait view
+
+Native blockouts at Camp, the Caldera breach and the earned Rootbound grove select 36° pitch and 11.591m requested distance. Complete transformed Caldera bounds show the right staging kit fully inside the viewport and the left spire about90% inside, up from59%; both mineral sources enter the frame. Their silhouettes still need physical approach and the objective can cover part of the distant crystal. This is shared view usability work, not a fourth Caldera art round or world-art admission. The frozen generated reference derives from that actual blockout: `art/targets/exploration-view-v1/target.png`; preserve its existing terrain and assets.
+
+Camera worker owns `src/game/config.js`, `src/camera/constructionView.js` and focused camera/construction tests. Set portraitPitch36° and portraitZoom1.5; neutral user zoom1 matches the native36°/1.25 study under the previous1.2 profile. Keep landscape32°/.85, FOV/focus/near/far, collision, shared.72–1.3 user limits and existing input owners. Construction retains42° and the exact prior9.273m requested distance using relative zoom.8, then restores the exploration snapshot. No new camera mode, state, controller or persistence.
+
+HUD worker owns `src/ui/runInventoryHud.js`, `styles/portrait.css` and a focused lifecycle test. Show only recently pulsed nonzero carried-resource/XP rows in portrait, for about2.2seconds; reuse current pickup pulse and existing HUD DOM. Refresh one expiry per row, cancel owned callbacks on destruction, preserve exact totals and landscape positive-row behavior. Pack remains the persistent cargo summary and full inventory. Keep all health, atlas, field-plan, hotbar and contextual/action controls at their current sizes/positions. Do not shrink the minimap or change construction chrome in this slice. No new UI/input owner, gameplay state or save field.
+
+Root owns target fitness, native integration, baseline/after projection and screenshots, ordinary gathering/pickup and approach/retreat, Camp placement cancellation/restoration, landscape/portrait resize, exact earned-save restoration, source/visual review and one aggregate package gate. Validate real full geometry and visible HUD rectangles; projected AABB overlap is conservative screen-space evidence, not visible-pixel or safety proof. Keep three bounded presentation rounds, with source correctness fixes as needed. World fullness and ten finished habitats remain open.
 
 Caldera now has volcanic terrain, finite crystal/iron and a territorial Emberhorn outing. Normal controls proved gathering, warning/retreat, streamed depletion and exact developer/portable continuation. **1,378 tests and package gates pass** (44.36 MB unpacked /20.59 MB ZIP). Visual R3 remains **HOLD 3.8/10**; ten allocated habitats are still not ten finished habitats. [Evidence](../art/reviews/caldera/receipt.md).
 
-Next: improve what the ordinary portrait camera and HUD let an explorer see. Measure full transformed asset bounds against actual HUD rectangles at the breach, Camp and a familiar grove; lock an attainable native blockout before changing presentation. Keep controls, collision and gameplay state under their existing owners. Finish this focused view before expanding more habitat content.
-
-Exploration remains first, with collecting and satisfying Camp/factory building as overlapping motivations. First perform a bounded presentation audit and native blockout using existing camera controls and HUD owners. Cover Camp construction, ordinary terrain, Caldera mineral/danger visibility and a familiar Lush grove; preserve landscape as a sibling. Root owns scope and browser, disjoint workers may inspect camera and HUD contracts. No new content, UI framework, camera owner, map reveal or input abstraction is admitted by this audit. Expand the production contract only after actual framing demonstrates a feasible target.
-
-The Caldera production below is a working candidate with visual debt. Its three art rounds are closed; do not silently label it finished or make an unrecorded fourth art pass. The next view work addresses the shared presentation cause and must use a new explicit target/outcome.
+Exploration remains first, with collecting and satisfying Camp/factory building as overlapping motivations. The completed view pass addressed shared framing and HUD visibility. Caldera is still a working candidate with world-art debt; its three art rounds are closed.
 
 ## Completed candidate: Emberglass Caldera terrain and outing
-
-Next: improve what the ordinary portrait camera and HUD let an explorer see. Measure full transformed asset bounds against actual HUD rectangles at the breach, Camp and a familiar grove; lock an attainable native blockout before changing presentation. Keep controls, collision and gameplay state under their existing owners. Finish this focused view before expanding more habitat content.
 
 Exploration leads. Discovery, collecting and base building/crafting are overlapping motivations; creatures, equipment and Camp aid chosen expeditions. Chris's latest clarification also welcomes satisfying factory building in its own right, inspired by modded Minecraft's Create, BuildCraft and Tekkit. Physical machines/logistics remain a later supported path, rather than an immediate Caldera feature. The production contract below scopes the next outing. The earlier [next-region audit](../art/reviews/continent-v2/next-regions-audit.md) remains provisional guidance, not admission of ten habitats.
 

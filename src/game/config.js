@@ -91,7 +91,7 @@ export const CAMERA_CONFIG_FOLLOW = {
   // The fixed focal height/framing lives with the base camera configuration.
   yawSensitivity: 0.008,
   pitch: 32 * Math.PI / 180,
-  portraitPitch: 42 * Math.PI / 180,
+  portraitPitch: 36 * Math.PI / 180,
   // Allow looking toward tall frontier caps without changing the default
   // walking pitch or rotating the player's movement underneath the stick.
   minPitch: 5 * Math.PI / 180,
@@ -99,7 +99,7 @@ export const CAMERA_CONFIG_FOLLOW = {
   pitchSensitivity: 0.006,
   // More readable character size in short phone/browser landscape viewports.
   landscapeZoom: .85,
-  portraitZoom: 1.2,
+  portraitZoom: 1.5,
   minZoom: .72,
   maxZoom: 1.3,
   wheelZoomSensitivity: .0015,

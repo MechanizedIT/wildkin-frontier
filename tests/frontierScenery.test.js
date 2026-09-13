@@ -68,7 +68,7 @@ test('the Caldera breach composition frames the portrait lane with supported adm
     spec.y + (top ? modelHeight[spec.assetId] * spec.scale : 0), spec.z).project(camera);
   assert.ok(near.every(spec => [project(spec), project(spec, true)].every(point => (
     Math.abs(point.x) <= 1 && Math.abs(point.y) <= 1 && Math.abs(point.z) <= 1
-  ))), 'every near prop foot and top stays in the true ordinary 42-degree 412x915 portrait frustum');
+  ))), 'every near prop foot and top stays in the configured ordinary 412x915 portrait frustum');
   assert.ok(near.every(spec => spec.groundCover?.calderaWeight > .95 && spec.groundCover.density < .15),
     'near dressing carries sparse Caldera ground-patch metadata into the visual cache path');
   assert.equal(createFrontierGroundCoverFilter(options)(850, -1968), false,

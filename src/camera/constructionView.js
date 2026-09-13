@@ -1,4 +1,4 @@
-export const CONSTRUCTION_VIEW_CONFIG = Object.freeze({ pitch: 42 * Math.PI / 180, zoom: 1 });
+export const CONSTRUCTION_VIEW_CONFIG = Object.freeze({ pitch: 42 * Math.PI / 180, zoom: .8 });
 
 // Only the temporary restoration snapshot lives here. cameraFollow still owns
 // every camera value and the normal frame loop applies its collision handling.

@@ -2,22 +2,28 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as THREE from 'three';
 import { createCameraFollow } from '../src/camera/cameraFollow.js';
+import { CAMERA_CONFIG } from '../src/game/createCamera.js';
+import { CAMERA_CONFIG_FOLLOW } from '../src/game/config.js';
 
 const radians = degrees => degrees * Math.PI / 180;
 const base = { horizontalDistance: 8, height: 6, focusHeight: 1 };
-const config = { pitch: radians(32), portraitPitch: radians(42), minPitch: radians(20), maxPitch: radians(64), landscapeZoom: .85, portraitZoom: 1.2 };
+const config = { pitch: radians(32), portraitPitch: radians(36), minPitch: radians(20), maxPitch: radians(64), landscapeZoom: .85, portraitZoom: 1.5 };
 
-test('portrait initializes its stable pitch and requested distance profile', () => {
+test('portrait initializes at the wider production pitch and requested distance', () => {
   const camera = new THREE.PerspectiveCamera(); camera.aspect = .6;
   const target = new THREE.Object3D(); target.position.set(2, 3, 4);
-  const follow = createCameraFollow(camera, target, config, base);
+  const follow = createCameraFollow(camera, target, CAMERA_CONFIG_FOLLOW, CAMERA_CONFIG);
   follow.snap();
   const state = follow._debug();
   assert.equal(state.portrait, true);
-  assert.equal(state.pitch, radians(42));
-  assert.equal(state.requestedDistance, Math.hypot(8, 5) * 1.2);
+  assert.equal(state.pitch, radians(36));
+  assert.equal(state.requestedDistance, CAMERA_CONFIG.distance * 1.5);
+  assert.ok(Math.abs(state.requestedDistance - 11.591) < .001, `expected 11.591m, got ${state.requestedDistance}`);
   follow.setZoom(.8); follow.prepareForInput();
-  assert.equal(follow._debug().requestedDistance, Math.hypot(8, 5) * 1.2 * .8, 'portrait multiplier composes with independent user zoom');
+  assert.ok(
+    Math.abs(follow._debug().requestedDistance - CAMERA_CONFIG.distance * 1.5 * .8) < 1e-12,
+    'portrait multiplier composes with independent user zoom',
+  );
 });
 
 test('orientation changes keep yaw and independent manual pitch preferences', () => {
@@ -47,6 +53,6 @@ test('portrait profile retains collision distance and focus recovery', () => {
   follow.snap();
   const state = follow._debug();
   assert.ok(recovered > 0);
-  assert.equal(state.requestedDistance, Math.hypot(8, 5) * 1.2);
+  assert.equal(state.requestedDistance, Math.hypot(8, 5) * 1.5);
   assert.equal(state.effectiveDistance, state.requestedDistance - 2);
 });

@@ -1,0 +1,276 @@
+{
+  "timestamp": "2026-09-13T21:56:56.255Z",
+  "baselineCommit": "e66c718a65ad04a7401e93bf5b5eb683ad8fd68a",
+  "source": [
+    {
+      "path": "src/game/config.js",
+      "sha256": "CDE6E47D9D566A2B8E15E47336A7C56A0C1A24337F9B628B215677607D327D03"
+    },
+    {
+      "path": "src/camera/constructionView.js",
+      "sha256": "BDBFC0FC38D082660002C89FD9956B4F02C1CF83D22A6FD347DC77C5DD7EDB0C"
+    },
+    {
+      "path": "src/ui/runInventoryHud.js",
+      "sha256": "D3CF929B2CC8E89732267EFFE701B91A49413F9CA6662D70487525BAABD0021C"
+    },
+    {
+      "path": "styles/portrait.css",
+      "sha256": "B2FF732189539E0F1FFDA3C6CA49D33F290DB20EAA0C173EFAC3B9036F3D582C"
+    },
+    {
+      "path": "tests/cameraFollow.test.js",
+      "sha256": "3D74269D70BF33C8331B8573971CBBFC5835E72EF554CE221BE8ADD1D194ED5B"
+    },
+    {
+      "path": "tests/constructionView.test.js",
+      "sha256": "A84E50A11112943D5F46CCA9A2D343681225890CC2001A7CEFE3C71D64AD9330"
+    },
+    {
+      "path": "tests/frontierScenery.test.js",
+      "sha256": "929FA39E5D4EA42853D8DA8879FD51B64FF1C4CA41348880281A779D38625CF4"
+    },
+    {
+      "path": "tests/runInventoryHud.test.js",
+      "sha256": "A5BE7EED9D269A412BE2520244993215083D6E72E6247BF6ADA775DC48899BEB"
+    }
+  ],
+  "validation": {
+    "tests": 1379,
+    "suites": 173,
+    "durationMs": 86428.094,
+    "verify": true,
+    "zip": true,
+    "zipBytes": 21586395,
+    "unpackedMiB": 44.36
+  },
+  "reviews": {
+    "targetFitness": 8.7,
+    "presentationR1": 8.8,
+    "source": "PASS",
+    "calderaWorldArt": "R3 HOLD 3.8 (unchanged)"
+  },
+  "fixtures": {
+    "caldera": {
+      "feetXZ": [
+        850,
+        -1962
+      ],
+      "yaw": 0,
+      "description": "Original earned Camp plus disclosed active-run position; normal keyboard travel/gathering thereafter."
+    },
+    "grove": {
+      "feetXZ": [
+        -217.6394,
+        485.7659
+      ],
+      "yaw": 0.6658766,
+      "description": "Disclosed framing fixture at previously earned grove."
+    },
+    "construction": "Disclosed 20 wood/10 stone/15 fiber fixture, existing bed/garden retained; preview/cancel only, original save restored."
+  },
+  "camera": {
+    "portraitPitchDegrees": 36,
+    "portraitRequested": 11.59107954420122,
+    "constructionPitchDegrees": 42,
+    "constructionRequested": 9.272863635360975,
+    "landscapePitchDegrees": 32,
+    "landscapeRequested": 6.568278408380691
+  },
+  "calderaBounds": [
+    {
+      "id": "f2c:s:17:-40:stage-caldera-bloom-right-back",
+      "before": 1,
+      "after": 1,
+      "hudOverlap": []
+    },
+    {
+      "id": "f2c:s:17:-40:stage-caldera-bloom-right-front",
+      "before": 0.9317768264721866,
+      "after": 1,
+      "hudOverlap": []
+    },
+    {
+      "id": "f2c:s:17:-40:stage-caldera-rubble-right",
+      "before": 1,
+      "after": 1,
+      "hudOverlap": []
+    },
+    {
+      "id": "f2c:s:17:-40:stage-caldera-spire-right",
+      "before": 0.8395743097728859,
+      "after": 1,
+      "hudOverlap": []
+    },
+    {
+      "id": "f2c:s:16:-40:stage-caldera-bloom-left-back",
+      "before": 0.8656769186955118,
+      "after": 1,
+      "hudOverlap": []
+    },
+    {
+      "id": "f2c:s:16:-40:stage-caldera-bloom-left-front",
+      "before": 0.5664964207014463,
+      "after": 0.9478349217728054,
+      "hudOverlap": []
+    },
+    {
+      "id": "f2c:s:16:-40:stage-caldera-rubble-left",
+      "before": 0.5311095976552874,
+      "after": 0.8479801080623205,
+      "hudOverlap": []
+    },
+    {
+      "id": "f2c:s:16:-40:stage-caldera-spire-left",
+      "before": 0.5878648707468671,
+      "after": 0.9035383872875368,
+      "hudOverlap": []
+    },
+    {
+      "id": "f2c:s:17:-41:stage-caldera-spire-rear",
+      "before": 0,
+      "after": 0,
+      "hudOverlap": []
+    }
+  ],
+  "pickup": {
+    "sourceBefore": 4,
+    "sourceAfter": 3,
+    "packBefore": 2,
+    "packAfter": 3,
+    "shown": {
+      "box": {
+        "bottom": 146,
+        "height": 32,
+        "left": 351.3374938964844,
+        "right": 397.99999618530273,
+        "top": 114,
+        "width": 46.66250228881836,
+        "x": 351.3374938964844,
+        "y": 114
+      },
+      "count": "3",
+      "display": "flex",
+      "recent": true
+    },
+    "expired": {
+      "count": "3",
+      "display": "none",
+      "recent": false
+    },
+    "returned": "arrived",
+    "health": 5
+  },
+  "performance": {
+    "scope": "180 render intervals during short Caldera retreat; no chunk-boundary or physical-phone admission",
+    "frames": 180,
+    "medianMs": 33.30000001192093,
+    "p95Ms": 34.69999998807907,
+    "maxMs": 36.19999998807907,
+    "draws": {
+      "calls": 87,
+      "frame": 5103,
+      "lines": 0,
+      "points": 72,
+      "triangles": 89701
+    }
+  },
+  "groveRendering": {
+    "before": {
+      "calls": 67,
+      "frame": 1778,
+      "lines": 0,
+      "points": 72,
+      "triangles": 265785
+    },
+    "after": {
+      "calls": 102,
+      "frame": 2740,
+      "lines": 0,
+      "points": 72,
+      "triangles": 400476
+    },
+    "note": "Same current geometry, previous versus new camera. More resident cells visible; no Lush frame-time or phone claim."
+  },
+  "campReload": {
+    "developer": {
+      "exact": true,
+      "timestamp": "2026-09-13T21:51:10.644Z"
+    },
+    "portable": {
+      "exact": true,
+      "timestamp": "2026-09-13T21:53:53.780Z",
+      "camera": {
+        "center": [
+          0,
+          1.4219962596893316,
+          2
+        ],
+        "collisionDistance": 11.59107954420122,
+        "effectiveDistance": 11.59107954420122,
+        "focusRecovery": "clear",
+        "height": 5,
+        "horizontalDistance": 6.55,
+        "landscapePitch": 0.5585053606381855,
+        "pitch": 0.6283185307179586,
+        "portrait": true,
+        "portraitPitch": 0.6283185307179586,
+        "requestedDistance": 11.59107954420122,
+        "userZoom": 1,
+        "yaw": 0,
+        "zoom": 1
+      },
+      "hiddenPositive": true,
+      "origins": [
+        "http://127.0.0.1:8081"
+      ],
+      "logs": []
+    }
+  },
+  "imageManifest": [
+    {
+      "path": "camp-baseline.png",
+      "sha256": "c542bab62eebd1173c4d73b28837816fb94dc357ad001324d5e2750afc0336b8"
+    },
+    {
+      "path": "camp-after.png",
+      "sha256": "b6b2af76447b67296a00dda3fcdc06eaab52605bc7ef929a8c82a38497b7385a"
+    },
+    {
+      "path": "caldera-baseline.png",
+      "sha256": "f9acf1b69e1822f438e603e10ff8874d38f9865295b4d4be23b93c2553e9192e"
+    },
+    {
+      "path": "caldera-38.png",
+      "sha256": "57cf198cbf758ed285ce4a241a76d63749da68e0820ee5d0493cf1c0fa0fd5a1"
+    },
+    {
+      "path": "caldera-after.png",
+      "sha256": "56050dea15b46fc2d99fc489bdeaadb20eb66b9fb5d845b5292af932952a95bc"
+    },
+    {
+      "path": "grove-facing-baseline.png",
+      "sha256": "b39b6a88efd8aedff5aaf64d47e2dae89d439dc75faafe34f637d9b187a8c6ba"
+    },
+    {
+      "path": "grove-after.png",
+      "sha256": "0fb2f11c6fdb2d659d7a7cbeeceb8c3ba59c87524a514d26c378d30d4f97167b"
+    },
+    {
+      "path": "construction-baseline.png",
+      "sha256": "47a681a30957d32749a2ab6c33955e6d6ef0aadb461e92e4e64d5736daf9924f"
+    },
+    {
+      "path": "construction-after.png",
+      "sha256": "2f0f0d2ce589ed7d6606e2b51037233ea107283efd122a5213f1112986dc3e9c"
+    },
+    {
+      "path": "landscape-after.png",
+      "sha256": "cc5d2997def6d6c8b70aecafe9e36bfe25f6b00f4d4b740c8036f15f6d08ea93"
+    },
+    {
+      "path": "pickup-pulse.png",
+      "sha256": "75030158bcc0a470dd8a44144f84de62f0da025138899551c3d1000846e9e1e4"
+    }
+  ]
+}

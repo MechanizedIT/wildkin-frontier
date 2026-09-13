@@ -115,6 +115,9 @@ stable thumb zones. Landscape retains the HUD defined in beta.css. */
     color:#fff7e2;
     border-radius:11px
   }
+  #app .run-inventory-hud__item:not(.is-recent){
+    display:none!important
+  }
   #app .run-inventory-hud__item .item-icon{
     width:24px!important;
     height:24px!important
