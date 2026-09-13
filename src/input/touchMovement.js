@@ -14,7 +14,9 @@ export function getTouchJoystickLayout(rect, maxRadius = 68) {
     radius,
     center: {
       x: clamp(74, edge, rect.width - edge),
-      y: clamp(rect.height - 136, edge, rect.height - edge),
+      // Portrait keeps the stick clear of the persistent quick bar while
+      // preserving a stable origin for muscle memory and held movement.
+      y: clamp(rect.height - 172, edge, rect.height - edge),
     },
     activationRadius: radius + 26,
   };

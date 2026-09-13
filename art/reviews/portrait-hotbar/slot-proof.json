@@ -1,0 +1,26 @@
+[
+  {
+    "slot": 1,
+    "selectedState": "button \"Select slot 1: Omni-tool\" [pressed]"
+  },
+  {
+    "slot": 2,
+    "visibleState": "button \"Use Field medkit\":",
+    "selectedState": "button \"Select slot 2: Field medkit, 0 available\" [pressed]"
+  },
+  {
+    "slot": 3,
+    "visibleState": "button \"Use Berry lure\":",
+    "selectedState": "button \"Select slot 3: Berry lure, 0 available\" [pressed]"
+  },
+  {
+    "slot": 4,
+    "visibleState": "button \"Use Woven snare\":",
+    "selectedState": "button \"Select slot 4: Woven snare, 0 available\" [pressed]"
+  },
+  {
+    "slot": 5,
+    "visibleState": "button \"Use Construction tool\":",
+    "selectedState": "button \"Select slot 5: Construction tool\" [pressed]"
+  }
+]

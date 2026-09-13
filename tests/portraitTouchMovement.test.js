@@ -41,14 +41,14 @@ test('portrait joystick has one fixed visible center even with a fine pointer', 
   const { app } = setup();
   const touch = createTouchMovement(app, MOVEMENT_CONFIG, INPUT_CONFIG);
   assert.deepEqual(getTouchJoystickLayout(app.getBoundingClientRect(), 68), {
-    portrait: true, radius: 54, center: { x: 74, y: 708 }, activationRadius: 80,
+    portrait: true, radius: 54, center: { x: 74, y: 672 }, activationRadius: 80,
   });
   assert.equal(touch._debug().layout.portrait, true);
   const layer = app.children[0];
   assert.equal(layer.style.display, 'block');
   assert.equal(layer.style.opacity, '.48');
   assert.equal(layer.children[0].style.left, '74px');
-  assert.equal(layer.children[0].style.top, '708px');
+  assert.equal(layer.children[0].style.top, '672px');
   assert.equal(layer.children[0].style.width, '108px');
   assert.equal(layer.children[1].style.width, `${44 * 54 / 68}px`);
   touch.destroy();
@@ -62,19 +62,19 @@ test('portrait touch and pen start only around the fixed stick and preserve move
 
   down(1, 190, 500);
   assert.equal(touch._debug().hasActive, false, 'an unrelated left-side world touch is ignored');
-  down(2, 74, 708);
-  assert.deepEqual(touch._debug().origin, { x: 74, y: 708 });
-  move(2, 74 + 54 * .25, 708);
+  down(2, 74, 672);
+  assert.deepEqual(touch._debug().origin, { x: 74, y: 672 });
+  move(2, 74 + 54 * .25, 672);
   assert.equal(touch.getIntent().movementBand, 'sneak');
-  move(2, 74 + 54 * .55, 708);
+  move(2, 74 + 54 * .55, 672);
   assert.equal(touch.getIntent().movementBand, 'walk');
-  move(2, 74 + 54 * .9, 708);
+  move(2, 74 + 54 * .9, 672);
   assert.equal(touch.getIntent().movementBand, 'run');
   assert.ok(touch.getIntent().moveX > .99);
   app.dispatch('pointercancel', { pointerType: 'touch', pointerId: 2 });
   assert.equal(touch.getIntent().moveMagnitude, 0);
 
-  down(3, 70, 705, 'pen');
+  down(3, 70, 669, 'pen');
   assert.equal(touch._debug().hasActive, true);
   app.dispatch('pointerup', { pointerType: 'pen', pointerId: 3 });
   touch.destroy();
@@ -83,8 +83,8 @@ test('portrait touch and pen start only around the fixed stick and preserve move
 test('orientation change cancels held portrait movement and restores landscape floating behavior', () => {
   const { app, windowTarget, setBounds } = setup();
   const touch = createTouchMovement(app, MOVEMENT_CONFIG, INPUT_CONFIG);
-  app.dispatch('pointerdown', { pointerType: 'touch', pointerId: 4, button: 0, clientX: 74, clientY: 708 });
-  app.dispatch('pointermove', { pointerType: 'touch', pointerId: 4, clientX: 120, clientY: 708 });
+  app.dispatch('pointerdown', { pointerType: 'touch', pointerId: 4, button: 0, clientX: 74, clientY: 672 });
+  app.dispatch('pointermove', { pointerType: 'touch', pointerId: 4, clientX: 120, clientY: 672 });
   assert.ok(touch.getIntent().moveMagnitude > .8);
   setBounds({ left: 0, top: 0, width: 844, height: 390 });
   windowTarget.dispatch('resize');
@@ -100,15 +100,15 @@ test('visual viewport resize cancels movement, refreshes the fixed cue, and unre
   const touch = createTouchMovement(app, MOVEMENT_CONFIG, INPUT_CONFIG);
   assert.equal(windowTarget.visualViewport.listenerCount('resize'), 1);
 
-  app.dispatch('pointerdown', { pointerType: 'touch', pointerId: 6, button: 0, clientX: 74, clientY: 708 });
-  app.dispatch('pointermove', { pointerType: 'touch', pointerId: 6, clientX: 120, clientY: 708 });
+  app.dispatch('pointerdown', { pointerType: 'touch', pointerId: 6, button: 0, clientX: 74, clientY: 672 });
+  app.dispatch('pointermove', { pointerType: 'touch', pointerId: 6, clientX: 120, clientY: 672 });
   assert.ok(touch.getIntent().moveMagnitude > .8);
   setBounds({ left: 0, top: 0, width: 430, height: 760 });
   windowTarget.visualViewport.dispatch('resize');
 
   assert.equal(touch.getIntent().moveMagnitude, 0);
-  assert.deepEqual(touch._debug().layout.center, { x: 74, y: 624 });
-  assert.equal(app.children[0].children[0].style.top, '624px');
+  assert.deepEqual(touch._debug().layout.center, { x: 74, y: 588 });
+  assert.equal(app.children[0].children[0].style.top, '588px');
 
   touch.destroy();
   assert.equal(windowTarget.visualViewport.listenerCount('resize'), 0);

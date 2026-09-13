@@ -19,18 +19,18 @@ flowchart LR
   S --> V[Visual and audio feedback]
 ```
 
-The diagram includes proposed capabilities; it is not a list of completed systems. Components are small records/capabilities attached by stable identity. Focused systems apply their rules. Runtime Three.js meshes and Rapier bodies remain separately owned resources. Avoid subclass combinations for every species, trait, crop and machine variant.
+The diagram mixes current and proposed capabilities. `Active-play process clock` is implemented for crop and young growth; machine jobs, generalized needs and effect records remain proposals. Components are small records/capabilities attached by stable identity. Focused systems apply their rules. Runtime Three.js meshes and Rapier bodies remain separately owned resources. Avoid subclass combinations for every species, trait, crop and machine variant.
 
 | Area | Current implementation | Next useful boundary |
 | --- | --- | --- |
 | Player bonuses | Upgrade/skill catalog data; progress derives modifiers, applied on relevant actions or purchases | Keep permanent progression separate from temporary effects |
 | Combat effects | Player combat owns hit/dodge invulnerability and knockback; companions own ability cooldown; creatures own local recovery | Bounded effect records with explicit stacking, duration, source and removal rules when a real gameplay slice needs them |
-| Crops | One saved plot/growth record; physical garden adapter; 90 seconds active play in 5-second save quanta | Shared saved-process clock with breeding |
-| Breeding | Fixed child identity/genome/lineage plus 120-second active-play growth; atomic start/welcome | Reuse clock without merging crop or offspring rules |
+| Crops | One saved plot/growth record; physical garden adapter; 90 seconds active play through the shared clock in 5-second save quanta | Keep crop rules and transactions in their existing owners |
+| Breeding | Fixed child identity/genome/lineage plus 120-second active-play growth through the shared clock; atomic start/welcome | Keep offspring rules separate from reusable timing |
 | Care | One event-driven bed/individual/nourishment record; atomic berry feeding | Later per-individual needs/habitat records, with explicit limits and policies |
 | Crafting | Immediate inventory transaction; 2.2-second station motion is cosmetic | A future durable production job must own input reservation, completion and output capacity before using a shared clock |
 
-`frontierProgress` remains the save/transaction authority. `campGardenState` and `campBreedingState` validate domain data; `campGarden` and `campBreedingGrowth` currently duplicate active-play time accumulation. `baseSystem` and `companionSystem` reflect committed state visually. The first justified reuse is a rendering-free clock with injected state reader and atomic advance callback. Preserve process identity, progress rollback, pause/Author/background suppression and bounded unsaved time. Do not give presentation animation authority to grant items.
+`frontierProgress` remains the save/transaction authority. `campGardenState` and `campBreedingState` validate domain data; `campGarden` and `campBreedingGrowth` now reuse `src/game/savedProcessClock.js`, a rendering-free accumulator with injected process readers and advance callbacks. Both preserve active-play-only progress, five-second quanta, pause/Author/background suppression and bounded unsaved time. The helper owns no durable state, adds no schema, ECS or offline catch-up, and gives presentation no authority to grant items. This consolidation has no claimed measured speedup.
 
 For later buffs, separate base values from derived values so expiring a buff never permanently edits health capacity, speed or yield. Define refresh/replace/stack limits per effect; remove effects through their explicit owner on death, unloading or expiry as that effect requires. Visual particles/icons read the resulting state. Persistent versus outing-only effects is a product decision for the implementing slice, not an assumption that every timer belongs in a save.
 

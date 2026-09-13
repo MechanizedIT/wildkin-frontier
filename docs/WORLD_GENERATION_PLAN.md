@@ -4,6 +4,8 @@ Provisional implementation plan, September 12, 2026. Owner direction: procedural
 
 **Latest explicit owner steering:** lean toward extreme geography and large biomes: tall narrow plateaus to jump between, different life/resources above and below, large mountains/deserts and unusual alien formations. Lay foundations for later weather and day/night. These are accepted direction; exact scales, algorithms and cave/architecture choices below remain provisional.
 
+[`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) develops six proposed regional grammars, progression principles and reusable ecology kits. Those families are production direction, not generated runtime content.
+
 ```mermaid
 flowchart TD
   S[Saved world seed + generation edition] --> G[Broad ridges, valleys and basins]
@@ -49,7 +51,7 @@ Prefer a visible overworld cave mouth that leads into a separately loaded persis
 
 A short winding entrance can conceal loading later; a brief transition is acceptable in an early reliable version. Shallow alcoves/arches can remain in the overworld. Deep instances permit different atmosphere, life, geometry and budgets without holding an entire underground world in memory.
 
-Reserve one simulation-clock owner driven by the existing game loop for eventual day/night and regional weather. Lighting, ambient effects and creature schedules read that clock; they must not create independent timers or per-system copies. Weather derives from regional climate, elevation, shelter and bounded weather state, with pooled visual effects. Define persistence/pause rules when that slice starts; no offline care penalty or absence debt is implied. No weather or dynamic day/night ships in the current checkpoint.
+The rendering-free `savedProcessClock` now supplies one reusable active-play accumulator to Camp crops and young growth. It commits through their existing save transactions in five-second quanta and adds no schema, offline progress or simulation framework. A future day/night and regional-weather clock is a separate unimplemented authority driven by the existing loop; lighting, effects and creature schedules must not invent per-system clocks. Define persistence/pause rules when that slice starts. No weather, dynamic day/night, offline care penalty or absence debt ships now.
 
 ## Entity architecture
 
@@ -103,9 +105,10 @@ Water needs its own shared level, shoreline, safe-bank, swimming and spawn rules
 | Two blended habitat influences and a staged rolling transition/terrace | Broader climate fields and several distinct regional terrain profiles |
 | Bounded forage/scenery/wildlife, stable captured individuals, personal atlas | Discovery reservations, richer populations, regional trait distributions |
 | One fixed deterministic world edition | Safe alternate-world creation, generation namespaces, distant terrain and rebasing |
+| CLI inspector for same-world elevation, current wetland weight, slope and generated candidates | Climate moisture/temperature fields and regional recipe inspection |
 
 Descriptor injection is integrated: progress exposes one immutable identity from its strictly validated atlas/ecology metadata before runtime construction. Terrain, built-in grass, forage, wildlife, scenery and scenery grass use that identity with separate domains. Default output remains exact. Alternate descriptors are supported in isolated generator tests; saved alternate worlds are deliberately still rejected. Before exposing a seed selector, add top-level save authority and namespace atlas/resource/source IDs, then validate owned, captured, pending-run and breeding provenance at every transaction/import boundary. Runtime world identity stays immutable until page reconstruction; no live seed swap.
 
-Then produce a small visual generator inspector showing elevation, moisture, habitat mixture, slope and placements for the same area. Use it to build one compelling sequence of connected regions before expanding the palette. Root owns integration and generation order; separate workers can own pure fields, an inspector or habitat/content recipes with explicit file ownership.
+`tools/inspect-frontier.mjs` now writes a compact JSON report and four-panel SVG under `.dream-loop/frontier-inspector/`. It accepts bounded seed, center, extent and resolution options, uses the normalized world descriptor, actual Camp surface and current terrain/ecology/wildlife/scenery samplers, and shows elevation, local slope, terrain color plus candidates, and the existing `habitatBlend.wetland` weight over identical bounds. That wetland weight combines terrain noise and lowland height; it is not the proposed climate-moisture field. Use this diagnostic with [`REGIONAL_DIVERSITY_PLAN.md`](REGIONAL_DIVERSITY_PLAN.md) to build one compelling connected sequence before expanding the palette.
 
 Noise elevation/moisture maps and combinations are illustrated by [Red Blob Games](https://www.redblobgames.com/maps/terrain-from-noise/). [FastNoiseLite](https://github.com/Auburn/FastNoiseLite) supplies reusable noise algorithms; evaluate a local vendored implementation if it materially improves the next slice. No new dependency is adopted by this plan.

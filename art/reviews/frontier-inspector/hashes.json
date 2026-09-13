@@ -1,0 +1,22 @@
+[
+  {
+    "path": "tools/inspect-frontier.mjs",
+    "sha256": "926306668f6db1507f0e23fcfa32fef37c8ed735ff736942d88bc34fa9ffab99"
+  },
+  {
+    "path": "docs/REGIONAL_DIVERSITY_PLAN.md",
+    "sha256": "b1eb6b16c196b1ed44e6654bf890319eb723d40ec5e189af63aec9606485bce7"
+  },
+  {
+    "path": "art/reviews/frontier-inspector/frontier-inspector.svg",
+    "sha256": "8fcbbc9811dedd8b2013df65d78b65e630c23ca1b51d2ac51d6488baea9a56fb"
+  },
+  {
+    "path": "art/reviews/frontier-inspector/frontier-inspector.json",
+    "sha256": "fc1af0ebf0f01296d4809f39a789796027a2768e02ac8b13a7b0364f16689a7c"
+  },
+  {
+    "path": "art/reviews/frontier-inspector/inspector.png",
+    "sha256": "c469da61ccf2c1608d27d55adc939b457dad887faab91567a69e5f30f68e8292"
+  }
+]

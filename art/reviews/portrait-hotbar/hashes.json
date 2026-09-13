@@ -1,0 +1,102 @@
+[
+  {
+    "path": "src/ui/betaShell.js",
+    "sha256": "5d6f0665069a7f86de80cc8255dd9f2033ed6f3b3e1c5de365383b7fccf86499"
+  },
+  {
+    "path": "styles/portrait.css",
+    "sha256": "24004a0838d5a99c75e66ca2e0d36351d40ce4f5c9425522f9ad93ceec3370a7"
+  },
+  {
+    "path": "src/input/touchMovement.js",
+    "sha256": "486ab98c104eeb534128b4d83c4d558ae9f1e4b9eb2c363d9bf80c278f707000"
+  },
+  {
+    "path": "src/game/savedProcessClock.js",
+    "sha256": "1c17f8aff58b4f5280898f4ebd6b7209ba0c02c1ea0d237939afbd237f9ebdb6"
+  },
+  {
+    "path": "src/base/campGarden.js",
+    "sha256": "10696858f5a7ae3bb473474afe3cb765375245e4aea8eac41f9749f2516d62ca"
+  },
+  {
+    "path": "src/companions/campBreedingGrowth.js",
+    "sha256": "cfd882830c8dccf4bbd41988d7229e0deaa8bdaf0ce841d93ec9a693e116c072"
+  },
+  {
+    "path": "tests/portraitTouchMovement.test.js",
+    "sha256": "bfb76a55deaacd367e4c8488224a3457698d931e811e213e555bf5ed724f6041"
+  },
+  {
+    "path": "tests/savedProcessClock.test.js",
+    "sha256": "f3d76a76dd9f399941a70532a520441a7f9a64f3f3c5fe82f32d0c66abf025a7"
+  },
+  {
+    "path": "dist/submission/index.html",
+    "sha256": "407927281d20c4068846a7cc220a2fa5c9ebbfe0375c1ded60818c398d7e1aed"
+  },
+  {
+    "path": "dist/submission.zip",
+    "sha256": "7c27e6d64b3359049e654e2f26a1a66b69b896daf147a8205f15e06a73a45f97"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/baseline.png",
+    "sha256": "446f6c964baeb56969edb6fb3d78f09c25b71014bd6c47966befd2a33e1256ef"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/final-360.png",
+    "sha256": "1fafc58b3be8e4db7bfe001b8885f003e4ca200afd997e313491f299e3e72e42"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/final-landscape.png",
+    "sha256": "4d1ec82d4052344b71905affb101f27024adcc748862f19bcf0b756c00937bd6"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/final-small.png",
+    "sha256": "b214721de3115e0357ac74cce56536d5a9ab29568882b3694bc4ee60c7dea55a"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/layout-proof.json",
+    "sha256": "efc874dedae02c97054f81768173bad23aa7f25ed567d982628446f242550a8b"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/package-portrait.png",
+    "sha256": "c686cf15bce3dfb409cd76095091fdb92c90edcb5e0a59764637d918ddbf684e"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/package-proof.json",
+    "sha256": "34e0e9fe1d08f5e9edf2f77d0f67c9e675b8ca50f71c1e0fae58bdf8bd5d7745"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/process-clock-native.json",
+    "sha256": "30cbb1889a54c9bf08af2d4dbb1a33b3a3512e729e80a4e88f3d6a9fc80f3e56"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/r1.png",
+    "sha256": "5b836b900733c956a066eddca991c2740ec6a18777243b19b00956c5ba320274"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/r2.png",
+    "sha256": "1b67f743878776c53a04913c2010a160334e183758d2a2ecd65d20986e2b41cc"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/r3-small-overlap.png",
+    "sha256": "93aef55103e9e079a11d48e83961a78fc696fd17be41ccc46cdddcf7f0fbaefd"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/r3.png",
+    "sha256": "8f09f59959fc0a13438b08aab1dd56a4d08a68a45e18ed1b03e6c76385f6f853"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/receipt.md",
+    "sha256": "549e6deb2224a7381356f5c3e977ee81d150e45097ff8028549a5a184d70a3b8"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/slot-proof.json",
+    "sha256": "329b870b065ce21b8555cc509466974cb7b294f612d5741326612a706ae06c3d"
+  },
+  {
+    "path": "art/reviews/portrait-hotbar/target.png",
+    "sha256": "d0be855af4d2add38bb2a5a2b78b7b2935a16ee9a59c87b867fd51747e2fb4c5"
+  }
+]

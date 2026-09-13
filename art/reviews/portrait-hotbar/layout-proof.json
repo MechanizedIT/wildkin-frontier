@@ -1,0 +1,730 @@
+[
+  {
+    "height": 568,
+    "phase": "pair-release",
+    "rects": [
+      {
+        "display": "block",
+        "id": "joystick-origin",
+        "rect": {
+          "bottom": 450,
+          "height": 108,
+          "left": 20,
+          "right": 128,
+          "top": 342,
+          "width": 108,
+          "x": 20,
+          "y": 342
+        }
+      },
+      {
+        "display": "flex",
+        "id": "contextual-action-button",
+        "rect": {
+          "bottom": 422,
+          "height": 68,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 354,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 354
+        }
+      },
+      {
+        "display": "block",
+        "id": "contextual-secondary-action-button",
+        "rect": {
+          "bottom": 486,
+          "height": 54,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 432,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 432
+        }
+      },
+      {
+        "display": "none",
+        "id": "contextual-action-caption",
+        "rect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 1: Omni-tool",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 12,
+          "right": 68,
+          "top": 504,
+          "width": 56,
+          "x": 12,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 2: Field medkit, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 72,
+          "right": 128,
+          "top": 504,
+          "width": 56,
+          "x": 72,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 3: Berry lure, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 132,
+          "right": 188,
+          "top": 504,
+          "width": 56,
+          "x": 132,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 4: Woven snare, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 192,
+          "right": 248,
+          "top": 504,
+          "width": 56,
+          "x": 192,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 5: Construction tool",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 252,
+          "right": 308,
+          "top": 504,
+          "width": 56,
+          "x": 252,
+          "y": 504
+        }
+      }
+    ],
+    "width": 320
+  },
+  {
+    "height": 568,
+    "phase": "nursery-choice",
+    "rects": [
+      {
+        "display": "block",
+        "id": "joystick-origin",
+        "rect": {
+          "bottom": 450,
+          "height": 108,
+          "left": 20,
+          "right": 128,
+          "top": 342,
+          "width": 108,
+          "x": 20,
+          "y": 342
+        }
+      },
+      {
+        "display": "flex",
+        "id": "contextual-action-button",
+        "rect": {
+          "bottom": 422,
+          "height": 68,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 354,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 354
+        }
+      },
+      {
+        "display": "flex",
+        "id": "contextual-secondary-action-button",
+        "rect": {
+          "bottom": 422,
+          "height": 54,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 368,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 368
+        }
+      },
+      {
+        "display": "block",
+        "id": "contextual-action-caption",
+        "rect": {
+          "bottom": 290.0000190734863,
+          "height": 31.200000762939453,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 258.8000183105469,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 258.8000183105469
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 1: Omni-tool",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 12,
+          "right": 68,
+          "top": 504,
+          "width": 56,
+          "x": 12,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 2: Field medkit, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 72,
+          "right": 128,
+          "top": 504,
+          "width": 56,
+          "x": 72,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 3: Berry lure, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 132,
+          "right": 188,
+          "top": 504,
+          "width": 56,
+          "x": 132,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 4: Woven snare, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 192,
+          "right": 248,
+          "top": 504,
+          "width": 56,
+          "x": 192,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 5: Construction tool",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 252,
+          "right": 308,
+          "top": 504,
+          "width": 56,
+          "x": 252,
+          "y": 504
+        }
+      }
+    ],
+    "width": 320
+  },
+  {
+    "height": 568,
+    "phase": "nursery-final",
+    "rects": [
+      {
+        "display": "block",
+        "id": "joystick-origin",
+        "rect": {
+          "bottom": 450,
+          "height": 108,
+          "left": 20,
+          "right": 128,
+          "top": 342,
+          "width": 108,
+          "x": 20,
+          "y": 342
+        }
+      },
+      {
+        "display": "flex",
+        "id": "contextual-action-button",
+        "rect": {
+          "bottom": 422,
+          "height": 68,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 354,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 354
+        }
+      },
+      {
+        "display": "flex",
+        "id": "contextual-secondary-action-button",
+        "rect": {
+          "bottom": 422,
+          "height": 54,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 368,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 368
+        }
+      },
+      {
+        "display": "block",
+        "id": "contextual-action-caption",
+        "rect": {
+          "bottom": 290.0000190734863,
+          "height": 31.200000762939453,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 258.8000183105469,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 258.8000183105469
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 1: Omni-tool",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 12,
+          "right": 68,
+          "top": 504,
+          "width": 56,
+          "x": 12,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 2: Field medkit, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 72,
+          "right": 128,
+          "top": 504,
+          "width": 56,
+          "x": 72,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 3: Berry lure, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 132,
+          "right": 188,
+          "top": 504,
+          "width": 56,
+          "x": 132,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 4: Woven snare, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 192,
+          "right": 248,
+          "top": 504,
+          "width": 56,
+          "x": 192,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 5: Construction tool",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 252,
+          "right": 308,
+          "top": 504,
+          "width": 56,
+          "x": 252,
+          "y": 504
+        }
+      }
+    ],
+    "width": 320
+  },
+  {
+    "height": 568,
+    "phase": "nursery-specificity-final",
+    "rects": [
+      {
+        "display": "block",
+        "id": "joystick-origin",
+        "rect": {
+          "bottom": 450,
+          "height": 108,
+          "left": 20,
+          "right": 128,
+          "top": 342,
+          "width": 108,
+          "x": 20,
+          "y": 342
+        }
+      },
+      {
+        "display": "flex",
+        "id": "contextual-action-button",
+        "rect": {
+          "bottom": 422,
+          "height": 68,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 354,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 354
+        }
+      },
+      {
+        "display": "flex",
+        "id": "contextual-secondary-action-button",
+        "rect": {
+          "bottom": 486,
+          "height": 54,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 432,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 432
+        }
+      },
+      {
+        "display": "block",
+        "id": "contextual-action-caption",
+        "rect": {
+          "bottom": 290.0000190734863,
+          "height": 31.200000762939453,
+          "left": 205.6000061035156,
+          "right": 308.00000762939453,
+          "top": 258.8000183105469,
+          "width": 102.4000015258789,
+          "x": 205.6000061035156,
+          "y": 258.8000183105469
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 1: Omni-tool",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 12,
+          "right": 68,
+          "top": 504,
+          "width": 56,
+          "x": 12,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 2: Field medkit, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 72,
+          "right": 128,
+          "top": 504,
+          "width": 56,
+          "x": 72,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 3: Berry lure, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 132,
+          "right": 188,
+          "top": 504,
+          "width": 56,
+          "x": 132,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 4: Woven snare, 0 available",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 192,
+          "right": 248,
+          "top": 504,
+          "width": 56,
+          "x": 192,
+          "y": 504
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 5: Construction tool",
+        "rect": {
+          "bottom": 560,
+          "height": 56,
+          "left": 252,
+          "right": 308,
+          "top": 504,
+          "width": 56,
+          "x": 252,
+          "y": 504
+        }
+      }
+    ],
+    "width": 320
+  },
+  {
+    "height": 800,
+    "phase": "nursery-360",
+    "rects": [
+      {
+        "display": "block",
+        "id": "joystick-origin",
+        "rect": {
+          "bottom": 682,
+          "height": 108,
+          "left": 20,
+          "right": 128,
+          "top": 574,
+          "width": 108,
+          "x": 20,
+          "y": 574
+        }
+      },
+      {
+        "display": "none",
+        "id": "contextual-action-button",
+        "rect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "display": "none",
+        "id": "contextual-secondary-action-button",
+        "rect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "display": "none",
+        "id": "contextual-action-caption",
+        "rect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 1: Omni-tool",
+        "rect": {
+          "bottom": 792,
+          "height": 64,
+          "left": 12,
+          "right": 76,
+          "top": 728,
+          "width": 64,
+          "x": 12,
+          "y": 728
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 2: Field medkit, 0 available",
+        "rect": {
+          "bottom": 792,
+          "height": 64,
+          "left": 80,
+          "right": 144,
+          "top": 728,
+          "width": 64,
+          "x": 80,
+          "y": 728
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 3: Berry lure, 0 available",
+        "rect": {
+          "bottom": 792,
+          "height": 64,
+          "left": 148,
+          "right": 212,
+          "top": 728,
+          "width": 64,
+          "x": 148,
+          "y": 728
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 4: Woven snare, 0 available",
+        "rect": {
+          "bottom": 792,
+          "height": 64,
+          "left": 216,
+          "right": 280,
+          "top": 728,
+          "width": 64,
+          "x": 216,
+          "y": 728
+        }
+      },
+      {
+        "display": "grid",
+        "id": "Select slot 5: Construction tool",
+        "rect": {
+          "bottom": 792,
+          "height": 64,
+          "left": 284,
+          "right": 348,
+          "top": 728,
+          "width": 64,
+          "x": 284,
+          "y": 728
+        }
+      }
+    ],
+    "width": 360
+  },
+  {
+    "height": 390,
+    "marker": [
+      {
+        "display": "none",
+        "hidden": true
+      }
+    ],
+    "phase": "landscape",
+    "slots": [
+      {
+        "bottom": 377.3999938964844,
+        "height": 54,
+        "left": 244.5,
+        "right": 298.5,
+        "top": 323.3999938964844,
+        "width": 54,
+        "x": 244.5,
+        "y": 323.3999938964844
+      },
+      {
+        "bottom": 377.3999938964844,
+        "height": 54,
+        "left": 304.5,
+        "right": 358.5,
+        "top": 323.3999938964844,
+        "width": 54,
+        "x": 304.5,
+        "y": 323.3999938964844
+      },
+      {
+        "bottom": 377.3999938964844,
+        "height": 54,
+        "left": 364.5,
+        "right": 418.5,
+        "top": 323.3999938964844,
+        "width": 54,
+        "x": 364.5,
+        "y": 323.3999938964844
+      },
+      {
+        "bottom": 377.3999938964844,
+        "height": 54,
+        "left": 424.5,
+        "right": 478.5,
+        "top": 323.3999938964844,
+        "width": 54,
+        "x": 424.5,
+        "y": 323.3999938964844
+      },
+      {
+        "bottom": 377.3999938964844,
+        "height": 54,
+        "left": 484.5,
+        "right": 538.5,
+        "top": 323.3999938964844,
+        "width": 54,
+        "x": 484.5,
+        "y": 323.3999938964844
+      }
+    ],
+    "width": 844
+  }
+]

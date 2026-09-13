@@ -1,23 +1,17 @@
 import { CAMP_CROP_GROWTH_SECONDS, CAMP_CROP_MAX_ADVANCE_SECONDS } from './campGardenState.js';
+import { createSavedProcessClock } from '../game/savedProcessClock.js';
 
 // Small adapter for the existing fixed loop and physical world action. All
 // durable crop quantities, inventory exchanges and yield belong to progress.
 export function createCampGarden({ progress, getGarden, canGarden, getPlayerPosition, notify = () => {}, onChanged = () => {} }) {
-  let elapsed = 0, lastPlotId = null, lastGrowth = 0;
-  function resetClock() { elapsed = 0; lastPlotId = null; lastGrowth = 0; }
+  const clock = createSavedProcessClock({
+    getProcess: () => progress.getCampCrop(), getId: crop => crop.plotId, getProgress: crop => crop.growthSeconds,
+    duration: CAMP_CROP_GROWTH_SECONDS, maxAdvance: CAMP_CROP_MAX_ADVANCE_SECONDS,
+    advance: seconds => progress.advanceCampCrop(seconds),
+  });
+  function resetClock() { clock.reset(); }
   function update(dt, { active = false } = {}) {
-    const crop = progress.getCampCrop();
-    if (!crop) { resetClock(); return; }
-    if (crop.plotId !== lastPlotId || crop.growthSeconds < lastGrowth) elapsed = 0;
-    lastPlotId = crop.plotId; lastGrowth = crop.growthSeconds;
-    if (!active || crop.growthSeconds >= CAMP_CROP_GROWTH_SECONDS || !Number.isFinite(dt) || dt <= 0) return;
-    elapsed += Math.min(dt, .25);
-    const quantum = Math.min(CAMP_CROP_MAX_ADVANCE_SECONDS, CAMP_CROP_GROWTH_SECONDS-crop.growthSeconds);
-    if (elapsed + 1e-8 < quantum) return;
-    elapsed = Math.max(0, elapsed-quantum);
-    progress.advanceCampCrop(quantum);
-    // Failed writes lose this one bounded time quantum; inventory is untouched.
-    // No offline catch-up, per-frame saves, or second durable clock.
+    clock.update(dt, { active });
   }
   function nearby(id) {
     if (!canGarden()) return null;

@@ -1,6 +1,6 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September 12, 2026. **Active goal-mode development: shared world descriptor checkpoint complete; proceed to a visual generator inspector and dramatic terrain.**
+Updated September 12, 2026. **Active goal-mode development: portrait hotbar, shared growth clock and generation inspector complete; next build a dramatic plateau region.**
 
 Chris explicitly resumed from the restart handoff and approved an in-place pivot to the illustrated procedural exploration / creature-life direction. Continue through bounded slices until he asks to stop. The old finite campaign and paused overnight mandate are historical. Read **LIVING_FRONTIER_PLAN.md → SESSION_START.md → CODE_MAP.md**.
 
@@ -172,9 +172,24 @@ F2E selects admitted-species encounter reuse at8.0PASS. Tidefin's real snare/rel
 
 The descriptor now loads before runtime construction and is shared immutably across terrain, both grass paths, ecology, wildlife and scenery, including placement exclusions. Same/default output and alternate generator tests are covered. Atlas, depletion and captured origins retain current identities; alternate imports remain rejected until their complete provenance namespace is implemented.
 
+## Completed parallel slice: portrait hotbar, process clock and generation inspector
+
+- Latest owner layout steering: retain five visible hotbar slots at the bottom of portrait; move joystick above the bar left and selected-slot/contextual action buttons into a tidy group above it right. This supersedes M1's collapsed two-button belt. Reuse existing quick-slot/equipment/context owners and icon style. Preserve landscape and prevent held input from carrying across equipment/menu changes. Check all five slots, empty consumables, nearby actions, natural/guided nursery choices and ordinary jump/dodge. Root owns target/native review/integration; one worker owns portrait CSS/betaShell with explicitly agreed joystick adjustments.
+- Consolidate the identical crop and breeding active-play accumulators into one small helper with two existing consumers. Keep .25-second input cap, five-second commits, identity/progress reset, maturity, pause/Author/offline rules and failed-save bounded loss unchanged. No new saved state, machine jobs or ECS. One worker owns helper/adapters/focused tests only.
+- Produce a quantitative SVG/JSON generation inspector from actual samplers: height, current wetland habitat weight, slope and candidate placements over the same bounds. Use the real authored Camp surface if available and label any fallback. Diagnostic seeds never mutate saves. Bound sample count; no new runtime dependency or gameplay panel. Another worker owns the CLI/diagnostic files only. Use this evidence for the next dramatic plateau region; do not substitute diagnostic work for implementing that geography.
+- Root runs aggregate/package checks after integrated changes. Keep at most three visual rounds for the portrait revision, with actual screenshots and a separate judge. Continuous goal remains active.
+
+Five persistent portrait slots now sit below the left joystick and right action group. R3 scored9/10 PASS; subsequent small-screen correctness fixes separate every secondary action and the nursery choices at320px. Native all-slot selection, empty-medkit feedback, bedside guided pairing, active/paused/resumed young growth and landscape support passed. Crop and young growth reuse one small active-play accumulator with unchanged save owners. The inspector emits bounded same-window elevation, wetland habitat weight, slope and candidate-placement views; it does not implement new geography or climate.
+
+## Next bounded slice: dramatic plateau geography
+
+Chris explicitly asked for distinct regional identities and a delegated terrain/habitat/Wildkin/flora/decor catalog. `REGIONAL_DIVERSITY_PLAN.md` proposes six families, reusable body/plant kits and progression through meaningful outings. Those designs are not runtime content or personally accepted art. Slow travel needs new decisions and discoveries, not merely more walking.
+
+Build one Skybreak plateau fixture with25–40m local relief, tall narrow caps and lower wet slots. Start from actual inspector/overhead and normal gameplay baselines, then lock a feasible Dream Loop target. The current16m cap and60m camera far plane are implementation tuning, not locked limits. Bound silhouette/render costs; share sampled height and mesh/collider geometry. Verify a recognizable ascent, useful landing space, fall risk and a return route without imposing a predictable global path network. Do not silently treat an8–10m face as compatible with the current1.2–4m climb probe. Landform/terrain ownership may run alongside isolated content design; semantic cap/lowland placement follows a stable geography contract. Prioritize shipping that terrain rather than another planning-only slice.
+
 ## Last verified playable checkpoint
 
-Current checkpoint: shared descriptor,1,145/1,145tests plus verify/build/validate/ZIP PASS;44.11MB/20.53MB. Default terrain/content and native reload discoveries/owned identities preserved; packaged Jump passed. Receipt: `art/reviews/world-descriptor/receipt.md`. F2E/F2F retain encounter/grass proof, F1B/F4B preceding terrain/appearance, and F7B/F2D/F5B research/scenery/climbing. Inherited `11393c7` supplies the reusable camera and finite-world baseline; its966-test checkpoint is historical.
+Current checkpoint:1,147/1,147 tests and verify/world/campaign/build/validate PASS. Final CSS correctness closure received focused tests, native320/360/412 portrait and844×390 landscape checks, then fresh build/validate/ZIP;44.12MB unpacked/20.53MB ZIP. Portable Jump rose1.353m and landed healthy; five existing owned identities survived reload. Exact receipts: `art/reviews/portrait-hotbar/receipt.md` and `art/reviews/frontier-inspector/receipt.md`. Shared descriptor proof remains in `art/reviews/world-descriptor/receipt.md`. Inherited `11393c7` and its966 tests are historical.
 
 Initial working tree includes unrelated Verdant composer/test changes and untracked art/tool experiments. Preserve them; stage only owned files. Emberfall ravine and Tidefin V3 remain unshipped candidates with documented defects; they are not the current slice.
 

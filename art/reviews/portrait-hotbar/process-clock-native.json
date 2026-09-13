@@ -1,0 +1,207 @@
+[
+  {
+    "breeding": {
+      "bedId": "build_2680e50c-12e7-454a-a69a-ef712e7d28a4",
+      "growthSeconds": 0,
+      "guidedTrait": "baseColor",
+      "offspring": {
+        "acquiredRunId": "camp_breed_3",
+        "genome": {
+          "baseColor": "clay",
+          "crestVariant": 0,
+          "ecotype": "fen",
+          "eyeColor": "obsidian",
+          "marking": "none",
+          "sizeBand": "standard",
+          "species": "mossling",
+          "tailVariant": 2,
+          "version": 1
+        },
+        "id": "wildkin_bred_3",
+        "lineage": {
+          "generation": 3,
+          "parentIds": [
+            "wildkin_bred_2",
+            "wildkin_1b156h6"
+          ]
+        },
+        "originId": "bred:3",
+        "sex": "male",
+        "speciesId": "mossling",
+        "version": 1
+      },
+      "parentIds": [
+        "wildkin_bred_2",
+        "wildkin_1b156h6"
+      ],
+      "version": 1
+    },
+    "crop": {
+      "growthSeconds": 90,
+      "plotId": "build_4e99cd8f-acbf-45c9-9169-90821c9ddf0c",
+      "version": 1
+    },
+    "phase": "native-choice-start"
+  },
+  {
+    "breeding": {
+      "bedId": "build_2680e50c-12e7-454a-a69a-ef712e7d28a4",
+      "growthSeconds": 15,
+      "guidedTrait": "baseColor",
+      "offspring": {
+        "acquiredRunId": "camp_breed_3",
+        "genome": {
+          "baseColor": "clay",
+          "crestVariant": 0,
+          "ecotype": "fen",
+          "eyeColor": "obsidian",
+          "marking": "none",
+          "sizeBand": "standard",
+          "species": "mossling",
+          "tailVariant": 2,
+          "version": 1
+        },
+        "id": "wildkin_bred_3",
+        "lineage": {
+          "generation": 3,
+          "parentIds": [
+            "wildkin_bred_2",
+            "wildkin_1b156h6"
+          ]
+        },
+        "originId": "bred:3",
+        "sex": "male",
+        "speciesId": "mossling",
+        "version": 1
+      },
+      "parentIds": [
+        "wildkin_bred_2",
+        "wildkin_1b156h6"
+      ],
+      "version": 1
+    },
+    "crop": {
+      "growthSeconds": 90,
+      "plotId": "build_4e99cd8f-acbf-45c9-9169-90821c9ddf0c",
+      "version": 1
+    },
+    "phase": "active-growth"
+  },
+  {
+    "breeding": {
+      "bedId": "build_2680e50c-12e7-454a-a69a-ef712e7d28a4",
+      "growthSeconds": 15,
+      "guidedTrait": "baseColor",
+      "offspring": {
+        "acquiredRunId": "camp_breed_3",
+        "genome": {
+          "baseColor": "clay",
+          "crestVariant": 0,
+          "ecotype": "fen",
+          "eyeColor": "obsidian",
+          "marking": "none",
+          "sizeBand": "standard",
+          "species": "mossling",
+          "tailVariant": 2,
+          "version": 1
+        },
+        "id": "wildkin_bred_3",
+        "lineage": {
+          "generation": 3,
+          "parentIds": [
+            "wildkin_bred_2",
+            "wildkin_1b156h6"
+          ]
+        },
+        "originId": "bred:3",
+        "sex": "male",
+        "speciesId": "mossling",
+        "version": 1
+      },
+      "parentIds": [
+        "wildkin_bred_2",
+        "wildkin_1b156h6"
+      ],
+      "version": 1
+    },
+    "phase": "pack-open"
+  },
+  {
+    "breeding": {
+      "bedId": "build_2680e50c-12e7-454a-a69a-ef712e7d28a4",
+      "growthSeconds": 15,
+      "guidedTrait": "baseColor",
+      "offspring": {
+        "acquiredRunId": "camp_breed_3",
+        "genome": {
+          "baseColor": "clay",
+          "crestVariant": 0,
+          "ecotype": "fen",
+          "eyeColor": "obsidian",
+          "marking": "none",
+          "sizeBand": "standard",
+          "species": "mossling",
+          "tailVariant": 2,
+          "version": 1
+        },
+        "id": "wildkin_bred_3",
+        "lineage": {
+          "generation": 3,
+          "parentIds": [
+            "wildkin_bred_2",
+            "wildkin_1b156h6"
+          ]
+        },
+        "originId": "bred:3",
+        "sex": "male",
+        "speciesId": "mossling",
+        "version": 1
+      },
+      "parentIds": [
+        "wildkin_bred_2",
+        "wildkin_1b156h6"
+      ],
+      "version": 1
+    },
+    "phase": "pack-paused-after-work"
+  },
+  {
+    "breeding": {
+      "bedId": "build_2680e50c-12e7-454a-a69a-ef712e7d28a4",
+      "growthSeconds": 65,
+      "guidedTrait": "baseColor",
+      "offspring": {
+        "acquiredRunId": "camp_breed_3",
+        "genome": {
+          "baseColor": "clay",
+          "crestVariant": 0,
+          "ecotype": "fen",
+          "eyeColor": "obsidian",
+          "marking": "none",
+          "sizeBand": "standard",
+          "species": "mossling",
+          "tailVariant": 2,
+          "version": 1
+        },
+        "id": "wildkin_bred_3",
+        "lineage": {
+          "generation": 3,
+          "parentIds": [
+            "wildkin_bred_2",
+            "wildkin_1b156h6"
+          ]
+        },
+        "originId": "bred:3",
+        "sex": "male",
+        "speciesId": "mossling",
+        "version": 1
+      },
+      "parentIds": [
+        "wildkin_bred_2",
+        "wildkin_1b156h6"
+      ],
+      "version": 1
+    },
+    "phase": "resumed-growth"
+  }
+]
