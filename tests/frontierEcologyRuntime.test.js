@@ -111,6 +111,7 @@ test('real Rapier generated forage restores a committed harvest after resident u
 });
 
 test('seeded bloom crystal keeps scaled collision, failed-save safety and finite depletion through real residency and reload', () => {
+  const bloomChunk = { cx: -34, cz: -4 };
   const priorStorage = globalThis.localStorage;
   let stored = null, fail = false;
   globalThis.localStorage = {
@@ -123,15 +124,15 @@ test('seeded bloom crystal keeps scaled collision, failed-save safety and finite
     readPersistentResource: id => progress.getFrontierEcologyState().resources[id],
     commitPersistentResource: (id, remaining) => progress.commitFrontierResourceState(id, remaining),
   });
-  const resident = () => ({ center: { cx: -5, cz: -2 }, chunks: [{ id: '-5,-2', cx: -5, cz: -2 }] });
+  const resident = () => ({ center: { ...bloomChunk }, chunks: [{ id: `${bloomChunk.cx},${bloomChunk.cz}`, ...bloomChunk }] });
   let snapshot = resident();
   const terrainRuntime = { getResidency: () => snapshot, getHeight: (x, z) => sampleFrontier(x, z).height, sample: sampleFrontier };
   const runtime = createFrontierEcologyRuntime({ terrainRuntime, resourceSystem: resources, visualAssets: WORLD_DATA.visualAssets });
-  const id = 'f1:r:-5:-2:200';
+  const id = 'f1:r:-34:-4:200';
   try {
     runtime.update();
     let node = resources.getNodes().find(node => node.id === id);
-    const source = sampleFrontierRegionalPlaceChunk(-5, -2).resources.find(source => source.index === 200);
+    const source = sampleFrontierRegionalPlaceChunk(bloomChunk.cx, bloomChunk.cz).resources.find(source => source.index === 200);
     assert.ok(node, 'the real seeded recipe reaches resource residency');
     assert.equal(node.type.resourceId, 'crystal_shard');
     assert.equal(node.state.remainingChunks, 4);

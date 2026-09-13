@@ -38,8 +38,8 @@ test('regional terrain foliage stays bounded and dry while starter tint remains 
   assert.ok(Array.from(starter.instanceColor.array).every(value => value === 1));
   const starterScales = grassInstances(runtime.root.getObjectByName('frontier_chunk_0,-2')).map(instance => instance.scale);
   assert.ok(starterScales.every(scale => scale >= .38 && scale <= .76), 'starter grass keeps its original scale range');
-  runtime.update({ x: -640, z: -335 }, { activeSectionId: 'camp' });
-  const sample = runtime.sample(-640, -335);
+  runtime.update({ x: -1850, z: 50 }, { activeSectionId: 'camp' });
+  const sample = runtime.sample(-1850, 50);
   assert.equal(sample.provinceKind, 'sunscar');
   assert.ok(sample.provinceInfluence > .99);
   let count = 0, meshes = 0;
@@ -62,11 +62,19 @@ test('regional terrain foliage stays bounded and dry while starter tint remains 
 
 test('inland grass grows at native ecotone witnesses without crowding nearby forage or the Lush cache', () => {
   const { runtime } = fixture();
-  runtime.update({ x: -99.904, z: 219.680 }, { activeSectionId: 'camp' });
-  const mixed = grassInstances(runtime.root.getObjectByName('frontier_chunk_-2,4'));
-  assert.equal(mixed.length, 30, 'the mixed ecotone keeps its deterministic selection count');
+  runtime.update({ x: -1075, z: 225 }, { activeSectionId: 'camp' });
+  const mixed = grassInstances(runtime.root.getObjectByName('frontier_chunk_-22,4'));
+  assert.equal(mixed.length, 51, 'the finite Lush/Sunscar ecotone keeps its deterministic clear selection count');
   assert.ok(mixed.every(instance => instance.scale >= .59 && instance.scale <= 1.24));
   assert.ok(mixed.some(instance => instance.scale > .76), 'the ecotone includes readable taller tufts');
+  const forage = sampleFrontierForageChunk(-22, 4, { visualAssets: WORLD_DATA.visualAssets });
+  const forageRadius = resource => ({ tree: 1.35, rock: .9, fiber: .55 })[resource.type] * resource.uniformScale;
+  for (const grass of mixed) for (const resource of forage) {
+    assert.ok(Math.hypot(grass.x - resource.pos.x, grass.z - resource.pos.z)
+      >= GRASS_MAX_XZ_NORM * grass.scale + forageRadius(resource), 'mixed grass remains clear of forage footprints');
+  }
+
+  runtime.update({ x: -99.904, z: 219.680 }, { activeSectionId: 'camp' });
   const reserveEdge = runtime.root.children.flatMap(grassInstances).filter(instance => {
     const sample = runtime.sample(instance.x, instance.z);
     return sample.provinceInfluence > 0 && sample.provinceInfluence < .1
@@ -75,16 +83,9 @@ test('inland grass grows at native ecotone witnesses without crowding nearby for
   assert.ok(reserveEdge.length > 0, 'the witness window crosses the regional influence boundary');
   assert.ok(reserveEdge.every(instance => instance.scale >= .377 && instance.scale <= .81), 'low influence blends gradually from the legacy scale');
 
-  const forage = sampleFrontierForageChunk(-2, 4, { visualAssets: WORLD_DATA.visualAssets });
-  const forageRadius = resource => ({ tree: 1.35, rock: .9, fiber: .55 })[resource.type] * resource.uniformScale;
-  for (const grass of mixed) for (const resource of forage) {
-    assert.ok(Math.hypot(grass.x - resource.pos.x, grass.z - resource.pos.z)
-      >= GRASS_MAX_XZ_NORM * grass.scale + forageRadius(resource), 'mixed grass remains clear of forage footprints');
-  }
-
   runtime.update({ x: -150, z: 345 }, { activeSectionId: 'camp' });
   const lush = grassInstances(runtime.root.getObjectByName('frontier_chunk_-3,6'));
-  assert.equal(lush.length, 78, 'the Lush gap keeps its deterministic selection count');
+  assert.equal(lush.length, 94, 'the fixed Rootbound approach keeps its deterministic clear selection count');
   assert.ok(lush.every(instance => instance.scale >= .59 && instance.scale <= 1.24));
   assert.ok(lush.some(instance => instance.scale > 1.1), 'the Lush gap reaches the intended portrait-readable range');
 

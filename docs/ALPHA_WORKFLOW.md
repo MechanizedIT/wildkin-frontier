@@ -110,3 +110,10 @@ Chris explicitly asked to keep replanning after each completed plan: revisit cor
 ## Larger continent lesson
 
 Use a generated map as a frozen macro reference, then compare the real sampler at the same extent; separate silhouette admission from vegetation and gameplay admission. Three structural rounds were sufficient (6.5/7.8/8.3). Inspect finite catalogs and atlas capacity before multiplying land area. Eager startup scans and persistence caps can scale independently of live residents. Preserve meaningful support/selection tests when geography intentionally changes; do not blindly update hashes. Native fixtures prove new coast controls while the original earned Camp remains a separate exact-save witness. Pre-alpha region production may regenerate unvisited geography rather than accumulating compatibility layers.
+
+
+## Finite habitats — preserve meaning when geography changes
+
+Fixed ten-site ownership replaced the repeating field. Independent topology sampling caught small coast-clipped components; two25m site adjustments removed sampled islands without a polygon framework. Retargeted tests now exercise actual Sunscar/ecotone/bloom locations while keeping support, clearance and lifecycle assertions. A real grass/forage overlap was fixed; an all-scenery filter added unnecessary generation work and was rejected for a bounded forage-only build check. Source and focused proof converged before one aggregate:1,361tests/84.251s and package gates. Native fixtures preserved the earned save and crossed Heartwood→Rootbound. Do not use timings recorded during another build reload as controlled performance comparisons.
+
+A120m camera far plane does not make90m-ahead terrain visible in a42degree downward portrait view. Project target anchors before art: the approximate top ray meets level ground18m ahead of the player. The Caldera target must emphasize near breach shoulders and5–20m content, leaving the full ring to movement/orbit/overview. Render authored SVG reports with bundled sharp when browser captures tear; no runtime dependency is added. Keep the shared skills unchanged.

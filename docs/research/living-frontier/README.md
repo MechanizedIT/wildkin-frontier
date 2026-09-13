@@ -1,5 +1,7 @@
 # Living Frontier research refresh
 
+Latest local evidence: [ten fixed habitat areas](../../../art/reviews/finite-habitats/receipt.md), with a paired actual-terrain/allocation map and native portrait screenshots. Ten completed habitat experiences remain in production. Earlier Drive PDFs remain dated publications; this local update has not been uploaded.
+
 **Latest local continent update:** [Illustrated progress](Early-Alpha-Progress.md) pairs the generated target with the actual 6 × 7 km outline, native shore screenshots and preserved portable Camp. It records exploration-first priorities, ten unique early-alpha habitats and the later physical factory direction. Earlier Drive PDFs remain dated publications.
 
 **New direction, not yet implemented:** ten unique habitats are now an early-alpha requirement, on a larger irregular continent. [The frozen target and hybrid implementation plan](../../CONTINENT_ALPHA_TARGET.md) distinguish proposed geography from current source.

@@ -21,7 +21,7 @@ test('continent overview is bounded, deterministic, and owns no life enumeration
     const second = run([...args, secondDir]);
     assert.equal(first.status, 0, first.stderr);
     assert.equal(second.status, 0, second.stderr);
-    for (const name of ['continent-overview.png', 'continent-overview.svg', 'continent-overview.json']) {
+    for (const name of ['continent-overview.png', 'habitat-allocation.png', 'continent-overview.svg', 'continent-overview.json']) {
       assert.equal(digest(path.join(firstDir, name)), digest(path.join(secondDir, name)), `${name} is deterministic`);
     }
 
@@ -29,14 +29,31 @@ test('continent overview is bounded, deterministic, and owns no life enumeration
     assert.equal(report.format, 'living-frontier-continent-overview-v1');
     assert.deepEqual(report.bounds, { minX: -4700, maxX: 3300, minZ: -4900, maxZ: 3100 });
     assert.deepEqual(report.sampling.sourceOwners,
-      ['frontierContinent', 'frontierTerrain', 'frontierRegion-via-terrain']);
+      ['frontierContinent', 'frontierTerrain', 'frontierRegion-via-terrain', 'frontierRegionCatalog']);
     assert.equal(report.sampling.lifeEnumeration, false);
     assert.ok(report.sampling.width <= 180 && report.sampling.height <= 180);
     assert.equal(report.sampling.sampleCount, report.sampling.width * report.sampling.height);
     assert.deepEqual(report.metrics.provinces.implementedGrammars, ['lush', 'sunscar', 'ironspine']);
+    assert.equal(report.metrics.habitats.completionStatus, 'topology-only');
+    assert.equal(report.metrics.habitats.canonicalCount, 10);
+    assert.equal(report.metrics.habitats.sampledLandCount, 10);
+    assert.equal(report.metrics.habitats.catalog.length, 10);
+    assert.deepEqual(report.metrics.habitats.actualIds,
+      report.metrics.habitats.catalog.map(record => record.habitatId).sort());
+    assert.equal(Object.values(report.metrics.habitats.landSamplesById).reduce((sum, count) => sum + count, 0), report.metrics.landSamples);
+    assert.equal('unassigned' in report.metrics.habitats.landSamplesById, false);
+    assert.equal(report.grids.habitat.id.length, report.sampling.sampleCount);
     assert.equal('counts' in report, false);
     assert.equal('placements' in report, false);
     assert.match(report.label, /not ten completed habitats/);
+    const svg = fs.readFileSync(path.join(firstDir, 'continent-overview.svg'), 'utf8');
+    assert.match(svg, /Habitat allocation · topology-only/);
+    assert.match(svg, /three implemented grammars/);
+    for (const [index, habitat] of report.metrics.habitats.catalog.entries()) {
+      assert.match(svg, new RegExp(`>${index + 1}<`));
+      assert.match(svg, new RegExp(habitat.name));
+    }
+    assert.notEqual(digest(path.join(firstDir, 'continent-overview.png')), digest(path.join(firstDir, 'habitat-allocation.png')));
   } finally {
     fs.rmSync(scratch, { recursive: true, force: true });
   }
@@ -63,6 +80,8 @@ test('the detailed local inspector still emits its life and placement report', (
     assert.equal(report.format, 'living-frontier-inspector-v1');
     assert.ok('forage' in report.counts && 'wildlife' in report.counts && 'scenery' in report.counts);
     assert.ok('forage' in report.placements && 'wildlife' in report.placements && 'scenery' in report.placements);
+    assert.ok(Array.isArray(report.metrics.habitats.dominantIds));
+    assert.equal(report.grids.habitat.id.length, report.sampling.width * report.sampling.height);
   } finally {
     fs.rmSync(scratch, { recursive: true, force: true });
   }

@@ -1,12 +1,12 @@
 # Wildkin Frontier
 
-## Latest local progress: a larger, irregular continent
+## Latest local progress: ten fixed habitat areas
 
 **Latest owner direction:** Early alpha now requires **ten distinct, nonrepeating habitats** on a large irregular continent. The [polished target and hybrid plan](docs/CONTINENT_ALPHA_TARGET.md) aim for roughly6×7km: deliberately designed regions with seeded local detail. The coastline is implemented; the ten distinct habitat experiences remain in production.
 
-The continent now spans **6 × 7 km**, with approximately **29 km² of land**, a broad eastern gulf and unequal peninsulas. The third silhouette review passed **8.3/10**. Normal controls crossed the new shore from walking to swimming and back to dry ground; residents stayed bounded. All **1,357 tests** and package checks pass (44.33 MB unpacked / 20.58 MB ZIP), and the earned Camp survives developer and portable reload exactly. There are still **three terrain grammars**, not ten completed habitats. [Actual overview, play and limits](art/reviews/continent-v2/receipt.md).
+The continent now has **ten fixed, named habitat areas**, replacing the repeating province field. All ten have connected land in the sampled topology review. Terrain transitions, resources and scenery use the new geography, while Camp and the earned Mossling/grove save remain intact. **1,361 tests and package checks pass** (44.33 MB unpacked /20.58 MB ZIP). These are ten allocations using three temporary terrain grammars, **not ten finished habitats**. [Actual maps, play and limits](art/reviews/finite-habitats/receipt.md).
 
-<img src="art/reviews/continent-v2/overview-r3.png" alt="Actual sampled larger continent, still using three terrain grammars" width="440">
+<img src="art/reviews/finite-habitats/paired-overview.png" alt="Actual terrain beside the ten fixed habitat allocations; distinct habitat production is still pending" width="760">
 
 ## Earlier streaming improvement
 
@@ -84,7 +84,7 @@ Desktop controls: **WASD** move, **Shift** run, **C** sneak, **1–5** select a 
 
 ## Proposed direction
 
-The next frontier is not a promise of a completed campaign. Three existing Wildkin now have useful bounded roles in care/cultivation, mining and protected approach. The active local foundation also gives three province grammars distinct landform, color, ordinary life/resource recipes and sparse signature encounters. Coast and continent shape are the next world candidate after this checkpoint closes; deeper traversal, ecology and discoveries still need later slices. It does not add physical water, weather, caves/overhangs, infinite-distance simulation, DNA systems or trade. Evidence is tracked in [Current slice](docs/CURRENT_SLICE.md).
+The next frontier is not a promise of a completed campaign. Three existing Wildkin now have useful bounded roles in care/cultivation, mining and protected approach. The active local foundation also gives three province grammars distinct landform, color, ordinary life/resource recipes and sparse signature encounters. The coast and finite habitat allocation are implemented; distinctive habitat terrain, deeper ecology and discoveries remain in production. It does not add physical water, weather, caves/overhangs, infinite-distance simulation, DNA systems or trade. Evidence is tracked in [Current slice](docs/CURRENT_SLICE.md).
 
 Later proposals include modular compatible Wildkin rigs and parts, broader field research and reproduction modes, habitat/food/camp systems, caves and overhang meshes, day/night and weather, DNA archives/cloning, community discoveries, and trusted online trade. These are not current gameplay systems. Mortality and elder rules remain undecided; current no-absence-penalty growth is provisional.
 

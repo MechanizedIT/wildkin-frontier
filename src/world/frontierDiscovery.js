@@ -53,7 +53,9 @@ function sampleSignalCache({
   const receiverAsset = admittedAsset(visualAssets, source.receiverAssetId);
   if (!chestAsset || !receiverAsset || !lootTables.some(table => table?.id === source.lootTableId)) return null;
   const terrain = getTerrainSample(source.x, source.z);
-  if (!Number.isFinite(terrain?.height) || terrain.provinceKind !== 'sunscar' || !(terrain.provinceInfluence >= .9)
+  // This is a fixed surveyed landmark, not a procedurally selected biome place.
+  // Its admission follows actual dry support and clearance as macro geography changes.
+  if (!Number.isFinite(terrain?.height) || !(terrain.provinceInfluence >= .9)
     || !hasFrontierLandFootprint(source.x, source.z, { radius: source.footprintRadius, getTerrainSample, world })) return null;
   if (!hasFootprintSupport(source.x, source.z, { getHeight, radius: source.footprintRadius, maxSlope: .18 })) return null;
   const chestX = source.x + source.chestOffset.x, chestZ = source.z + source.chestOffset.z;

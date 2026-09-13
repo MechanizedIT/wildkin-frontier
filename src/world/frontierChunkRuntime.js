@@ -7,6 +7,7 @@ import { createFrontierLandformVisual } from './frontierLandformVisual.js';
 import { isSkybreakArea } from './frontierLandform.js';
 import { createFrontierRegionSampler } from './frontierRegion.js';
 import { createFrontierTextureColorSampler } from './frontierTextureColor.js';
+import { sampleFrontierForageChunk } from './frontierEcology.js';
 import { hasFootprintSupport } from './frontierPlacement.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed, normalizeFrontierWorld } from './frontierWorld.js';
 import { createFrontierContinentSampler, sampleFrontierWater, hasFrontierLandFootprint } from './frontierContinent.js';
@@ -29,6 +30,13 @@ export const FRONTIER_CHUNK_STREAMING_CONFIG = Object.freeze({
 const RADIUS = FRONTIER_CHUNK_STREAMING_CONFIG.radius;
 const HYSTERESIS = FRONTIER_CHUNK_STREAMING_CONFIG.hysteresis;
 const FOLIAGE_COUNT = 96;
+const FOLIAGE_XZ_RADIUS = .6678251760362262;
+const FORAGE_FOOTPRINT_RADIUS = Object.freeze({ tree: 1.35, rock: .9, fiber: .55 });
+const FORAGE_ASSET_FOOTPRINT_RADIUS = Object.freeze({
+  asset_berry_bush: 1.29,
+  asset_crystal: 1.3,
+  asset_iron_ore_rock: .93,
+});
 
 // Cliff faces use their height for stone shading. XZ ground UVs collapse to a
 // narrow strip on a vertical face and otherwise stretch grass into a wall.
@@ -66,7 +74,7 @@ function hash(x, z, seed) {
   return ((value ^ (value >>> 16)) >>> 0) / 4294967295;
 }
 
-function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
+function addFoliage(group, chunk, geometry, material, terrainOptions, world, visualAssets) {
   const grass = new THREE.InstancedMesh(geometry, material, FOLIAGE_COUNT);
   const dummy = new THREE.Object3D();
   const positionXSeed = frontierDomainSeed(world, 'terrain-foliage', 17);
@@ -76,6 +84,30 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
   const densitySeed = frontierDomainSeed(world, 'terrain-foliage', 113);
   const tint = new THREE.Color();
   const getHeight = (x, z) => sampleFrontier(x, z, terrainOptions).height;
+  let regionalForage = null;
+  function hasRegionalForageClearance(x, z, scale) {
+    if (!regionalForage) {
+      regionalForage = [];
+      const cx = Math.floor(chunk.origin.x / FRONTIER_TERRAIN_CONFIG.chunkSize);
+      const cz = Math.floor(chunk.origin.z / FRONTIER_TERRAIN_CONFIG.chunkSize);
+      for (let fz = cz - 1; fz <= cz + 1; fz += 1) for (let fx = cx - 1; fx <= cx + 1; fx += 1) {
+        regionalForage.push(...sampleFrontierForageChunk(fx, fz, {
+          getHeight,
+          getTerrainSample: (sx, sz) => sampleFrontier(sx, sz, terrainOptions),
+          terrainOptions,
+          visualAssets,
+          world,
+        }));
+      }
+    }
+    const foliageRadius = FOLIAGE_XZ_RADIUS * scale;
+    return regionalForage.every(resource => {
+      const assetId = resource.visualAsset?.id;
+      const baseRadius = FORAGE_ASSET_FOOTPRINT_RADIUS[assetId] ?? FORAGE_FOOTPRINT_RADIUS[resource.type] ?? 0;
+      const resourceRadius = baseRadius * (Number.isFinite(resource.uniformScale) ? resource.uniformScale : 1);
+      return Math.hypot(x - resource.pos.x, z - resource.pos.z) >= foliageRadius + resourceRadius;
+    });
+  }
   let liveCount = 0;
   const shelfFronds = chunk.id === '0,-3' ? [
     [28.5,-125],[30,-125],[35.5,-125],[38.5,-125],[41,-125],
@@ -106,6 +138,11 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
       : protectedScale
         ? legacyScale
         : legacyScale + influence * (.24 + scaleRoll * .08) + lush * .16 - dry * .03;
+    // Sample the local 3x3 forage neighborhood once for this chunk, then let
+    // the build-local array go with the resident construction. Camp/reserve,
+    // coast and authored Skybreak foliage retain their accepted placement.
+    if (influence === 1 && sample.coastDistance >= 40 && !skybreak
+      && !hasRegionalForageClearance(worldX, worldZ, scale)) continue;
     dummy.position.set(x, sample.height, z);
     dummy.rotation.y = hash(index, chunk.origin.z, yawSeed) * Math.PI * 2;
     dummy.scale.setScalar(scale);
@@ -205,7 +242,7 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     mesh.castShadow = isSkybreakArea(chunk.origin.x + FRONTIER_TERRAIN_CONFIG.chunkSize / 2,
       chunk.origin.z + FRONTIER_TERRAIN_CONFIG.chunkSize / 2);
     group.add(mesh);
-    foliage = addFoliage(group, chunk, foliageGeometry, foliageMaterial, terrainOptions, worldDescriptor);
+    foliage = addFoliage(group, chunk, foliageGeometry, foliageMaterial, terrainOptions, worldDescriptor, visualAssets);
     landform = createFrontierLandformVisual({ cx, cz, visualAssets, getHeight });
     group.add(landform.group);
     return { chunk, group, geometry, foliage, texture, material, stoneMaterial, landform };

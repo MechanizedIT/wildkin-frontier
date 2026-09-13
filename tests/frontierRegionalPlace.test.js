@@ -124,14 +124,14 @@ function macroPlaces(mx, mz, options) {
 }
 
 test('default crystal-bloom witness retains the numerical recipe and one owner chunk', () => {
-  const place = sampleFrontierRegionalPlaceChunk(-5, -2);
+  const place = sampleFrontierRegionalPlaceChunk(-34, -4);
   assert.ok(Object.isFrozen(place) && Object.isFrozen(place.center) && Object.isFrozen(place.resources) && Object.isFrozen(place.scenery));
   assert.deepEqual({ cx: place.cx, cz: place.cz, kind: place.kind, radius: place.radius, layout: place.layout }, {
-    cx: -5, cz: -2, kind: 'sunscar-bloom', radius: 7, layout: 'fan',
+    cx: -34, cz: -4, kind: 'sunscar-bloom', radius: 7, layout: 'fan',
   });
-  assert.ok(Math.abs(place.center.x - -222.27464418096343) < 1e-12);
-  assert.ok(Math.abs(place.center.z - -70.32611524344564) < 1e-12);
-  assert.ok(Math.abs(place.yaw - .9577878522286514) < 1e-12);
+  assert.ok(Math.abs(place.center.x - -1679.0894256704696) < 1e-12);
+  assert.ok(Math.abs(place.center.z - -175.14118808092113) < 1e-12);
+  assert.ok(Math.abs(place.yaw - 3.075761204687521) < 1e-12);
   assert.deepEqual(place.resources.map(resource => [resource.index, resource.assetId, resource.type, resource.uniformScale]), [
     [200, 'asset_crystal', 'rock', .72],
   ]);
@@ -140,8 +140,8 @@ test('default crystal-bloom witness retains the numerical recipe and one owner c
     ['asset_cloudflower', .5], ['asset_cloudflower', .5], ['asset_cloudflower', .5],
     ['asset_trail_stones', .56], ['asset_trail_stones', .56],
   ]);
-  assert.equal(sampleFrontierRegionalPlaceChunk(-6, -2), null, 'a non-owner chunk in the same macrocell cannot duplicate the place');
-  assert.deepEqual(sampleFrontierRegionalPlaceChunk(-5, -2), place);
+  assert.equal(sampleFrontierRegionalPlaceChunk(-35, -4), null, 'a non-owner chunk in the same macrocell cannot duplicate the place');
+  assert.deepEqual(sampleFrontierRegionalPlaceChunk(-34, -4), place);
 });
 
 test('each macrocell has at most one owner and another valid seed changes its recipe', () => {
@@ -224,7 +224,7 @@ test('one shared asset gate requires the real finite crystal and every usable de
 });
 
 test('all witness parts and its open approach have support and solid footprints do not overlap', () => {
-  const place = sampleFrontierRegionalPlaceChunk(-5, -2);
+  const place = sampleFrontierRegionalPlaceChunk(-34, -4);
   const height = (x, z) => sampleFrontier(x, z).height;
   const radii = { asset_crystal: 1.3, asset_fen_stone: 1.14, asset_cloudflower: 1.02, asset_trail_stones: 1.57 };
   assert.equal(hasFootprintSupport(place.center.x, place.center.z, { getHeight: height, radius: FRONTIER_REGIONAL_PLACE_RADIUS, maxSlope: .28 }), true);

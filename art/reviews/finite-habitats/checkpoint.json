@@ -1,0 +1,48 @@
+{
+  "at": "2026-09-13T20:10:15.974Z",
+  "parentCommit": "8499f59d71a3e1806cee9cdfc857d77b706fcb8d",
+  "status": "local foundation; goal remains active",
+  "sourceFreeze": {
+    "time": "2026-09-13T20:02:00.012Z",
+    "files": {
+      "src/world/frontierChunkRuntime.js": "439fb5a50851d71bdaf81e30e67cdac230cf65ab1a3e5c73b0aafabbca7fa71b",
+      "src/world/frontierDiscovery.js": "1201a0b3116bc227846cd09e5434773a90f6086d1029d9f69a54fc0f7749de95",
+      "src/world/frontierFixedSites.js": "14ef8fed547a95b227f022ed861fb05d929ee66b21d000f583878b3bf3dfaf0f",
+      "src/world/frontierRegion.js": "4796da4522dd45ff3c11c1af11da664144fc14107c8644dca760ba86fbf62a27",
+      "src/world/frontierTerrain.js": "46c632c8710b3e64bf63c63781c6c5aaa0b8e4857061d28f6ce41abcb12e26fb",
+      "tests/frontierChunkRuntime.test.js": "bcb5c1c39b48bd09464c0ed324116e38f2cfa7eb237ac7f7d8a7b70f12c38c8c",
+      "tests/frontierDiscovery.test.js": "485e354fe81dcdd86aef1035f3aba19892da65ec6eba04464bc887d3f7fe9387",
+      "tests/frontierEcology.test.js": "22be0fcb6ab1bc419100ea159a4fb1cbd4f70a45ecc278adfd634d0d30b8f453",
+      "tests/frontierEcologyRuntime.test.js": "12bcc14736cd7854ad3f28988d3d6b6d68e66c9390f21dbb5f266c2b13ef0f55",
+      "tests/frontierInspectorTool.test.js": "d2ae9ae979dc3ffea1e1a1abe95f5798f3ac147776f946acee68e821c3fcac93",
+      "tests/frontierRegion.test.js": "eca44c40eb773b9233ab4acdcd38cda8e640b2d962d4ef1983d8896228ddac66",
+      "tests/frontierRegionalPlace.test.js": "b4f35e4f325cffac7134abd0261bc78c09992cbfde4faf9353b026b7cca27dc0",
+      "tests/frontierScenery.test.js": "36151de4fe1a56397c6856f108bf77c19a0be4d8a7d0ba19f1c998c28b84d58a",
+      "tests/frontierTerrain.test.js": "dc9b1363d8d393496b8f24a801314ea04113279438c6c04e15ef33b1125e2af4",
+      "tests/frontierWildlife.test.js": "b3287068801625717a87bac52966ac767088b0473e3a5f5cabaca9624958486b",
+      "tools/inspect-frontier.mjs": "dc8912312896f8e81daf4f21688674b275fe91ddb58149584e45e3c2e630696f",
+      "src/world/frontierRegionCatalog.js": "933c6f36a500549baf6f93f18ad25054d9234006dec6ea1093d9bb544a9c0973",
+      "tests/frontierRegionCatalog.test.js": "fa4cae3488c686e1ef6670cd1a9d60d412a85b16ae67015c5ae1a9eaae41e29a"
+    }
+  },
+  "gate": {
+    "tests": 1361,
+    "pass": 1361,
+    "fail": 0,
+    "durationMs": 84250.6803,
+    "verify": true,
+    "zip": true,
+    "zipBytes": 21580349,
+    "verifySha256": "f24522ff3112cc896a66ade335ff0416175eda444cf2740b39976e579db471b4",
+    "zipLogSha256": "834892c40be650014536d4a41997de1c3ca2d1b5905150bee53a2535b49cd5c8"
+  },
+  "overviewMeasurementSha256": "8ffdb1e4c5d406da48ef67887acccf754d99d36f9e7741bd1b593dbf92af9d35",
+  "nativeSaveExact": {
+    "developerReload": true,
+    "portableReload": true,
+    "portableContinue": true
+  },
+  "completedHabitats": 0,
+  "habitatAllocations": 10,
+  "baseGrammars": 3
+}

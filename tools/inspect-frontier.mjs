@@ -9,6 +9,7 @@ import { createTerrainColorSampler } from '../src/presentation/authoredTerrain.j
 import { getSurfaceHeight } from '../src/world/terrainSurfaceModel.js';
 import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from '../src/world/frontierTerrain.js';
 import { sampleFrontierContinent } from '../src/world/frontierContinent.js';
+import { FRONTIER_REGION_CATALOG } from '../src/world/frontierRegionCatalog.js';
 import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/frontierWorld.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -129,6 +130,11 @@ function counts(values, key) {
   return Object.fromEntries([...values.reduce((map, value) => map.set(key(value), (map.get(key(value)) ?? 0) + 1), new Map())].sort(([a], [b]) => a.localeCompare(b)));
 }
 function esc(value) { return String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;'); }
+function diagnosticRgb8(value) {
+  const color = Array.isArray(value) ? value : [0.45, 0.45, 0.45];
+  const unitRange = color.every(channel => Number.isFinite(channel) && channel >= 0 && channel <= 1);
+  return [0, 1, 2].map(index => Math.round(clamp(Number(color[index]) || 0, 0, unitRange ? 1 : 255) * (unitRange ? 255 : 1)));
+}
 
 function scaleRgbaNearest(source, width, height, targetWidth, targetHeight) {
   const target = new Uint8Array(targetWidth * targetHeight * 4);
@@ -164,11 +170,12 @@ function runOverview(config) {
   if (height > OVERVIEW_LIMITS.maxResolution) throw new Error(`derived Z resolution ${height} exceeds ${OVERVIEW_LIMITS.maxResolution}; reduce --resolution or the extent ratio`);
 
   const terrainPixels = new Uint8Array(width * height * 4);
-  const provincePixels = new Uint8Array(width * height * 4);
+  const habitatPixels = new Uint8Array(width * height * 4);
   const coastDistances = [], elevations = [], provinceKinds = [], provinceInfluences = [];
+  const habitatIds = [];
   const landPoints = [], provinceWeights = { lush: [], sunscar: [], ironspine: [] };
   const coastKinds = [];
-  const provinceColors = { lush: [.18, .62, .30], sunscar: [.90, .62, .30], ironspine: [.50, .57, .64] };
+  const habitatById = new Map(FRONTIER_REGION_CATALOG.map(record => [record.habitatId, record]));
   for (let row = 0; row < height; row++) for (let column = 0; column < width; column++) {
     const x = lerp(minX, maxX, (column + .5) / width), z = lerp(minZ, maxZ, (row + .5) / height);
     const continent = sampleFrontierContinent(x, z, { world });
@@ -177,6 +184,7 @@ function runOverview(config) {
     coastDistances.push(continent.coastDistance); coastKinds.push(continent.kind);
     elevations.push(terrain.height); provinceKinds.push(terrain.provinceKind ?? 'reserved');
     provinceInfluences.push(terrain.provinceInfluence ?? 0);
+    habitatIds.push(terrain.habitatId ?? null);
     for (const kind of Object.keys(provinceWeights)) provinceWeights[kind].push(terrain.provinceWeights?.[kind] ?? 0);
     if (continent.land) landPoints.push({ x, z });
 
@@ -188,14 +196,11 @@ function runOverview(config) {
     }
     terrainPixels.set([...terrainColor, 255], index * 4);
 
-    let provinceColor = terrainColor;
-    if (continent.land) {
-      const blend = Object.keys(provinceColors).map(kind => provinceColors[kind].map(channel => channel * (terrain.provinceWeights?.[kind] ?? 0)))
-        .reduce((total, color) => total.map((channel, channelIndex) => channel + color[channelIndex]), [0, 0, 0]);
-      const influence = terrain.provinceInfluence ?? 0;
-      provinceColor = blend.map((channel, channelIndex) => Math.round(lerp([.16, .26, .20][channelIndex], channel, .18 + influence * .82) * 255));
-    }
-    provincePixels.set([...provinceColor, 255], index * 4);
+    const habitat = habitatById.get(terrain.habitatId);
+    const habitatColor = continent.land
+      ? (habitat ? diagnosticRgb8(habitat.diagnosticColorRGB) : [174, 48, 146])
+      : terrainColor;
+    habitatPixels.set([...habitatColor, 255], index * 4);
   }
 
   const landBounds = landPoints.length ? {
@@ -204,6 +209,12 @@ function runOverview(config) {
   } : null;
   const sampleAreaKm2 = config.extentX / width * config.extentZ / height / 1_000_000;
   const landSamples = landPoints.length;
+  const habitatLandCounts = counts(habitatIds.filter((_id, index) => coastDistances[index] >= 0), value => value ?? 'unassigned');
+  const actualHabitatIds = Object.keys(habitatLandCounts).filter(id => id !== 'unassigned');
+  const habitatCatalog = FRONTIER_REGION_CATALOG.map(record => ({
+    habitatId: record.habitatId, name: record.name, x: record.x, z: record.z, baseKind: record.baseKind,
+    diagnosticColorRGB: [...record.diagnosticColorRGB], completionStatus: record.completionStatus,
+  }));
   const report = {
     format: 'living-frontier-continent-overview-v1',
     label: 'Current continent outline with three implemented terrain grammars; not ten completed habitats',
@@ -211,7 +222,7 @@ function runOverview(config) {
     bounds: { minX, maxX, minZ, maxZ },
     sampling: {
       width, height, sampleCount: width * height, maxSamplesPerAxis: OVERVIEW_LIMITS.maxResolution,
-      sourceOwners: ['frontierContinent', 'frontierTerrain', 'frontierRegion-via-terrain'],
+      sourceOwners: ['frontierContinent', 'frontierTerrain', 'frontierRegion-via-terrain', 'frontierRegionCatalog'],
       lifeEnumeration: false, campSurface: campSurface ? 'authored-world-registry' : 'flat-fallback', limits: OVERVIEW_LIMITS,
     },
     metrics: {
@@ -224,11 +235,16 @@ function runOverview(config) {
         dominantKindSamples: counts(provinceKinds, value => value), influence: roundedSummary(provinceInfluences),
         meanWeights: Object.fromEntries(Object.entries(provinceWeights).map(([kind, values]) => [kind, roundedSummary(values).mean])),
       },
+      habitats: {
+        completionStatus: 'topology-only', canonicalCount: habitatCatalog.length, sampledLandCount: actualHabitatIds.length,
+        actualIds: actualHabitatIds, landSamplesById: habitatLandCounts, catalog: habitatCatalog,
+      },
     },
     grids: {
       coastDistance: coastDistances.map(value => rounded(value)), elevation: elevations.map(value => rounded(value)),
       province: { kind: provinceKinds, influence: provinceInfluences.map(value => rounded(value)),
         weights: Object.fromEntries(Object.entries(provinceWeights).map(([kind, values]) => [kind, values.map(value => rounded(value))])) },
+      habitat: { id: habitatIds },
     },
   };
   report.measurementSha256 = crypto.createHash('sha256').update(JSON.stringify({
@@ -239,26 +255,41 @@ function runOverview(config) {
   const outputDir = config.outputDir;
   fs.mkdirSync(outputDir, { recursive: true });
   const pngPath = path.join(outputDir, 'continent-overview.png');
+  const habitatPngPath = path.join(outputDir, 'habitat-allocation.png');
   fs.writeFileSync(pngPath, pngBuffer(targetWidth, targetHeight, scaleRgbaNearest(terrainPixels, width, height, targetWidth, targetHeight)));
+  fs.writeFileSync(habitatPngPath, pngBuffer(targetWidth, targetHeight, scaleRgbaNearest(habitatPixels, width, height, targetWidth, targetHeight)));
   const mapWidth = 560, mapHeight = Math.round(mapWidth * height / width);
   const campX = (0 - minX) / (maxX - minX) * mapWidth, campY = (0 - minZ) / (maxZ - minZ) * mapHeight;
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="${mapHeight + 190}" viewBox="0 0 1280 ${mapHeight + 190}">
-<rect width="100%" height="100%" fill="#0b1518"/><style>text{font-family:system-ui,-apple-system,Segoe UI,sans-serif}.title{fill:#f5efd9;font-size:30px;font-weight:700}.meta{fill:#9fb7b2;font-size:15px}.panel{fill:#f5efd9;font-size:20px;font-weight:700}.frame{fill:none;stroke:#87aaa6;stroke-width:1}.camp{fill:#ffe09b;stroke:#382f20;stroke-width:2}.key{fill:#c6d4cf;font-size:13px}</style>
+  const anchorMarks = habitatCatalog.map((record, index) => {
+    const x = 660 + (record.x - minX) / (maxX - minX) * mapWidth;
+    const y = 155 + (record.z - minZ) / (maxZ - minZ) * mapHeight;
+    return `<g><circle cx="${x}" cy="${y}" r="11" class="anchor"/><text x="${x}" y="${y + 4}" class="anchor-number">${index + 1}</text></g>`;
+  }).join('');
+  const legend = habitatCatalog.map((record, index) => {
+    const column = Math.floor(index / 5), row = index % 5, x = 60 + column * 600, y = mapHeight + 208 + row * 29;
+    const color = diagnosticRgb8(record.diagnosticColorRGB).join(' ');
+    return `<g><rect x="${x}" y="${y - 14}" width="18" height="18" rx="3" fill="rgb(${color})"/><text x="${x + 28}" y="${y}" class="legend"><tspan class="legend-number">${index + 1}</tspan> ${esc(record.name)} · ${esc(record.baseKind)}</text></g>`;
+  }).join('');
+  const svgHeight = mapHeight + 368;
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="${svgHeight}" viewBox="0 0 1280 ${svgHeight}">
+<rect width="100%" height="100%" fill="#0b1518"/><style>text{font-family:system-ui,-apple-system,Segoe UI,sans-serif}.title{fill:#f5efd9;font-size:30px;font-weight:700}.meta{fill:#9fb7b2;font-size:15px}.panel{fill:#f5efd9;font-size:20px;font-weight:700}.frame{fill:none;stroke:#87aaa6;stroke-width:1}.camp{fill:#ffe09b;stroke:#382f20;stroke-width:2}.key{fill:#c6d4cf;font-size:13px}.anchor{fill:#10191b;stroke:#fff5d3;stroke-width:2}.anchor-number{fill:#fff5d3;font-size:12px;font-weight:800;text-anchor:middle}.legend{fill:#dbe5df;font-size:15px}.legend-number{font-weight:800}</style>
 <text x="60" y="48" class="title">Living Frontier · bounded continent overview</text>
-<text x="60" y="76" class="meta">${esc(worldKey(world))} · ${width}×${height} samples · ${rounded(config.extentX / 1000, 1)}×${rounded(config.extentZ / 1000, 1)} km bounds · continent/terrain/province only</text>
-<text x="60" y="100" class="meta">Current three terrain grammars: Lush, Sunscar, Ironspine. This does not depict ten completed habitats.</text>
-<text x="60" y="137" class="panel">Terrain and coast</text><text x="660" y="137" class="panel">Province grammar blend</text>
+<text x="60" y="76" class="meta">${esc(worldKey(world))} · ${width}×${height} samples · ${rounded(config.extentX / 1000, 1)}×${rounded(config.extentZ / 1000, 1)} km bounds · no life enumeration</text>
+<text x="60" y="100" class="meta">Terrain appearance has three implemented grammars. Habitat allocation has ten topology-only regions, not ten completed habitats.</text>
+<text x="60" y="137" class="panel">Terrain appearance and coast</text><text x="660" y="137" class="panel">Habitat allocation · topology-only</text>
 <image x="60" y="155" width="${mapWidth}" height="${mapHeight}" image-rendering="pixelated" href="${pngDataUrl(width, height, terrainPixels)}"/><rect x="60" y="155" width="${mapWidth}" height="${mapHeight}" class="frame"/>
-<image x="660" y="155" width="${mapWidth}" height="${mapHeight}" image-rendering="pixelated" href="${pngDataUrl(width, height, provincePixels)}"/><rect x="660" y="155" width="${mapWidth}" height="${mapHeight}" class="frame"/>
-<circle cx="${60 + campX}" cy="${155 + campY}" r="6" class="camp"/><circle cx="${660 + campX}" cy="${155 + campY}" r="6" class="camp"/><text x="${72 + campX}" y="${159 + campY}" class="key">Camp</text>
+<image x="660" y="155" width="${mapWidth}" height="${mapHeight}" image-rendering="pixelated" href="${pngDataUrl(width, height, habitatPixels)}"/><rect x="660" y="155" width="${mapWidth}" height="${mapHeight}" class="frame"/>
+<circle cx="${60 + campX}" cy="${155 + campY}" r="6" class="camp"/><text x="${72 + campX}" y="${159 + campY}" class="key">Camp</text>${anchorMarks}
+<text x="60" y="${mapHeight + 184}" class="panel">Canonical habitat sites</text>${legend}
 </svg>\n`;
   const svgPath = path.join(outputDir, 'continent-overview.svg');
   const jsonPath = path.join(outputDir, 'continent-overview.json');
   fs.writeFileSync(svgPath, svg); fs.writeFileSync(jsonPath, `${JSON.stringify(report)}\n`);
   console.log(`[frontier-inspector] wrote ${path.relative(ROOT, pngPath)} (${Math.round(fs.statSync(pngPath).size / 1024)} KiB)`);
+  console.log(`[frontier-inspector] wrote ${path.relative(ROOT, habitatPngPath)} (${Math.round(fs.statSync(habitatPngPath).size / 1024)} KiB)`);
   console.log(`[frontier-inspector] wrote ${path.relative(ROOT, svgPath)} (${Math.round(Buffer.byteLength(svg) / 1024)} KiB)`);
   console.log(`[frontier-inspector] wrote ${path.relative(ROOT, jsonPath)} (${Math.round(Buffer.byteLength(JSON.stringify(report)) / 1024)} KiB)`);
-  console.log(`[frontier-inspector] overview ${worldKey(world)} ${width}x${height}, ~${report.metrics.approximateLandAreaKm2} km² sampled land, three terrain grammars, no life enumeration`);
+  console.log(`[frontier-inspector] overview ${worldKey(world)} ${width}x${height}, ~${report.metrics.approximateLandAreaKm2} km² sampled land, three terrain grammars, ${actualHabitatIds.length} topology-only habitat regions, no life enumeration`);
 }
 
 async function main() {
@@ -272,7 +303,7 @@ async function main() {
   const width = config.resolution, height = Math.max(LIMITS.minResolution, Math.round(config.resolution * config.extentZ / config.extentX));
   if (height > LIMITS.maxResolution) throw new Error(`derived Z resolution ${height} exceeds ${LIMITS.maxResolution}; reduce --resolution or the extent ratio`);
   const elevations = [], wetlands = [], slopes = [], terrainColors = [];
-  const provinceIds = [], provinceKinds = [], provinceInfluences = [];
+  const provinceIds = [], provinceKinds = [], provinceInfluences = [], habitatIds = [];
   const provinceWeights = { lush: [], sunscar: [], ironspine: [] };
   const heightAt = (x, z) => sampleFrontier(x, z, terrainOptions).height;
   for (let row = 0; row < height; row++) for (let column = 0; column < width; column++) {
@@ -281,6 +312,7 @@ async function main() {
     const slope = Math.hypot((heightAt(x + step, z) - heightAt(x - step, z)) / (step * 2), (heightAt(x, z + step) - heightAt(x, z - step)) / (step * 2));
     elevations.push(sample.height); wetlands.push(sample.habitatBlend.wetland); slopes.push(slope); terrainColors.push(sample.groundColorRGB);
     provinceIds.push(sample.provinceId ?? null); provinceKinds.push(sample.provinceKind ?? 'reserved'); provinceInfluences.push(sample.provinceInfluence ?? 0);
+    habitatIds.push(sample.habitatId ?? null);
     for (const kind of Object.keys(provinceWeights)) provinceWeights[kind].push(sample.provinceWeights?.[kind] ?? 0);
   }
 
@@ -412,6 +444,7 @@ ${legend(960,page.panelY[2]+page.plot+40,influenceStops,'0 authored reserve','1 
         influence: roundedSummary(provinceInfluences),
         meanWeights: Object.fromEntries(Object.entries(provinceWeights).map(([kind, values]) => [kind, roundedSummary(values).mean])),
       },
+      habitats: { dominantIds: [...new Set(habitatIds.filter(Boolean))].sort() },
     },
     counts: {
       forage: { total: visibleForage.length, byType: counts(visibleForage, item => item.visualAsset?.id ?? item.type) },
@@ -429,6 +462,7 @@ ${legend(960,page.panelY[2]+page.plot+40,influenceStops,'0 authored reserve','1 
         id: provinceIds, kind: provinceKinds, influence: provinceInfluences.map(value => rounded(value)),
         weights: Object.fromEntries(Object.entries(provinceWeights).map(([kind, values]) => [kind, values.map(value => rounded(value))])),
       },
+      habitat: { id: habitatIds },
     },
   };
   const stableMeasurement = JSON.stringify({ world: report.world, bounds: report.bounds, sampling: { width, height, slopeStep: .8 }, grids: report.grids, placements: report.placements });

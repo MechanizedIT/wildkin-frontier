@@ -1,0 +1,14 @@
+{
+  "createdAt": "2026-09-13T20:13:47.092Z",
+  "status": "locked direction with review constraints; production pending",
+  "targetScore": 8,
+  "implementationScore": null,
+  "source": "imagegen edit of actual native portrait baseline",
+  "files": {
+    "target.png": "bf9a40529161cbe2656c8e7c4bf972a8de8088746ecadf5dcdadcb42f7e98d88",
+    "baseline.png": "14f8e3edd7a3697c31d380523eada49988547d48a3b4223f8616848fab61ba60",
+    "baseline.json": "d97067f92c6880e71cfe2650b16bfe8e0f2366c25d285d7ca15170633249e0cc",
+    "README.md": "5dd4bb919cb2eb1bebd7f7f2aaf410f0f8b8306b702935cb33e1897113799244",
+    "target-review.md": "c84850565e45acba7b153c5bb6b5655d07c0cbd292e87de78e072a3b0e539265"
+  }
+}

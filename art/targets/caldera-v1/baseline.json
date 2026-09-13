@@ -1,0 +1,108 @@
+{
+  "player": {
+    "mode": "IDLE",
+    "speed": 0,
+    "facing": 0,
+    "pos": {
+      "x": 850,
+      "y": 17.062747955322266,
+      "z": -1935
+    },
+    "dodgeCooldown": 0,
+    "traversalMode": "IDLE",
+    "grounded": true,
+    "verticalVelocity": 0,
+    "climbVelocity": 0,
+    "waterborne": false,
+    "waterDepth": 0,
+    "currentStrength": 0,
+    "lastDryPosition": {
+      "x": 850,
+      "y": 16.542747955322266,
+      "z": -1935
+    }
+  },
+  "sample": {
+    "height": 16.499052271875215,
+    "habitatBlend": {
+      "fernUpland": 0.41081513472073616,
+      "wetland": 0.5891848652792638
+    },
+    "groundColorRGB": [
+      0.24273319674395882,
+      0.3187968387727142,
+      0.3135326116325375
+    ],
+    "surfaceKind": null,
+    "provinceId": "f1:habitat:emberglass-caldera",
+    "provinceKind": "ironspine",
+    "provinceInfluence": 1,
+    "provinceWeights": {
+      "lush": 0,
+      "sunscar": 0,
+      "ironspine": 1
+    },
+    "habitatId": "emberglass-caldera",
+    "habitatName": "Emberglass Caldera",
+    "habitatWeights": {
+      "emberglass-caldera": 1
+    },
+    "coastDistance": 947.6756427333639,
+    "seaLevel": -2,
+    "land": true,
+    "contentLand": true,
+    "hasTerrain": true,
+    "waterDepth": 0,
+    "inlandDirection": {
+      "x": -0.396772334466847,
+      "z": 0.9179170521358281
+    }
+  },
+  "chunks": {
+    "residentCount": 25,
+    "center": {
+      "cx": 17,
+      "cz": -39
+    },
+    "residentIds": [
+      "15,-41",
+      "16,-41",
+      "17,-41",
+      "18,-41",
+      "19,-41",
+      "15,-40",
+      "16,-40",
+      "17,-40",
+      "18,-40",
+      "19,-40",
+      "15,-39",
+      "16,-39",
+      "17,-39",
+      "18,-39",
+      "19,-39",
+      "15,-38",
+      "16,-38",
+      "17,-38",
+      "18,-38",
+      "19,-38",
+      "15,-37",
+      "16,-37",
+      "17,-37",
+      "18,-37",
+      "19,-37"
+    ],
+    "preparedCount": 0,
+    "preparedIds": []
+  },
+  "camera": {
+    "position": {
+      "x": 850,
+      "y": 24.167504822334358,
+      "z": -1928.108919372024
+    },
+    "pitch": 0.7330382858376184,
+    "yaw": 0,
+    "fov": 52,
+    "far": 120
+  }
+}

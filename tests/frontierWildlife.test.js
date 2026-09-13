@@ -89,7 +89,9 @@ test('regional wildlife preserves zero-influence Mosslings and gives the Sunscar
     sampleFrontierWildlifeChunk(1, -1, { getTerrainSample: reservedSample }),
     sampleFrontierWildlifeChunk(1, -1, { getTerrainSample: legacySample }),
   );
-  const [witness] = sampleFrontierWildlifeChunk(-13, -7);
+  const witnessChunk = { cx: -44, cz: -8 };
+  const [witness] = sampleFrontierWildlifeChunk(witnessChunk.cx, witnessChunk.cz);
+  assert.equal(sampleFrontier((witnessChunk.cx + .5) * 50, (witnessChunk.cz + .5) * 50).habitatId, 'sunscar-desert');
   assert.deepEqual({ species: witness.speciesTag, signature: witness.regionalSignature, priority: witness.residentPriority },
     { species: 'emberhorn', signature: true, priority: 90 });
 

@@ -1,0 +1,62 @@
+{
+  "gridMetres": 25,
+  "bounds": { "minX": -3700, "maxX": 2300, "minZ": -4400, "maxZ": 2600 },
+  "coastSeeds": [1327115068, 1327115069, 1831565729],
+  "recommendedSiteChanges": {
+    "Rootbound Wildwood": { "from": [-450, 650], "to": [-425, 650] },
+    "Saltglass Headlands": { "from": [1550, 1700], "to": [1525, 1675] }
+  },
+  "baseline": {
+    "landAreaKm2": [28.9575, 28.93875, 28.901875],
+    "coverageGaps": [0, 0, 0],
+    "areasKm2": {
+      "Heartwood Basin": [0.655625, 0.64625, 0.646875],
+      "Rootbound Wildwood": [1.85125, 1.85125, 1.853125],
+      "Skybreak Tablelands": [1.631875, 1.6325, 1.63],
+      "Sunscar Desert": [3.9, 3.86375, 3.89],
+      "Ironspine Range": [4.8375, 4.869375, 4.833125],
+      "Shatterfen": [1.840625, 1.845625, 1.843125],
+      "Fungal Hollow": [3.06875, 3.08125, 3.09375],
+      "Emberglass Caldera": [5.750625, 5.735, 5.730625],
+      "Verdant Stair": [3.1975, 3.1975, 3.1975],
+      "Saltglass Headlands": [2.22375, 2.21625, 2.18375]
+    },
+    "disconnected": {
+      "Heartwood Basin": {
+        "components4": [3, 3, 4],
+        "components8": [2, 3, 2],
+        "detachedAreaKm2": [0.00375, 0.003125, 0.004375]
+      },
+      "Shatterfen": {
+        "components4": [2, 2, 2],
+        "components8": [1, 1, 1],
+        "detachedAreaKm2": [0.000625, 0.000625, 0.000625]
+      }
+    }
+  },
+  "adjusted": {
+    "landAreaKm2": [28.9575, 28.93875, 28.901875],
+    "coverageGaps": [0, 0, 0],
+    "allSitesOnLand": [true, true, true],
+    "allHabitatsComponents4": [1, 1, 1],
+    "allHabitatsComponents8": [1, 1, 1],
+    "areasKm2": {
+      "Heartwood Basin": [0.6475, 0.63875, 0.638125],
+      "Rootbound Wildwood": [1.835, 1.834375, 1.8375],
+      "Skybreak Tablelands": [1.631875, 1.6325, 1.63],
+      "Sunscar Desert": [3.9175, 3.88125, 3.9075],
+      "Ironspine Range": [4.8375, 4.869375, 4.833125],
+      "Shatterfen": [1.843125, 1.848125, 1.845625],
+      "Fungal Hollow": [3.06875, 3.08125, 3.09375],
+      "Emberglass Caldera": [5.750625, 5.735, 5.730625],
+      "Verdant Stair": [3.1975, 3.1975, 3.1975],
+      "Saltglass Headlands": [2.228125, 2.220625, 2.188125]
+    },
+    "witnessOwners": {
+      "Camp": "Heartwood Basin",
+      "Skybreak crown": "Skybreak Tablelands",
+      "Signal": "Heartwood Basin",
+      "earned grove": "Rootbound Wildwood"
+    }
+  }
+}

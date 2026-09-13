@@ -39,13 +39,13 @@ test('real Lush witness carries its scaled chest into the canonical discovery id
   assert.equal(grove?.uniformScale, .7);
 });
 
-test('Signal Cache fails closed without exact admitted assets, loot, province, support, or clearance', () => {
+test('Signal Cache fails closed without exact admitted assets, loot, reserve clearance, support, or life clearance', () => {
   const options = { visualAssets: WORLD_DATA.visualAssets, lootTables: WORLD_DATA.lootTables };
   assert.deepEqual(sampleFrontierDiscoveries({ ...options, visualAssets: options.visualAssets.filter(asset => asset.id !== 'asset_chest') }), []);
   assert.deepEqual(sampleFrontierDiscoveries({ ...options, visualAssets: options.visualAssets.map(asset => asset.id === 'asset_chest' ? { ...asset, model: { ...asset.model, path: 'wrong.glb' } } : asset) }), []);
   assert.deepEqual(sampleFrontierDiscoveries({ ...options, lootTables: [] }), []);
   assert.deepEqual(sampleFrontierDiscoveries({ ...options, world: { edition: 1, seed: 2 } }), []);
-  assert.deepEqual(sampleFrontierDiscoveries({ ...options, getTerrainSample: () => ({ height: 4, provinceKind: 'lush', provinceInfluence: 1 }), getHeight: () => 4 }), []);
+  assert.deepEqual(sampleFrontierDiscoveries({ ...options, getTerrainSample: () => ({ height: 4, provinceKind: 'lush', provinceInfluence: .5 }), getHeight: () => 4 }), []);
   assert.deepEqual(sampleFrontierDiscoveries({ ...options, getTerrainSample: () => ({ height: 4, provinceKind: 'sunscar', provinceInfluence: 1 }), getHeight: x => x }), []);
   assert.deepEqual(sampleFrontierDiscoveries({ ...options,
     getTerrainSample: () => ({ height: 4, coastDistance: -1, provinceKind: 'sunscar', provinceInfluence: 1 }),
@@ -60,6 +60,20 @@ test('Signal Cache fails closed without exact admitted assets, loot, province, s
     getHeight: (x, z) => Math.hypot(x - 171.8, z - 52.8) < .4 ? 8 : 4,
     sampleForageChunk: () => [], sampleSceneryChunk: () => [], sampleWildlifeChunk: () => [] }), [],
   'the chest collision footprint must have support independently of the receiver');
+});
+
+test('fixed Signal Cache follows supported land independently of the temporary base grammar', () => {
+  for (const provinceKind of ['lush', 'sunscar', 'ironspine']) {
+    const definitions = sampleFrontierDiscoveries({
+      visualAssets: WORLD_DATA.visualAssets, lootTables: WORLD_DATA.lootTables,
+      getTerrainSample: () => ({ height: 4, provinceKind, provinceInfluence: 1, coastDistance: 100 }),
+      getHeight: () => 4,
+      sampleForageChunk: () => [], sampleSceneryChunk: () => [], sampleWildlifeChunk: () => [],
+      sampleRegionalPlaceChunk: () => null,
+    });
+    assert.deepEqual(definitions.map(source => source.id), [FRONTIER_SIGNAL_CACHE.id]);
+    assert.equal(definitions[0].displayName, 'Signal Cache');
+  }
 });
 
 test('finite catalog eagerly enumerates stable grove identities independently of the Signal receiver', () => {
