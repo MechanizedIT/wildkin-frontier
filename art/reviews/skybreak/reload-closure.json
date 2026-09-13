@@ -1,0 +1,79 @@
+{
+  "before": {
+    "companions": [],
+    "corePending": false,
+    "facingYaw": 3.141592653589793,
+    "feet": {
+      "x": 12.1183500289917,
+      "y": 4.28589087541158,
+      "z": -242.62303161621097
+    },
+    "frontierDeparted": true,
+    "health": 1,
+    "kills": 0,
+    "maxDepth": 0,
+    "newBeacons": [],
+    "newWaypoints": [],
+    "runId": "cf9ebed4-d524-4ba4-a3a7-eb3af7c7f36d",
+    "sectionId": "camp",
+    "startAnchorId": "gate_camp_frontier",
+    "xp": 0
+  },
+  "fall": {
+    "done": true,
+    "drop": 30.641055583953857,
+    "durationMs": 6526.100000008941,
+    "end": {
+      "x": 12.1183500289917,
+      "y": 4.872124195098877,
+      "z": -242.5757751464844
+    },
+    "fixture": "isolated developer crown teleport and health 5; ordinary W thereafter",
+    "grounded": true,
+    "health": 1,
+    "start": {
+      "x": 12,
+      "y": 35.513179779052734,
+      "z": -228
+    },
+    "startHealth": 5
+  },
+  "after": {
+    "health": 1,
+    "player": {
+      "climbVelocity": 0,
+      "dodgeCooldown": 0,
+      "facing": 3.141592653589793,
+      "grounded": true,
+      "mode": "IDLE",
+      "pos": {
+        "x": 12.1183500289917,
+        "y": 4.82589054107666,
+        "z": -242.62303161621097
+      },
+      "speed": 0,
+      "traversalMode": "IDLE",
+      "verticalVelocity": 0
+    },
+    "run": {
+      "companions": [],
+      "corePending": false,
+      "facingYaw": 3.141592653589793,
+      "feet": {
+        "x": 12.1183500289917,
+        "y": 4.28589087541158,
+        "z": -242.62303161621097
+      },
+      "frontierDeparted": true,
+      "health": 1,
+      "kills": 0,
+      "maxDepth": 0,
+      "newBeacons": [],
+      "newWaypoints": [],
+      "runId": "cf9ebed4-d524-4ba4-a3a7-eb3af7c7f36d",
+      "sectionId": "camp",
+      "startAnchorId": "gate_camp_frontier",
+      "xp": 0
+    }
+  }
+}

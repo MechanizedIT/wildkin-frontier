@@ -1,0 +1,34 @@
+# Skybreak plateau R1 — independent visual verdict
+
+Reviewed full-resolution `target.png`, `baseline-overview.png`, `r1-overview.png`, and `r1-overhead.png`. The target's left panel is not a true overhead view, so I use `r1-overhead.png` to judge footprint and route structure and the target's right southeast oblique panel to judge height, silhouette, shoulder treatment, light, and material intent. Topology/collision tests are separate evidence; they do not raise this visual score.
+
+## Score
+
+| Category | Score | Judgment |
+| --- | ---: | --- |
+| Composition | **1.1 / 3** | The pass establishes a large, centered, high-relief landmark in approximately the intended region, which is a major improvement over the empty baseline. Its structure is fundamentally unlike the target, however. From overhead it reads as nested continuous contour lanes, bridges, and a central pit: a designed maze or multi-level road interchange. The target reads as a cluster of separate eroded mesas with distinct cap footprints, unequal heights, gaps, and a loose diagonal grouping. |
+| Lighting | **1.4 / 3** | Faces have enough shade to communicate height and the southeast view has readable light direction. The scene is much paler and flatter than the target. Cap, ramp, and surrounding ground values collapse together; the broad near-white lanes dominate; vertical faces alternate between washed gray and nearly featureless dark pits. The target has warmer stone, stronger but graduated face modeling, darker creases, and more convincing contact shadow around each isolated mass. |
+| Materials | **0.8 / 3** | The grass/stone split is present, but most surfaces look like one low-detail terrain mesh with flat vertex-color bands. Shoulders are coarse, repeated vertical fans rather than irregular eroded/fluted rock. Ramp surfaces are beige ribbons, cap grass lacks a crisp natural lip, and the darkest walls read as unlit voids. There is little hue/value variation by face orientation, height, erosion channel, or foot debris. |
+| Details | **0.2 / 1** | Existing tiny props provide scale, but the new formation itself is almost bare. It lacks the target's cap vegetation, broken rim stones, talus, ledge fragments, foot rubble, localized growth pockets, and visual differentiation between upper caps and lower wet slots. |
+| **Total** | **3.5 / 10** | **HOLD. Strong relief prototype, but not yet a natural plateau cluster.** |
+
+## Principal gaps
+
+1. **The silhouette is a maze/road, not natural plateaus.** Nearly every elevation band forms a long, similarly wide, continuous loop. Several straight diagonal connectors visibly bridge separate elevations. The overhead image is especially clear: the eye follows a designed circulation network instead of reading discrete land masses shaped by erosion.
+2. **There are no broad, clearly distinct cap islands.** The target is organized around roughly six to eight recognizably separate caps: a dominant broad high cap, several medium irregular caps, a narrow tower, and smaller foreground shelves. R1 largely merges its high ground into one tangled mound. The detached northwest puck is the only unequivocally separate mesa, and it is too regular and cylindrical.
+3. **The negative space is wrong.** R1's central dark hole becomes the focal point. The target's interest comes from exterior gaps and green low slots between masses, with visible ground and vegetation continuing through them. Replace the central chasm emphasis with open, readable lowland fingers that enter and separate the cluster.
+4. **Ascents are over-expressed as roads.** Broad constant-width beige ramps wind around almost every face and make access look engineered. A traverseable route can remain, but it should be concentrated into one recognizable ascent and one east-side return: short natural saddles, eroded gullies, stepped shelves, or a limited switchback that belongs to the shoulder. Most other rims should remain steep and discontinuous.
+5. **Cap contours are too smooth and repetitive.** The contours use similar radii, widths, and rounded corners. The target caps have lobes, bites, asymmetric projections, narrow necks, and varied rim setback. Their heights also form a hierarchy instead of evenly spaced terraces.
+6. **Rock shoulders lack geological structure.** R1's coarse triangular fans repeat around the perimeter and stretch vertically. The target uses broader buttresses and flutes with alternating planes, inset cracks, broken ledges, and rubble-softened bases. The shoulders need their own lateral structure, not only more vertical subdivisions.
+7. **Surface hierarchy is weak.** Grass tops, ramps, lower shelves, and ambient ground sit in a narrow pale-green/beige range. Give caps a clearer saturated turf cover with an irregular stone lip, make route wear narrower and intermittent, shift lower wet slots darker/cooler, and warm the exposed rock. Keep deep creases readable without near-black planar walls.
+8. **The formation is under-detailed at its footprint.** It currently lands on the plain as a clean terrain extrusion. Add bounded talus fans, scattered rim fragments, shadowed toe vegetation, and a few cap-scale plant groupings. These should reinforce each mass and remain subordinate to the rebuilt silhouette.
+
+## Next large change
+
+Replace the current concentric terrace/ribbon topology rather than refining its colors or adding props. Start with **five to seven disconnected irregular plateau masks** arranged as a loose diagonal cluster inside the same bounds. Give them unequal footprint, cap height, and shoulder width: one dominant broad 25–35 m cap, two or three medium lobed caps, one narrow tower, and one or two low shelves. Cut open ground fingers fully between most masses. Then connect only the required traversal chain with a small number of localized saddles or eroded ramps, including a visibly separate east return. Break continuous elevation rings into discontinuous ledges and buttresses.
+
+Once the overhead silhouette reads as a cluster without relying on shading, rebuild the exterior shoulders with wider irregular flutes and talus-softened toes. Only after that should lighting, stone palette, grass lips, wet-slot color, and sparse detail be tuned. This topology change offers the largest likely score gain; surface polish on the current maze would preserve the central mismatch.
+
+## Evidence limits
+
+The images suggest substantial height and visually broad walkable lanes, but they cannot prove approximately 30 m relief, collision alignment, a complete ascent, safe landing space, fall behavior, or bidirectional east return. Those remain separate runtime/topology checks. Sparse existing props are not penalized as missing new content beyond the small Details allocation; the low score is driven primarily by the landform silhouette and surface treatment.

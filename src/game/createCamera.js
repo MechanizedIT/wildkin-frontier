@@ -4,7 +4,7 @@ import * as THREE from "three";
 export const CAMERA_CONFIG = {
   fov: 52,
   near: 0.1,
-  far: 60,
+  far: 120,
   // Frame the explorer below center so the route ahead remains visible.
   // The viewing offset is (4.1 up, 6.55 back): a stable 32° pitch.
   height: 5.0,

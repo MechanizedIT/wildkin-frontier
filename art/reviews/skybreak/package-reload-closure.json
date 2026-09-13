@@ -1,0 +1,48 @@
+{
+  "health": 1,
+  "ownedIds": [
+    "wildkin_rrjqz1",
+    "wildkin_1b156h6",
+    "wildkin_bred_1",
+    "wildkin_bred_2",
+    "wildkin_1v340z8"
+  ],
+  "player": {
+    "climbVelocity": 0,
+    "dodgeCooldown": 0,
+    "facing": 3.141592653589793,
+    "grounded": true,
+    "mode": "IDLE",
+    "pos": {
+      "x": 12.1183500289917,
+      "y": 4.82589054107666,
+      "z": -242.62303161621097
+    },
+    "speed": 0,
+    "traversalMode": "IDLE",
+    "verticalVelocity": 0
+  },
+  "resourceOrigins": [
+    "http://localhost:8081"
+  ],
+  "run": {
+    "companions": [],
+    "corePending": false,
+    "facingYaw": 3.141592653589793,
+    "feet": {
+      "x": 12.1183500289917,
+      "y": 4.28589087541158,
+      "z": -242.62303161621097
+    },
+    "frontierDeparted": true,
+    "health": 1,
+    "kills": 0,
+    "maxDepth": 0,
+    "newBeacons": [],
+    "newWaypoints": [],
+    "runId": "cf9ebed4-d524-4ba4-a3a7-eb3af7c7f36d",
+    "sectionId": "camp",
+    "startAnchorId": "gate_camp_frontier",
+    "xp": 0
+  }
+}

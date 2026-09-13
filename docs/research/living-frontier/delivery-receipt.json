@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-12",
+  "drive": [
+    {
+      "file": "Living-Frontier-Visual-Fieldbook.pdf",
+      "id": "1CxksdXis14pKQ_3KyKvUHKMLhNly8D5y",
+      "title": "Wildkin Frontier - Visual Fieldbook.pdf",
+      "mimeType": "application/pdf",
+      "bytes": 3858453,
+      "modifiedTime": "2026-09-13T02:31:11.578Z",
+      "parentIds": [
+        "1PIDjoFtj8tyZaFf7g7DsVJEf-nZUhUO-"
+      ],
+      "url": "https://drive.google.com/file/d/1CxksdXis14pKQ_3KyKvUHKMLhNly8D5y/view?usp=drivesdk",
+      "verification": "Successful replacement followed by raw-file metadata readback; sharing unchanged"
+    },
+    {
+      "file": "Living-Frontier-Research-Appendix.pdf",
+      "id": "14Hbboycp5oFvID5TwbVpPR2uA_uvJph5",
+      "title": "Wildkin Frontier - Detailed Research Appendix.pdf",
+      "mimeType": "application/pdf",
+      "bytes": 82919,
+      "modifiedTime": "2026-09-13T02:31:13.880Z",
+      "parentIds": [
+        "1PIDjoFtj8tyZaFf7g7DsVJEf-nZUhUO-"
+      ],
+      "url": "https://drive.google.com/file/d/14Hbboycp5oFvID5TwbVpPR2uA_uvJph5/view?usp=drivesdk",
+      "verification": "Successful replacement followed by raw-file metadata readback; sharing unchanged"
+    }
+  ],
+  "github": {
+    "repository": "https://github.com/MechanizedIT/wildkin-frontier",
+    "branch": "main",
+    "status": "Local checkpoint ready; remote verification pending"
+  },
+  "contentQA": "review/qa.json",
+  "gameEvidence": "../../../art/reviews/skybreak/receipt.md"
+}

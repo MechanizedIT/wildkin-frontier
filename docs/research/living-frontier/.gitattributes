@@ -1,0 +1,2 @@
+# ReportLab may emit ASCII-safe PDF streams; preserve exact bytes and xref offsets.
+*.pdf binary

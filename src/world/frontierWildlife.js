@@ -1,10 +1,16 @@
 import { FRONTIER_TERRAIN_CONFIG, isCampChunk, sampleFrontier } from './frontierTerrain.js';
 import { createWildkinGenome } from '../creatures/wildkinGenome.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
+import { isSkybreakArea } from './frontierLandform.js';
+import { hasFootprintSupport } from './frontierPlacement.js';
 
 const EDGE = 5;
 const SLOPE_SAMPLE = .8;
 const MAX_SLOPE = .32;
+// Skybreak homes need a whole ordinary Mossling roam circle plus its body
+// margin, rather than merely a locally level spawn point. This establishes
+// safe ordinary roaming around home; pursuit/flee paths remain dynamic.
+const HOME_FOOTPRINT_RADIUS = 4.9;
 
 // These two recipes deliberately mirror the admitted wildkin catalog. The
 // generated creature path does not otherwise hydrate gameplay from its visual
@@ -39,6 +45,15 @@ function slopeAt(x, z, options) {
   const dx = (terrainSample(x + SLOPE_SAMPLE, z, options).height - terrainSample(x - SLOPE_SAMPLE, z, options).height) / (SLOPE_SAMPLE * 2);
   const dz = (terrainSample(x, z + SLOPE_SAMPLE, options).height - terrainSample(x, z - SLOPE_SAMPLE, options).height) / (SLOPE_SAMPLE * 2);
   return Math.hypot(dx, dz);
+}
+
+function hasSafeHome(x, z, options) {
+  if (!isSkybreakArea(x, z, HOME_FOOTPRINT_RADIUS)) return true;
+  return hasFootprintSupport(x, z, {
+    getHeight: (sx, sz) => terrainSample(sx, sz, options).height,
+    radius: HOME_FOOTPRINT_RADIUS,
+    maxSlope: MAX_SLOPE,
+  });
 }
 
 function habitatEcotype(sample) {
@@ -120,7 +135,7 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
     for (let index = 0; index < candidates.length; index += 1) {
       const [x, z] = candidates[index];
       const sample = terrainSample(x, z, sampleOptions);
-      if (!Number.isFinite(sample.height) || slopeAt(x, z, sampleOptions) > MAX_SLOPE) continue;
+      if (!Number.isFinite(sample.height) || slopeAt(x, z, sampleOptions) > MAX_SLOPE || !hasSafeHome(x, z, sampleOptions)) continue;
       if (starterShelf && index < 2) placements.push(makeMosslingPlacement(cx, cz, index, x, z, sampleOptions));
       else if (starterShelf) placements.push(makeSideEncounter(cx, cz, index, x, z, 'tidefin', 2, sampleOptions));
       else placements.push(makeSideEncounter(cx, cz, index, x, z, 'emberhorn', 3, sampleOptions));
@@ -129,7 +144,7 @@ export function sampleFrontierWildlifeChunk(cx, cz, options = {}) {
   }
   for (const [x, z] of candidates) {
     const sample = terrainSample(x, z, sampleOptions);
-    if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE) return [makeMosslingPlacement(cx, cz, 0, x, z, sampleOptions)];
+    if (Number.isFinite(sample.height) && slopeAt(x, z, sampleOptions) <= MAX_SLOPE && hasSafeHome(x, z, sampleOptions)) return [makeMosslingPlacement(cx, cz, 0, x, z, sampleOptions)];
   }
   return [];
 }

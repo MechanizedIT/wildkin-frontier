@@ -1,0 +1,86 @@
+{
+  "src/world/frontierLandform.js": {
+    "sha256": "5c080efe522ec9bb2307b223bd767196fda04902810ae335ba7c75b0e98b7047",
+    "bytes": 9859
+  },
+  "src/world/frontierTerrain.js": {
+    "sha256": "ea64fa149f39f114e489a3088ffc108b9d5a42d65aea44b5a046c701639d8385",
+    "bytes": 13118
+  },
+  "src/world/frontierChunkRuntime.js": {
+    "sha256": "b9cd4a0e81dd7061e484ccc4289cb0fc68c0f31ea84bef7e032266567f925e5d",
+    "bytes": 12403
+  },
+  "src/world/frontierPlacement.js": {
+    "sha256": "59cc216179fb9a5ef1b3aa7c26c4eb24ac957b8807f3eb8691406a4a6654e762",
+    "bytes": 1191
+  },
+  "src/world/frontierEcology.js": {
+    "sha256": "5887f139bb2c555be614249142bf2c0f3745ef1e2ef8fd4a7f147b3090967d65",
+    "bytes": 6309
+  },
+  "src/world/frontierScenery.js": {
+    "sha256": "4704d49a5ce934cfc0d000daa7e4e9968364b388d5805da2871f44e9e05441f6",
+    "bytes": 12689
+  },
+  "src/world/frontierWildlife.js": {
+    "sha256": "079a887f19f2d0eec42f7878977ef478142e542bd863ac1ff29da95a215b39fa",
+    "bytes": 6906
+  },
+  "src/game/config.js": {
+    "sha256": "ea0f0d6d9ef4790d1de9c16df7f52e2091f570d9738b2206123cbc716f1edad1",
+    "bytes": 4643
+  },
+  "src/game/createCamera.js": {
+    "sha256": "c8402a714492e6a462f1b11b3bf22a35658e7d206d7bf7fe8cf99ab9d30c09df",
+    "bytes": 977
+  },
+  "src/presentation/frontierShadows.js": {
+    "sha256": "aa309b72b683b7410f30b6d789cb3c9c84f31e714b9343657ab94c90c804ade0",
+    "bytes": 2008
+  },
+  "src/presentation/visualStyle.js": {
+    "sha256": "52e4ee1ccb3db719cd41d13aa8d22fdac7834af17056febd414cf248c791c62e",
+    "bytes": 712
+  },
+  "src/session/resumePosition.js": {
+    "sha256": "9b365ab17b914bd41c928cb7c045db9ac4d621cf7e4ae7b28d5071bd2a5e7c0c",
+    "bytes": 2433
+  },
+  "src/session/expeditionPersistence.js": {
+    "sha256": "529104ceb9995ff724e5c210e39506f045bb2109fcda67a7fbe8c032b579f8ea",
+    "bytes": 2832
+  },
+  "tests/skybreakPlateau.test.js": {
+    "sha256": "b73850c110d93daf57382248cc6c44423b5d260557dc2aba8b1ec57eb614564c",
+    "bytes": 6294
+  },
+  "tests/skybreakPlacement.test.js": {
+    "sha256": "fe3e511e1b68cf8e184630218d834e118173a3723f24fe97af477d31a6afd03f",
+    "bytes": 3489
+  },
+  "tests/frontierTerrain.test.js": {
+    "sha256": "1b72ed5ecebeaa6d847653f0a0a115bc4a5ef40c0eb1999332f8b14db85e80dd",
+    "bytes": 17864
+  },
+  "tests/frontierChunkRuntime.test.js": {
+    "sha256": "b5c5a3fc43eafd5e0f678f4f10e7a57ac276ef627c6a23c4ebd6713b12bd0bdc",
+    "bytes": 7089
+  },
+  "tests/resumePosition.test.js": {
+    "sha256": "8147dbf5be7709abf23589313de22f48855ae892734e7e9f3bf2795ff6f92435",
+    "bytes": 4315
+  },
+  "tests/expeditionPersistence.test.js": {
+    "sha256": "7475113bf4108956b1ea46247ee2b99f95bc43fca7219a7f59f7045839204400",
+    "bytes": 6767
+  },
+  "dist/submission/index.html": {
+    "sha256": "c08416f9d4f3820223717de6839c4ecaf42d02d5d7efa3bdbe7ecf578e0947c6",
+    "bytes": 16070814
+  },
+  "dist/submission.zip": {
+    "sha256": "0873e0bcc35ab0f528cc56e7e33d630a77cfc935df236cd7fe1889e86729b606",
+    "bytes": 21533965
+  }
+}

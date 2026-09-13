@@ -13,8 +13,8 @@ export const FRONTIER_LIGHTING_CONFIG = Object.freeze({
 // Detail is concentrated in the playable view. Far terrain blends into the
 // biome atmosphere before the camera clips; nearby colors stay untouched.
 export const FRONTIER_VIEW_CONFIG = Object.freeze({
-  fogNear: 30,
-  fogFar: 56,
+  fogNear: 55,
+  fogFar: 95,
   shadowHalfExtent: 18,
   shadowMapSize: 1024,
   sunOffset: Object.freeze({ x: -14, y: 26, z: 10 }),

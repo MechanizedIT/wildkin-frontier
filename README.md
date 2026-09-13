@@ -1,73 +1,68 @@
-# Wildkin Frontier — Sunlit Wilds 0.3.0-alpha.1
+# Wildkin Frontier
 
-A single-player expedition adventure for landscape mobile and desktop browsers, with a portrait fallback. Leave Frontier Haven, prepare a finite backpack, gather strange matter, face or befriend Wildkin, and decide when to bring discoveries home.
+Wildkin Frontier is an offline, single-player exploration and creature-life game in active local development. Portrait mobile is the primary play surface: five always-visible quick slots sit at the bottom, the movement stick sits above them on the left, and the selected-slot action with Jump and Dodge sits above the right side. Landscape and desktop remain supported.
 
-**Local alpha build; not a release.** Sunlit Wilds 0.3.0-alpha.1 is under active development. It has not received owner acceptance, has not been published, and has no physical-phone performance claim. The earlier Devpost work and the older beta report are historical context only.
+Leave a physical Camp, make a short useful outing, study or bring home an individual Wildkin, and return to a world that remembers the result. The direction favors slow, dangerous exploration, recognizable regional geography, and care that happens in the world rather than through a separate creature inventory.
 
-**September12 stopping point:** camera pitch/terrain clearance, Shatterfen V3 and Backpack shortcuts are saved locally;966 tests, verification and packaging pass. See [restart handoff](docs/SESSION_HANDOFF_2026-09-12.md) and [current scope](docs/CURRENT_SLICE.md). Emberfall's proposed ravine remains an unintegrated candidate.
+**Local pre-alpha; not a release.** Current implementation and proof are maintained in [Current slice](docs/CURRENT_SLICE.md). Skybreak now supplies the first tall plateau fixture: its ascent/descent and fall risk are tested, while the visual target and regional ecology remain unfinished.
+
+<img src="art/reviews/skybreak/r3-overview.png" alt="Actual Skybreak terrain prototype in a diagnostic overview" width="440"> <img src="art/reviews/skybreak/final-crown-portrait.png" alt="Actual portrait gameplay on the Skybreak crown" width="210">
+
+Actual prototype captures: fixed diagnostic overview on the left; portrait gameplay on the right. The [visual fieldbook](docs/research/living-frontier/Living-Frontier-Visual-Fieldbook.pdf) also illustrates the proposed direction.
 
 ## Play locally
 
-Use Node.js 22 or newer:
+Recommended local runtime: Node.js 22 (the current development version):
 
 ```sh
 npm install
 npm run dev
 ```
 
-Open http://localhost:8080/. Your browser stores progression, physical inventory and a small active-expedition snapshot locally. Reload resumes the saved expedition with ordinary world objects rebuilt; it does not preserve every creature or loose drop. From Settings, export or restore a save backup. Saves belong to that browser and site address.
+Open http://localhost:8080/. Serve the project over HTTP rather than opening `index.html` directly. Saves are browser-local. Settings can export or restore a save backup.
 
-Desktop controls: **WASD** move, **Shift** run, **C** sneak, **1–5** select a quick slot, **F** uses the selected item, **Space** jumps, **R** dodges, **E** interacts and **Q** uses the companion ability. On touchscreens, nudge the lower-left stick to sneak or push farther to run. Drag open ground on the right horizontally or vertically to orbit; pinch with two right-side fingers to zoom. Use the labeled action, Jump and Dodge buttons. Tap **Pack** to carry items and arrange five shortcuts; the nearby **Pod locker** world button opens physical storage. **Pack → Journal** opens Gear, Work, Wildkin, skills and Settings.
+Desktop controls: **WASD** move, **Shift** run, **C** sneak, **1–5** select a quick slot, **F** use the selected item, **Space** jump, **R** dodge, **E** interact, and **Q** use the companion ability. On touchscreens, use the left stick to move; tap the five bottom quick slots; use the selected action, Jump, and Dodge on the right. **Pack** opens the physical inventory and shortcut arrangement.
 
-## Current playable frontier
+## Current playable foundation
 
-- Frontier Haven and five connected regions: Verdant Verge, Shatterfen, Emberfall Ruins, Windscar Cliffs, and Heartwood Vault.
-- Authored Sunlit Wilds terrain: curved routes, water, hills, grass detail, region palettes, landmark pockets, and editable landscape surfaces.
-- Harvesting, renewable resource fields, extraction, Waypoints, Beacons, gates, hostile wildlife, ordinary Jump and natural high-ground caches, and a Guardian/Core finale.
-- Four bondable Wildkin with distinct abilities, plus original sculpted player, creature, environmental, Camp, and resource models.
-- A 12-node, three-branch **Skill paths** board, persistent levels, Workshop upgrades, field medicine, and locally saved progression.
-- A landscape-first interface with a 16-slot backpack, nearby 24-slot pod/crate storage, drag/sort/split controls, tap/keyboard alternatives, compact Wildkin guidance and a five-slot toolbar.
+- A persistent Camp, personal atlas/minimap, physical departure and return, locally saved progress, and one fixed deterministic world edition with shared terrain/ecology/scenery/wildlife descriptor inputs.
+- Five persistent portrait quick slots, separated Pack access, held-input cancellation, and landscape/desktop support.
+- Individual Wildkin records through capture, Camp banking, roster selection, reload, and care. Mossling body tone is visibly expressed; separate eyes, markings, size changes, and modular body parts are not shipped.
+- One physical nursery and garden, active-play young/crop growth, ordinary compatible Mossling pairing, and earned optional parent body-tone guidance. The first current path is deliberately bounded.
+- Bounded terrain residency, shared terrain/collision sampling, a personal atlas, generated forage/scenery and existing Mossling, Tidefin, and Emberhorn encounters. A bounded climb and fall-risk foundation exists; broad climbing and swimming are later work.
+- A generation inspector for current samplers. It is a development diagnostic, not a player-facing geography system.
 
-The campaign and presentation are still being evaluated. The latest aggregate passes **810 tests**, world/campaign checks, build and ZIP at **42.53 MB unpacked / 20.25 MB ZIP**; successful final current-package native closure is recorded separately in [Current slice](docs/CURRENT_SLICE.md). This is not owner or physical-phone acceptance. The [Sunlit Wilds review](docs/SUNLIT_WILDS_REVIEW.md), [visual redesign plan](docs/VISUAL_REDESIGN_PLAN.md) and [prior beta report](docs/BETA_CANDIDATE_REPORT.md) preserve earlier evidence.
+## Proposed direction
 
-The crashland story, unique wreckage/natural route obstacles, defended Camp sectors, blueprints and backpack upgrades are planned beyond the current finite-inventory cutover. The new Tidefin V3 animation study is not shipping.
+The next frontier is not a promise of a completed campaign. It is a practical plan for larger seeded regions with distinct landform, traversal, life, resources, and discovery grammar; no predictable global path grid or random palette soup. Skybreak is the first selected terrain fixture, with evidence tracked in [Current slice](docs/CURRENT_SLICE.md).
 
-## A short first tour
+Later proposals include modular compatible Wildkin rigs and parts, broader field research and reproduction modes, habitat/food/camp systems, caves and overhang meshes, day/night and weather, DNA archives/cloning, community discoveries, and trusted online trade. These are not current gameplay systems. Mortality and elder rules remain undecided; current no-absence-penalty growth is provisional.
 
-Enter the Frontier from Camp. Approach the landing pod to open its locker, prepare supplies in your backpack, then tap Travel at the arch and choose Forest Edge. Gather the nearby Sapwood, stone, fiber and berries; discover the Lookout and Extract. Returning keeps carried items and secures XP and new bonds. Deposit items into the physical locker yourself. Crafting uses your pack plus one selected storage container while it remains within reach; equipment can use only packed supplies. Death provisionally keeps the backpack but loses carried XP and pending bonds.
+## Research and design references
 
-Use the [current player spot checks](docs/OVERNIGHT_PLAYTEST.md) and [player playtest guide](docs/BETA_PLAYTEST_GUIDE.md) for recognizable routes and acceptance checks.
+- [Living Frontier visual fieldbook](docs/research/living-frontier/Living-Frontier-Visual-Fieldbook.pdf) — phone-friendly current evidence, proposed concepts, process diagrams, and clearly marked limitations.
+- [Living Frontier research appendix](docs/research/living-frontier/Living-Frontier-Research-Appendix.pdf) · [editable Markdown](docs/research/living-frontier/Living-Frontier-Research-Appendix.md) — implementation reasoning, source ledger, and proposed regional/content workflow.
+- [Research image manifest](docs/research/living-frontier/image-manifest.md) — actual versus proposed image provenance.
+- [Living Frontier plan](docs/LIVING_FRONTIER_PLAN.md) · [current scope](docs/CURRENT_SLICE.md) · [regional diversity plan](docs/REGIONAL_DIVERSITY_PLAN.md) · [mobile identity](docs/MOBILE_IDENTITY.md).
 
-## Create and edit
+Historical finite-campaign planning and review material remains available as source history; it is not the active product promise.
 
-Open http://localhost:8080/?author=1 on desktop. **EDIT** opens an isolated world draft and Asset Workbench; normal play uses the repository world. The authoring tools edit objects, visual-asset recipes, and region landscapes, then offer **Validate**, **Campaign Readiness**, and complete-world **Export**.
-
-See the [author guide](docs/BETA_AUTHOR_GUIDE.md). Replace `src/world/data/world.json` only with a reviewed export, then run `npm run world:generate`. The baseline authoring script reconstructs the canonical authored world and can overwrite editor work.
-
-## Verify and package
+## Build and local checks
 
 ```sh
+npm test
 npm run verify
+npm run build
+npm run validate
 npm run zip
 npm run serve:submission
-```
-
-The portable build is `dist/submission/`, its ZIP is `dist/submission.zip`, and the packaged server runs at http://localhost:8081/. Runtime dependencies are local and the game makes no network requests at play time. Serve over HTTP rather than opening `index.html` directly.
-
-Browser checks use Playwright with installed Microsoft Edge by default:
-
-```sh
 npm run test:browser
-npm run test:systems
-npm run test:boundaries
-npm run test:combat
-npm run test:author
 ```
 
-Diagnostic browser setups are not evidence of unassisted campaign completion or physical-device performance.
+`npm run serve:submission` serves the packaged result at http://localhost:8081/. The build is written to `dist/submission/` and the ZIP to `dist/submission.zip`. `npm run test:browser` runs the local browser playtest harness. Focused checks are also available through the scripts in `package.json`; final validation status belongs in [Current slice](docs/CURRENT_SLICE.md).
 
 ## Development references
 
-[Current objective](docs/CURRENT_SLICE.md) · [Game design](docs/GAME_DESIGN.md) · [Architecture](docs/ARCHITECTURE.md) · [Sunlit Wilds review](docs/SUNLIT_WILDS_REVIEW.md) · [Visual redesign plan](docs/VISUAL_REDESIGN_PLAN.md) · [World guide](docs/BETA_WORLD_GUIDE.md) · [Build log](docs/BUILD_LOG.md)
+[Current objective](docs/CURRENT_SLICE.md) · [Game design](docs/GAME_DESIGN.md) · [Architecture](docs/ARCHITECTURE.md) · [Build log](docs/BUILD_LOG.md) · [Historical beta plan](docs/BETA_RELEASE_PLAN.md)
 
-Runtime: Three.js 0.160.0, Rapier 0.20.0, vanilla HTML/CSS/JS, and one animation loop with fixed physics steps. `assets/fonts/Nunito.ttf` is locally bundled; the frontier icon atlas and game models are first-party project assets. Dependency provenance and licenses are recorded in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [vendor/README.md](vendor/README.md).
+Runtime: Three.js 0.160.0, Rapier 0.20.0, vanilla HTML/CSS/JS, and one animation loop with fixed physics steps. Runtime dependencies are local; the game makes no external runtime requests; local assets load from the same server.

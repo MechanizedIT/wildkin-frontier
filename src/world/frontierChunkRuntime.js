@@ -4,6 +4,8 @@ import { createBakedGroundTexture } from '../presentation/terrainPaint.js';
 import { createTerrainColorSampler } from '../presentation/authoredTerrain.js';
 import { getSurfaceHeight } from './terrainSurfaceModel.js';
 import { createFrontierLandformVisual } from './frontierLandformVisual.js';
+import { isSkybreakArea } from './frontierLandform.js';
+import { hasFootprintSupport } from './frontierPlacement.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed, normalizeFrontierWorld } from './frontierWorld.js';
 import {
   FRONTIER_TERRAIN_CONFIG,
@@ -34,8 +36,12 @@ function separateCliffFaces(geometry, chunk) {
   const colors = geometry.getAttribute('color');
   for (const id of new Set(cliff)) {
     const y = v[id * 3 + 1], x = v[id * 3], z = v[id * 3 + 2];
-    const shade = .24 + .055 * Math.sin(y * 6.5 + x * .65) + .025 * Math.sin(z * 3 + x * 4);
-    colors.setXYZ(id, shade * 1.06, shade * 1.04, shade * .94);
+    const skybreak = isSkybreakArea(x + chunk.origin.x, z + chunk.origin.z);
+    const shade = skybreak
+      ? .40 + .06 * Math.sin(y * .68 + (x + chunk.origin.x) * .08 + (z + chunk.origin.z) * .06)
+        + .035 * Math.sin((x + chunk.origin.x) * .4 - (z + chunk.origin.z) * .29)
+      : .24 + .055 * Math.sin(y * 6.5 + x * .65) + .025 * Math.sin(z * 3 + x * 4);
+    colors.setXYZ(id, shade * (skybreak ? 1.17 : 1.06), shade * (skybreak ? 1 : 1.04), shade * (skybreak ? .72 : .94));
   }
   geometry.setIndex(new THREE.BufferAttribute(new Uint32Array([...ground, ...cliff]), 1));
   geometry.addGroup(0, ground.length, 0);
@@ -56,6 +62,8 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
   const positionZSeed = frontierDomainSeed(world, 'terrain-foliage', 61);
   const scaleSeed = frontierDomainSeed(world, 'terrain-foliage', 83);
   const yawSeed = frontierDomainSeed(world, 'terrain-foliage', 29);
+  const getHeight = (x, z) => sampleFrontier(x, z, terrainOptions).height;
+  let liveCount = 0;
   const shelfFronds = chunk.id === '0,-3' ? [
     [28.5,-125],[30,-125],[35.5,-125],[38.5,-125],[41,-125],
     [27,-121.8],[29,-121.8],[37,-121.8],[40.5,-121.8],
@@ -66,13 +74,16 @@ function addFoliage(group, chunk, geometry, material, terrainOptions, world) {
     const x = frond ? frond[0] - chunk.origin.x : hash(index, chunk.origin.z, positionXSeed) * FRONTIER_TERRAIN_CONFIG.chunkSize;
     const z = frond ? frond[1] - chunk.origin.z : hash(index, chunk.origin.x, positionZSeed) * FRONTIER_TERRAIN_CONFIG.chunkSize;
     const worldX = chunk.origin.x + x, worldZ = chunk.origin.z + z;
+    if (isSkybreakArea(worldX, worldZ, .45)
+      && !hasFootprintSupport(worldX, worldZ, { getHeight, radius: .45, maxSlope: .65 })) continue;
     const scale = (frond ? 1.12 : .38) + hash(index, chunk.origin.x + chunk.origin.z, scaleSeed) * .38;
     dummy.position.set(x, sampleFrontier(worldX, worldZ, terrainOptions).height, z);
     dummy.rotation.y = hash(index, chunk.origin.z, yawSeed) * Math.PI * 2;
     dummy.scale.setScalar(scale);
     dummy.updateMatrix();
-    grass.setMatrixAt(index, dummy.matrix);
+    grass.setMatrixAt(liveCount++, dummy.matrix);
   }
+  grass.count = liveCount;
   grass.instanceMatrix.needsUpdate = true;
   grass.name = 'frontier_groundcover';
   group.add(grass);
@@ -134,6 +145,10 @@ export function createFrontierChunkRuntime({ parent, physicsWorld, campSurface, 
     const stoneMaterial = separateCliffFaces(geometry, chunk);
     const mesh = new THREE.Mesh(geometry, stoneMaterial ? [material, stoneMaterial] : material);
     mesh.name = 'frontier_ground'; mesh.receiveShadow = true; mesh.userData.isGround = true;
+    // Only the bounded tall-landform chunks need to cast terrain shadows.
+    // Ordinary rolling ground keeps its previous shadow cost.
+    mesh.castShadow = isSkybreakArea(chunk.origin.x + FRONTIER_TERRAIN_CONFIG.chunkSize / 2,
+      chunk.origin.z + FRONTIER_TERRAIN_CONFIG.chunkSize / 2);
     group.add(mesh);
     const foliage = addFoliage(group, chunk, foliageGeometry, foliageMaterial, terrainOptions, worldDescriptor);
     const landform = createFrontierLandformVisual({ cx, cz, visualAssets, getHeight });

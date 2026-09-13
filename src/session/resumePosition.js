@@ -11,7 +11,12 @@ export function findSupportedResumeFeet({ feet, section, bounds = section?.bound
     const origin={x:feet.x,y:feet.y+.25,z:feet.z};
     const hit=world.castRayAndGetNormal(new RAPIER.Ray(origin,{x:0,y:-1,z:0}),.85,true,RAPIER.QueryFilterFlags.EXCLUDE_SENSORS,undefined,collider,undefined,filter);
     if(!hit || hit.normal.y<Math.cos(cfg.maxSlopeClimbAngle) || !Number.isFinite(hit.timeOfImpact))return null;
-    const y=origin.y-hit.timeOfImpact;
+    const terrainY=origin.y-hit.timeOfImpact;
+    // On an incline the capsule's round sole touches uphill from its center.
+    // Its center-line "feet" therefore sit above the vertical terrain ray by
+    // r * (sec(slope) - 1); using terrainY directly overlaps the uphill face.
+    const slopeRise=Math.max(0,cfg.capsuleRadius*(1/hit.normal.y-1));
+    const y=terrainY+slopeRise;
     if(Math.abs(y-feet.y)>.3)return null;
     const center={x:feet.x,y:y+cfg.capsuleHalfHeight+cfg.capsuleRadius+.025,z:feet.z};
     for(const volume of killVolumes){

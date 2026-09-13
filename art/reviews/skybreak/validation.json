@@ -1,0 +1,30 @@
+{
+  "tests": 1160,
+  "pass": 1160,
+  "fail": 0,
+  "commands": [
+    "npm run verify",
+    "npm run zip"
+  ],
+  "verifyIncludes": [
+    "test",
+    "world and retained campaign data checks",
+    "build",
+    "validate"
+  ],
+  "packageMB": {
+    "unpacked": 44.13,
+    "zip": 20.54
+  },
+  "physicalPhoneTested": false,
+  "gameplayFixture": "isolated developer origin 8082; portable origin 8081; original user tab untouched",
+  "sourceHashes": "source-hashes.json",
+  "native": [
+    "ascent-final.json",
+    "return-final.json",
+    "fall-final.json",
+    "reload-closure.json",
+    "package-proof.json",
+    "package-reload-closure.json"
+  ]
+}

@@ -11,7 +11,7 @@ export function initializeFrontierShadows({ scene, sun, player, playground } = {
   const camera = sun.shadow.camera;
   camera.left = -view.shadowHalfExtent; camera.right = view.shadowHalfExtent;
   camera.top = view.shadowHalfExtent; camera.bottom = -view.shadowHalfExtent;
-  camera.near = 1; camera.far = 65;
+  camera.near = 1; camera.far = 90;
   camera.updateProjectionMatrix();
   sun.target.position.set(0, 0, 0);
   scene.add(sun.target);

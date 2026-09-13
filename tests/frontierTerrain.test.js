@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  config, chunkKey, worldToChunk, sampleFrontier, createFrontierChunk, isCampChunk,
+  config, chunkKey, worldToChunk, sampleFrontier, createFrontierChunk, isCampChunk, isSkybreakDetailChunk,
 } from '../src/world/frontierTerrain.js';
 import RAPIER from '@dimforge/rapier3d-compat';
 import { createPhysicsWorld } from '../src/physics/createPhysicsWorld.js';
@@ -178,6 +178,55 @@ function vertexAt(chunk, localX, localZ) {
   return null;
 }
 
+function meshHeightAt(chunk, worldX, worldZ) {
+  const xs = Array.from(chunk.grid.xs), zs = Array.from(chunk.grid.zs);
+  const localX = Math.max(0, Math.min(config.chunkSize, worldX - chunk.origin.x));
+  const localZ = Math.max(0, Math.min(config.chunkSize, worldZ - chunk.origin.z));
+  const cell = (axis, value) => {
+    let i = 0;
+    while (i + 1 < axis.length && axis[i + 1] <= value + 1e-6) i += 1;
+    return Math.min(i, axis.length - 2);
+  };
+  const ix = cell(xs, localX), iz = cell(zs, localZ), stride = xs.length;
+  const tx = (localX - xs[ix]) / (xs[ix + 1] - xs[ix]);
+  const tz = (localZ - zs[iz]) / (zs[iz + 1] - zs[iz]);
+  const a = chunk.vertices[(iz * stride + ix) * 3 + 1];
+  const b = chunk.vertices[(iz * stride + ix + 1) * 3 + 1];
+  const c = chunk.vertices[((iz + 1) * stride + ix) * 3 + 1];
+  const d = chunk.vertices[((iz + 1) * stride + ix + 1) * 3 + 1];
+  if (tx + tz <= 1) return a + (b - a) * tx + (c - a) * tz;
+  return b * (1 - tz) + c * (1 - tx) + d * (tx + tz - 1);
+}
+
+test('Skybreak detail uses bounded variable grids and the public query matches its actual triangles', () => {
+  assert.equal(isSkybreakDetailChunk(-1, -5), true);
+  assert.equal(isSkybreakDetailChunk(0, -4), true);
+  assert.equal(isSkybreakDetailChunk(0, -3), false);
+  const chunks = [[-1, -5], [0, -5], [-1, -4], [0, -4]].map(coords => createFrontierChunk(...coords, { seed: 77 }));
+  assert.ok(chunks.every(chunk => chunk.grid.zs.length === 51));
+  assert.ok(chunks.every(chunk => chunk.indices.length / 3 <= 5200), 'detail remains four bounded chunks');
+  assert.ok(chunks[1].grid.xs.length > chunks[0].grid.xs.length, 'the east grid carries the terrace edge breakpoint');
+  for (const [x, z] of [[-21.37, -238.62], [12.41, -228.77], [37.22, -199.46], [7.35, -195.64]]) {
+    const { cx, cz } = worldToChunk(x, z);
+    const chunk = chunks.find(candidate => candidate.id === chunkKey(cx, cz));
+    assert.ok(chunk);
+    assert.ok(Math.abs(sampleFrontier(x, z, { seed: 77 }).height - meshHeightAt(chunk, x, z)) < 1e-5, `triangle query at ${x},${z}`);
+  }
+});
+
+test('Skybreak detailed edges follow each neighbor actual curve including the preserved terrace breakpoint', () => {
+  const pairs = [
+    [createFrontierChunk(-2, -4, { seed: 77 }), createFrontierChunk(-1, -4, { seed: 77 }), [[-50, -248.7], [-50, -221.25], [-50, -199.4], [-50, -151.2]]],
+    [createFrontierChunk(0, -4, { seed: 77 }), createFrontierChunk(1, -4, { seed: 77 }), [[50, -247.3], [50, -213.7], [50, -178.25], [50, -152.1]]],
+    [createFrontierChunk(0, -5, { seed: 77 }), createFrontierChunk(0, -4, { seed: 77 }), [[3.2, -200], [18.75, -200], [42.04, -200]]],
+    [createFrontierChunk(0, -6, { seed: 77 }), createFrontierChunk(0, -5, { seed: 77 }), [[1.3, -250], [21.7, -250], [47.4, -250]]],
+    [createFrontierChunk(0, -4, { seed: 77 }), createFrontierChunk(0, -3, { seed: 77 }), [[19.7, -150], [42.04, -150], [42.08, -150], [42.55, -150], [47.3, -150]]],
+  ];
+  for (const [a, b, points] of pairs) for (const [x, z] of points) {
+    assert.ok(Math.abs(meshHeightAt(a, x, z) - meshHeightAt(b, x, z)) < 1e-5, `shared curve ${a.id}/${b.id} at ${x},${z}`);
+  }
+});
+
 test('rocky terrace uses a bounded deterministic mesh while preserving every chunk border', () => {
   const terrace = createFrontierChunk(0, -3, { seed: 77 });
   const repeat = createFrontierChunk(0, -3, { seed: 77 });
@@ -186,11 +235,15 @@ test('rocky terrace uses a bounded deterministic mesh while preserving every chu
   assert.ok(terrace.indices.length / 3 < 2500);
   assert.deepEqual(terrace.bounds.min.x, 0);
   assert.deepEqual(terrace.bounds.max.x, config.chunkSize);
+  const west = createFrontierChunk(-1, -3, { seed: 77 });
+  const east = createFrontierChunk(1, -3, { seed: 77 });
+  const south = createFrontierChunk(0, -4, { seed: 77 });
+  const north = createFrontierChunk(0, -2, { seed: 77 });
   for (let p = 0; p <= config.chunkSize; p += 2) {
-    assert.equal(vertexAt(terrace, 0, p)[1], vertexAt(createFrontierChunk(-1, -3, { seed: 77 }), 50, p)[1]);
-    assert.equal(vertexAt(terrace, 50, p)[1], vertexAt(createFrontierChunk(1, -3, { seed: 77 }), 0, p)[1]);
-    assert.equal(vertexAt(terrace, p, 0)[1], vertexAt(createFrontierChunk(0, -4, { seed: 77 }), p, 50)[1]);
-    assert.equal(vertexAt(terrace, p, 50)[1], vertexAt(createFrontierChunk(0, -2, { seed: 77 }), p, 0)[1]);
+    assert.equal(vertexAt(terrace, 0, p)[1], vertexAt(west, 50, p)[1]);
+    assert.equal(vertexAt(terrace, 50, p)[1], vertexAt(east, 0, p)[1]);
+    assert.equal(vertexAt(terrace, p, 0)[1], vertexAt(south, p, 50)[1]);
+    assert.equal(vertexAt(terrace, p, 50)[1], vertexAt(north, p, 0)[1]);
   }
 });
 

@@ -176,3 +176,12 @@ Native harnesses must use current canonical objects and physically clear startin
 - Inspect the returned result of developer evaluation before assuming a stylesheet reload succeeded. Use real input after a disclosed bedside fixture; changed camera aspect can occlude the target until approached from its front.
 - Keep diagnostic maps faithful to existing data: wetland habitat weight is not climate moisture, candidate placements are not live resident counts. Render quantitative SVG evidence with a standard renderer when browser compositor scaling introduces duplicate bands; no art-generation gate is needed for a measured chart.
 - Never print an image-generation result containing inline base64. Forward the image and only its concise output hint; parse selected fields from compact one-line diagnostic JSON rather than printing whole lines.
+
+
+### September12 — extreme terrain, persistence and report delivery
+- Compose whole landform masses before route cuts; a global cut made a zigzag maze. Independent scores remained below target after three rounds; select the strongest usable version honestly under owner delegation and move to meaningful ecology.
+- Shared height queries must match exact rendered triangles and coarse/detail edge curves, including old irregular breakpoints. Center-only prop checks miss unsupported footprints; cover forage, scenery, ordinary wildlife roaming and both grass paths together.
+- Dense keyboard waypoints avoid diagonal shortcuts that manufacture traversal failures. Legally supported capsules sit above the vertical terrain ray on an incline; resume validation must account for the round sole. Always test actual fall then literal reload: reusing old feet must never roll back live health or rewards.
+- READY freezes source. Root computes final hashes from actual files; worker summaries can contain mistaken hashes without file changes. Workers must not commit when assigned no-commit ownership; root consolidates only the known unpublished worker commit.
+- Render from the final PDFs, with numbered contact sheets and full-page inspection. Unique screenshot names prevent provenance collisions. Render the actual appendix Markdown rather than a shortened hardcoded surrogate; compress embedded screenshots for phone-friendly file sizes while preserving HUD framing.
+- Preserve original Drive IDs/sharing, replace final bytes, verify returned size/time metadata, and record delivery separately from a planned link. Main backup is owner-authorized; [skip ci] avoids unnecessary push-triggered Actions after local closure.

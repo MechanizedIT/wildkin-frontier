@@ -1,6 +1,6 @@
 # Regional diversity: places with different rules
 
-Provisional design plan, September 12, 2026. These are original recommendations shaped by the owner's experience of exploration games; they do not claim research into Hytale or No Man's Sky internals. The current game ships one rolling frontier, fern-upland/wetland weights, a rocky terrace, generated forage/scenery, and Mossling, Tidefin and Emberhorn encounters. Every regional family below is proposed.
+Provisional design plan, September 12, 2026. These are original recommendations shaped by the owner's experience of exploration games; they do not claim research into Hytale or No Man's Sky internals. The current game ships one rolling frontier, fern-upland/wetland weights, a rocky terrace, a selected Skybreak terrain fixture, generated forage/scenery, and Mossling, Tidefin and Emberhorn encounters. Skybreak is physical groundwork, with its art target and ecology incomplete; every full regional family below remains proposed.
 
 ## Identity before variety
 

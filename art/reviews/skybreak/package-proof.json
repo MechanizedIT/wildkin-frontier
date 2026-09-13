@@ -1,0 +1,336 @@
+{
+  "draws": 61,
+  "ground": 34.90081267867936,
+  "health": 5,
+  "jump": {
+    "done": true,
+    "end": {
+      "x": 11.940673828125,
+      "y": 35.46165084838867,
+      "z": -227.8052215576172
+    },
+    "healthEnd": 5,
+    "healthStart": 5,
+    "height": 1.3533363342285156,
+    "maxY": 36.794158935546875,
+    "samples": [
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.44082260131836
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.44082260131836
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 35.79415512084961
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.09415817260742
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.22415542602539
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.340824127197266
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.534156799316406
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.61082458496094
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.724159240722656
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.76082611083984
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.794158935546875
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.79082489013672
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.74415969848633
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.70082473754883
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.57415771484375
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.490821838378906
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.284156799316406
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 36.16082382202149
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 35.8741569519043
+      },
+      {
+        "grounded": false,
+        "health": 5,
+        "mode": "JUMP",
+        "y": 35.71082305908203
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      },
+      {
+        "grounded": true,
+        "health": 5,
+        "mode": "IDLE",
+        "y": 35.46165084838867
+      }
+    ],
+    "startY": 35.44082260131836
+  },
+  "origins": [
+    "http://localhost:8081"
+  ],
+  "ownedIds": [
+    "wildkin_rrjqz1",
+    "wildkin_1b156h6",
+    "wildkin_bred_1",
+    "wildkin_bred_2",
+    "wildkin_1v340z8"
+  ],
+  "position": {
+    "x": 11.940673828125,
+    "y": 35.46165084838867,
+    "z": -227.8052215576172
+  },
+  "triangles": 152469
+}

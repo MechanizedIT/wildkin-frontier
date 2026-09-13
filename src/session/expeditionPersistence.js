@@ -14,9 +14,16 @@ export function createExpeditionPersistence({progress,session,getPlayerState,get
     if(pendingResolution)return progress.getActiveRun();
     if(!session.isActive() || session.isResolved() || getHealth()<=0)return null;
     if(!safe || safe.runId!==session.getRunId() || safe.sectionId!==getSectionId())refreshSafe();
-    if(!safe || safe.runId!==session.getRunId() || safe.sectionId!==getSectionId())return progress.getActiveRun();
+    // An unsafe landing may not replace the last supported feet, but it must
+    // never resurrect that checkpoint's old health, XP, bonds, or discoveries.
+    // Only reuse a stored position when it belongs to this exact live run.
+    const sectionId=getSectionId(),prior=progress.getActiveRun();
+    const fallback=safe?.runId===session.getRunId() && safe.sectionId===sectionId
+      ? safe.feet
+      : prior?.runId===session.getRunId() && prior.sectionId===sectionId ? prior.feet : null;
+    if(!fallback)return prior;
     const run=session.snapshotRun(),extras=getExtras();
-    return {runId:run.runId,startAnchorId:run.startAnchorId,sectionId:getSectionId(),feet:{...safe.feet},facingYaw:getPlayerState().facing,health:getHealth(),xp:getXp(),companions:extras.companions,corePending:extras.coreSecured,kills:run.kills,maxDepth:run.maxDepth,frontierDeparted:run.frontierDeparted===true,newWaypoints:run.newWaypoints,newBeacons:run.newBeacons};
+    return {runId:run.runId,startAnchorId:run.startAnchorId,sectionId,feet:{...fallback},facingYaw:getPlayerState().facing,health:getHealth(),xp:getXp(),companions:extras.companions,corePending:extras.coreSecured,kills:run.kills,maxDepth:run.maxDepth,frontierDeparted:run.frontierDeparted===true,newWaypoints:run.newWaypoints,newBeacons:run.newBeacons};
   }
   progress.setRunSnapshotProvider(snapshot);
   const checkpoint=()=>{if(pendingResolution)return pendingResolution();refreshSafe();return progress.checkpointRun();};

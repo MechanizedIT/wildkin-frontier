@@ -38,5 +38,42 @@ test('safe feet from a prior run cannot become a new airborne run checkpoint',()
  session.resetToCamp();session.beginRun('camp_gate');mode='JUMP';
  controller.checkpoint();
  assert.equal(stored.runId,priorRunId);assert.notEqual(stored.runId,session.getRunId());
+  controller.destroy();delete globalThis.document;delete globalThis.window;
+});
+
+test('an invalid landing retains same-run safe feet while saving live damage and run changes',()=>{
+ globalThis.document=new EventTarget();document.hidden=false;globalThis.window=new EventTarget();
+ let provider=null,stored=null,valid=true,health=5,xp=4;
+ const pending=[{id:'pending-1'}];let core=false;
+ const progress={setRunSnapshotProvider:value=>{provider=value;},getActiveRun:()=>stored,
+   checkpointRun:()=>{const next=provider?.();if(next)stored=structuredClone(next);return {ok:true};}};
+ const session=createExpeditionSession({initialStatus:'active',initialRegionId:'camp'});
+ session.setCargo({wood:3});const cargoBefore=session.getCargo();
+ const controller=createExpeditionPersistence({progress,session,getPlayerState:()=>({pos:{x:12,y:35.52,z:-229},facing:.4,grounded:true,mode:'WALK'}),
+   getHealth:()=>health,getXp:()=>xp,getSectionId:()=> 'camp',getExtras:()=>({companions:pending,coreSecured:core}),
+   validateFeet:feet=>valid?{...feet,y:35}:null,capsuleExtent:.52});
+ controller.checkpoint();const safeFeet={...stored.feet};
+ health=1;xp=9;core=true;pending.push({id:'pending-2'});session.addKill();session.addDiscoveryWaypoint('skybreak-crown');valid=false;
+ controller.checkpoint();
+ assert.deepEqual(stored.feet,safeFeet,'unsafe feet fall back to the supported checkpoint');
+ assert.equal(stored.health,1,'fall damage is not rolled back');assert.equal(stored.xp,9);
+ assert.deepEqual(stored.companions,pending);assert.equal(stored.corePending,true);
+ assert.equal(stored.kills,1);assert.deepEqual(stored.newWaypoints,['skybreak-crown']);
+ assert.deepEqual(session.getCargo(),cargoBefore,'checkpoint does not alter live cargo');
+ controller.destroy();delete globalThis.document;delete globalThis.window;
+});
+
+test('an unsafe same-run section transition retains its prior section snapshot without mixing coordinates',()=>{
+ globalThis.document=new EventTarget();document.hidden=false;globalThis.window=new EventTarget();
+ let provider=null,stored=null,sectionId='camp',valid=true,health=5;
+ const progress={setRunSnapshotProvider:value=>{provider=value;},getActiveRun:()=>stored,
+   checkpointRun:()=>{const next=provider?.();if(next)stored=structuredClone(next);return {ok:true};}};
+ const session=createExpeditionSession({initialStatus:'active',initialRegionId:'camp'});
+ const controller=createExpeditionPersistence({progress,session,getPlayerState:()=>({pos:{x:0,y:.52,z:0},facing:0,grounded:true,mode:'WALK'}),
+   getHealth:()=>health,getXp:()=>4,getSectionId:()=>sectionId,getExtras:()=>({companions:[],coreSecured:false}),
+   validateFeet:feet=>valid?{...feet,y:0}:null,capsuleExtent:.52});
+ controller.checkpoint();const prior=structuredClone(stored);
+ sectionId='section_2';valid=false;health=1;controller.checkpoint();
+ assert.deepEqual(stored,prior,'the old section record remains intact when no same-section safe position exists');
  controller.destroy();delete globalThis.document;delete globalThis.window;
 });

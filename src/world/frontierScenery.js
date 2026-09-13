@@ -2,6 +2,8 @@ import { FRONTIER_TERRAIN_CONFIG, isCampChunk, sampleFrontier } from './frontier
 import { sampleFrontierForageChunk } from './frontierEcology.js';
 import { sampleFrontierWildlifeChunk } from './frontierWildlife.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
+import { isSkybreakArea } from './frontierLandform.js';
+import { hasFootprintSupport } from './frontierPlacement.js';
 
 export const FRONTIER_SCENERY_CONFIG = Object.freeze({
   maxNear: 18,
@@ -14,6 +16,7 @@ export const FRONTIER_SCENERY_CONFIG = Object.freeze({
 const EDGE = 4;
 const MAX_SLOPE = .32;
 const SLOPE_STEP = .8;
+const FOOTPRINT_RADIUS = Object.freeze({ canopy: 1.45, low: .62, 'ground-cover': .38 });
 const CAMP_CLEARANCE = 6;
 const FORAGE_CLEARANCE = 3.2;
 // Solid trunks and stones keep a true walk lane. Soft foliage may frame that
@@ -88,6 +91,12 @@ function hasSafeGround(x, z, options) {
   return Number.isFinite(dx) && Number.isFinite(dz) && Math.hypot(dx, dz) <= MAX_SLOPE;
 }
 
+function hasSafeFootprint(x, z, candidate, options) {
+  const radius = FOOTPRINT_RADIUS[candidate.kind] ?? FOOTPRINT_RADIUS.low;
+  if (!isSkybreakArea(x, z, radius)) return true;
+  return hasFootprintSupport(x, z, { getHeight: (sx, sz) => heightAt(sx, sz, options), radius, maxSlope: MAX_SLOPE });
+}
+
 function exclusionsFor(cx, cz, options) {
   const world = options.world ?? DEFAULT_FRONTIER_WORLD;
   const forage = sampleFrontierForageChunk(cx, cz, { getHeight: (x, z) => heightAt(x, z, options), terrainOptions: options.terrainOptions, world });
@@ -116,7 +125,7 @@ export function createFrontierGroundCoverFilter(options = {}) {
     const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
     const cx = Math.floor(x / size), cz = Math.floor(z / size), key = `${cx},${cz}`;
     if (!exclusions.has(key)) exclusions.set(key, exclusionsFor(cx, cz, options));
-    return isClear(x, z, candidate, exclusions.get(key)) && hasSafeGround(x, z, options);
+    return isClear(x, z, candidate, exclusions.get(key)) && hasSafeGround(x, z, options) && hasSafeFootprint(x, z, candidate, options);
   };
 }
 
@@ -148,7 +157,7 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
   const accept = (key, candidate, curated = false) => {
     if (Math.floor(candidate.x / size) !== cx || Math.floor(candidate.z / size) !== cz) return;
     if (!curated && (candidate.x < cx * size + EDGE || candidate.x > (cx + 1) * size - EDGE || candidate.z < cz * size + EDGE || candidate.z > (cz + 1) * size - EDGE)) return;
-    if (!hasSafeGround(candidate.x, candidate.z, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions)) return;
+    if (!hasSafeGround(candidate.x, candidate.z, sampleOptions) || !hasSafeFootprint(candidate.x, candidate.z, candidate, sampleOptions) || !isClear(candidate.x, candidate.z, candidate, exclusions)) return;
     specs.push(makeSpec(cx, cz, key, candidate, sampleOptions));
   };
   for (const candidate of STAGED.get(`${cx},${cz}`) ?? []) accept(`stage-${candidate.key}`, candidate, true);

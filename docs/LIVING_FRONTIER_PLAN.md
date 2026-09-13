@@ -6,9 +6,9 @@ September 12, 2026. Chris approved the procedural exploration / creature-life di
 
 A dangerous alien frontier surrounds the crashed research Camp. Walk out, read the landscape, harvest supplies, investigate a clue, understand an unfamiliar Wildkin and decide when to return. At Camp, build useful spaces, grow suitable food, study inherited traits and raise a distinctive family. Physical actions and visible creatures carry the experience; the Journal and atlas explain discoveries without taking over play.
 
-Continuous geography uses curated landform, habitat, ecotone and discovery recipes. It must remain coherent and reproducible, not promise that no two places ever resemble one another. One canonical seed/content edition supports separate player histories. Offline field/DNA cards can be copied. Verified online trading is a later product/service decision.
+Continuous geography uses curated landform, habitat, ecotone and discovery recipes. It must remain coherent and reproducible, not promise that no two places ever resemble one another. One canonical seed/content edition supports separate player histories. Offline field/DNA cards are a proposed later sharing format. Verified online trading is a later product/service decision.
 
-The illustrated research is retained outside the repo at `C:/Users/cwood/Documents/Wildkin-Research/2026-09-12/`. Visual fieldbook: https://drive.google.com/file/d/1CxksdXis14pKQ_3KyKvUHKMLhNly8D5y/view . Detailed reasoning: https://drive.google.com/file/d/14Hbboycp5oFvID5TwbVpPR2uA_uvJph5/view . Current owner instructions below supersede the report's proposal to preserve a separate campaign/save mode.
+The refreshed illustrated research now lives in [docs/research/living-frontier](research/living-frontier/README.md): both PDFs, editable Markdown, image provenance and selected screenshots are part of the repository. The original morning files remain preserved at `C:/Users/cwood/Documents/Wildkin-Research/2026-09-12/`. Existing phone links are retained for the [Visual Fieldbook](https://drive.google.com/file/d/1CxksdXis14pKQ_3KyKvUHKMLhNly8D5y/view) and [Detailed Research Appendix](https://drive.google.com/file/d/14Hbboycp5oFvID5TwbVpPR2uA_uvJph5/view). The refresh replaces the obsolete separate-campaign/save proposal with the owner's in-place direction.
 
 ## Explicit owner steering
 

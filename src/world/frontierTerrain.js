@@ -5,6 +5,7 @@ import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
 export const FRONTIER_TERRAIN_CONFIG = Object.freeze({
   chunkSize: 50,
   segments: 25,
+  skybreakSegments: 50,
   campBounds: Object.freeze({ minX: -50, maxX: 50, minZ: -50, maxZ: 50 }),
   campBlendDistance: 58,
   minHeight: 0,
@@ -13,6 +14,17 @@ export const FRONTIER_TERRAIN_CONFIG = Object.freeze({
 });
 // Short alias retained for callers that use the original slice API.
 export const config = FRONTIER_TERRAIN_CONFIG;
+
+const SKYBREAK_REGULAR_AXIS = Object.freeze(Array.from(
+  { length: FRONTIER_TERRAIN_CONFIG.skybreakSegments + 1 },
+  (_, i) => i * FRONTIER_TERRAIN_CONFIG.chunkSize / FRONTIER_TERRAIN_CONFIG.skybreakSegments,
+));
+const SKYBREAK_TERRACE_X_AXIS = Object.freeze(Array.from(new Set([
+  ...SKYBREAK_REGULAR_AXIS,
+  ...ROCKY_TERRACE.xBreaks.filter(value => value > 0 && value < FRONTIER_TERRAIN_CONFIG.chunkSize),
+])).sort((a, b) => a - b));
+const SKYBREAK_REGULAR_AXES = Object.freeze({ xs: SKYBREAK_REGULAR_AXIS, zs: SKYBREAK_REGULAR_AXIS });
+const SKYBREAK_TERRACE_AXES = Object.freeze({ xs: SKYBREAK_TERRACE_X_AXIS, zs: SKYBREAK_REGULAR_AXIS });
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const finite = (value, fallback = 0) => Number.isFinite(value) ? value : fallback;
@@ -72,7 +84,7 @@ function campSample(x, z, options) {
   return { edge, t, x: cx, z: cz };
 }
 
-export function sampleFrontier(x, z, options = {}) {
+function sampleFrontierRaw(x, z, options = {}) {
   x = finite(x); z = finite(z);
   // Explicit legacy seed calls remain stable. A world descriptor instead owns
   // the terrain stream and keeps its random domain independent of content.
@@ -126,27 +138,104 @@ export function worldToChunk(x, z) {
   return { cx: Math.floor(finite(x) / config.chunkSize), cz: Math.floor(finite(z) / config.chunkSize) };
 }
 
+export function isSkybreakDetailChunk(cx, cz) {
+  return (cx === -1 || cx === 0) && (cz === -5 || cz === -4);
+}
+
+function coarseEdgeHeight(x, z, alongX, options) {
+  const step = config.chunkSize / config.segments;
+  const value = alongX ? x : z;
+  let low = Math.floor(value / step) * step, high = low + step;
+  // The preserved terrace owns an extra 42.08m vertex on its south boundary.
+  // Match that actual neighbor curve instead of assuming every coarse edge has
+  // a uniform stride.
+  if (alongX && z === -150) {
+    const edgeBreaks = ROCKY_TERRACE.xBreaks.filter(v => v > low && v < high);
+    for (const breakpoint of edgeBreaks) {
+      if (value < breakpoint) high = Math.min(high, breakpoint);
+      else low = Math.max(low, breakpoint);
+    }
+  }
+  const t = (value - low) / (high - low);
+  const a = alongX ? sampleFrontierRaw(low, z, options).height : sampleFrontierRaw(x, low, options).height;
+  const b = alongX ? sampleFrontierRaw(high, z, options).height : sampleFrontierRaw(x, high, options).height;
+  return a + (b - a) * t;
+}
+
+function detailedVertexHeight(x, z, options) {
+  const onOuterX = x === -50 || x === 50;
+  const onOuterZ = z === -250 || z === -150;
+  if (onOuterX && onOuterZ) return Math.fround(sampleFrontierRaw(x, z, options).height);
+  if (onOuterX) return Math.fround(coarseEdgeHeight(x, z, false, options));
+  if (onOuterZ) return Math.fround(coarseEdgeHeight(x, z, true, options));
+  return Math.fround(sampleFrontierRaw(x, z, options).height);
+}
+
+function detailAxes(cx, cz) {
+  return cx === ROCKY_TERRACE.chunk.cx ? SKYBREAK_TERRACE_AXES : SKYBREAK_REGULAR_AXES;
+}
+
+function axisCell(axis, value) {
+  let low = 0, high = axis.length - 1;
+  while (low + 1 < high) {
+    const middle = (low + high) >> 1;
+    if (axis[middle] <= value) low = middle;
+    else high = middle;
+  }
+  return Math.min(low, axis.length - 2);
+}
+
+function detailedTriangleHeight(x, z, cx, cz, options) {
+  const originX = cx * config.chunkSize, originZ = cz * config.chunkSize;
+  const localX = clamp(x - originX, 0, config.chunkSize);
+  const localZ = clamp(z - originZ, 0, config.chunkSize);
+  const { xs, zs } = detailAxes(cx, cz);
+  const ix = axisCell(xs, localX), iz = axisCell(zs, localZ);
+  const x0 = originX + xs[ix], x1 = originX + xs[ix + 1];
+  const z0 = originZ + zs[iz], z1 = originZ + zs[iz + 1];
+  const tx = (x - x0) / (x1 - x0), tz = (z - z0) / (z1 - z0);
+  const a = detailedVertexHeight(x0, z0, options);
+  const b = detailedVertexHeight(x1, z0, options);
+  const c = detailedVertexHeight(x0, z1, options);
+  const d = detailedVertexHeight(x1, z1, options);
+  if (tx + tz <= 1) return a + (b - a) * tx + (c - a) * tz;
+  return b * (1 - tz) + c * (1 - tx) + d * (tx + tz - 1);
+}
+
+export function sampleFrontier(x, z, options = {}) {
+  x = finite(x); z = finite(z);
+  const sample = sampleFrontierRaw(x, z, options);
+  const { cx, cz } = worldToChunk(x, z);
+  if (!isSkybreakDetailChunk(cx, cz)) return sample;
+  return { ...sample, height: finite(detailedTriangleHeight(x, z, cx, cz, options)) };
+}
+
 export function chunkKey(cx, cz) { return `${Math.trunc(cx)},${Math.trunc(cz)}`; }
 
 export function isCampChunk(cx, cz) { return cx === -1 || cx === 0 ? (cz === -1 || cz === 0) : false; }
 export function createFrontierChunk(cx, cz, options = {}) {
   cx = Math.trunc(cx); cz = Math.trunc(cz);
-  const n = config.segments, step = config.chunkSize / n;
+  const detailed = isSkybreakDetailChunk(cx, cz);
+  const n = detailed ? config.skybreakSegments : config.segments;
+  const step = config.chunkSize / n;
+  const normalStep = config.chunkSize / config.segments;
   const origin = { x: cx * config.chunkSize, z: cz * config.chunkSize };
-  const regularAxis = Array.from({ length: n + 1 }, (_, i) => i * step);
+  const regularAxis = detailed ? null : Array.from({ length: n + 1 }, (_, i) => i * step);
   const mergeAxis = (axis, breaks, worldOrigin) => Array.from(new Set([
     ...axis, ...breaks.map(value => value - worldOrigin).filter(value => value > 0 && value < config.chunkSize),
   ])).sort((a, b) => a - b);
   const special = cx === ROCKY_TERRACE.chunk.cx && cz === ROCKY_TERRACE.chunk.cz;
-  const xs = special ? mergeAxis(regularAxis, ROCKY_TERRACE.xBreaks, origin.x) : regularAxis;
-  const zs = special ? mergeAxis(regularAxis, ROCKY_TERRACE.zBreaks, origin.z) : regularAxis;
+  const detailedAxes = detailed ? detailAxes(cx, cz) : null;
+  const xs = detailed ? detailedAxes.xs : (special ? mergeAxis(regularAxis, ROCKY_TERRACE.xBreaks, origin.x) : regularAxis);
+  const zs = detailed ? detailedAxes.zs : (special ? mergeAxis(regularAxis, ROCKY_TERRACE.zBreaks, origin.z) : regularAxis);
   const nxCount = xs.length, nzCount = zs.length;
   const count = nxCount * nzCount, vertices = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
   for (let iz = 0; iz < nzCount; iz++) for (let ix = 0; ix < nxCount; ix++) {
     const i = iz * nxCount + ix, x = origin.x + xs[ix], z = origin.z + zs[iz];
-    const sample = sampleFrontier(x, z, options);
-    vertices[i * 3] = xs[ix]; vertices[i * 3 + 1] = sample.height; vertices[i * 3 + 2] = zs[iz];
+    const sample = sampleFrontierRaw(x, z, options);
+    const height = detailed ? detailedVertexHeight(x, z, options) : sample.height;
+    vertices[i * 3] = xs[ix]; vertices[i * 3 + 1] = height; vertices[i * 3 + 2] = zs[iz];
     colors.set(sample.groundColorRGB, i * 3);
   }
   const indices = new Uint32Array((nxCount - 1) * (nzCount - 1) * 6);
@@ -159,13 +248,14 @@ export function createFrontierChunk(cx, cz, options = {}) {
   for (let iz = 0; iz < nzCount; iz++) for (let ix = 0; ix < nxCount; ix++) {
     const i = iz * nxCount + ix, wx = origin.x + xs[ix], wz = origin.z + zs[iz];
     // Sample in world space so an edge vertex has the same gradient in either chunk.
-    const l = sampleFrontier(wx - step, wz, options).height, r = sampleFrontier(wx + step, wz, options).height;
-    const d = sampleFrontier(wx, wz - step, options).height, u = sampleFrontier(wx, wz + step, options).height;
-    const nx = (l - r) / (2 * step), nz = (d - u) / (2 * step), length = Math.hypot(nx, 1, nz) || 1;
+    const l = sampleFrontier(wx - normalStep, wz, options).height, r = sampleFrontier(wx + normalStep, wz, options).height;
+    const d = sampleFrontier(wx, wz - normalStep, options).height, u = sampleFrontier(wx, wz + normalStep, options).height;
+    const nx = (l - r) / (2 * normalStep), nz = (d - u) / (2 * normalStep), length = Math.hypot(nx, 1, nz) || 1;
     normals.set([nx / length, 1 / length, nz / length], i * 3);
   }
   let minY = Infinity, maxY = -Infinity;
   for (let i = 1; i < vertices.length; i += 3) { minY = Math.min(minY, vertices[i]); maxY = Math.max(maxY, vertices[i]); }
   return { id: chunkKey(cx, cz), traversalSurface: 'terrain', origin, vertices, indices, normals, colors,
+    grid: { xs: Float32Array.from(xs), zs: Float32Array.from(zs) },
     bounds: { min: { x: 0, y: minY, z: 0 }, max: { x: config.chunkSize, y: maxY, z: config.chunkSize } } };
 }

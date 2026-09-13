@@ -1,18 +1,17 @@
-# Wildkin Frontier — Beta Candidate Plan
+# Wildkin Frontier — Historical Beta Candidate Plan
 
-> **Historical finite-campaign plan after September 12.** Chris approved the Living Frontier pivot and autonomous pre-alpha iteration in place. Read LIVING_FRONTIER_PLAN and CURRENT_SLICE for the active destination and evidence. Completing this former finite arc is not a prerequisite for procedural foundations.
+> **Historical reference.** The finite campaign described below is retained as source history and reusable design material. It is not the active product promise. The active direction is the portrait-mobile-first Living Frontier: an offline, single-player exploration and creature-life game with a physical Camp, short dangerous outings, individual Wildkin, and staged seeded regional geography.
 
-## Direction and evidence
+## Current direction and evidence
 
-**Current September12 status is maintained in CURRENT_SLICE.md.** Production stopped for Chris's PC restart/new session. Camera pitch/terrain clearance, ordinary Jump, defended Camp expansion, Survey pack fitting and physical hotbar arrangement are implemented;966 tests and package checks pass. Verdant V7 retains Chris's accepted grass/rock appearance; Shatterfen V3 is selected under delegated producer judgment with remaining visual debt recorded. Rootfall V4 retains known art flaws. Tidefin V3 and the Emberfall ravine remain unintegrated candidates. The numeric checkpoints below are historical evidence, not current package claims. Read SESSION_HANDOFF_2026-09-12.md to resume.
+Use [Current slice](CURRENT_SLICE.md) for live implementation, test/package status, and the selected Skybreak prototype. Use [Living Frontier plan](LIVING_FRONTIER_PLAN.md) for the staged destination. Skybreak R3 is selected as usable groundwork with the visual target still on HOLD; current evidence belongs in the current slice and its receipt.
 
-The September 9, 2026 owner request authorizes this campaign and replaces the prior framework-only slice. The engine remains vanilla Three.js + Rapier: it already supplies tested movement, collision, section isolation, harvesting, combat, extraction/banking and a capable primitive asset/level workshop. An engine migration would discard useful work without resolving the main deficits: content, progression, companion play, presentation and onboarding.
+The current build includes the five-slot portrait hotbar, separate Pack access, a personal atlas, individual Wildkin capture/banking/reload, body-tone expression, a physical nursery/garden, active-play growth, pairing with earned optional body-tone guidance, bounded terrain residency, and a shared world descriptor. It does not yet ship the proposed modular anatomy, broad reproduction system, cave/overhang regions, swimming, weather, DNA archive, community mapping, or online trade.
 
-**September 12 jump/uplands prototype checkpoint:** ordinary Jump (Space/touch) and R Dodge replace active jump pads and checkpoint courses throughout Play and Author. Former reward/save IDs remain ordinary terrain caches. Forest Edge is now 140×90m with shared polygon terrain, connected 3/6/8m shelves and a separate descent. The five mistakenly removed gameplay props are restored, including both renewable iron veins and the original Thornprowler. All 934 tests, world/campaign checks, build/validation and ZIP pass: 43.69MB unpacked / 20.42MB ZIP; index SHA256 `3700c1acc91f951e0d5dc71a1901155f39672f606e385b13622970a8a8c1c30d`. Portable native Start → Survey route → 3m shelf → actual iron harvest/collection → Jump/landing → reload Continue retaining iron passes, with no browser errors or external/failed requests. This is a functional prototype checkpoint, not visual admission: Verdant V4 holds 7.3; Rootfall V4 holds 7.1 and its original-target modeling decision remains pending with Chris. Other overnight work continues.
+For the current visual and research record, see the [Living Frontier visual fieldbook](research/living-frontier/Living-Frontier-Visual-Fieldbook.pdf), [research appendix](research/living-frontier/Living-Frontier-Research-Appendix.pdf), [editable appendix Markdown](research/living-frontier/Living-Frontier-Research-Appendix.md), and [image manifest](research/living-frontier/image-manifest.md).
 
-**Historical September9 initial audit:** clean main and 573 passing tests, with Camp/two proof sections, four placed resources, two creatures, two chests, one upgrade and a parkour proof. The absent campaign and shell drift described by that audit have since been addressed; these are not current missing-feature claims.
+## Historical candidate scope and provisional design
 
-## Candidate scope and provisional design
 
 This is a finite handcrafted adventure with repeatable expeditions, aiming at roughly 60–90 minutes for an initial campaign (a tuning target, not measured playtime). Ordinary runs should produce a worthwhile decision within 5–10 minutes. Long-term additions from older documents remain potential expansions; this build must finish a coherent arc before increasing breadth.
 

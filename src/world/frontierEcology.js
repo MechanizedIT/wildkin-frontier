@@ -1,11 +1,14 @@
 import { FRONTIER_TERRAIN_CONFIG, isCampChunk, sampleFrontier } from './frontierTerrain.js';
 import { makeFrontierResourceId } from './frontierEcologyState.js';
 import { DEFAULT_FRONTIER_WORLD, frontierDomainSeed } from './frontierWorld.js';
+import { isSkybreakArea } from './frontierLandform.js';
+import { hasFootprintSupport } from './frontierPlacement.js';
 
 const EDGE = 3;
 const CAMP_CLEARANCE = 6;
 const SLOPE_SAMPLE = .8;
 const MAX_SLOPE = .42;
+const FOOTPRINT_RADIUS = Object.freeze({ tree: 1.35, rock: .9, fiber: .55 });
 const TERRACE_MINERAL_ASSET_BY_INDEX = Object.freeze({
   2: 'asset_iron_ore_rock',
   4: 'asset_crystal',
@@ -80,6 +83,12 @@ export function sampleFrontierForageChunk(cx, cz, { getHeight, visualAssets, ter
     const stagedBerry = northApproach && group === 0 && slot === 0 && berry;
     const baseKind = stagedBerry ? { type: 'fiber', visualAsset: berry } : typeFor(terrainSample(x, z, { terrainOptions, world }), roll(index, 79), berry);
     const kind = terraceMineral(cx, cz, index, baseKind, visualAssets);
+    const footprintRadius = FOOTPRINT_RADIUS[kind.type];
+    if (isSkybreakArea(x, z, footprintRadius) && !hasFootprintSupport(x, z, {
+      getHeight: (sx, sz) => typeof getHeight === 'function' ? getHeight(sx, sz) : terrainSample(sx, sz, { terrainOptions, world }).height,
+      radius: footprintRadius,
+      maxSlope: MAX_SLOPE,
+    })) continue;
     const uniformScale = kind.type === 'tree' ? .72 + roll(index, 107) * .08
       : kind.type === 'fiber' ? 1.08 + roll(index, 107) * .14
         : .9 + roll(index, 107) * .14;

@@ -5,6 +5,7 @@ import { createFrontierChunkRuntime } from '../src/world/frontierChunkRuntime.js
 import { FRONTIER_TERRAIN_CONFIG, sampleFrontier } from '../src/world/frontierTerrain.js';
 import { getSurfaceHeight } from '../src/world/terrainSurfaceModel.js';
 import { DEFAULT_FRONTIER_WORLD, normalizeFrontierWorld } from '../src/world/frontierWorld.js';
+import { isSkybreakArea } from '../src/world/frontierLandform.js';
 
 function fixture(world) {
   const calls = [];
@@ -105,4 +106,34 @@ test('unloaded foliage releases its instance buffer exactly once', () => {
   runtime.update({ x: 260, z: 120 }, { activeSectionId: 'camp' });
   runtime.dispose();
   assert.equal(disposals, 1);
+});
+
+test('Skybreak terrain grass keeps its complete footprint supported and limits shadow casters', () => {
+  const { runtime } = fixture();
+  runtime.update({ x: 10, z: -200 }, { activeSectionId: 'camp' });
+  const matrix = new THREE.Matrix4(), point = new THREE.Vector3();
+  let checked = 0, culledChunks = 0, shadowChunks = 0;
+  for (const group of runtime.root.children) {
+    const ground = group.getObjectByName('frontier_ground');
+    if (ground?.castShadow) shadowChunks++;
+    const grass = group.getObjectByName('frontier_groundcover');
+    if (!grass) continue;
+    if (grass.count < 96) culledChunks++;
+    for (let index = 0; index < grass.count; index++) {
+      grass.getMatrixAt(index, matrix); point.setFromMatrixPosition(matrix).add(group.position);
+      if (!isSkybreakArea(point.x, point.z, .45)) continue;
+      checked++;
+      const center = runtime.getHeight(point.x, point.z);
+      assert.ok(Math.abs(center - point.y) < .0001, 'visible grass rests on shared terrain');
+      for (let direction = 0; direction < 8; direction++) {
+        const angle = direction * Math.PI / 4;
+        const edge = runtime.getHeight(point.x + Math.cos(angle) * .45, point.z + Math.sin(angle) * .45);
+        assert.ok(Math.abs(edge - center) <= .45 * .65 + .0001, 'visible grass does not cross a cliff lip');
+      }
+    }
+  }
+  assert.ok(checked > 0, 'useful supported grass remains in the region');
+  assert.ok(culledChunks > 0, 'unsupported grass was actually removed');
+  assert.equal(shadowChunks, 4, 'only the four tall-landform chunks cast terrain shadows');
+  runtime.dispose();
 });

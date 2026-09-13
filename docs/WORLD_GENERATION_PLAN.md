@@ -31,7 +31,7 @@ Those ranges describe local landforms, not biome size. The owner's newer extreme
 
 The authored Camp remains a safe starting reserve with a blended apron. Reusable terrain stamps provide occasional cliff shelves, ramps and landmark foundations. A heightfield cannot represent several ground heights at the same horizontal position: cave interiors, arches and overhangs need separate geometry and deliberately authored collision. Fully editable voxel terrain is outside this foundation.
 
-Current regular meshes cover50×50m with25×25 grid cells:676vertices and1,250triangles, with additional breakpoints in the terrace chunk. Grid connectivity is reusable; world-space sampling supplies each vertex's unique height and color. Border heights and normal samples are shared. This is a tunable starting density; distant simplified meshes and detail around special landforms require explicit seam and physics proof before admission.
+Regular meshes cover50×50m with25×25 grid cells:676vertices and1,250triangles, with additional breakpoints in the terrace chunk. Skybreak adds four bounded1m-detail chunks atx=-1..0,z=-5..-4. Public ground queries in those chunks interpolate the exact rendered/Rapier triangle, and their perimeter follows the actual neighboring coarse edge curves. Grid connectivity is reusable; world-space samples supply height and color. Farther simplified silhouettes, arbitrary overhangs and new regional detail modes remain future work.
 
 An overhang kit may provide both a walkable top and an underside, with matched 3D collision and camera clearance. Cave floors remain separate surfaces. Decor on these models must use prepared sockets or a placement-time query against the actual eligible surface; the main terrain height cannot place it correctly. Large formations precede decoration. Ground materials and scatter both consume semantic surface/habitat data, so recoloring a texture never changes the ecosystem.
 
@@ -102,7 +102,7 @@ Water needs its own shared level, shoreline, safe-bank, swimming and spawn rules
 | Already in the project | Still to implement |
 | --- | --- |
 | Global height sampler, 50m streamed chunks, shared edges/collision, authored Camp reserve; one immutable descriptor injected through all current generation layers | More terrain families, climate and drainage layers using that descriptor |
-| Two blended habitat influences and a staged rolling transition/terrace | Broader climate fields and several distinct regional terrain profiles |
+| Two blended habitat influences, rolling transition/terrace and one selected Skybreak plateau fixture | Broader climate fields and several distinct regional terrain profiles |
 | Bounded forage/scenery/wildlife, stable captured individuals, personal atlas | Discovery reservations, richer populations, regional trait distributions |
 | One fixed deterministic world edition | Safe alternate-world creation, generation namespaces, distant terrain and rebasing |
 | CLI inspector for same-world elevation, current wetland weight, slope and generated candidates | Climate moisture/temperature fields and regional recipe inspection |
