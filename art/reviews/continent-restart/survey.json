@@ -1,0 +1,157 @@
+{
+  "createdAt": "2026-09-14T02:30:25.094Z",
+  "world": {
+    "edition": 1,
+    "seed": 1327115068
+  },
+  "n": 801,
+  "stepMetres": 10,
+  "bounds": {
+    "minX": -4700,
+    "maxX": 3300,
+    "minZ": -4900,
+    "maxZ": 3100
+  },
+  "landAreaKm2": 28.957,
+  "maxSampledHeightMetres": 77.93570470280723,
+  "regions": [
+    {
+      "habitatId": "heartwood-basin",
+      "name": "Heartwood Basin",
+      "x": 0,
+      "z": 0,
+      "baseKind": "lush",
+      "diagnosticColorRGB": [
+        0.16,
+        0.55,
+        0.24
+      ],
+      "completionStatus": "topology-only"
+    },
+    {
+      "habitatId": "rootbound-wildwood",
+      "name": "Rootbound Wildwood",
+      "x": -425,
+      "z": 650,
+      "baseKind": "lush",
+      "diagnosticColorRGB": [
+        0.08,
+        0.34,
+        0.16
+      ],
+      "completionStatus": "topology-only"
+    },
+    {
+      "habitatId": "skybreak-tablelands",
+      "name": "Skybreak Tablelands",
+      "x": 0,
+      "z": -450,
+      "baseKind": "ironspine",
+      "diagnosticColorRGB": [
+        0.47,
+        0.57,
+        0.65
+      ],
+      "completionStatus": "topology-only"
+    },
+    {
+      "habitatId": "sunscar-desert",
+      "name": "Sunscar Desert",
+      "x": -1850,
+      "z": 50,
+      "baseKind": "sunscar",
+      "diagnosticColorRGB": [
+        0.86,
+        0.57,
+        0.25
+      ],
+      "completionStatus": "topology-only"
+    },
+    {
+      "habitatId": "ironspine-range",
+      "name": "Ironspine Range",
+      "x": -2100,
+      "z": -3000,
+      "baseKind": "ironspine",
+      "diagnosticColorRGB": [
+        0.25,
+        0.31,
+        0.36
+      ],
+      "completionStatus": "topology-only"
+    },
+    {
+      "habitatId": "shatterfen",
+      "name": "Shatterfen",
+      "x": -750,
+      "z": 1900,
+      "baseKind": "lush",
+      "diagnosticColorRGB": [
+        0.16,
+        0.48,
+        0.43
+      ],
+      "completionStatus": "topology-only"
+    },
+    {
+      "habitatId": "fungal-hollow",
+      "name": "Fungal Hollow",
+      "x": -2850,
+      "z": -1250,
+      "baseKind": "lush",
+      "diagnosticColorRGB": [
+        0.48,
+        0.25,
+        0.55
+      ],
+      "completionStatus": "topology-only"
+    },
+    {
+      "habitatId": "emberglass-caldera",
+      "name": "Emberglass Caldera",
+      "x": 850,
+      "z": -2000,
+      "baseKind": "ironspine",
+      "diagnosticColorRGB": [
+        0.74,
+        0.23,
+        0.14
+      ],
+      "completionStatus": "topology-only"
+    },
+    {
+      "habitatId": "verdant-stair",
+      "name": "Verdant Stair",
+      "x": -900,
+      "z": -1600,
+      "baseKind": "ironspine",
+      "diagnosticColorRGB": [
+        0.46,
+        0.65,
+        0.25
+      ],
+      "completionStatus": "topology-only"
+    },
+    {
+      "habitatId": "saltglass-headlands",
+      "name": "Saltglass Headlands",
+      "x": 1525,
+      "z": 1675,
+      "baseKind": "sunscar",
+      "diagnosticColorRGB": [
+        0.77,
+        0.76,
+        0.65
+      ],
+      "completionStatus": "topology-only"
+    }
+  ],
+  "sourceHashes": {
+    "src/world/frontierTerrain.js": "cd9efa91d1303b932bb3b58fb0c5f5daa98538808a9956d97f604c8c2f5aa9b7",
+    "src/world/frontierRegion.js": "574973e24852e2c9f9b98654bd76b769762808bd18aa0ec2f452012fa4fe4e39",
+    "src/world/frontierContinent.js": "28d35d7cc392eb4db2c30796b17d084c9e9376a85a44c8f7c1f0fe3b9ed916d3",
+    "src/world/frontierCaldera.js": "fc54292265ed37107182f56c464cfdbe500646d1db2cc1ed5fb5e8c98b30ce12",
+    "src/world/frontierFungalHollow.js": "5834e6e0ba2d2f6dea8b7c3bdac7f084df31dca68faee67cf8113cee8bd2f180"
+  },
+  "limits": "Read-only terrain survey: 10m sampling, no objects/creatures, not a native stitched render or fine-collision map. Region colors are diagnostic allocation. Use the actual game Scout session for full scenery."
+}

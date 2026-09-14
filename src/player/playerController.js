@@ -4,6 +4,7 @@ import { createTraversalController } from "../movement/traversalController.js";
 import { createPlayerVisuals } from "./playerVisuals.js";
 import { createClimbingController, CLIMBING_CONFIG } from '../movement/climbingController.js';
 import { calculateFallImpact } from "./fallImpact.js";
+import { resolveScoutFlight } from '../movement/scoutFlight.js';
 import {
   SURFACE_SWIM_CONFIG,
   normalizeSurfaceWater,
@@ -505,6 +506,19 @@ export function createPlayerController(playerMesh, playground, camera, moveCfg, 
     if (!characterPhysics) return;
     previousPhysicsPose.position.copy(currentPhysicsPose.position);
     previousPhysicsPose.facing = currentPhysicsPose.facing;
+
+    if (combatOpts?.debugFlight) {
+      if (state.mode !== 'FLY') { resetJumpState(); traversal.reset(); }
+      const direction = intentToWorldDir(intent);
+      const flight = combatOpts.debugFlight;
+      const next = resolveScoutFlight(state.pos, direction, flight.vertical, flight.fast, fixedDt, flight.floorAt, capsuleHalfExtent());
+      state.speed = Math.hypot(next.x - state.pos.x, next.z - state.pos.z) / fixedDt;
+      if (direction.len > .01) state.facing = Math.atan2(direction.x, direction.z);
+      state.vel.set(0, 0, 0); state.verticalVelocity = 0; state.grounded = false; state.mode = 'FLY';
+      characterPhysics.setPosition(next); syncPosFromPhysics(); syncMesh(fixedDt);
+      return;
+    }
+    if (state.mode === 'FLY') { resetJumpState(); state.mode = 'FALL'; state.grounded = false; state.speed = 0; }
 
     const startingWater = refreshSurfaceMode();
     if (state.mode === "SWIM") {

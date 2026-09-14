@@ -16,6 +16,9 @@ export const FRONTIER_SCENERY_CONFIG = Object.freeze({
   maxOuterDesired: 8,
   maxTotal: 2312,
   maxCanopies: 12,
+  starterCircuitMaxNear: 44,
+  starterCircuitMaxTotal: 52,
+  starterCircuitMaxCanopies: 18,
 });
 
 const EDGE = 4;
@@ -130,6 +133,47 @@ const STAGED = Object.freeze(new Map([
   ])],
 ]));
 
+const HEARTWOOD_CIRCUIT_ID_PREFIX = 'f2c:h:';
+// Finite portrait-route dressing. This remains separate from STAGED because
+// STAGED also protects a residency from dense infill; selection admits these
+// pieces only while the already-protected lowland circuit mode is active.
+const HEARTWOOD_CIRCUIT = Object.freeze(new Map([
+  ['0,-2', Object.freeze([
+    Object.freeze({ key: 'departure-tree-left', assetId: 'asset_verge_canopy', x: .5, z: -63.5, scale: .92, yaw: -.24, kind: 'canopy' }),
+    Object.freeze({ key: 'departure-tree-right', assetId: 'asset_verge_canopy_tall', x: 3.5, z: -72, scale: .86, yaw: .31, kind: 'canopy' }),
+    Object.freeze({ key: 'departure-reed-left', assetId: 'asset_fen_reed', x: 0, z: -61.5, scale: .9, yaw: -.35, kind: 'low' }),
+    Object.freeze({ key: 'departure-reed-right', assetId: 'asset_fen_reed', x: 2, z: -70, scale: .96, yaw: .42, kind: 'low' }),
+    Object.freeze({ key: 'departure-cloud-right', assetId: 'asset_cloudflower', x: 5, z: -73, scale: .88, yaw: -.27, kind: 'low' }),
+    Object.freeze({ key: 'departure-trail-right', assetId: 'asset_trail_stones', x: 2, z: -74, scale: .72, yaw: .54, kind: 'low' }),
+    Object.freeze({ key: 'departure-lily-right', assetId: 'asset_fen_lily', x: 5, z: -70, scale: .78, yaw: -.41, kind: 'low' }),
+    Object.freeze({ key: 'starter-lily-front', assetId: 'asset_fen_lily', x: .4, z: -80.2, scale: 1.08, yaw: -.22, kind: 'low' }),
+    Object.freeze({ key: 'starter-reed-rear', assetId: 'asset_fen_reed', x: 1, z: -84.1, scale: 1.12, yaw: -.37, kind: 'low' }),
+    Object.freeze({ key: 'starter-pebbles-rear', assetId: 'asset_pebble_cluster', x: 1, z: -88.2, scale: 1.28, yaw: -.58, kind: 'low' }),
+  ])],
+  ['-1,-2', Object.freeze([
+    Object.freeze({ key: 'departure-lily-left', assetId: 'asset_fen_lily', x: -2, z: -65, scale: .84, yaw: .24, kind: 'low' }),
+    Object.freeze({ key: 'departure-pebbles-left', assetId: 'asset_pebble_cluster', x: -1, z: -66, scale: 1.02, yaw: -.18, kind: 'low' }),
+    Object.freeze({ key: 'starter-tree-front', assetId: 'asset_verge_canopy_spread', x: -1.7, z: -81, scale: .82, yaw: -.33, kind: 'canopy' }),
+    Object.freeze({ key: 'starter-tree-rear', assetId: 'asset_verge_canopy_tall', x: -.8, z: -90, scale: .9, yaw: .22, kind: 'canopy' }),
+    Object.freeze({ key: 'starter-reed-front', assetId: 'asset_fen_reed', x: -1.8, z: -78.2, scale: 1.15, yaw: .31, kind: 'low' }),
+    Object.freeze({ key: 'starter-trail-front', assetId: 'asset_trail_stones', x: -1.4, z: -82.8, scale: .9, yaw: .63, kind: 'low' }),
+    Object.freeze({ key: 'starter-cloud-rear', assetId: 'asset_cloudflower', x: -1, z: -86.2, scale: 1.1, yaw: .18, kind: 'low' }),
+    Object.freeze({ key: 'starter-lily-rear', assetId: 'asset_fen_lily', x: -2, z: -89.2, scale: 1.04, yaw: .39, kind: 'low' }),
+    Object.freeze({ key: 'forage-tree-front', assetId: 'asset_verge_canopy', x: -6, z: -99, scale: .88, yaw: .28, kind: 'canopy' }),
+    Object.freeze({ key: 'forage-reed-front', assetId: 'asset_fen_reed', x: -8, z: -95, scale: 1.1, yaw: -.22, kind: 'low' }),
+    Object.freeze({ key: 'forage-lily-front', assetId: 'asset_fen_lily', x: -6.5, z: -97, scale: 1.05, yaw: .34, kind: 'low' }),
+    Object.freeze({ key: 'forage-trail-front', assetId: 'asset_trail_stones', x: -9, z: -98.5, scale: .85, yaw: -.52, kind: 'low' }),
+  ])],
+  ['-1,-3', Object.freeze([
+    Object.freeze({ key: 'forage-tree-left', assetId: 'asset_verge_canopy_spread', x: -12, z: -105, scale: .82, yaw: -.46, kind: 'canopy' }),
+    Object.freeze({ key: 'forage-tree-right', assetId: 'asset_verge_canopy_tall', x: -8, z: -102.5, scale: .82, yaw: .16, kind: 'canopy' }),
+    Object.freeze({ key: 'forage-reed-left', assetId: 'asset_fen_reed', x: -13.5, z: -103, scale: .94, yaw: .41, kind: 'low' }),
+    Object.freeze({ key: 'forage-cloud-left', assetId: 'asset_cloudflower', x: -10.5, z: -107, scale: .9, yaw: -.31, kind: 'low' }),
+    Object.freeze({ key: 'forage-lily-right', assetId: 'asset_fen_lily', x: -3.5, z: -102, scale: .8, yaw: .26, kind: 'low' }),
+    Object.freeze({ key: 'forage-pebbles-right', assetId: 'asset_pebble_cluster', x: -6, z: -107, scale: 1.06, yaw: -.16, kind: 'low' }),
+  ])],
+]));
+
 // One finite shelf garden gives the ordinary south approach a foreground,
 // middle and rear fungal rhythm. Terrain owns the banks and support toes;
 // these remain the existing baked, streamed low-prop families.
@@ -162,7 +206,16 @@ const FUNGAL_FIXED_CHUNKS = Object.freeze(new Set(FUNGAL_FIXED_SCENERY.map(candi
   `${Math.floor(candidate.x / FRONTIER_TERRAIN_CONFIG.chunkSize)},${Math.floor(candidate.z / FRONTIER_TERRAIN_CONFIG.chunkSize)}`)));
 
 function priorityFixedScenery(spec) {
-  return Boolean(spec?.id?.includes(':stage-') || spec?.id?.startsWith('f1:s:fungal-hollow:'));
+  return Boolean(spec?.id?.includes(':stage-') || spec?.id?.startsWith('f1:s:fungal-hollow:')
+    || isHeartwoodCircuitScenery(spec));
+}
+
+function isHeartwoodCircuitScenery(spec) {
+  return Boolean(spec?.id?.startsWith(HEARTWOOD_CIRCUIT_ID_PREFIX));
+}
+
+function withoutHeartwoodCircuit(specs) {
+  return specs.filter(spec => !isHeartwoodCircuitScenery(spec));
 }
 
 function random(cx, cz, index, salt = 0, world = DEFAULT_FRONTIER_WORLD) {
@@ -563,6 +616,13 @@ function hasCompleteFungalKit(visualAssets) {
   return [...FUNGAL_ASSET_IDS].every(assetId => admittedFungalAsset(assetId, visualAssets));
 }
 
+function admittedHeartwoodCloudflower(visualAssets) {
+  const asset = Array.isArray(visualAssets) ? visualAssets.find(candidate => candidate?.id === 'asset_cloudflower') : null;
+  return asset?.gameplay?.role === 'prop' && Array.isArray(asset.parts) && asset.parts.some(part => part?.shape === 'mesh'
+    && Array.isArray(part.geometry?.positions) && part.geometry.positions.length >= 9
+    && Array.isArray(part.geometry?.indices) && part.geometry.indices.length >= 3);
+}
+
 function fixedFungalScenerySpecs(options) {
   if (!hasCompleteFungalKit(options.visualAssets)) return null;
   const specs = [];
@@ -587,7 +647,8 @@ function fixedFungalScenerySpecs(options) {
   return Object.freeze(specs);
 }
 
-function admitScenerySpec(cx, cz, key, candidate, options, exclusions, specs, { curated = false, infill = false } = {}) {
+function admitScenerySpec(cx, cz, key, candidate, options, exclusions, specs,
+  { curated = false, infill = false, heartwoodCloudflower = false } = {}) {
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
   if (Math.floor(candidate.x / size) !== cx || Math.floor(candidate.z / size) !== cz) return false;
   const edgeInset = infill ? footprintRadius(candidate) : EDGE;
@@ -606,7 +667,8 @@ function admitScenerySpec(cx, cz, key, candidate, options, exclusions, specs, { 
     if (Math.hypot(candidate.x - home.x, candidate.z - home.z) < footprintRadius(candidate) + home.radius) return false;
   }
   if (sample.surfaceKind === 'skybreak-shoulder') return false;
-  if (candidate.assetId === 'asset_cloudflower' && sample.surfaceKind !== 'skybreak-cap') return false;
+  if (candidate.assetId === 'asset_cloudflower' && sample.surfaceKind !== 'skybreak-cap'
+    && (!heartwoodCloudflower || !admittedHeartwoodCloudflower(options.visualAssets))) return false;
   if (!outsideRegionalPlaces(candidate.x, candidate.z, candidate, options)
     || !hasSunscarPocketCue(candidate.x, candidate.z, options) || !hasSafeGround(candidate.x, candidate.z, options)
     || !hasSafeFootprint(candidate.x, candidate.z, candidate, options, sample)
@@ -703,6 +765,12 @@ export function sampleFrontierSceneryChunk(cx, cz, options = {}) {
     const scale = regionalSceneryScale(sample, assetId, baseScale, roll(attempt, 163));
     accept(`seed-${attempt}`, { x, z, assetId, kind: canopy ? 'canopy' : 'low', scale, yaw: roll(attempt, 131) * Math.PI * 2 });
   }
+  for (const candidate of HEARTWOOD_CIRCUIT.get(`${cx},${cz}`) ?? []) {
+    const admitted = [];
+    if (!admitScenerySpec(cx, cz, candidate.key, candidate, sampleOptions, exclusions, admitted,
+      { curated: true, heartwoodCloudflower: true })) continue;
+    specs.push(Object.freeze({ ...admitted[0], id: `${HEARTWOOD_CIRCUIT_ID_PREFIX}${cx}:${cz}:${candidate.key}` }));
+  }
   // A coherent regional formation must not consume this chunk's established
   // ordinary attempt budget. Safe old props remain eligible and compete only
   // at the existing residency cap; footprint overlaps were already rejected.
@@ -779,21 +847,33 @@ function sampleFrontierSceneryInfillChunk(cx, cz, ordinarySpecs, options = {}) {
   return recipe.result;
 }
 
-function isProtectedSceneryResidency(center, chunks, options) {
+function sceneryResidencyProtection(center, chunks, options) {
   const hasStagedNearChunk = chunks.some(chunk => Math.max(Math.abs(chunk.cx - center.cx), Math.abs(chunk.cz - center.cz)) <= 1
     && STAGED.has(`${chunk.cx},${chunk.cz}`));
   const size = FRONTIER_TERRAIN_CONFIG.chunkSize;
   const centerSample = terrainSample((center.cx + .5) * size, (center.cz + .5) * size, options);
   const protectedCoast = Number.isFinite(centerSample?.coastDistance) && Math.abs(centerSample.coastDistance) <= 38
     && centerSample.inlandDirection;
-  return hasStagedNearChunk || Boolean(centerSample?.surfaceKind) || Boolean(protectedCoast);
+  return { hasStagedNearChunk, centerSample, protectedCoast: Boolean(protectedCoast) };
+}
+
+function isProtectedSceneryResidency(center, chunks, options) {
+  const protection = sceneryResidencyProtection(center, chunks, options);
+  return protection.hasStagedNearChunk || Boolean(protection.centerSample?.surfaceKind) || protection.protectedCoast;
+}
+
+function isHeartwoodCircuitResidency(center, protection) {
+  return center.cx >= -1 && center.cx <= 1 && center.cz >= -4 && center.cz <= -1
+    && protection.hasStagedNearChunk && !protection.centerSample?.surfaceKind && !protection.protectedCoast;
 }
 
 export function selectFrontierScenery(residency, options = {}) {
   const center = residency?.center;
   if (!Number.isSafeInteger(center?.cx) || !Number.isSafeInteger(center?.cz)) return [];
   const chunks = [...new Map((residency.chunks ?? []).filter(chunk => Number.isSafeInteger(chunk?.cx) && Number.isSafeInteger(chunk?.cz)).map(chunk => [`${chunk.cx},${chunk.cz}`, chunk])).values()];
-  const preserveLegacyWindow = isProtectedSceneryResidency(center, chunks, options);
+  const protection = sceneryResidencyProtection(center, chunks, options);
+  const preserveLegacyWindow = protection.hasStagedNearChunk || Boolean(protection.centerSample?.surfaceKind) || protection.protectedCoast;
+  const heartwoodCircuitMode = isHeartwoodCircuitResidency(center, protection);
   const near = [], outer = [];
   for (const chunk of chunks) {
     const dx = chunk.cx - center.cx, dz = chunk.cz - center.cz;
@@ -806,17 +886,19 @@ export function selectFrontierScenery(residency, options = {}) {
         : sampleFrontierSceneryChunk(chunk.cx, chunk.cz, options);
       const ordinary = Array.isArray(sampledOrdinary) ? sampledOrdinary : [];
       const incompleteFixedGroup = Boolean(ordinary[INCOMPLETE_FIXED_SCENERY]);
+      const ordinaryWithoutCircuit = withoutHeartwoodCircuit(ordinary);
+      const selectableOrdinary = heartwoodCircuitMode ? ordinary : ordinaryWithoutCircuit;
       if (distance <= 1 && !preserveLegacyWindow && !incompleteFixedGroup) {
         const sampledInfill = cacheAccess
           ? cacheAccess.getScenery('infill', chunk.cx, chunk.cz,
-            () => sampleFrontierSceneryInfillChunk(chunk.cx, chunk.cz, ordinary, options))
-          : sampleFrontierSceneryInfillChunk(chunk.cx, chunk.cz, ordinary, options);
-        const specs = Array.isArray(sampledInfill) ? [...ordinary, ...sampledInfill] : ordinary;
+            () => sampleFrontierSceneryInfillChunk(chunk.cx, chunk.cz, ordinaryWithoutCircuit, options))
+          : sampleFrontierSceneryInfillChunk(chunk.cx, chunk.cz, ordinaryWithoutCircuit, options);
+        const specs = Array.isArray(sampledInfill) ? [...ordinaryWithoutCircuit, ...sampledInfill] : ordinaryWithoutCircuit;
         near.push(...specs.map(spec => ({ spec, centerDistance })));
       } else if (distance <= 1) {
-        near.push(...ordinary.map(spec => ({ spec, centerDistance })));
+        near.push(...selectableOrdinary.map(spec => ({ spec, centerDistance })));
       } else if (distance <= 2) {
-        outer.push(...ordinary.filter(spec => spec.kind === 'canopy').slice(0, 1).map(spec => ({ spec, centerDistance })));
+        outer.push(...selectableOrdinary.filter(spec => spec.kind === 'canopy').slice(0, 1).map(spec => ({ spec, centerDistance })));
       }
     } finally {
       options[RELEASE_CHUNK_POINT_MEMO]?.();
@@ -827,8 +909,10 @@ export function selectFrontierScenery(residency, options = {}) {
   near.sort(stableSort); outer.sort((a, b) => a.centerDistance - b.centerDistance || a.spec.id.localeCompare(b.spec.id));
   const nearSpecs = near.map(entry => entry.spec), outerSpecs = outer.map(entry => entry.spec);
   const denseWindow = nearSpecs.some(spec => spec.id.startsWith('f2c:i:'));
-  const maxNear = denseWindow ? FRONTIER_SCENERY_CONFIG.maxNear : 18;
-  const maxTotal = denseWindow ? FRONTIER_SCENERY_CONFIG.maxTotal : 34;
+  const maxNear = heartwoodCircuitMode ? FRONTIER_SCENERY_CONFIG.starterCircuitMaxNear
+    : denseWindow ? FRONTIER_SCENERY_CONFIG.maxNear : 18;
+  const maxTotal = heartwoodCircuitMode ? FRONTIER_SCENERY_CONFIG.starterCircuitMaxTotal
+    : denseWindow ? FRONTIER_SCENERY_CONFIG.maxTotal : 34;
   const staged = nearSpecs.filter(priorityFixedScenery);
   const regionalGroups = new Map();
   for (const spec of nearSpecs) if (spec.regionalPlaceId) {
@@ -869,7 +953,8 @@ export function selectFrontierScenery(residency, options = {}) {
       if (!found) break;
     }
   }
-  const canopyRoom = Math.max(0, FRONTIER_SCENERY_CONFIG.maxCanopies - chosenNear.filter(spec => spec.kind === 'canopy').length);
+  const maxCanopies = heartwoodCircuitMode ? FRONTIER_SCENERY_CONFIG.starterCircuitMaxCanopies : FRONTIER_SCENERY_CONFIG.maxCanopies;
+  const canopyRoom = Math.max(0, maxCanopies - chosenNear.filter(spec => spec.kind === 'canopy').length);
   const chosenOuter = outerSpecs.slice(0, Math.min(FRONTIER_SCENERY_CONFIG.maxOuterDesired, FRONTIER_SCENERY_CONFIG.maxOuter, canopyRoom));
   return Object.freeze([...chosenNear, ...chosenOuter].slice(0, maxTotal));
 }
@@ -1022,7 +1107,7 @@ export function createFrontierSceneryPrepareJob(residency, options = {}, recipeC
         }
         if (!pending) {
           const ordinary = cacheAccess.readScenery('ordinary', task.cx, task.cz);
-          pending = createFrontierSceneryInfillRecipe(task.cx, task.cz, ordinary, buildOptions);
+          pending = createFrontierSceneryInfillRecipe(task.cx, task.cz, withoutHeartwoodCircuit(ordinary), buildOptions);
           work++; totalWork++;
           if (!pending.done) continue;
         }

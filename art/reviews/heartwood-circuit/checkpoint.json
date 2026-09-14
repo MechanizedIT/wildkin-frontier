@@ -1,0 +1,74 @@
+{
+  "capturedAt": "2026-09-14T02:25:00.394Z",
+  "sourceBase": "37b7d434fad86d4419fd24548f558e02fd859632",
+  "status": "Local functional checkpoint; generated-reference art HOLD; owner requested a restart and workflow review before more production",
+  "production": {
+    "newCanopies": 7,
+    "newLowProps": 21,
+    "circuitOnlyLimits": {
+      "near": 44,
+      "total": 52,
+      "canopies": 18
+    },
+    "sourceOwners": [
+      "src/world/frontierScenery.js",
+      "tests/frontierScenery.test.js"
+    ],
+    "sourceHashes": {
+      "src/world/frontierScenery.js": "ed24b8fda34396a8adcc415733aeb0e36c55aea1427bdb3edcbedba4cf02d778",
+      "tests/frontierScenery.test.js": "fd46b48551bff9ade0fd4de5a8b3039516e63e9c52594ae984f2b6d94cc826a1"
+    }
+  },
+  "review": {
+    "source": "PASS",
+    "placement": "Accepted as improvement",
+    "generatedTargetFitness": 7.3,
+    "productionVisual": 5.9,
+    "art": "HOLD"
+  },
+  "validation": {
+    "focusedSourceTests": 39,
+    "focusedVisualRuntimeTests": 32,
+    "aggregateTests": 1406,
+    "suites": 173,
+    "failed": 0,
+    "durationMs": 100359.1289,
+    "verify": "PASS",
+    "zip": "PASS"
+  },
+  "package": {
+    "unpackedBytes": 46560074,
+    "zipBytes": 21593694,
+    "zipSha256": "c11e244af203e9ef1e0f40f128609f19f9fd750e12bf0a5cfc609266795ef1e3"
+  },
+  "saves": {
+    "returnedDeveloperExact": true,
+    "returnedPortableExact": true,
+    "expectedBerries": 21,
+    "expectedBankedXp": 62,
+    "originalDeveloperExact": true,
+    "originalPortableExact": true,
+    "originalComparedToPrior": true,
+    "method": "Canonical complete envelopes, after literal reload and ordinary Continue; original restored on both origins."
+  },
+  "browser": {
+    "finalDeveloperWarningsErrors": [],
+    "finalPortableWarningsErrors": [],
+    "portableResourceOrigins": [
+      "http://127.0.0.1:8081"
+    ],
+    "physicalPhone": false
+  },
+  "captureNotes": "Core starter/forage captures precede the final boundary-predicate repair; unchanged placement/render inputs. Departure-apron and return captures use the final source. Native renders have no replacement scenery. Read-only coordinates guided ordinary input. No resource/health/creature grants.",
+  "images": {
+    "starter-r2-baseline": "92b77894910f0cabc9e521228b94a95be6cbd756a535186eb5ad348b2b25f1fe",
+    "starter-production-r1": "d3614ab090576a10afbd5e2956115bc2a6560a472fb4da0e483af8b365f97dd3",
+    "forage-r2-baseline": "3d42ba6fe44874792937896e143be4ee60a6b60f8af82608e9fea6fbcabfbe62",
+    "forage-production-r1": "245749686a4f53493f3b585c5c6512662086ab6c061aead7994efb9a5d9d32d4",
+    "departure-trunk-blocked": "5bd481f1265cbeab8a9fdc115eb0dacea706bc45673d4ca61930f990b1842a25",
+    "departure-apron-production": "1ea70250f80c5821c880dd004341ee9ee51aa62eb2d5960cea7780f0719e8756",
+    "berry-approach": "14514836e61d86cd4c33628a71c650180ebf944f5897734d97dd25135113e555",
+    "home-with-berries": "ef5cc7b19c754bac42619cf9268829d0caa48e6c0b311c716c2c9c04ca5c5188"
+  },
+  "next": "Stop for owner-requested PC restart and review. Await fresh direction; native presentation/ground-cover studies and Ironspine are proposals only."
+}

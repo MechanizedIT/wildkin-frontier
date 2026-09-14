@@ -1,6 +1,12 @@
 # Living Frontier research refresh
 
-Latest local evidence: [Heartwood clearing and a builder outing](../../../art/reviews/heartwood-opening/receipt.md), with actual before/after, solid-trunk contact, portrait workbench/ration and landscape views. This reflects exploration-first priorities and supports builders without requiring a capture. Broader habitats and factory systems remain unfinished. No new Drive publication.
+<!-- RESTART-REVIEW -->
+Latest local update: [illustrated daily/workflow review](../../../art/reviews/continent-restart/review.html), [whole-continent maps](../../../art/reviews/continent-restart/README.md) and [actual character flight](../../../art/reviews/continent-restart/scout-receipt.md). These reflect exploration-first, collecting and building motivations, the ten-habitat goal and honest remaining gaps. Work is stopped for Chris's PC restart/review. Earlier Drive PDFs retain their publication dates; no new upload is claimed.
+<!-- END RESTART-REVIEW -->
+
+Latest local evidence: [fuller Heartwood circuit](../../../art/reviews/heartwood-circuit/receipt.md), including actual comparisons, trunk contact, berry gathering, return, save parity and honest art/performance gaps. Exploration leads; collector and builder/factory motivations remain supported directions. No new Drive publication.
+
+Earlier local evidence: [Heartwood clearing and a builder outing](../../../art/reviews/heartwood-opening/receipt.md), with actual before/after, solid-trunk contact, portrait workbench/ration and landscape views. This reflects exploration-first priorities and supports builders without requiring a capture. Broader habitats and factory systems remain unfinished. No new Drive publication.
 
 Earlier geography evidence: [ten fixed habitat areas](../../../art/reviews/finite-habitats/receipt.md), with a paired actual-terrain/allocation map and native portrait screenshots. Ten completed habitat experiences remain in production. Earlier Drive PDFs remain dated publications; this local update has not been uploaded.
 

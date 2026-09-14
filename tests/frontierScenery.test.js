@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import * as THREE from 'three';
 import { FRONTIER_SCENERY_CONFIG, FRONTIER_SCENERY_PLACE_LOOKUP_CAP, FRONTIER_SCENERY_POINT_MEMO_CAP, sampleFrontierSceneryChunk, selectFrontierScenery, createFrontierGroundCoverFilter, createFrontierSceneryBuild, createFrontierSceneryPrepareJob, createFrontierSceneryRecipeCache } from '../src/world/frontierScenery.js';
 import { createFrontierSceneryVisual } from '../src/world/frontierSceneryVisual.js';
@@ -24,6 +25,8 @@ const chunkGrid = (cx, cz) => {
   for (let z = cz - 2; z <= cz + 2; z++) for (let x = cx - 2; x <= cx + 2; x++) chunks.push({ id: `${x},${z}`, cx: x, cz: z });
   return { center: { cx, cz }, chunks };
 };
+const isHeartwoodCircuit = spec => spec.id.startsWith('f2c:h:');
+const HEARTWOOD_CIRCUIT_TARGET = JSON.parse(readFileSync(new URL('../art/targets/heartwood-circuit-v1/placements.json', import.meta.url))).rawCandidates;
 
 const flatFungalSample = () => ({
   height: 10, contentLand: true, coastDistance: 100, surfaceKind: null,
@@ -297,7 +300,9 @@ test('the Lush grove retains all seven mixed scenery slots as one capped nearby 
   const selectedFormation = selected.filter(spec => spec.regionalPlaceId === place.id);
   assert.equal(selectedFormation.length, 7, 'the canopy-bearing grove survives as a whole group');
   assert.ok(selected.length <= FRONTIER_SCENERY_CONFIG.maxTotal);
-  assert.ok(selected.filter(spec => spec.kind === 'canopy').length <= FRONTIER_SCENERY_CONFIG.maxCanopies);
+  const canopyLimit = selected.some(isHeartwoodCircuit)
+    ? FRONTIER_SCENERY_CONFIG.starterCircuitMaxCanopies : FRONTIER_SCENERY_CONFIG.maxCanopies;
+  assert.ok(selected.filter(spec => spec.kind === 'canopy').length <= canopyLimit);
 });
 
 test('one bounded adjacent-owner lookup excludes ordinary scenery and grass across a place boundary', () => {
@@ -869,6 +874,192 @@ test('ground-cover exclusions use the same injected province sample as regional 
   assert.ok(forage.every(node => filter(node.pos.x, node.pos.z) === false));
 });
 
+test('Heartwood circuit emits the exact fitted 28-piece table without changing old chunk recipes or gameplay homes', () => {
+  const ownerChunks = [[-1, -3], [-1, -2], [0, -2], [0, -3]];
+  const sampled = ownerChunks.flatMap(([cx, cz]) => sampleFrontierSceneryChunk(cx, cz, { visualAssets: WORLD_DATA.visualAssets }));
+  const circuit = sampled.filter(isHeartwoodCircuit);
+  const compact = spec => ({
+    key: spec.id.split(':').slice(4).join(':'), assetId: spec.assetId,
+    x: spec.x, z: spec.z, scale: spec.scale, yaw: spec.yaw, kind: spec.kind,
+  });
+  const expected = HEARTWOOD_CIRCUIT_TARGET.map(({ key, assetId, x, z, scale, yaw, kind }) =>
+    ({ key, assetId, x, z, scale, yaw, kind })).sort((a, b) => a.key.localeCompare(b.key));
+  assert.deepEqual(circuit.map(compact).sort((a, b) => a.key.localeCompare(b.key)), expected);
+  assert.equal(new Set(circuit.map(spec => spec.id)).size, 28);
+  assert.ok(circuit.every(spec => spec.chunkId === `${Math.floor(spec.x / 50)},${Math.floor(spec.z / 50)}`));
+  assert.equal(circuit.filter(spec => spec.assetId === 'asset_cloudflower').length, 3);
+  const invalidCloudKit = WORLD_DATA.visualAssets.map(asset => asset.id === 'asset_cloudflower'
+    ? { ...asset, gameplay: { ...asset.gameplay, role: 'harvestable' } } : asset);
+  const withoutAdmittedClouds = ownerChunks.flatMap(([cx, cz]) => sampleFrontierSceneryChunk(cx, cz, { visualAssets: invalidCloudKit }))
+    .filter(isHeartwoodCircuit);
+  assert.equal(withoutAdmittedClouds.length, 25);
+  assert.equal(withoutAdmittedClouds.some(spec => spec.assetId === 'asset_cloudflower'), false,
+    'the three lowland flower exceptions still require the exact admitted decorative prop');
+
+  const flatLowland = () => ({ height: 3, land: true, contentLand: true, coastDistance: 100,
+    surfaceKind: null, habitatBlend: { wetland: 0, fernUpland: 1 } });
+  const genericSkybreak = sampleFrontierSceneryChunk(0, -5, {
+    visualAssets: WORLD_DATA.visualAssets, getHeight: () => 3, getTerrainSample: flatLowland,
+    sampleForageChunk: () => [], sampleWildlifeChunk: () => [], sampleRegionalPlaceChunk: () => null,
+  });
+  assert.equal(genericSkybreak.some(spec => spec.assetId === 'asset_cloudflower'), false,
+    'the existing generic and seeded lowland cloudflower rejection remains unchanged');
+
+  const radiusFor = spec => Math.max(spec.kind === 'canopy' ? 1.45 : .62, ({
+    asset_cloudflower: .75, asset_trail_stones: 1.4, asset_fen_reed: .85,
+    asset_fen_lily: .93, asset_pebble_cluster: .66,
+  }[spec.assetId] ?? 0) * spec.scale);
+  for (const spec of circuit) assert.equal(hasFootprintSupport(spec.x, spec.z, {
+    getHeight: sampleFrontierHeight, radius: radiusFor(spec), maxSlope: .32,
+  }), true, `${spec.id} retains full scaled support`);
+  const homes = [[0, -2], [0, -3]].flatMap(([cx, cz]) => sampleFrontierWildlifeChunk(cx, cz, { visualAssets: WORLD_DATA.visualAssets }));
+  assert.deepEqual(homes.map(animal => [animal.id, animal.speciesTag, animal.homePos.x, animal.homePos.z]), [
+    ['f1:w:0:-2:0', 'mossling', 7, -85], ['f1:w:0:-2:1', 'mossling', 20, -95],
+    ['f1:w:0:-2:2', 'tidefin', 17, -79], ['f1:w:0:-3:0', 'emberhorn', 0, -111],
+  ]);
+  for (const spec of circuit.filter(candidate => candidate.kind === 'canopy')) for (const animal of homes) {
+    const leash = Math.max(animal.roamRadius ?? 0, animal.leashRadius ?? 0, animal.fleeLeashRadius ?? 0);
+    assert.ok(Math.hypot(spec.x - animal.homePos.x, spec.z - animal.homePos.z) >= leash + radiusFor(spec),
+      `${spec.id} keeps its complete trunk footprint outside ${animal.id}'s leash`);
+  }
+
+  const forageIdentity = [[-1, -2], [0, -2]].flatMap(([cx, cz]) => sampleFrontierForageChunk(cx, cz))
+    .map(node => ({ id: node.id, type: node.type, pos: node.pos, rotY: node.rotY,
+      uniformScale: node.uniformScale, persistentFinite: node.persistentFinite }));
+  const wildlifeIdentity = homes.map(animal => ({
+    id: animal.id, speciesTag: animal.speciesTag, type: animal.type, homePos: animal.homePos,
+    temperament: animal.temperament, roamRadius: animal.roamRadius, leashRadius: animal.leashRadius,
+    fleeLeashRadius: animal.fleeLeashRadius ?? null, noticeRadius: animal.noticeRadius,
+    personalSpace: animal.personalSpace, configOverrides: animal.configOverrides ?? null,
+    genome: animal.genome ?? null, residentPriority: animal.residentPriority,
+  })).sort((a, b) => a.id.localeCompare(b.id));
+  assert.equal(forageIdentity.length, 14);
+  assert.equal(createHash('sha256').update(JSON.stringify(forageIdentity)).digest('hex'),
+    '4f81657bf6bcef7397a06b93a07453223839ade986f9379f632b7f07ab8d0bd2');
+  assert.equal(createHash('sha256').update(JSON.stringify(wildlifeIdentity)).digest('hex'),
+    '738356b35f3b4872228a99aacc56da8f2b86db6c6c4f31f4d98396660cbfa8e4');
+
+  const oldHashes = new Map([
+    ['-1,-2', 'fd94550441e775632e0b81bc66fb0d515fec6c6ebcb5ef1f77297bd5fdbda5d3'],
+    ['0,-2', 'f6d42d69a786f5aa72e81e764bca4ce40f67307c0a1b28b797d0ff95c7d6c208'],
+    ['-1,-3', '5e94ea18e68e92d0e45c2adc94c14dcead0424b671e4fe5e345afd150857d511'],
+    ['0,-3', '7a6790fb7ffb736b7ba8634531f9786824eae7976ad557f6970f6099aae39708'],
+  ]);
+  for (const [chunkId, hash] of oldHashes) {
+    const [cx, cz] = chunkId.split(',').map(Number);
+    const oldRecipe = sampleFrontierSceneryChunk(cx, cz, { visualAssets: WORLD_DATA.visualAssets }).filter(spec => !isHeartwoodCircuit(spec));
+    assert.equal(createHash('sha256').update(JSON.stringify(oldRecipe)).digest('hex'), hash, `${chunkId} old recipe stays byte-exact`);
+  }
+});
+
+test('Heartwood circuit selection raises only the protected starter window and incremental cache output stays exact', () => {
+  const options = { visualAssets: WORLD_DATA.visualAssets };
+  for (const [cx, cz] of [[0, -2], [-1, -2]]) {
+    const residency = chunkGrid(cx, cz);
+    const selected = selectFrontierScenery(residency, options);
+    const near = selected.filter(spec => {
+      const [ownerX, ownerZ] = spec.chunkId.split(',').map(Number);
+      return Math.max(Math.abs(ownerX - cx), Math.abs(ownerZ - cz)) <= 1;
+    });
+    assert.equal(selected.length, FRONTIER_SCENERY_CONFIG.starterCircuitMaxTotal);
+    assert.equal(near.length, FRONTIER_SCENERY_CONFIG.starterCircuitMaxNear);
+    assert.equal(selected.filter(isHeartwoodCircuit).length, 28, 'each core travel center retains the complete fixed circuit');
+    assert.equal(selected.filter(spec => spec.kind === 'canopy').length, FRONTIER_SCENERY_CONFIG.starterCircuitMaxCanopies);
+    assert.equal(selected.some(spec => spec.id.startsWith('f2c:i:')), false);
+    assert.deepEqual(selectFrontierScenery({ ...residency, chunks: [...residency.chunks].reverse() }, options), selected);
+  }
+
+  const departureEdge = selectFrontierScenery(chunkGrid(0, -1), options);
+  assert.equal(departureEdge.length, 52);
+  assert.equal(departureEdge.filter(isHeartwoodCircuit).length, 22,
+    'the real departure center selects near circuit chunks plus one normal outer silhouette per chunk');
+
+  const rectangle = [
+    { cx: -1, cz: -4, total: 26, near: 18, circuit: 0, canopies: 11, surface: true },
+    { cx: 0, cz: -4, total: 26, near: 18, circuit: 0, canopies: 11, surface: true },
+    { cx: 1, cz: -4, total: 52, near: 44, circuit: 0, canopies: 12 },
+    { cx: -1, cz: -3, total: 51, near: 44, circuit: 28, canopies: 18 },
+    { cx: 0, cz: -3, total: 52, near: 44, circuit: 24, canopies: 17 },
+    { cx: 1, cz: -3, total: 52, near: 44, circuit: 10, canopies: 14 },
+    { cx: -1, cz: -2, total: 52, near: 44, circuit: 28, canopies: 18 },
+    { cx: 0, cz: -2, total: 52, near: 44, circuit: 28, canopies: 18 },
+    { cx: 1, cz: -2, total: 52, near: 44, circuit: 10, canopies: 13 },
+    { cx: -1, cz: -1, total: 52, near: 44, circuit: 22, canopies: 15 },
+    { cx: 0, cz: -1, total: 52, near: 44, circuit: 22, canopies: 15 },
+    { cx: 1, cz: -1, total: 52, near: 44, circuit: 10, canopies: 12 },
+  ];
+  for (const expectedRow of rectangle) {
+    const selected = selectFrontierScenery(chunkGrid(expectedRow.cx, expectedRow.cz), options);
+    const nearCount = selected.filter(spec => {
+      const [ownerX, ownerZ] = spec.chunkId.split(',').map(Number);
+      return Math.max(Math.abs(ownerX - expectedRow.cx), Math.abs(ownerZ - expectedRow.cz)) <= 1;
+    }).length;
+    assert.deepEqual({ total: selected.length, near: nearCount, circuit: selected.filter(isHeartwoodCircuit).length,
+      canopies: selected.filter(spec => spec.kind === 'canopy').length }, {
+      total: expectedRow.total, near: expectedRow.near, circuit: expectedRow.circuit, canopies: expectedRow.canopies,
+    }, `starter rectangle center ${expectedRow.cx},${expectedRow.cz} follows its surface-aware budget`);
+  }
+  for (const [center, hash] of [
+    ['-1,-4', '03c4ff7ec1732a81b813a31ea71e1811094f3b162cc1e1cc530c2cc6695df3f0'],
+    ['0,-4', '2cd3a5ab5c4ad0a1a2d5d13f85fccb3c6ce4df13322b19b41fb1449d0fad32f7'],
+  ]) {
+    const [cx, cz] = center.split(',').map(Number);
+    assert.equal(createHash('sha256').update(JSON.stringify(selectFrontierScenery(chunkGrid(cx, cz), options))).digest('hex'), hash,
+      `${center} Skybreak shoulder selection retains exact precedence`);
+  }
+
+  const unchanged = new Map([
+    ['0,-4', '2cd3a5ab5c4ad0a1a2d5d13f85fccb3c6ce4df13322b19b41fb1449d0fad32f7'],
+    ['6,2', 'ce59237eb1436ae0f40ea97a3d2bc0b65968bef57ed170a3ef03b61ae54a9653'],
+    ['17,-40', '7b64d7c6c4a23527edf884ffbf6bb452ace6a7b2e07c142b2d1520f5061ff6f2'],
+    ['2,-2', '0cbee74500e9104b25f333b41a526430cf7c7b3d206c48c7d0981a979afe2f06'],
+    ['-2,-2', '1ade34f920ef2f328d02aaece66b40b72ba7e79c083f7414bb50a263fc5c0178'],
+  ]);
+  for (const [center, expectedHash] of unchanged) {
+    const [cx, cz] = center.split(',').map(Number);
+    const selected = selectFrontierScenery(chunkGrid(cx, cz), options);
+    assert.equal(selected.some(isHeartwoodCircuit), false, `${center} does not inherit circuit dressing`);
+    assert.equal(createHash('sha256').update(JSON.stringify(selected)).digest('hex'), expectedHash,
+      `${center} retains its exact prior selection`);
+  }
+
+  const residency = chunkGrid(0, -2);
+  const synchronous = createFrontierSceneryBuild(residency, options);
+  const expected = synchronous.specs;
+  synchronous.releaseTerrainMemo();
+  const cache = createFrontierSceneryRecipeCache();
+  const job = createFrontierSceneryPrepareJob({ ...residency, chunks: [...residency.chunks].reverse() }, options, cache);
+  let state, steps = 0;
+  while (!(state = job.step(1)).done) assert.ok(++steps <= 25, 'one bounded ordinary recipe completes per step');
+  assert.deepEqual(cache.getSceneryDebugState(), { ordinaryCount: 25, infillCount: 0 });
+  const prepared = createFrontierSceneryBuild(residency, options, cache);
+  assert.deepEqual(prepared.specs, expected);
+  prepared.releaseTerrainMemo();
+
+  const denseResidency = chunkGrid(2, -2);
+  const freshDense = createFrontierSceneryBuild(denseResidency, options);
+  const expectedDense = freshDense.specs;
+  freshDense.releaseTerrainMemo();
+  const denseAfterCircuit = createFrontierSceneryBuild(denseResidency, options, cache);
+  assert.deepEqual(denseAfterCircuit.specs, expectedDense);
+  assert.equal(denseAfterCircuit.specs.some(isHeartwoodCircuit), false);
+  denseAfterCircuit.releaseTerrainMemo();
+  const circuitReentry = createFrontierSceneryBuild(residency, options, cache);
+  assert.deepEqual(circuitReentry.specs, expected);
+  circuitReentry.releaseTerrainMemo();
+
+  const reverseCache = createFrontierSceneryRecipeCache();
+  const denseFirst = createFrontierSceneryBuild(denseResidency, options, reverseCache);
+  assert.deepEqual(denseFirst.specs, expectedDense);
+  denseFirst.releaseTerrainMemo();
+  const circuitAfterDense = createFrontierSceneryBuild(residency, options, reverseCache);
+  assert.deepEqual(circuitAfterDense.specs, expected);
+  circuitAfterDense.releaseTerrainMemo();
+  const denseReentry = createFrontierSceneryBuild(denseResidency, options, reverseCache);
+  assert.deepEqual(denseReentry.specs, expectedDense);
+  denseReentry.releaseTerrainMemo();
+});
+
 test('the curated north route keeps three west/north canopies and eight damp east details', () => {
   const staged = [
     ...sampleFrontierSceneryChunk(-1, -2),
@@ -947,17 +1138,17 @@ test('accepted scenery stays clear of forage, wildlife roaming, Camp apron, rout
 });
 
 test('residency selection enforces density, outer silhouettes, and stable center transitions', () => {
-  const residency = chunkGrid(0, -2), selected = selectFrontierScenery(residency);
-  assert.deepEqual(selectFrontierScenery({ ...residency, chunks: [...residency.chunks].reverse() }), selected, 'residency enumeration order does not affect selection');
+  const residency = chunkGrid(0, -2), selected = selectFrontierScenery(residency, { visualAssets: WORLD_DATA.visualAssets });
+  assert.deepEqual(selectFrontierScenery({ ...residency, chunks: [...residency.chunks].reverse() }, { visualAssets: WORLD_DATA.visualAssets }), selected, 'residency enumeration order does not affect selection');
   const near = selected.filter(spec => {
     const [cx, cz] = spec.chunkId.split(',').map(Number);
     return Math.max(Math.abs(cx - residency.center.cx), Math.abs(cz - residency.center.cz)) <= 1;
   });
   const outer = selected.filter(spec => !near.includes(spec));
-  assert.ok(near.length <= FRONTIER_SCENERY_CONFIG.maxNear);
+  assert.ok(near.length <= FRONTIER_SCENERY_CONFIG.starterCircuitMaxNear);
   assert.ok(outer.length <= FRONTIER_SCENERY_CONFIG.maxOuterDesired && outer.length <= FRONTIER_SCENERY_CONFIG.maxOuter);
-  assert.ok(selected.length <= FRONTIER_SCENERY_CONFIG.maxTotal);
-  assert.ok(selected.filter(spec => spec.kind === 'canopy').length <= FRONTIER_SCENERY_CONFIG.maxCanopies);
+  assert.ok(selected.length <= FRONTIER_SCENERY_CONFIG.starterCircuitMaxTotal);
+  assert.ok(selected.filter(spec => spec.kind === 'canopy').length <= FRONTIER_SCENERY_CONFIG.starterCircuitMaxCanopies);
   assert.ok(outer.every(spec => spec.kind === 'canopy'));
   assert.ok([...new Set(outer.map(spec => spec.chunkId))].length === outer.length, 'outer chunks contribute at most one silhouette');
 
@@ -1005,11 +1196,12 @@ test('default-world scenery and ground cover preserve the fixed Signal receiver 
 });
 
 test('protected starter and staged Skybreak identities remain exact while finite outer geography stays bounded', () => {
-  const starterIds = selectFrontierScenery(chunkGrid(0, -2)).map(spec => spec.id);
+  const starterIds = selectFrontierScenery(chunkGrid(0, -2), { visualAssets: WORLD_DATA.visualAssets }).map(spec => spec.id);
   assert.equal(starterIds.some(id => id.startsWith('f2c:i:')), false, 'starter remains outside dense infill');
-  assert.equal(starterIds.length, 26);
+  assert.equal(starterIds.filter(id => id.startsWith('f2c:h:')).length, 28);
+  assert.equal(starterIds.length, 52);
   assert.equal(createHash('sha256').update(JSON.stringify(starterIds)).digest('hex'),
-    '0c740db352a0f532b203b5c85fe0433002a55531fcde4d3e175d0cc50af886b6');
+    'ca806f78a9d72c97486d77f95ecbcd13eef629a8aa7521944a0144858658b10a');
 
   const skybreakIds = selectFrontierScenery(chunkGrid(0, -4)).map(spec => spec.id);
   assert.equal(skybreakIds.some(id => id.startsWith('f2c:i:')), false, 'Skybreak remains outside dense infill');

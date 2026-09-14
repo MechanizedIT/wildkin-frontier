@@ -1,5 +1,13 @@
 # Wildkin playable-batch loop — two-batch trial
 
+<!-- RESTART-REVIEW -->
+## Restart review — shorten closure and keep inspection honest
+
+The September13 final maps are a source-sampled terrain survey, not stitched rendered imagery. Actual-character Scout flight is a separate tool using ordinary streaming. Its first E/Q keys conflicted with existing actions, so Space/C reuse the keyboard owner. Native portrait testing found an overlapping debug panel; moving it above actions preceded the final frozen-source aggregate. CUA native screenshot bounds and emulated CSS pixels differ under Windows scaling: clear stale overrides or use the verified device scale and complete viewport clip, then inspect the resulting image. Do not label a partial/black resize capture as evidence.
+
+Keep the new SESSION_START short and link one daily review; detailed historical receipts remain archived. After the owner requests a restart checkpoint, complete only explicit additions, seal the save/package proof and stop. The final Scout feature has root review because this thread hit the agent-thread limit; do not fabricate an independent pass. No shared/global skill was changed.
+<!-- END RESTART-REVIEW -->
+
 September 13, 2026. Chris requested an independent comparison of Dream Loop, his earlier Rapid Alpha Producer skill and this project's actual results. This is a producer trial for the next two playable batches; shared skills used by other projects remain unchanged.
 
 ## Evidence to keep
@@ -142,3 +150,11 @@ One actual first-clearing blockout corrected off-camera placement before product
 The literal generated-world failure was a held server stream. Read-only Windows Restart Manager identified the exact process before any restart. Repair aborted-response cleanup, prove real file release, restart the confirmed owner and retain atomic writes. All three local servers now use the fix. Do not blame the browser or change ACLs without evidence. Browser screenshot scaling affects pointer coordinates: use unscaled emulation for pointer actions and let resize settle before capture; earlier invalid captures were replaced. One aggregate passed1,404 tests in93.141 s. The wider route needs one coherent fuller target rather than repeated tiny prop checkpoints.
 
 Grounding proof also needs its own reference sanity: the final root review corrected the test-only second-triangle interpolation against the authored b,c,d indices and non-flat vertices. The candidate remained supported; only the affected focused tests were rerun after the aggregate, and the unchanged runtime/package hashes were retained.
+
+## Heartwood circuit — test actual admission before fitting targets
+
+Two disposable native compositions established a useful three-thicket arrangement before one production visual review. The generated image redrew materials/models and grass; its7.3 conditional fitness did not become a false production pass. Retain the useful placement gain with5.9 HOLD and address shared visual causes separately. Root kept the approved 12-center budget after review found an accidental fourth predicate shrinking it.
+
+The preliminary placement study mirrored admission rules and omitted non-cap cloudflower rejection. Future candidate studies should execute the actual admission predicate, not approximate it in a parallel harness. Integration admitted only the three exact already-vendored decorative accents and tested generic rejection. Cache-direction and complete identity checks proved sibling behavior.
+
+Profile the actual chunk size and hysteresis: this world uses50m pieces and8m hysteresis, so crossing a grid line alone does not prove publication. The completed return recorded a prepared scenery publication (2.2ms update), while whole-frame hitches remain. Reuse bounded instrumentation on the existing loop and restore it after capture. Literal reload resets emulated viewport sizing; reapply before screenshots and pointer actions. One aggregate passed1,406 tests in100.359s; no repeated gate after documentation-only closure.

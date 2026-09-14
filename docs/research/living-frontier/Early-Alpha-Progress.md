@@ -1,5 +1,23 @@
 # Early alpha — procedural frontier progress
 
+<!-- RESTART-REVIEW -->
+## September13 restart review
+
+[Visual report](../../../art/reviews/continent-restart/review.html) · [Daily overview](../../DAILY_REVIEW_2026-09-13.md) · [Full map](../../../art/reviews/continent-restart/full-continent.png).
+
+<img src="../../../art/reviews/continent-restart/scout-flight.png" width="700" alt="Actual safe flight in the streamed world">
+
+The continent has about29km² of land and ten fixed allocations. Safe Scout flight now shows the real character, local wildlife and scenery, while preserving ordinary progress.1,411 tests and package gates pass. Ten finished habitats, more extreme natural relief, fuller ground cover, broad genetics/species and factory systems remain incomplete. Chris requested stopping for restart/workflow review; future studies are proposals only. Earlier Drive publications are unchanged.
+<!-- END RESTART-REVIEW -->
+
+## Heartwood: a fuller woodland route
+
+The first woodland circuit now has seven additional solid trees and 21 grouped low plants. Ordinary input proved trunk contact, four gathered berries and a physical return; the returned save and restored original Mossling Camp match developer/portable reload exactly. **1,406 tests and package gates pass** (44.40 MB unpacked /20.59 MB ZIP). Source and placement improvement pass; generated-reference visual quality remains **5.9/10 HOLD**. Ground-cover gaps and whole-frame hitches remain. [Actual views and measurements](../../../art/reviews/heartwood-circuit/receipt.md).
+
+<img src="../../../art/reviews/heartwood-circuit/starter-production-r1.png" width="230" alt="Actual woodland circuit"> <img src="../../../art/reviews/heartwood-circuit/forage-production-r1.png" width="230" alt="Actual forage grove">
+
+The Camp apron and berry floor remain sparse. Next studies separate ground coverage from lighting while Ironspine route planning advances the ten-habitat alpha. Earlier uploaded PDFs retain their publication date.
+
 ## Heartwood: a builder’s exploration payoff
 
 The first Heartwood clearing now has four solid trees and sixteen grouped low plants, with exploration-led opening/return guidance. A fresh guided outing earned a Salvage bench and a trail ration without a Wildkin capture. **1,404 tests and package gates pass** (44.40 MB unpacked /20.59 MB ZIP); scoped visual R1 passes **8.8/10**. Builder progress and the restored original Mossling Camp match developer/portable reload exactly. [Detailed actual evidence](../../../art/reviews/heartwood-opening/receipt.md).

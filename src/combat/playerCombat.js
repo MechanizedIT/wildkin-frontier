@@ -11,6 +11,7 @@ export function createPlayerCombat(opts) {
     particleSystem,
     getPlayerState = () => null,
     getCreatures = () => [],
+    isDamageSuppressed = () => false,
     onHealthChanged = () => {},
     onDeath = () => {},
     onDamageFeedback = () => {},
@@ -113,6 +114,7 @@ export function createPlayerCombat(opts) {
   }
 
   function isInvulnerable() {
+    if (isDamageSuppressed()) return true;
     if (postHitInvuln > 0) return true;
     if (dodgeInvuln > 0) return true;
     if (wardRemaining > 0) return true;

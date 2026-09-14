@@ -1,0 +1,41 @@
+{
+  "createdAt": "2026-09-14T03:13:49.088Z",
+  "status": "Stopped for owner-requested PC restart and workflow review; await fresh direction.",
+  "sourceBase": "37b7d434fad86d4419fd24548f558e02fd859632",
+  "sourceHashes": {
+    "src/dev/scoutSession.js": "e53db3e14967fa51d342f8d843c402f5e2233049bf1d66b1dec135d6924f1b41",
+    "src/movement/scoutFlight.js": "fc4372466626a5331b0506b7ae7e94115ec9384d711ed33f2a4365a7f8e855c3",
+    "src/input/keyboardInput.js": "c3776f9f727330e8570e7e281689cbe3b7753b014bd67a03003ca92c4e33d484",
+    "src/player/playerController.js": "093ceab7d9d3b9c15d8676654b22cba8755f382a40d6a68966d7b9a43c2b690f",
+    "src/combat/playerCombat.js": "b30bb04289e04737095f885ce7d16b169fc1bb7ae594794f98298c49a2a381c8",
+    "src/save/frontierProgress.js": "73402bc5e3ee0c030937910ac2f50494ce7fa33ab2d47f8835732f0fc6a6bf25",
+    "src/main.js": "ea144f1270e8509f59fb77c7ea853c644202c4c126dbd5d1e18fcaa471ec5f99",
+    "src/world/frontierScenery.js": "ed24b8fda34396a8adcc415733aeb0e36c55aea1427bdb3edcbedba4cf02d778",
+    "tests/scoutFlight.test.js": "b4a7081ba268d431d4e798019f0cde310a8a9506638259f7b6a15a6426bef241",
+    "tests/frontierScenery.test.js": "fd46b48551bff9ade0fd4de5a8b3039516e63e9c52594ae984f2b6d94cc826a1"
+  },
+  "validation": {
+    "tests": 1411,
+    "suites": 173,
+    "failures": 0,
+    "durationMs": 103386.437,
+    "world": true,
+    "campaign": true,
+    "build": true,
+    "validate": true,
+    "zip": true
+  },
+  "package": {
+    "path": "dist/submission.zip",
+    "bytes": 21595626,
+    "sha256": "c94b10c29364fd34b5685b704305505d01987158ec07051a2ebf34881352f214",
+    "unpackedMB": 44.41
+  },
+  "independentScoutReview": false,
+  "limitations": [
+    "Ten allocations are not ten finished habitats.",
+    "World-art holds and frame hitches remain.",
+    "No physical-phone performance proof.",
+    "Scout has root review and native/package proof; independent agent review unavailable."
+  ]
+}

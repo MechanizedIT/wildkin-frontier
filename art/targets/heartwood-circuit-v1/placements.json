@@ -1,0 +1,4057 @@
+{
+  "generatedAt": "2026-09-14T01:20:41.184Z",
+  "fixture": {
+    "label": "heartwood-circuit-new-only-r2",
+    "usage": "Render newSpecs beside the unchanged live scenery; do not publish this JSON as world data.",
+    "views": [
+      {
+        "x": 0,
+        "z": -45,
+        "yaw": 0
+      },
+      {
+        "x": 0,
+        "z": -60.94,
+        "yaw": 0
+      },
+      {
+        "x": 0,
+        "z": -75,
+        "yaw": 0
+      },
+      {
+        "x": -10,
+        "z": -92,
+        "yaw": 0
+      }
+    ]
+  },
+  "contract": {
+    "center": {
+      "cx": 0,
+      "cz": -2
+    },
+    "starterMaxNear": 44,
+    "starterMaxTotal": 52,
+    "starterMaxCanopies": 18
+  },
+  "counts": {
+    "proposed": 28,
+    "accepted": 28,
+    "acceptedCanopies": 7,
+    "acceptedLows": 21,
+    "rejectedSelected": 0,
+    "rejectionProbes": 3,
+    "selectedNear": 44,
+    "selectedOuter": 8,
+    "selectedTotal": 52,
+    "selectedCanopies": 18,
+    "selectedFixedNear": 39,
+    "selectedFixedTotal": 41
+  },
+  "estimatedAddedGeometry": {
+    "canopyTriangles": 25004,
+    "lowTriangles": 10836,
+    "maximumGroundTriangles": 10240,
+    "totalWithFullGround": 46080
+  },
+  "existingIdentityWitness": {
+    "resources": [
+      {
+        "id": "f1:r:-1:-2:0",
+        "x": -13.915539498464593,
+        "z": -83.92820623690669
+      },
+      {
+        "id": "f1:r:-1:-2:1",
+        "x": -16.862134492246632,
+        "z": -82.50579979186666
+      },
+      {
+        "id": "f1:r:-1:-2:2",
+        "x": -16.717824705399625,
+        "z": -85.94028839616502
+      },
+      {
+        "id": "f1:r:-1:-2:3",
+        "x": -12.914637161023517,
+        "z": -95.51584664628646
+      },
+      {
+        "id": "f1:r:-1:-2:4",
+        "x": -16.235859339336297,
+        "z": -94.48736387932966
+      },
+      {
+        "id": "f1:r:-1:-2:7",
+        "x": -4.680789337844365,
+        "z": -58.906476730431805
+      },
+      {
+        "id": "f1:r:-1:-2:8",
+        "x": -4.165316218977281,
+        "z": -61.91531721902062
+      },
+      {
+        "id": "f1:r:-1:-2:11",
+        "x": -28.42602607689914,
+        "z": -57.32704227887445
+      },
+      {
+        "id": "f1:r:0:-2:0",
+        "x": 17.174230174697165,
+        "z": -96.56299372020243
+      },
+      {
+        "id": "f1:r:0:-2:1",
+        "x": 14.364196900976307,
+        "z": -95.33202090333664
+      },
+      {
+        "id": "f1:r:0:-2:3",
+        "x": 20.821616865797363,
+        "z": -60.91085707059848
+      },
+      {
+        "id": "f1:r:0:-2:4",
+        "x": 17.522963557471527,
+        "z": -60.11065159316713
+      },
+      {
+        "id": "f1:r:0:-2:5",
+        "x": 18.67276418227411,
+        "z": -63.38854952607446
+      },
+      {
+        "id": "f1:r:0:-2:6",
+        "x": 6.798400457459264,
+        "z": -91.37337703626064
+      }
+    ],
+    "wildlife": [
+      {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "x": 0,
+        "z": -111
+      },
+      {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "x": 7,
+        "z": -85
+      },
+      {
+        "id": "f1:w:0:-2:1",
+        "species": "mossling",
+        "x": 20,
+        "z": -95
+      },
+      {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "x": 17,
+        "z": -79
+      }
+    ]
+  },
+  "rawCandidates": [
+    {
+      "key": "departure-tree-left",
+      "assetId": "asset_verge_canopy",
+      "x": 0.5,
+      "z": -63.5,
+      "scale": 0.92,
+      "yaw": -0.24,
+      "kind": "canopy",
+      "selected": true
+    },
+    {
+      "key": "departure-tree-right",
+      "assetId": "asset_verge_canopy_tall",
+      "x": 3.5,
+      "z": -72,
+      "scale": 0.86,
+      "yaw": 0.31,
+      "kind": "canopy",
+      "selected": true
+    },
+    {
+      "key": "departure-reed-left",
+      "assetId": "asset_fen_reed",
+      "x": 0,
+      "z": -61.5,
+      "scale": 0.9,
+      "yaw": -0.35,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "departure-lily-left",
+      "assetId": "asset_fen_lily",
+      "x": -2,
+      "z": -65,
+      "scale": 0.84,
+      "yaw": 0.24,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "departure-pebbles-left",
+      "assetId": "asset_pebble_cluster",
+      "x": -1,
+      "z": -66,
+      "scale": 1.02,
+      "yaw": -0.18,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "departure-reed-right",
+      "assetId": "asset_fen_reed",
+      "x": 2,
+      "z": -70,
+      "scale": 0.96,
+      "yaw": 0.42,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "departure-cloud-right",
+      "assetId": "asset_cloudflower",
+      "x": 5,
+      "z": -73,
+      "scale": 0.88,
+      "yaw": -0.27,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "departure-trail-right",
+      "assetId": "asset_trail_stones",
+      "x": 2,
+      "z": -74,
+      "scale": 0.72,
+      "yaw": 0.54,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "departure-lily-right",
+      "assetId": "asset_fen_lily",
+      "x": 5,
+      "z": -70,
+      "scale": 0.78,
+      "yaw": -0.41,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "starter-tree-front",
+      "assetId": "asset_verge_canopy_spread",
+      "x": -1.7,
+      "z": -81,
+      "scale": 0.82,
+      "yaw": -0.33,
+      "kind": "canopy",
+      "selected": true
+    },
+    {
+      "key": "starter-tree-rear",
+      "assetId": "asset_verge_canopy_tall",
+      "x": -0.8,
+      "z": -90,
+      "scale": 0.9,
+      "yaw": 0.22,
+      "kind": "canopy",
+      "selected": true
+    },
+    {
+      "key": "starter-reed-front",
+      "assetId": "asset_fen_reed",
+      "x": -1.8,
+      "z": -78.2,
+      "scale": 1.15,
+      "yaw": 0.31,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "starter-lily-front",
+      "assetId": "asset_fen_lily",
+      "x": 0.4,
+      "z": -80.2,
+      "scale": 1.08,
+      "yaw": -0.22,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "starter-trail-front",
+      "assetId": "asset_trail_stones",
+      "x": -1.4,
+      "z": -82.8,
+      "scale": 0.9,
+      "yaw": 0.63,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "starter-reed-rear",
+      "assetId": "asset_fen_reed",
+      "x": 1,
+      "z": -84.1,
+      "scale": 1.12,
+      "yaw": -0.37,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "starter-cloud-rear",
+      "assetId": "asset_cloudflower",
+      "x": -1,
+      "z": -86.2,
+      "scale": 1.1,
+      "yaw": 0.18,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "starter-pebbles-rear",
+      "assetId": "asset_pebble_cluster",
+      "x": 1,
+      "z": -88.2,
+      "scale": 1.28,
+      "yaw": -0.58,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "starter-lily-rear",
+      "assetId": "asset_fen_lily",
+      "x": -2,
+      "z": -89.2,
+      "scale": 1.04,
+      "yaw": 0.39,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "forage-tree-front",
+      "assetId": "asset_verge_canopy",
+      "x": -6,
+      "z": -99,
+      "scale": 0.88,
+      "yaw": 0.28,
+      "kind": "canopy",
+      "selected": true
+    },
+    {
+      "key": "forage-tree-left",
+      "assetId": "asset_verge_canopy_spread",
+      "x": -12,
+      "z": -105,
+      "scale": 0.82,
+      "yaw": -0.46,
+      "kind": "canopy",
+      "selected": true
+    },
+    {
+      "key": "forage-tree-right",
+      "assetId": "asset_verge_canopy_tall",
+      "x": -8,
+      "z": -102.5,
+      "scale": 0.82,
+      "yaw": 0.16,
+      "kind": "canopy",
+      "selected": true
+    },
+    {
+      "key": "forage-reed-front",
+      "assetId": "asset_fen_reed",
+      "x": -8,
+      "z": -95,
+      "scale": 1.1,
+      "yaw": -0.22,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "forage-lily-front",
+      "assetId": "asset_fen_lily",
+      "x": -6.5,
+      "z": -97,
+      "scale": 1.05,
+      "yaw": 0.34,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "forage-trail-front",
+      "assetId": "asset_trail_stones",
+      "x": -9,
+      "z": -98.5,
+      "scale": 0.85,
+      "yaw": -0.52,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "forage-reed-left",
+      "assetId": "asset_fen_reed",
+      "x": -13.5,
+      "z": -103,
+      "scale": 0.94,
+      "yaw": 0.41,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "forage-cloud-left",
+      "assetId": "asset_cloudflower",
+      "x": -10.5,
+      "z": -107,
+      "scale": 0.9,
+      "yaw": -0.31,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "forage-lily-right",
+      "assetId": "asset_fen_lily",
+      "x": -3.5,
+      "z": -102,
+      "scale": 0.8,
+      "yaw": 0.26,
+      "kind": "low",
+      "selected": true
+    },
+    {
+      "key": "forage-pebbles-right",
+      "assetId": "asset_pebble_cluster",
+      "x": -6,
+      "z": -107,
+      "scale": 1.06,
+      "yaw": -0.16,
+      "kind": "low",
+      "selected": true
+    }
+  ],
+  "newSpecs": [
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-departure-tree-left",
+      "chunkId": "0,-2",
+      "assetId": "asset_verge_canopy",
+      "x": 0.5,
+      "y": 0.7069417809441622,
+      "z": -63.5,
+      "scale": 0.92,
+      "yaw": -0.24,
+      "kind": "canopy"
+    },
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-departure-tree-right",
+      "chunkId": "0,-2",
+      "assetId": "asset_verge_canopy_tall",
+      "x": 3.5,
+      "y": 1.7139884531598746,
+      "z": -72,
+      "scale": 0.86,
+      "yaw": 0.31,
+      "kind": "canopy"
+    },
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-departure-reed-left",
+      "chunkId": "0,-2",
+      "assetId": "asset_fen_reed",
+      "x": 0,
+      "y": 0.5192845368704507,
+      "z": -61.5,
+      "scale": 0.9,
+      "yaw": -0.35,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-departure-lily-left",
+      "chunkId": "-1,-2",
+      "assetId": "asset_fen_lily",
+      "x": -2,
+      "y": 0.9095380021077488,
+      "z": -65,
+      "scale": 0.84,
+      "yaw": 0.24,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-departure-pebbles-left",
+      "chunkId": "-1,-2",
+      "assetId": "asset_pebble_cluster",
+      "x": -1,
+      "y": 1.0181293347815066,
+      "z": -66,
+      "scale": 1.02,
+      "yaw": -0.18,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-departure-reed-right",
+      "chunkId": "0,-2",
+      "assetId": "asset_fen_reed",
+      "x": 2,
+      "y": 1.4863988819031502,
+      "z": -70,
+      "scale": 0.96,
+      "yaw": 0.42,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-departure-cloud-right",
+      "chunkId": "0,-2",
+      "assetId": "asset_cloudflower",
+      "x": 5,
+      "y": 1.775742867308534,
+      "z": -73,
+      "scale": 0.88,
+      "yaw": -0.27,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-departure-trail-right",
+      "chunkId": "0,-2",
+      "assetId": "asset_trail_stones",
+      "x": 2,
+      "y": 2.1101246378819014,
+      "z": -74,
+      "scale": 0.72,
+      "yaw": 0.54,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-departure-lily-right",
+      "chunkId": "0,-2",
+      "assetId": "asset_fen_lily",
+      "x": 5,
+      "y": 1.362349134300025,
+      "z": -70,
+      "scale": 0.78,
+      "yaw": -0.41,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-front",
+      "chunkId": "-1,-2",
+      "assetId": "asset_verge_canopy_spread",
+      "x": -1.7,
+      "y": 3.6002856470300793,
+      "z": -81,
+      "scale": 0.82,
+      "yaw": -0.33,
+      "kind": "canopy"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-rear",
+      "chunkId": "-1,-2",
+      "assetId": "asset_verge_canopy_tall",
+      "x": -0.8,
+      "y": 5.156652993843567,
+      "z": -90,
+      "scale": 0.9,
+      "yaw": 0.22,
+      "kind": "canopy"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-reed-front",
+      "chunkId": "-1,-2",
+      "assetId": "asset_fen_reed",
+      "x": -1.8,
+      "y": 3.0651118179865944,
+      "z": -78.2,
+      "scale": 1.15,
+      "yaw": 0.31,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-starter-lily-front",
+      "chunkId": "0,-2",
+      "assetId": "asset_fen_lily",
+      "x": 0.4,
+      "y": 3.3167550872324054,
+      "z": -80.2,
+      "scale": 1.08,
+      "yaw": -0.22,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-trail-front",
+      "chunkId": "-1,-2",
+      "assetId": "asset_trail_stones",
+      "x": -1.4,
+      "y": 3.9272074019214704,
+      "z": -82.8,
+      "scale": 0.9,
+      "yaw": 0.63,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-starter-reed-rear",
+      "chunkId": "0,-2",
+      "assetId": "asset_fen_reed",
+      "x": 1,
+      "y": 3.967083438474049,
+      "z": -84.1,
+      "scale": 1.12,
+      "yaw": -0.37,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-cloud-rear",
+      "chunkId": "-1,-2",
+      "assetId": "asset_cloudflower",
+      "x": -1,
+      "y": 4.522737798649765,
+      "z": -86.2,
+      "scale": 1.1,
+      "yaw": 0.18,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:0:-2:stage-heartwood-starter-pebbles-rear",
+      "chunkId": "0,-2",
+      "assetId": "asset_pebble_cluster",
+      "x": 1,
+      "y": 4.6587727006449295,
+      "z": -88.2,
+      "scale": 1.28,
+      "yaw": -0.58,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-lily-rear",
+      "chunkId": "-1,-2",
+      "assetId": "asset_fen_lily",
+      "x": -2,
+      "y": 5.123230264734441,
+      "z": -89.2,
+      "scale": 1.04,
+      "yaw": 0.39,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-forage-tree-front",
+      "chunkId": "-1,-2",
+      "assetId": "asset_verge_canopy",
+      "x": -6,
+      "y": 6.665880784491586,
+      "z": -99,
+      "scale": 0.88,
+      "yaw": 0.28,
+      "kind": "canopy"
+    },
+    {
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-tree-left",
+      "chunkId": "-1,-3",
+      "assetId": "asset_verge_canopy_spread",
+      "x": -12,
+      "y": 6.772438227181254,
+      "z": -105,
+      "scale": 0.82,
+      "yaw": -0.46,
+      "kind": "canopy"
+    },
+    {
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-tree-right",
+      "chunkId": "-1,-3",
+      "assetId": "asset_verge_canopy_tall",
+      "x": -8,
+      "y": 6.709100443970783,
+      "z": -102.5,
+      "scale": 0.82,
+      "yaw": 0.16,
+      "kind": "canopy"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-forage-reed-front",
+      "chunkId": "-1,-2",
+      "assetId": "asset_fen_reed",
+      "x": -8,
+      "y": 6.164741733150319,
+      "z": -95,
+      "scale": 1.1,
+      "yaw": -0.22,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-forage-lily-front",
+      "chunkId": "-1,-2",
+      "assetId": "asset_fen_lily",
+      "x": -6.5,
+      "y": 6.452813023555601,
+      "z": -97,
+      "scale": 1.05,
+      "yaw": 0.34,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-2:stage-heartwood-forage-trail-front",
+      "chunkId": "-1,-2",
+      "assetId": "asset_trail_stones",
+      "x": -9,
+      "y": 6.59537712908495,
+      "z": -98.5,
+      "scale": 0.85,
+      "yaw": -0.52,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-reed-left",
+      "chunkId": "-1,-3",
+      "assetId": "asset_fen_reed",
+      "x": -13.5,
+      "y": 6.785723460434366,
+      "z": -103,
+      "scale": 0.94,
+      "yaw": 0.41,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-cloud-left",
+      "chunkId": "-1,-3",
+      "assetId": "asset_cloudflower",
+      "x": -10.5,
+      "y": 6.682239279076307,
+      "z": -107,
+      "scale": 0.9,
+      "yaw": -0.31,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-lily-right",
+      "chunkId": "-1,-3",
+      "assetId": "asset_fen_lily",
+      "x": -3.5,
+      "y": 6.576592356302219,
+      "z": -102,
+      "scale": 0.8,
+      "yaw": 0.26,
+      "kind": "low"
+    },
+    {
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-pebbles-right",
+      "chunkId": "-1,-3",
+      "assetId": "asset_pebble_cluster",
+      "x": -6,
+      "y": 6.410017858315017,
+      "z": -107,
+      "scale": 1.06,
+      "yaw": -0.16,
+      "kind": "low"
+    }
+  ],
+  "selectedSpecsByView": {
+    "0,-1": {
+      "center": {
+        "cx": 0,
+        "cz": -1
+      },
+      "counts": {
+        "near": 44,
+        "outer": 8,
+        "total": 52,
+        "canopies": 15
+      },
+      "specs": [
+        {
+          "id": "f2c:s:0:-2:stage-fen-1",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 8.7,
+          "y": 1.8984181199083852,
+          "z": -75.8,
+          "scale": 0.42,
+          "yaw": 3.3964001646847284,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-2",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 8.7,
+          "y": 2.024872749791803,
+          "z": -76.8,
+          "scale": 0.55,
+          "yaw": 0.5410603585359542,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-3",
+          "chunkId": "0,-2",
+          "assetId": "asset_mushroom_ring",
+          "x": 5.2,
+          "y": 2.419366538448673,
+          "z": -77.4,
+          "scale": 0.8,
+          "yaw": 4.774791854380828,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-4",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 8.8,
+          "y": 2.167881562954157,
+          "z": -78,
+          "scale": 0.5,
+          "yaw": 4.507472258767295,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-5",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 9.1,
+          "y": 2.1534793227894986,
+          "z": -78.1,
+          "scale": 0.5,
+          "yaw": 0.6131398844743116,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-6",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_stone",
+          "x": 9.2,
+          "y": 2.230393978451302,
+          "z": -78.8,
+          "scale": 0.32,
+          "yaw": 3.7826204050836267,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-7",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 9,
+          "y": 2.396706170335682,
+          "z": -80,
+          "scale": 0.38,
+          "yaw": 4.465221979183725,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-8",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 8.7,
+          "y": 2.4155842619777648,
+          "z": -79.9,
+          "scale": 0.46,
+          "yaw": 4.913928421758306,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-cloud-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_cloudflower",
+          "x": 5,
+          "y": 1.775742867308534,
+          "z": -73,
+          "scale": 0.88,
+          "yaw": -0.27,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-lily-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 5,
+          "y": 1.362349134300025,
+          "z": -70,
+          "scale": 0.78,
+          "yaw": -0.41,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-reed-left",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 0,
+          "y": 0.5192845368704507,
+          "z": -61.5,
+          "scale": 0.9,
+          "yaw": -0.35,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-reed-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 2,
+          "y": 1.4863988819031502,
+          "z": -70,
+          "scale": 0.96,
+          "yaw": 0.42,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-trail-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_trail_stones",
+          "x": 2,
+          "y": 2.1101246378819014,
+          "z": -74,
+          "scale": 0.72,
+          "yaw": 0.54,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-tree-left",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy",
+          "x": 0.5,
+          "y": 0.7069417809441622,
+          "z": -63.5,
+          "scale": 0.92,
+          "yaw": -0.24,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-tree-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy_tall",
+          "x": 3.5,
+          "y": 1.7139884531598746,
+          "z": -72,
+          "scale": 0.86,
+          "yaw": 0.31,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-starter-lily-front",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 0.4,
+          "y": 3.3167550872324054,
+          "z": -80.2,
+          "scale": 1.08,
+          "yaw": -0.22,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-starter-pebbles-rear",
+          "chunkId": "0,-2",
+          "assetId": "asset_pebble_cluster",
+          "x": 1,
+          "y": 4.6587727006449295,
+          "z": -88.2,
+          "scale": 1.28,
+          "yaw": -0.58,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-starter-reed-rear",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 1,
+          "y": 3.967083438474049,
+          "z": -84.1,
+          "scale": 1.12,
+          "yaw": -0.37,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-tree-west-1",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy",
+          "x": 4.85,
+          "y": 2.62262488712261,
+          "z": -78.5,
+          "scale": 0.82,
+          "yaw": 0.2,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-tree-west-2",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy_spread",
+          "x": 1.8,
+          "y": 4.030716964621862,
+          "z": -85,
+          "scale": 0.72,
+          "yaw": -0.35,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-departure-lily-left",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_lily",
+          "x": -2,
+          "y": 0.9095380021077488,
+          "z": -65,
+          "scale": 0.84,
+          "yaw": 0.24,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-departure-pebbles-left",
+          "chunkId": "-1,-2",
+          "assetId": "asset_pebble_cluster",
+          "x": -1,
+          "y": 1.0181293347815066,
+          "z": -66,
+          "scale": 1.02,
+          "yaw": -0.18,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-lily-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_lily",
+          "x": -6.5,
+          "y": 6.452813023555601,
+          "z": -97,
+          "scale": 1.05,
+          "yaw": 0.34,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-reed-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -8,
+          "y": 6.164741733150319,
+          "z": -95,
+          "scale": 1.1,
+          "yaw": -0.22,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-trail-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_trail_stones",
+          "x": -9,
+          "y": 6.59537712908495,
+          "z": -98.5,
+          "scale": 0.85,
+          "yaw": -0.52,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-tree-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_verge_canopy",
+          "x": -6,
+          "y": 6.665880784491586,
+          "z": -99,
+          "scale": 0.88,
+          "yaw": 0.28,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-cloud-rear",
+          "chunkId": "-1,-2",
+          "assetId": "asset_cloudflower",
+          "x": -1,
+          "y": 4.522737798649765,
+          "z": -86.2,
+          "scale": 1.1,
+          "yaw": 0.18,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-lily-rear",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_lily",
+          "x": -2,
+          "y": 5.123230264734441,
+          "z": -89.2,
+          "scale": 1.04,
+          "yaw": 0.39,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-reed-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -1.8,
+          "y": 3.0651118179865944,
+          "z": -78.2,
+          "scale": 1.15,
+          "yaw": 0.31,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-trail-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_trail_stones",
+          "x": -1.4,
+          "y": 3.9272074019214704,
+          "z": -82.8,
+          "scale": 0.9,
+          "yaw": 0.63,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_verge_canopy_spread",
+          "x": -1.7,
+          "y": 3.6002856470300793,
+          "z": -81,
+          "scale": 0.82,
+          "yaw": -0.33,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-rear",
+          "chunkId": "-1,-2",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -0.8,
+          "y": 5.156652993843567,
+          "z": -90,
+          "scale": 0.9,
+          "yaw": 0.22,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:1:-1:seed-10",
+          "chunkId": "1,-1",
+          "assetId": "asset_mushroom_ring",
+          "x": 79.41818987555166,
+          "y": 2.2647279043431143,
+          "z": -31.08669343434603,
+          "scale": 0.8598536618891762,
+          "yaw": 1.978303626050197,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:1:-1:seed-3",
+          "chunkId": "1,-1",
+          "assetId": "asset_mushroom_ring",
+          "x": 68.2692471181803,
+          "y": 1.152910662886103,
+          "z": -26.391401635441625,
+          "scale": 0.7619679461144767,
+          "yaw": 1.8835987158856455,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:1:-1:seed-5",
+          "chunkId": "1,-1",
+          "assetId": "asset_mushroom_ring",
+          "x": 81.79874148245395,
+          "y": 2.39365154886639,
+          "z": -12.18102824658143,
+          "scale": 0.9596791322947664,
+          "yaw": 1.0461784217512426,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:1:-1:seed-6",
+          "chunkId": "1,-1",
+          "assetId": "asset_fen_reed",
+          "x": 65.6583792218725,
+          "y": 0.8834952834538955,
+          "z": -28.981972060695412,
+          "scale": 0.8410862461060952,
+          "yaw": 2.091330204167168,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:1:-1:seed-8",
+          "chunkId": "1,-1",
+          "assetId": "asset_fen_lily",
+          "x": 74.87790419528066,
+          "y": 1.7843235573941307,
+          "z": -14.67504478139274,
+          "scale": 0.7672561611903962,
+          "yaw": 2.284408609034111,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-2",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_stone",
+          "x": -10.37906004590426,
+          "y": 0.9632486062333881,
+          "z": -64.94562462785878,
+          "scale": 0.8899712054035559,
+          "yaw": 2.4325879602133647,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-3",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -26.168253922821783,
+          "y": 4.206782156193617,
+          "z": -83.11987128980265,
+          "scale": 1.040445242785021,
+          "yaw": 5.939516381257925,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-4",
+          "chunkId": "-1,-2",
+          "assetId": "asset_trail_stones",
+          "x": -19.93831774262062,
+          "y": 4.53936557936247,
+          "z": -85.72681248378393,
+          "scale": 0.8155353770394659,
+          "yaw": 1.2572933674481355,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-5",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -8.553018572820534,
+          "y": 0.27715714268198094,
+          "z": -57.93558240713672,
+          "scale": 0.9207971235319965,
+          "yaw": 1.8025764039108434,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-8",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -10.022001554254741,
+          "y": 0.38554243184647286,
+          "z": -59.33924186525323,
+          "scale": 0.8200313363038076,
+          "yaw": 3.0899405410999554,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:1:-2:seed-1",
+          "chunkId": "1,-2",
+          "assetId": "asset_fen_reed",
+          "x": 85.13406128043636,
+          "y": 1.6574479160234927,
+          "z": -61.755502475834334,
+          "scale": 0.9087227819042101,
+          "yaw": 2.4595990060695616,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:1:-2:seed-2",
+          "chunkId": "1,-2",
+          "assetId": "asset_fen_reed",
+          "x": 65.22324344497716,
+          "y": 0.5188912000530148,
+          "z": -65.92183384250892,
+          "scale": 0.7673023421241209,
+          "yaw": 2.990993080729457,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-2:-1:seed-0",
+          "chunkId": "-2,-1",
+          "assetId": "asset_verge_canopy",
+          "x": -64.33731253127038,
+          "y": 0.8692635503675866,
+          "z": -17.365893022475273,
+          "scale": 0.8604581053975173,
+          "yaw": 3.744876789473178,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-3:stage-tree-north",
+          "chunkId": "0,-3",
+          "assetId": "asset_verge_canopy_tall",
+          "x": 6,
+          "y": 5.420211774897287,
+          "z": -106,
+          "scale": 0.9,
+          "yaw": 3.044396388815456,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:1:seed-0",
+          "chunkId": "0,1",
+          "assetId": "asset_verge_canopy_spread",
+          "x": 39.60173574965488,
+          "y": 3.9633423450973044,
+          "z": 86.56743053732613,
+          "scale": 0.943951298171643,
+          "yaw": 1.2174726466202912,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:2:-1:seed-1",
+          "chunkId": "2,-1",
+          "assetId": "asset_verge_canopy_tall",
+          "x": 113.90856367626893,
+          "y": 2.900074716705068,
+          "z": -24.697266978839707,
+          "scale": 0.7417218705596685,
+          "yaw": 2.89917182787005,
+          "kind": "canopy",
+          "groundCover": {
+            "density": 1,
+            "dryWeight": 0,
+            "highWeight": 0,
+            "influence": 0.02017139062295818,
+            "calderaWeight": 0,
+            "fungalWeight": 0
+          }
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-tree-left",
+          "chunkId": "-1,-3",
+          "assetId": "asset_verge_canopy_spread",
+          "x": -12,
+          "y": 6.772438227181254,
+          "z": -105,
+          "scale": 0.82,
+          "yaw": -0.46,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:1:seed-2",
+          "chunkId": "-1,1",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -23.14917733034798,
+          "y": 4.04043711983567,
+          "z": 89.45206010468584,
+          "scale": 0.9007421882871404,
+          "yaw": 1.6982663671605511,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-2:-2:seed-0",
+          "chunkId": "-2,-2",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -77.96947552542423,
+          "y": 3.4229211806509223,
+          "z": -62.60364300632003,
+          "scale": 0.812399036379624,
+          "yaw": 2.146232081646376,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-2:0:seed-0",
+          "chunkId": "-2,0",
+          "assetId": "asset_verge_canopy",
+          "x": -83.79724264931801,
+          "y": 2.882687404320866,
+          "z": 37.58160261380989,
+          "scale": 0.9185999131944496,
+          "yaw": 2.6487914499382974,
+          "kind": "canopy"
+        }
+      ]
+    },
+    "0,-2": {
+      "center": {
+        "cx": 0,
+        "cz": -2
+      },
+      "counts": {
+        "near": 44,
+        "outer": 8,
+        "total": 52,
+        "canopies": 18
+      },
+      "specs": [
+        {
+          "id": "f2c:s:0:-2:stage-fen-1",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 8.7,
+          "y": 1.8984181199083852,
+          "z": -75.8,
+          "scale": 0.42,
+          "yaw": 3.3964001646847284,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-2",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 8.7,
+          "y": 2.024872749791803,
+          "z": -76.8,
+          "scale": 0.55,
+          "yaw": 0.5410603585359542,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-3",
+          "chunkId": "0,-2",
+          "assetId": "asset_mushroom_ring",
+          "x": 5.2,
+          "y": 2.419366538448673,
+          "z": -77.4,
+          "scale": 0.8,
+          "yaw": 4.774791854380828,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-4",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 8.8,
+          "y": 2.167881562954157,
+          "z": -78,
+          "scale": 0.5,
+          "yaw": 4.507472258767295,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-5",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 9.1,
+          "y": 2.1534793227894986,
+          "z": -78.1,
+          "scale": 0.5,
+          "yaw": 0.6131398844743116,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-6",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_stone",
+          "x": 9.2,
+          "y": 2.230393978451302,
+          "z": -78.8,
+          "scale": 0.32,
+          "yaw": 3.7826204050836267,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-7",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 9,
+          "y": 2.396706170335682,
+          "z": -80,
+          "scale": 0.38,
+          "yaw": 4.465221979183725,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-8",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 8.7,
+          "y": 2.4155842619777648,
+          "z": -79.9,
+          "scale": 0.46,
+          "yaw": 4.913928421758306,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-cloud-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_cloudflower",
+          "x": 5,
+          "y": 1.775742867308534,
+          "z": -73,
+          "scale": 0.88,
+          "yaw": -0.27,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-lily-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 5,
+          "y": 1.362349134300025,
+          "z": -70,
+          "scale": 0.78,
+          "yaw": -0.41,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-reed-left",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 0,
+          "y": 0.5192845368704507,
+          "z": -61.5,
+          "scale": 0.9,
+          "yaw": -0.35,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-reed-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 2,
+          "y": 1.4863988819031502,
+          "z": -70,
+          "scale": 0.96,
+          "yaw": 0.42,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-trail-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_trail_stones",
+          "x": 2,
+          "y": 2.1101246378819014,
+          "z": -74,
+          "scale": 0.72,
+          "yaw": 0.54,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-tree-left",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy",
+          "x": 0.5,
+          "y": 0.7069417809441622,
+          "z": -63.5,
+          "scale": 0.92,
+          "yaw": -0.24,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-tree-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy_tall",
+          "x": 3.5,
+          "y": 1.7139884531598746,
+          "z": -72,
+          "scale": 0.86,
+          "yaw": 0.31,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-starter-lily-front",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 0.4,
+          "y": 3.3167550872324054,
+          "z": -80.2,
+          "scale": 1.08,
+          "yaw": -0.22,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-starter-pebbles-rear",
+          "chunkId": "0,-2",
+          "assetId": "asset_pebble_cluster",
+          "x": 1,
+          "y": 4.6587727006449295,
+          "z": -88.2,
+          "scale": 1.28,
+          "yaw": -0.58,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-starter-reed-rear",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 1,
+          "y": 3.967083438474049,
+          "z": -84.1,
+          "scale": 1.12,
+          "yaw": -0.37,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-tree-west-1",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy",
+          "x": 4.85,
+          "y": 2.62262488712261,
+          "z": -78.5,
+          "scale": 0.82,
+          "yaw": 0.2,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-tree-west-2",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy_spread",
+          "x": 1.8,
+          "y": 4.030716964621862,
+          "z": -85,
+          "scale": 0.72,
+          "yaw": -0.35,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-departure-lily-left",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_lily",
+          "x": -2,
+          "y": 0.9095380021077488,
+          "z": -65,
+          "scale": 0.84,
+          "yaw": 0.24,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-departure-pebbles-left",
+          "chunkId": "-1,-2",
+          "assetId": "asset_pebble_cluster",
+          "x": -1,
+          "y": 1.0181293347815066,
+          "z": -66,
+          "scale": 1.02,
+          "yaw": -0.18,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-lily-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_lily",
+          "x": -6.5,
+          "y": 6.452813023555601,
+          "z": -97,
+          "scale": 1.05,
+          "yaw": 0.34,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-reed-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -8,
+          "y": 6.164741733150319,
+          "z": -95,
+          "scale": 1.1,
+          "yaw": -0.22,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-trail-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_trail_stones",
+          "x": -9,
+          "y": 6.59537712908495,
+          "z": -98.5,
+          "scale": 0.85,
+          "yaw": -0.52,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-tree-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_verge_canopy",
+          "x": -6,
+          "y": 6.665880784491586,
+          "z": -99,
+          "scale": 0.88,
+          "yaw": 0.28,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-cloud-rear",
+          "chunkId": "-1,-2",
+          "assetId": "asset_cloudflower",
+          "x": -1,
+          "y": 4.522737798649765,
+          "z": -86.2,
+          "scale": 1.1,
+          "yaw": 0.18,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-lily-rear",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_lily",
+          "x": -2,
+          "y": 5.123230264734441,
+          "z": -89.2,
+          "scale": 1.04,
+          "yaw": 0.39,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-reed-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -1.8,
+          "y": 3.0651118179865944,
+          "z": -78.2,
+          "scale": 1.15,
+          "yaw": 0.31,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-trail-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_trail_stones",
+          "x": -1.4,
+          "y": 3.9272074019214704,
+          "z": -82.8,
+          "scale": 0.9,
+          "yaw": 0.63,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_verge_canopy_spread",
+          "x": -1.7,
+          "y": 3.6002856470300793,
+          "z": -81,
+          "scale": 0.82,
+          "yaw": -0.33,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-rear",
+          "chunkId": "-1,-2",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -0.8,
+          "y": 5.156652993843567,
+          "z": -90,
+          "scale": 0.9,
+          "yaw": 0.22,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-3:stage-tree-north",
+          "chunkId": "0,-3",
+          "assetId": "asset_verge_canopy_tall",
+          "x": 6,
+          "y": 5.420211774897287,
+          "z": -106,
+          "scale": 0.9,
+          "yaw": 3.044396388815456,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-cloud-left",
+          "chunkId": "-1,-3",
+          "assetId": "asset_cloudflower",
+          "x": -10.5,
+          "y": 6.682239279076307,
+          "z": -107,
+          "scale": 0.9,
+          "yaw": -0.31,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-lily-right",
+          "chunkId": "-1,-3",
+          "assetId": "asset_fen_lily",
+          "x": -3.5,
+          "y": 6.576592356302219,
+          "z": -102,
+          "scale": 0.8,
+          "yaw": 0.26,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-pebbles-right",
+          "chunkId": "-1,-3",
+          "assetId": "asset_pebble_cluster",
+          "x": -6,
+          "y": 6.410017858315017,
+          "z": -107,
+          "scale": 1.06,
+          "yaw": -0.16,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-reed-left",
+          "chunkId": "-1,-3",
+          "assetId": "asset_fen_reed",
+          "x": -13.5,
+          "y": 6.785723460434366,
+          "z": -103,
+          "scale": 0.94,
+          "yaw": 0.41,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-tree-left",
+          "chunkId": "-1,-3",
+          "assetId": "asset_verge_canopy_spread",
+          "x": -12,
+          "y": 6.772438227181254,
+          "z": -105,
+          "scale": 0.82,
+          "yaw": -0.46,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-tree-right",
+          "chunkId": "-1,-3",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -8,
+          "y": 6.709100443970783,
+          "z": -102.5,
+          "scale": 0.82,
+          "yaw": 0.16,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-2",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_stone",
+          "x": -10.37906004590426,
+          "y": 0.9632486062333881,
+          "z": -64.94562462785878,
+          "scale": 0.8899712054035559,
+          "yaw": 2.4325879602133647,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-3",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -26.168253922821783,
+          "y": 4.206782156193617,
+          "z": -83.11987128980265,
+          "scale": 1.040445242785021,
+          "yaw": 5.939516381257925,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-4",
+          "chunkId": "-1,-2",
+          "assetId": "asset_trail_stones",
+          "x": -19.93831774262062,
+          "y": 4.53936557936247,
+          "z": -85.72681248378393,
+          "scale": 0.8155353770394659,
+          "yaw": 1.2572933674481355,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-5",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -8.553018572820534,
+          "y": 0.27715714268198094,
+          "z": -57.93558240713672,
+          "scale": 0.9207971235319965,
+          "yaw": 1.8025764039108434,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-8",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -10.022001554254741,
+          "y": 0.38554243184647286,
+          "z": -59.33924186525323,
+          "scale": 0.8200313363038076,
+          "yaw": 3.0899405410999554,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-2:-2:seed-0",
+          "chunkId": "-2,-2",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -77.96947552542423,
+          "y": 3.4229211806509223,
+          "z": -62.60364300632003,
+          "scale": 0.812399036379624,
+          "yaw": 2.146232081646376,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-4:stage-skybreak-fiber-leaves",
+          "chunkId": "0,-4",
+          "assetId": "asset_verge_canopy_spread",
+          "x": 42,
+          "y": 6.439337730407715,
+          "z": -170,
+          "scale": 1.1,
+          "yaw": -0.36,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:2:-2:seed-0",
+          "chunkId": "2,-2",
+          "assetId": "asset_verge_canopy_spread",
+          "x": 139.3390188108522,
+          "y": 4.811522952990878,
+          "z": -85.08975759965595,
+          "scale": 0.760301576042618,
+          "yaw": 0.36683067296964456,
+          "kind": "canopy",
+          "groundCover": {
+            "density": 1,
+            "dryWeight": 0,
+            "highWeight": 0,
+            "influence": 0.4218365100134438,
+            "calderaWeight": 0,
+            "fungalWeight": 0
+          }
+        },
+        {
+          "id": "f2c:s:-1:-4:stage-skybreak-berry-leaves",
+          "chunkId": "-1,-4",
+          "assetId": "asset_verge_canopy_spread",
+          "x": -26,
+          "y": 7.393448829650879,
+          "z": -169,
+          "scale": 1.1,
+          "yaw": 0.28,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-2:-1:seed-0",
+          "chunkId": "-2,-1",
+          "assetId": "asset_verge_canopy",
+          "x": -64.33731253127038,
+          "y": 0.8692635503675866,
+          "z": -17.365893022475273,
+          "scale": 0.8604581053975173,
+          "yaw": 3.744876789473178,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-2:-3:seed-2",
+          "chunkId": "-2,-3",
+          "assetId": "asset_verge_canopy",
+          "x": -69.32258462284751,
+          "y": 8.594076964868924,
+          "z": -116.23751750128287,
+          "scale": 0.8601352177234681,
+          "yaw": 5.126114466333873,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:1:-4:seed-1",
+          "chunkId": "1,-4",
+          "assetId": "asset_verge_canopy_spread",
+          "x": 83.43852604120936,
+          "y": 6.66419829688335,
+          "z": -188.3828975046945,
+          "scale": 1.0457195827657635,
+          "yaw": 4.052983341362366,
+          "kind": "canopy",
+          "groundCover": {
+            "density": 0.9903037439752242,
+            "dryWeight": 0,
+            "highWeight": 0.4030694399948568,
+            "influence": 0.04009340601005562,
+            "calderaWeight": 0,
+            "fungalWeight": 0
+          }
+        },
+        {
+          "id": "f2c:s:1:0:seed-0",
+          "chunkId": "1,0",
+          "assetId": "asset_verge_canopy",
+          "x": 67.3316538281114,
+          "y": 0.9762974038502163,
+          "z": 39.90798788143042,
+          "scale": 1.0443444395634216,
+          "yaw": 5.371532064379053,
+          "kind": "canopy"
+        }
+      ]
+    },
+    "-1,-2": {
+      "center": {
+        "cx": -1,
+        "cz": -2
+      },
+      "counts": {
+        "near": 44,
+        "outer": 8,
+        "total": 52,
+        "canopies": 18
+      },
+      "specs": [
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-departure-lily-left",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_lily",
+          "x": -2,
+          "y": 0.9095380021077488,
+          "z": -65,
+          "scale": 0.84,
+          "yaw": 0.24,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-departure-pebbles-left",
+          "chunkId": "-1,-2",
+          "assetId": "asset_pebble_cluster",
+          "x": -1,
+          "y": 1.0181293347815066,
+          "z": -66,
+          "scale": 1.02,
+          "yaw": -0.18,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-lily-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_lily",
+          "x": -6.5,
+          "y": 6.452813023555601,
+          "z": -97,
+          "scale": 1.05,
+          "yaw": 0.34,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-reed-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -8,
+          "y": 6.164741733150319,
+          "z": -95,
+          "scale": 1.1,
+          "yaw": -0.22,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-trail-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_trail_stones",
+          "x": -9,
+          "y": 6.59537712908495,
+          "z": -98.5,
+          "scale": 0.85,
+          "yaw": -0.52,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-forage-tree-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_verge_canopy",
+          "x": -6,
+          "y": 6.665880784491586,
+          "z": -99,
+          "scale": 0.88,
+          "yaw": 0.28,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-cloud-rear",
+          "chunkId": "-1,-2",
+          "assetId": "asset_cloudflower",
+          "x": -1,
+          "y": 4.522737798649765,
+          "z": -86.2,
+          "scale": 1.1,
+          "yaw": 0.18,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-lily-rear",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_lily",
+          "x": -2,
+          "y": 5.123230264734441,
+          "z": -89.2,
+          "scale": 1.04,
+          "yaw": 0.39,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-reed-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -1.8,
+          "y": 3.0651118179865944,
+          "z": -78.2,
+          "scale": 1.15,
+          "yaw": 0.31,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-trail-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_trail_stones",
+          "x": -1.4,
+          "y": 3.9272074019214704,
+          "z": -82.8,
+          "scale": 0.9,
+          "yaw": 0.63,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-front",
+          "chunkId": "-1,-2",
+          "assetId": "asset_verge_canopy_spread",
+          "x": -1.7,
+          "y": 3.6002856470300793,
+          "z": -81,
+          "scale": 0.82,
+          "yaw": -0.33,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-rear",
+          "chunkId": "-1,-2",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -0.8,
+          "y": 5.156652993843567,
+          "z": -90,
+          "scale": 0.9,
+          "yaw": 0.22,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-cloud-left",
+          "chunkId": "-1,-3",
+          "assetId": "asset_cloudflower",
+          "x": -10.5,
+          "y": 6.682239279076307,
+          "z": -107,
+          "scale": 0.9,
+          "yaw": -0.31,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-lily-right",
+          "chunkId": "-1,-3",
+          "assetId": "asset_fen_lily",
+          "x": -3.5,
+          "y": 6.576592356302219,
+          "z": -102,
+          "scale": 0.8,
+          "yaw": 0.26,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-pebbles-right",
+          "chunkId": "-1,-3",
+          "assetId": "asset_pebble_cluster",
+          "x": -6,
+          "y": 6.410017858315017,
+          "z": -107,
+          "scale": 1.06,
+          "yaw": -0.16,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-reed-left",
+          "chunkId": "-1,-3",
+          "assetId": "asset_fen_reed",
+          "x": -13.5,
+          "y": 6.785723460434366,
+          "z": -103,
+          "scale": 0.94,
+          "yaw": 0.41,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-tree-left",
+          "chunkId": "-1,-3",
+          "assetId": "asset_verge_canopy_spread",
+          "x": -12,
+          "y": 6.772438227181254,
+          "z": -105,
+          "scale": 0.82,
+          "yaw": -0.46,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-3:stage-heartwood-forage-tree-right",
+          "chunkId": "-1,-3",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -8,
+          "y": 6.709100443970783,
+          "z": -102.5,
+          "scale": 0.82,
+          "yaw": 0.16,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-1",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 8.7,
+          "y": 1.8984181199083852,
+          "z": -75.8,
+          "scale": 0.42,
+          "yaw": 3.3964001646847284,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-2",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 8.7,
+          "y": 2.024872749791803,
+          "z": -76.8,
+          "scale": 0.55,
+          "yaw": 0.5410603585359542,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-3",
+          "chunkId": "0,-2",
+          "assetId": "asset_mushroom_ring",
+          "x": 5.2,
+          "y": 2.419366538448673,
+          "z": -77.4,
+          "scale": 0.8,
+          "yaw": 4.774791854380828,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-4",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 8.8,
+          "y": 2.167881562954157,
+          "z": -78,
+          "scale": 0.5,
+          "yaw": 4.507472258767295,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-5",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 9.1,
+          "y": 2.1534793227894986,
+          "z": -78.1,
+          "scale": 0.5,
+          "yaw": 0.6131398844743116,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-6",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_stone",
+          "x": 9.2,
+          "y": 2.230393978451302,
+          "z": -78.8,
+          "scale": 0.32,
+          "yaw": 3.7826204050836267,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-7",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 9,
+          "y": 2.396706170335682,
+          "z": -80,
+          "scale": 0.38,
+          "yaw": 4.465221979183725,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-fen-8",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 8.7,
+          "y": 2.4155842619777648,
+          "z": -79.9,
+          "scale": 0.46,
+          "yaw": 4.913928421758306,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-cloud-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_cloudflower",
+          "x": 5,
+          "y": 1.775742867308534,
+          "z": -73,
+          "scale": 0.88,
+          "yaw": -0.27,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-lily-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 5,
+          "y": 1.362349134300025,
+          "z": -70,
+          "scale": 0.78,
+          "yaw": -0.41,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-reed-left",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 0,
+          "y": 0.5192845368704507,
+          "z": -61.5,
+          "scale": 0.9,
+          "yaw": -0.35,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-reed-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 2,
+          "y": 1.4863988819031502,
+          "z": -70,
+          "scale": 0.96,
+          "yaw": 0.42,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-trail-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_trail_stones",
+          "x": 2,
+          "y": 2.1101246378819014,
+          "z": -74,
+          "scale": 0.72,
+          "yaw": 0.54,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-tree-left",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy",
+          "x": 0.5,
+          "y": 0.7069417809441622,
+          "z": -63.5,
+          "scale": 0.92,
+          "yaw": -0.24,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-departure-tree-right",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy_tall",
+          "x": 3.5,
+          "y": 1.7139884531598746,
+          "z": -72,
+          "scale": 0.86,
+          "yaw": 0.31,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-starter-lily-front",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_lily",
+          "x": 0.4,
+          "y": 3.3167550872324054,
+          "z": -80.2,
+          "scale": 1.08,
+          "yaw": -0.22,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-starter-pebbles-rear",
+          "chunkId": "0,-2",
+          "assetId": "asset_pebble_cluster",
+          "x": 1,
+          "y": 4.6587727006449295,
+          "z": -88.2,
+          "scale": 1.28,
+          "yaw": -0.58,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-heartwood-starter-reed-rear",
+          "chunkId": "0,-2",
+          "assetId": "asset_fen_reed",
+          "x": 1,
+          "y": 3.967083438474049,
+          "z": -84.1,
+          "scale": 1.12,
+          "yaw": -0.37,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-tree-west-1",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy",
+          "x": 4.85,
+          "y": 2.62262488712261,
+          "z": -78.5,
+          "scale": 0.82,
+          "yaw": 0.2,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-2:stage-tree-west-2",
+          "chunkId": "0,-2",
+          "assetId": "asset_verge_canopy_spread",
+          "x": 1.8,
+          "y": 4.030716964621862,
+          "z": -85,
+          "scale": 0.72,
+          "yaw": -0.35,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:0:-3:stage-tree-north",
+          "chunkId": "0,-3",
+          "assetId": "asset_verge_canopy_tall",
+          "x": 6,
+          "y": 5.420211774897287,
+          "z": -106,
+          "scale": 0.9,
+          "yaw": 3.044396388815456,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-2",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_stone",
+          "x": -10.37906004590426,
+          "y": 0.9632486062333881,
+          "z": -64.94562462785878,
+          "scale": 0.8899712054035559,
+          "yaw": 2.4325879602133647,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-3",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -26.168253922821783,
+          "y": 4.206782156193617,
+          "z": -83.11987128980265,
+          "scale": 1.040445242785021,
+          "yaw": 5.939516381257925,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-4",
+          "chunkId": "-1,-2",
+          "assetId": "asset_trail_stones",
+          "x": -19.93831774262062,
+          "y": 4.53936557936247,
+          "z": -85.72681248378393,
+          "scale": 0.8155353770394659,
+          "yaw": 1.2572933674481355,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-5",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -8.553018572820534,
+          "y": 0.27715714268198094,
+          "z": -57.93558240713672,
+          "scale": 0.9207971235319965,
+          "yaw": 1.8025764039108434,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-2:seed-8",
+          "chunkId": "-1,-2",
+          "assetId": "asset_fen_reed",
+          "x": -10.022001554254741,
+          "y": 0.38554243184647286,
+          "z": -59.33924186525323,
+          "scale": 0.8200313363038076,
+          "yaw": 3.0899405410999554,
+          "kind": "low"
+        },
+        {
+          "id": "f2c:s:-1:-4:stage-skybreak-berry-leaves",
+          "chunkId": "-1,-4",
+          "assetId": "asset_verge_canopy_spread",
+          "x": -26,
+          "y": 7.393448829650879,
+          "z": -169,
+          "scale": 1.1,
+          "yaw": 0.28,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-3:-2:seed-1",
+          "chunkId": "-3,-2",
+          "assetId": "asset_verge_canopy_spread",
+          "x": -133.58492515831836,
+          "y": 6.318515293714562,
+          "z": -65.71262033789247,
+          "scale": 0.9114860518489699,
+          "yaw": 3.2462441420029977,
+          "kind": "canopy",
+          "groundCover": {
+            "density": 1,
+            "dryWeight": 0,
+            "highWeight": 0,
+            "influence": 0.30311478954957854,
+            "calderaWeight": 0,
+            "fungalWeight": 0
+          }
+        },
+        {
+          "id": "f2c:s:1:-2:seed-0",
+          "chunkId": "1,-2",
+          "assetId": "asset_verge_canopy",
+          "x": 88.568095117474,
+          "y": 1.125438308779894,
+          "z": -74.96832255622566,
+          "scale": 0.7692423163422482,
+          "yaw": 1.125235130661758,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-2:-4:seed-2",
+          "chunkId": "-2,-4",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -80.57528153773752,
+          "y": 7.019552385132419,
+          "z": -166.9517305020596,
+          "scale": 0.8102527663554653,
+          "yaw": 6.193888407241627,
+          "kind": "canopy",
+          "groundCover": {
+            "density": 0.9972284166489055,
+            "dryWeight": 0,
+            "highWeight": 0.25633791165325137,
+            "influence": 0.01802037613307078,
+            "calderaWeight": 0,
+            "fungalWeight": 0
+          }
+        },
+        {
+          "id": "f2c:s:-2:0:seed-0",
+          "chunkId": "-2,0",
+          "assetId": "asset_verge_canopy",
+          "x": -83.79724264931801,
+          "y": 2.882687404320866,
+          "z": 37.58160261380989,
+          "scale": 0.9185999131944496,
+          "yaw": 2.6487914499382974,
+          "kind": "canopy"
+        },
+        {
+          "id": "f2c:s:-3:-1:seed-0",
+          "chunkId": "-3,-1",
+          "assetId": "asset_verge_canopy_tall",
+          "x": -138.1510873181166,
+          "y": 5.692941812760608,
+          "z": -12.265993578421416,
+          "scale": 0.7785411134079427,
+          "yaw": 5.406300338682471,
+          "kind": "canopy",
+          "groundCover": {
+            "density": 1,
+            "dryWeight": 0,
+            "highWeight": 0,
+            "influence": 0.39675949450121223,
+            "calderaWeight": 0,
+            "fungalWeight": 0
+          }
+        },
+        {
+          "id": "f2c:s:-3:-3:seed-0",
+          "chunkId": "-3,-3",
+          "assetId": "asset_verge_canopy",
+          "x": -116.66938264311044,
+          "y": 7.875197385778092,
+          "z": -117.58748712194793,
+          "scale": 0.96724893546832,
+          "yaw": 3.621034221624302,
+          "kind": "canopy",
+          "groundCover": {
+            "density": 1,
+            "dryWeight": 0,
+            "highWeight": 0,
+            "influence": 0.08970012363132031,
+            "calderaWeight": 0,
+            "fungalWeight": 0
+          }
+        },
+        {
+          "id": "f2c:s:0:-4:stage-skybreak-fiber-leaves",
+          "chunkId": "0,-4",
+          "assetId": "asset_verge_canopy_spread",
+          "x": 42,
+          "y": 6.439337730407715,
+          "z": -170,
+          "scale": 1.1,
+          "yaw": -0.36,
+          "kind": "canopy"
+        }
+      ]
+    }
+  },
+  "acceptedSpecs": [
+    {
+      "key": "departure-tree-left",
+      "assetId": "asset_verge_canopy",
+      "x": 0.5,
+      "z": -63.5,
+      "scale": 0.92,
+      "yaw": -0.24,
+      "kind": "canopy",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-departure-tree-left",
+      "chunkId": "0,-2",
+      "y": 0.7069417809441622,
+      "footprintRadius": 1.45,
+      "centerSlope": 0.10487053486242164,
+      "supportMaxSlope": 0.1094496551877861,
+      "route": {
+        "distance": 3.34714324098143,
+        "required": 2.1,
+        "margin": 1.2471432409814298
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 4.927108172080761,
+        "required": 3.2,
+        "margin": 1.7271081720807606
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 22.638462845343543,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 15.638462845343543,
+        "leashMargin": 12.638462845343543
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 22.638462845343543,
+        "required": 10,
+        "margin": 12.638462845343543
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "departure-tree-right",
+      "assetId": "asset_verge_canopy_tall",
+      "x": 3.5,
+      "z": -72,
+      "scale": 0.86,
+      "yaw": 0.31,
+      "kind": "canopy",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-departure-tree-right",
+      "chunkId": "0,-2",
+      "y": 1.7139884531598746,
+      "footprintRadius": 1.45,
+      "centerSlope": 0.15736333552224097,
+      "supportMaxSlope": 0.15192626212334012,
+      "route": {
+        "distance": 3.5,
+        "required": 2.1,
+        "margin": 1.4
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 12.667197777326212,
+        "required": 3.2,
+        "margin": 9.467197777326213
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 15.206906325745548,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 8.206906325745548,
+        "leashMargin": 5.206906325745548
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 15.206906325745548,
+        "required": 10,
+        "margin": 5.206906325745548
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "departure-reed-left",
+      "assetId": "asset_fen_reed",
+      "x": 0,
+      "z": -61.5,
+      "scale": 0.9,
+      "yaw": -0.35,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-departure-reed-left",
+      "chunkId": "0,-2",
+      "y": 0.5192845368704507,
+      "footprintRadius": 0.765,
+      "centerSlope": 0.09002139608720723,
+      "supportMaxSlope": 0.09247115694351772,
+      "route": {
+        "distance": 2.771290640382474,
+        "required": 1.15,
+        "margin": 1.6212906403824743
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 4.185970329145946,
+        "required": 3.2,
+        "margin": 0.9859703291459461
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 24.397745797511703,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 17.397745797511703,
+        "leashMargin": 14.397745797511703
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 24.397745797511703,
+        "required": 10,
+        "margin": 14.397745797511703
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "departure-lily-left",
+      "assetId": "asset_fen_lily",
+      "x": -2,
+      "z": -65,
+      "scale": 0.84,
+      "yaw": 0.24,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-departure-lily-left",
+      "chunkId": "-1,-2",
+      "y": 0.9095380021077488,
+      "footprintRadius": 0.7812,
+      "centerSlope": 0.12105795935512025,
+      "supportMaxSlope": 0.12342811404577338,
+      "route": {
+        "distance": 6.262397031513642,
+        "required": 1.15,
+        "margin": 5.112397031513643
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 3.768801160506712,
+        "required": 3.2,
+        "margin": 0.568801160506712
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 23.60084744241189,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 16.60084744241189,
+        "leashMargin": 13.60084744241189
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 23.60084744241189,
+        "required": 10,
+        "margin": 13.60084744241189
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "departure-pebbles-left",
+      "assetId": "asset_pebble_cluster",
+      "x": -1,
+      "z": -66,
+      "scale": 1.02,
+      "yaw": -0.18,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-departure-pebbles-left",
+      "chunkId": "-1,-2",
+      "y": 1.0181293347815066,
+      "footprintRadius": 0.6732,
+      "centerSlope": 0.12740966149288013,
+      "supportMaxSlope": 0.1288710475881186,
+      "route": {
+        "distance": 5.9024891561392945,
+        "required": 1.15,
+        "margin": 4.752489156139294
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 5.167577787256817,
+        "required": 3.2,
+        "margin": 1.9675777872568165
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 22.203603311174515,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 15.203603311174515,
+        "leashMargin": 12.203603311174515
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 22.203603311174515,
+        "required": 10,
+        "margin": 12.203603311174515
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "departure-reed-right",
+      "assetId": "asset_fen_reed",
+      "x": 2,
+      "z": -70,
+      "scale": 0.96,
+      "yaw": 0.42,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-departure-reed-right",
+      "chunkId": "0,-2",
+      "y": 1.4863988819031502,
+      "footprintRadius": 0.816,
+      "centerSlope": 0.14972512408084657,
+      "supportMaxSlope": 0.14742566884314134,
+      "route": {
+        "distance": 5,
+        "required": 1.15,
+        "margin": 3.85
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 10.16726215601077,
+        "required": 3.2,
+        "margin": 6.9672621560107695
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 17.4928556845359,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 10.4928556845359,
+        "leashMargin": 7.4928556845359005
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 17.4928556845359,
+        "required": 10,
+        "margin": 7.4928556845359005
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "departure-cloud-right",
+      "assetId": "asset_cloudflower",
+      "x": 5,
+      "z": -73,
+      "scale": 0.88,
+      "yaw": -0.27,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-departure-cloud-right",
+      "chunkId": "0,-2",
+      "y": 1.775742867308534,
+      "footprintRadius": 0.66,
+      "centerSlope": 0.15646587772157802,
+      "supportMaxSlope": 0.14749728534586592,
+      "route": {
+        "distance": 2,
+        "required": 1.15,
+        "margin": 0.8500000000000001
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 14.383087768236301,
+        "required": 3.2,
+        "margin": 11.183087768236302
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 13.416407864998739,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 6.416407864998739,
+        "leashMargin": 3.416407864998739
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 13.416407864998739,
+        "required": 10,
+        "margin": 3.416407864998739
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "departure-trail-right",
+      "assetId": "asset_trail_stones",
+      "x": 2,
+      "z": -74,
+      "scale": 0.72,
+      "yaw": 0.54,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-departure-trail-right",
+      "chunkId": "0,-2",
+      "y": 2.1101246378819014,
+      "footprintRadius": 1.008,
+      "centerSlope": 0.17471158412530463,
+      "supportMaxSlope": 0.16739640387388582,
+      "route": {
+        "distance": 5,
+        "required": 1.15,
+        "margin": 3.85
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 13.566528000814497,
+        "required": 3.2,
+        "margin": 10.366528000814498
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 12.08304597359457,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 6.983045973594571,
+        "leashMargin": 7.88304597359457
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 15.811388300841898,
+        "required": 10,
+        "margin": 5.811388300841898
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "departure-lily-right",
+      "assetId": "asset_fen_lily",
+      "x": 5,
+      "z": -70,
+      "scale": 0.78,
+      "yaw": -0.41,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-departure-lily-right",
+      "chunkId": "0,-2",
+      "y": 1.362349134300025,
+      "footprintRadius": 0.7254,
+      "centerSlope": 0.13784502324973064,
+      "supportMaxSlope": 0.13254597203799426,
+      "route": {
+        "distance": 2,
+        "required": 1.15,
+        "margin": 0.8500000000000001
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 12.221502242478724,
+        "required": 3.2,
+        "margin": 9.021502242478725
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 15,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 8,
+        "leashMargin": 5
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 15,
+        "required": 10,
+        "margin": 5
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "starter-tree-front",
+      "assetId": "asset_verge_canopy_spread",
+      "x": -1.7,
+      "z": -81,
+      "scale": 0.82,
+      "yaw": -0.33,
+      "kind": "canopy",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-front",
+      "chunkId": "-1,-2",
+      "y": 3.6002856470300793,
+      "footprintRadius": 1.45,
+      "centerSlope": 0.1989839728847834,
+      "supportMaxSlope": 0.1927870157446479,
+      "route": {
+        "distance": 8.7,
+        "required": 2.1,
+        "margin": 6.6
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:0",
+        "distance": 12.561600097296836,
+        "required": 3.2,
+        "margin": 9.361600097296837
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 9.575489543621254,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 4.475489543621254,
+        "leashMargin": 5.375489543621254
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 9.575489543621254,
+        "required": 4.2,
+        "margin": 5.375489543621254
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "starter-tree-rear",
+      "assetId": "asset_verge_canopy_tall",
+      "x": -0.8,
+      "z": -90,
+      "scale": 0.9,
+      "yaw": 0.22,
+      "kind": "canopy",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-tree-rear",
+      "chunkId": "-1,-2",
+      "y": 5.156652993843567,
+      "footprintRadius": 1.45,
+      "centerSlope": 0.19056313795410015,
+      "supportMaxSlope": 0.1913832201247137,
+      "route": {
+        "distance": 9.264987857520374,
+        "required": 2.1,
+        "margin": 7.164987857520375
+      },
+      "forage": {
+        "id": "f1:r:0:-2:6",
+        "distance": 7.721518891749549,
+        "required": 3.2,
+        "margin": 4.521518891749549
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 9.264987857520374,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 4.164987857520375,
+        "leashMargin": 5.064987857520374
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 9.264987857520374,
+        "required": 4.2,
+        "margin": 5.064987857520374
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "starter-reed-front",
+      "assetId": "asset_fen_reed",
+      "x": -1.8,
+      "z": -78.2,
+      "scale": 1.15,
+      "yaw": 0.31,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-reed-front",
+      "chunkId": "-1,-2",
+      "y": 3.0651118179865944,
+      "footprintRadius": 0.9774999999999999,
+      "centerSlope": 0.19664136188578973,
+      "supportMaxSlope": 0.19265253757533607,
+      "route": {
+        "distance": 8.8,
+        "required": 1.15,
+        "margin": 7.65
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:0",
+        "distance": 13.401441863896299,
+        "required": 3.2,
+        "margin": 10.2014418638963
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 11.121151019566273,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 6.021151019566274,
+        "leashMargin": 6.921151019566273
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 11.121151019566273,
+        "required": 4.2,
+        "margin": 6.921151019566273
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "starter-lily-front",
+      "assetId": "asset_fen_lily",
+      "x": 0.4,
+      "z": -80.2,
+      "scale": 1.08,
+      "yaw": -0.22,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-starter-lily-front",
+      "chunkId": "0,-2",
+      "y": 3.3167550872324054,
+      "footprintRadius": 1.0044000000000002,
+      "centerSlope": 0.19899083475943094,
+      "supportMaxSlope": 0.18464743004611675,
+      "route": {
+        "distance": 6.6,
+        "required": 1.15,
+        "margin": 5.449999999999999
+      },
+      "forage": {
+        "id": "f1:r:0:-2:6",
+        "distance": 12.875709021582127,
+        "required": 3.2,
+        "margin": 9.675709021582126
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 8.160882305241264,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 3.0608823052412646,
+        "leashMargin": 3.960882305241264
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 8.160882305241264,
+        "required": 4.2,
+        "margin": 3.960882305241264
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "starter-trail-front",
+      "assetId": "asset_trail_stones",
+      "x": -1.4,
+      "z": -82.8,
+      "scale": 0.9,
+      "yaw": 0.63,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-trail-front",
+      "chunkId": "-1,-2",
+      "y": 3.9272074019214704,
+      "footprintRadius": 1.26,
+      "centerSlope": 0.1983215875667868,
+      "supportMaxSlope": 0.1900324862429358,
+      "route": {
+        "distance": 8.4,
+        "required": 1.15,
+        "margin": 7.25
+      },
+      "forage": {
+        "id": "f1:r:0:-2:6",
+        "distance": 11.862401268999019,
+        "required": 3.2,
+        "margin": 8.66240126899902
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 8.683317338436964,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 3.5833173384369648,
+        "leashMargin": 4.483317338436964
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 8.683317338436964,
+        "required": 4.2,
+        "margin": 4.483317338436964
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "starter-reed-rear",
+      "assetId": "asset_fen_reed",
+      "x": 1,
+      "z": -84.1,
+      "scale": 1.12,
+      "yaw": -0.37,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-starter-reed-rear",
+      "chunkId": "0,-2",
+      "y": 3.967083438474049,
+      "footprintRadius": 0.9520000000000001,
+      "centerSlope": 0.20270121147710013,
+      "supportMaxSlope": 0.19791377363567333,
+      "route": {
+        "distance": 6,
+        "required": 1.15,
+        "margin": 4.85
+      },
+      "forage": {
+        "id": "f1:r:0:-2:6",
+        "distance": 9.3017988247794,
+        "required": 3.2,
+        "margin": 6.1017988247794
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 6.0671245248470065,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 0.9671245248470068,
+        "leashMargin": 1.8671245248470063
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 6.0671245248470065,
+        "required": 4.2,
+        "margin": 1.8671245248470063
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "starter-cloud-rear",
+      "assetId": "asset_cloudflower",
+      "x": -1,
+      "z": -86.2,
+      "scale": 1.1,
+      "yaw": 0.18,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-cloud-rear",
+      "chunkId": "-1,-2",
+      "y": 4.522737798649765,
+      "footprintRadius": 0.8250000000000001,
+      "centerSlope": 0.1951320640002449,
+      "supportMaxSlope": 0.1850595389926565,
+      "route": {
+        "distance": 8.089499366462675,
+        "required": 1.15,
+        "margin": 6.939499366462675
+      },
+      "forage": {
+        "id": "f1:r:0:-2:6",
+        "distance": 9.358358812003829,
+        "required": 3.2,
+        "margin": 6.158358812003828
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 8.089499366462675,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 2.9894993664626757,
+        "leashMargin": 3.889499366462675
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 8.089499366462675,
+        "required": 4.2,
+        "margin": 3.889499366462675
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "starter-pebbles-rear",
+      "assetId": "asset_pebble_cluster",
+      "x": 1,
+      "z": -88.2,
+      "scale": 1.28,
+      "yaw": -0.58,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:0:-2:stage-heartwood-starter-pebbles-rear",
+      "chunkId": "0,-2",
+      "y": 4.6587727006449295,
+      "footprintRadius": 0.8448000000000001,
+      "centerSlope": 0.20604771544686237,
+      "supportMaxSlope": 0.20669823866940776,
+      "route": {
+        "distance": 6.800000000000001,
+        "required": 1.15,
+        "margin": 5.65
+      },
+      "forage": {
+        "id": "f1:r:0:-2:6",
+        "distance": 6.609975013517836,
+        "required": 3.2,
+        "margin": 3.409975013517836
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 6.800000000000001,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 1.700000000000001,
+        "leashMargin": 2.6000000000000005
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 6.800000000000001,
+        "required": 4.2,
+        "margin": 2.6000000000000005
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "starter-lily-rear",
+      "assetId": "asset_fen_lily",
+      "x": -2,
+      "z": -89.2,
+      "scale": 1.04,
+      "yaw": 0.39,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-starter-lily-rear",
+      "chunkId": "-1,-2",
+      "y": 5.123230264734441,
+      "footprintRadius": 0.9672000000000001,
+      "centerSlope": 0.1846164650334565,
+      "supportMaxSlope": 0.1748805301323191,
+      "route": {
+        "distance": 9.93176721434811,
+        "required": 1.15,
+        "margin": 8.78176721434811
+      },
+      "forage": {
+        "id": "f1:r:0:-2:6",
+        "distance": 9.062859281240355,
+        "required": 3.2,
+        "margin": 5.862859281240355
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 9.93176721434811,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": 4.83176721434811,
+        "leashMargin": 5.7317672143481095
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 9.93176721434811,
+        "required": 4.2,
+        "margin": 5.7317672143481095
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-tree-front",
+      "assetId": "asset_verge_canopy",
+      "x": -6,
+      "z": -99,
+      "scale": 0.88,
+      "yaw": 0.28,
+      "kind": "canopy",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-forage-tree-front",
+      "chunkId": "-1,-2",
+      "y": 6.665880784491586,
+      "footprintRadius": 1.45,
+      "centerSlope": 0.06693473570792795,
+      "supportMaxSlope": 0.10015650077077977,
+      "route": {
+        "distance": 19.1049731745428,
+        "required": 2.1,
+        "margin": 17.004973174542798
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:3",
+        "distance": 7.742837442488422,
+        "required": 3.2,
+        "margin": 4.5428374424884215
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 13.416407864998739,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 6.416407864998739,
+        "leashMargin": 3.416407864998739
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 13.416407864998739,
+        "required": 10,
+        "margin": 3.416407864998739
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-tree-left",
+      "assetId": "asset_verge_canopy_spread",
+      "x": -12,
+      "z": -105,
+      "scale": 0.82,
+      "yaw": -0.46,
+      "kind": "canopy",
+      "selected": true,
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-tree-left",
+      "chunkId": "-1,-3",
+      "y": 6.772438227181254,
+      "footprintRadius": 1.45,
+      "centerSlope": 0.03839761261416139,
+      "supportMaxSlope": 0.03863048043970499,
+      "route": {
+        "distance": 27.58622844826744,
+        "required": 2.1,
+        "margin": 25.48622844826744
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:3",
+        "distance": 9.528154384406294,
+        "required": 3.2,
+        "margin": 6.328154384406294
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 13.416407864998739,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 6.416407864998739,
+        "leashMargin": 3.416407864998739
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 13.416407864998739,
+        "required": 10,
+        "margin": 3.416407864998739
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-tree-right",
+      "assetId": "asset_verge_canopy_tall",
+      "x": -8,
+      "z": -102.5,
+      "scale": 0.82,
+      "yaw": 0.16,
+      "kind": "canopy",
+      "selected": true,
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-tree-right",
+      "chunkId": "-1,-3",
+      "y": 6.709100443970783,
+      "footprintRadius": 1.45,
+      "centerSlope": 0.031319480123789066,
+      "supportMaxSlope": 0.04528501208332565,
+      "route": {
+        "distance": 23.048861143232216,
+        "required": 2.1,
+        "margin": 20.948861143232214
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:3",
+        "distance": 8.540026726697134,
+        "required": 3.2,
+        "margin": 5.3400267266971335
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 11.67261752992875,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 4.6726175299287505,
+        "leashMargin": 1.6726175299287505
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 11.67261752992875,
+        "required": 10,
+        "margin": 1.6726175299287505
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-reed-front",
+      "assetId": "asset_fen_reed",
+      "x": -8,
+      "z": -95,
+      "scale": 1.1,
+      "yaw": -0.22,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-forage-reed-front",
+      "chunkId": "-1,-2",
+      "y": 6.164741733150319,
+      "footprintRadius": 0.935,
+      "centerSlope": 0.1443815645607748,
+      "supportMaxSlope": 0.14641458961204087,
+      "route": {
+        "distance": 18.027756377319946,
+        "required": 1.15,
+        "margin": 16.877756377319947
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:3",
+        "distance": 4.94163497103927,
+        "required": 3.2,
+        "margin": 1.7416349710392698
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 17.88854381999832,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 10.888543819998318,
+        "leashMargin": 7.888543819998318
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 17.88854381999832,
+        "required": 10,
+        "margin": 7.888543819998318
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-lily-front",
+      "assetId": "asset_fen_lily",
+      "x": -6.5,
+      "z": -97,
+      "scale": 1.05,
+      "yaw": 0.34,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-forage-lily-front",
+      "chunkId": "-1,-2",
+      "y": 6.452813023555601,
+      "footprintRadius": 0.9765000000000001,
+      "centerSlope": 0.1269849666150014,
+      "supportMaxSlope": 0.13090079129757073,
+      "route": {
+        "distance": 18.062391868188442,
+        "required": 1.15,
+        "margin": 16.912391868188443
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:3",
+        "distance": 6.584093034345959,
+        "required": 3.2,
+        "margin": 3.384093034345959
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 15.435349040433131,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 8.435349040433131,
+        "leashMargin": 5.435349040433131
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 15.435349040433131,
+        "required": 10,
+        "margin": 5.435349040433131
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-trail-front",
+      "assetId": "asset_trail_stones",
+      "x": -9,
+      "z": -98.5,
+      "scale": 0.85,
+      "yaw": -0.52,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-2:stage-heartwood-forage-trail-front",
+      "chunkId": "-1,-2",
+      "y": 6.59537712908495,
+      "footprintRadius": 1.19,
+      "centerSlope": 0.10100476881057692,
+      "supportMaxSlope": 0.11804912434372393,
+      "route": {
+        "distance": 20.93442141545832,
+        "required": 1.15,
+        "margin": 19.784421415458322
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:3",
+        "distance": 4.922352622572464,
+        "required": 3.2,
+        "margin": 1.7223526225724637
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 15.402921800749365,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 8.402921800749365,
+        "leashMargin": 5.402921800749365
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 15.402921800749365,
+        "required": 10,
+        "margin": 5.402921800749365
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-reed-left",
+      "assetId": "asset_fen_reed",
+      "x": -13.5,
+      "z": -103,
+      "scale": 0.94,
+      "yaw": 0.41,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-reed-left",
+      "chunkId": "-1,-3",
+      "y": 6.785723460434366,
+      "footprintRadius": 0.7989999999999999,
+      "centerSlope": 0.03630036993621609,
+      "supportMaxSlope": 0.03773557807547382,
+      "route": {
+        "distance": 27.28094573140748,
+        "required": 1.15,
+        "margin": 26.130945731407483
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:3",
+        "distance": 7.507010128883282,
+        "required": 3.2,
+        "margin": 4.307010128883282
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 15.692354826475215,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 8.692354826475215,
+        "leashMargin": 5.692354826475215
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 15.692354826475215,
+        "required": 10,
+        "margin": 5.692354826475215
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-cloud-left",
+      "assetId": "asset_cloudflower",
+      "x": -10.5,
+      "z": -107,
+      "scale": 0.9,
+      "yaw": -0.31,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-cloud-left",
+      "chunkId": "-1,-3",
+      "y": 6.682239279076307,
+      "footprintRadius": 0.675,
+      "centerSlope": 0.058796020082537266,
+      "supportMaxSlope": 0.057647405902698706,
+      "route": {
+        "distance": 28.111385593741193,
+        "required": 1.15,
+        "margin": 26.961385593741195
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:3",
+        "distance": 11.73525674499734,
+        "required": 3.2,
+        "margin": 8.53525674499734
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 11.236102527122114,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 4.236102527122114,
+        "leashMargin": 1.2361025271221138
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 11.236102527122114,
+        "required": 10,
+        "margin": 1.2361025271221138
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-lily-right",
+      "assetId": "asset_fen_lily",
+      "x": -3.5,
+      "z": -102,
+      "scale": 0.8,
+      "yaw": 0.26,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-lily-right",
+      "chunkId": "-1,-3",
+      "y": 6.576592356302219,
+      "footprintRadius": 0.7440000000000001,
+      "centerSlope": 0.08043127878453182,
+      "supportMaxSlope": 0.08821076514263936,
+      "route": {
+        "distance": 19.87657080369997,
+        "required": 1.15,
+        "margin": 18.72657080369997
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:3",
+        "distance": 11.431519478538252,
+        "required": 3.2,
+        "margin": 8.231519478538253
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 9.656603957913983,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 2.6566039579139833,
+        "leashMargin": -0.3433960420860167
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 9.656603957913983,
+        "required": 10,
+        "margin": -0.3433960420860167
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    },
+    {
+      "key": "forage-pebbles-right",
+      "assetId": "asset_pebble_cluster",
+      "x": -6,
+      "z": -107,
+      "scale": 1.06,
+      "yaw": -0.16,
+      "kind": "low",
+      "selected": true,
+      "id": "f2c:s:-1:-3:stage-heartwood-forage-pebbles-right",
+      "chunkId": "-1,-3",
+      "y": 6.410017858315017,
+      "footprintRadius": 0.6996000000000001,
+      "centerSlope": 0.07692648583583916,
+      "supportMaxSlope": 0.07578408977907175,
+      "route": {
+        "distance": 25.363967651347203,
+        "required": 1.15,
+        "margin": 24.213967651347204
+      },
+      "forage": {
+        "id": "f1:r:-1:-3:1",
+        "distance": 11.605312463590607,
+        "required": 3.2,
+        "margin": 8.405312463590608
+      },
+      "wildlife": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 7.211102550927979,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 0.21110255092797914,
+        "leashMargin": -2.788897449072021
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-3:0",
+        "species": "emberhorn",
+        "distance": 7.211102550927979,
+        "required": 10,
+        "margin": -2.788897449072021
+      },
+      "regionalPlace": null,
+      "admitted": true,
+      "reasons": []
+    }
+  ],
+  "rejectedSpecs": [
+    {
+      "key": "probe-route-canopy",
+      "assetId": "asset_verge_canopy",
+      "x": 4,
+      "z": -62,
+      "scale": 0.9,
+      "yaw": 0,
+      "kind": "canopy",
+      "selected": false,
+      "id": "f2c:s:0:-2:stage-heartwood-probe-route-canopy",
+      "chunkId": "0,-2",
+      "y": 0.5167962998792129,
+      "footprintRadius": 1.45,
+      "centerSlope": 0.08566889941746174,
+      "supportMaxSlope": 0.0896097495420763,
+      "route": {
+        "distance": 0.43188945044921656,
+        "required": 2.1,
+        "margin": -1.6681105495507835
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:8",
+        "distance": 8.165755331216326,
+        "required": 3.2,
+        "margin": 4.965755331216326
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 21.400934559032695,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 14.400934559032695,
+        "leashMargin": 11.400934559032695
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 21.400934559032695,
+        "required": 10,
+        "margin": 11.400934559032695
+      },
+      "regionalPlace": null,
+      "admitted": false,
+      "reasons": [
+        "north-route"
+      ]
+    },
+    {
+      "key": "probe-early-forage",
+      "assetId": "asset_fen_reed",
+      "x": -5,
+      "z": -60,
+      "scale": 0.9,
+      "yaw": 0,
+      "kind": "low",
+      "selected": false,
+      "id": "f2c:s:-1:-2:stage-heartwood-probe-early-forage",
+      "chunkId": "-1,-2",
+      "y": 0.4226013228427871,
+      "footprintRadius": 0.765,
+      "centerSlope": 0.0834601712264774,
+      "supportMaxSlope": 0.08645700230008596,
+      "route": {
+        "distance": 6.334378606588512,
+        "required": 1.15,
+        "margin": 5.184378606588512
+      },
+      "forage": {
+        "id": "f1:r:-1:-2:7",
+        "distance": 1.1391613528912197,
+        "required": 3.2,
+        "margin": -2.0608386471087803
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 29.068883707497267,
+        "required": 7,
+        "leashRadius": 10,
+        "margin": 22.068883707497267,
+        "leashMargin": 19.068883707497267
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:2",
+        "species": "tidefin",
+        "distance": 29.068883707497267,
+        "required": 10,
+        "margin": 19.068883707497267
+      },
+      "regionalPlace": null,
+      "admitted": false,
+      "reasons": [
+        "forage:f1:r:-1:-2:7"
+      ]
+    },
+    {
+      "key": "probe-mossling-home",
+      "assetId": "asset_verge_canopy_tall",
+      "x": 9,
+      "z": -86,
+      "scale": 0.85,
+      "yaw": 0,
+      "kind": "canopy",
+      "selected": false,
+      "id": "f2c:s:0:-2:stage-heartwood-probe-mossling-home",
+      "chunkId": "0,-2",
+      "y": 3.095981943736416,
+      "footprintRadius": 1.45,
+      "centerSlope": 0.18481895841091822,
+      "supportMaxSlope": 0.19139955627662597,
+      "route": {
+        "distance": 0.4267975325947847,
+        "required": 2.1,
+        "margin": -1.6732024674052153
+      },
+      "forage": {
+        "id": "f1:r:0:-2:6",
+        "distance": 5.806911512975612,
+        "required": 3.2,
+        "margin": 2.6069115129756115
+      },
+      "wildlife": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 2.23606797749979,
+        "required": 5.1,
+        "leashRadius": 4.2,
+        "margin": -2.86393202250021,
+        "leashMargin": -1.9639320225002104
+      },
+      "fullLeash": {
+        "id": "f1:w:0:-2:0",
+        "species": "mossling",
+        "distance": 2.23606797749979,
+        "required": 4.2,
+        "margin": -1.9639320225002104
+      },
+      "regionalPlace": null,
+      "admitted": false,
+      "reasons": [
+        "north-route",
+        "wildlife:f1:w:0:-2:0"
+      ]
+    }
+  ],
+  "selectedIds": [
+    "f2c:s:0:-2:stage-fen-1",
+    "f2c:s:0:-2:stage-fen-2",
+    "f2c:s:0:-2:stage-fen-3",
+    "f2c:s:0:-2:stage-fen-4",
+    "f2c:s:0:-2:stage-fen-5",
+    "f2c:s:0:-2:stage-fen-6",
+    "f2c:s:0:-2:stage-fen-7",
+    "f2c:s:0:-2:stage-fen-8",
+    "f2c:s:0:-2:stage-heartwood-departure-cloud-right",
+    "f2c:s:0:-2:stage-heartwood-departure-lily-right",
+    "f2c:s:0:-2:stage-heartwood-departure-reed-left",
+    "f2c:s:0:-2:stage-heartwood-departure-reed-right",
+    "f2c:s:0:-2:stage-heartwood-departure-trail-right",
+    "f2c:s:0:-2:stage-heartwood-departure-tree-left",
+    "f2c:s:0:-2:stage-heartwood-departure-tree-right",
+    "f2c:s:0:-2:stage-heartwood-starter-lily-front",
+    "f2c:s:0:-2:stage-heartwood-starter-pebbles-rear",
+    "f2c:s:0:-2:stage-heartwood-starter-reed-rear",
+    "f2c:s:0:-2:stage-tree-west-1",
+    "f2c:s:0:-2:stage-tree-west-2",
+    "f2c:s:-1:-2:stage-heartwood-departure-lily-left",
+    "f2c:s:-1:-2:stage-heartwood-departure-pebbles-left",
+    "f2c:s:-1:-2:stage-heartwood-forage-lily-front",
+    "f2c:s:-1:-2:stage-heartwood-forage-reed-front",
+    "f2c:s:-1:-2:stage-heartwood-forage-trail-front",
+    "f2c:s:-1:-2:stage-heartwood-forage-tree-front",
+    "f2c:s:-1:-2:stage-heartwood-starter-cloud-rear",
+    "f2c:s:-1:-2:stage-heartwood-starter-lily-rear",
+    "f2c:s:-1:-2:stage-heartwood-starter-reed-front",
+    "f2c:s:-1:-2:stage-heartwood-starter-trail-front",
+    "f2c:s:-1:-2:stage-heartwood-starter-tree-front",
+    "f2c:s:-1:-2:stage-heartwood-starter-tree-rear",
+    "f2c:s:0:-3:stage-tree-north",
+    "f2c:s:-1:-3:stage-heartwood-forage-cloud-left",
+    "f2c:s:-1:-3:stage-heartwood-forage-lily-right",
+    "f2c:s:-1:-3:stage-heartwood-forage-pebbles-right",
+    "f2c:s:-1:-3:stage-heartwood-forage-reed-left",
+    "f2c:s:-1:-3:stage-heartwood-forage-tree-left",
+    "f2c:s:-1:-3:stage-heartwood-forage-tree-right",
+    "f2c:s:-1:-2:seed-2",
+    "f2c:s:-1:-2:seed-3",
+    "f2c:s:-1:-2:seed-4",
+    "f2c:s:-1:-2:seed-5",
+    "f2c:s:-1:-2:seed-8",
+    "f2c:s:-2:-2:seed-0",
+    "f2c:s:0:-4:stage-skybreak-fiber-leaves",
+    "f2c:s:2:-2:seed-0",
+    "f2c:s:-1:-4:stage-skybreak-berry-leaves",
+    "f2c:s:-2:-1:seed-0",
+    "f2c:s:-2:-3:seed-2",
+    "f2c:s:1:-4:seed-1",
+    "f2c:s:1:0:seed-0"
+  ]
+}

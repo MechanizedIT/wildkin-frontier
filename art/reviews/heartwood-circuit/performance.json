@@ -1,0 +1,381 @@
+{
+  "baselineWalk": {
+    "samples": 180,
+    "medianMs": 33.29999998211861,
+    "p95Ms": 34.900000005960464,
+    "maxMs": 37.400000005960464,
+    "minDraws": 33,
+    "maxDraws": 70,
+    "updatesOverOneMs": [],
+    "initialStreaming": {
+      "cancelled": 4,
+      "lastWorkMs": 0,
+      "maxWorkMs": 34.5,
+      "phase": null,
+      "preparationFailures": 0,
+      "preparedPublications": 1,
+      "synchronousPublications": 2,
+      "target": null,
+      "unfinishedPublications": 0
+    },
+    "start": {
+      "x": -9.306112289428713,
+      "y": 6.21772575378418,
+      "z": -91.99701690673828
+    },
+    "end": {
+      "x": -9.306112289428713,
+      "y": 3.859288692474365,
+      "z": -79.07301330566406
+    }
+  },
+  "productionWalk": {
+    "samples": 180,
+    "medianMs": 33.29999998211861,
+    "p95Ms": 35.5,
+    "maxMs": 117.59999999403954,
+    "minDraws": 40,
+    "maxDraws": 102,
+    "updatesOverOneMs": [],
+    "initialStreaming": {
+      "cancelled": 0,
+      "lastWorkMs": 0,
+      "maxWorkMs": 0,
+      "phase": null,
+      "preparationFailures": 0,
+      "preparedPublications": 0,
+      "synchronousPublications": 2,
+      "target": null,
+      "unfinishedPublications": 0
+    },
+    "start": {
+      "x": -9.306112289428713,
+      "y": 6.217636585235596,
+      "z": -91.99701690673828
+    },
+    "end": {
+      "x": -9.306112289428713,
+      "y": 3.893502712249756,
+      "z": -79.25177001953125
+    }
+  },
+  "preparationApproach": {
+    "samples": 360,
+    "medianMs": 33.400000005960464,
+    "p95Ms": 36.30000001192093,
+    "maxMs": 168.69999998807907,
+    "minDraws": 49,
+    "maxDraws": 67,
+    "updatesOverOneMs": [
+      {
+        "duration": 3.5,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3.5,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 454691.8000000119
+      },
+      {
+        "duration": 3,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 454850.0999999941
+      },
+      {
+        "duration": 3,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 455016.4000000059
+      },
+      {
+        "duration": 3,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 455185.5999999941
+      },
+      {
+        "duration": 3,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 455353.0999999941
+      },
+      {
+        "duration": 3.0999999940395355,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3.0999999940395355,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 455373.0999999941
+      },
+      {
+        "duration": 3.0999999940395355,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3.0999999940395355,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 455406.4000000059
+      },
+      {
+        "duration": 3,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 455439.9000000059
+      },
+      {
+        "duration": 3,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 455473.3000000119
+      },
+      {
+        "duration": 3,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 3,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "visual",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 455506.4000000059
+      },
+      {
+        "duration": 2.7999999821186066,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 2.5999999940395355,
+          "maxWorkMs": 4.199999988079071,
+          "phase": "ready",
+          "preparationFailures": 0,
+          "preparedPublications": 0,
+          "synchronousPublications": 2,
+          "target": {
+            "cx": -1,
+            "cz": -1
+          },
+          "unfinishedPublications": 0
+        },
+        "time": 455539.5
+      }
+    ],
+    "initialStreaming": {
+      "cancelled": 0,
+      "lastWorkMs": 0,
+      "maxWorkMs": 4.199999988079071,
+      "phase": "ready",
+      "preparationFailures": 0,
+      "preparedPublications": 0,
+      "synchronousPublications": 2,
+      "target": {
+        "cx": 0,
+        "cz": -2
+      },
+      "unfinishedPublications": 0
+    },
+    "finalStreaming": {
+      "cancelled": 1,
+      "lastWorkMs": 0,
+      "maxWorkMs": 4.199999988079071,
+      "phase": "ready",
+      "preparationFailures": 0,
+      "preparedPublications": 0,
+      "synchronousPublications": 2,
+      "target": {
+        "cx": -1,
+        "cz": -1
+      },
+      "unfinishedPublications": 0
+    },
+    "start": {
+      "x": -3.446503162384033,
+      "y": 1.59740948677063,
+      "z": -66.01832580566406
+    },
+    "end": {
+      "x": -3.4465136528015137,
+      "y": 0.5219751596450806,
+      "z": -46.2658576965332
+    }
+  },
+  "completedPublication": {
+    "samples": 210,
+    "medianMs": 33.20000001788139,
+    "p95Ms": 36.099999994039536,
+    "maxMs": 86.30000001192093,
+    "minDraws": 62,
+    "maxDraws": 69,
+    "updatesOverOneMs": [
+      {
+        "duration": 2.199999988079071,
+        "residents": 52,
+        "streaming": {
+          "cancelled": 1,
+          "lastWorkMs": 0,
+          "maxWorkMs": 4.199999988079071,
+          "phase": null,
+          "preparationFailures": 0,
+          "preparedPublications": 1,
+          "synchronousPublications": 2,
+          "target": null,
+          "unfinishedPublications": 0
+        },
+        "time": 511499
+      }
+    ],
+    "initialStreaming": {
+      "cancelled": 1,
+      "lastWorkMs": 0,
+      "maxWorkMs": 4.199999988079071,
+      "phase": "ready",
+      "preparationFailures": 0,
+      "preparedPublications": 0,
+      "synchronousPublications": 2,
+      "target": {
+        "cx": -1,
+        "cz": -1
+      },
+      "unfinishedPublications": 0
+    },
+    "finalStreaming": {
+      "cancelled": 1,
+      "lastWorkMs": 0,
+      "maxWorkMs": 4.199999988079071,
+      "phase": null,
+      "preparationFailures": 0,
+      "preparedPublications": 1,
+      "synchronousPublications": 2,
+      "target": null,
+      "unfinishedPublications": 0
+    },
+    "start": {
+      "x": -3.4465136528015137,
+      "y": 0.5219751596450806,
+      "z": -46.2658576965332
+    },
+    "end": {
+      "x": -3.759068250656128,
+      "y": 0.5219999551773071,
+      "z": -38.85089492797851
+    }
+  },
+  "limits": "Laptop browser samples; no physical-phone, global maximum or release performance claim. Whole-frame hitches are unattributed. Scenery timing is only one owner."
+}

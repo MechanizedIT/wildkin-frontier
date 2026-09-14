@@ -1,12 +1,24 @@
 # Wildkin Frontier — current scope and checkpoint
 
-Updated September13,2026. **Continuous goal-mode development; priority is a playable early alpha.** Latest September13 owner direction: early alpha requires at least10unique, nonrepeating habitats on a quite large continent with an irregular silhouette. Root provisionally selects an approximately6×7km hybrid world: deliberate coastline/regions/landmarks and seeded local detail. The three prior terrain grammars, new Caldera candidate and three useful species are foundations, not completion of that requirement; roughly30species remains staged. The frozen target and bounded production plan are in `CONTINENT_ALPHA_TARGET.md`.
+Updated September13,2026. **Owner-requested restart/review checkpoint; production is stopped pending fresh direction.** Latest September13 owner direction: early alpha requires at least10unique, nonrepeating habitats on a quite large continent with an irregular silhouette. Root provisionally selects an approximately6×7km hybrid world: deliberate coastline/regions/landmarks and seeded local detail. The three prior terrain grammars, new Caldera candidate and three useful species are foundations, not completion of that requirement; roughly30species remains staged. The frozen target and bounded production plan are in `CONTINENT_ALPHA_TARGET.md`.
 
-## Active slice: fuller Heartwood starter circuit
+## Active scope: stop for owner review
 
-Next: establish a coherent, fuller Heartwood starter circuit across departure, Wildkin and forage views. Begin with native blockouts and the bounded starter-only budget alternative in the next-circuit audit; preserve the accepted Camp clearing and existing gameplay identities. Six isolated extra props may leave the same sparse stretches, so judge the complete route before choosing production counts. No new species or framework. Ten finished habitats remain required and the continuous goal stays active.
+Chris requested a PC restart and a review of today's work/workflow. **Do not resume the old continuous-development mandate automatically.** Read [SESSION_HANDOFF_2026-09-13.md](SESSION_HANDOFF_2026-09-13.md) and await fresh direction. No further feature or art batch is active.
 
-The [read-only circuit audit](../art/reviews/heartwood-opening/next-circuit-audit.md) identifies the protected 18-near selection cap as the main starter-scenery constraint. Root provisionally chooses to study a coherent starter-only thicket composition rather than assume the smaller six-spec patch is enough. Authorize native preview, footprint/cap study and feasible actual-view target preparation only; record the final bounded production contract here before source implementation. Ordinary guided traversal and engineering readability checks are possible now; unaided discovery requires a later human playtest and is not a permission blocker for continued development.
+## Completed final request: continent maps and character flight
+
+The full continent has a10m terrain survey and interactive terrain/habitat maps. Actual-character **?scout=1** uses the ordinary streaming center and active trees, creatures and decor. Its in-memory progress copy protects the ordinary save, and combat/fatal protection covers the Scout session. WASD/joystick moves, Space/C rises/descends, Shift moves faster, G toggles flight and Exit scout restores normal play. One existing loop/body/input/progress owner remains authoritative.
+
+Native developer/portable flight, hover, descent, landing, inventory blocking and complete ordinary-save parity pass. The final portrait panel fits above regular actions. **1,411 tests and package gates pass** (44.41MB unpacked /20.60MB ZIP). Root reviewed this bounded feature; an independent review was unavailable at the thread's agent limit. [Final receipt](../art/reviews/continent-restart/scout-receipt.md) · [Visual daily review](../art/reviews/continent-restart/review.html).
+
+Potential later studies: [lighting](../art/reviews/heartwood-circuit/next-presentation-contract.md), [ground cover](../art/reviews/heartwood-circuit/ground-cover-next.md) and an [Ironspine journey](../art/reviews/heartwood-circuit/next-alpha-batch.md). These are proposals, not permission to start. Ten finished habitats, richer terrain, visual fullness and smooth phone play remain outstanding.
+
+## Completed checkpoint: Heartwood circuit
+
+The first woodland circuit now has seven additional solid trees and 21 grouped low plants. Ordinary input proved trunk contact, four gathered berries and a physical return; the returned save and restored original Mossling Camp match developer/portable reload exactly. **1,406 tests and package gates pass** (44.40 MB unpacked /20.59 MB ZIP). Source and placement improvement pass; generated-reference visual quality remains **5.9/10 HOLD**. Ground-cover gaps and whole-frame hitches remain. [Actual evidence](../art/reviews/heartwood-circuit/receipt.md).
+
+The [completed contract](HEARTWOOD_CIRCUIT_CONTRACT.md) retains the exact circuit admission, bounded selection and sibling-preservation requirements. Keep the usable placement improvement provisionally and preserve its art/performance debt.
 
 ## Completed checkpoint: Heartwood clearing and builder outing
 

@@ -1,10 +1,16 @@
 # Wildkin Frontier
 
-**Heartwood opening checkpoint — September13:** The first Heartwood clearing now has four solid trees and sixteen grouped low plants, with exploration-led opening/return guidance. A fresh guided outing earned a Salvage bench and a trail ration without a Wildkin capture. **1,404 tests and package gates pass** (44.40 MB unpacked /20.59 MB ZIP); scoped visual R1 passes **8.8/10**. Builder progress and the restored original Mossling Camp match developer/portable reload exactly. [Actual views and proof](art/reviews/heartwood-opening/receipt.md).
+An exploration-first alien frontier: discover useful Wildkin, gather for the next journey and grow a Camp that supports it.
 
-Next: establish a coherent, fuller Heartwood starter circuit across departure, Wildkin and forage views. Begin with native blockouts and the bounded starter-only budget alternative in the next-circuit audit; preserve the accepted Camp clearing and existing gameplay identities. Six isolated extra props may leave the same sparse stretches, so judge the complete route before choosing production counts. No new species or framework. Ten finished habitats remain required and the continuous goal stays active.
+**September13 restart checkpoint:** safe character flight and full-continent maps are ready. Work is stopped for Chris's PC restart and workflow review. **1,411 tests and package checks pass**; ten finished habitats and alpha release quality remain incomplete.
 
-<img src="art/reviews/heartwood-opening/production-r1.png" alt="Actual first Heartwood clearing" width="250"> <img src="art/reviews/heartwood-opening/bench-ration.png" alt="Actual earned workbench and trail ration" width="250">
+[Illustrated daily review](art/reviews/continent-restart/review.html) · [Today's overview](docs/DAILY_REVIEW_2026-09-13.md) · [Restart handoff](docs/SESSION_HANDOFF_2026-09-13.md) · [Current scope](docs/CURRENT_SLICE.md).
+
+<img src="art/reviews/continent-restart/scout-flight.png" alt="Actual character flight in the streamed world" width="780">
+
+Run `npm run dev`, then open **http://localhost:8080/?scout=1** and Continue. **WASD/joystick** moves, **Space/C** rises/descends, **Shift** moves faster, **G** toggles flight, and right-side drag looks around. Scout is safe and temporary; **Exit scout** restores ordinary saved play. Trees, creatures and decor use normal local streaming.
+
+[Full terrain map](art/reviews/continent-restart/full-continent.png) · [Ten habitat allocations](art/reviews/continent-restart/full-habitats.png) · [Interactive map and limits](art/reviews/continent-restart/README.md) · [Final validation](art/reviews/continent-restart/scout-receipt.md).
 
 ## Earlier geography foundation: ten fixed habitat areas
 

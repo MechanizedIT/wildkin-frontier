@@ -226,5 +226,6 @@ export function createKeyboardInput(moveCfg, appElement = null) {
     }
   }
 
-  return { getIntent, consumeJump, consumeDodge, consumeAttack, resetDodge, triggerAttack: requestAttack, requestJump, requestDodge, setFieldToolHeld, isAttackDown: () => isFDown || mouseDown || externalAttackHeld, destroy, _pressed: pressed, setEnabled, isEnabled, get _attackPending() { return attackPending || mouseAttackPending; } };
+  const getFlightIntent = () => enabled ? { vertical: Number(pressed.has(' ')) - Number(pressed.has('c')), fast: pressed.has('shift') } : { vertical: 0, fast: false };
+  return { getIntent, getFlightIntent, consumeJump, consumeDodge, consumeAttack, resetDodge, triggerAttack: requestAttack, requestJump, requestDodge, setFieldToolHeld, isAttackDown: () => isFDown || mouseDown || externalAttackHeld, destroy, _pressed: pressed, setEnabled, isEnabled, get _attackPending() { return attackPending || mouseAttackPending; } };
 }

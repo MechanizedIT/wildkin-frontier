@@ -1,0 +1,373 @@
+{
+  "createdAt": "2026-09-14T03:09:57.655Z",
+  "method": "Ordinary keyboard and pointer controls through the native browser; one disclosed direct damage-route diagnostic. No position, inventory, health or world grants.",
+  "developer": {
+    "streamedFlight": {
+      "creatures": [
+        {
+          "aiState": "ROAM",
+          "id": "f1:w:1:-1:0"
+        },
+        {
+          "aiState": "ROAM",
+          "id": "f1:w:0:-2:1"
+        },
+        {
+          "aiState": "ROAM",
+          "id": "f1:w:0:-2:2"
+        },
+        {
+          "aiState": "ROAM",
+          "id": "f1:w:0:-3:0"
+        }
+      ],
+      "flight": {
+        "after": {
+          "x": 0,
+          "y": 4.739999771118164,
+          "z": -75.33332061767578
+        },
+        "before": {
+          "x": 0,
+          "y": 0.5400000214576721,
+          "z": 2
+        },
+        "cancel": {},
+        "codes": [
+          "KeyW",
+          "ShiftLeft"
+        ],
+        "done": true,
+        "ms": 7000
+      },
+      "health": 5,
+      "mode": "FLY",
+      "position": {
+        "x": 0,
+        "y": 4.739999771118164,
+        "z": -75.33332061767578
+      },
+      "scenery": 52,
+      "terrain": {
+        "cx": 0,
+        "cz": -2
+      },
+      "ordinarySaveUnchanged": true
+    },
+    "hover": {
+      "state": {
+        "climbVelocity": 0,
+        "currentStrength": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": false,
+        "lastDryPosition": {
+          "x": 0,
+          "y": 0.0200000214576721,
+          "z": 2
+        },
+        "mode": "FLY",
+        "pos": {
+          "x": 0,
+          "y": 15.54002571105957,
+          "z": -75.33332061767578
+        },
+        "speed": 0,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0,
+        "waterDepth": 0,
+        "waterborne": false
+      },
+      "damageBlocked": true,
+      "health": 5
+    },
+    "landing": {
+      "state": {
+        "climbVelocity": 0,
+        "currentStrength": 0,
+        "dodgeCooldown": 0,
+        "facing": 3.141592653589793,
+        "grounded": true,
+        "lastDryPosition": {
+          "x": 0.000003626224270192324,
+          "y": 2.4741227436065674,
+          "z": -75.33330535888672
+        },
+        "mode": "IDLE",
+        "pos": {
+          "x": 0.000003626224270192324,
+          "y": 2.9941227436065674,
+          "z": -75.33330535888672
+        },
+        "speed": 0,
+        "traversalMode": "IDLE",
+        "verticalVelocity": 0,
+        "waterDepth": 0,
+        "waterborne": false
+      },
+      "health": 5,
+      "ordinarySaveUnchanged": true
+    },
+    "inventoryBlocksFlight": {
+      "before": {
+        "x": 0.000003626224270192324,
+        "y": 11.994132995605469,
+        "z": -75.33330535888672
+      },
+      "after": {
+        "x": 0.000003626224270192324,
+        "y": 11.994132995605469,
+        "z": -75.33330535888672
+      },
+      "done": true,
+      "unchanged": true
+    },
+    "exit": {
+      "saveMatchesOriginal": true,
+      "rawUnchanged": true,
+      "scoutBarAbsent": true,
+      "damageProtectionOff": true,
+      "position": {
+        "x": 0,
+        "y": 0.521996259689331,
+        "z": 2
+      }
+    }
+  },
+  "portable": {
+    "flight": {
+      "input": {
+        "before": {
+          "x": 0,
+          "y": 0.5400000214576721,
+          "z": 2
+        },
+        "codes": [
+          "Space",
+          "KeyW"
+        ],
+        "ms": 1800,
+        "done": true,
+        "after": {
+          "x": 0,
+          "y": 7.0399956703186035,
+          "z": -6.666665554046631
+        }
+      },
+      "state": {
+        "mode": "FLY",
+        "speed": 0,
+        "facing": 3.141592653589793,
+        "pos": {
+          "x": 0,
+          "y": 7.0399956703186035,
+          "z": -6.666665554046631
+        },
+        "dodgeCooldown": 0,
+        "traversalMode": "IDLE",
+        "grounded": false,
+        "verticalVelocity": 0,
+        "climbVelocity": 0,
+        "waterborne": false,
+        "waterDepth": 0,
+        "currentStrength": 0,
+        "lastDryPosition": {
+          "x": 0,
+          "y": 0.0200000214576721,
+          "z": 2
+        }
+      },
+      "health": 5,
+      "rawUnchanged": true
+    },
+    "downButtonRelease": {
+      "pos": {
+        "x": 0,
+        "y": 1.540000319480896,
+        "z": -6.666665554046631
+      },
+      "keys": {
+        "vertical": 0,
+        "fast": false
+      }
+    },
+    "landing": {
+      "state": {
+        "mode": "IDLE",
+        "speed": 0,
+        "facing": 3.141592653589793,
+        "pos": {
+          "x": 0,
+          "y": 0.5220005512237549,
+          "z": -6.666665554046631
+        },
+        "dodgeCooldown": 0,
+        "traversalMode": "IDLE",
+        "grounded": true,
+        "verticalVelocity": 0,
+        "climbVelocity": 0,
+        "waterborne": false,
+        "waterDepth": 0,
+        "currentStrength": 0,
+        "lastDryPosition": {
+          "x": 0,
+          "y": 0.002000551223754865,
+          "z": -6.666665554046631
+        }
+      },
+      "health": 5,
+      "invulnerable": true
+    },
+    "exitBeforeLayoutRepair": {
+      "saveMatchesOriginal": true,
+      "rawUnchanged": true,
+      "scoutBarAbsent": true,
+      "damageProtectionOff": true
+    },
+    "finalPortrait": {
+      "p": {
+        "mode": "FLY",
+        "speed": 0,
+        "facing": 3.141592653589793,
+        "pos": {
+          "x": 0,
+          "y": 11.540008544921875,
+          "z": 2
+        },
+        "dodgeCooldown": 0,
+        "traversalMode": "IDLE",
+        "grounded": false,
+        "verticalVelocity": 0,
+        "climbVelocity": 0,
+        "waterborne": false,
+        "waterDepth": 0,
+        "currentStrength": 0,
+        "lastDryPosition": {
+          "x": 0,
+          "y": 0.0200000214576721,
+          "z": 2
+        }
+      },
+      "health": 5,
+      "origins": [
+        "http://127.0.0.1:8081"
+      ]
+    },
+    "finalExit": {
+      "completeEnvelopeMatches": true,
+      "ordinaryBytesUnchanged": true,
+      "scoutBarAbsent": true,
+      "damageProtectionOff": true
+    }
+  },
+  "portraitLayout": {
+    "inner": [
+      412,
+      915
+    ],
+    "dpr": 1.25,
+    "bar": {
+      "x": 12,
+      "y": 160,
+      "width": 388,
+      "height": 95.5999984741211,
+      "top": 160,
+      "right": 400,
+      "bottom": 255.5999984741211,
+      "left": 12
+    },
+    "buttons": [
+      {
+        "text": "Flight ON (G)",
+        "rect": {
+          "x": 41.29999923706055,
+          "y": 190.8000030517578,
+          "width": 87.2750015258789,
+          "height": 34,
+          "top": 190.8000030517578,
+          "right": 128.57500076293945,
+          "bottom": 224.8000030517578,
+          "left": 41.29999923706055
+        }
+      },
+      {
+        "text": "↑ Up (Space)",
+        "rect": {
+          "x": 133.5749969482422,
+          "y": 190.8000030517578,
+          "width": 83.73750305175781,
+          "height": 34,
+          "top": 190.8000030517578,
+          "right": 217.3125,
+          "bottom": 224.8000030517578,
+          "left": 133.5749969482422
+        }
+      },
+      {
+        "text": "↓ Down (C)",
+        "rect": {
+          "x": 222.3125,
+          "y": 190.8000030517578,
+          "width": 75.42500305175781,
+          "height": 34,
+          "top": 190.8000030517578,
+          "right": 297.7375030517578,
+          "bottom": 224.8000030517578,
+          "left": 222.3125
+        }
+      },
+      {
+        "text": "Exit scout",
+        "rect": {
+          "x": 302.7375183105469,
+          "y": 190.8000030517578,
+          "width": 67.9625015258789,
+          "height": 34,
+          "top": 190.8000030517578,
+          "right": 370.7000198364258,
+          "bottom": 224.8000030517578,
+          "left": 302.7375183105469
+        }
+      }
+    ],
+    "actions": [
+      {
+        "text": "contextual-action-button",
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      {
+        "text": "portrait-tool-belt",
+        "rect": {
+          "x": 33,
+          "y": 841.2000122070312,
+          "width": 346,
+          "height": 66,
+          "top": 841.2000122070312,
+          "right": 379,
+          "bottom": 907.2000122070312,
+          "left": 33
+        }
+      }
+    ]
+  },
+  "console": {
+    "developer": [],
+    "portable": []
+  },
+  "limits": [
+    "Damage block is a direct route diagnostic, not a witnessed enemy strike.",
+    "Menu blocking and button release were native; blur/keyboard cancellation also covered by focused tests.",
+    "No physical-phone or whole-continent performance claim.",
+    "Grounded departure guidance may remain at Camp until the first landing.",
+    "Root source review only for Scout; independent review unavailable at the long-thread agent limit."
+  ]
+}

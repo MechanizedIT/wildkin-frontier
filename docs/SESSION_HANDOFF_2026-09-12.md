@@ -1,10 +1,14 @@
 # September12 session handoff
 
-**Heartwood opening checkpoint — September13:** The first Heartwood clearing now has four solid trees and sixteen grouped low plants, with exploration-led opening/return guidance. A fresh guided outing earned a Salvage bench and a trail ration without a Wildkin capture. **1,404 tests and package gates pass** (44.40 MB unpacked /20.59 MB ZIP); scoped visual R1 passes **8.8/10**. Builder progress and the restored original Mossling Camp match developer/portable reload exactly. [Actual views and proof](../art/reviews/heartwood-opening/receipt.md).
+<!-- LATEST-RESTART-2026-09-13 -->
+**Historical handoff.** The authoritative restart state is [SESSION_HANDOFF_2026-09-13.md](SESSION_HANDOFF_2026-09-13.md). Safe Scout flight, full continent maps and the1,411-test package are complete. Work is stopped for owner review; do not automatically resume.
+<!-- END LATEST-RESTART-2026-09-13 -->
+
+**Heartwood circuit checkpoint — September13:** The first woodland circuit now has seven additional solid trees and 21 grouped low plants. Ordinary input proved trunk contact, four gathered berries and a physical return; the returned save and restored original Mossling Camp match developer/portable reload exactly. **1,406 tests and package gates pass** (44.40 MB unpacked /20.59 MB ZIP). Source and placement improvement pass; generated-reference visual quality remains **5.9/10 HOLD**. Ground-cover gaps and whole-frame hitches remain. [Actual views and proof](../art/reviews/heartwood-circuit/receipt.md).
 
 **Previous checkpoint — September13:** Fungal Hollow now has branching terrain, fuller mushroom scenery, four finite useful flowers and an avoidable aggressive Thornprowler. Ordinary controls proved raised-bank gathering, two supported routes, attack/escape and streamed depletion. **1,400 tests and package gates pass** (44.39 MB unpacked /20.59 MB ZIP), with the original earned Camp restored exactly in developer and portable builds. Visual R2 remains **6.5/10 HOLD**: the banks still read too flat in the ordinary camera. [Evidence](../art/reviews/fungal-hollow/receipt.md).
 
-Next: establish a coherent, fuller Heartwood starter circuit across departure, Wildkin and forage views. Begin with native blockouts and the bounded starter-only budget alternative in the next-circuit audit; preserve the accepted Camp clearing and existing gameplay identities. Six isolated extra props may leave the same sparse stretches, so judge the complete route before choosing production counts. No new species or framework. Ten finished habitats remain required and the continuous goal stays active.
+Stop for Chris’s requested PC restart and review of today’s work and workflow. Do not automatically resume the continuous-development mandate. Read SESSION_HANDOFF_2026-09-13.md and wait for fresh owner direction. Native presentation/ground-cover studies and Ironspine are proposed later work only; ten finished habitats remain outstanding.
 
 The September12 stop below is historical; Chris subsequently authorized continuous work on main.
 

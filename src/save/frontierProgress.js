@@ -297,7 +297,7 @@ export function createFrontierProgress(opts = {}) {
       return getState();
     }
     try {
-      const raw = localStorage.getItem(storageKey);
+      const raw = (opts.storage ?? localStorage).getItem(storageKey);
       if (raw) {
         const parsed = JSON.parse(raw);
         state = normalizeLoaded(parsed);
@@ -370,7 +370,7 @@ export function createFrontierProgress(opts = {}) {
       return storageStatus;
     }
     try {
-      localStorage.setItem(storageKey, JSON.stringify(serializedState()));
+      (opts.storage ?? localStorage).setItem(storageKey, JSON.stringify(serializedState()));
       storageStatus = { saved: true, reason: null };
     } catch {
       storageStatus = { saved: false, reason: "storage-write-failed" };

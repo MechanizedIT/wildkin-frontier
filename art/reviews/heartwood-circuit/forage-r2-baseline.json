@@ -1,0 +1,46 @@
+{
+  "camera": {
+    "fov": 52,
+    "position": [
+      -9.306112289428707,
+      13.930791368014615,
+      -82.61963657232765
+    ],
+    "quaternion": [
+      -0.3090169943749488,
+      0,
+      0,
+      0.9510565162951532
+    ]
+  },
+  "fixture": false,
+  "health": 5,
+  "pos": {
+    "x": -9.306112289428713,
+    "y": 6.21772575378418,
+    "z": -91.99701690673828
+  },
+  "render": {
+    "calls": 70,
+    "frame": 76944,
+    "lines": 0,
+    "points": 0,
+    "triangles": 132100
+  },
+  "resident": {
+    "canopyCount": 12,
+    "count": 26,
+    "lowCount": 14,
+    "streaming": {
+      "cancelled": 4,
+      "lastWorkMs": 0,
+      "maxWorkMs": 34.5,
+      "phase": null,
+      "preparationFailures": 0,
+      "preparedPublications": 1,
+      "synchronousPublications": 2,
+      "target": null,
+      "unfinishedPublications": 0
+    }
+  }
+}

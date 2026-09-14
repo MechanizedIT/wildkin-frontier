@@ -57,6 +57,7 @@ import { findSupportedResumeFeet, frontierCoastResumeCandidates } from './sessio
 import { commitFrontierOutingStart, createFrontierOuting } from './session/frontierOuting.js';
 import { FRONTIER_TERRAIN_CONFIG } from './world/frontierTerrain.js';
 import { createFrontierProgress } from "./save/frontierProgress.js";
+import { createScoutSession, createScoutStorage } from './dev/scoutSession.js';
 import { createFrontierAnchorSystem } from "./world/frontierAnchorSystem.js";
 import { createFrontierMap } from "./ui/frontierMap.js";
 import { createAnchorPrompt } from "./ui/anchorPrompt.js";
@@ -101,6 +102,7 @@ function getDevEnabled() {
 }
 const authorEnabled = getAuthorEnabled();
 const devEnabled = getDevEnabled();
+const scoutEnabled = !authorEnabled && new URLSearchParams(location.search).get('scout') === '1';
 app.classList.toggle("dev-mode", devEnabled);
 app.classList.toggle("author-mode", authorEnabled);
 const canonicalWorldData = WORLD_DATA;
@@ -166,6 +168,7 @@ let refreshCarriedResourceHud = () => {};
 const frontierProgress = createFrontierProgress({
   worldRegistry,
   isAuthorMode: authorEnabled,
+  ...(scoutEnabled ? { storage: createScoutStorage(localStorage) } : {}),
   resourceDrops,
   onPackResourcesChanged: inventory => refreshCarriedResourceHud(inventory),
 });
@@ -386,6 +389,7 @@ let isDead = false; // transient death overlay flag — now replaced by result c
 let pendingResultSnapshot = null;
 
 const playerCombat = createPlayerCombat({
+  isDamageSuppressed: () => scoutEnabled,
   playerMesh: player,
   characterPhysics,
   gameAudio,
@@ -925,6 +929,7 @@ function finalizeSuccessfulExtraction(resolved, data) {
 }
 
 function handleDeathFlow(reason = "combat") {
+  if (scoutEnabled) return;
   if (expeditionSession.isResolved?.()) return;
   if (!expeditionSession.isActive()) {
     // If died at camp (should not happen), just reset
@@ -1127,6 +1132,13 @@ frontierOuting=createFrontierOuting({
 
 if (debugLabel) debugLabel.textContent = `${VERSION} · Rapier ${RAPIER.version ? RAPIER.version() : "0.20.0"} · starting…`;
 
+const scoutSession = createScoutSession({
+  enabled: scoutEnabled, app, keyboard: keyboardInput,
+  canControl: () => !isAnyBlockingModal() && sectionRuntime.getActiveSectionId() === 'camp',
+  getGroundHeight: (x, z) => frontierChunks.getHeight(x, z),
+  onToggle: () => { playerController.resetJumpState(); fieldTool.hardReset(); pendingAttackLatch = false; },
+});
+
 function tick() {
   requestAnimationFrame(tick);
 
@@ -1274,6 +1286,7 @@ function tick() {
       const facingLocked = combatActive && combatProgress >= combatImpact - combatWin * 0.5 && combatProgress <= combatImpact + combatWin;
       const knockback = playerCombat.getKnockback?.();
       const combatOpts = {
+        debugFlight: scoutSession.getFlightOptions(),
         attackActive: combatActive,
         attackMovementFactor: COMBAT_CONFIG.attackMovementFactor,
         facingLocked: facingLocked,
