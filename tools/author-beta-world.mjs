@@ -25,6 +25,7 @@ import {composeSurveyRecovery} from './compose-survey-recovery.mjs';
 import {composeRootfallPassage} from './compose-rootfall-passage.mjs';
 import {composeVerdantUplands} from './compose-verdant-uplands.mjs';
 import {composeShatterfenUplands} from './compose-shatterfen-uplands.mjs';
+import {composeHeartwoodOpening} from './compose-heartwood-opening.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const WORLD_PATH = path.join(ROOT, "src/world/data/world.json");
@@ -465,5 +466,6 @@ normalizeCampaignHarvestCollision(world);
 composeRootfallPassage(world);
 composeVerdantUplands(world);
 composeShatterfenUplands(world);
+composeHeartwoodOpening(world);
 writeGeneratedFile(WORLD_PATH, JSON.stringify(world) + "\n");
 console.log("Authored Early Access campaign: Frontier Haven + Verdant Verge, Shatterfen, Emberfall Ruins, Windscar Cliffs, Heartwood Vault.");

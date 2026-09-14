@@ -1,6 +1,8 @@
 # Living Frontier research refresh
 
-Latest local evidence: [ten fixed habitat areas](../../../art/reviews/finite-habitats/receipt.md), with a paired actual-terrain/allocation map and native portrait screenshots. Ten completed habitat experiences remain in production. Earlier Drive PDFs remain dated publications; this local update has not been uploaded.
+Latest local evidence: [Heartwood clearing and a builder outing](../../../art/reviews/heartwood-opening/receipt.md), with actual before/after, solid-trunk contact, portrait workbench/ration and landscape views. This reflects exploration-first priorities and supports builders without requiring a capture. Broader habitats and factory systems remain unfinished. No new Drive publication.
+
+Earlier geography evidence: [ten fixed habitat areas](../../../art/reviews/finite-habitats/receipt.md), with a paired actual-terrain/allocation map and native portrait screenshots. Ten completed habitat experiences remain in production. Earlier Drive PDFs remain dated publications; this local update has not been uploaded.
 
 **Latest local continent update:** [Illustrated progress](Early-Alpha-Progress.md) pairs the generated target with the actual 6 × 7 km outline, native shore screenshots and preserved portable Camp. It records exploration-first priorities, ten unique early-alpha habitats and the later physical factory direction. Earlier Drive PDFs remain dated publications.
 

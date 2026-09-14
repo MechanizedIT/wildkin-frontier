@@ -69,15 +69,39 @@ test('a pending bond and an injured active Mossling take priority over the fresh
 
 test('the berry lure path follows the live recipe cost and physical Camp boundary', () => {
   const lure = recipe('berry_lure');
-  const shortCargo = Object.fromEntries(Object.entries(lure.cost).map(([id, amount]) => [id, Math.max(0, amount - 1)]));
-  assert.equal(getFrontierPurpose({ state: state(), cargo: shortCargo }).id, 'gather-berry-lure');
+  const opening = getFrontierPurpose({ state: state() });
+  assert.deepEqual(opening, {
+    id: 'gather-berry-lure',
+    title: 'Explore beyond Camp',
+    description: 'Bring wood, stone and fiber home to build. For a Mossling, gather 2 berries · 1 fiber, then make a berry lure at Camp in Work → Craft.',
+  });
+  const partial = getFrontierPurpose({ state: state(), spendableResources: { berries: 2 } });
+  assert.equal(partial.id, 'gather-berry-lure');
+  assert.match(partial.description, /gather 1 fiber, then make a berry lure at Camp in Work → Craft/);
+  assert.doesNotMatch(partial.description, /2 berries/);
 
-  assert.equal(getFrontierPurpose({ state: state(), cargo: lure.cost, isCamp: false }).id, 'return-craft-berry-lure');
-  assert.equal(getFrontierPurpose({ state: state(), cargo: lure.cost, isCamp: true }).id, 'craft-berry-lure');
+  assert.deepEqual(getFrontierPurpose({ state: state(), cargo: lure.cost, isCamp: false }), {
+    id: 'return-craft-berry-lure',
+    title: 'Bring your finds home',
+    description: 'Go to the Camp arch, tap RETURN TO CAMP, then confirm Return to Camp. Open Build for Camp equipment, or open Work → Craft to make an optional Mossling berry lure.',
+  });
+  assert.deepEqual(getFrontierPurpose({ state: state(), cargo: lure.cost, isCamp: true }), {
+    id: 'craft-berry-lure',
+    title: 'Use your supplies at Camp',
+    description: 'Open Build for Camp equipment, or open Work → Craft to make an optional Mossling berry lure.',
+  });
 
   const search = getFrontierPurpose({ state: state({ fieldSupplies: { berry_lure: 1 } }), isCamp: true });
   assert.equal(search.id, 'find-mossling');
   assert.match(search.description, /Walk normally beyond Camp/);
+});
+
+test('builder-facing ready supplies stay below bond and health safety priorities', () => {
+  const ready = recipe('berry_lure').cost;
+  assert.equal(getFrontierPurpose({ state: state(), spendableResources: ready, isCamp: false,
+    pendingCompanions: [{ id: 'pending', speciesId: 'mossling' }] }).id, 'return-pending-bond');
+  assert.equal(getFrontierPurpose({ state: state(), spendableResources: ready, isCamp: false,
+    health: 1, maxHealth: 5 }).id, 'return-low-health');
 });
 
 test('bed and garden guidance reads live costs without requiring an optional foundation', () => {

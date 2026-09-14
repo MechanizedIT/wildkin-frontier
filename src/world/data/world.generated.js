@@ -1119,6 +1119,306 @@ export const WORLD_DATA = {
           "uniformScale": 1.8,
           "visibleInPlay": true,
           "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_camp_heartwood_tree_a",
+          "opacity": 1,
+          "pos": {
+            "x": -3.6,
+            "y": 0,
+            "z": -38
+          },
+          "rotY": 0.22,
+          "subtype": "visualAsset",
+          "uniformScale": 1.05,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_camp_heartwood_tree_b",
+          "opacity": 1,
+          "pos": {
+            "x": 3.8,
+            "y": 0,
+            "z": -41
+          },
+          "rotY": -0.31,
+          "subtype": "visualAsset",
+          "uniformScale": 0.95,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy_tall"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_camp_heartwood_tree_c",
+          "opacity": 1,
+          "pos": {
+            "x": -4.8,
+            "y": 0,
+            "z": -45
+          },
+          "rotY": 0.16,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy_tall"
+        },
+        {
+          "collisionEnabled": true,
+          "id": "prop_camp_heartwood_tree_d",
+          "opacity": 1,
+          "pos": {
+            "x": 5.5,
+            "y": 0,
+            "z": -47
+          },
+          "rotY": -0.24,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_verge_canopy_spread"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_reed_a",
+          "opacity": 1,
+          "pos": {
+            "x": -2.3,
+            "y": 0,
+            "z": -36.5
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_lily_a",
+          "opacity": 1,
+          "pos": {
+            "x": -4.5,
+            "y": 0,
+            "z": -40.5
+          },
+          "rotY": -0.4,
+          "subtype": "visualAsset",
+          "uniformScale": 0.85,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_cloud_a",
+          "opacity": 1,
+          "pos": {
+            "x": -2.4,
+            "y": 0,
+            "z": -41.5
+          },
+          "rotY": 0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_pebbles_a",
+          "opacity": 1,
+          "pos": {
+            "x": -5,
+            "y": 0,
+            "z": -36.5
+          },
+          "rotY": 0.5,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_reed_b",
+          "opacity": 1,
+          "pos": {
+            "x": 2.5,
+            "y": 0,
+            "z": -38.2
+          },
+          "rotY": -0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_reed_c",
+          "opacity": 1,
+          "pos": {
+            "x": 4.5,
+            "y": 0,
+            "z": -43.5
+          },
+          "rotY": 0.6,
+          "subtype": "visualAsset",
+          "uniformScale": 0.85,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_lily_b",
+          "opacity": 1,
+          "pos": {
+            "x": 2.3,
+            "y": 0,
+            "z": -44.8
+          },
+          "rotY": 0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 0.8,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_cloud_b",
+          "opacity": 1,
+          "pos": {
+            "x": 4.4,
+            "y": 0,
+            "z": -38
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_reed_d",
+          "opacity": 1,
+          "pos": {
+            "x": -2.5,
+            "y": 0,
+            "z": -46.5
+          },
+          "rotY": -0.5,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_mushroom_a",
+          "opacity": 1,
+          "pos": {
+            "x": -4.4,
+            "y": 0,
+            "z": -48
+          },
+          "rotY": 0.3,
+          "subtype": "visualAsset",
+          "uniformScale": 0.8,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_lily_c",
+          "opacity": 1,
+          "pos": {
+            "x": -2.4,
+            "y": 0,
+            "z": -48.5
+          },
+          "rotY": 0.7,
+          "subtype": "visualAsset",
+          "uniformScale": 0.85,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_lily"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_pebbles_b",
+          "opacity": 1,
+          "pos": {
+            "x": -4.2,
+            "y": 0,
+            "z": -42.8
+          },
+          "rotY": -0.2,
+          "subtype": "visualAsset",
+          "uniformScale": 1,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_pebble_cluster"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_reed_e",
+          "opacity": 1,
+          "pos": {
+            "x": 4,
+            "y": 0,
+            "z": -45.5
+          },
+          "rotY": 0.4,
+          "subtype": "visualAsset",
+          "uniformScale": 0.9,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_mushroom_b",
+          "opacity": 1,
+          "pos": {
+            "x": 4.2,
+            "y": 0,
+            "z": -48.8
+          },
+          "rotY": -0.6,
+          "subtype": "visualAsset",
+          "uniformScale": 0.75,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_mushroom_ring"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_cloud_c",
+          "opacity": 1,
+          "pos": {
+            "x": 2.5,
+            "y": 0,
+            "z": -43
+          },
+          "rotY": 0.25,
+          "subtype": "visualAsset",
+          "uniformScale": 0.85,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_cloudflower"
+        },
+        {
+          "collisionEnabled": false,
+          "id": "prop_camp_heartwood_reed_f",
+          "opacity": 1,
+          "pos": {
+            "x": 2.5,
+            "y": 0,
+            "z": -48.5
+          },
+          "rotY": -0.1,
+          "subtype": "visualAsset",
+          "uniformScale": 0.8,
+          "visibleInPlay": true,
+          "visualAssetId": "asset_fen_reed"
         }
       ],
       "resources": [],

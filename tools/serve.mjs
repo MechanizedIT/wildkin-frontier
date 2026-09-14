@@ -3,6 +3,7 @@ import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
+import { pipeline } from "node:stream";
 import { fileURLToPath } from "node:url";
 
 const args = process.argv.slice(2);
@@ -44,13 +45,14 @@ const mime = {
   ".wav": "audio/wav",
 };
 
-const server = http.createServer((req, res) => {
+export function createStaticFileServer({ servedRoot = root, createReadStream = fs.createReadStream } = {}) {
+  return http.createServer((req, res) => {
   // Basic security: prevent path traversal
   let urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
   if (urlPath === "/") urlPath = "/index.html";
-  const filePath = path.join(root, path.normalize(urlPath).replace(/^(\.\.[\/\\])+/, ""));
+  const filePath = path.join(servedRoot, path.normalize(urlPath).replace(/^(\.\.[\/\\])+/, ""));
   // Ensure filePath is inside root
-  if (!filePath.startsWith(root)) {
+  if (!filePath.startsWith(servedRoot)) {
     res.writeHead(403);
     res.end("Forbidden");
     return;
@@ -67,11 +69,17 @@ const server = http.createServer((req, res) => {
       "Cache-Control": "no-cache",
       "X-Content-Type-Options": "nosniff",
     });
-    fs.createReadStream(filePath).pipe(res);
+    const sourceStream = createReadStream(filePath);
+    pipeline(sourceStream, res, (streamError) => {
+      if (streamError && !sourceStream.destroyed) sourceStream.destroy();
+    });
   });
 });
+}
 
-server.listen(port, host, () => {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const server = createStaticFileServer();
+  server.listen(port, host, () => {
   let addrs = [];
   try {
     const nets = os.networkInterfaces();
@@ -91,3 +99,4 @@ server.listen(port, host, () => {
     console.log(`[serve] (no external IPv4 found — check Wi-Fi or use localhost)`);
   }
 });
+}

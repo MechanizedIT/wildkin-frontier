@@ -1,0 +1,78 @@
+{
+  "date": "2026-09-13",
+  "baseCommit": "25194860b037e059fe02dd67299095a249d14fc9",
+  "candidate": "Heartwood opening clearing and exploration-led builder outing",
+  "source": "PASS",
+  "targetFitness": 8.3,
+  "visual": {
+    "round": 1,
+    "score": 8.8,
+    "status": "PASS",
+    "scope": "Grouping, negative space, depth and canopy framing of one clearing; generated geometry/UI/lighting/terrain excluded."
+  },
+  "validation": {
+    "tests": 1404,
+    "suites": 173,
+    "durationMs": 93140.6319,
+    "verify": "PASS",
+    "zip": "PASS",
+    "generator": "PASS after identified server restart",
+    "followup": "Corrected the test-only second-triangle interpolation and checked non-flat grid vertices; focused composition/support 2/2 PASS. Runtime and packaged bytes unchanged."
+  },
+  "package": {
+    "unpackedBytes": 46553287,
+    "zipBytes": 21592596,
+    "zipSha256": "4b7317b6e77c7134ae49bd1df0670cbce0abcd0cfe4ba47ca2f5eccc57e653ff"
+  },
+  "native": {
+    "parity": {
+      "builderDeveloperExact": true,
+      "builderPortableExact": true,
+      "originalDeveloperExact": true,
+      "originalPortableExact": true
+    },
+    "health": 5,
+    "frameSample": {
+      "samples": 180,
+      "medianMs": 33.400000005960464,
+      "p95Ms": 35.29999998211861,
+      "maximumMs": 36.79999998211861,
+      "minimumDraws": 53,
+      "maximumDraws": 66
+    },
+    "portableOrigins": [
+      "http://127.0.0.1:8081"
+    ],
+    "errors": 0
+  },
+  "sources": {
+    "src/progression/frontierPurpose.js": "7a086a3450d67323ddbcd110384f65fed7153c3dec37e068e875e783bfba37cd",
+    "src/world/data/world.json": "ea916d9233b0e30d016735535e37f6284ec7ad9201f328e215123877a3c5b3e2",
+    "src/world/data/world.generated.js": "ec4311e10a53406c9c2f95ef8cb7ce0b87c4e99f749e2ef0d0899eed0320b879",
+    "tools/compose-heartwood-opening.mjs": "69a277574eea689b6022237411c98d7fbe6c5a749045752354d5cb85300fe34f",
+    "tools/author-beta-world.mjs": "28a571c204f9f4aad8faa236d332b72aa2023f6bbb21987071a1711aa0a58ca8",
+    "tools/serve.mjs": "959ea6b846d1731fc2727f79eef67513ceaf93e9f6993327698b6db4f66e3edf",
+    "tests/frontierPurpose.test.js": "97b7ba5853b498d7019ede7766f0c3fb3fd6629c26c5202ac210c6018b96745f",
+    "tests/heartwoodOpeningComposition.test.js": "f52a688d9ccf17d3503158e69d1f67b286fdc33d018b0c3e6e20125847b9752d",
+    "tests/serveResponseLifecycle.test.js": "11c6d0277d3dbd454c6648c8fcbb7e82676e81ee7d91ef761f33acd1ae4464c3"
+  },
+  "images": {
+    "production-r1.png": "0d9f2f28665a48a2660ecf8109f64a584ac228d667c1bfcd4e08973c083a322b",
+    "trunk-contact.png": "bf04e80c145c0080b6482610e087e69c2454be366d55165521a85e6e0a688855",
+    "gathered-haul.png": "f1e3c3acb54c0b3ec6a27946b70f59f32949301723bccb32e90d6668394bed7b",
+    "opening-journal.png": "539a93c7f1d206b5f303586c3420acc398a9c2935a98f5ef53e3dbf3e99e67ad",
+    "camp-purpose.png": "094db3d82c28862673e48c9c11c4c40301b8750cb55400c2ca92f4aaa8c956ac",
+    "return-arch.png": "5c21289bfb3c57e809a59a70bbed0d122a50e72bcaf6e1bdf815f00f51b09804",
+    "bench-preview.png": "30e6a1930a32954a8f20c39e356b835c133f1a58de7e8fed79282da6f537e2c9",
+    "bench-built.png": "6105fa066d2f03b1460b5d7930a32fab77735deb62249571dfec478b948875cb",
+    "bench-ration.png": "0a7ba89ee5dfbd4850c12d77e8823f74659f9a10ee04bb8a9c153f20d3804396",
+    "landscape-camp.png": "23c94a07e0c4e178e4f16389e516c5aa85dde9befb6fc167f9cb97ed90e8ea7f",
+    "original-camp-portable.png": "21e7617029a9519597a9d0c5a1bd2574e77bd694744739bff5c8a821b0293512"
+  },
+  "limitations": [
+    "Guided ordinary-input engineering journey; no unspoiled human discovery claim.",
+    "Only one opening clearing admitted; wider Heartwood and ten habitat experiences remain unfinished.",
+    "No physical-phone or cold offline startup admission.",
+    "Current checkpoint is local; prior GitHub/Drive publications remain dated."
+  ]
+}

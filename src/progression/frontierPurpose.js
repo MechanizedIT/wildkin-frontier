@@ -111,12 +111,12 @@ export function getFrontierPurpose({
     const missing = missingCost(spendableResources, lure.cost);
     if (hasAny(missing)) return {
       id: 'gather-berry-lure',
-      title: 'Gather lure supplies',
-      description: `Gather ${formatCost(missing)} outside Camp for a berry lure.`,
+      title: 'Explore beyond Camp',
+      description: `Bring wood, stone and fiber home to build. For a Mossling, gather ${formatCost(missing)}, then make a berry lure at Camp in Work → Craft.`,
     };
     return campAction(isCamp, {
-      id: 'craft-berry-lure', title: 'Craft a berry lure', returnTitle: 'Return to craft a lure',
-      action: 'Open Work, choose Craft, and make a berry lure.',
+      id: 'craft-berry-lure', title: 'Use your supplies at Camp', returnTitle: 'Bring your finds home',
+      action: 'Open Build for Camp equipment, or open Work → Craft to make an optional Mossling berry lure.',
     });
   }
 
