@@ -52,7 +52,7 @@ Use `wildkin-species-development`. It may produce a species card, reference, mod
 
 ### Lane C — feature/performance/support
 
-Use the general `wildkin-development` plus `docs/ALPHA_WORKFLOW.md`. This lane is optional and begins only after Lane A or B has reached a useful checkpoint. Prefer a measured streaming/mobile issue, a reusable placement/debug tool, or a small gameplay contract. Do not invent a headline system merely to keep agents busy.
+Use `game-feature-development` with the general `wildkin-development` and `docs/ALPHA_WORKFLOW.md`. This lane is optional and begins only after Lane A or B has reached a useful checkpoint. Prefer a measured streaming/mobile issue, a reusable placement/debug tool, or a small gameplay contract. Do not invent a headline system merely to keep agents busy.
 
 ## Batch cycle
 
