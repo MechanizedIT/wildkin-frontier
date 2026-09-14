@@ -2,7 +2,7 @@
 
 > **Current product direction (September 14, 2026):** Wildkin Frontier is portrait-mobile-first, with landscape and desktop support. Exploration and habitat quality are the first priority, collecting distinct individual Wildkin is second, and building/crafting/care/breeding are third. The first early alpha uses one large finite irregular continent with ten unique habitats; later continents may be reached through boats or another deliberate transition. No infinite-world promise, legacy branch, or backwards-compatibility requirement.
 
-> **Workflow preparation checkpoint:** The September 13 game build remains stopped for owner review. The project now includes bounded habitat, species, and overnight-orchestration skills plus a Rootbound Wildwood packet and kickoff prompt. Do not automatically resume production from an old continuous-development handoff. Begin only from fresh owner direction or an explicit kickoff.
+> **Workflow preparation checkpoint:** The September 13 game build remains stopped for owner review. The project now includes bounded habitat, species, game-feature, and overnight-orchestration skills plus a Rootbound Wildwood packet and kickoff prompt. Do not automatically resume production from an old continuous-development handoff. Begin only from fresh owner direction or an explicit kickoff.
 
 1. Read `docs/CURRENT_SLICE.md` first. It is the authoritative implementation status for the active session.
    Then read `docs/SESSION_START.md` and the latest handoff. After fresh owner resumption, use `docs/EARLY_ALPHA_PLAN.md`, `docs/CONTINENT_ALPHA_TARGET.md`, and relevant `docs/CODE_MAP.md` entries.
@@ -10,7 +10,7 @@
    - habitat/world composition: `.agents/skills/habitat-development/SKILL.md`;
    - new or substantially revised species: `.agents/skills/wildkin-species-development/SKILL.md`;
    - models, props, rigging, animation, TRELLIS, or Blender admission: `.agents/skills/wildkin-asset-forge/SKILL.md`;
-   - ordinary bounded gameplay changes: `.agents/skills/wildkin-development/SKILL.md` plus `docs/ALPHA_WORKFLOW.md`;
+   - bounded gameplay/system changes: `.agents/skills/game-feature-development/SKILL.md` plus `.agents/skills/wildkin-development/SKILL.md` and `docs/ALPHA_WORKFLOW.md`;
    - explicitly authorized unattended work: `.agents/skills/overnight-orchestrator/SKILL.md` plus `docs/OVERNIGHT_PRODUCTION.md`.
 2. Read `docs/GAME_DESIGN.md`, `docs/BETA_RELEASE_PLAN.md`, and relevant parts of `docs/ARCHITECTURE.md` before changing architecture or gameplay. `HACKATHON_REQUIREMENTS.md` is an archive, not current scope.
 3. Preserve existing working systems, but do not introduce **new features or future-phase behavior** outside the active slice. If a current slice requires touching an older system, make the smallest compatible change and preserve accepted behavior.
