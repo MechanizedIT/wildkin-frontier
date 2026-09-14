@@ -10,6 +10,7 @@ The September 13 game checkpoint remains the latest implemented build. This work
 2. Read [bounded overnight production](OVERNIGHT_PRODUCTION.md) when Chris authorizes an unattended run.
 3. Route work through the project skills:
    - [general Wildkin development](../.agents/skills/wildkin-development/SKILL.md)
+   - [game feature development](../.agents/skills/game-feature-development/SKILL.md)
    - [habitat development](../.agents/skills/habitat-development/SKILL.md)
    - [Wildkin species development](../.agents/skills/wildkin-species-development/SKILL.md)
    - [asset forge](../.agents/skills/wildkin-asset-forge/SKILL.md)
